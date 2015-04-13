@@ -4,12 +4,10 @@ import org.joda.time.LocalDate;
 
 import android.app.Activity;
 import android.app.Instrumentation;
-
-import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.espresso.SuggestionAdapterViewProtocol;
 import android.support.test.espresso.ViewInteraction;
 
-import static com.expedia.bookings.test.ui.espresso.TabletViewActions.clickDates;
+import com.expedia.bookings.R;
+
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -18,10 +16,10 @@ import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static com.expedia.bookings.test.ui.espresso.TabletViewActions.clickDates;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -123,15 +121,13 @@ public class Search {
 	public static void clickSuggestionAtPosition(int index) {
 		onData(anything()) //
 			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withId(R.id.suggestions_container))))) //
-			.usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()) //
 			.atPosition(index) //
 			.perform(click());
 	}
 
 	public static void clickSuggestion(String text) {
-		onData(allOf(is(instanceOf(String.class)), equalTo(text))) //
+		onData(allOf(hasToString(is(text))))
 			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withId(R.id.suggestions_container))))) //
-			.usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()) //
 			.perform(click());
 	}
 

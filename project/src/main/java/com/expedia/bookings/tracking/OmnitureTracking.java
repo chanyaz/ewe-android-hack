@@ -43,8 +43,6 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.LocalExpertSite;
-import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
@@ -54,11 +52,13 @@ import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
@@ -231,7 +231,7 @@ public class OmnitureTracking {
 			}
 		}
 
-		trackAATest(s);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
 
 		// Send the tracking data
 		s.track();
@@ -249,12 +249,15 @@ public class OmnitureTracking {
 		// Promo description
 		s.setEvar(9, internalGenerateDRRString(context, property));
 
-		if (ExpediaBookingApp.IS_EXPEDIA && property.hasEtpOffer()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isETPEnabled() && property.hasEtpOffer()) {
 			s.setEvents("event5");
 		}
 
 		// Products
 		addProducts(s, property);
+
+		// Abacus ETP Test
+		trackAbacusTest(s, AbacusUtils.EBAndroidETPTest);
 
 		// Send the tracking data
 		s.track();
@@ -343,6 +346,12 @@ public class OmnitureTracking {
 
 		String drrString = internalGenerateDRRString(context, property);
 		s.setEvar(9, drrString);
+
+		// Abacus Hotel Book Now button placement
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHISBookAboveFoldTest);
+
+		// Abacus Hotel Info site Free cancellation confidence placement test
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHISFreeCancellationTest);
 
 		// Send the tracking data
 		s.track();
@@ -1213,14 +1222,15 @@ public class OmnitureTracking {
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
 
-		trackAATest(s);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
 
 		s.track();
 	}
 
-	private static void trackAATest(ADMS_Measurement s) {
-		boolean isTestLive = Db.getAbacusResponse().isTestLive(AbacusResponse.EBAndroidAATest);
-		String analyticsString = Db.getAbacusResponse().getAnalyticsString(AbacusResponse.EBAndroidAATest);
+	private static void trackAbacusTest(ADMS_Measurement s, String testKey) {
+		boolean isTestLive = Db.getAbacusResponse().isTestLive(testKey);
+		// Adds piping for multivariate AB Tests.
+		String analyticsString = AbacusResponse.appendString(s.getProp(34)) + Db.getAbacusResponse().getAnalyticsString(testKey);
 		if (!TextUtils.isEmpty(analyticsString) && isTestLive) {
 			s.setEvar(34, analyticsString);
 			s.setProp(34, analyticsString);
@@ -1719,7 +1729,6 @@ public class OmnitureTracking {
 	private static final String ITIN_ACTIVITY_INFO = "App.Itinerary.Activity.Info.Additional";
 	private static final String ITIN_ACTIVITY_SHARE_PREFIX = "App.Itinerary.Activity.Share.";
 	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
-	private static final String ITIN_LOCAL_EXPERT = "App.Itinerary.LocalExpert";
 
 	public static void trackItinEmpty(Context context) {
 		internalTrackPageLoadEventStandard(context, ITIN_EMPTY);
@@ -1871,19 +1880,11 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static void trackItin(Context context, String localExpertDests) {
+	public static void trackItin(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN);
 
 		addEvent15And16Maybe(context, s);
-
-		if (!TextUtils.isEmpty(localExpertDests)) {
-			s.setEvents(s.getEvents() + ",event6");
-
-			String rfrrId = "App.Itinerary.LocalExpert." + localExpertDests;
-			s.setProp(16, rfrrId);
-			s.setEvar(28, rfrrId);
-		}
 
 		s.track();
 	}
@@ -1988,38 +1989,6 @@ public class OmnitureTracking {
 
 	public static void trackItinActivityInfo(Context context) {
 		internalTrackLink(context, ITIN_ACTIVITY_INFO);
-	}
-
-	public static void trackItinLocalExpertHide(Context context, Destination destination) {
-		internalTrackLink(context, "App.Itinerary.LocalExpert." + destination.getTrackingId() + ".Hide");
-	}
-
-	public static void trackItinLocalExpertHideForever(Context context, Destination destination) {
-		internalTrackLink(context, "App.Itinerary.LocalExpert." + destination.getTrackingId() + ".NeverShowAgain");
-	}
-
-	public static void trackItinLocalExpertHideCancel(Context context, Destination destination) {
-		internalTrackLink(context, "App.Itinerary.LocalExpert." + destination.getTrackingId() + ".Cancel");
-	}
-
-	public static void trackLocalExpert(Context context, LocalExpertSite site) {
-		Log.d(TAG, "Tracking \"" + ITIN_LOCAL_EXPERT + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN_LOCAL_EXPERT);
-
-		s.setEvents("event7");
-
-		String rfrrId = "App.Itinerary.LocalExpert." + site.getTrackingId();
-		s.setProp(16, rfrrId);
-		s.setEvar(28, rfrrId);
-
-		s.track();
-	}
-
-	public static void trackLocalExpertCall(Context context, LocalExpertSite site) {
-		ADMS_Measurement s = createTrackLinkEvent(context, "App.Itinerary.LocalExpert." + site.getTrackingId()
-				+ ".Call");
-		s.setEvents("event8");
-		internalTrackLink(s);
 	}
 
 	private static void addEvent15And16Maybe(Context context, ADMS_Measurement s) {
@@ -2538,6 +2507,7 @@ public class OmnitureTracking {
 		String email = null;
 		String expediaId = null;
 		String rewardsStatus = null;
+		String tuid = null;
 		// If the user is logged in, we want to send their email address along with request
 		if (User.isLoggedIn(context)) {
 			// Load the user into the Db if it has not been done (which will most likely be the case on app launch)
@@ -2548,8 +2518,14 @@ public class OmnitureTracking {
 				email = Db.getUser().getPrimaryTraveler().getEmail();
 				expediaId = Db.getUser().getExpediaUserId();
 				rewardsStatus = getRewardsStatusString(Db.getUser());
+				tuid = Db.getUser().getTuidString();
 			}
 		}
+
+		if (!TextUtils.isEmpty(tuid)) {
+			s.setProp(14, tuid);
+		}
+
 		if (TextUtils.isEmpty(rewardsStatus)) {
 			rewardsStatus = "notRewardsMember";
 		}
@@ -2674,40 +2650,16 @@ public class OmnitureTracking {
 	}
 
 	private static String getReportSuiteIds(Context context) {
-		String id = "";
-		if (AndroidUtils.isRelease(context)) {
-			//for Travelocity we will only send data to 1 Omniture Report Suite
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				id = "expediaglobalapp,tvlglobalapp";
-			}
-			//For Travelocity, VSC and AirAsiaGo
-			else {
-				id = "expediaglobalapp";
-			}
-
-			if (ExpediaBookingApp.IS_VSC) {
-				id += ",expedia7androidapp";
-			}
-		}
-		else {
-			id = "expediaglobalappdev";
-
-			if (ExpediaBookingApp.IS_VSC) {
-				id += ",expedia7androidappdev";
-			}
-		}
-		return id;
+		return ProductFlavorFeatureConfiguration.getInstance().getOmnitureReportSuiteIds(context);
 	}
 
 	private static String getTrackingServer(Context context) {
 		if (EndPoint.getEndPoint(context) == EndPoint.CUSTOM_SERVER) {
 			return SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
 		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			return "om.travelocity.com";
+		else {
+			return ProductFlavorFeatureConfiguration.getInstance().getOmnitureTrackingServer();
 		}
-
-		return "om.expedia.com";
 	}
 
 	private static String md5(String s) {

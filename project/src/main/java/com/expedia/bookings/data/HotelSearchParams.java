@@ -422,7 +422,7 @@ public class HotelSearchParams implements JSONable {
 		hotelParams.setSearchType(HotelSearchParams.SearchType.CITY);
 
 		// Because we are adding a lat/lon parameter, it doesn't matter too much if our query isn't perfect
-		String cityStr = StrUtils.getWaypointCityOrCode(firstLeg.getLastWaypoint());
+		String cityStr = StrUtils.getWaypointCodeOrCityStateString(firstLeg.getLastWaypoint());
 		hotelParams.setUserQuery(cityStr);
 		hotelParams.setQuery(cityStr);
 

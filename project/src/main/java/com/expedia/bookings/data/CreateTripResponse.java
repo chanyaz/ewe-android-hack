@@ -5,6 +5,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -113,7 +114,7 @@ public class CreateTripResponse extends Response implements JSONable {
 			obj.putOpt("rewardsPoints", mRewardsPoints);
 			JSONUtils.putJSONable(obj, "newRate", mNewRate);
 			JSONUtils.putJSONable(obj, "originalRate", mOriginalRate);
-			JSONUtils.putJSONableList(obj, "validPayments", mValidPayments);
+			GsonUtil.putListForJsonable(obj, "validPayments", mValidPayments);
 			JSONUtils.putJSONable(obj, "airAttachRate", mAirAttachRate);
 			return obj;
 		}
@@ -133,7 +134,7 @@ public class CreateTripResponse extends Response implements JSONable {
 		mRewardsPoints = obj.optString("rewardsPoints");
 		mNewRate = JSONUtils.getJSONable(obj, "newRate", Rate.class);
 		mOriginalRate = JSONUtils.getJSONable(obj, "originalRate", Rate.class);
-		mValidPayments = JSONUtils.getJSONableList(obj, "validPayments", ValidPayment.class);
+		mValidPayments = GsonUtil.getListForJsonable(obj, "validPayments", ValidPayment.gsonListTypeToken);
 		mAirAttachRate = JSONUtils.getJSONable(obj, "airAttachRate", Rate.class);
 		return true;
 	}

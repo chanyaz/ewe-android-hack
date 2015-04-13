@@ -1,14 +1,15 @@
 package com.expedia.bookings.activity;
 
-
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.DebugInfoUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
 
 public class AboutWebViewActivity extends WebViewActivity {
@@ -34,7 +35,13 @@ public class AboutWebViewActivity extends WebViewActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
 
+		if (shouldBail()) {
+			return;
+		}
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
 
@@ -45,11 +52,12 @@ public class AboutWebViewActivity extends WebViewActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_webview, menu);
+		getMenuInflater().inflate(Ui.obtainThemeResID(this, R.attr.skin_menuAboutWebViewActivity), menu);
 
 		mEmailMenuItem = menu.findItem(R.id.menu_email);
-		mEmailMenuItem.setVisible(mShowEmailButton && !mLoading);
-
+		if (mEmailMenuItem != null) {
+			mEmailMenuItem.setVisible(mShowEmailButton && !mLoading);
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -77,6 +85,10 @@ public class AboutWebViewActivity extends WebViewActivity {
 
 	private void sendSupportEmail() {
 		SocialUtils.email(this, getString(R.string.email_app_support), "", DebugInfoUtils.generateEmailBody(this));
+	}
+
+	private boolean shouldBail() {
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 }

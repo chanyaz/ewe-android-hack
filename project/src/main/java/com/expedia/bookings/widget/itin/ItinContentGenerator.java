@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
@@ -30,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
@@ -46,10 +44,10 @@ import com.expedia.bookings.data.trips.ItinCardDataFallback;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
-import com.expedia.bookings.data.trips.ItinCardDataLocalExpert;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinConfirmRemoveDialogFragment;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
@@ -112,9 +110,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		}
 		else if (itinCardData instanceof ItinCardDataAirAttach) {
 			return new AirAttachItinContentGenerator(context, (ItinCardDataAirAttach) itinCardData);
-		}
-		else if (itinCardData instanceof ItinCardDataLocalExpert) {
-			return new LocalExpertItinContentGenerator(context, (ItinCardDataLocalExpert) itinCardData);
 		}
 		else if (itinCardData instanceof ItinCardDataFallback) {
 			return new FallbackItinContentGenerator(context, (ItinCardDataFallback) itinCardData);
@@ -561,59 +556,38 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * @param container
 	 */
 	protected boolean addInsurance(ViewGroup container) {
-		if (hasInsurance()) {
-			View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_insurance, null);
-			ViewGroup insuranceContainer = Ui.findView(item, R.id.insurance_container);
-
-			int divPadding = getResources().getDimensionPixelSize(R.dimen.itin_flight_segment_divider_padding);
-			int viewAddedCount = 0;
-			List<Insurance> insuranceList = this.getItinCardData().getTripComponent().getParentTrip()
-				.getTripInsurance();
-
-			for (final Insurance insurance : insuranceList) {
-				//Air insurance should only be added for flights, other types should be added to all itin card details
-				if (!insurance.getLineOfBusiness().equals(InsuranceLineOfBusiness.AIR) || getType().equals(Type.FLIGHT)) {
-					if (viewAddedCount > 0) {
-						insuranceContainer.addView(getHorizontalDividerView(divPadding));
-					}
-					View insuranceRow = getLayoutInflater().inflate(R.layout.snippet_itin_insurance_row, null);
-					TextView insuranceName = Ui.findView(insuranceRow, R.id.insurance_name);
-					insuranceName.setText(Html.fromHtml(insurance.getPolicyName()).toString());
-
-					View insuranceLinkView = Ui.findView(insuranceRow, R.id.insurance_button);
-
-					if (ExpediaBookingApp.IS_TRAVELOCITY) {
-						insuranceLinkView.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View arg0) {
-								Intent viewInsuranceIntent = new Intent(Intent.ACTION_VIEW);
-								viewInsuranceIntent.setData(Uri.parse(insurance.getTermsUrl()));
-								getContext().startActivity(viewInsuranceIntent);
-							}
-						});
-					}
-					else {
-						insuranceLinkView.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View arg0) {
-								WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
-								builder.setUrl(insurance.getTermsUrl());
-								builder.setTheme(R.style.ItineraryTheme);
-								builder.setTitle(R.string.insurance);
-								builder.setAllowMobileRedirects(false);
-								getContext().startActivity(builder.getIntent());
-							}
-						});
-					}
-
-					insuranceContainer.addView(insuranceRow);
-					viewAddedCount++;
-				}
-			}
-			container.addView(item);
-			return true;
+		if (!ProductFlavorFeatureConfiguration.getInstance().shouldDisplayInsuranceDetailsIfAvailableOnItinCard() ||
+			!hasInsurance()) {
+			return false;
 		}
-		return false;
+
+		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_insurance, null);
+		ViewGroup insuranceContainer = Ui.findView(item, R.id.insurance_container);
+
+		int divPadding = getResources().getDimensionPixelSize(R.dimen.itin_flight_segment_divider_padding);
+		int viewAddedCount = 0;
+		List<Insurance> insuranceList = this.getItinCardData().getTripComponent().getParentTrip()
+			.getTripInsurance();
+
+		for (final Insurance insurance : insuranceList) {
+			//Air insurance should only be added for flights, other types should be added to all itin card details
+			if (!insurance.getLineOfBusiness().equals(InsuranceLineOfBusiness.AIR) || getType().equals(Type.FLIGHT)) {
+				if (viewAddedCount > 0) {
+					insuranceContainer.addView(getHorizontalDividerView(divPadding));
+				}
+				View insuranceRow = getLayoutInflater().inflate(R.layout.snippet_itin_insurance_row, null);
+				TextView insuranceName = Ui.findView(insuranceRow, R.id.insurance_name);
+				insuranceName.setText(Html.fromHtml(insurance.getPolicyName()).toString());
+
+				View insuranceLinkView = Ui.findView(insuranceRow, R.id.insurance_button);
+				insuranceLinkView.setOnClickListener(ProductFlavorFeatureConfiguration.getInstance().getInsuranceLinkViewClickListener(mContext, insurance.getTermsUrl()));
+
+				insuranceContainer.addView(insuranceRow);
+				viewAddedCount++;
+			}
+		}
+		container.addView(item);
+		return true;
 	}
 
 	/**
@@ -622,11 +596,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * @return
 	 */
 	protected boolean hasInsurance() {
-		if (ExpediaBookingApp.IS_AAG) {
-			// No insurance on AAG
-			return false;
-		}
-
 		boolean hasInsurance = false;
 		if (this.getItinCardData() != null && this.getItinCardData().getTripComponent() != null
 			&& this.getItinCardData().getTripComponent().getParentTrip() != null) {

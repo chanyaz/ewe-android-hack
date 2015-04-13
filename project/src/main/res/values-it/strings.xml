@@ -28,7 +28,17 @@
     <string name="error_missing_start_date_param">Data di partenza mancante</string>
     <!-- Error messge for missing End date date in search form -->
     <string name="error_missing_end_date_param">Data di ritorno mancante</string>
-
+    <!-- Temporary String for general error message -->
+    <string name="error_car">Si è verificato un errore. Controlla i parametri di ricerca.</string>
+    <!-- Checkout -->
+    <!-- Desk & vehicle at terminal -->
+    <string name="desk_and_vehicle_terminal">Banco e veicolo presso il terminal</string>
+    <!-- Unlimited mileage -->
+    <string name="unlimited_mileage">Chilometraggio illimitato</string>
+    <!-- Checkout confirmation message (temporary) -->
+    <string name="successful_checkout_TEMPLATE">La prenotazione è andata a buon fine! N° itinerario: %1$s</string>
+    <!-- Error message for some missing checkout params -->
+    <string name="error_missing_checkout_params">Parametri di check-out mancanti.</string>
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Inserisci la tua destinazione</string>
@@ -137,6 +147,8 @@
     <string name="tablet_search_results_hotels_unavailable_tonight">Spiacenti, non ci sono hotel \n disponibili per stasera.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Spiacenti, nessun volo \n disponibile al momento.</string>
+    <!-- Tablet search results, no flights available due to invalid start date -->
+    <string name="flight_search_range_error_TEMPLATE">Siamo spiacenti, ma non siamo in grado di cercare voli a distanza di più di %1$s giorni a partire da oggi.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">Cancellato</string>
     <!-- Label indicating how many items are being booked for the current trip -->
@@ -312,6 +324,8 @@
     <string name="unable_to_log_into_facebook">Impossibile collegarsi a Facebook.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">Accesso non riuscito. Se il tuo indirizzo e-mail e la password sono corretti, verifica le impostazioni del paese della tua app.</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Ti chiediamo di creare un nuovo account globale per tutti i siti di Expedia.\nReimposta la tua password cliccando sul link "Hai dimenticato la password?" di seguito.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Password Expedia</string>
     <!-- Link accounts -->
@@ -651,71 +665,6 @@
     <string name="add_hotel_fallback">Aggiungi un hotel presso la tua destinazione</string>
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">Aggiungi un hotel</string>
-
-
-    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">Contatta un esperto locale</string>
-
-    <!-- Local Expert Sites -->
-    <!-- Name of Hawaii (for local expert) -->
-    <string name="site_hawaii">Hawaii</string>
-    <!-- Name of Orlando, FL (for local expert) -->
-    <string name="site_orlando">Orlando</string>
-    <!-- Name of Las Vegas (for local expert) -->
-    <string name="site_las_vegas">Las Vegas</string>
-
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
-    <string name="local_expert_title_TEMPLATE">Scopri %1$s</string>
-    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">Basta una chiamata per contattare il servizio concierge offerto dal tuo esperto locale \nper tutte le tue esigenze di viaggio.</string>
-    <!-- Text for the button on Local Expert pages, to call the concierge -->
-    <string name="local_expert_call_button_text">Chiama</string>
-
-    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_first">Fantastiche</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_second">creature</string>
-    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_first">Visita i migliori</string>
-    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_second">parchi a tema</string>
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Trova le migliori</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_second">spiagge</string>
-    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_first">Vola</string>
-    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_second">in elicottero</string>
-    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_first">Immergiti</string>
-    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_second">e scopri il mondo subacqueo</string>
-    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_first">I più straordinari</string>
-    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_second">casinò</string>
-    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_first">Guida una</string>
-    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_second">Ferrari</string>
-    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_first">Attività per</string>
-    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_second">famiglie</string>
-    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_first">Assaggia</string>
-    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_second">i piatti più raffinati</string>
-    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">Trova le migliori</string>
-    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_second">opportunità di intrattenimento</string>
-    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_first">Trova un concerto</string>
-    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_second">nelle vicinanze</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -1399,6 +1348,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Numero carta di credito</string>
+    <!-- Security code (CVV) hint -->
+    <string name="cvv_hint">Codice CVV</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Data di scadenza</string>
     <!-- Set expiration date button -->
@@ -1455,6 +1406,8 @@
     <string name="middle_name">Secondo nome</string>
     <!-- Last name label -->
     <string name="last_name">Cognome</string>
+    <!-- First and Last Name label -->
+    <string name="first_and_last_name">Nome e cognome</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Data di nascita</string>
     <!-- male -->
@@ -1918,6 +1871,8 @@
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">Prenota ora</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now_ab_test">Scegli la camera</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Prenota telefonicamente</string>
 

@@ -21,14 +21,14 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.LocalExpertSite;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
 import com.expedia.bookings.data.abacus.AbacusResponse;
-import com.expedia.bookings.data.cars.CarDb;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
@@ -72,10 +72,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private static final String PREF_UPGRADED_TO_PRODUCTION_PUSH = "PREF_UPGRADED_TO_PRODUCTION_PUSH";
 
 	private static final int MIN_IMAGE_CACHE_SIZE = (1024 * 1024 * 6); // 6 MB
-	public static final boolean IS_EXPEDIA = BuildConfig.IS_EXPEDIA;
-	public static final boolean IS_VSC = BuildConfig.IS_VSC;
-	public static final boolean IS_TRAVELOCITY = BuildConfig.IS_TRAVELOCITY;
-	public static final boolean IS_AAG = BuildConfig.IS_AAG;
 
 	public static boolean sIsAutomation = false;
 
@@ -164,7 +160,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		PointOfSale.init(this);
 		startupTimer.addSplit("PointOfSale Init");
 
-		if (!IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().wantsCustomHandlingForLocaleConfiguration()) {
 
 			Locale locale = getLocaleForWhiteLabels();
 
@@ -176,7 +172,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			startupTimer.addSplit("Force locale to " + locale.getLanguage());
 		}
 
-		if (IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			LeanPlumUtils.init(this);
 			startupTimer.addSplit("LeanPlum started.");
 		}
@@ -190,25 +186,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		ItineraryManager.getInstance().init(this);
 		startupTimer.addSplit("ItineraryManager Init");
 
-		LocalExpertSite.init(this);
-		startupTimer.addSplit("LocalExpertSite Init");
-
-		String serverUrlPath = "ExpediaSharedData/ExpediaServerURLs.json";
-		if (IS_VSC) {
-			serverUrlPath = "ExpediaSharedData/VSCServerURLs.json";
-		}
-		else if (IS_TRAVELOCITY) {
-			serverUrlPath = "ExpediaSharedData/TVLYServerURLs.json";
-		}
-		else if (IS_AAG) {
-			serverUrlPath = "ExpediaSharedData/AirAsiaGoServerURLs.json";
-		}
-
-		EndPoint.init(this, serverUrlPath);
+		String serverEndpointsConfigurationPath = ProductFlavorFeatureConfiguration.getInstance().getServerEndpointsConfigurationPath();
+		EndPoint.init(this, serverEndpointsConfigurationPath);
 		startupTimer.addSplit("ExpediaServices endpoints init");
-
-		CarDb.setServicesEndpoint(EndPoint.getE3EndpointUrl(this, true), isRelease);
-		startupTimer.addSplit("CarServices init");
 
 		// If we are upgrading from a pre-AccountManager version, update account manager to include our logged in user.
 		if (!SettingUtils.get(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, false)) {
@@ -379,11 +359,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 	}
 
-	private Locale mOldLocale;
-
 	@Override
 	public void onConfigurationChanged(final Configuration newConfig) {
-		if (IS_EXPEDIA) {
+		if (!ProductFlavorFeatureConfiguration.getInstance().wantsCustomHandlingForLocaleConfiguration()) {
 			// Default behaviour, we want to ignore this completely
 			super.onConfigurationChanged(newConfig);
 		}
@@ -407,18 +385,11 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
 
 		// Send broadcast so that we can re-create activities
-		String action = VSCLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
-
-		if (IS_TRAVELOCITY) {
-			action = TravelocityLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
+		String localeChangeAction = ProductFlavorFeatureConfiguration.getInstance().getActionForLocaleChangeEvent();
+		if (localeChangeAction != null) {
+			Intent intent = new Intent(localeChangeAction);
+			sendBroadcast(intent);
 		}
-		else if (IS_AAG) {
-			action = AirAsiaGoLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
-		}
-
-		Intent intent = new Intent(action);
-		sendBroadcast(intent);
-
 		super.onConfigurationChanged(newConfig);
 	}
 
@@ -479,7 +450,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	}
 
-	private static Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
+	private Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
 		@Override
 		public void onCompleted() {
 			Log.d("AbacusReponse - onCompleted");
@@ -493,6 +464,13 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
 			Db.setAbacusResponse(abacusResponse);
+			// Modify the bucket values based on dev settings;
+			if (!AndroidUtils.isRelease(ExpediaBookingApp.this)) {
+				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAATest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_aa_test), AbacusUtils.ABTEST_IGNORE_DEBUG));
+				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidETPTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_etp_test), AbacusUtils.ABTEST_IGNORE_DEBUG));
+				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHISBookAboveFoldTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_book_above_fold), AbacusUtils.ABTEST_IGNORE_DEBUG));
+				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHISFreeCancellationTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_hotel_free_cancellation), AbacusUtils.ABTEST_IGNORE_DEBUG));
+			}
 			Log.d("AbacusReponse - onNext");
 		}
 	};

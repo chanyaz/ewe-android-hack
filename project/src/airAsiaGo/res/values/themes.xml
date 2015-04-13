@@ -84,9 +84,13 @@
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_aag</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_aag</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_aag</item>
-        <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_aag</item>
         <item name="skin_sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_aag</item>
         <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure_aag</item>
+        <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
+        <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_aag_logo_small</item>
+        <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights_aag</item>
+        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_aag_logo_small</item>
+        <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">

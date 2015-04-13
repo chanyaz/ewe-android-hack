@@ -14,9 +14,9 @@ import android.content.DialogInterface.OnCancelListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -58,7 +58,7 @@ public class AboutUtils {
 		items.add(mActivity.getString(R.string.contact_expedia_website));
 		actions.add(new Runnable() {
 			public void run() {
-				contactViaWeb();
+				ProductFlavorFeatureConfiguration.getInstance().contactUsViaWeb(mActivity);
 			}
 		});
 
@@ -131,15 +131,6 @@ public class AboutUtils {
 		SocialUtils.call(mActivity, PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
 	}
 
-	public void contactViaWeb() {
-		if (ExpediaBookingApp.IS_VSC) {
-			openContactUsVSC();
-		}
-		else {
-			openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
-		}
-	}
-
 	public void contactViaEmail() {
 		trackEmailSupport();
 		SocialUtils.email(mActivity, PointOfSale.getPointOfSale().getSupportEmail(),
@@ -155,21 +146,7 @@ public class AboutUtils {
 	}
 
 	public void openAppSupport() {
-		if (ExpediaBookingApp.IS_VSC) {
-			openWebsite(mActivity, mActivity.getString(R.string.app_support_url_vsc), false, true);
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			openWebsite(mActivity, mActivity.getString(R.string.app_support_url_tvly), false, true);
-		}
-		else if (ExpediaBookingApp.IS_AAG) {
-			openWebsite(mActivity, mActivity.getString(R.string.app_support_url_aag), false, true);
-		}
-		else if (ExpediaBookingApp.IS_EXPEDIA) {
-			openWebsite(mActivity, mActivity.getString(R.string.app_support_url), false, true);
-		}
-		else {
-			throw new RuntimeException("Did not handle app support url for current build flavor");
-		}
+		openWebsite(mActivity, ProductFlavorFeatureConfiguration.getInstance().getAppSupportUrl(mActivity), false, true);
 	}
 
 	public void tellAFriend() {
@@ -194,11 +171,11 @@ public class AboutUtils {
 		openWebsite(mActivity, posInfo.getPrivacyPolicyUrl(), false);
 	}
 
-	private void openWebsite(Context context, String url, boolean useExternalBrowser) {
+	public static void openWebsite(Context context, String url, boolean useExternalBrowser) {
 		openWebsite(context, url, useExternalBrowser, false);
 	}
 
-	private void openWebsite(Context context, String url, boolean useExternalBrowser, boolean showEmailButton) {
+	public static void openWebsite(Context context, String url, boolean useExternalBrowser, boolean showEmailButton) {
 		if (useExternalBrowser) {
 			SocialUtils.openSite(context, url);
 		}

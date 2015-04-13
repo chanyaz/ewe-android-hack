@@ -144,4 +144,21 @@
 
     <style name="CheckoutPaymentButton.Edit" parent="CheckoutTravelerButton.Edit"/>
 
+    <!-- Credit Card Edit Text on hotel checkout -->
+    <style name="CreditCardEditText">
+        <item name="android:hint">@string/name_on_card_hint</item>
+        <item name="android:inputType">textPersonName|textCapWords</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- Postal Code Section on hotel checkout -->
+    <style name="PostalCodeSection">
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:visibility">visible</item>
+    </style>
+
 </resources>

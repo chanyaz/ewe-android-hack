@@ -205,7 +205,6 @@
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
-        <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
         <item name="skin_sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_expedia</item>
         <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure</item>
@@ -216,6 +215,16 @@
         <item name="skin_tablet_ab_launch_text2_pin_detail">@string/Destination</item>
         <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen</item>
         <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text</item>
+        <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
+        <item name="skin_HotelCheckout_CreditCardEditTextStyle">@style/CreditCardEditText</item>
+        <item name="skin_HotelCheckout_PostalCodeSectionStyle">@style/PostalCodeSection</item>
+        <item name="skin_HotelCheckout_couponEditTextStyle">@style/CouponEditText</item>
+        <item name="skin_hotelRulesActionBarLogo">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_flightRulesActionBarLogo">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_flightLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
+        <item name="skin_etp_pay_now_charges_text">@string/etp_pay_now_charges_text</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -415,6 +424,14 @@
 
     <style name="TerminalMapTheme" parent="@style/LaunchTheme">
         <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="FlightTheme.Rules">
+        <item name="android:logo">?attr/skin_flightRulesActionBarLogo</item>
+    </style>
+
+    <style name="Theme.Phone.Rules">
+        <item name="android:logo">?attr/skin_hotelRulesActionBarLogo</item>
     </style>
 
 </resources>

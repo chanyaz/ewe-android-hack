@@ -25,7 +25,6 @@
     <color name="itin_flight_on_time_color">#A2D104</color>
     <color name="itin_list_bg_transparent">#99212527</color>
     <color name="itin_summary_pressed">#40000000</color>
-    <color name="local_expert_primary_text">#25253D</color>
 
     <!-- Flights colors -->
     <color name="plane_window_background">#CACACA</color>
@@ -198,6 +197,8 @@
     <color name="price_change_default">#FFFFFF</color>
     <color name="price_change_air_attach">#fd8126</color>
 
+    <color name="air_attach_expiration_text_color">#9e9d9d</color>
+
     <color name="tablet_book_button_text_color">#FFDB4C</color>
     <color name="tablet_trip_bucket_text_color">@android:color/primary_text_light</color>
 
@@ -205,5 +206,17 @@
     <color name="sliding_group_text_dim">#4a4f54</color>
 
     <color name="placeholder_background_color">#21394E</color>
+
+    <!-- Cars colors -->
+    <color name="cars_primary_color">#7E4569</color>
+    <color name="cars_secondary_color">#915B7C</color>
+    <color name="cars_tooltip_color">#AF89A1</color>
+    <color name="cars_slider_progress_color">#50FFFFFF</color>
+    <color name="cars_dropdown_disabled_stroke">#C3C3C3</color>
+    <color name="cars_dropdown_background_color">#ECECEC</color>
+    <color name="cars_actionbar_text_color">#5C5C5C</color>
+    <color name="cars_invalid_days_calendar">#A9A9A9</color>
+    <color name="cars_valid_days_calendar">#3A3A3A</color>
+    <color name="cars_calendar_week_color">#888888</color>
 
 </resources>

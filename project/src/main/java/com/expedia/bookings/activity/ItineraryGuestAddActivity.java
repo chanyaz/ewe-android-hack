@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.app.ActionBar;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -21,6 +22,12 @@ public class ItineraryGuestAddActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
+		if (shouldBail()) {
+			return;
+		}
 
 		setContentView(R.layout.activity_itinerary_guest_add);
 
@@ -40,6 +47,10 @@ public class ItineraryGuestAddActivity extends FragmentActivity {
 			ft.add(R.id.fragment_container, mAddGuestItinFragment, TAG_GUEST_ADD_FRAGMENT);
 			ft.commit();
 		}
+	}
+
+	private boolean shouldBail() {
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 	@Override

@@ -1,10 +1,9 @@
 package com.expedia.bookings.test.ui.tablet.pagemodels;
 
 import android.content.res.Resources;
+import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.espresso.SuggestionAdapterViewProtocol;
-import android.support.test.espresso.ViewInteraction;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -15,12 +14,10 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 
 public class Launch {
@@ -68,15 +65,13 @@ public class Launch {
 	public static void clickSuggestionAtPosition(int index) {
 		onData(anything()) //
 			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withId(R.id.suggestions_container))))) //
-			.usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()) //
 			.atPosition(index) //
 			.perform(click());
 	}
 
 	public static void clickSuggestion(String text) {
-		onData(allOf(is(instanceOf(String.class)), equalTo(text))) //
-			.inAdapterView(allOf(withId(android.R.id.list), isDescendantOfA(withId(R.id.suggestions_container)))) //
-			.usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()) //
+		onData(allOf(hasToString(is(text))))
+			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withId(R.id.suggestions_container))))) //
 			.perform(click());
 	}
 
@@ -87,4 +82,5 @@ public class Launch {
 	public static void pressBookingSupport(Resources res) {
 		onView(withText(res.getString(R.string.booking_support))).perform(click());
 	}
+
 }

@@ -3,7 +3,6 @@ package com.expedia.bookings.data.trips;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.joda.time.DateTime;
 
@@ -16,10 +15,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -351,7 +348,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	private boolean isItemAButtonCard(int position) {
 		final ItinCardData item = getItem(position);
-		return item instanceof ItinCardDataHotelAttach || item instanceof ItinCardDataLocalExpert;
+		return item instanceof ItinCardDataHotelAttach;
 	}
 
 	private boolean isItemAnAirAttachCard(int position) {
@@ -458,8 +455,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		return data.hasSummaryData() && data.hasDetailData() && data.getStartDate() != null;
 	}
 
-	/*
-	SUMMARY
+	/**
+	 * We add attach cross-sell message cards to the timeline after certain flights.
+	 * All one-way flights should be followed by an attach card that links to a one-night hotel search in the destination city.
+	 * Multi-leg trips should have attach cards between flight legs for the intervening dates.
+	 * We do not show these cards when there is already a hotel in the timeline on the same day the flight lands.
 	 */
 
 	private void addAttachData(List<ItinCardData> itinCardDatas) {
@@ -511,19 +511,14 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
-			// Ignore last leg flights for a multi-leg trip ONLY IF
-			// the origin and final destination airports are the same.
 			FlightLeg itinFlightLeg = ((ItinCardDataFlight) data).getFlightLeg();
 			Waypoint itinDestination = itinFlightLeg.getLastWaypoint();
 			TripFlight tripFlight = (TripFlight) data.getTripComponent();
 			final int legCount = tripFlight.getFlightTrip().getLegCount();
 
-			if (legCount > 1) {
-				Waypoint tripOrigin = tripFlight.getFlightTrip().getLeg(0).getFirstWaypoint();
-				if (((ItinCardDataFlight) data).getLegNumber() == legCount - 1 &&
-					itinDestination.mAirportCode.equals(tripOrigin.mAirportCode)) {
-					continue;
-				}
+			// Ignore last leg flights for a multi-leg trip
+			if (legCount > 1 && ((ItinCardDataFlight) data).getLegNumber() == legCount - 1) {
+				continue;
 			}
 
 			boolean insertButtonCard = false;
@@ -539,33 +534,41 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 					continue;
 				}
 
+				// Always add an attach button for one-way flights with no hotel
+				if (legCount == 1 && !(nextType == Type.HOTEL)) {
+					insertButtonCard = true;
+				}
+
 				// If the next itin is a flight
-				if (nextType == Type.FLIGHT) {
+				else if (nextType == Type.FLIGHT) {
 					nextFlightLeg = ((ItinCardDataFlight) nextData).getFlightLeg();
 					Waypoint waypointTwo = nextFlightLeg.getFirstWaypoint();
 					DateTime dateTimeTwo = new DateTime(waypointTwo.getMostRelevantDateTime());
 
-					// Check if there is more than 1 day between the two flights
+					// Make sure there is more than 1 day between the two flights
 					if (JodaUtils.daysBetween(dateTimeOne, dateTimeTwo) > 0) {
+						insertButtonCard = true;
 
-						// Check if the next flight departs from the same airport the current flight arrives at
-						if (itinDestination.mAirportCode.equals(waypointTwo.mAirportCode)) {
-							insertButtonCard = true;
-						}
-
-						// There is a flight 1+ days later from a different airport
-						else {
-							insertButtonCard = true;
+						// If the flights are not part of the same trip,
+						// we won't use the next flight to generate search params
+						if (!itinDestination.mAirportCode.equals(waypointTwo.mAirportCode) ||
+							!(tripFlight.getParentTrip() == nextData.getTripComponent().getParentTrip())) {
 							nextFlightLeg = null;
 						}
 					}
 				}
+
 				// If the next itin is a hotel
 				else if (nextType == Type.HOTEL) {
 					DateTime checkInDate = nextData.getStartDate();
 					if (JodaUtils.daysBetween(dateTimeOne, checkInDate) > 0) {
 						insertButtonCard = true;
 					}
+				}
+
+				// If the next card in the timeline is neither a flight nor a hotel, show attach
+				else {
+					insertButtonCard = true;
 				}
 			}
 			// The flight is the last itin
@@ -590,82 +593,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				}
 			}
 		}
-	}
-
-	private void addLocalExpertData(List<ItinCardData> itinCardDatas) {
-		if (!ExpediaBookingApp.IS_EXPEDIA) {
-			return;
-		}
-
-		if (ExpediaBookingApp.useTabletInterface(mContext)) {
-			return;
-		}
-
-		// Is Local Expert turned off?
-		if (SettingUtils.get(mContext, R.string.setting_hide_local_expert, false)) {
-			return;
-		}
-
-		// Nothing to do if there are no itineraries
-		int len = itinCardDatas.size();
-		if (len == 0) {
-			return;
-		}
-
-		// Get previously dismissed buttons
-		final HashSet<String> dismissedTripIds = DismissedItinButton
-				.getDismissedTripIds(ItinButtonCard.ItinButtonType.LOCAL_EXPERT);
-
-		ItinCardData data;
-		for (int i = 0; i < len; i++) {
-			data = itinCardDatas.get(i);
-
-			// Ignore dismissed trips
-			if (dismissedTripIds.contains(data.getTripId())) {
-				continue;
-			}
-
-			// Only attach to hotels
-			if (!data.getTripComponentType().equals(Type.HOTEL) || !(data instanceof ItinCardDataHotel)) {
-				continue;
-			}
-
-			// Is this a valid location?
-			if (!ItinCardDataLocalExpert.validLocation(((ItinCardDataHotel) data).getPropertyLocation())) {
-				continue;
-			}
-
-			// Are we presently in the trip?
-			if (!ItinCardDataLocalExpert.validDateTime(data.getStartDate(), data.getEndDate())) {
-				continue;
-			}
-
-			// Ignore shared itins
-			if (data.isSharedItin()) {
-				continue;
-			}
-
-			// Add LE button
-			itinCardDatas.add(i + 1, new ItinCardDataLocalExpert((TripHotel) data.getTripComponent()));
-
-			return;
-		}
-	}
-
-	// Used only for Omniture tracking
-	//
-	// Returns a delimited list of the local expert destinations, or the empty string
-	// for none.
-	public String getTrackingLocalExpertDestinations() {
-		Set<String> dests = new HashSet<String>();
-		for (ItinCardData data : mItinCardDatas) {
-			if (data instanceof ItinCardDataLocalExpert) {
-				Destination destination = ((ItinCardDataLocalExpert) data).getSiteDestination();
-				dests.add(destination.getTrackingId());
-			}
-		}
-
-		return TextUtils.join("|", dests);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

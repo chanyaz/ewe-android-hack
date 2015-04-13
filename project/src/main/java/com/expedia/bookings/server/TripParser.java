@@ -11,8 +11,10 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.Activity;
+import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CarVendor;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightLeg;
@@ -94,6 +96,12 @@ public class TripParser {
 			for (int b = 0; b < insurance.length(); b++) {
 				trip.addInsurance(parseTripInsurance(insurance.optJSONObject(b)));
 			}
+		}
+
+		// Parse air attach qualification
+		if (tripJson.has("airAttachQualificationInfo")) {
+			AirAttach airAttach = new AirAttach(tripJson.optJSONObject("airAttachQualificationInfo"));
+			Db.getTripBucket().setAirAttach(airAttach);
 		}
 
 		return trip;
@@ -482,8 +490,10 @@ public class TripParser {
 
 			// Parse travelers
 			JSONArray travelersArr = obj.optJSONArray("travelers");
-			for (int i = 0; i < travelersArr.length(); i++) {
-				activity.addTraveler(parseTraveler(travelersArr.optJSONObject(i)));
+			if (travelersArr != null && travelersArr.length() > 0) {
+				for (int i = 0; i < travelersArr.length(); i++) {
+					activity.addTraveler(parseTraveler(travelersArr.optJSONObject(i)));
+				}
 			}
 
 			tripActivity.setActivity(activity);

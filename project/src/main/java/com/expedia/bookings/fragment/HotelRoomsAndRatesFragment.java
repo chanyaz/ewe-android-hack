@@ -25,7 +25,9 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.dialog.HotelErrorDialog;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
@@ -64,6 +66,8 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		super.onAttach(activity);
 
 		mListener = Ui.findFragmentListener(this, RoomsAndRatesFragmentListener.class);
+		mLastCheckedItem = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidETPTest) ?
+			R.id.radius_pay_later : R.id.radius_pay_now;
 	}
 
 	@Override
@@ -241,9 +245,9 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		}
 
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		boolean isETPAvailable = ExpediaBookingApp.IS_EXPEDIA && property.hasEtpOffer();
+		boolean isETPAvailable = ProductFlavorFeatureConfiguration.getInstance().isETPEnabled() && property.hasEtpOffer();
 		mPayGroup.setVisibility(isETPAvailable ? View.VISIBLE : View.GONE);
-		mPayGroup.check(mLastCheckedItem);
+		mPayGroup.check(mLastCheckedItem = isETPAvailable ? mLastCheckedItem : R.id.radius_pay_now);
 
 		//Set up sticky header
 		isStickyHeader = renovationNoticeDisplayed && resortFeesNoticeDisplayed;
@@ -251,6 +255,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		mNoticeContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
+				Ui.removeOnGlobalLayoutListener(mNoticeContainer, this);
 				mNoticeContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mHeaderPlaceholder.getLayoutParams();
 				params.height = mNoticeContainer.getHeight() + mStickyHeader.getHeight();

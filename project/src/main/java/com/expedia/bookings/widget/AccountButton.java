@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
@@ -20,6 +19,7 @@ import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
@@ -142,29 +142,20 @@ public class AccountButton extends LinearLayout {
 			mLoginTextView.setTextColor(
 				Ui.obtainThemeColor(mContext, R.attr.skin_tabletCheckoutLoginButtonTextColor));
 		}
-		else if (ExpediaBookingApp.IS_EXPEDIA) {
-			mLoginContainer.setBackgroundResource(
-				Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginButtonDrawable));
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
-				Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
-			mLoginTextView.setTextColor(
-				Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
-		}
-		else if (ExpediaBookingApp.IS_AAG) {
-			mLoginContainer.setBackgroundResource(
-				Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginButtonDrawable));
-			mLoginTextView.setTextColor(
-				Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
-		}
 		else {
-			mLoginContainer.setBackgroundResource(R.drawable.btn_login_hotels);
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
-				Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
+			int bgResourceId = ProductFlavorFeatureConfiguration.getInstance().getLoginContainerBackgroundResId(mContext);
+			mLoginContainer.setBackgroundResource(bgResourceId);
+
+			boolean doesLoginTextViewHaveCompoundDrawables = ProductFlavorFeatureConfiguration.getInstance()
+				.doesLoginTextViewHaveCompoundDrawables();
+			if (doesLoginTextViewHaveCompoundDrawables) {
+				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
+					Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
+			}
+
 			mLoginTextView.setTextColor(
 				Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
 		}
-
-
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {
@@ -174,7 +165,8 @@ public class AccountButton extends LinearLayout {
 		TextView top = Ui.findView(mLogoutContainer, R.id.account_top_textview);
 		TextView bottom = Ui.findView(mLogoutContainer, R.id.account_bottom_textview);
 
-		if (ExpediaBookingApp.IS_AAG) {
+		boolean showBrandLogo = ProductFlavorFeatureConfiguration.getInstance().shouldShowBrandLogoOnAccountButton();
+		if (!showBrandLogo) {
 			mExpediaLogo.setVisibility(View.INVISIBLE);
 		}
 		else if (!traveler.isLoyaltyMember()) {
@@ -259,7 +251,6 @@ public class AccountButton extends LinearLayout {
 
 		// Logo
 		mExpediaLogo.setImageResource(Ui.obtainThemeResID(mContext, R.attr.skin_hotelCheckoutLogoutLogoDrawable));
-		//TODO: if (ExpediaBookingApp.IS_EXPEDIA)
 	}
 
 	private void clearCheckoutData() {

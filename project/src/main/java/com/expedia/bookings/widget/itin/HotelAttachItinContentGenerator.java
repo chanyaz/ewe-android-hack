@@ -53,8 +53,7 @@ public class HotelAttachItinContentGenerator extends ItinButtonContentGenerator<
 		return new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				AirAttachUtils.launchTabletResultsFromItinCrossSell(v.getContext(), getItinCardData().getSearchParams(),
-					getItinCardData().getFlightLeg().getLastWaypoint().mAirportCode);
+				AirAttachUtils.deepLinkHotels(v.getContext(), getItinCardData().getSearchParams());
 				OmnitureTracking.trackCrossSellItinToHotel(v.getContext());
 			}
 		};

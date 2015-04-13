@@ -10,8 +10,8 @@ public class CarInfo {
 	public Transmission transmission;
 	public Drive drive;
 
-	boolean hasAirConditioning;
-	List<String> makes;
+	public boolean hasAirConditioning;
+	public List<String> makes;
 
 	public int minDoors;
 	public int maxDoors;

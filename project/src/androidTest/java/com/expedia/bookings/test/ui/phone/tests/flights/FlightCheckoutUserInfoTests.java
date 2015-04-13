@@ -2,6 +2,8 @@ package com.expedia.bookings.test.ui.phone.tests.flights;
 
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.Espresso;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
@@ -19,16 +21,15 @@ import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
-import android.support.test.espresso.Espresso;
-
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.core.IsNot.not;
 
 /**
@@ -40,6 +41,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 	HotelsUserData mUser;
 
 	public void testCheckFlights() throws Exception {
+		// Setup
 		mUser = new HotelsUserData(getInstrumentation());
 		ScreenActions.enterLog(TAG, "Launching flights application");
 		LaunchScreen.launchFlights();
@@ -48,25 +50,104 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		FlightsSearchScreen.clickSelectDepartureButton();
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		FlightsSearchScreen.clickDate(startDate);
+		FlightsSearchScreen.clickPassengerSelectionButton();
+		FlightsSearchScreen.incrementAdultsButton();
 		ScreenActions.enterLog(TAG, "Click search button");
 		FlightsSearchScreen.clickSearchButton();
 		ScreenActions.enterLog(TAG, "Flight search results loaded");
-		FlightsSearchResultsScreen.clickListItem(1);
+		FlightsSearchResultsScreen.clickListItem(2);
 		FlightLegScreen.clickSelectFlightButton();
 		FlightsCheckoutScreen.clickCheckoutButton();
+
+		// Check
+		verifyNameMustMatchIdWarning();
 		verifyRulesAndRestrictionsButton();
 		verifyMissingTravelerInformationAlerts();
+		verifyNameMustMatchIdWarningWithInfoEntered();
+		verifyNameMustMatchIdWarningSecondTraveler();
 		verifyMissingCardInfoAlerts();
 		verifyLoginButtonNotAppearing();
 	}
 
+	private void verifyNameMustMatchIdWarning() {
+		// Warning should appear on opening traveler details
+		// and close when the user taps the screen.
+		ScreenActions.enterLog(TAG, "Start testing name must match id warning in user info");
+		ScreenActions.delay(1);
+		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		FlightsTravelerInfoScreen.nameMustMatchTextView().perform(click());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
+		Espresso.pressBack();
+
+		// Warning should still be present on subsequent details entry
+		// and close when the user starts typing.
+		ScreenActions.delay(1);
+		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		FlightsTravelerInfoScreen.enterFirstName("foo");
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
+		Espresso.pressBack();
+	}
+
+	private void verifyNameMustMatchIdWarningWithInfoEntered() {
+		// Warning behavior should persist after traveler info has been entered and saved.
+		ScreenActions.enterLog(TAG, "Start testing name must match id warning with info already entered");
+		ScreenActions.delay(1);
+		FlightsTravelerInfoScreen.clickPopulatedTravelerDetails(0);
+		FlightsTravelerInfoScreen.clickEditTravelerInfo();
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		FlightsTravelerInfoScreen.nameMustMatchTextView().perform(click());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
+		Espresso.pressBack();
+		Espresso.pressBack();
+	}
+
+	private void verifyNameMustMatchIdWarningSecondTraveler() {
+		// Warning behavior should persist upon entry of additional travelers' info.
+		ScreenActions.enterLog(TAG, "Start testing name must match id warning for a second traveler's info");
+		ScreenActions.delay(1);
+		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(2);
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		FlightsTravelerInfoScreen.nameMustMatchTextView().perform(click());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
+		Espresso.pressBack();
+
+		// Warning should disappear when user starts filling out traveler info.
+		ScreenActions.delay(1);
+		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(2);
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		FlightsTravelerInfoScreen.enterFirstName("Flight");
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
+		FlightsTravelerInfoScreen.enterLastName("Bookings");
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.lastNameEditText());
+		FlightsTravelerInfoScreen.clickBirthDateButton();
+		FlightsTravelerInfoScreen.clickDoneString();
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
+		FlightsTravelerInfoScreen.clickNextButton();
+		FlightsTravelerInfoScreen.clickDoneButton();
+
+		// Warning should appear when populated second traveler details are clicked.
+		FlightsTravelerInfoScreen.clickPopulatedTravelerDetails(2);
+		FlightsTravelerInfoScreen.clickEditTravelerInfo();
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		FlightsTravelerInfoScreen.nameMustMatchTextView().perform(click());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
+		Espresso.pressBack();
+		Espresso.pressBack();
+	}
+
 	private void verifyRulesAndRestrictionsButton() {
-		try {
-			Thread.sleep(1000);
-		}
-		catch (Exception e) {
-			// ignore
-		}
+		ScreenActions.delay(1);
+		CommonCheckoutScreen.flightsLegalTextView().perform(scrollTo());
 		CommonCheckoutScreen.flightsLegalTextView().perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Privacy Policy");
 		EspressoUtils.assertViewWithTextIsDisplayed("Terms and Conditions");
@@ -77,7 +158,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 	private void verifyMissingTravelerInformationAlerts() {
 		ScreenActions.enterLog(TAG, "Starting testing of traveler info screen response when fields are left empty");
 		ScreenActions.delay(1);
-		FlightsTravelerInfoScreen.clickTravelerDetails();
+		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
 		FlightsTravelerInfoScreen.clickNextButton();
 		ScreenActions.enterLog(TAG, "Verifying all fields show error icon when empty and 'DONE' is pressed");
 		FlightsTravelerInfoScreen.firstNameEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
@@ -274,6 +355,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "After entering email address, that edit text no longer has error icon");
 		CardInfoScreen.clickOnDoneButton();
 
+		FlightsCheckoutScreen.logInButton().perform(scrollTo());
 		FlightsCheckoutScreen.logInButton().check(matches(isDisplayed()));
 		ScreenActions.enterLog(TAG, "After all card info was added, the test was able to return to the checkout screen");
 	}
@@ -303,6 +385,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		FlightsCheckoutScreen.clickCheckoutButton();
 		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
 		ScreenActions.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
+		FlightsCheckoutScreen.logOutButton().perform(scrollTo());
 		FlightsCheckoutScreen.clickLogOutButton();
 		onView(withText("Log Out")).perform(click());
 		FlightsCheckoutScreen.logInButton().check(matches(isDisplayed()));

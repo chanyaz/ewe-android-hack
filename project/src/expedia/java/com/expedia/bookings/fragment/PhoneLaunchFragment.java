@@ -244,6 +244,7 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 		}
 
 		onReactToUserActive();
+		showAirAttachBannerIfNecessary();
 
 		if (!ExpediaBookingApp.sIsAutomation) {
 			startMarquee();
@@ -878,6 +879,10 @@ public class PhoneLaunchFragment extends Fragment implements OnGlobalLayoutListe
 	};
 
 	private void showAirAttachBannerIfNecessary() {
+		if (!Db.getTripBucket().isUserAirAttachQualified()) {
+			mAirAttachC.setVisibility(View.GONE);
+			return;
+		}
 		final ItineraryManager itinMan = ItineraryManager.getInstance();
 		final HotelSearchParams hotelSearchParams = itinMan.getHotelSearchParamsForAirAttach();
 		if (hotelSearchParams != null) {

@@ -58,7 +58,6 @@ public class HotelDetails {
 		onView(withText(roomDescription)).perform(click());
 	}
 
-
 	public static void clickReviews() {
 		onView(withId(R.id.user_rating_text)).perform(click());
 	}

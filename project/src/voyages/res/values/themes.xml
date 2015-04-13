@@ -84,11 +84,19 @@
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_vsc</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_vsc</item>
         <item name="skin_sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_vsc</item>
-        <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights</item>
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/rainbow_bar</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_vsc_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
+        <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color</item>
+        <item name="skin_menuAboutWebViewActivity">@menu/menu_webview_vsc</item>
+        <item name="skin_HotelCheckout_CreditCardEditTextStyle">@style/CreditCardEditText</item>
+        <item name="skin_HotelCheckout_PostalCodeSectionStyle">@style/PostalCodeSection</item>
+        <item name="skin_HotelCheckout_couponEditTextStyle">@style/CouponEditText</item>
+        <item name="skin_hotelRulesActionBarLogo">@drawable/ic_logo_vsc</item>
+        <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights</item>
+        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_logo_vsc</item>
+        <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
@@ -22,6 +21,7 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.ILOBable;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -172,6 +172,8 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		if (loggedIn != mWasLoggedIn) {
 			BookingInfoUtils.populateTravelerDataFromUser(context, getLob());
 			BookingInfoUtils.populatePaymentDataFromUser(context, getLob());
+			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(Db.getBillingInfo().getStoredCard());
+			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 			if (mListener != null) {
 				mListener.onLoginStateChanged();
 			}
@@ -205,6 +207,15 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 					BackgroundDownloader bd = BackgroundDownloader.getInstance();
 					if (!bd.isDownloading(KEY_REFRESH_USER)) {
 						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
+					}
+				}
+				Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
+				if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+					if (getLob() == LineOfBusiness.FLIGHTS) {
+						Db.getTripBucket().getFlight().getFlightTrip().setRewardsPoints("");
+					}
+					else {
+						Db.getTripBucket().getHotel().getCreateTripResponse().setRewardsPoints("");
 					}
 				}
 				mAccountButton.bind(false, true, Db.getUser(), getLob());
@@ -405,7 +416,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 
 		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
 		mWalletButton.setEnabled(!isWalletLoading);
-		mWalletButton.setPromoVisible(ExpediaBookingApp.IS_EXPEDIA && getLob() == LineOfBusiness.HOTELS);
+		mWalletButton.setPromoVisible(ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled() && getLob() == LineOfBusiness.HOTELS);
 
 		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet
 		boolean enableButtons = !showWalletButton || !isWalletLoading;

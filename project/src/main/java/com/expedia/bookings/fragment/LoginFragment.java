@@ -34,16 +34,17 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FacebookLinkResponse.FacebookLinkResponseCode;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
@@ -235,7 +236,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		FontCache.setTypeface(mLinkPassword, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.or_tv, Font.ROBOTO_LIGHT);
 
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled()) {
 			setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
 			mSignInWithExpediaBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
 		}
@@ -536,8 +537,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				mEmptyUsername = TextUtils.isEmpty(s);
 				mSignInWithExpediaBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
 
-				// FB not supported for Travelocity yet
-				if (ExpediaBookingApp.IS_EXPEDIA) {
+				if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled()) {
 					if (mEmptyUsername && !mVisibilityState.equals(VisibilityState.EXPEDIA_WTIH_FB_BUTTON)) {
 						setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, true);
 					}
@@ -549,8 +549,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		};
 		mExpediaUserName.addTextChangedListener(usernameWatcher);
 
-		// FB not supported for Travelocity yet
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled()) {
 			mLinkPassword.addTextChangedListener(new TextWatcher() {
 				@Override
 				public void afterTextChanged(Editable arg0) {
@@ -1159,11 +1158,29 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		}
 	};
 
+	private boolean hasResetError(SignInResponse response) {
+		if (response == null) {
+			return false;
+		}
+		for (ServerError error : response.getErrors()) {
+			if (error.getMessage() != null && error.getMessage().equalsIgnoreCase("AuthenticationFailedAtMTTWeb")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private final OnDownloadComplete<SignInResponse> mManualLoginCallback = new OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse response) {
 			setIsLoading(false);
 			if (response == null || response.hasErrors()) {
+				if (hasResetError(response)) {
+					mExpediaPassword.setText("");
+					setStatusText(R.string.login_reset_password, false);
+					return;
+				}
+
 				mExpediaPassword.setText("");
 				setStatusText(R.string.login_failed_try_again, false);
 			}
@@ -1171,12 +1188,12 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				User user = response.getUser();
 				user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
-				AdTracker.trackLogin();
 				user.save(getActivity());
 
 				loginWorkComplete();
 
 				OmnitureTracking.trackLoginSuccess(getActivity(), mLob, loginWithFacebook, user.isRewardsUser());
+				AdTracker.trackLogin();
 			}
 		}
 	};
@@ -1358,7 +1375,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				User user = response.getUser();
 				user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
-				AdTracker.trackLogin();
 				user.save(getActivity());
 				Log.d("User saved!");
 
@@ -1366,6 +1382,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 				setIsLoading(false);
 				loginWorkComplete();
+				AdTracker.trackLogin();
 			}
 
 		}

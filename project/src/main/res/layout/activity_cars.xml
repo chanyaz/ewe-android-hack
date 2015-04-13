@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:id="@+id/root_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.presenter.CarsPresenter xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cars_presenter"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/widget_car_search"
+    <include
+        android:id="@+id/widget_car_params"
+        layout="@layout/widget_car_search_params"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</FrameLayout>
+    <include
+        android:id="@+id/cars_results_presenter"
+        layout="@layout/cars_results_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include
+        android:id="@+id/car_checkout_presenter"
+        layout="@layout/car_checkout_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</com.expedia.bookings.presenter.CarsPresenter>

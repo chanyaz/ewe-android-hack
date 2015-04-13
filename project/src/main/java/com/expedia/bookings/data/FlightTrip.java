@@ -19,6 +19,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.model.FlightPaymentFlowState;
+import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Flight;
@@ -827,12 +828,12 @@ public class FlightTrip implements JSONable {
 			}
 		}
 
-		mBaseFare = JSONUtils.getJSONable(obj, "baseFare", Money.class);
-		mTotalFare = JSONUtils.getJSONable(obj, "totalFare", Money.class);
-		mTaxes = JSONUtils.getJSONable(obj, "taxes", Money.class);
-		mFees = JSONUtils.getJSONable(obj, "fees", Money.class);
-		mPriceChangeAmount = JSONUtils.getJSONable(obj, "priceChangeAmount", Money.class);
-		mOnlineBookingFeesAmount = JSONUtils.getJSONable(obj, "onlineBookingFeesAmount", Money.class);
+		mBaseFare = GsonUtil.getForJsonable(obj, "baseFare", Money.class);
+		mTotalFare = GsonUtil.getForJsonable(obj, "totalFare", Money.class);
+		mTaxes = GsonUtil.getForJsonable(obj, "taxes", Money.class);
+		mFees = GsonUtil.getForJsonable(obj, "fees", Money.class);
+		mPriceChangeAmount = GsonUtil.getForJsonable(obj, "priceChangeAmount", Money.class);
+		mOnlineBookingFeesAmount = GsonUtil.getForJsonable(obj, "onlineBookingFeesAmount", Money.class);
 		mRewardsPoints = obj.optString("rewardsPoints");
 		mSeatsRemaining = obj.optInt("seatsRemaining");
 		mMayChargeObFees = obj.optBoolean("mayChargeObFees");

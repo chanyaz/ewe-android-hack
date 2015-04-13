@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BedType.BedTypeId;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.GsonUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
@@ -704,36 +705,36 @@ public class Rate implements JSONable {
 
 			JSONUtils.putJSONableList(obj, "rateBreakdown", mRateBreakdown);
 			obj.putOpt("rateChange", mRateChange);
-			JSONUtils.putJSONable(obj, "nightlyRateTotal", mNightlyRateTotal);
+			GsonUtil.putForJsonable(obj, "nightlyRateTotal", mNightlyRateTotal);
 
-			JSONUtils.putJSONable(obj, "dailyAmountBeforeTax", mDailyAmountBeforeTax);
-			JSONUtils.putJSONable(obj, "totalAmountBeforeTax", mTotalAmountBeforeTax);
-			JSONUtils.putJSONable(obj, "totalAmountAfterTax", mTotalAmountAfterTax);
+			GsonUtil.putForJsonable(obj, "dailyAmountBeforeTax", mDailyAmountBeforeTax);
+			GsonUtil.putForJsonable(obj, "totalAmountBeforeTax", mTotalAmountBeforeTax);
+			GsonUtil.putForJsonable(obj, "totalAmountAfterTax", mTotalAmountAfterTax);
 
 			obj.putOpt("rateType", mRateType);
 			obj.putOpt("rateKey", mRateKey);
 			obj.putOpt("roomTypeCode", mRoomTypeCode);
-			JSONUtils.putJSONable(obj, "taxesAndFeesPerRoom", mTaxesAndFeesPerRoom);
-			JSONUtils.putJSONable(obj, "extraGuestFee", mExtraGuestFee);
+			GsonUtil.putForJsonable(obj, "taxesAndFeesPerRoom", mTaxesAndFeesPerRoom);
+			GsonUtil.putForJsonable(obj, "extraGuestFee", mExtraGuestFee);
 			obj.putOpt("bookingCode", mBookingCode);
 			obj.putOpt("roomTypeName", mRoomTypeName);
 
 			obj.putOpt("promoDescription", mPromoDescription);
-			JSONUtils.putJSONable(obj, "averageRate", mAverageRate);
-			JSONUtils.putJSONable(obj, "averageBaseRate", mAverageBaseRate);
+			GsonUtil.putForJsonable(obj, "averageRate", mAverageRate);
+			GsonUtil.putForJsonable(obj, "averageBaseRate", mAverageBaseRate);
 			obj.put("discountPercent", mDiscountPercent);
 			obj.putOpt("isMobileExclusive", mIsMobileExclusive);
-			JSONUtils.putJSONable(obj, "totalSurcharge", mTotalSurcharge);
-			JSONUtils.putJSONable(obj, "totalMandatoryFees", mTotalMandatoryFees);
-			JSONUtils.putJSONable(obj, "totalPriceWithMandatoryFees", mTotalPriceWithMandatoryFees);
-			JSONUtils.putJSONable(obj, "totalPriceAdjustments", mTotalPriceAdjustments);
-			JSONUtils.putJSONable(obj, "depositAmount", mDepositAmount);
+			GsonUtil.putForJsonable(obj, "totalSurcharge", mTotalSurcharge);
+			GsonUtil.putForJsonable(obj, "totalMandatoryFees", mTotalMandatoryFees);
+			GsonUtil.putForJsonable(obj, "totalPriceWithMandatoryFees", mTotalPriceWithMandatoryFees);
+			GsonUtil.putForJsonable(obj, "totalPriceAdjustments", mTotalPriceAdjustments);
+			GsonUtil.putForJsonable(obj, "depositAmount", mDepositAmount);
 			obj.putOpt("userPriceType", getUserPriceType().ordinal());
 			JSONUtils.putEnum(obj, "checkoutPriceType", mCheckoutPriceType);
 			JSONUtils.putEnum(obj, "taxStatusType", mTaxStatusType);
-			JSONUtils.putJSONable(obj, "priceToShowUsers", mPriceToShowUsers);
-			JSONUtils.putJSONable(obj, "depositToShowUsers", mDepositToShowUsers);
-			JSONUtils.putJSONable(obj, "strikethroughPriceToShowUsers", mStrikethroughPriceToShowUsers);
+			GsonUtil.putForJsonable(obj, "priceToShowUsers", mPriceToShowUsers);
+			GsonUtil.putForJsonable(obj, "depositToShowUsers", mDepositToShowUsers);
+			GsonUtil.putForJsonable(obj, "strikethroughPriceToShowUsers", mStrikethroughPriceToShowUsers);
 			obj.putOpt("numberOfNights", mNumberOfNights);
 			obj.putOpt("numRoomsLeft", mNumRoomsLeft);
 			obj.putOpt("hasFreeCancellation", mHasFreeCancellation);
@@ -767,7 +768,7 @@ public class Rate implements JSONable {
 
 		mRateBreakdown = JSONUtils.getJSONableList(obj, "rateBreakdown", RateBreakdown.class);
 		mRateChange = obj.optBoolean("rateChange", false);
-		mNightlyRateTotal = JSONUtils.getJSONable(obj, "nightlyRateTotal", Money.class);
+		mNightlyRateTotal = GsonUtil.getForJsonable(obj, "nightlyRateTotal", Money.class);
 		mHasFreeCancellation = obj.optBoolean("hasFreeCancellation", false);
 		if (obj.has("freeCancellationWindowDate")) {
 			mFreeCancellationWindowDate = new DateTime(obj.optLong("freeCancellationWindowDate"));
@@ -778,40 +779,40 @@ public class Rate implements JSONable {
 		}
 		mNonRefundable = obj.optBoolean("nonRefundable", false);
 
-		mDailyAmountBeforeTax = JSONUtils.getJSONable(obj, "dailyAmountBeforeTax", Money.class);
-		mTotalAmountBeforeTax = JSONUtils.getJSONable(obj, "totalAmountBeforeTax", Money.class);
-		mTotalAmountAfterTax = JSONUtils.getJSONable(obj, "totalAmountAfterTax", Money.class);
+		mDailyAmountBeforeTax = GsonUtil.getForJsonable(obj, "dailyAmountBeforeTax", Money.class);
+		mTotalAmountBeforeTax = GsonUtil.getForJsonable(obj, "totalAmountBeforeTax", Money.class);
+		mTotalAmountAfterTax = GsonUtil.getForJsonable(obj, "totalAmountAfterTax", Money.class);
 
 		mRateType = obj.optInt("rateType");
 		mRateKey = obj.optString("rateKey", null);
 		mRoomTypeCode = obj.optString("roomTypeCode", null);
 
-		mTaxesAndFeesPerRoom = JSONUtils.getJSONable(obj, "taxesAndFeesPerRoom", Money.class);
-		mExtraGuestFee = JSONUtils.getJSONable(obj, "extraGuestFee", Money.class);
+		mTaxesAndFeesPerRoom = GsonUtil.getForJsonable(obj, "taxesAndFeesPerRoom", Money.class);
+		mExtraGuestFee = GsonUtil.getForJsonable(obj, "extraGuestFee", Money.class);
 
 		mBookingCode = obj.optString("bookingCode", null);
 		mRoomTypeName = obj.optString("roomTypeName", null);
 
 		mPromoDescription = obj.optString("promoDescription", null);
-		mAverageRate = JSONUtils.getJSONable(obj, "averageRate", Money.class);
-		mAverageBaseRate = JSONUtils.getJSONable(obj, "averageBaseRate", Money.class);
+		mAverageRate = GsonUtil.getForJsonable(obj, "averageRate", Money.class);
+		mAverageBaseRate = GsonUtil.getForJsonable(obj, "averageBaseRate", Money.class);
 		mDiscountPercent = obj.optDouble("discountPercent", UNSET_DISCOUNT_PERCENT);
 		mIsMobileExclusive = obj.optBoolean("isMobileExclusive");
-		mTotalSurcharge = JSONUtils.getJSONable(obj, "totalSurcharge", Money.class);
+		mTotalSurcharge = GsonUtil.getForJsonable(obj, "totalSurcharge", Money.class);
 		if (mTotalSurcharge == null) {
 			// Try surcharge from EAN
-			mTotalSurcharge = JSONUtils.getJSONable(obj, "surcharge", Money.class);
+			mTotalSurcharge = GsonUtil.getForJsonable(obj, "surcharge", Money.class);
 		}
-		mTotalMandatoryFees = JSONUtils.getJSONable(obj, "totalMandatoryFees", Money.class);
-		mTotalPriceWithMandatoryFees = JSONUtils.getJSONable(obj, "totalPriceWithMandatoryFees", Money.class);
-		mTotalPriceAdjustments = JSONUtils.getJSONable(obj, "totalPriceAdjustments", Money.class);
-		mDepositAmount = JSONUtils.getJSONable(obj, "depositAmount", Money.class);
+		mTotalMandatoryFees = GsonUtil.getForJsonable(obj, "totalMandatoryFees", Money.class);
+		mTotalPriceWithMandatoryFees = GsonUtil.getForJsonable(obj, "totalPriceWithMandatoryFees", Money.class);
+		mTotalPriceAdjustments = GsonUtil.getForJsonable(obj, "totalPriceAdjustments", Money.class);
+		mDepositAmount = GsonUtil.getForJsonable(obj, "depositAmount", Money.class);
 		mUserPriceType = UserPriceType.values()[obj.optInt("userPriceType", UserPriceType.UNKNOWN.ordinal())];
 		mCheckoutPriceType = JSONUtils.getEnum(obj, "checkoutPriceType", CheckoutPriceType.class);
 		mTaxStatusType = JSONUtils.getEnum(obj, "taxStatusType", TaxStatusType.class);
-		mPriceToShowUsers = JSONUtils.getJSONable(obj, "priceToShowUsers", Money.class);
-		mDepositToShowUsers  = JSONUtils.getJSONable(obj, "depositToShowUsers", Money.class);
-		mStrikethroughPriceToShowUsers = JSONUtils.getJSONable(obj, "strikethroughPriceToShowUsers",
+		mPriceToShowUsers = GsonUtil.getForJsonable(obj, "priceToShowUsers", Money.class);
+		mDepositToShowUsers  = GsonUtil.getForJsonable(obj, "depositToShowUsers", Money.class);
+		mStrikethroughPriceToShowUsers = GsonUtil.getForJsonable(obj, "strikethroughPriceToShowUsers",
 				Money.class);
 		mNumberOfNights = obj.optInt("numberOfNights", 0);
 		mNumRoomsLeft = obj.optInt("numRoomsLeft", 0);

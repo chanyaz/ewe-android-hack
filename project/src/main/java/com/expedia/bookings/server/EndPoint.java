@@ -10,9 +10,8 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -62,20 +61,16 @@ public enum EndPoint {
 		if (!TextUtils.isEmpty(urlTemplate)) {
 			String protocol = isSecure ? "https" : "http";
 
-			// Use dot-less domain names for everything besides production & Travelocity integration
-			if (endPoint != EndPoint.PRODUCTION && !(endPoint == EndPoint.INTEGRATION
-				&& ExpediaBookingApp.IS_TRAVELOCITY)) {
+			if (ProductFlavorFeatureConfiguration.getInstance().shouldUseDotlessDomain(endPoint)) {
 				domain = TextUtils.join("", domain.split("\\."));
 			}
 
 			String serverURL = String.format(urlTemplate, protocol, domain);
-			//Domain name for AAG Thailand is thailand.airasiago.com, so removing www from URL.
-			if (ExpediaBookingApp.IS_AAG && PointOfSale.getPointOfSale().getPointOfSaleId()
-				.equals(PointOfSaleId.AIRASIAGO_THAILAND)) {
-				serverURL = serverURL.replaceFirst("w{3}\\.?", "");
-			}
+			serverURL = ProductFlavorFeatureConfiguration.getInstance().touchupE3EndpointUrlIfRequired(serverURL);
+
 			return serverURL;
 		}
+
 		else if (endPoint == EndPoint.PROXY || endPoint == EndPoint.MOCK_SERVER) {
 			return "http://" + SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address),
 				"localhost:3000") + "/" + domain + "/";
@@ -91,6 +86,26 @@ public enum EndPoint {
 		else {
 			throw new RuntimeException("Didn't know how to handle EndPoint: " + endPoint);
 		}
+	}
+
+	/**
+	 * Returns the base suggestion server url, based on dev settings
+	 */
+	private final static String ESS_PRODUCTION_ENDPOINT = "http://suggest.expedia.com";
+
+	public static String getEssEndpointUrl(Context context, final boolean isSecure) {
+		EndPoint endPoint = getEndPoint(context);
+
+		if (endPoint == EndPoint.CUSTOM_SERVER) {
+			boolean forceHttp = SettingUtils
+				.get(context, context.getString(R.string.preference_force_custom_server_http_only), false);
+			String protocol = isSecure && !forceHttp ? "https" : "http";
+			String server = SettingUtils
+				.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
+			return protocol + "://" + server + "/";
+		}
+
+		return ESS_PRODUCTION_ENDPOINT;
 	}
 
 	public static EndPoint getEndPoint(Context context) {
@@ -132,6 +147,11 @@ public enum EndPoint {
 		else {
 			return EndPoint.PRODUCTION;
 		}
+	}
+
+	public static boolean requestRequiresSiteId(Context context) {
+		return !AndroidUtils.isRelease(context)
+			&& EndPoint.getEndPoint(context) == EndPoint.PUBLIC_INTEGRATION;
 	}
 
 }
