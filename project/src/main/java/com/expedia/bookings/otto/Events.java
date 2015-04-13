@@ -540,6 +540,10 @@ public class Events {
 	 * Cars cars cars
 	 */
 
+	public static class SignOut {
+		// ignore
+	}
+
 	public static class CarsPriceChange {
 		// ignore
 	}
