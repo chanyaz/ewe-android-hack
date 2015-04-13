@@ -999,32 +999,30 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	@Override
 	public void doLogout() {
-		if (mAccountButton.isEnabled()) {
-			mAccountButton.setEnabled(false);
+		mAccountButton.setEnabled(false);
 
-			// Stop refreshing user (if we're currently doing so)
-			BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
-			mRefreshedUserTime = 0L;
+		// Stop refreshing user (if we're currently doing so)
+		BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
+		mRefreshedUserTime = 0L;
 
-			// Sign out user
-			User.signOutAsync(getActivity(), null);
+		// Sign out user
+		User.signOutAsync(getActivity(), null);
 
-			// Update UI
-			mAccountButton.bind(false, false, null, LineOfBusiness.HOTELS);
+		// Update UI
+		mAccountButton.bind(false, false, null, LineOfBusiness.HOTELS);
 
-			//After logout this will clear stored cards
-			populatePaymentDataFromUser();
-			populateTravelerDataFromUser();
+		//After logout this will clear stored cards
+		populatePaymentDataFromUser();
+		populateTravelerDataFromUser();
 
-			bindAll();
-			updateViews();
-			updateViewVisibilities();
+		bindAll();
+		updateViews();
+		updateViewVisibilities();
 
-			mAccountButton.setEnabled(true);
-			mWasLoggedIn = false;
+		mAccountButton.setEnabled(true);
+		mWasLoggedIn = false;
 
-			Events.post(new Events.CreateTripDownloadRetry());
-		}
+		Events.post(new Events.CreateTripDownloadRetry());
 	}
 
 	public void onLoginCompleted() {
@@ -1071,7 +1069,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		public void onDownload(SignInResponse results) {
 			if (results == null || results.hasErrors()) {
 				//The refresh failed, so we just log them out. They can always try to login again.
-				accountLogoutClicked();
+				doLogout();
 			}
 			else {
 				// Update our existing saved data

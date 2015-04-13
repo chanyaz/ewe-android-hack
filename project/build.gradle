@@ -14,7 +14,6 @@ repositories {
     mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
     maven { url 'http://www.leanplum.com/leanplum-sdks/' }
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' } // For dagger 2.0-snapshot
 }
 
 dependencies {
@@ -59,8 +58,8 @@ dependencies {
     compile 'com.wefika:flowlayout:0.4.0'
 
     // Dagger 2.0
-    compile 'com.google.dagger:dagger:2.0-SNAPSHOT'
-    apt 'com.google.dagger:dagger-compiler:2.0-SNAPSHOT'
+    compile 'com.google.dagger:dagger:2.0'
+    apt 'com.google.dagger:dagger-compiler:2.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
     compile ('com.crashlytics.sdk.android:crashlytics:2.2.0@aar') {
@@ -153,7 +152,7 @@ android {
 
             def major = 5
             def minor = 0
-            def patch = 1
+            def patch = 2
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)

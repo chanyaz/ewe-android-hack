@@ -22,10 +22,10 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.dagger.AppModule;
 import com.expedia.bookings.dagger.AppComponent;
 import com.expedia.bookings.dagger.CarComponent;
-import com.expedia.bookings.dagger.Dagger_AppComponent;
-import com.expedia.bookings.dagger.Dagger_CarComponent;
-import com.expedia.bookings.dagger.Dagger_LaunchComponent;
-import com.expedia.bookings.dagger.Dagger_LXComponent;
+import com.expedia.bookings.dagger.DaggerAppComponent;
+import com.expedia.bookings.dagger.DaggerCarComponent;
+import com.expedia.bookings.dagger.DaggerLaunchComponent;
+import com.expedia.bookings.dagger.DaggerLXComponent;
 import com.expedia.bookings.dagger.LaunchComponent;
 import com.expedia.bookings.dagger.LXComponent;
 import com.expedia.bookings.data.Db;
@@ -111,7 +111,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		StethoShim.install(this);
 		startupTimer.addSplit("Stetho Init");
 
-		mAppComponent = Dagger_AppComponent.builder()
+		mAppComponent = DaggerAppComponent.builder()
 			.appModule(new AppModule(this))
 			.build();
 		startupTimer.addSplit("Dagger AppModule created");
@@ -338,7 +338,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	}
 
 	public void defaultCarComponents() {
-		setCarComponent(Dagger_CarComponent.builder()
+		setCarComponent(DaggerCarComponent.builder()
 			.appComponent(mAppComponent)
 			.build());
 	}
@@ -352,7 +352,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	}
 
 	public void defaultLXComponents() {
-		setLXComponent(Dagger_LXComponent.builder()
+		setLXComponent(DaggerLXComponent.builder()
 			.appComponent(mAppComponent)
 			.build());
 	}
@@ -366,7 +366,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	}
 
 	public void defaultLaunchComponents() {
-		setLaunchComponent(Dagger_LaunchComponent.builder()
+		setLaunchComponent(DaggerLaunchComponent.builder()
 			.appComponent(mAppComponent)
 			.build());
 	}
@@ -547,5 +547,4 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			Log.d("AbacusReponse - onNext");
 		}
 	};
-
 }
