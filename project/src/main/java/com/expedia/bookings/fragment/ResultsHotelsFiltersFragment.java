@@ -32,6 +32,7 @@ import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
+import com.expedia.bookings.interfaces.IResultsFilterDoneClickedListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelNeighborhoodLayout;
@@ -59,6 +60,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	private HotelNeighborhoodLayout mNeighborhoodLayout;
 	private List<ISortAndFilterListener> mSortAndFilterListeners = new ArrayList<ResultsHotelListFragment.ISortAndFilterListener>();
 	private ISortAndFilterListener mSortAndFilterListener;
+	private IResultsFilterDoneClickedListener mResultsFilterDoneClickedListener;
 
 	// We don't want Omniture events being sent for sorts and filters
 	// changing as their views are initialized.
@@ -74,6 +76,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		super.onAttach(activity);
 		mSortAndFilterListener = Ui.findFragmentListener(this, ISortAndFilterListener.class, true);
 		mSortAndFilterListeners.add(mSortAndFilterListener);
+		mResultsFilterDoneClickedListener = Ui.findFragmentListener(this, IResultsFilterDoneClickedListener.class);
 	}
 
 	@Override
@@ -83,6 +86,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		Ui.findView(view, R.id.done_button).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				onFilterClosed();
+				mResultsFilterDoneClickedListener.onFilterDoneClicked();
 				for (ISortAndFilterListener sortAndFilterListener : mSortAndFilterListeners) {
 					sortAndFilterListener.onSortAndFilterClicked();
 				}
