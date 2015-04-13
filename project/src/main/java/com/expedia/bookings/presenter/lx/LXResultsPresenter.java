@@ -212,6 +212,13 @@ public class LXResultsPresenter extends Presenter {
 		searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams, sortFilterWidget.filterSortEventStream(), searchResultObserver);
 	}
 
+	@Subscribe
+	public void onLXSearchError(Events.LXShowSearchError event) {
+		if (event.searchType.equals(SearchType.DEFAULT_SEARCH)) {
+			toolbar.setTitle(getResources().getString(R.string.edit_search_toolbar));
+		}
+	}
+
 	private void setupToolbar() {
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
 		toolbar.setNavigationIcon(navIcon);

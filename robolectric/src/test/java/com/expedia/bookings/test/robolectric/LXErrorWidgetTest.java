@@ -76,7 +76,7 @@ public class LXErrorWidgetTest {
 		TextView errorText = (TextView) errorWidget.findViewById(R.id.error_text);
 		Toolbar errorToolbar = (Toolbar) errorWidget.findViewById(R.id.error_toolbar);
 
-		assertEquals(activity.getResources().getString(R.string.lx_error_text), errorToolbar.getTitle());
+		assertEquals(activity.getResources().getString(R.string.edit_search_toolbar), errorToolbar.getTitle());
 		assertEquals(activity.getResources().getString(R.string.error_lx_search_message), errorText.getText());
 		assertEquals(activity.getResources().getString(R.string.edit_search), errorButton.getText());
 	}

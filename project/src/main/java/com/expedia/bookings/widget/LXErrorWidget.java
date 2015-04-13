@@ -62,10 +62,7 @@ public class LXErrorWidget extends FrameLayout {
 		});
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
-		if (statusBarHeight > 0) {
-			int color = Ui.obtainThemeColor(getContext(), R.attr.primary_color);
-			addView(Ui.setUpStatusBar(getContext(), toolbar, root, color));
-		}
+		toolbar.setPadding(0, statusBarHeight, 0, 0);
 	}
 
 	public void bind(final ApiError error) {
@@ -178,7 +175,7 @@ public class LXErrorWidget extends FrameLayout {
 	public void showSearchError(int errorMessageResId) {
 		bindText(R.drawable.error_lx,
 			errorMessageResId,
-			R.string.lx_error_text,
+			R.string.edit_search_toolbar,
 			R.string.edit_search);
 		errorButton.setOnClickListener(new OnClickListener() {
 			@Override
