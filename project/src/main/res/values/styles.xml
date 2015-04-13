@@ -766,6 +766,17 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="ItinLoginRefreshButton" parent="android:Widget.Button">
+        <item name="android:background">@drawable/itin_login_ripple</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+    </style>
+
     <style name="ItinFindButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
