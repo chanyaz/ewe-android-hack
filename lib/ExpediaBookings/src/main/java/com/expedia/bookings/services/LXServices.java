@@ -3,6 +3,7 @@ package com.expedia.bookings.services;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -105,32 +106,31 @@ public class LXServices {
 			.activityDetails(lxActivity.id, DateUtils.convertToLXDate(startDate), DateUtils.convertToLXDate(endDate))
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
-			.map(HANDLE_ACTIVITY_DETAILS_ERROR)
-			.map(PUT_MONEY_IN_TICKETS)
-			.map(new Func1<ActivityDetailsResponse, ActivityDetailsResponse>() {
+			.doOnNext(HANDLE_ACTIVITY_DETAILS_ERROR)
+			.doOnNext(ACCEPT_ONLY_KNOWN_TICKET_TYPES)
+			.doOnNext(PUT_MONEY_IN_TICKETS)
+			.doOnNext(new Action1<ActivityDetailsResponse>() {
 				@Override
-				public ActivityDetailsResponse call(ActivityDetailsResponse response) {
+				public void call(ActivityDetailsResponse response) {
 					response.bestApplicableCategoryEN = lxActivity.bestApplicableCategoryEN;
 					response.bestApplicableCategoryLocalized = lxActivity.bestApplicableCategoryLocalized;
-					return response;
 				}
 			})
 			.subscribe(observer);
 	}
 
-	private static final Func1<ActivityDetailsResponse, ActivityDetailsResponse> HANDLE_ACTIVITY_DETAILS_ERROR = new Func1<ActivityDetailsResponse, ActivityDetailsResponse>() {
+	private static final Action1<ActivityDetailsResponse> HANDLE_ACTIVITY_DETAILS_ERROR = new Action1<ActivityDetailsResponse>() {
 		@Override
-		public ActivityDetailsResponse call(ActivityDetailsResponse response) {
+		public void call(ActivityDetailsResponse response) {
 			if (response == null || response.offersDetail == null || response.offersDetail.offers == null) {
-				throw new RuntimeException();
+				throw new RuntimeException("No offers in Activity");
 			}
-			return response;
 		}
 	};
 
-	private static final Func1<ActivityDetailsResponse, ActivityDetailsResponse> PUT_MONEY_IN_TICKETS = new Func1<ActivityDetailsResponse, ActivityDetailsResponse>() {
+	private static final Action1<ActivityDetailsResponse> PUT_MONEY_IN_TICKETS = new Action1<ActivityDetailsResponse>() {
 		@Override
-		public ActivityDetailsResponse call(ActivityDetailsResponse response) {
+		public void call(ActivityDetailsResponse response) {
 			for (Offer offer : response.offersDetail.offers) {
 				for (AvailabilityInfo availabilityInfo : offer.availabilityInfo) {
 					for (Ticket ticket : availabilityInfo.tickets) {
@@ -138,7 +138,40 @@ public class LXServices {
 					}
 				}
 			}
-			return response;
+		}
+	};
+
+	private static final Action1<ActivityDetailsResponse> ACCEPT_ONLY_KNOWN_TICKET_TYPES = new Action1<ActivityDetailsResponse>() {
+		@Override
+		public void call(ActivityDetailsResponse response) {
+			Iterator<Offer> offerIterator = response.offersDetail.offers.iterator();
+			//Iterate over offers
+			while (offerIterator.hasNext()) {
+				Offer offer = offerIterator.next();
+				Iterator<AvailabilityInfo> availabilityInfoIterator = offer.availabilityInfo.iterator();
+				//Iterate over Offers's Availability Infos
+				while (availabilityInfoIterator.hasNext()) {
+					AvailabilityInfo availabilityInfo = availabilityInfoIterator.next();
+					Iterator<Ticket> ticketIterator = availabilityInfo.tickets.iterator();
+					//Iterate over Offers's Availability Info's Tickets
+					while (ticketIterator.hasNext()) {
+						if (ticketIterator.next().code == null) {
+							//Remove Unknown Ticket Code
+							ticketIterator.remove();
+						}
+					}
+
+					//In case no tickets are known, rid off the availability info
+					if (availabilityInfo.tickets.size() == 0) {
+						availabilityInfoIterator.remove();
+					}
+				}
+
+				//In case no availability info exists, rid off the offer
+				if (offer.availabilityInfo.size() == 0) {
+					offerIterator.remove();
+				}
+			}
 		}
 	};
 

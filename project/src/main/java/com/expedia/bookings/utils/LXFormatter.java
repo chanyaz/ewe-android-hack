@@ -16,7 +16,7 @@ public class LXFormatter {
 		if (tickets != null) {
 			for (Ticket ticket : tickets) {
 				ticketSummaries.add(String.format(ticketSummaryTemplate, ticket.count,
-					context.getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code))));
+					LXDataUtils.ticketDisplayName(context, ticket.code)));
 			}
 			return Strings.joinWithoutEmpties(", ", ticketSummaries);
 		}

@@ -10,7 +10,7 @@ import com.expedia.bookings.data.lx.LXTicketType;
 
 public class LXDataUtils {
 
-	public static final Map<LXTicketType, Integer> LX_PER_TICKET_TYPE_MAP = new HashMap() {
+	private static final Map<LXTicketType, Integer> LX_PER_TICKET_TYPE_MAP = new HashMap() {
 		{
 			put(LXTicketType.Traveler, R.string.per_ticket_type_traveler);
 			put(LXTicketType.Adult, R.string.per_ticket_type_adult);
@@ -61,7 +61,7 @@ public class LXDataUtils {
 		}
 	};
 
-	public static final Map<LXTicketType, Integer> LX_TICKET_TYPE_NAME_MAP = new HashMap() {
+	private static final Map<LXTicketType, Integer> LX_TICKET_TYPE_NAME_MAP = new HashMap() {
 		{
 			put(LXTicketType.Traveler, R.string.ticket_type_traveler);
 			put(LXTicketType.Adult, R.string.ticket_type_adult);
@@ -112,10 +112,23 @@ public class LXDataUtils {
 		}
 	};
 
-	public static String getTicketCountSummary(Context context, LXTicketType ticketType, int ticketCount) {
-		String ticketSummaryTemplate = context.getResources().getString(R.string.ticket_summary_type_count_TEMPLATE);
+	public static String perTicketTypeDisplayLabel(Context context, LXTicketType ticketType) {
+		if (LX_PER_TICKET_TYPE_MAP.containsKey(ticketType)) {
+			return context.getString(LXDataUtils.LX_PER_TICKET_TYPE_MAP.get(ticketType));
+		}
+		return "";
+	}
 
-		return String.format(ticketSummaryTemplate, ticketCount,
-			context.getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticketType)));
+	public static String ticketDisplayName(Context context, LXTicketType ticketType) {
+		if (LX_TICKET_TYPE_NAME_MAP.containsKey(ticketType)) {
+			return context.getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticketType));
+		}
+		return "";
+	}
+
+	public static String getTicketCountSummary(Context context, LXTicketType ticketType, int ticketCount) {
+		String ticketSummaryTemplate = context.getString(R.string.ticket_summary_type_count_TEMPLATE);
+
+		return String.format(ticketSummaryTemplate, ticketCount, ticketDisplayName(context, ticketType));
 	}
 }

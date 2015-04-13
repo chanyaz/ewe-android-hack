@@ -165,7 +165,7 @@ public class LXActivityDetailsWidget extends FrameLayout {
 		title.setText(activityDetails.title);
 		price.setText(activityDetails.fromPrice);
 		category.setText(activityDetails.bestApplicableCategoryLocalized);
-		perTicketType.setText(getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(activityDetails.fromPriceTicketCode)));
+		perTicketType.setText(LXDataUtils.ticketDisplayName(getContext(), activityDetails.fromPriceTicketCode));
 	}
 
 	public void buildSections(ActivityDetailsResponse activityDetailsResponse) {
@@ -213,19 +213,29 @@ public class LXActivityDetailsWidget extends FrameLayout {
 		offerDatesContainer.removeAllViews();
 		offerDatesScrollView.scrollTo(0, 0);
 		offerDatesContainer.setVisibility(View.VISIBLE);
-		int noOfDaysToDisplay = getResources().getInteger(R.integer.lx_default_search_range);
 
-		for (int i = 0; i <= noOfDaysToDisplay; i++) {
+		addOfferDateViews(offersDetail, startDate);
+		selectFirstDateWithAvailabilities(startDate);
+	}
+
+	private void addOfferDateViews(OffersDetail offersDetail, LocalDate startDate) {
+		int numOfDaysToDisplay = getResources().getInteger(R.integer.lx_default_search_range);
+
+		for (int iDay = 0; iDay <= numOfDaysToDisplay; iDay++) {
 			LXOfferDatesButton dateButton = Ui.inflate(R.layout.lx_offer_date_button, offerDatesContainer, false);
-			dateButton.bind(offersDetail, startDate.plusDays(i));
+			LocalDate offerDate = startDate.plusDays(iDay);
+			dateButton.bind(offerDate, offersDetail.isAvailableOnDate(offerDate));
 			offerDatesContainer.addView(dateButton);
 		}
-		// Set first enabled date as selected.
-		for (int i = 0; i <= offerDatesContainer.getChildCount(); i++) {
-			if (offerDatesContainer.getChildAt(i).isEnabled()) {
-				RadioButton child = (RadioButton) offerDatesContainer.getChildAt(i);
+	}
+
+	private void selectFirstDateWithAvailabilities(LocalDate startDate) {
+		int numOfDaysToDisplay = getResources().getInteger(R.integer.lx_default_search_range);
+		for (int iDay = 0; iDay <= numOfDaysToDisplay; iDay++) {
+			if (offerDatesContainer.getChildAt(iDay).isEnabled()) {
+				RadioButton child = (RadioButton) offerDatesContainer.getChildAt(iDay);
 				child.setChecked(true);
-				buildOffersSection(startDate.plusDays(i));
+				buildOffersSection(startDate.plusDays(iDay));
 				break;
 			}
 		}

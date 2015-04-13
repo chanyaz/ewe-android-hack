@@ -72,7 +72,7 @@ public class LXTicketPicker extends LinearLayout {
 		this.offerId = offerId;
 		String ticketDetailsText = String
 			.format(getResources().getString(R.string.ticket_details_template), ticket.money.getFormattedMoney(),
-				getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code)), ticket.restrictionText);
+				LXDataUtils.ticketDisplayName(getContext(), ticket.code), ticket.restrictionText);
 		ticketDetails.setText(ticketDetailsText);
 		ticket.count = ticket.defaultTicketCount;
 
