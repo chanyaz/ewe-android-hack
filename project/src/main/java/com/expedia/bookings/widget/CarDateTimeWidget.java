@@ -137,7 +137,6 @@ public class CarDateTimeWidget extends RelativeLayout implements
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
 		Events.register(this);
-		buildParams(calendar.getStartDate(), calendar.getEndDate());
 	}
 
 	@Override
@@ -182,6 +181,11 @@ public class CarDateTimeWidget extends RelativeLayout implements
 
 	@Override
 	public void onDateSelectionChanged(final LocalDate start, final LocalDate end) {
+
+		if (start == null) {
+			return;
+		}
+
 		// Logic to change the time slider value when user selects current date
 		DateTime now = DateTime.now();
 		if (start.equals(LocalDate.now()) && now.getHourOfDay() >= 8) {

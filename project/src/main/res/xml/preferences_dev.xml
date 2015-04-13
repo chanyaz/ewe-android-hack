@@ -226,6 +226,14 @@
             android:summary="Select a test group"
             android:title="Hotel Result Rating Test" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_flight_confirmation_car_cross_sell"
+            android:summary="Select a test group"
+            android:title="Flight Confirmation Car Cross sell" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >
