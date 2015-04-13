@@ -51,6 +51,8 @@ public class StrUtils {
 	private static final Pattern CITY_COUNTRY_PATTERN = Pattern.compile("^([^,]+,[^,]+(?= \\(.*\\)))");
 	// e.g. Kuantan, Malaysia (KUA-Sultan Haji Ahmad Shah) -> KUA-Sultan Haji Ahmad Shah
 	private static final Pattern AIRPORT_CODE_PATTERN = Pattern.compile("\\((.*?)\\)");
+	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco, CA, United States
+	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^((.+)(?= \\(.*\\)))");
 	public static final String HTML_TAGS_REGEX = "<[^>]*>";
 	/**
 	 * Formats the display of how many adults and children are picked currently.
@@ -380,6 +382,15 @@ public class StrUtils {
 			}
 		}
 		return city;
+	}
+
+	public static String formatCityStateCountryName(String suggestion) {
+		String displayName = suggestion;
+		Matcher displayNameMatcher = DISPLAY_NAME_PATTERN.matcher(displayName);
+		if (displayNameMatcher.find()) {
+			displayName = displayNameMatcher.group(1);
+		}
+		return displayName;
 	}
 
 	public static String formatAirport(Suggestion suggestion) {

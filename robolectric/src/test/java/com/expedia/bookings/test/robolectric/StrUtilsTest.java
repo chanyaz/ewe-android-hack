@@ -112,4 +112,18 @@ public class StrUtilsTest {
 		String legalText = getContext().getString(R.string.legal_TEMPLATE, rulesText, termsText, privacyText);
 		return legalText;
 	}
+
+	@Test
+	public void testCityStateCountryNameFormatting() {
+		String displayNameResponse = "New York, NY, United States (NYC-All Airports)";
+		String formattedString = StrUtils.formatCityStateCountryName(displayNameResponse);
+		assertEquals(formattedString, "New York, NY, United States");
+	}
+
+	@Test
+	public void testAirportNameFormatting() {
+		String displayNameResponse = "New York, NY, United States (NYC-All Airports)";
+		String formattedString = StrUtils.formatAirportName(displayNameResponse);
+		assertEquals(formattedString, "NYC-All Airports");
+	}
 }
