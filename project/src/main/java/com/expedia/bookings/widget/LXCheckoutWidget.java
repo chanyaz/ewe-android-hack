@@ -12,7 +12,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
+import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -107,7 +107,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		final boolean suppressFinalBooking =
 			BuildConfig.DEBUG && SettingUtils.get(getContext(), R.string.preference_suppress_lx_bookings, true);
 
-		LXCheckoutParamsBuilder checkoutParamsBuilder = new LXCheckoutParamsBuilder()
+		LXCheckoutParams checkoutParams = new LXCheckoutParams()
 			.firstName(mainContactInfoCardView.firstName.getText().toString())
 			.lastName(mainContactInfoCardView.lastName.getText().toString())
 			.email(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail()
@@ -121,20 +121,20 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 			.suppressFinalBooking(suppressFinalBooking);
 
 		if (Db.getBillingInfo().hasStoredCard()) {
-			checkoutParamsBuilder.storedCreditCardId(Db.getBillingInfo().getStoredCard().getId()).cvv(cvv);
+			checkoutParams.storedCreditCardId(Db.getBillingInfo().getStoredCard().getId()).cvv(cvv);
 		}
 		else {
 			BillingInfo info = Db.getBillingInfo();
 			String expirationYear = JodaUtils.format(info.getExpirationDate(), "yyyy");
 			String expirationMonth = JodaUtils.format(info.getExpirationDate(), "MM");
 
-			checkoutParamsBuilder.creditCardNumber(info.getNumber())
+			checkoutParams.creditCardNumber(info.getNumber())
 				.expirationDateYear(expirationYear)
 				.expirationDateMonth(expirationMonth)
 				.postalCode(info.getLocation().getPostalCode())
 				.nameOnCard(info.getNameOnCard()).cvv(cvv);
 		}
-		Events.post(new Events.LXKickOffCheckoutCall(checkoutParamsBuilder));
+		Events.post(new Events.LXKickOffCheckoutCall(checkoutParams));
 	}
 
 	private String getRulesRestrictionsUrl(String tripId) {

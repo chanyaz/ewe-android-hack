@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
+import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.Offer;
@@ -48,9 +48,9 @@ public class LXStateTestUtil {
 
 	public static void checkoutSuccessState() {
 
-		LXCheckoutParamsBuilder checkoutParamsBuilder = new LXCheckoutParamsBuilder()
+		LXCheckoutParams checkoutParams = new LXCheckoutParams()
 			.email("coolguy@expedia.com");
-		Events.post(new Events.LXKickOffCheckoutCall(checkoutParamsBuilder));
+		Events.post(new Events.LXKickOffCheckoutCall(checkoutParams));
 
 		LXCheckoutResponse checkoutResponse = gson.fromJson(
 			"{\"activityId\": \"9afe3fd5-13d7-4d57-924f-b377683af928\", \"currencyCode\": \"USD\", \"newTrip\": { \"itineraryNumber\": \"7666328719\", \"travelRecordLocator\": \"15251504\", \"tripId\": \"f9a4aea0-8756-47b7-aa7d-586d5b454184\" }, \"orderId\": \"000000\", \"totalCharges\": \"64.07\", \"totalChargesPrice\": { \"amount\": \"64.07\", \"formattedPrice\": \"$64.07\", \"formattedWholePrice\": \"$64\" }}",

@@ -31,7 +31,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.lx.LXSearchParams;
-import com.expedia.bookings.data.lx.LXSearchParamsBuilder;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -84,10 +83,9 @@ public class LXSearchParamsPresenter extends Presenter
 
 	Button searchButton;
 
-	LXSearchParams searchParams;
+	LXSearchParams searchParams = new LXSearchParams();
 	private LxSuggestionAdapter suggestionAdapter;
 
-	private LXSearchParamsBuilder searchParamsBuilder = new LXSearchParamsBuilder();
 	private ArrayList<Suggestion> mRecentLXLocationsSearches;
 
 	public LXSearchParamsPresenter(Context context, AttributeSet attrs) {
@@ -142,7 +140,7 @@ public class LXSearchParamsPresenter extends Presenter
 				selectDates.setChecked(false);
 				selectDates.setEnabled(true);
 				location.setText("");
-				searchParamsBuilder.location("");
+				searchParams.location("");
 				searchParamsChanged();
 			}
 		}
@@ -150,7 +148,7 @@ public class LXSearchParamsPresenter extends Presenter
 
 	private void setSearchLocation(final Suggestion suggestion) {
 		location.setText(StrUtils.formatCityName(suggestion.fullName));
-		searchParamsBuilder.location(suggestion.fullName);
+		searchParams.location(suggestion.fullName);
 		searchParamsChanged();
 
 		selectDates.setChecked(true);
@@ -197,7 +195,7 @@ public class LXSearchParamsPresenter extends Presenter
 
 	@OnClick(R.id.select_dates)
 	public void showCalendar() {
-		if (!searchParamsBuilder.hasLocation()) {
+		if (!searchParams.hasLocation()) {
 			AnimUtils.doTheHarlemShake(location);
 			selectDates.setChecked(false);
 			return;
@@ -206,11 +204,11 @@ public class LXSearchParamsPresenter extends Presenter
 	}
 
 	private boolean validateSearchInput() {
-		if (!searchParamsBuilder.hasLocation()) {
+		if (!searchParams.hasLocation()) {
 			AnimUtils.doTheHarlemShake(location);
 			return false;
 		}
-		else if (!searchParamsBuilder.hasStartDate()) {
+		else if (!searchParams.hasStartDate()) {
 			AnimUtils.doTheHarlemShake(calendarContainer);
 			return false;
 		}
@@ -240,17 +238,16 @@ public class LXSearchParamsPresenter extends Presenter
 
 	@Override
 	public void onDateSelectionChanged(LocalDate start, LocalDate end) {
-		searchParamsBuilder.startDate(start);
-		searchParamsBuilder.endDate(start.plusDays(getResources().getInteger(R.integer.lx_default_search_range)));
+		searchParams.startDate(start);
+		searchParams.endDate(start.plusDays(getResources().getInteger(R.integer.lx_default_search_range)));
 		searchParamsChanged();
 		setUpSearchButton();
 	}
 
 	private void searchParamsChanged() {
-		searchParamsBuilder.searchType(SearchType.EXPLICIT_SEARCH);
-		searchParams = searchParamsBuilder.build();
-		if (searchParamsBuilder.startDate != null) {
-			String dateText = DateUtils.localDateToMMMdd(searchParamsBuilder.startDate);
+		searchParams.searchType(SearchType.EXPLICIT_SEARCH);
+		if (searchParams.hasStartDate()) {
+			String dateText = DateUtils.localDateToMMMdd(searchParams.startDate);
 
 			selectDates.setText(dateText);
 			selectDates.setTextOff(dateText);
@@ -374,7 +371,7 @@ public class LXSearchParamsPresenter extends Presenter
 	};
 
 	public void setUpSearchButton() {
-		if (searchParamsBuilder.hasLocation() && searchParamsBuilder.hasStartDate()) {
+		if (searchParams.hasLocation() && searchParams.hasStartDate()) {
 			searchButton.setAlpha(1f);
 		}
 		else {
