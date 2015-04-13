@@ -107,6 +107,15 @@
                     app:textStyle="light" />
             </LinearLayout>
 
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/no_rating_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hotel_no_rating_text"
+                android:textColor="@color/launch_list_txt"
+                android:textSize="14sp"
+                app:textStyle="light" />
+
             <LinearLayout
                 android:id="@+id/half_tile_price_container"
                 android:layout_width="wrap_content"

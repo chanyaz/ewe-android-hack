@@ -303,6 +303,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		@InjectView(R.id.launch_tile_upsell_text)
 		public TextView saleTextView;
 
+		@Optional
+		@InjectView(R.id.no_rating_text)
+		public TextView noRatingText;
+
 		public ViewHolder(View view) {
 			super(view);
 			green = view.getResources().getColor(R.color.launch_discount);
@@ -349,8 +353,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			title.setText(hotel.name);
 			subtitle.setVisibility(View.GONE);
 			ratingInfo.setVisibility(View.VISIBLE);
+			noRatingText.setVisibility(View.GONE);
 
-			rating.setText(Float.toString(hotel.hotelGuestRating));
 			if (fullWidth) {
 				if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
 					fullTileStrikethroughPrice.setVisibility(View.VISIBLE);
@@ -363,7 +367,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 					fullTileStrikethroughPrice.setVisibility(View.GONE);
 				}
 				fullTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.lowRateInfo.currencyCode)));
-				ratingText.setVisibility(View.VISIBLE);
+				if (hotel.hotelGuestRating == 0) {
+					ratingInfo.setVisibility(View.GONE);
+					noRatingText.setVisibility(View.VISIBLE);
+				}
+				else {
+					rating.setText(Float.toString(hotel.hotelGuestRating));
+					ratingText.setVisibility(View.VISIBLE);
+				}
 			}
 			else {
 				if (PointOfSale.getPointOfSale().supportsStrikethroughPrice() && HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
@@ -377,6 +388,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 					halfTileStrikethroughPrice.setVisibility(View.GONE);
 				}
 				halfTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.lowRateInfo.currencyCode)));
+				if (hotel.hotelGuestRating == 0) {
+					rating.setText("––");
+				}
+				else {
+					rating.setText(Float.toString(hotel.hotelGuestRating));
+				}
 				ratingText.setVisibility(View.GONE);
 			}
 			setHotelDiscountBanner(hotel, context, fullWidth);
