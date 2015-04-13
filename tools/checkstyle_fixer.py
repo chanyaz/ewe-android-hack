@@ -60,7 +60,7 @@ def fixCheckstyleErrors (checkStyleOutputFiles):
             for errorElem in fileElem.iter():
                 if errorElem.tag == "error":
                     message = errorElem.attrib['message']
-                    errorLine = errorElem.attrib['line']
+                    errorLine = int(errorElem.attrib['line'])
                     if message.startswith("Unused import - "):
                         handleUnusedImport (filePath, errorLine)
 
