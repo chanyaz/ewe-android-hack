@@ -17,7 +17,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lx_search_results_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingBottom="50dp" />
 
         <LinearLayout
             android:id="@+id/sort_filter_button"
