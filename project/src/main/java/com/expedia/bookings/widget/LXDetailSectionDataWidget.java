@@ -43,21 +43,23 @@ public class LXDetailSectionDataWidget extends LinearLayout {
 		ButterKnife.inject(this);
 	}
 
-	public void bindData(String title, CharSequence content) {
-		sectionContent.setMaxLines(3);
+	public void bindData(String title, CharSequence content, final int maxLines) {
 		sectionTitle.setText(title);
 		sectionContent.setText(content);
-		sectionContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				Ui.removeOnGlobalLayoutListener(sectionContent, this);
-				Layout textLayout = sectionContent.getLayout();
-				if (textLayout != null) {
-					int lines = textLayout.getLineCount();
-					readMoreView.setVisibility(lines > 3 ? View.VISIBLE : View.GONE);
-				}
-			}
-		});
-
+		if (maxLines > 0) {
+			sectionContent.setMaxLines(maxLines);
+			sectionContent.getViewTreeObserver().addOnGlobalLayoutListener(
+				new ViewTreeObserver.OnGlobalLayoutListener() {
+					@Override
+					public void onGlobalLayout() {
+						Ui.removeOnGlobalLayoutListener(sectionContent, this);
+						Layout textLayout = sectionContent.getLayout();
+						if (textLayout != null) {
+							int lines = textLayout.getLineCount();
+							readMoreView.setVisibility(lines > maxLines ? View.VISIBLE : View.GONE);
+						}
+					}
+				});
+		}
 	}
 }

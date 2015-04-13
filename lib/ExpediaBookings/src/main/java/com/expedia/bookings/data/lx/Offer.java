@@ -12,6 +12,9 @@ public class Offer {
 	public List<AvailabilityInfo> availabilityInfo;
 	public boolean freeCancellation;
 
+	// This is not coming from server, its for client side manipulation
+	public boolean isToggled;
+
 	// Utility for available info on selected date - not coming from the API
 	public AvailabilityInfo availabilityInfoOfSelectedDate;
 

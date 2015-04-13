@@ -22,8 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/lx_details_content_text_color"
-        android:lineSpacingExtra="2dp"
-        android:maxLines="3"
+        android:lineSpacingExtra="3dp"
         android:textSize="11sp"
         app:textStyle="normal"/>
 
@@ -35,6 +34,7 @@
         android:gravity="right"
         android:text="@string/lx_details_read_more"
         android:textColor="@color/lx_primary_color"
-        android:textSize="11sp" />
+        android:textSize="11sp"
+        android:visibility="gone" />
 
 </com.expedia.bookings.widget.LXDetailSectionDataWidget>

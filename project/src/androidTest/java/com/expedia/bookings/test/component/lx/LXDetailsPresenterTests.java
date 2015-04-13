@@ -59,7 +59,6 @@ public class LXDetailsPresenterTests {
 
 		LXViewModel.detailsWidget().check(matches(isDisplayed()));
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.activity_gallery))));
-		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.activity_info_container))));
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.description))));
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.location))));
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.highlights))));
@@ -74,7 +73,10 @@ public class LXDetailsPresenterTests {
 
 	@Test
 	public void testToolbar() {
-		Events.post(new Events.LXActivitySelected(new LXActivity()));
+		String title = "Activity title";
+		LXActivity lxActivity = new LXActivity();
+		lxActivity.title = title;
+		Events.post(new Events.LXActivitySelected(lxActivity));
 		ScreenActions.delay(2);
 		LXViewModel.toolbar().check(matches(isDisplayed()));
 
@@ -83,21 +85,7 @@ public class LXDetailsPresenterTests {
 		ViewInteraction toolbar = LXViewModel.toolbar();
 		toolbar.check(matches(isDisplayed()));
 		toolbar.check(matches(hasDescendant(withText(expectedToolbarDateRange))));
-		toolbar.check(matches(hasDescendant(withText("New York"))));
-	}
-
-	@Test
-	public void testActivityInfo() {
-		LXActivity lxActivity = new LXActivity();
-		lxActivity.bestApplicableCategoryEN = "Attractions";
-		lxActivity.bestApplicableCategoryLocalized = "Attractions";
-		Events.post(new Events.LXActivitySelected(lxActivity));
-		ScreenActions.delay(2);
-
-		ViewInteraction info = LXViewModel.infoContainer();
-		info.check(matches(hasDescendant(allOf(withId(R.id.title), withText(startsWith("New York Pass"))))));
-		info.check(matches(hasDescendant(allOf(withId(R.id.price), withText("$130")))));
-		info.check(matches(hasDescendant(allOf(withId(R.id.category), withText("Attractions")))));
+		toolbar.check(matches(hasDescendant(withText(title))));
 	}
 
 	@Test
@@ -148,17 +136,9 @@ public class LXDetailsPresenterTests {
 		ViewInteraction secondOfferTicketPicker = LXViewModel.ticketPicker("3-Day New York Pass");
 		ViewInteraction thirdOfferTicketPicker = LXViewModel.ticketPicker("5-Day New York Pass");
 
-		firstOfferTicketPicker.check(matches(not(isDisplayed())));
-		secondOfferTicketPicker.check(matches(not(isDisplayed())));
-		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
-
-		ViewInteraction firstOfferSelectTicket = LXViewModel.selectTicketsButton("2-Day New York Pass");
-		firstOfferSelectTicket.perform(scrollTo(), click());
-
 		firstOfferTicketPicker.check(matches(isDisplayed()));
 		secondOfferTicketPicker.check(matches(not(isDisplayed())));
 		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
-		ScreenActions.delay(2);
 
 		ViewInteraction secondOfferSelectTicket = LXViewModel.selectTicketsButton("3-Day New York Pass");
 		secondOfferSelectTicket.perform(scrollTo(), click());
