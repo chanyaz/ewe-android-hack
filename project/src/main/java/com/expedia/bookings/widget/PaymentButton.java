@@ -11,6 +11,7 @@ import android.widget.ListPopupWindow;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.section.StoredCreditCardSpinnerAdapter;
 import com.expedia.bookings.utils.BookingInfoUtils;
@@ -34,6 +35,8 @@ public class PaymentButton extends LinearLayout {
 	public PaymentButton(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 	}
+
+	private LineOfBusiness lineOfBusiness;
 
 	@InjectView(R.id.select_payment_button)
 	Button selectPayment;
@@ -60,7 +63,7 @@ public class PaymentButton extends LinearLayout {
 	}
 
 	public void bind() {
-		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getContext(), Db.getTripBucket().getCar(), false);
+		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getContext(), Db.getTripBucket().getItem(lineOfBusiness), false);
 	}
 
 	public void setPaymentButtonListener(IPaymentButtonListener listener) {
@@ -88,9 +91,8 @@ public class PaymentButton extends LinearLayout {
 					StoredCreditCard card = mStoredCreditCardAdapter.getItem(position);
 					if (card != null && card.isSelectable()) {
 
-						//TODO: Get TripBucket based on LOB
 						// Don't allow selection of invalid card types.
-						boolean isValidCard = Db.getTripBucket().getCar().isCardTypeSupported(card.getType());
+						boolean isValidCard = Db.getTripBucket().getItem(lineOfBusiness).isCardTypeSupported(card.getType());
 
 						if (isValidCard) {
 							Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
@@ -118,4 +120,7 @@ public class PaymentButton extends LinearLayout {
 		}
 	}
 
+	public void setLineOfBusiness(LineOfBusiness lineOfBusiness) {
+		this.lineOfBusiness = lineOfBusiness;
+	}
 }

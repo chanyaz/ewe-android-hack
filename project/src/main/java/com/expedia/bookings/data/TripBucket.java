@@ -209,6 +209,16 @@ public class TripBucket implements JSONable {
 	}
 
 	/**
+	 * Returns the trip bucket item based on LOB, or null if not found.
+	 *
+	 * @return
+	 */
+	public TripBucketItem getItem(LineOfBusiness lineOfBusiness) {
+		int index = getIndexOf(lineOfBusiness);
+		return index == -1 ? null : mItems.get(index);
+	}
+
+	/**
 	 * Returns the index of the first item of LineOfBusiness found in this TripBucket.
 	 * @param lineOfBusiness
 	 * @return -1 if not found
