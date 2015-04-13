@@ -2,4 +2,6 @@
 <resources>
     <dimen name="launch_pin_detail_size_travelocity">200dp</dimen>
     <dimen name="tablet_search_bar_top_margin">90dp</dimen>
+    <dimen name="destination_text_size">50sp</dimen>
+    <dimen name="destination_search_margin_horizontal">100dp</dimen>
 </resources>

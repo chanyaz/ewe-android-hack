@@ -289,4 +289,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getClientShortName() {
 		return "vsc";
 	}
+
+	public String getAdXKey() {
+		//Key not available for VSC for now, so passing blank.
+		return "";
+	}
 }

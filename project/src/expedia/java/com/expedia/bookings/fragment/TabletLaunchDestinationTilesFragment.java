@@ -40,7 +40,6 @@ public class TabletLaunchDestinationTilesFragment extends MeasurableFragment imp
 
 		mScrollView = Ui.findView(root, R.id.destinations_scrollview);
 		mScrollView.addOnScrollListener(this);
-
 		mItemsContainer = Ui.findView(root, R.id.destinations_container);
 
 		return root;

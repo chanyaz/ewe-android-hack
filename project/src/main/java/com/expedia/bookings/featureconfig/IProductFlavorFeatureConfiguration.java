@@ -108,4 +108,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isETPEnabled();
 
 	String getClientShortName();
+
+	String getAdXKey();
 }
