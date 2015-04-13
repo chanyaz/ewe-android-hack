@@ -280,6 +280,7 @@ public class LXSearchParamsPresenter extends Presenter
 		setupToolBarCheckmark(item);
 
 		toolbar.setTitle(getResources().getString(R.string.lx_search_widget_heading));
+		toolbar.setTitleTextColor(getResources().getColor(R.color.lx_actionbar_text_color));
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

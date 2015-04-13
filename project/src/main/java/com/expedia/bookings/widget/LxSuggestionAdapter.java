@@ -67,7 +67,7 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 				dropdownImage.setImageResource(R.drawable.search_type_icon);
 			}
 			dropdownImage
-				.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.lx_secondary_color));
+				.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.lx_primary_color));
 		}
 	}
 

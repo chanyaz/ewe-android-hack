@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#F2FFFFFF"
+        android:background="#F9F9F9"
         android:paddingTop="?attr/actionBarSize" >
 
         <LinearLayout
@@ -78,8 +78,8 @@
                 app:calendarDaySelectionFillColor="@android:color/white"
                 app:calendarHeaderTextColor="@color/lx_primary_color"
                 app:calendarHeaderTextSize="16dp"
-                app:calendarHighlightColor="@color/lx_secondary_color"
-                app:calendarHighlightInverseColor="@color/lx_secondary_color"
+                app:calendarHighlightColor="@color/lx_primary_color"
+                app:calendarHighlightInverseColor="@color/lx_primary_color"
                 app:calendarTodayColor="@color/lx_valid_days_calendar"
                 app:calendarInvalidDaysColor="@color/lx_invalid_days_calendar"
                 app:calendarLayout="@layout/calendar_cars_lx_layout"
@@ -97,6 +97,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:minHeight="?attr/actionBarSize"
-        app:titleTextAppearance="@style/LXSearchToolbarTitleTextAppearance" />
+        app:titleTextAppearance="@style/LXToolbarTitleTextAppearance" />
 
 </merge>

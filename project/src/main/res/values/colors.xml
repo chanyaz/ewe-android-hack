@@ -245,7 +245,6 @@
 
     <!-- LX colors -->
     <color name="lx_primary_color">#DB6F0D</color>
-    <color name="lx_secondary_color">#A8540D</color>
     <color name="lx_dropdown_background_color">#F0F0F0</color>
     <color name="lx_valid_days_calendar">#3A3A3A</color>
     <color name="lx_invalid_days_calendar">#A9A9A9</color>
