@@ -123,7 +123,7 @@ public class LXServices {
 		@Override
 		public void call(ActivityDetailsResponse response) {
 			if (response == null || response.offersDetail == null || response.offersDetail.offers == null) {
-				throw new RuntimeException("No offers in Activity");
+				throw new ApiError(ApiError.Code.LX_DETAILS_FETCH_ERROR);
 			}
 		}
 	};
