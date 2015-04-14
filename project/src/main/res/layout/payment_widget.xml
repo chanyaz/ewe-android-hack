@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.expedia.bookings.widget.LinearLayout
+    <LinearLayout
         android:id="@+id/card_info_container"
         android:layout_width="match_parent"
         android:layout_height="64dp"
@@ -53,7 +53,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="16dp" />
 
-    </com.expedia.bookings.widget.LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/section_billing_info_container"
@@ -71,7 +71,7 @@
             android:paddingRight="16dp"
             android:layout_marginBottom="16dp"/>
 
-        <com.expedia.bookings.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/stored_card_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                 android:padding="8dp"
                 android:src="@drawable/ic_log_out" />
 
-        </com.expedia.bookings.widget.LinearLayout>
+        </LinearLayout>
 
         <com.expedia.bookings.section.SectionBillingInfo
             android:id="@+id/section_billing_info"

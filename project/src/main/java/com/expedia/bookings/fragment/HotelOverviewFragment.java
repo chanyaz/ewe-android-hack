@@ -24,6 +24,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -74,7 +75,6 @@ import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelReceipt;
-import com.expedia.bookings.widget.LinearLayout;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.WalletButton;
@@ -127,7 +127,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private ScrollViewListener mScrollViewListener;
 
 	private HotelReceipt mHotelReceipt;
-	private LinearLayout mCheckoutLayout;
+	private FrameLayout mCheckoutLayout;
 
 	private AccountButton mAccountButton;
 	private WalletButton mWalletButton;
@@ -1157,8 +1157,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	// Scroll Listener
 
 	private class ScrollViewListener extends GestureDetector.SimpleOnGestureListener implements OnScrollListener,
-			OnTouchListener, HotelReceipt.OnSizeChangedListener, LinearLayout.OnSizeChangedListener,
-			FrameLayout.OnSizeChangedListener {
+			OnTouchListener, HotelReceipt.OnSizeChangedListener, FrameLayout.OnSizeChangedListener {
 
 		private static final float FADE_RANGE = 100.0f;
 

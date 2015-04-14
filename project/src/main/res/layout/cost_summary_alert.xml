@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.LinearLayout
+<LinearLayout
     android:id="@+id/parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -21,4 +21,4 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@drawable/border_horizontal_expedia_striped" />
-</com.expedia.bookings.widget.LinearLayout>
+</LinearLayout>
