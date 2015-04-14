@@ -18,6 +18,7 @@ public class AbacusUtils {
 	public static final String EBAndroidAppHSearchInfluenceMessagingTest = "ExpediaAndroidAppHSRLoadMessaging";
 	public static final String EBAndroidAppLaunchScreenTest = "ExpediaAndroidAppLaunchPageDefaultToCollections";
 	public static final String EBAndroidAppAddORToForm = "ExpediaAndroidAppAddORToForm";
+	public static final String EBAndroidAppSRPercentRecommend = "ExpediaAndroidAppSRPercentRecommend";
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -72,6 +73,9 @@ public class AbacusUtils {
 		}
 		else if (key.equals(EBAndroidAppAddORToForm)) {
 			return "7372";
+		}
+		else if (key.equals(EBAndroidAppSRPercentRecommend)) {
+			return "7373";
 		}
 		else {
 			return "0";
