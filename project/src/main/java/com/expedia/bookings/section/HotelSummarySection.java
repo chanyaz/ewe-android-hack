@@ -103,7 +103,7 @@ public class HotelSummarySection extends RelativeLayout {
 	private boolean mIsSelected;
 
 	//Value for AB test
-	boolean isUserBucketedForTest;
+	boolean isUserBucketedForTest = false;
 
 	public HotelSummarySection(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -156,7 +156,9 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		mSelectedOverlay = Ui.findView(this, R.id.selected_hotel_overlay);
-		isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSRPercentRecommend);
+		if (!ExpediaBookingApp.useTabletInterface(getContext())) {
+			isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSRPercentRecommend);
+		}
 	}
 
 	/**
@@ -380,7 +382,9 @@ public class HotelSummarySection extends RelativeLayout {
 			}
 		}
 		else {
-			ratingInfo.setVisibility(GONE);
+			if (!ExpediaBookingApp.useTabletInterface(getContext())) {
+				ratingInfo.setVisibility(GONE);
+			}
 			mUserRatingBar.setRating((float) property.getAverageExpediaRating());
 			if (mUserRatingBar.getRating() == 0f) {
 				mUserRatingBar.setVisibility(View.GONE);
