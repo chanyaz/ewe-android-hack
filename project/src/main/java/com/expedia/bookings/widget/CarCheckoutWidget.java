@@ -55,6 +55,11 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	}
 
 	@Subscribe
+	public void onSignOut(Events.SignOut event) {
+		loginWidget.accountLogoutClicked();
+	}
+
+	@Subscribe
 	public void onShowCheckoutAfterPriceChange(Events.CarsShowCheckoutAfterPriceChange event) {
 		bind(event.newCreateTripOffer, /* createTripOffer */
 			event.originalCreateTripOffer.detailedFare.grandTotal.formattedPrice, /* originalPriceString */
