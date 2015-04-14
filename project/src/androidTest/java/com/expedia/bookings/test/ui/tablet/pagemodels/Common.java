@@ -37,7 +37,7 @@ public class Common {
 	}
 
 	public static void enterLog(String tag, String logText) {
-		android.util.Log.v(tag, logText);
+		Log.v(tag, logText);
 	}
 
 	public static boolean isTablet(Instrumentation inst) {
