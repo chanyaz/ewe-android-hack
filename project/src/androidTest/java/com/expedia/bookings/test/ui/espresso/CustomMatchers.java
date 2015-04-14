@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -289,6 +290,20 @@ public class CustomMatchers {
 			@Override
 			public void describeTo(Description description) {
 				description.appendText("The total price must match");
+			}
+		};
+	}
+
+	public static Matcher<View> buttonEnabledState(final boolean shouldBeEnabled) {
+		return new BoundedMatcher<View, ImageButton>(ImageButton.class) {
+			@Override
+			public boolean matchesSafely(ImageButton view) {
+				return view.isEnabled() == shouldBeEnabled;
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("The state of the button matcher");
 			}
 		};
 	}

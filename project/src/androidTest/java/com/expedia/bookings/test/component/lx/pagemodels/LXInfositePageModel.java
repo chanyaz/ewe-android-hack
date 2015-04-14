@@ -1,11 +1,13 @@
 package com.expedia.bookings.test.component.lx.pagemodels;
 
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -57,18 +59,19 @@ public class LXInfositePageModel {
 	}
 
 	public static ViewInteraction ticketRow(String ticketName, String travellerType) {
-		return onView(Matchers.allOf(withText(containsString(travellerType)),
+		return onView(Matchers.allOf(withText(containsString(travellerType)), withId(R.id.ticket_details),
 			withParent(withParent(hasSibling(withText(ticketName))))));
 	}
 
 	public static ViewInteraction priceSummary(String ticketName) {
 		return onView(
-			Matchers.allOf(withId(R.id.selected_ticket_summary), withParent(hasSibling(withText(ticketName)))));
+			Matchers.allOf(withId(R.id.selected_ticket_summary), withParent(withParent(hasSibling(withText(ticketName))))));
 	}
 
 	public static ViewInteraction bookNowButton(String ticketName) {
 		return onView(
-			Matchers.allOf(withId(R.id.lx_book_now), withParent(hasSibling(withText(containsString(ticketName))))));
+			Matchers.allOf(withId(R.id.lx_book_now), withParent(hasSibling(
+				withText(containsString(ticketName))))));
 	}
 
 	/*
@@ -104,4 +107,21 @@ public class LXInfositePageModel {
 		};
 	}
 
+	public static Matcher<View> withRestrictionText() {
+		return new BoundedMatcher<View, TextView>(TextView.class) {
+			@Override
+			public boolean matchesSafely(TextView view) {
+				String rowText = view.getText().toString();
+				int startIndex = rowText.indexOf("(");
+				int endIndex = rowText.indexOf(")");
+				String restrictionText = rowText.substring(startIndex + 1, endIndex);
+				return !restrictionText.trim().isEmpty();
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("The restriction text must be present");
+			}
+		};
+	}
 }
