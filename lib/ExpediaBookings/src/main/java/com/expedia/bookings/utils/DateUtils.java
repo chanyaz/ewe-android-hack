@@ -86,6 +86,10 @@ public class DateUtils {
 		return date.toString("MMM dd");
 	}
 
+	public static String localDateToMMMMdd(LocalDate date) {
+		return date.toString("MMMM dd");
+	}
+
 	public static LocalDate yyyyMMddToLocalDate(String dateyyyyMMdd) {
 		return LocalDate.parse(dateyyyyMMdd, DateTimeFormat.forPattern("yyyy-MM-dd"));
 	}
