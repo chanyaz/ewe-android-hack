@@ -247,7 +247,7 @@ public class LXSearchParamsPresenter extends Presenter
 	private void searchParamsChanged() {
 		searchParams.searchType(SearchType.EXPLICIT_SEARCH);
 		if (searchParams.hasStartDate()) {
-			String dateText = DateUtils.localDateToMMMdd(searchParams.startDate);
+			String dateText = DateUtils.localDateToMMMMdd(searchParams.startDate);
 
 			selectDates.setText(dateText);
 			selectDates.setTextOff(dateText);
@@ -394,5 +394,16 @@ public class LXSearchParamsPresenter extends Presenter
 	public void animationFinalize(boolean forward) {
 		searchParamContainer.setTranslationY(0);
 		toolbar.setTranslationY(forward ? 0 : -toolbar.getHeight());
+		if (forward && Strings.isEmpty(location.getText())) {
+			postDelayed(new Runnable() {
+				public void run() {
+					location.requestFocus();
+					Ui.showKeyboard(location, null);
+				}
+			}, 300);
+		}
+		else {
+			Ui.hideKeyboard(LXSearchParamsPresenter.this);
+		}
 	}
 }
