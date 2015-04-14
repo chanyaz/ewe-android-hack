@@ -688,6 +688,8 @@
     <string name="loading_header">Loading&#8230;</string>
     <!-- Hotel list rating text -->
     <string name="hotel_rating_text">of 5 &#8211; guest rating</string>
+    <!-- Hotel list no rating text -->
+    <string name="hotel_no_rating_text">No guest rating</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">mobile only!</string>
     <!-- Expedia Deal for a given property, tonight only -->
