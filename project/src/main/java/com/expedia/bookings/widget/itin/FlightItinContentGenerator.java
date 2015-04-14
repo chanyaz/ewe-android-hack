@@ -623,7 +623,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		notification.setTicker(getContext().getString(R.string.Check_in_available));
 		notification.setTitle(getContext().getString(R.string.Check_in_available));
 
-		String airline = leg.getAirlinesFormatted();
+		String airline = leg.getPrimaryAirlineNamesFormatted();
 		Waypoint lastWaypoint = leg.getLastWaypoint();
 		String destination = StrUtils.getWaypointCityOrCode(lastWaypoint);
 		String destinationCode = lastWaypoint.mAirportCode;

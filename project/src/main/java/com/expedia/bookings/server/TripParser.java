@@ -374,6 +374,7 @@ public class TripParser {
 				FlightCode flightCode = new FlightCode();
 				flightCode.mAirlineCode = segmentJson.optString("externalAirlineCode");
 				flightCode.mNumber = segmentJson.optString("flightNumber").trim();
+				flightCode.mAirlineName = segmentJson.optString("airlineName");
 				segment.addFlightCode(flightCode, Flight.F_PRIMARY_AIRLINE_CODE);
 
 				String operatedBy = segmentJson.optString("operatedByAirCarrierName", null);
