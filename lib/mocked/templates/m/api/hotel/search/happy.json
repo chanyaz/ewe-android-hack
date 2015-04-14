@@ -339,6 +339,60 @@
                 }
             },
             "hotelGuestRating": "4.4",
+            "hotelId": "error_checkout_card_limit_exceeded",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "lowRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "109.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "error_checkout_card_limit_exceeded",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100"
+        },
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": false,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
             "hotelId": "air_attached_hotel",
             "hotelStarRating": "4.0",
             "largeThumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_d.jpg",

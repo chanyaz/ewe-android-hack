@@ -242,6 +242,9 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			else if (field.equals("cvv")) {
 				hasPaymentError = true;
 			}
+			else if (field.equals("cardLimitExceeded")) {
+				hasPaymentError = true;
+			}
 			else if (field.equals("phone")) {
 				hasPhoneError = true;
 			}
