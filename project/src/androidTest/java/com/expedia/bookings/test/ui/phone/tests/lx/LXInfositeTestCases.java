@@ -29,7 +29,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.isEmpty;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withAtleastChildCount;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withChildCount;
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withContainsAtleastOne;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withDateCaptionAtIndex;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withOneEnabled;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withTotalPrice;
@@ -37,7 +36,6 @@ import static com.expedia.bookings.test.ui.espresso.ViewActions.clickOnFirstEnab
 import static com.expedia.bookings.test.ui.espresso.ViewActions.waitFor;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.Matchers.not;
 
 /*
@@ -90,14 +88,6 @@ public class LXInfositeTestCases extends PhoneTestCase {
 		LXSearchResultsPageModel.clickOnTileAtIndex(1);
 		onView(withId(R.id.loading_details)).perform(waitFor(20L, TimeUnit.SECONDS));
 
-		LXInfositePageModel.title()
-			.check(matches(withText(mTileData.activityName)));
-		LXInfositePageModel.priceOnHeroImage().check(
-			matches(withText(mTileData.activityPrice)));
-		LXInfositePageModel.perTravellerType().
-			check(
-				matches(withText(equalToIgnoringCase(mTileData.activityTravellerType))));
-		LXInfositePageModel.category().check(matches(withContainsAtleastOne(mTileData.categories)));
 		screenshot("LX validated hero image");
 
 		onView(allOf(withId(R.id.section_title), withText(

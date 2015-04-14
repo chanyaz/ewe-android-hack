@@ -266,7 +266,6 @@
     <color name="lx_confirmation_email_text_color">#C8C8C8</color>
     <color name="lx_sort_filter_background_color">#E4E4E4</color>
     <color name="lx_checkout_text_color">#676767</color>
-    <color name="lx_info_secondary_text_color">#CDCDCD</color>
     <color name="lx_dates_disabled_text_color">#D7D7D7</color>
     <color name="lx_secondary_color_disabled">#F6DAC0</color>
     <color name="lx_dates_container_border_color">#CCCCCC</color>

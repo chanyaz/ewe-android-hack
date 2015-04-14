@@ -21,26 +21,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFro
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 
 
 public class LXInfositePageModel {
-	public static ViewInteraction title() {
-		return onView(allOf(withId(R.id.title), withParent(withId(R.id.activity_info_container))));
-	}
-
-	public static ViewInteraction priceOnHeroImage() {
-		return onView(allOf(withId(R.id.price), withParent(withId(R.id.activity_info_container))));
-	}
-
-	public static ViewInteraction perTravellerType() {
-		return onView(allOf(withId(R.id.per_ticket_type), withParent(withId(R.id.activity_info_container))));
-	}
-
-	public static ViewInteraction category() {
-		return onView(allOf(withId(R.id.category), withParent(withId(R.id.activity_info_container))));
-	}
 
 	public static ViewInteraction detailsDateContainer() {
 		return onView(withId(R.id.offer_dates_container));

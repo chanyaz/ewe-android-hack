@@ -29,7 +29,10 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 	public void setOffers(List<Offer> offers) {
 		this.offers = offers;
-		notifyDataSetChanged();
+		for (int i = 0; i < offers.size(); i++) {
+			Offer offer = offers.get(i);
+			offer.isToggled = i == 0;
+		}
 	}
 
 	@Override
@@ -130,20 +133,26 @@ public class LXOffersListAdapter extends BaseAdapter {
 			priceSummary.setText(priceSummaryText);
 			ticketSelectionWidget.buildTicketPickers(offer.availabilityInfoOfSelectedDate);
 
-
 			offerTitle.setText(offer.title);
+			updateState(offer.isToggled);
 		}
 
 		@Subscribe
 		public void onOfferExpanded(Events.LXOfferExpanded event) {
 			if (this.offer.id.equals(event.offer.id)) {
+				offer.isToggled = true;
 				offerRow.setVisibility(View.GONE);
 				ticketSelectionWidget.setVisibility(View.VISIBLE);
 			}
 			else {
+				offer.isToggled = false;
 				offerRow.setVisibility(View.VISIBLE);
 				ticketSelectionWidget.setVisibility(View.GONE);
 			}
+		}
+		public void updateState(boolean isToggled) {
+			offerRow.setVisibility(isToggled ? View.GONE : View.VISIBLE);
+			ticketSelectionWidget.setVisibility(isToggled ? View.VISIBLE : View.GONE);
 		}
 	}
 }

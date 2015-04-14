@@ -260,9 +260,10 @@
     <!-- LX Dimens -->
     <dimen name="lx_calendar_month_view_max_text_size">12dp</dimen>
     <dimen name="gallery_height">240dp</dimen>
-    <dimen name="price_info_container_height">60dp</dimen>
     <dimen name="lx_search_list_image_container_height">144dp</dimen>
     <dimen name="lx_search_details_container_height">36dp</dimen>
+    <dimen name="lx_offer_dates_container_height">52dp</dimen>
+    <dimen name="lx_offer_dates_container_width">50dp</dimen>
 
     <!-- Car Search  -->
     <dimen name="car_calendar_month_view_max_text_size">12dp</dimen>
