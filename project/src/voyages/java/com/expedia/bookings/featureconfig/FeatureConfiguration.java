@@ -37,7 +37,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public String getAppNameForMobiataPushNameHeader() {
-		return "VSCBookings";
+		return null;
 	}
 
 	public String getAppSupportUrl(Context context) {
