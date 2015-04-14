@@ -1,0 +1,12 @@
+{
+  "activityId": "1",
+  "errors": [
+    {
+      "errorCode": "PAYMENT_FAILED",
+      "errorInfo": {
+        "summary": "Card limit exceeded.",
+        "field": "cardLimitExceeded"
+      }
+    }
+  ]
+}
