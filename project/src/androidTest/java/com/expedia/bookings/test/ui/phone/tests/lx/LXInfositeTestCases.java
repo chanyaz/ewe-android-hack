@@ -24,6 +24,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.isEmpty;
@@ -131,14 +132,47 @@ public class LXInfositeTestCases extends PhoneTestCase {
 
 		LXInfositePageModel.ticketContainer(mExpectedDataTktWdgt.getTicketName())
 			.check(matches(withChildCount(mExpectedDataTktWdgt.numberOfTicketRows())));
-
+		//Below is the default state verification
+		boolean isFirstRow = true;
 		for (TicketDataModel ticket : mExpectedDataTktWdgt.getTickets()) {
-			LXInfositePageModel.ticketRow(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType).check(matches(withText(
-				containsString(ticket.perTicketCost.toString()))));
-			LXInfositePageModel.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-				.perform(click());
-			LXInfositePageModel.ticketCount(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-				.check(matches(withText(containsString("0"))));
+			LXInfositePageModel.ticketRow(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType).check(
+				matches(withText(
+					containsString(ticket.perTicketCost.toString()))));
+			LXInfositePageModel.ticketRow(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType).check(
+				matches(LXInfositePageModel.withRestrictionText()));
+			if (isFirstRow) {
+				isFirstRow = false;
+				// the very first row must contain 2 travellers by default
+				LXInfositePageModel.ticketCount(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
+					.check(matches(withText(containsString("2"))));
+				//now bring back the counter to zero so that all the rows have zero tickets
+				LXInfositePageModel.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
+					.perform(click());
+				LXInfositePageModel.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
+					.perform(click());
+				//check in this situation where we dont have any ticket we dont have the book now button nor the ticket summary
+				LXInfositePageModel.priceSummary(mExpectedDataTktWdgt.getTicketName()).check(
+					matches(not(isDisplayed())));
+				LXInfositePageModel.bookNowButton(mExpectedDataTktWdgt.getTicketName()).check(matches(not(
+					isDisplayed())));
+				LXInfositePageModel.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(),
+					ticket.travellerType).check(matches(not(
+					isEnabled())));
+				LXInfositePageModel.ticketAddButton(mExpectedDataTktWdgt.getTicketName(),
+					ticket.travellerType).check(matches(
+					isEnabled()));
+			}
+			else {
+				LXInfositePageModel.ticketCount(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
+					.check(matches(withText(containsString("0"))));
+				//remove button must be disabled and add button must be enabled
+				LXInfositePageModel.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
+					.check(matches(not(
+						isEnabled())));
+				LXInfositePageModel.ticketAddButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
+					.check(matches(
+						isEnabled()));
+			}
 		}
 
 		for (int currentClickCounter = 1; currentClickCounter <= 9; currentClickCounter++) {
@@ -148,6 +182,10 @@ public class LXInfositeTestCases extends PhoneTestCase {
 					.perform(click());
 				if (currentClickCounter == 9) {
 					count = 8;
+					LXInfositePageModel.ticketAddButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
+						.check(matches(not(
+							isEnabled())));
+
 				}
 				LXInfositePageModel.ticketCount(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
 					.check(matches(withText(String.valueOf(
@@ -159,19 +197,24 @@ public class LXInfositeTestCases extends PhoneTestCase {
 			for (TicketDataModel ticket : mExpectedDataTktWdgt.getTickets()) {
 				LXInfositePageModel.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
 					.perform(click());
+				if (currentClickCounter == 9) {
+					LXInfositePageModel.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
+						.check(matches(not(
+							isEnabled())));
+				}
 			}
 		}
 
 		for (TicketDataModel ticket : mExpectedDataTktWdgt.getTickets()) {
 			Random rand = new Random();
-			int numberOfClicks = rand.nextInt(8);
+			int numberOfClicks = rand.nextInt(7) + 1;
 			for (int currentClickCounter = 1; currentClickCounter <= numberOfClicks; currentClickCounter++) {
 				LXInfositePageModel.ticketAddButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
 					.perform(click());
 				mExpectedDataTktWdgt.updateTravellers(currentClickCounter, ticket.travellerType);
 			}
 		}
-		LXInfositePageModel.priceSummary(mExpectedDataTktWdgt.getTicketName()).perform(scrollTo()).check(
+		LXInfositePageModel.priceSummary(mExpectedDataTktWdgt.getTicketName()).check(
 			matches(withText(mExpectedDataTktWdgt.expectedSummary())));
 		LXInfositePageModel.bookNowButton(mExpectedDataTktWdgt.getTicketName()).check(matches(
 			withTotalPrice(mExpectedDataTktWdgt.getTotalPrice())));
