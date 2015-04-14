@@ -24,9 +24,9 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.buttonEnabledState;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.isEmpty;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withAtleastChildCount;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withChildCount;
@@ -156,22 +156,22 @@ public class LXInfositeTestCases extends PhoneTestCase {
 				LXInfositePageModel.bookNowButton(mExpectedDataTktWdgt.getTicketName()).check(matches(not(
 					isDisplayed())));
 				LXInfositePageModel.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(),
-					ticket.travellerType).check(matches(buttonEnabledState(
-					false)));
+					ticket.travellerType).check(matches(not(
+					isEnabled())));
 				LXInfositePageModel.ticketAddButton(mExpectedDataTktWdgt.getTicketName(),
-					ticket.travellerType).check(matches(buttonEnabledState(
-					true)));
+					ticket.travellerType).check(matches(
+					isEnabled()));
 			}
 			else {
 				LXInfositePageModel.ticketCount(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
 					.check(matches(withText(containsString("0"))));
 				//remove button must be disabled and add button must be enabled
 				LXInfositePageModel.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-					.check(matches(buttonEnabledState(
-						false)));
+					.check(matches(not(
+						isEnabled())));
 				LXInfositePageModel.ticketAddButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-					.check(matches(buttonEnabledState(
-						true)));
+					.check(matches(
+						isEnabled()));
 			}
 		}
 
@@ -183,8 +183,8 @@ public class LXInfositeTestCases extends PhoneTestCase {
 				if (currentClickCounter == 9) {
 					count = 8;
 					LXInfositePageModel.ticketAddButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-						.check(matches(buttonEnabledState(
-							false)));
+						.check(matches(not(
+							isEnabled())));
 
 				}
 				LXInfositePageModel.ticketCount(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
@@ -199,8 +199,8 @@ public class LXInfositeTestCases extends PhoneTestCase {
 					.perform(click());
 				if (currentClickCounter == 9) {
 					LXInfositePageModel.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-						.check(matches(buttonEnabledState(
-							false)));
+						.check(matches(not(
+							isEnabled())));
 				}
 			}
 		}
