@@ -697,10 +697,6 @@
 
 
     <!-- Launch screen -->
-    <!-- Label for launch screen hotel button secondary text -->
-    <string name="launch_hotel_secondary_text">Get a room.</string>
-    <!-- Label for launch screen flight button secondary text -->
-    <string name="launch_flight_secondary_text">Get away.</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Fly to&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
@@ -3178,11 +3174,6 @@
     <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">Your booking is confirmed! View it in the app.</string>
 
     <!-- Content Description Labels -->
-    <!-- Expedia Bookings Launch Screen -->
-    <!-- Content description for action: Press button to launch Hotels -->
-    <string name="cd_launch_hotels">Launch Hotels</string>
-    <!-- Content description for action: Press button to launch Flights -->
-    <string name="cd_launch_flights">Launch Flights</string>
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">Press to refresh trips list</string>

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_window_focused="false" android:state_enabled="true"
-        android:drawable="@drawable/bg_launch_link_tile" />
-    <item android:state_pressed="true" 
-        android:drawable="@drawable/bg_launch_link_tile_pressed" />
-    <item android:state_enabled="true"
-        android:drawable="@drawable/bg_launch_link_tile" />
-</selector>
