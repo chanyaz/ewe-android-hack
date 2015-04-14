@@ -67,6 +67,10 @@ public class LaunchDb {
 		sNearByTileCollectionIndex = 0;
 	}
 
+	public static LaunchCollection getSelectedCollection() {
+		return sDb.mSelectedCollection;
+	}
+
 	@Produce
 	public Events.LaunchCollectionsAvailable produceLaunchCollections() {
 		return new Events.LaunchCollectionsAvailable(mCollections, mSelectedCollection, mSelectedPin);

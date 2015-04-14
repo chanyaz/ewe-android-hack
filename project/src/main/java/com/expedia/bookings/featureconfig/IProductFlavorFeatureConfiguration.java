@@ -111,4 +111,5 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isLOBChooserScreenEnabled();
 
+	String getAdXKey();
 }

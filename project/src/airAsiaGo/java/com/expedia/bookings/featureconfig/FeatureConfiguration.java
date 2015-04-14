@@ -234,4 +234,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isLOBChooserScreenEnabled() {
 		return true;
 	}
+
+	public String getAdXKey() {
+		//Key not available for AAG for now, so passing blank.
+		return "";
+	}
 }

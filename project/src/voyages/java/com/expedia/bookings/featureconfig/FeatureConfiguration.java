@@ -293,4 +293,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isLOBChooserScreenEnabled() {
 		return false;
 	}
+
+	public String getAdXKey() {
+		//Key not available for VSC for now, so passing blank.
+		return "";
+	}
 }
