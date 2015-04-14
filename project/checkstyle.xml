@@ -28,6 +28,12 @@
         <property name="message" value="Line uses tabs spaces then tabs"/>
     </module>
 
+    <!-- Don't use android.util.Log -->
+    <module name="RegexpSingleline">
+        <property name="format" value="android.util.Log"/>
+        <property name="message" value="Don't use android.util.Log, use com.mobiata.android.Log instead"/>
+    </module>
+
     <module name="TreeWalker">
         <!-- Checks for Naming Conventions.                  -->
         <!-- See http://checkstyle.sf.net/config_naming.html -->
