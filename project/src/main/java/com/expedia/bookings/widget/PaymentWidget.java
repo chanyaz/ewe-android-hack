@@ -17,6 +17,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.ISectionEditable;
@@ -93,6 +94,8 @@ public class PaymentWidget extends ExpandableCardView {
 
 	private boolean isCreditCardRequired = false;
 
+	private LineOfBusiness lineOfBusiness;
+
 	public void setCreditCardRequired(boolean required) {
 		isCreditCardRequired = required;
 		setVisibility(required ? VISIBLE : GONE);
@@ -146,8 +149,10 @@ public class PaymentWidget extends ExpandableCardView {
 	}
 
 	public void setLineOfBusiness(LineOfBusiness lineOfBusiness) {
+		this.lineOfBusiness = lineOfBusiness;
 		sectionBillingInfo.setLineOfBusiness(lineOfBusiness);
 		sectionLocation.setLineOfBusiness(lineOfBusiness);
+		paymentButton.setLineOfBusiness(lineOfBusiness);
 	}
 
 	public void bind() {
@@ -350,12 +355,18 @@ public class PaymentWidget extends ExpandableCardView {
 		@Override
 		public void onChange() {
 			CreditCardType cardType = sectionBillingInfo.getBillingInfo().getCardType();
-			TripBucketItemCar car = Db.getTripBucket().getCar();
-			if (cardType != null && car != null) {
-				if (!car.isCardTypeSupported(cardType)) {
+			TripBucketItem tripItem = Db.getTripBucket().getItem(lineOfBusiness);
+			if (cardType != null && tripItem != null) {
+				if (!tripItem.isCardTypeSupported(cardType)) {
 					String cardName = CreditCardUtils.getHumanReadableName(getContext(), cardType);
-					String message = getResources().getString(R.string.car_does_not_accept_cardtype_TEMPLATE,
-						car.mCarTripResponse.carProduct.vendor.name, cardName);
+					String message = null;
+					if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
+						message = getResources().getString(R.string.car_does_not_accept_cardtype_TEMPLATE,
+							((TripBucketItemCar)tripItem).mCarTripResponse.carProduct.vendor.name, cardName);
+					}
+					else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
+						message = getResources().getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName);
+					}
 					invalidPaymentText.setText(message);
 					invalidPaymentContainer.setVisibility(VISIBLE);
 				}

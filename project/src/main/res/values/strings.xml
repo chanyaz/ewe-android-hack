@@ -390,6 +390,8 @@
     <string name="lx_select_ticket">Select Tickets</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">Free Cancellation</string>
+    <!-- Card brand not supported (e.g. "Visa not accepted") -->
+    <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s not accepted</string>
     <!-- Edit search toolbar title -->
     <string name="edit_search_toolbar">Edit Search</string>
 
