@@ -3,10 +3,10 @@ package com.expedia.bookings.test.ui.utils;
 import java.util.Random;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.util.Pair;
 
 import com.expedia.bookings.activity.RouterActivity;
+import com.mobiata.android.Log;
 
 public class LocationSelectUtils extends ActivityInstrumentationTestCase2<RouterActivity> {
 

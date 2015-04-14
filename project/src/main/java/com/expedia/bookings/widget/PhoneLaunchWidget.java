@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -46,6 +45,7 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
