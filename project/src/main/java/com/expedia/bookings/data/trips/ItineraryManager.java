@@ -1243,7 +1243,7 @@ public class ItineraryManager implements JSONable {
 				Log.d(LOGGING_TAG, op.name() + ": " + mOpCount.get(op));
 			}
 
-			Log.i(LOGGING_TAG, "# Trips=" + mTrips.size() + "; # Added=" + mTripsAdded + "; # Removed=" + mTripsRemoved);
+			Log.i(LOGGING_TAG, "# Trips=" + (mTrips == null ? 0 : mTrips.size()) + "; # Added=" + mTripsAdded + "; # Removed=" + mTripsRemoved);
 			Log.i(LOGGING_TAG, "# Refreshed=" + mTripsRefreshed + "; # Failed Refresh=" + mTripRefreshFailures);
 			Log.i(LOGGING_TAG, "# Flights Updated=" + mFlightsUpdated);
 		}
