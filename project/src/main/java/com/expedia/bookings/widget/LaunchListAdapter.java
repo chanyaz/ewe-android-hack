@@ -454,6 +454,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			fullTilePriceContainer.setVisibility(View.GONE);
 			halfTilePriceContainer.setVisibility(View.GONE);
 			saleTextView.setVisibility(View.GONE);
+			noRatingText.setVisibility(View.GONE);
 		}
 
 		@Override

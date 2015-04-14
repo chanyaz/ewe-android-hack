@@ -114,6 +114,7 @@
                 android:text="@string/hotel_no_rating_text"
                 android:textColor="@color/launch_list_txt"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:textStyle="light" />
 
             <LinearLayout
