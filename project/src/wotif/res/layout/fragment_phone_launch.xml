@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- ActionBar spacer -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize" />
+
+    <LinearLayout
+        android:id="@+id/error_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_launch_gradient"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_no_connection" />
+
+        <TextView
+            android:id="@+id/error_message_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:text="@string/error_launch_connection"
+            android:textColor="@color/roboto_light"
+            android:textSize="17dp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:splitMotionEvents="false">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="false"
+            android:background="@drawable/bg_launch_wotif"
+            android:scaleType="centerCrop" />
+
+        <View
+            android:id="@+id/content_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/launch_content_top_shadow" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|center"
+            android:paddingBottom="50dp">
+
+
+            <TextView
+                android:id="@+id/wotif_flights"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/btn_tvly_flights"
+                android:gravity="center"
+                android:paddingRight="50dp"
+                android:text="@string/nav_flights"
+                android:textSize="15dp"
+                android:contentDescription="@string/cd_launch_flights" />
+
+
+            <TextView
+                android:id="@+id/wotif_hotels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/btn_tvly_hotels"
+                android:gravity="center"
+                android:text="@string/nav_hotels"
+                android:textSize="15dp"
+                android:contentDescription="@string/cd_launch_hotels" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
