@@ -284,7 +284,7 @@ public class LXSearchParamsPresenter extends Presenter
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				clearBackStack();
+				show(new LXParamsDefault(), FLAG_CLEAR_TOP);
 				((Activity) getContext()).onBackPressed();
 			}
 		});
