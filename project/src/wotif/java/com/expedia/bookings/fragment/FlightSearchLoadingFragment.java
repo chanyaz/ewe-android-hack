@@ -15,7 +15,7 @@ public class FlightSearchLoadingFragment extends AbsFlightSearchLoadingFragment 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 
-		View flightSearchView = Ui.findView(v, R.id.search_progress_flight_tvly);
+		View flightSearchView = Ui.findView(v, R.id.search_progress_flight_wotif);
 		flightSearchView.bringToFront();
 		mMessageTextView.bringToFront();
 		displayStatus();

@@ -5,7 +5,6 @@
     android:orientation="vertical">
 
     <!-- ActionBar spacer -->
-
     <View
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize" />
@@ -34,7 +33,7 @@
             android:text="@string/error_launch_connection"
             android:textColor="@color/roboto_light"
             android:textSize="17dp" />
-
+        
     </LinearLayout>
 
     <RelativeLayout
@@ -63,7 +62,6 @@
             android:gravity="bottom|center"
             android:paddingBottom="50dp">
 
-
             <TextView
                 android:id="@+id/wotif_flights"
                 android:layout_width="wrap_content"
@@ -75,7 +73,6 @@
                 android:textSize="15dp"
                 android:contentDescription="@string/cd_launch_flights" />
 
-
             <TextView
                 android:id="@+id/wotif_hotels"
                 android:layout_width="wrap_content"
@@ -86,8 +83,6 @@
                 android:textSize="15dp"
                 android:contentDescription="@string/cd_launch_hotels" />
 
-
         </LinearLayout>
     </RelativeLayout>
-
 </LinearLayout>
