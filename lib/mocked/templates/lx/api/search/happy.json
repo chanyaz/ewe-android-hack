@@ -2328,7 +2328,7 @@
       "fromPrice": "$50",
       "fromPriceValue": "50",
       "fromOriginalPrice": "",
-      "duration": null,
+      "duration": "1h",
       "durationInMillis": 0,
       "fromPriceTicketType": "adult",
       "fromPriceTicketCode": "Adult",
