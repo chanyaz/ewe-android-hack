@@ -87,9 +87,9 @@
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Pick-up location</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="same_as_pick_up">Same as pick-up</string>
+    <string name="drop_off_location">Drop-off</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">Dates &amp; Location</string>
+    <string name="toolbar_search_cars">Search Cars</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Select pick-up and drop-off dates</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->

@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -47,6 +49,7 @@ import com.mobiata.android.time.widget.CalendarPicker;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class CarSearchPresenter extends Presenter
@@ -75,7 +78,7 @@ public class CarSearchPresenter extends Presenter
 	ViewGroup searchContainer;
 
 	@InjectView(R.id.dropoff_location)
-	TextView dropOffLocation;
+	AlwaysFilterAutoCompleteTextView dropOffLocation;
 
 	@InjectView(R.id.select_date)
 	ToggleButton selectDateButton;
@@ -111,11 +114,12 @@ public class CarSearchPresenter extends Presenter
 		calendarContainer.setCarDateTimeListener(this);
 
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp);
-		navIcon.setColorFilter(getResources().getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
-		toolbar.setTitle(getResources().getString(R.string.dates_and_location));
+		toolbar.setTitle(getResources().getString(R.string.toolbar_search_cars));
 		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
-		toolbar.setTitleTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
+		toolbar.setTitleTextColor(Color.WHITE);
+		toolbar.setBackgroundColor(getResources().getColor(R.color.cars_primary_color));
 		toolbar.inflateMenu(R.menu.cars_search_menu);
 
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
@@ -130,6 +134,7 @@ public class CarSearchPresenter extends Presenter
 		setUpSearchButton();
 
 		pickUpLocation.setVisibility(View.VISIBLE);
+		onDateCheckedChanged(false);
 		dropOffLocation.setVisibility(View.VISIBLE);
 		selectDateButton.setVisibility(View.VISIBLE);
 		setCalendarVisibility(View.INVISIBLE);
@@ -142,15 +147,7 @@ public class CarSearchPresenter extends Presenter
 		pickUpLocation.setOnFocusChangeListener(mPickupClickListener);
 		pickUpLocation.setOnEditorActionListener(this);
 		pickUpLocation.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
-
-		Drawable drawableEnabled = getResources().getDrawable(R.drawable.location).mutate();
-		drawableEnabled.setColorFilter(getResources().getColor(R.color.cars_secondary_color), PorterDuff.Mode.SRC_IN);
-		pickUpLocation.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
-
-		Drawable drawableDisabled = getResources().getDrawable(R.drawable.location).mutate();
-		drawableDisabled
-			.setColorFilter(getResources().getColor(R.color.search_dropdown_disabled_stroke), PorterDuff.Mode.SRC_IN);
-		dropOffLocation.setCompoundDrawablesWithIntrinsicBounds(drawableDisabled, null, null, null);
+		selectDateButton.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 
 		addTransition(defaultToCal);
 
@@ -196,7 +193,7 @@ public class CarSearchPresenter extends Presenter
 			}
 		});
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
-		navIcon.setColorFilter(getResources().getColor(R.color.cars_primary_color), PorterDuff.Mode.SRC_IN);
+		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		tv.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
 		menuItem.setActionView(tv);
 		return tv;
@@ -249,7 +246,7 @@ public class CarSearchPresenter extends Presenter
 
 	@OnClick(R.id.select_date)
 	public void onPickupDateTimeClicked() {
-		if (!searchParamsBuilder.hasOrigin()) {
+		if (!searchParamsBuilder.hasOrigin() && selectDateButton.isChecked()) {
 			AnimUtils.doTheHarlemShake(pickUpLocation);
 			selectDateButton.setChecked(false);
 			return;
@@ -257,6 +254,12 @@ public class CarSearchPresenter extends Presenter
 		show(new CarParamsCalendar());
 	}
 
+	@OnCheckedChanged(R.id.select_date)
+	public void onDateCheckedChanged(boolean isChecked) {
+		Drawable drawableEnabled = getResources().getDrawable(R.drawable.date).mutate();
+		drawableEnabled.setColorFilter(isChecked ? Color.WHITE : getResources().getColor(R.color.cars_unchecked_toggle_text_color), PorterDuff.Mode.SRC_IN);
+		selectDateButton.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
+	}
 	/*
 	 * Error handling
 	 */
@@ -308,7 +311,6 @@ public class CarSearchPresenter extends Presenter
 					back();
 				}
 				selectDateButton.setChecked(false);
-				selectDateButton.setEnabled(true);
 				pickUpLocation.setText("");
 				searchParamsBuilder.origin("");
 				searchParamsBuilder.originDescription("");
@@ -406,14 +408,13 @@ public class CarSearchPresenter extends Presenter
 	}
 
 	private Presenter.Transition defaultToCal = new Presenter.Transition(CarParamsDefault.class,
-		CarParamsCalendar.class) {
+		CarParamsCalendar.class, new DecelerateInterpolator(), Transition.DEFAULT_ANIMATION_DURATION) {
 		private int calendarHeight;
 
 		@Override
 		public void startTransition(boolean forward) {
 			int parentHeight = getHeight();
 			calendarHeight = calendarContainer.getHeight();
-			selectDateButton.setEnabled(!forward);
 			selectDateButton.setChecked(forward);
 			float pos = forward ? parentHeight + calendarHeight : calendarHeight;
 			calendarContainer.setTranslationY(pos);
@@ -466,7 +467,7 @@ public class CarSearchPresenter extends Presenter
 			searchButton.setAlpha(1f);
 		}
 		else {
-			searchButton.setAlpha(.7f);
+			searchButton.setAlpha(.15f);
 		}
 	}
 }

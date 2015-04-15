@@ -55,7 +55,7 @@ public class CarCreateTripErrorTests extends CarTestCase {
 		CarViewModel.alertDialogPositiveButton().perform(click());
 
 		screenshot("Car Search");
-		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.dates_and_location));
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.toolbar_search_cars));
 	}
 
 }
