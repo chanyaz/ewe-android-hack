@@ -159,4 +159,5 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	public void reset() {
 		// ignore
 	}
+
 }

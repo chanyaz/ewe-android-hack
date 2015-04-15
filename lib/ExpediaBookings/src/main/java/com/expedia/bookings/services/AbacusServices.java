@@ -1,5 +1,7 @@
 package com.expedia.bookings.services;
 
+import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
+import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.PayloadDeserializer;
 import com.google.gson.Gson;
@@ -12,18 +14,17 @@ import retrofit.converter.GsonConverter;
 import rx.Observer;
 import rx.Scheduler;
 import rx.Subscription;
+import rx.observers.Observers;
 
 public class AbacusServices {
-	public static final String PRODUCTION = "http://services.mobiata.com";
-	public static final String DEV = "http://test.services.mobiata.com";
-
 	private AbacusApi mApi;
 	private Gson mGson;
 
 	private Scheduler mObserveOn;
 	private Scheduler mSubscribeOn;
 
-	public AbacusServices(OkHttpClient client, String endpoint, Scheduler observeOn, Scheduler subscribeOn, RestAdapter.LogLevel logLevel) {
+	public AbacusServices(OkHttpClient client, String endpoint, Scheduler observeOn, Scheduler subscribeOn,
+		RestAdapter.LogLevel logLevel) {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
 
@@ -39,11 +40,19 @@ public class AbacusServices {
 		mApi = adapter.create(AbacusApi.class);
 	}
 
-	public Subscription downloadBucket(String guid, String id,  Observer<AbacusResponse> observer) {
-		return mApi.downloadBucket(guid, id)
+	public Subscription downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer) {
+		return mApi.evaluateExperiments(query.guid, query.eapid, query.tpid, query.evaluatedExperiments)
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
 			.subscribe(observer);
 	}
+
+	public Subscription logExperiment(AbacusLogQuery query) {
+		return mApi.logExperiment(query)
+			.observeOn(mObserveOn)
+			.subscribeOn(mSubscribeOn)
+			.subscribe(Observers.empty());
+	}
+
 
 }
