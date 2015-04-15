@@ -2,6 +2,7 @@ package com.expedia.bookings.services;
 
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
+import com.expedia.bookings.data.abacus.AbacusLogResponse;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.PayloadDeserializer;
 import com.google.gson.Gson;
@@ -14,7 +15,6 @@ import retrofit.converter.GsonConverter;
 import rx.Observer;
 import rx.Scheduler;
 import rx.Subscription;
-import rx.observers.Observers;
 
 public class AbacusServices {
 	private AbacusApi mApi;
@@ -51,8 +51,23 @@ public class AbacusServices {
 		return mApi.logExperiment(query)
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
-			.subscribe(Observers.empty());
+			.subscribe(mAbacusLogObserver);
 	}
 
+	private Observer<AbacusLogResponse> mAbacusLogObserver = new Observer<AbacusLogResponse>() {
+		@Override
+		public void onCompleted() {
+			//Ignore
+		}
 
+		@Override
+		public void onError(Throwable e) {
+			//Ignore
+		}
+
+		@Override
+		public void onNext(AbacusLogResponse abacusLogResponse) {
+			//Ignore
+		}
+	};
 }

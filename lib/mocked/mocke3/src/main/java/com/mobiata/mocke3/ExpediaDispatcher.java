@@ -51,8 +51,13 @@ public class ExpediaDispatcher extends Dispatcher {
 		}
 
 		// AbacusV2 API
-		if (request.getPath().contains("/api/bucketing")) {
+		if (request.getPath().contains("/api/bucketing/v1/evaluateExperiments")) {
 			return makeResponse("/api/bucketing/happy.json");
+		}
+
+		// AbacusV2 API
+		if (request.getPath().contains("/api/bucketing/v1/logExperiments")) {
+			return makeEmptyResponse();
 		}
 
 		// Trips API
