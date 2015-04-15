@@ -113,9 +113,6 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 		@InjectView(R.id.activity_from_price_ticket_type)
 		TextView fromPriceTicketType;
 
-		@InjectView(R.id.activity_category)
-		TextView category;
-
 		@InjectView(R.id.activity_price)
 		TextView activityPrice;
 
@@ -139,7 +136,6 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 			// Remove the extra margin that card view adds for pre-L devices.
 			cardView.setPreventCornerOverlap(false);
 			activityTitle.setText(activity.title);
-			category.setText(activity.bestApplicableCategoryLocalized);
 			if (activity.fromPriceTicketCode != null) {
 				fromPriceTicketType.setText(
 					LXDataUtils.perTicketTypeDisplayLabel(itemView.getContext(), activity.fromPriceTicketCode));

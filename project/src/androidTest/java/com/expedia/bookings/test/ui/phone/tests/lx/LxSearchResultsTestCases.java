@@ -58,9 +58,6 @@ public class LxSearchResultsTestCases extends PhoneTestCase {
 		for (LXActivity activity : mActivities) {
 			LXSearchResultsPageModel.resultList().perform(RecyclerViewActions.scrollToPosition(currentCounter));
 			LXSearchResultsPageModel.getTile(activity.title).check(matches(
-				hasDescendant(withText(activity.bestApplicableCategoryLocalized))
-			));
-			LXSearchResultsPageModel.getTile(activity.title).check(matches(
 				hasDescendant(withText(containsString(activity.duration)))));
 			LXSearchResultsPageModel.getTile(activity.title).check(matches(
 				hasDescendant(withText(containsString(activity.fromPriceValue)))));
