@@ -1,0 +1,81 @@
+package com.expedia.bookings.test.ui.phone.tests.lx;
+
+import java.util.List;
+
+import org.hamcrest.Matchers;
+import org.joda.time.LocalDate;
+
+import android.support.test.espresso.contrib.RecyclerViewActions;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.activity.LXBaseActivity;
+import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.test.component.lx.LXViewModel;
+import com.expedia.bookings.test.component.lx.pagemodels.LXSearchResultsPageModel;
+import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.squareup.otto.Subscribe;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.containsString;
+
+public class LxSearchResultsTestCases extends PhoneTestCase {
+
+	List<LXActivity> mActivities;
+	SearchResultsHandler searchResultsHandler = new SearchResultsHandler();
+
+	public LxSearchResultsTestCases() {
+		super(LXBaseActivity.class);
+	}
+
+	public void testSearchResultPageTestSuite() throws Throwable {
+
+		Events.register(searchResultsHandler);
+
+		if (getLxIdlingResource().isInSearchEditMode()) {
+			onView(Matchers
+				.allOf(withId(R.id.error_action_button), withText(
+					R.string.edit_search))).perform(click());
+
+			String expectedLocationDisplayName = "San Francisco, CA";
+			LXViewModel.location().perform(typeText("San"));
+			LXViewModel.selectLocation(getInstrumentation(), expectedLocationDisplayName);
+			LXViewModel.selectDateButton().perform(click());
+			LXViewModel.selectDates(LocalDate.now(), null);
+			LXViewModel.searchButton().perform(click());
+		}
+		//by this time we must have all the activities loaded.
+		//assert on the total number of items to show.
+		LXSearchResultsPageModel.resultList().check(matches(LXSearchResultsPageModel.withResults(mActivities.size())));
+		//loop through each and every tile of the result and validate that we have correct data on every tile
+		int currentCounter = 1;
+		for (LXActivity activity : mActivities) {
+			LXSearchResultsPageModel.resultList().perform(RecyclerViewActions.scrollToPosition(currentCounter));
+			LXSearchResultsPageModel.getTile(activity.title).check(matches(
+				hasDescendant(withText(activity.bestApplicableCategoryLocalized))
+			));
+			LXSearchResultsPageModel.getTile(activity.title).check(matches(
+				hasDescendant(withText(containsString(activity.duration)))));
+			LXSearchResultsPageModel.getTile(activity.title).check(matches(
+				hasDescendant(withText(containsString(activity.fromPriceValue)))));
+			LXSearchResultsPageModel.getTile(activity.title).check(matches(
+				hasDescendant(withText(containsString(activity.fromPriceTicketCode.toString().toLowerCase())))));
+			currentCounter++;
+		}
+		//To-Do : Since Sort and Filter functionality are under discussion, will implement the test cases when we have a clarity around them.
+		Events.unregister(searchResultsHandler);
+	}
+
+	private class SearchResultsHandler {
+		@Subscribe
+		public void on(Events.LXSearchResultsAvailable event) {
+			mActivities = event.lxSearchResponse.activities;
+		}
+	}
+}
