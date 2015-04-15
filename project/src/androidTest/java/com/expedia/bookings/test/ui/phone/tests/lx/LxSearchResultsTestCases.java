@@ -34,7 +34,7 @@ public class LxSearchResultsTestCases extends PhoneTestCase {
 		super(LXBaseActivity.class);
 	}
 
-	public void testSearchResultPageTestSuite() throws Throwable {
+	public void testSearchResultPageTestCases() throws Throwable {
 
 		Events.register(searchResultsHandler);
 
