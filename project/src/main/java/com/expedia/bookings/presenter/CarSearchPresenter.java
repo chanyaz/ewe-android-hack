@@ -146,7 +146,7 @@ public class CarSearchPresenter extends Presenter
 		pickUpLocation.setOnEditorActionListener(this);
 		pickUpLocation.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 
-		Drawable drawableEnabled = getResources().getDrawable(R.drawable.location);
+		Drawable drawableEnabled = getResources().getDrawable(R.drawable.location).mutate();
 		drawableEnabled.setColorFilter(getResources().getColor(R.color.cars_secondary_color), PorterDuff.Mode.SRC_IN);
 		pickUpLocation.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
 
