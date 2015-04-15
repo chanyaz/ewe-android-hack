@@ -16,4 +16,6 @@
     <attr name="card_list_image_container_height" format="reference" />
     <!-- Height for search list details container -->
     <attr name="card_details_container_height" format="reference" />
+    <!-- Drawable for traveler initials in saved traveler list -->
+    <attr name="traveler_checkout_circle_drawable" format="reference" />
 </resources>
