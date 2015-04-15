@@ -46,6 +46,7 @@ import com.expedia.bookings.widget.LxSuggestionAdapter;
 import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.time.widget.DaysOfWeekView;
 import com.mobiata.android.time.widget.MonthView;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -284,7 +285,7 @@ public class LXSearchParamsPresenter extends Presenter
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				show(new LXParamsDefault(), FLAG_CLEAR_TOP);
+				clearBackStack();
 				((Activity) getContext()).onBackPressed();
 			}
 		});
@@ -333,6 +334,14 @@ public class LXSearchParamsPresenter extends Presenter
 	}
 
 	public static class LXParamsCalendar {
+	}
+
+	@Subscribe
+	public void onShowSearchWidget(Events.LXShowSearchWidget event) {
+		show(new LXParamsDefault());
+		if (!Strings.isEmpty(location.getText())) {
+			show(new LXParamsCalendar());
+		}
 	}
 
 	private Presenter.Transition defaultToCal = new Presenter.Transition(LXParamsDefault.class, LXParamsCalendar.class) {
