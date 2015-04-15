@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.NavUtils;
 import com.facebook.AppEventsLogger;
 
@@ -47,6 +50,8 @@ public class RouterActivity extends Activity {
 
 		//Hi Facebook!
 		facebookInstallTracking();
+
+		cleanupOldCookies();
 
 		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
 			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
@@ -88,6 +93,29 @@ public class RouterActivity extends Activity {
 	 */
 	private void facebookInstallTracking() {
 		AppEventsLogger.activateApp(this, ExpediaServices.getFacebookAppId(this));
+	}
+
+	private static final String COOKIE_FILE_V2 = "cookies-2.dat";
+	private static final String COOKIE_FILE_V3 = "cookies-3.dat";
+	private void cleanupOldCookies() {
+		String[] files = new String[]{
+			COOKIE_FILE_V2,
+			COOKIE_FILE_V3,
+		};
+		// Nuke app data if old files exist
+		// Delete old cookie files
+		boolean cleanedSomething = false;
+		for (String file : files) {
+			File old = getFileStreamPath(file);
+			if (old.exists()) {
+				cleanedSomething = true;
+				old.delete();
+			}
+		}
+
+		if (cleanedSomething) {
+			ClearPrivateDataUtil.clear(this);
+		}
 	}
 
 }
