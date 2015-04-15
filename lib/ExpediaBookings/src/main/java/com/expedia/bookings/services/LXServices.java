@@ -86,7 +86,6 @@ public class LXServices {
 		public LXSearchResponse call(LXSearchResponse lxSearchResponse) {
 			for (LXActivity activity : lxSearchResponse.activities) {
 				activity.bestApplicableCategoryEN = LXUtils.bestApplicableCategory(activity.categories);
-				activity.bestApplicableCategoryLocalized = lxSearchResponse.filterCategories.get(activity.bestApplicableCategoryEN).displayValue;
 			}
 			return lxSearchResponse;
 		}
@@ -113,7 +112,6 @@ public class LXServices {
 				@Override
 				public void call(ActivityDetailsResponse response) {
 					response.bestApplicableCategoryEN = lxActivity.bestApplicableCategoryEN;
-					response.bestApplicableCategoryLocalized = lxActivity.bestApplicableCategoryLocalized;
 				}
 			})
 			.subscribe(observer);

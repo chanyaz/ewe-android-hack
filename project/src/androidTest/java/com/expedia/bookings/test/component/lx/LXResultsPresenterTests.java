@@ -62,7 +62,6 @@ public class LXResultsPresenterTests {
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_title))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_image))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_price))));
-		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_category))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_duration))));
 	}
 
@@ -103,7 +102,6 @@ public class LXResultsPresenterTests {
 		a.price = price;
 		a.categories = categoriesList;
 		a.bestApplicableCategoryEN = "tour";
-		a.bestApplicableCategoryLocalized = "tour";
 		a.fromPriceTicketCode = code;
 		a.duration = duration;
 		activities.add(a);

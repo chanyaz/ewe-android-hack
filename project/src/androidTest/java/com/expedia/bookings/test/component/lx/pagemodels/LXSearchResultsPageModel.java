@@ -26,7 +26,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class LXSearchResultsPageModel {
 	static final int ACTIVITY_TITLE = R.id.activity_title;
-	static final int ACTIVITY_CATEGORY = R.id.activity_category;
 	static final int ACTIVITY_PRICE = R.id.activity_price;
 	static final int ACTIVITY_PER_TICKET_TYPE = R.id.activity_from_price_ticket_type;
 
@@ -73,10 +72,6 @@ public class LXSearchResultsPageModel {
 			public void perform(UiController uiController, View view) {
 				TextView activityTitle = (TextView) view.findViewById(ACTIVITY_TITLE);
 				data.activityName = activityTitle.getText().toString();
-				TextView activityCategory = (TextView) view.findViewById(ACTIVITY_CATEGORY);
-				for (String category : getCategories(activityCategory)) {
-					data.categories.add(category);
-				}
 				TextView activityPrice = (TextView) view.findViewById(ACTIVITY_PRICE);
 				data.activityPrice = activityPrice.getText().toString();
 				TextView activityPriceTicketType = (TextView) view.findViewById(ACTIVITY_PER_TICKET_TYPE);

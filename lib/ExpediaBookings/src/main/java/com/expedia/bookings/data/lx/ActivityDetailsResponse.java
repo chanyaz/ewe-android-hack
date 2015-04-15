@@ -10,7 +10,6 @@ public class ActivityDetailsResponse {
 	public String fromPrice;
 	public LXTicketType fromPriceTicketCode;
 	public String bestApplicableCategoryEN;
-	public String bestApplicableCategoryLocalized;
 	public String location;
 	public List<String> highlights;
 	public OffersDetail offersDetail;
