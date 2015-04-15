@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.*;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
@@ -44,7 +44,6 @@ public class LaunchLobDoubleRowWidget extends RelativeLayout {
 	View shadow;
 
 	float origHeight;
-	boolean wasNetworkUnavailable = false;
 
 	public LaunchLobDoubleRowWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -62,6 +61,18 @@ public class LaunchLobDoubleRowWidget extends RelativeLayout {
 		divider.setTranslationY((f * origHeight) - origHeight);
 		bottomRow.setTranslationY((f * origHeight) - origHeight);
 		shadow.setTranslationY((f * origHeight * 2) - origHeight * 2);
+	}
+
+	public void toggleButtonState(boolean enabled) {
+		hotelsBtn.setEnabled(enabled);
+		flightsBtn.setEnabled(enabled);
+		carsBtn.setEnabled(enabled);
+		lxBtn.setEnabled(enabled);
+		topRowBg.setScaleY(1.0f);
+		bottomRowBg.setScaleY(1.0f);
+		divider.setTranslationY(0.0f);
+		bottomRow.setTranslationY(0.0f);
+		shadow.setTranslationY(0.0f);
 	}
 
 	@Override
@@ -86,32 +97,12 @@ public class LaunchLobDoubleRowWidget extends RelativeLayout {
 
 	@Subscribe
 	public void onNetworkAvailable(Events.LaunchOnlineState event) {
-		if (wasNetworkUnavailable) {
-			hotelsBtn.transformToDefaultState();
-			flightsBtn.transformToDefaultState();
-			carsBtn.transformToDefaultState();
-			lxBtn.transformToDefaultState();
-			topRowBg.setScaleY(1.0f);
-			bottomRowBg.setScaleY(1.0f);
-			divider.setTranslationY(0.0f);
-			bottomRow.setTranslationY(0.0f);
-			shadow.setTranslationY(0.0f);
-		}
-		wasNetworkUnavailable = false;
+		toggleButtonState(true);
 	}
 
 	@Subscribe
 	public void onNetworkUnavailable(Events.LaunchOfflineState event) {
-		wasNetworkUnavailable = true;
-		hotelsBtn.transformToNoDataState();
-		flightsBtn.transformToNoDataState();
-		carsBtn.transformToNoDataState();
-		lxBtn.transformToNoDataState();
-		topRowBg.setScaleY(1.0f);
-		bottomRowBg.setScaleY(1.0f);
-		divider.setTranslationY(0.0f);
-		bottomRow.setTranslationY(0.0f);
-		shadow.setTranslationY(0.0f);
+		toggleButtonState(false);
 	}
 }
 

@@ -22,7 +22,7 @@
             android:background="@color/launch_lob_bg" />
 
 
-        <com.expedia.bookings.widget.LinearLayout
+        <LinearLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 app:btn_bg="@drawable/bg_lob_flights"
                 app:btn_icon="@drawable/ic_launch_flights"
                 app:btn_text="@string/nav_flights" />
-        </com.expedia.bookings.widget.LinearLayout>
+        </LinearLayout>
     </FrameLayout>
 
     <View
@@ -71,7 +71,7 @@
             android:layout_height="@dimen/launch_lob_double_row_height"
             android:background="@color/launch_lob_bg" />
 
-        <com.expedia.bookings.widget.LinearLayout
+        <LinearLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                 app:btn_bg="@drawable/bg_lob_activities"
                 app:btn_icon="@drawable/ic_launch_activities"
                 app:btn_text="@string/nav_lx" />
-        </com.expedia.bookings.widget.LinearLayout>
+        </LinearLayout>
 
     </FrameLayout>
 

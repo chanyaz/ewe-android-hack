@@ -40,15 +40,10 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 	public TextView textView;
 
 	private float squashedRatio;
-	private boolean isNetworkAvailable = true;
 	private float fullHeight;
 
-	public PhoneLaunchDoubleRowButton(Context context) {
-		this(context, null);
-	}
-
-	public PhoneLaunchDoubleRowButton(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
+	public PhoneLaunchDoubleRowButton(Context context, AttributeSet attrs) {
+		super(context, attrs);
 		LayoutInflater.from(getContext()).inflate(R.layout.widget_phone_launch_double_row_btn, this);
 		ButterKnife.inject(this);
 
@@ -60,10 +55,6 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 			disabledBg = getResources().getDrawable(R.drawable.bg_lob_disabled);
 			ta.recycle();
 		}
-	}
-
-	public PhoneLaunchDoubleRowButton(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
 	}
 
 	@Override
@@ -104,7 +95,7 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 
 	@OnClick(R.id.lob_btn_bg)
 	public void onBgClick(View v) {
-		if (isNetworkAvailable) {
+		if (isEnabled()) {
 			Bundle animOptions = AnimUtils.createActivityScaleBundle(v);
 			switch (getId()) {
 			case R.id.hotels_button:
@@ -131,18 +122,19 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 		}
 	}
 
-	public void transformToDefaultState() {
-		isNetworkAvailable = true;
-		scaleTo(1.0f);
-		Ui.setViewBackground(bgView, bg);
-		textView.setAlpha(1.0f);
-	}
-
-	public void transformToNoDataState() {
-		isNetworkAvailable = false;
-		scaleTo(1.0f);
-		Ui.setViewBackground(bgView, disabledBg);
-		textView.setAlpha(0.5f);
+	@Override
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		if (enabled) {
+			scaleTo(1.0f);
+			Ui.setViewBackground(bgView, bg);
+			textView.setAlpha(1.0f);
+		}
+		else {
+			scaleTo(1.0f);
+			Ui.setViewBackground(bgView, disabledBg);
+			textView.setAlpha(0.5f);
+		}
 	}
 
 	private static final float minIconSize = 0.5f;
