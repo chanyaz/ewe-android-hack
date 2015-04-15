@@ -91,13 +91,19 @@ public class LXTicketSelectionWidget extends LinearLayout {
 		title.setText(offerTitle);
 
 		freeCancellationText.setVisibility(freeCancellation ? VISIBLE : GONE);
+		int index = 0;
 		for (Ticket ticket : availabilityInfo.tickets) {
 			LXTicketPicker ticketPicker = Ui.inflate(R.layout.lx_ticket_picker, ticketSelectorContainer, false);
 			ticketSelectorContainer.addView(ticketPicker);
 
-			ticketPicker.bind(ticket, offerId);
+			// Set default count of first ticket in offer to 2.
+			int defaultCount = 0;
+			if (index == 0) {
+				defaultCount = getResources().getInteger(R.integer.lx_offer_ticket_default_count);
+				index++;
+			}
+			ticketPicker.bind(ticket, offerId, defaultCount);
 
-			// Initialize all ticket types with 0 count.
 			ticketsMap.put(ticket.code, ticket);
 		}
 	}
