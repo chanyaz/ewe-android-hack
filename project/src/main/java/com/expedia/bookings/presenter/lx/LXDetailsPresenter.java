@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucketItemLX;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
@@ -31,6 +32,7 @@ import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
@@ -39,8 +41,7 @@ import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
 
-public class LXDetailsPresenter extends Presenter {
-
+public class LXDetailsPresenter extends Presenter implements UserAccountRefresher.IUserAccountRefreshListener {
 	public LXDetailsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -72,6 +73,8 @@ public class LXDetailsPresenter extends Presenter {
 	@Inject
 	LXServices lxServices;
 
+	UserAccountRefresher userAccountRefresher;
+
 	// Transitions
 	private Transition loadingToDetails = new VisibilityTransition(this, ProgressBar.class.getName(), LXActivityDetailsWidget.class.getName()) {
 		@Override
@@ -101,6 +104,8 @@ public class LXDetailsPresenter extends Presenter {
 		createTripDialog.setIndeterminate(true);
 		setupToolbar();
 		details.addOnScrollListener(parallaxScrollListener);
+
+		userAccountRefresher = new UserAccountRefresher(getContext(), LineOfBusiness.LX, this);
 	}
 
 	@Override
@@ -185,8 +190,7 @@ public class LXDetailsPresenter extends Presenter {
 	public void onOfferBooked(Events.LXOfferBooked event) {
 		createTripDialog.show();
 		cleanup();
-
-		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), createTripObserver);
+		userAccountRefresher.ensureAccountIsRefreshed();
 	}
 
 	private Observer<LXCreateTripResponse> createTripObserver = new Observer<LXCreateTripResponse>() {
@@ -275,8 +279,13 @@ public class LXDetailsPresenter extends Presenter {
 		toolbar.setTranslationY(forward ? 50 : 0);
 		toolbar.setVisibility(forward ? GONE : VISIBLE);
 		toolbarBackground.setAlpha(
-			Strings.equals(getCurrentState(), LXActivityDetailsWidget.class.getName()) ? toolbarBackground.getAlpha() : 1f);
+			Strings.equals(getCurrentState(), LXActivityDetailsWidget.class.getName()) ? toolbarBackground.getAlpha()
+				: 1f);
 	}
 
+	@Override
+	public void onUserAccountRefreshed() {
+		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), createTripObserver);
+	}
 }
 

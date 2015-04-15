@@ -20,26 +20,24 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.CarCategoryListWidget;
-import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -47,10 +45,7 @@ import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
 
-public class CarResultsPresenter extends Presenter {
-	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
-	//When we last refreshed user data.
-	private long mRefreshedUserTime = 0L;
+public class CarResultsPresenter extends Presenter implements UserAccountRefresher.IUserAccountRefreshListener {
 
 	public CarResultsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -71,6 +66,8 @@ public class CarResultsPresenter extends Presenter {
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
+
+	UserAccountRefresher userAccountRefresher;
 
 	private ProgressDialog createTripDialog;
 	private Subscription searchSubscription;
@@ -124,6 +121,7 @@ public class CarResultsPresenter extends Presenter {
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 		categories.setPadding(0, statusBarHeight, 0, 0);
 
+		userAccountRefresher = new UserAccountRefresher(getContext(), LineOfBusiness.CARS, this);
 	}
 
 	@Override
@@ -426,7 +424,7 @@ public class CarResultsPresenter extends Presenter {
 		createTripDialog.show();
 		cleanup();
 		offer = event.offer;
-		refreshAccountOrCreateTrip();
+		userAccountRefresher.ensureAccountIsRefreshed();
 	}
 
 	@Subscribe
@@ -455,7 +453,8 @@ public class CarResultsPresenter extends Presenter {
 		toolbar.setTranslationY(forward ? 50 : 0);
 		toolbar.setVisibility(forward ? GONE : VISIBLE);
 		toolbarBackground.setAlpha(
-			Strings.equals(getCurrentState(), CarCategoryDetailsWidget.class.getName()) ? toolbarBackground.getAlpha() : 1f);
+			Strings.equals(getCurrentState(), CarCategoryDetailsWidget.class.getName()) ? toolbarBackground.getAlpha()
+				: 1f);
 	}
 
 	RecyclerView.OnScrollListener parallaxScrollListener = new RecyclerView.OnScrollListener() {
@@ -473,57 +472,8 @@ public class CarResultsPresenter extends Presenter {
 		}
 	};
 
-	private final BackgroundDownloader.Download<SignInResponse> mRefreshUserDownload = new BackgroundDownloader.Download<SignInResponse>() {
-		@Override
-		public SignInResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getContext());
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_REFRESH_USER, services);
-			return services.signIn(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
-		}
-	};
-
-	private final BackgroundDownloader.OnDownloadComplete<SignInResponse> mRefreshUserCallback = new BackgroundDownloader.OnDownloadComplete<SignInResponse>() {
-		@Override
-		public void onDownload(SignInResponse results) {
-			if (results == null || results.hasErrors()) {
-				//The refresh failed, so we just log them out. They can always try to login again.
-				doLogout();
-			}
-			else {
-				// Update our existing saved data
-				User user = results.getUser();
-				user.save(getContext());
-				Db.setUser(user);
-			}
-
-			createTripSubscription = carServices
-				.createTrip(offer, createTripObserver);
-		}
-	};
-
-	public void refreshAccountOrCreateTrip() {
-		int userRefreshInterval = getResources().getInteger(R.integer.account_sync_interval_ms);
-		if (User.isLoggedIn(getContext()) && mRefreshedUserTime + userRefreshInterval < System.currentTimeMillis()) {
-			if (Db.getUser() == null) {
-				Db.loadUser(getContext());
-			}
-
-			Log.d("Refreshing user profile...");
-			mRefreshedUserTime = System.currentTimeMillis();
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			if (!bd.isDownloading(KEY_REFRESH_USER)) {
-				bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
-			}
-		}
-		else {
-			createTripSubscription = carServices
-				.createTrip(offer, createTripObserver);
-		}
-	}
-
-	private void doLogout() {
-		BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
-		mRefreshedUserTime = 0L;
-		Events.post(new Events.SignOut());
+	@Override
+	public void onUserAccountRefreshed() {
+		createTripSubscription = carServices.createTrip(offer, createTripObserver);
 	}
 }
