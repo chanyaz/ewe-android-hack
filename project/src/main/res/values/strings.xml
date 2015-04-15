@@ -240,8 +240,6 @@
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Book Now %1$s</string>
-    <!-- Template for tickets type and count  summary -->
-    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
@@ -303,6 +301,191 @@
     <string name="ticket_type_electric_bike">Electric Bike</string>
     <string name="ticket_type_segway">Segway</string>
     <string name="ticket_type_vehicle">Vehicle</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">%1$s Traveler</item>
+        <item quantity="other">%1$s Travelers</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">%1$s Adult</item>
+        <item quantity="other">%1$s Adults</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">%1$s Child</item>
+        <item quantity="other">%1$s Children</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">%1$s Infant</item>
+        <item quantity="other">%1$s Infants</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">%1$s Youth</item>
+        <item quantity="other">%1$s Youths</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">%1$s Senior</item>
+        <item quantity="other">%1$s Seniors</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">%1$s Group</item>
+        <item quantity="other">%1$s Groups</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">%1$s Couple</item>
+        <item quantity="other">%1$s Couples</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">%1$s 2 adults</item>
+        <item quantity="other">%1$s 2 adults</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">%1$s Military</item>
+        <item quantity="other">%1$s Military</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">%1$s Student</item>
+        <item quantity="other">%1$s Students</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">%1$s Sedan</item>
+        <item quantity="other">%1$s Sedans</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">%1$s Minivan</item>
+        <item quantity="other">%1$s Minivans</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">%1$s Water taxi</item>
+        <item quantity="other">%1$s Water taxis</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">%1$s SUV</item>
+        <item quantity="other">%1$s SUVs</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">%1$s Executive car</item>
+        <item quantity="other">%1$s Executive cars</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">%1$s Luxury car</item>
+        <item quantity="other">%1$s Luxury cars</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">%1$s Limousine</item>
+        <item quantity="other">%1$s Limousines</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">%1$s TownCar</item>
+        <item quantity="other">%1$s TownCars</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">%1$s Vehicle Parking Spot</item>
+        <item quantity="other">%1$s Vehicle Parking Spots</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">%1$s Book</item>
+        <item quantity="other">%1$s Books</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">%1$s Guide</item>
+        <item quantity="other">%1$s Guides</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">%1$s Travel Card</item>
+        <item quantity="other">%1$s Travel Cards</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">%1$s Boat</item>
+        <item quantity="other">%1$s Boats</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">%1$s Motorcycle</item>
+        <item quantity="other">%1$s Motorcycles</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">%1$s Ceremony</item>
+        <item quantity="other">%1$s Ceremonies</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">%1$s Calling Card</item>
+        <item quantity="other">%1$s Calling Cards</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">%1$s Pass</item>
+        <item quantity="other">%1$s Passes</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">%1$s Minibus</item>
+        <item quantity="other">%1$s Minibuses</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">%1$s Helicopter</item>
+        <item quantity="other">%1$s Helicopters</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">%1$s Device</item>
+        <item quantity="other">%1$s Devices</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">%1$s Room</item>
+        <item quantity="other">%1$s Rooms</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">%1$s Carriage</item>
+        <item quantity="other">%1$s Carriages</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">%1$s Buggy</item>
+        <item quantity="other">%1$s Buggies</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">%1$s ATV</item>
+        <item quantity="other">%1$s ATVs</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">%1$s Jet Ski</item>
+        <item quantity="other">%1$s Jet Skis</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">%1$s Scooter</item>
+        <item quantity="other">%1$s Scooters</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">%1$s Scooter Car</item>
+        <item quantity="other">%1$s Scooter Cars</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">%1$s Snowmobile</item>
+        <item quantity="other">%1$s Snowmobiles</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s Day</item>
+        <item quantity="other">%1$s Days</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">%1$s Bike</item>
+        <item quantity="other">%1$s Bikes</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s Week</item>
+        <item quantity="other">%1$s Weeks</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">%1$s Subscription</item>
+        <item quantity="other">%1$s Subscriptions</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">%1$s Electric Bike</item>
+        <item quantity="other">%1$s Electric Bikes</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">%1$s Segway</item>
+        <item quantity="other">%1$s Segways</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">%1$s Vehicle</item>
+        <item quantity="other">%1$s Vehicles</item>
+    </plurals>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">per traveler</string>
     <string name="per_ticket_type_adult">per adult</string>

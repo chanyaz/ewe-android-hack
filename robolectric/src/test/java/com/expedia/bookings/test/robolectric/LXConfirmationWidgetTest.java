@@ -51,7 +51,7 @@ public class LXConfirmationWidgetTest {
 		assertNotNull(confirmationImage);
 		assertEquals("2-Day New York Pass", title.getText());
 		assertEquals("New York, United States", location.getText());
-		assertEquals("3 Adult, 1 Child", tickets.getText());
+		assertEquals("3 Adults, 1 Child", tickets.getText());
 		assertEquals("Tue, Feb 24", date.getText());
 		assertEquals("coolguy@expedia.com", email.getText());
 		assertEquals("Itinerary #7666328719 sent to", confirmation.getText());
