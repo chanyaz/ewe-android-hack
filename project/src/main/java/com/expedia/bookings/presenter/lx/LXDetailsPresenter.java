@@ -2,6 +2,8 @@ package com.expedia.bookings.presenter.lx;
 
 import javax.inject.Inject;
 
+import org.joda.time.LocalDate;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -9,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.StringRes;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
@@ -125,6 +128,27 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 		}
 	}
 
+	private void showActivityFetchErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.LXActivitySelectedRetry());
+				}
+			})
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					((ActionBarActivity) getContext()).onBackPressed();
+				}
+			})
+			.show();
+	}
+
 	private Observer<ActivityDetailsResponse> detailsObserver = new Observer<ActivityDetailsResponse>() {
 		@Override
 		public void onCompleted() {
@@ -133,7 +157,13 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 
 		@Override
 		public void onError(Throwable e) {
-			// ignore
+			if (RetrofitUtils.isNetworkError(e)) {
+				showActivityFetchErrorDialog(R.string.error_no_internet);
+			}
+			else {
+				//Bucket all other errors as Activity Details Fetch Error
+				showActivityFetchErrorDialog(R.string.error_lx_search_message);
+			}
 		}
 
 		@Override
@@ -145,9 +175,18 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 
 	@Subscribe
 	public void onActivitySelected(Events.LXActivitySelected event) {
+		showActivityDetails(event.lxActivity, lxState.searchParams.startDate, lxState.searchParams.endDate);
+	}
+
+	@Subscribe
+	public void onActivitySelectedRetry(Events.LXActivitySelectedRetry event) {
+		showActivityDetails(lxState.activity, lxState.searchParams.startDate, lxState.searchParams.endDate);
+	}
+
+	private void showActivityDetails(LXActivity activity, LocalDate startDate, LocalDate endDate) {
 		show(loadingProgress);
-		setToolbarTitles(event.lxActivity);
-		detailsSubscription = lxServices.lxDetails(event.lxActivity, lxState.searchParams.startDate, lxState.searchParams.endDate, detailsObserver);
+		setToolbarTitles(activity);
+		detailsSubscription = lxServices.lxDetails(activity, startDate, endDate, detailsObserver);
 	}
 
 	private void setupToolbar() {

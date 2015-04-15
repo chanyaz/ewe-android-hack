@@ -731,6 +731,10 @@ public class Events {
 		}
 	}
 
+	public static class LXActivitySelectedRetry {
+		//ignore
+	}
+
 	public static class LXShowDetails {
 		public ActivityDetailsResponse activityDetails;
 

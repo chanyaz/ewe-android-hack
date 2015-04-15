@@ -31,6 +31,7 @@ public class ApiError extends RuntimeException {
 
 		// LX Api Errors
 		LX_SEARCH_NO_RESULTS,
+		LX_DETAILS_FETCH_ERROR,
 		;
 	}
 
