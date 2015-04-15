@@ -111,7 +111,7 @@ public class LXSearchParamsPresenter extends Presenter
 		location.setOnItemClickListener(mLocationListListener);
 		location.setOnEditorActionListener(this);
 		location.setOnFocusChangeListener(mLocationFocusListener);
-		Drawable locationDrawable = getResources().getDrawable(R.drawable.location);
+		Drawable locationDrawable = getResources().getDrawable(R.drawable.location).mutate();
 		locationDrawable.setColorFilter(getResources().getColor(R.color.lx_primary_color), PorterDuff.Mode.SRC_IN);
 		location.setCompoundDrawablesWithIntrinsicBounds(locationDrawable, null, null, null);
 		addTransition(defaultToCal);
