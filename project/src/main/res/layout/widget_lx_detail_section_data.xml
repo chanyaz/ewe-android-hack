@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/lx_details_background_color"
+    android:background="?attr/selectableItemBackground"
     android:padding="15dp"
     android:id="@+id/section_container">
 
@@ -26,15 +26,14 @@
         android:textSize="11sp"
         app:textStyle="normal"/>
 
-    <com.expedia.bookings.widget.TextView
+    <ImageButton
         android:id="@+id/read_more"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="right"
-        android:text="@string/lx_details_read_more"
-        android:textColor="@color/lx_primary_color"
-        android:textSize="11sp"
+        android:background="@android:color/transparent"
+        android:clickable="false"
+        android:layout_gravity="right"
+        android:src="@drawable/read_more"
         android:visibility="gone" />
 
 </com.expedia.bookings.widget.LXDetailSectionDataWidget>

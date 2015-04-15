@@ -126,4 +126,13 @@ public class AnimUtils {
 		return animation;
 	}
 
+	public static void rotate(View v) {
+		Animation rotate = AnimationUtils.loadAnimation(v.getContext(), R.anim.rotate);
+		v.startAnimation(rotate);
+	}
+
+	public static void reverseRotate(View v) {
+		Animation rotate = AnimationUtils.loadAnimation(v.getContext(), R.anim.rotate_reverse);
+		v.startAnimation(rotate);
+	}
 }
