@@ -7,6 +7,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
+import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.services.AbacusServices;
@@ -105,4 +106,19 @@ public class AbacusServicesTest {
 		assertEquals(AbacusUtils.DefaultVariate.CONTROL.ordinal(), responseV2.variateForTest(9999));
 	}
 
+	@Test
+	public void testMockEmptyLogWorks() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
+
+		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
+		AbacusLogQuery query = new AbacusLogQuery("TEST-TEST-TEST-TEST", 1, 0);
+		Subscription sub = service.logExperiment(query);
+		observer.await();
+		sub.unsubscribe();
+
+		assertEquals(0, observer.getItems().size());
+		assertEquals(0, observer.getErrors().size());
+	}
 }

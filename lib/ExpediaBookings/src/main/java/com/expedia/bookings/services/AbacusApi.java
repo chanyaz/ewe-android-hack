@@ -3,6 +3,7 @@ package com.expedia.bookings.services;
 import java.util.List;
 
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
+import com.expedia.bookings.data.abacus.AbacusLogResponse;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 
 import retrofit.http.Body;
@@ -22,7 +23,7 @@ public interface AbacusApi {
 	;
 
 	@POST("/api/bucketing/v1/logExperiments")
-	public Observable<Void> logExperiment(
+	public Observable<AbacusLogResponse> logExperiment(
 		@Body AbacusLogQuery body)
 	;
 }
