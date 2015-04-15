@@ -253,24 +253,14 @@
     </style>
 
     <style name="LaunchTheme" parent="Theme.AppCompat">
-        <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
-        <item name="actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
-        <item name="actionBarTabBarStyle">@style/LaunchActionBarTabBarStyle</item>
-        <item name="actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
-        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
-        <item name="android:actionBarTabBarStyle">@style/LaunchActionBarTabBarStyle</item>
-        <item name="android:actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
+
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="actionBarStyle">@style/LaunchActionBar</item>
-        <item name="android:selectableItemBackground">@drawable/selectable_item_background</item>
-        <item name="selectableItemBackground">@drawable/selectable_item_background</item>
-
-        <item name="android:actionBarDivider">@null</item>
-        <item name="actionBarDivider">@null</item>
-        <item name="skin_flightLineColor">@color/flight_trip</item>
-        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow.White</item>
         <item name="android:colorPrimaryDark">#3A464F</item>
         <item name="android:colorPrimary">#495863</item>
+        <item name="android:actionOverflowButtonStyle">@style/LaunchOverflowStyle</item>
+        <item name="windowActionBar">false</item>
+
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
@@ -294,6 +284,11 @@
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
         <item name="skin_itineraryNumberString">@string/expedia_itinerary</item>
+        <item name="skin_flightLineColor">@color/flight_trip</item>
+    </style>
+
+    <style name="LaunchOverflowStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_overflow_white</item>
     </style>
 
     <style name="ItineraryTheme" parent="Theme.Expedia">
@@ -320,26 +315,14 @@
         <item name="skin_itineraryNumberString">@string/expedia_itinerary</item>
     </style>
 
-    <style name="LaunchActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+    <style name="LaunchActionBar" parent="Widget.AppCompat.Toolbar">
         <item name="android:icon">@android:color/transparent</item>
         <item name="android:displayOptions">showHome|showTitle</item>
         <item name="android:background">@color/cars_launch_actionbar_color</item>
-        <item name="background">@color/cars_launch_actionbar_color</item>
     </style>
 
     <style name="LaunchActionBarTabStyle" parent="@style/Widget.AppCompat.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_launch</item>
-    </style>
-
-    <style name="LaunchActionBarTabBarStyle" parent="@style/Widget.AppCompat.ActionBar.TabBar">
-        <item name="android:paddingTop">8dp</item>
-    </style>
-
-    <style name="LaunchActionBarTabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
-        <item name="android:textColor">@drawable/tab_text_selector</item>
-        <item name="android:paddingLeft">15dp</item>
-        <item name="android:paddingRight">15dp</item>
-        <item name="android:textAllCaps">true</item>
     </style>
 
     <!-- Temporary theme for flights -->

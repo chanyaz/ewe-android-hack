@@ -19,7 +19,7 @@ public class LaunchActionBar {
 	private static final int sSettingsStringID = R.string.Settings;
 	private static final int sInfoStringID = R.string.Info;
 	private static final int sTripsStringID = R.string.Your_Trips;
-	private static final int sShopStringID = R.string.shop;
+	private static final int sShopStringID = R.string.shop_travel;
 	private static final int sLogOutStringID = R.string.sign_out;
 	private static final int sAddItinButtonID = R.id.add_itinerary_guest;
 

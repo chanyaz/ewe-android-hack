@@ -84,9 +84,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@InjectView(R.id.launch_list_widget)
 	LaunchListWidget launchListWidget;
 
-	@InjectView(R.id.action_bar_space)
-	View actionBarSpace;
-
 	@InjectView(R.id.air_attach_banner)
 	ViewGroup airAttachBanner;
 
