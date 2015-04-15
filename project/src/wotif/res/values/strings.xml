@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_wotif">You successfully booked your hotel! If you need an itinerary immediately, please call Wotif Customer Support.</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_wotif">We\'re sorry, but we couldn\'t connect to Wotif. Please try again.</string>
+</resources>

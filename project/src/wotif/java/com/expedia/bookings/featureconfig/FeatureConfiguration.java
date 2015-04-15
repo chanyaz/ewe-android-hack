@@ -69,7 +69,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public int getSearchProgressImageResId() {
-		return R.id.search_progress_image_tvly;
+		return R.id.search_progress_image_wotif;
 	}
 
 	public int getNotificationIconResourceId() {
@@ -129,11 +129,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public int getResIdForErrorBookingSucceededWithErrors() {
-		return R.string.e3_error_checkout_booking_succeeded_with_errors_tvly;
+		return R.string.e3_error_checkout_booking_succeeded_with_errors_wotif;
 	}
 
 	public int getResIdForErrorHotelServiceFatalFailure() {
-		return R.string.e3_error_hotel_offers_hotel_service_failure_tvly;
+		return R.string.e3_error_hotel_offers_hotel_service_failure_wotif;
 	}
 
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
