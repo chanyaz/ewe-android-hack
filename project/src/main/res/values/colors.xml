@@ -268,6 +268,7 @@
     <color name="lx_dates_disabled_text_color">#D7D7D7</color>
     <color name="lx_secondary_color_disabled">#F6DAC0</color>
     <color name="lx_dates_container_border_color">#CCCCCC</color>
+    <color name="lx_confirmation_action_background">#3A424C</color>
 
     <color name="search_dropdown_disabled_stroke">#C3C3C3</color>
     <color name="lx_sort_filter_text_color">#404040</color>
