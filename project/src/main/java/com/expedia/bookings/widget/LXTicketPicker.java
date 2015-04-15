@@ -67,14 +67,14 @@ public class LXTicketPicker extends LinearLayout {
 		ButterKnife.inject(this);
 	}
 
-	public void bind(Ticket ticket, String offerId) {
+	public void bind(Ticket ticket, String offerId, int defaultCount) {
 		this.ticket = ticket;
 		this.offerId = offerId;
 		String ticketDetailsText = String
 			.format(getResources().getString(R.string.ticket_details_template), ticket.money.getFormattedMoney(),
 				LXDataUtils.ticketDisplayName(getContext(), ticket.code), ticket.restrictionText);
 		ticketDetails.setText(ticketDetailsText);
-		ticket.count = ticket.defaultTicketCount;
+		ticket.count = defaultCount;
 
 		setTicketCount();
 	}
