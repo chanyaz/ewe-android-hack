@@ -4,7 +4,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:background="?attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
 
     <TextView
         android:id="@+id/category"
@@ -20,6 +25,7 @@
     <CheckBox
         android:id="@+id/category_check_box"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:clickable="false"/>
 
 </com.expedia.bookings.widget.LXFilterCategoryWidget>

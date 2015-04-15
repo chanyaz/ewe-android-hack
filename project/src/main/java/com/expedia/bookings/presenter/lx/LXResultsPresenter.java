@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
@@ -41,6 +42,7 @@ import rx.Subscription;
 
 public class LXResultsPresenter extends Presenter {
 
+	private static final int ANIMATION_DURATION = 400;
 	@Inject
 	LXServices lxServices;
 
@@ -75,7 +77,8 @@ public class LXResultsPresenter extends Presenter {
 	}
 
 	// Transitions
-	private Presenter.Transition searchResultsToSortFilter = new Presenter.Transition(LXSearchResultsWidget.class, LXSortFilterWidget.class) {
+	private Presenter.Transition searchResultsToSortFilter = new Presenter.Transition(LXSearchResultsWidget.class, LXSortFilterWidget.class,
+		new DecelerateInterpolator(), ANIMATION_DURATION) {
 		private int sortFilterWidgetHeight;
 
 		@Override
@@ -125,6 +128,7 @@ public class LXResultsPresenter extends Presenter {
 		addDefaultTransition(setUpLoading);
 		setupToolbar();
 		searchResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
+		sortFilterWidget.setPadding(0, Ui.getStatusBarHeight(getContext()), 0, 0);
 	}
 
 	@Override

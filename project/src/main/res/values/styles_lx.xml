@@ -133,4 +133,17 @@
         <item name="android:paddingBottom">12dp</item>     
         <item name="android:drawablePadding">12dp</item>
     </style>
+
+    <style name="LXRobotoFont">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="LXFilterTitleTextAppearance" parent="V2.Theme.LX">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/lx_sort_filter_top_bar_text_color</item>
+    </style>
+
 </resources>

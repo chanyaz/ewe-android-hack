@@ -3,9 +3,10 @@ package com.expedia.bookings.widget;
 import java.util.Map;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
@@ -34,9 +35,6 @@ public class LXSortFilterWidget extends LinearLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.sort_filter_top_layout)
-	FrameLayout sortFilterTopLayout;
-
 	@InjectView(R.id.sort_filter_done_button)
 	Button doneButton;
 
@@ -57,6 +55,9 @@ public class LXSortFilterWidget extends LinearLayout {
 
 		// Select Popularity sort as default.
 		popularitySortButton.setSelected(true);
+		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
+		navIcon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		doneButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
 	}
 
 	@OnClick(R.id.price_sort_button)
