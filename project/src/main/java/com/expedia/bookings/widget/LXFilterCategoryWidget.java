@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -11,9 +12,8 @@ import com.expedia.bookings.otto.Events;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnCheckedChanged;
 
-public class LXFilterCategoryWidget extends LinearLayout {
+public class LXFilterCategoryWidget extends LinearLayout implements View.OnClickListener {
 	private LXCategoryMetadata category;
 	private String categoryKey;
 
@@ -27,18 +27,12 @@ public class LXFilterCategoryWidget extends LinearLayout {
 	@InjectView(R.id.category_check_box)
 	CheckBox categoryCheckBox;
 
-	@OnCheckedChanged(R.id.category_check_box)
-	public void onCategoryCheckedChanged(boolean checked) {
-		category.checked = checked;
-		Events.post(new Events.LXFilterCategoryCheckedChanged(category, categoryKey));
-
-	}
-
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 		Events.register(this);
+		setOnClickListener(this);
 	}
 
 	public void bind(LXCategoryMetadata category, String categoryKey) {
@@ -48,4 +42,10 @@ public class LXFilterCategoryWidget extends LinearLayout {
 		categoryCheckBox.setChecked(category.checked);
 	}
 
+	@Override
+	public void onClick(View v) {
+		category.checked = !category.checked;
+		categoryCheckBox.setChecked(category.checked);
+		Events.post(new Events.LXFilterCategoryCheckedChanged(category, categoryKey));
+	}
 }

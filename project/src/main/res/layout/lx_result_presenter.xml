@@ -26,7 +26,7 @@
             android:layout_height="50dp"
             android:layout_gravity="bottom"
             android:gravity="center"
-            android:background="@color/lx_sort_filter_background_color"
+            android:background="@drawable/lx_sort_filter_selector"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -46,14 +46,6 @@
                 app:textStyle="medium" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/sort_filter_widget"
-            layout="@layout/widget_lx_sort_filter"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="90dp"
-            android:visibility="gone" />
-
     </com.expedia.bookings.widget.LXSearchResultsWidget>
 
     <View
@@ -70,5 +62,12 @@
         android:minHeight="?attr/actionBarSize"
         app:subtitleTextAppearance="@style/LXToolbarSubtitleTextAppearance"
         app:titleTextAppearance="@style/LXToolbarTitleTextAppearance" />
+
+    <include
+        android:id="@+id/sort_filter_widget"
+        layout="@layout/widget_lx_sort_filter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </com.expedia.bookings.presenter.lx.LXResultsPresenter>
