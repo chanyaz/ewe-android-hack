@@ -279,7 +279,7 @@
     <integer name="country_phone_code_ax">358</integer>
 
     <!-- The maximum days range for LX search -->
-    <integer name="calendar_max_days_lx_search">330</integer>
+    <integer name="calendar_max_days_lx_search">314</integer>
     <integer name="lx_default_search_range">14</integer>
     <integer name="lx_offers_list_initial_size">3</integer>
     <integer name="lx_detail_content_description_max_lines">5</integer>
