@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;

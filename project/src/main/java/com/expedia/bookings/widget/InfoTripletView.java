@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;

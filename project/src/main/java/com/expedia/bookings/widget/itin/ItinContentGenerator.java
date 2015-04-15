@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -56,7 +57,6 @@ import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.TravelerIconUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.LinearLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 

@@ -7,7 +7,7 @@
     android:id="@+id/main_container"
     android:background="#eaeaea">
 
-        <com.expedia.bookings.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/root"
             android:background="@drawable/card_background"
             android:layout_width="match_parent"
@@ -100,7 +100,7 @@
                         tools:text="" />
                 </LinearLayout>
 
-                <com.expedia.bookings.widget.LinearLayout
+                <LinearLayout
                     android:id="@+id/price_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
                         android:layout_gravity="right"
                         tools:text="" />
 
-                </com.expedia.bookings.widget.LinearLayout>
+                </LinearLayout>
 
                 <ToggleButton
                     android:id="@+id/reserve_now"
@@ -159,6 +159,6 @@
                 android:paddingTop="6dp"
                 android:text="" />
 
-        </com.expedia.bookings.widget.LinearLayout>
+        </LinearLayout>
 
 </FrameLayout>
