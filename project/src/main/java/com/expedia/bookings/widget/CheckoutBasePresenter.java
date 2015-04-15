@@ -87,6 +87,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		slideWidget.addSlideToListener(this);
 
 		loginWidget.setLineOfBusiness(getLineOfBusiness());
+		mainContactInfoCardView.setLineOfBusiness(getLineOfBusiness());
+		paymentInfoCardView.setLineOfBusiness(getLineOfBusiness());
+
 		loginWidget.setToolbarListener(toolbarListener);
 		loginWidget.setLoginStatusListener(mLoginStatusListener);
 		mainContactInfoCardView.setToolbarListener(toolbarListener);
@@ -185,7 +188,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					scrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				}
 			});
-			OmnitureTracking.trackAppCarCheckoutSlideToPurchase(getContext(), paymentInfoCardView.getCardType());
+			OmnitureTracking.trackCheckoutSlideToPurchase(getLineOfBusiness(), getContext(), paymentInfoCardView.getCardType());
 		}
 		else {
 			animateInSlideTo(false);
@@ -279,7 +282,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			paymentInfoCardView.onLogin();
 			isCheckoutComplete();
 			hintContainer.setVisibility(GONE);
-			OmnitureTracking.trackAppCarCheckoutLoginSuccess(getContext());
+			OmnitureTracking.trackCheckoutLoginSuccess(getLineOfBusiness(), getContext());
 		}
 
 		@Override

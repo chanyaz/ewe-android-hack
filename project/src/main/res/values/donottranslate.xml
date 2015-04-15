@@ -448,4 +448,8 @@
 
     <!-- Car Omniture tracking string when user see the slider -->
     <string name="car_omniture_checkout_no_credit_card">no card required</string>
+
+    <!-- LX Omniture tracking string when user see the slider -->
+    <string name="lx_omniture_checkout_no_credit_card">no card required</string>
+
 </resources>
