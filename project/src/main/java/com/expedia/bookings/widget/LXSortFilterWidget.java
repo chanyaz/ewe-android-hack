@@ -110,7 +110,9 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	@Subscribe
 	public void onCategoryCheckChanged(Events.LXFilterCategoryCheckedChanged event) {
-		// Updating the category map.
-		filterCategories.put(event.categoryKey, event.lxCategoryMetadata);
+		if (filterCategories != null) {
+			// Updating the category map.
+			filterCategories.put(event.categoryKey, event.lxCategoryMetadata);
+		}
 	}
 }
