@@ -16,9 +16,9 @@
     <!-- Cars price templates-->
     <string name="cars_daily_text">Daily</string>
     <!-- Cars checkout price breakdown for POS same as pickup location templates-->
-    <string name="cars_checkout_breakdown_us_text">Rates quoted in %s dollars.</string>
+    <string name="cars_checkout_breakdown_us_text">Rates quoted in %s.</string>
     <!-- Cars checkout price breakdown for pickup location different than POS templates-->
-    <string name="cars_checkout_breakdown_non_us_text">Rates quoted in %1$s dollars. All taxes or fees due at pick-up will be settled in the local currency (%2$s).</string>
+    <string name="cars_checkout_breakdown_non_us_text">Rates quoted in %1$s. All taxes or fees due at pick-up will be settled in the local currency (%2$s).</string>
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">Weekly</string>
     <!-- Cars weekly price templates-->
@@ -65,8 +65,8 @@
     <string name="car_auto_tran_text">Automatic Transmission</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">Manual Transmission</string>
-    <!-- Log in Text-->
-    <string name="cars_login_text">Log in with Expedia</string>
+    <!-- Sign in Text-->
+    <string name="cars_sign_in_text">Sign in with Expedia</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -216,6 +216,8 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- Search widget location hint -->
+    <string name="lx_search_location_hint">Enter location</string>
     <!-- Search widget header text -->
     <string name="lx_search_widget_heading">Dates &amp; Location</string>
     <!-- Button to show calendar and selected dates -->
@@ -244,7 +246,16 @@
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
     <string name="cancellation_policy_TEMPLATE">You can cancel free of charge until %1$s before your reservation starts. After that time, no cancellations, changes or refunds will be made.</string>
-
+    <!-- LX checkout cost breakdown total due today -->
+    <string name="lx_cost_breakdown_due_today">Due today</string>
+    <!-- LX checkout cost breakdown total due today -->
+    <string name="lx_cost_breakdown_taxes_included">Taxes and Fees included</string>
+    <!-- LX checkout cost breakdown for alert button -->
+    <string name="lx_cost_breakdown_button_text">Done</string>
+    <!-- LX checkout price breakdown for POS same as pickup location templates-->
+    <string name="lx_checkout_breakdown_price_disclaimer_text">Rates quoted in %s.</string>
+    <!-- Checkout price breakdown Total Price Label -->
+    <string name="checkout_breakdown_total_price">Total Price</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">Traveller</string>
     <string name="ticket_type_adult">Adult</string>
@@ -349,6 +360,8 @@
     <string name="lx_enter_contact_details">Enter contact details</string>
     <!-- LX search error -->
     <string name="error_lx_search_message">Your search returned no results. Please retry your search with different criteria.</string> 
+    <!-- LX search error -->
+    <string name="error_lx_current_location_search_message">Current location search returned no results. Please retry your search with different criteria.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Error</string>
     <!-- Text for error toolbar-->
@@ -369,6 +382,18 @@
     <string name="lx_sort_filter">Sort &amp; Filter</string>
     <!-- Read more of the review -->
     <string name="lx_details_read_more">Read More</string>
+    <!--Price sort button -->
+    <string name="lx_price_sort_button">Price</string>
+    <!-- Popularity sort button -->
+    <string name="lx_popularity_sort_button">Popularity</string>
+    <!-- Select ticket button -->
+    <string name="lx_select_ticket">Select Tickets</string>
+    <!-- Free cancellation text in offer  -->
+    <string name="lx_free_cancellation">Free Cancellation</string>
+    <!-- Card brand not supported (e.g. "Visa not accepted") -->
+    <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s not accepted</string>
+    <!-- Edit search toolbar title -->
+    <string name="edit_search_toolbar">Edit Search</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -537,9 +562,9 @@
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/night</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_included_template">Hotel fees for this stay (included): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_included_template">Hotel fees for this stay (included): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_not_included_template">Hotel fees for this stay (not included): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">Hotel fees for this stay (not included): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">Add To Trip</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -603,20 +628,20 @@
     <string name="facebook_weve_found_your_account">Hey &lt;b&gt;%1$s&lt;/b&gt;, looks like we\&apos;ve found your Expedia account! Please enter your expedia password below to link your facebook and expedia accounts.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hey &lt;b&gt;%1$s&lt;/b&gt;, we\&apos;ve loaded your Facebook information!</string>
-    <!-- Log in with facebook (button text) -->
-    <string name="Log_in_with_Facebook">Log in with Facebook</string>
+    <!-- Sign in with facebook (button text) -->
+    <string name="Sign_in_with_Facebook">Sign in with Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Fetching information from facebook…</string>
-    <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Attempting to log you in with facebook credentials…</string>
+    <!-- Attempting to sign you in with facebook credentials -->
+    <string name="attempting_to_sign_in_with_facebook">Attempting to sign you in with Facebook credentials…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">We have encountered an unspecified error. Please try again later.</string>
-    <!-- Unable to log in to Facebook -->
-    <string name="unable_to_log_into_facebook">Unable to log in to Facebook.</string>
-    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="login_failed_try_again">Login failed. If your email and password are correct, confirm that your app\&apos;s Country setting is correct.</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="unable_to_sign_into_facebook">Unable to sign in to Facebook.</string>
+    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="sign_in_failed_try_again">Sign in failed. If your email and password are correct, confirm that your app\&apos;s Country setting is correct.</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">We need you to create a new, international sign in for all Expedia sites.&lt;br&gt;Please reset your password using the ‘Forgot your password?\&apos; link below.</string>
+    <string name="sign_in_reset_password">We need you to create a new, international sign in for all Expedia sites.&lt;br&gt;Please reset your password using the ‘Forgot your password?\&apos; link below.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia Password</string>
     <!-- Link accounts -->
@@ -628,21 +653,21 @@
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">Email Permission</string>
     <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">To login with Facebook, we require permission to verify your email address. \n\nPlease tap the Facebook button below to grant Expedia permission to verify your email address. Thank you!</string>
+    <string name="user_denied_permission_email_message">To sign in with Facebook, we require permission to verify your email address. \n\nPlease tap the Facebook button below to grant Expedia permission to verify your email address. Thank you!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Linking your accounts…</string>
-    <!-- Log In -->
-    <string name="Log_In">Log In</string>
-    <!-- Log in with Expedia -->
-    <string name="Log_in_with_Expedia">Log in with Expedia</string>
+    <!-- Sign In -->
+    <string name="Sign_In">Sign In</string>
+    <!-- Sign in with Expedia -->
+    <string name="Sign_in_with_Expedia">Sign in with Expedia</string>
     <!-- or -->
     <string name="or">or</string>
-    <!-- Already logged in -->
-    <string name="already_logged_in">Already logged in</string>
+    <!-- Already signed in -->
+    <string name="already_signed_in">Already signed in</string>
 
     <!-- Restricted Profile -->
-    <!-- Restricted profile login message -->
-    <string name="restricted_profile_login_message">To log in to Expedia, you must use an unrestricted user profile on your device.</string>
+    <!-- Restricted profile sign in message -->
+    <string name="restricted_profile_sign_in_message">To sign in to Expedia, you must use an unrestricted user profile on your device.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
@@ -663,6 +688,8 @@
     <string name="loading_header">Loading…</string>
     <!-- Hotel list rating text -->
     <string name="hotel_rating_text">of 5 – guest rating</string>
+    <!-- Hotel list no rating text -->
+    <string name="hotel_no_rating_text">No guest rating</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">mobile only!</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -670,10 +697,6 @@
 
 
     <!-- Launch screen -->
-    <!-- Label for launch screen hotel button secondary text -->
-    <string name="launch_hotel_secondary_text">Get a room.</string>
-    <!-- Label for launch screen flight button secondary text -->
-    <string name="launch_flight_secondary_text">Get away.</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Fly to&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
@@ -764,8 +787,8 @@
     <string name="fetching_your_itinerary">Fetching your itineraries…</string>
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Error fetching itineraries</string>
-    <!-- Log in for your trips -->
-    <string name="log_in_for_your_trips">&lt;b&gt;Log in&lt;/b&gt; for your trips</string>
+    <!-- Sign in for your trips -->
+    <string name="sign_in_for_your_trips">&lt;b&gt;Sign in&lt;/b&gt; for your trips</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Tomorrow</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -883,8 +906,8 @@
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;At %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;From %1$s&lt;/b&gt; - %2$s</string>
-    <!-- Itin logout confirmation message -->
-    <string name="itin_logout_confirmation_message_TEMPLATE">Logging out of %1$s will remove any itinerary items associated with this account. Are you sure you want to logout?</string>
+    <!-- Itin sign out confirmation message -->
+    <string name="itin_sign_out_confirmation_message_TEMPLATE">Signing out of %1$s will remove any itinerary items associated with this account. Are you sure you want to sign out?</string>
     <!-- Directions -->
     <string name="directions">Directions</string>
     <!-- Terminal Map -->
@@ -1337,9 +1360,9 @@
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">Select a departure date</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (One-Way)</string>
+    <string name="one_way_TEMPLATE">%1$s (One Way)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; to &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="round_trip_TEMPLATE">%1$s to %2$s</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Sort Flights</string>
     <!-- Edit search title -->
@@ -1552,11 +1575,11 @@
     <string name="best_price_guarantee">Price Guarantee</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Free Cancellation&lt;/b&gt; by &lt;b&gt;%s&lt;/b&gt;</string>
-    <!-- Log out -->
-    <string name="log_out">Log Out</string>
+    <!-- Sign out -->
+    <string name="sign_out">Sign Out</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">You\&apos;ll earn %1$s points for this booking!</string>
-    <!-- Blurb text displayed on account login button when already logged in -->
+    <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_points_for_this_trip_TEMPLATE">You\&apos;ll earn %1$s points for this trip!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Calculating Taxes and Fees…</string>
@@ -1668,7 +1691,7 @@
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Born %1$s</string>
     <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;Born&lt;/font&gt; %1$s</string>
+    <string name="born_on_colored_TEMPLATE">Born %1$s</string>
     <!-- <brand> expiring <date> template -->
     <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; expiring %2$s</string>
 
@@ -1684,7 +1707,7 @@
     <!-- email disclaimer -->
     <string name="email_disclaimer">Your confirmation email will be sent here</string>
     <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Expires&lt;/font&gt; %1$s</string>
+    <string name="expires_colored_TEMPLATE">Expires %1$s</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -1793,7 +1816,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Prefers %1$s Seat</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Prefers&lt;/font&gt; %1$s Seat</string>
+    <string name="prefers_seat_colored_TEMPLATE">Prefers %1$s Seat</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Loading traveller information…</string>
     <!-- Passport -->
@@ -2205,7 +2228,7 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">From %s</string>
-    <string name="From_x_per_night_template">From &lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/night</string>
+    <string name="From_x_per_night_template">From %s/night</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2368,14 +2391,6 @@
     <string name="etp_select_room">Select Room</string>
 
     <!-- Room and rates list -->
-    <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
-    <plurals name="staying_nights">
-        <item quantity="zero">Staying %d nights</item>
-        <item quantity="one">Staying %d night</item>
-        <item quantity="two">Staying %d nights</item>
-        <item quantity="many">Staying %d nights</item>
-        <item quantity="other">Staying %d nights</item>
-    </plurals>
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">Finding available rooms…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
@@ -2443,7 +2458,7 @@
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">This removes all saved billing and contact information.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_log_out_and_clear_private_data_msg">This will log you out and remove all saved billing and contact information.</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">This will sign you out and remove all saved billing and contact information.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Private data cleared</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
@@ -2493,18 +2508,18 @@
     <string name="PolicyExpediaAgent">You are booking a non-discounted property. All rates displayed are nightly, and based on double occupancy per room unless otherwise specified. Carefully review the room descriptions and rate rules to ensure that the room you select can accommodate your entire party. Some rates may require special identification. Our booking fee, taxes and other surcharges imposed by the hotel are not included. Any extra adults or children above the room\&apos;s listed occupancy may be subject to additional charges at the property\&apos;s discretion.\n\nRequests for more than 2 people, or for more occupants than your selected rate indicates, will be sent to the hotel but are not guaranteed. If accepted, they will be subject to additional charges at the property\&apos;s discretion.</string>
 
     <!-- Expedia Accounts -->
-    <!-- Label for menu item to log into account -->
-    <string name="log_in">Log In</string>
-    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
+    <!-- Label for menu item to sign into account -->
+    <string name="sign_in">Sign In</string>
+    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
     <string name="Earn_points_and_book_fast">Earn points and book fast.</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">Password</string>
-    <!-- Progress dialog text when we are logging the user into Expedia -->
-    <string name="logging_in">Logging in…</string>
-    <!-- Message that tells user they failed to log in -->
-    <string name="login_failed">Please log in again</string>
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation">Are you sure you want to log out of your Expedia account?</string>
+    <!-- Progress dialog text when we are signing the user into Expedia -->
+    <string name="signing_in">Signing in…</string>
+    <!-- Message that tells user they failed to sign in -->
+    <string name="sign_in_failed">Please sign in again</string>
+    <!-- Label for sign out confirmation -->
+    <string name="sign_out_confirmation">Are you sure you want to sign out of your Expedia account?</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +silver rewards program name -->
@@ -2606,9 +2621,9 @@
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nAll rights reserved.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_logged_out_and_cleared_private_data">Logged out and data cleared</string>
+    <string name="dialog_title_signed_out_and_cleared_private_data">Signed out and data cleared</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">You are logged out of your Expedia account, and all saved billing and contact information has been removed.</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data">You are signed out of your Expedia account, and all saved billing and contact information has been removed.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Private data cleared</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3159,11 +3174,6 @@
     <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">Your booking is confirmed! View it in the app.</string>
 
     <!-- Content Description Labels -->
-    <!-- Expedia Bookings Launch Screen -->
-    <!-- Content description for action: Press button to launch Hotels -->
-    <string name="cd_launch_hotels">Launch Hotels</string>
-    <!-- Content description for action: Press button to launch Flights -->
-    <string name="cd_launch_flights">Launch Flights</string>
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">Press to refresh trips list</string>
@@ -3235,17 +3245,17 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">Press to begin checkout</string>
-    <!-- Content description for action: Press to log in with your Expedia account -->
-    <string name="cd_checkout_log_in_with_expedia">Press to log in to your Expedia account</string>
+    <!-- Content description for action: Press to sign in with your Expedia account -->
+    <string name="cd_checkout_sign_in_with_expedia">Press to sign in to your Expedia account</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">Press to add a traveller to this booking</string>
     <!-- Content description for action: Press to select payment for this booking -->
     <string name="cd_checkout_select_payment">Press to select payment for this booking</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Press to enter a coupon or promotional code</string>
-    <!-- Log in screen -->
-    <!-- Content description for action: Press to log into Expedia with your Facebook account -->
-    <string name="cd_log_in_with_facebook">Press to log into Expedia with your Facebook account</string>
+    <!-- Sign in screen -->
+    <!-- Content description for action: Press to sign into Expedia with your Facebook account -->
+    <string name="cd_sign_in_with_facebook">Press to sign into Expedia with your Facebook account</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Press to enter a new traveller</string>
