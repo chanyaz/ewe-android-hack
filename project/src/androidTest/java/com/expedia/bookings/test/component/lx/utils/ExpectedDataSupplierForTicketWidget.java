@@ -19,6 +19,7 @@ public class ExpectedDataSupplierForTicketWidget {
 	private List<TicketDataModel> mTicketsToOffer = new ArrayList<>();
 	private HashMap<TicketDataModel, Integer> mTotalTickets = new HashMap<>();
 	private String ticketName;
+	HashMap<String,String> expectedPlural = new HashMap<String, String>();
 
 	public ExpectedDataSupplierForTicketWidget(TicketSummaryDataModel summary) {
 		/*
@@ -28,6 +29,53 @@ public class ExpectedDataSupplierForTicketWidget {
 		String[] options = summary.priceSummary.split(",");
 		buildTicketsFromPriceSummary(options);
 		this.ticketName = summary.ticketTitle;
+
+		//create the expected Plural Types of the traveller so that we can use it in validating the Price Summary
+		// as upon click of add ticket button the Price summary changes from Child to Children and so on.
+		// Other way of getting this would be store it in Strings.xml of test apk but for now keeping it here
+		expectedPlural.put("Adult", "Adults");
+		expectedPlural.put("Child","Children");
+		expectedPlural.put("Infant","Infants");
+		expectedPlural.put("Youth","Youths");
+		expectedPlural.put("Senior","Seniors");
+		expectedPlural.put("Group","Groups");
+		expectedPlural.put("Couple","Couples");
+		expectedPlural.put("Student","Students");
+		expectedPlural.put("Military","Military");
+		expectedPlural.put("Sedan","Sedans");
+		expectedPlural.put("Minivan","Minivans");
+		expectedPlural.put("Water taxi","Water taxis");
+		expectedPlural.put("SUV"," SUVs");
+		expectedPlural.put("Executive car","Executive cars");
+		expectedPlural.put("Luxury car","Luxury cars");
+		expectedPlural.put("Limousine","Limousines");
+		expectedPlural.put("TownCar","TownCars");
+		expectedPlural.put("Vehicle Parking Spot","Vehicle Parking Spots");
+		expectedPlural.put("Book","Books");
+		expectedPlural.put("Guide","Guides");
+		expectedPlural.put("Travel Card","Travel Cards");
+		expectedPlural.put("Boat","Boats");
+		expectedPlural.put("Motorcycle","Motorcycles");
+		expectedPlural.put("Ceremony","Ceremonies");
+		expectedPlural.put("Calling Card","Calling Cards");
+		expectedPlural.put("Pass","Passes");
+		expectedPlural.put("Minibus","Minibuses");
+		expectedPlural.put("Helicopter","Helicopters");
+		expectedPlural.put("Device","Devices");
+		expectedPlural.put("Room","Rooms");
+		expectedPlural.put("Carriage","Carriages");
+		expectedPlural.put("Buggy","Buggies");
+		expectedPlural.put("Jet Ski","Jet Skis");
+		expectedPlural.put("Scooter","Scooters");
+		expectedPlural.put("Scooter Car","Scooter Cars");
+		expectedPlural.put("Snowmobile","Snowmobiles");
+		expectedPlural.put("Day","Days");
+		expectedPlural.put("Bike","Bikes");
+		expectedPlural.put("Week","Weeks");
+		expectedPlural.put("Subscription","Subscriptions");
+		expectedPlural.put("Electric Bike","Electric Bikes");
+		expectedPlural.put("Segway","Segways");
+		expectedPlural.put("Vehicle","Vehicles");
 	}
 
 	public String getTicketName() {
@@ -96,14 +144,18 @@ public class ExpectedDataSupplierForTicketWidget {
 			});
 		String summaryStrip = "";
 		for (TicketDataModel ticket : sortedTickets) {
-			//							  get the total tickets              get the traveller type
-			summaryStrip = summaryStrip + mTotalTickets.get(ticket) + " " + ticket.travellerType + ", ";
+			String expectedTravellerType =
+				mTotalTickets.get(ticket) > 1 ? ticket.travellerTypePlural : ticket.travellerType;
+			summaryStrip = summaryStrip + mTotalTickets.get(ticket) + " " + expectedTravellerType + ", ";
 		}
 		return summaryStrip.trim().substring(0, summaryStrip.length() - 2);
 	}
 
 	public void updateTravellers(int numberOfTravellers, String travellerType) {
 		TicketDataModel ticket = getTicketFromTravellerType(travellerType);
+		if (numberOfTravellers > 1) {
+			ticket.travellerTypePlural = getPluralTravellerType(travellerType);
+		}
 		mTotalTickets.put(ticket, numberOfTravellers);
 	}
 
@@ -114,5 +166,9 @@ public class ExpectedDataSupplierForTicketWidget {
 			}
 		}
 		return null;
+	}
+
+	private String getPluralTravellerType(String travellerType) {
+		return expectedPlural.get(travellerType);
 	}
 }
