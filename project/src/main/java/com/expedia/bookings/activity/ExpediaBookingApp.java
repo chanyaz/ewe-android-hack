@@ -491,23 +491,30 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		@Override
 		public void onError(Throwable e) {
+			// onError is called during debuging & cannot connect to dev endpoint
+			// but we still want to modify the tests for debugging and QA purposes
+			updateAbacus(new AbacusResponse());
 			Log.d("AbacusReponse - onError", e);
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
-			if (ExpediaBookingApp.sIsAutomation) {
-				return;
-			}
-
-			Db.setAbacusResponse(abacusResponse);
-			// Modify the bucket values based on dev settings;
-			if (!AndroidUtils.isRelease(ExpediaBookingApp.this)) {
-				for (int key : AbacusUtils.getActiveTests()) {
-					abacusResponse.updateABTestForDebug(key, SettingUtils.get(ExpediaBookingApp.this, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				}
-			}
+			updateAbacus(abacusResponse);
 			Log.d("AbacusReponse - onNext");
 		}
 	};
+
+	private void updateAbacus(AbacusResponse abacusResponse) {
+		if (ExpediaBookingApp.sIsAutomation) {
+			return;
+		}
+
+		Db.setAbacusResponse(abacusResponse);
+		// Modify the bucket values based on dev settings;
+		if (BuildConfig.DEBUG) {
+			for (int key : AbacusUtils.getActiveTests()) {
+				abacusResponse.updateABTestForDebug(key, SettingUtils.get(ExpediaBookingApp.this, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
+			}
+		}
+	}
 }
