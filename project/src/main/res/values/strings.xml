@@ -866,6 +866,8 @@
     <string name="nav_hotels">Hotels</string>
     <!-- Cars -->
     <string name="nav_cars">Cars</string>
+    <!-- Activities -->
+    <string name="nav_lx">Activities</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->

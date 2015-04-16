@@ -78,6 +78,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@InjectView(R.id.lob_selector)
 	LaunchLobWidget lobSelectorWidget;
 
+	@InjectView(R.id.double_row_lob_selector)
+	LaunchLobDoubleRowWidget doubleRowLobSelectorWidget;
+
 	@InjectView(R.id.launch_list_widget)
 	LaunchListWidget launchListWidget;
 
@@ -97,13 +100,25 @@ public class PhoneLaunchWidget extends FrameLayout {
 	}
 
 	float lobHeight;
+	boolean doubleRowLob;
 
 	@Override
 	public void onFinishInflate() {
 		ButterKnife.inject(this);
 		Ui.getApplication(getContext()).launchComponent().inject(this);
 		launchListWidget.setOnScrollListener(scrollListener);
-		lobHeight = getResources().getDimension(R.dimen.launch_lob_container_height);
+		if (PointOfSale.getPointOfSale().supportsCars() && PointOfSale.getPointOfSale().supportsLx()) {
+			doubleRowLob = true;
+			lobHeight = getResources().getDimension(R.dimen.launch_lob_double_row_container_height);
+			lobSelectorWidget.setVisibility(View.GONE);
+			doubleRowLobSelectorWidget.setVisibility(View.VISIBLE);
+		}
+		else {
+			doubleRowLob = false;
+			lobHeight = getResources().getDimension(R.dimen.launch_lob_container_height);
+			lobSelectorWidget.setVisibility(View.VISIBLE);
+			doubleRowLobSelectorWidget.setVisibility(View.GONE);
+		}
 		squashedHeaderHeight = getResources().getDimension(R.dimen.launch_lob_squashed_height);
 		isAirAttachDismissed = false;
 	}
@@ -243,11 +258,21 @@ public class PhoneLaunchWidget extends FrameLayout {
 			// between header starting point and the squashed height
 			if (currentPos < squashedHeaderHeight) {
 				float squashInput = 1 - (currentPos / lobHeight);
-				lobSelectorWidget.transformButtons(squashInput);
+				if (doubleRowLob) {
+					doubleRowLobSelectorWidget.transformButtons(squashInput);
+				}
+				else {
+					lobSelectorWidget.transformButtons(squashInput);
+				}
 			}
 			// Make sure that the header is squashed.
 			else if (currentPos > squashedHeaderHeight) {
-				lobSelectorWidget.transformButtons(1 - (Math.min(currentPos, squashedHeaderHeight) / lobHeight));
+				if (doubleRowLob) {
+					doubleRowLobSelectorWidget.transformButtons(1 - (Math.min(currentPos, squashedHeaderHeight) / lobHeight));
+				}
+				else {
+					lobSelectorWidget.transformButtons(1 - (Math.min(currentPos, squashedHeaderHeight) / lobHeight));
+				}
 			}
 		}
 	};
@@ -432,6 +457,8 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	@Subscribe
 	public void onLobWidgetRefresh(Events.LaunchLobRefresh event) {
-		lobSelectorWidget.updateVisibilities();
+		if (!doubleRowLob) {
+			lobSelectorWidget.updateVisibilities();
+		}
 	}
 }

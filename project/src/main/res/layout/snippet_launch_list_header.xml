@@ -7,8 +7,14 @@
 
     <FrameLayout 
         android:layout_width="match_parent"
-        android:layout_height="@dimen/launch_header_top_space">
+        android:layout_height="@dimen/launch_header_top_space"
+        android:visibility="gone">
+    </FrameLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/launch_header_double_row_top_space"
+        android:visibility="visible">
     </FrameLayout>
 
     <FrameLayout

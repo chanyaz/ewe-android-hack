@@ -121,6 +121,9 @@ public class PointOfSale {
 	// Whether to show cars on this POS
 	private boolean mSupportsCars;
 
+	// Whether to show activities on this POS
+	private boolean mSupportsLx;
+
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
 
@@ -337,6 +340,10 @@ public class PointOfSale {
 
 	public boolean supportsCars() {
 		return mSupportsCars;
+	}
+
+	public boolean supportsLx() {
+		return mSupportsLx;
 	}
 
 	public boolean supportsStrikethroughPrice() {
@@ -809,6 +816,7 @@ public class PointOfSale {
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
 		pos.mSupportsGDE = data.optBoolean("gdeFlightsEnabled");
 		pos.mSupportsCars = data.optBoolean("carsEnabled");
+		pos.mSupportsLx = data.optBoolean("lxEnabled");
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);

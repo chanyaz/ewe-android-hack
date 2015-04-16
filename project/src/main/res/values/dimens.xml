@@ -20,6 +20,7 @@
     <!-- Launch dimens -->
     <dimen name="launch_header_height">48dp</dimen>
     <dimen name="launch_header_top_space">127dp</dimen>
+    <dimen name="launch_header_double_row_top_space">184dp</dimen>
     <dimen name="launch_tile_band">@dimen/one_px_hdpi_two_px_xhdpi</dimen>
     <dimen name="launch_tile_banner_height">48dp</dimen>
     <dimen name="launch_tile_height_hotel">160dp</dimen>
@@ -31,6 +32,8 @@
     <dimen name="launch_lob_height">103dp</dimen>
     <dimen name="launch_lob_container_height">140dp</dimen>
     <dimen name="launch_lob_squashed_height">80dp</dimen>
+    <dimen name="launch_lob_double_row_height">76dp</dimen>
+    <dimen name="launch_lob_double_row_container_height">197dp</dimen>
     <dimen name="launch_lob_margin">8dp</dimen>
     <dimen name="launch_list_corner_radius">2dp</dimen>
 
