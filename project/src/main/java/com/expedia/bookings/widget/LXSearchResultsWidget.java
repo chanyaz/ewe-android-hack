@@ -93,4 +93,8 @@ public class LXSearchResultsWidget extends FrameLayout {
 		}
 		return elements;
 	}
+
+	public RecyclerView getRecyclerView() {
+		return recyclerView;
+	}
 }
