@@ -11,6 +11,7 @@ import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LXDataUtils;
+import com.expedia.bookings.utils.Strings;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -71,9 +72,18 @@ public class LXTicketPicker extends LinearLayout {
 	public void bind(Ticket ticket, String offerId, int defaultCount) {
 		this.ticket = ticket;
 		this.offerId = offerId;
-		String ticketDetailsText = String
-			.format(getResources().getString(R.string.ticket_details_template), ticket.money.getFormattedMoney(),
-				LXDataUtils.ticketDisplayName(getContext(), ticket.code), ticket.restrictionText);
+		String ticketDetailsText = null;
+		if (Strings.isNotEmpty(ticket.restrictionText)) {
+			ticketDetailsText = String
+				.format(getResources().getString(R.string.ticket_details_template), ticket.money.getFormattedMoney(),
+					LXDataUtils.ticketDisplayName(getContext(), ticket.code), ticket.restrictionText);
+		}
+		else {
+			ticketDetailsText = String
+				.format(getResources().getString(R.string.ticket_details_no_restriction_TEMPLATE),
+					ticket.money.getFormattedMoney(),
+					LXDataUtils.ticketDisplayName(getContext(), ticket.code));
+		}
 		ticketDetails.setText(ticketDetailsText);
 		ticket.count = defaultCount;
 

@@ -238,6 +238,8 @@
     <string name="cancellation_activity_details">Cancellation</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Book Now %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
