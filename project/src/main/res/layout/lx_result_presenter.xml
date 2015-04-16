@@ -20,31 +20,43 @@
             android:layout_height="match_parent" />
 
         <LinearLayout
-            android:id="@+id/sort_filter_button"
+            android:id="@+id/sort_filter_button_container"
             android:layout_width="match_parent"
             android:layout_height="@dimen/lx_sort_filter_container_height"
+            android:orientation="vertical"
             android:layout_gravity="bottom"
-            android:gravity="center"
-            android:background="@drawable/lx_sort_filter_selector"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="gone" >
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/lx_sort_filter_icon" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/drop_shadow" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lx_sort_filter"
-                android:textAllCaps="false"
-                android:textColor="@color/lx_sort_filter_text_color"
-                android:textSize="16sp"
-                android:layout_marginLeft="8dp"
-                app:textStyle="medium" />
+            <LinearLayout
+                android:id="@+id/sort_filter_button"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/lx_sort_filter_button_height"
+                android:background="@drawable/lx_sort_filter_selector"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/lx_sort_filter_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/lx_sort_filter"
+                    android:textAllCaps="false"
+                    android:textColor="@color/lx_sort_filter_text_color"
+                    android:textSize="16sp"
+                    app:textStyle="medium" />
+            </LinearLayout>
         </LinearLayout>
-
     </com.expedia.bookings.widget.LXSearchResultsWidget>
 
     <View

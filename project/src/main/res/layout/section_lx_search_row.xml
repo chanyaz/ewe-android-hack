@@ -84,7 +84,6 @@
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:includeFontPadding="false"
-            android:paddingLeft="4dp"
             android:textColor="@color/lx_search_result_info_text_color"
             android:textSize="10sp" />
 

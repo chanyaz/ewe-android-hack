@@ -12,9 +12,8 @@
     <LinearLayout
         android:id="@+id/sort_filter_top_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp">
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal">
 
         <com.expedia.bookings.widget.TextView
             style="@style/LXFilterTitleTextAppearance"
@@ -23,7 +22,8 @@
             android:layout_gravity="left|center"
             android:layout_weight="1"
             android:gravity="left"
-            android:text="@string/lx_filter"/>
+            android:padding="@dimen/lx_sort_filter_padding"
+            android:text="@string/lx_filter" />
 
         <Button
             android:id="@+id/sort_filter_done_button"
@@ -32,8 +32,8 @@
             android:layout_height="fill_parent"
             android:background="?android:attr/selectableItemBackground"
             android:drawableLeft="@drawable/ic_check_white_24dp"
-            android:paddingLeft="16dp"
             android:gravity="center|right"
+            android:padding="@dimen/lx_sort_filter_padding"
             android:text="@string/lx_apply_sort_filter"
             android:textAllCaps="false"
             android:textColor="@color/lx_sort_filter_top_bar_text_color"
@@ -49,13 +49,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingBottom="12dp">
+            android:paddingBottom="@dimen/lx_sort_filter_padding"
+            android:paddingTop="@dimen/lx_sort_filter_padding" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
+                android:paddingLeft="@dimen/lx_sort_filter_padding"
+                android:paddingRight="@dimen/lx_sort_filter_padding"
                 android:includeFontPadding="false"
                 android:text="@string/lx_sort_by"
                 android:textColor="@color/lx_primary_color" />
@@ -63,8 +64,8 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginLeft="@dimen/lx_sort_filter_margin"
+                android:layout_marginRight="@dimen/lx_sort_filter_margin"
                 android:layout_marginTop="10dp"
                 app:cardCornerRadius="3dp"
                 app:cardElevation="1dp">
@@ -100,8 +101,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
+                android:paddingLeft="@dimen/lx_sort_filter_padding"
+                android:paddingRight="@dimen/lx_sort_filter_padding"
                 android:text="@string/lx_categories"
                 android:textColor="@color/lx_primary_color" />
 
