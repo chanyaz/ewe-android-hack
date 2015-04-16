@@ -70,7 +70,7 @@ public class EndpointProvider {
 		}
 
 		// Default to Dev on debug
-		return getE3EndpointUrl(isSecure, EndPoint.TRUNK);
+		return  "http://phelabstb101.karmalab.net:9117/";
 	}
 
 	/**
