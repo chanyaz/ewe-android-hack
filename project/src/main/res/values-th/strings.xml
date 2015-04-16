@@ -16,9 +16,9 @@
     <!-- Cars price templates-->
     <string name="cars_daily_text">ราคาต่อวัน</string>
     <!-- Cars checkout price breakdown for POS same as pickup location templates-->
-    <string name="cars_checkout_breakdown_us_text">ราคาแจ้งไว้ที่ %s ดอลลาร์</string>
+    <string name="cars_checkout_breakdown_us_text">ราคาแสดงในสกุลเงิน %s</string>
     <!-- Cars checkout price breakdown for pickup location different than POS templates-->
-    <string name="cars_checkout_breakdown_non_us_text">ราคาแจ้งไว้ที่ %1$s ดอลลาร์ ภาษีหรือค่าธรรมเนียมทั้งหมดที่ชำระเมื่อไปรับรถจะเป็นสกุลเงินท้องถิ่น (%2$s)</string>
+    <string name="cars_checkout_breakdown_non_us_text">ราคาแสดงในสกุลเงิน %1$s ภาษีหรือค่าธรรมเนียมทั้งหมดที่ต้องจ่ายขณะรับรถจะเก็บในสกุลเงินท้องถิ่น (%2$s)</string>
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">ราคาต่อสัปดาห์</string>
     <!-- Cars weekly price templates-->
@@ -65,8 +65,8 @@
     <string name="car_auto_tran_text">เกียร์อัตโนมัติ</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">เกียร์ธรรมดา</string>
-    <!-- Log in Text-->
-    <string name="cars_login_text">เข้าสู่ระบบเอ็กซ์พีเดีย</string>
+    <!-- Sign in Text-->
+    <string name="cars_sign_in_text">เข้าสู่ระบบด้วยเอ็กซ์พีเดีย</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -216,6 +216,8 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- Search widget location hint -->
+    <string name="lx_search_location_hint">ป้อนสถานที่</string>
     <!-- Search widget header text -->
     <string name="lx_search_widget_heading">วันที่ &amp; สถานที่</string>
     <!-- Button to show calendar and selected dates -->
@@ -243,8 +245,17 @@
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
-    <string name="cancellation_policy_TEMPLATE">คุณสามารถยกเลิกได้โดยไม่เสียค่าธรรมเนียมภายใน %1$s ก่อนถึงวันจอง หลังจากพ้นเวลาดังกล่าวแล้ว จะไม่สามารถยกเลิก เปลี่ยนแปลง หรือรับเงินคืนได้</string>
-
+    <string name="cancellation_policy_TEMPLATE">คุณสามารถยกเลิกได้ฟรีภายใน %1$s ก่อนวันเริ่มการเดินทางของคุณ หลังจากพ้นเวลาดังกล่าวแล้ว จะไม่สามารถยกเลิก เปลี่ยนแปลง หรือรับเงินคืนได้</string>
+    <!-- LX checkout cost breakdown total due today -->
+    <string name="lx_cost_breakdown_due_today">ยอดที่ต้องจ่ายวันนี้</string>
+    <!-- LX checkout cost breakdown total due today -->
+    <string name="lx_cost_breakdown_taxes_included">รวมภาษีและค่าธรรมเนียมแล้ว</string>
+    <!-- LX checkout cost breakdown for alert button -->
+    <string name="lx_cost_breakdown_button_text">เสร็จ</string>
+    <!-- LX checkout price breakdown for POS same as pickup location templates-->
+    <string name="lx_checkout_breakdown_price_disclaimer_text">ราคาแสดงในสกุลเงิน %s</string>
+    <!-- Checkout price breakdown Total Price Label -->
+    <string name="checkout_breakdown_total_price">ยอดรวม</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">ผู้เดินทาง</string>
     <string name="ticket_type_adult">ผู้ใหญ่</string>
@@ -349,6 +360,8 @@
     <string name="lx_enter_contact_details">ป้อนรายละเอียดการติดต่อ</string>
     <!-- LX search error -->
     <string name="error_lx_search_message">ไม่พบผลลัพธ์สำหรับการค้นหาของคุณ โปรดลองเปลี่ยนเกณฑ์การค้นหาใหม่</string> 
+    <!-- LX search error -->
+    <string name="error_lx_current_location_search_message">ไม่พบผลลัพธ์สำหรับสถานที่ปัจจุบันที่คุณค้นหา โปรดลองเปลี่ยนเกณฑ์การค้นหาใหม่</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">เกิดข้อผิดพลาด</string>
     <!-- Text for error toolbar-->
@@ -369,6 +382,18 @@
     <string name="lx_sort_filter">จำกัดผลการค้นหา</string>
     <!-- Read more of the review -->
     <string name="lx_details_read_more">อ่านเพิ่ม</string>
+    <!--Price sort button -->
+    <string name="lx_price_sort_button">ราคา</string>
+    <!-- Popularity sort button -->
+    <string name="lx_popularity_sort_button">ความนิยม</string>
+    <!-- Select ticket button -->
+    <string name="lx_select_ticket">เลือกตั๋ว</string>
+    <!-- Free cancellation text in offer  -->
+    <string name="lx_free_cancellation">ยกเลิกฟรี</string>
+    <!-- Card brand not supported (e.g. "Visa not accepted") -->
+    <string name="lx_does_not_accept_cardtype_TEMPLATE">ไม่รับ %1$s</string>
+    <!-- Edit search toolbar title -->
+    <string name="edit_search_toolbar">แก้ไขการค้นหา</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -539,9 +564,9 @@
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/คืน</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_included_template">ค่าธรรมเนียมโรงแรมสำหรับการเข้าพักนี้ (รวมแล้ว): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_included_template">ค่าธรรมเนียมโรงแรมสำหรับการเข้าพักนี้ (รวมแล้ว): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_not_included_template">ค่าธรรมเนียมโรงแรมสำหรับการเข้าพักนี้ (ยังไม่รวม): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">ค่าธรรมเนียมโรงแรมสำหรับการเข้าพักนี้ (ยังไม่รวม): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">เพิ่มลงในทริป</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -605,24 +630,24 @@
     <string name="facebook_weve_found_your_account">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราพบบัญชีเอ็กซ์พีเดียของคุณ! โปรดป้อนรหัสผ่านเอ็กซ์พีเดียของคุณด้านล่างเพื่อลิงก์บัญชี Facebook และเอ็กซ์พีเดียของคุณ</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราโหลดข้อมูล Facebook ของคุณแล้ว</string>
-    <!-- Log in with facebook (button text) -->
-    <string name="Log_in_with_Facebook">เข้าสู่ระบบด้วย Facebook</string>
+    <!-- Sign in with facebook (button text) -->
+    <string name="Sign_in_with_Facebook">เข้าสู่ระบบด้วย Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">กำลังรับข้อมูลจาก Facebook…</string>
-    <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">กำลังล็อกอินคุณด้วยข้อมูล Facebook…</string>
+    <!-- Attempting to sign you in with facebook credentials -->
+    <string name="attempting_to_sign_in_with_facebook">กำลังเข้าสู่ระบบโดยใช้ Facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">เราพบข้อผิดพลาดที่ไม่สามารถระบุได้ โปรดลองอีกครั้งภายหลัง</string>
-    <!-- Unable to log in to Facebook -->
-    <string name="unable_to_log_into_facebook">ไม่สามารถเข้าสู่ระบบ Facebook</string>
-    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="login_failed_try_again">เข้าสู่ระบบไม่สำเร็จ หากอีเมลและรหัสผ่านของคุณถูกต้อง โปรดตรวจสอบให้แน่ใจว่าการตั้งค่าประเทศในแอพของคุณถูกต้อง</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="unable_to_sign_into_facebook">ไม่สามารถลงชื่อเข้าใช้ Facebook</string>
+    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="sign_in_failed_try_again">ไม่สามารถเข้าสู่ระบบ หากอีเมลและรหัสผ่านของคุณถูกต้อง โปรดตรวจสอบให้แน่ใจว่าการตั้งค่าประเทศในแอพของคุณถูกต้อง</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">เราต้องการให้คุณสร้างบัญชีใหม่เพื่อใช้เข้าสู่ระบบเว็บไซต์เอ็กซ์พีเดียทั่วโลก&lt;br&gt;โปรดรีเซ็ตรหัสผ่านโดยใช้ลิงก์ ‘ลืมรหัสผ่าน\&apos; ด้านล่าง</string>
+    <string name="sign_in_reset_password">เราต้องการให้คุณสร้างบัญชีใหม่เพื่อใช้เข้าสู่ระบบเว็บไซต์เอ็กซ์พีเดียทั่วโลก&lt;br&gt;โปรดตั้งรหัสผ่านใหม่โดยใช้ลิงก์ ‘ลืมรหัสผ่าน\&apos; ด้านล่าง</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">รหัสผ่านเอ็กซ์พีเดีย</string>
     <!-- Link accounts -->
-    <string name="link_accounts">ลิงก์บัญชี</string>
+    <string name="link_accounts">เชื่อมต่อบัญชี</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">ไม่สามารถดึงข้อมูลผู้ใช้ที่อัพเดทได้</string>
     <!-- User Denied email permission try again button text -->
@@ -632,19 +657,19 @@
     <!-- User Denied email permission re-request message -->
     <string name="user_denied_permission_email_message">ในการเข้าสู่ระบบด้วย Facebook เราต้องขออนุญาตตรวจสอบที่อยู่อีเมลของคุณ \n\nโปรดแตะที่ปุ่ม Facebook ด้านล่างเพื่ออนุญาตให้เอ็กซ์พีเดียตรวจสอบอีเมลของคุณ ขอบคุณ</string>
     <!-- Linking your accounts -->
-    <string name="linking_your_accounts">กำลังลิงก์บัญชีของคุณ…</string>
-    <!-- Log In -->
-    <string name="Log_In">เข้าสู่ระบบ</string>
-    <!-- Log in with Expedia -->
-    <string name="Log_in_with_Expedia">เข้าสู่ระบบด้วยเอ็กซ์พีเดีย</string>
+    <string name="linking_your_accounts">กำลังเชื่อมต่อบัญชีของคุณ…</string>
+    <!-- Sign In -->
+    <string name="Sign_In">เข้าสู่ระบบ</string>
+    <!-- Sign in with Expedia -->
+    <string name="Sign_in_with_Expedia">เข้าสู่ระบบด้วยเอ็กซ์พีเดีย</string>
     <!-- or -->
     <string name="or">หรือ</string>
-    <!-- Already logged in -->
-    <string name="already_logged_in">เข้าสู่ระบบแล้ว</string>
+    <!-- Already signed in -->
+    <string name="already_signed_in">เข้าสู่ระบบอยู่แล้ว</string>
 
     <!-- Restricted Profile -->
-    <!-- Restricted profile login message -->
-    <string name="restricted_profile_login_message">เพื่อเข้าสู่ระบบเอ็กซ์พีเดีย คุณต้องตั้งโปรไฟล์ผู้ใช้บนอุปกรณ์ของคุณเป็นแบบไม่หวงห้าม</string>
+    <!-- Restricted profile sign in message -->
+    <string name="restricted_profile_sign_in_message">เพื่อเข้าสู่ระบบเอ็กซ์พีเดีย คุณต้องตั้งโปรไฟล์ผู้ใช้บนอุปกรณ์ของคุณเป็นแบบไม่จำกัดการใช้งาน</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
@@ -665,6 +690,8 @@
     <string name="loading_header">กำลังโหลด…</string>
     <!-- Hotel list rating text -->
     <string name="hotel_rating_text">จาก 5 - คะแนนจากผู้เข้าพัก</string>
+    <!-- Hotel list no rating text -->
+    <string name="hotel_no_rating_text">ไม่มีคะแนนจากผู้เข้าพัก</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">พิเศษเฉพาะมือถือ!</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -672,10 +699,6 @@
 
 
     <!-- Launch screen -->
-    <!-- Label for launch screen hotel button secondary text -->
-    <string name="launch_hotel_secondary_text">จองห้องพัก</string>
-    <!-- Label for launch screen flight button secondary text -->
-    <string name="launch_flight_secondary_text">จองเที่ยวบิน</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;บินไปยัง&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
@@ -755,19 +778,19 @@
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">หมายเลขแผนการเดินทางเอ็กซ์พีเดีย</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
-    <string name="Expedia_plus_Silver_Customer_Support">ฝ่ายสนับสนุนลูกค้าเอ็กซ์พีเดีย +silver</string>
+    <string name="Expedia_plus_Silver_Customer_Support">ฝ่ายบริการลูกค้า Expedia +silver</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
-    <string name="Expedia_plus_Gold_Customer_Support">ฝ่ายสนับสนุนลูกค้าเอ็กซ์พีเดีย +gold</string>
+    <string name="Expedia_plus_Gold_Customer_Support">ฝ่ายบริการลูกค้า Expedia +gold</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">ไม่มีการเดินทางเร็วๆ นี้</string>
+    <string name="no_upcoming_trips">ไม่มีการเดินทางในเร็วๆ นี้</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">ป้อนหมายเลขแผนการเดินทาง</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">กำลังเรียกแผนการเดินทางของคุณ…</string>
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">มีข้อผิดพลาดในการเรียกแผนการเดินทาง</string>
-    <!-- Log in for your trips -->
-    <string name="log_in_for_your_trips">&lt;b&gt;เข้าสู่ระบบ&lt;/b&gt; เพื่อไปยังทริปของคุณ</string>
+    <!-- Sign in for your trips -->
+    <string name="sign_in_for_your_trips">&lt;b&gt;เข้าสู่ระบบ&lt;/b&gt; เพื่อไปยังทริปของคุณ</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">พรุ่งนี้</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -885,8 +908,8 @@
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;ที่ %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;จาก %1$s&lt;/b&gt; - %2$s</string>
-    <!-- Itin logout confirmation message -->
-    <string name="itin_logout_confirmation_message_TEMPLATE">การออกจากระบบ %1$s จะเป็นการลบข้อมูลแผนการเดินทางที่เกี่ยวข้องกับบัญชีนี้ แน่ใจว่าต้องการออกจากระบบ?</string>
+    <!-- Itin sign out confirmation message -->
+    <string name="itin_sign_out_confirmation_message_TEMPLATE">การออกจากระบบ %1$s จะเป็นการลบข้อมูลแผนการเดินทางที่เกี่ยวข้องกับบัญชีนี้ คุณแน่ใจว่าต้องการออกจากระบบ?</string>
     <!-- Directions -->
     <string name="directions">เส้นทาง</string>
     <!-- Terminal Map -->
@@ -1339,9 +1362,9 @@
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">เลือกวันเดินทาง</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (เที่ยวเดียว)</string>
+    <string name="one_way_TEMPLATE">%1$s (เที่ยวเดียว)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; ถึง &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="round_trip_TEMPLATE">%1$s ไปยัง %2$s</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">จัดเรียงเที่ยวบิน</string>
     <!-- Edit search title -->
@@ -1554,11 +1577,11 @@
     <string name="best_price_guarantee">รับประกันราคาที่ดีที่สุด</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;ยกเลิกฟรี&lt;/b&gt; ภายใน &lt;b&gt;%s&lt;/b&gt;</string>
-    <!-- Log out -->
-    <string name="log_out">ออกจากระบบ</string>
+    <!-- Sign out -->
+    <string name="sign_out">ออกจากระบบ</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ %1$s คะแนนจากการจองนี้!</string>
-    <!-- Blurb text displayed on account login button when already logged in -->
+    <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_points_for_this_trip_TEMPLATE">คุณจะได้รับ %1$s คะแนนจากทริปนี้!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">กำลังคำนวณภาษีและค่าธรรมเนียม…</string>
@@ -1668,9 +1691,9 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <!-- Born on -->
-    <string name="born_on_TEMPLATE">เกิด %1$s</string>
+    <string name="born_on_TEMPLATE">วันเกิด %1$s</string>
     <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;เกิด&lt;/font&gt; %1$s</string>
+    <string name="born_on_colored_TEMPLATE">วันเกิด %1$s</string>
     <!-- <brand> expiring <date> template -->
     <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; หมดอายุ %2$s</string>
 
@@ -1686,7 +1709,7 @@
     <!-- email disclaimer -->
     <string name="email_disclaimer">เราจะส่งอีเมลยืนยันของคุณมาที่นี่</string>
     <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;หมดอายุ&lt;/font&gt; %1$s</string>
+    <string name="expires_colored_TEMPLATE">หมดอายุ %1$s</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -1793,9 +1816,9 @@
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">แก้ไขข้อมูลของผู้เดินทาง</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_TEMPLATE">ชอบที่นั่งแบบ %1$s</string>
+    <string name="prefers_seat_TEMPLATE">ชอบที่นั่ง%1$s</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;ชอบที่นั่งแบบ &lt;/font&gt;%1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE">ชอบที่นั่ง%1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">กำลังโหลดข้อมูลผู้เดินทาง…</string>
     <!-- Passport -->
@@ -1807,7 +1830,7 @@
     <!-- Window seating preference -->
     <string name="window">ติดหน้าต่าง</string>
     <!-- Aisle seating preference -->
-    <string name="aisle">ทางเดิน</string>
+    <string name="aisle">ริมทางเดิน</string>
     <!-- Any -->
     <string name="any">ที่ใดก็ได้</string>
 
@@ -2207,7 +2230,7 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">เริ่มจาก %s</string>
-    <string name="From_x_per_night_template">เริ่มที่ &lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/คืน</string>
+    <string name="From_x_per_night_template">เริ่มที่ %s/คืน</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2370,14 +2393,6 @@
     <string name="etp_select_room">เลือกห้อง</string>
 
     <!-- Room and rates list -->
-    <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
-    <plurals name="staying_nights">
-        <item quantity="zero">พัก %d คืน</item>
-        <item quantity="one">พัก %d คืน</item>
-        <item quantity="two">พัก %d คืน</item>
-        <item quantity="many">พัก %d คืน</item>
-        <item quantity="other">พัก %d คืน</item>
-    </plurals>
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">กำลังค้นหาห้องว่าง…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
@@ -2445,7 +2460,7 @@
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">นี่จะเป็นการลบข้อมูลติดต่อและบัตรเครดิตที่บันทึกไว้</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_log_out_and_clear_private_data_msg">ระบบจะให้คุณออกจากระบบและล้างข้อมูลบัตรเครดิตและติดต่อทั้งหมด</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">ระบบจะให้คุณออกจากระบบและล้างข้อมูลบัตรเครดิตและข้อมูลติดต่อทั้งหมดที่บันทึกไว้</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">ล้างข้อมูลส่วนตัวแล้ว</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
@@ -2495,24 +2510,24 @@
     <string name="PolicyExpediaAgent">คุณกำลังจองโรงแรมที่ไม่มีส่วนลด ราคาที่แสดงเป็นราคาต่อคืน สำหรับผู้เข้าพัก 2 คนต่อห้อง ยกเว้นระบุว่าไว้อย่างอื่น โปรดอ่านรายละเอียดห้องพักและราคาอย่างละเอียด เพื่อให้แน่ใจว่าห้องที่คุณเลือกสามารถรองรับผู้เดินทางทั้งหมด ราคาห้องบางอย่างอาจต้องใช้โค้ดการจองพิเศษ ทางเราไม่ได้รวมค่าธรรมเนียมในการจอง ภาษี และค่าบริการต่างๆ ที่เรียกเก็บจากโรงแรม โรงแรมอาจมีเรียกเก็บค่าบริการสำหรับผู้เข้าพักเสริมนอกเหนือจากจำนวนที่ระบุไว้ ไม่ว่าจะเป็นผู้ใหญ่หรือเด็ก\n\nเราจะส่งคำขอสำหรับการเข้าพักมากกว่า 2 คน หรือการเข้าพักเกินจำนวนผู้เข้าพักที่กำหนดไว้สำหรับห้องของคุณไปให้โรงแรม แต่เราไม่สามารถรับประกันคำขอได้ หากโรงแรมยินดีรับคำขอของคุณ ทางโรงแรมอาจจะคิดค่าธรรมเนียมเพิ่มเติม</string>
 
     <!-- Expedia Accounts -->
-    <!-- Label for menu item to log into account -->
-    <string name="log_in">เข้าสู่ระบบ</string>
-    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
+    <!-- Label for menu item to sign into account -->
+    <string name="sign_in">ลงชื่อเข้าใช้</string>
+    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
     <string name="Earn_points_and_book_fast">รับคะแนนสะสมและจองได้เร็วยิ่งขึ้น</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">รหัสผ่าน</string>
-    <!-- Progress dialog text when we are logging the user into Expedia -->
-    <string name="logging_in">กำลังเข้าสู่ระบบ…</string>
-    <!-- Message that tells user they failed to log in -->
-    <string name="login_failed">โปรดเข้าสู่ระบบอีกครั้ง</string>
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation">คุณต้องการออกจากบัญชีเอ็กซ์พีเดียหรือไม่</string>
+    <!-- Progress dialog text when we are signing the user into Expedia -->
+    <string name="signing_in">กำลังเข้าสู่ระบบ…</string>
+    <!-- Message that tells user they failed to sign in -->
+    <string name="sign_in_failed">โปรดเข้าสู่ระบบอีกครั้ง</string>
+    <!-- Label for sign out confirmation -->
+    <string name="sign_out_confirmation">คุณต้องการออกจากบัญชีเอ็กซ์พีเดียหรือไม่</string>
     <!-- Label for Expedia +blue rewards program name -->
-    <string name="Expedia_plus_blue">เอ็กซ์พีเดีย +blue</string>
+    <string name="Expedia_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +silver rewards program name -->
-    <string name="Expedia_plus_silver">เอ็กซ์พีเดีย +silver</string>
+    <string name="Expedia_plus_silver">Expedia +silver</string>
     <!-- Label for Expedia +gold rewards program name -->
-    <string name="Expedia_plus_gold">เอ็กซ์พีเดีย +gold</string>
+    <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">บัญชีเอ็กซ์พีเดีย</string>
     <!-- Label for loading user profile from expedia.com -->
@@ -2600,7 +2615,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">โรงแรมเอ็กซ์พีเดีย</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">สวัสดี \n\n คุณลองดาวน์โหลดแอพพลิเคชัน Expedia Hotels สำหรับ iPhone และ Android แล้วหรือยัง แอพฟรีนี้ช่วยให้คุณค้นหาและจองห้องโรงแรมกว่า 140,000 โรงแรมทั่วโลกได้ง่ายๆ ผ่านมือถือของคุณ\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">สวัสดี \n\n คุณลองดาวน์โหลดแอพ Expedia Hotels สำหรับ iPhone และ Android แล้วหรือยัง แอพฟรีนี้ช่วยให้คุณค้นหาและจองห้องโรงแรมกว่า 140,000 โรงแรมทั่วโลกได้ง่ายๆ ผ่านมือถือของคุณ\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">ข้อตกลงและเงื่อนไข</string>
     <!-- Label for link to privacy policy -->
@@ -2608,13 +2623,13 @@
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nสงวนลิขสิทธิ์</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_logged_out_and_cleared_private_data">ออกจากระบบและล้างข้อมูลแล้ว</string>
+    <string name="dialog_title_signed_out_and_cleared_private_data">ออกจากระบบและล้างข้อมูลแล้ว</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">คุณออกจากระบบบัญชีของเอ็กซ์พีเดียและล้างข้อมูลการเงินและติดต่อแล้ว</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data">คุณออกจากระบบบัญชีเอ็กซ์พีเดียของคุณ และล้างข้อมูลบัตรเครดิตและข้อมูลติดต่อทั้งหมดที่บันทึกไว้แล้ว</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">ล้างข้อมูลส่วนตัวแล้ว</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">ลบข้อมูลรายชื่อและใบแจ้งหนี้ที่บันทึกไว้แล้ว</string>
+    <string name="dialog_message_cleared_private_data">ล้างข้อมูลบัตรเครดิตและข้อมูลติดต่อทั้งหมดที่บันทึกไว้แล้ว</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
     <string name="dialog_message_launch_expedia_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของเอ็กซ์พีเดียหรือไม่</string>
     <!-- Action button label to Subscribe to our mailing list -->
@@ -3161,11 +3176,6 @@
     <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">การจองของคุณได้รับการยืนยันแล้ว ดูการจองในแอพ</string>
 
     <!-- Content Description Labels -->
-    <!-- Expedia Bookings Launch Screen -->
-    <!-- Content description for action: Press button to launch Hotels -->
-    <string name="cd_launch_hotels">ค้นหาโรงแรม</string>
-    <!-- Content description for action: Press button to launch Flights -->
-    <string name="cd_launch_flights">ค้นหาเที่ยวบิน</string>
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">กดเพื่อรีเฟรชรายการการเดินทาง</string>
@@ -3237,17 +3247,17 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">กดเพื่อเริ่มทำการจอง</string>
-    <!-- Content description for action: Press to log in with your Expedia account -->
-    <string name="cd_checkout_log_in_with_expedia">กดเพื่อเข้าสู่ระบบเอ็กซ์พีเดีย</string>
+    <!-- Content description for action: Press to sign in with your Expedia account -->
+    <string name="cd_checkout_sign_in_with_expedia">กดเพื่อเข้าสู่ระบบบัญชีเอ็กซ์พีเดีย</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">กดเพื่อเพิ่มผู้เดินทางลงในการจองนี้</string>
     <!-- Content description for action: Press to select payment for this booking -->
     <string name="cd_checkout_select_payment">กดเพื่อเลือกวิธีการชำระเงินสำหรับการจองนี้</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">กดเพื่อใส่รหัสคูปองหรือรหัสส่วนลด</string>
-    <!-- Log in screen -->
-    <!-- Content description for action: Press to log into Expedia with your Facebook account -->
-    <string name="cd_log_in_with_facebook">กดเพื่อเข้าสู่ระบบเอ็กซ์พีเดียด้วยบัญชี Facebook</string>
+    <!-- Sign in screen -->
+    <!-- Content description for action: Press to sign into Expedia with your Facebook account -->
+    <string name="cd_sign_in_with_facebook">กดเพื่อเข้าสู่ระบบเอ็กซ์พีเดียด้วยบัญชี Facebook ของคุณ</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">กดเพื่อเพิ่มผู้เดินทางคนใหม่</string>

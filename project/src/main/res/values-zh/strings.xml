@@ -16,9 +16,9 @@
     <!-- Cars price templates-->
     <string name="cars_daily_text">每天</string>
     <!-- Cars checkout price breakdown for POS same as pickup location templates-->
-    <string name="cars_checkout_breakdown_us_text">报价使用的是 %s。</string>
+    <string name="cars_checkout_breakdown_us_text">报价使用的是%s。</string>
     <!-- Cars checkout price breakdown for pickup location different than POS templates-->
-    <string name="cars_checkout_breakdown_non_us_text">报价使用的是 %1$s。所有取车时应付的税费都需要使用当地货币结算 (%2$s)。</string>
+    <string name="cars_checkout_breakdown_non_us_text">报价使用的是%1$s。所有取车时应付的税费都需要使用当地货币结算 (%2$s)。</string>
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">每周</string>
     <!-- Cars weekly price templates-->
@@ -65,8 +65,8 @@
     <string name="car_auto_tran_text">自动挡</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">手动挡</string>
-    <!-- Log in Text-->
-    <string name="cars_login_text">使用 Expedia 帐户登录</string>
+    <!-- Sign in Text-->
+    <string name="cars_sign_in_text">登录 Expedia</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -216,6 +216,8 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- Search widget location hint -->
+    <string name="lx_search_location_hint">输入位置</string>
     <!-- Search widget header text -->
     <string name="lx_search_widget_heading">日期和地点</string>
     <!-- Button to show calendar and selected dates -->
@@ -244,7 +246,16 @@
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
     <string name="cancellation_policy_TEMPLATE">如还没有开始使用，您可以在 %1$s 内免费取消。超出时限后，将无法取消、变更或退款。</string>
-
+    <!-- LX checkout cost breakdown total due today -->
+    <string name="lx_cost_breakdown_due_today">今天付款</string>
+    <!-- LX checkout cost breakdown total due today -->
+    <string name="lx_cost_breakdown_taxes_included">含税费</string>
+    <!-- LX checkout cost breakdown for alert button -->
+    <string name="lx_cost_breakdown_button_text">完成</string>
+    <!-- LX checkout price breakdown for POS same as pickup location templates-->
+    <string name="lx_checkout_breakdown_price_disclaimer_text">报价使用的是%s。</string>
+    <!-- Checkout price breakdown Total Price Label -->
+    <string name="checkout_breakdown_total_price">总价</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">旅客</string>
     <string name="ticket_type_adult">成人</string>
@@ -349,6 +360,8 @@
     <string name="lx_enter_contact_details">请输入详细联系信息</string>
     <!-- LX search error -->
     <string name="error_lx_search_message">您所做的搜索未返回任何结果。请选择其他条件，再搜索一次。</string> 
+    <!-- LX search error -->
+    <string name="error_lx_current_location_search_message">对当前位置的搜索未返回任何结果。请选择其他条件，再搜索一次。</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">错误</string>
     <!-- Text for error toolbar-->
@@ -369,6 +382,18 @@
     <string name="lx_sort_filter">筛选/排序</string>
     <!-- Read more of the review -->
     <string name="lx_details_read_more">更多信息</string>
+    <!--Price sort button -->
+    <string name="lx_price_sort_button">价格</string>
+    <!-- Popularity sort button -->
+    <string name="lx_popularity_sort_button">热门</string>
+    <!-- Select ticket button -->
+    <string name="lx_select_ticket">选票</string>
+    <!-- Free cancellation text in offer  -->
+    <string name="lx_free_cancellation">免费取消预订</string>
+    <!-- Card brand not supported (e.g. "Visa not accepted") -->
+    <string name="lx_does_not_accept_cardtype_TEMPLATE">不接受 %1$s</string>
+    <!-- Edit search toolbar title -->
+    <string name="edit_search_toolbar">编辑搜索设置</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -537,9 +562,9 @@
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/晚</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_included_template">此次住宿的酒店费用（已含）：&lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_included_template">此次住宿的酒店费用（已含）：&lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_not_included_template">此次住宿的酒店费用（未含）：&lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">此次住宿的酒店费用（未含）：&lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">加入旅行计划</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -603,20 +628,20 @@
     <string name="facebook_weve_found_your_account">嗨！&lt;b&gt;%1$s&lt;/b&gt;我们好像找到了您的 Expedia 帐户！请在下面输入 Expedia 密码，关联您的 Facebook 帐户和 Expedia 帐户。</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">嗨！&lt;b&gt;%1$s&lt;/b&gt;我们已经加载了您的 Facebook 信息！</string>
-    <!-- Log in with facebook (button text) -->
-    <string name="Log_in_with_Facebook">登录 Facebook</string>
+    <!-- Sign in with facebook (button text) -->
+    <string name="Sign_in_with_Facebook">使用 Facebook 帐户登录</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">正在从 Facebook 获取信息…</string>
-    <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">正在尝试使用 Facebook 帐户和密码登录网站…</string>
+    <!-- Attempting to sign you in with facebook credentials -->
+    <string name="attempting_to_sign_in_with_facebook">正在尝试使用 Facebook 帐户和密码登录网站…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">出现错误，具体信息不明。请稍后重试。</string>
-    <!-- Unable to log in to Facebook -->
-    <string name="unable_to_log_into_facebook">无法登录到 Facebook。</string>
-    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="login_failed_try_again">登录失败。如果您的电子邮件和密码是正确的，请确认应用的国家/地区设置是否正确。</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="unable_to_sign_into_facebook">无法登录到 Facebook。</string>
+    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="sign_in_failed_try_again">登录失败。如果您的电子邮件和密码是正确的，请确认应用的国家/地区设置是否正确。</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">我们需要您为所有 Expedia 网站创建新的国际通用登录信息。&lt;br&gt;请使用下面的“忘记密码？”链接，重置密码。</string>
+    <string name="sign_in_reset_password">我们需要您为所有 Expedia 网站创建新的国际通用登录信息。&lt;br&gt;请使用下面的“忘记密码？”链接，重置密码。</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia 密码</string>
     <!-- Link accounts -->
@@ -631,18 +656,18 @@
     <string name="user_denied_permission_email_message">如要使用 Facebook 登录，我们需要相关权限来验证您的电子邮件地址。\n\n请按下面的 Facebook 按钮来授予 Expedia 权限，以便我们可以验证您的电子邮件地址。谢谢！</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">正在关联您的帐户…</string>
-    <!-- Log In -->
-    <string name="Log_In">登录</string>
-    <!-- Log in with Expedia -->
-    <string name="Log_in_with_Expedia">使用 Expedia 帐户登录</string>
+    <!-- Sign In -->
+    <string name="Sign_In">登录</string>
+    <!-- Sign in with Expedia -->
+    <string name="Sign_in_with_Expedia">登录 Expedia</string>
     <!-- or -->
     <string name="or">或</string>
-    <!-- Already logged in -->
-    <string name="already_logged_in">已经登录</string>
+    <!-- Already signed in -->
+    <string name="already_signed_in">已经登录</string>
 
     <!-- Restricted Profile -->
-    <!-- Restricted profile login message -->
-    <string name="restricted_profile_login_message">要登录 Expedia，您的设备必须使用不受限制的用户配置文件。</string>
+    <!-- Restricted profile sign in message -->
+    <string name="restricted_profile_sign_in_message">要登录 Expedia，您的设备必须使用不受限制的用户配置文件。</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
@@ -663,6 +688,8 @@
     <string name="loading_header">正在加载…</string>
     <!-- Hotel list rating text -->
     <string name="hotel_rating_text">/5 - 住客评分</string>
+    <!-- Hotel list no rating text -->
+    <string name="hotel_no_rating_text">尚无住客评分</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">仅限手机端！</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -670,10 +697,6 @@
 
 
     <!-- Launch screen -->
-    <!-- Label for launch screen hotel button secondary text -->
-    <string name="launch_hotel_secondary_text">预订房间。</string>
-    <!-- Label for launch screen flight button secondary text -->
-    <string name="launch_flight_secondary_text">安排航班。</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;飞往&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
@@ -764,8 +787,8 @@
     <string name="fetching_your_itinerary">正在获取您的行程…</string>
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">获取行程时出错</string>
-    <!-- Log in for your trips -->
-    <string name="log_in_for_your_trips">&lt;b&gt;登录&lt;/b&gt;查看您的旅行</string>
+    <!-- Sign in for your trips -->
+    <string name="sign_in_for_your_trips">&lt;b&gt;登录&lt;/b&gt;查看您的旅行信息</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">明天</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -883,8 +906,8 @@
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;抵达 %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;飞离 %1$s&lt;/b&gt; - %2$s</string>
-    <!-- Itin logout confirmation message -->
-    <string name="itin_logout_confirmation_message_TEMPLATE">退出 %1$s 将删除与该帐户关联的所有行程项目。是否确定要退出？</string>
+    <!-- Itin sign out confirmation message -->
+    <string name="itin_sign_out_confirmation_message_TEMPLATE">退出 %1$s 将删除所有与此帐户关联的行程项目。您是否确定要退出？</string>
     <!-- Directions -->
     <string name="directions">路线</string>
     <!-- Terminal Map -->
@@ -1337,9 +1360,9 @@
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">选择出发日期</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt;（单程）</string>
+    <string name="one_way_TEMPLATE">%1$s（单程）</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; 至 &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="round_trip_TEMPLATE">%1$s 至 %2$s</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">航班排序</string>
     <!-- Edit search title -->
@@ -1552,11 +1575,11 @@
     <string name="best_price_guarantee">安心价格保证</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;前&lt;b&gt;免费取消预订&lt;/b&gt;</string>
-    <!-- Log out -->
-    <string name="log_out">退出</string>
+    <!-- Sign out -->
+    <string name="sign_out">退出</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">此次预订将累积 %1$s 分！</string>
-    <!-- Blurb text displayed on account login button when already logged in -->
+    <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_points_for_this_trip_TEMPLATE">此次旅行将累积 %1$s 分！</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">正在计算税费…</string>
@@ -1668,7 +1691,7 @@
     <!-- Born on -->
     <string name="born_on_TEMPLATE">生日：%1$s</string>
     <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;生日：&lt;/font&gt;%1$s</string>
+    <string name="born_on_colored_TEMPLATE">生日：%1$s</string>
     <!-- <brand> expiring <date> template -->
     <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; 于 %2$s 到期</string>
 
@@ -1684,7 +1707,7 @@
     <!-- email disclaimer -->
     <string name="email_disclaimer">您的确认邮件将会发送到这里。</string>
     <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;到期&lt;/font&gt;%1$s</string>
+    <string name="expires_colored_TEMPLATE">到期日期为 %1$s</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -1793,7 +1816,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">偏好%1$s的座位</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;偏好&lt;/font&gt;%1$s的座位</string>
+    <string name="prefers_seat_colored_TEMPLATE">偏好%1$s的座位</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">正在加载旅客信息…</string>
     <!-- Passport -->
@@ -2205,7 +2228,7 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">起价 %s</string>
-    <string name="From_x_per_night_template">每晚 &lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt; 起</string>
+    <string name="From_x_per_night_template">每晚 %s 起</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2368,14 +2391,6 @@
     <string name="etp_select_room">选择房间</string>
 
     <!-- Room and rates list -->
-    <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
-    <plurals name="staying_nights">
-        <item quantity="zero">住宿 %d 晚</item>
-        <item quantity="one">住宿 %d 晚</item>
-        <item quantity="two">住宿 %d 晚</item>
-        <item quantity="many">住宿 %d 晚</item>
-        <item quantity="other">住宿 %d 晚</item>
-    </plurals>
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">正在查找空房…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
@@ -2443,7 +2458,7 @@
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">系统会删除保存的所有帐单信息和联系信息。</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_log_out_and_clear_private_data_msg">此操作将退出帐户并删除所有已保存的帐单和联系信息。</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">此操作将退出帐户并删除所有已保存的帐单和联系信息。</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">隐私数据已清除</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
@@ -2493,18 +2508,18 @@
     <string name="PolicyExpediaAgent">您正预订一家无折扣的酒店。所有显示的价格按每晚计算，并根据每间房两人入住的费用，除非另有说明。请仔细检查客房描述和价格条规，以确保您选择的客房可容纳您的所有同行者。一些价格可能需要特别的身份证明才能享有。我们的预订费用、税款和其他由酒店收取的附加费不包含在内。如需在房间所列的入住人数之外增加成人或儿童，则可能需要支付额外费用，具体由酒店自行决定。\n\n我们会将 2 人以上或者超出选定房价所示入住人数的请求发给酒店，但无法提供保证。如果酒店方面接受要求，酒店有权决定是否收取额外费用。</string>
 
     <!-- Expedia Accounts -->
-    <!-- Label for menu item to log into account -->
-    <string name="log_in">登录</string>
-    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
+    <!-- Label for menu item to sign into account -->
+    <string name="sign_in">登录</string>
+    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
     <string name="Earn_points_and_book_fast">快捷预订，轻松积分。</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">密码</string>
-    <!-- Progress dialog text when we are logging the user into Expedia -->
-    <string name="logging_in">正在登录…</string>
-    <!-- Message that tells user they failed to log in -->
-    <string name="login_failed">请再次登录</string>
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation">确实要退出 Expedia 帐户？</string>
+    <!-- Progress dialog text when we are signing the user into Expedia -->
+    <string name="signing_in">正在登录…</string>
+    <!-- Message that tells user they failed to sign in -->
+    <string name="sign_in_failed">请再次登录</string>
+    <!-- Label for sign out confirmation -->
+    <string name="sign_out_confirmation">确实要退出 Expedia 帐户？</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia+ 蓝标</string>
     <!-- Label for Expedia +silver rewards program name -->
@@ -2606,9 +2621,9 @@
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© 版权所有 2012–%1$s Expedia, Inc.\n保留所有权利。</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_logged_out_and_cleared_private_data">已退出帐户并清除数据</string>
+    <string name="dialog_title_signed_out_and_cleared_private_data">已退出帐户并清除数据</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">您已退出 Expedia 帐户，所有保存的帐单和联系信息都已删除。</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data">您已退出 Expedia 帐户，所有保存的帐单和联系信息都已删除。</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">隐私数据已清除</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3159,11 +3174,6 @@
     <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">您的预订已经确认了！在应用中查看详细信息。</string>
 
     <!-- Content Description Labels -->
-    <!-- Expedia Bookings Launch Screen -->
-    <!-- Content description for action: Press button to launch Hotels -->
-    <string name="cd_launch_hotels">搜索酒店</string>
-    <!-- Content description for action: Press button to launch Flights -->
-    <string name="cd_launch_flights">搜索机票</string>
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">按这里可以刷新行程列表</string>
@@ -3235,17 +3245,17 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">按这里，开始付款</string>
-    <!-- Content description for action: Press to log in with your Expedia account -->
-    <string name="cd_checkout_log_in_with_expedia">按这里，登录您的 Expedia 帐户</string>
+    <!-- Content description for action: Press to sign in with your Expedia account -->
+    <string name="cd_checkout_sign_in_with_expedia">按这里，登录您的 Expedia 帐户</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">按这里可为此次预订添加旅客</string>
     <!-- Content description for action: Press to select payment for this booking -->
     <string name="cd_checkout_select_payment">按这里可选择为此次预订付款</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">按这里可输入折扣券或促销代码</string>
-    <!-- Log in screen -->
-    <!-- Content description for action: Press to log into Expedia with your Facebook account -->
-    <string name="cd_log_in_with_facebook">按这里可使用 Facebook 帐户登录 Expedia</string>
+    <!-- Sign in screen -->
+    <!-- Content description for action: Press to sign into Expedia with your Facebook account -->
+    <string name="cd_sign_in_with_facebook">按这里可使用 Facebook 帐户登录 Expedia</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">按这里可输入新旅客的信息</string>
