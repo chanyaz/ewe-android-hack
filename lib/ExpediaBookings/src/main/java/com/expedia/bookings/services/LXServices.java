@@ -176,7 +176,7 @@ public class LXServices {
 	private static final Action1<BaseApiResponse> HANDLE_ERRORS = new Action1<BaseApiResponse>() {
 		@Override
 		public void call(BaseApiResponse response) {
-			if (response.hasErrors() && !response.hasPriceChange()) {
+			if (response.hasErrors()) {
 				throw response.getFirstError();
 			}
 		}

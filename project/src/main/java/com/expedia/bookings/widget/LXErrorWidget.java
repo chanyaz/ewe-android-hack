@@ -150,6 +150,19 @@ public class LXErrorWidget extends FrameLayout {
 			});
 			break;
 
+		case PRICE_CHANGE:
+			bindText(R.drawable.error_price,
+				R.string.lx_error_price_changed,
+				R.string.lx_price_change_text,
+				R.string.view_price_change);
+			errorButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Events.post(new Events.LXActivitySelectedRetry());
+				}
+			});
+			break;
+
 		case UNKNOWN_ERROR:
 		case OMS_ERROR:
 
