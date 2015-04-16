@@ -3,6 +3,8 @@ package com.expedia.bookings.widget;
 import javax.inject.Inject;
 
 
+import org.joda.time.LocalDate;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -21,6 +23,7 @@ import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXFormatter;
@@ -128,7 +131,9 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 		title.setText(lxState.offer.title);
 		tickets.setText(LXFormatter.selectedTicketsSummaryText(getContext(), lxState.selectedTickets));
 		location.setText(lxState.activity.location);
-		date.setText(lxState.offer.availabilityInfoOfSelectedDate.availabilities.displayDate);
+		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
+			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
+		date.setText(DateUtils.localDateToEEEMMMdd(offerSelectedDate));
 		emailText.setText(lxCheckoutParams.email);
 		confirmationText.setText(res.getString(R.string.successful_checkout_email_label));
 		itineraryNumber.setText(res.getString(R.string.successful_checkout_TEMPLATE, event.checkoutResponse.newTrip.itineraryNumber));
