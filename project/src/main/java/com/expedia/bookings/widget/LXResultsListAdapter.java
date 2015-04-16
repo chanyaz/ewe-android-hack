@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AnimUtils;
@@ -139,7 +140,7 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 			if (activity.fromPriceTicketCode != null) {
 				fromPriceTicketType.setText(
 					LXDataUtils.perTicketTypeDisplayLabel(itemView.getContext(), activity.fromPriceTicketCode));
-				activityPrice.setText(activity.price.getFormattedMoney());
+				activityPrice.setText(activity.price.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL));
 			}
 			else {
 				fromPriceTicketType.setText("");

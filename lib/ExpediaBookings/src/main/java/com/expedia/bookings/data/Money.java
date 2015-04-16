@@ -24,6 +24,11 @@ public class Money {
 	 */
 	public static final int F_NO_DECIMAL = 2;
 
+	/**
+	 * Flag to remove all value past the decimal point in formatting, if it is an Integer, else use 2 Decimal Places
+	 */
+	public static final int F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL = 4;
+
 	public BigDecimal amount;
 	public String currencyCode = null;
 	public String formattedPrice;
@@ -287,8 +292,13 @@ public class Money {
 	private static String formatRate(BigDecimal amount, String currencyCode, int flags) {
 
 		// Special case: if the Money does not have any decimal value, let's not show with decimal
-		if (amount.scale() <= 0) {
+		if (amount.scale() <= 0 || amount.stripTrailingZeros().scale() <= 0) {
 			flags |= F_NO_DECIMAL;
+		}
+
+		// F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL trumps F_NO_DECIMAL
+		if ((flags & F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL) != 0) {
+			flags = flags & ~(F_NO_DECIMAL);
 		}
 
 		// NumberFormat.getCurrencyInstance is slow. So let's try to cache it.
@@ -310,6 +320,16 @@ public class Money {
 				nf.setMaximumFractionDigits(0);
 			}
 			sFormats.put(key, nf);
+		}
+
+		if ((flags & F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL) != 0) {
+			nf = (NumberFormat) nf.clone();
+			if (amount.stripTrailingZeros().scale() <= 0) {
+				nf.setMaximumFractionDigits(0);
+			}
+			else {
+				nf.setMaximumFractionDigits(2);
+			}
 		}
 
 		if ((flags & F_ROUND_DOWN) != 0) {

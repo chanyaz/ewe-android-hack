@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -126,7 +127,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
 				priceSummaries.add(String.format("%s %s",
-					ticket.money.getFormattedMoney(),
+					ticket.money.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
 					LXDataUtils.ticketDisplayName(itemView.getContext(), ticket.code)));
 			}
 			String priceSummaryText = Strings.joinWithoutEmpties(", ", priceSummaries);
