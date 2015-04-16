@@ -29,7 +29,6 @@ import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.utils.DateUtils;
-import com.expedia.bookings.utils.LXUtils;
 import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.RequestInterceptor;
@@ -77,19 +76,8 @@ public class LXServices {
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
 			.doOnNext(HANDLE_SEARCH_ERROR)
-			.map(PUT_MONEY_IN_ACTIVITIES)
-			.map(PUT_BEST_APPLICABLE_CATEGORY);
+			.map(PUT_MONEY_IN_ACTIVITIES);
 	}
-
-	private static final Func1<LXSearchResponse, LXSearchResponse> PUT_BEST_APPLICABLE_CATEGORY = new Func1<LXSearchResponse, LXSearchResponse>() {
-		@Override
-		public LXSearchResponse call(LXSearchResponse lxSearchResponse) {
-			for (LXActivity activity : lxSearchResponse.activities) {
-				activity.bestApplicableCategoryEN = LXUtils.bestApplicableCategory(activity.categories);
-			}
-			return lxSearchResponse;
-		}
-	};
 
 	private static final Action1<LXSearchResponse> HANDLE_SEARCH_ERROR = new Action1<LXSearchResponse>() {
 		@Override
@@ -108,12 +96,6 @@ public class LXServices {
 			.doOnNext(HANDLE_ACTIVITY_DETAILS_ERROR)
 			.doOnNext(ACCEPT_ONLY_KNOWN_TICKET_TYPES)
 			.doOnNext(PUT_MONEY_IN_TICKETS)
-			.doOnNext(new Action1<ActivityDetailsResponse>() {
-				@Override
-				public void call(ActivityDetailsResponse response) {
-					response.bestApplicableCategoryEN = lxActivity.bestApplicableCategoryEN;
-				}
-			})
 			.subscribe(observer);
 	}
 

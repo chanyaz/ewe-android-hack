@@ -37,25 +37,4 @@ public class LXUtilsTest {
 
 		Assert.assertEquals(LXUtils.getTotalAmount(null), new Money());
 	}
-
-	@Test
-	public void testBestApplicableCategory() {
-		final List<String> categoriesEn = new ArrayList<>();
-
-		Assert.assertEquals(LXUtils.bestApplicableCategory(null), "");
-		Assert.assertEquals(LXUtils.bestApplicableCategory(categoriesEn), "");
-
-		categoriesEn.add("Category 1");
-		categoriesEn.add("Multi-day & Extended Tours");
-		categoriesEn.add("Category 3");
-		Assert.assertEquals(LXUtils.bestApplicableCategory(categoriesEn), "Multi-day & Extended Tours");
-
-		categoriesEn.add("Theme Parks");
-		Assert.assertEquals(LXUtils.bestApplicableCategory(categoriesEn), "Theme Parks");
-
-		categoriesEn.clear();
-		categoriesEn.add("Category 1");
-		categoriesEn.add("Category 3");
-		Assert.assertEquals(LXUtils.bestApplicableCategory(categoriesEn), "Category 1");
-	}
 }
