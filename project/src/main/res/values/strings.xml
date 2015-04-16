@@ -256,6 +256,8 @@
     <string name="lx_checkout_breakdown_price_disclaimer_text">Rates quoted in %s.</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">Total Price</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">Price Changed</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">Traveler</string>
     <string name="ticket_type_adult">Adult</string>
@@ -575,6 +577,8 @@
     <string name="lx_free_cancellation">Free Cancellation</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s not accepted</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">We\&apos;re sorry, but this activity\&apos;s price changed. Please try booking again.</string>
     <!-- Edit search toolbar title -->
     <string name="edit_search_toolbar">Edit Search</string>
 

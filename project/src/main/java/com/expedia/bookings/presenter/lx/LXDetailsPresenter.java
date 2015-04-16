@@ -23,6 +23,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucketItemLX;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
@@ -37,6 +38,7 @@ import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
+import com.expedia.bookings.widget.LXErrorWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -65,6 +67,9 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 	@InjectView(R.id.toolbar_background)
 	View toolbarBackground;
 
+	@InjectView(R.id.lx_details_error_widget)
+	LXErrorWidget errorScreen;
+
 	@Inject
 	LXState lxState;
 
@@ -83,30 +88,43 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 		@Override
 		public void finalizeTransition(boolean forward) {
 			super.finalizeTransition(forward);
+			toolbar.setVisibility(View.VISIBLE);
 			toolbarBackground.setAlpha(0f);
 		}
 	};
-	DefaultTransition setUpLoading = new DefaultTransition(ProgressBar.class.getName()) {
+	private DefaultTransition setUpLoading = new DefaultTransition(ProgressBar.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {
 			loadingProgress.setVisibility(View.VISIBLE);
 			details.setVisibility(View.GONE);
 		}
 	};
+	private Transition detailsToError = new VisibilityTransition(this, LXActivityDetailsWidget.class.getName(), LXErrorWidget.class.getName()) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			super.finalizeTransition(forward);
+			toolbar.setVisibility(View.GONE);
+			toolbarBackground.setAlpha(0f);
+		}
+	};
+	private Transition errorToLoading = new VisibilityTransition(this, LXErrorWidget.class.getName(), ProgressBar.class.getName());
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
-		addTransition(loadingToDetails);
 		addDefaultTransition(setUpLoading);
+		addTransition(loadingToDetails);
+		addTransition(detailsToError);
+		addTransition(errorToLoading);
 
 		createTripDialog = new ProgressDialog(getContext());
 		createTripDialog.setMessage(getResources().getString(R.string.preparing_checkout_message));
 		createTripDialog.setIndeterminate(true);
 		setupToolbar();
 		details.addOnScrollListener(parallaxScrollListener);
+		errorScreen.setVisibility(View.GONE);
 
 		userAccountRefresher = new UserAccountRefresher(getContext(), LineOfBusiness.LX, this);
 	}
@@ -245,8 +263,11 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 			if (RetrofitUtils.isNetworkError(e)) {
 				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
 			}
+			else if (e instanceof ApiError) {
+				showErrorScreen((ApiError) e);
+			}
 			else {
-				showCreateTripErrorDialog();
+				showErrorScreen(null);
 			}
 		}
 
@@ -279,20 +300,6 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 			.show();
 	}
 
-	private void showCreateTripErrorDialog() {
-		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-		b.setCancelable(false)
-			.setMessage(getResources().getString(R.string.error_server))
-			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-					Events.post(new Events.LXShowSearchWidget());
-				}
-			})
-			.show();
-	}
-
 	com.expedia.bookings.widget.ScrollView.OnScrollListener parallaxScrollListener = new com.expedia.bookings.widget.ScrollView.OnScrollListener() {
 		@Override
 		public void onScrollChanged(com.expedia.bookings.widget.ScrollView scrollView, int x, int y, int oldx, int oldy) {
@@ -320,6 +327,11 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 		toolbarBackground.setAlpha(
 			Strings.equals(getCurrentState(), LXActivityDetailsWidget.class.getName()) ? toolbarBackground.getAlpha()
 				: 1f);
+	}
+
+	private void showErrorScreen(ApiError error) {
+		errorScreen.bind(error);
+		show(errorScreen, FLAG_CLEAR_BACKSTACK);
 	}
 
 	@Override

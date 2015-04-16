@@ -7,6 +7,11 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
+    <com.expedia.bookings.widget.LXErrorWidget
+        android:id="@+id/lx_details_error_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <ProgressBar
         android:id="@+id/loading_details"
         style="@android:style/Widget.Holo.Light.ProgressBar.Large"

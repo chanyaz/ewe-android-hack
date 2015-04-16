@@ -193,6 +193,11 @@ public class LXPresenter extends Presenter {
 	}
 
 	@Subscribe
+	public void onActivitySelectedRetry(Events.LXActivitySelectedRetry event) {
+		show(detailsPresenter, FLAG_CLEAR_TOP);
+	}
+
+	@Subscribe
 	public void onShowParamsOverlayOnResults(Events.LXSearchParamsOverlay event) {
 		show(new LXParamsOverlay());
 	}

@@ -122,6 +122,9 @@ public class LXCheckoutPresenter extends Presenter {
 			else if (e instanceof ApiError) {
 				showErrorScreen((ApiError) e);
 			}
+			else {
+				showErrorScreen(null);
+			}
 		}
 
 		@Override
