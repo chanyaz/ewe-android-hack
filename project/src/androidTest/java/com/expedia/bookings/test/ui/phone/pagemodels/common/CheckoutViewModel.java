@@ -139,6 +139,7 @@ public class CheckoutViewModel {
 
 	public static void enterTravelerInfo() {
 		clickDriverInfo();
+		ScreenActions.delay(1);
 		enterFirstName("FiveStar");
 		enterLastName("Bear");
 		Common.closeSoftKeyboard(CheckoutViewModel.lastName());
@@ -152,7 +153,7 @@ public class CheckoutViewModel {
 
 	public static void enterPaymentInfo() {
 		CheckoutViewModel.clickPaymentInfo();
-
+		ScreenActions.delay(1);
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		//Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		CardInfoScreen.clickOnExpirationDateButton();
