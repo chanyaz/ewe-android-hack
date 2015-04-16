@@ -20,5 +20,4 @@ public class LXActivity {
 	public String location;
 	public String regionId;
 	public Money price;
-	public String bestApplicableCategoryEN;
 }

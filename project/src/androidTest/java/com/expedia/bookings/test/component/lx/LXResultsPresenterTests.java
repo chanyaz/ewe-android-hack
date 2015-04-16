@@ -101,7 +101,6 @@ public class LXResultsPresenterTests {
 		a.title = title;
 		a.price = price;
 		a.categories = categoriesList;
-		a.bestApplicableCategoryEN = "tour";
 		a.fromPriceTicketCode = code;
 		a.duration = duration;
 		activities.add(a);

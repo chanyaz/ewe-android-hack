@@ -41,34 +41,4 @@ public class LXUtils {
 
 		return ticketCount;
 	}
-
-	public static String bestApplicableCategory(List<String> activitiesEN) {
-		//We are comparing English Category Strings with English Prioritized Strings!
-		final String[] prioritizedCategoriesEN = {
-			"Hop-on Hop-off",
-			"Attractions",
-			"Adventures",
-			"Tours & Sightseeing",
-			"Food & Drink",
-			"Show & Sport Tickets",
-			"Theme Parks",
-			"Private Tours",
-			"Cruises & Water Tours",
-			"Multi-day & Extended Tours",
-		};
-
-		if (activitiesEN == null || activitiesEN.size() == 0) {
-			return "";
-		}
-
-		//Choose the first category in the prioritized list which exists in the activities list passed
-		for (int iCategory = 0; iCategory < prioritizedCategoriesEN.length; iCategory++) {
-			if (activitiesEN.contains(prioritizedCategoriesEN[iCategory])) {
-				return prioritizedCategoriesEN[iCategory];
-			}
-		}
-
-		//None from the prioritized list found. Simply return the first category!
-		return activitiesEN.iterator().next();
-	}
 }
