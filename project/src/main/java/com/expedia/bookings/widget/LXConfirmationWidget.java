@@ -2,7 +2,6 @@ package com.expedia.bookings.widget;
 
 import javax.inject.Inject;
 
-
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -17,10 +16,8 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateUtils;
@@ -29,12 +26,10 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXFormatter;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.SocialUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 public class LXConfirmationWidget extends android.widget.LinearLayout {
 
@@ -68,9 +63,6 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 	@InjectView(R.id.toolbar)
 	android.support.v7.widget.Toolbar toolbar;
-
-	@InjectView(R.id.support_action_textView)
-	TextView supportTextView;
 
 	@InjectView(R.id.text_container)
 	ViewGroup textContainer;
@@ -144,11 +136,5 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 		FontCache.setTypeface(confirmationText, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(emailText, FontCache.Font.ROBOTO_LIGHT);
-	}
-
-	@OnClick(R.id.support_action_textView)
-	public void callCustomerSupport() {
-		String phoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser());
-		SocialUtils.call(getContext(), phoneNumber);
 	}
 }

@@ -86,48 +86,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#4E555E"
-            android:orientation="vertical">
+            android:background="#3A424C"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/support_action_textView"
-                style="@style/LXBookingButton"
-                android:text="@string/call_customer_support"
-                android:drawableLeft="@drawable/ic_phone"
-                android:layout_width="match_parent"
+                android:id="@+id/confirmation_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:textColor="@color/lx_confirmation_action_text_color"
-                app:textStyle="normal" />
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/lx_confirmation_email_text_color"
+                android:textSize="12sp"
+                app:textStyle="light" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/email_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:background="#3A424C"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/confirmation_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:textColor="@color/lx_confirmation_email_text_color"
-                    android:textSize="12sp"
-                    app:textStyle="light" />
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/email_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:textColor="@color/lx_confirmation_email_text_color"
-                    android:textSize="12sp"
-                    app:textStyle="light" />
-            </LinearLayout>
-
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/lx_confirmation_email_text_color"
+                android:textSize="12sp"
+                app:textStyle="light" />
         </LinearLayout>
+
     </LinearLayout>
 
 </merge>
