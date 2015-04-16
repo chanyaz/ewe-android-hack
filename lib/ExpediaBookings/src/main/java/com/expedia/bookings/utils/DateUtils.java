@@ -90,6 +90,10 @@ public class DateUtils {
 		return date.toString("MMMM dd");
 	}
 
+	public static String localDateToEEEMMMdd(LocalDate date) {
+		return date.toString("EEE, MMM dd");
+	}
+
 	public static LocalDate yyyyMMddToLocalDate(String dateyyyyMMdd) {
 		return LocalDate.parse(dateyyyyMMdd, DateTimeFormat.forPattern("yyyy-MM-dd"));
 	}

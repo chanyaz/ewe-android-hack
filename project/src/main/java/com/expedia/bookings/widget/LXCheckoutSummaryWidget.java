@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.joda.time.LocalDate;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXFormatter;
 import com.expedia.bookings.utils.LXUtils;
@@ -64,7 +67,9 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 	public void bind() {
 		lxOfferTitleText.setText(lxState.offer.title);
 		lxGroupText.setText(LXFormatter.selectedTicketsSummaryText(getContext(), lxState.selectedTickets));
-		lxOfferDate.setText(lxState.offer.availabilityInfoOfSelectedDate.availabilities.displayDate);
+		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
+			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
+		lxOfferDate.setText(DateUtils.localDateToEEEMMMdd(offerSelectedDate));
 		lxOfferLocation.setText(lxState.activity.location);
 
 		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney();
