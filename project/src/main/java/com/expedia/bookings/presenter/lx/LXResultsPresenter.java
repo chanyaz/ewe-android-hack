@@ -175,9 +175,9 @@ public class LXResultsPresenter extends Presenter {
 			// Search Results Omniture Tracking on load of search screen.
 			OmnitureTracking.trackAppLXSearch(getContext(), lxState.searchParams, lxSearchResponse);
 			Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
-			sortFilterWidget.bind(lxSearchResponse.filterCategories);
 			searchResultsWidget.bind(lxSearchResponse.activities);
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
+			sortFilterWidget.bind(lxSearchResponse.filterCategories);
 			sortFilterButton.setVisibility(View.VISIBLE);
 		}
 	};
