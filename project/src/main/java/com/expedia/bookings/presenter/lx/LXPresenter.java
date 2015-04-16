@@ -87,10 +87,12 @@ public class LXPresenter extends Presenter {
 		LXDetailsPresenter.class.getName()) {
 		@Override
 		public void startTransition(boolean forward) {
+			detailsPresenter.animationStart(!forward);
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
+			detailsPresenter.animationUpdate(f, !forward);
 		}
 
 		@Override
@@ -99,6 +101,7 @@ public class LXPresenter extends Presenter {
 
 		@Override
 		public void finalizeTransition(boolean forward) {
+			detailsPresenter.animationFinalize(!forward);
 			if (forward) {
 				resultsPresenter.setVisibility(View.GONE);
 				detailsPresenter.setVisibility(View.VISIBLE);
