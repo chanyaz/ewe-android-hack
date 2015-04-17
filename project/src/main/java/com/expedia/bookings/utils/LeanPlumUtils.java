@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
@@ -30,7 +31,6 @@ import com.leanplum.LeanplumPushService;
 import com.leanplum.annotations.Parser;
 import com.leanplum.callbacks.VariablesChangedCallback;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 
 public class LeanPlumUtils {
 	public static Map<String, Object> mUserAtrributes = new HashMap<String, Object>();
@@ -40,7 +40,7 @@ public class LeanPlumUtils {
 
 	public static void init(ExpediaBookingApp app) {
 		mContext = app.getApplicationContext();
-		if (!AndroidUtils.isRelease(mContext)) {
+		if (BuildConfig.DEBUG) {
 			String appId = mContext.getString(R.string.lean_plum_sdk_dev_appid);
 			String key = mContext.getString(R.string.lean_plum_sdk_dev_key);
 			Leanplum.setAppIdForDevelopmentMode(appId, key);

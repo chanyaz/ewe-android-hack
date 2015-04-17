@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.os.Process;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
@@ -26,7 +27,6 @@ import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airline;
@@ -601,7 +601,7 @@ public class Db {
 			long searchTimestamp = SettingUtils.get(context, HOTEL_SEARCH_START_TIME, (long) 0);
 			if (bypassTimeout) {
 				Log.i("We don't care about hotel search timing out!!");
-				if (AndroidUtils.isRelease(context)) {
+				if (BuildConfig.RELEASE) {
 					throw new RuntimeException("Bypassing hotel search timeout with an RC. bad!");
 				}
 			}
@@ -1026,7 +1026,7 @@ public class Db {
 
 	// Do not let people use these methods in non-debug builds
 	private static void safetyFirst(Context context) {
-		if (AndroidUtils.isRelease(context)) {
+		if (BuildConfig.RELEASE) {
 			throw new RuntimeException(
 				"This debug method should NEVER be called in a release build"
 					+ " (you should probably even remove it from the codebase)");

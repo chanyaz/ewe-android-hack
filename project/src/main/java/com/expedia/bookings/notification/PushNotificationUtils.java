@@ -14,6 +14,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -33,7 +34,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
@@ -1189,7 +1189,7 @@ public class PushNotificationUtils {
 	}
 
 	public static String getRegistrationUrl(Context context) {
-		if (AndroidUtils.isRelease(context)) {
+		if (BuildConfig.RELEASE) {
 			return REGISTRATION_URL_PRODUCTION;
 		}
 		else {

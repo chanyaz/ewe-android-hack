@@ -28,6 +28,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -52,7 +53,6 @@ import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
@@ -204,7 +204,7 @@ public class ItineraryManager implements JSONable {
 			for (ItinCardData data : mItinCardDatas) {
 				if (data instanceof ItinCardDataFlight) {
 					ItinCardDataFlight fData = (ItinCardDataFlight) data;
-					if (AndroidUtils.isRelease(mContext) || !SettingUtils.get(mContext,
+					if (BuildConfig.RELEASE || !SettingUtils.get(mContext,
 							mContext.getString(R.string.preference_push_notification_any_flight), false)) {
 						FlightLeg flightLeg = fData.getFlightLeg();
 						for (Flight segment : flightLeg.getSegments()) {

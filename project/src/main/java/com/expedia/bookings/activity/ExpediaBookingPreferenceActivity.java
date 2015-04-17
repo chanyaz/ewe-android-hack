@@ -20,6 +20,7 @@ import android.preference.PreferenceScreen;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
@@ -31,7 +32,6 @@ import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class ExpediaBookingPreferenceActivity extends PreferenceActivity implements ClearPrivateDataListener {
@@ -48,7 +48,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences);
 
-		if (!AndroidUtils.isRelease(this)) {
+		if (BuildConfig.DEBUG) {
 			addPreferencesFromResource(R.xml.preferences_dev);
 
 			String apiKey = getString(R.string.preference_which_api_to_use_key);

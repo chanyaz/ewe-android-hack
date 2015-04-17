@@ -53,7 +53,7 @@ public interface IProductFlavorFeatureConfiguration {
 
 	int getAdXPosIdentifier();
 
-	String getOmnitureReportSuiteIds(Context context);
+	String getOmnitureReportSuiteIds();
 
 	String getOmnitureTrackingServer();
 

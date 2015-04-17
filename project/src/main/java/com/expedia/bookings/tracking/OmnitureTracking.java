@@ -28,6 +28,7 @@ import android.text.TextUtils;
 
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.adobe.adms.measurement.ADMS_ReferrerHandler;
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
@@ -113,7 +114,7 @@ public class OmnitureTracking {
 
 		if (!ExpediaBookingApp.sIsAutomation) {
 			ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
-			s.configureMeasurement(getReportSuiteIds(context), getTrackingServer(context));
+			s.configureMeasurement(getReportSuiteIds(), getTrackingServer(context));
 		}
 
 		sMarketingDate = SettingUtils.get(context, context.getString(R.string.preference_marketing_date),
@@ -2757,7 +2758,7 @@ public class OmnitureTracking {
 
 	private static void addStandardFields(Context context, ADMS_Measurement s) {
 		// Add debugging flag if not release
-		if (!AndroidUtils.isRelease(context) || DebugUtils.isLogEnablerInstalled(context)) {
+		if (BuildConfig.DEBUG || DebugUtils.isLogEnablerInstalled(context)) {
 			s.setDebugLogging(true);
 		}
 
@@ -2771,7 +2772,7 @@ public class OmnitureTracking {
 		}
 
 		// account
-		s.setReportSuiteIDs(getReportSuiteIds(context));
+		s.setReportSuiteIDs(getReportSuiteIds());
 
 		// Marketing date tracking
 		s.setEvar(10, sMarketingDate);
@@ -2956,8 +2957,8 @@ public class OmnitureTracking {
 		}
 	}
 
-	private static String getReportSuiteIds(Context context) {
-		return ProductFlavorFeatureConfiguration.getInstance().getOmnitureReportSuiteIds(context);
+	private static String getReportSuiteIds() {
+		return ProductFlavorFeatureConfiguration.getInstance().getOmnitureReportSuiteIds();
 	}
 
 	private static String getTrackingServer(Context context) {

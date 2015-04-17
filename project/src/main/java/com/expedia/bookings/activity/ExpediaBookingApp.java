@@ -118,9 +118,8 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		startupTimer.addSplit("ActiveAndroid Init");
 
-		boolean isRelease = AndroidUtils.isRelease(this);
 		boolean isLogEnablerInstalled = DebugUtils.isLogEnablerInstalled(this);
-		Log.configureLogging("ExpediaBookings", !isRelease || isLogEnablerInstalled);
+		Log.configureLogging("ExpediaBookings", BuildConfig.DEBUG || isLogEnablerInstalled);
 
 		startupTimer.addSplit("Logger Init");
 
@@ -130,7 +129,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("Joda TZ Provider Init");
 
 		try {
-			if (!isRelease) {
+			if (BuildConfig.DEBUG) {
 				FlightStatsDbUtils.setUpgradeCutoff(DateUtils.DAY_IN_MILLIS); // 1 day cutoff for upgrading FS.db
 			}
 
@@ -199,7 +198,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		// 2249: We were not sending push registrations to the prod push server
 		// If we are upgrading from a previous version we will send an unregister to the test push server
 		// We also don't want to bother if the user has never launched the app before
-		if (isRelease
+		if (BuildConfig.RELEASE
 			&& !SettingUtils.get(this, PREF_UPGRADED_TO_PRODUCTION_PUSH, false)
 			&& SettingUtils.get(this, PREF_FIRST_LAUNCH_OCCURED, false)) {
 

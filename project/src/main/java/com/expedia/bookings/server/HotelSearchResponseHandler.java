@@ -11,6 +11,7 @@ import android.content.Context;
 import android.text.Html;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -26,7 +27,6 @@ import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchResponse> {
@@ -39,7 +39,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 	private boolean mFilterMerchants = false;
 
 	public HotelSearchResponseHandler(Context context) {
-		mIsRelease = AndroidUtils.isRelease(context);
+		mIsRelease = BuildConfig.RELEASE;
 		if (!mIsRelease) {
 			mFilterMerchants = SettingUtils.get(context, context.getString(R.string.preference_filter_merchant_properties), false);
 		}
