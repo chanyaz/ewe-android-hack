@@ -84,11 +84,11 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void startTransition(boolean forward) {
-			int parentHeight = getHeight();
-			sortFilterWidgetHeight = sortFilterWidget.getHeight();
+			final int parentHeight = getHeight();
+			sortFilterWidgetHeight = parentHeight - Ui.getStatusBarHeight(getContext());
+			sortFilterWidget.setVisibility(View.VISIBLE);
 			float pos = forward ? parentHeight + sortFilterWidgetHeight : sortFilterWidgetHeight;
 			sortFilterWidget.setTranslationY(pos);
-			sortFilterWidget.setVisibility(View.VISIBLE);
 		}
 
 		@Override
