@@ -260,4 +260,8 @@ public class LXViewModel {
 	public static ViewInteraction checkoutErrorButton() {
 		return onView(allOf(isDescendantOfA(withId(R.id.lx_checkout_error_widget)), withId(R.id.error_action_button)));
 	}
+
+	public static ViewInteraction detailsErrorWidget() {
+		return onView(withId(R.id.lx_details_error_widget));
+	}
 }

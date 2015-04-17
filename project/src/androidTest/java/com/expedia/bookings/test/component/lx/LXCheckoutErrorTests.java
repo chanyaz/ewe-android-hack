@@ -2,6 +2,7 @@ package com.expedia.bookings.test.component.lx;
 
 import java.util.concurrent.TimeUnit;
 
+import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -22,8 +23,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
-import static com.expedia.bookings.test.ui.espresso.ViewActions.clickOnFirstEnabled;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.waitFor;
 
 public class LXCheckoutErrorTests extends PhoneTestCase {
@@ -41,10 +40,8 @@ public class LXCheckoutErrorTests extends PhoneTestCase {
 		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		LXViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_invalid_name)));
 		LXViewModel.checkoutErrorButton().perform(click());
-
 		CheckoutViewModel.driverInfo().check(matches(isDisplayed()));
 		CheckoutViewModel.pressClose();
-
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 	}
 
@@ -57,24 +54,19 @@ public class LXCheckoutErrorTests extends PhoneTestCase {
 		LXViewModel.checkoutErrorText().check(matches(withText(R.string.error_server)));
 		LXViewModel.checkoutErrorButton().perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Security code for card ending in 1111");
-		screenshot("Oops Error Dialog close");
 	}
 
 	public void testTripAlreadyBooked() throws Throwable {
 		performLXCheckout("AlreadyBooked");
-
-		// Payment failed dialog
 		screenshot("Trip Already Booked Dialog");
 		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		LXViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_already_exists)));
 		LXViewModel.checkoutErrorButton().perform(click());
-
 		screenshot("LX itins");
 	}
 
 	public void testSessionTimeout() throws Throwable {
 		performLXCheckout("SessionTimeout");
-
 		// Payment failed dialog
 		screenshot("Session Timeout");
 		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
@@ -87,43 +79,37 @@ public class LXCheckoutErrorTests extends PhoneTestCase {
 
 	public void testPaymentFailed() throws Throwable {
 		performLXCheckout("PaymentFailed");
-
-		// Payment failed dialog
 		screenshot("Payment Failed Dialog");
 		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		LXViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_payment_failed)));
 		LXViewModel.checkoutErrorButton().perform(click());
-
 		screenshot("Payment Failed Messaging");
 		// Should take you back to payment entry
 		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
 		CheckoutViewModel.pressClose();
-
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 	}
 
 	private void performLXCheckout(String firstName) throws Throwable {
 		final String ticketName = "2-Day";
 
-		screenshot("LX Search");
-		LXViewModel.location().perform(typeText("San"));
-		LXViewModel.selectLocation(getInstrumentation(), "San Francisco, CA");
-		LXViewModel.selectDateButton().perform(click());
-		LXViewModel.selectDates(LocalDate.now(), null);
-		screenshot("LX Search Params Entered");
-		LXViewModel.searchButton().perform(click());
-
-		screenshot("LX Search Results");
+		if (getLxIdlingResource().isInSearchEditMode()) {
+			onView(Matchers
+				.allOf(withId(R.id.error_action_button), withText(
+					R.string.edit_search))).perform(click());
+			String expectedLocationDisplayName = "San Francisco, CA";
+			LXViewModel.location().perform(typeText("San"));
+			LXViewModel.selectLocation(getInstrumentation(), expectedLocationDisplayName);
+			LXViewModel.selectDateButton().perform(click());
+			LXViewModel.selectDates(LocalDate.now(), null);
+			LXViewModel.searchButton().perform(click());
+		}
 
 		onView(withId(R.id.lx_search_results_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 		onView(withId(R.id.loading_details)).perform(waitFor(10L, TimeUnit.SECONDS));
 		screenshot("LX Details");
-
-		LXViewModel.detailsDateContainer().perform(scrollTo(),clickOnFirstEnabled());
-		LXViewModel.selectTicketsButton("2-Day New York Pass").perform(scrollTo(), click());
-		LXInfositePageModel.ticketAddButton(ticketName, "Adult").perform(scrollTo(), click());
-		LXInfositePageModel.bookNowButton(ticketName).perform(scrollTo(), click());
-
+		onView(withId(R.id.offers)).perform(scrollTo());
+		LXInfositePageModel.bookNowButton("2-Day New York Pass").perform(scrollTo(), click());
 		screenshot("LX Checkout Started");
 		CheckoutViewModel.driverInfo().perform(click());
 		CheckoutViewModel.firstName().perform(typeText(firstName));
