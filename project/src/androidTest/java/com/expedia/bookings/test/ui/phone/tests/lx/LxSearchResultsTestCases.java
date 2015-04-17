@@ -8,12 +8,11 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.LXBaseActivity;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.component.lx.LXViewModel;
 import com.expedia.bookings.test.component.lx.pagemodels.LXSearchResultsPageModel;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.ui.utils.LxTestCase;
 import com.squareup.otto.Subscribe;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -25,17 +24,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 
-public class LxSearchResultsTestCases extends PhoneTestCase {
+public class LxSearchResultsTestCases extends LxTestCase {
 
 	List<LXActivity> mActivities;
 	SearchResultsHandler searchResultsHandler = new SearchResultsHandler();
 
-	public LxSearchResultsTestCases() {
-		super(LXBaseActivity.class);
-	}
-
 	public void testSearchResultPageTestCases() throws Throwable {
-
 		Events.register(searchResultsHandler);
 
 		if (getLxIdlingResource().isInSearchEditMode()) {

@@ -142,7 +142,11 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("FS.db Init");
 
 		// Pull down advertising ID
-		AdvertisingIdUtils.loadIDFA(this, this);
+		if (!sIsAutomation) {
+			AdvertisingIdUtils.loadIDFA(this, this);
+			startupTimer.addSplit("IDFA wireup");
+		}
+
 		// Init required for Omniture tracking
 		OmnitureTracking.init(this);
 		// Setup Omniture for tracking crashes

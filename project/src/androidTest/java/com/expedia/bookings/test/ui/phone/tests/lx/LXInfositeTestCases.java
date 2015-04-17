@@ -7,7 +7,6 @@ import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.LXBaseActivity;
 import com.expedia.bookings.test.component.lx.LXViewModel;
 import com.expedia.bookings.test.component.lx.models.TicketDataModel;
 import com.expedia.bookings.test.component.lx.models.TicketSummaryDataModel;
@@ -15,7 +14,7 @@ import com.expedia.bookings.test.component.lx.models.TileDataModel;
 import com.expedia.bookings.test.component.lx.pagemodels.LXInfositePageModel;
 import com.expedia.bookings.test.component.lx.pagemodels.LXSearchResultsPageModel;
 import com.expedia.bookings.test.component.lx.utils.ExpectedDataSupplierForTicketWidget;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.ui.utils.LxTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -58,18 +57,13 @@ import static org.hamcrest.Matchers.not;
 			v> The addition of travellers must match the number of travellers on each row.
 			vi> The total cost of travel must be correctly reflected on the book now button.
 */
-public class LXInfositeTestCases extends PhoneTestCase {
+public class LXInfositeTestCases extends LxTestCase {
 
 	private TileDataModel mTileData;
 
 	private ExpectedDataSupplierForTicketWidget mExpectedDataTktWdgt;
 
-	public LXInfositeTestCases() {
-		super(LXBaseActivity.class);
-	}
-
 	public void testInfoSiteTestSuite() throws Throwable {
-
 		if (getLxIdlingResource().isInSearchEditMode()) {
 			onView(Matchers
 				.allOf(withId(R.id.error_action_button), withText(
@@ -86,7 +80,7 @@ public class LXInfositeTestCases extends PhoneTestCase {
 		mTileData = LXSearchResultsPageModel.getTileDataAtIndex(1);
 		screenshot("LX captured data");
 		LXSearchResultsPageModel.clickOnTileAtIndex(1);
-		onView(withId(R.id.loading_details)).perform(waitFor(20L, TimeUnit.SECONDS));
+		onView(withId(R.id.loading_details)).perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
 
 		screenshot("LX validated hero image");
 
