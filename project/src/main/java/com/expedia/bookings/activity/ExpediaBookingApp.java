@@ -167,11 +167,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			startupTimer.addSplit("Force locale to " + locale.getLanguage());
 		}
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
-			LeanPlumUtils.init(this);
-			startupTimer.addSplit("LeanPlum started.");
-		}
-
 		FontCache.initialize(this);
 		startupTimer.addSplit("FontCache Init");
 
@@ -194,6 +189,11 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			SettingUtils.save(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, true);
 		}
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
+
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+			LeanPlumUtils.init(this);
+			startupTimer.addSplit("LeanPlum started.");
+		}
 
 		// 2249: We were not sending push registrations to the prod push server
 		// If we are upgrading from a previous version we will send an unregister to the test push server

@@ -624,11 +624,14 @@ public class User implements JSONable {
 	 * @return
 	 */
 	public static Traveler.LoyaltyMembershipTier getLoggedInLoyaltyMembershipTier(Context context) {
-		if (User.isLoggedIn(context)
-			&& Db.getUser() != null
-			&& Db.getUser().getPrimaryTraveler() != null) {
+		if (User.isLoggedIn(context)) {
 
-			return Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier();
+			if (Db.getUser() == null) {
+				Db.loadUser(context);
+			}
+			if (Db.getUser().getPrimaryTraveler() != null) {
+				return Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier();
+			}
 		}
 
 		return Traveler.LoyaltyMembershipTier.NONE;
