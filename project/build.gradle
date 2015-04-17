@@ -201,6 +201,8 @@ android {
 
             ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
             ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
+
+            buildConfigField "boolean", "RELEASE", "false"
         }
 
         release {
@@ -208,6 +210,8 @@ android {
             proguardFile file('proguard.cfg')
             zipAlignEnabled true
             signingConfig signingConfigs.release
+
+            buildConfigField "boolean", "RELEASE", "true"
         }
     }
 
