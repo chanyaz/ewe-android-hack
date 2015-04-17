@@ -70,7 +70,7 @@ public class LXErrorWidget extends FrameLayout {
 	}
 
 	public void bind(final ApiError error, final SearchType searchType) {
-		if (error == null) {
+		if (error == null || error.errorCode == null) {
 			showDefaultError();
 			return;
 		}
