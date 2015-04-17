@@ -20,11 +20,12 @@
             <com.expedia.bookings.widget.OptimizedImageView
                 android:id="@+id/header_image"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="@dimen/car_details_image_size"
                 android:scaleType="centerCrop"
                 tools:src="@drawable/bg_flight_summary_row_return_leg_tablet" />
 
             <View
+                android:id="@+id/cars_details_gradient"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:background="@drawable/cars_details_gradient_top" />

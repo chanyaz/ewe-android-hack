@@ -152,7 +152,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 		@Override
 		public void onClick(View view) {
 			CategorizedCarOffers offers = (CategorizedCarOffers) view.getTag();
-			Events.post(new Events.CarsShowDetails(offers));
+			Events.post(new Events.CarsShowDetails(offers, view));
 			OmnitureTracking.trackAppCarRateDetails(itemView.getContext(), offers.offers.get(0));
 		}
 
