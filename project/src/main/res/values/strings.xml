@@ -149,8 +149,6 @@
     <string name="successful_checkout_email_label">Itinerary sent to</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Directions to %1$s</string>
-    <!-- Button label for calling customer support -->
-    <string name="call_customer_support">Call Customer Support</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
