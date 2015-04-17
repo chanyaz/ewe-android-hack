@@ -59,7 +59,7 @@ public class EndpointProvider {
 
 	public String getAbacusEndpoint(final boolean isSecure) {
 		// Always point to production if release
-		if (!BuildConfig.DEBUG) {
+		if (BuildConfig.RELEASE) {
 			return getE3EndpointUrl(isSecure);
 		}
 
@@ -135,7 +135,7 @@ public class EndpointProvider {
 	}
 
 	public EndPoint getEndPoint() {
-		if (!BuildConfig.DEBUG) {
+		if (BuildConfig.RELEASE) {
 			// Fastpath
 			return EndPoint.PRODUCTION;
 		}
