@@ -68,7 +68,7 @@ public class LXViewModel {
 	}
 
 	public static ViewInteraction itinNumberOnConfirmationScreen() {
-		return onView(withId(R.id.itinerary_text_view));
+		return onView(withId(R.id.itin_number));
 	}
 
 	public static ViewInteraction searchResultsWidget() {

@@ -2,6 +2,7 @@ package com.expedia.bookings.test.ui.happy;
 
 import java.util.concurrent.TimeUnit;
 
+import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -21,8 +22,8 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.ui.espresso.ViewActions.clickOnFirstEnabled;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.waitFor;
+import static org.hamcrest.Matchers.containsString;
 
 public class LxPhoneHappyPath extends PhoneTestCase {
 
@@ -31,16 +32,43 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 	}
 
 	public void testLxPhoneHappyPathViaDefaultSearch() throws Throwable {
-		final String ticketName = "2-Day";
 
+		if (getLxIdlingResource().isInSearchEditMode()) {
+			onView(Matchers
+				.allOf(withId(R.id.error_action_button), withText(
+					R.string.edit_search))).perform(click());
+
+			String expectedLocationDisplayName = "San Francisco, CA";
+			LXViewModel.location().perform(typeText("San"));
+			LXViewModel.selectLocation(getInstrumentation(), expectedLocationDisplayName);
+			LXViewModel.selectDateButton().perform(click());
+			LXViewModel.selectDates(LocalDate.now(), null);
+			LXViewModel.searchButton().perform(click());
+		}
+		validateRestHappyFlow();
+	}
+
+	public void testLxPhoneHappyPathViaExplicitSearch() throws Throwable {
+		LXViewModel.searchButtonInSRPToolbar().perform(click());
+		screenshot("LX Search");
+		LXViewModel.location().perform(typeText("San"));
+		LXViewModel.selectLocation(getInstrumentation(), "San Francisco, CA");
+		LXViewModel.selectDateButton().perform(click());
+		LXViewModel.selectDates(LocalDate.now(), null);
+		screenshot("LX Search Params Entered");
+		LXViewModel.searchButton().perform(click());
+		validateRestHappyFlow();
+	}
+
+	private void validateRestHappyFlow() throws Throwable {
+
+		final String ticketName = "2-Day";
 		screenshot("LX Search Results");
 
 		onView(withId(R.id.lx_search_results_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 		onView(withId(R.id.loading_details)).perform(waitFor(10L, TimeUnit.SECONDS));
 		screenshot("LX Details");
 
-		LXViewModel.detailsDateContainer().perform(scrollTo(),clickOnFirstEnabled());
-		LXViewModel.selectTicketsButton("2-Day New York Pass").perform(scrollTo(),click());
 		LXInfositePageModel.ticketAddButton(ticketName, "Adult").perform(scrollTo(), click());
 		LXInfositePageModel.bookNowButton(ticketName).perform(scrollTo());
 		screenshot("LX Ticket Selection");
@@ -58,20 +86,7 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 		CVVEntryScreen.clickBookButton();
 
 		screenshot("LX Checkout Started");
-		LXViewModel.itinNumberOnConfirmationScreen().check(matches(withText("7672544862")));
+		LXViewModel.itinNumberOnConfirmationScreen().check(matches(withText(containsString("7672544862"))));
 	}
 
-	public void testLxPhoneHappyPathViaExplicitSearch() throws Throwable {
-		LXViewModel.searchButtonInSRPToolbar().perform(click());
-		screenshot("LX Search");
-
-		LXViewModel.location().perform(typeText("San"));
-		LXViewModel.selectLocation(getInstrumentation(), "San Francisco, CA");
-		LXViewModel.selectDateButton().perform(click());
-		LXViewModel.selectDates(LocalDate.now(), null);
-		screenshot("LX Search Params Entered");
-		LXViewModel.searchButton().perform(click());
-
-		testLxPhoneHappyPathViaDefaultSearch();
-	}
 }
