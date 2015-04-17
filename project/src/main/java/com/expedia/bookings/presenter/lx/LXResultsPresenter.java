@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.StringRes;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
@@ -129,6 +130,7 @@ public class LXResultsPresenter extends Presenter {
 		setupToolbar();
 		searchResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
 		sortFilterWidget.setPadding(0, Ui.getStatusBarHeight(getContext()), 0, 0);
+		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
 	}
 
 	@Override
@@ -278,4 +280,37 @@ public class LXResultsPresenter extends Presenter {
 		toolbarBackground.setAlpha(
 			Strings.equals(getCurrentState(), LXSearchResultsWidget.class.getName()) ? toolbarBackground.getAlpha() : 1f);
 	}
+
+	RecyclerView.OnScrollListener recyclerScrollListener = new RecyclerView.OnScrollListener() {
+		private int scrolledDistance = 0;
+		private int heightOfButton = (int) getResources().getDimension(R.dimen.lx_sort_filter_container_height);
+
+		@Override
+		public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+			super.onScrollStateChanged(recyclerView, newState);
+
+			if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+				if (scrolledDistance > heightOfButton / 2) {
+					sortFilterButton.animate().translationY(heightOfButton).setInterpolator(new DecelerateInterpolator()).start();
+				}
+				else {
+					sortFilterButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
+				}
+			}
+		}
+
+		@Override
+		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+			super.onScrolled(recyclerView, dx, dy);
+
+			if (scrolledDistance > 0) {
+				scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy);
+				sortFilterButton.setTranslationY(Math.min(heightOfButton, scrolledDistance));
+			}
+			else {
+				scrolledDistance = Math.max(0, scrolledDistance + dy);
+				sortFilterButton.setTranslationY(Math.min(scrolledDistance, 0));
+			}
+		}
+	};
 }
