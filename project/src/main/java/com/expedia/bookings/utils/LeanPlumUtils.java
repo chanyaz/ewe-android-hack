@@ -40,7 +40,7 @@ public class LeanPlumUtils {
 
 	public static void init(ExpediaBookingApp app) {
 		mContext = app.getApplicationContext();
-		if (!BuildConfig.RELEASE) {
+		if (BuildConfig.DEBUG) {
 			String appId = mContext.getString(R.string.lean_plum_sdk_dev_appid);
 			String key = mContext.getString(R.string.lean_plum_sdk_dev_key);
 			Leanplum.setAppIdForDevelopmentMode(appId, key);

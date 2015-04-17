@@ -224,7 +224,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 
 	private void onCreateTripSuccess(CreateItineraryResponse response) {
 		// Debug/Testing only flight price change fake. Let's add desired price change to the response object.
-		if (!BuildConfig.RELEASE) {
+		if (BuildConfig.DEBUG) {
 			String val = SettingUtils.get(getActivity(),
 				getString(R.string.preference_fake_flight_price_change),
 				getString(R.string.preference_fake_price_change_default));

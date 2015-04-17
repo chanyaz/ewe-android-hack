@@ -19,7 +19,7 @@ public class ExpediaDebugUtil {
 	 * Notifies QA with a toast that a memory crash has been saved to disk.
 	 */
 	public static void showExpediaDebugToastIfNeeded(Context context) {
-		if (!BuildConfig.RELEASE
+		if (BuildConfig.DEBUG
 				&& SettingUtils.get(context, context.getString(R.string.preference_debug_notify_oom_crash), false)) {
 			Toast.makeText(context, "Memory crash. Open ExpediaDebug for upload.", Toast.LENGTH_LONG).show();
 			SettingUtils.save(context, context.getString(R.string.preference_debug_notify_oom_crash), false);
@@ -30,7 +30,7 @@ public class ExpediaDebugUtil {
 	 * Returns a fake location (as set in the dev preferences) if it's available, otherwise returns null.
 	 */
 	public static Location getFakeLocation(Context context) {
-		if (!BuildConfig.RELEASE) {
+		if (BuildConfig.DEBUG) {
 			String fakeLatLng = SettingUtils.get(context, context.getString(R.string.preference_fake_current_location),
 					"");
 			if (!TextUtils.isEmpty(fakeLatLng)) {

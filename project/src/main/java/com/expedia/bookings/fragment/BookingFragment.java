@@ -277,7 +277,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 				// If the debug setting is made to fake a price change, then fake the price here too
 				// This is sort of a second price change, to help figure out testing when we have obfees and a price change...
-				if (!BuildConfig.RELEASE) {
+				if (BuildConfig.DEBUG) {
 					String val = SettingUtils.get(getActivity(),
 						getString(R.string.preference_fake_flight_price_change),
 						getString(R.string.preference_fake_price_change_default));

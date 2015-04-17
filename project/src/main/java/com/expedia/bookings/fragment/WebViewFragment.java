@@ -334,7 +334,7 @@ public class WebViewFragment extends DialogFragment {
 			@Override
 			public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 				// Ignore
-				if (!BuildConfig.RELEASE) {
+				if (BuildConfig.DEBUG) {
 					Log.d("WebViewFragment: Got an SSL certificate error (primary: " + error.getPrimaryError()
 						+ "), but we're going to proceed anyways because this is a debug build.  URL=" + mUrl);
 

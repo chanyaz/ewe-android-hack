@@ -2758,7 +2758,7 @@ public class OmnitureTracking {
 
 	private static void addStandardFields(Context context, ADMS_Measurement s) {
 		// Add debugging flag if not release
-		if (!BuildConfig.RELEASE || DebugUtils.isLogEnablerInstalled(context)) {
+		if (BuildConfig.DEBUG || DebugUtils.isLogEnablerInstalled(context)) {
 			s.setDebugLogging(true);
 		}
 

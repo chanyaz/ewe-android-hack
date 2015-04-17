@@ -554,12 +554,12 @@ public class ExpediaServices implements DownloadListener {
 
 	// Suppress final bookings if we're not in release mode and the preference is set to suppress
 	private static boolean suppressFinalFlightBooking(Context context) {
-		return !BuildConfig.RELEASE
+		return BuildConfig.DEBUG
 			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_flight_bookings), true);
 	}
 
 	private static boolean suppressFinalHotelBooking(Context context) {
-		return !BuildConfig.RELEASE
+		return BuildConfig.DEBUG
 			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_hotel_bookings), true);
 	}
 
@@ -687,7 +687,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 		rh.setNumNights(params.getStayDuration());
 
-		if (!BuildConfig.RELEASE) {
+		if (BuildConfig.DEBUG) {
 			boolean disabled = SettingUtils
 				.get(mContext, mContext.getString(R.string.preference_disable_domain_v2_hotel_search), false);
 

@@ -321,7 +321,7 @@ public class WalletUtils {
 	}
 
 	public static boolean tryToCreateCvvChallenge(Context context) {
-		return !BuildConfig.RELEASE
+		return BuildConfig.DEBUG
 				&& SettingUtils.get(context, context.getString(R.string.preference_google_wallet_cvv_challenge), false);
 	}
 
@@ -560,7 +560,7 @@ public class WalletUtils {
 		}
 
 		//Sometimes we want to fake a google wallet error, so we created a dev setting
-		if (!BuildConfig.RELEASE
+		if (BuildConfig.DEBUG
 				&& SettingUtils.get(context,
 						context.getString(R.string.preference_fake_invalid_google_wallet_line_item), false)) {
 			Money fakeFee = new Money(total);

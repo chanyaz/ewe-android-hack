@@ -309,7 +309,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		final Rate newRate = response.getAirAttachRate() != null ? response.getAirAttachRate() : response.getNewRate();
 
 		// Fake price change
-		if (!BuildConfig.RELEASE) {
+		if (BuildConfig.DEBUG) {
 			String priceChangeString = SettingUtils.get(getActivity(),
 				getString(R.string.preference_fake_hotel_price_change),
 				getString(R.string.preference_fake_price_change_default));

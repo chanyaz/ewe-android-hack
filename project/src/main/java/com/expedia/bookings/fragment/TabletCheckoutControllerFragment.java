@@ -1090,7 +1090,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			getCurrentBookingFragment().handleBookingErrorResponse(results, getLob());
 		}
 		else {
-			if (!BuildConfig.RELEASE) {
+			if (BuildConfig.DEBUG) {
 				if (SettingUtils
 					.get(getActivity(), R.string.preference_force_google_wallet_error, false)) {
 					ServerError googleWalletError = new ServerError();
