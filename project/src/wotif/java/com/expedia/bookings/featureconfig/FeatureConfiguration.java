@@ -97,7 +97,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isAdXEnabled() {
-		return true;
+		return false;
 	}
 
 	public int getAdXPosIdentifier() {
@@ -235,5 +235,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public String getClientShortName() {
 		return "wotif";
+	}
+
+	@Override
+	public String getAdXKey() {
+		//Key not available for Wotif for now, so passing blank.
+		return "";
 	}
 }
