@@ -28,10 +28,22 @@
         <property name="message" value="Line uses tabs spaces then tabs"/>
     </module>
 
-    <!-- Don't use android.util.Log -->
+    <!-- "Don't use" checks -->
     <module name="RegexpSingleline">
         <property name="format" value="android.util.Log"/>
         <property name="message" value="Don't use android.util.Log, use com.mobiata.android.Log instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="AndroidUtils.isRelease"/>
+        <property name="message" value="Don't use AndroidUtils.isRelease, use BuildConfig.DEBUG/BuildConfig.RELEASE instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="!BuildConfig.DEBUG"/>
+        <property name="message" value="Don't use !BuildConfig.DEBUG, use BuildConfig.RELEASE instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="!BuildConfig.RELEASE"/>
+        <property name="message" value="Don't use !BuildConfig.RELEASE, use BuildConfig.DEBUG instead"/>
     </module>
 
     <module name="TreeWalker">
