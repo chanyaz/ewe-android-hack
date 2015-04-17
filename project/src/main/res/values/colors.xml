@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Action Bar colors -->
+    <color name="action_bar_selected_tab_underline_color">#FFED18</color>
+
     <!-- Tablet colors -->
     <color name="results_cal_trav_bg">#eaeaea</color>
     <color name="launch_tile_pressed_overlay">#40000000</color>

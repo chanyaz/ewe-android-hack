@@ -8,6 +8,9 @@
     <dimen name="match_parent">-1px</dimen>
     <dimen name="wrap_content">-2px</dimen>
 
+    <!-- Action Bar selected tab underline height -->
+    <dimen name="action_bar_selected_tab_underline_height">1dp</dimen>
+
     <!-- Values that L2ImageCache will use for Stack Blur -->
     <fraction name="stack_blur_darken_multiplier">65%</fraction>
     <dimen name="stack_blur_radius">25dp</dimen>

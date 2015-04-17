@@ -68,13 +68,9 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#C3C3C3" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@drawable/lob_widget_shadow" />
+            android:layout_height="8dp"
+            android:alpha="0.23"
+            android:background="@drawable/lob_box_shadow"/>
     </LinearLayout>
 
 </LinearLayout>
