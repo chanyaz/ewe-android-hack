@@ -70,6 +70,9 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 	@InjectView(R.id.itin_number)
 	TextView itineraryNumber;
 
+	@InjectView(R.id.reservation_confirmation_text)
+	TextView reservationConfirmation;
+
 	@Inject
 	LXState lxState;
 
@@ -127,7 +130,8 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 		date.setText(DateUtils.localDateToEEEMMMdd(offerSelectedDate));
 		emailText.setText(lxCheckoutParams.email);
-		confirmationText.setText(res.getString(R.string.successful_checkout_email_label));
+		confirmationText.setText(res.getString(R.string.lx_successful_checkout_email_label));
+		reservationConfirmation.setText(res.getString(R.string.lx_successful_checkout_reservation_label));
 		itineraryNumber.setText(res.getString(R.string.successful_checkout_TEMPLATE, event.checkoutResponse.newTrip.itineraryNumber));
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());

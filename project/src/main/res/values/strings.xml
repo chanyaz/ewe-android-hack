@@ -579,6 +579,10 @@
     <string name="lx_error_price_changed">We\&apos;re sorry, but this activity\&apos;s price changed. Please try booking again.</string>
     <!-- Edit search toolbar title -->
     <string name="edit_search_toolbar">Edit Search</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">Your tickets have been sent to</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">Your reservation is confirmed!</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
