@@ -105,6 +105,7 @@
     <string name="preference_launch_screen">7369</string>
     <string name="preference_checkout_or_messaging">7372</string>
     <string name="preference_hotel_result_rating">7373</string>
+    <string name="preference_flight_confirmation_car_cross_sell">7370</string>
 
     <string name="preference_abacus_setting_server">Abacus Server</string>
     <string name="preference_abacus_setting_controlgroup">Control Group</string>

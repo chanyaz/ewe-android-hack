@@ -798,6 +798,7 @@ public class OmnitureTracking {
 		// order #
 		s.setProp(72, orderId);
 
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppFlightConfCarsXsell);
 		s.track();
 	}
 
@@ -1702,6 +1703,8 @@ public class OmnitureTracking {
 	private static final String AIR_ATTACH_ELIGIBLE = "App.Flight.CKO.AttachEligible";
 	private static final String AIR_ATTACH_HOTEL_ADD = "App.Hotels.IS.AddTrip";
 	private static final String ADD_ATTACH_HOTEL = "App.Flight.CKO.Add.AttachHotel";
+	private static final String ADD_ATTACH_CAR = "App.Flight.CKO.Confirm.Xsell";
+	private static final String CROSS_SELL_CAR_FROM_FLIGHT = "CrossSell.Flight.Confirm.Cars";
 	private static final String BOOK_NEXT_ATTACH_HOTEL = "App.Flight.CKO.BookNext";
 	private static final String AIR_ATTACH_ITIN_XSELL = "Itinerary X-Sell";
 	private static final String AIR_ATTACH_ITIN_XSELL_REF = "App.Itin.X-Sell.Hotel";
@@ -1868,6 +1871,15 @@ public class OmnitureTracking {
 		s.setEvar(28, ADD_ATTACH_HOTEL);
 		s.setProp(16, ADD_ATTACH_HOTEL);
 		s.trackLink(null, "o", "Checkout", null, null);
+	}
+
+	public static void trackAddCarClick(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(28, ADD_ATTACH_CAR);
+		s.setProp(16, ADD_ATTACH_CAR);
+		s.setEvar(12, CROSS_SELL_CAR_FROM_FLIGHT);
+		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
 	}
 
 	public static void trackDoneBookingClick(Context context, LineOfBusiness lob) {

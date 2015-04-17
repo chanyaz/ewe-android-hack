@@ -2,6 +2,8 @@ package com.expedia.bookings.utils;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -35,8 +37,12 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelBookingFragment;
+import com.expedia.bookings.services.DateTimeTypeAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
@@ -257,6 +263,19 @@ public class NavUtils {
 	public static void goToCars(Context context, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, CarActivity.class);
+		startActivity(context, intent, animOptions);
+	}
+
+	public static void goToCars(Context context, Bundle animOptions, CarSearchParams searchParams) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, CarActivity.class);
+		if (searchParams != null) {
+			Gson gson = new GsonBuilder()
+				.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+				.create();
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, gson.toJson(searchParams));
+		}
+
 		startActivity(context, intent, animOptions);
 	}
 

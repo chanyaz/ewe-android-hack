@@ -17,6 +17,17 @@
         style="@style/Confirmation.Action"
         android:drawableLeft="@drawable/ic_bed"/>
 
+    <View
+        android:id="@+id/car_divider"
+        android:visibility="gone"
+        style="@style/Confirmation.Divider.Action.Flight" />
+
+    <TextView
+        android:id="@+id/cars_action_text_view"
+        style="@style/Confirmation.Action"
+        android:visibility="gone"
+        android:drawableLeft="@drawable/ic_car" />
+
     <include layout="@layout/include_air_attach_button"
         android:id="@+id/air_attach_confirmation_banner"
         android:layout_width="match_parent"
