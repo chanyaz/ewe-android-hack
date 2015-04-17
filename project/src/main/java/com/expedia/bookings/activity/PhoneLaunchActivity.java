@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
@@ -44,7 +45,6 @@ import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 
 public class PhoneLaunchActivity extends ActionBarActivity implements OnListModeChangedListener,
 	ItinItemListFragmentListener, IPhoneLaunchFragmentListener, DoLogoutListener {
@@ -302,7 +302,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 				logOutBtn.setEnabled(logoutBtnEnabled);
 			}
 		}
-		if (AndroidUtils.isRelease(this)) {
+		if (BuildConfig.RELEASE) {
 			MenuItem settingsBtn = menu.findItem(R.id.settings);
 			if (settingsBtn != null) {
 				settingsBtn.setVisible(ProductFlavorFeatureConfiguration.getInstance().isSettingsInMenuVisible());

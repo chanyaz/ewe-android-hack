@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
@@ -31,7 +32,6 @@ import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWalletRequest;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public class FlightBookingFragment extends BookingFragment<FlightCheckoutResponse> implements
@@ -224,7 +224,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 
 	private void onCreateTripSuccess(CreateItineraryResponse response) {
 		// Debug/Testing only flight price change fake. Let's add desired price change to the response object.
-		if (!AndroidUtils.isRelease(getActivity())) {
+		if (!BuildConfig.RELEASE) {
 			String val = SettingUtils.get(getActivity(),
 				getString(R.string.preference_fake_flight_price_change),
 				getString(R.string.preference_fake_price_change_default));

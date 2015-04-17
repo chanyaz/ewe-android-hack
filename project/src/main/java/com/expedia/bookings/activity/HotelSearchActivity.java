@@ -68,6 +68,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.content.AutocompleteProvider;
@@ -2192,7 +2193,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// disable the hanging tag for speed purposes
 
 			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
-				if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
+				if (AndroidUtils.isEmulator() && BuildConfig.DEBUG) {
 					mProgressBar.setVisibility(View.GONE);
 				}
 				else {

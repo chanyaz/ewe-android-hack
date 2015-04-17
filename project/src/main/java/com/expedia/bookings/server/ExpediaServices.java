@@ -101,7 +101,6 @@ import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
@@ -555,12 +554,12 @@ public class ExpediaServices implements DownloadListener {
 
 	// Suppress final bookings if we're not in release mode and the preference is set to suppress
 	private static boolean suppressFinalFlightBooking(Context context) {
-		return !AndroidUtils.isRelease(context)
+		return !BuildConfig.RELEASE
 			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_flight_bookings), true);
 	}
 
 	private static boolean suppressFinalHotelBooking(Context context) {
-		return !AndroidUtils.isRelease(context)
+		return !BuildConfig.RELEASE
 			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_hotel_bookings), true);
 	}
 
@@ -688,7 +687,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 		rh.setNumNights(params.getStayDuration());
 
-		if (!AndroidUtils.isRelease(mContext)) {
+		if (!BuildConfig.RELEASE) {
 			boolean disabled = SettingUtils
 				.get(mContext, mContext.getString(R.string.preference_disable_domain_v2_hotel_search), false);
 
@@ -1488,7 +1487,7 @@ public class ExpediaServices implements DownloadListener {
 			post.addHeader("MobiataPushName", appNameForMobiataPushNameHeader + "Alpha");
 		}
 
-		if (AndroidUtils.isRelease(mContext)
+		if (BuildConfig.RELEASE
 			|| !SettingUtils.get(mContext, mContext.getString(R.string.preference_disable_push_registration), false)) {
 
 			synchronized (PushNotificationUtils.getLockObject(regId)) {

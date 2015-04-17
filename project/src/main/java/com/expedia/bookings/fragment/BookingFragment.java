@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
@@ -26,7 +27,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public abstract class BookingFragment<T extends Response> extends FullWalletFragment {
@@ -277,7 +277,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 				// If the debug setting is made to fake a price change, then fake the price here too
 				// This is sort of a second price change, to help figure out testing when we have obfees and a price change...
-				if (!AndroidUtils.isRelease(getActivity())) {
+				if (!BuildConfig.RELEASE) {
 					String val = SettingUtils.get(getActivity(),
 						getString(R.string.preference_fake_flight_price_change),
 						getString(R.string.preference_fake_price_change_default));

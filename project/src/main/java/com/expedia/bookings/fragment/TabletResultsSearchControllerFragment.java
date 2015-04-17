@@ -21,6 +21,7 @@ import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
@@ -51,7 +52,6 @@ import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TouchableFrameLayout;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
 
@@ -781,7 +781,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (mGrid.isLandscape()) {
 				// This is only to ensure the search controls shift left of the overflow menu. This
 				// overflow menu is only present for debug builds.
-				if (!AndroidUtils.isRelease(getActivity())) {
+				if (!BuildConfig.RELEASE) {
 					float transX = percentage * -searchBarHeight;
 					mOrigBtn.setTranslationX(transX);
 					mCalBtn.setTranslationX(transX);

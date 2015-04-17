@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.ViewGroup;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
@@ -33,7 +34,6 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 
 /**
  * TabletCheckoutActivity: The checkout activity designed for tablet 2014
@@ -189,7 +189,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
 		//We allow debug users to jump between states
-		if (!AndroidUtils.isRelease(this)) {
+		if (BuildConfig.DEBUG) {
 			//We use ordinal() + 1 for all ids and groups because 0 == Menu.NONE
 			SubMenu subMen = menu.addSubMenu(Menu.NONE, Menu.NONE, 0, "Checkout State");
 			subMen.add(CheckoutState.OVERVIEW.ordinal() + 1, CheckoutState.OVERVIEW.ordinal() + 1,
@@ -228,7 +228,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 		}
 
 		//We allow debug users to jump between states
-		if (!AndroidUtils.isRelease(this) && mFragCheckoutController != null) {
+		if (BuildConfig.DEBUG && mFragCheckoutController != null) {
 
 			//All of our groups/ids are .ordinal() + 1 so we subtract here to make things easier
 			int groupId = item.getGroupId() - 1;

@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.AdX.tag.AdXConnect;
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -23,7 +24,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 
 public class AdX {
 	private static Context sAppContext;
@@ -35,7 +35,7 @@ public class AdX {
 		sConnected = false;
 		sAppContext = context.getApplicationContext();
 		sEnabled = enabled;
-		if (AndroidUtils.isRelease(sAppContext)) {
+		if (BuildConfig.RELEASE) {
 			sLogLevel = 0;
 		}
 		else {

@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.data.Sp;
@@ -27,7 +28,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.AndroidUtils;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
@@ -106,7 +106,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		if (mControllerFragment.shouldDisplayMenu()) {
 			getMenuInflater().inflate(R.menu.menu_launch_tablet, menu);
 			getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
-			if (!AndroidUtils.isRelease(this)) {
+			if (BuildConfig.DEBUG) {
 				DebugMenu.onCreateOptionsMenu(this, menu);
 			}
 		}
@@ -117,7 +117,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (mControllerFragment.shouldDisplayMenu()) {
-			if (!AndroidUtils.isRelease(this)) {
+			if (BuildConfig.DEBUG) {
 				DebugMenu.onPrepareOptionsMenu(this, menu);
 			}
 		}
