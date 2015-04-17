@@ -260,7 +260,7 @@ public class PaymentWidget extends ExpandableCardView {
 			bind();
 			paymentButton.bind();
 			mValidFormsOfPaymentListener.onChange();
-			OmnitureTracking.trackAppCarCheckoutPayment(getContext());
+			OmnitureTracking.trackCheckoutPayment(lineOfBusiness, getContext());
 		}
 		else {
 			cardInfoContainer.setVisibility(VISIBLE);

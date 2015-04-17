@@ -1196,13 +1196,20 @@ public class OmnitureTracking {
 	public static final String LX_SEARCH = "App.LX.Search";
 	public static final String LX_DESTINATION_SEARCH = "App.LX.Dest-Search";
 	public static final String LX_INFOSITE_INFORMATION = "App.LX.Infosite.Information";
-	public static final String LX_CHECKOUT_PAYMENT = "App.LX.Checkout.Payment";
+	public static final String LX_CHECKOUT_INFO = "App.LX.Checkout.Info";
 	public static final String LX_CHECKOUT_CONFIRMATION = "App.LX.Checkout.Confirmation";
 
 	public static final String LX_TICKET_SELECT = "App.LX.Ticket.Select";
 	public static final String LX_CHANGE_DATE = "App.LX.Info.DateChange";
 	public static final String LX_INFO = "LX_INFO";
 	public static final String LX_TICKET = "App.LX.Ticket.";
+	private static final String LX_CHECKOUT_TRAVELER_INFO = "App.LX.Checkout.Traveler.Edit.Info";
+	private static final String LX_CHECKOUT_LOGIN = "App.LX.Checkout.Login";
+	private static final String LX_CHECKOUT_LOGIN_SUCCESS = "App.LX.Checkout.Login.Success";
+	private static final String LX_CHECKOUT_LOGIN_ERROR = "App.LX.Checkout.Login.Error";
+	private static final String LX_CHECKOUT_PAYMENT_INFO = "App.LX.Checkout.Payment.Edit.Info";
+	private static final String LX_CHECKOUT_SLIDE_TO_PURCHASE = "App.LX.Checkout.SlideToPurchase";
+	private static final String LX_CHECKOUT_CVV_SCREEN = "App.LX.Checkout.Payment.CID";
 
 	public static void trackAppLXSearch(Context context, LXSearchParams lxSearchParams, LXSearchResponse lxSearchResponse) {
 		// Start actually tracking the search result change
@@ -1264,12 +1271,12 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXCheckoutPayment(Context context, LXCreateTripResponse createTripResponse, LXState lxState) {
-		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_PAYMENT + "\" pageLoad...");
+		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_INFO + "\" pageLoad...");
 
-		ADMS_Measurement s = internalTrackAppLX(context, LX_CHECKOUT_PAYMENT);
-		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getAmount().toString();
+		ADMS_Measurement s = internalTrackAppLX(context, LX_CHECKOUT_INFO);
+		String totalMoney = createTripResponse.lxProduct.totalPrice.amount;
 		int ticketCount = LXUtils.getTotalTicketCount(lxState.selectedTickets);
-		String activityId = createTripResponse.activityId;
+		String activityId = lxState.activity.id;
 
 
 		s.setEvents("event75");
@@ -1288,12 +1295,12 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_CONFIRMATION + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(context, LX_CHECKOUT_CONFIRMATION);
-		String activityId = checkoutResponse.activityId;
+		String activityId = lxState.activity.id;
 		List<Ticket> selectedTickets = lxState.selectedTickets;
 		String orderId = checkoutResponse.orderId;
 		String currencyCode = checkoutResponse.currencyCode;
 		String travelRecordLocator = checkoutResponse.newTrip.travelRecordLocator;
-		String totalMoney = LXUtils.getTotalAmount(selectedTickets).getAmount().toString();
+		String totalMoney = checkoutResponse.totalCharges;
 		int ticketCount = LXUtils.getTotalTicketCount(selectedTickets);
 
 		s.setEvents("purchase");
@@ -1312,6 +1319,80 @@ public class OmnitureTracking {
 		setDateValues(s, searchParams.startDate, searchParams.endDate);
 
 		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackAppLXCheckoutTraveler(Context context) {
+		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setAppState(LX_CHECKOUT_TRAVELER_INFO);
+		s.track();
+
+	}
+
+	public static void trackAppLXCheckoutLoginError(Context context, String errorMessage) {
+		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_LOGIN_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+
+		s.setEvar(28, LX_CHECKOUT_LOGIN_ERROR);
+		s.setProp(16, LX_CHECKOUT_LOGIN_ERROR);
+		s.setProp(36, "LX:" + errorMessage);
+
+		s.trackLink(null, "o", "User Login", null, null);
+	}
+
+	public static void trackAppLXCheckoutLoginSuccess(Context context) {
+		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_LOGIN_SUCCESS + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+
+		s.setEvar(28, LX_CHECKOUT_LOGIN_SUCCESS);
+		s.setProp(16, LX_CHECKOUT_LOGIN_SUCCESS);
+		s.setEvents("event26");
+
+		s.trackLink(null, "o", "User Login", null, null);
+	}
+
+	public static void trackAppLXLoginPage(Context context) {
+		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_LOGIN + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		s.setAppState(LX_CHECKOUT_LOGIN);
+		s.setEvar(18, LX_CHECKOUT_LOGIN);
+		s.track();
+	}
+
+	public static void trackAppLXCheckoutPayment(Context context) {
+		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_PAYMENT_INFO + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		s.setAppState(LX_CHECKOUT_PAYMENT_INFO);
+		s.setEvar(18, LX_CHECKOUT_PAYMENT_INFO);
+		s.track();
+	}
+
+	public static void trackAppLXCheckoutSlideToPurchase(Context context, CreditCardType creditCardType) {
+		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setAppState(LX_CHECKOUT_SLIDE_TO_PURCHASE);
+		s.setEvar(18, LX_CHECKOUT_SLIDE_TO_PURCHASE);
+		s.setEvar(37,
+			creditCardType != CreditCardType.UNKNOWN ? Strings.capitalizeFirstLetter(creditCardType.toString())
+				: context.getString(R.string.lx_omniture_checkout_no_credit_card));
+		s.track();
+	}
+
+	public static void trackAppLXCheckoutCvvScreen(Context context) {
+		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_CVV_SCREEN + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		s.setAppState(LX_CHECKOUT_CVV_SCREEN);
+		s.setEvar(18, LX_CHECKOUT_CVV_SCREEN);
+
 		s.track();
 	}
 
@@ -3328,4 +3409,58 @@ public class OmnitureTracking {
 		return s;
 	}
 
+
+	public static void trackCheckoutLoginError(LineOfBusiness lineOfBusiness, Context context, String errorMessage) {
+		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
+			trackAppCarCheckoutLoginError(context, errorMessage);
+		}
+		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
+			trackAppLXCheckoutLoginError(context, errorMessage);
+		}
+	}
+
+	public static void trackCheckoutSlideToPurchase(LineOfBusiness lineOfBusiness, Context context, CreditCardType creditCardType) {
+		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
+			trackAppCarCheckoutSlideToPurchase(context, creditCardType);
+		}
+		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
+			trackAppLXCheckoutSlideToPurchase(context, creditCardType);
+		}
+	}
+
+	public static void trackCheckoutLoginSuccess(LineOfBusiness lineOfBusiness, Context context) {
+		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
+			trackAppCarCheckoutLoginSuccess(context);
+		}
+		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
+			trackAppLXCheckoutLoginSuccess(context);
+		}
+	}
+
+	public static void trackCheckoutPayment(LineOfBusiness lineOfBusiness, Context context) {
+		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
+			trackAppCarCheckoutPayment(context);
+		}
+		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
+			trackAppLXCheckoutPayment(context);
+		}
+	}
+
+	public static void trackCheckoutTraveler(LineOfBusiness lineOfBusiness, Context context) {
+		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
+			trackAppCarCheckoutTraveler(context);
+		}
+		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
+			trackAppLXCheckoutTraveler(context);
+		}
+	}
+
+	public static void trackLoginPage(LineOfBusiness lineOfBusiness, Context context) {
+		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
+			trackAppCarLoginPage(context);
+		}
+		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
+			trackAppLXLoginPage(context);
+		}
+	}
 }

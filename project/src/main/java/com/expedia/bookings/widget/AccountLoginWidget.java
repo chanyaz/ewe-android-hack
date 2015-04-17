@@ -1204,7 +1204,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 				errorMessage = "Unknown error";
 			}
 		}
-		OmnitureTracking.trackAppCarCheckoutLoginError(getContext(), errorMessage);
+		OmnitureTracking.trackCheckoutLoginError(mLob, getContext(), errorMessage);
 	}
 
 	private final OnDownloadComplete<SignInResponse> mLoginHandler = new OnDownloadComplete<SignInResponse>() {
@@ -1409,7 +1409,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			clearLoginFields();
 			mExpediaUserName.requestFocus();
 			Ui.showKeyboard(mExpediaUserName, null);
-			OmnitureTracking.trackAppCarLoginPage(getContext());
+			OmnitureTracking.trackLoginPage(mLob, getContext());
+
 		}
 		if (mToolbarListener != null) {
 			mToolbarListener.setActionBarTitle(getActionBarTitle());

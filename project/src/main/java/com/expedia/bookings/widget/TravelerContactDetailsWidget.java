@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.InvalidCharacterHelper;
@@ -23,6 +24,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class TravelerContactDetailsWidget extends ExpandableCardView implements TravelerButton.ITravelerButtonListener {
+
+	private LineOfBusiness lineOfBusiness;
 
 	public TravelerContactDetailsWidget(Context context, AttributeSet attr) {
 		super(context, attr);
@@ -184,7 +187,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			firstName.requestFocus();
 			Ui.showKeyboard(firstName, null);
 			bind();
-			OmnitureTracking.trackAppCarCheckoutTraveler(getContext());
+			OmnitureTracking.trackCheckoutTraveler(lineOfBusiness, getContext());
 		}
 		else {
 			bind();
@@ -257,4 +260,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		}
 	}
 
+	public void setLineOfBusiness(LineOfBusiness lob) {
+		lineOfBusiness = lob;
+	}
 }
