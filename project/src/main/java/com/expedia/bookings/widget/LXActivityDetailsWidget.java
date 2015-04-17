@@ -150,6 +150,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 		// Display readmore for description and highlights if content is more than 5 lines.
 		int maxLines = getResources().getInteger(R.integer.lx_detail_content_description_max_lines);
 
+		resetSections();
 		if (Strings.isNotEmpty(activityDetailsResponse.description)) {
 			String descriptionContent = StrUtils.stripHTMLTags(activityDetailsResponse.description);
 			description.bindData(getResources().getString(R.string.description_activity_details), descriptionContent, maxLines);
@@ -188,6 +189,17 @@ public class LXActivityDetailsWidget extends ScrollView {
 			cancellation.setVisibility(View.VISIBLE);
 		}
 
+	}
+
+	// Not all activities have all the sections. Reset before building details.
+	private void resetSections() {
+		description.setVisibility(View.GONE);
+		location.setVisibility(View.GONE);
+		highlights.setVisibility(View.GONE);
+		inclusions.setVisibility(View.GONE);
+		exclusions.setVisibility(View.GONE);
+		knowBeforeYouBook.setVisibility(View.GONE);
+		cancellation.setVisibility(View.GONE);
 	}
 
 	private void buildOfferDatesSelector(OffersDetail offersDetail, LocalDate startDate) {

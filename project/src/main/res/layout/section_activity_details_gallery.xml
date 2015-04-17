@@ -4,7 +4,7 @@
     android:id="@+id/activity_gallery"
     android:layout_width="match_parent"
     android:layout_height="@dimen/gallery_height"
-    android:background="@drawable/placeholder_lg"
+    android:background="@drawable/results_list_placeholder"
     android:fadingEdge="none"
     android:spacing="20dp"
     android:unselectedAlpha="1.0"

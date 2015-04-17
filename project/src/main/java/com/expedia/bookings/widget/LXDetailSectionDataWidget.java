@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.text.Layout;
 import android.util.AttributeSet;
@@ -18,6 +19,8 @@ import butterknife.InjectView;
 
 
 public class LXDetailSectionDataWidget extends LinearLayout implements View.OnClickListener {
+
+	private static final int ANIMATION_DURATION = 200;
 
 	public LXDetailSectionDataWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -70,12 +73,14 @@ public class LXDetailSectionDataWidget extends LinearLayout implements View.OnCl
 			int totalLineCount = sectionContent.getLineCount();
 			int displayedLineCount = sectionContent.getMaxLines();
 			if (displayedLineCount < totalLineCount) {
-				sectionContent.setMaxLines(totalLineCount);
 				AnimUtils.rotate(readMoreView);
+				ObjectAnimator animation = ObjectAnimator.ofInt(sectionContent, "maxLines", totalLineCount);
+				animation.setDuration(ANIMATION_DURATION).start();
 			}
 			else {
-				sectionContent.setMaxLines(maxLineCount);
 				AnimUtils.reverseRotate(readMoreView);
+				ObjectAnimator animation = ObjectAnimator.ofInt(sectionContent, "maxLines", maxLineCount);
+				animation.setDuration(ANIMATION_DURATION).start();
 			}
 		}
 	}
