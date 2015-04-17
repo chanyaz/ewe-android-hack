@@ -8,11 +8,11 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.LXBaseActivity;
 import com.expedia.bookings.test.component.lx.LXViewModel;
 import com.expedia.bookings.test.component.lx.pagemodels.LXInfositePageModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -27,11 +27,14 @@ import static org.hamcrest.Matchers.containsString;
 
 public class LxPhoneHappyPath extends PhoneTestCase {
 
-	public LxPhoneHappyPath() {
-		super(LXBaseActivity.class);
+	public void goToLxSearchResults() throws Throwable {
+		screenshot("Launch");
+		LaunchScreen.launchActivities();
+		screenshot("LX_Search_Results");
 	}
 
 	public void testLxPhoneHappyPathViaDefaultSearch() throws Throwable {
+		goToLxSearchResults();
 
 		if (getLxIdlingResource().isInSearchEditMode()) {
 			onView(Matchers
@@ -49,6 +52,7 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 	}
 
 	public void testLxPhoneHappyPathViaExplicitSearch() throws Throwable {
+		goToLxSearchResults();
 		LXViewModel.searchButtonInSRPToolbar().perform(click());
 		screenshot("LX Search");
 		LXViewModel.location().perform(typeText("San"));

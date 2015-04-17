@@ -26,6 +26,10 @@ public class LaunchScreen extends LaunchActionBar {
 		return onView(allOf(withId(R.id.cars_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
+	public static ViewInteraction lxLaunchButton() {
+		return onView(allOf(withId(R.id.activities_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+	}
+
 	public static ViewInteraction tripsButton() {
 		return onView(withText(R.string.Your_Trips));
 
@@ -41,6 +45,10 @@ public class LaunchScreen extends LaunchActionBar {
 
 	public static void launchCars() {
 		carLaunchButton().perform(click());
+	}
+
+	public static void launchActivities() {
+		lxLaunchButton().perform(click());
 	}
 }
 
