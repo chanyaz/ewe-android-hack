@@ -8,7 +8,7 @@ function add_test() {
 # Run tests
 APK="project/build/outputs/apk/project-expedia-debug-unaligned.apk"
 TEST_APK="project/build/outputs/apk/project-expedia-debug-androidTest-unaligned.apk"
-TYPE="happy"
+TYPE="cars"
 
 if [ -n "$BUILDER_NAME" -a -n "$BUILD_NUMBER" ] ; then
     export OUTPUT_DIR="spoon/${BUILDER_NAME}/${TYPE}/${BUILD_NUMBER}"
@@ -16,11 +16,11 @@ else
     export OUTPUT_DIR="spoon/${TYPE}"
 fi
 
-# Happypath
-add_test "com.expedia.bookings.test.ui.happy.TabletHappyPath"
-add_test "com.expedia.bookings.test.ui.happy.PhoneHappyPath"
-add_test "com.expedia.bookings.test.ui.happy.CarPhoneHappyPath"
-add_test "com.expedia.bookings.test.ui.happy.LxPhoneHappyPath"
+# Cars
+add_test "com.expedia.bookings.test.component.cars.CarSearchPresenterTests"
+add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarSearchErrorTests"
+add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarCreateTripErrorTests"
+add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarCheckoutErrorTests"
 
 java \
     -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \
