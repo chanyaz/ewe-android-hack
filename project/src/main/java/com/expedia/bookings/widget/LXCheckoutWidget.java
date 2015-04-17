@@ -58,7 +58,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 	@Subscribe
 	public void onShowCheckout(Events.LXCreateTripSucceeded event) {
 
-		OmnitureTracking.trackAppLXCheckoutPayment(getContext(), event.createTripResponse, lxState);
+		OmnitureTracking.trackAppLXCheckoutPayment(getContext(), lxState);
 
 		bind(event.createTripResponse);
 	}
