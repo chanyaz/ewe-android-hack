@@ -10,7 +10,6 @@ public class LXCreateTripResponse extends BaseApiResponse {
 	public String tripId;
 	public List<ValidPayment> validFormsOfPayment;
 	public LXExpediaRewards expediaRewards;
-	public LXProduct lxProduct;
 
 	public String getRewardsPoints() {
 		return expediaRewards != null ? expediaRewards.totalPointsToEarn : "";

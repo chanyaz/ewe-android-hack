@@ -65,7 +65,6 @@ import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
-import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.Ticket;
@@ -1270,11 +1269,11 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppLXCheckoutPayment(Context context, LXCreateTripResponse createTripResponse, LXState lxState) {
+	public static void trackAppLXCheckoutPayment(Context context, LXState lxState) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_INFO + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(context, LX_CHECKOUT_INFO);
-		String totalMoney = createTripResponse.lxProduct.totalPrice.amount;
+		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).amount.setScale(2).toString();
 		int ticketCount = LXUtils.getTotalTicketCount(lxState.selectedTickets);
 		String activityId = lxState.activity.id;
 
