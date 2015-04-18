@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +18,7 @@ import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -55,6 +58,8 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	private static final int PAGER_POS_WATERFALL = 0;
 
 	private static final int PAGER_POS_ITIN = 1;
+
+	private static final int TOOLBAR_ANIM_DURATION = 200;
 
 	private IPhoneLaunchActivityLaunchFragment mLaunchFragment;
 	private ItinItemListFragment mItinListFragment;
@@ -466,12 +471,80 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		}
 	}
 
+	private ValueAnimator.AnimatorUpdateListener hideToolbarAnimator = new ValueAnimator.AnimatorUpdateListener() {
+		@Override
+		public void onAnimationUpdate(ValueAnimator arg0) {
+			float val = (float) arg0.getAnimatedValue();
+			mToolbar.setTranslationY(-val * mToolbar.getHeight());
+		}
+	};
+
+	private Animator.AnimatorListener hideToolbarListener = new Animator.AnimatorListener() {
+
+		@Override
+		public void onAnimationStart(Animator animation) {
+			mToolbar.setTranslationY(0);
+		}
+
+		@Override
+		public void onAnimationEnd(Animator animation) {
+			mToolbar.setVisibility(View.GONE);
+		}
+
+		@Override
+		public void onAnimationCancel(Animator animation) {
+			// ignore
+		}
+
+		@Override
+		public void onAnimationRepeat(Animator animation) {
+			// ignore
+		}
+	};
+
+	private ValueAnimator.AnimatorUpdateListener showToolbarAnimator = new ValueAnimator.AnimatorUpdateListener() {
+
+		@Override
+		public void onAnimationUpdate(ValueAnimator arg0) {
+			float val = (float) arg0.getAnimatedValue();
+			mToolbar.setTranslationY((1 - val) * -mToolbar.getHeight());
+		}
+	};
+
+	private Animator.AnimatorListener showToolbarListener = new Animator.AnimatorListener() {
+		@Override
+		public void onAnimationStart(Animator animation) {
+			mToolbar.setTranslationY(-getSupportActionBar().getHeight());
+			mToolbar.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		public void onAnimationEnd(Animator animation) {
+			// ignore
+		}
+
+		@Override
+		public void onAnimationCancel(Animator animation) {
+			// ignore
+		}
+
+		@Override
+		public void onAnimationRepeat(Animator animation) {
+			// ignore
+		}
+	};
+
+
 	@Override
 	public void onListModeChanged(boolean isInDetailMode, boolean animate) {
 		mViewPager.setPageSwipingEnabled(!isInDetailMode);
 		if (isInDetailMode) {
 			if (getSupportActionBar().isShowing()) {
-				getSupportActionBar().hide();
+				ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
+				anim.setDuration(TOOLBAR_ANIM_DURATION);
+				anim.addUpdateListener(hideToolbarAnimator);
+				anim.addListener(hideToolbarListener);
+				anim.start();
 			}
 		}
 		else {
@@ -479,13 +552,12 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 			// animation happens in 200ms, so make it use the last 200ms
 			// of the animation (and check to make sure there wasn't another
 			// mode change in between)
-			mViewPager.postDelayed(new Runnable() {
-				public void run() {
-					if (!mItinListFragment.isInDetailMode() && !getSupportActionBar().isShowing()) {
-						getSupportActionBar().show();
-					}
-				}
-			}, 200); // 400ms - 200ms
+			ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
+			anim.setDuration(TOOLBAR_ANIM_DURATION);
+			anim.addUpdateListener(showToolbarAnimator);
+			anim.addListener(showToolbarListener);
+			mToolbar.setVisibility(View.VISIBLE);
+			anim.start();
 		}
 	}
 

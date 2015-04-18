@@ -47,7 +47,7 @@ class SlidingTabStrip extends LinearLayout {
 
 		TypedValue outValue = new TypedValue();
 		//context.getTheme().resolveAttribute(R.attr.colorForeground, outValue, true);
-		final int themeForegroundColor =  outValue.data;
+		final int themeForegroundColor = outValue.data;
 
 		mDefaultBottomBorderColor = setColorAlpha(themeForegroundColor,
 			DEFAULT_BOTTOM_BORDER_COLOR_ALPHA);
@@ -154,3 +154,4 @@ class SlidingTabStrip extends LinearLayout {
 		}
 	}
 }
+
