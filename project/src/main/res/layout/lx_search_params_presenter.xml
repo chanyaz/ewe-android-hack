@@ -28,7 +28,7 @@
                 android:layout_height="46dp"
                 android:completionThreshold="1"
                 android:dropDownAnchor="@+id/location_container"
-                android:hint="@string/lx_search_location_hint"
+                android:hint="@string/Destination"
                 android:imeOptions="actionDone"
                 android:inputType="textNoSuggestions"
                 android:dropDownSelector="#FFFFFF"/>
