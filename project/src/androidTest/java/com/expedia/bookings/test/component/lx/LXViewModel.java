@@ -121,6 +121,7 @@ public class LXViewModel {
 	}
 
 	public static void waitForDetailsDisplayed() {
+		ScreenActions.delay(1);
 		onView(withId(R.id.offers)).perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
 	}
 
