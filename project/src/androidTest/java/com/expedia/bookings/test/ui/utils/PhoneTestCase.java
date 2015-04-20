@@ -18,12 +18,4 @@ public class PhoneTestCase extends EspressoTestCase {
 			super.runTest();
 		}
 	}
-
-	@Override
-	public void tearDown() throws Exception {
-		super.tearDown();
-		if (Common.isPhone(getInstrumentation())) {
-			Common.pressBackOutOfApp(getInstrumentation());
-		}
-	}
 }
