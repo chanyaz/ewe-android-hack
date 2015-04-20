@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -72,6 +73,9 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 		mRes = getInstrumentation().getTargetContext().getResources();
 
 		// Espresso will not launch our activity for us, we must launch it via getActivity().
+		Intent clearingIntent = new Intent();
+		clearingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		setActivityIntent(clearingIntent);
 		getActivity();
 
 		try {
