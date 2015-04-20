@@ -332,6 +332,11 @@ public class PhoneLaunchWidget extends FrameLayout {
 				Events.post(new Events.LaunchShowLoadingAnimation());
 			}
 
+			// In case the POS changed, ensure that components (particularly hotelServices)
+			// update with regard to new POS.
+			Ui.getApplication(getContext()).defaultLaunchComponents();
+			Ui.getApplication(getContext()).launchComponent().inject(this);
+
 			LocalDate currentDate = new LocalDate();
 			DateTimeFormatter dtf = ISODateTimeFormat.date();
 

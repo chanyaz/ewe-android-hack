@@ -21,10 +21,6 @@
     <dimen name="launch_header_height">48dp</dimen>
     <dimen name="launch_header_top_space">183dp</dimen>
     <dimen name="launch_header_double_row_top_space">240dp</dimen>
-    <dimen name="launch_tile_band">@dimen/one_px_hdpi_two_px_xhdpi</dimen>
-    <dimen name="launch_tile_banner_height">48dp</dimen>
-    <dimen name="launch_tile_height_hotel">160dp</dimen>
-    <dimen name="launch_tile_height_flight">260dp</dimen>
     <dimen name="launch_tile_hotel_sale_horizontal_padding">6dp</dimen>
     <dimen name="launch_tile_hotel_sale_vertical_padding">4dp</dimen>
     <dimen name="launch_tile_hotel_sale_drawable_padding">5dp</dimen>

@@ -62,12 +62,6 @@ public class Db {
 	// Launch hotel data - extracted from a HotelSearchResponse but cached as its own entity to keep data separate
 	private List<Hotel> mLaunchListHotelData;
 
-	private LaunchHotelData mLaunchHotelData;
-
-	private LaunchHotelFallbackData mLaunchHotelFallbackData;
-
-	private LaunchFlightData mLaunchFlightData;
-
 	// Hotel search object - represents both the parameters and
 	// the returned results
 	private HotelSearch mHotelSearch = new HotelSearch();
@@ -157,30 +151,6 @@ public class Db {
 
 	public static List<Hotel> getLaunchListHotelData() {
 		return sDb.mLaunchListHotelData;
-	}
-
-	public static void setLaunchHotelData(LaunchHotelData launchHotelData) {
-		sDb.mLaunchHotelData = launchHotelData;
-	}
-
-	public static LaunchHotelData getLaunchHotelData() {
-		return sDb.mLaunchHotelData;
-	}
-
-	public static void setLaunchHotelFallbackData(LaunchHotelFallbackData launchHotelFallbackData) {
-		sDb.mLaunchHotelFallbackData = launchHotelFallbackData;
-	}
-
-	public static LaunchHotelFallbackData getLaunchHotelFallbackData() {
-		return sDb.mLaunchHotelFallbackData;
-	}
-
-	public static void setLaunchFlightData(LaunchFlightData launchFlightData) {
-		sDb.mLaunchFlightData = launchFlightData;
-	}
-
-	public static LaunchFlightData getLaunchFlightData() {
-		return sDb.mLaunchFlightData;
 	}
 
 	public static HotelSearch getHotelSearch() {
@@ -389,9 +359,7 @@ public class Db {
 		getHotelSearch().resetSearchParams();
 
 		sDb.mUser = null;
-		sDb.mLaunchHotelData = null;
-		sDb.mLaunchHotelFallbackData = null;
-		sDb.mLaunchFlightData = null;
+		sDb.mLaunchListHotelData = null;
 		sDb.mFlightRoutes = null;
 
 		sDb.mTripBucket.clear();
