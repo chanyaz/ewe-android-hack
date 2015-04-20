@@ -131,9 +131,9 @@ public class LXInfositeTestCases extends LxTestCase {
 				matches(LXInfositePageModel.withRestrictionText()));
 			if (isFirstRow) {
 				isFirstRow = false;
-				// the very first row must contain 2 travellers by default
+				// the very first row must contain 1 travellers by default
 				LXInfositePageModel.ticketCount(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-					.check(matches(withText(containsString("2"))));
+					.check(matches(withText(containsString("1"))));
 				LXInfositePageModel.bookNowButton(mExpectedDataTktWdgt.getTicketName()).check(matches(isDisplayed()));
 				//now bring back the counter to zero so that all the rows have zero tickets
 				LXInfositePageModel.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
