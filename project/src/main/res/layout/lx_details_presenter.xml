@@ -12,14 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ProgressBar
-        android:id="@+id/loading_details"
-        style="@android:style/Widget.Holo.Light.ProgressBar.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true" />
-
     <com.expedia.bookings.widget.LXActivityDetailsWidget
         android:id="@+id/activity_details"
         android:layout_width="match_parent"

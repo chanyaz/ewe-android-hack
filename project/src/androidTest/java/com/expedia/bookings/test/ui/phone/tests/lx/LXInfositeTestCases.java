@@ -80,7 +80,7 @@ public class LXInfositeTestCases extends LxTestCase {
 		mTileData = LXSearchResultsPageModel.getTileDataAtIndex(1);
 		screenshot("LX captured data");
 		LXSearchResultsPageModel.clickOnTileAtIndex(1);
-		onView(withId(R.id.loading_details)).perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
+		onView(withId(R.id.overlay_title_container)).perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
 
 		screenshot("LX validated hero image");
 

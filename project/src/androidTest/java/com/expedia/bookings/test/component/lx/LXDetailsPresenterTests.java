@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.component.lx;
 
-import java.util.concurrent.TimeUnit;
-
 import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
@@ -32,7 +30,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.customScroll;
-import static com.expedia.bookings.test.ui.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
@@ -59,7 +56,7 @@ public class LXDetailsPresenterTests {
 	@Test
 	public void testActivityDetails() {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
-		LXViewModel.progressDetails().perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
+		LXViewModel.waitForDetailsDisplayed();
 
 		LXViewModel.detailsWidget().check(matches(isDisplayed()));
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.activity_gallery))));
@@ -81,7 +78,7 @@ public class LXDetailsPresenterTests {
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.title = title;
 		Events.post(new Events.LXActivitySelected(lxActivity));
-		LXViewModel.progressDetails().perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
+		LXViewModel.waitForDetailsDisplayed();
 		LXViewModel.toolbar().check(matches(isDisplayed()));
 
 		String expectedToolbarDateRange = String
@@ -95,7 +92,8 @@ public class LXDetailsPresenterTests {
 	@Test
 	public void testActivityOffers() {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
-		LXViewModel.progressDetails().perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
+		LXViewModel.waitForDetailsDisplayed();
+
 
 		//Ensure that we have 4 offers!
 		LinearLayout offersContainer = (LinearLayout) playground.getRoot().findViewById(R.id.offers_container);
@@ -141,7 +139,7 @@ public class LXDetailsPresenterTests {
 	@Test
 	public void testOffersExpandCollapse() {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
-		LXViewModel.progressDetails().perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
+		LXViewModel.waitForDetailsDisplayed();
 
 		ViewInteraction firstOfferTicketPicker = LXViewModel.ticketPicker("2-Day New York Pass");
 		ViewInteraction secondOfferTicketPicker = LXViewModel.ticketPicker("3-Day New York Pass");
@@ -153,7 +151,7 @@ public class LXDetailsPresenterTests {
 
 		ViewInteraction secondOfferSelectTicket = LXViewModel.selectTicketsButton("3-Day New York Pass");
 		LXViewModel.withOfferText("3-Day New York Pass").perform(customScroll());
-		secondOfferSelectTicket.perform(customScroll(),click());
+		secondOfferSelectTicket.perform(customScroll(), click());
 
 		firstOfferTicketPicker.check(matches(not(isDisplayed())));
 		secondOfferTicketPicker.check(matches(isDisplayed()));
@@ -185,7 +183,7 @@ public class LXDetailsPresenterTests {
 	@Test
 	public void testDatesContainer() {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
-		LXViewModel.progressDetails().perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
+		LXViewModel.waitForDetailsDisplayed();
 
 		RadioGroup container = (RadioGroup) playground.getRoot().findViewById(R.id.offer_dates_container);
 		int count = container.getChildCount();
@@ -196,7 +194,7 @@ public class LXDetailsPresenterTests {
 	@Test
 	public void testDatesContainerSelection() {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
-		LXViewModel.progressDetails().perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
+		LXViewModel.waitForDetailsDisplayed();
 
 		LocalDate now = LocalDate.now();
 		LocalDate withoutOfferDate = LocalDate.now().plusDays(14);
