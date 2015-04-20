@@ -2308,7 +2308,7 @@
       "fromPrice": "$105",
       "fromPriceValue": "105",
       "fromOriginalPrice": "",
-      "duration": "1h",
+      "duration": null,
       "durationInMillis": 3600000,
       "fromPriceTicketType": "vehicle",
       "fromPriceTicketCode": "Vehicle",

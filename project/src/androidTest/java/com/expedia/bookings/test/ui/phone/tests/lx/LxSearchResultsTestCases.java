@@ -14,6 +14,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.component.lx.LXViewModel;
 import com.expedia.bookings.test.component.lx.pagemodels.LXSearchResultsPageModel;
 import com.expedia.bookings.test.ui.utils.LxTestCase;
+import com.expedia.bookings.utils.Strings;
 import com.squareup.otto.Subscribe;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -23,6 +24,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.CustomMatchers.isEmpty;
 import static org.hamcrest.Matchers.containsString;
 
 public class LxSearchResultsTestCases extends LxTestCase {
@@ -53,8 +55,14 @@ public class LxSearchResultsTestCases extends LxTestCase {
 		int currentCounter = 1;
 		for (LXActivity activity : mActivities) {
 			LXSearchResultsPageModel.resultList().perform(RecyclerViewActions.scrollToPosition(currentCounter));
-			LXSearchResultsPageModel.getTile(activity.title).check(matches(
-				hasDescendant(withText(containsString(activity.duration)))));
+			if (Strings.isEmpty(activity.duration)) {
+				LXSearchResultsPageModel.getTile(activity.title).check(matches(
+					hasDescendant((isEmpty()))));
+			}
+			else {
+				LXSearchResultsPageModel.getTile(activity.title).check(matches(
+					hasDescendant(withText(containsString(activity.duration)))));
+			}
 			LXSearchResultsPageModel.getTile(activity.title).check(matches(
 				hasDescendant(withText(containsString(activity.price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))))));
 			LXSearchResultsPageModel.getTile(activity.title).check(matches(

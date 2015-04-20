@@ -158,6 +158,10 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 				}
 				duration.setVisibility(View.VISIBLE);
 			}
+			else {
+				duration.setText("");
+				duration.setVisibility(View.GONE);
+			}
 
 			String url = Images.getLXImageURL(activity.imageUrl);
 			new PicassoHelper.Builder(itemView.getContext())
