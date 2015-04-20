@@ -76,7 +76,7 @@ public class LXInfositeTestCases extends LxTestCase {
 			LXViewModel.selectDates(LocalDate.now(), null);
 			LXViewModel.searchButton().perform(click());
 		}
-
+		LXViewModel.waitForSearchListDisplayed();
 		mTileData = LXSearchResultsPageModel.getTileDataAtIndex(1);
 		screenshot("LX captured data");
 		LXSearchResultsPageModel.clickOnTileAtIndex(1);

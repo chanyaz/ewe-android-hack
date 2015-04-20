@@ -2,6 +2,7 @@ package com.expedia.bookings.test.component.lx;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -19,13 +20,16 @@ import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.utils.DateUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.waitFor;
+import static org.hamcrest.core.Is.is;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -65,8 +69,9 @@ public class LXCreateTripErrorTests {
 		lxOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
 
 		Events.post(new Events.LXOfferBooked(lxOffer, selectedTickets));
-		ScreenActions.delay(1);
+		onView(withId(R.id.lx_details_error_widget)).inRoot(
+			withDecorView(is(playground.get().getWindow().getDecorView())))
+			.perform(waitFor((isDisplayed()), 10L, TimeUnit.SECONDS));
 
-		LXViewModel.detailsErrorWidget().check(matches(isDisplayed()));
 	}
 }

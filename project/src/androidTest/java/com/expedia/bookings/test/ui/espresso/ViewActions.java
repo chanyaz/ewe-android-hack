@@ -7,6 +7,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
+import android.graphics.Rect;
 import android.support.test.espresso.PerformException;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
@@ -26,14 +27,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 import com.mobiata.android.widget.CalendarDatePicker;
 
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -487,6 +491,41 @@ public final class ViewActions {
 					}
 				}
 				return;
+			}
+		};
+	}
+
+	public static ViewAction customScroll() {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(new Matcher[] {
+					ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE), ViewMatchers.isDescendantOfA(
+					Matchers.anyOf(new Matcher[] {
+						ViewMatchers.isAssignableFrom(ScrollView.class),
+						ViewMatchers.isAssignableFrom(HorizontalScrollView.class)
+					}))
+				});
+			}
+
+			@Override
+			public String getDescription() {
+				return "Scroll to";
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				if (!ViewMatchers.isDisplayingAtLeast(90).matches(view)) {
+					Rect rect = new Rect();
+					view.getDrawingRect(rect);
+					if (!view.requestRectangleOnScreen(rect, true)) {
+						Log.i("Custom-Scroll", "Scrolling to view was requested, but none of the parents scrolled.");
+					}
+
+					uiController.loopMainThreadUntilIdle();
+					uiController.loopMainThreadForAtLeast(100);
+					return;
+				}
 			}
 		};
 	}
