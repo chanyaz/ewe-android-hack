@@ -61,7 +61,7 @@ public class LXResultsPresenter extends Presenter {
 	@InjectView(R.id.sort_filter_widget)
 	LXSortFilterWidget sortFilterWidget;
 
-	@InjectView(R.id.sort_filter_button)
+	@InjectView(R.id.sort_filter_button_container)
 	LinearLayout sortFilterButton;
 
 	// This is here just for an animation

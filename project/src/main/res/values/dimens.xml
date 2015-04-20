@@ -262,7 +262,10 @@
     <dimen name="lx_search_details_container_height">36dp</dimen>
     <dimen name="lx_offer_dates_container_height">52dp</dimen>
     <dimen name="lx_offer_dates_container_width">50dp</dimen>
-    <dimen name="lx_sort_filter_container_height">50dp</dimen>
+    <dimen name="lx_sort_filter_button_height">50dp</dimen>
+    <dimen name="lx_sort_filter_container_height">58dp</dimen>
+    <dimen name="lx_sort_filter_padding">16dp</dimen>
+    <dimen name="lx_sort_filter_margin">16dp</dimen>
 
     <!-- Car Search  -->
     <dimen name="car_calendar_month_view_max_text_size">12dp</dimen>
