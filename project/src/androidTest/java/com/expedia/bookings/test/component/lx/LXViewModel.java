@@ -120,6 +120,10 @@ public class LXViewModel {
 		progressDetails().perform(waitFor(not(isDisplayed()), 10, TimeUnit.SECONDS));
 	}
 
+	public static void waitForDetailsDisplayed() {
+		onView(withId(R.id.offers)).perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
+	}
+
 	public static ViewInteraction detailsWidget() {
 		return onView(withId(R.id.activity_details));
 	}

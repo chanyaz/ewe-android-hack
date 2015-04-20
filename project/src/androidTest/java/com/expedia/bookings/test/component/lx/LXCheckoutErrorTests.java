@@ -96,8 +96,7 @@ public class LXCheckoutErrorTests extends LxTestCase {
 
 		LXViewModel.waitForSearchListDisplayed();
 		LXViewModel.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-		LXViewModel.waitForLoadingDetailsNotDisplayed();
-		onView(withId(R.id.offers)).perform(scrollTo());
+		LXViewModel.waitForDetailsDisplayed();
 		LXInfositePageModel.bookNowButton("2-Day New York Pass").perform(scrollTo(), click());
 		CheckoutViewModel.driverInfo().perform(click());
 		CheckoutViewModel.firstName().perform(typeText(firstName));
