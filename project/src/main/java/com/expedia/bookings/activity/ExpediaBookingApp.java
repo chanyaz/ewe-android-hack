@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.UUID;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -49,6 +50,7 @@ import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.StethoShim;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
@@ -75,6 +77,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	// For bug #2249 where we did not point at the production push server
 	private static final String PREF_UPGRADED_TO_PRODUCTION_PUSH = "PREF_UPGRADED_TO_PRODUCTION_PUSH";
+
+	// For Abacus bucketing GUID
+	private static final String PREF_ABACUS_GUID = "PREF_ABACUS_GUID";
 
 	public static final String MEDIA_URL = BuildConfig.MEDIA_URL;
 
@@ -262,6 +267,11 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		CurrencyUtils.initMap(this);
 		startupTimer.addSplit("Currency Utils init");
+
+		AbacusEvaluateQuery query = new AbacusEvaluateQuery(generateAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
+		query.addExperiments(AbacusUtils.getActiveTests());
+		mAppComponent.abacus().downloadBucket(query, abacusSubscriber);
+		startupTimer.addSplit("Abacus Guid init");
 
 		startupTimer.dumpToLog();
 
@@ -475,10 +485,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onIDFALoaded(String idfa) {
-		Db.setAbacusGuid(idfa);
-		AbacusEvaluateQuery query = new AbacusEvaluateQuery(idfa, PointOfSale.getPointOfSale().getTpid(), 0);
-		query.addExperiments(AbacusUtils.getActiveTests());
-		mAppComponent.abacus().downloadBucket(query, abacusSubscriber);
+
 	}
 
 	@Override
@@ -516,8 +523,18 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		// Modify the bucket values based on dev settings;
 		if (BuildConfig.DEBUG) {
 			for (int key : AbacusUtils.getActiveTests()) {
-				abacusResponse.updateABTestForDebug(key, SettingUtils.get(ExpediaBookingApp.this, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
+				Db.getAbacusResponse().updateABTestForDebug(key, SettingUtils.get(ExpediaBookingApp.this, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
 			}
 		}
+	}
+
+	public String generateAbacusGuid() {
+		String guid = SettingUtils.get(ExpediaBookingApp.this, PREF_ABACUS_GUID, "");
+		if (Strings.isEmpty(guid)) {
+			guid = UUID.randomUUID().toString();
+			SettingUtils.save(ExpediaBookingApp.this, PREF_ABACUS_GUID, guid);
+		}
+		Db.setAbacusGuid(guid);
+		return guid;
 	}
 }

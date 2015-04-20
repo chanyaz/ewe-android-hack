@@ -61,7 +61,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
 
-		OmnitureTracking.trackPageLoadLaunchScreen(this);
+		OmnitureTracking.trackPageLoadLaunchScreen(this, null);
 	}
 
 	@Override

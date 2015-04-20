@@ -56,7 +56,7 @@ import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
-import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.abacus.AbacusTest;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearchParams;
@@ -1510,16 +1510,23 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	private static void trackAbacusTest(Context context, ADMS_Measurement s, int testKey) {
+	private static void trackAbacusTest(Context context, ADMS_Measurement s, AbacusTest test) {
+		if (test == null) {
+			return;
+		}
 		// Adds piping for multivariate AB Tests.
-		String analyticsString = AbacusResponse.appendString(s.getProp(34)) + Db.getAbacusResponse().getAnalyticsString(testKey);
+		String analyticsString = AbacusUtils.appendString(s.getProp(34)) + AbacusUtils.getAnalyticsString(test);
 		if (!TextUtils.isEmpty(analyticsString)) {
 			s.setEvar(34, analyticsString);
 			s.setProp(34, analyticsString);
 		}
 		AbacusLogQuery query = new AbacusLogQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
-		query.addExperiment(Db.getAbacusResponse().testForKey(testKey));
+		query.addExperiment(test);
 		Ui.getApplication(context).appComponent().abacus().logExperiment(query);
+	}
+
+	private static void trackAbacusTest(Context context, ADMS_Measurement s, int testKey) {
+ 		trackAbacusTest(context, s, Db.getAbacusResponse().testForKey(testKey));
 	}
 
 	private static void addLaunchScreenCommonParams(ADMS_Measurement s, String baseRef, String refAppend) {
@@ -2473,12 +2480,12 @@ public class OmnitureTracking {
 		internalTrackLink(context, link);
 	}
 
-	public static void trackPageLoadLaunchScreen(Context context) {
+	public static void trackPageLoadLaunchScreen(Context context, AbacusTest test) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, LAUNCH_SCREEN);
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		if (!ExpediaBookingApp.useTabletInterface(context)) {
-			trackAbacusTest(context, s, AbacusUtils.EBAndroidAppLaunchScreenTest);
+			trackAbacusTest(context, s, test);
 		}
 		s.track();
 	}

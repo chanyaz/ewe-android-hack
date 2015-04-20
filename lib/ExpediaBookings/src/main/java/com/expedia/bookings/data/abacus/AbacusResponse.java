@@ -33,26 +33,8 @@ public class AbacusResponse {
 	}
 
 	public String getAnalyticsString(int key) {
-		String analyticsString;
 		AbacusTest test = testForKey(key);
-		if (test == null) {
-			analyticsString = "";
-		}
-		else {
-			// User is bucketed and the test is live, log ex: 7143.23456.1
-			analyticsString = String.format("%s.%s.%s", test.id, test.instanceId, test.value);
-		}
-
-		return analyticsString;
-	}
-
-	public static String appendString(String key) {
-		if (key == null || key.length() == 0) {
-			return "";
-		}
-		else {
-			return String.format("%s|", key);
-		}
+		return AbacusUtils.getAnalyticsString(test);
 	}
 
 	/**

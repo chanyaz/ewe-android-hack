@@ -1,5 +1,7 @@
 package com.expedia.bookings.services;
 
+import java.util.concurrent.TimeUnit;
+
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusLogResponse;
@@ -17,6 +19,8 @@ import rx.Scheduler;
 import rx.Subscription;
 
 public class AbacusServices {
+	public static final long TIMEOUT_5_SECONDS = 5L;
+	public static final long TIMEOUT_DEFAULT = 15L;
 	private AbacusApi mApi;
 	private Gson mGson;
 
@@ -41,9 +45,14 @@ public class AbacusServices {
 	}
 
 	public Subscription downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer) {
+		return downloadBucket(query, observer, TIMEOUT_DEFAULT, TimeUnit.SECONDS);
+	}
+
+	public Subscription downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer, long timeout, TimeUnit timeUnit) {
 		return mApi.evaluateExperiments(query.guid, query.eapid, query.tpid, query.evaluatedExperiments)
 			.observeOn(mObserveOn)
 			.subscribeOn(mSubscribeOn)
+			.timeout(timeout, timeUnit)
 			.subscribe(observer);
 	}
 
