@@ -2063,6 +2063,8 @@
     <string name="itinerary_confirmation_TEMPLATE">Itinerary #%s sent to</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Get A Room</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">Add to your trip</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
