@@ -1,5 +1,8 @@
 package com.expedia.bookings.test.component.lx;
 
+import java.util.concurrent.TimeUnit;
+
+import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,16 +21,18 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.customScroll;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
@@ -54,8 +59,7 @@ public class LXDetailsPresenterTests {
 	@Test
 	public void testActivityDetails() {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
-		LXViewModel.progressDetails().check(matches(isDisplayed()));
-		ScreenActions.delay(2);
+		LXViewModel.progressDetails().perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
 
 		LXViewModel.detailsWidget().check(matches(isDisplayed()));
 		LXViewModel.detailsWidget().check(matches(hasDescendant(withId(R.id.activity_gallery))));
@@ -77,7 +81,7 @@ public class LXDetailsPresenterTests {
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.title = title;
 		Events.post(new Events.LXActivitySelected(lxActivity));
-		ScreenActions.delay(2);
+		LXViewModel.progressDetails().perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
 		LXViewModel.toolbar().check(matches(isDisplayed()));
 
 		String expectedToolbarDateRange = String
@@ -91,7 +95,7 @@ public class LXDetailsPresenterTests {
 	@Test
 	public void testActivityOffers() {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
-		ScreenActions.delay(2);
+		LXViewModel.progressDetails().perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
 
 		//Ensure that we have 4 offers!
 		LinearLayout offersContainer = (LinearLayout) playground.getRoot().findViewById(R.id.offers_container);
@@ -113,12 +117,19 @@ public class LXDetailsPresenterTests {
 
 		//Check 3rd offer
 		ViewInteraction thirdOffer = LXViewModel.withOfferText("5-Day New York Pass");
-		thirdOffer.check(matches(hasDescendant(allOf(withId(R.id.offer_title), withText(startsWith("5-Day New York Pass"))))));
-		thirdOffer.check(matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
-		thirdOffer.check(matches(hasDescendant(allOf(withId(R.id.price_summary), withText(startsWith("$210 Adult, $155 Child"))))));
+		thirdOffer.check(
+			matches(hasDescendant(allOf(withId(R.id.offer_title), withText(startsWith("5-Day New York Pass"))))));
+		thirdOffer.check(
+			matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
+		thirdOffer.check(
+			matches(hasDescendant(allOf(withId(R.id.price_summary), withText(startsWith("$210 Adult, $155 Child"))))));
 
 		//Scroll to show more
-		LXViewModel.showMore().perform(scrollTo(), click());
+		thirdOffer.perform(customScroll());
+		onView(
+			CoreMatchers.allOf(withId(R.id.section_content), hasSibling(CoreMatchers.allOf(withId(R.id.section_title),
+				withText(R.string.description_activity_details))))).perform(customScroll());
+		LXViewModel.showMore().perform(customScroll(),click());
 
 		//Check 4th offer
 		ViewInteraction fourthOffer = LXViewModel.withOfferText("7-Day New York Pass");
@@ -130,7 +141,7 @@ public class LXDetailsPresenterTests {
 	@Test
 	public void testOffersExpandCollapse() {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
-		ScreenActions.delay(1);
+		LXViewModel.progressDetails().perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
 
 		ViewInteraction firstOfferTicketPicker = LXViewModel.ticketPicker("2-Day New York Pass");
 		ViewInteraction secondOfferTicketPicker = LXViewModel.ticketPicker("3-Day New York Pass");
@@ -141,27 +152,29 @@ public class LXDetailsPresenterTests {
 		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
 
 		ViewInteraction secondOfferSelectTicket = LXViewModel.selectTicketsButton("3-Day New York Pass");
-		secondOfferSelectTicket.perform(scrollTo(), click());
+		LXViewModel.withOfferText("3-Day New York Pass").perform(customScroll());
+		secondOfferSelectTicket.perform(customScroll(),click());
 
 		firstOfferTicketPicker.check(matches(not(isDisplayed())));
 		secondOfferTicketPicker.check(matches(isDisplayed()));
 		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
 
 		ViewInteraction thirdOfferSelectTicket = LXViewModel.selectTicketsButton("5-Day New York Pass");
-		thirdOfferSelectTicket.perform(scrollTo(), click());
+		LXViewModel.withOfferText("5-Day New York Pass").perform(customScroll());
+		thirdOfferSelectTicket.perform(customScroll(),click());
 
 		firstOfferTicketPicker.check(matches(not(isDisplayed())));
 		secondOfferTicketPicker.check(matches(not(isDisplayed())));
 		thirdOfferTicketPicker.check(matches(isDisplayed()));
 
 		//Scroll to show more and display all the offers.
-		LXViewModel.showMore().perform(scrollTo(), click());
+		LXViewModel.showMore().perform(customScroll(), click());
 		ViewInteraction fourthOfferTicketPicker = LXViewModel.ticketPicker("7-Day New York Pass");
 
 		fourthOfferTicketPicker.check(matches(not(isDisplayed())));
 
 		ViewInteraction fourthOfferSelectTicket = LXViewModel.selectTicketsButton("7-Day New York Pass");
-		fourthOfferSelectTicket.perform(scrollTo(), click());
+		fourthOfferSelectTicket.perform(customScroll(), click());
 
 		firstOfferTicketPicker.check(matches(not(isDisplayed())));
 		secondOfferTicketPicker.check(matches(not(isDisplayed())));
@@ -172,7 +185,7 @@ public class LXDetailsPresenterTests {
 	@Test
 	public void testDatesContainer() {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
-		ScreenActions.delay(2);
+		LXViewModel.progressDetails().perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
 
 		RadioGroup container = (RadioGroup) playground.getRoot().findViewById(R.id.offer_dates_container);
 		int count = container.getChildCount();
@@ -183,7 +196,7 @@ public class LXDetailsPresenterTests {
 	@Test
 	public void testDatesContainerSelection() {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
-		ScreenActions.delay(2);
+		LXViewModel.progressDetails().perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));
 
 		LocalDate now = LocalDate.now();
 		LocalDate withoutOfferDate = LocalDate.now().plusDays(14);

@@ -2,6 +2,7 @@ package com.expedia.bookings.test.component.lx;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
 import org.junit.Rule;
@@ -28,8 +29,10 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.waitFor;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.startsWith;
@@ -49,7 +52,11 @@ public class LXResultsPresenterTests {
 		searchParams.startDate = LocalDate.now();
 		searchParams.endDate = LocalDate.now().plusDays(14);
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
-		ScreenActions.delay(2);
+
+		onView(isRoot()).perform(waitFor(allOf
+			(hasDescendant(withText(startsWith("New York Pass"))),
+				hasDescendant(withText("$130"))), 10L, TimeUnit.SECONDS));
+
 
 		LXViewModel.searchResultsWidget().check(matches(isDisplayed()));
 		LXViewModel.searchList().check(matches(isDisplayed()));
@@ -58,7 +65,7 @@ public class LXResultsPresenterTests {
 					hasDescendant(withText("$130"))),
 			R.id.lx_search_results_list);
 
-		searchResultItem.check(matches(isDisplayed()));
+			searchResultItem.check(matches(isDisplayed()));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_title))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_image))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_price))));
@@ -75,7 +82,10 @@ public class LXResultsPresenterTests {
 		searchParams.endDate = endDate;
 		searchParams.location = location;
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
-		ScreenActions.delay(2);
+
+		onView(isRoot()).perform(waitFor(allOf
+			(hasDescendant(withText(startsWith("New York Pass"))),
+				hasDescendant(withText("$130"))), 10L, TimeUnit.SECONDS));
 
 		String expectedToolbarDateRange = startDate.toString("MMM dd") + " - " + endDate.toString("MMM dd");
 		ViewInteraction searchToolbar = LXViewModel.toolbar();
@@ -131,7 +141,10 @@ public class LXResultsPresenterTests {
 		searchParams.startDate = LocalDate.now();
 		searchParams.endDate = LocalDate.now().plusDays(14);
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
-		ScreenActions.delay(2);
+
+		onView(isRoot()).perform(waitFor(allOf
+			(hasDescendant(withText(startsWith("New York Pass"))),
+				hasDescendant(withText("$130"))), 10L, TimeUnit.SECONDS));
 
 		LXViewModel.searchResultsWidget().check(matches(isDisplayed()));
 		LXViewModel.searchList().check(matches(isDisplayed()));

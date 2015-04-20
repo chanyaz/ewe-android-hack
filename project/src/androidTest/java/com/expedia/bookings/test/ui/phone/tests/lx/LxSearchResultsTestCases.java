@@ -44,6 +44,7 @@ public class LxSearchResultsTestCases extends LxTestCase {
 			LXViewModel.selectDates(LocalDate.now(), null);
 			LXViewModel.searchButton().perform(click());
 		}
+		LXViewModel.waitForSearchListDisplayed();
 		//by this time we must have all the activities loaded.
 		//assert on the total number of items to show.
 		LXSearchResultsPageModel.resultList().check(matches(LXSearchResultsPageModel.withResults(mActivities.size())));
