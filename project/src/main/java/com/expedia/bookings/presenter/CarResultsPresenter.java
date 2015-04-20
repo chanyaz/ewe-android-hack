@@ -19,9 +19,7 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearch;
@@ -351,7 +349,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		@Override
 		public void onNext(CarCreateTripResponse response) {
 			createTripDialog.dismiss();
-			showCheckout(response);
+			Events.post(new Events.CarsShowCheckout(response));
 		}
 	};
 
@@ -387,12 +385,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 				}
 			})
 			.show();
-	}
-
-	private void showCheckout(CarCreateTripResponse response) {
-		Db.getTripBucket().clearCars();
-		Db.getTripBucket().add(new TripBucketItemCar(response));
-		Events.post(new Events.CarsShowCheckout(response));
 	}
 
 	/**
