@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.component.lx;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
@@ -29,10 +30,12 @@ import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -83,6 +86,10 @@ public class LXViewModel {
 		return onView(recyclerView(R.id.lx_search_results_list));
 	}
 
+	public static void waitForSearchListDisplayed() {
+		searchList().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
+	}
+
 	public static ViewInteraction sortAndFilterButton() {
 		return onView(withId(R.id.sort_filter_button));
 	}
@@ -107,6 +114,10 @@ public class LXViewModel {
 
 	public static ViewInteraction progressDetails() {
 		return onView(withId(R.id.loading_details));
+	}
+
+	public static void waitForLoadingDetailsNotDisplayed() {
+		progressDetails().perform(waitFor(not(isDisplayed()), 10, TimeUnit.SECONDS));
 	}
 
 	public static ViewInteraction detailsWidget() {

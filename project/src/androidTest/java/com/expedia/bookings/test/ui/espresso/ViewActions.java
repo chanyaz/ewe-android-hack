@@ -424,9 +424,11 @@ public final class ViewActions {
 	}
 
 
-	public static ViewAction waitFor(final long howLong, final TimeUnit timeUnit) {
+	public static ViewAction waitFor(final Matcher<View> what, final long howLong, final TimeUnit timeUnit) {
 		return new ViewAction() {
 			private static final int SLEEP_UI_MS = 100;
+			private final long timeout = TimeUnit.MILLISECONDS.convert(howLong, timeUnit);
+			private final long timeoutSeconds = TimeUnit.SECONDS.convert(howLong, timeUnit);
 
 			@Override
 			public Matcher<View> getConstraints() {
@@ -435,17 +437,16 @@ public final class ViewActions {
 
 			@Override
 			public String getDescription() {
-				return String.format("Waiting for view to appear, max wait time is: %d seconds",
-						TimeUnit.SECONDS.convert(howLong, TimeUnit.SECONDS));
+				return String.format("Waiting for view to match given matcher, max wait time is: %d seconds", timeoutSeconds);
 			}
 
 			@Override
 			public void perform(final UiController uiController, final View view) {
 				uiController.loopMainThreadUntilIdle();
 
-				final long endTime = System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(howLong, timeUnit);
+				final long endTime = System.currentTimeMillis() + timeout;
 				do {
-					if (view.getVisibility() == View.GONE || view.getVisibility() == View.INVISIBLE) {
+					if (what.matches(view)) {
 						return;
 					}
 
@@ -454,7 +455,7 @@ public final class ViewActions {
 				while (System.currentTimeMillis() <= endTime);
 
 				throw new PerformException.Builder()
-					.withActionDescription(this.getDescription())
+					.withActionDescription(getDescription())
 					.withViewDescription(HumanReadables.describe(view))
 					.build();
 			}
