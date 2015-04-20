@@ -23,7 +23,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
-import com.expedia.bookings.utils.LXFormatter;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -124,7 +124,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 			.build()
 			.load(url);
 		title.setText(lxState.offer.title);
-		tickets.setText(LXFormatter.selectedTicketsSummaryText(getContext(), lxState.selectedTickets));
+		tickets.setText(LXDataUtils.ticketsCountSummary(getContext(), lxState.selectedTickets));
 		location.setText(lxState.activity.location);
 		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
 			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
