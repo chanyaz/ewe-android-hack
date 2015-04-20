@@ -2498,17 +2498,24 @@ public class OmnitureTracking {
 	private static final String HOTEL_LOB_NAVIGATION = "Hotel";
 	private static final String FLIGHT_LOB_NAVIGATION = "Flight";
 	private static final String CAR_LOB_NAVIGATION = "Car";
+	private static final String LX_LOB_NAVIGATION = "LX";
 
 	public static void trackNewLaunchScreenLobNavigation(Context context, LineOfBusiness lob) {
+
 		String lobString = "";
-		if (lob == LineOfBusiness.HOTELS) {
+		switch (lob) {
+		case HOTELS:
 			lobString = HOTEL_LOB_NAVIGATION;
-		}
-		else if (lob == LineOfBusiness.FLIGHTS) {
+			break;
+		case FLIGHTS:
 			lobString = FLIGHT_LOB_NAVIGATION;
-		}
-		else if (lob == LineOfBusiness.CARS) {
+			break;
+		case CARS:
 			lobString = CAR_LOB_NAVIGATION;
+			break;
+		case LX:
+			lobString = LX_LOB_NAVIGATION;
+			break;
 		}
 		String link = LAUNCH_SCREEN_LOB_NAVIGATION + "." + lobString;
 
