@@ -21,7 +21,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LXDataUtils;
-import com.expedia.bookings.utils.LXFormatter;
 import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.CheckoutSummaryWidgetUtils;
@@ -66,7 +65,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 
 	public void bind() {
 		lxOfferTitleText.setText(lxState.offer.title);
-		lxGroupText.setText(LXFormatter.selectedTicketsSummaryText(getContext(), lxState.selectedTickets));
+		lxGroupText.setText(LXDataUtils.ticketsCountSummary(getContext(), lxState.selectedTickets));
 		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
 			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 		lxOfferDate.setText(DateUtils.localDateToEEEMMMdd(offerSelectedDate));

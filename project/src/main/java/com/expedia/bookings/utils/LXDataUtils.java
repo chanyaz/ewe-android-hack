@@ -1,12 +1,16 @@
 package com.expedia.bookings.utils;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXTicketType;
+import com.expedia.bookings.data.lx.Ticket;
 
 public class LXDataUtils {
 
@@ -184,5 +188,37 @@ public class LXDataUtils {
 
 		return context.getResources()
 			.getQuantityString(LXDataUtils.LX_TICKET_TYPE_COUNT_LABEL_MAP.get(ticketType), ticketCount, ticketCount);
+	}
+
+	/*
+	 *  Prepare Tickets Count Summary like "1 Adult, 3 Children"
+	 */
+	public static String ticketsCountSummary(Context context, List<Ticket> tickets) {
+		if (CollectionUtils.isEmpty(tickets)) {
+			return "";
+		}
+
+		List<String> ticketSummaries = new ArrayList<>();
+
+		Map<LXTicketType, Integer> ticketTypeToCountMap = new LinkedHashMap<>();
+		for (Ticket ticket : tickets) {
+			if (ticket.count <= 0) {
+				continue;
+			}
+
+			if (!ticketTypeToCountMap.containsKey(ticket.code)) {
+				ticketTypeToCountMap.put(ticket.code, ticket.count);
+			}
+			else {
+				int existingCount = ticketTypeToCountMap.get(ticket.code);
+				ticketTypeToCountMap.put(ticket.code, existingCount + ticket.count);
+			}
+		}
+
+		for (Map.Entry<LXTicketType, Integer> entry : ticketTypeToCountMap.entrySet()) {
+			ticketSummaries.add(LXDataUtils.ticketCountSummary(context, entry.getKey(), entry.getValue()));
+		}
+
+		return Strings.joinWithoutEmpties(", ", ticketSummaries);
 	}
 }

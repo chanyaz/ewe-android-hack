@@ -1,10 +1,7 @@
 package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -14,7 +11,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
-import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.LXDataUtils;
@@ -51,7 +47,7 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	@InjectView(R.id.ticket_summary_container)
 	LinearLayout ticketSummaryContainer;
 
-	private Map<LXTicketType, Ticket> ticketsMap = new LinkedHashMap<>();
+	private List<Ticket> selectedTickets = new ArrayList<>();
 
 	private String offerId;
 	private String offerTitle;
@@ -65,12 +61,6 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	}
 
 	public List<Ticket> getSelectedTickets() {
-		List<Ticket> selectedTickets = new LinkedList<>();
-		for (Ticket ticket : ticketsMap.values()) {
-			if (ticket.count > 0) {
-				selectedTickets.add(ticket);
-			}
-		}
 		return selectedTickets;
 	}
 
@@ -96,15 +86,15 @@ public class LXTicketSelectionWidget extends LinearLayout {
 			LXTicketPicker ticketPicker = Ui.inflate(R.layout.lx_ticket_picker, ticketSelectorContainer, false);
 			ticketSelectorContainer.addView(ticketPicker);
 
-			// Set default count of first ticket in offer to 2.
+			// Set default count of first ticket in offer.
 			int defaultCount = 0;
 			if (index == 0) {
 				defaultCount = getResources().getInteger(R.integer.lx_offer_ticket_default_count);
 				index++;
 			}
-			ticketPicker.bind(ticket, offerId, defaultCount);
+			selectedTickets.add(ticket);
 
-			ticketsMap.put(ticket.code, ticket);
+			ticketPicker.bind(ticket, offerId, defaultCount);
 		}
 	}
 
@@ -112,24 +102,20 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	public void onTicketCountChanged(Events.LXTicketCountChanged event) {
 		// Update only if the event was done by TicketPicker of belonging to this widget.
 		if (Strings.isNotEmpty(offerId) && offerId.equals(event.offerId)) {
-			ticketsMap.put(event.ticket.code, event.ticket);
+			updateTicketCountInSelectedTicketsFrom(event.ticket);
 
-			ticketSummaryContainer.setVisibility(LXUtils.getTotalTicketCount(new ArrayList<>(ticketsMap.values())) > 0 ? VISIBLE : GONE);
-			ticketSummary.setText(Strings.joinWithoutEmpties(", ", getTicketSummaries()));
+			ticketSummaryContainer.setVisibility(LXUtils.getTotalTicketCount(selectedTickets) > 0 ? VISIBLE : GONE);
+			ticketSummary.setText(LXDataUtils.ticketsCountSummary(getContext(), selectedTickets));
 			bookNow.setText(String.format(getResources().getString(R.string.offer_book_now_TEMPLATE),
-				LXUtils.getTotalAmount(new ArrayList<>(ticketsMap.values())).getFormattedMoney()));
+				LXUtils.getTotalAmount(selectedTickets).getFormattedMoney()));
 		}
 	}
 
-	private List<String> getTicketSummaries() {
-		List<String> ticketsSummaries = new ArrayList<>();
-
-		for (Ticket ticket : ticketsMap.values()) {
-			if (ticket.count > 0) {
-				ticketsSummaries.add(LXDataUtils.ticketCountSummary(getContext(), ticket.code, ticket.count));
+	private void updateTicketCountInSelectedTicketsFrom(Ticket updatedTicket) {
+		for (Ticket ticket : selectedTickets) {
+			if (ticket.code == updatedTicket.code && Strings.equals(ticket.restrictionText, updatedTicket.restrictionText)) {
+				ticket.count = updatedTicket.count;
 			}
 		}
-
-		return ticketsSummaries;
 	}
 }

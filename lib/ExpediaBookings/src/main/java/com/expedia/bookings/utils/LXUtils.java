@@ -10,7 +10,7 @@ public class LXUtils {
 	public static Money getTotalAmount(List<Ticket> selectedTickets) {
 		Money totalMoney = new Money();
 
-		if (selectedTickets == null || selectedTickets.size() == 0) {
+		if (CollectionUtils.isEmpty(selectedTickets)) {
 			//Should be invoked with at least 1 selected ticket!
 			return totalMoney;
 		}
@@ -30,7 +30,7 @@ public class LXUtils {
 	public static int getTotalTicketCount(List<Ticket> selectedTickets) {
 		int ticketCount = 0;
 
-		if (selectedTickets == null || selectedTickets.size() == 0) {
+		if (CollectionUtils.isEmpty(selectedTickets)) {
 			//Should be invoked with at least 1 selected ticket!
 			return ticketCount;
 		}
