@@ -104,23 +104,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 		ButterKnife.inject(this);
 		Ui.getApplication(getContext()).launchComponent().inject(this);
 		launchListWidget.setOnScrollListener(scrollListener);
-		int listHeaderPaddingTop;
-		if (PointOfSale.getPointOfSale().supportsCars() && PointOfSale.getPointOfSale().supportsLx()) {
-			doubleRowLob = true;
-			lobHeight = getResources().getDimension(R.dimen.launch_lob_double_row_container_height);
-			lobSelectorWidget.setVisibility(View.GONE);
-			doubleRowLobSelectorWidget.setVisibility(View.VISIBLE);
-			listHeaderPaddingTop = R.dimen.launch_header_double_row_top_space;
-		}
-		else {
-			doubleRowLob = false;
-			lobHeight = getResources().getDimension(R.dimen.launch_lob_container_height);
-			lobSelectorWidget.setVisibility(View.VISIBLE);
-			doubleRowLobSelectorWidget.setVisibility(View.GONE);
-			listHeaderPaddingTop = R.dimen.launch_header_top_space;
-		}
-		launchListWidget.setHeaderPaddingTop(getResources().getDimension(listHeaderPaddingTop));
-		squashedHeaderHeight = getResources().getDimension(R.dimen.launch_lob_squashed_height);
 		isAirAttachDismissed = false;
 	}
 
@@ -451,6 +434,27 @@ public class PhoneLaunchWidget extends FrameLayout {
 		}
 	}
 
+	public void bindLobWidget() {
+		int listHeaderPaddingTop;
+		if (PointOfSale.getPointOfSale().supportsCars() && PointOfSale.getPointOfSale().supportsLx()) {
+			doubleRowLob = true;
+			lobHeight = getResources().getDimension(R.dimen.launch_lob_double_row_container_height);
+			lobSelectorWidget.setVisibility(View.GONE);
+			doubleRowLobSelectorWidget.setVisibility(View.VISIBLE);
+			listHeaderPaddingTop = R.dimen.launch_header_double_row_top_space;
+		}
+		else {
+			doubleRowLob = false;
+			lobHeight = getResources().getDimension(R.dimen.launch_lob_container_height);
+			lobSelectorWidget.setVisibility(View.VISIBLE);
+			doubleRowLobSelectorWidget.setVisibility(View.GONE);
+			listHeaderPaddingTop = R.dimen.launch_header_top_space;
+			lobSelectorWidget.updateVisibilities();
+		}
+		launchListWidget.setHeaderPaddingTop(getResources().getDimension(listHeaderPaddingTop));
+		squashedHeaderHeight = getResources().getDimension(R.dimen.launch_lob_squashed_height);
+	}
+
 	@Subscribe
 	public void onHideAirAttach(Events.LaunchAirAttachBannerHide event) {
 		airAttachBanner.setVisibility(View.GONE);
@@ -458,8 +462,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	@Subscribe
 	public void onLobWidgetRefresh(Events.LaunchLobRefresh event) {
-		if (!doubleRowLob) {
-			lobSelectorWidget.updateVisibilities();
-		}
+		bindLobWidget();
 	}
 }
