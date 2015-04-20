@@ -97,7 +97,7 @@ public class LXTicketSelectionWidgetTest {
 		Button bookButton = (Button) widget.findViewById(R.id.lx_book_now);
 		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
 
-		int expectedCount = 2;
+		int expectedCount = 1;
 		String expectedDetails = String
 			.format(activity.getResources().getString(R.string.ticket_details_template), testTicket.money.getFormattedMoney(),
 				testTicket.code, testTicket.restrictionText);
@@ -106,7 +106,7 @@ public class LXTicketSelectionWidgetTest {
 		String expectedCurrencyCode = "USD";
 		String expectedTitleText = "One Day Tour";
 		String bookButtonTemplate = activity.getResources().getString(R.string.offer_book_now_TEMPLATE);
-		String expectedAmountWithCurrency = new Money(new BigDecimal(80), expectedCurrencyCode).getFormattedMoney();
+		String expectedAmountWithCurrency = new Money(new BigDecimal(40), expectedCurrencyCode).getFormattedMoney();
 		String expectedBookText = String.format(bookButtonTemplate, expectedAmountWithCurrency);
 
 		assertEquals(String.valueOf(expectedCount), ticketCount.getText());
@@ -118,7 +118,7 @@ public class LXTicketSelectionWidgetTest {
 		addTicketView.performClick();
 		expectedCount++;
 		expectedSummary = LXDataUtils.ticketCountSummary(activity, testTicket.code, expectedCount);
-		expectedAmountWithCurrency = new Money(new BigDecimal(120), expectedCurrencyCode).getFormattedMoney();
+		expectedAmountWithCurrency = new Money(new BigDecimal(80), expectedCurrencyCode).getFormattedMoney();
 		expectedBookText = String.format(bookButtonTemplate, expectedAmountWithCurrency);
 
 		assertEquals(String.valueOf(expectedCount), ticketCount.getText());
@@ -128,7 +128,7 @@ public class LXTicketSelectionWidgetTest {
 		assertEquals(expectedTitleText, titleText.getText());
 
 		// Set ticket count to 0.
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			removeTicketView.performClick();
 			expectedCount--;
 		}
@@ -184,7 +184,7 @@ public class LXTicketSelectionWidgetTest {
 			}
 		}
 
-		BigDecimal expectedTotalAmount = new BigDecimal(150);
+		BigDecimal expectedTotalAmount = new BigDecimal(110);
 		String expectedTitleText = "One Day Tour";
 		String expectedAmountWithCurrency = new Money(expectedTotalAmount, tickets.get(0).money.getCurrency()).getFormattedMoney();
 		String expectedBookText = String
@@ -195,7 +195,7 @@ public class LXTicketSelectionWidgetTest {
 		assertEquals(expectedBookText, bookButton.getText());
 		assertEquals(expectedTitleText, titleText.getText());
 
-		String expectedSummary = LXDataUtils.ticketCountSummary(activity, tickets.get(0).code, 3) + ", " + LXDataUtils
+		String expectedSummary = LXDataUtils.ticketCountSummary(activity, tickets.get(0).code, 2) + ", " + LXDataUtils
 			.ticketCountSummary(activity, tickets.get(1).code, 1);
 		TextView ticketsSummary = (TextView) widget.findViewById(R.id.selected_ticket_summary);
 
