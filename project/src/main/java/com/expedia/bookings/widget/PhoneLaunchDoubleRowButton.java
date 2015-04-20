@@ -111,6 +111,7 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 				NavUtils.goToCars(getContext(), animOptions);
 				break;
 			case R.id.activities_button:
+				OmnitureTracking.trackNewLaunchScreenLobNavigation(getContext(), LineOfBusiness.LX);
 				NavUtils.goToLocalExpert(getContext(), animOptions);
 				break;
 			default:
