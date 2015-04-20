@@ -447,13 +447,16 @@ public final class ViewActions {
 			@Override
 			public void perform(final UiController uiController, final View view) {
 				uiController.loopMainThreadUntilIdle();
+				uiController.loopMainThreadForAtLeast(SLEEP_UI_MS);
 
 				final long endTime = System.currentTimeMillis() + timeout;
 				do {
 					if (what.matches(view)) {
+						Log.v("waitFor", "Matched");
 						return;
 					}
 
+					Log.v("waitFor", "Waitig for " + SLEEP_UI_MS + "ms");
 					uiController.loopMainThreadForAtLeast(SLEEP_UI_MS);
 				}
 				while (System.currentTimeMillis() <= endTime);
@@ -464,7 +467,6 @@ public final class ViewActions {
 					.build();
 			}
 		};
-
 	}
 
 	public static ViewAction clickOnFirstEnabled() {
