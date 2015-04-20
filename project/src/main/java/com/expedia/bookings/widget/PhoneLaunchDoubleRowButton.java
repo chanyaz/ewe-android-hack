@@ -77,7 +77,7 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 			@Override
 			public boolean onPreDraw() {
 				iconView.getViewTreeObserver().removeOnPreDrawListener(this);
-				iconView.setPivotX(iconView.getWidth() / 2);
+				iconView.setPivotX(0);
 				iconView.setPivotY(-iconView.getTop() + iconView.getPaddingTop());
 				return true;
 			}
@@ -138,17 +138,17 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 		}
 	}
 
-	private static final float minIconSize = 0.5f;
-	private static final float maxIconSize = 1.0f;
+	private static final float MIN_ICON_SIZE = 0.5f;
+	private static final float MAX_ICON_SIZE = 1.0f;
 
 	public void scaleTo(float f) {
 		float iconSize;
 		// Bound icon size scale between minIconSize and maxIconSize
-		if (f < minIconSize) {
-			iconSize = minIconSize;
+		if (f < MIN_ICON_SIZE) {
+			iconSize = MIN_ICON_SIZE;
 		}
-		else if (f > maxIconSize) {
-			iconSize = maxIconSize;
+		else if (f > MAX_ICON_SIZE) {
+			iconSize = MAX_ICON_SIZE;
 		}
 		else {
 			iconSize = f;
