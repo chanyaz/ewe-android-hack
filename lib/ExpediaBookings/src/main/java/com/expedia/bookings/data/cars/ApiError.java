@@ -9,7 +9,7 @@ public class ApiError extends RuntimeException {
 		PRICE_CHANGE,
 
 		//Suggestion Service Errors
-		LOCATION_SERVICES_DISABLED,
+		CURRENT_LOCATION_ERROR,
 		SUGGESTIONS_NO_RESULTS,
 
 		// Airport search errors
