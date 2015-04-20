@@ -195,7 +195,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 		}
 		if (Strings.isNotEmpty(activityDetailsResponse.cancellationPolicyText)) {
 			String cancellationPolicyText = String.format(getContext().getString(R.string.cancellation_policy_TEMPLATE), StrUtils.stripHTMLTags(activityDetailsResponse.cancellationPolicyText));
-			cancellation.bindData(getResources().getString(R.string.cancellation_activity_details),
+			cancellation.bindData(getResources().getString(R.string.cancellation_policy),
 				cancellationPolicyText, 0);
 			cancellation.setVisibility(View.VISIBLE);
 		}
