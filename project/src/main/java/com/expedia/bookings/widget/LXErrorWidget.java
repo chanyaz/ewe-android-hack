@@ -175,7 +175,7 @@ public class LXErrorWidget extends FrameLayout {
 	private void showDefaultError() {
 		bindText(R.drawable.error_default,
 			R.string.error_server,
-			R.string.lx_error_text,
+			R.string.lx_error_current_location_toolbar_text,
 			R.string.retry);
 		errorButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -188,7 +188,7 @@ public class LXErrorWidget extends FrameLayout {
 	public void showSearchError(int errorMessageResId) {
 		bindText(R.drawable.error_lx,
 			errorMessageResId,
-			R.string.edit_search_toolbar,
+			R.string.lx_error_text,
 			R.string.edit_search);
 		errorButton.setOnClickListener(new OnClickListener() {
 			@Override
