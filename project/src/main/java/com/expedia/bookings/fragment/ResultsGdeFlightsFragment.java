@@ -227,6 +227,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		else {
 			mGdeErrorMessageView.setCaption(getString(R.string.invalid_flights_pos));
 		}
+		mGdeErrorMessageView.clearActionButton();
 		mGdeErrorMessageView.setVisibility(View.VISIBLE);
 		mGdeHeaderTv.setVisibility(View.INVISIBLE);
 		mGdeProgressBar.setVisibility(View.INVISIBLE);
