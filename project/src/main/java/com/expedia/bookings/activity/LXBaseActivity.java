@@ -16,6 +16,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.lx.LXPresenter;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Ui;
+import com.facebook.Session;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -93,6 +94,12 @@ public class LXBaseActivity extends ActionBarActivity {
 		if (currentLocationSuggestionSubscription != null) {
 			currentLocationSuggestionSubscription.unsubscribe();
 		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Session.getActiveSession().onActivityResult(LXBaseActivity.this, requestCode, resultCode, data);
 	}
 
 	@Subscribe
