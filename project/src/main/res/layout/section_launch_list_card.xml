@@ -111,7 +111,7 @@
                 android:id="@+id/no_rating_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hotel_no_rating_text"
+                android:text="@string/not_rated"
                 android:textColor="@color/launch_list_txt"
                 android:textSize="14sp"
                 android:visibility="gone"
