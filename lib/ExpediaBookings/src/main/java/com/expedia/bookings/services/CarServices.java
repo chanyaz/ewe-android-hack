@@ -49,9 +49,7 @@ public class CarServices {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
 
-		Gson gson = new GsonBuilder()
-			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
-			.create();
+		Gson gson = generateGson();
 
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
@@ -92,6 +90,12 @@ public class CarServices {
 			.subscribeOn(mSubscribeOn)
 			.observeOn(mObserveOn)
 			.subscribe(observer);
+	}
+
+	public static Gson generateGson() {
+		return new GsonBuilder()
+			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+			.create();
 	}
 
 	// Throw an error so the UI can handle it except for price changes.

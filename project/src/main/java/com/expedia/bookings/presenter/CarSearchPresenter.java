@@ -3,8 +3,6 @@ package com.expedia.bookings.presenter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.joda.time.DateTime;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -32,7 +30,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.services.DateTimeTypeAdapter;
+import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
@@ -45,7 +43,6 @@ import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView;
 import com.expedia.bookings.widget.CarDateTimeWidget;
 import com.expedia.bookings.widget.CarSuggestionAdapter;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mobiata.android.time.widget.CalendarPicker;
 
 import butterknife.ButterKnife;
@@ -166,9 +163,7 @@ public class CarSearchPresenter extends Presenter
 
 		show(new CarParamsDefault());
 
-		Gson gson = new GsonBuilder()
-			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
-			.create();
+		Gson gson = CarServices.generateGson();
 		String carSearchParamsString = ((Activity) getContext()).getIntent()
 			.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
 		CarSearchParams carSearchParams = gson.fromJson(carSearchParamsString, CarSearchParams.class);

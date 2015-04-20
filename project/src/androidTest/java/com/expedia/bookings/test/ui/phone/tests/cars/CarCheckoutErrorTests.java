@@ -1,12 +1,10 @@
 package com.expedia.bookings.test.ui.phone.tests.cars;
 
-import org.joda.time.DateTime;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.services.DateTimeTypeAdapter;
+import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.test.component.cars.CarViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
@@ -14,7 +12,6 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.utils.CarTestCase;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mobiata.android.util.IoUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -140,9 +137,7 @@ public class CarCheckoutErrorTests extends CarTestCase {
 		}
 		SearchCarOffer searchCarOffer;
 		CarCreateTripResponse carCreateTripResponse;
-		Gson gson = new GsonBuilder()
-			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
-			.create();
+		Gson gson = CarServices.generateGson();
 
 		String offerStr = IoUtils.convertStreamToString(
 			getInstrumentation().getContext().getAssets().open(offerFilename));
