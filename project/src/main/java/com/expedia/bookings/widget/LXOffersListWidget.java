@@ -67,6 +67,9 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 			showMoreContainer.setVisibility(VISIBLE);
 			showMoreWithCountWidget.setCount(String.valueOf(availableOffers.size() - offersListInitialMaxCount));
 		}
+		else {
+			showMoreContainer.setVisibility(GONE);
+		}
 	}
 
 	@OnClick((R.id.offer_show_more_container))
