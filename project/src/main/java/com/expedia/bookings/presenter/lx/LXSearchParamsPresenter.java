@@ -28,9 +28,9 @@ import android.widget.EditText;
 import android.widget.ToggleButton;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -285,7 +285,9 @@ public class LXSearchParamsPresenter extends Presenter
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				clearBackStack();
+				if (getCurrentState() != null && !getCurrentState().equals(LXParamsDefault.class.getName())) {
+					clearBackStack();
+				}
 				((Activity) getContext()).onBackPressed();
 			}
 		});
