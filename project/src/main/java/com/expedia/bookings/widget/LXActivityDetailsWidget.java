@@ -90,7 +90,6 @@ public class LXActivityDetailsWidget extends ScrollView {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		Events.register(this);
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
 		highlights.setVisibility(View.GONE);
@@ -104,6 +103,18 @@ public class LXActivityDetailsWidget extends ScrollView {
 		offers.setVisibility(View.GONE);
 
 		offset = Ui.toolbarSizeWithStatusBar(getContext());
+	}
+
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		Events.register(this);
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		Events.unregister(this);
+		super.onDetachedFromWindow();
 	}
 
 	@Subscribe
