@@ -13,9 +13,6 @@ import com.android.support.test.deps.guava.collect.Iterables;
 import com.mobiata.android.Log;
 import com.squareup.spoon.Spoon;
 
-/**
- * Created by dmadan on 7/3/14.
- */
 public class SpoonScreenshotUtils {
 
 	public static void screenshot(String tag, Instrumentation instrumentation) throws Throwable {
@@ -24,7 +21,7 @@ public class SpoonScreenshotUtils {
 			Spoon.screenshot(a, instrumentation, tag);
 		}
 		else {
-			Log.e("SpoonScreenshot", "No activity to take screenshot of");
+			Log.e("SpoonScreenshot", "No activity to take screenshot of", new Throwable());
 		}
 	}
 
@@ -34,7 +31,7 @@ public class SpoonScreenshotUtils {
 			Spoon.screenshot(a, instrumentation, tag, testClass);
 		}
 		else {
-			Log.e("SpoonScreenshot", "No activity to take screenshot of");
+			Log.e("SpoonScreenshot", "No activity to take screenshot of", new Throwable());
 		}
 	}
 
