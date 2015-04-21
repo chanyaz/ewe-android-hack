@@ -97,8 +97,6 @@ public class LXSearchParamsPresenter extends Presenter
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		// Search Box Omniture Tracking on load of search param screen.
-		OmnitureTracking.trackAppLXSearchBox(getContext());
 		ButterKnife.inject(this);
 
 		setupCalendar();
@@ -340,6 +338,9 @@ public class LXSearchParamsPresenter extends Presenter
 
 	@Subscribe
 	public void onShowSearchWidget(Events.LXShowSearchWidget event) {
+		// Search Box Omniture Tracking on load of search param screen.
+		OmnitureTracking.trackAppLXSearchBox(getContext());
+
 		show(new LXParamsDefault());
 		if (!Strings.isEmpty(location.getText())) {
 			show(new LXParamsCalendar());
