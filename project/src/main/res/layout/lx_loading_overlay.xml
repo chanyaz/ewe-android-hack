@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:clickable="false">
+        android:clickable="true">
 
         <FrameLayout
             android:id="@+id/overlay_title_container"
@@ -25,8 +25,9 @@
         </FrameLayout>
 
         <View
+            android:id="@+id/loading_overlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#CC000000" />
+            android:background="#80000000" />
     </LinearLayout>
 </merge>
