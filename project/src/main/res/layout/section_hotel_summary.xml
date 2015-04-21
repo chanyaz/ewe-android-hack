@@ -64,28 +64,24 @@
             android:layout_centerVertical="true"
             android:orientation="horizontal">
 
-            <FrameLayout
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/rating"
                 android:layout_width="28dp"
                 android:layout_height="18dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/result_rating_bg">
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:paddingBottom="1dp"
-                    android:textColor="@color/itin_white_text"
-                    android:textSize="12sp"
-                    app:textStyle="bold" />
-            </FrameLayout>
+                android:background="@drawable/result_rating_bg"
+                android:gravity="center"
+                android:textColor="@color/itin_white_text"
+                android:textSize="12sp"
+                app:textStyle="bold" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/rating_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hotel_rating_text"
+                android:layout_gravity="center_vertical"
+                android:text="@string/hotel_search_rating_text"
                 android:textColor="#696969"
                 android:textSize="14sp"
                 app:textStyle="normal" />

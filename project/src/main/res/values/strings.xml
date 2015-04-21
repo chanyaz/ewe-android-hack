@@ -882,8 +882,10 @@
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
     <string name="loading_header">Loading&#8230;</string>
-    <!-- Hotel list rating text -->
-    <string name="hotel_rating_text">of 5</string>
+    <!-- Hotel launch list rating text -->
+    <string name="hotel_rating_text">of 5 &#8211; guest rating</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">of 5</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">mobile only!</string>
     <!-- Expedia Deal for a given property, tonight only -->
