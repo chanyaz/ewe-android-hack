@@ -214,7 +214,7 @@ public class LXResultsPresenter extends Presenter {
 	@Subscribe
 	public void onLXSearchError(Events.LXShowSearchError event) {
 		if (event.searchType.equals(SearchType.DEFAULT_SEARCH)) {
-			toolbar.setTitle(getResources().getString(R.string.edit_search_toolbar));
+			toolbar.setTitle(getResources().getString(R.string.lx_error_current_location_toolbar_text));
 		}
 	}
 

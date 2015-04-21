@@ -536,7 +536,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Your search returned no results. Please retry your search with different criteria.</string> 
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">Failed to determine current location.</string> 
+    <string name="error_lx_current_location_search_message">We couldn’t determine your current location to find activities around you.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Error</string>
     <!-- Text for error toolbar-->
@@ -567,8 +567,6 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s not accepted</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">We\&apos;re sorry, but this activity\&apos;s price changed. Please try booking again.</string>
-    <!-- Edit search toolbar title -->
-    <string name="edit_search_toolbar">Edit Search</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Your tickets have been sent to</string>
     <!-- LX reservation confirmation text -->
@@ -577,6 +575,8 @@
     <string name="lx_getting_current_location">Determining location…</string>
     <!-- LX Error Fetching activity details -->
     <string name="lx_error_details">Unable to fetch details. Please try again.</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">Please try again</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
