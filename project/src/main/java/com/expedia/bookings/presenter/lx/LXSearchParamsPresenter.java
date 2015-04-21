@@ -327,6 +327,8 @@ public class LXSearchParamsPresenter extends Presenter
 		calendarPicker.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		daysOfWeekView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
 		monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		// End date selection is disabled.
+		calendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_selection_date_range_lx));
 	}
 
 	// States and transitions
