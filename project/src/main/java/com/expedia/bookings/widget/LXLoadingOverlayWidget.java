@@ -25,6 +25,9 @@ public class LXLoadingOverlayWidget extends LinearLayout {
 	@InjectView(R.id.overlay_title_container)
 	View overlayTitleContainer;
 
+	@InjectView(R.id.loading_overlay)
+	View loadingOverlay;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -38,6 +41,7 @@ public class LXLoadingOverlayWidget extends LinearLayout {
 	public void animate(boolean forward) {
 		if (forward) {
 			AnimUtils.slideUp(loadingText);
+			AnimUtils.fadeIn(loadingOverlay);
 		}
 		else {
 			AnimUtils.slideDown(loadingText);

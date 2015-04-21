@@ -148,4 +148,9 @@ public class AnimUtils {
 		slideDown.setFillAfter(true);
 		v.startAnimation(slideDown);
 	}
+
+	public static void fadeIn(View v) {
+		Animation fadeIn = AnimationUtils.loadAnimation(v.getContext(), R.anim.fade_in);
+		v.startAnimation(fadeIn);
+	}
 }
