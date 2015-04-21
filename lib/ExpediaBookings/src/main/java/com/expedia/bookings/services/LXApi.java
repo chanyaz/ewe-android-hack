@@ -26,12 +26,14 @@ public interface LXApi {
 	 * @param endDate   optional
 	 */
 	@GET("/lx/api/search")
+	@Headers("Cache-Control: no-cache")
 	public Observable<LXSearchResponse> searchLXActivities(
 		@Query("location") String location,
 		@Query("startDate") String startDate,
 		@Query("endDate") String endDate);
 
 	@GET("/lx/api/activity")
+	@Headers("Cache-Control: no-cache")
 	public Observable<ActivityDetailsResponse> activityDetails(
 		@Query("activityId") String activityId,
 		@Query("startDate") String startDate,
