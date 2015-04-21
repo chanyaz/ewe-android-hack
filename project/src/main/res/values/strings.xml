@@ -978,7 +978,7 @@
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Error fetching itineraries</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">&lt;b&gt;Sign in&lt;/b&gt; for your trips</string>
+    <string name="sign_in_for_your_trips">Sign in for your trips</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Tomorrow</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
