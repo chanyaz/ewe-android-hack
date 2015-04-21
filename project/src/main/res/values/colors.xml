@@ -7,9 +7,6 @@
 
     <!-- Launch screen colors -->
     <color name="launch_primary">#f3f3f3</color>
-    <color name="launch_secondary">#b2b2b2</color>
-    <color name="launch_band">#36ffffff</color>
-    <color name="launch_tile_overlay">#A6000000</color>
     <color name="bg_air_attach_phone_launch">#5E707D</color>
 
     <!-- New launch screen colors -->

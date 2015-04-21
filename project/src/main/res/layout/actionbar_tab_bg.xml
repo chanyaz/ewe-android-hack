@@ -5,8 +5,8 @@
     android:layout_height="?android:attr/actionBarSize"
     android:layout_gravity="center_horizontal"
     android:background="?android:selectableItemBackground"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp">
+    android:paddingLeft="18dp"
+    android:paddingRight="18dp">
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/tab_text"
