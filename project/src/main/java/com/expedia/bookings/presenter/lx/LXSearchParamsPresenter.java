@@ -248,7 +248,7 @@ public class LXSearchParamsPresenter extends Presenter
 	private void searchParamsChanged() {
 		searchParams.searchType(SearchType.EXPLICIT_SEARCH);
 		if (searchParams.hasStartDate()) {
-			String dateText = DateUtils.localDateToMMMMdd(searchParams.startDate);
+			String dateText = DateUtils.localDateToMMMMd(searchParams.startDate);
 
 			selectDates.setText(dateText);
 			selectDates.setTextOff(dateText);

@@ -128,7 +128,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 		location.setText(lxState.activity.location);
 		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
 			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
-		date.setText(DateUtils.localDateToEEEMMMdd(offerSelectedDate));
+		date.setText(DateUtils.localDateToEEEMMMd(offerSelectedDate));
 		emailText.setText(lxCheckoutParams.email);
 		confirmationText.setText(res.getString(R.string.lx_successful_checkout_email_label));
 		reservationConfirmation.setText(res.getString(R.string.lx_successful_checkout_reservation_label));

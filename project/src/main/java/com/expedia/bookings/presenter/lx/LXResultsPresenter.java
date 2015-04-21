@@ -257,7 +257,7 @@ public class LXResultsPresenter extends Presenter {
 		toolbar.setTitle(searchParams.location);
 
 		String dateRange = String.format(getResources().getString(R.string.lx_toolbar_date_range_template),
-			DateUtils.localDateToMMMdd(searchParams.startDate), DateUtils.localDateToMMMdd(searchParams.endDate));
+			DateUtils.localDateToMMMd(searchParams.startDate), DateUtils.localDateToMMMd(searchParams.endDate));
 		toolbar.setSubtitle(dateRange);
 	}
 

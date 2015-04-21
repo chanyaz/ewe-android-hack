@@ -82,16 +82,16 @@ public class DateUtils {
 		return date != null ? date.toString(LX_DATE_PATTERN) : null;
 	}
 
-	public static String localDateToMMMdd(LocalDate date) {
-		return date.toString("MMM dd");
+	public static String localDateToMMMd(LocalDate date) {
+		return date.toString("MMM d");
 	}
 
-	public static String localDateToMMMMdd(LocalDate date) {
-		return date.toString("MMMM dd");
+	public static String localDateToMMMMd(LocalDate date) {
+		return date.toString("MMMM d");
 	}
 
-	public static String localDateToEEEMMMdd(LocalDate date) {
-		return date.toString("EEE, MMM dd");
+	public static String localDateToEEEMMMd(LocalDate date) {
+		return date.toString("EEE, MMM d");
 	}
 
 	public static LocalDate yyyyMMddToLocalDate(String dateyyyyMMdd) {

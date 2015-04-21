@@ -68,7 +68,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		lxGroupText.setText(LXDataUtils.ticketsCountSummary(getContext(), lxState.selectedTickets));
 		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
 			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
-		lxOfferDate.setText(DateUtils.localDateToEEEMMMdd(offerSelectedDate));
+		lxOfferDate.setText(DateUtils.localDateToEEEMMMd(offerSelectedDate));
 		lxOfferLocation.setText(lxState.activity.location);
 
 		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney();
