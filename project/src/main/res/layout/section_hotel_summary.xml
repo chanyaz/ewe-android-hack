@@ -60,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/name_text_view"
+            android:layout_toLeftOf="@+id/strikethrough_price_text_view"
             android:layout_centerVertical="true"
             android:orientation="horizontal">
 
