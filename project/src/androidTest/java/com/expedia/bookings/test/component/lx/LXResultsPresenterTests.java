@@ -87,7 +87,7 @@ public class LXResultsPresenterTests {
 			(hasDescendant(withText(startsWith("New York Pass"))),
 				hasDescendant(withText("$130"))), 10L, TimeUnit.SECONDS));
 
-		String expectedToolbarDateRange = startDate.toString("MMM dd") + " - " + endDate.toString("MMM dd");
+		String expectedToolbarDateRange = startDate.toString("MMM d") + " - " + endDate.toString("MMM d");
 		ViewInteraction searchToolbar = LXViewModel.toolbar();
 		searchToolbar.check(matches(isDisplayed()));
 		searchToolbar.check(matches(hasDescendant(withText(expectedToolbarDateRange))));
