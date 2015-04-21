@@ -21,7 +21,7 @@ public class LaunchActionBar {
 	private static final int sTripsStringID = R.string.Your_Trips;
 	private static final int sShopStringID = R.string.shop;
 	private static final int sLogOutStringID = R.string.sign_out;
-	private static final int sAddItinButtonID = R.id.add_itinerary;
+	private static final int sAddItinButtonID = R.id.add_itinerary_guest;
 
 	public static ViewInteraction settingsString() {
 		return onView(withText(sSettingsStringID));

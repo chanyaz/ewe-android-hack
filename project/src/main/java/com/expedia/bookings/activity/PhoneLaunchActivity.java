@@ -265,36 +265,13 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		boolean retVal = super.onPrepareOptionsMenu(menu);
 		if (menu != null) {
-			boolean isInItinMode = false;
-			boolean addNewItinButtonEnabled = false;
-			boolean loginBtnEnabled = false;
-			boolean logoutBtnEnabled = false;
+			boolean loginBtnEnabled = !User.isLoggedIn(this);
+			boolean logoutBtnEnabled = User.isLoggedIn(this);
 
-			isInItinMode = mViewPager != null && mViewPager.getCurrentItem() == PAGER_POS_ITIN;
-			if (isInItinMode && mItinListFragment != null && mItinListFragment.getItinCardCount() > 0) {
-				addNewItinButtonEnabled = true;
-			}
-			loginBtnEnabled = isInItinMode && !User.isLoggedIn(this);
-			logoutBtnEnabled = isInItinMode && User.isLoggedIn(this);
-
-			MenuItem addNewItinBtn = menu.findItem(R.id.add_itinerary);
-			if (addNewItinBtn != null) {
-				addNewItinBtn.setVisible(addNewItinButtonEnabled);
-				addNewItinBtn.setEnabled(addNewItinButtonEnabled);
-			}
-			//We have a submenu here, but if we arent showing login we may as well just go to the guest add screen and not show the submenu
-			Menu addNewItinMenu = addNewItinBtn.getSubMenu();
-			if (addNewItinMenu != null) {
-				MenuItem loginBtn = addNewItinMenu.findItem(R.id.add_itinerary_login);
-				if (loginBtn != null) {
-					loginBtn.setVisible(loginBtnEnabled);
-					loginBtn.setEnabled(loginBtnEnabled);
-				}
-				MenuItem addGuestBtn = addNewItinMenu.findItem(R.id.add_itinerary_guest);
-				if (addGuestBtn != null) {
-					addGuestBtn.setVisible(loginBtnEnabled);
-					addGuestBtn.setEnabled(loginBtnEnabled);
-				}
+			MenuItem loginBtn = menu.findItem(R.id.ab_log_in);
+			if (loginBtn != null) {
+				loginBtn.setVisible(loginBtnEnabled);
+				loginBtn.setEnabled(loginBtnEnabled);
 			}
 			MenuItem logOutBtn = menu.findItem(R.id.ab_log_out);
 			if (logOutBtn != null) {
@@ -320,16 +297,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 			gotoWaterfall();
 			return true;
 		}
-		case R.id.add_itinerary: {
-			if (User.isLoggedIn(this)) {
-				if (Ui.isAdded(mItinListFragment)) {
-					mItinListFragment.startAddGuestItinActivity();
-				}
-				return true;
-			}
-			return false;
-		}
-		case R.id.add_itinerary_login: {
+		case R.id.ab_log_in: {
 			if (Ui.isAdded(mItinListFragment)) {
 				mItinListFragment.startLoginActivity();
 			}
