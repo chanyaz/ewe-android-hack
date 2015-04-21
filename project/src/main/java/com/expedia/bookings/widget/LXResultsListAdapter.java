@@ -140,7 +140,7 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 			if (activity.fromPriceTicketCode != null) {
 				fromPriceTicketType.setText(
 					LXDataUtils.perTicketTypeDisplayLabel(itemView.getContext(), activity.fromPriceTicketCode));
-				activityPrice.setText(activity.price.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL));
+				activityPrice.setText(activity.price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
 			}
 			else {
 				fromPriceTicketType.setText("");

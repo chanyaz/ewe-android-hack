@@ -15,19 +15,20 @@ public class Money {
 	private static final int VERSION = 2;
 
 	/**
-	 * Flag to automatically round down in formatting
-	 */
-	public static final int F_ROUND_DOWN = 1;
-
-	/**
 	 * Flag to remove all value past the decimal point in formatting.
 	 */
-	public static final int F_NO_DECIMAL = 2;
+	public static final int F_NO_DECIMAL = 1;
 
 	/**
 	 * Flag to remove all value past the decimal point in formatting, if it is an Integer, else use 2 Decimal Places
 	 */
-	public static final int F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL = 4;
+	public static final int F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL = 2;
+
+	/**
+	 * Rounding Flags
+	 */
+	public static final int F_ROUND_DOWN = 4;
+	public static final int F_ROUND_HALF_UP = 8;
 
 	public BigDecimal amount;
 	public String currencyCode = null;
@@ -296,9 +297,9 @@ public class Money {
 			flags |= F_NO_DECIMAL;
 		}
 
-		// F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL trumps F_NO_DECIMAL
+		// F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL trumps all other flags
 		if ((flags & F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL) != 0) {
-			flags = flags & ~(F_NO_DECIMAL);
+			flags = F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL;
 		}
 
 		// NumberFormat.getCurrencyInstance is slow. So let's try to cache it.
@@ -322,18 +323,27 @@ public class Money {
 			sFormats.put(key, nf);
 		}
 
+		//Handle F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL which trumps all other flags
 		if ((flags & F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL) != 0) {
 			nf = (NumberFormat) nf.clone();
-			if (amount.stripTrailingZeros().scale() <= 0) {
-				nf.setMaximumFractionDigits(0);
+			nf.setMaximumFractionDigits(amount.stripTrailingZeros().scale() <= 0 ? 0 : 2);
+		}
+		//Handle Rounding Flags
+		else if ((flags & F_ROUND_HALF_UP) != 0) {
+			if ((flags & F_NO_DECIMAL) != 0) {
+				amount = amount.setScale(0, BigDecimal.ROUND_HALF_UP);
 			}
 			else {
-				nf.setMaximumFractionDigits(2);
+				amount = amount.round(new MathContext(amount.precision() - amount.scale(), RoundingMode.HALF_UP));
 			}
 		}
-
-		if ((flags & F_ROUND_DOWN) != 0) {
-			amount = amount.round(new MathContext(amount.precision() - amount.scale(), RoundingMode.DOWN));
+		else if ((flags & F_ROUND_DOWN) != 0) {
+			if ((flags & F_NO_DECIMAL) != 0) {
+				amount = amount.setScale(0, BigDecimal.ROUND_DOWN);
+			}
+			else {
+				amount = amount.round(new MathContext(amount.precision() - amount.scale(), RoundingMode.DOWN));
+			}
 		}
 
 		String formatted = nf.format(amount);

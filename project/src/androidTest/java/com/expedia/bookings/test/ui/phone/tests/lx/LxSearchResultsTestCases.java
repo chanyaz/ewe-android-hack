@@ -8,6 +8,7 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.component.lx.LXViewModel;
@@ -55,7 +56,7 @@ public class LxSearchResultsTestCases extends LxTestCase {
 			LXSearchResultsPageModel.getTile(activity.title).check(matches(
 				hasDescendant(withText(containsString(activity.duration)))));
 			LXSearchResultsPageModel.getTile(activity.title).check(matches(
-				hasDescendant(withText(containsString(activity.fromPriceValue)))));
+				hasDescendant(withText(containsString(activity.price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))))));
 			LXSearchResultsPageModel.getTile(activity.title).check(matches(
 				hasDescendant(withText(containsString(activity.fromPriceTicketCode.toString().toLowerCase())))));
 			currentCounter++;
