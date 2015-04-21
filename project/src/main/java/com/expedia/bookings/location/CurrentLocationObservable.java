@@ -5,6 +5,7 @@ import android.location.Location;
 import android.os.Bundle;
 
 import com.expedia.bookings.data.cars.ApiError;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.mobiata.android.Log;
@@ -16,7 +17,7 @@ import rx.subscriptions.Subscriptions;
 
 public class CurrentLocationObservable implements
 	GoogleApiClient.ConnectionCallbacks,
-	Observable.OnSubscribe<Location> {
+	Observable.OnSubscribe<Location>, GoogleApiClient.OnConnectionFailedListener {
 
 	public static Observable<Location> create(Context context) {
 		return Observable.create(new CurrentLocationObservable(context));
@@ -29,6 +30,7 @@ public class CurrentLocationObservable implements
 		googleApiClient = new GoogleApiClient.Builder(context)
 			.addApi(LocationServices.API)
 			.addConnectionCallbacks(this)
+			.addOnConnectionFailedListener(this)
 			.build();
 	}
 
@@ -36,30 +38,23 @@ public class CurrentLocationObservable implements
 	// ConnectionCallbacks
 
 	@Override
-	public void onConnected(Bundle connectionHint) {
-		Log.d("GoogleApiClient LocationServices: connected");
-		deliverLocation();
-	}
-
-	@Override
-	public void onConnectionSuspended(int i) {
-		// ignore
-	}
-
-	private synchronized void deliverLocation() {
-		if (googleApiClient == null || !googleApiClient.isConnected()) {
-			return;
-		}
-
+	public synchronized void onConnected(Bundle connectionHint) {
+		Log.d("CurrentLocationObservable: onConnected");
+		//Deliver the location
 		Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 		if (location == null) {
-			ApiError error = new ApiError(ApiError.Code.LOCATION_SERVICES_DISABLED);
-			subscriber.onError(error);
+			sendError();
 		}
 		else {
 			subscriber.onNext(location);
+			subscriber.onCompleted();
 		}
-		subscriber.onCompleted();
+	}
+
+	@Override
+	public synchronized void onConnectionSuspended(int i) {
+		Log.d("CurrentLocationObservable: onConnectionSuspended");
+		// ignore as GoogleApiClient will automatically attempt to restore the connection.
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -71,15 +66,26 @@ public class CurrentLocationObservable implements
 
 		subscriber.add(Subscriptions.create(disconnectAction));
 
-		Log.d("GoogleApiClient LocationServices: connect");
+		//Attempt to connect to Google Api Client on Subscribe
 		googleApiClient.connect();
 	}
 
 	private final Action0 disconnectAction = new Action0() {
 		@Override
 		public void call() {
-			Log.d("GoogleApiClient LocationServices: disconnect");
+			Log.d("CurrentLocationObservable: Disconnecting");
 			googleApiClient.disconnect();
 		}
 	};
+
+	@Override
+	public synchronized void onConnectionFailed(ConnectionResult connectionResult) {
+		Log.d("CurrentLocationObservable: onConnectionFailed");
+		sendError();
+	}
+
+	private void sendError() {
+		ApiError error = new ApiError(ApiError.Code.CURRENT_LOCATION_ERROR);
+		subscriber.onError(error);
+	}
 }
