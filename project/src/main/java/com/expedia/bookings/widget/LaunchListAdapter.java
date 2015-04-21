@@ -389,7 +389,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				}
 				halfTilePrice.setText(StrUtils.formatHotelPrice(new Money(String.valueOf(Math.round(hotel.lowRateInfo.priceToShowUsers)), hotel.lowRateInfo.currencyCode)));
 				if (hotel.hotelGuestRating == 0) {
-					rating.setText("––");
+					ratingInfo.setVisibility(View.INVISIBLE);
 				}
 				else {
 					rating.setText(Float.toString(hotel.hotelGuestRating));
