@@ -72,7 +72,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	public static class ViewHolder {
+	public static class ViewHolder implements View.OnClickListener {
 
 		private Offer offer;
 
@@ -82,6 +82,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 			this.itemView = itemView;
 			ButterKnife.inject(this, itemView);
 			Events.register(this);
+			itemView.setOnClickListener(this);
 		}
 
 		@InjectView(R.id.offer_title)
@@ -104,8 +105,6 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 		@OnClick(R.id.select_tickets)
 		public void offerExpanded() {
-			//  Track Link to track Ticket Selected.
-			OmnitureTracking.trackLinkLXSelectTicket(itemView.getContext());
 			Events.post(new Events.LXOfferExpanded(offer));
 		}
 
@@ -141,6 +140,10 @@ public class LXOffersListAdapter extends BaseAdapter {
 		@Subscribe
 		public void onOfferExpanded(Events.LXOfferExpanded event) {
 			if (this.offer.id.equals(event.offer.id)) {
+				if (!offer.isToggled) {
+					//  Track Link to track Ticket Selected.
+					OmnitureTracking.trackLinkLXSelectTicket(itemView.getContext());
+				}
 				offer.isToggled = true;
 				offerRow.setVisibility(View.GONE);
 				ticketSelectionWidget.setVisibility(View.VISIBLE);
@@ -154,6 +157,11 @@ public class LXOffersListAdapter extends BaseAdapter {
 		public void updateState(boolean isToggled) {
 			offerRow.setVisibility(isToggled ? View.GONE : View.VISIBLE);
 			ticketSelectionWidget.setVisibility(isToggled ? View.VISIBLE : View.GONE);
+		}
+
+		@Override
+		public void onClick(View v) {
+			Events.post(new Events.LXOfferExpanded(offer));
 		}
 	}
 }
