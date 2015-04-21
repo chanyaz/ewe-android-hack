@@ -96,7 +96,10 @@ public class LXInfositeTestCases extends LxTestCase {
 		onView(allOf(withId(R.id.section_content), hasSibling(allOf(withId(R.id.section_title),
 			withText(R.string.location_activity_details)))))
 			.perform(scrollTo()).check(matches(not(isEmpty())));
-		screenshot("LX validated 3 sections");
+		onView(allOf(withId(R.id.section_content), hasSibling(allOf(withId(R.id.section_title),
+			withText(R.string.cancellation_policy)))))
+			.perform(scrollTo()).check(matches(not(isEmpty())));
+		screenshot("LX validated 4 sections");
 
 		LXInfositePageModel.detailsDateContainer().perform(scrollTo());
 		LXInfositePageModel.detailsDateContainer().check(matches(withChildCount(15)));

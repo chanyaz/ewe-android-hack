@@ -193,12 +193,16 @@ public class LXActivityDetailsWidget extends ScrollView {
 			knowBeforeYouBook.bindData(getResources().getString(R.string.know_before_you_book_activity_details), knowBeforeYouBookContent, 0);
 			knowBeforeYouBook.setVisibility(View.VISIBLE);
 		}
+		String cancellationPolicyText = null;
 		if (Strings.isNotEmpty(activityDetailsResponse.cancellationPolicyText)) {
-			String cancellationPolicyText = String.format(getContext().getString(R.string.cancellation_policy_TEMPLATE), StrUtils.stripHTMLTags(activityDetailsResponse.cancellationPolicyText));
-			cancellation.bindData(getResources().getString(R.string.cancellation_policy),
-				cancellationPolicyText, 0);
-			cancellation.setVisibility(View.VISIBLE);
+			cancellationPolicyText = String.format(getContext().getString(R.string.cancellation_policy_TEMPLATE), StrUtils.stripHTMLTags(activityDetailsResponse.cancellationPolicyText));
 		}
+		else {
+			cancellationPolicyText = getContext().getString(R.string.lx_policy_non_cancellable);
+		}
+		cancellation.bindData(getResources().getString(R.string.cancellation_policy),
+			cancellationPolicyText, 0);
+		cancellation.setVisibility(View.VISIBLE);
 
 	}
 
