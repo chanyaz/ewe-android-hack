@@ -217,6 +217,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 	private void updateAbacus(AbacusResponse abacusResponse) {
 		if (ExpediaBookingApp.sIsAutomation) {
+			launchScreenTest = new AbacusResponse();
 			return;
 		}
 
