@@ -355,6 +355,9 @@ public class PaymentWidget extends ExpandableCardView {
 	final ISectionEditable.SectionChangeListener mValidFormsOfPaymentListener = new ISectionEditable.SectionChangeListener() {
 		@Override
 		public void onChange() {
+			if (sectionBillingInfo == null || sectionBillingInfo.getBillingInfo() == null) {
+				return;
+			}
 			CreditCardType cardType = sectionBillingInfo.getBillingInfo().getCardType();
 			TripBucketItem tripItem = Db.getTripBucket().getItem(lineOfBusiness);
 			if (cardType != null && tripItem != null) {
