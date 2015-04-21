@@ -85,7 +85,7 @@ public class LXDetailsPresenterTests {
 		LXViewModel.toolbar().check(matches(isDisplayed()));
 
 		String expectedToolbarDateRange = String
-			.format("%1$s - %2$s", LocalDate.now().toString("MMM dd"), LocalDate.now().plusDays(13).toString("MMM dd"));
+			.format("%1$s - %2$s", LocalDate.now().toString("MMM d"), LocalDate.now().plusDays(13).toString("MMM d"));
 		ViewInteraction toolbar = LXViewModel.toolbar();
 		toolbar.check(matches(isDisplayed()));
 		toolbar.check(matches(hasDescendant(withText(expectedToolbarDateRange))));

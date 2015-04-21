@@ -70,7 +70,7 @@ public class LXSearchParamsTest {
 
 		// Select start date
 		LXViewModel.selectDates(start, null);
-		String expectedDateText = JodaUtils.format(LocalDate.now(), "MMMM dd");
+		String expectedDateText = JodaUtils.format(LocalDate.now(), "MMMM d");
 		LXViewModel.selectDateButton().check(matches(withText(expectedDateText)));
 		LXViewModel.searchButton().perform(click());
 		LXSearchParams actual = searchParamsWidget.getCurrentParams();
