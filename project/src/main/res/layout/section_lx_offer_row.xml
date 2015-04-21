@@ -39,7 +39,7 @@
                 android:maxLines="1"
                 android:textColor="@color/lx_ticket_summary_color"
                 android:textSize="11sp"
-                app:textStyle="medium" />
+                app:textStyle="normal" />
         </LinearLayout>
 
         <Button
