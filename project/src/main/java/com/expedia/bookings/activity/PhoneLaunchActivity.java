@@ -160,9 +160,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 
 		OmnitureTracking.onResume(this);
 
-		if (mViewPager.getCurrentItem() == 0) {
-			OmnitureTracking.trackPageLoadLaunchScreen(PhoneLaunchActivity.this);
-		}
 		AdTracker.trackViewHomepage();
 	}
 

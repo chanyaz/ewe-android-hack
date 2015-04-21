@@ -21,7 +21,7 @@ public class AbacusTest {
 	public AbacusTest copyForDebug() {
 		AbacusTest test = new AbacusTest();
 		test.id = id;
-		test.value = value;
+		test.value = AbacusUtils.ABTEST_IGNORE_DEBUG;
 		test.instanceId = instanceId;
 		return test;
 	}
