@@ -71,7 +71,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		lxOfferDate.setText(DateUtils.localDateToEEEMMMd(offerSelectedDate));
 		lxOfferLocation.setText(lxState.activity.location);
 
-		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney();
+		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
 		tripTotalText.setText(totalMoney);
 
 		freeCancellationText.setVisibility(lxState.offer.freeCancellation ? VISIBLE : GONE);
@@ -88,7 +88,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.lx_cost_breakdown_due_today),
-			LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney()));
+			LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)));
 
 		for (Ticket ticketSelected : tickets) {
 			if (ticketSelected.count > 0) {
@@ -99,7 +99,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 				ll.addView(
 					CheckoutSummaryWidgetUtils.addRow(context,
 						LXDataUtils.ticketCountSummary(getContext(), ticketSelected.code, ticketSelected.count),
-						totalMoneyForTicketType.getFormattedMoney()));
+						totalMoneyForTicketType.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)));
 			}
 		}
 
@@ -108,7 +108,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		ll.addView(addDisclaimerRow(context, tickets.get(0).money.getCurrency()));
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.checkout_breakdown_total_price),
-			LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney()));
+			LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)));
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -107,7 +108,7 @@ public class LXTicketSelectionWidget extends LinearLayout {
 			ticketSummaryContainer.setVisibility(LXUtils.getTotalTicketCount(selectedTickets) > 0 ? VISIBLE : GONE);
 			ticketSummary.setText(LXDataUtils.ticketsCountSummary(getContext(), selectedTickets));
 			bookNow.setText(String.format(getResources().getString(R.string.offer_book_now_TEMPLATE),
-				LXUtils.getTotalAmount(selectedTickets).getFormattedMoney()));
+				LXUtils.getTotalAmount(selectedTickets).getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)));
 		}
 	}
 

@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -75,13 +76,14 @@ public class LXTicketPicker extends LinearLayout {
 		String ticketDetailsText = null;
 		if (Strings.isNotEmpty(ticket.restrictionText)) {
 			ticketDetailsText = String
-				.format(getResources().getString(R.string.ticket_details_template), ticket.money.getFormattedMoney(),
+				.format(getResources().getString(R.string.ticket_details_template), ticket.money.getFormattedMoney(
+						Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
 					LXDataUtils.ticketDisplayName(getContext(), ticket.code), ticket.restrictionText);
 		}
 		else {
 			ticketDetailsText = String
 				.format(getResources().getString(R.string.ticket_details_no_restriction_TEMPLATE),
-					ticket.money.getFormattedMoney(),
+					ticket.money.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
 					LXDataUtils.ticketDisplayName(getContext(), ticket.code));
 		}
 		ticketDetails.setText(ticketDetailsText);
