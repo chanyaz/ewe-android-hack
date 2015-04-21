@@ -9,6 +9,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
+import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.LXLoadingOverlayWidget;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -29,6 +31,9 @@ public class LXPresenter extends Presenter {
 
 	@InjectView(R.id.activity_details_presenter)
 	LXDetailsPresenter detailsPresenter;
+
+	@InjectView(R.id.lx_loading_overlay)
+	LXLoadingOverlayWidget loadingOverlay;
 
 	private static class LXParamsOverlay {
 		// ignore
@@ -83,32 +88,42 @@ public class LXPresenter extends Presenter {
 	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class,
 		LXCheckoutPresenter.class);
 
-	private Transition resultsToDetails = new VisibilityTransition(this, LXResultsPresenter.class.getName(),
-		LXDetailsPresenter.class.getName()) {
+	private Presenter.Transition resultsToDetails = new Presenter.Transition(LXResultsPresenter.class.getName(),
+		LXDetailsPresenter.class.getName(),
+		new DecelerateInterpolator(), ANIMATION_DURATION) {
+		private int detailsHeight;
+
 		@Override
 		public void startTransition(boolean forward) {
+			final int parentHeight = getHeight();
+			detailsHeight = parentHeight - Ui.getStatusBarHeight(getContext());
+			float pos = forward ? parentHeight + detailsHeight : detailsHeight;
+			detailsPresenter.setTranslationY(pos);
+			detailsPresenter.setVisibility(View.VISIBLE);
 			detailsPresenter.animationStart(!forward);
+			resultsPresenter.setVisibility(VISIBLE);
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
+			float pos = forward ? detailsHeight + (-f * detailsHeight) : (f * detailsHeight);
+			detailsPresenter.setTranslationY(pos);
 			detailsPresenter.animationUpdate(f, !forward);
 		}
 
 		@Override
 		public void endTransition(boolean forward) {
+			detailsPresenter.setTranslationY(forward ? 0 : detailsHeight);
 		}
 
 		@Override
 		public void finalizeTransition(boolean forward) {
+			detailsPresenter.setTranslationY(forward ? 0 : detailsHeight);
+			detailsPresenter.setVisibility(forward ? VISIBLE : GONE);
+			resultsPresenter.setVisibility(forward ? GONE : VISIBLE);
+			loadingOverlay.setVisibility(GONE);
 			detailsPresenter.animationFinalize(!forward);
-			if (forward) {
-				resultsPresenter.setVisibility(View.GONE);
-				detailsPresenter.setVisibility(View.VISIBLE);
-			}
-			else {
-				resultsPresenter.setVisibility(View.VISIBLE);
-				detailsPresenter.setVisibility(View.GONE);
+			if (!forward) {
 				detailsPresenter.cleanup();
 			}
 		}
@@ -184,6 +199,13 @@ public class LXPresenter extends Presenter {
 
 	@Subscribe
 	public void onActivitySelected(Events.LXActivitySelected event) {
+		loadingOverlay.setVisibility(VISIBLE);
+		loadingOverlay.animate(true);
+	}
+
+	@Subscribe
+	public void onShowActivityDetails(Events.LXShowDetails event) {
+		loadingOverlay.animate(false);
 		show(detailsPresenter);
 	}
 

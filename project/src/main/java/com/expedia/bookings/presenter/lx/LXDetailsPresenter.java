@@ -16,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -51,13 +50,6 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 		super(context, attrs);
 	}
 
-	/**
-	 * TODO: Will need to refactor this based on the designs. If same loading is shown as on SRP, then reuse the progress bar
-	 */
-
-	@InjectView(R.id.loading_details)
-	ProgressBar loadingProgress;
-
 	@InjectView(R.id.activity_details)
 	LXActivityDetailsWidget details;
 
@@ -84,40 +76,23 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 	UserAccountRefresher userAccountRefresher;
 
 	// Transitions
-	private Transition loadingToDetails = new VisibilityTransition(this, ProgressBar.class.getName(), LXActivityDetailsWidget.class.getName()) {
-		@Override
-		public void finalizeTransition(boolean forward) {
-			super.finalizeTransition(forward);
-			toolbar.setVisibility(View.VISIBLE);
-			toolbarBackground.setAlpha(0f);
-		}
-	};
-	private DefaultTransition setUpLoading = new DefaultTransition(ProgressBar.class.getName()) {
-		@Override
-		public void finalizeTransition(boolean forward) {
-			loadingProgress.setVisibility(View.VISIBLE);
-			details.setVisibility(View.GONE);
-		}
-	};
+
 	private Transition detailsToError = new VisibilityTransition(this, LXActivityDetailsWidget.class.getName(), LXErrorWidget.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {
 			super.finalizeTransition(forward);
 			toolbar.setVisibility(View.GONE);
 			toolbarBackground.setAlpha(0f);
+			animationFinalize(forward);
 		}
 	};
-	private Transition errorToLoading = new VisibilityTransition(this, LXErrorWidget.class.getName(), ProgressBar.class.getName());
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
-		addDefaultTransition(setUpLoading);
-		addTransition(loadingToDetails);
 		addTransition(detailsToError);
-		addTransition(errorToLoading);
 
 		createTripDialog = new ProgressDialog(getContext());
 		createTripDialog.setMessage(getResources().getString(R.string.preparing_checkout_message));
@@ -202,7 +177,6 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 	}
 
 	private void showActivityDetails(LXActivity activity, LocalDate startDate, LocalDate endDate) {
-		show(loadingProgress);
 		setToolbarTitles(activity);
 		detailsSubscription = lxServices.lxDetails(activity, startDate, endDate, detailsObserver);
 	}
@@ -312,6 +286,7 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 		toolbarBackground.setTranslationY(forward ? 0 : -toolbarBackground.getHeight());
 		toolbar.setTranslationY(forward ? 0 : 50);
 		toolbar.setVisibility(VISIBLE);
+		toolbarBackground.setAlpha(0);
 	}
 
 	public void animationUpdate(float f, boolean forward) {
@@ -331,7 +306,7 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 
 	private void showErrorScreen(ApiError error) {
 		errorScreen.bind(error);
-		show(errorScreen, FLAG_CLEAR_BACKSTACK);
+		show(errorScreen);
 	}
 
 	@Override

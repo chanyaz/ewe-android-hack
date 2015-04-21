@@ -113,7 +113,7 @@ public class LXViewModel {
 	}
 
 	public static ViewInteraction progressDetails() {
-		return onView(withId(R.id.loading_details));
+		return onView(withId(R.id.overlay_title_container));
 	}
 
 	public static void waitForLoadingDetailsNotDisplayed() {

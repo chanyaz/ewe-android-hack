@@ -18,9 +18,12 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.presenter.lx.LXDetailsPresenter;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.widget.LXActivityDetailsWidget;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -58,6 +61,7 @@ public class LXCreateTripErrorTests {
 
 	@Test
 	public void testCreateTripError() {
+		((LXDetailsPresenter) playground.getRoot()).show(new LXActivityDetailsWidget(playground.get(), null), Presenter.TEST_FLAG_FORCE_NEW_STATE);
 		//Select Offer which will return mocked data for create trip failure.
 		Offer lxOffer = gson.fromJson("{\"id\": \"error_activity_id\", \"title\": \"2-Day New York Pass\", \"description\": \"\", \"currencySymbol\": \"$\", \"currencyDisplayedLeft\": true, \"freeCancellation\": true, \"duration\": \"2d\", \"discountPercentage\": null, \"directionality\": \"\", \"availabilityInfo\": [{\"availabilities\": {\"displayDate\": \"Tue, Feb 24\", \"valueDate\": \"2015-02-24 07:30:00\", \"allDayActivity\": false }, \"tickets\": [{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }, {\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"displayName\": null, \"defaultTicketCount\": 0 } ] } ], \"direction\": null }", Offer.class);
 		List<Ticket> selectedTickets = new ArrayList<>();

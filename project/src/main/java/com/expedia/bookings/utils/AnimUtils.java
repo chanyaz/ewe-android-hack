@@ -135,4 +135,17 @@ public class AnimUtils {
 		Animation rotate = AnimationUtils.loadAnimation(v.getContext(), R.anim.rotate_reverse);
 		v.startAnimation(rotate);
 	}
+
+	public static void slideUp(View v) {
+		Animation slideUp = AnimationUtils.loadAnimation(v.getContext(), R.anim.slide_up);
+		slideUp.setDuration(100);
+		v.startAnimation(slideUp);
+	}
+
+	public static void slideDown(View v) {
+		Animation slideDown = AnimationUtils.loadAnimation(v.getContext(), R.anim.slide_down);
+		slideDown.setDuration(400);
+		slideDown.setFillAfter(true);
+		v.startAnimation(slideDown);
+	}
 }
