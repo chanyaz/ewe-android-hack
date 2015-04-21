@@ -32,7 +32,6 @@
             android:layout_height="fill_parent"
             android:background="?android:attr/selectableItemBackground"
             android:drawableLeft="@drawable/ic_check_white_24dp"
-            android:gravity="center|right"
             android:padding="@dimen/lx_sort_filter_padding"
             android:text="@string/lx_apply_sort_filter"
             android:textAllCaps="false"
