@@ -545,7 +545,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				if ((location != null && location.getCountryCode() != null
 						&& location.getCountryCode().equalsIgnoreCase("USA"))
 						|| (!mEditCountrySpinner.hasBoundField() && (posId == PointOfSaleId.UNITED_STATES || posId == PointOfSaleId.TRAVELOCITY))) {
-					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
+					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
 					this.getField().setHint(R.string.address_postal_code_hint_US);
 				}
 				else {
