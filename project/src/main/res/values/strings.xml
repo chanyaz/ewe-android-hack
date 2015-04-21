@@ -573,6 +573,8 @@
     <string name="lx_successful_checkout_email_label">Your tickets have been sent to</string>
     <!-- LX reservation confirmation text -->
     <string name="lx_successful_checkout_reservation_label">Your reservation is confirmed!</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">Determining location…</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->

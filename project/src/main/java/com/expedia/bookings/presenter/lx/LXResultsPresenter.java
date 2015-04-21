@@ -109,16 +109,6 @@ public class LXResultsPresenter extends Presenter {
 		}
 	};
 
-	private DefaultTransition setUpLoading = new DefaultTransition(LXSearchResultsWidget.class.getName()) {
-		@Override
-		public void finalizeTransition(boolean forward) {
-			// Do not show loading animation for automation builds.
-			if (!ExpediaBookingApp.sIsAutomation) {
-				Events.post(new Events.LXShowLoadingAnimation());
-			}
-		}
-	};
-
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -126,7 +116,6 @@ public class LXResultsPresenter extends Presenter {
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
 		addTransition(searchResultsToSortFilter);
-		addDefaultTransition(setUpLoading);
 		setupToolbar();
 		searchResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
 		sortFilterWidget.setPadding(0, Ui.getStatusBarHeight(getContext()), 0, 0);
@@ -207,7 +196,8 @@ public class LXResultsPresenter extends Presenter {
 
 	@Subscribe
 	public void onLXNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
-		if (!ExpediaBookingApp.sIsAutomation) {
+		// Dispatch loading animation event if explicit search. Default search dispatches event separately.
+		if (!ExpediaBookingApp.sIsAutomation && event.lxSearchParams.searchType.equals(SearchType.EXPLICIT_SEARCH)) {
 			Events.post(new Events.LXShowLoadingAnimation());
 		}
 		cleanup();
@@ -251,6 +241,7 @@ public class LXResultsPresenter extends Presenter {
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		toolbarBackground.getLayoutParams().height += statusBarHeight;
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
+		toolbar.setTitle(getResources().getString(R.string.lx_getting_current_location));
 	}
 
 	private void setToolbarTitles(LXSearchParams searchParams) {
