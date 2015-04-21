@@ -8,55 +8,21 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
-import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.utils.NavUtils;
-import com.mobiata.android.util.Ui;
 
 public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
 
 	public static final String TAG = PhoneLaunchFragment.class.getName();
-	private boolean mLaunchingActivity = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View view = inflater.inflate(R.layout.fragment_phone_launch, container, false);
-		Ui.findView(view, R.id.wotif_flights).setOnClickListener(mHeaderItemOnClickListener);
-		Ui.findView(view, R.id.wotif_hotels).setOnClickListener(mHeaderItemOnClickListener);
+		View view = inflater.inflate(R.layout.fragment_phone_launch, container, false);
 		return view;
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		mLaunchingActivity = false;
 	}
-
-	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			Bundle animOptions = AnimUtils.createActivityScaleBundle(v);
-
-			switch (v.getId()) {
-			case R.id.wotif_hotels: {
-				if (!mLaunchingActivity) {
-					mLaunchingActivity = true;
-					NavUtils.goToHotels(getActivity(), animOptions);
-					OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
-				}
-				break;
-			}
-			case R.id.wotif_flights: {
-				if (!mLaunchingActivity) {
-					mLaunchingActivity = true;
-					NavUtils.goToFlights(getActivity(), animOptions);
-					OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
-				}
-				break;
-			}
-			}
-		}
-	};
 
 	////////////////////////////////////////////////////////////
 	// IPhoneLaunchActivityLaunchFragment
