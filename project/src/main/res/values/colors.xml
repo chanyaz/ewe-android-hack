@@ -235,6 +235,7 @@
     <color name="cars_confirmation_action_background">#3A424C</color>
     <color name="cars_launch_actionbar_color">#495863</color>
     <color name="cars_selected_tab_color">#5F717F</color>
+    <color name="launch_tab_indicator">#FFED18</color>
 
     <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
     <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>

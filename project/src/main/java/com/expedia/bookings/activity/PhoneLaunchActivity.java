@@ -1,10 +1,11 @@
 package com.expedia.bookings.activity;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import org.joda.time.DateTime;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,14 +13,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
+import android.view.View;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -42,11 +41,13 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
-import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
-import com.expedia.bookings.widget.TextView;
-import com.mobiata.android.Log;
+import com.expedia.bookings.widget.ItinListView;
+import com.expedia.bookings.widget.PhoneLaunchToolbar;
 
-public class PhoneLaunchActivity extends ActionBarActivity implements OnListModeChangedListener,
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+public class PhoneLaunchActivity extends ActionBarActivity implements ItinListView.OnListModeChangedListener,
 	ItinItemListFragmentListener, IPhoneLaunchFragmentListener, DoLogoutListener {
 
 	public static final String ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL";
@@ -58,11 +59,19 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 
 	private static final int PAGER_POS_ITIN = 1;
 
+	private static final int TOOLBAR_ANIM_DURATION = 200;
+
 	private IPhoneLaunchActivityLaunchFragment mLaunchFragment;
 	private ItinItemListFragment mItinListFragment;
 
 	private PagerAdapter mPagerAdapter;
-	private DisableableViewPager mViewPager;
+
+	@InjectView(R.id.viewpager)
+	DisableableViewPager mViewPager;
+
+	@InjectView(R.id.launch_toolbar)
+	PhoneLaunchToolbar mToolbar;
+
 	private int mPagerPosition = PAGER_POS_WATERFALL;
 	private boolean mHasMenu = false;
 
@@ -106,56 +115,20 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		super.onCreate(savedInstanceState);
 
 		getWindow().setFormat(android.graphics.PixelFormat.RGBA_8888);
-		supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
 		setContentView(R.layout.activity_phone_launch);
+		ButterKnife.inject(this);
 		getWindow().setBackgroundDrawable(null);
 
 		// View Pager
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
-		mViewPager = Ui.findView(this, R.id.viewpager);
 		mViewPager.setAdapter(mPagerAdapter);
-		mViewPager.setOnPageChangeListener(new SimpleOnPageChangeListener() {
-			@Override
-			public void onPageScrollStateChanged(int state) {
-				super.onPageScrollStateChanged(state);
-				if (mLaunchFragment != null
-					&& (state == ViewPager.SCROLL_STATE_IDLE || state == ViewPager.SCROLL_STATE_SETTLING)) {
-					mLaunchFragment.startMarquee();
-				}
-			}
 
-			@Override
-			public void onPageSelected(int position) {
-				if (mViewPager != null && position != mPagerPosition) {
-					if (position == PAGER_POS_WATERFALL) {
-						gotoWaterfall();
-					}
-					else if (position == PAGER_POS_ITIN) {
-						gotoItineraries();
-					}
-				}
-			}
-		});
-
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.getThemedContext();
-		enableEmbeddedTabs(actionBar);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		actionBar.setDisplayShowTitleEnabled(false);
-
-		// Tabs
-		ActionBar.Tab shopTab = getSupportActionBar().newTab().setTabListener(mShopTabListener);
-		shopTab.setCustomView(R.layout.actionbar_tab_bg);
-		((TextView)shopTab.getCustomView().findViewById(R.id.tab_text)).setText(R.string.shop);
-
-		ActionBar.Tab itineraryTab = getSupportActionBar().newTab().setTabListener(mItineraryTabListener);
-		itineraryTab.setCustomView(R.layout.actionbar_tab_bg);
-		((TextView)itineraryTab.getCustomView().findViewById(R.id.tab_text)).setText(R.string.Your_Trips);
-
-		actionBar.addTab(shopTab);
-		actionBar.addTab(itineraryTab);
+		// Toolbar/support Actionbar
+		mToolbar.slidingTabLayout.setViewPager(mViewPager);
+		mToolbar.slidingTabLayout.setOnPageChangeListener(mPageChangeListener);
+		setSupportActionBar(mToolbar);
+		getSupportActionBar().getThemedContext();
 
 		Intent intent = getIntent();
 		if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
@@ -187,7 +160,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 
 		OmnitureTracking.onResume(this);
 
-		if (getSupportActionBar().getSelectedTab().getPosition() == 0) {
+		if (mViewPager.getCurrentItem() == 0) {
 			OmnitureTracking.trackPageLoadLaunchScreen(PhoneLaunchActivity.this);
 		}
 		AdTracker.trackViewHomepage();
@@ -390,13 +363,33 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		Notification.dismissExisting(notification);
 	}
 
+	private SimpleOnPageChangeListener mPageChangeListener = new SimpleOnPageChangeListener() {
+		@Override
+		public void onPageScrollStateChanged(int state) {
+			super.onPageScrollStateChanged(state);
+			if (mLaunchFragment != null
+				&& (state == ViewPager.SCROLL_STATE_IDLE || state == ViewPager.SCROLL_STATE_SETTLING)) {
+				mLaunchFragment.startMarquee();
+			}
+		}
+
+		@Override
+		public void onPageSelected(int position) {
+			if (mViewPager != null && position != mPagerPosition) {
+				if (position == PAGER_POS_WATERFALL) {
+					gotoWaterfall();
+				}
+				else if (position == PAGER_POS_ITIN) {
+					gotoItineraries();
+				}
+			}
+		}
+	};
+
 	private synchronized void gotoWaterfall() {
 		if (mPagerPosition != PAGER_POS_WATERFALL) {
-			ActionBar actionBar = getSupportActionBar();
-
 			mPagerPosition = PAGER_POS_WATERFALL;
 			mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
-			actionBar.setSelectedNavigationItem(mPagerPosition);
 
 			if (mItinListFragment != null && mItinListFragment.isInDetailMode()) {
 				mItinListFragment.hideDetails();
@@ -414,8 +407,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 
 	private synchronized void gotoItineraries() {
 		if (mPagerPosition != PAGER_POS_ITIN) {
-			ActionBar actionBar = getSupportActionBar();
-
 			if (mItinListFragment != null) {
 				mItinListFragment.resetTrackingState();
 				mItinListFragment.enableLoadItins();
@@ -423,7 +414,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 
 			mPagerPosition = PAGER_POS_ITIN;
 			mViewPager.setCurrentItem(PAGER_POS_ITIN);
-			actionBar.setSelectedNavigationItem(mPagerPosition);
 
 			if (mHasMenu) {
 				supportInvalidateOptionsMenu();
@@ -433,18 +423,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		if (mJumpToItinId != null && mItinListFragment != null) {
 			mItinListFragment.showItinCard(mJumpToItinId, false);
 			mJumpToItinId = null;
-		}
-	}
-
-	private void enableEmbeddedTabs(Object actionBar) {
-		try {
-			Method setHasEmbeddedTabsMethod = actionBar.getClass().getDeclaredMethod("setHasEmbeddedTabs",
-				boolean.class);
-			setHasEmbeddedTabsMethod.setAccessible(true);
-			setHasEmbeddedTabsMethod.invoke(actionBar, true);
-		}
-		catch (Exception e) {
-			Log.e("Error embedding ActionBar tabs.", e);
 		}
 	}
 
@@ -475,51 +453,98 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		public int getCount() {
 			return 2;
 		}
+
+		@Override
+		public String getPageTitle(int i) {
+			String title;
+			switch (i) {
+			case PAGER_POS_ITIN:
+				title = getResources().getString(R.string.my_trips);
+				break;
+			case PAGER_POS_WATERFALL:
+				title = getResources().getString(R.string.shop_travel);
+				break;
+			default:
+				throw new RuntimeException("Position out of bounds position = " + i);
+			}
+			return title;
+		}
 	}
 
-	private ActionBar.TabListener mShopTabListener = new ActionBar.TabListener() {
+	private ValueAnimator.AnimatorUpdateListener hideToolbarAnimator = new ValueAnimator.AnimatorUpdateListener() {
 		@Override
-		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-			gotoWaterfall();
+		public void onAnimationUpdate(ValueAnimator arg0) {
+			float val = (float) arg0.getAnimatedValue();
+			mToolbar.setTranslationY(-val * mToolbar.getHeight());
+		}
+	};
+
+	private Animator.AnimatorListener hideToolbarListener = new Animator.AnimatorListener() {
+
+		@Override
+		public void onAnimationStart(Animator animation) {
+			mToolbar.setTranslationY(0);
 		}
 
 		@Override
-		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-			//will be called if user click on trips tab
-			OmnitureTracking.trackNewLaunchScreenTripsClick(PhoneLaunchActivity.this);
+		public void onAnimationEnd(Animator animation) {
+			mToolbar.setVisibility(View.GONE);
 		}
 
 		@Override
-		public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+		public void onAnimationCancel(Animator animation) {
+			// ignore
+		}
+
+		@Override
+		public void onAnimationRepeat(Animator animation) {
 			// ignore
 		}
 	};
 
-	private ActionBar.TabListener mItineraryTabListener = new ActionBar.TabListener() {
+	private ValueAnimator.AnimatorUpdateListener showToolbarAnimator = new ValueAnimator.AnimatorUpdateListener() {
+
 		@Override
-		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-			gotoItineraries();
+		public void onAnimationUpdate(ValueAnimator arg0) {
+			float val = (float) arg0.getAnimatedValue();
+			mToolbar.setTranslationY((1 - val) * -mToolbar.getHeight());
+		}
+	};
+
+	private Animator.AnimatorListener showToolbarListener = new Animator.AnimatorListener() {
+		@Override
+		public void onAnimationStart(Animator animation) {
+			mToolbar.setTranslationY(-getSupportActionBar().getHeight());
+			mToolbar.setVisibility(View.VISIBLE);
 		}
 
 		@Override
-		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-			// will be called when user click on shop tab
-			OmnitureTracking.trackNewLaunchScreenShopClick(PhoneLaunchActivity.this);
-			mItinListFragment.disableLoadItins();
+		public void onAnimationEnd(Animator animation) {
+			// ignore
 		}
 
 		@Override
-		public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+		public void onAnimationCancel(Animator animation) {
+			// ignore
+		}
+
+		@Override
+		public void onAnimationRepeat(Animator animation) {
 			// ignore
 		}
 	};
+
 
 	@Override
 	public void onListModeChanged(boolean isInDetailMode, boolean animate) {
 		mViewPager.setPageSwipingEnabled(!isInDetailMode);
 		if (isInDetailMode) {
 			if (getSupportActionBar().isShowing()) {
-				getSupportActionBar().hide();
+				ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
+				anim.setDuration(TOOLBAR_ANIM_DURATION);
+				anim.addUpdateListener(hideToolbarAnimator);
+				anim.addListener(hideToolbarListener);
+				anim.start();
 			}
 		}
 		else {
@@ -527,13 +552,12 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 			// animation happens in 200ms, so make it use the last 200ms
 			// of the animation (and check to make sure there wasn't another
 			// mode change in between)
-			mViewPager.postDelayed(new Runnable() {
-				public void run() {
-					if (!mItinListFragment.isInDetailMode() && !getSupportActionBar().isShowing()) {
-						getSupportActionBar().show();
-					}
-				}
-			}, 200); // 400ms - 200ms
+			ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
+			anim.setDuration(TOOLBAR_ANIM_DURATION);
+			anim.addUpdateListener(showToolbarAnimator);
+			anim.addListener(showToolbarListener);
+			mToolbar.setVisibility(View.VISIBLE);
+			anim.start();
 		}
 	}
 
