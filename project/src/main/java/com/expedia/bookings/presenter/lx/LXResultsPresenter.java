@@ -117,8 +117,11 @@ public class LXResultsPresenter extends Presenter {
 
 		addTransition(searchResultsToSortFilter);
 		setupToolbar();
-		searchResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
-		sortFilterWidget.setPadding(0, Ui.getStatusBarHeight(getContext()), 0, 0);
+		int toolbarSize = Ui.getStatusBarHeight(getContext());
+		if (toolbarSize > 0) {
+			searchResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
+		}
+		sortFilterWidget.setPadding(0, toolbarSize, 0, 0);
 		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
 	}
 

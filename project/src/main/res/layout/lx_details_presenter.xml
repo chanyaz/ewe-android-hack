@@ -46,7 +46,10 @@
 
                 <include
                     android:id="@+id/highlights"
-                    layout="@layout/widget_lx_detail_section_data" />
+                    layout="@layout/widget_lx_detail_section_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp" />
 
                 <HorizontalScrollView
                     android:id="@+id/offer_dates_scroll_view"
@@ -100,7 +103,10 @@
 
                 <include
                     android:id="@+id/description"
-                    layout="@layout/widget_lx_detail_section_data" />
+                    layout="@layout/widget_lx_detail_section_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp" />
 
                 <include
                     android:id="@+id/inclusions"

@@ -155,7 +155,7 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 			}
 			else {
 				//Bucket all other errors as Activity Details Fetch Error
-				showActivityFetchErrorDialog(R.string.error_lx_search_message);
+				showActivityFetchErrorDialog(R.string.lx_error_details);
 			}
 		}
 
