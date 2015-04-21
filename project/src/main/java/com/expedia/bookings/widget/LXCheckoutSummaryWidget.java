@@ -91,13 +91,16 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 			LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney()));
 
 		for (Ticket ticketSelected : tickets) {
-			Money totalMoneyForTicketType = new Money(ticketSelected.money);
-			totalMoneyForTicketType.setAmount(totalMoneyForTicketType.getAmount().multiply(BigDecimal.valueOf(ticketSelected.count)));
+			if (ticketSelected.count > 0) {
+				Money totalMoneyForTicketType = new Money(ticketSelected.money);
+				totalMoneyForTicketType
+					.setAmount(totalMoneyForTicketType.getAmount().multiply(BigDecimal.valueOf(ticketSelected.count)));
 
-			ll.addView(
-				CheckoutSummaryWidgetUtils.addRow(context,
-					LXDataUtils.ticketCountSummary(getContext(), ticketSelected.code, ticketSelected.count),
-					totalMoneyForTicketType.getFormattedMoney()));
+				ll.addView(
+					CheckoutSummaryWidgetUtils.addRow(context,
+						LXDataUtils.ticketCountSummary(getContext(), ticketSelected.code, ticketSelected.count),
+						totalMoneyForTicketType.getFormattedMoney()));
+			}
 		}
 
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
