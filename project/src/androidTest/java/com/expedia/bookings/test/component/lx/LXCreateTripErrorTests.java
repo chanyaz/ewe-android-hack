@@ -104,6 +104,8 @@ public class LXCreateTripErrorTests {
 
 		// click on the price change,  must take us back to the infosite page.
 		onView(withId(R.id.error_action_button)).perform(click());
+
+		LXViewModel.waitForDetailsDisplayed();
 		onView(CoreMatchers.allOf(withId(R.id.section_title), withText(
 			R.string.highlights_activity_details))).check(matches(
 			isDisplayed()));
