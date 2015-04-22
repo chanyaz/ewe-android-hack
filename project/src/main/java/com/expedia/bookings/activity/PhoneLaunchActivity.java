@@ -459,7 +459,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 				title = getResources().getString(R.string.Your_Trips);
 				break;
 			case PAGER_POS_WATERFALL:
-				title = getResources().getString(R.string.shop_travel);
+				title = getResources().getString(R.string.shop);
 				break;
 			default:
 				throw new RuntimeException("Position out of bounds position = " + i);
