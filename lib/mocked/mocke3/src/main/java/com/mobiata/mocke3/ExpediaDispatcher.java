@@ -286,9 +286,12 @@ public class ExpediaDispatcher extends Dispatcher {
 		}
 
 		else if (request.getPath().contains("/trip/create")) {
-
-			if (request.getUtf8Body().contains("error_activity_id")) {
+			String body = request.getUtf8Body();
+			if (body.contains("error_activity_id")) {
 				return makeResponse("m/api/lx/trip/create/error_create_trip.json");
+			}
+			if(body.contains("price_change")) {
+				return makeResponse("m/api/lx/trip/create/price_change.json");
 			}
 			return makeResponse("m/api/lx/trip/create/happy.json");
 		}
@@ -310,6 +313,8 @@ public class ExpediaDispatcher extends Dispatcher {
 					return makeResponse("m/api/lx/trip/checkout/session_timeout.json");
 				case "InvalidInput":
 					return makeResponse("m/api/lx/trip/checkout/invalid_input.json");
+				case "PriceChange":
+					return makeResponse("m/api/lx/trip/checkout/price_change.json");
 				}
 			}
 			return makeResponse("m/api/lx/trip/checkout/" + tripId + ".json");
