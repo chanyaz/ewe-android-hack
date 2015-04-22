@@ -45,26 +45,6 @@ import com.mobiata.android.util.AndroidUtils;
  */
 public class HotelSummarySection extends RelativeLayout {
 
-	private static final int[] DEFAULT_GRADIENT_COLORS = new int[] {
-		0x00000000,
-		0x40000000,
-		0xa4000000,
-	};
-	private static final float[] DEFAULT_GRADIENT_POSITIONS = null; // Distribute the gradient colors evenly
-
-	private static final int[] SELECTED_GRADIENT_COLORS = new int[] {
-		0xb34180d9,
-		0xb34180d9,
-		0xba3d72bc,
-		0xb33867a9,
-	};
-	private static final float[] SELECTED_GRADIENT_POSITIONS = new float[] {
-		0f,
-		0.28f,
-		0.85f,
-		1f,
-	};
-
 	public static final int ROOMS_LEFT_CUTOFF = 5;
 
 	private static final int HOTEL_PRICE_TOO_LONG = 7;
