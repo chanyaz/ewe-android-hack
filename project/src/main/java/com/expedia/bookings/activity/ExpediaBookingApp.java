@@ -90,12 +90,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public static boolean sIsAutomation = false;
 
-	// This is used only for testing; normally you can assume that onCreate()
-	// has been called before any other code, but that's not always the case
-	// with unit tests.  This allows a unit test to wait until it knows that
-	// we've initialized key parts of the app.
-	private boolean mInitialized = false;
-
 	public static void setAutomation(boolean isAutomation) {
 		sIsAutomation = isAutomation;
 	}
@@ -281,8 +275,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("Abacus Guid init");
 
 		startupTimer.dumpToLog();
-
-		mInitialized = true;
 	}
 
 	@Override
