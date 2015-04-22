@@ -456,7 +456,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 			String title;
 			switch (i) {
 			case PAGER_POS_ITIN:
-				title = getResources().getString(R.string.my_trips);
+				title = getResources().getString(R.string.Your_Trips);
 				break;
 			case PAGER_POS_WATERFALL:
 				title = getResources().getString(R.string.shop_travel);
