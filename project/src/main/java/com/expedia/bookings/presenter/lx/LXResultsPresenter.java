@@ -68,6 +68,8 @@ public class LXResultsPresenter extends Presenter {
 	@InjectView(R.id.toolbar_background)
 	View toolbarBackground;
 
+	private SearchResultObserver searchResultObserver = new SearchResultObserver();
+
 	@OnClick(R.id.sort_filter_button)
 	public void onSortFilterClicked() {
 		show(sortFilterWidget);
@@ -137,7 +139,12 @@ public class LXResultsPresenter extends Presenter {
 		}
 	}
 
-	private Observer<LXSearchResponse> searchResultObserver = new Observer<LXSearchResponse>() {
+	private class SearchResultObserver implements Observer<LXSearchResponse> {
+
+		private SearchType searchType;
+		public void setSearchType(SearchType searchType) {
+			this.searchType = searchType;
+		}
 
 		@Override
 		public void onCompleted() {
@@ -154,13 +161,13 @@ public class LXResultsPresenter extends Presenter {
 				return;
 			}
 			else if (e instanceof ApiError) {
-				Events.post(new Events.LXShowSearchError((ApiError) e, SearchType.EXPLICIT_SEARCH));
+				Events.post(new Events.LXShowSearchError((ApiError) e, searchType));
 				return;
 			}
 
 			//Bucket all other errors as Unknown to give some feedback to the user
 			ApiError error = new ApiError(ApiError.Code.UNKNOWN_ERROR);
-			Events.post(new Events.LXShowSearchError(error, SearchType.EXPLICIT_SEARCH));
+			Events.post(new Events.LXShowSearchError(error, searchType));
 			sortFilterButton.setVisibility(View.GONE);
 		}
 
@@ -208,12 +215,14 @@ public class LXResultsPresenter extends Presenter {
 		show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 		sortFilterWidget.bind(null);
 		sortFilterButton.setVisibility(View.GONE);
+		searchResultObserver.setSearchType(event.lxSearchParams.searchType);
 		searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams, sortFilterWidget.filterSortEventStream(), searchResultObserver);
 	}
 
 	@Subscribe
 	public void onLXSearchError(Events.LXShowSearchError event) {
-		if (event.searchType.equals(SearchType.DEFAULT_SEARCH)) {
+		if (event.searchType.equals(SearchType.DEFAULT_SEARCH)
+			&& event.error.errorCode != ApiError.Code.LX_SEARCH_NO_RESULTS) {
 			toolbar.setTitle(getResources().getString(R.string.lx_error_current_location_toolbar_text));
 		}
 	}

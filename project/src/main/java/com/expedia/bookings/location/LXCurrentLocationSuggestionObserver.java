@@ -33,10 +33,19 @@ public class LXCurrentLocationSuggestionObserver implements Observer<Suggestion>
 	public void onError(Throwable e) {
 		if (RetrofitUtils.isNetworkError(e)) {
 			showNoInternetErrorDialog(R.string.error_no_internet);
+			return;
+		}
+		else if (e instanceof ApiError) {
+			ApiError apiError = (ApiError)e;
+			if (apiError.errorCode == ApiError.Code.CURRENT_LOCATION_ERROR
+				|| apiError.errorCode == ApiError.Code.SUGGESTIONS_NO_RESULTS) {
+				Events.post(new Events.LXShowSearchError(apiError, SearchType.DEFAULT_SEARCH));
+			}
+			return;
 		}
 
 		//Default
-		ApiError apiError = new ApiError(ApiError.Code.LX_SEARCH_NO_RESULTS);
+		ApiError apiError = new ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS);
 		Events.post(new Events.LXShowSearchError(apiError, SearchType.DEFAULT_SEARCH));
 	}
 
