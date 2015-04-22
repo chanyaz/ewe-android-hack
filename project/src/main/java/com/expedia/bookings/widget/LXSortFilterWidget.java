@@ -53,8 +53,6 @@ public class LXSortFilterWidget extends LinearLayout {
 		ButterKnife.inject(this);
 		Events.register(this);
 
-		// Select Popularity sort as default.
-		popularitySortButton.setSelected(true);
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
 		navIcon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN);
 		doneButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
@@ -92,6 +90,9 @@ public class LXSortFilterWidget extends LinearLayout {
 	};
 
 	public void bind(Map<String, LXCategoryMetadata> filterCategories) {
+		// Reset Popularity sort as default.
+		popularitySortButton.setSelected(true);
+		priceSortButton.setSelected(false);
 		this.filterCategories = filterCategories;
 		filterCategoriesContainer.removeAllViews();
 		if (filterCategories != null) {
