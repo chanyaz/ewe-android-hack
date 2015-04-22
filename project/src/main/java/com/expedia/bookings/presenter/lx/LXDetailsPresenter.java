@@ -97,6 +97,7 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 		createTripDialog = new ProgressDialog(getContext());
 		createTripDialog.setMessage(getResources().getString(R.string.preparing_checkout_message));
 		createTripDialog.setIndeterminate(true);
+		createTripDialog.setCancelable(false);
 		setupToolbar();
 		details.addOnScrollListener(parallaxScrollListener);
 		errorScreen.setVisibility(View.GONE);
