@@ -222,9 +222,13 @@ public class ExpediaDispatcher extends Dispatcher {
 
 	private MockResponse dispatchSuggest(RecordedRequest request) {
 		String type = "";
+		String latlong = "";
 		Map<String, String> params = parseRequest(request);
 		if (params.containsKey("type")) {
 			type = params.get("type");
+		}
+		if (params.containsKey("latlong")) {
+			latlong = params.get("latlong");
 		}
 
 		if (request.getPath().startsWith("/hint/es/v2/ac/en_US")) {
@@ -241,8 +245,11 @@ public class ExpediaDispatcher extends Dispatcher {
 			}
 		}
 		else if (request.getPath().startsWith("/hint/es/v1/nearby/en_US")) {
+			if (latlong.equals("31.32|75.57")) {
+				return makeResponse("/hint/es/v1/nearby/en_US/suggestion_with_no_lx_activities.json");
+			}
 			// City
-			if (type.equals("14")) {
+			else if (type.equals("14")) {
 				return makeResponse("/hint/es/v1/nearby/en_US/suggestion_city.json");
 			}
 			else {
