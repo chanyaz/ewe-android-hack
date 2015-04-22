@@ -39,7 +39,6 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 	@InjectView(R.id.text)
 	public TextView textView;
 
-	private float squashedRatio;
 	private float fullHeight;
 
 	public PhoneLaunchDoubleRowButton(Context context, AttributeSet attrs) {
@@ -64,9 +63,6 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 		FontCache.setTypeface(textView, FontCache.Font.ROBOTO_LIGHT);
 		iconView.setImageDrawable(icon);
 		bgView.setPivotY(getBottom());
-		float squashedHeight = getResources().getDimension(R.dimen.launch_lob_squashed_height);
-		float fullHeight = getResources().getDimension(R.dimen.launch_lob_double_row_container_height);
-		squashedRatio =  squashedHeight / fullHeight;
 	}
 
 	@Override
@@ -127,7 +123,6 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		if (enabled) {
-			scaleTo(1.0f);
 			Ui.setViewBackground(bgView, bg);
 			textView.setAlpha(1.0f);
 		}

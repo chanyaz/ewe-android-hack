@@ -68,11 +68,13 @@ public class LaunchLobDoubleRowWidget extends RelativeLayout {
 		flightsBtn.setEnabled(enabled);
 		carsBtn.setEnabled(enabled);
 		lxBtn.setEnabled(enabled);
-		topRowBg.setScaleY(1.0f);
-		bottomRowBg.setScaleY(1.0f);
-		divider.setTranslationY(0.0f);
-		bottomRow.setTranslationY(0.0f);
-		shadow.setTranslationY(0.0f);
+		if (!enabled) {
+			topRowBg.setScaleY(1.0f);
+			bottomRowBg.setScaleY(1.0f);
+			divider.setTranslationY(0.0f);
+			bottomRow.setTranslationY(0.0f);
+			shadow.setTranslationY(0.0f);
+		}
 	}
 
 	@Override
