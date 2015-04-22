@@ -293,7 +293,7 @@ public class Money {
 	private static String formatRate(BigDecimal amount, String currencyCode, int flags) {
 
 		// Special case: if the Money does not have any decimal value, let's not show with decimal
-		if (amount.scale() <= 0 || amount.stripTrailingZeros().scale() <= 0) {
+		if (amount.scale() <= 0) {
 			flags |= F_NO_DECIMAL;
 		}
 
