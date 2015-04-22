@@ -22,6 +22,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
 		actionBar.setIcon(R.drawable.ic_action_bar_logo);
 		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setElevation(0);
 		return view;
 	}
 
