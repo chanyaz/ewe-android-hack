@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="action_bar_bg_color">#F1F1F1</color>
+    <color name="action_bar_text_color">#1F8EDE</color>
+    <color name="action_bar_selected_tab_underline_color">#599027</color>
+
+    <!-- Lob box shadow gradient -->
+    <color name="lob_box_shadow_start_color">#FF000000</color>
+    <color name="lob_box_shadow_center_color">#99000000</color>
+    <color name="lob_box_shadow_end_color">#00000000</color>
+
+</resources>

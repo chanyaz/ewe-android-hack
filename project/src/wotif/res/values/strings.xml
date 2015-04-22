@@ -7,4 +7,7 @@
 
     <!-- Phone Fragment Header-->
     <string name="nav_accommodation">Accommodation</string>
+
+    <!-- Shop -->
+    <string name="shop">Shop Travel</string>
 </resources>
