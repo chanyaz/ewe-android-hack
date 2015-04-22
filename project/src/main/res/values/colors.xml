@@ -3,6 +3,7 @@
 
     <!-- Action Bar colors -->
     <color name="action_bar_selected_tab_underline_color">#FFED18</color>
+    <color name="actionbar_suggestion_text_color">@color/actionbar_text</color>
 
     <!-- Tablet colors -->
     <color name="results_cal_trav_bg">#eaeaea</color>
