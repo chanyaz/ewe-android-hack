@@ -53,7 +53,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	public void onResume() {
 		super.onResume();
 		Events.register(this);
-		Events.post(new Events.LaunchLobRefresh());
+		Events.post(new Events.PhoneLaunchOnResume());
 		if (checkConnection()) {
 			bucketLaunchScreen();
 		}
