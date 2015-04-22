@@ -328,10 +328,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 		launchError.setVisibility(View.GONE);
 
 		if (isExpired()) {
-			if (!ExpediaBookingApp.sIsAutomation) {
-				Events.post(new Events.LaunchShowLoadingAnimation());
-			}
-
 			// In case the POS changed, ensure that components (particularly hotelServices)
 			// update with regard to new POS.
 			Ui.getApplication(getContext()).defaultLaunchComponents();
@@ -362,9 +358,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Log.i(TAG, "Start collection download");
 		launchListWidget.setVisibility(VISIBLE);
 		launchError.setVisibility(View.GONE);
-		if (!ExpediaBookingApp.sIsAutomation) {
-			Events.post(new Events.LaunchShowLoadingAnimation());
-		}
 		launchDataTimeStamp = null;
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();
@@ -439,6 +432,19 @@ public class PhoneLaunchWidget extends FrameLayout {
 		}
 	}
 
+	@Subscribe
+	public void onHideAirAttach(Events.LaunchAirAttachBannerHide event) {
+		airAttachBanner.setVisibility(View.GONE);
+	}
+
+	// onResume()-esque behavior
+
+	private void setListState() {
+		if (isExpired() && !ExpediaBookingApp.sIsAutomation) {
+			Events.post(new Events.LaunchShowLoadingAnimation());
+		}
+	}
+
 	public void bindLobWidget() {
 		int listHeaderPaddingTop;
 		if (PointOfSale.getPointOfSale().supportsCars() && PointOfSale.getPointOfSale().supportsLx()) {
@@ -461,12 +467,8 @@ public class PhoneLaunchWidget extends FrameLayout {
 	}
 
 	@Subscribe
-	public void onHideAirAttach(Events.LaunchAirAttachBannerHide event) {
-		airAttachBanner.setVisibility(View.GONE);
-	}
-
-	@Subscribe
-	public void onLobWidgetRefresh(Events.LaunchLobRefresh event) {
+	public void onLaunchResume(Events.PhoneLaunchOnResume event) {
 		bindLobWidget();
+		setListState();
 	}
 }
