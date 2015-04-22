@@ -15,7 +15,8 @@ dependencies {
 
     testCompile 'junit:junit:4.11'
 
-    testCompile('org.robolectric:robolectric:2.4') {
+    def roboVersion = '3.0-rc2'
+    testCompile("org.robolectric:robolectric:$roboVersion") {
         exclude module: 'classworlds'
         exclude module: 'commons-logging'
         exclude module: 'httpclient'
@@ -36,6 +37,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.google.android', module: 'support-v4'
     }
+    testCompile("org.robolectric:shadows-multidex:$roboVersion")
 
     // add all of the jars and output from our 'app under test' variant to the test classpath
     def compileTask = null

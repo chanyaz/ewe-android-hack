@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
 
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(RobolectricSubmoduleTestRunner.class)
 public class LXDataUtilsTest {
 	private Context getContext() {
-		return Robolectric.application;
+		return RuntimeEnvironment.application;
 	}
 
 	private Ticket getAdultTicket(int count) {

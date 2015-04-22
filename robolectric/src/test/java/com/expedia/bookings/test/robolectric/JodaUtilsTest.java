@@ -14,7 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -46,7 +46,7 @@ public class JodaUtilsTest {
 	private BillingInfo mBillingInfo = null;
 
 	private Context getContext() {
-		return Robolectric.application;
+		return RuntimeEnvironment.application;
 	}
 
 	@Before
@@ -110,13 +110,13 @@ public class JodaUtilsTest {
 
 		DateTime nowPlusOneSecond = DateTime.now().plusSeconds(1);
 		if (nowPlusOneSecond.getDayOfYear() == now.getDayOfYear()
-				&& nowPlusOneSecond.getYear() == now.getYear()) {
+			&& nowPlusOneSecond.getYear() == now.getYear()) {
 			Assert.assertTrue(JodaUtils.daysBetween(now, nowPlusOneSecond) == 0);
 		}
 
 		DateTime nowMinusOneSecond = DateTime.now().minusSeconds(1);
 		if (nowPlusOneSecond.getDayOfYear() == now.getDayOfYear()
-				&& nowPlusOneSecond.getYear() == now.getYear()) {
+			&& nowPlusOneSecond.getYear() == now.getYear()) {
 			Assert.assertTrue(JodaUtils.daysBetween(now, nowMinusOneSecond) == 0);
 		}
 	}
@@ -133,7 +133,7 @@ public class JodaUtilsTest {
 	@Test
 	public void testFormatting() {
 		if (getContext().getResources().getConfiguration().locale
-				.equals(new Locale("en", "US"))) {
+			.equals(new Locale("en", "US"))) {
 			DateTime now = DateTime.now();
 			String dayOfWeek = now.dayOfWeek().getAsText();
 			String monthOfYear = now.monthOfYear().getAsText();
@@ -142,21 +142,21 @@ public class JodaUtilsTest {
 			String year = now.year().getAsText();
 
 			String nowLongDateFormat = JodaUtils.formatDateTime(getContext(),
-					now, DateFormatUtils.FLAGS_LONG_DATE_FORMAT);
+				now, DateFormatUtils.FLAGS_LONG_DATE_FORMAT);
 			String expectedLongString = dayOfWeek + ", " + monthOfYear + " "
-					+ dayOfMonth + ", " + year;
+				+ dayOfMonth + ", " + year;
 			Assert.assertEquals(expectedLongString, nowLongDateFormat);
 
 			String nowMediumDateFormat = JodaUtils.formatDateTime(getContext(),
-					now, DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
+				now, DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
 			String expectedMediumString = monthShort + " " + dayOfMonth + ", "
-					+ year;
+				+ year;
 			Assert.assertEquals(expectedMediumString, nowMediumDateFormat);
 
 			String dateFormat = JodaUtils.formatDateTime(getContext(), now,
-					DateFormatUtils.FLAGS_DATE_NUMERIC | DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
+				DateFormatUtils.FLAGS_DATE_NUMERIC | DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
 			String expectedDateString = now.monthOfYear().getAsString() + "/"
-					+ now.dayOfMonth().getAsString() + "/" + now.year().getAsString();
+				+ now.dayOfMonth().getAsString() + "/" + now.year().getAsString();
 			Assert.assertEquals(expectedDateString, dateFormat);
 		}
 	}
@@ -197,7 +197,7 @@ public class JodaUtilsTest {
 		String key = "key";
 		JodaUtils.putDateTimeInJson(obj, key, dt);
 		DateTime returned = JodaUtils.getDateTimeFromJsonBackCompat(obj, key,
-				null);
+			null);
 		Assert.assertEquals(dt.toString(), returned.toString());
 	}
 
@@ -212,7 +212,7 @@ public class JodaUtilsTest {
 		String key = "key";
 		JodaUtils.putDateTimeListInJson(obj, key, list);
 		List<DateTime> returned = JodaUtils.getDateTimeListFromJsonBackCompat(
-				obj, key, null);
+			obj, key, null);
 		for (int i = 0; i < list.size(); i++) {
 			Assert.assertEquals(list.get(i).toString(), returned.get(i).toString());
 		}

@@ -1,12 +1,12 @@
 package com.expedia.bookings.test.robolectric;
 
 import org.junit.runners.model.InitializationError;
-import org.robolectric.AndroidManifest;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.res.Fs;
 
-public class RobolectricSubmoduleTestRunner extends RobolectricTestRunner {
+public class RobolectricSubmoduleTestRunner extends RobolectricGradleTestRunner {
 
 	private static final int MAX_SDK_SUPPORTED_BY_ROBOLECTRIC = 18;
 
@@ -28,7 +28,8 @@ public class RobolectricSubmoduleTestRunner extends RobolectricTestRunner {
 
 	@Override
 	protected final AndroidManifest getAppManifest(Config config) {
-		AndroidManifest manifest = new AndroidManifest(Fs.fileFromPath(getAndroidManifestPath()), Fs.fileFromPath(getResPath()), Fs.fileFromPath(getAssetsPath())) {
+		AndroidManifest manifest = new AndroidManifest(Fs.fileFromPath(getAndroidManifestPath()),
+			Fs.fileFromPath(getResPath()), Fs.fileFromPath(getAssetsPath())) {
 			@Override
 			public int getTargetSdkVersion() {
 				return MAX_SDK_SUPPORTED_BY_ROBOLECTRIC;

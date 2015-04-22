@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowTelephonyManager;
 
 import android.app.Activity;
@@ -33,16 +34,16 @@ import butterknife.ButterKnife;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.robolectric.Robolectric.shadowOf;
+import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricSubmoduleTestRunner.class)
 public class LXTicketSelectionWidgetTest {
 
-
-	 // This test hits Omniture which in turn throws NPE because of unavailability of operator information.
+	// This test hits Omniture which in turn throws NPE because of unavailability of operator information.
 	@Before
 	public void before() {
-		TelephonyManager telephonyManager = (TelephonyManager) Robolectric.application.getSystemService(Context.TELEPHONY_SERVICE);
+		TelephonyManager telephonyManager = (TelephonyManager) RuntimeEnvironment.application
+			.getSystemService(Context.TELEPHONY_SERVICE);
 		ShadowTelephonyManager shadowTelephonyManager = shadowOf(telephonyManager);
 		shadowTelephonyManager.setNetworkOperatorName("Test Operator");
 	}
@@ -99,7 +100,8 @@ public class LXTicketSelectionWidgetTest {
 
 		int expectedCount = 1;
 		String expectedDetails = String
-			.format(activity.getResources().getString(R.string.ticket_details_template), testTicket.money.getFormattedMoney(),
+			.format(activity.getResources().getString(R.string.ticket_details_template),
+				testTicket.money.getFormattedMoney(),
 				testTicket.code, testTicket.restrictionText);
 
 		String expectedSummary = LXDataUtils.ticketCountSummary(activity, testTicket.code, expectedCount);
@@ -186,7 +188,8 @@ public class LXTicketSelectionWidgetTest {
 
 		BigDecimal expectedTotalAmount = new BigDecimal(110);
 		String expectedTitleText = "One Day Tour";
-		String expectedAmountWithCurrency = new Money(expectedTotalAmount, tickets.get(0).money.getCurrency()).getFormattedMoney();
+		String expectedAmountWithCurrency = new Money(expectedTotalAmount, tickets.get(0).money.getCurrency())
+			.getFormattedMoney();
 		String expectedBookText = String
 			.format(activity.getResources().getString(R.string.offer_book_now_TEMPLATE), expectedAmountWithCurrency);
 		Button bookButton = (Button) widget.findViewById(R.id.lx_book_now);

@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
 import android.text.format.DateUtils;
@@ -16,14 +16,13 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.widget.itin.HotelItinContentGenerator;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 
 @RunWith(RobolectricSubmoduleTestRunner.class)
 public class ItinContentGeneratorTest {
 
 	private Context getContext() {
-		return Robolectric.application;
+		return RuntimeEnvironment.application;
 	}
 
 	DateTime mTodayAtNoon;
@@ -37,12 +36,11 @@ public class ItinContentGeneratorTest {
 		TripHotel trip = new TripHotel();
 		trip.setStartDate(checkIn);
 		trip.setEndDate(checkOut);
-		return (HotelItinContentGenerator) ItinContentGenerator.createGenerator(getContext(), new ItinCardDataHotel(
-				trip));
+		return ItinContentGenerator.createGenerator(getContext(), new ItinCardDataHotel(trip));
 	}
 
 	private String getHeaderTextDate(DateTime checkInDate, DateTime checkOutDate) {
-		ItinContentGenerator<?> itin = (HotelItinContentGenerator) getItinGenerator(checkInDate, checkOutDate);
+		ItinContentGenerator<?> itin = getItinGenerator(checkInDate, checkOutDate);
 		return itin.getHeaderTextDate();
 	}
 
@@ -115,7 +113,7 @@ public class ItinContentGeneratorTest {
 		DateTime co = mTodayAtNoon.plusDays(10);
 		String headerText = getHeaderTextDate(ci, co);
 		String dateString = JodaUtils.formatDateTime(getContext(), ci, DateUtils.FORMAT_SHOW_DATE
-				| DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH);
+			| DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH);
 		Assert.assertEquals(dateString, headerText);
 	}
 
@@ -134,8 +132,8 @@ public class ItinContentGeneratorTest {
 
 		// Make a DateTimeZone that is +1 closer to UTC than default (local)
 		// and update itinGenerator
-		DateTimeZone dtz = DateTimeZone.forOffsetMillis(mDTZDefault.getOffset(ci.getMillis())
-				+ MILLIS_IN_HOUR);
+		DateTimeZone dtz = DateTimeZone.forOffsetMillis(
+			mDTZDefault.getOffset(ci.getMillis()) + MILLIS_IN_HOUR);
 		ci = ci.withZone(dtz);
 
 		headerText = getHeaderTextDate(ci, co);
@@ -156,7 +154,7 @@ public class ItinContentGeneratorTest {
 		// Make a DateTimeZone that is 1 hour farther from UTC than default (local)
 		// and update itinGenerator
 		DateTimeZone dtz = DateTimeZone.forOffsetMillis(mDTZDefault.getOffset(ci.getMillis())
-				- MILLIS_IN_HOUR);
+			- MILLIS_IN_HOUR);
 		ci = ci.withZone(dtz);
 
 		headerText = getHeaderTextDate(ci, co);

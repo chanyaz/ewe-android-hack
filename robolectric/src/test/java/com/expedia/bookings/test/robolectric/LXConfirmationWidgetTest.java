@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowTelephonyManager;
 
 import android.app.Activity;
@@ -19,7 +20,7 @@ import com.expedia.bookings.widget.LXConfirmationWidget;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.robolectric.Robolectric.shadowOf;
+import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricSubmoduleTestRunner.class)
 public class LXConfirmationWidgetTest {
@@ -27,7 +28,8 @@ public class LXConfirmationWidgetTest {
 	// This test hits Omniture which in turn throws NPE because of unavailability of operator information.
 	@Before
 	public void before() {
-		TelephonyManager telephonyManager = (TelephonyManager) Robolectric.application.getSystemService(Context.TELEPHONY_SERVICE);
+		TelephonyManager telephonyManager = (TelephonyManager) RuntimeEnvironment.application.getSystemService(
+			Context.TELEPHONY_SERVICE);
 		ShadowTelephonyManager shadowTelephonyManager = shadowOf(telephonyManager);
 		shadowTelephonyManager.setNetworkOperatorName("Test Operator");
 	}
@@ -51,7 +53,8 @@ public class LXConfirmationWidgetTest {
 		TextView reservationConfirmation = (TextView) confirmationWidget.findViewById(R.id.reservation_confirmation_text);
 
 		String expectedConfirmationText = activity.getResources().getString(R.string.lx_successful_checkout_email_label);
-		String reservationConfirmationText = activity.getResources().getString(R.string.lx_successful_checkout_reservation_label);
+		String reservationConfirmationText = activity.getResources().getString(
+			R.string.lx_successful_checkout_reservation_label);
 
 		assertNotNull(confirmationImage);
 		assertEquals("New York Pass: Visit up to 80 Attractions, Museums & Tours", title.getText());

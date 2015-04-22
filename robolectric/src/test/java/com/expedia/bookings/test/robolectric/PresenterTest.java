@@ -97,14 +97,15 @@ public class PresenterTest {
 
 		root.show(new A(), Presenter.TEST_FLAG_FORCE_NEW_STATE);
 		Assert.assertTrue(root.getCurrentState().equals(A.class.getName()));
-		Assert.assertEquals(root.getBackStack().size(), 1);
+		Assert.assertEquals(1, root.getBackStack().size());
 
 		root.show(new B(), Presenter.TEST_FLAG_FORCE_NEW_STATE);
 		Assert.assertTrue(root.getCurrentState().equals(B.class.getName()));
-		Assert.assertEquals(root.getBackStack().size(), 2);
+		Assert.assertEquals(2, root.getBackStack().size());
 
-		root.back(Presenter.TEST_FLAG_FORCE_NEW_STATE);
-		Assert.assertEquals(root.getBackStack().size(), 1);
+		boolean backHandled = root.back(Presenter.TEST_FLAG_FORCE_NEW_STATE);
+		Assert.assertTrue(backHandled);
+		Assert.assertEquals(1, root.getBackStack().size());
 		Assert.assertEquals(root.getCurrentState(), A.class.getName());
 	}
 

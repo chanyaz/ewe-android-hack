@@ -156,10 +156,17 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			return;
 		}
 
-		ValueAnimator animator = getStateAnimator(newState);
+		ValueAnimator animator = null;
+		if ((flags & TEST_FLAG_FORCE_NEW_STATE) == 0) {
+			animator = getStateAnimator(newState);
+		}
+
 		handleFlags(newState.getClass().getName(), flags);
 		getBackStack().push(newState);
-		animator.start();
+
+		if ((flags & TEST_FLAG_FORCE_NEW_STATE) == 0 && animator != null) {
+			animator.start();
+		}
 	}
 
 	private void handleFlags(String newStateId, int flags) {

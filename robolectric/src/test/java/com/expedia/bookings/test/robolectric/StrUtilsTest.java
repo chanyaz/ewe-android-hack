@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
 import android.text.SpannableStringBuilder;
@@ -29,12 +29,12 @@ import static org.junit.Assert.assertEquals;
 public class StrUtilsTest {
 
 	private Context getContext() {
-		return Robolectric.application;
+		return RuntimeEnvironment.application;
 	}
 
 	@Before
 	public void before() {
-		Robolectric.application.setTheme(R.style.V2_Theme_Cars);
+		getContext().setTheme(R.style.V2_Theme_Cars);
 	}
 
 	@Test
