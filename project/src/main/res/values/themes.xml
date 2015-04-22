@@ -230,6 +230,9 @@
     <!-- Inherit EB or VSC theme based on desired project -->
     <style name="Theme.Phone" parent="@style/Theme.Expedia" />
 
+    <!-- Inherit Wotif or others theme based on desired project -->
+    <style name="Theme.Phone.HotelSearchActivity" parent="@style/Theme.Phone" />
+
     <style name="Theme.Phone.NoActionBar">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
