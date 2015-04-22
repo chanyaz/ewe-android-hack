@@ -123,7 +123,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 			.centerCrop()
 			.build()
 			.load(url);
-		title.setText(lxState.offer.title);
+		title.setText(lxState.activity.title);
 		tickets.setText(LXDataUtils.ticketsCountSummary(getContext(), lxState.selectedTickets));
 		location.setText(lxState.activity.location);
 		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(

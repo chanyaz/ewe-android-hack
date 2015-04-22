@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/text_container"
                 android:layout_gravity="center"
-                android:padding="30dp"
+                android:layout_margin="30dp"
                 android:orientation="vertical">
 
                 <ImageView
