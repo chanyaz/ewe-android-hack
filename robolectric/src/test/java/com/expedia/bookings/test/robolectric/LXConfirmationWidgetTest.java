@@ -54,7 +54,7 @@ public class LXConfirmationWidgetTest {
 		String reservationConfirmationText = activity.getResources().getString(R.string.lx_successful_checkout_reservation_label);
 
 		assertNotNull(confirmationImage);
-		assertEquals("2-Day New York Pass", title.getText());
+		assertEquals("New York Pass: Visit up to 80 Attractions, Museums & Tours", title.getText());
 		assertEquals("New York, United States", location.getText());
 		assertEquals("3 Adults, 1 Child", tickets.getText());
 		assertEquals("Tue, Feb 24", date.getText());
