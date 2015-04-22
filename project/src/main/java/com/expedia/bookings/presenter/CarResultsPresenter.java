@@ -2,6 +2,9 @@ package com.expedia.bookings.presenter;
 
 import javax.inject.Inject;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -16,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -252,9 +256,9 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		CarCategoryDetailsWidget.class, new DecelerateInterpolator(), Transition.DEFAULT_ANIMATION_DURATION) {
 
 		@Override
-		public void startTransition(boolean forward) {
+		public void startTransition(final boolean forward) {
 			toolbarBackground.setVisibility(VISIBLE);
-			toolbarBackground.setAlpha(1f);
+			toolbarBackground.setAlpha(forward ? 1f : 0f);
 
 			categories.setVisibility(VISIBLE);
 
@@ -264,87 +268,133 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			// Gradient on the top of the details image view.
 			View imageGradient = Ui.findView(carTransitionView, R.id.cars_details_gradient);
 			imageGradient.setVisibility(VISIBLE);
-			imageGradient.setAlpha(0f);
-		}
+			imageGradient.setAlpha(forward ? 0 : 1);
 
-		@Override
-		public void updateTransition(float f, boolean forward) {
-			float translationY = forward ? -carTransitionView.getTop() * f : carTransitionView.getTop() * (f - 1);
-			carTransitionView.setTranslationY(translationY);
-			toolbarBackground.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
-
-			// Gradient at the bottom of the imageview in the categories list item.
-			View gradientMask = Ui.findView(carTransitionView, R.id.gradient_mask);
-			gradientMask.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
-
-			// Price container at the bottom in categories list item.
-			LinearLayout priceContainer = Ui.findView(carTransitionView, R.id.price_container);
-			float px = getResources().getDimensionPixelSize(R.dimen.car_search_details_container_height);
-			RelativeLayout.LayoutParams priceLayoutParams = (RelativeLayout.LayoutParams) priceContainer.getLayoutParams();
-			priceLayoutParams.height = forward ? (int) (Math.abs(f - 1) * (px)) : (int) (f * (px));
-			priceContainer.setLayoutParams(priceLayoutParams);
-
-			// Car details container.
-			LinearLayout detailsContainer = Ui.findView(carTransitionView, R.id.details_container);
-			detailsContainer.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
-
-			// Categories image view.
-			ImageView headerImage = Ui.findView(carTransitionView, R.id.background_image_view);
-			RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) headerImage.getLayoutParams();
-			px = getResources().getDimensionPixelSize(R.dimen.car_details_image_size);
-			int listHeightPX = getResources().getDimensionPixelSize(R.dimen.car_search_list_image_container_height);
-			layoutParams.height = forward ? (int) (f * (px - listHeightPX) + listHeightPX) : (int) (Math.abs(f - 1) * (px - listHeightPX) + listHeightPX);
-			headerImage.setLayoutParams(layoutParams);
-
-			// Altering the right, left margin on the categories list item card. To make it's width expand.
-			RecyclerView.LayoutParams cardLayoutParams = (RecyclerView.LayoutParams) carTransitionView.getLayoutParams();
-			px = getResources().getDimensionPixelSize(R.dimen.car_search_list_image_container_margin);
-			int margin = forward ? (int) (Math.abs(f - 1) * (px)) : (int) (f * (px));
-			cardLayoutParams.leftMargin = margin;
-			cardLayoutParams.rightMargin = margin;
-			carTransitionView.setLayoutParams(cardLayoutParams);
-
+			AnimatorSet animatorSet = new AnimatorSet();
 			// Car details offers list - translating-in and alpha-in
-			RecyclerView offersList = Ui.findView(details, R.id.offer_list);
-			translationY = forward ? -offersList.getHeight() * (f - 1) : offersList.getHeight() * f;
-			offersList.setTranslationY(translationY);
-			offersList.setAlpha(forward ? (f * 1) : (Math.abs(f - 1) * 1));
-
-			// Gradient on the top of the details image view - Alpha-in
-			View imageGradient = Ui.findView(carTransitionView, R.id.cars_details_gradient);
-			imageGradient.setAlpha(forward ? (f * 1) : (Math.abs(f - 1) * 1));
-
-			// We need to fade-in the rest of the items on the categories list.
-			for (int i = 0; i < categories.recyclerView.getChildCount(); i++) {
-				View v = categories.recyclerView.getChildAt(i);
-				if (v != carTransitionView) {
-					v.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
-				}
-			}
-		}
-
-		@Override
-		public void endTransition(boolean forward) {
-		}
-
-		@Override
-		public void finalizeTransition(boolean forward) {
-			toolbarBackground.setVisibility(VISIBLE);
-			toolbarBackground.setAlpha(forward ? 0f : 1f);
-
-			categories.setVisibility(forward ? GONE : VISIBLE);
-
-			details.setVisibility(forward ? VISIBLE : GONE);
-
-			details.reset();
-			details.hideForInitAnimation(false);
-
+			ValueAnimator offersListAnimator = ValueAnimator.ofFloat(0, 1);
 			if (forward) {
-				setToolBarDetailsText();
+				offersListAnimator.setInterpolator(new DecelerateInterpolator());
 			}
 			else {
-				setToolBarResultsText();
+				offersListAnimator.setInterpolator(new AccelerateInterpolator());
 			}
+			offersListAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+				@Override
+				public void onAnimationUpdate(ValueAnimator valueAnimator) {
+					float f = valueAnimator.getAnimatedFraction();
+
+					RecyclerView offersList = Ui.findView(details, R.id.offer_list);
+					ImageView headerImage = Ui.findView(carTransitionView, R.id.background_image_view);
+					float translationY = forward ? -(offersList.getHeight() - headerImage.getHeight()) * (f - 1) : (offersList.getHeight() - headerImage.getHeight()) * f;
+					offersList.setTranslationY(translationY);
+					offersList.setAlpha(forward ? (f * 1) : (Math.abs(f - 1) * 1));
+				}
+			});
+
+			ValueAnimator wholeAnimator = ValueAnimator.ofFloat(0, 1);
+			wholeAnimator.setInterpolator(new DecelerateInterpolator());
+			wholeAnimator.setDuration(400);
+			wholeAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+				@Override
+				public void onAnimationUpdate(ValueAnimator valueAnimator) {
+					float f = valueAnimator.getAnimatedFraction();
+
+					float translationY = forward ? -carTransitionView.getTop() * f : carTransitionView.getTop() * (f - 1);
+					carTransitionView.setTranslationY(translationY);
+					toolbarBackground.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
+
+					// Gradient at the bottom of the imageview in the categories list item.
+					View gradientMask = Ui.findView(carTransitionView, R.id.gradient_mask);
+					gradientMask.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
+
+					// Price container at the bottom in categories list item.
+					LinearLayout priceContainer = Ui.findView(carTransitionView, R.id.price_container);
+					float px = getResources().getDimensionPixelSize(R.dimen.car_search_details_container_height);
+					RelativeLayout.LayoutParams priceLayoutParams = (RelativeLayout.LayoutParams) priceContainer.getLayoutParams();
+					priceLayoutParams.height = forward ? (int) (Math.abs(f - 1) * (px)) : (int) (f * (px));
+					priceContainer.setLayoutParams(priceLayoutParams);
+
+					// Car details container.
+					LinearLayout detailsContainer = Ui.findView(carTransitionView, R.id.details_container);
+					detailsContainer.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
+
+					// Categories image view.
+					ImageView headerImage = Ui.findView(carTransitionView, R.id.background_image_view);
+					RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) headerImage.getLayoutParams();
+					px = getResources().getDimensionPixelSize(R.dimen.car_details_image_size);
+					int listHeightPX = getResources().getDimensionPixelSize(R.dimen.car_search_list_image_container_height);
+					layoutParams.height = forward ? (int) (f * (px - listHeightPX) + listHeightPX) : (int) (Math.abs(f - 1) * (px - listHeightPX) + listHeightPX);
+					headerImage.setLayoutParams(layoutParams);
+
+					// Altering the right, left margin on the categories list item card. To make it's width expand.
+					RecyclerView.LayoutParams cardLayoutParams = (RecyclerView.LayoutParams) carTransitionView.getLayoutParams();
+					px = getResources().getDimensionPixelSize(R.dimen.car_search_list_image_container_margin);
+					int margin = forward ? (int) (Math.abs(f - 1) * (px)) : (int) (f * (px));
+					cardLayoutParams.leftMargin = margin;
+					cardLayoutParams.rightMargin = margin;
+					carTransitionView.setLayoutParams(cardLayoutParams);
+
+					// Gradient on the top of the details image view - Alpha-in
+					View imageGradient = Ui.findView(carTransitionView, R.id.cars_details_gradient);
+					imageGradient.setAlpha(forward ? (f * 1) : (Math.abs(f - 1) * 1));
+
+					// We need to fade-in the rest of the items on the categories list.
+					for (int i = 0; i < categories.recyclerView.getChildCount(); i++) {
+						View v = categories.recyclerView.getChildAt(i);
+						if (v != carTransitionView) {
+							v.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
+						}
+					}
+				}
+			});
+
+			if (forward) {
+				animatorSet.play(offersListAnimator).after(wholeAnimator).after(200);
+			}
+			else {
+				animatorSet.play(wholeAnimator).after(offersListAnimator).after(80);
+			}
+
+			animatorSet.addListener(new Animator.AnimatorListener() {
+				@Override
+				public void onAnimationStart(Animator animator) {
+
+				}
+
+				@Override
+				public void onAnimationEnd(Animator animator) {
+					toolbarBackground.setVisibility(VISIBLE);
+					toolbarBackground.setAlpha(forward ? 0f : 1f);
+
+					categories.setVisibility(forward ? GONE : VISIBLE);
+
+					details.setVisibility(forward ? VISIBLE : GONE);
+
+					details.reset();
+					details.hideForInitAnimation(false);
+
+					if (forward) {
+						setToolBarDetailsText();
+					}
+					else {
+						setToolBarResultsText();
+					}
+				}
+
+				@Override
+				public void onAnimationCancel(Animator animator) {
+
+				}
+
+				@Override
+				public void onAnimationRepeat(Animator animator) {
+
+				}
+			});
+			animatorSet.start();
 		}
 	};
 
@@ -458,7 +508,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		carTransitionView = event.carOfferView;
 		show(details);
 		mOffer = event.categorizedCarOffers;
-		setToolBarDetailsText();
 	}
 
 	@Subscribe
