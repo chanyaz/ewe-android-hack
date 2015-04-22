@@ -20,7 +20,7 @@ import butterknife.InjectView;
 
 public class LXDetailSectionDataWidget extends LinearLayout implements View.OnClickListener {
 
-	private static final int ANIMATION_DURATION = 200;
+	private static final int ANIMATION_DURATION = 100;
 
 	public LXDetailSectionDataWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
