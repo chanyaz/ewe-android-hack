@@ -1,5 +1,8 @@
 package com.expedia.bookings.test.component.lx;
 
+import java.util.concurrent.TimeUnit;
+
+import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -16,10 +19,13 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.core.Is.is;
 
 public class LXCheckoutErrorTests extends LxTestCase {
 
@@ -80,6 +86,33 @@ public class LXCheckoutErrorTests extends LxTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
 		CheckoutViewModel.pressClose();
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
+	}
+
+	public void testPriceChangeErrorMessageOnCVVScreen() throws Throwable {
+		performLXCheckout("PriceChange");
+		screenshot("Price Change Screen");
+		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
+		LXViewModel.checkoutErrorText().check(matches(withText(R.string.lx_error_price_changed)));
+		//on click of the price change button we must come back to the Infosite Page
+		LXViewModel.checkoutErrorButton().perform(click());
+		screenshot("Infosite Page after price change");
+		onView(CoreMatchers.allOf(withId(R.id.section_title), withText(
+			R.string.highlights_activity_details))).check(matches(
+			isDisplayed()));
+		//click book now button again so that we can test if upon click of Back button we must reach back to CVV Screen
+		LXInfositePageModel.bookNowButton("2-Day New York Pass").perform(scrollTo(), click());
+		CheckoutViewModel.performSlideToPurchase();
+
+		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.clickBookButton();
+
+		// this time click on the back button. Expected : we must come to the CVV Screen
+		CheckoutViewModel.pressClose();
+		onView(withId(R.id.lx_base_presenter)).inRoot(
+			withDecorView(is(getActivity().getWindow().getDecorView())))
+			.perform(waitFor((isDisplayed()), 10L, TimeUnit.SECONDS));
+		onView(withId(R.id.signature_text_view)).check(matches(isDisplayed()));
+		screenshot("CVV screen after price change");
 	}
 
 	private void performLXCheckout(String firstName) throws Throwable {
