@@ -24,10 +24,16 @@ public class CurrentLocationSuggestionProvider {
 	}
 
 	public Observable<Suggestion> currentLocationSuggestion() {
-		return locationObservable.flatMap(locationToSuggestions);
+		return locationObservable.flatMap(new LocationToSuggestions(ENSURE_ATLEAST_ONE_SUGGESTION));
 	}
 
-	private final Func1<Location, Observable<Suggestion>> locationToSuggestions = new Func1<Location, Observable<Suggestion>>() {
+	protected class LocationToSuggestions implements Func1<Location, Observable<Suggestion>> {
+
+		Action1<List<Suggestion>> validateSuggestionList;
+		LocationToSuggestions(Action1<List<Suggestion>> validateSuggestionList) {
+			this.validateSuggestionList = validateSuggestionList;
+		}
+
 		@Override
 		public Observable<Suggestion> call(Location location) {
 			String latlong = "" + location.getLatitude() + "|" + location.getLongitude();
@@ -35,12 +41,12 @@ public class CurrentLocationSuggestionProvider {
 			return CurrentLocationSuggestionProvider.this.suggestionServices
 				.getNearbyLxSuggestions(PointOfSale.getSuggestLocaleIdentifier(), latlong,
 					PointOfSale.getPointOfSale().getSiteId())
-				.doOnNext(ENSURE_ATLEAST_ONE_SUGGESTION)
+				.doOnNext(validateSuggestionList)
 				.map(TAKE_FIRST_SUGGESTION);
 		}
 	};
 
-	private static final Action1<List<Suggestion>> ENSURE_ATLEAST_ONE_SUGGESTION = new Action1<List<Suggestion>>() {
+	protected static final Action1<List<Suggestion>> ENSURE_ATLEAST_ONE_SUGGESTION = new Action1<List<Suggestion>>() {
 		@Override
 		public void call(List<Suggestion> suggestions) {
 			if (suggestions == null || suggestions.size() < 1) {

@@ -158,6 +158,10 @@ public class LXViewModel {
 		return onView(withId(R.id.show_more_widget));
 	}
 
+	public static ViewInteraction srpErrorToolbar() {
+		return onView(allOf(isDescendantOfA(withId(R.id.search_list_presenter)), withId(R.id.toolbar)));
+	}
+
 	public static ViewInteraction toolbar() {
 		return onView(withId(R.id.toolbar));
 	}
@@ -275,6 +279,18 @@ public class LXViewModel {
 
 	public static ViewInteraction checkoutErrorButton() {
 		return onView(allOf(isDescendantOfA(withId(R.id.lx_checkout_error_widget)), withId(R.id.error_action_button)));
+	}
+
+	public static ViewInteraction searchErrorScreen() {
+		return onView(withId(R.id.lx_search_error_widget));
+	}
+
+	public static ViewInteraction searchErrorText() {
+		return onView(allOf(isDescendantOfA(withId(R.id.lx_search_error_widget)), withId(R.id.error_text)));
+	}
+
+	public static ViewInteraction searchErrorButton() {
+		return onView(allOf(isDescendantOfA(withId(R.id.lx_search_error_widget)), withId(R.id.error_action_button)));
 	}
 
 	public static ViewInteraction detailsErrorWidget() {

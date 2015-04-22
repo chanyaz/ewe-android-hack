@@ -4,6 +4,7 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.CountingIdlingResource;
 
 import com.expedia.bookings.otto.Events;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 public class IdlingResources {
@@ -40,16 +41,25 @@ public class IdlingResources {
 
 		@Subscribe
 		public void on(Events.LXNewSearchParamsAvailable event) {
+			Log.d("LxIdlingResource - Events.LXNewSearchParamsAvailable");
 			resource.increment();
 		}
 
 		@Subscribe
 		public void on(Events.LXSearchResultsAvailable event) {
+			Log.d("LxIdlingResource - Events.LXSearchResultsAvailable");
 			resource.decrement();
 		}
 
 		@Subscribe
 		public void on(Events.LXShowSearchError event) {
+			Log.v("LxIdlingResource - Events.LXShowSearchError");
+			//LXNewSearchParamsAvailable can be terminated with LXSearchResultsAvailable or LXShowSearchError
+			//Though LXShowSearchError can be broadcast without LXNewSearchParamsAvailable
+			//This takes care of both the scenarios for our purposes
+			if (!resource.isIdleNow()) {
+				resource.decrement();
+			}
 			isEditSearchWindowPresent = true;
 		}
 	}

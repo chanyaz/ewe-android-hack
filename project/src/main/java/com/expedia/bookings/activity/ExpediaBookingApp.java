@@ -341,9 +341,11 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	}
 
 	public void defaultLXComponents() {
-		setLXComponent(DaggerLXComponent.builder()
-			.appComponent(mAppComponent)
-			.build());
+		if (mLXComponent == null) {
+			setLXComponent(DaggerLXComponent.builder()
+				.appComponent(mAppComponent)
+				.build());
+		}
 	}
 
 	public void setLXComponent(LXComponent lxComponent) {
