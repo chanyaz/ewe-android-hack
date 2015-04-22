@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class SuggestionUtils {
 
 	private static final long MINIMUM_TIME_AGO = DateUtils.HOUR_IN_MILLIS;
 
+	public static final String RECENT_ROUTES_LX_LOCATION_FILE = "recent-lx-city-list.dat";
+	public static final String RECENT_ROUTES_CARS_LOCATION_FILE = "recent-cars-airport-routes-list.dat";
 
 	/**
 	 * Retrieve nearby airports. Don't run on the UI thread.
@@ -100,5 +103,18 @@ public class SuggestionUtils {
 			e.printStackTrace();
 		}
 		return recentSuggestions;
+	}
+
+	public static void deleteCachedSuggestions(Context context) {
+
+		String[] locationFiles = { RECENT_ROUTES_LX_LOCATION_FILE, RECENT_ROUTES_CARS_LOCATION_FILE };
+		for (String locationFile : locationFiles) {
+			File file = context.getFileStreamPath(locationFile);
+			boolean fileExists = file.exists();
+			boolean isDeleted = file.delete();
+			if (fileExists && !isDeleted) {
+				Log.e("Unable to delete suggestion history in " + locationFile);
+			}
+		}
 	}
 }

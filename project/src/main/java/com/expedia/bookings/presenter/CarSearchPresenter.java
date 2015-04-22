@@ -53,7 +53,6 @@ public class CarSearchPresenter extends Presenter
 	implements EditText.OnEditorActionListener, CarDateTimeWidget.ICarDateTimeListener {
 
 	private ArrayList<Suggestion> mRecentCarsLocationsSearches = new ArrayList<>();
-	private static final String RECENT_ROUTES_CARS_LOCATION_FILE = "recent-cars-airport-routes-list.dat";
 	private static final int RECENT_MAX_SIZE = 3;
 
 	public CarSearchPresenter(Context context) {
@@ -367,12 +366,12 @@ public class CarSearchPresenter extends Presenter
 
 	private void saveHistory() {
 		SuggestionUtils
-			.saveSuggestionHistory(getContext(), mRecentCarsLocationsSearches, RECENT_ROUTES_CARS_LOCATION_FILE);
+			.saveSuggestionHistory(getContext(), mRecentCarsLocationsSearches, SuggestionUtils.RECENT_ROUTES_CARS_LOCATION_FILE);
 	}
 
 	private void loadHistory() {
 		mRecentCarsLocationsSearches = SuggestionUtils.loadSuggestionHistory(getContext(),
-			RECENT_ROUTES_CARS_LOCATION_FILE);
+			SuggestionUtils.RECENT_ROUTES_CARS_LOCATION_FILE);
 		suggestionAdapter.addNearbyAndRecents(mRecentCarsLocationsSearches, getContext());
 		postDelayed(new Runnable() {
 			public void run() {

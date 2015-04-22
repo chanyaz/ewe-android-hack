@@ -95,5 +95,9 @@ public class ClearPrivateDataUtil {
 
 		// Clear anything else out that might remain
 		Db.clear();
+
+		// Clear LX and cars suggestions history
+		SuggestionUtils.deleteCachedSuggestions(context);
+
 	}
 }

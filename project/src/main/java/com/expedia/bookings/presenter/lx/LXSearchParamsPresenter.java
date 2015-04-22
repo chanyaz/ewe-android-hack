@@ -56,7 +56,6 @@ public class LXSearchParamsPresenter extends Presenter
 	implements EditText.OnEditorActionListener, CalendarPicker.DateSelectionChangedListener, DaysOfWeekView.DayOfWeekRenderer {
 
 	private static final int RECENT_MAX_SIZE = 3;
-	private static final String RECENT_ROUTES_LX_LOCATION_FILE = "recent-lx-city-list.dat";
 
 	@InjectView(R.id.search_calendar)
 	CalendarPicker calendarPicker;
@@ -172,13 +171,13 @@ public class LXSearchParamsPresenter extends Presenter
 		//Have to remove the bold tag in display name so text for last search is normal
 		suggest.displayName = Html.fromHtml(suggest.displayName).toString();
 		// Save
-		SuggestionUtils.saveSuggestionHistory(getContext(), mRecentLXLocationsSearches, RECENT_ROUTES_LX_LOCATION_FILE);
+		SuggestionUtils.saveSuggestionHistory(getContext(), mRecentLXLocationsSearches, SuggestionUtils.RECENT_ROUTES_LX_LOCATION_FILE);
 		suggestionAdapter.updateRecentHistory(mRecentLXLocationsSearches);
 
 	}
 
 	private void loadHistory() {
-		mRecentLXLocationsSearches = SuggestionUtils.loadSuggestionHistory(getContext(), RECENT_ROUTES_LX_LOCATION_FILE);
+		mRecentLXLocationsSearches = SuggestionUtils.loadSuggestionHistory(getContext(), SuggestionUtils.RECENT_ROUTES_LX_LOCATION_FILE);
 		suggestionAdapter.addNearbyAndRecents(mRecentLXLocationsSearches, getContext());
 	}
 
