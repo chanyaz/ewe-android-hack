@@ -27,7 +27,6 @@ import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.LXCheckoutWidget;
-import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LXErrorWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
@@ -52,9 +51,6 @@ public class LXCheckoutPresenter extends Presenter {
 	@InjectView(R.id.cvv)
 	CVVEntryWidget cvv;
 
-	@InjectView(R.id.confirmation)
-	LXConfirmationWidget confirmationWidget;
-
 	@InjectView(R.id.lx_checkout_error_widget)
 	LXErrorWidget errorScreen;
 
@@ -70,7 +66,6 @@ public class LXCheckoutPresenter extends Presenter {
 
 		addDefaultTransition(defaultCheckoutTransition);
 		addTransition(checkoutToCvv);
-		addTransition(cvvToConfirmation);
 		addTransition(cvvToError);
 		addTransition(checkoutToError);
 
@@ -136,7 +131,6 @@ public class LXCheckoutPresenter extends Presenter {
 			else {
 				checkoutDialog.dismiss();
 				Events.post(new Events.LXCheckoutSucceeded(lxCheckoutResponse));
-				show(confirmationWidget);
 				// Add guest itin to itin manager
 				refreshGuestTrip(lxCheckoutResponse);
 			}
@@ -148,21 +142,10 @@ public class LXCheckoutPresenter extends Presenter {
 		public void finalizeTransition(boolean forward) {
 			checkout.setVisibility(View.VISIBLE);
 			cvv.setVisibility(View.GONE);
-			confirmationWidget.setVisibility(View.GONE);
 			errorScreen.setVisibility(View.GONE);
 		}
 	};
 	private Transition checkoutToCvv = new VisibilityTransition(this, CVVEntryWidget.class.getName(), LXCheckoutWidget.class.getName());
-
-	private Transition cvvToConfirmation = new Transition(CVVEntryWidget.class.getName(),
-		LXConfirmationWidget.class.getName()) {
-		@Override
-		public void finalizeTransition(boolean forward) {
-			checkout.setVisibility(View.GONE);
-			cvv.setVisibility(View.GONE);
-			confirmationWidget.setVisibility(View.VISIBLE);
-		}
-	};
 
 	private Transition cvvToError = new VisibilityTransition(this, CVVEntryWidget.class.getName(), LXErrorWidget.class.getName());
 

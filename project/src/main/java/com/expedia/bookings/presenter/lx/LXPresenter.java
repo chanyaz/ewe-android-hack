@@ -11,6 +11,7 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LXLoadingOverlayWidget;
 import com.squareup.otto.Subscribe;
 
@@ -36,6 +37,9 @@ public class LXPresenter extends Presenter {
 	@InjectView(R.id.lx_loading_overlay)
 	LXLoadingOverlayWidget loadingOverlay;
 
+	@InjectView(R.id.confirmation)
+	LXConfirmationWidget confirmationWidget;
+
 	private static class LXParamsOverlay {
 		// ignore
 	}
@@ -53,6 +57,7 @@ public class LXPresenter extends Presenter {
 		addTransition(searchOverlayOnDetails);
 		addTransition(detailsToCheckout);
 		addTransition(detailsToSearch);
+		addTransition(checkoutToConfirmation);
 		show(resultsPresenter);
 		resultsPresenter.setVisibility(VISIBLE);
 	}
@@ -193,6 +198,9 @@ public class LXPresenter extends Presenter {
 	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class,
 		LXSearchParamsPresenter.class);
 
+	private Transition checkoutToConfirmation = new VisibilityTransition(this, LXCheckoutPresenter.class.getName(),
+		LXConfirmationWidget.class.getName());
+
 	@Subscribe
 	public void onNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
 		show(resultsPresenter, FLAG_CLEAR_TOP);
@@ -229,5 +237,10 @@ public class LXPresenter extends Presenter {
 	@Subscribe
 	public void onShowCheckout(Events.LXCreateTripSucceeded event) {
 		show(checkoutPresenter);
+	}
+
+	@Subscribe
+	public void onCheckoutSuccess(Events.LXCheckoutSucceeded event) {
+		show(confirmationWidget, FLAG_CLEAR_BACKSTACK);
 	}
 }
