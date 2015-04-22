@@ -23,7 +23,7 @@ import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.utils.LeanPlumUtils;
+import com.expedia.bookings.tracking.AdTracker;
 import com.facebook.Session;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
@@ -201,8 +201,7 @@ public class User implements JSONable {
 		performSignOutCleanupActions(context);
 		logger.addSplit("performSignOutCleanupActions");
 
-		LeanPlumUtils.updateLoggedInStatus();
-		logger.addSplit("updateLoggedInStatusLeanplum");
+		AdTracker.trackLogout();
 
 		logger.dumpToLog();
 	}
