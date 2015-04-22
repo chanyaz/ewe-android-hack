@@ -36,6 +36,20 @@
             android:text="@string/error_launch_connection"
             android:textColor="@color/roboto_light"
             android:textSize="17dp" />
-        
+
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|center"
+        android:paddingBottom="40dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bg_launch_wotif_white_logo"
+            android:gravity="center" />
+
+    </RelativeLayout>
 </LinearLayout>

@@ -2,27 +2,28 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:gravity="center_horizontal">
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/lob_btn_bg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/launch_lob_height"
-        android:foreground="?android:attr/selectableItemBackground" />
+        android:foreground="?android:attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="@dimen/launch_lob_icon_size"
-        android:layout_height="@dimen/launch_lob_icon_size"
-        android:layout_marginTop="-5sp"
-        android:layout_gravity="center" />
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/launch_lob_icon_size"
+            android:layout_height="@dimen/launch_lob_icon_size"
+            android:layout_gravity="center" />
 
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="3dp"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="15sp" />
-
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </merge>
