@@ -1,5 +1,7 @@
 package com.expedia.bookings.section;
 
+import java.text.DecimalFormat;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -84,6 +86,7 @@ public class HotelSummarySection extends RelativeLayout {
 
 	//Value for AB test
 	boolean isUserBucketedForTest = false;
+	private DecimalFormat df = new DecimalFormat("#.0");
 
 	public HotelSummarySection(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -357,7 +360,7 @@ public class HotelSummarySection extends RelativeLayout {
 			}
 			else {
 				mNotRatedText.setVisibility(View.GONE);
-				mUserRating.setText(Double.toString(rating));
+				mUserRating.setText(df.format(rating));
 				ratingInfo.setVisibility(VISIBLE);
 			}
 		}
