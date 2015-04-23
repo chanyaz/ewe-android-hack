@@ -338,8 +338,12 @@ public class DeepLinkRouterActivity extends Activity {
 							return services.suggestionsCityNearby(location.getLatitude(), location.getLongitude());
 						}
 					}, mSuggestCallback);
+					return false;
 				}
-				return false;
+				else {
+					Intent launchIntent = new Intent(DeepLinkRouterActivity.this, TabletLaunchActivity.class);
+					startActivity(launchIntent);
+				}
 			}
 		}
 		else {
