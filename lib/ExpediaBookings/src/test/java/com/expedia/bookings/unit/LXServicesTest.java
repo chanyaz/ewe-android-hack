@@ -112,7 +112,7 @@ public class LXServicesTest {
 		BlockingObserver<ActivityDetailsResponse> blockingObserver = new BlockingObserver<>(1);
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		Subscription subscription = getLXServices().lxDetails(lxActivity, LocalDate.now(), LocalDate.now().plusDays(1), blockingObserver);
+		Subscription subscription = getLXServices().lxDetails(lxActivity, null, LocalDate.now(), LocalDate.now().plusDays(1), blockingObserver);
 		blockingObserver.await();
 		subscription.unsubscribe();
 		assertEquals(0, blockingObserver.getErrors().size());
@@ -130,7 +130,7 @@ public class LXServicesTest {
 
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		Subscription subscription = getLXServices().lxDetails(lxActivity, LocalDate.now(), LocalDate.now().plusDays(1), blockingObserver);
+		Subscription subscription = getLXServices().lxDetails(lxActivity, null, LocalDate.now(), LocalDate.now().plusDays(1), blockingObserver);
 
 		blockingObserver.await();
 		subscription.unsubscribe();
@@ -144,7 +144,7 @@ public class LXServicesTest {
 		mockServer.enqueue(new MockResponse().setBody("{Unexpected}"));
 		BlockingObserver<ActivityDetailsResponse> blockingObserver = new BlockingObserver<>(1);
 
-		Subscription subscription = getLXServices().lxDetails(new LXActivity(), null, null, blockingObserver);
+		Subscription subscription = getLXServices().lxDetails(new LXActivity(), null, null, null, blockingObserver);
 		blockingObserver.await();
 		subscription.unsubscribe();
 		assertEquals(1, blockingObserver.getErrors().size());

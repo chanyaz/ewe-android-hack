@@ -179,7 +179,7 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 
 	private void showActivityDetails(LXActivity activity, LocalDate startDate, LocalDate endDate) {
 		setToolbarTitles(activity);
-		detailsSubscription = lxServices.lxDetails(activity, startDate, endDate, detailsObserver);
+		detailsSubscription = lxServices.lxDetails(activity, lxState.searchParams.location, startDate, endDate, detailsObserver);
 	}
 
 	private void setupToolbar() {

@@ -36,6 +36,7 @@ public interface LXApi {
 	@Headers("Cache-Control: no-cache")
 	public Observable<ActivityDetailsResponse> activityDetails(
 		@Query("activityId") String activityId,
+		@Query("location") String location,
 		@Query("startDate") String startDate,
 		@Query("endDate") String endDate);
 
