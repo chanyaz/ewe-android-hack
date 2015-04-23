@@ -17,6 +17,7 @@ else
 fi
 
 # LX
+add_test "com.expedia.bookings.test.component.lx.LXCurrentLocationErrorTests"
 add_test "com.expedia.bookings.test.component.lx.LXSearchParamsTest"
 add_test "com.expedia.bookings.test.component.lx.LXDetailsPresenterTests"
 add_test "com.expedia.bookings.test.component.lx.LXResultsPresenterTests"

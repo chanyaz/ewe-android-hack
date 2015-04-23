@@ -8,9 +8,9 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
-import com.expedia.bookings.location.CurrentLocationSuggestionProvider;
 import com.expedia.bookings.location.LXCurrentLocationSuggestionObserver;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.lx.LXPresenter;
@@ -21,6 +21,7 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observable;
 import rx.Subscription;
 
 public class LXBaseActivity extends ActionBarActivity {
@@ -52,9 +53,10 @@ public class LXBaseActivity extends ActionBarActivity {
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range)))
 			.searchType(SearchType.DEFAULT_SEARCH);
-		CurrentLocationSuggestionProvider currentLocationSuggestionProvider = Ui.getApplication(this).lxComponent().currentLocationSuggestionProvider();
+
+		Observable<Suggestion> currentLocationSuggestionObservable = Ui.getApplication(this).lxComponent().currentLocationSuggestionObservable();
 		currentLocationSuggestionObserver = new LXCurrentLocationSuggestionObserver(this, currentLocationSearchParams);
-		currentLocationSuggestionSubscription = currentLocationSuggestionProvider.currentLocationSuggestion().subscribe(currentLocationSuggestionObserver);
+		currentLocationSuggestionSubscription = currentLocationSuggestionObservable.subscribe(currentLocationSuggestionObserver);
 	}
 
 	private boolean handleNavigationViaDeepLink() {

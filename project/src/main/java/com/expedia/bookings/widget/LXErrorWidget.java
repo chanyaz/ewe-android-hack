@@ -100,13 +100,18 @@ public class LXErrorWidget extends FrameLayout {
 			});
 			break;
 
+		case CURRENT_LOCATION_ERROR:
+			showSearchError(R.string.error_lx_current_location_search_message, SearchType.DEFAULT_SEARCH);
+			break;
+
+		case SUGGESTIONS_NO_RESULTS:
 		case LX_SEARCH_NO_RESULTS:
 			switch (searchType) {
 			case DEFAULT_SEARCH:
-				showSearchError(R.string.error_lx_current_location_search_message);
+				showSearchError(R.string.lx_error_current_location_no_results, searchType);
 				break;
 			case EXPLICIT_SEARCH:
-				showSearchError(R.string.error_lx_search_message);
+				showSearchError(R.string.error_lx_search_message, searchType);
 				break;
 			}
 			break;
@@ -175,7 +180,7 @@ public class LXErrorWidget extends FrameLayout {
 	private void showDefaultError() {
 		bindText(R.drawable.error_default,
 			R.string.error_server,
-			R.string.lx_error_current_location_toolbar_text,
+			R.string.lx_error_text,
 			R.string.retry);
 		errorButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -185,10 +190,10 @@ public class LXErrorWidget extends FrameLayout {
 		});
 	}
 
-	public void showSearchError(int errorMessageResId) {
+	private void showSearchError(int errorMessageResId, SearchType searchType) {
 		bindText(R.drawable.error_lx,
 			errorMessageResId,
-			R.string.lx_error_text,
+			searchType == SearchType.DEFAULT_SEARCH ? R.string.lx_error_current_location_toolbar_text : R.string.lx_error_text,
 			R.string.edit_search);
 		errorButton.setOnClickListener(new OnClickListener() {
 			@Override

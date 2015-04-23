@@ -5,6 +5,7 @@ import java.util.List;
 import com.expedia.bookings.data.SuggestionResultType;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.cars.SuggestionResponse;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -91,7 +92,7 @@ public class SuggestionServices {
 	private static Func1<SuggestionResponse, List<Suggestion>> sToListNearby = new Func1<SuggestionResponse, List<Suggestion>>() {
 		@Override
 		public List<Suggestion> call(SuggestionResponse suggestionResponse) {
-			if (suggestionResponse != null) {
+			if (suggestionResponse != null && CollectionUtils.isNotEmpty(suggestionResponse.suggestions)) {
 				List<Suggestion> result = suggestionResponse.suggestions.subList(0, suggestionResponse.suggestions.size() >= 2 ? MAX_NEARBY_AIRPORTS : 1);
 				for (Suggestion suggestion : result) {
 					suggestion.iconType = Suggestion.IconType.CURRENT_LOCATION_ICON;
