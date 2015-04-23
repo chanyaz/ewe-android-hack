@@ -44,6 +44,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.CarCategoryListWidget;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -72,6 +73,15 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
+
+	@InjectView(R.id.toolBarSearchText)
+	TextView toolbarSearchTextView;
+
+	@InjectView(R.id.toolBarDetailText)
+	TextView toolbarDetailTextView;
+
+	@InjectView(R.id.toolBarSubtitleText)
+	TextView toolbarSubtitleTextView;
 
 	UserAccountRefresher userAccountRefresher;
 	View carTransitionView;
@@ -102,8 +112,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		toolbar.setTitleTextColor(Color.WHITE);
 		toolbar.setSubtitleTextColor(Color.WHITE);
 		toolbar.inflateMenu(R.menu.cars_results_menu);
-		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
-		toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance);
 		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem menuItem) {
@@ -306,6 +314,9 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 					carTransitionView.setTranslationY(translationY);
 					toolbarBackground.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
 
+					toolbarSearchTextView.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
+					toolbarDetailTextView.setAlpha(forward ? (f * 1) : (Math.abs(f - 1) * 1));
+
 					// Gradient at the bottom of the imageview in the categories list item.
 					View gradientMask = Ui.findView(carTransitionView, R.id.gradient_mask);
 					gradientMask.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
@@ -361,7 +372,10 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			animatorSet.addListener(new Animator.AnimatorListener() {
 				@Override
 				public void onAnimationStart(Animator animator) {
-
+					toolbarSearchTextView.setVisibility(VISIBLE);
+					toolbarDetailTextView.setVisibility(VISIBLE);
+					toolbarSearchTextView.setAlpha(forward ? 1 : 0);
+					toolbarDetailTextView.setAlpha(forward ? 0 : 1);
 				}
 
 				@Override
@@ -376,12 +390,8 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 					details.reset();
 					details.hideForInitAnimation(false);
 
-					if (forward) {
-						setToolBarDetailsText();
-					}
-					else {
-						setToolBarResultsText();
-					}
+					toolbarSearchTextView.setVisibility(forward ? GONE : VISIBLE);
+					toolbarDetailTextView.setVisibility(forward ? VISIBLE : GONE);
 				}
 
 				@Override
@@ -398,18 +408,20 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		}
 	};
 
-	private void setToolBarDetailsText() {
+	private void setToolBarHeaderText() {
 		if (mOffer != null) {
-			toolbar.setTitle(mOffer.carCategoryDisplayLabel);
+			toolbarDetailTextView.setText(mOffer.carCategoryDisplayLabel);
+		}
+		if (mParams != null) {
+			toolbarSearchTextView.setText(mParams.originDescription);
 		}
 	}
 
-	private void setToolBarResultsText() {
+	private void setToolBarSubtitleText() {
 		if (mParams != null) {
 			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), mParams,
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
-			toolbar.setTitle(mParams.originDescription);
-			toolbar.setSubtitle(dateTimeRange);
+			toolbarSubtitleTextView.setText(dateTimeRange);
 		}
 	}
 
@@ -500,7 +512,8 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		mParams = event.carSearchParams;
 		searchSubscription = carServices
 			.carSearch(event.carSearchParams, searchObserver);
-		setToolBarResultsText();
+		setToolBarHeaderText();
+		setToolBarSubtitleText();
 	}
 
 	@Subscribe
@@ -508,6 +521,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		carTransitionView = event.carOfferView;
 		show(details);
 		mOffer = event.categorizedCarOffers;
+		setToolBarHeaderText();
 	}
 
 	@Subscribe
@@ -523,7 +537,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		cleanup();
 		searchSubscription = carServices
 			.carSearch(event.carSearchParams, searchObserver);
-		setToolBarResultsText();
+		setToolBarSubtitleText();
 	}
 
 
