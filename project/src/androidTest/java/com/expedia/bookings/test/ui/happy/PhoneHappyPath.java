@@ -2,13 +2,15 @@ package com.expedia.bookings.test.ui.happy;
 
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.DataInteraction;
+
+import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LogInScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.TripsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsCheckoutScreen;
@@ -22,7 +24,10 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
+import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+
+import junit.framework.Assert;
 
 import static android.support.test.espresso.action.ViewActions.click;
 
@@ -152,7 +157,6 @@ public class PhoneHappyPath extends PhoneTestCase {
 		HotelsConfirmationScreen.clickDoneButton();
 	}
 
-	// FIXME: Disabling for now. Hangs after logging in
 	public void testViewItineraries() throws Throwable {
 		screenshot("Launch");
 		LaunchScreen.tripsButton().perform(click());
@@ -163,13 +167,25 @@ public class PhoneHappyPath extends PhoneTestCase {
 		LogInScreen.typeTextPasswordEditText("password");
 		LogInScreen.clickOnLoginButton();
 		screenshot("Trips");
-		for (int i = 0; i < 4; i++) {
-			TripsScreen.clickListItem(i);
-			ScreenActions.delay(2);
-			screenshot("Trips_item_" + i + "_press");
-			Common.pressBack();
-			screenshot("Trips");
-		}
+
+		// Flight assertions
+		DataInteraction outboundFlightRow = TripsScreen.tripsListItem().atPosition(0);
+		String outboundFlightAirportTimeStr = EspressoUtils
+			.getListItemValues(outboundFlightRow, R.id.flight_status_bottom_line);
+		Assert.assertEquals("From SFO at 11:32 AM", outboundFlightAirportTimeStr);
+
+		// Air attach assertions
+		DataInteraction airAttachRow = TripsScreen.tripsListItem().atPosition(1);
+		String airAttachMessage = EspressoUtils.getListItemValues(airAttachRow, R.id.itin_air_attach_text_view);
+		Assert.assertEquals("Because you booked a flight", airAttachMessage);
+
+		// Car assertions
+		DataInteraction carRow = TripsScreen.tripsListItem().atPosition(2);
+		String carTitle = EspressoUtils.getListItemValues(carRow, R.id.header_text_view);
+		Assert.assertEquals("Budget", carTitle);
+
+		// TODO more assertions for flight, air attach car (e.g. details?)
+		// TODO more LOB
 	}
 
 }

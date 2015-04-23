@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import com.squareup.okhttp.mockwebserver.Dispatcher;
 import com.squareup.okhttp.mockwebserver.MockResponse;
@@ -62,7 +63,7 @@ public class ExpediaDispatcher extends Dispatcher {
 
 		// Trips API
 		if (request.getPath().startsWith("/api/trips")) {
-			return makeResponse("/api/trips/happy.json");
+			return dispatchTrip(request);
 		}
 
 		// Expedia Suggest
@@ -180,6 +181,59 @@ public class ExpediaDispatcher extends Dispatcher {
 		return make404();
 	}
 
+	private MockResponse dispatchTrip(RecordedRequest request) {
+		Map<String, String> params = parseRequest(request);
+
+		// Common to all trips
+		DateTime startOfTodayPacific = DateTime.now()
+			.withTimeAtStartOfDay()
+			.withZone(DateTimeZone.forOffsetHours(-7));
+		DateTime startOfTodayEastern = DateTime.now()
+			.withTimeAtStartOfDay()
+			.withZone(DateTimeZone.forOffsetHours(-4));
+		long pacificDaylightTzOffset = -7 * 60 * 60;
+		long easternDaylightTzOffset = -4 * 60 * 60;
+		params.put("tzOffsetPacific", "" + pacificDaylightTzOffset);
+		params.put("tzOffsetEastern", "" + easternDaylightTzOffset);
+
+		// Inject flight DateTimes
+		DateTime outboundFlightDeparture = startOfTodayPacific
+			.plusDays(14)
+			.plusHours(11)
+			.plusMinutes(32);
+		DateTime outboundFlightArrival = startOfTodayEastern
+			.plusDays(14)
+			.plusHours(18)
+			.plusMinutes(4);
+		DateTime inboundFlightDeparture = startOfTodayEastern
+			.plusDays(22)
+			.plusHours(18)
+			.plusMinutes(59);
+		DateTime inboundFlightArrival = startOfTodayPacific
+			.plusDays(22)
+			.plusHours(22)
+			.plusMinutes(11);
+		params.put("outboundFlightDepartureEpochSeconds", "" + outboundFlightDeparture.getMillis() / 1000);
+		params.put("outboundFlightArrivalEpochSeconds", "" + outboundFlightArrival.getMillis() / 1000);
+		params.put("inboundFlightDepartureEpochSeconds", "" + inboundFlightDeparture.getMillis() / 1000);
+		params.put("inboundFlightArrivalEpochSeconds", "" + inboundFlightArrival.getMillis() / 1000);
+
+		// Inject car DateTimes
+		DateTime carPickup = startOfTodayEastern
+			.plusDays(14)
+			.plusHours(11)
+			.plusMinutes(32);
+		DateTime carDropoff = startOfTodayEastern
+			.plusDays(22)
+			.plusHours(18)
+			.plusMinutes(29);
+		params.put("carPickupEpochSeconds", "" + carPickup.getMillis() / 1000);
+		params.put("carDropoffEpochSeconds", "" + carDropoff.getMillis() / 1000);
+
+		return makeResponse("/api/trips/happy.json", params);
+	}
+
+
 	private MockResponse dispatchCar(RecordedRequest request) {
 		if (request.getPath().contains("/search/airport")) {
 			Map<String, String> params = parseRequest(request);
@@ -284,7 +338,7 @@ public class ExpediaDispatcher extends Dispatcher {
 			final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 			final DateTime endDateTime = startDateTime.plusDays(5);
 			// supply the dates to the response
-			params.put("startDate",startDateTime.toString(DATE_TIME_PATTERN));
+			params.put("startDate", startDateTime.toString(DATE_TIME_PATTERN));
 			// Add availability dates for 13 days which should make the last date selector disabled.
 			for (int iPlusDays = 1; iPlusDays < 13; iPlusDays++) {
 				params.put("startDatePlus" + iPlusDays, startDateTime.plusDays(iPlusDays).toString(DATE_TIME_PATTERN));
@@ -297,7 +351,7 @@ public class ExpediaDispatcher extends Dispatcher {
 			if (body.contains("error_activity_id")) {
 				return makeResponse("m/api/lx/trip/create/error_create_trip.json");
 			}
-			if(body.contains("price_change")) {
+			if (body.contains("price_change")) {
 				return makeResponse("m/api/lx/trip/create/price_change.json");
 			}
 			return makeResponse("m/api/lx/trip/create/happy.json");

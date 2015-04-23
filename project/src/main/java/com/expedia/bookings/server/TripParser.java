@@ -78,7 +78,7 @@ public class TripParser {
 		trip.setEndDate(DateTimeParser.parseDateTime(tripJson.opt("endTime")));
 
 		trip.setBookingStatus(parseBookingStatus(tripJson.optString("bookingStatus")));
-		trip.setTimePeriod(parseTimePeriod(tripJson.optString("timePeriod")));
+		trip.setTimePeriod(parseTimePeriod(tripJson.optString("timePeriod"))); // TODO do we receive this info?
 
 		/*
 		 *  The api returns the sharableUrl in the form of /api/trips/shared. But this is NOT the link that is to be shared to any users.
