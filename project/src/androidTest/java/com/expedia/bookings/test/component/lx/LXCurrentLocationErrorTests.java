@@ -6,7 +6,6 @@ import com.expedia.bookings.dagger.LXFakeCurrentLocationSuggestionModule;
 import com.expedia.bookings.dagger.LXTestComponent;
 import com.expedia.bookings.enums.LxCurrentLocationSearchErrorTestMode;
 import com.expedia.bookings.test.ui.utils.LxTestCase;
-import com.expedia.bookings.utils.Ui;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -18,7 +17,6 @@ public class LXCurrentLocationErrorTests extends LxTestCase {
 
 	@Override
 	public void runTest() throws Throwable {
-
 		String testMethodName = getClass().getMethod(getName(), (Class[]) null).toString();
 
 		LxCurrentLocationSearchErrorTestMode sCurrentLocationSearchErrorTestMode = LxCurrentLocationSearchErrorTestMode.NO_CURRENT_LOCATION;
@@ -34,12 +32,12 @@ public class LXCurrentLocationErrorTests extends LxTestCase {
 
 		//Setup Lx Test Component
 		LXTestComponent lxTestComponent = DaggerLXTestComponent.builder()
-			.appComponent(Ui.getApplication(getInstrumentation().getTargetContext()).appComponent())
+			.appComponent(getApplication().appComponent())
 			.lXFakeCurrentLocationSuggestionModule(
 				new LXFakeCurrentLocationSuggestionModule(sCurrentLocationSearchErrorTestMode))
 			.build();
-		Ui.getApplication(getInstrumentation().getTargetContext()).setLXComponent(lxTestComponent);
 
+		getApplication().setLXTestComponent(lxTestComponent);
 		super.runTest();
 	}
 
@@ -48,6 +46,8 @@ public class LXCurrentLocationErrorTests extends LxTestCase {
 		LXViewModel.searchErrorText().check(matches(withText(R.string.error_lx_current_location_search_message)));
 		LXViewModel.srpErrorToolbar().check(matches(isDisplayed()));
 		LXViewModel.srpErrorToolbar().check(matches(hasDescendant(withText(R.string.lx_error_current_location_toolbar_text))));
+
+		screenshot("No current location");
 		LXViewModel.searchErrorButton().perform(click());
 	}
 
@@ -57,6 +57,8 @@ public class LXCurrentLocationErrorTests extends LxTestCase {
 		LXViewModel.srpErrorToolbar().check(matches(isDisplayed()));
 		LXViewModel.srpErrorToolbar().check(
 			matches(hasDescendant(withText(R.string.lx_error_current_location_toolbar_text))));
+
+		screenshot("No suggestions");
 		LXViewModel.searchErrorButton().perform(click());
 	}
 
@@ -66,6 +68,8 @@ public class LXCurrentLocationErrorTests extends LxTestCase {
 		LXViewModel.srpErrorToolbar().check(matches(isDisplayed()));
 		LXViewModel.srpErrorToolbar().check(matches(
 			hasDescendant(withText("search_failure"))));
+
+		screenshot("No activities");
 		LXViewModel.searchErrorButton().perform(click());
 	}
 }
