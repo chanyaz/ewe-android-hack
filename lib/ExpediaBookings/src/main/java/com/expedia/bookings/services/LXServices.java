@@ -88,9 +88,10 @@ public class LXServices {
 		}
 	};
 
-	public Subscription lxDetails(final LXActivity lxActivity, LocalDate startDate, LocalDate endDate, Observer<ActivityDetailsResponse> observer) {
+	public Subscription lxDetails(final LXActivity lxActivity, String location, LocalDate startDate, LocalDate endDate,
+		Observer<ActivityDetailsResponse> observer) {
 		return lxApi
-			.activityDetails(lxActivity.id, DateUtils.convertToLXDate(startDate), DateUtils.convertToLXDate(endDate))
+			.activityDetails(lxActivity.id, location, DateUtils.convertToLXDate(startDate), DateUtils.convertToLXDate(endDate))
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
 			.doOnNext(HANDLE_ACTIVITY_DETAILS_ERROR)
