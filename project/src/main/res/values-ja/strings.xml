@@ -100,12 +100,6 @@
     <string name="drop_off_time_label">返却</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">準備中。新バージョンでは、レンタカーのワンウェイ (乗り捨て) 予約を導入予定です。</string>
-    <!-- Error messge for missing Origin in search form -->
-    <string name="error_missing_origin_param">出発地が指定されていません</string>
-    <!-- Error messge for missing Start date in search form -->
-    <string name="error_missing_start_date_param">開始日が指定されていません</string>
-    <!-- Error messge for missing End date date in search form -->
-    <string name="error_missing_end_date_param">終了日が指定されていません</string>
     <!-- Car search error -->
     <string name="error_car_search_message">検索結果はありません。条件を変更して再検索してください。</string>
     <!-- Checkout -->
@@ -149,8 +143,6 @@
     <string name="successful_checkout_email_label">旅程送信先 :</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">%1$sへのアクセス方法</string>
-    <!-- Button label for calling customer support -->
-    <string name="call_customer_support">カスタマー サポートに電話する</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -216,8 +208,6 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
-    <!-- Search widget location hint -->
-    <string name="lx_search_location_hint">場所を入力</string>
     <!-- Search widget header text -->
     <string name="lx_search_widget_heading">日付と場所</string>
     <!-- Button to show calendar and selected dates -->
@@ -234,18 +224,18 @@
     <string name="exclusions_activity_details">含まれないもの</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">予約前の確認事項</string>
-    <!-- Activity details cancellation heading -->
-    <string name="cancellation_activity_details">キャンセル内容</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">今すぐ予約 %1$s</string>
-    <!-- Template for tickets type and count  summary -->
-    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <string name="offer_book_now_TEMPLATE">予約する %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
     <string name="cancellation_policy_TEMPLATE">予約時間開始の %1$s前まで無料でキャンセルできます。この時間以降は、キャンセル、変更、および返金はできません。</string>
+    <!-- Cancellation policy text for non-cancellable activities -->
+    <string name="lx_policy_non_cancellable">この予約は返金不可のため、ご予約後の変更およびキャンセルはできません。</string>
     <!-- LX checkout cost breakdown total due today -->
     <string name="lx_cost_breakdown_due_today">本日お支払いの合計金額</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -256,6 +246,8 @@
     <string name="lx_checkout_breakdown_price_disclaimer_text">料金の通貨単位は %s です。</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">合計料金</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">料金変更</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">旅行者名</string>
     <string name="ticket_type_adult">大人</string>
@@ -277,7 +269,7 @@
     <string name="ticket_type_limousine">リムジン</string>
     <string name="ticket_type_towncar">タウンカー</string>
     <string name="ticket_type_vehicle_parking_spot">駐車場</string>
-    <string name="ticket_type_book">予約</string>
+    <string name="ticket_type_book">本</string>
     <string name="ticket_type_guide">ガイド</string>
     <string name="ticket_type_travel_card">トラベルカード</string>
     <string name="ticket_type_boat">ボート</string>
@@ -299,10 +291,195 @@
     <string name="ticket_type_day">デイ</string>
     <string name="ticket_type_bike">自転車</string>
     <string name="ticket_type_week">週</string>
-    <string name="ticket_type_subscription">予約</string>
+    <string name="ticket_type_subscription">登録</string>
     <string name="ticket_type_electric_bike">電動自転車</string>
     <string name="ticket_type_segway">セグウェイ</string>
     <string name="ticket_type_vehicle">車両</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">旅行者 %1$s 名</item>
+        <item quantity="other">旅行者 %1$s 名</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">大人 %1$s 名</item>
+        <item quantity="other">大人 %1$s 名</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">お子様 %1$s 名</item>
+        <item quantity="other">お子様 %1$s 名</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">乳幼児 %1$s 名</item>
+        <item quantity="other">乳幼児 %1$s 名</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">中人 %1$s 名</item>
+        <item quantity="other">中人 %1$s 名</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">シニア %1$s 名</item>
+        <item quantity="other">シニア %1$s 名</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">グループ %1$s 組</item>
+        <item quantity="other">グループ %1$s 組</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">カップル %1$s 組</item>
+        <item quantity="other">カップル %1$s 組</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">大人 2 名 %1$s 組</item>
+        <item quantity="other">大人 2 名 %1$s 組</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">軍関係者 %1$s 名</item>
+        <item quantity="other">軍関係者 %1$s 名</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">学生 %1$s 名</item>
+        <item quantity="other">学生 %1$s 名</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">セダン %1$s 台</item>
+        <item quantity="other">セダン %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">ミニバン %1$s 台</item>
+        <item quantity="other">ミニバン %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">水上タクシー %1$s 台</item>
+        <item quantity="other">水上タクシー %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">SUV %1$s 台</item>
+        <item quantity="other">SUV %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">エグゼクティブ カー %1$s 台</item>
+        <item quantity="other">エグゼクティブ カー %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">ラグジュアリー カー %1$s 台</item>
+        <item quantity="other">ラグジュアリー カー %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">リムジン %1$s 台</item>
+        <item quantity="other">リムジン %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">タウンカー %1$s 台</item>
+        <item quantity="other">タウンカー %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">駐車場 %1$s か所</item>
+        <item quantity="other">駐車場 %1$s か所</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">本 %1$s 冊</item>
+        <item quantity="other">本 %1$s 冊</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">ガイド %1$s 人</item>
+        <item quantity="other">ガイド %1$s 人</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">トラベルカード %1$s 枚</item>
+        <item quantity="other">トラベルカード %1$s 枚</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">ボート %1$s 台</item>
+        <item quantity="other">ボート %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">バイク %1$s 台</item>
+        <item quantity="other">バイク %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">セレモニー %1$s 回</item>
+        <item quantity="other">セレモニー %1$s 回</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">コーリングカード %1$s 枚</item>
+        <item quantity="other">コーリングカード %1$s 枚</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">パス %1$s 枚</item>
+        <item quantity="other">パス %1$s 枚</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">ミニバス %1$s 台</item>
+        <item quantity="other">ミニバス %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">ヘリコプター %1$s 台</item>
+        <item quantity="other">ヘリコプター %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">デバイス %1$s 台</item>
+        <item quantity="other">デバイス %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">%1$s 室</item>
+        <item quantity="other">%1$s 室</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">馬車 %1$s 台</item>
+        <item quantity="other">馬車 %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">バギー %1$s 台</item>
+        <item quantity="other">バギー %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">ATV %1$s 台</item>
+        <item quantity="other">ATV %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">ジェットスキー %1$s 台</item>
+        <item quantity="other">ジェットスキー %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">スクーター %1$s 台</item>
+        <item quantity="other">スクーター %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">スクーター カー %1$s 台</item>
+        <item quantity="other">スクーター カー %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">スノーモービル %1$s 台</item>
+        <item quantity="other">スノーモービル %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s 日</item>
+        <item quantity="other">%1$s 日</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">自転車 %1$s 台</item>
+        <item quantity="other">自転車 %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s 週</item>
+        <item quantity="other">%1$s 週</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">登録 %1$s 回</item>
+        <item quantity="other">登録 %1$s 回</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">電動自転車 %1$s 台</item>
+        <item quantity="other">電動自転車 %1$s台</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">セグウェイ %1$s 台</item>
+        <item quantity="other">セグウェイ %1$s 台</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">車両 %1$s 台</item>
+        <item quantity="other">車両 %1$s 台</item>
+    </plurals>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">/ 旅行者</string>
     <string name="per_ticket_type_adult">/ 大人</string>
@@ -330,7 +507,7 @@
     <string name="per_ticket_type_boat">/ ボート</string>
     <string name="per_ticket_type_motorcycle">/ バイク</string>
     <string name="per_ticket_type_ceremony">/ セレモニー</string>
-    <string name="per_ticket_type_calling_card">/ 通話カード</string>
+    <string name="per_ticket_type_calling_card">/ コーリングカード</string>
     <string name="per_ticket_type_pass">/ パス</string>
     <string name="per_ticket_type_minibus">/ ミニバス</string>
     <string name="per_ticket_type_helicopter">/ ヘリコプター</string>
@@ -361,7 +538,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">検索結果はありません。条件を変更して再検索してください。</string> 
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">入力したロケーションに該当する検索結果はありません。条件を変更して再検索してください。</string> 
+    <string name="error_lx_current_location_search_message">現在地を特定できないため、周辺のアクティビティを検索できませんでした。</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">エラー</string>
     <!-- Text for error toolbar-->
@@ -380,8 +557,6 @@
     <string name="lx_traveler_enter_details_text">旅行者情報を入力</string>
     <!-- Text for lx sort and filter-->
     <string name="lx_sort_filter">並び替え &amp; 絞り込み</string>
-    <!-- Read more of the review -->
-    <string name="lx_details_read_more">もっと読む</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">料金</string>
     <!-- Popularity sort button -->
@@ -392,8 +567,20 @@
     <string name="lx_free_cancellation">キャンセル手数料無料</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s利用不可</string>
-    <!-- Edit search toolbar title -->
-    <string name="edit_search_toolbar">検索条件を変更する</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">申し訳ありません。このアクティビティの料金が変更されました。もう一度ご予約ください。</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">チケット送信先</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">予約が確定しました !</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">ロケーションを特定中…</string>
+    <!-- LX Error Fetching activity details -->
+    <string name="lx_error_details">詳細情報を取得できません。もう一度お試しください。</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">もう一度お試しください</string>
+    <!-- LX No Activities for Current location -->
+    <string name="lx_error_current_location_no_results">周辺のアクティビティはありません。条件を変更して再検索してください。</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -486,6 +673,15 @@
         <item quantity="many">つのアイテムが予約されています</item>
         <item quantity="other">つのアイテムが予約されています</item>
     </plurals>
+
+    <!-- LX Sort & Filter "Apply" header -->
+    <string name="lx_apply_sort_filter">適用</string>
+    <!-- LX Sort & Filter "Sort By" section header -->
+    <string name="lx_sort_by">並べ替え</string>
+    <!-- LX Sort & Filter "Categories" header -->
+    <string name="lx_categories">カテゴリー</string>
+    <!-- LX Sort & Filter "Filter" header -->
+    <string name="lx_filter">絞り込み</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -676,31 +872,27 @@
     <string name="nav_hotels">ホテル</string>
     <!-- Cars -->
     <string name="nav_cars">レンタカー</string>
+    <!-- Activities -->
+    <string name="nav_lx">オプショナル ツアー</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">今晩の人気ホテル</string>
+    <string name="nearby_deals_title">今晩のホテル</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">もっと見る</string>
     <!-- Percent off template, e.g. 50% off -->
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
     <string name="loading_header">読み込み中…</string>
-    <!-- Hotel list rating text -->
+    <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">(5 件中) – ゲスト評価</string>
-    <!-- Hotel list no rating text -->
-    <string name="hotel_no_rating_text">ゲスト評価なし</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">(5 件中)</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">モバイル限定 !</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">今晩限定 !</string>
 
-
-    <!-- Launch screen -->
-    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;航空券&lt;/font&gt;</string>
-    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;ホテル&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">接続できません。</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -765,8 +957,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">旅程</string>
-    <!-- Shop -->
-    <string name="shop">検索</string>
+    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
+    <string name="shop_travel">旅行を予約</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">旅程を検索する</string>
     <!-- Enter Itinerary Details -->
@@ -788,7 +980,7 @@
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">旅程を取得できませんでした</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">&lt;b&gt;サインイン&lt;/b&gt;して予約を確認してください</string>
+    <string name="sign_in_for_your_trips">サインインして予約を確認してください</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">明日</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1863,8 +2055,12 @@
     <string name="itinerary_confirmation_TEMPLATE">旅程番号%s が に送信されます</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">部屋を予約する</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">旅行に追加する</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
-    <string name="hotels_in_TEMPLATE">%s のホテル</string>
+    <string name="hotels_in_TEMPLATE">%sのホテル</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
+    <string name="cars_in_TEMPLATE">%sのレンタカー</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">その他のアクション</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -3035,7 +3231,7 @@
     <!-- Google Wallet label -->
     <string name="google_wallet">Google ウォレット機能</string>
     <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">Google ウォレット機能は利用できません</string>
+    <string name="google_wallet_unavailable">Google ウォレット機能は使用できません</string>
     <!-- Error if you've exceeded your overall Google Wallet spending limit -->
     <string name="spending_limit_exceeded">Google ウォレット機能の利用限度額を越えました</string>
     <!-- Content description for "buy with wallet" button -->
@@ -3169,9 +3365,9 @@
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">手荷物は手荷物受取場 %1$s に運ばれます。</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
-    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s 様のご予約が確定しました !アプリで表示する</string>
+    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s 様の予約が確定しました !アプリで表示する</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
-    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">ご予約が確定しました。アプリで表示する</string>
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">予約が確定しました。アプリで表示する</string>
 
     <!-- Content Description Labels -->
     <!-- Trips Screen -->

@@ -100,12 +100,6 @@
     <string name="drop_off_time_label">還車</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">即將推出，敬請期待…我們正在致力於在未來版本中加入不需回原地點還車的租車預訂服務。</string>
-    <!-- Error messge for missing Origin in search form -->
-    <string name="error_missing_origin_param">未輸入出發地</string>
-    <!-- Error messge for missing Start date in search form -->
-    <string name="error_missing_start_date_param">未輸入開始日期</string>
-    <!-- Error messge for missing End date date in search form -->
-    <string name="error_missing_end_date_param">未輸入結束日期</string>
     <!-- Car search error -->
     <string name="error_car_search_message">沒有搜尋結果。請使用其他條件再次搜尋。</string>
     <!-- Checkout -->
@@ -149,8 +143,6 @@
     <string name="successful_checkout_email_label">行程已傳送到</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">前往 %1$s 的路線</string>
-    <!-- Button label for calling customer support -->
-    <string name="call_customer_support">聯絡客戶支援</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -216,8 +208,6 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
-    <!-- Search widget location hint -->
-    <string name="lx_search_location_hint">請輸入地點</string>
     <!-- Search widget header text -->
     <string name="lx_search_widget_heading">日期和地點</string>
     <!-- Button to show calendar and selected dates -->
@@ -234,18 +224,18 @@
     <string name="exclusions_activity_details">不包含項目</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">預訂需知</string>
-    <!-- Activity details cancellation heading -->
-    <string name="cancellation_activity_details">取消</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">立即預訂%1$s</string>
-    <!-- Template for tickets type and count  summary -->
-    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
-    <string name="cancellation_policy_TEMPLATE">直到預訂開始前 %1$s，您都可以免費取消。如超過此期限，您將無法取消、變更或退款。</string>
+    <string name="cancellation_policy_TEMPLATE">預訂項目開始前 %1$s可以免費取消。超過此期限後，您將無法取消、變更或退款。</string>
+    <!-- Cancellation policy text for non-cancellable activities -->
+    <string name="lx_policy_non_cancellable">此預訂不得退款，預訂後即無法變更或取消。</string>
     <!-- LX checkout cost breakdown total due today -->
     <string name="lx_cost_breakdown_due_today">今天付款</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -256,6 +246,8 @@
     <string name="lx_checkout_breakdown_price_disclaimer_text">價格以 %s 顯示。</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">總價</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">價格已變更</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">旅客</string>
     <string name="ticket_type_adult">成人</string>
@@ -303,6 +295,191 @@
     <string name="ticket_type_electric_bike">電動腳踏車</string>
     <string name="ticket_type_segway">賽格威</string>
     <string name="ticket_type_vehicle">車型</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">%1$s 位旅客</item>
+        <item quantity="other">%1$s 位旅客</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">%1$s 位成人</item>
+        <item quantity="other">%1$s 位成人</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">%1$s 位兒童</item>
+        <item quantity="other">%1$s 位兒童</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">%1$s 位嬰兒</item>
+        <item quantity="other">%1$s 位嬰兒</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">%1$s 位青少年</item>
+        <item quantity="other">%1$s 位青少年</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">%1$s 位銀髮族</item>
+        <item quantity="other">%1$s 位銀髮族</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">%1$s 個團體</item>
+        <item quantity="other">%1$s 個團體</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">%1$s 對夫妻/情侶</item>
+        <item quantity="other">%1$s 對夫妻/情侶</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">%1$s 張雙人票</item>
+        <item quantity="other">%1$s 張雙人票</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">%1$s 位軍人</item>
+        <item quantity="other">%1$s 位軍人</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">%1$s 位學生</item>
+        <item quantity="other">%1$s 位學生</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">%1$s 部轎車</item>
+        <item quantity="other">%1$s 部轎車</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">%1$s 部小型客貨車</item>
+        <item quantity="other">%1$s 部小型客貨車</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">%1$s 部水上計程車</item>
+        <item quantity="other">%1$s 部水上計程車</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">%1$s 部運動休旅車</item>
+        <item quantity="other">%1$s 部運動休旅車</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">%1$s 部主管座車</item>
+        <item quantity="other">%1$s 部主管座車</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">%1$s 部豪華轎車</item>
+        <item quantity="other">%1$s 部豪華轎車</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">%1$s 部豪華禮車</item>
+        <item quantity="other">%1$s 部豪華禮車</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">%1$s 部大型豪華轎車</item>
+        <item quantity="other">%1$s 部大型豪華轎車</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">%1$s 個停車位</item>
+        <item quantity="other">%1$s 個停車位</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">%1$s 本書</item>
+        <item quantity="other">%1$s 本書</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">%1$s 本指南</item>
+        <item quantity="other">%1$s 本指南</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">%1$s 張旅遊卡</item>
+        <item quantity="other">%1$s 張旅遊卡</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">%1$s 艘船</item>
+        <item quantity="other">%1$s 艘船</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">%1$s 部摩托車</item>
+        <item quantity="other">%1$s 部摩托車</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">%1$s 個慶典儀式</item>
+        <item quantity="other">%1$s 個慶典儀式</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">%1$s 張電話卡</item>
+        <item quantity="other">%1$s 張電話卡</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">%1$s 張通行證</item>
+        <item quantity="other">%1$s 張通行證</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">%1$s 部迷你巴士</item>
+        <item quantity="other">%1$s 部迷你巴士</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">%1$s 部直升機</item>
+        <item quantity="other">%1$s 部直升機</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">%1$s 個裝置</item>
+        <item quantity="other">%1$s 個裝置</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">%1$s 間客房</item>
+        <item quantity="other">%1$s 間客房</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">%1$s 部馬車</item>
+        <item quantity="other">%1$s 部馬車</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">%1$s 部嬰兒車</item>
+        <item quantity="other">%1$s 部嬰兒車</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">%1$s 部全地形車</item>
+        <item quantity="other">%1$s 部全地形車</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">%1$s 部水上摩托車</item>
+        <item quantity="other">%1$s 部水上摩托車</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">%1$s 部小綿羊</item>
+        <item quantity="other">%1$s 部小綿羊</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">%1$s 部速克達車</item>
+        <item quantity="other">%1$s 部速克達車</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">%1$s 部雪上摩托車</item>
+        <item quantity="other">%1$s 部雪上摩托車</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s 天</item>
+        <item quantity="other">%1$s 天</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">%1$s 部腳踏車</item>
+        <item quantity="other">%1$s 部腳踏車</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s 週</item>
+        <item quantity="other">%1$s 週</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">%1$s 項訂閱</item>
+        <item quantity="other">%1$s 項訂閱</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">%1$s 部電動腳踏車</item>
+        <item quantity="other">%1$s 部電動腳踏車</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">%1$s 部賽格威</item>
+        <item quantity="other">%1$s 部賽格威</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">%1$s 部車</item>
+        <item quantity="other">%1$s 部車</item>
+    </plurals>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">每位旅客</string>
     <string name="per_ticket_type_adult">每位成人</string>
@@ -315,14 +492,14 @@
     <string name="per_ticket_type_two_adults">每 2 位成人</string>
     <string name="per_ticket_type_military">每位軍人</string>
     <string name="per_ticket_type_student">每位學生</string>
-    <string name="per_ticket_type_sedan">每輛轎車</string>
-    <string name="per_ticket_type_minivan">每輛迷你巴士</string>
-    <string name="per_ticket_type_water_taxi">每輛水上摩托車</string>
-    <string name="per_ticket_type_suv">每輛運動休旅車</string>
-    <string name="per_ticket_type_executive_car">每輛主管座車</string>
-    <string name="per_ticket_type_luxury_car">每輛豪華車</string>
-    <string name="per_ticket_type_limousine">每輛豪華禮車</string>
-    <string name="per_ticket_type_towncar">每輛大型豪華轎車</string>
+    <string name="per_ticket_type_sedan">每部轎車</string>
+    <string name="per_ticket_type_minivan">每部迷你巴士</string>
+    <string name="per_ticket_type_water_taxi">每部水上摩托車</string>
+    <string name="per_ticket_type_suv">每部運動休旅車</string>
+    <string name="per_ticket_type_executive_car">每部主管座車</string>
+    <string name="per_ticket_type_luxury_car">每部豪華車</string>
+    <string name="per_ticket_type_limousine">每部豪華禮車</string>
+    <string name="per_ticket_type_towncar">每部大型豪華轎車</string>
     <string name="per_ticket_type_vehicle_parking_spot">每個停車位</string>
     <string name="per_ticket_type_book">每本書</string>
     <string name="per_ticket_type_guide">每本指南</string>
@@ -332,24 +509,24 @@
     <string name="per_ticket_type_ceremony">每個慶典儀式</string>
     <string name="per_ticket_type_calling_card">每張電話卡</string>
     <string name="per_ticket_type_pass">每張通行證</string>
-    <string name="per_ticket_type_minibus">每輛迷你巴士</string>
+    <string name="per_ticket_type_minibus">每部迷你巴士</string>
     <string name="per_ticket_type_helicopter">每部直升機</string>
     <string name="per_ticket_type_device">每個裝置</string>
     <string name="per_ticket_type_room">每間客房</string>
-    <string name="per_ticket_type_carriage">每輛馬車</string>
-    <string name="per_ticket_type_buggy">每輛嬰兒車</string>
-    <string name="per_ticket_type_atv">每輛全地形車</string>
-    <string name="per_ticket_type_jet_ski">每輛水上摩托車</string>
-    <string name="per_ticket_type_scooter">每輛小綿羊</string>
-    <string name="per_ticket_type_scooter_car">每輛速克達車</string>
-    <string name="per_ticket_type_snowmobile">每輛雪上摩托車</string>
+    <string name="per_ticket_type_carriage">每部馬車</string>
+    <string name="per_ticket_type_buggy">每部嬰兒車</string>
+    <string name="per_ticket_type_atv">每部全地形車</string>
+    <string name="per_ticket_type_jet_ski">每部水上摩托車</string>
+    <string name="per_ticket_type_scooter">每部小綿羊</string>
+    <string name="per_ticket_type_scooter_car">每部速克達車</string>
+    <string name="per_ticket_type_snowmobile">每部雪上摩托車</string>
     <string name="per_ticket_type_day">每天</string>
-    <string name="per_ticket_type_bike">每輛腳踏車</string>
+    <string name="per_ticket_type_bike">每部腳踏車</string>
     <string name="per_ticket_type_week">每週</string>
-    <string name="per_ticket_type_subscription">每次訂閱</string>
-    <string name="per_ticket_type_electric_bike">每輛電動腳踏車</string>
-    <string name="per_ticket_type_segway">每輛賽格威</string>
-    <string name="per_ticket_type_vehicle">每輛車</string>
+    <string name="per_ticket_type_subscription">每項訂閱</string>
+    <string name="per_ticket_type_electric_bike">每部電動腳踏車</string>
+    <string name="per_ticket_type_segway">每部賽格威</string>
+    <string name="per_ticket_type_vehicle">每部車</string>
 
     <!-- LX Strings -->
     <!-- Slide to book -->
@@ -361,7 +538,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">沒有搜尋結果。請使用其他條件再搜尋一次。</string> 
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">目前位置搜尋沒有結果。請使用其他條件再搜尋一次。</string> 
+    <string name="error_lx_current_location_search_message">無法識別您目前的位置以找到附近的活動。</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">錯誤</string>
     <!-- Text for error toolbar-->
@@ -380,8 +557,6 @@
     <string name="lx_traveler_enter_details_text">輸入旅客資料</string>
     <!-- Text for lx sort and filter-->
     <string name="lx_sort_filter">排序和篩選</string>
-    <!-- Read more of the review -->
-    <string name="lx_details_read_more">閱讀更多</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">價格</string>
     <!-- Popularity sort button -->
@@ -392,8 +567,20 @@
     <string name="lx_free_cancellation">免費取消</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">不接受 %1$s</string>
-    <!-- Edit search toolbar title -->
-    <string name="edit_search_toolbar">修改搜尋</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">很抱歉，此活動的價格已經改變。請嘗試再訂一次。</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">您的票已經傳送到</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">您的預訂已經確認！</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">在正識別位置…</string>
+    <!-- LX Error Fetching activity details -->
+    <string name="lx_error_details">無法取得詳細資訊。請再試一次。</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">請再試一次。</string>
+    <!-- LX No Activities for Current location -->
+    <string name="lx_error_current_location_no_results">無法找到附近的活動。請使用其他條件再搜尋一次。</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -486,6 +673,15 @@
         <item quantity="many">行程項目</item>
         <item quantity="other">行程項目</item>
     </plurals>
+
+    <!-- LX Sort & Filter "Apply" header -->
+    <string name="lx_apply_sort_filter">使用</string>
+    <!-- LX Sort & Filter "Sort By" section header -->
+    <string name="lx_sort_by">排序依據</string>
+    <!-- LX Sort & Filter "Categories" header -->
+    <string name="lx_categories">類別</string>
+    <!-- LX Sort & Filter "Filter" header -->
+    <string name="lx_filter">篩選</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -676,6 +872,8 @@
     <string name="nav_hotels">飯店</string>
     <!-- Cars -->
     <string name="nav_cars">租車</string>
+    <!-- Activities -->
+    <string name="nav_lx">活動</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -686,21 +884,15 @@
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
     <string name="loading_header">正在載入…</string>
-    <!-- Hotel list rating text -->
+    <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">/5 – 旅客評等</string>
-    <!-- Hotel list no rating text -->
-    <string name="hotel_no_rating_text">沒有旅客評分</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">/5</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
-    <string name="launch_mobile_exclusive">限行動版可用！</string>
+    <string name="launch_mobile_exclusive">只限行動裝置預訂！</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">只限今晚！</string>
 
-
-    <!-- Launch screen -->
-    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;前往&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
-    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;飯店&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">很抱歉，我們無法建立連線。</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -765,10 +957,10 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
-    <!-- Shop -->
-    <string name="shop">預訂</string>
+    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
+    <string name="shop_travel">搜尋行程</string>
     <!-- Find Itinerary -->
-    <string name="find_itinerary">搜尋行程</string>
+    <string name="find_itinerary">尋找行程</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">輸入行程資訊</string>
     <!-- Find Itinerary # -->
@@ -788,7 +980,7 @@
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">擷取行程時發生錯誤</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">&lt;b&gt;登入&lt;/b&gt;以查看行程</string>
+    <string name="sign_in_for_your_trips">登入以查看行程</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">明天</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1863,8 +2055,12 @@
     <string name="itinerary_confirmation_TEMPLATE">行程編號 %s 已傳送到</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">預訂飯店</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">新增至行程</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
-    <string name="hotels_in_TEMPLATE">%s的飯店</string>
+    <string name="hotels_in_TEMPLATE">%s飯店</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
+    <string name="cars_in_TEMPLATE">%s租車</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">更多選項</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->

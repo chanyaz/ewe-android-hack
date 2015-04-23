@@ -100,12 +100,6 @@
     <string name="drop_off_time_label">Restitution du véhicule</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Bientôt ! Nous allons ajouter dans une prochaine version l\&apos;option de locations de voiture avec restitution du véhicule dans une autre agence.</string>
-    <!-- Error messge for missing Origin in search form -->
-    <string name="error_missing_origin_param">Lieu d\&apos;origine manquant</string>
-    <!-- Error messge for missing Start date in search form -->
-    <string name="error_missing_start_date_param">Date de début manquante</string>
-    <!-- Error messge for missing End date date in search form -->
-    <string name="error_missing_end_date_param">Date de fin manquante</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Votre recherche n\&apos;a donné aucun résultat. Veuillez tenter une nouvelle recherche avec des critères différents.</string>
     <!-- Checkout -->
@@ -149,8 +143,6 @@
     <string name="successful_checkout_email_label">Voyage envoyé à</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Itinéraire pour aller à : %1$s</string>
-    <!-- Button label for calling customer support -->
-    <string name="call_customer_support">Appeler l\&apos;assistance clientèle</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -216,8 +208,6 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
-    <!-- Search widget location hint -->
-    <string name="lx_search_location_hint">Saisir le lieu</string>
     <!-- Search widget header text -->
     <string name="lx_search_widget_heading">Dates et lieu</string>
     <!-- Button to show calendar and selected dates -->
@@ -234,18 +224,18 @@
     <string name="exclusions_activity_details">Exclusions</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">À savoir avant de réserver</string>
-    <!-- Activity details cancellation heading -->
-    <string name="cancellation_activity_details">Annulation</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%2$s (%3$s) : %1$s</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Réserver : %1$s</string>
-    <!-- Template for tickets type and count  summary -->
-    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s et +</string>
     <!-- Cancellation policy template -->
     <string name="cancellation_policy_TEMPLATE">Annulation gratuite jusqu\&apos;à %1$s avant la date de début du séjour réservé. Passé ce délai, aucune annulation ou modification ni aucun remboursement ne sera effectué(e).</string>
+    <!-- Cancellation policy text for non-cancellable activities -->
+    <string name="lx_policy_non_cancellable">Cette réservation n\&apos;est pas remboursable et ne peut pas être modifiée ni annulée une fois qu\&apos;elle a été effectuée.</string>
     <!-- LX checkout cost breakdown total due today -->
     <string name="lx_cost_breakdown_due_today">À régler aujourd\&apos;hui</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -256,11 +246,13 @@
     <string name="lx_checkout_breakdown_price_disclaimer_text">Les prix sont indiqués en %s.</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">Prix total</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">Prix modifié</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">Voyageur</string>
     <string name="ticket_type_adult">Adulte</string>
     <string name="ticket_type_child">Enfant</string>
-    <string name="ticket_type_infant">Bébé</string>
+    <string name="ticket_type_infant">Jeune enfant</string>
     <string name="ticket_type_youth">Jeune</string>
     <string name="ticket_type_senior">Sénior</string>
     <string name="ticket_type_group">Groupe</string>
@@ -303,11 +295,196 @@
     <string name="ticket_type_electric_bike">Vélo électrique</string>
     <string name="ticket_type_segway">Segway</string>
     <string name="ticket_type_vehicle">Véhicule</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">%1$s voyageur</item>
+        <item quantity="other">%1$s voyageurs</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">%1$s adulte</item>
+        <item quantity="other">%1$s adultes</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">%1$s enfant</item>
+        <item quantity="other">%1$s enfants</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">%1$s jeune enfant</item>
+        <item quantity="other">%1$s jeunes enfants</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">%1$s jeune</item>
+        <item quantity="other">%1$s jeunes</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">%1$s sénior</item>
+        <item quantity="other">%1$s séniors</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">%1$s groupe</item>
+        <item quantity="other">%1$s groupes</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">%1$s couple</item>
+        <item quantity="other">%1$s couples</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">%1$s groupe de 2 adultes</item>
+        <item quantity="other">%1$s groupes de 2 adultes</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">%1$s militaire</item>
+        <item quantity="other">%1$s militaires</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">%1$s étudiant</item>
+        <item quantity="other">%1$s étudiants</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">%1$s berline</item>
+        <item quantity="other">%1$s berlines</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">%1$s monospace</item>
+        <item quantity="other">%1$s monospaces</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">%1$s taxi fluvial</item>
+        <item quantity="other">%1$s taxis fluviaux</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">%1$s SUV</item>
+        <item quantity="other">%1$s SUVs</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">%1$s voiture de fonction</item>
+        <item quantity="other">%1$s voitures de fonction</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">%1$s voiture de luxe</item>
+        <item quantity="other">%1$s voitures de luxe</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">%1$s limousine</item>
+        <item quantity="other">%1$s limousines</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">%1$s berline de luxe</item>
+        <item quantity="other">%1$s berlines de luxe</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">%1$s place de parking</item>
+        <item quantity="other">%1$s places de parking</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">%1$s livre</item>
+        <item quantity="other">%1$s livres</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">%1$s guide</item>
+        <item quantity="other">%1$s guides</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">%1$s carte voyageur</item>
+        <item quantity="other">%1$s cartes voyageur</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">%1$s bateau</item>
+        <item quantity="other">%1$s bateaux</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">%1$s moto</item>
+        <item quantity="other">%1$s motos</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">%1$s cérémonie</item>
+        <item quantity="other">%1$s cérémonies</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">%1$s carte d\&apos;appel</item>
+        <item quantity="other">%1$s cartes d\&apos;appel</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">%1$s pass</item>
+        <item quantity="other">%1$s pass</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">%1$s minibus</item>
+        <item quantity="other">%1$s minibus</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">%1$s hélicoptère</item>
+        <item quantity="other">%1$s hélicoptères</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">%1$s appareil</item>
+        <item quantity="other">%1$s appareils</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">%1$s chambre</item>
+        <item quantity="other">%1$s chambres</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">%1$s calèche</item>
+        <item quantity="other">%1$s calèches</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">%1$s buggy</item>
+        <item quantity="other">%1$s buggies</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">%1$s véhicule tout-terrain</item>
+        <item quantity="other">%1$s véhicules tout-terrain</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">%1$s jet-ski</item>
+        <item quantity="other">%1$s jet-skis</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">%1$s scooter</item>
+        <item quantity="other">%1$s scooters</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">%1$s voiturette</item>
+        <item quantity="other">%1$s voiturettes</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">%1$s motoneige</item>
+        <item quantity="other">%1$s motoneiges</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s jour</item>
+        <item quantity="other">%1$s jours</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">%1$s vélo</item>
+        <item quantity="other">%1$s vélos</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s semaine</item>
+        <item quantity="other">%1$s semaines</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">%1$s inscription</item>
+        <item quantity="other">%1$s inscriptions</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">%1$s vélo électrique</item>
+        <item quantity="other">%1$s vélos électriques</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">%1$s Segway</item>
+        <item quantity="other">%1$s Segways</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">%1$s véhicule</item>
+        <item quantity="other">%1$s véhicules</item>
+    </plurals>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">par voyageur</string>
     <string name="per_ticket_type_adult">par adulte</string>
     <string name="per_ticket_type_child">par enfant</string>
-    <string name="per_ticket_type_infant">par bébé</string>
+    <string name="per_ticket_type_infant">par jeune enfant</string>
     <string name="per_ticket_type_youth">par jeune</string>
     <string name="per_ticket_type_senior">par sénior</string>
     <string name="per_ticket_type_group">par groupe</string>
@@ -361,7 +538,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Votre recherche n\&apos;a donné aucun résultat. Veuillez tenter une nouvelle recherche avec des critères différents.</string> 
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">La recherche pour votre emplacement actuel n\&apos;a donné aucun résultat. Veuillez tenter une nouvelle recherche avec des critères différents.</string> 
+    <string name="error_lx_current_location_search_message">Nous n\&apos;avons pas été en mesure de déterminer votre emplacement actuel afin de trouver des activités autour de vous.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Erreur</string>
     <!-- Text for error toolbar-->
@@ -380,8 +557,6 @@
     <string name="lx_traveler_enter_details_text">Saisissez les informations sur le voyageur</string>
     <!-- Text for lx sort and filter-->
     <string name="lx_sort_filter">Trier et filtrer</string>
-    <!-- Read more of the review -->
-    <string name="lx_details_read_more">En savoir plus</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">Prix</string>
     <!-- Popularity sort button -->
@@ -392,8 +567,20 @@
     <string name="lx_free_cancellation">Annulation gratuite</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s non acceptée</string>
-    <!-- Edit search toolbar title -->
-    <string name="edit_search_toolbar">Modifier la recherche</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">Désolé, mais le prix de cette activité a changé. Veuillez réessayer.</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">Vos billets ont été envoyés à cette adresse :</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">Votre réservation est confirmée !</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">Repérage de votre emplacement…</string>
+    <!-- LX Error Fetching activity details -->
+    <string name="lx_error_details">Impossible de récupérer les détails. Veuillez réessayer.</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">Veuillez réessayer</string>
+    <!-- LX No Activities for Current location -->
+    <string name="lx_error_current_location_no_results">Nous n\&apos;avons pas été en mesure de trouver des activités près de vous. Veuillez tenter une nouvelle recherche avec des critères différents.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -487,6 +674,15 @@
         <item quantity="other">articles dans le voyage</item>
     </plurals>
 
+    <!-- LX Sort & Filter "Apply" header -->
+    <string name="lx_apply_sort_filter">Appliquer</string>
+    <!-- LX Sort & Filter "Sort By" section header -->
+    <string name="lx_sort_by">Trier par</string>
+    <!-- LX Sort & Filter "Categories" header -->
+    <string name="lx_categories">Catégories</string>
+    <!-- LX Sort & Filter "Filter" header -->
+    <string name="lx_filter">Filtrer</string>
+
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
     <string name="Sort_By">Trier par</string>
@@ -515,7 +711,7 @@
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two">Enfants -2 ans</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
-    <string name="max_one_infant_per_lap">Il n\&apos;y a pas assez d\&apos;adultes (de + de 12 ans) pour que les enfants s\&apos;assoient sur des genoux. Ces derniers ont besoin de leur propre siège.</string>
+    <string name="max_one_infant_per_lap">Il n\&apos;y a pas assez d\&apos;adultes (de + de 12 ans) pour que les jeunes enfants s\&apos;assoient sur des genoux. Ces derniers ont besoin de leur propre siège.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">Sur genoux</string>
     <!-- Description for infant travelers sitting in seats -->
@@ -525,9 +721,9 @@
     <!-- Description for infant seating preference message -->
     <string name="infants_seating_preference_description">Les enfants de moins de 2 ans (lors du voyage) seront-ils assis sur les genoux d\&apos;une personne ou à leur propre siège ?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Les enfants assis à un siège ont besoin de leur propre billet. Faisons une nouvelle recherche en incluant les billets des enfants.</string>
+    <string name="infants_in_seats_prompt">Les jeunes enfants assis à un siège ont besoin de leur propre billet. Faisons une nouvelle recherche en incluant les billets des jeunes enfants.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Les enfants assis sur les genoux d\&apos;une personne n\&apos;ont pas besoin de leur propre billet. Nous allons entamer une nouvelle recherche avec un plus petit nombre de billets.</string>
+    <string name="infants_in_laps_prompt">Les jeunes enfants assis sur les genoux d\&apos;une personne n\&apos;ont pas besoin de leur propre billet. Nous allons entamer une nouvelle recherche avec un plus petit nombre de billets.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -676,6 +872,8 @@
     <string name="nav_hotels">Hôtels</string>
     <!-- Cars -->
     <string name="nav_cars">Voitures</string>
+    <!-- Activities -->
+    <string name="nav_lx">Activités</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -686,21 +884,15 @@
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
     <string name="loading_header">Chargement…</string>
-    <!-- Hotel list rating text -->
+    <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">sur 5 - avis clients</string>
-    <!-- Hotel list no rating text -->
-    <string name="hotel_no_rating_text">Aucun avis clients</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">sur 5</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">seulement sur mobile !</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">ce soir seulement !</string>
 
-
-    <!-- Launch screen -->
-    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Volez à&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
-    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Séjournez à&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Nous ne sommes pas en mesure de nous connecter.</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -765,8 +957,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Voyage</string>
-    <!-- Shop -->
-    <string name="shop">Accueil</string>
+    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
+    <string name="shop_travel">Réserver un voyage</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Trouver un voyage</string>
     <!-- Enter Itinerary Details -->
@@ -788,7 +980,7 @@
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Erreur dans la recherche de vos voyages</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">&lt;b&gt;Se connecter&lt;/b&gt; pour accéder à vos voyages</string>
+    <string name="sign_in_for_your_trips">Se connecter pour accéder à vos voyages</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Demain</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1674,13 +1866,13 @@
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">Informations Enfant de %1$s ans</string>
     <!-- Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_TEMPLATE">Informations Enfant - 2 ans sur les genoux %1$s</string>
+    <string name="add_infant_in_lap_number_TEMPLATE">Informations Jeune enfant sur les genoux %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">Informations Enfant - 2 ans sur les genoux</string>
+    <string name="add_infant_in_lap">Informations Jeune enfant sur les genoux</string>
     <!-- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_TEMPLATE">Informations Enfant sur le siège %1$s</string>
+    <string name="add_infant_in_seat_number_TEMPLATE">Informations Jeune enfant sur le siège %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">Informations Enfant sur le siège</string>
+    <string name="add_infant_in_seat">Informations Jeune enfant sur le siège</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Si le nom du voyageur ne correspond pas à celui sur la pièce d\&apos;identité, l\&apos;embarquement pourrait être refusé.</string>
 
@@ -1863,8 +2055,12 @@
     <string name="itinerary_confirmation_TEMPLATE">Voyage n° %s envoyé à</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Trouvez une chambre d\&apos;hôtel</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">Ajouter à votre voyage</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hôtels à %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
+    <string name="cars_in_TEMPLATE">Voitures à %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Autres options</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2688,11 +2884,11 @@
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
-        <item quantity="zero">Voyageurs</item>
+        <item quantity="zero">Personne</item>
         <item quantity="one">Personne</item>
         <item quantity="two">Personnes</item>
-        <item quantity="many">Voyageurs</item>
-        <item quantity="other">Voyageurs</item>
+        <item quantity="many">Personnes</item>
+        <item quantity="other">Personnes</item>
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
