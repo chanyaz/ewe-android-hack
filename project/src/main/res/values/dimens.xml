@@ -30,6 +30,7 @@
     <dimen name="launch_lob_squashed_height">80dp</dimen>
     <dimen name="launch_lob_double_row_height">76dp</dimen>
     <dimen name="launch_lob_double_row_container_height">197dp</dimen>
+    <dimen name="launch_lob_double_row_squashed_height">112dp</dimen>
     <dimen name="launch_lob_margin">8dp</dimen>
     <dimen name="launch_list_corner_radius">2dp</dimen>
 
