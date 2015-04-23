@@ -235,7 +235,7 @@ public class CarDataUtils {
 		LocalDate checkOutDate;
 		if (secondLeg == null) {
 			// 1-way flight
-			checkOutDate = checkInDate.plusDays(1);
+			checkOutDate = checkInDate.plusDays(3);
 		}
 		else {
 			// Round-trip flight
