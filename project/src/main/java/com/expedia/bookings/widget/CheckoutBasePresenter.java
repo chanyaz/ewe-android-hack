@@ -237,7 +237,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 
 			ViewGroup.LayoutParams params = space.getLayoutParams();
-			params.height = forward ? (int) getResources().getDimension(R.dimen.car_expanded_space_height) : (int) getResources().getDimension(R.dimen.car_unexpanded_space_height);
+			params.height = forward ? (int) getResources().getDimension(R.dimen.car_expanded_space_height) : (int) getResources().getDimension(Ui.obtainThemeResID(getContext(), R.attr.checkout_unexpanded_space_height));
 			space.setLayoutParams(params);
 
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()

@@ -48,6 +48,8 @@
 
         <!-- Action Bar Attrs -->
         <item name="skin_actionbarTextColor">@color/cars_actionbar_text_color</item>
+
+        <item name="checkout_unexpanded_space_height">@dimen/car_unexpanded_space_height</item>
     </style>
 
     <style name="CarsActionBarTitle" parent="V2.Theme.Cars">
