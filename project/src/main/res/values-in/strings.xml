@@ -100,12 +100,6 @@
     <string name="drop_off_time_label">Pengembalian</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Segera hadir! Di versi berikutnya, kami akan mencoba mengusahakan Anda bisa mengembalikan mobil di lokasi yang berbeda.</string>
-    <!-- Error messge for missing Origin in search form -->
-    <string name="error_missing_origin_param">Kota asal belum diisi</string>
-    <!-- Error messge for missing Start date in search form -->
-    <string name="error_missing_start_date_param">Tanggal awal belum diisi</string>
-    <!-- Error messge for missing End date date in search form -->
-    <string name="error_missing_end_date_param">Tanggal akhir belum diisi</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string>
     <!-- Checkout -->
@@ -149,8 +143,6 @@
     <string name="successful_checkout_email_label">Itinerary telah dikirim ke</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Petunjuk arah ke %1$s</string>
-    <!-- Button label for calling customer support -->
-    <string name="call_customer_support">Telepon Layanan Pelanggan</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -216,8 +208,6 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
-    <!-- Search widget location hint -->
-    <string name="lx_search_location_hint">Masukkan lokasi</string>
     <!-- Search widget header text -->
     <string name="lx_search_widget_heading">Tanggal &amp; Lokasi</string>
     <!-- Button to show calendar and selected dates -->
@@ -234,18 +224,18 @@
     <string name="exclusions_activity_details">Belum Termasuk</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">Teliti Sebelum Membeli</string>
-    <!-- Activity details cancellation heading -->
-    <string name="cancellation_activity_details">Pembatalan</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">Pesan Sekarang%1$s</string>
-    <!-- Template for tickets type and count  summary -->
-    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <string name="offer_book_now_TEMPLATE">Pesan %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
     <string name="cancellation_policy_TEMPLATE">Anda bisa membatalkan gratis sampai dengan %1$s sebelum kegiatan dimulai. Setelah batas waktu tersebut, pembatalan, perubahan, dan refund tidak tersedia.</string>
+    <!-- Cancellation policy text for non-cancellable activities -->
+    <string name="lx_policy_non_cancellable">Pemesanan ini bersifat non-refundable dan karena itu tidak bisa diubah dan dibatalkan setelah dikonfirmasi</string>
     <!-- LX checkout cost breakdown total due today -->
     <string name="lx_cost_breakdown_due_today">Dibayar hari ini</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -256,17 +246,19 @@
     <string name="lx_checkout_breakdown_price_disclaimer_text">Harga dinyatakan dalam %s.</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">Harga Total</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">Perubahan Harga</string>
     <!-- LX Ticket type names -->
-    <string name="ticket_type_traveler">Pelancong</string>
+    <string name="ticket_type_traveler">Traveler</string>
     <string name="ticket_type_adult">Dewasa</string>
     <string name="ticket_type_child">Anak</string>
     <string name="ticket_type_infant">Bayi</string>
-    <string name="ticket_type_youth">Balita</string>
+    <string name="ticket_type_youth">Remaja</string>
     <string name="ticket_type_senior">Manula</string>
     <string name="ticket_type_group">Rombongan</string>
     <string name="ticket_type_couple">Pasangan</string>
-    <string name="ticket_type_two_adults">2 Dewasa</string>
-    <string name="ticket_type_military">Militer</string>
+    <string name="ticket_type_two_adults">Pasangan Dewasa</string>
+    <string name="ticket_type_military">Anggota Militer</string>
     <string name="ticket_type_student">Pelajar</string>
     <string name="ticket_type_sedan">Sedan</string>
     <string name="ticket_type_minivan">Minivan</string>
@@ -276,10 +268,10 @@
     <string name="ticket_type_luxury_car">Mobil Mewah</string>
     <string name="ticket_type_limousine">Limosin</string>
     <string name="ticket_type_towncar">Towncar</string>
-    <string name="ticket_type_vehicle_parking_spot">Tempat Parkir Kendaraan</string>
-    <string name="ticket_type_book">Pesan</string>
-    <string name="ticket_type_guide">Panduan</string>
-    <string name="ticket_type_travel_card">Kartu Kendaraan Umum</string>
+    <string name="ticket_type_vehicle_parking_spot">Tempat Parkir</string>
+    <string name="ticket_type_book">Buku</string>
+    <string name="ticket_type_guide">Pemandu</string>
+    <string name="ticket_type_travel_card">Kartu Kendaraan</string>
     <string name="ticket_type_boat">Kapal</string>
     <string name="ticket_type_motorcycle">Sepeda Motor</string>
     <string name="ticket_type_ceremony">Upacara</string>
@@ -289,8 +281,8 @@
     <string name="ticket_type_helicopter">Helikopter</string>
     <string name="ticket_type_device">Perangkat</string>
     <string name="ticket_type_room">Kamar</string>
-    <string name="ticket_type_carriage">Gerbong</string>
-    <string name="ticket_type_buggy">Kereta Buggy</string>
+    <string name="ticket_type_carriage">Kereta</string>
+    <string name="ticket_type_buggy">Buggy</string>
     <string name="ticket_type_atv">ATV</string>
     <string name="ticket_type_jet_ski">Jet Ski</string>
     <string name="ticket_type_scooter">Skuter</string>
@@ -303,16 +295,201 @@
     <string name="ticket_type_electric_bike">Sepeda Listrik</string>
     <string name="ticket_type_segway">Segway</string>
     <string name="ticket_type_vehicle">Kendaraan</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">%1$s Traveler</item>
+        <item quantity="other">%1$s Traveler</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">%1$s Dewasa</item>
+        <item quantity="other">%1$s Dewasa</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">%1$s Anak</item>
+        <item quantity="other">%1$s Anak</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">%1$s Bayi</item>
+        <item quantity="other">%1$s Bayi</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">%1$s Remaja</item>
+        <item quantity="other">%1$s Remaja</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">%1$s Manula</item>
+        <item quantity="other">%1$s Manula</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">%1$s Rombongan</item>
+        <item quantity="other">%1$s Rombongan</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">%1$s Pasangan</item>
+        <item quantity="other">%1$s Pasangan</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">%1$s Pasangan Dewasa</item>
+        <item quantity="other">%1$s Pasangan Dewasa</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">%1$s Anggota Militer</item>
+        <item quantity="other">%1$s Anggota Militer</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">%1$s Pelajar</item>
+        <item quantity="other">%1$s Pelajar</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">%1$s Sedan</item>
+        <item quantity="other">%1$s Sedan</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">%1$s Minivan</item>
+        <item quantity="other">%1$s Minivan</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">%1$s Taksi Air</item>
+        <item quantity="other">%1$s Taksi air</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">%1$s SUV</item>
+        <item quantity="other">%1$s SUV</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">%1$s Mobil Eksekutif</item>
+        <item quantity="other">%1$s Mobil eksekutif</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">%1$s Mobil Mewah</item>
+        <item quantity="other">%1$s Mobil mewah</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">%1$s Limosin</item>
+        <item quantity="other">%1$s Limosin</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">%1$s Towncar</item>
+        <item quantity="other">%1$s Towncar</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">%1$s Tempat Parkir</item>
+        <item quantity="other">%1$s Tempat Parkir</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">%1$s Buku</item>
+        <item quantity="other">%1$s Buku</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">%1$s Pemandu</item>
+        <item quantity="other">%1$s Pemandu</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">%1$s Kartu Kendaraan</item>
+        <item quantity="other">%1$s Kartu Kendaraan</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">%1$s Kapal</item>
+        <item quantity="other">%1$s Kapal</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">%1$s Sepeda Motor</item>
+        <item quantity="other">%1$s Sepeda Motor</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">%1$s Upacara</item>
+        <item quantity="other">%1$s Upacara</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">%1$s Kartu Telepon</item>
+        <item quantity="other">%1$s Kartu Telepon</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">%1$s Tiket</item>
+        <item quantity="other">%1$s Tiket</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">%1$s Minibus</item>
+        <item quantity="other">%1$s Minibus</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">%1$s Helikopter</item>
+        <item quantity="other">%1$s Helikopter</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">%1$s Perangkat</item>
+        <item quantity="other">%1$s Perangkat</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">%1$s Kamar</item>
+        <item quantity="other">%1$s Kamar</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">%1$s Kereta</item>
+        <item quantity="other">%1$s Kereta</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">%1$s Buggy</item>
+        <item quantity="other">%1$s Buggy</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">%1$s ATV</item>
+        <item quantity="other">%1$s ATV</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">%1$s Jet Ski</item>
+        <item quantity="other">%1$s Jet Ski</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">%1$s Skuter</item>
+        <item quantity="other">%1$s Skuter</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">%1$s Mobil Skuter</item>
+        <item quantity="other">%1$s Mobil Skuter</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">%1$s Snowmobile</item>
+        <item quantity="other">%1$s Snowmobile</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s Hari</item>
+        <item quantity="other">%1$s Hari</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">%1$s Sepeda</item>
+        <item quantity="other">%1$s Sepeda</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s Minggu</item>
+        <item quantity="other">%1$s Minggu</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">%1$s Langganan</item>
+        <item quantity="other">%1$s Langganan</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">%1$s Sepeda Listrik</item>
+        <item quantity="other">%1$s Sepeda Listrik</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">%1$s Segway</item>
+        <item quantity="other">%1$s Segway</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">%1$s Kendaraan</item>
+        <item quantity="other">%1$s Kendaraan</item>
+    </plurals>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">per traveler</string>
     <string name="per_ticket_type_adult">per dewasa</string>
     <string name="per_ticket_type_child">per anak</string>
     <string name="per_ticket_type_infant">per bayi</string>
-    <string name="per_ticket_type_youth">per balita</string>
+    <string name="per_ticket_type_youth">per remaja</string>
     <string name="per_ticket_type_senior">per manula</string>
     <string name="per_ticket_type_group">per rombongan</string>
     <string name="per_ticket_type_couple">per pasangan</string>
-    <string name="per_ticket_type_two_adults">per 2 dewasa</string>
+    <string name="per_ticket_type_two_adults">per pasangan dewasa</string>
     <string name="per_ticket_type_military">per anggota militer</string>
     <string name="per_ticket_type_student">per pelajar</string>
     <string name="per_ticket_type_sedan">per sedan</string>
@@ -325,7 +502,7 @@
     <string name="per_ticket_type_towncar">per towncar</string>
     <string name="per_ticket_type_vehicle_parking_spot">per tempat parkir</string>
     <string name="per_ticket_type_book">per buku</string>
-    <string name="per_ticket_type_guide">per panduan</string>
+    <string name="per_ticket_type_guide">per pemandu</string>
     <string name="per_ticket_type_travel_card">per kartu kendaraan</string>
     <string name="per_ticket_type_boat">per kapal</string>
     <string name="per_ticket_type_motorcycle">per sepeda motor</string>
@@ -336,7 +513,7 @@
     <string name="per_ticket_type_helicopter">per helikopter</string>
     <string name="per_ticket_type_device">per perangkat</string>
     <string name="per_ticket_type_room">per kamar</string>
-    <string name="per_ticket_type_carriage">per gerbong</string>
+    <string name="per_ticket_type_carriage">per kereta</string>
     <string name="per_ticket_type_buggy">per buggy</string>
     <string name="per_ticket_type_atv">per ATV</string>
     <string name="per_ticket_type_jet_ski">per jet ski</string>
@@ -361,7 +538,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string> 
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">Tidak ditemukan hasil untuk lokasi Anda saat ini. Harap coba kembali mencari dengan kriteria yang berbeda.</string> 
+    <string name="error_lx_current_location_search_message">Kami tidak berhasil mendeteksi lokasi Anda saat ini untuk mencarikan aktivitas yang relevan bagi Anda.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Kesalahan</string>
     <!-- Text for error toolbar-->
@@ -380,8 +557,6 @@
     <string name="lx_traveler_enter_details_text">Masukkan rincian traveler</string>
     <!-- Text for lx sort and filter-->
     <string name="lx_sort_filter">Urutkan &amp; Filter</string>
-    <!-- Read more of the review -->
-    <string name="lx_details_read_more">Selengkapnya</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">Harga</string>
     <!-- Popularity sort button -->
@@ -392,8 +567,20 @@
     <string name="lx_free_cancellation">Pembatalan Gratis</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">Hotel tidak menerima %1$s</string>
-    <!-- Edit search toolbar title -->
-    <string name="edit_search_toolbar">Ubah Pencarian</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">Maaf, harga aktivitas ini telah berubah. Silakan coba lagi nanti.</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">Tiket Anda telah dikirimkan ke</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">Pemesanan Anda telah dikonfirmasi!</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">Mendeteksi lokasi…</string>
+    <!-- LX Error Fetching activity details -->
+    <string name="lx_error_details">Gagal mengakses rincian. Silakan coba lagi.</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">Silakan coba lagi</string>
+    <!-- LX No Activities for Current location -->
+    <string name="lx_error_current_location_no_results">Kami tidak bisa menemukan pilihan aktivitas di dekat lokasi Anda. Harap coba kembali mencari dengan kriteria yang berbeda.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -486,6 +673,15 @@
         <item quantity="many">Item dalam Perjalanan</item>
         <item quantity="other">Item dalam Perjalanan</item>
     </plurals>
+
+    <!-- LX Sort & Filter "Apply" header -->
+    <string name="lx_apply_sort_filter">Gunakan</string>
+    <!-- LX Sort & Filter "Sort By" section header -->
+    <string name="lx_sort_by">Urutkan Berdasarkan</string>
+    <!-- LX Sort & Filter "Categories" header -->
+    <string name="lx_categories">Kategori</string>
+    <!-- LX Sort & Filter "Filter" header -->
+    <string name="lx_filter">Filter</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -676,6 +872,8 @@
     <string name="nav_hotels">Hotel</string>
     <!-- Cars -->
     <string name="nav_cars">Mobil</string>
+    <!-- Activities -->
+    <string name="nav_lx">Aktivitas</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -686,21 +884,15 @@
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
     <string name="loading_header">Memuat…</string>
-    <!-- Hotel list rating text -->
+    <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">dari 5: skor tamu</string>
-    <!-- Hotel list no rating text -->
-    <string name="hotel_no_rating_text">Tanpa skor dari tamu</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">dari 5</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">khusus-mobile!</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">hanya malam ini!</string>
 
-
-    <!-- Launch screen -->
-    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Terbang ke&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
-    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Menginap di&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Maaf, kami tidak dapat menghubungkan.</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -765,8 +957,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
-    <!-- Shop -->
-    <string name="shop">Pemesanan</string>
+    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
+    <string name="shop_travel">Pemesanan</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Cari Itinerary</string>
     <!-- Enter Itinerary Details -->
@@ -788,7 +980,7 @@
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Error dalam mengakses itinerary Anda</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">&lt;b&gt;Loginlah&lt;/b&gt; untuk mengakses perjalanan Anda</string>
+    <string name="sign_in_for_your_trips">Loginlah untuk mengakses perjalanan Anda</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Besok</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1863,8 +2055,12 @@
     <string name="itinerary_confirmation_TEMPLATE">Itinerary no. %s telah dikirim ke</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Cari Akomodasi</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">Tambahkan</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotel di %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
+    <string name="cars_in_TEMPLATE">Mobil Sewa di %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Tindakan Lainnya</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2501,7 +2697,7 @@
     <!-- Policy displayed to user when a deposit is required -->
     <string name="PolicyDepositRequired">Kartu kredit Anda akan dikenai deposit untuk pemesanan Anda. Kartu kredit Anda akan dikenai biaya langsung oleh hotel saat pemesanan dilakukan.</string>
     <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">Informasi kartu kredit diperlukan agar kami dapat mengamaknkan pemesanan Anda. Kartu kredit Anda tidak akan dikenai biaya sampai Anda datang ke hotel atau tenggat waktu pembatalan terlampaui.</string>
+    <string name="PolicyGuaranteeRequired">Informasi kartu kredit diperlukan agar kami dapat mengamankan pemesanan Anda. Kartu kredit Anda tidak akan dikenai biaya sampai Anda datang ke hotel atau tenggat waktu pembatalan terlampaui.</string>
     <!-- Expedia merchant hotel policies -->
     <string name="PolicyExpediaMerchant">Dengan melanjutkan proses pemesanan ini, Anda berarti menyetujui semua syarat dan ketentuan, yang mencakup Kebijakan Pembatalan dan semua syarat dan ketentuan yang tercantum dalam Perjanjian Pengguna.\n\nAnda setuju untuk membayar biaya pemesanan Anda. Jika Anda tidak membayar tagihan ini dan biaya ditagihkan melalui jasa agen penagihan, pengacara, atau melalui prosedur hukum lainnya, Anda menyetujui untuk membayar semua biaya atau pengeluaran yang wajar, termasuk biaya pengacara dan pengadilan, yang dikeluarkan terkait dengan upaya penagihan tersebut.</string>
     <!-- Expedia agent hotel policies -->

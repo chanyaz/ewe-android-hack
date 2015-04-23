@@ -100,12 +100,6 @@
     <string name="drop_off_time_label">Aflevering</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Kommer snart! Vi arbejder hårdt på at tilføje envejsudlejning i en kommende version.</string>
-    <!-- Error messge for missing Origin in search form -->
-    <string name="error_missing_origin_param">Afrejsested mangler</string>
-    <!-- Error messge for missing Start date in search form -->
-    <string name="error_missing_start_date_param">Startdato mangler</string>
-    <!-- Error messge for missing End date date in search form -->
-    <string name="error_missing_end_date_param">Slutdato mangler</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Din søgning gav ingen resultater. Prøv at søge igen med andre søgekriterier.</string>
     <!-- Checkout -->
@@ -149,8 +143,6 @@
     <string name="successful_checkout_email_label">Rejseplan sendt til</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Rutevejledning til %1$s</string>
-    <!-- Button label for calling customer support -->
-    <string name="call_customer_support">Ring til kundeservice</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -216,8 +208,6 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
-    <!-- Search widget location hint -->
-    <string name="lx_search_location_hint">Angiv destination</string>
     <!-- Search widget header text -->
     <string name="lx_search_widget_heading">Datoer og sted</string>
     <!-- Button to show calendar and selected dates -->
@@ -234,18 +224,18 @@
     <string name="exclusions_activity_details">Ikke inkluderet</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">Godt at vide, før du reserverer</string>
-    <!-- Activity details cancellation heading -->
-    <string name="cancellation_activity_details">Afbestilling</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Reserver nu %1$s</string>
-    <!-- Template for tickets type and count  summary -->
-    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
     <string name="cancellation_policy_TEMPLATE">Det er gratis at afbestille frem til %1$s før, aktiviteten begynder. Efter det tidspunkt kan der ikke foretages afbestillinger, ændringer eller refusioner.</string>
+    <!-- Cancellation policy text for non-cancellable activities -->
+    <string name="lx_policy_non_cancellable">Denne reservation kan ikke refunderes, ændres eller afbestilles.</string>
     <!-- LX checkout cost breakdown total due today -->
     <string name="lx_cost_breakdown_due_today">Til betaling i dag</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -256,6 +246,8 @@
     <string name="lx_checkout_breakdown_price_disclaimer_text">Priser angivet i %s.</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">Samlet pris</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">Prisen har ændret sig</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">Rejsende</string>
     <string name="ticket_type_adult">Voksen</string>
@@ -303,6 +295,191 @@
     <string name="ticket_type_electric_bike">Elcykel</string>
     <string name="ticket_type_segway">Segway</string>
     <string name="ticket_type_vehicle">Køretøj</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">%1$s rejsende</item>
+        <item quantity="other">%1$s rejsende</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">%1$s voksen</item>
+        <item quantity="other">%1$s voksne</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">%1$s barn</item>
+        <item quantity="other">%1$s børn</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">%1$s spædbarn</item>
+        <item quantity="other">%1$s spædbørn</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">%1$s ung</item>
+        <item quantity="other">%1$s unge</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">%1$s pensionist</item>
+        <item quantity="other">%1$s pensionister</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">%1$s gruppe</item>
+        <item quantity="other">%1$s grupper</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">%1$s par</item>
+        <item quantity="other">%1$s par</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">%1$s 2 voksne</item>
+        <item quantity="other">%1$s 2 voksne</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">%1$s militærperson</item>
+        <item quantity="other">%1$s militærpersoner</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">%1$s studerende</item>
+        <item quantity="other">%1$s studerende</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">%1$s sedan</item>
+        <item quantity="other">%1$s sedaner</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">%1$s MPV</item>
+        <item quantity="other">%1$s MPV\&apos;er</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">%1$s vandtaxi</item>
+        <item quantity="other">%1$s vandtaxier</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">%1$s SUV</item>
+        <item quantity="other">%1$s SUVs</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">%1$s øvre mellemklassebil</item>
+        <item quantity="other">%1$s øvre mellemklassebiler</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">%1$s luksusbil</item>
+        <item quantity="other">%1$s luksusbiler</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">%1$s limousine</item>
+        <item quantity="other">%1$s limousiner</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">%1$s town car</item>
+        <item quantity="other">%1$s town cars</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">%1$s parkeringsplads til bil</item>
+        <item quantity="other">%1$s parkeringspladser til bil</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">%1$s reservation</item>
+        <item quantity="other">%1$s reservationer</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">%1$s guide</item>
+        <item quantity="other">%1$s guider</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">%1$s rejsekort</item>
+        <item quantity="other">%1$s rejsekort</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">%1$s båd</item>
+        <item quantity="other">%1$s både</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">%1$s motorcykel</item>
+        <item quantity="other">%1$s motorcykler</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">%1$s ceremoni</item>
+        <item quantity="other">%1$s ceremonier</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">%1$s telefonkort</item>
+        <item quantity="other">%1$s telefonkort</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">%1$s adgangskort</item>
+        <item quantity="other">%1$s adgangskort</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">%1$s minibus</item>
+        <item quantity="other">%1$s minibusser</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">%1$s helikopter</item>
+        <item quantity="other">%1$s helikoptere</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">%1$s enhed</item>
+        <item quantity="other">%1$s enheder</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">%1$s værelse</item>
+        <item quantity="other">%1$s værelser</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">%1$s vogn</item>
+        <item quantity="other">%1$s vogne</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">%1$s buggy</item>
+        <item quantity="other">%1$s buggies</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">%1$s ATV</item>
+        <item quantity="other">%1$s ATVs</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">%1$s jetski</item>
+        <item quantity="other">%1$s jetski</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">%1$s scooter</item>
+        <item quantity="other">%1$s scootere</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">%1$s scooterbil</item>
+        <item quantity="other">%1$s scooterbiler</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">%1$s snescooter</item>
+        <item quantity="other">%1$s snescootere</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s dag</item>
+        <item quantity="other">%1$s dage</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">%1$s cykel</item>
+        <item quantity="other">%1$s cykler</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s uge</item>
+        <item quantity="other">%1$s uger</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">%1$s abonnement</item>
+        <item quantity="other">%1$s abonnementer</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">%1$s elcykel</item>
+        <item quantity="other">%1$s elcykler</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">%1$s segway</item>
+        <item quantity="other">%1$s segways</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">%1$s køretøj</item>
+        <item quantity="other">%1$s køretøjer</item>
+    </plurals>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">pr. rejsende</string>
     <string name="per_ticket_type_adult">pr. voksen</string>
@@ -361,7 +538,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Din søgning gav ingen resultater. Prøv at søge igen med andre søgekriterier.</string> 
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">Søgning på nuværende placering gav ingen resultater. Prøv at søge igen med andre søgekriterier.</string> 
+    <string name="error_lx_current_location_search_message">Vi kunne ikke fastlægge din nuværende placering og kan derfor ikke finde aktiviteter i nærheden af dig.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Fejl</string>
     <!-- Text for error toolbar-->
@@ -380,8 +557,6 @@
     <string name="lx_traveler_enter_details_text">Indtast oplysninger om rejsende</string>
     <!-- Text for lx sort and filter-->
     <string name="lx_sort_filter">Sorter og filtrer</string>
-    <!-- Read more of the review -->
-    <string name="lx_details_read_more">Læs mere</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">Pris</string>
     <!-- Popularity sort button -->
@@ -392,8 +567,20 @@
     <string name="lx_free_cancellation">Gratis afbestilling</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s accepteres ikke</string>
-    <!-- Edit search toolbar title -->
-    <string name="edit_search_toolbar">Rediger søgning</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">Vi beklager, men prisen på denne aktivitet har ændret sig. Prøv venligst at reservere igen.</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">Dine billetter er blevet sendt til</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">Din reservationen er bekræftet!</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">Fastlægger placering…</string>
+    <!-- LX Error Fetching activity details -->
+    <string name="lx_error_details">Kunne ikke hente oplysningerne. Prøv venligst igen.</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">Prøv venligst igen</string>
+    <!-- LX No Activities for Current location -->
+    <string name="lx_error_current_location_no_results">Vi kunne ikke finde aktiviteter i nærheden af dig. Prøv at søge igen med andre søgekriterier.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -486,6 +673,15 @@
         <item quantity="many">Komponenter i denne rejseplan</item>
         <item quantity="other">Komponenter i denne rejseplan</item>
     </plurals>
+
+    <!-- LX Sort & Filter "Apply" header -->
+    <string name="lx_apply_sort_filter">Anvend</string>
+    <!-- LX Sort & Filter "Sort By" section header -->
+    <string name="lx_sort_by">Sorter efter</string>
+    <!-- LX Sort & Filter "Categories" header -->
+    <string name="lx_categories">Kategorier</string>
+    <!-- LX Sort & Filter "Filter" header -->
+    <string name="lx_filter">Filtrer</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -676,6 +872,8 @@
     <string name="nav_hotels">Hoteller</string>
     <!-- Cars -->
     <string name="nav_cars">Biler</string>
+    <!-- Activities -->
+    <string name="nav_lx">Aktiviteter</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -686,21 +884,15 @@
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
     <string name="loading_header">Henter…</string>
-    <!-- Hotel list rating text -->
+    <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">af 5 – gæstebedømmelse</string>
-    <!-- Hotel list no rating text -->
-    <string name="hotel_no_rating_text">Ingen gæstebedømmelse</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">af 5</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">kun mobil!</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">kun i aften!</string>
 
-
-    <!-- Launch screen -->
-    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Flyv til&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
-    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Overnat i&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Vi beklager, men vi kan ikke oprette forbindelse.</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -765,8 +957,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Rejseplan</string>
-    <!-- Shop -->
-    <string name="shop">Søg</string>
+    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
+    <string name="shop_travel">Reserver rejser</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Find rejseplan</string>
     <!-- Enter Itinerary Details -->
@@ -788,7 +980,7 @@
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Fejl ved hentning af rejseplaner</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">&lt;b&gt;Log på&lt;/b&gt; for at se dine rejser</string>
+    <string name="sign_in_for_your_trips">Log på for at se dine rejser</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">I morgen</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1863,8 +2055,12 @@
     <string name="itinerary_confirmation_TEMPLATE">Rejseplansnummer %s er sendt til</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Mangler du et værelse?</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">Føj til din rejse</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hoteller i %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
+    <string name="cars_in_TEMPLATE">Biler i %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Andet</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -3169,9 +3365,9 @@
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Dine tasker vil være i bagageudleveringen %1$s.</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
-    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, din reservation er bekræftet! Se den i app\&apos;en.</string>
+    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, din reservation er bekræftet! Se den i appen.</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
-    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">Din reservation er bekræftet! Se den i app\&apos;en.</string>
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">Din reservation er bekræftet! Se den i appen.</string>
 
     <!-- Content Description Labels -->
     <!-- Trips Screen -->

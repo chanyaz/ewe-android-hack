@@ -100,12 +100,6 @@
     <string name="drop_off_time_label">Avlämning</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Kommer snart! Vi jobbar på att lägga till enkelresor i vår kommande version.</string>
-    <!-- Error messge for missing Origin in search form -->
-    <string name="error_missing_origin_param">Avreseort saknas</string>
-    <!-- Error messge for missing Start date in search form -->
-    <string name="error_missing_start_date_param">Startdatum saknas</string>
-    <!-- Error messge for missing End date date in search form -->
-    <string name="error_missing_end_date_param">Slutdatum saknas</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Din sökning gav inga resultat. Prova att söka igen med andra kriterier.</string>
     <!-- Checkout -->
@@ -149,8 +143,6 @@
     <string name="successful_checkout_email_label">Resplan skickades till</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Vägbeskrivning till %1$s</string>
-    <!-- Button label for calling customer support -->
-    <string name="call_customer_support">Ring kundtjänst</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -216,8 +208,6 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
-    <!-- Search widget location hint -->
-    <string name="lx_search_location_hint">Ange destination</string>
     <!-- Search widget header text -->
     <string name="lx_search_widget_heading">Datum och plats</string>
     <!-- Button to show calendar and selected dates -->
@@ -234,18 +224,18 @@
     <string name="exclusions_activity_details">Exkluderas</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">Bra att veta innan du bokar</string>
-    <!-- Activity details cancellation heading -->
-    <string name="cancellation_activity_details">Avbokning</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Boka nu %1$s</string>
-    <!-- Template for tickets type and count  summary -->
-    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
     <string name="cancellation_policy_TEMPLATE">Du kan avboka gratis fram till %1$s innan bokningens start. Därefter görs inga avbokningar, ändringar eller återbetalningar.</string>
+    <!-- Cancellation policy text for non-cancellable activities -->
+    <string name="lx_policy_non_cancellable">Den här bokningen är inte återbetalningsbar och kan inte avbokas eller ändras efter att du har bokat.</string>
     <!-- LX checkout cost breakdown total due today -->
     <string name="lx_cost_breakdown_due_today">Att betala idag</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -256,6 +246,8 @@
     <string name="lx_checkout_breakdown_price_disclaimer_text">Priser anges i %s.</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">Totalpris</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">Priset har ändrats</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">Resenär</string>
     <string name="ticket_type_adult">Vuxen</string>
@@ -303,6 +295,191 @@
     <string name="ticket_type_electric_bike">Elektrisk cykel</string>
     <string name="ticket_type_segway">Segway</string>
     <string name="ticket_type_vehicle">Fordon</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">%1$s resenär</item>
+        <item quantity="other">%1$s resenärer</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">%1$s vuxen</item>
+        <item quantity="other">%1$s vuxna</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">%1$s barn</item>
+        <item quantity="other">%1$s barn</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">%1$s spädbarn</item>
+        <item quantity="other">%1$s spädbarn</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">%1$s ungdom</item>
+        <item quantity="other">%1$s ungdomar</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">%1$s pensionär</item>
+        <item quantity="other">%1$s pensionärer</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">%1$s grupp</item>
+        <item quantity="other">%1$s grupper</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">%1$s par</item>
+        <item quantity="other">%1$s par</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">%1$s 2 vuxna</item>
+        <item quantity="other">%1$s 2 vuxna</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">%1$s militärer</item>
+        <item quantity="other">%1$s militärer</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">%1$s student</item>
+        <item quantity="other">%1$s studenter</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">%1$s sedanbil</item>
+        <item quantity="other">%1$s sedanbilar</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">%1$s minivan</item>
+        <item quantity="other">%1$s minivans</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">%1$s taxibåt</item>
+        <item quantity="other">%1$s taxibåtar</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">%1$s stadsjeep</item>
+        <item quantity="other">%1$s stadsjeepar</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">%1$s executivebil</item>
+        <item quantity="other">%1$s executivebilar</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">%1$s lyxbil</item>
+        <item quantity="other">%1$s lyxbilar</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">%1$s limousine</item>
+        <item quantity="other">%1$s limousiner</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">%1$s towncar</item>
+        <item quantity="other">%1$s towncars</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">%1$s parkeringsplats för fordon</item>
+        <item quantity="other">%1$s parkeringsplatser för fordon</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">%1$s bok</item>
+        <item quantity="other">%1$s böcker</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">%1$s guide</item>
+        <item quantity="other">%1$s guider</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">%1$s resekort</item>
+        <item quantity="other">%1$s resekort</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">%1$s båt</item>
+        <item quantity="other">%1$s båtar</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">%1$s motorcykel</item>
+        <item quantity="other">%1$s motorcyklar</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">%1$s ceremoni</item>
+        <item quantity="other">%1$s ceremonier</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">%1$s telefonkort</item>
+        <item quantity="other">%1$s telefonkort</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">%1$s pass</item>
+        <item quantity="other">%1$s pass</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">%1$s minibuss</item>
+        <item quantity="other">%1$s minibussar</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">%1$s helikopter</item>
+        <item quantity="other">%1$s helikoptrar</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">%1$s enhet</item>
+        <item quantity="other">%1$s enheter</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">%1$s rum</item>
+        <item quantity="other">%1$s rum</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">%1$s vagn</item>
+        <item quantity="other">%1$s vagnar</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">%1$s buggy</item>
+        <item quantity="other">%1$s buggies</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">%1$s fyrhjuling</item>
+        <item quantity="other">%1$s fyrhjulingar</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">%1$s jetski</item>
+        <item quantity="other">%1$s jetskis</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">%1$s skoter</item>
+        <item quantity="other">%1$s skotrar</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">%1$s skoterbil</item>
+        <item quantity="other">%1$s skoterbilar</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">%1$s snöskoter</item>
+        <item quantity="other">%1$s snöskotrar</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s dag</item>
+        <item quantity="other">%1$s dagar</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">%1$s cykel</item>
+        <item quantity="other">%1$s cyklar</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s vecka</item>
+        <item quantity="other">%1$s veckor</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">%1$s prenumeration</item>
+        <item quantity="other">%1$s prenumerationer</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">%1$s elcykel</item>
+        <item quantity="other">%1$s elcyklar</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">%1$s segway</item>
+        <item quantity="other">%1$s segways</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">%1$s fordon</item>
+        <item quantity="other">%1$s fordon</item>
+    </plurals>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">per resenär</string>
     <string name="per_ticket_type_adult">per vuxen</string>
@@ -361,7 +538,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Din sökning gav inga resultat. Prova att söka igen med andra kriterier.</string> 
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">Sökning på nuvarande plats gav inga resultat. Prova att söka igen med andra kriterier.</string> 
+    <string name="error_lx_current_location_search_message">Vi kunde inte avgöra din nuvarande plats för att hitta aktiviteter runt dig.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Det uppstod ett fel</string>
     <!-- Text for error toolbar-->
@@ -380,8 +557,6 @@
     <string name="lx_traveler_enter_details_text">Ange resenärens uppgifter</string>
     <!-- Text for lx sort and filter-->
     <string name="lx_sort_filter">Sortera och filtrera</string>
-    <!-- Read more of the review -->
-    <string name="lx_details_read_more">Läs mer</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">Pris</string>
     <!-- Popularity sort button -->
@@ -392,8 +567,20 @@
     <string name="lx_free_cancellation">Gratis avbokning</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s accepteras ej</string>
-    <!-- Edit search toolbar title -->
-    <string name="edit_search_toolbar">Ändra sökning</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">Tyvärr har priset för aktiviteten ändrats. Försök att boka igen.</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">Dina biljetter har skickats till</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">Din bokning är bekräftad!</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">Söker efter nuvarande plats…</string>
+    <!-- LX Error Fetching activity details -->
+    <string name="lx_error_details">Det gick inte att hämta informationen. Försök igen.</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">Försök igen</string>
+    <!-- LX No Activities for Current location -->
+    <string name="lx_error_current_location_no_results">Vi kunde inte hitta några aktiviteter nära dig. Prova att söka igen med andra kriterier.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -479,13 +666,22 @@
     <string name="tablet_tripbucket_item_removed">Borttagen</string>
     <!-- Label indicating how many items are being booked for the current trip -->
     <plurals name="items_in_trip">
-        <item quantity="zero">artiklar i den här resplanen</item>
-        <item quantity="one">artikel i den här resplanen</item>
-        <item quantity="two">artiklar i den här resplanen</item>
-        <item quantity="few">artiklar i den här resplanen</item>
-        <item quantity="many">artiklar i den här resplanen</item>
-        <item quantity="other">artiklar i den här resplanen</item>
+        <item quantity="zero">artiklar i resplanen</item>
+        <item quantity="one">artikel i resplanen</item>
+        <item quantity="two">artiklar i resplanen</item>
+        <item quantity="few">artiklar i resplanen</item>
+        <item quantity="many">artiklar i resplanen</item>
+        <item quantity="other">artiklar i resplanen</item>
     </plurals>
+
+    <!-- LX Sort & Filter "Apply" header -->
+    <string name="lx_apply_sort_filter">Använd</string>
+    <!-- LX Sort & Filter "Sort By" section header -->
+    <string name="lx_sort_by">Sortera efter</string>
+    <!-- LX Sort & Filter "Categories" header -->
+    <string name="lx_categories">Kategorier</string>
+    <!-- LX Sort & Filter "Filter" header -->
+    <string name="lx_filter">Filter</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -641,7 +837,7 @@
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">Inloggningen misslyckades. Om din e-postadress och ditt lösenord stämmer ber vi dig bekräfta att din app är inställd på rätt land.</string>
     <!-- User needs to reset password -->
-    <string name="sign_in_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga Expediasidor.&lt;br&gt;Återställ ditt lösenord genom att klicka på länken ‘Har du glömt ditt lösenord?\&apos; nedan.</string>
+    <string name="sign_in_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga Expediasidor.&lt;br&gt;Återställ ditt lösenord genom att klicka på länken \&apos;Har du glömt ditt lösenord?\&apos; nedan.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Lösenord för Expedia</string>
     <!-- Link accounts -->
@@ -676,6 +872,8 @@
     <string name="nav_hotels">Hotell</string>
     <!-- Cars -->
     <string name="nav_cars">Hyrbil</string>
+    <!-- Activities -->
+    <string name="nav_lx">Aktiviteter</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -686,21 +884,15 @@
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
     <string name="loading_header">Hämtar…</string>
-    <!-- Hotel list rating text -->
+    <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">av 5 – gästbetyg</string>
-    <!-- Hotel list no rating text -->
-    <string name="hotel_no_rating_text">Inga gästbetyg</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">av 5</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">endast mobil!</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">endast ikväll!</string>
 
-
-    <!-- Launch screen -->
-    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Flyg till&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
-    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Bo i&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Tyvärr kan vi inte ansluta.</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -765,8 +957,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Resplan</string>
-    <!-- Shop -->
-    <string name="shop">Shoppa</string>
+    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
+    <string name="shop_travel">Boka resor</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Hitta resplan</string>
     <!-- Enter Itinerary Details -->
@@ -788,7 +980,7 @@
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Ett fel uppstod vid hämtningen av resplaner.</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">&lt;b&gt;Logga in&lt;/b&gt; för att se dina resor</string>
+    <string name="sign_in_for_your_trips">Logga in för att se dina resor</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Imorgon</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1863,8 +2055,12 @@
     <string name="itinerary_confirmation_TEMPLATE">Resplansnummer %s skickades till</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Boka ett rum</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">Lägg till i din resa</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotell i %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
+    <string name="cars_in_TEMPLATE">Bilar i %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Mer</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->

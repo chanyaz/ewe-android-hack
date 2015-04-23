@@ -100,12 +100,6 @@
     <string name="drop_off_time_label">반납</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">제공 예정! 다음 버전에서는 타지점 반납의 편도 예약을 추가하도록 지금 열심히 준비 중입니다.</string>
-    <!-- Error messge for missing Origin in search form -->
-    <string name="error_missing_origin_param">출발지가 없습니다.</string>
-    <!-- Error messge for missing Start date in search form -->
-    <string name="error_missing_start_date_param">시작일이 없습니다.</string>
-    <!-- Error messge for missing End date date in search form -->
-    <string name="error_missing_end_date_param">완료일이 없습니다.</string>
     <!-- Car search error -->
     <string name="error_car_search_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
     <!-- Checkout -->
@@ -149,8 +143,6 @@
     <string name="successful_checkout_email_label">일정이 전송된 수신 주소:</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">%1$s까지의 길 안내</string>
-    <!-- Button label for calling customer support -->
-    <string name="call_customer_support">고객 지원에 연락</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -216,8 +208,6 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
-    <!-- Search widget location hint -->
-    <string name="lx_search_location_hint">위치 입력</string>
     <!-- Search widget header text -->
     <string name="lx_search_widget_heading">날짜 및 위치</string>
     <!-- Button to show calendar and selected dates -->
@@ -234,18 +224,18 @@
     <string name="exclusions_activity_details">불포함 사항</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">예약 전 알아두기</string>
-    <!-- Activity details cancellation heading -->
-    <string name="cancellation_activity_details">취소</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s, %2$s(%3$s)</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">지금 예약! %1$s</string>
-    <!-- Template for tickets type and count  summary -->
-    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
     <string name="cancellation_policy_TEMPLATE">예약된 여행이 시작되기 %1$s 전까지 무료 취소가 가능합니다. 이 시간 이후로는 취소나 변경 또는 환불이 불가능합니다.</string>
+    <!-- Cancellation policy text for non-cancellable activities -->
+    <string name="lx_policy_non_cancellable">이 예약은 환불되지 않으며 예약 후 변경이나 취소하실 수 없습니다.</string>
     <!-- LX checkout cost breakdown total due today -->
     <string name="lx_cost_breakdown_due_today">오늘 결제할 금액</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -256,6 +246,8 @@
     <string name="lx_checkout_breakdown_price_disclaimer_text">요금은 %s 기준입니다.</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">총 금액</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">가격 변동됨</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">여행객</string>
     <string name="ticket_type_adult">어른</string>
@@ -303,6 +295,191 @@
     <string name="ticket_type_electric_bike">전기자전거</string>
     <string name="ticket_type_segway">세그웨이</string>
     <string name="ticket_type_vehicle">차량</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">여행객 %1$s명</item>
+        <item quantity="other">여행객 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">어른 %1$s명</item>
+        <item quantity="other">어른 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">아동 %1$s명</item>
+        <item quantity="other">아동 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">유아 %1$s명</item>
+        <item quantity="other">유아 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">청소년 %1$s명</item>
+        <item quantity="other">청소년 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">고령자 %1$s명</item>
+        <item quantity="other">고령자 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">단체 %1$s팀</item>
+        <item quantity="other">단체 %1$s팀</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">커플 %1$s쌍</item>
+        <item quantity="other">커플 %1$s쌍</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">%1$s장에 어른 2명</item>
+        <item quantity="other">%1$s장에 어른 2명</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">군인 %1$s명</item>
+        <item quantity="other">군인 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">학생 %1$s명</item>
+        <item quantity="other">학생 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">세단 %1$s대</item>
+        <item quantity="other">세단 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">미니밴 %1$s대</item>
+        <item quantity="other">미니밴 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">수상 택시 %1$s대</item>
+        <item quantity="other">수상 택시 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">SUV %1$s대</item>
+        <item quantity="other">SUV %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">이그제큐티브 차량 %1$s대</item>
+        <item quantity="other">이그제큐티브 차량 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">고급대형 %1$s대</item>
+        <item quantity="other">고급대형 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">리무진 %1$s대</item>
+        <item quantity="other">리무진 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">타운카 %1$s대</item>
+        <item quantity="other">타운카 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">주차 공간 %1$s개</item>
+        <item quantity="other">주차 공간 %1$s개</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">책 %1$s권</item>
+        <item quantity="other">책 %1$s권</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">가이드 %1$s명</item>
+        <item quantity="other">가이드 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">관광 카드 %1$s장</item>
+        <item quantity="other">관광 카드 %1$s장</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">보트 %1$s대</item>
+        <item quantity="other">보트 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">오토바이 %1$s대</item>
+        <item quantity="other">오토바이 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">행사 %1$s회</item>
+        <item quantity="other">행사 %1$s회</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">전화 카드 %1$s장</item>
+        <item quantity="other">전화 카드 %1$s장</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">패스 %1$s개</item>
+        <item quantity="other">패스 %1$s개</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">미니버스 %1$s대</item>
+        <item quantity="other">미니버스 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">헬리콥터 %1$s대</item>
+        <item quantity="other">헬리콥터 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">기기 %1$s개</item>
+        <item quantity="other">기기 %1$s개</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">객실 %1$s개</item>
+        <item quantity="other">객실 %1$s개</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">마차 %1$s대</item>
+        <item quantity="other">마차 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">버기카 %1$s대</item>
+        <item quantity="other">버기카 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">ATV %1$s대</item>
+        <item quantity="other">ATV %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">제트스키 %1$s대</item>
+        <item quantity="other">제트스키 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">스쿠터 %1$s대</item>
+        <item quantity="other">스쿠터 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">스쿠터카 %1$s대</item>
+        <item quantity="other">스쿠터카 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">스노모빌 %1$s대</item>
+        <item quantity="other">스노모빌 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s일</item>
+        <item quantity="other">%1$s일</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">자전거 %1$s대</item>
+        <item quantity="other">자전거 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s주</item>
+        <item quantity="other">%1$s주</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">구독 %1$s건</item>
+        <item quantity="other">구독 %1$s건</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">전기자전거 %1$s대</item>
+        <item quantity="other">전기자전거 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">세그웨이 %1$s대</item>
+        <item quantity="other">세그웨이 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">차량 %1$s대</item>
+        <item quantity="other">차량 %1$s대</item>
+    </plurals>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">여행객 1명당</string>
     <string name="per_ticket_type_adult">어른 1명당</string>
@@ -361,7 +538,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string> 
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">현재 위치 검색에 대한 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string> 
+    <string name="error_lx_current_location_search_message">고객님 주변의 즐길거리를 찾기 위한 고객님의 현재 위치를 확인할 수 없습니다.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">오류</string>
     <!-- Text for error toolbar-->
@@ -380,8 +557,6 @@
     <string name="lx_traveler_enter_details_text">여행객 정보 입력</string>
     <!-- Text for lx sort and filter-->
     <string name="lx_sort_filter">정렬 및 필터</string>
-    <!-- Read more of the review -->
-    <string name="lx_details_read_more">더 보기</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">가격순</string>
     <!-- Popularity sort button -->
@@ -392,8 +567,20 @@
     <string name="lx_free_cancellation">무료 취소</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s 결제가 지원되지 않습니다.</string>
-    <!-- Edit search toolbar title -->
-    <string name="edit_search_toolbar">검색 수정</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">죄송합니다. 이 즐길거리의 가격이 변동되었습니다. 다시 예약해 주세요.</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">고객님의 티켓을 다음 주소로 보내드렸습니다:</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">고객님 예약이 확정되었습니다!</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">위치 확인 중…</string>
+    <!-- LX Error Fetching activity details -->
+    <string name="lx_error_details">세부 정보를 가져올 수 없습니다. 다시 시도해 주세요.</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">다시 시도해 주세요.</string>
+    <!-- LX No Activities for Current location -->
+    <string name="lx_error_current_location_no_results">고객님 주변의 즐길거리를 찾을 수 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -486,6 +673,15 @@
         <item quantity="many">여행 항목</item>
         <item quantity="other">여행 항목</item>
     </plurals>
+
+    <!-- LX Sort & Filter "Apply" header -->
+    <string name="lx_apply_sort_filter">적용</string>
+    <!-- LX Sort & Filter "Sort By" section header -->
+    <string name="lx_sort_by">정렬 기준</string>
+    <!-- LX Sort & Filter "Categories" header -->
+    <string name="lx_categories">범주</string>
+    <!-- LX Sort & Filter "Filter" header -->
+    <string name="lx_filter">필터링</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -676,6 +872,8 @@
     <string name="nav_hotels">호텔</string>
     <!-- Cars -->
     <string name="nav_cars">렌터카</string>
+    <!-- Activities -->
+    <string name="nav_lx">즐길거리</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -686,21 +884,15 @@
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
     <string name="loading_header">로드 중…</string>
-    <!-- Hotel list rating text -->
+    <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">(5점 만점 – 고객 평점)</string>
-    <!-- Hotel list no rating text -->
-    <string name="hotel_no_rating_text">고객 평점 없음</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">/5점 만점</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">모바일 전용!</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">오늘 밤 한정!</string>
 
-
-    <!-- Launch screen -->
-    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;목적지:&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
-    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;숙박지:&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">죄송합니다. 지금 연결할 수 없습니다.</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -765,8 +957,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">일정</string>
-    <!-- Shop -->
-    <string name="shop">예약</string>
+    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
+    <string name="shop_travel">여행 예약</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">일정 찾기</string>
     <!-- Enter Itinerary Details -->
@@ -788,7 +980,7 @@
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">일정을 가져오는 도중 오류 발생</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">고객님 여행을 보시려면 &lt;b&gt;로그인&lt;/b&gt;해 주세요.</string>
+    <string name="sign_in_for_your_trips">고객님 여행을 보시려면 로그인해 주세요.</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">오늘</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1863,8 +2055,12 @@
     <string name="itinerary_confirmation_TEMPLATE">여행 일정 번호(%s)가 전송되었습니다.</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">객실 예약하기</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">여행에 추가</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">%s 호텔</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
+    <string name="cars_in_TEMPLATE">%s 렌터카</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">고객 지원 더 보기</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->

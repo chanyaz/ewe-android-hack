@@ -30,7 +30,7 @@
     <!-- Text for checkout toolbar-->
     <string name="cars_checkout_text">Buchen</string>
     <!-- Text for error toolbar-->
-    <string name="cars_dupe_trip_text">Doppelbuchung dieser Reise</string>
+    <string name="cars_dupe_trip_text">Doppelt gebuchte Reise</string>
     <!-- Text for error toolbar-->
     <string name="cars_session_timeout_text">Sitzung abgelaufen</string>
     <!-- Text for error toolbar-->
@@ -100,12 +100,6 @@
     <string name="drop_off_time_label">Rückgabe</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Bald ist es soweit! Wir arbeiten mit Hochdruck daran, Mietwagenbuchungen mit Rückgabe an einem anderen Standort in den kommenden Versionen aufzunehmen.</string>
-    <!-- Error messge for missing Origin in search form -->
-    <string name="error_missing_origin_param">Abflughafen fehlt</string>
-    <!-- Error messge for missing Start date in search form -->
-    <string name="error_missing_start_date_param">Abreisedatum fehlt</string>
-    <!-- Error messge for missing End date date in search form -->
-    <string name="error_missing_end_date_param">Rückreisedatum fehlt</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Für Ihre Suche gab es keine Ergebnisse. Bitte versuchen Sie es mit anderen Suchkriterien.</string>
     <!-- Checkout -->
@@ -149,8 +143,6 @@
     <string name="successful_checkout_email_label">Reiseplan versendet an</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Wegbeschreibung für %1$s</string>
-    <!-- Button label for calling customer support -->
-    <string name="call_customer_support">Kundenservice</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -216,8 +208,6 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
-    <!-- Search widget location hint -->
-    <string name="lx_search_location_hint">Ort eingeben</string>
     <!-- Search widget header text -->
     <string name="lx_search_widget_heading">Daten &amp; Ort</string>
     <!-- Button to show calendar and selected dates -->
@@ -234,18 +224,18 @@
     <string name="exclusions_activity_details">Nicht enthalten</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">Wissenswertes vor der Buchung</string>
-    <!-- Activity details cancellation heading -->
-    <string name="cancellation_activity_details">Stornierung</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">Jetzt buchen %1$s</string>
-    <!-- Template for tickets type and count  summary -->
-    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <string name="offer_book_now_TEMPLATE">%1$s buchen</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
     <string name="cancellation_policy_TEMPLATE">Bis %1$s vor dem Startzeitpunkt Ihrer Reservierung können Sie kostenlos stornieren. Anschließend sind keine Stornierungen, Änderungen und Erstattungen mehr möglich.</string>
+    <!-- Cancellation policy text for non-cancellable activities -->
+    <string name="lx_policy_non_cancellable">Diese Reservierung ist nicht erstattungsfähig und kann nach der Buchung nicht umgebucht oder storniert werden.</string>
     <!-- LX checkout cost breakdown total due today -->
     <string name="lx_cost_breakdown_due_today">Heute fälliger Betrag</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -256,6 +246,8 @@
     <string name="lx_checkout_breakdown_price_disclaimer_text">Die Preise sind in %s angegeben.</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">Gesamtpreis</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">Preisänderung</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">Reisender</string>
     <string name="ticket_type_adult">Erwachsener</string>
@@ -300,9 +292,194 @@
     <string name="ticket_type_bike">Fahrrad</string>
     <string name="ticket_type_week">Woche</string>
     <string name="ticket_type_subscription">Kundenkarte</string>
-    <string name="ticket_type_electric_bike">Elektrisches Fahrrad</string>
+    <string name="ticket_type_electric_bike">Elektrofahrrad</string>
     <string name="ticket_type_segway">Segway</string>
     <string name="ticket_type_vehicle">Fahrzeug</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">%1$s Person</item>
+        <item quantity="other">%1$s Personen</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">%1$s Erwachsener</item>
+        <item quantity="other">%1$s Erwachsene</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">%1$s Kind</item>
+        <item quantity="other">%1$s Kinder</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">%1$s Kleinkind</item>
+        <item quantity="other">%1$s Kleinkinder</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">%1$s Jugendlicher</item>
+        <item quantity="other">%1$s Jugendliche</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">%1$s Senior</item>
+        <item quantity="other">%1$s Senioren</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">%1$s Gruppe</item>
+        <item quantity="other">%1$s Gruppen</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">%1$s Paar</item>
+        <item quantity="other">%1$s Paare</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">%1$s 2 Erwachsene</item>
+        <item quantity="other">%1$s 2 Erwachsene</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">%1$s Militärangehöriger</item>
+        <item quantity="other">%1$s Militärangehörige</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">%1$s Student</item>
+        <item quantity="other">%1$s Studenten</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">%1$s Limousine</item>
+        <item quantity="other">%1$s Limousinen</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">%1$s Minivan</item>
+        <item quantity="other">%1$s Minivans</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">%1$s Wassertaxi</item>
+        <item quantity="other">%1$s Wassertaxis</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">%1$s SUV</item>
+        <item quantity="other">%1$s SUVs</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">%1$s Executive-Fahrzeug</item>
+        <item quantity="other">%1$s Executive-Fahrzeuge</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">%1$s Luxus-Fahrzeug</item>
+        <item quantity="other">%1$s Luxus-Fahrzeuge</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">%1$s Limousine</item>
+        <item quantity="other">%1$s Limousinen</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">%1$s Town Car</item>
+        <item quantity="other">%1$s Town Cars</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">%1$s Parkplatz</item>
+        <item quantity="other">%1$s Parkplätze</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">%1$s Buch</item>
+        <item quantity="other">%1$s Bücher</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">%1$s Reiseführer</item>
+        <item quantity="other">%1$s Reiseführer</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">%1$s Travelcard</item>
+        <item quantity="other">%1$s Travelcards</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">%1$s Boot</item>
+        <item quantity="other">%1$s Boote</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">%1$s Motorrad</item>
+        <item quantity="other">%1$s Motorräder</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">%1$s Zeremonie</item>
+        <item quantity="other">%1$s Zeremonien</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">%1$s Telefonkarte</item>
+        <item quantity="other">%1$s Telefonkarten</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">%1$s Pass</item>
+        <item quantity="other">%1$s Pässe</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">%1$s Minibus</item>
+        <item quantity="other">%1$s Minibusse</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">%1$s Hubschrauber</item>
+        <item quantity="other">%1$s Hubschrauber</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">%1$s Gerät</item>
+        <item quantity="other">%1$s Geräte</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">%1$s Zimmer</item>
+        <item quantity="other">%1$s Zimmer</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">%1$s Kutsche</item>
+        <item quantity="other">%1$s Kutschen</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">%1$s Buggy</item>
+        <item quantity="other">%1$s Buggys</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">%1$s Quad</item>
+        <item quantity="other">%1$s Quads</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">%1$s Jetski</item>
+        <item quantity="other">%1$s Jetskis</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">%1$s Roller</item>
+        <item quantity="other">%1$s Roller</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">%1$s Minimobil</item>
+        <item quantity="other">%1$s Minimobile</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">%1$s Schneemobil</item>
+        <item quantity="other">%1$s Schneemobile</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s Tag</item>
+        <item quantity="other">%1$s Tage</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">%1$s Fahrrad</item>
+        <item quantity="other">%1$s Fahrräder</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s Woche</item>
+        <item quantity="other">%1$s Wochen</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">%1$s Abo</item>
+        <item quantity="other">%1$s Abos</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">%1$s Elektrofahrrad</item>
+        <item quantity="other">%1$s Elektrofahrräder</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">%1$s Segway</item>
+        <item quantity="other">%1$s Segways</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">%1$s Fahrzeug</item>
+        <item quantity="other">%1$s Fahrzeuge</item>
+    </plurals>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">pro Person</string>
     <string name="per_ticket_type_adult">pro Erwachsenem</string>
@@ -341,12 +518,12 @@
     <string name="per_ticket_type_atv">pro Quad</string>
     <string name="per_ticket_type_jet_ski">pro Jetski</string>
     <string name="per_ticket_type_scooter">pro Roller</string>
-    <string name="per_ticket_type_scooter_car">pro Elektromobil</string>
+    <string name="per_ticket_type_scooter_car">pro Minimobil</string>
     <string name="per_ticket_type_snowmobile">pro Schneemobil</string>
     <string name="per_ticket_type_day">pro Tag</string>
     <string name="per_ticket_type_bike">pro Fahrrad</string>
     <string name="per_ticket_type_week">pro Woche</string>
-    <string name="per_ticket_type_subscription">pro Kundenkarte</string>
+    <string name="per_ticket_type_subscription">pro Abo</string>
     <string name="per_ticket_type_electric_bike">pro Elektrofahrrad</string>
     <string name="per_ticket_type_segway">pro Segway</string>
     <string name="per_ticket_type_vehicle">pro Fahrzeug</string>
@@ -361,7 +538,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Für Ihre Suche gab es keine Ergebnisse. Bitte versuchen Sie es mit anderen Suchkriterien.</string> 
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">Für Suche mit dem aktuellen Standort gab es keine Ergebnisse. Bitte versuchen Sie es mit anderen Suchkriterien.</string> 
+    <string name="error_lx_current_location_search_message">Wir konnten Ihren aktuellen Standort leider nicht bestimmten und deshalb keine Aktivitäten in Ihrer Nähe finden.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Fehler</string>
     <!-- Text for error toolbar-->
@@ -380,8 +557,6 @@
     <string name="lx_traveler_enter_details_text">Angaben zum Reisenden eingeben</string>
     <!-- Text for lx sort and filter-->
     <string name="lx_sort_filter">Sortieren &amp; Filtern</string>
-    <!-- Read more of the review -->
-    <string name="lx_details_read_more">Mehr</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">Preis</string>
     <!-- Popularity sort button -->
@@ -392,8 +567,20 @@
     <string name="lx_free_cancellation">Kostenlose Stornierung</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s wird nicht akzeptiert</string>
-    <!-- Edit search toolbar title -->
-    <string name="edit_search_toolbar">Suche bearbeiten</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">Leider hat sich der Preis der Aktivität geändert. Bitte buchen Sie erneut.</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">Ihr Tickets wurden an diese Adresse gesendet:</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">Ihre Buchung ist bestätigt!</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">Standort wird bestimmt…</string>
+    <!-- LX Error Fetching activity details -->
+    <string name="lx_error_details">Die Details können nicht abgerufen werden. Bitte versuchen Sie es erneut.</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">Bitte versuchen Sie es noch einmal</string>
+    <!-- LX No Activities for Current location -->
+    <string name="lx_error_current_location_no_results">Wir haben leider keine Aktivitäten in Ihrer Nähe gefunden. Bitte versuchen Sie es mit anderen Suchkriterien.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -486,6 +673,15 @@
         <item quantity="many">Produkte im Reiseplan</item>
         <item quantity="other">Produkte im Reiseplan</item>
     </plurals>
+
+    <!-- LX Sort & Filter "Apply" header -->
+    <string name="lx_apply_sort_filter">Einlösen</string>
+    <!-- LX Sort & Filter "Sort By" section header -->
+    <string name="lx_sort_by">Sortieren nach</string>
+    <!-- LX Sort & Filter "Categories" header -->
+    <string name="lx_categories">Kategorien</string>
+    <!-- LX Sort & Filter "Filter" header -->
+    <string name="lx_filter">Filtern</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -676,6 +872,8 @@
     <string name="nav_hotels">Hotels</string>
     <!-- Cars -->
     <string name="nav_cars">Mietwagen</string>
+    <!-- Activities -->
+    <string name="nav_lx">Aktivitäten</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -686,21 +884,15 @@
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
     <string name="loading_header">Laden…</string>
-    <!-- Hotel list rating text -->
+    <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">von 5 – Gästebewertung</string>
-    <!-- Hotel list no rating text -->
-    <string name="hotel_no_rating_text">Keine Gästebewertung</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">von 5</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">Mobil-Angebot</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">Nur heute Abend</string>
 
-
-    <!-- Launch screen -->
-    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Flüge nach&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
-    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Hotels in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Leider können wir keine Verbindung aufbauen.</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -765,8 +957,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Reiseplan</string>
-    <!-- Shop -->
-    <string name="shop">Buchen</string>
+    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
+    <string name="shop_travel">Reisen buchen</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Reiseplan suchen</string>
     <!-- Enter Itinerary Details -->
@@ -788,7 +980,7 @@
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Fehler beim Laden des Reiseplans</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">&lt;b&gt;Anmelden&lt;/b&gt;, um Reisen zu sehen</string>
+    <string name="sign_in_for_your_trips">Anmelden, um Reisen zu sehen</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Morgen</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1863,8 +2055,12 @@
     <string name="itinerary_confirmation_TEMPLATE">Reiseplannr. %s versendet:</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Zimmer buchen</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">Zur Reise hinzufügen</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
+    <string name="cars_in_TEMPLATE">Mietwagen in %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Weitere Aktionen</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2127,7 +2323,7 @@
     <!-- Expedia sponsored listing -->
     <string name="sponsored">Gesponsert</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
-    <string name="hotel_search_range_error_TEMPLATE">Wir können leider nicht nach Hotelaufenthalten suchen, die länger als %1$sTage dauern.</string>
+    <string name="hotel_search_range_error_TEMPLATE">Wir können leider nicht nach Hotelaufenthalten suchen, die länger als %1$s Tage dauern.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Fehler bei der Suche</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
@@ -2191,7 +2387,7 @@
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_working_hard">Wir suchen mit Hochdruck nach den besten Hotelangeboten für Sie.</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_hundreds">Wir suchen für Sie Angebote in hunderten von Hotels.</string>
+    <string name="progress_searching_hotels_hundreds">Wir suchen für Sie Angebote in Hunderten von Hotels.</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">Suche nach dem Hotel läuft…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -2255,7 +2451,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">+silver- und +gold-Mitglieder erhalten in +VIP Access-Hotels je nach Verfügbarkeit bei Check-in kostenlose Zimmerupgrades und weitere Extras.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Nur +VIP-Access-Hotels</string>
+    <string name="filter_vip_access">Nur +VIP Access-Hotels</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="VIP_Access_Only">Nur +VIP Access</string>
     <!-- ON and OFF text for toggle switches -->
@@ -2296,7 +2492,7 @@
     <!-- Breakfast amenity -->
     <string name="AmenityBreakfast">Frühstück</string>
     <!-- Babysitting amenity -->
-    <string name="AmenityBabysitting">Babysitterservice</string>
+    <string name="AmenityBabysitting">Babysitter</string>
     <!-- Jacuzzi amenity -->
     <string name="AmenityJacuzzi">Jacuzzi</string>
     <!-- Parking amenity -->
@@ -3235,7 +3431,7 @@
     <string name="cd_flights_search_number_of_travelers_edit">Anzahl der Reisenden ändern</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="cd_flight_leg_cancel">Flugauswähl löschen und zu den Suchergebnissen zurückkehren</string>
+    <string name="cd_flight_leg_cancel">Flugauswahl löschen und zu den Suchergebnissen zurückkehren</string>
     <!-- Content description for action: Press to select this flight -->
     <string name="cd_flight_leg_select_flight">Diesen Flug auswählen</string>
     <!-- Content description for action: Press to go to baggage fee information -->

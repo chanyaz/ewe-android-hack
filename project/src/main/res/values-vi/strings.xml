@@ -100,12 +100,6 @@
     <string name="drop_off_time_label">Trả xe</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Sắp ra mắt! Chúng tôi đang nỗ lực hết sức để thêm tính năng đặt thuê xe một chiều trong phiên bản sắp ra mắt.</string>
-    <!-- Error messge for missing Origin in search form -->
-    <string name="error_missing_origin_param">Thiếu bắt đầu</string>
-    <!-- Error messge for missing Start date in search form -->
-    <string name="error_missing_start_date_param">Thiếu ngày khởi hành</string>
-    <!-- Error messge for missing End date date in search form -->
-    <string name="error_missing_end_date_param">Thiếu ngày kết thúc</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string>
     <!-- Checkout -->
@@ -149,8 +143,6 @@
     <string name="successful_checkout_email_label">Lịch trình được gửi đến</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Hướng dẫn đến %1$s</string>
-    <!-- Button label for calling customer support -->
-    <string name="call_customer_support">Gọi bộ phận Dịch vụ Khách hàng</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -216,8 +208,6 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
-    <!-- Search widget location hint -->
-    <string name="lx_search_location_hint">Nhập địa điểm</string>
     <!-- Search widget header text -->
     <string name="lx_search_widget_heading">Ngày &amp; Địa điểm</string>
     <!-- Button to show calendar and selected dates -->
@@ -234,18 +224,18 @@
     <string name="exclusions_activity_details">Không gồm</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">Lưu ý trước khi đặt</string>
-    <!-- Activity details cancellation heading -->
-    <string name="cancellation_activity_details">Hủy</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Đặt ngay %1$s</string>
-    <!-- Template for tickets type and count  summary -->
-    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s trở lên</string>
     <!-- Cancellation policy template -->
     <string name="cancellation_policy_TEMPLATE">Có thể hủy miễn phí đến %1$s trước khi hoạt động quý vị đặt bắt đầu. Sau thời điểm đó, không được hủy, thay đổi hay hoàn tiền.</string>
+    <!-- Cancellation policy text for non-cancellable activities -->
+    <string name="lx_policy_non_cancellable">Đây là đặt chỗ không hoàn tiền và không thể thay đổi hoặc hủy sau khi đặt.</string>
     <!-- LX checkout cost breakdown total due today -->
     <string name="lx_cost_breakdown_due_today">Thanh toán hôm nay</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -256,6 +246,8 @@
     <string name="lx_checkout_breakdown_price_disclaimer_text">Giá báo bằng %s.</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">Tổng giá</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">Giá thay đổi</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">Khách</string>
     <string name="ticket_type_adult">Người lớn</string>
@@ -276,8 +268,8 @@
     <string name="ticket_type_luxury_car">Xe hạng sang</string>
     <string name="ticket_type_limousine">Limousine</string>
     <string name="ticket_type_towncar">TownCar</string>
-    <string name="ticket_type_vehicle_parking_spot">Chỗ đậu xe</string>
-    <string name="ticket_type_book">Sách</string>
+    <string name="ticket_type_vehicle_parking_spot">Chỗ đậu phương tiện</string>
+    <string name="ticket_type_book">Quyển</string>
     <string name="ticket_type_guide">Hướng dẫn</string>
     <string name="ticket_type_travel_card">Travel Card</string>
     <string name="ticket_type_boat">Thuyền</string>
@@ -303,6 +295,191 @@
     <string name="ticket_type_electric_bike">Xe điện</string>
     <string name="ticket_type_segway">Segway</string>
     <string name="ticket_type_vehicle">Phương tiện</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">%1$s khách</item>
+        <item quantity="other">%1$s khách</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">%1$s người lớn</item>
+        <item quantity="other">%1$s người lớn</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">%1$s trẻ em</item>
+        <item quantity="other">%1$s trẻ em</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">%1$s trẻ sơ sinh</item>
+        <item quantity="other">%1$s trẻ sơ sinh</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">%1$s thiếu niên</item>
+        <item quantity="other">%1$s thiếu niên</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">%1$s người cao tuổi</item>
+        <item quantity="other">%1$s người cao tuổi</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">%1$s nhóm</item>
+        <item quantity="other">%1$s nhóm</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">%1$s cặp đôi</item>
+        <item quantity="other">%1$s cặp đôi</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">%1$s cho 2 người lớn</item>
+        <item quantity="other">%1$s cho 2 người lớn</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">%1$s quân nhân</item>
+        <item quantity="other">%1$s quân nhân</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">%1$s sinh viên</item>
+        <item quantity="other">%1$s sinh viên</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">%1$s sedan</item>
+        <item quantity="other">%1$s sedan</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">%1$s minivan</item>
+        <item quantity="other">%1$s minivan</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">%1$s taxi nước</item>
+        <item quantity="other">%1$s taxi nước</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">%1$s SUV</item>
+        <item quantity="other">%1$s SUV</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">%1$s xe Executive</item>
+        <item quantity="other">%1$s xe Executive</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">%1$s xe hạng sang</item>
+        <item quantity="other">%1$s xe hạng sang</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">%1$s limousine</item>
+        <item quantity="other">%1$s limousine</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">%1$s TownCar</item>
+        <item quantity="other">%1$s TownCar</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">%1$s chỗ đậu phương tiện</item>
+        <item quantity="other">%1$s chỗ đậu phương tiện</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">%1$s quyển</item>
+        <item quantity="other">%1$s quyển</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">%1$s hướng dẫn</item>
+        <item quantity="other">%1$s hướng dẫn</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">%1$s Travel Card</item>
+        <item quantity="other">%1$s Travel Card</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">%1$s thuyền</item>
+        <item quantity="other">%1$s thuyền</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">%1$s xe máy</item>
+        <item quantity="other">%1$s xe máy</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">%1$s buổi lễ</item>
+        <item quantity="other">%1$s buổi lễ</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">%1$s thẻ điện thoại</item>
+        <item quantity="other">%1$s thẻ điện thoại</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">%1$s pass</item>
+        <item quantity="other">%1$s pass</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">%1$s xe buýt mini</item>
+        <item quantity="other">%1$s xe buýt mini</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">%1$s trực thăng</item>
+        <item quantity="other">%1$s trực thăng</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">%1$s thiết bị</item>
+        <item quantity="other">%1$s thiết bị</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">%1$s phòng</item>
+        <item quantity="other">%1$s phòng</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">%1$s xe ngựa</item>
+        <item quantity="other">%1$s xe ngựa</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">%1$s xe đua đồi cát</item>
+        <item quantity="other">%1$s xe đua đồi cát</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">%1$s ATV</item>
+        <item quantity="other">%1$s ATV</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">%1$s jet ski</item>
+        <item quantity="other">%1$s jet ski</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">%1$s scooter</item>
+        <item quantity="other">%1$s scooter</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">%1$s xe Scooter</item>
+        <item quantity="other">%1$s xe scooter</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">%1$s xe trượt tuyết</item>
+        <item quantity="other">%1$s xe trượt tuyết</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s ngày</item>
+        <item quantity="other">%1$s ngày</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">%1$s xe đạp</item>
+        <item quantity="other">%1$s xe đạp</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s tuần</item>
+        <item quantity="other">%1$s tuần</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">%1$s đăng ký</item>
+        <item quantity="other">%1$s đăng ký</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">%1$s xe điện</item>
+        <item quantity="other">%1$s xe điện</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">%1$s segway</item>
+        <item quantity="other">%1$s segway</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">%1$s phương tiện</item>
+        <item quantity="other">%1$s phương tiện</item>
+    </plurals>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">/ 1 khách</string>
     <string name="per_ticket_type_adult">/ 1 người lớn</string>
@@ -361,7 +538,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string> 
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">Không tìm được kết quả ở địa điểm hiện tại. Vui lòng thử tìm lại với dữ liệu khác.</string> 
+    <string name="error_lx_current_location_search_message">Chúng tôi không xác nhận được địa điểm hiện tại của quý vị để tìm hoạt động giải trí phù hợp.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Lỗi</string>
     <!-- Text for error toolbar-->
@@ -380,8 +557,6 @@
     <string name="lx_traveler_enter_details_text">Nhập thông tin khách</string>
     <!-- Text for lx sort and filter-->
     <string name="lx_sort_filter">Sắp xếp &amp; Lọc</string>
-    <!-- Read more of the review -->
-    <string name="lx_details_read_more">Đọc thêm</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">Giá</string>
     <!-- Popularity sort button -->
@@ -392,8 +567,20 @@
     <string name="lx_free_cancellation">Hủy miễn phí</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">Không nhận thanh toán bằng %1$s</string>
-    <!-- Edit search toolbar title -->
-    <string name="edit_search_toolbar">Thay đổi tìm kiếm</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">Rất tiếc, giá vé hoạt động này đã thay đổi. Vui lòng thử đặt lại.</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">Vé của quý vị đã được gửi đ6én</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">Đã xác nhận đặt chỗ của quý vị!</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">Đang xác minh địa điểm…</string>
+    <!-- LX Error Fetching activity details -->
+    <string name="lx_error_details">Không thể tải chi tiết. Vui lòng thử lại.</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">Vui lòng thử lại</string>
+    <!-- LX No Activities for Current location -->
+    <string name="lx_error_current_location_no_results">Chúng tôi không tìm được hoạt động giải trí gần địa điểm của quý vị. Vui lòng thử tìm lại với dữ liệu khác.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -486,6 +673,15 @@
         <item quantity="many">mục trong Chuyến đi</item>
         <item quantity="other">mục trong Chuyến đi</item>
     </plurals>
+
+    <!-- LX Sort & Filter "Apply" header -->
+    <string name="lx_apply_sort_filter">Áp dụng</string>
+    <!-- LX Sort & Filter "Sort By" section header -->
+    <string name="lx_sort_by">Sắp xếp theo</string>
+    <!-- LX Sort & Filter "Categories" header -->
+    <string name="lx_categories">Danh mục</string>
+    <!-- LX Sort & Filter "Filter" header -->
+    <string name="lx_filter">Lọc</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -641,7 +837,7 @@
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">Không đăng nhập được. Nếu đã nhập đúng địa chỉ email và mật khẩu, vui lòng kiểm tra xác nhận cài đặt quốc gia trên app của quý vị chính xác.</string>
     <!-- User needs to reset password -->
-    <string name="sign_in_reset_password">Vui lòng tạo một tài khoản mới dùng chung cho tất cả các trang web Expedia.&lt;br&gt;Vui lòng thiết lập lại mật khẩu, sử dụng link ‘Quên mật khẩu?\&apos; dưới đây.</string>
+    <string name="sign_in_reset_password">Vui lòng tạo một tài khoản mới dùng chung cho tất cả các trang web Expedia.&lt;br&gt;Vui lòng thiết lập lại mật khẩu, sử dụng link \&apos;Quên mật khẩu?\&apos; dưới đây.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Mật khẩu Expedia</string>
     <!-- Link accounts -->
@@ -676,6 +872,8 @@
     <string name="nav_hotels">Khách\nsạn</string>
     <!-- Cars -->
     <string name="nav_cars">Xe</string>
+    <!-- Activities -->
+    <string name="nav_lx">Hoạt động</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -686,21 +884,15 @@
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
     <string name="loading_header">Đang tải…</string>
-    <!-- Hotel list rating text -->
+    <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">/5 – đánh giá của khách</string>
-    <!-- Hotel list no rating text -->
-    <string name="hotel_no_rating_text">Không có nhận xét của khách</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">/ 5</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">Chỉ trên di động!</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">Chỉ tối nay!</string>
 
-
-    <!-- Launch screen -->
-    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Bay đến&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
-    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Nghỉ tại&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Rất tiếc, chúng tôi không thể kết nối.</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -765,8 +957,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Lịch trình</string>
-    <!-- Shop -->
-    <string name="shop">Đặt</string>
+    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
+    <string name="shop_travel">Tìm và đặt</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Tìm lịch trình</string>
     <!-- Enter Itinerary Details -->
@@ -788,7 +980,7 @@
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Lỗi phát sinh khi tải lịch trình</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">&lt;b&gt;Đăng nhập&lt;/b&gt; để xem các chuyến đi</string>
+    <string name="sign_in_for_your_trips">Đăng nhập để xem chuyến đi</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Ngày mai</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1863,8 +2055,12 @@
     <string name="itinerary_confirmation_TEMPLATE">Lịch trình số %s đã được gửi tới</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Tìm phòng</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">Thêm vào chuyến đi của quý vị</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Khách sạn tại %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
+    <string name="cars_in_TEMPLATE">Xe tại %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Các thao tác khác</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->

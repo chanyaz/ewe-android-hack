@@ -100,12 +100,6 @@
     <string name="drop_off_time_label">Inleveren</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Binnenkort! We zijn hard aan het werk om enkele vluchten toe te voegen aan een volgende versie.</string>
-    <!-- Error messge for missing Origin in search form -->
-    <string name="error_missing_origin_param">Vertrekplaats ontbreekt</string>
-    <!-- Error messge for missing Start date in search form -->
-    <string name="error_missing_start_date_param">Begindatum ontbreekt</string>
-    <!-- Error messge for missing End date date in search form -->
-    <string name="error_missing_end_date_param">Einddatum ontbreekt</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Jouw zoekopdracht leverde geen resultaten op. Zoek opnieuw met andere zoekcriteria</string>
     <!-- Checkout -->
@@ -149,8 +143,6 @@
     <string name="successful_checkout_email_label">Reisplan gestuurd naar</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Route naar %1$s</string>
-    <!-- Button label for calling customer support -->
-    <string name="call_customer_support">Bel de klantenservice</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -216,8 +208,6 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
-    <!-- Search widget location hint -->
-    <string name="lx_search_location_hint">Locatie invoeren</string>
     <!-- Search widget header text -->
     <string name="lx_search_widget_heading">Datums &amp; Locatie</string>
     <!-- Button to show calendar and selected dates -->
@@ -234,18 +224,18 @@
     <string name="exclusions_activity_details">Niet inbegrepen</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">Belangrijke info voor vertrek</string>
-    <!-- Activity details cancellation heading -->
-    <string name="cancellation_activity_details">Annulering</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">Boek nu %1$s</string>
-    <!-- Template for tickets type and count  summary -->
-    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <string name="offer_book_now_TEMPLATE">Boek voor %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">+%1$s</string>
     <!-- Cancellation policy template -->
     <string name="cancellation_policy_TEMPLATE">Annuleer gratis tot %1$s voor aanvang van de reservering. Annuleringen, wijzigingen of restituties zijn nadien niet mogelijk.</string>
+    <!-- Cancellation policy text for non-cancellable activities -->
+    <string name="lx_policy_non_cancellable">Deze reservering is niet restitueerbaar en kan na het boeken niet gewijzigd of geannuleerd worden.</string>
     <!-- LX checkout cost breakdown total due today -->
     <string name="lx_cost_breakdown_due_today">Vandaag te betalen</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -256,6 +246,8 @@
     <string name="lx_checkout_breakdown_price_disclaimer_text">Tarieven vermeld in %s.</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">Totaalprijs</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">Prijs gewijzigd</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">Reiziger</string>
     <string name="ticket_type_adult">Volwassene</string>
@@ -303,6 +295,191 @@
     <string name="ticket_type_electric_bike">Elektrische fiets</string>
     <string name="ticket_type_segway">Segway</string>
     <string name="ticket_type_vehicle">Voertuig</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">%1$s reiziger</item>
+        <item quantity="other">%1$s reizigers</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">%1$s volwassene</item>
+        <item quantity="other">%1$s volwassenen</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">%1$s kind</item>
+        <item quantity="other">%1$s kinderen</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">%1$s baby</item>
+        <item quantity="other">%1$s baby\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">%1$s jongere</item>
+        <item quantity="other">%1$s jongeren</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">%1$s senior</item>
+        <item quantity="other">%1$s senioren</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">%1$s groep</item>
+        <item quantity="other">%1$s groepen</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">%1$s stel</item>
+        <item quantity="other">%1$s stellen</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">%1$s 2 volwassenen</item>
+        <item quantity="other">%1$s 2 volwassenen</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">%1$s militair</item>
+        <item quantity="other">%1$s militairen</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">%1$s student</item>
+        <item quantity="other">%1$s studenten</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">%1$s sedan</item>
+        <item quantity="other">%1$s sedans</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">%1$s MPV</item>
+        <item quantity="other">%1$s MPV\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">%1$s watertaxi</item>
+        <item quantity="other">%1$s watertaxi\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">%1$s SUV</item>
+        <item quantity="other">%1$s SUV\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">%1$s Executive auto</item>
+        <item quantity="other">%1$s Executive auto\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">%1$s Luxury auto</item>
+        <item quantity="other">%1$s Luxury auto\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">%1$s limousine</item>
+        <item quantity="other">%1$s limousines</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">%1$s town car</item>
+        <item quantity="other">%1$s town cars</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">%1$s parkeerplaats</item>
+        <item quantity="other">%1$s parkeerplaatsen</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">%1$s boek</item>
+        <item quantity="other">%1$s boeken</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">%1$s gids</item>
+        <item quantity="other">%1$s gidsen</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">%1$s vervoerspas</item>
+        <item quantity="other">%1$s vervoerspassen</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">%1$s boot</item>
+        <item quantity="other">%1$s boten</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">%1$s motor</item>
+        <item quantity="other">%1$s motoren</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">%1$s ceremonie</item>
+        <item quantity="other">%1$s ceremonies</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">%1$s belkaart</item>
+        <item quantity="other">%1$s belkaarten</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">%1$s pas</item>
+        <item quantity="other">%1$s passen</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">%1$s personenbus</item>
+        <item quantity="other">%1$s personenbussen</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">%1$s helikopter</item>
+        <item quantity="other">%1$s helikopters</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">%1$s toestel</item>
+        <item quantity="other">%1$s toestellen</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">%1$s kamer</item>
+        <item quantity="other">%1$s kamers</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">%1$s koets</item>
+        <item quantity="other">%1$s koetsen</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">%1$s buggy</item>
+        <item quantity="other">%1$s buggy\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">%1$s ATV</item>
+        <item quantity="other">%1$s ATV\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">%1$s jetski</item>
+        <item quantity="other">%1$s jetski\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">%1$s scooter</item>
+        <item quantity="other">%1$s scooters</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">%1$s scooter car</item>
+        <item quantity="other">%1$s scooter cars</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">%1$s sneeuwscooter</item>
+        <item quantity="other">%1$s sneeuwscooters</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s dag</item>
+        <item quantity="other">%1$s dagen</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">%1$s fiets</item>
+        <item quantity="other">%1$s fietsen</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s week</item>
+        <item quantity="other">%1$s weken</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">%1$s abonnement</item>
+        <item quantity="other">%1$s abonnementen</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">%1$s elektrische fiets</item>
+        <item quantity="other">%1$s elektrische fietsen</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">%1$s segway</item>
+        <item quantity="other">%1$s segways</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">%1$s voertuig</item>
+        <item quantity="other">%1$s voertuigen</item>
+    </plurals>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">per reiziger</string>
     <string name="per_ticket_type_adult">per volwassene</string>
@@ -361,7 +538,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Je zoekopdracht leverde geen resultaten op. Zoek opnieuw met andere zoekcriteria</string> 
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">Geen resultaten voor huidige locatie. Zoek opnieuw met andere zoekcriteria</string> 
+    <string name="error_lx_current_location_search_message">We konden je huidige locatie voor lokale activiteiten niet bepalen.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Fout</string>
     <!-- Text for error toolbar-->
@@ -380,8 +557,6 @@
     <string name="lx_traveler_enter_details_text">Reizigersinfo invoeren</string>
     <!-- Text for lx sort and filter-->
     <string name="lx_sort_filter">Sorteer &amp; Filter</string>
-    <!-- Read more of the review -->
-    <string name="lx_details_read_more">Meer lezen</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">Prijs</string>
     <!-- Popularity sort button -->
@@ -392,8 +567,20 @@
     <string name="lx_free_cancellation">Gratis annulering</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s niet geaccepteerd</string>
-    <!-- Edit search toolbar title -->
-    <string name="edit_search_toolbar">Zoekopdracht wijzigen</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">Sorry, maar de prijs van de activiteit is gewijzigd. Probeer opnieuw te boeken.</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">Jouw tickets werden verzonden naar</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">Jouw reservering is bevestigd!</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">Locatie aan het bepalen …</string>
+    <!-- LX Error Fetching activity details -->
+    <string name="lx_error_details">Details konden niet opgehaald worden. Probeer het opnieuw.</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">Probeer het opnieuw</string>
+    <!-- LX No Activities for Current location -->
+    <string name="lx_error_current_location_no_results">We konden geen lokale activiteiten vinden. Zoek opnieuw met andere zoekcriteria</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -486,6 +673,15 @@
         <item quantity="many">Items in reis</item>
         <item quantity="other">Items in reis</item>
     </plurals>
+
+    <!-- LX Sort & Filter "Apply" header -->
+    <string name="lx_apply_sort_filter">Toepassen</string>
+    <!-- LX Sort & Filter "Sort By" section header -->
+    <string name="lx_sort_by">Sorteer op</string>
+    <!-- LX Sort & Filter "Categories" header -->
+    <string name="lx_categories">Categorieën</string>
+    <!-- LX Sort & Filter "Filter" header -->
+    <string name="lx_filter">Filteren</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -676,6 +872,8 @@
     <string name="nav_hotels">Hotels</string>
     <!-- Cars -->
     <string name="nav_cars">Auto\&apos;s</string>
+    <!-- Activities -->
+    <string name="nav_lx">Activiteiten</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -686,21 +884,15 @@
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
     <string name="loading_header">Laden …</string>
-    <!-- Hotel list rating text -->
+    <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">/ 5 - gastenscore</string>
-    <!-- Hotel list no rating text -->
-    <string name="hotel_no_rating_text">Geen gastenscore</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">/ 5</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">alleen mobiel!</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">Alleen vandaag!</string>
 
-
-    <!-- Launch screen -->
-    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Vlieg naar&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
-    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Verblijf in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Helaas, we kunnen geen verbinding maken</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -765,8 +957,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Reisplan</string>
-    <!-- Shop -->
-    <string name="shop">Shop</string>
+    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
+    <string name="shop_travel">Plan &amp; Boek</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Vind reisplan</string>
     <!-- Enter Itinerary Details -->
@@ -788,7 +980,7 @@
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Reisplannen ophalen mislukt</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">&lt;b&gt;Aanmelden&lt;/b&gt; voor je reizen</string>
+    <string name="sign_in_for_your_trips">Aanmelden voor je reizen</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Morgen</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1863,8 +2055,12 @@
     <string name="itinerary_confirmation_TEMPLATE">Reisplannummer%s verstuurd naar</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Boek een kamer</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">Toevoegen aan reis</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
+    <string name="cars_in_TEMPLATE">Auto\&apos;s in %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Meer opties</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
