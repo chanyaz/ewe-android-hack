@@ -153,10 +153,12 @@ public class LXOffersListAdapter extends BaseAdapter {
 				offerRow.setVisibility(View.VISIBLE);
 				ticketSelectionWidget.setVisibility(View.GONE);
 			}
+			itemView.setClickable(!offer.isToggled);
 		}
 		public void updateState(boolean isToggled) {
 			offerRow.setVisibility(isToggled ? View.GONE : View.VISIBLE);
 			ticketSelectionWidget.setVisibility(isToggled ? View.VISIBLE : View.GONE);
+			itemView.setClickable(!offer.isToggled);
 		}
 
 		@Override
