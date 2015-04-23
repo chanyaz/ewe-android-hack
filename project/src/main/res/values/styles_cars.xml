@@ -88,12 +88,16 @@
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">#FFFFFF</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="CarsToolbarSubtitleTextAppearance" parent="V2.Theme.Cars">
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="CarButton" parent="android:Widget.Button" >
