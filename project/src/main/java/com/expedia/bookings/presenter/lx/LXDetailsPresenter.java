@@ -216,6 +216,7 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 		String dateRange = String.format(getResources().getString(R.string.lx_toolbar_date_range_template),
 			DateUtils.localDateToMMMd(searchParams.startDate), DateUtils.localDateToMMMd(searchParams.endDate));
 		toolbar.setSubtitle(dateRange);
+		toolbarBackground.setAlpha(0);
 	}
 
 	@Subscribe
@@ -287,7 +288,6 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 		toolbarBackground.setTranslationY(forward ? 0 : -toolbarBackground.getHeight());
 		toolbar.setTranslationY(forward ? 0 : 50);
 		toolbar.setVisibility(VISIBLE);
-		toolbarBackground.setAlpha(0);
 	}
 
 	public void animationUpdate(float f, boolean forward) {
