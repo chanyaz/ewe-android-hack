@@ -4,6 +4,8 @@
     <!-- Action Bar colors -->
     <color name="action_bar_selected_tab_underline_color">#FFED18</color>
     <color name="actionbar_suggestion_text_color">@color/actionbar_text</color>
+    <color name="action_bar_flight_cancel_text_color">#E9E9E9</color>
+    <color name="action_bar_flight_result_separotor_color">#5FFF</color>
 
     <!-- Tablet colors -->
     <color name="results_cal_trav_bg">#eaeaea</color>
