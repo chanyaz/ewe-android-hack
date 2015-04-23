@@ -68,7 +68,7 @@
     <LinearLayout
         android:id="@+id/account_login_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:gravity="center"
         android:paddingTop="@dimen/account_button_padding"
         android:paddingBottom="@dimen/account_button_padding"
