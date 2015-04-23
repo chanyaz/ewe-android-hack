@@ -77,7 +77,6 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	@Subscribe
 	public void onCarsShowDetails(Events.CarsShowDetails event) {
 		CategorizedCarOffers bucket = event.categorizedCarOffers;
-		View view = event.carOfferView;
 
 		adapter.setCarOffers(bucket.offers);
 		adapter.notifyDataSetChanged();
@@ -101,10 +100,6 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	public void reset() {
 		offerList.getLayoutManager().scrollToPosition(0);
 		backgroundHeader.setTranslationY(0);
-	}
-
-	public void hideForInitAnimation(boolean forward) {
-		headerImage.setVisibility(forward ? GONE : VISIBLE);
 	}
 
 }

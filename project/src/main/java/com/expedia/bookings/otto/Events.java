@@ -8,7 +8,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
 
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
@@ -606,11 +605,9 @@ public class Events {
 
 	public static class CarsShowDetails {
 		public CategorizedCarOffers categorizedCarOffers;
-		public View carOfferView;
 
-		public CarsShowDetails(CategorizedCarOffers offers, View view) {
+		public CarsShowDetails(CategorizedCarOffers offers) {
 			categorizedCarOffers = offers;
-			carOfferView = view;
 		}
 	}
 
