@@ -30,6 +30,10 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 	private Drawable bg;
 	private Drawable disabledBg;
 
+	private static final float MAX_ICON_SCALE = 1.0f;
+	private float minIconSize;
+	private float squashedRatio;
+
 	@InjectView(R.id.lob_btn_bg)
 	public ViewGroup bgView;
 
@@ -51,6 +55,7 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 			text = ta.getString(R.styleable.PhoneLaunchButton_btn_text);
 			icon = ta.getDrawable(R.styleable.PhoneLaunchButton_btn_icon);
 			bg = ta.getDrawable(R.styleable.PhoneLaunchButton_btn_bg);
+			minIconSize = ta.getFloat(R.styleable.PhoneLaunchButton_icon_min_scale, 0.75f);
 			disabledBg = getResources().getDrawable(R.drawable.bg_lob_disabled);
 			ta.recycle();
 		}
@@ -63,6 +68,9 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 		FontCache.setTypeface(textView, FontCache.Font.ROBOTO_LIGHT);
 		iconView.setImageDrawable(icon);
 		bgView.setPivotY(getBottom());
+		float fullHeight = getResources().getDimension(R.dimen.launch_lob_double_row_container_height);
+		float squashedHeight = getResources().getDimension(R.dimen.launch_lob_double_row_squashed_height);
+		squashedRatio = squashedHeight / fullHeight;
 	}
 
 	@Override
@@ -74,7 +82,8 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 			public boolean onPreDraw() {
 				iconView.getViewTreeObserver().removeOnPreDrawListener(this);
 				iconView.setPivotX(0);
-				iconView.setPivotY(-iconView.getTop() + iconView.getPaddingTop());
+				iconView.setPivotY(-iconView.getHeight());
+				iconView.setTranslationY(getBottom() - iconView.getBottom());
 				return true;
 			}
 		});
@@ -133,24 +142,17 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 		}
 	}
 
-	private static final float MIN_ICON_SIZE = 0.5f;
-	private static final float MAX_ICON_SIZE = 1.0f;
-
 	public void scaleTo(float f) {
-		float iconSize;
-		// Bound icon size scale between minIconSize and maxIconSize
-		if (f < MIN_ICON_SIZE) {
-			iconSize = MIN_ICON_SIZE;
-		}
-		else if (f > MAX_ICON_SIZE) {
-			iconSize = MAX_ICON_SIZE;
-		}
-		else {
-			iconSize = f;
-		}
+		// Normalize float f between squash widget ratio and 1
+		float iconScale = (((f - squashedRatio) * (MAX_ICON_SCALE - minIconSize)) / (1.0f - squashedRatio)) + minIconSize;
+		float bgScale = f;
+		float scaledIconBottom = iconView.getBottom() * iconScale;
+		float scaledBgBottom = bgView.getBottom() * bgScale;
+		float iconTranslation = (scaledBgBottom - scaledIconBottom) + (iconView.getBottom() - scaledIconBottom);
 
-		iconView.setScaleX(iconSize);
-		iconView.setScaleY(iconSize);
+		iconView.setScaleX(iconScale);
+		iconView.setScaleY(iconScale);
+		iconView.setTranslationY(iconTranslation);
 		textView.setTranslationY((f * fullHeight) - fullHeight);
 		bgView.setScaleY(f);
 	}
