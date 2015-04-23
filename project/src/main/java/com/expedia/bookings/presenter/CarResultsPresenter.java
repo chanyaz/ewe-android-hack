@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.StringRes;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -312,6 +313,11 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 					float translationY = forward ? -carTransitionView.getTop() * f : carTransitionView.getTop() * (f - 1);
 					carTransitionView.setTranslationY(translationY);
+
+					// Fixing animated drawable's ripple effect glitch in Lollipop
+					// http://blog.danlew.net/2014/12/15/animated-drawables-lollipop/
+					ViewCompat.jumpDrawablesToCurrentState(carTransitionView);
+
 					toolbarBackground.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
 
 					toolbarSearchTextView.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
@@ -357,6 +363,10 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 						View v = categories.recyclerView.getChildAt(i);
 						if (v != carTransitionView) {
 							v.setAlpha(forward ? (Math.abs(f - 1) * 1) : (f * 1));
+							// Let's disable click for the rest of the cards when the animation starts, else users can click on them mid way.
+							if (forward) {
+								v.setEnabled(false);
+							}
 						}
 					}
 				}
@@ -392,6 +402,16 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 					toolbarSearchTextView.setVisibility(forward ? GONE : VISIBLE);
 					toolbarDetailTextView.setVisibility(forward ? VISIBLE : GONE);
+
+					// We need to enable clicks for the previously disabled cards.
+					for (int i = 0; i < categories.recyclerView.getChildCount(); i++) {
+						View v = categories.recyclerView.getChildAt(i);
+						if (v != carTransitionView) {
+							if (!forward) {
+								v.setEnabled(true);
+							}
+						}
+					}
 				}
 
 				@Override
