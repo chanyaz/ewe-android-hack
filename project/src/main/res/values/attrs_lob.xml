@@ -18,4 +18,6 @@
     <attr name="card_details_container_height" format="reference" />
     <!-- Drawable for traveler initials in saved traveler list -->
     <attr name="traveler_checkout_circle_drawable" format="reference" />
+    <!-- Unexpanded space height on Checkout -->
+    <attr name="checkout_unexpanded_space_height" format="reference" />
 </resources>

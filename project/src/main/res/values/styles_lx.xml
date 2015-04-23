@@ -50,6 +50,8 @@
 
         <!-- Action Bar Attrs -->
         <item name="skin_actionbarTextColor">@color/lx_actionbar_text_color</item>
+
+        <item name="checkout_unexpanded_space_height">@dimen/lx_unexpanded_space_height</item>
     </style>
 
     <style name="DateRadioButton" parent="V2.Theme.LX">
