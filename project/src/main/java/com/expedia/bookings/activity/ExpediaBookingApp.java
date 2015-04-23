@@ -319,8 +319,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	private AppComponent mAppComponent;
 	private CarComponent mCarComponent;
-	private LXComponent mLXComponent;
 	private LaunchComponent mLaunchComponent;
+
+	private LXComponent mLXComponent;
+	private LXComponent mLXTestComponent;
 
 	public AppComponent appComponent() {
 		return mAppComponent;
@@ -341,15 +343,18 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	}
 
 	public void defaultLXComponents() {
-		if (mLXComponent == null) {
-			setLXComponent(DaggerLXComponent.builder()
+		if (mLXTestComponent == null) {
+			mLXComponent = DaggerLXComponent.builder()
 				.appComponent(mAppComponent)
-				.build());
+				.build();
+		}
+		else {
+			mLXComponent = mLXTestComponent;
 		}
 	}
 
-	public void setLXComponent(LXComponent lxComponent) {
-		mLXComponent = lxComponent;
+	public void setLXTestComponent(LXComponent lxTestComponent) {
+		mLXTestComponent = lxTestComponent;
 	}
 
 	public LXComponent lxComponent() {
