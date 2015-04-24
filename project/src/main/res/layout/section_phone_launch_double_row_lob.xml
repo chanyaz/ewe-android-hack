@@ -41,7 +41,7 @@
                 app:btn_bg="@drawable/bg_lob_hotels"
                 app:btn_icon="@drawable/ic_launch_hotels"
                 app:btn_text="@string/nav_hotels"
-                app:icon_min_scale=".75" />
+                app:icon_min_scale=".70" />
 
             <com.expedia.bookings.widget.PhoneLaunchDoubleRowButton
                 android:id="@+id/flights_button"
@@ -52,7 +52,7 @@
                 app:btn_bg="@drawable/bg_lob_flights"
                 app:btn_icon="@drawable/ic_launch_flights"
                 app:btn_text="@string/nav_flights"
-                app:icon_min_scale=".75" />
+                app:icon_min_scale=".68" />
         </LinearLayout>
     </FrameLayout>
 
