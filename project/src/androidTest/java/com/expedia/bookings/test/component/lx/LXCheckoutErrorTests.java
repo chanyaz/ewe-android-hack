@@ -101,6 +101,8 @@ public class LXCheckoutErrorTests extends LxTestCase {
 			isDisplayed()));
 		//click book now button again so that we can test if upon click of Back button we must reach back to CVV Screen
 		LXInfositePageModel.bookNowButton("2-Day New York Pass").perform(scrollTo(), click());
+		CheckoutViewModel.enterPaymentInfo();
+		CheckoutViewModel.clickDone();
 		CheckoutViewModel.performSlideToPurchase();
 
 		CVVEntryScreen.parseAndEnterCVV("111");
