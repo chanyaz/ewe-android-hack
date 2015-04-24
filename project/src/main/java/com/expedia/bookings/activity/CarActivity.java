@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.CarPresenter;
 import com.expedia.bookings.utils.Ui;
 import com.facebook.Session;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -45,6 +47,10 @@ public class CarActivity extends ActionBarActivity {
 	protected void onPause() {
 		super.onPause();
 		Events.unregister(this);
+
+		if (isFinishing()) {
+			clearCCNumber();
+		}
 	}
 
 	@Override
@@ -56,5 +62,15 @@ public class CarActivity extends ActionBarActivity {
 	@Subscribe
 	public void onFinishActivity(Events.FinishActivity event) {
 		finish();
+	}
+
+	public void clearCCNumber() {
+		try {
+			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setNumber(null);
+			Db.getBillingInfo().setNumber(null);
+		}
+		catch (Exception ex) {
+			Log.e("Error clearing billingInfo card number", ex);
+		}
 	}
 }

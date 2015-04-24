@@ -17,12 +17,14 @@ import android.view.ViewGroup;
 import android.widget.Space;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -311,5 +313,16 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			.ofFloat(slideToContainer, "translationY", visible ? 0 : slideToContainer.getHeight());
 		animator.setDuration(300);
 		animator.start();
+	}
+
+	public void clearCCNumber() {
+		try {
+			paymentInfoCardView.creditCardNumber.setText("");
+			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setNumber(null);
+			Db.getBillingInfo().setNumber(null);
+		}
+		catch (Exception ex) {
+			Log.e("Error clearing billingInfo card number", ex);
+		}
 	}
 }

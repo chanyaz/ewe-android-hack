@@ -72,6 +72,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		this.carProduct = createTripOffer;
 		summaryWidget.bind(carProduct, originalOfferFormattedPrice);
 		paymentInfoCardView.setCreditCardRequired(carProduct.checkoutRequiresCard);
+		clearCCNumber();
 
 		slideWidget.resetSlider();
 

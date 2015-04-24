@@ -92,6 +92,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 		OmnitureTracking.onPause();
 
 		if (isFinishing()) {
+			clearCCNumber();
 			Db.getTripBucket().getHotel().clearCheckoutData();
 		}
 	}
@@ -119,7 +120,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 
 			return;
 		}
-
+		clearCCNumber();
 		super.onBackPressed();
 	}
 
@@ -175,6 +176,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 		switch (item.getItemId()) {
 		case android.R.id.home: {
 			onBackPressed();
+			clearCCNumber();
 			return true;
 		}
 		case R.id.menu_checkout: {
@@ -295,5 +297,14 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 	@Subscribe
 	public void onSimpleDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
 		mBookingOverviewFragment.onSimpleDialogCancel(event);
+	}
+
+	private void clearCCNumber() {
+		try {
+			Db.getBillingInfo().setNumber(null);
+		}
+		catch (Exception ex) {
+			Log.e("Error clearing billingInfo card number", ex);
+		}
 	}
 }
