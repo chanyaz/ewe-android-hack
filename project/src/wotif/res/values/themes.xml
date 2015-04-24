@@ -45,7 +45,7 @@
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_wotif</item>
         <item name="skin_hotelCheckoutLoginButtonText">@string/Log_in_with_Wotif</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_wotif</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_wotif_logo</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_log_out_wotif</item>
         <item name="skin_loginWithExpediaTitleText">@string/wotif_account</item>
         <item name="skin_loginWithExpediaButtonText">@string/Log_in_with_Wotif</item>
         <item name="skin_loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_wotif</item>
@@ -139,6 +139,7 @@
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_wotif</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_wotif</item>
         <item name="skin_flightCheckoutAccountLabel">@string/wotif_account</item>
+        <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color_wotif</item>
     </style>
 
     <!-- Override the phone theme -->
@@ -246,5 +247,32 @@
     <style name="FlightTheme.OverlayMode">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionMenuTextColor">@color/menu_bar_text_color</item>
+    </style>
+
+    <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
+        <item name="android:logo">@drawable/ic_stat_wotif</item>
+        <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
+        <item name="android:windowBackground">@android:color/white</item>
+
+        <!-- PopupMenu -->
+        <item name="android:dropDownListViewStyle">@style/TerminalMapThemeDropDownListView</item>
+        <item name="spinnerDropDownItemStyle">@style/TerminalMapThemeSpinnerDropDownItemStyle</item>
+        <item name="skin_terminalChooserTextColor">@color/actionbar_text_wotif</item>
+
+    </style>
+
+    <style name="TerminalMapActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="android:background">@color/action_bar_bg_color</item>
+    </style>
+
+    <style name="TerminalMapThemeSpinnerDropDownItemStyle" parent="@style/Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:background">@color/action_bar_bg_color</item>
+        <item name="background">@color/action_bar_bg_color</item>
+    </style>
+
+    <style name="TerminalMapThemeDropDownListView" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
+        <item name="android:background">@color/action_bar_bg_color</item>
     </style>
 </resources>
