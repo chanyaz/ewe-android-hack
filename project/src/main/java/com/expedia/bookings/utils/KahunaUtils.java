@@ -38,8 +38,7 @@ public class KahunaUtils {
 			KahunaAnalytics.onAppCreate(app, PROD_APP_KEY, PushNotificationUtils.SENDER_ID);
 		}
 
-		String localeIdentifier = PointOfSale.getPointOfSale().getLocaleIdentifier();
-		mUserAttributes.put("pos_locale", localeIdentifier);
+		mUserAttributes.put("point_of_sale", getPointOfSale());
 
 		String deviceLocale = Locale.getDefault().toString();
 		mUserAttributes.put("device_locale", deviceLocale);
@@ -80,9 +79,8 @@ public class KahunaUtils {
 
 	public static void updatePOS() {
 		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
-			PointOfSale pos = PointOfSale.getPointOfSale();
-			mUserAttributes.put("pos_locale", pos.getLocaleIdentifier());
-			mUserAttributes.put("country_code", pos.getTwoLetterCountryCode());
+			mUserAttributes.put("point_of_sale", getPointOfSale());
+			mUserAttributes.put("country_code", PointOfSale.getPointOfSale().getTwoLetterCountryCode());
 
 			String deviceLocale = Locale.getDefault().toString();
 			mUserAttributes.put("device_locale", deviceLocale);
@@ -105,8 +103,8 @@ public class KahunaUtils {
 				if (Db.getUser().getPrimaryTraveler() != null) {
 					KahunaAnalytics.setUsernameAndEmail(Db.getUser().getExpediaUserId(),
 						Db.getUser().getPrimaryTraveler().getEmail());
-					mUserAttributes.put("firstname", Db.getUser().getPrimaryTraveler().getFirstName());
-					mUserAttributes.put("lastname", Db.getUser().getPrimaryTraveler().getLastName());
+					mUserAttributes.put("first_name", Db.getUser().getPrimaryTraveler().getFirstName());
+					mUserAttributes.put("last_name", Db.getUser().getPrimaryTraveler().getLastName());
 				}
 
 				mUserAttributes.put("rewards_member", User.getLoggedInLoyaltyMembershipTier(mContext).toString());
@@ -138,4 +136,11 @@ public class KahunaUtils {
 		}
 	}
 
+	private static String getPointOfSale() {
+		String pointOfSale = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		if (PointOfSale.getPointOfSale().getEAPID() != PointOfSale.INVALID_EAPID) {
+			pointOfSale = PointOfSale.getPointOfSale().getTpid() + "-" + PointOfSale.getPointOfSale().getEAPID();
+		}
+		return pointOfSale;
+	}
 }
