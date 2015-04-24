@@ -306,4 +306,7 @@
 
     <attr name="skin_tablet_hotel_coupon_text_color" format="reference|color" />
     <attr name="skin_etp_pay_now_charges_text" format="string" />
+
+    <attr name="skin_terminal_chooser_text_color" format="string" />
+    <attr name="skin_flight_free_cancellation_text_color" format="string" />
 </resources>

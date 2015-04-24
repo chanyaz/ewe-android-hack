@@ -10,6 +10,6 @@
     android:paddingLeft="3dp"
     android:paddingRight="8dp"
     android:text="@string/legend"
-    android:textColor="@color/itin_white_text"
+    android:textColor="?attr/skin_terminal_chooser_text_color"
     android:textSize="12dp"
     android:textStyle="bold" />
