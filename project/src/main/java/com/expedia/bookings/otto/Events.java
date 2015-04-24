@@ -902,7 +902,4 @@ public class Events {
 
 	public static class PhoneLaunchOnResume {
 	}
-
-	public static class LaunchShowLoadingAnimation {
-	}
 }

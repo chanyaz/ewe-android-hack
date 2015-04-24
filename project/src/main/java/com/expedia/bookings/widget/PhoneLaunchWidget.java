@@ -105,6 +105,8 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Ui.getApplication(getContext()).launchComponent().inject(this);
 		launchListWidget.setOnScrollListener(scrollListener);
 		isAirAttachDismissed = false;
+		bindLobWidget();
+		setListState();
 	}
 
 	@Override
@@ -441,7 +443,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	private void setListState() {
 		if (isExpired() && !ExpediaBookingApp.sIsAutomation) {
-			Events.post(new Events.LaunchShowLoadingAnimation());
+			launchListWidget.showListLoadingAnimation();
 		}
 	}
 
