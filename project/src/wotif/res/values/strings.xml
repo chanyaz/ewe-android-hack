@@ -3,7 +3,6 @@
 
     <string name="wotif_best_price_guarantee">Wotif Price Guarantee</string>
 
-    <string name="del_customer_support_text">Call Wotif Customer Support</string>
     <string name="call_wotif_customer_support">Call Wotif Customer Support</string>
 
     <!-- Log in with Wotif -->
@@ -13,7 +12,6 @@
     <!-- Content description for action: Press to log in with your Wotif account -->
     <string name="cd_checkout_log_in_with_wotif">Press to log in to your Wotif account</string>
 
-    <string name="del_contact_wotif">Contact Wotif</string>
     <string name="wotif_website">Wotif Website</string>
     <string name="wotif_app_support">Wotif App Support</string>
     <string name="wotif_copyright_TEMPLATE">© Copyright 2012-%1$s Wotif\nAll rights reserved.</string>
@@ -68,8 +66,6 @@
 
     <string name="error_flights_no_longer_available_wotif">We\'re really sorry, one of your flights is no longer available from Wotif.</string>
 
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="del_error_room_is_now_sold_out_wotif">We\&apos;re sorry but this room is no longer available from Wotif.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_wotif">We\&apos;re sorry but this hotel is no longer available from Wotif.</string>
     <!--A message stating this hotel is Not currently available on Wotif -->
@@ -81,18 +77,15 @@
 
     <!-- Missing strings for Wotif from Expedia-->
     <string name="tell_a_friend_body_wotif">Hi there,\n\nCheck out Wotif Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
-    <string name="del_cd_log_in_email_edit_text_wotif">Enter Wotif account email address</string>
     <string name="tell_a_friend_subject_wotif">Wotif Hotels</string>
     <string name="restricted_profile_login_message_wotif">To log in to Wotif, you must use an unrestricted user profile on your device.</string>
-    <string name="del_cd_log_in_password_edit_text_wotif">Enter Wotif account password</string>
-    <string name="del_cd_launch_open_eb_info_screen_wotif">Open Wotif Bookings information screen</string>
     <string name="loading_wotif_account">Loading Wotif Account</string>
     <string name="e3_error_checkout_booking_succeeded_with_errors_wotif">You successfully booked your hotel! If you need an itinerary immediately, please call Wotif Customer Support.</string>
     <string name="wotif_password_hint">Wotif Password</string>
     <string name="dialog_message_launch_wotif_mobile_site">Launch the Wotif mobile website?</string>
     <string name="sorry_rooms_sold_out_wotif">Sorry, all rooms are sold out on Wotif.</string>
     <!-- Wotif App download link -->
-    <string name="del_share_template_long_ad_wotif">Book hotels, flights and view &amp; share your itineraries. Download the free Wotif mobile app today.\n%s</string>
+    <string name="share_template_long_ad_wotif">Book hotels, flights and view &amp; share your itineraries. Download the free Wotif mobile app today.\n%s</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Total Due to Wotif Today:</string>
     <!-- User needs to reset password -->
