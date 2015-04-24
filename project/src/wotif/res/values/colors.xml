@@ -34,5 +34,8 @@
 
     <color name="flight_trip">#1972B2</color>
     <color name="flight_trip_price">#1972B2</color>
+    <color name="action_bar_flight_text_color">@color/actionbar_text_wotif</color>
+    <color name="action_bar_flight_cancel_text_color">@color/actionbar_text_wotif</color>
+    <color name="action_bar_flight_result_separator_color">#999999</color>
 
 </resources>
