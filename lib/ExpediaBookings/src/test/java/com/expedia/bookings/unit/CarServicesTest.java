@@ -1,12 +1,15 @@
 package com.expedia.bookings.unit;
 
 import java.io.File;
+import java.util.LinkedHashSet;
 
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.expedia.bookings.data.cars.CarFilter;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.Transmission;
 import com.expedia.bookings.services.CarServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
@@ -86,6 +89,54 @@ public class CarServicesTest {
 		for (CarSearch search : observer.getItems()) {
 			assertEquals(3, search.categories.size());
 		}
+	}
+
+	@Test
+	public void testMockFilterSearchWorks() throws Throwable {
+		//Set Car filter object
+		CarFilter carFilter = new CarFilter();
+		carFilter.carCategoryCheckedFilter = new LinkedHashSet();
+		carFilter.carSupplierCheckedFilter = new LinkedHashSet();
+		carFilter.carTransmissionType = Transmission.MANUAL_TRANSMISSION;
+		carFilter.carSupplierCheckedFilter.add("NoCCRequired");
+
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
+
+		BlockingObserver<CarSearch> observer = new BlockingObserver<>(2);
+		CarServices service = getTestCarServices();
+
+		Subscription sub = service.carSearch(new CarSearchParams(), observer);
+		observer.await();
+		sub.unsubscribe();
+
+		for (Throwable throwable : observer.getErrors()) {
+			throw throwable;
+		}
+		assertTrue(observer.completed());
+		assertEquals(1, observer.getItems().size());
+
+		BlockingObserver<CarSearch> filterObserver = new BlockingObserver<>(2);
+		CarServices filterService = getTestCarServices();
+		Subscription filterSub = filterService.carFilterSearch(filterObserver, carFilter);
+		filterObserver.await();
+		filterSub.unsubscribe();
+
+		for (Throwable throwable : filterObserver.getErrors()) {
+			throw throwable;
+		}
+		assertTrue(filterObserver.completed());
+		assertEquals(1, filterObserver.getItems().size());
+
+		for (CarSearch search : filterObserver.getItems()) {
+			assertEquals(1, search.categories.size());
+			assertEquals("Standard", search.categories.get(0).carCategoryDisplayLabel);
+
+			assertEquals(1, search.categories.get(0).offers.size());
+			assertEquals("NoCCRequired", search.categories.get(0).offers.get(0).vendor.name);
+		}
+
 	}
 
 	private CarServices getTestCarServices() throws Throwable {

@@ -41,6 +41,13 @@ public final class CarViewModel {
 		return onView(withId(R.id.pickup_location));
 	}
 
+	public static ViewInteraction searchFilter() {
+		return onView(withId(R.id.sort_toolbar));
+	}
+
+	public static void clickFilterDone() {
+		onView(withId(R.id.car_filter_done)).perform(click());
+	}
 	public static void selectPickupLocation(Instrumentation instrumentation, String airportCode) throws Throwable {
 		ScreenActions.delay(1);
 		onView(withText(airportCode))
