@@ -7,10 +7,14 @@ import com.expedia.bookings.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 
 public class LaunchScreen extends LaunchActionBar {
 
@@ -52,6 +56,22 @@ public class LaunchScreen extends LaunchActionBar {
 
 	public static void launchActivities() {
 		lxLaunchButton().perform(click());
+	}
+
+	public static ViewInteraction carLaunchButtonInDoubleRow() {
+		return onView(allOf(withId(R.id.cars_button), isDescendantOfA(withId(R.id.double_row_lob_selector))));
+	}
+
+	public static ViewInteraction lxLaunchButtonInDoubleRow() {
+		return onView(allOf(withId(R.id.activities_button), isDescendantOfA(withId(R.id.double_row_lob_selector))));
+	}
+
+	public static void checkCarsButtonNotDisplayed() {
+		carLaunchButtonInDoubleRow().check(matches(not(isDisplayed())));
+	}
+
+	public static void checkLXButtonNotDisplayed() {
+		lxLaunchButtonInDoubleRow().check(matches(not(isDisplayed())));
 	}
 }
 
