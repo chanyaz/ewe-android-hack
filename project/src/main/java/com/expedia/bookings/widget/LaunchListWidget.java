@@ -98,8 +98,7 @@ public class LaunchListWidget extends RecyclerView {
 		adapter.notifyDataSetChanged();
 	}
 
-	@Subscribe
-	public void onShowListLoadingAnimation(Events.LaunchShowLoadingAnimation event) {
+	public void showListLoadingAnimation() {
 		List<Integer> elements = createDummyListForAnimation();
 		String headerTitle = getResources().getString(R.string.loading_header);
 		adapter.setListData(elements, headerTitle);
