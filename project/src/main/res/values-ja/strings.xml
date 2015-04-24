@@ -957,8 +957,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">旅程</string>
-    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
-    <string name="shop_travel">旅行を予約</string>
+    <!-- Shop -->
+    <string name="shop">検索</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">旅程を検索する</string>
     <!-- Enter Itinerary Details -->
