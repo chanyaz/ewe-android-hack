@@ -32,7 +32,10 @@ public class LaunchScreen extends LaunchActionBar {
 
 	public static ViewInteraction tripsButton() {
 		return onView(withText(R.string.Your_Trips));
+	}
 
+	public static ViewInteraction shopButton() {
+		return onView(withText(R.string.shop));
 	}
 
 	public static void launchHotels() {
