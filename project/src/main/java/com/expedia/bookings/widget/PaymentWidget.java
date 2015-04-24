@@ -49,7 +49,7 @@ public class PaymentWidget extends ExpandableCardView {
 	ViewGroup billingInfoContainer;
 
 	@InjectView(R.id.section_billing_info)
-	SectionBillingInfo sectionBillingInfo;
+	public SectionBillingInfo sectionBillingInfo;
 
 	@InjectView(R.id.section_location_address)
 	SectionLocation sectionLocation;

@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
@@ -17,6 +18,7 @@ import com.expedia.bookings.presenter.lx.LXPresenter;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Ui;
 import com.facebook.Session;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -91,6 +93,10 @@ public class LXBaseActivity extends ActionBarActivity {
 	protected void onPause() {
 		super.onPause();
 		Events.unregister(this);
+
+		if (isFinishing()) {
+			clearCCNumber();
+		}
 	}
 
 	@Override
@@ -110,5 +116,15 @@ public class LXBaseActivity extends ActionBarActivity {
 	@Subscribe
 	public void onFinishActivity(Events.FinishActivity event) {
 		finish();
+	}
+
+	public void clearCCNumber() {
+		try {
+			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setNumber(null);
+			Db.getBillingInfo().setNumber(null);
+		}
+		catch (Exception ex) {
+			Log.e("Error clearing billingInfo card number", ex);
+		}
 	}
 }
