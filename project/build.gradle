@@ -342,6 +342,7 @@ def releaseAccountTokens = [
     'com.expedia.bookings' : 'expedia.tuid',
     'com.expedia.bookings.vsc' : 'vsc.tuid',
     'com.travelocity.android' : 'travelocity.tuid',
+    'com.wotif.android' : 'wotif.tuid',
 ]
 
 android.applicationVariants.all { variant ->
