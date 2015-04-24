@@ -287,14 +287,10 @@ public class ShareUtils {
 
 	public String getFlightShareSubject(FlightLeg firstLeg, FlightLeg lastLeg, int travelerCount, boolean isShared, String travelerName) {
 		String destinationCity = StrUtils.getWaypointCityOrCode(firstLeg.getLastWaypoint());
-		DateTime first = firstLeg.getFirstWaypoint().getMostRelevantDateTime();
-		DateTime last = lastLeg.getFirstWaypoint().getMostRelevantDateTime();
-		long start = first == null ? 0 : DateTimeUtils
-			.withConfiguredTimeZone(mContext, first)
-			.getMillis();
-		long end = last == null ? 0 : DateTimeUtils
-			.withConfiguredTimeZone(mContext, last)
-			.getMillis();
+		DateTime first = firstLeg.getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+		DateTime last = lastLeg.getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+		long start = first.getMillis();
+		long end = last.getMillis();
 		String dateRange = DateUtils.formatDateRange(mContext, start, end, DateUtils.FORMAT_NUMERIC_DATE
 				| DateUtils.FORMAT_SHOW_DATE);
 
@@ -320,7 +316,7 @@ public class ShareUtils {
 
 		String destinationCity = leg.getLastWaypoint().getAirport().mCity;
 		DateTime departureCal = leg.getFirstWaypoint().getBestSearchDateTime();
-		DateTime departureDate = DateTimeUtils.withConfiguredTimeZone(mContext, departureCal);
+		DateTime departureDate = departureCal.toLocalDateTime().toDateTime();
 
 		String shareText = "";
 
@@ -825,13 +821,11 @@ public class ShareUtils {
 			sb.append(mContext.getString(R.string.path_template, formatAirport(flight.getOriginWaypoint().getAirport()),
 					formatAirport(flight.getDestinationWaypoint().getAirport())));
 			sb.append("\n");
-			DateTime start = DateTimeUtils.withConfiguredTimeZone(mContext,
-				flight.getOriginWaypoint().getBestSearchDateTime());
+			DateTime start = flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime();
 			sb.append(DateUtils.formatDateTime(mContext, start.getMillis(), DateUtils.FORMAT_SHOW_DATE
 					| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY));
 			sb.append("\n");
-			DateTime end = DateTimeUtils.withConfiguredTimeZone(mContext, flight.getDestinationWaypoint()
-				.getBestSearchDateTime());
+			DateTime end = flight.getDestinationWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime();
 
 			String departureTzString = FormatUtils.formatTimeZone(flightLeg.getFirstWaypoint().getAirport(), start,
 					MAX_TIMEZONE_LENGTH);

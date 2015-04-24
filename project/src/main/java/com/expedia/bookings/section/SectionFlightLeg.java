@@ -1,7 +1,5 @@
 package com.expedia.bookings.section;
 
-import java.text.DateFormat;
-
 import org.joda.time.DateTime;
 
 import android.content.Context;
@@ -18,8 +16,6 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.util.Ui;
-import com.mobiata.flightlib.data.Waypoint;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class SectionFlightLeg extends LinearLayout {
 
@@ -64,8 +60,8 @@ public class SectionFlightLeg extends LinearLayout {
 	}
 
 	public void setInfoText(FlightLeg leg) {
-		DateTime cal = leg.getFirstWaypoint().getMostRelevantDateTime();//We always label with the day the flight (leg) departs
-		long time = cal == null ? 0 : DateTimeUtils.withConfiguredTimeZone(getContext(), cal).getMillis();
+		DateTime cal = leg.getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();//We always label with the day the flight (leg) departs
+		long time = cal == null ? 0 : cal.getMillis();
 		String formattedDate = DateUtils.formatDateTime(getContext(), time, DateUtils.FORMAT_SHOW_DATE
 				| DateUtils.FORMAT_SHOW_WEEKDAY
 				| DateUtils.FORMAT_ABBREV_ALL);
@@ -77,12 +73,6 @@ public class SectionFlightLeg extends LinearLayout {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Convenience methods
-
-	public String getFormatedRelevantWaypointTime(Waypoint wp) {
-		Context context = getContext();
-		DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(context);
-		return timeFormat.format(DateTimeUtils.withConfiguredTimeZone(context, wp.getMostRelevantDateTime()));
-	}
 
 	private int getLegPosition() {
 		FlightTrip trip = mTripLeg.getFlightTrip();

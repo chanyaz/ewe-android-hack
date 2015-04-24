@@ -20,7 +20,6 @@ import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.mobiata.android.util.Ui;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class FlightInfoBarSection extends LinearLayout {
 
@@ -103,11 +102,11 @@ public class FlightInfoBarSection extends LinearLayout {
 
 	public void bindTripOverview(FlightTrip trip, int numTravelers) {
 		// Bind left label (trip dates)
-		DateTime depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
-		DateTime retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
+		DateTime depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+		DateTime retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
 
-		long start = depDate == null ? 0 : DateTimeUtils.withConfiguredTimeZone(getContext(), depDate).getMillis();
-		long end = retDate == null ? 0 :  DateTimeUtils.withConfiguredTimeZone(getContext(), retDate).getMillis();
+		long start = depDate == null ? 0 : depDate.getMillis();
+		long end = retDate == null ? 0 :  retDate.getMillis();
 
 		String dateRange = DateUtils.formatDateRange(getContext(), start, end,
 				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY
