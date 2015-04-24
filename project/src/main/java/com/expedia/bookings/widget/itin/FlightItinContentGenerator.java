@@ -935,7 +935,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	private String formatTime(DateTime cal) {
 		String format = DateTimeUtils.getDeviceTimeFormat(getContext());
-		return JodaUtils.format(DateTimeUtils.withConfiguredTimeZone(getContext(), cal), format);
+		return JodaUtils.format(cal.toLocalDateTime().toDateTime(), format);
 	}
 
 	private Animation getGlowAnimation() {

@@ -35,7 +35,6 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class PushNotificationUtils {
 
@@ -376,10 +375,8 @@ public class PushNotificationUtils {
 
 	private static JSONObject buildFlightJSON(Context context, Flight flight, boolean shared) {
 		try {
-			DateTime departureDate = DateTimeUtils.withConfiguredTimeZone(context,
-				flight.getOriginWaypoint().getBestSearchDateTime());
-			DateTime arrivalDate = DateTimeUtils.withConfiguredTimeZone(context,
-				flight.getDestinationWaypoint().getBestSearchDateTime());
+			DateTime departureDate = flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime();
+			DateTime arrivalDate = flight.getDestinationWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime();
 
 			JSONObject flightJson = new JSONObject();
 			flightJson.put("__type__", "Flight");

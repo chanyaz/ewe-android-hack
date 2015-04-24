@@ -57,7 +57,6 @@ import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class FlightTripOverviewActivity extends FragmentActivity implements LogInListener,
 	CheckoutInformationListener, ISlideToListener, DoLogoutListener,
@@ -634,10 +633,9 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
 
-		DateTime depDate = DateTimeUtils.withConfiguredTimeZone(this, trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime());
-		DateTime retDate = DateTimeUtils.withConfiguredTimeZone(this,
-			trip.getLeg(trip.getLegCount() - 1).getLastWaypoint()
-				.getMostRelevantDateTime());
+		DateTime depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+		DateTime retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+
 		String dateRange = DateUtils.formatDateRange(this, depDate.getMillis(), retDate.getMillis(),
 			DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY
 				| DateUtils.FORMAT_ABBREV_MONTH
