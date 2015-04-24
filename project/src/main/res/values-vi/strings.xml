@@ -957,8 +957,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Lịch trình</string>
-    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
-    <string name="shop_travel">Tìm và đặt</string>
+    <!-- Shop -->
+    <string name="shop">Đặt</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Tìm lịch trình</string>
     <!-- Enter Itinerary Details -->

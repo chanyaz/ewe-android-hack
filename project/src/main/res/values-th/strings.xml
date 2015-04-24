@@ -959,8 +959,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">แผนการเดินทาง</string>
-    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
-    <string name="shop_travel">จองการเดินทาง</string>
+    <!-- Shop -->
+    <string name="shop">จอง</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">ค้นหาแผนการเดินทาง</string>
     <!-- Enter Itinerary Details -->

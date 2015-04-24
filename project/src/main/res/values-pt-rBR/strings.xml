@@ -957,8 +957,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerário</string>
-    <!-- Shop Travel - used on launch screen tab, so can't be too long -->
-    <string name="shop_travel">Compre suas viagens</string>
+    <!-- Shop-->
+    <string name="shop">Reservar</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Buscar itinerário</string>
     <!-- Enter Itinerary Details -->
