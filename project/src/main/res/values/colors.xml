@@ -74,6 +74,7 @@
     <color name="flight_results_row_return_leg_bg_pressed">#408CA1</color>
     <color name="spinner_airport">#FFFFFF</color>
     <color name="spinner_airport_details">#777777</color>
+    <color name="flight_free_cancellation_text_color">#FFE980</color>
 
     <!-- Hotels colors -->
     <color name="hotels_cc_text_color_secondary">#868a8f</color>

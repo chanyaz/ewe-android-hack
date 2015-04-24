@@ -375,6 +375,7 @@
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
         <item name="skin_flightCheckoutAccountLabel">@string/expedia_account</item>
+        <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
     </style>
 
     <style name="FlightTheme.DropDownSearch">
@@ -464,6 +465,8 @@
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
+        <item name="skin_terminalChooserTextColor">@color/itin_white_text</item>
+
     </style>
 
     <style name="FlightTheme.Rules">
