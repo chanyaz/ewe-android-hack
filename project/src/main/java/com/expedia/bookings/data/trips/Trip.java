@@ -18,13 +18,7 @@ import com.mobiata.android.json.JSONable;
 
 public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 
-	public static enum TimePeriod {
-		UPCOMING,
-		INPROGRESS,
-		COMPLETED
-	}
-
-	public static enum LevelOfDetail {
+	public enum LevelOfDetail {
 		NONE, // Not loaded by API yet
 		SUMMARY, // Loaded by API, only summary
 		SUMMARY_FALLBACK, // Got summary, but for some reason can't get full details
@@ -58,7 +52,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 	private DateTime mEndDate;
 
 	private BookingStatus mBookingStatus;
-	private TimePeriod mTimePeriod;
 
 	private CustomerSupport mCustomerSupport;
 
@@ -160,14 +153,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 
 	public void setBookingStatus(BookingStatus bookingStatus) {
 		mBookingStatus = bookingStatus;
-	}
-
-	public TimePeriod getTimePeriod() {
-		return mTimePeriod;
-	}
-
-	public void setTimePeriod(TimePeriod timePeriod) {
-		mTimePeriod = timePeriod;
 	}
 
 	public CustomerSupport getCustomerSupport() {
@@ -293,7 +278,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		mCustomerSupport = other.mCustomerSupport;
 
 		mBookingStatus = other.mBookingStatus;
-		mTimePeriod = other.mTimePeriod;
 
 		mTripComponents = other.mTripComponents;
 		associateTripWithComponents();
@@ -353,7 +337,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 			JodaUtils.putDateTimeInJson(obj, "endDateTime", mEndDate);
 
 			JSONUtils.putEnum(obj, "bookingStatus", mBookingStatus);
-			JSONUtils.putEnum(obj, "timePeriod", mTimePeriod);
 
 			TripUtils.putTripComponents(obj, mTripComponents);
 			JSONUtils.putJSONableList(obj, "insurance", mTripInsurance);
@@ -392,7 +375,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		mEndDate = JodaUtils.getDateTimeFromJsonBackCompat(obj, "endDateTime", "endDate");
 
 		mBookingStatus = JSONUtils.getEnum(obj, "bookingStatus", BookingStatus.class);
-		mTimePeriod = JSONUtils.getEnum(obj, "timePeriod", TimePeriod.class);
 
 		mTripComponents.clear();
 		mTripComponents.addAll(TripUtils.getTripComponents(obj));
