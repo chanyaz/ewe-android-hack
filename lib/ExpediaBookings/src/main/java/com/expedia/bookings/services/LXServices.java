@@ -29,6 +29,7 @@ import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.Strings;
 import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.RequestInterceptor;
@@ -76,7 +77,7 @@ public class LXServices {
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
 			.doOnNext(HANDLE_SEARCH_ERROR)
-			.map(PUT_MONEY_IN_ACTIVITIES);
+			.map(ACTIVITIES_MONEY_TITLE);
 	}
 
 	private static final Action1<LXSearchResponse> HANDLE_SEARCH_ERROR = new Action1<LXSearchResponse>() {
@@ -91,12 +92,13 @@ public class LXServices {
 	public Subscription lxDetails(final LXActivity lxActivity, String location, LocalDate startDate, LocalDate endDate,
 		Observer<ActivityDetailsResponse> observer) {
 		return lxApi
-			.activityDetails(lxActivity.id, location, DateUtils.convertToLXDate(startDate), DateUtils.convertToLXDate(endDate))
+			.activityDetails(lxActivity.id, location, DateUtils.convertToLXDate(startDate),
+				DateUtils.convertToLXDate(endDate))
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
 			.doOnNext(HANDLE_ACTIVITY_DETAILS_ERROR)
 			.doOnNext(ACCEPT_ONLY_KNOWN_TICKET_TYPES)
-			.doOnNext(PUT_MONEY_IN_TICKETS)
+			.doOnNext(DETAILS_TITLE_AND_TICKET_MONEY)
 			.subscribe(observer);
 	}
 
@@ -109,10 +111,13 @@ public class LXServices {
 		}
 	};
 
-	private static final Action1<ActivityDetailsResponse> PUT_MONEY_IN_TICKETS = new Action1<ActivityDetailsResponse>() {
+	// Add money in offer tickets for easier handling and remove &quot; from activity and offer title.
+	private static final Action1<ActivityDetailsResponse> DETAILS_TITLE_AND_TICKET_MONEY = new Action1<ActivityDetailsResponse>() {
 		@Override
 		public void call(ActivityDetailsResponse response) {
+			response.title = Strings.escapeQuotes(response.title);
 			for (Offer offer : response.offersDetail.offers) {
+				offer.title = Strings.escapeQuotes(offer.title);
 				for (AvailabilityInfo availabilityInfo : offer.availabilityInfo) {
 					for (Ticket ticket : availabilityInfo.tickets) {
 						ticket.money = new Money(ticket.amount, response.currencyCode);
@@ -183,12 +188,14 @@ public class LXServices {
 		}
 	};
 
-	private static final Func1<LXSearchResponse, LXSearchResponse> PUT_MONEY_IN_ACTIVITIES = new Func1<LXSearchResponse, LXSearchResponse>() {
+	// Add money in tickets for easier handling and remove &quot; from activity title.
+	private static final Func1<LXSearchResponse, LXSearchResponse> ACTIVITIES_MONEY_TITLE = new Func1<LXSearchResponse, LXSearchResponse>() {
 		@Override
 		public LXSearchResponse call(LXSearchResponse response) {
 			String currencyCode = response.currencyCode;
 			for (LXActivity activity : response.activities) {
 				activity.price = new Money(activity.fromPriceValue, currencyCode);
+				activity.title = Strings.escapeQuotes(activity.title);
 			}
 			return response;
 		}

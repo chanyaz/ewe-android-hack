@@ -193,4 +193,14 @@ public class StringsTests {
 		assertEquals("Bcde", Strings.capitalizeFirstLetter("BCDE"));
 		assertEquals("Bcde", Strings.capitalizeFirstLetter("bcde"));
 	}
+
+	@Test
+	public void testEscapeQuotes() {
+		String textWithQuotes = "Test &quot;One&quot;";
+		String expectedTextWithQuotes = "Test \"One\"";
+		String textWithoutQuotes = "Test One";
+
+		assertEquals(expectedTextWithQuotes, Strings.escapeQuotes(textWithQuotes));
+		assertEquals(textWithoutQuotes, Strings.escapeQuotes(textWithoutQuotes));
+	}
 }

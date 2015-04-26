@@ -176,4 +176,13 @@ public class Strings {
 		String lower = word.substring(1).toLowerCase(Locale.US);
 		return upper + lower;
 	}
+
+	public static String escapeQuotes(String content) {
+		if (isEmpty(content)) {
+			return content;
+		}
+		else {
+			return content.replaceAll("&quot;", "\"");
+		}
+	}
 }
