@@ -15,7 +15,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -344,7 +343,11 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			if (data.hasName()) {
 				String formatStr = mContext.getString(R.string.current_traveler_TEMPLATE);
 				String formatted = String.format(formatStr, data.getFirstName().trim(), data.getLastName().trim());
-				field.setText(Html.fromHtml(formatted));
+				SpannableString stringToSpan = new SpannableString(formatted);
+				int color = mContext.getResources().getColor(R.color.checkout_card_brand_color);
+				Ui.setTextStyleNormalText(stringToSpan, color, 0, formatted.indexOf(data.getFirstName()));
+
+				field.setText(stringToSpan);
 			}
 			else {
 				field.setText("");
