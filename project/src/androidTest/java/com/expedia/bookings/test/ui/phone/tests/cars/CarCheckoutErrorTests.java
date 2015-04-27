@@ -150,13 +150,11 @@ public class CarCheckoutErrorTests extends CarTestCase {
 		}
 		Events.post(new Events.CarsShowCheckout(carCreateTripResponse));
 
-		screenshot("Car Checkout");
 		CarViewModel.travelerWidget().perform(click());
 		CarViewModel.firstName().perform(typeText(firstName));
 		CarViewModel.lastName().perform(typeText("Test"));
 		CarViewModel.email().perform(typeText(EMAIL));
 		CarViewModel.phoneNumber().perform(typeText("4151234567"));
-		screenshot("Car Checkout Traveler details entered");
 		CarViewModel.checkoutToolbarDone().perform(click());
 
 		if (offer == CC_REQUIRED) {
@@ -165,7 +163,6 @@ public class CarCheckoutErrorTests extends CarTestCase {
 			enterCVV("111");
 		}
 		else {
-			screenshot("Car Checkout ready to purchase");
 			ScreenActions.delay(1);
 			CheckoutViewModel.performSlideToPurchase();
 		}

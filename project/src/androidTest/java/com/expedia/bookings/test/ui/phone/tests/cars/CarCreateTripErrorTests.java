@@ -18,7 +18,6 @@ public class CarCreateTripErrorTests extends CarTestCase {
 	private static final String CATEGORY = "Economy";
 
 	public void testCarCreateTripWithPriceChange() throws Throwable {
-		screenshot("Car Search");
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		CarViewModel.pickupLocation().perform(typeText("SFO"));
 		CarViewModel.selectPickupLocation(getInstrumentation(), "San Francisco, CA");
@@ -26,7 +25,6 @@ public class CarCreateTripErrorTests extends CarTestCase {
 		CarViewModel.selectDates(startDateTime.toLocalDate(), startDateTime.toLocalDate());
 		CarViewModel.searchButton().perform(click());
 
-		screenshot("Car Results");
 		CarViewModel.selectCarCategory(CATEGORY);
 		screenshot("Car Offers");
 		CarViewModel.selectCarOffer(0);
@@ -36,7 +34,6 @@ public class CarCreateTripErrorTests extends CarTestCase {
 	}
 
 	public void testCarCreateTripFailure() throws Throwable {
-		screenshot("Car Search");
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		CarViewModel.pickupLocation().perform(typeText("SFO"));
 		CarViewModel.selectPickupLocation(getInstrumentation(), "San Francisco, CA");
@@ -44,7 +41,6 @@ public class CarCreateTripErrorTests extends CarTestCase {
 		CarViewModel.selectDates(startDateTime.toLocalDate(), startDateTime.toLocalDate());
 		CarViewModel.searchButton().perform(click());
 
-		screenshot("Car Results");
 		CarViewModel.selectCarCategory(CATEGORY);
 		screenshot("Car Offers");
 		CarViewModel.selectCarOffer(1);
