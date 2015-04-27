@@ -5,6 +5,7 @@
 
     <style name="AppTheme.Base" parent="@style/Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:textColorSecondary">@color/cars_actionbar_text_color</item>

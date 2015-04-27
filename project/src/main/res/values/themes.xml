@@ -260,7 +260,7 @@
         <item name="android:colorPrimary">#495863</item>
         <item name="android:actionOverflowButtonStyle">@style/LaunchOverflowStyle</item>
         <item name="windowActionBar">false</item>
-
+        <item name="windowNoTitle">true</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
