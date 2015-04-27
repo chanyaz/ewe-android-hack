@@ -191,6 +191,9 @@
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
         <item name="skin_itineraryNumberString">@string/wotif_itinerary</item>
+        <item name="skin_itinCardOverflowDrawable">@drawable/ic_menu_overflow_image</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_wotif</item>
+        <item name="skin_itinCardTitleTextColor">@color/actionbar_text_wotif</item>
     </style>
 
     <style name="FlightActionBarWotif" parent="FlightActionBar">
@@ -221,6 +224,9 @@
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
         <item name="skin_itineraryNumberString">@string/wotif_itinerary</item>
+        <item name="skin_itinCardOverflowDrawable">@drawable/ic_menu_overflow_image</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_wotif</item>
+        <item name="skin_itinCardTitleTextColor">@color/actionbar_text_wotif</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
