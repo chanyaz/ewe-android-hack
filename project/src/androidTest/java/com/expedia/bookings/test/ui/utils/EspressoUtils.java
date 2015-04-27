@@ -32,6 +32,10 @@ public class EspressoUtils {
 		onView(withText(text)).check(matches(isDisplayed()));
 	}
 
+	public static void assertViewWithTextIsDisplayed(int id) {
+		onView(withId(id)).check(matches(isDisplayed()));
+	}
+
 	public static void assertViewWithTextIsDisplayed(int id, String text) {
 		onView(allOf(withId(id), withText(text))).check(matches(isDisplayed()));
 	}

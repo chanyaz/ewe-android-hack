@@ -35,8 +35,7 @@ public class TripsScreen extends LaunchActionBar {
 	}
 
 	public static void clickItinDetailsDone() {
-		ViewInteraction viewInteraction = onView(withId(R.id.close_image_button));
-		viewInteraction.perform(click());
+		onView(withId(R.id.close_image_button)).perform(click());
 	}
 
 }

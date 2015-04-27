@@ -181,7 +181,6 @@ public final class ViewActions {
 
 			@Override
 			public void perform(UiController uiController, View view) {
-
 				value.set(((TextView) view).getText().toString());
 			}
 

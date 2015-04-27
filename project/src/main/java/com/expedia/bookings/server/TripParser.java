@@ -31,7 +31,6 @@ import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
-import com.expedia.bookings.data.trips.Trip.TimePeriod;
 import com.expedia.bookings.data.trips.TripActivity;
 import com.expedia.bookings.data.trips.TripCar;
 import com.expedia.bookings.data.trips.TripComponent;
@@ -78,7 +77,6 @@ public class TripParser {
 		trip.setEndDate(DateTimeParser.parseDateTime(tripJson.opt("endTime")));
 
 		trip.setBookingStatus(parseBookingStatus(tripJson.optString("bookingStatus")));
-		trip.setTimePeriod(parseTimePeriod(tripJson.optString("timePeriod")));
 
 		/*
 		 *  The api returns the sharableUrl in the form of /api/trips/shared. But this is NOT the link that is to be shared to any users.
@@ -186,20 +184,6 @@ public class TripParser {
 		}
 		else if ("CANCELLED".equals(status)) {
 			return BookingStatus.CANCELLED;
-		}
-
-		return null;
-	}
-
-	private TimePeriod parseTimePeriod(String period) {
-		if ("UPCOMING".equals(period)) {
-			return TimePeriod.UPCOMING;
-		}
-		else if ("INPROGRESS".equals(period)) {
-			return TimePeriod.INPROGRESS;
-		}
-		else if ("COMPLETED".equals(period)) {
-			return TimePeriod.COMPLETED;
 		}
 
 		return null;
