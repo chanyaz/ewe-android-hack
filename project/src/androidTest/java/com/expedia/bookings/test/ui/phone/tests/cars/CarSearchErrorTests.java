@@ -13,7 +13,6 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 public class CarSearchErrorTests extends CarTestCase {
 
 	public void testSearchErrorProductNotAvailable() throws Throwable {
-		screenshot("Car_Search");
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
 		CarViewModel.pickupLocation().perform(typeText("KTM"));
@@ -27,7 +26,6 @@ public class CarSearchErrorTests extends CarTestCase {
 	}
 
 	public void testSearchErrorInvalidInput() throws Throwable {
-		screenshot("Car Search");
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		CarViewModel.pickupLocation().perform(typeText("DTW"));
 		CarViewModel.selectPickupLocation(getInstrumentation(), "Detroit, MI");
