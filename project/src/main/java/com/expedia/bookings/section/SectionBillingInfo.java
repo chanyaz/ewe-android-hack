@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -418,7 +417,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				String brandName = data.getBrandName().replace("_", " ");
 				String formatStr = mContext.getString(R.string.brand_expiring_TEMPLATE);
 				String formatted = String.format(formatStr, brandName, exprStr);
-				field.setText(Html.fromHtml(formatted));
+				SpannableString stringToSpan = new SpannableString(formatted);
+				int color = mContext.getResources().getColor(R.color.checkout_card_brand_color);
+				Ui.setTextStyleNormalText(stringToSpan, color, 0, brandName.length());
+				field.setText(stringToSpan);
 			}
 			else {
 				field.setText("");

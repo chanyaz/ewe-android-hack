@@ -240,6 +240,7 @@
     <color name="bg_login_facebook_normal">#3B5998</color>
     <color name="bg_login_facebook_pressed">#233A6A</color>
     <color name="checkout_traveler_birth_color">#919191</color>
+    <color name="checkout_card_brand_color">#38597D</color>
 
     <!-- LX colors -->
     <color name="lx_primary_color">#DB6F0D</color>
