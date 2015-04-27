@@ -37,7 +37,7 @@ public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 		mPaint = new Paint();
 		mPaint.setAntiAlias(true);
 		mPaint.setStyle(Paint.Style.STROKE);
-		mPaint.setStrokeWidth(1 * context.getResources().getDisplayMetrics().density);
+		mPaint.setStrokeWidth(1);
 		mPaint.setColor(context.getResources().getColor(R.color.search_dropdown_disabled_stroke));
 		shouldDrawDivider = drawDivider;
 
