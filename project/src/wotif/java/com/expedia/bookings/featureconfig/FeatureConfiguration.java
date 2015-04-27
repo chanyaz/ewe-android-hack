@@ -13,7 +13,7 @@ import android.text.format.DateUtils;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TravelocityLocaleChangeReceiver;
+import com.expedia.bookings.activity.WotifLocaleChangeReceiver;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
@@ -41,7 +41,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public int getCrossSellStringResourceIdForShareEmail() {
-		return R.string.share_template_long_ad_tvly;
+		return R.string.share_template_long_ad_wotif;
 	}
 
 	public boolean isAppCrossSellInActivityShareContentEnabled() {
@@ -53,7 +53,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public String getHostnameForShortUrl() {
-		return "t.tvly.co";
+		return "w.wotf.co";
 	}
 
 	public boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
@@ -61,7 +61,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public String getActionForLocaleChangeEvent() {
-		return TravelocityLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
+		return WotifLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
 	}
 
 	public boolean wantsCustomHandlingForLocaleConfiguration() {
@@ -73,7 +73,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public int getNotificationIconResourceId() {
-		return R.drawable.ic_stat_travelocity;
+		return R.drawable.ic_stat_wotif;
 	}
 
 	public int getNotificationIndicatorLEDColor() {
@@ -103,8 +103,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getAdXPosIdentifier() {
 		int adXPosIdentifier = 13292;
 
-		// For Travelocity canada setting a separate ID.
-		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.TRAVELOCITY_CA) {
+		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.WOTIF_NZ) {
 			adXPosIdentifier = 14776;
 		}
 
@@ -113,15 +112,15 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public String getOmnitureReportSuiteIds(Context context) {
 		if (AndroidUtils.isRelease(context)) {
-			return "wifglobalapp";
+			return "expediaglobalapp";
 		}
 		else {
-			return "wifglobalappdev";
+			return "expediaglobalappdev";
 		}
 	}
 
 	public String getOmnitureTrackingServer() {
-		return "om.wotif.com";
+		return "om.expedia.com";
 	}
 
 	public void contactUsViaWeb(Context context) {
@@ -138,7 +137,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
 		List<BasicNameValuePair> additionalParamsForReviewsRequest = new ArrayList<BasicNameValuePair>();
-		additionalParamsForReviewsRequest.add(new BasicNameValuePair("origin", "WOTIF"));
+		additionalParamsForReviewsRequest.add(new BasicNameValuePair("caller", "Wotif"));
 		additionalParamsForReviewsRequest.add(new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
 		return additionalParamsForReviewsRequest;
 	}
