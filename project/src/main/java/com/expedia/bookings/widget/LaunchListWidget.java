@@ -83,7 +83,6 @@ public class LaunchListWidget extends RecyclerView {
 
 	@Subscribe
 	public void onNearbyHotelsSearchResults(Events.LaunchHotelSearchResponse event) {
-		adapter.cleanup();
 		String headerTitle = getResources().getString(R.string.nearby_deals_title);
 		Db.setLaunchListHotelData(event.topHotels);
 		adapter.setListData(event.topHotels, headerTitle);
@@ -92,7 +91,6 @@ public class LaunchListWidget extends RecyclerView {
 
 	@Subscribe
 	public void onCollectionDownloadComplete(Events.CollectionDownloadComplete event) {
-		adapter.cleanup();
 		String headerTitle = event.collection.title;
 		adapter.setListData(event.collection.locations, headerTitle);
 		adapter.notifyDataSetChanged();
