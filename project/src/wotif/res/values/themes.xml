@@ -91,7 +91,7 @@
         <item name="skin_hotelSearchResultSoldOut">@string/sold_out_on_wotif</item>
         <item name="skin_hotelSearchResultTEMPLATE">@string/not_currently_available_wotif_TEMPLATE</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_wotif</item>
-        <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
+        <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext</item>
         <item name="skin_addToCalenderMessage">@string/contact_phone_template_wotif</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_wotif</item>
         <item name="skin_passwordHint">@string/wotif_password_hint</item>
@@ -150,6 +150,7 @@
 
     <style name="Theme.Phone.HotelSearchActivity" parent="@style/Theme.Phone">
         <item name="android:actionMenuTextColor">@color/menu_bar_text_color</item>
+        <item name="skin_hotelSearchPopupFilterTextColor">@color/menu_bar_text_color</item>
     </style>
 
     <style name="LaunchTheme" parent="Theme.AppCompat">
