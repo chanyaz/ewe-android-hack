@@ -501,11 +501,12 @@ public final class ViewActions {
 			@Override
 			public Matcher<View> getConstraints() {
 				return Matchers.allOf(new Matcher[] {
-					ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE), ViewMatchers.isDescendantOfA(
-					Matchers.anyOf(new Matcher[] {
-						ViewMatchers.isAssignableFrom(ScrollView.class),
-						ViewMatchers.isAssignableFrom(HorizontalScrollView.class)
-					}))
+					ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+					ViewMatchers.isDescendantOfA(
+						Matchers.anyOf(new Matcher[] {
+							ViewMatchers.isAssignableFrom(ScrollView.class),
+							ViewMatchers.isAssignableFrom(HorizontalScrollView.class)
+						}))
 				});
 			}
 
@@ -530,5 +531,4 @@ public final class ViewActions {
 			}
 		};
 	}
-
 }

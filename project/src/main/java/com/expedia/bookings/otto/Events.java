@@ -27,6 +27,7 @@ import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
+import com.expedia.bookings.data.cars.CarFilter;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
@@ -166,7 +167,7 @@ public class Events {
 		public LaunchLocation selectedLocation;
 
 		public LaunchCollectionsAvailable(List<LaunchCollection> collections, LaunchCollection selectedCollection,
-			LaunchLocation selectedLocation) {
+										  LaunchLocation selectedLocation) {
 			this.collections = collections;
 			this.selectedCollection = selectedCollection;
 			this.selectedLocation = selectedLocation;
@@ -572,6 +573,14 @@ public class Events {
 		// ignore
 	}
 
+	public static class CarsFilterDone {
+		public CarFilter carFilter;
+
+		public CarsFilterDone(CarFilter carFilter) {
+			this.carFilter = carFilter;
+		}
+	}
+
 	public static class CarsGoToOverlay {
 		// ignore
 	}
@@ -585,6 +594,7 @@ public class Events {
 	}
 
 	public static class CarsShowLoadingAnimation {
+		// ignore
 	}
 
 	public static class CarsShowSearchResults {
@@ -593,6 +603,10 @@ public class Events {
 		public CarsShowSearchResults(CarSearch results) {
 			this.results = results;
 		}
+	}
+
+	public static class CarsShowFilteredSearchResults {
+		// ignore
 	}
 
 	public static class CarsShowSearchResultsError {
@@ -609,6 +623,10 @@ public class Events {
 		public CarsShowDetails(CategorizedCarOffers offers) {
 			categorizedCarOffers = offers;
 		}
+	}
+
+	public static class CarsShowResults {
+		// ignore
 	}
 
 	public static class CarsShowCheckoutAfterPriceChange {
@@ -668,6 +686,46 @@ public class Events {
 
 		public CarsShowConfirmation(CarCheckoutResponse checkoutResponse) {
 			this.checkoutResponse = checkoutResponse;
+		}
+	}
+
+	public static class CarsCategoryFilterCheckChanged {
+		public String checkBoxDisplayName;
+		public boolean checked;
+
+		public CarsCategoryFilterCheckChanged(String checkBoxDisplayName, boolean checked) {
+			this.checkBoxDisplayName = checkBoxDisplayName;
+			this.checked = checked;
+		}
+	}
+
+	public static class CarsSupplierFilterCheckChanged {
+		public String checkBoxDisplayName;
+		public boolean checked;
+
+		public CarsSupplierFilterCheckChanged(String checkBoxDisplayName, boolean checked) {
+			this.checkBoxDisplayName = checkBoxDisplayName;
+			this.checked = checked;
+		}
+	}
+
+	public static class CarsIsFiltered {
+		public CarSearch carSearch;
+		public String carCategory;
+
+		public CarsIsFiltered(CarSearch carSearch, String carCategory) {
+			this.carSearch = carSearch;
+			this.carCategory = carCategory;
+		}
+	}
+
+	public static class CarsIsFilteredOnDetails {
+		public CarSearch carSearch;
+		public String carCategory;
+
+		public CarsIsFilteredOnDetails(CarSearch carSearch, String carCategory) {
+			this.carSearch = carSearch;
+			this.carCategory = carCategory;
 		}
 	}
 

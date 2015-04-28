@@ -37,14 +37,14 @@
                 android:id="@+id/sort_filter_button"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/lx_sort_filter_button_height"
-                android:background="@drawable/lx_sort_filter_selector"
+                android:background="@drawable/sort_filter_selector"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/lx_sort_filter_icon" />
+                    android:src="@drawable/sort" />
 
                 <TextView
                     android:layout_width="wrap_content"

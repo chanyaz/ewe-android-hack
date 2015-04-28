@@ -17,6 +17,10 @@ import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.TextView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -36,10 +40,13 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.CarCategoryListWidget;
+import com.expedia.bookings.widget.CarFilterWidget;
+import com.expedia.bookings.widget.ErrorWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscription;
 
@@ -67,12 +74,30 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 	UserAccountRefresher userAccountRefresher;
 
+	@InjectView(R.id.sort_toolbar)
+	ViewGroup filterToolbar;
+
+	@InjectView(R.id.filter)
+	CarFilterWidget filter;
+
+	@InjectView(R.id.filter_number_text)
+	TextView filterNumber;
+
+	@InjectView(R.id.filter_icon)
+	View filterIcon;
+
+	@InjectView(R.id.search_error_widget)
+	ErrorWidget errorScreen;
+
 	private ProgressDialog createTripDialog;
 	private Subscription searchSubscription;
 	private Subscription createTripSubscription;
 	private CarSearchParams mParams;
 	private CategorizedCarOffers mOffer;
 	private SearchCarOffer offer;
+	private String category;
+	private CarSearch search = new CarSearch();
+	String lastState;
 
 	@Override
 	protected void onFinishInflate() {
@@ -80,6 +105,9 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		Ui.getApplication(getContext()).carComponent().inject(this);
 
 		addTransition(categoriesToDetails);
+		addTransition(categoriesToFilter);
+		addTransition(categoriesToError);
+		addTransition(detailsToFilter);
 		addDefaultTransition(setUpLoading);
 
 		createTripDialog = new ProgressDialog(getContext());
@@ -113,13 +141,15 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			}
 		});
 
-		details.offerList.setOnScrollListener(parallaxScrollListener);
+		categories.recyclerView.setOnScrollListener(recyclerScrollListener);
+		details.offerList.setOnScrollListener(recyclerScrollListener);
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		toolbarBackground.getLayoutParams().height += statusBarHeight;
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 
 		userAccountRefresher = new UserAccountRefresher(getContext(), LineOfBusiness.CARS, this);
+		filterNumber.setVisibility(GONE);
 	}
 
 	@Override
@@ -164,11 +194,44 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 		@Override
 		public void onNext(CarSearch carSearch) {
+			search = carSearch;
+			filterToolbar.setVisibility(View.VISIBLE);
+			showNumberOfFilters(0);
 			Events.post(new Events.CarsShowSearchResults(carSearch));
-			show(categories, FLAG_CLEAR_BACKSTACK);
+			show(categories, FLAG_CLEAR_TOP);
+			bindFilter(carSearch);
 			OmnitureTracking.trackAppCarSearch(getContext(), mParams, carSearch.categories.size());
 		}
 	};
+
+	private Observer<CarSearch> searchFilterObserver = new Observer<CarSearch>() {
+		@Override
+		public void onCompleted() {
+			cleanup();
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			if (e instanceof ApiError) {
+				handleInputValidationErrors((ApiError) e);
+				return;
+			}
+		}
+
+		@Override
+		public void onNext(CarSearch carSearch) {
+			if (lastState.equals(CarCategoryDetailsWidget.class.getName())) {
+				Events.post(new Events.CarsIsFilteredOnDetails(carSearch, category));
+			}
+			else {
+				Events.post(new Events.CarsIsFiltered(carSearch, category));
+			}
+		}
+	};
+
+	private void bindFilter(CarSearch carSearch) {
+		filter.bind(carSearch);
+	}
 
 	/* handle CAR_SEARCH_WINDOW_VIOLATION detail errors and show default error screen
 	* for all the other search error codes.
@@ -243,12 +306,33 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			.show();
 	}
 
+	Transition categoriesToError = new Transition(CarFilterWidget.class, ErrorWidget.class) {
+		@Override
+		public void startTransition(boolean forward) {
+			filter.setVisibility(forward ? GONE : VISIBLE);
+			errorScreen.setVisibility(forward ? VISIBLE : GONE);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+		}
+	};
+
 	Transition categoriesToDetails = new Transition(CarCategoryListWidget.class,
 		CarCategoryDetailsWidget.class) {
 
 		@Override
 		public void startTransition(boolean forward) {
 			toolbarBackground.setTranslationX(forward ? 0 : -toolbarBackground.getWidth());
+			lastState = forward ? CarCategoryDetailsWidget.class.getName() : CarCategoryListWidget.class.getName();
 			toolbarBackground.setVisibility(VISIBLE);
 			toolbarBackground.setAlpha(1f);
 
@@ -257,6 +341,15 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 			details.setTranslationX(forward ? details.getWidth() : 0);
 			details.setVisibility(VISIBLE);
+
+			int numCheckedFilters = filter.carFilter.carSupplierCheckedFilter.size() + (filter.carFilter.hasUnlimitedMileage ? 1 : 0) + (filter.carFilter.hasAirConditioning ? 1 : 0);
+
+			if (!forward) {
+				numCheckedFilters += filter.carFilter.carCategoryCheckedFilter.size();
+				Events.post(new Events.CarsFilterDone(filter.carFilter));
+			}
+			filterToolbar.setTranslationY(0);
+			showNumberOfFilters(numCheckedFilters);
 		}
 
 		@Override
@@ -273,7 +366,10 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 		@Override
 		public void endTransition(boolean forward) {
-
+			if (!forward) {
+				filter.hideCarCategories(false);
+				filter.rebind();
+			}
 		}
 
 		@Override
@@ -295,6 +391,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			}
 			else {
 				setToolBarResultsText();
+				category = null;
 			}
 		}
 	};
@@ -317,11 +414,10 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	DefaultTransition setUpLoading = new DefaultTransition(CarCategoryListWidget.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {
-			if (!ExpediaBookingApp.sIsAutomation) {
-				Events.post(new Events.CarsShowLoadingAnimation());
-			}
+			lastState = CarCategoryListWidget.class.getName();
 			categories.setVisibility(View.VISIBLE);
 			details.setVisibility(View.GONE);
+			errorScreen.setVisibility(View.GONE);
 		}
 	};
 
@@ -387,6 +483,77 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			.show();
 	}
 
+	@OnClick(R.id.sort_toolbar)
+	public void onFilterClick() {
+		show(filter);
+	}
+
+	Transition categoriesToFilter = new Transition(CarCategoryListWidget.class, CarFilterWidget.class) {
+		@Override
+		public void startTransition(boolean forward) {
+			filter.setVisibility(View.VISIBLE);
+			filter.hideCarCategories(false);
+			filter.hideCarResultsSupplies(false);
+			if (!forward) {
+				int numCheckedFilters = filter.carFilter.carCategoryCheckedFilter.size() + filter.carFilter.carSupplierCheckedFilter.size() + (filter.carFilter.hasUnlimitedMileage ? 1 : 0) + (filter.carFilter.hasAirConditioning ? 1 : 0);
+				showNumberOfFilters(numCheckedFilters);
+			}
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			float translatePercentage = forward ? 1f - f : f;
+			filter.setTranslationY(filter.getHeight() * translatePercentage);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			filter.setVisibility(forward ? VISIBLE : GONE);
+			filter.setTranslationY(forward ? 0 : filter.getHeight());
+		}
+	};
+
+
+	private void showNumberOfFilters(int number) {
+		filterNumber.setText(String.valueOf(number));
+		boolean hasCheckedFilters = number > 0;
+		filterNumber.setVisibility(hasCheckedFilters ? VISIBLE : GONE);
+		filterIcon.setVisibility(hasCheckedFilters ? GONE : VISIBLE);
+	}
+
+	Transition detailsToFilter = new Transition(CarCategoryDetailsWidget.class, CarFilterWidget.class) {
+		@Override
+		public void startTransition(boolean forward) {
+			filter.setVisibility(View.VISIBLE);
+			filter.hideCarCategories(true);
+			filter.hideCarResultsSupplies(true);
+			if (!forward) {
+				int numCheckedFilters = filter.carFilter.carSupplierCheckedFilter.size() + (filter.carFilter.hasUnlimitedMileage ? 1 : 0) + (filter.carFilter.hasAirConditioning ? 1 : 0);
+				showNumberOfFilters(numCheckedFilters);
+			}
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			float translatePercentage = forward ? 1f - f : f;
+			filter.setTranslationY(filter.getHeight() * translatePercentage);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			filter.setVisibility(forward ? VISIBLE : GONE);
+			filter.setTranslationY(forward ? 0 : filter.getHeight());
+		}
+	};
+
 	/**
 	 * Events
 	 */
@@ -405,10 +572,46 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	}
 
 	@Subscribe
+	public void onShowFilteredSearchResults(Events.CarsShowFilteredSearchResults event) {
+		((Activity) getContext()).onBackPressed();
+		filterToolbar.setVisibility(View.VISIBLE);
+		Events.post(new Events.CarsShowSearchResults(search));
+	}
+
+	@Subscribe
+	public void onCarFilterDonePressed(Events.CarsFilterDone event) {
+		searchSubscription = carServices
+			.carFilterSearch(searchFilterObserver, event.carFilter);
+		setToolBarResultsText();
+	}
+
+	@Subscribe
+	public void onCarsShowSearchResultsError(Events.CarsShowSearchResultsError event) {
+		errorScreen.bind(event.error);
+		show(errorScreen);
+	}
+
+	@Subscribe
 	public void onShowDetails(Events.CarsShowDetails event) {
-		show(details);
+		category = event.categorizedCarOffers.carCategoryDisplayLabel;
+		for (CategorizedCarOffers categorizedCarOffer : search.categories) {
+			if (categorizedCarOffer.carCategoryDisplayLabel.equals(category)) {
+				filter.setFilterVisibilites(categorizedCarOffer.offers);
+			}
+		}
+		show(details, FLAG_CLEAR_TOP);
 		mOffer = event.categorizedCarOffers;
 		setToolBarDetailsText();
+	}
+
+	@Subscribe
+	public void onShowResults(Events.CarsShowResults event) {
+		show(categories, FLAG_CLEAR_TOP);
+	}
+
+	@Subscribe
+	public void onShowLoadingState(Events.CarsShowLoadingAnimation event) {
+		filterToolbar.setVisibility(View.INVISIBLE);
 	}
 
 	@Subscribe
@@ -426,7 +629,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			.carSearch(event.carSearchParams, searchObserver);
 		setToolBarResultsText();
 	}
-
 
 	public void animationStart(boolean forward) {
 		toolbarBackground.setTranslationY(forward ? 0 : -toolbarBackground.getHeight());
@@ -449,23 +651,46 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 				: 1f);
 	}
 
-	RecyclerView.OnScrollListener parallaxScrollListener = new RecyclerView.OnScrollListener() {
+	@Override
+	public void onUserAccountRefreshed() {
+		createTripSubscription = carServices.createTrip(offer, createTripObserver);
+	}
+
+	RecyclerView.OnScrollListener recyclerScrollListener = new RecyclerView.OnScrollListener() {
+		private int scrolledDistance = 0;
+
 		@Override
 		public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 			super.onScrollStateChanged(recyclerView, newState);
+			int heightOfButton = filterToolbar.getHeight();
+			if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+				if (scrolledDistance > heightOfButton / 2) {
+					filterToolbar.animate().translationY(heightOfButton).setInterpolator(new DecelerateInterpolator()).start();
+				}
+				else if (scrolledDistance != 0) {
+					filterToolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
+				}
+				scrolledDistance = 0;
+			}
 		}
 
 		@Override
 		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 			super.onScrolled(recyclerView, dx, dy);
+			if (recyclerView == details.offerList) {
+				float ratio = details.parallaxScrollHeader();
+				toolbarBackground.setAlpha(ratio);
+			}
 
-			float ratio = details.parallaxScrollHeader();
-			toolbarBackground.setAlpha(ratio);
+			int heightOfButton = filterToolbar.getHeight();
+			if (scrolledDistance > 0) {
+				scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy);
+				filterToolbar.setTranslationY(Math.min(heightOfButton, scrolledDistance));
+			}
+			else {
+				scrolledDistance = Math.max(0, scrolledDistance + dy);
+				filterToolbar.setTranslationY(Math.min(scrolledDistance, 0));
+			}
 		}
 	};
-
-	@Override
-	public void onUserAccountRefreshed() {
-		createTripSubscription = carServices.createTrip(offer, createTripObserver);
-	}
 }

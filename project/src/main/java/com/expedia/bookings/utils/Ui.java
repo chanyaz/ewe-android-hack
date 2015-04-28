@@ -486,7 +486,7 @@ public class Ui extends com.mobiata.android.util.Ui {
 	 * @param color     of status bar
 	 */
 
-	public static View setUpStatusBar(Context ctx, android.support.v7.widget.Toolbar toolbar,
+	public static View setUpStatusBar(Context ctx, View toolbar,
 		ViewGroup viewGroup, int color) {
 		View v = new View(ctx);
 		ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -495,11 +495,13 @@ public class Ui extends com.mobiata.android.util.Ui {
 		lp.height = statusBarHeight;
 		v.setLayoutParams(lp);
 		v.setBackgroundColor(color);
-		toolbar.setPadding(0, statusBarHeight, 0, 0);
-
+		if (toolbar != null) {
+			toolbar.setPadding(0, statusBarHeight, 0, 0);
+		}
 		int toolbarSize = getToolbarSize(ctx);
-		viewGroup.setPadding(0, (int) toolbarSize + statusBarHeight, 0, 0);
-
+		if (viewGroup != null) {
+			viewGroup.setPadding(0, (int) toolbarSize + statusBarHeight, 0, 0);
+		}
 		return v;
 	}
 

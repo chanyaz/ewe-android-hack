@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal">
+
+        <com.expedia.bookings.widget.TextView
+            style="@style/CarFilterTitleTextAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:padding="16dp"
+            android:text="@string/filter" />
+
+        <Button
+            android:id="@+id/car_filter_done"
+            style="@style/CarRobotoFont"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableLeft="@drawable/ic_check_white_24dp"
+            android:padding="16dp"
+            android:text="@string/apply"
+            android:textAllCaps="false"
+            android:textColor="@color/cars_actionbar_text_color"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/options"
+                android:textColor="@color/cars_primary_color" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/transmission_filter_automatic"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/cars_sort_button_selector"
+                        android:text="@string/car_filter_automatic"
+                        android:textAllCaps="false"
+                        android:textColor="@drawable/cars_sort_button_text_selector" />
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:background="@color/divider_grey" />
+
+                    <Button
+                        android:id="@+id/transmission_filter_manual"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/cars_sort_button_selector"
+                        android:text="@string/car_filter_manual"
+                        android:textAllCaps="false"
+                        android:textColor="@drawable/cars_sort_button_text_selector" />
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:background="@color/divider_grey" />
+
+                    <Button
+                        android:id="@+id/transmission_filter_all"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/cars_sort_button_selector"
+                        android:text="@string/car_filter_all"
+                        android:textAllCaps="false"
+                        android:textColor="@drawable/cars_sort_button_text_selector" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/ac_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:id="@+id/ac_filter_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="@string/car_filter_checkbox_air_conditioning" />
+
+                <CheckBox
+                    android:id="@+id/ac_filter_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/cars_primary_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/umlimited_mileage_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:id="@+id/umlimited_mileage_filter_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="@string/car_filter_checkbox_unlimited_mileage" />
+
+                <CheckBox
+                    android:id="@+id/umlimited_mileage_filter_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/cars_primary_color" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/divider_grey" />
+
+            <TextView
+                android:id="@+id/car_type_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/car_types"
+                android:textColor="@color/cars_primary_color" />
+
+            <LinearLayout
+                android:id="@+id/filter_categories"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+
+            <View
+                android:id="@+id/filter_categories_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/divider_grey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/car_vendors"
+                android:textColor="@color/cars_primary_color" />
+
+            <LinearLayout
+                android:id="@+id/filter_suppliers_results"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/filter_suppliers_details"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
+</merge>

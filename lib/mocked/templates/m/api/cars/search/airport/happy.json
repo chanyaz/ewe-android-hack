@@ -56,7 +56,7 @@
                 "minDoors": 4,
                 "smallLuggageCapacity": 0,
                 "carCategoryDisplayLabel":"Standard",
-                "transmission": "AUTOMATIC_TRANSMISSION",
+                "transmission": "MANUAL_TRANSMISSION",
                 "type": "TWO_DOOR_CAR"
             },
             "vendor": {
