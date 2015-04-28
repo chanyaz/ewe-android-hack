@@ -2,35 +2,14 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:minHeight="?attr/actionBarSize">
 
-        <com.expedia.bookings.widget.TextView
-            style="@style/CarFilterTitleTextAppearance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:padding="16dp"
-            android:text="@string/filter" />
-
-        <Button
-            android:id="@+id/car_filter_done"
-            style="@style/CarRobotoFont"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:background="?android:attr/selectableItemBackground"
-            android:drawableLeft="@drawable/ic_check_white_24dp"
-            android:padding="16dp"
-            android:text="@string/apply"
-            android:textAllCaps="false"
-            android:textColor="@color/cars_actionbar_text_color"
-            android:textSize="16sp" />
-
-    </LinearLayout>
+    </android.support.v7.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
