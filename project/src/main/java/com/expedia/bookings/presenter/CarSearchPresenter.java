@@ -251,6 +251,7 @@ public class CarSearchPresenter extends Presenter
 			selectDateButton.setChecked(false);
 			return;
 		}
+		selectDateButton.setChecked(true);
 		show(new CarParamsCalendar());
 	}
 
