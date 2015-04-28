@@ -270,16 +270,34 @@ public class Presenter extends FrameLayout {
 		else if (transitions.containsKey(b) && transitions.get(b).containsKey(a)) {
 			return new TransitionWrapper(transitions.get(b).get(a), false);
 		}
-		else {
-			throw new RuntimeException("No Transition defined for " + a + " to " + b);
-		}
+
+		throw new RuntimeException("No Transition defined for " + a + " to " + b);
 	}
 
 	public void addTransition(Transition transition) {
+		if (exists(transition)) {
+			throw new RuntimeException("Transition already defined for " + transition.state1 + " to " + transition.state2);
+		}
+
 		if (!transitions.containsKey(transition.state1)) {
 			transitions.put(transition.state1, new HashMap<String, Transition>());
 		}
 		transitions.get(transition.state1).put(transition.state2, transition);
+	}
+
+	private boolean exists(Transition transition) {
+		return exists(transition.state1, transition.state2);
+	}
+
+	private boolean exists(String a, String b) {
+		if (transitions.containsKey(a) && transitions.get(a).containsKey(b)) {
+			return true;
+		}
+		if (transitions.containsKey(b) && transitions.get(b).containsKey(a)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public static abstract class DefaultTransition extends Transition {
