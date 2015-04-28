@@ -91,8 +91,7 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class,
-		LXCheckoutPresenter.class);
+	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class, LXCheckoutPresenter.class);
 
 	private Presenter.Transition resultsToDetails = new Presenter.Transition(LXResultsPresenter.class.getName(),
 		LXDetailsPresenter.class.getName(),
@@ -195,11 +194,9 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class,
-		LXSearchParamsPresenter.class);
+	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class, LXSearchParamsPresenter.class);
 
-	private Transition checkoutToConfirmation = new VisibilityTransition(this, LXCheckoutPresenter.class.getName(),
-		LXConfirmationWidget.class.getName());
+	private Transition checkoutToConfirmation = new VisibilityTransition(this, LXCheckoutPresenter.class, LXConfirmationWidget.class);
 
 	@Subscribe
 	public void onNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {

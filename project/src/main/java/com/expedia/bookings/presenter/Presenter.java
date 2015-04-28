@@ -208,11 +208,8 @@ public class Presenter extends FrameLayout {
 		public final Interpolator interpolator;
 		public final int duration;
 
-		public Transition(String state1, String state2, Interpolator interpolator, int duration) {
-			this.state1 = state1;
-			this.state2 = state2;
-			this.interpolator = interpolator;
-			this.duration = duration;
+		public Transition(Class state1, Class state2) {
+			this(state1.getName(), state2.getName());
 		}
 
 		public Transition(String state1, String state2) {
@@ -220,32 +217,31 @@ public class Presenter extends FrameLayout {
 		}
 
 		public Transition(Class state1, Class state2, Interpolator interpolator, int duration) {
-			this.state1 = state1.getName();
-			this.state2 = state2.getName();
+			this(state1.getName(), state2.getName(), interpolator, duration);
+		}
+
+		public Transition(String state1, String state2, Interpolator interpolator, int duration) {
+			this.state1 = state1;
+			this.state2 = state2;
 			this.interpolator = interpolator;
 			this.duration = duration;
 		}
 
-		public Transition(Class state1, Class state2) {
-			this(state1, state2, null, DEFAULT_ANIMATION_DURATION);
-		}
-
 		public void startTransition(boolean forward) {
-
+			// empty
 		}
 
 		public void updateTransition(float f, boolean forward) {
-
+			// empty
 		}
 
 		public void endTransition(boolean forward) {
-
+			// empty
 		}
 
 		public void finalizeTransition(boolean forward) {
-
+			// empty
 		}
-
 	}
 
 	public static class TransitionWrapper {
