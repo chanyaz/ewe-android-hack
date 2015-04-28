@@ -64,7 +64,6 @@ public class LXSearchResultsWidget extends FrameLayout {
 	}
 
 	public void bind(List<LXActivity> activities) {
-		adapter.cleanup();
 		recyclerView.setVisibility(View.VISIBLE);
 		recyclerView.getLayoutManager().scrollToPosition(0);
 		errorScreen.setVisibility(View.GONE);
