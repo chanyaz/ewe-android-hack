@@ -1969,11 +1969,11 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		if (mTag.equals(getString(R.string.tag_hotel_list))) {
 			newFragmentTag = getString(R.string.tag_hotel_map);
-			OmnitureTracking.trackAppHotelsSearch(this);
+			onSwitchToMap();
 		}
 		else {
 			newFragmentTag = getString(R.string.tag_hotel_list);
-			onSwitchToMap();
+			OmnitureTracking.trackAppHotelsSearch(this);
 		}
 
 		showFragment(newFragmentTag);
