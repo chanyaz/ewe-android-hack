@@ -35,7 +35,6 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 	private static final int LOADING_VIEW = 0;
 	private static final int DATA_VIEW = 1;
 	private static final String ROW_PICASSO_TAG = "lx_row";
-	private ArrayList<ValueAnimator> mAnimations = new ArrayList<ValueAnimator>();
 	private List<LXActivity> activities = new ArrayList<>();
 	private boolean isLoading = false;
 
@@ -66,16 +65,8 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 		else {
 			ValueAnimator animation = AnimUtils
 				.setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, LoadingViewHolder.index);
-			mAnimations.add(animation);
 			LoadingViewHolder.index++;
 		}
-	}
-
-	public void cleanup() {
-		for (ValueAnimator animation : mAnimations) {
-			animation.cancel();
-		}
-		mAnimations.clear();
 	}
 
 	@Override

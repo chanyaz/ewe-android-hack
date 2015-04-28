@@ -36,7 +36,6 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 	private static final int DATA_VIEW = 1;
 	private List<CategorizedCarOffers> categories = new ArrayList<>();
 	private static final String ROW_PICASSO_TAG = "CAR_CATEGORY_LIST";
-	private ArrayList<ValueAnimator> mAnimations = new ArrayList<ValueAnimator>();
 	public static boolean loadingState = false;
 
 	@Override
@@ -66,16 +65,8 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 		}
 		else {
 			ValueAnimator animation = AnimUtils.setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, LoadingViewHolder.index);
-			mAnimations.add(animation);
 			LoadingViewHolder.index++;
 		}
-	}
-
-	public void cleanup() {
-		for (ValueAnimator animation : mAnimations) {
-			animation.cancel();
-		}
-		mAnimations.clear();
 	}
 
 	@Override
