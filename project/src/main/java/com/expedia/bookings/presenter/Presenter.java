@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  * transitions between them.
  */
 
-public class Presenter extends FrameLayout implements IPresenter<Object> {
+public class Presenter extends FrameLayout {
 
 	// If set, and the object being added is already somewhere in the stack,
 	// then instead of adding another instance of that object to the stack,
@@ -76,9 +76,6 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		super.onDetachedFromWindow();
 	}
 
-	// IPresenter
-
-	@Override
 	public boolean back() {
 		return back(0);
 	}
@@ -95,7 +92,7 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		}
 
 		Object currentChild = getBackStack().pop();
-		boolean backPressHandled = currentChild instanceof IPresenter && ((IPresenter) currentChild).back();
+		boolean backPressHandled = currentChild instanceof Presenter && ((Presenter) currentChild).back();
 
 		// BackPress was not handled by the top child in the stack; handle it here.
 		if (!backPressHandled) {
@@ -118,17 +115,15 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		}
 	}
 
-	@Override
 	public Stack<Object> getBackStack() {
 		return backstack;
 	}
 
-	@Override
 	public void clearBackStack() {
 		while (getBackStack().size() > 0) {
 			Object o = getBackStack().peek();
-			if (o instanceof IPresenter) {
-				((IPresenter) o).clearBackStack();
+			if (o instanceof Presenter) {
+				((Presenter) o).clearBackStack();
 			}
 			getBackStack().pop();
 		}
