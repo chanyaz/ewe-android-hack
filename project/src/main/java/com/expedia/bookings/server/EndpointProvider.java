@@ -23,16 +23,10 @@ public class EndpointProvider {
 
 	public static class EndpointMap {
 		String production;
-		String stable;
 		String integration;
 		String development;
-		String loginDevelopment;
-		String pulpoDevelopment;
-		String local;
-		String custom;
 		String trunk;
 		String publicIntegration;
-		String stubbed;
 	}
 
 	public EndpointProvider(Context context, InputStream input) {
@@ -46,10 +40,8 @@ public class EndpointProvider {
 			serverUrls.put(EndPoint.PRODUCTION, endpoints.production.replace('@', 's'));
 			serverUrls.put(EndPoint.DEV, endpoints.development.replace('@', 's'));
 			serverUrls.put(EndPoint.INTEGRATION, endpoints.integration.replace('@', 's'));
-			serverUrls.put(EndPoint.STABLE, endpoints.stable.replace('@', 's'));
 			serverUrls.put(EndPoint.PUBLIC_INTEGRATION, endpoints.publicIntegration.replace('@', 's'));
 			serverUrls.put(EndPoint.TRUNK, endpoints.trunk.replace('@', 's'));
-			serverUrls.put(EndPoint.TRUNK_STUBBED, endpoints.stubbed.replace('@', 's'));
 		}
 		catch (Exception e) {
 			// If the endpoints fail to load, then we should fail horribly
@@ -65,12 +57,12 @@ public class EndpointProvider {
 
 		// Mock Server if enabled
 		EndPoint endPoint = getEndPoint();
-		if (endPoint == EndPoint.PROXY || endPoint == EndPoint.MOCK_SERVER || endPoint == EndPoint.CUSTOM_SERVER) {
+		if (endPoint == EndPoint.CUSTOM_SERVER) {
 			return getE3EndpointUrl(isSecure);
 		}
 
 		// Default to Dev on debug
-		return  "http://phelabstb101.karmalab.net:9117/";
+		return "http://phelabstb101.karmalab.net:9117/";
 	}
 
 	/**
@@ -96,18 +88,8 @@ public class EndpointProvider {
 
 			return serverURL;
 		}
-
-		else if (endPoint == EndPoint.PROXY || endPoint == EndPoint.MOCK_SERVER) {
-			return "http://" + SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address),
-				"localhost:3000") + "/" + domain + "/";
-		}
-		else if (endPoint == EndPoint.CUSTOM_SERVER) {
-			boolean forceHttp = SettingUtils
-				.get(context, context.getString(R.string.preference_force_custom_server_http_only), false);
-			String protocol = isSecure && !forceHttp ? "https" : "http";
-			String server = SettingUtils
-				.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
-			return protocol + "://" + server + "/";
+		else if (endPoint == EndPoint.CUSTOM_SERVER || endPoint == EndPoint.MOCK_MODE) {
+			return getCustomServerAddress(isSecure);
 		}
 		else {
 			throw new RuntimeException("Didn't know how to handle EndPoint: " + endPoint);
@@ -122,16 +104,18 @@ public class EndpointProvider {
 	public String getEssEndpointUrl(final boolean isSecure) {
 		EndPoint endPoint = getEndPoint();
 
-		if (endPoint == EndPoint.CUSTOM_SERVER) {
-			boolean forceHttp = SettingUtils
-				.get(context, context.getString(R.string.preference_force_custom_server_http_only), false);
-			String protocol = isSecure && !forceHttp ? "https" : "http";
-			String server = SettingUtils
-				.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
-			return protocol + "://" + server + "/";
+		if (endPoint == EndPoint.CUSTOM_SERVER || endPoint == EndPoint.MOCK_MODE) {
+			return getCustomServerAddress(isSecure);
 		}
 
 		return ESS_PRODUCTION_ENDPOINT;
+	}
+
+	private String getCustomServerAddress(final boolean isSecure) {
+		boolean forceHttp = SettingUtils.get(context, R.string.preference_force_custom_server_http_only, false);
+		String protocol = isSecure && !forceHttp ? "https" : "http";
+		String server = SettingUtils.get(context, R.string.preference_proxy_server_address, "localhost:3000");
+		return protocol + "://" + server + "/";
 	}
 
 	public EndPoint getEndPoint() {
@@ -145,29 +129,20 @@ public class EndpointProvider {
 		if (which.equals("Dev")) {
 			return EndPoint.DEV;
 		}
-		else if (which.equals("Proxy")) {
-			return EndPoint.PROXY;
-		}
-		else if (which.equals("Mock Server")) {
-			return EndPoint.MOCK_SERVER;
-		}
 		else if (which.equals("Public Integration")) {
 			return EndPoint.PUBLIC_INTEGRATION;
 		}
 		else if (which.equals("Integration")) {
 			return EndPoint.INTEGRATION;
 		}
-		else if (which.equals("Stable")) {
-			return EndPoint.STABLE;
-		}
 		else if (which.equals("Trunk")) {
 			return EndPoint.TRUNK;
 		}
-		else if (which.equals("Trunk (Stubbed)")) {
-			return EndPoint.TRUNK_STUBBED;
-		}
 		else if (which.equals("Custom Server")) {
 			return EndPoint.CUSTOM_SERVER;
+		}
+		else if (which.equals("Mock Mode")) {
+			return EndPoint.MOCK_MODE;
 		}
 		else {
 			return EndPoint.PRODUCTION;

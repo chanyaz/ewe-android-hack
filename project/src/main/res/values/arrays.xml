@@ -796,14 +796,11 @@
 
     <string-array name="api_names" tools:ignore="MissingTranslation">
         <item>Production</item>
-        <item>Dev</item>
         <item>Integration</item>
-        <item>Stable</item>
-        <item>Trunk</item>
-        <item>Proxy</item>
-        <item>Mock Server</item>
         <item>Public Integration</item>
-        <item>Trunk (Stubbed)</item>
+        <item>Trunk</item>
+        <item>Dev</item>
+        <item>Mock Mode</item>
         <item>Custom Server</item>
     </string-array>
 

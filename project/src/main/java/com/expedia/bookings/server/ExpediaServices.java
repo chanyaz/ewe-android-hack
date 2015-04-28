@@ -700,12 +700,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public List<BasicNameValuePair> generateHotelSearchParams(HotelSearchParams params, int flags) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		if (mEndpointProvider.getEndPoint() == EndPoint.MOCK_SERVER) {
-			query.add(new BasicNameValuePair("city", "saved_product"));
-			return query;
-		}
+		List<BasicNameValuePair> query = new ArrayList<>();
 
 		query.add(new BasicNameValuePair("sortOrder", "ExpertPicks"));
 		addCommonParams(query);
@@ -1372,11 +1367,10 @@ public class ExpediaServices implements DownloadListener {
 		String appId = null;
 		switch (endPoint) {
 		case INTEGRATION:
-		case STABLE:
 		case DEV:
 		case TRUNK:
 		case PUBLIC_INTEGRATION:
-		case PROXY:
+		case MOCK_MODE:
 		case CUSTOM_SERVER:
 			appId = context.getString(R.string.facebook_dev_app_id);
 			break;
