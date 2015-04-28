@@ -20,10 +20,9 @@
             android:background="@color/cars_primary_color"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:orientation="vertical"
-            android:paddingBottom="4dp">
+            android:orientation="vertical">
 
-            <LinearLayout
+        <LinearLayout
                 android:id="@+id/location_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,12 +81,13 @@
 
             <ToggleButton
                 android:id="@+id/select_date"
-                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="50dp"
                 android:layout_below="@id/location_container"
+                android:layout_margin="0dp"
                 android:drawableLeft="@drawable/date"
                 android:drawablePadding="24dp"
+                android:background="?android:attr/selectableItemBackground"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="20dp"
                 android:textAllCaps="false"
