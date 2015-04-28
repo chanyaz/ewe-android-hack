@@ -106,6 +106,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 		addTransition(categoriesToDetails);
 		addTransition(categoriesToFilter);
+		addTransition(filterToError);
 		addTransition(categoriesToError);
 		addTransition(detailsToFilter);
 		addDefaultTransition(setUpLoading);
@@ -179,7 +180,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		public void onError(Throwable e) {
 			OmnitureTracking.trackAppCarNoResults(getContext(), e.getMessage());
 			Log.e("CarSearch - onError", e);
-			show(categories, FLAG_CLEAR_BACKSTACK);
 
 			if (RetrofitUtils.isNetworkError(e)) {
 				showSearchErrorDialog(R.string.error_no_internet);
@@ -306,7 +306,27 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			.show();
 	}
 
-	Transition categoriesToError = new Transition(CarFilterWidget.class, ErrorWidget.class) {
+	Transition categoriesToError = new Transition(CarCategoryListWidget.class, ErrorWidget.class) {
+		@Override
+		public void startTransition(boolean forward) {
+			categories.setVisibility(forward ? GONE : VISIBLE);
+			errorScreen.setVisibility(forward ? VISIBLE : GONE);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+		}
+	};
+
+	Transition filterToError = new Transition(CarFilterWidget.class, ErrorWidget.class) {
 		@Override
 		public void startTransition(boolean forward) {
 			filter.setVisibility(forward ? GONE : VISIBLE);
