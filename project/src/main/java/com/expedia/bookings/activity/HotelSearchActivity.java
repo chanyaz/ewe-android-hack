@@ -2774,7 +2774,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	private void onSwitchToMap() {
-		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Map", null, null);
+		OmnitureTracking.trackHotelSearchMapSwitch(this);
 	}
 
 	// HotelFilter tracking

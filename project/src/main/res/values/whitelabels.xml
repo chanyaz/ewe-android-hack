@@ -119,6 +119,7 @@
     <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
     <attr name="skin_hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
     <attr name="skin_hotelListMapMarkerSaleDrawable" format="reference" />
+    <attr name="skin_hotelListMapMarkerSaleGreenABTestDrawable" format="reference" />
     <attr name="skin_hotelListMapMarkerDrawable" format="reference" />
     <attr name="skin_hotelListMapMarkerAirAttachDrawable" format="reference" />
 

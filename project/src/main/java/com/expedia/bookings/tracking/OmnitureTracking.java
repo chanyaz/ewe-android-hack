@@ -606,6 +606,16 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_CID);
 	}
 
+	public static void trackHotelSearchMapSwitch(Context context) {
+		ADMS_Measurement s = OmnitureTracking.getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setAppState("App.Hotels.Search.Map");
+
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
+
+		s.track();
+	}
+
 	// Coupon tracking: https://mingle/projects/eb_ad_app/cards/1003
 
 	private static void addCouponFields(Context context, ADMS_Measurement s, String refererId) {

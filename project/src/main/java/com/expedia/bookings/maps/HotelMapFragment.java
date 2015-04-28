@@ -37,6 +37,7 @@ import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -282,11 +283,21 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 			});
 		}
 
+		boolean isUserBucketedForSalePinGreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
+		int pinSaleAttrID;
+
+		if (isUserBucketedForSalePinGreenTest) {
+			pinSaleAttrID = R.attr.skin_hotelListMapMarkerSaleGreenABTestDrawable;
+		}
+		else {
+			pinSaleAttrID = R.attr.skin_hotelListMapMarkerSaleDrawable;
+		}
+
 		// Load graphics
 		mPin = BitmapDescriptorFactory
 			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerDrawable));
 		mPinSale = BitmapDescriptorFactory
-			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerSaleDrawable));
+			.fromResource(Ui.obtainThemeResID(getActivity(), pinSaleAttrID));
 		mPinAirAttach = BitmapDescriptorFactory
 			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerAirAttachDrawable));
 
