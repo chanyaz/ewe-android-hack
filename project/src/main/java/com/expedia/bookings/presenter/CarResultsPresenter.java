@@ -346,21 +346,17 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		}
 	};
 
-	Transition categoriesToDetails = new Transition(CarCategoryListWidget.class,
-		CarCategoryDetailsWidget.class) {
+	Transition categoriesToDetails = new LeftToRightTransition(this, CarCategoryListWidget.class, CarCategoryDetailsWidget.class) {
+
 
 		@Override
 		public void startTransition(boolean forward) {
+			super.startTransition(forward);
+
 			toolbarBackground.setTranslationX(forward ? 0 : -toolbarBackground.getWidth());
 			lastState = forward ? CarCategoryDetailsWidget.class.getName() : CarCategoryListWidget.class.getName();
 			toolbarBackground.setVisibility(VISIBLE);
 			toolbarBackground.setAlpha(1f);
-
-			categories.setTranslationX(forward ? 0 : -categories.getWidth());
-			categories.setVisibility(VISIBLE);
-
-			details.setTranslationX(forward ? details.getWidth() : 0);
-			details.setVisibility(VISIBLE);
 
 			int numCheckedFilters = filter.carFilter.carSupplierCheckedFilter.size() + (filter.carFilter.hasUnlimitedMileage ? 1 : 0) + (filter.carFilter.hasAirConditioning ? 1 : 0);
 
@@ -374,14 +370,10 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
+			super.updateTransition(f, forward);
+
 			float translationD = forward ? -toolbarBackground.getWidth() * f : toolbarBackground.getWidth() * (f - 1);
 			toolbarBackground.setTranslationX(translationD);
-
-			float translationC = forward ? -categories.getWidth() * f : categories.getWidth() * (f - 1);
-			categories.setTranslationX(translationC);
-
-			float translationX = forward ? -details.getWidth() * (f - 1) : details.getWidth() * f;
-			details.setTranslationX(translationX);
 		}
 
 		@Override
@@ -394,15 +386,11 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 		@Override
 		public void finalizeTransition(boolean forward) {
+			super.finalizeTransition(forward);
+
 			toolbarBackground.setVisibility(VISIBLE);
 			toolbarBackground.setTranslationX(0);
 			toolbarBackground.setAlpha(forward ? 0f : 1f);
-
-			categories.setVisibility(forward ? GONE : VISIBLE);
-			categories.setTranslationX(0);
-
-			details.setVisibility(forward ? VISIBLE : GONE);
-			details.setTranslationX(0);
 
 			details.reset();
 
