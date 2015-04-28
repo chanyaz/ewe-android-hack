@@ -48,6 +48,7 @@ public final class CarViewModel {
 	public static void clickFilterDone() {
 		onView(withId(R.id.car_filter_done)).perform(click());
 	}
+
 	public static void selectPickupLocation(Instrumentation instrumentation, String airportCode) throws Throwable {
 		ScreenActions.delay(1);
 		onView(withText(airportCode))
@@ -123,6 +124,16 @@ public final class CarViewModel {
 	}
 
 	public static void expandCarOffer(int position) {
+		//To make the selection of an item work correctly on smaller screen size phones
+		//we need to scroll to the next item
+		int listCount = EspressoUtils.getListCount(CarViewModel.carOfferList());
+		if (listCount >= position + 1) {
+			CarViewModel.carOfferList().perform(RecyclerViewActions.scrollToPosition(position + 1));
+		}
+		else {
+			CarViewModel.carOfferList().perform(RecyclerViewActions.scrollToPosition(position));
+		}
+
 		carOfferList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
 	}
 
