@@ -16,11 +16,11 @@ import com.expedia.bookings.presenter.VisibilityTransition;
 public class PresenterTest {
 
 	private class A {
-
+		// ignore
 	}
 
 	private class B {
-
+		// ignore
 	}
 
 	private class C extends Presenter {
@@ -73,7 +73,6 @@ public class PresenterTest {
 		Presenter root = new Presenter(activity, null);
 		Presenter.Transition aTob = getBoringTransition(A.class, B.class);
 		root.addTransition(aTob);
-		Assert.assertTrue(root.getTransitions().size() == 1);
 
 		root.show(new A());
 		Assert.assertEquals(root.getBackStack().size(), 1);
@@ -114,7 +113,7 @@ public class PresenterTest {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		Presenter root = new Presenter(activity, null);
 		root.addTransition(getBoringTransition(A.class, B.class));
-		root.addTransition(new VisibilityTransition(root, B.class.getName(), C.class.getName()));
+		root.addTransition(new VisibilityTransition(root, B.class, C.class));
 		Presenter node = new C(activity, null);
 		root.show(new A(), Presenter.TEST_FLAG_FORCE_NEW_STATE);
 		root.show(new B(), Presenter.TEST_FLAG_FORCE_NEW_STATE);
@@ -156,7 +155,7 @@ public class PresenterTest {
 	public void testClearTop() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		Presenter root = new Presenter(activity, null);
-		root.addTransition(new VisibilityTransition(root, A.class.getName(), B.class.getName()));
+		root.addTransition(new VisibilityTransition(root, A.class, B.class));
 		root.show(new A(), Presenter.TEST_FLAG_FORCE_NEW_STATE);
 		root.show(new B(), Presenter.TEST_FLAG_FORCE_NEW_STATE);
 		root.show(new A(), Presenter.FLAG_CLEAR_TOP);
@@ -168,7 +167,7 @@ public class PresenterTest {
 	public void testClearNestedBackstacks() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		Presenter root = new Presenter(activity, null);
-		root.addTransition(new VisibilityTransition(root, A.class.getName(), C.class.getName()));
+		root.addTransition(new VisibilityTransition(root, A.class, C.class));
 		Presenter node = new C(activity, null);
 		root.show(new A());
 		root.show(node);

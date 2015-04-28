@@ -77,7 +77,7 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 
 	// Transitions
 
-	private Transition detailsToError = new VisibilityTransition(this, LXActivityDetailsWidget.class.getName(), LXErrorWidget.class.getName()) {
+	private Transition detailsToError = new VisibilityTransition(this, LXActivityDetailsWidget.class, LXErrorWidget.class) {
 		@Override
 		public void finalizeTransition(boolean forward) {
 			super.finalizeTransition(forward);

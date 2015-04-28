@@ -50,41 +50,9 @@ public class CarPresenter extends Presenter {
 		carSearchPresenter.setVisibility(VISIBLE);
 	}
 
-	private Transition checkoutToConfirmation = new VisibilityTransition(this, CarCheckoutPresenter.class, CarConfirmationWidget.class);
+	private Transition checkoutToConfirmation = new LeftToRightTransition(this, CarCheckoutPresenter.class, CarConfirmationWidget.class);
 
-	private Transition resultsToCheckout = new Transition(CarResultsPresenter.class, CarCheckoutPresenter.class) {
-		@Override
-		public void startTransition(boolean forward) {
-			carResultsPresenter.setTranslationX(forward ? 0 : -getWidth());
-			carResultsPresenter.setVisibility(VISIBLE);
-
-			carCheckoutPresenter.setTranslationX(forward ? getWidth() : 0);
-			carCheckoutPresenter.setVisibility(VISIBLE);
-		}
-
-		@Override
-		public void updateTransition(float f, boolean forward) {
-			float translationResults = forward ? -getWidth() * f : getWidth() * (f - 1);
-			carResultsPresenter.setTranslationX(translationResults);
-
-			float translationCheckout = forward ? -getWidth() * (f - 1) : getWidth() * f;
-			carCheckoutPresenter.setTranslationX(translationCheckout);
-		}
-
-		@Override
-		public void endTransition(boolean forward) {
-
-		}
-
-		@Override
-		public void finalizeTransition(boolean forward) {
-			carResultsPresenter.setVisibility(forward ? GONE : VISIBLE);
-			carResultsPresenter.setTranslationX(0);
-
-			carCheckoutPresenter.setVisibility(forward ? VISIBLE : GONE);
-			carCheckoutPresenter.setTranslationX(0);
-		}
-	};
+	private Transition resultsToCheckout = new LeftToRightTransition(this, CarResultsPresenter.class, CarCheckoutPresenter.class);
 
 	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class, CarSearchPresenter.class) {
 		@Override
