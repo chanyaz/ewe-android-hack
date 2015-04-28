@@ -71,13 +71,14 @@ public class Images {
 		return headerBitmapDrawable;
 	}
 
-	public static HeaderBitmapDrawable makeHotelBitmapDrawable(Context context, int width, String url, String tag) {
+	public static HeaderBitmapDrawable makeHotelBitmapDrawable(Context context, HeaderBitmapDrawable.CallbackListener listener, int width, String url, String tag) {
 
 		HeaderBitmapDrawable headerBitmapDrawable = makeLaunchListBitmapDrawable(context);
+		headerBitmapDrawable.setCallbackListener(listener);
 		HotelMedia hotelMedia = new HotelMedia(url);
 
 		new PicassoHelper.Builder(context)
-			.setPlaceholder(R.drawable.bg_tablet_hotel_results_placeholder)
+			.setPlaceholder(R.drawable.results_list_placeholder)
 			.setTarget(headerBitmapDrawable.getCallBack())
 			.setTag(tag)
 			.build()
@@ -86,12 +87,13 @@ public class Images {
 		return headerBitmapDrawable;
 	}
 
-	public static HeaderBitmapDrawable makeCollectionBitmapDrawable(Context context, String url, String tag) {
+	public static HeaderBitmapDrawable makeCollectionBitmapDrawable(Context context, HeaderBitmapDrawable.CallbackListener listener, String url, String tag) {
 
 		HeaderBitmapDrawable headerBitmapDrawable = makeLaunchListBitmapDrawable(context);
+		headerBitmapDrawable.setCallbackListener(listener);
 
 		new PicassoHelper.Builder(context)
-			.setPlaceholder(R.drawable.bg_tablet_hotel_results_placeholder)
+			.setPlaceholder(R.drawable.results_list_placeholder)
 			.setTarget(headerBitmapDrawable.getCallBack())
 			.setTag(tag)
 			.build()

@@ -127,7 +127,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			Hotel hotel = (Hotel) listData.get(actualPosition);
 
 			final String url = Images.getNearbyHotelImage(hotel);
-			HeaderBitmapDrawable drawable = Images.makeHotelBitmapDrawable(parentView.getContext(), width, url,
+			HeaderBitmapDrawable drawable = Images.makeHotelBitmapDrawable(parentView.getContext(), (HotelViewHolder) holder, width, url,
 				PICASSO_TAG);
 			((HotelViewHolder) holder).backgroundImage.setImageDrawable(drawable);
 
@@ -137,7 +137,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			CollectionLocation location = (CollectionLocation) listData.get(actualPosition);
 
 			final String url = Images.getCollectionImageUrl(location, width);
-			HeaderBitmapDrawable drawable = Images.makeCollectionBitmapDrawable(parentView.getContext(), url, PICASSO_TAG);
+			HeaderBitmapDrawable drawable = Images.makeCollectionBitmapDrawable(parentView.getContext(), (CollectionViewHolder) holder, url, PICASSO_TAG);
 			((CollectionViewHolder) holder).backgroundImage.setImageDrawable(drawable);
 
 			((CollectionViewHolder) holder).bindListData(location, fullWidthTile);
@@ -196,7 +196,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	/**
 	 * A Viewholder for the case where our data are hotels.
 	 */
-	public static class HotelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+	public static class HotelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, HeaderBitmapDrawable.CallbackListener {
 		private static final int FULL_TILE_TEXT_SIZE = 18;
 		private static final int HALF_TILE_TEXT_SIZE = 15;
 		private final int green;
@@ -205,6 +205,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		private final int blue;
 		private Drawable mobileOnly;
 		private Drawable tonightOnly;
+
+		@Optional
+		@InjectView(R.id.gradient)
+		public View gradient;
 
 		@Optional
 		@InjectView(R.id.card_view)
@@ -402,12 +406,27 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			Events.post(new Events.LaunchListItemSelected(selectedHotel));
 			OmnitureTracking.trackNewLaunchScreenTileClick(view.getContext(), false);
 		}
+
+		@Override
+		public void onBitmapLoaded() {
+			gradient.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		public void onBitmapFailed() {
+			gradient.setVisibility(View.GONE);
+		}
+
+		@Override
+		public void onPrepareLoad() {
+			gradient.setVisibility(View.GONE);
+		}
 	}
 
 	/**
 	 * A Viewholder for the case where our data are launch collections.
 	 */
-	public static class CollectionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+	public static class CollectionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, HeaderBitmapDrawable.CallbackListener {
 		private static final int FULL_TILE_TEXT_SIZE = 18;
 		private static final int HALF_TILE_TEXT_SIZE = 15;
 
@@ -426,6 +445,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		@Optional
 		@InjectView(R.id.background_image)
 		public ImageView backgroundImage;
+
+		@Optional
+		@InjectView(R.id.gradient)
+		public View gradient;
 
 		public CollectionViewHolder(View view) {
 			super(view);
@@ -461,6 +484,21 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			CollectionLocation location = (CollectionLocation) view.getTag();
 			Events.post(new Events.LaunchCollectionItemSelected(location, animOptions));
 			OmnitureTracking.trackNewLaunchScreenTileClick(view.getContext(), true);
+		}
+
+		@Override
+		public void onBitmapLoaded() {
+			gradient.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		public void onBitmapFailed() {
+			gradient.setVisibility(View.GONE);
+		}
+
+		@Override
+		public void onPrepareLoad() {
+			gradient.setVisibility(View.GONE);
 		}
 	}
 
