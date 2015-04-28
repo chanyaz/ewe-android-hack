@@ -126,8 +126,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/filter_number_bg"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
                 android:textColor="#ffffff"
                 android:textSize="16sp"
                 android:textStyle="bold" />
