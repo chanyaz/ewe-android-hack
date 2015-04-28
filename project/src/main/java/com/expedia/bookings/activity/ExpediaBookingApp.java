@@ -42,6 +42,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -50,6 +51,7 @@ import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.KahunaUtils;
 import com.expedia.bookings.utils.LeanPlumUtils;
+import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.WalletUtils;
@@ -104,12 +106,17 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("Crashlytics started.");
 
 		StethoShim.install(this);
-		startupTimer.addSplit("Stetho Init");
+		startupTimer.addSplit("Stetho init");
 
 		mAppComponent = DaggerAppComponent.builder()
 			.appModule(new AppModule(this))
 			.build();
 		startupTimer.addSplit("Dagger AppModule created");
+
+		if (mAppComponent.endpointProvider().getEndPoint() == EndPoint.MOCK_MODE) {
+			MockModeShim.initMockWebServer(this);
+			startupTimer.addSplit("Mock mode init");
+		}
 
 		PicassoHelper.init(this, mAppComponent.okHttpClient());
 		startupTimer.addSplit("Picasso started.");

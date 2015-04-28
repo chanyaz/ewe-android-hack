@@ -29,7 +29,7 @@ import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
@@ -55,7 +55,9 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			ListPreference apiPref = (ListPreference) findPreference(apiKey);
 			apiPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					ClearPrivateDataUtil.clear(ExpediaBookingPreferenceActivity.this);
+					if ("Mock Mode".equals(newValue)) {
+						MockModeShim.initMockWebServer(ExpediaBookingPreferenceActivity.this);
+					}
 					return true;
 				}
 			});
