@@ -52,7 +52,7 @@
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_wotif</item>
-        <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_wotif_logo_small</item>
+        <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_wotif_logo</item>
         <item name="skin_aboutWebsiteString">@string/wotif_website</item>
         <item name="skin_aboutAppSupportString">@string/wotif_app_support</item>
         <item name="skin_aboutCopyrightString">@string/wotif_copyright_TEMPLATE</item>
