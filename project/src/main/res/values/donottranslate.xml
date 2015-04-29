@@ -107,6 +107,7 @@
     <string name="preference_hotel_result_rating">7373</string>
     <string name="preference_flight_confirmation_car_cross_sell">7370</string>
     <string name="preference_hotel_search_sale_pin">7535</string>
+    <string name="preference_flight_confirmation_lx_cross_sell">7533</string>
 
     <string name="preference_abacus_setting_server">Abacus Server</string>
     <string name="preference_abacus_setting_controlgroup">Control Group</string>

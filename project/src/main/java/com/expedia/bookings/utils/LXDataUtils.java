@@ -6,10 +6,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.LocalDate;
+
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
+import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 
 public class LXDataUtils {
@@ -220,5 +226,18 @@ public class LXDataUtils {
 		}
 
 		return Strings.joinWithoutEmpties(", ", ticketSummaries);
+	}
+
+	public static LXSearchParams fromFlightParams(FlightTrip trip) {
+		FlightLeg firstLeg = trip.getLeg(0);
+		LocalDate checkInDate = new LocalDate(firstLeg.getLastWaypoint().getBestSearchDateTime());
+
+		LXSearchParams searchParams = new LXSearchParams()
+			.location(firstLeg.getAirport(false).mCity)
+			.startDate(checkInDate)
+			.endDate(checkInDate.plusDays(14))
+			.searchType(SearchType.EXPLICIT_SEARCH);
+
+		return searchParams;
 	}
 }

@@ -25,6 +25,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppSRPercentRecommend = 7373;
 	public static final int EBAndroidAppFlightConfCarsXsell = 7370;
 	public static final int EBAndroidAppHotelHSRSalePinTest = 7535;
+	public static final int EBAndroidAppFlightConfLXXsell = 7533;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -61,6 +62,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppSRPercentRecommend);
 		testIDs.add(EBAndroidAppFlightConfCarsXsell);
 		testIDs.add(EBAndroidAppHotelHSRSalePinTest);
+		testIDs.add(EBAndroidAppFlightConfLXXsell);
 		return testIDs;
 	}
 

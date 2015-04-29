@@ -809,6 +809,7 @@ public class OmnitureTracking {
 		s.setProp(72, orderId);
 
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppFlightConfCarsXsell);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppFlightConfLXXsell);
 		s.track();
 	}
 
@@ -1802,7 +1803,9 @@ public class OmnitureTracking {
 	private static final String AIR_ATTACH_HOTEL_ADD = "App.Hotels.IS.AddTrip";
 	private static final String ADD_ATTACH_HOTEL = "App.Flight.CKO.Add.AttachHotel";
 	private static final String ADD_ATTACH_CAR = "App.Flight.CKO.Confirm.Xsell";
+	private static final String ADD_ATTACH_LX = "App.Flight.CKO.Confirm.Xsell";
 	private static final String CROSS_SELL_CAR_FROM_FLIGHT = "CrossSell.Flight.Confirm.Cars";
+	private static final String CROSS_SELL_LX_FROM_FLIGHT = "CrossSell.Flight.Confirm.LX";
 	private static final String BOOK_NEXT_ATTACH_HOTEL = "App.Flight.CKO.BookNext";
 	private static final String AIR_ATTACH_ITIN_XSELL = "Itinerary X-Sell";
 	private static final String AIR_ATTACH_ITIN_XSELL_REF = "App.Itin.X-Sell.Hotel";
@@ -1980,6 +1983,14 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
 	}
 
+	public static void trackAddLxClick(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(28, ADD_ATTACH_LX);
+		s.setProp(16, ADD_ATTACH_LX);
+		s.setEvar(12, CROSS_SELL_LX_FROM_FLIGHT);
+		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
+	}
 	public static void trackDoneBookingClick(Context context, LineOfBusiness lob) {
 		String link = getBase(lob == LineOfBusiness.FLIGHTS) + ".Confirm.Done";
 		internalTrackLink(context, link);

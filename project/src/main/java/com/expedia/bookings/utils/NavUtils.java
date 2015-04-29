@@ -36,6 +36,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.expedia.bookings.services.CarServices;
@@ -269,6 +270,18 @@ public class NavUtils {
 		if (searchParams != null) {
 			Gson gson = CarServices.generateGson();
 			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, gson.toJson(searchParams));
+		}
+
+		startActivity(context, intent, animOptions);
+	}
+
+	public static void goToLx(Context context, Bundle animOptions, LXSearchParams searchParams) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, LXBaseActivity.class);
+		if (searchParams != null) {
+			intent.putExtra(Codes.FROM_DEEPLINK, true);
+			intent.putExtra("startDateStr", DateUtils.localDateToyyyyMMdd(searchParams.startDate));
+			intent.putExtra("location", searchParams.location);
 		}
 
 		startActivity(context, intent, animOptions);

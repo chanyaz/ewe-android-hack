@@ -2082,6 +2082,8 @@
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Cars in %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
+    <string name="lx_in_TEMPLATE">Activities in %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">More Actions</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
