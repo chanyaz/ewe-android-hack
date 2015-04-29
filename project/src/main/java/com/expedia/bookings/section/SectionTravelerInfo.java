@@ -10,7 +10,6 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -700,14 +699,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 				@Override
 				public void onDateChanged(DatePicker view, int year, int month, int day) {
-					// We do this because of a bug in ICS : http://code.google.com/p/android/issues/detail?id=25838
-					if (Build.VERSION.SDK_INT == 15) {
-						setDate(year, month, day);
-						customUpdateTitle(year, month, day);
-					}
-					else {
-						super.onDateChanged(view, year, month, day);
-					}
+					super.onDateChanged(view, year, month, day);
 
 					mYear = year;
 					mMonth = month;

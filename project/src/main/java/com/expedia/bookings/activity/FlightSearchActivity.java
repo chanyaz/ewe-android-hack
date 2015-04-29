@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import android.app.ActionBar;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -124,13 +123,7 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 		super.onStop();
 
 		// If the configuration isn't changing but we are stopping this activity, save the search params
-		//
-		// Due to not being able to tell a config change or not on earlier versions of Android, we just
-		// always save.
-		boolean configChange = false;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			configChange = isChangingConfigurations();
-		}
+		boolean configChange = isChangingConfigurations();
 		if (!configChange) {
 			Db.saveFlightSearchParamsToDisk(this);
 		}

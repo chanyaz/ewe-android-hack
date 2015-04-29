@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
 import android.view.WindowManager;
@@ -200,7 +199,7 @@ public class Ui extends com.mobiata.android.util.Ui {
 	public static void runOnNextLayout(final View view, final Runnable runnable) {
 		view.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			public void onGlobalLayout() {
-				view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				runnable.run();
 			}
 		});
@@ -250,144 +249,6 @@ public class Ui extends com.mobiata.android.util.Ui {
 		a.recycle();
 
 		return resID;
-	}
-
-	public static void addViewTreeObserverLogger(View v) {
-		ViewTreeObserver vto = v.getViewTreeObserver();
-		if (vto == null) {
-			return;
-		}
-
-		vto.addOnGlobalFocusChangeListener(Api8ViewTreeObserverLogger.getInstance());
-		vto.addOnGlobalLayoutListener(Api8ViewTreeObserverLogger.getInstance());
-		vto.addOnPreDrawListener(Api8ViewTreeObserverLogger.getInstance());
-		vto.addOnScrollChangedListener(Api8ViewTreeObserverLogger.getInstance());
-		vto.addOnTouchModeChangeListener(Api8ViewTreeObserverLogger.getInstance());
-
-		if (Build.VERSION.SDK_INT >= 16) {
-			vto.addOnDrawListener(Api16ViewTreeObserverLogger.getInstance());
-		}
-
-		if (Build.VERSION.SDK_INT >= 18) {
-			vto.addOnWindowAttachListener(Api18ViewTreeObserverLogger.getInstance());
-			vto.addOnWindowFocusChangeListener(Api18ViewTreeObserverLogger.getInstance());
-		}
-	}
-
-	public static void removeOnGlobalLayoutListener(View v, OnGlobalLayoutListener listener) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-			v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
-		}
-		else {
-			v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
-		}
-	}
-
-	public static void removeViewTreeObserverLogger(View v) {
-		ViewTreeObserver vto = v.getViewTreeObserver();
-		if (vto == null) {
-			return;
-		}
-
-		vto.removeOnGlobalFocusChangeListener(Api8ViewTreeObserverLogger.getInstance());
-		vto.removeOnGlobalLayoutListener(Api8ViewTreeObserverLogger.getInstance());
-		vto.removeOnPreDrawListener(Api8ViewTreeObserverLogger.getInstance());
-		vto.removeOnScrollChangedListener(Api8ViewTreeObserverLogger.getInstance());
-		vto.removeOnTouchModeChangeListener(Api8ViewTreeObserverLogger.getInstance());
-
-		if (Build.VERSION.SDK_INT >= 16) {
-			vto.removeOnDrawListener(Api16ViewTreeObserverLogger.getInstance());
-		}
-
-		if (Build.VERSION.SDK_INT >= 18) {
-			vto.removeOnWindowAttachListener(Api18ViewTreeObserverLogger.getInstance());
-			vto.removeOnWindowFocusChangeListener(Api18ViewTreeObserverLogger.getInstance());
-		}
-	}
-
-	private static class Api8ViewTreeObserverLogger implements ViewTreeObserver.OnGlobalFocusChangeListener,
-		ViewTreeObserver.OnGlobalLayoutListener, ViewTreeObserver.OnPreDrawListener,
-		ViewTreeObserver.OnScrollChangedListener, ViewTreeObserver.OnTouchModeChangeListener {
-
-		private static final String TAG = "VTOEventLogger";
-
-		private static class Holder {
-			private static final Api8ViewTreeObserverLogger INSTANCE = new Api8ViewTreeObserverLogger();
-		}
-
-		private static Api8ViewTreeObserverLogger getInstance() {
-			return Holder.INSTANCE;
-		}
-
-		@Override
-		public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-			Log.v(TAG, "onGlobalFocusChanged");
-		}
-
-		@Override
-		public void onGlobalLayout() {
-			Log.v(TAG, "onGlobalLayout");
-		}
-
-		@Override
-		public boolean onPreDraw() {
-			Log.v(TAG, "onPreDraw");
-			return true;
-		}
-
-		@Override
-		public void onScrollChanged() {
-			Log.v(TAG, "onScrollChanged");
-		}
-
-		@Override
-		public void onTouchModeChanged(boolean isInTouchMode) {
-			Log.v(TAG, "onTouchModeChanged(isInTouchMode=" + isInTouchMode + ")");
-		}
-	}
-
-	private static class Api16ViewTreeObserverLogger implements ViewTreeObserver.OnDrawListener {
-		private static final String TAG = "VTOEventLogger";
-
-		private static class Holder {
-			private static final Api16ViewTreeObserverLogger INSTANCE = new Api16ViewTreeObserverLogger();
-		}
-
-		private static Api16ViewTreeObserverLogger getInstance() {
-			return Holder.INSTANCE;
-		}
-
-		@Override
-		public void onDraw() {
-			Log.v(TAG, "onDraw");
-		}
-	}
-
-	private static class Api18ViewTreeObserverLogger implements ViewTreeObserver.OnWindowAttachListener, ViewTreeObserver.OnWindowFocusChangeListener {
-		private static final String TAG = "VTOEventLogger";
-
-		private static class Holder {
-			private static final Api18ViewTreeObserverLogger INSTANCE = new Api18ViewTreeObserverLogger();
-		}
-
-		private static Api18ViewTreeObserverLogger getInstance() {
-			return Holder.INSTANCE;
-		}
-
-		@Override
-		public void onWindowAttached() {
-			Log.v(TAG, "onWindowAttached");
-		}
-
-		@Override
-		public void onWindowDetached() {
-			Log.v(TAG, "onWindowDetached");
-		}
-
-		@Override
-		public void onWindowFocusChanged(boolean hasFocus) {
-			Log.v(TAG, "onWindowFocusChanged(hasFocus=" + hasFocus + ")");
-		}
 	}
 
 	/**

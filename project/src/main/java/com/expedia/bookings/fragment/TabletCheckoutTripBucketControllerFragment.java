@@ -212,7 +212,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 				TextView yourTrip = Ui.findView(mRootC, R.id.your_trip_tv);
 				if (bucketDateRange.getWidth() > 0 && yourTrip.getWidth() > 0) {
 					bucketDateRange.setVisibility(yourTrip.getRight() > bucketDateRange.getLeft() ? View.INVISIBLE : View.VISIBLE);
-					mRootC.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					mRootC.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				}
 			}
 		});

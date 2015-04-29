@@ -25,7 +25,6 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -771,13 +770,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		super.onStop();
 
 		// If the configuration isn't changing but we are stopping this activity, save the search params
-		//
-		// Due to not being able to tell a config change or not on earlier versions of Android, we just
-		// always save.
-		boolean configChange = false;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			configChange = isChangingConfigurations();
-		}
+		boolean configChange = isChangingConfigurations();
 		if (!configChange) {
 			// Save here to prevent saving to disk all the time. This will only save to disk when the user
 			// is leaving the screen. Moreover, waiting until now to save to disk will ensure HotelSearch

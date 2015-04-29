@@ -281,23 +281,21 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 
 		AnimatorSet animSet = AnimUtils.playTogether(set);
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			animSet.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationStart(Animator animation) {
-					for (View view : hwLayerViews) {
-						view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-					}
+		animSet.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator animation) {
+				for (View view : hwLayerViews) {
+					view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				}
+			}
 
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					for (View view : hwLayerViews) {
-						view.setLayerType(View.LAYER_TYPE_NONE, null);
-					}
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				for (View view : hwLayerViews) {
+					view.setLayerType(View.LAYER_TYPE_NONE, null);
 				}
-			});
-		}
+			}
+		});
 
 		return animSet;
 	}
@@ -335,23 +333,21 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		// Create AnimatorSet and return
 		AnimatorSet animSet = AnimUtils.playTogether(set);
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			animSet.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationStart(Animator animation) {
-					for (View view : hwLayerViews) {
-						view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-					}
+		animSet.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator animation) {
+				for (View view : hwLayerViews) {
+					view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				}
+			}
 
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					for (View view : hwLayerViews) {
-						view.setLayerType(View.LAYER_TYPE_NONE, null);
-					}
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				for (View view : hwLayerViews) {
+					view.setLayerType(View.LAYER_TYPE_NONE, null);
 				}
-			});
-		}
+			}
+		});
 
 		return animSet;
 	}

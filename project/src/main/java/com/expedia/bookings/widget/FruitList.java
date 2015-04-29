@@ -225,12 +225,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 			setBackgroundColor(mFooterSpacerColor);
 		}
 		else {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				setBackground(null);
-			}
-			else {
-				setBackgroundDrawable(null);
-			}
+			setBackground(null);
 		}
 	}
 

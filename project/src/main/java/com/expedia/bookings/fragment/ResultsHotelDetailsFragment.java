@@ -11,7 +11,6 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -629,12 +628,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		final HashMap<View, int[]> oldCoordinates = new HashMap<>();
 		for (int i = mRoomsRatesContainer.getChildCount() - 1; i >= 0; i--) {
 			View v = mRoomsRatesContainer.getChildAt(i);
-			if (Build.VERSION.SDK_INT >= 16) {
-				v.setHasTransientState(true);
-			}
-			if (v instanceof ViewGroup) {
-				((ViewGroup) v).setClipChildren(false);
-			}
+			v.setHasTransientState(true);
 			oldCoordinates.put(v, new int[] {v.getTop(), v.getBottom()});
 		}
 
@@ -716,9 +710,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 							mRoomsRatesContainer.setClickable(true);
 							for (int i = mRoomsRatesContainer.getChildCount() - 1; i >= 0; i--) {
 								View v = mRoomsRatesContainer.getChildAt(i);
-								if (Build.VERSION.SDK_INT >= 16) {
-									v.setHasTransientState(false);
-								}
+								v.setHasTransientState(false);
 							}
 						}
 					});

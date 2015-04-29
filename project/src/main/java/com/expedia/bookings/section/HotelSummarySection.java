@@ -12,7 +12,6 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
-import android.os.Build;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.StateSet;
@@ -483,10 +482,6 @@ public class HotelSummarySection extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Async handling of Mobile Exclusive Deals / ColorScheme
 
-
-
-
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void setDominantColor(int color) {
 		StateListDrawable stateListDrawable = new StateListDrawable();
 		stateListDrawable.addState(new int[] {
@@ -500,12 +495,7 @@ public class HotelSummarySection extends RelativeLayout {
 		}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay)));
 
 		stateListDrawable.addState(StateSet.WILD_CARD, new ColorDrawable(color));
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-			mUrgencyText.setBackgroundDrawable(stateListDrawable);
-		}
-		else {
-			mUrgencyText.setBackground(stateListDrawable);
-		}
+		mUrgencyText.setBackground(stateListDrawable);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
