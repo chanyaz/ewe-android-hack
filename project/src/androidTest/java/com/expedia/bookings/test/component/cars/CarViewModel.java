@@ -46,7 +46,7 @@ public final class CarViewModel {
 	}
 
 	public static void clickFilterDone() {
-		onView(withId(R.id.car_filter_done)).perform(click());
+		onView(withId(R.id.apply_check)).perform(click());
 	}
 
 	public static void selectPickupLocation(Instrumentation instrumentation, String airportCode) throws Throwable {

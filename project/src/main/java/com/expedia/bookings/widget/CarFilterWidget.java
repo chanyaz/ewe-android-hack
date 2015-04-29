@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -42,9 +45,6 @@ public class CarFilterWidget extends LinearLayout {
 		setOrientation(VERTICAL);
 		inflate(context, R.layout.widget_car_filter, this);
 	}
-
-	@InjectView(R.id.car_filter_done)
-	Button doneButton;
 
 	@InjectView(R.id.ac_filter_checkbox)
 	CheckBox airConditioningCheckbox;
@@ -81,6 +81,9 @@ public class CarFilterWidget extends LinearLayout {
 
 	@InjectView(R.id.filter_categories_divider)
 	View divider;
+
+	@InjectView(R.id.toolbar)
+	Toolbar toolbar;
 
 	LinkedHashSet carSupplierCheckedFilterResults;
 	LinkedHashSet carSupplierCheckedFilterDetails;
@@ -135,10 +138,26 @@ public class CarFilterWidget extends LinearLayout {
 		ButterKnife.inject(this);
 		Events.register(this);
 
-		allClicked();
-		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
+		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp).mutate();
 		navIcon.setColorFilter(getResources().getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
-		doneButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
+		toolbar.setNavigationIcon(navIcon);
+		toolbar.setTitle(getResources().getString(R.string.filter));
+		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
+		toolbar.setTitleTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
+		toolbar.inflateMenu(R.menu.cars_filter_menu);
+
+		toolbar.setNavigationOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				((Activity) getContext()).onBackPressed();
+			}
+		});
+
+		MenuItem item = toolbar.getMenu().findItem(R.id.apply_check);
+		setupToolBarCheckmark(item);
+
+		allClicked();
+
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
@@ -154,9 +173,21 @@ public class CarFilterWidget extends LinearLayout {
 		});
 	}
 
-	@OnClick(R.id.car_filter_done)
-	public void onFilterDoneSelect() {
-		Events.post(new Events.CarsFilterDone(carFilter));
+	public Button setupToolBarCheckmark(final MenuItem menuItem) {
+		Button tv = Ui.inflate(getContext(), R.layout.toolbar_checkmark_item, null);
+		tv.setText(R.string.apply);
+		tv.setTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
+		tv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Events.post(new Events.CarsFilterDone(carFilter));
+			}
+		});
+		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
+		navIcon.setColorFilter(getResources().getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		tv.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
+		menuItem.setActionView(tv);
+		return tv;
 	}
 
 	public void bind(CarSearch search) {
@@ -178,7 +209,8 @@ public class CarFilterWidget extends LinearLayout {
 		for (int i = 0; i < categories.size(); i++) {
 			filterCategories.add(categories.get(i).category);
 			for (int j = 0; j < categories.get(i).offers.size(); j++) {
-				setFilterVisibilites(categories.get(i).offers, filterSuppliers, hasManual, hasAuto, hasUnlimitedMileage, hasAirConditioning);
+				setFilterVisibilites(categories.get(i).offers, filterSuppliers, hasManual, hasAuto, hasUnlimitedMileage,
+					hasAirConditioning);
 			}
 		}
 
@@ -245,7 +277,8 @@ public class CarFilterWidget extends LinearLayout {
 		bind(filterSuppliers, true);
 	}
 
-	public void setFilterVisibilites(List<SearchCarOffer> offers, Set<String> filterSuppliers, AtomicBoolean hasManual, AtomicBoolean hasAuto, AtomicBoolean hasUnlimitedMileage, AtomicBoolean hasAirConditioning) {
+	public void setFilterVisibilites(List<SearchCarOffer> offers, Set<String> filterSuppliers, AtomicBoolean hasManual,
+		AtomicBoolean hasAuto, AtomicBoolean hasUnlimitedMileage, AtomicBoolean hasAirConditioning) {
 		for (SearchCarOffer j : offers) {
 			filterSuppliers.add(j.vendor.name);
 			if (j.vehicleInfo.transmission.equals(Transmission.MANUAL_TRANSMISSION)) {
@@ -283,9 +316,11 @@ public class CarFilterWidget extends LinearLayout {
 			if (carFilter.carSupplierCheckedFilter == carSupplierCheckedFilterDetails) {
 				carSupplierCheckedFilterResults.add(event.checkBoxDisplayName);
 				for (int i = 0; i < filterSuppliersContainerResults.getChildCount(); i++) {
-					CarsSupplierFilterWidget supplierView = (CarsSupplierFilterWidget) filterSuppliersContainerResults.getChildAt(i);
+					CarsSupplierFilterWidget supplierView = (CarsSupplierFilterWidget) filterSuppliersContainerResults
+						.getChildAt(i);
 
-					if (supplierView.vendorTitle.getText().toString().equals(event.checkBoxDisplayName) && !supplierView.vendorCheckBox.isChecked()) {
+					if (supplierView.vendorTitle.getText().toString().equals(event.checkBoxDisplayName)
+						&& !supplierView.vendorCheckBox.isChecked()) {
 						supplierView.onCategoryClick();
 					}
 				}
@@ -296,9 +331,11 @@ public class CarFilterWidget extends LinearLayout {
 			if (carFilter.carSupplierCheckedFilter == carSupplierCheckedFilterDetails) {
 				carSupplierCheckedFilterResults.remove(event.checkBoxDisplayName);
 				for (int i = 0; i < filterSuppliersContainerResults.getChildCount(); i++) {
-					CarsSupplierFilterWidget supplierView = (CarsSupplierFilterWidget) filterSuppliersContainerResults.getChildAt(i);
+					CarsSupplierFilterWidget supplierView = (CarsSupplierFilterWidget) filterSuppliersContainerResults
+						.getChildAt(i);
 
-					if (supplierView.vendorTitle.getText().toString().equals(event.checkBoxDisplayName) && supplierView.vendorCheckBox.isChecked()) {
+					if (supplierView.vendorTitle.getText().toString().equals(event.checkBoxDisplayName)
+						&& supplierView.vendorCheckBox.isChecked()) {
 						supplierView.onCategoryClick();
 					}
 				}
