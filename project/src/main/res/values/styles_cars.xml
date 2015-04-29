@@ -7,6 +7,8 @@
 
     <style name="V2.Widget" />
 
+    <style name="V2.Theme.Hotels" parent="AppTheme.Base" />
+
     <style name="V2.Theme.Cars" parent="AppTheme.Base" />
 
     <style name="AppTheme.Base" parent="@style/Theme.AppCompat.Light">

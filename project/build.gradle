@@ -7,6 +7,7 @@ def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 
@@ -22,6 +23,7 @@ dependencies {
             'admsAppLibrary-3.0.5.jar',
             'adxtag3.2.6.jar',
             'Kahuna.jar',
+            'anko-0.6-15s.jar',
     ])
     compile project(':lib:FlightLib')
     compile project(':lib:svg-android:svgandroid')
@@ -33,6 +35,8 @@ dependencies {
         exclude group: 'org.json'
     }
 
+    compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+
     // Google Play Services deps on the support lib
     // however we add it here so the android-sdk-manager plugin behaves
     compile "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
@@ -40,6 +44,7 @@ dependencies {
     compile "com.android.support:palette-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:recyclerview-v7:21.0.3"
     compile "com.android.support:cardview-v7:${rootProject.ext.supportLibVersion}"
+    compile 'com.android.support:support-annotations:${rootProject.ext.supportLibVersion}'
 
     compile "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-wallet:${rootProject.ext.googlePlayServicesVersion}"
@@ -53,9 +58,10 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.0.0'
     compile 'com.leanplum:Leanplum:1.2.8'
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
-    compile 'com.android.support:support-annotations:20.0.0'
     compile 'io.reactivex:rxandroid:0.24.0'
-    compile 'com.wefika:flowlayout:0.4.0'
+    compile ('com.wefika:flowlayout:0.4.0') {
+        exclude group: 'com.intellij'
+    }
 
     // Dagger 2.0
     compile 'com.google.dagger:dagger:2.0'
@@ -67,7 +73,7 @@ dependencies {
     }
 
     // Debug dependencies
-    debugCompile('com.squareup.okhttp:mockwebserver:2.3.0')
+    debugCompile 'com.squareup.okhttp:mockwebserver:2.3.0'
     debugCompile (project(':lib:mocked:mocke3')) {
         transitive = false
     }
