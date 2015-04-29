@@ -45,6 +45,10 @@
         <property name="format" value="!BuildConfig.RELEASE"/>
         <property name="message" value="Don't use !BuildConfig.RELEASE, use BuildConfig.DEBUG instead"/>
     </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="AndroidUtils.getSdkVersion"/>
+        <property name="message" value="Don't use AndroidUtils.getSdkVersion(), use Build.VERSION.SDK_INT instead"/>
+    </module>
 
     <module name="TreeWalker">
         <!-- Checks for Naming Conventions.                  -->

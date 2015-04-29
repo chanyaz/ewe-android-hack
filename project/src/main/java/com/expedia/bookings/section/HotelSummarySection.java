@@ -38,7 +38,6 @@ import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.text.StrikethroughTagHandler;
-import com.mobiata.android.util.AndroidUtils;
 
 /**
  * Note: This is somewhat overloaded to be able to represent either an entire
@@ -501,7 +500,7 @@ public class HotelSummarySection extends RelativeLayout {
 		}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay)));
 
 		stateListDrawable.addState(StateSet.WILD_CARD, new ColorDrawable(color));
-		if (AndroidUtils.getSdkVersion() < Build.VERSION_CODES.JELLY_BEAN) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
 			mUrgencyText.setBackgroundDrawable(stateListDrawable);
 		}
 		else {

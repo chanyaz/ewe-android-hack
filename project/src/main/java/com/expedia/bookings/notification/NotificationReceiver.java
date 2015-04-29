@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import com.expedia.bookings.R;
@@ -146,7 +147,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 		public void start() {
 			// Disable any image downloading if this device doesn't show bitmaps in notifications anyway
-			if (AndroidUtils.getSdkVersion() < 16) {
+			if (Build.VERSION.SDK_INT < 16) {
 				mBitmap = null;
 				display();
 				return;

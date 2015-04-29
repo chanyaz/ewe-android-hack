@@ -264,11 +264,11 @@ public class Ui extends com.mobiata.android.util.Ui {
 		vto.addOnScrollChangedListener(Api8ViewTreeObserverLogger.getInstance());
 		vto.addOnTouchModeChangeListener(Api8ViewTreeObserverLogger.getInstance());
 
-		if (AndroidUtils.getSdkVersion() >= 16) {
+		if (Build.VERSION.SDK_INT >= 16) {
 			vto.addOnDrawListener(Api16ViewTreeObserverLogger.getInstance());
 		}
 
-		if (AndroidUtils.getSdkVersion() >= 18) {
+		if (Build.VERSION.SDK_INT >= 18) {
 			vto.addOnWindowAttachListener(Api18ViewTreeObserverLogger.getInstance());
 			vto.addOnWindowFocusChangeListener(Api18ViewTreeObserverLogger.getInstance());
 		}
@@ -295,11 +295,11 @@ public class Ui extends com.mobiata.android.util.Ui {
 		vto.removeOnScrollChangedListener(Api8ViewTreeObserverLogger.getInstance());
 		vto.removeOnTouchModeChangeListener(Api8ViewTreeObserverLogger.getInstance());
 
-		if (AndroidUtils.getSdkVersion() >= 16) {
+		if (Build.VERSION.SDK_INT >= 16) {
 			vto.removeOnDrawListener(Api16ViewTreeObserverLogger.getInstance());
 		}
 
-		if (AndroidUtils.getSdkVersion() >= 18) {
+		if (Build.VERSION.SDK_INT >= 18) {
 			vto.removeOnWindowAttachListener(Api18ViewTreeObserverLogger.getInstance());
 			vto.removeOnWindowFocusChangeListener(Api18ViewTreeObserverLogger.getInstance());
 		}

@@ -15,6 +15,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -46,7 +47,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Tile;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.maps.model.TileProvider;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -360,7 +360,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		final Marker marker = getMap().addMarker(options);
 
 		// Add animation effects, if the markers are not already transitioning.
-		if (AndroidUtils.getSdkVersion() > 15 && mMarkerAlpha == 1f) {
+		if (Build.VERSION.SDK_INT > 15 && mMarkerAlpha == 1f) {
 			ObjectAnimator anim = ObjectAnimator.ofFloat(marker, "alpha", 1f);
 
 			anim.addListener(new AnimatorListenerAdapter() {
