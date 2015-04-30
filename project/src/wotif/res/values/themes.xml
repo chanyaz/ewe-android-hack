@@ -32,7 +32,6 @@
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale_wotif</item>
         <item name="skin_hotelListMapMarkerDrawable">@drawable/map_pin_normal_wotif</item>
-        <item name="skin_bestPriceGuaranteeString">@string/wotif_best_price_guarantee</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_wotif</item>
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_wotif</item>
         <item name="skin_costSummaryBookingFeesString">@string/wotif_booking_fee</item>

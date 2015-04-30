@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="wotif_best_price_guarantee">Wotif Price Guarantee</string>
-
     <string name="call_wotif_customer_support">Call Wotif Customer Support</string>
 
     <!-- Log in with Wotif -->
