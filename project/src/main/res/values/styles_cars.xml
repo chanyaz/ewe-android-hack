@@ -9,13 +9,7 @@
 
     <style name="V2.Theme.Hotels" parent="AppTheme.Base" />
 
-    <style name="V2.Theme.Cars" parent="AppTheme.Base" />
-
-    <style name="AppTheme.Base" parent="@style/Theme.AppCompat.Light">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
+    <style name="V2.Theme.Cars" parent="AppTheme.Base">
         <item name="android:textColorSecondary">@color/cars_actionbar_text_color</item>
         <item name="android:colorPrimaryDark">#532C45</item>
         <item name="android:colorButtonNormal">@color/cars_primary_color</item>
@@ -25,6 +19,23 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="colorAccent">@color/cars_primary_color</item>
         <item name="android:colorEdgeEffect">@color/cars_primary_color</item>
+
+        <item name="primary_color">@color/cars_primary_color</item>
+        <item name="checkout_card_view_style">@style/CarsCardView</item>
+        <item name="checkout_slider_text">@string/cars_slider_text</item>
+        <item name="toolbar_title_style">@style/CarsToolbarTitleTextAppearance</item>
+
+        <item name="traveler_toolbar_text">@string/cars_driver_details_text</item>
+        <item name="traveler_details_text">@string/enter_driver_details</item>
+        <item name="card_list_image_container_height">@dimen/car_search_list_image_container_height</item>
+        <item name="card_details_container_height">@dimen/car_search_details_container_height</item>
+    </style>
+
+    <style name="AppTheme.Base" parent="@style/Theme.AppCompat.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
 
         <!-- Required white label attr for login widget -->
         <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
@@ -42,16 +53,8 @@
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
         <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
 
-        <item name="primary_color">@color/cars_primary_color</item>
-        <item name="checkout_card_view_style">@style/CarsCardView</item>
-        <item name="checkout_slider_text">@string/cars_slider_text</item>
-        <item name="toolbar_title_style">@style/CarsToolbarTitleTextAppearance</item>
-
-        <item name="traveler_toolbar_text">@string/cars_driver_details_text</item>
-        <item name="traveler_details_text">@string/enter_driver_details</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
-        <item name="card_list_image_container_height">@dimen/car_search_list_image_container_height</item>
-        <item name="card_details_container_height">@dimen/car_search_details_container_height</item>
+
         <!-- CVV attrs -->
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/black</item>

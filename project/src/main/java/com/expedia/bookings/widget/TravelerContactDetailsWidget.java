@@ -202,11 +202,6 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	}
 
 	@Override
-	public void onAddNewTravelerSelected() {
-
-	}
-
-	@Override
 	public boolean getDoneButtonFocus() {
 		if (phoneNumber != null) {
 			return phoneNumber.hasFocus();
