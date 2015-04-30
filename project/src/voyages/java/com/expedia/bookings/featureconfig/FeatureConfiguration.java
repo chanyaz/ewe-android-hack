@@ -294,4 +294,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		//Key not available for VSC for now, so passing blank.
 		return "";
 	}
+
+	public boolean isAppSupportUrlEnabled() {
+		return true;
+	}
 }

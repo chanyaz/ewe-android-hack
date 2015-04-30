@@ -236,9 +236,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "wotif";
 	}
 
-	@Override
 	public String getAdXKey() {
 		//Key not available for Wotif for now, so passing blank.
 		return "";
+	}
+
+	public boolean isAppSupportUrlEnabled() {
+		return false;
 	}
 }

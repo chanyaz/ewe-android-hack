@@ -235,4 +235,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		//Key not available for AAG for now, so passing blank.
 		return "";
 	}
+
+	public boolean isAppSupportUrlEnabled() {
+		return true;
+	}
 }
