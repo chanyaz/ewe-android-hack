@@ -349,6 +349,63 @@
                 "id": 71,
                 "name": "Failure"
             }
+        },
+        {
+            "dropOffLocation": {
+                "locationCode": "SFO",
+                "locationDescription": "San Francisco (SFO)",
+                "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+                "latitude": 37.61594,
+                "longitude": -122.387996
+            },
+            "fare": {
+                "rate": {
+                    "amount": "35.50",
+                    "currencyCode": "USD",
+                    "formattedPrice": "$35.50",
+                    "formattedWholePrice": "$35"
+                },
+                "rateTerm": "WEEKEND",
+                "total": {
+                    "amount": "35.50",
+                    "currencyCode": "USD",
+                    "formattedPrice": "$35.50",
+                    "formattedWholePrice": "$35"
+                }
+            },
+            "pickUpLocation": {
+                "airportInstructions": "Shuttle to counter and car",
+                "locationCode": "SFO",
+                "locationDescription": "San Francisco (SFO)",
+                "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+                "latitude": 37.61594,
+                "longitude": -122.387996
+            },
+            "productKey": "invalid_car_product",
+            "reservationGuaranteeRequired": false,
+            "vehicleInfo": {
+                "adultCapacity": 4,
+                "category": "ECONOMY",
+                "childCapacity": 0,
+                "drive": "TWO_WHEEL_DRIVE",
+                "fuel": "UNKNOWN",
+                "hasAirConditioning": true,
+                "largeLuggageCapacity": 2,
+                "makes": [
+                    "Toyota Yaris"
+                ],
+                "maxDoors": 4,
+                "minDoors": 4,
+                "smallLuggageCapacity": 0,
+                "carCategoryDisplayLabel":"Economy",
+                "transmission": "AUTOMATIC_TRANSMISSION",
+                "type": "TWO_DOOR_CAR"
+            },
+            "vendor": {
+                "code": "invalid_car_product",
+                "id": 71,
+                "name": "invalid_car_product"
+            }
         }
     ],
     "pickupTime": {

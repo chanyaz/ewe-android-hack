@@ -16,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
@@ -446,7 +445,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
 			}
 			else {
-				showCreateTripErrorDialog();
+				handleCreateTripError((ApiError) e);
 			}
 		}
 
@@ -457,10 +456,35 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		}
 	};
 
-	private void showCreateTripErrorDialog() {
+	private void handleCreateTripError(final ApiError error) {
+		switch (error.errorCode) {
+		case INVALID_CAR_PRODUCT_KEY:
+			showInvalidProductErrorDialog();
+			break;
+		default:
+			showGenericCreateTripErrorDialog();
+			break;
+		}
+	}
+
+	private void showGenericCreateTripErrorDialog() {
 		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
 		b.setCancelable(false)
 			.setMessage(getResources().getString(R.string.error_server))
+			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.CarsGoToSearch());
+				}
+			})
+			.show();
+	}
+
+	private void showInvalidProductErrorDialog() {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(R.string.error_cars_product_expired))
 			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
