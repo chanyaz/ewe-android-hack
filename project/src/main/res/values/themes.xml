@@ -225,6 +225,7 @@
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
         <item name="skin_etp_pay_now_charges_text">@string/etp_pay_now_charges_text</item>
+        <item name="skin_totalDueToday">@string/total_due_today</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -310,6 +311,7 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
+        <item name="skin_actionBarShopText">@string/shop</item>
     </style>
 
     <style name="ItineraryTheme" parent="Theme.Expedia">

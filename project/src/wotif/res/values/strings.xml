@@ -45,9 +45,9 @@
 
     <!-- Phone Fragment Header-->
     <string name="nav_accommodation">Accommodation</string>
-
-    <!-- Shop -->
-    <string name="shop">Shop Travel</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">Shop travel</string>
 
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_wotif_via">Contact Wotif Via…</string>
@@ -92,6 +92,6 @@
     <string name="login_reset_password">We need you to create a new, international sign in for all Wotif sites.&lt;br>Please reset your password using the ‘Forgot your password?’ link below.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Due to Wotif Today</string>
-    <string name="etp_pay_now_charges_text">Wotif will process your payment details.</string>
+    <string name="total_due_today_wotif">Due to Wotif Today</string>
+    <string name="etp_pay_now_charges_text_wotif">Wotif will process your payment details.</string>
 </resources>
