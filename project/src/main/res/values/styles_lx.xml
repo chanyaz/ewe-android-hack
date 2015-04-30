@@ -68,17 +68,20 @@
         <item name="android:dividerHeight">0dp</item>
     </style>
 
-    <style name="LXAutocomplete" parent="V2.Theme.LX">
-        <item name="android:background">@drawable/lx_autocomplete_background_selector</item>
-        <item name="android:layout_height">46dp</item>
-        <item name="android:drawablePadding">12dp</item>
-        <item name="android:paddingLeft">10dp</item>
-        <item name="android:paddingRight">5dp</item>
-        <item name="android:textColorHint">@color/lx_primary_color</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/lx_primary_color</item>
-        <item name="android:singleLine">true</item>
+    <style name="LXAutocomplete" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:layout_height">50dp</item>
         <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColorHint">#FFFFFF</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:theme">@style/LXAutocompleteTheme</item>
+    </style>
+
+    <style name="LXAutocompleteTheme">
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="colorControlActivated">#FFFFFF</item>
+        <item name="colorControlHighlight">#FFFFFF</item>
     </style>
 
     <style name="LXActionBarTitle" parent="V2.Theme.LX">
