@@ -54,4 +54,25 @@ public class CarCreateTripErrorTests extends CarTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.toolbar_search_cars));
 	}
 
+	public void testCarCreateTripExpiredProduct() throws Throwable {
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		CarViewModel.pickupLocation().perform(typeText("SFO"));
+		CarViewModel.selectPickupLocation(getInstrumentation(), "San Francisco, CA");
+		CarViewModel.selectDateButton().perform(click());
+		CarViewModel.selectDates(startDateTime.toLocalDate(), startDateTime.toLocalDate());
+		CarViewModel.searchButton().perform(click());
+
+		CarViewModel.selectCarCategory(CATEGORY);
+		screenshot("Car Offers");
+		CarViewModel.selectCarOffer(3);
+
+		screenshot("Car Create Trip Expired Product Dialog");
+		CarViewModel.alertDialog().check(matches(isDisplayed()));
+		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_cars_product_expired)));
+		CarViewModel.alertDialogPositiveButton().perform(click());
+
+		screenshot("Car Search");
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.toolbar_search_cars));
+	}
+
 }

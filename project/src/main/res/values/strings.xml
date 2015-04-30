@@ -187,6 +187,8 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hmm&#8230;Your payment didn\'t go through. Please double check your payment details and try again.</string>
+    <!-- Shown to a user when their ability to rent a specific car expires -->
+    <string name="error_cars_product_expired">Your search has expired. Please select a valid pick-up time.</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">View Price Change</string>
     <!-- My Trips button that takes you to Itins -->
