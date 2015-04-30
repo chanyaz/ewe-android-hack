@@ -110,4 +110,6 @@ public interface IProductFlavorFeatureConfiguration {
 	String getClientShortName();
 
 	String getAdXKey();
+
+	boolean isAppSupportUrlEnabled();
 }

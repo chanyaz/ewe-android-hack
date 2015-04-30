@@ -109,7 +109,9 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 			builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT);
 
-			builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutAppSupportString), ROW_APP_SUPPORT);
+			if (ProductFlavorFeatureConfiguration.getInstance().isAppSupportUrlEnabled()) {
+				builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutAppSupportString), ROW_APP_SUPPORT);
+			}
 
 			builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
 
