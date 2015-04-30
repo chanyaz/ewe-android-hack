@@ -356,6 +356,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 
 		switch (callbackId) {
 		case SimpleCallbackDialogFragment.CODE_INVALID_CC:
+		case SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT:
 			//Go to CC number entry page
 			Intent gotoCCEntryIntent = new Intent(FlightBookingActivity.this, FlightPaymentOptionsActivity.class);
 			if (Db.getBillingInfo() != null && Db.getBillingInfo().hasStoredCard()) {
