@@ -2,4 +2,5 @@
 <resources>
     <dimen name="search_dropdown_padding">10dp</dimen>
     <dimen name="search_toggle_button_padding">0dp</dimen>
+    <dimen name="cars_checkout_cost_summary_min_height">240dp</dimen>
 </resources>
