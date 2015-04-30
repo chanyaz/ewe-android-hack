@@ -10,11 +10,6 @@
             android:taskAffinity="com.expedia.bookings.activity.PlaygroundActivity"
             android:label="Playground"
             android:theme="@style/V2.Theme.Cars" >
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
     </application>
