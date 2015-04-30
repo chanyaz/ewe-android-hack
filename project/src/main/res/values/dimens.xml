@@ -283,6 +283,8 @@
     <!-- Car Details -->
     <dimen name="car_details_image_size">240dp</dimen>
 
+    <dimen name="cars_checkout_cost_summary_min_height">270dp</dimen>
+
     <!-- Car Confirmation Slide to reserve -->
     <dimen name="car_slide_to_purchase_price_text_size">13dp</dimen>
     <dimen name="car_slide_to_purchase_padding">50dp</dimen>
