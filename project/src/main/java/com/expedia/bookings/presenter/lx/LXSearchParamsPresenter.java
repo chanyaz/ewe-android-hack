@@ -50,6 +50,7 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class LXSearchParamsPresenter extends Presenter
@@ -108,9 +109,7 @@ public class LXSearchParamsPresenter extends Presenter
 		location.setOnItemClickListener(mLocationListListener);
 		location.setOnEditorActionListener(this);
 		location.setOnFocusChangeListener(mLocationFocusListener);
-		Drawable locationDrawable = getResources().getDrawable(R.drawable.location).mutate();
-		locationDrawable.setColorFilter(getResources().getColor(R.color.lx_primary_color), PorterDuff.Mode.SRC_IN);
-		location.setCompoundDrawablesWithIntrinsicBounds(locationDrawable, null, null, null);
+		location.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		addTransition(defaultToCal);
 		show(new LXParamsDefault());
 
@@ -181,6 +180,13 @@ public class LXSearchParamsPresenter extends Presenter
 		suggestionAdapter.addNearbyAndRecents(mRecentLXLocationsSearches, getContext());
 	}
 
+	@OnCheckedChanged(R.id.select_dates)
+	public void onDateCheckedChanged(boolean isChecked) {
+		Drawable drawableEnabled = getResources().getDrawable(R.drawable.date).mutate();
+		drawableEnabled.setColorFilter(isChecked ? Color.WHITE : getResources().getColor(R.color.lx_unchecked_toggle_text_color), PorterDuff.Mode.SRC_IN);
+		selectDates.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
+	}
+
 	@Override
 	protected void onDetachedFromWindow() {
 		if (suggestionAdapter != null) {
@@ -198,6 +204,7 @@ public class LXSearchParamsPresenter extends Presenter
 			selectDates.setChecked(false);
 			return;
 		}
+		selectDates.setChecked(true);
 		show(new LXParamsCalendar());
 	}
 
@@ -270,15 +277,16 @@ public class LXSearchParamsPresenter extends Presenter
 	}
 
 	private void setupToolbar() {
-		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp);
-		navIcon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp).mutate();
+		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
 		toolbar.inflateMenu(R.menu.lx_search_menu);
 		MenuItem item = toolbar.getMenu().findItem(R.id.menu_search);
 		setupToolBarCheckmark(item);
 
-		toolbar.setTitle(getResources().getString(R.string.lx_search_widget_heading));
-		toolbar.setTitleTextColor(getResources().getColor(R.color.lx_actionbar_text_color));
+		toolbar.setTitle(getResources().getString(R.string.lx_search_title));
+		toolbar.setTitleTextColor(Color.WHITE);
+		toolbar.setBackgroundColor(getResources().getColor(R.color.lx_primary_color));
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -308,7 +316,7 @@ public class LXSearchParamsPresenter extends Presenter
 			}
 		});
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
-		navIcon.setColorFilter(getResources().getColor(R.color.lx_primary_color), PorterDuff.Mode.SRC_IN);
+		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		searchButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
 		menuItem.setActionView(searchButton);
 	}
@@ -355,8 +363,6 @@ public class LXSearchParamsPresenter extends Presenter
 		public void startTransition(boolean forward) {
 			int parentHeight = getHeight();
 			calendarHeight = calendarContainer.getHeight();
-			selectDates.setEnabled(!forward);
-			selectDates.setChecked(forward);
 			float pos = forward ? parentHeight + calendarHeight : calendarHeight;
 			calendarContainer.setTranslationY(pos);
 			calendarContainer.setVisibility(View.VISIBLE);
@@ -389,7 +395,7 @@ public class LXSearchParamsPresenter extends Presenter
 			searchButton.setAlpha(1f);
 		}
 		else {
-			searchButton.setAlpha(.7f);
+			searchButton.setAlpha(.15f);
 		}
 	}
 

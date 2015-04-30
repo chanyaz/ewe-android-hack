@@ -230,7 +230,7 @@
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
-    <string name="lx_search_widget_heading">Dates &amp; Location</string>
+    <string name="lx_search_title">Search Activities</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Select date</string>
     <!-- Activity details highlights heading -->
