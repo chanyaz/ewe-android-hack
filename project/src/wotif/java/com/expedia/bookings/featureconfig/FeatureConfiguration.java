@@ -97,7 +97,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isAdXEnabled() {
-		return false;
+		return true;
 	}
 
 	public int getAdXPosIdentifier() {
