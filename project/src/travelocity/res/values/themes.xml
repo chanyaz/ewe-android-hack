@@ -94,6 +94,7 @@
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_travelocity</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
         <item name="skin_etp_pay_now_charges_text">@string/etp_pay_now_charges_text</item>
+        <item name="skin_totalDueToday">@string/total_due_today</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
@@ -155,6 +156,7 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
+        <item name="skin_actionBarShopText">@string/shop</item>
     </style>
 
     <style name="LaunchActionBarTabTravelocityStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">

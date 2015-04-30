@@ -314,4 +314,7 @@
     <attr name="skin_flightFreeCancellationTextColor" format="reference|color" />
 
     <attr name="skin_hotelSearchPopupFilterTextColor" format="reference|color" />
+
+    <attr name="skin_totalDueToday" format="reference|string" />
+    <attr name="skin_actionBarShopText" format="reference|string" />
 </resources>
