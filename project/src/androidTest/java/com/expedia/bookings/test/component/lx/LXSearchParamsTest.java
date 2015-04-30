@@ -39,7 +39,7 @@ public class LXSearchParamsTest {
 		LXViewModel.toolbar().check(matches(isDisplayed()));
 		LXViewModel.toolbar().check(matches(hasDescendant(isAssignableFrom(Button.class))));
 		LXViewModel.searchButton().check(matches(isDisplayed()));
-		LXViewModel.toolbar().check(matches(hasDescendant(withText(R.string.lx_search_widget_heading))));
+		LXViewModel.toolbar().check(matches(hasDescendant(withText(R.string.lx_search_title))));
 		LXViewModel.location().check(matches(isDisplayed()));
 		LXViewModel.selectDateButton().check(matches(isDisplayed()));
 		LXViewModel.calendar().check(matches(not(isDisplayed())));
