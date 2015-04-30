@@ -29,6 +29,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.section.FlightLegSummarySection;
@@ -36,6 +37,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
@@ -181,6 +183,22 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 			});
 		}
 
+		isUserBucketedForTest = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightConfLXXsell);
+		if (PointOfSale.getPointOfSale().supportsLx() && isUserBucketedForTest) {
+			Ui.findView(v, R.id.lx_divider).setVisibility(View.VISIBLE);
+			Ui.findView(v, R.id.lx_action_text_view).setVisibility(View.VISIBLE);
+			Ui.setText(v, R.id.lx_action_text_view, getString(R.string.lx_in_TEMPLATE, destinationCity));
+			Ui.setOnClickListener(v, R.id.lx_action_text_view, new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					searchForActivities();
+					OmnitureTracking.trackAddLxClick(getActivity());
+				}
+			});
+		}
+
+
 		Ui.setOnClickListener(v, R.id.share_action_text_view, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -268,6 +286,11 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	private void searchForCars() {
 		CarSearchParams sp = CarDataUtils.fromFlightParams(Db.getTripBucket().getFlight().getFlightTrip());
 		NavUtils.goToCars(getActivity(), null, sp);
+	}
+
+	private void searchForActivities() {
+		LXSearchParams sp = LXDataUtils.fromFlightParams(Db.getTripBucket().getFlight().getFlightTrip());
+		NavUtils.goToLx(getActivity(), null, sp);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

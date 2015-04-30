@@ -242,6 +242,14 @@
             android:summary="Select a test group"
             android:title="Hotel Search Sale Pin Green" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_flight_confirmation_lx_cross_sell"
+            android:summary="Select a test group"
+            android:title="Flight Confirmation Lx Cross sell" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >
