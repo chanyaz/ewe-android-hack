@@ -18,7 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.TextView;
+import com.expedia.bookings.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -346,8 +346,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	};
 
 	Transition categoriesToDetails = new LeftToRightTransition(this, CarCategoryListWidget.class, CarCategoryDetailsWidget.class) {
-
-
 		@Override
 		public void startTransition(boolean forward) {
 			super.startTransition(forward);
@@ -520,7 +518,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		show(filter);
 	}
 
-	Transition categoriesToFilter = new Transition(CarCategoryListWidget.class, CarFilterWidget.class) {
+	Transition categoriesToFilter = new Transition(CarCategoryListWidget.class, CarFilterWidget.class, new DecelerateInterpolator(2f), 500) {
 		@Override
 		public void startTransition(boolean forward) {
 			filter.setVisibility(View.VISIBLE);
@@ -549,7 +547,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		}
 	};
 
-
 	private void showNumberOfFilters(int number) {
 		filterNumber.setText(String.valueOf(number));
 		boolean hasCheckedFilters = number > 0;
@@ -557,7 +554,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		filterIcon.setVisibility(hasCheckedFilters ? GONE : VISIBLE);
 	}
 
-	Transition detailsToFilter = new Transition(CarCategoryDetailsWidget.class, CarFilterWidget.class) {
+	Transition detailsToFilter = new Transition(CarCategoryDetailsWidget.class, CarFilterWidget.class, new DecelerateInterpolator(2f), 500) {
 		@Override
 		public void startTransition(boolean forward) {
 			filter.setVisibility(View.VISIBLE);
