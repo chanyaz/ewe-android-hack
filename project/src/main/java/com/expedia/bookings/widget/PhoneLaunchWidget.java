@@ -350,7 +350,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 			searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
 			searchParams.setFromLaunchScreen(true);
 
-			downloadSubscription = hotelServices.hotelSearch(params, downloadListener);
+			downloadSubscription = hotelServices.nearbyHotels(params, downloadListener);
 			launchDataTimeStamp = DateTime.now();
 		}
 	}
