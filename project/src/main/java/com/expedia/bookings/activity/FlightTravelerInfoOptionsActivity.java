@@ -297,7 +297,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 				setShowDoneButton(false);
 				break;
 			case TWO:
-				if (Db.getTripBucket().getFlight().getFlightTrip().isInternational()) {
+				if (Db.getTripBucket().getFlight().getFlightTrip().isInternational() || Db.getTripBucket().getFlight().getFlightTrip().isPassportNeeded()) {
 					setShowNextButton(true);
 					setShowDoneButton(false);
 				}
@@ -404,7 +404,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 				break;
 			case TWO:
 				if (validate(mTwoFragment)) {
-					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational()) {
+					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational() || Db.getTripBucket().getFlight().getFlightTrip().isPassportNeeded()) {
 						displayTravelerEntryThree();
 					}
 					else {
