@@ -78,7 +78,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);
 
-		String rulesAndRestrictionsURL = getRulesRestrictionsUrl(createTripResponse.activityId);
+		String rulesAndRestrictionsURL = getRulesRestrictionsUrl(createTripResponse.tripId);
 		legalInformationText.setText(StrUtils.generateLegalClickableLink(getContext(), rulesAndRestrictionsURL));
 		isCheckoutComplete();
 		loginWidget.updateView();
