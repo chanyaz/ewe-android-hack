@@ -6,7 +6,6 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -14,7 +13,6 @@ public class Activity implements JSONable {
 
 	private String mId;
 
-	private Money mPrice;
 	private String mTitle;
 	private Integer mGuestsCount;
 	private List<Traveler> mTravelers = new ArrayList<>();
@@ -26,14 +24,6 @@ public class Activity implements JSONable {
 
 	public void setId(String id) {
 		mId = id;
-	}
-
-	public Money getPrice() {
-		return mPrice;
-	}
-
-	public void setPrice(Money price) {
-		mPrice = price;
 	}
 
 	public String getTitle() {
@@ -76,7 +66,6 @@ public class Activity implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			obj.putOpt("id", mId);
-			GsonUtil.putForJsonable(obj, "price", mPrice);
 			obj.putOpt("title", mTitle);
 			obj.put("guestCount", mGuestsCount);
 			JSONUtils.putJSONableList(obj, "travelers", mTravelers);
@@ -91,7 +80,6 @@ public class Activity implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mId = obj.optString("id", null);
-		mPrice = GsonUtil.getForJsonable(obj, "price", Money.class);
 		mTitle = obj.optString("title", mTitle);
 		mGuestsCount = obj.optInt("guestCount");
 		mTravelers = JSONUtils.getJSONableList(obj, "travelers", Traveler.class);

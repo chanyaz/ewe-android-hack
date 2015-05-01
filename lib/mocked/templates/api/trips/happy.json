@@ -1,4 +1,3 @@
-
 {
   "apiVersion": "1.0",
   "responseType": "TRIP_SUMMARY",
@@ -21,11 +20,8 @@
       "airAttachQualificationInfo": {
         "airAttachQualified": true,
         "offerExpires": {
-          "raw": "2015-06-16T22:11:00-07:00",
-          "localized": "Jun 16, 2015 10:11:00 PM",
-          "epochSeconds": 1434517860,
-          "timeZoneOffsetSeconds": "${tzOffset}",
-          "localizedShortDate": "Tue, 16 Jun"
+          "epochSeconds": "${inboundFlightArrivalEpochSeconds}",
+          "timeZoneOffsetSeconds": "${tzOffsetPacific}"
         }
       },
       "bookingStatus": "BOOKED",
@@ -291,11 +287,11 @@
       "title": "Car rental in Detroit",
       "startTime": {
         "epochSeconds": "${carStartEpochSeconds}",
-        "timeZoneOffsetSeconds": "${tzOffset}"
+        "timeZoneOffsetSeconds": "${tzOffsetEastern}"
       },
       "endTime": {
         "epochSeconds": "${carEndEpochSeconds}",
-        "timeZoneOffsetSeconds": "${tzOffset}"
+        "timeZoneOffsetSeconds": "${tzOffsetEastern}"
       },
       "bookingStatus": "BOOKED",
       "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXrb99ZxgVH6kVO_T_F2S7Fg",
@@ -396,6 +392,61 @@
           "carCategoryImageURL": "https://images.trvl-media.com/cars%2F39%2FZDUSChrysler200_ZD_USA_20141113_s.jpg",
           "carCategory": "Standard",
           "carType": "TwoDoorCar"
+        }
+      ]
+    },
+    {
+      "levelOfDetail": "FULL",
+      "tripId": "77648d50-de49-47e4-8d35-83d91bebb487",
+      "webDetailsURL": "https://www.expedia.com/trips/7109680939468",
+      "tripNumber": 7109680939468,
+      "title": "San Francisco, United States",
+      "startTime": {
+        "epochSeconds": "${lxStartEpochSeconds}",
+        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+      },
+      "endTime": {
+        "epochSeconds": "${lxEndEpochSeconds}",
+        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+      },
+      "bookingStatus": "BOOKED",
+      "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/gqIS1pvThIQGMeVGFK88ly_D0E56QTNnvV6IvUzoNv2nXHkC-Xx99-q-zBPCmUEQ",
+      "customerSupport": {
+        "customerSupportURL": "http://support.expedia.com/app/home",
+        "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+        "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+        "customerSupportPhoneInfoForEmail": [
+          "Call Expedia+ blue Customer Care at 1-877-787-3117.",
+          "For faster service, mention itinerary # <strong> 7109680939468 </strong>"
+        ],
+        "termsAndConditionsURL": ""
+      },
+      "isBookedUsingForeignCurrency": false,
+      "activities": [
+        {
+          "uniqueID": "8187BC63-5D35-4379-904F-29AACB4A2FAF_0_221385_221387",
+          "bookingStatus": "BOOKED",
+          "bookingStatusText": "Confirmed",
+          "bookingStatusMessage": "Your activity is booked. Please check your voucher for details.",
+          "supplierReferenceNumber": "1103690045523",
+          "startTime": {
+            "epochSeconds": "${lxStartEpochSeconds}",
+            "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+          },
+          "endTime": {
+            "epochSeconds": "${lxEndEpochSeconds}",
+            "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+          },
+          "activityTitle": "Explorer Pass: Choose 4 Museums, Attractions, & Tours: Explorer Pass - Chose 4 Attractions & Tours",
+          "travelers": [
+            {
+              "isRedeemer": true,
+              "firstName": "Professor",
+              "lastName": "Farnsworth",
+              "fullName": "Professor Farnsworth"
+            }
+          ],
+          "voucherPrintURL": "https://www.expedia.com/itinerary-print?tripid=77648d50-de49-47e4-8d35-83d91bebb487&itineraryNumber=1103690045523"
         }
       ]
     }

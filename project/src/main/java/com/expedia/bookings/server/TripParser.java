@@ -466,12 +466,6 @@ public class TripParser {
 			activity.setGuestCount(obj.optInt("travelerCount"));
 			activity.setVoucherPrintUrl(obj.optString("voucherPrintURL"));
 
-			JSONObject priceJson = obj.optJSONObject("price");
-			if (priceJson != null) {
-				activity.setPrice(ParserUtils.createMoney(priceJson.optString("total", null),
-						priceJson.optString("currency", null)));
-			}
-
 			// Parse travelers
 			JSONArray travelersArr = obj.optJSONArray("travelers");
 			if (travelersArr != null) {
