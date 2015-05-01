@@ -230,6 +230,16 @@ public class ExpediaDispatcher extends Dispatcher {
 		params.put("carPickupEpochSeconds", "" + carPickup.getMillis() / 1000);
 		params.put("carDropoffEpochSeconds", "" + carDropoff.getMillis() / 1000);
 
+		// Inject lx DateTimes
+		DateTime lxStart = startOfTodayPacific
+			.plusDays(25)
+			.plusHours(11);
+		DateTime lxEnd = startOfTodayPacific
+			.plusDays(25)
+			.plusHours(17);
+		params.put("lxStartEpochSeconds", "" + lxStart.getMillis() / 1000);
+		params.put("lxEndEpochSeconds", "" + lxEnd.getMillis() / 1000);
+
 		return makeResponse("/api/trips/happy.json", params);
 	}
 

@@ -184,6 +184,12 @@ public class PhoneHappyPath extends PhoneTestCase {
 		String carTitle = EspressoUtils.getListItemValues(carRow, R.id.header_text_view);
 		Assert.assertEquals("Budget", carTitle);
 
+		// Lx assertions
+		DataInteraction lxRow = TripsScreen.tripsListItem().atPosition(4);
+		String lxTitle = EspressoUtils.getListItemValues(lxRow, R.id.header_text_view);
+		final String expectedLxTitle = "Explorer Pass: Choose 4 Museums, Attractions, & Tours: Explorer Pass - Chose 4 Attractions & Tours";
+		Assert.assertEquals(expectedLxTitle, lxTitle);
+
 		// TODO more assertions for flight, air attach car (e.g. details?)
 		// TODO more LOB
 	}
