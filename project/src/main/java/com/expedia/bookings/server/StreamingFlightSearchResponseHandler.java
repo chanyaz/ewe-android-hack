@@ -402,6 +402,9 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 				}
 				reader.endObject();
 			}
+			else if (name.equals("isPassportNeeded")) {
+				trip.setPassportNeeded(reader.nextBoolean());
+			}
 			else {
 				reader.skipValue();
 			}

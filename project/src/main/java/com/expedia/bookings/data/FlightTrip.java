@@ -42,6 +42,8 @@ public class FlightTrip implements JSONable {
 	private Money mTaxes;
 	private Money mFees;
 
+	private boolean isPassportNeeded;
+
 	// For price changes
 	private Money mOldTotalFare;
 
@@ -363,6 +365,13 @@ public class FlightTrip implements JSONable {
 		return retVal;
 	}
 
+	public void setPassportNeeded(boolean isNeeded) {
+		isPassportNeeded = isNeeded;
+	}
+
+	public boolean isPassportNeeded() {
+		return isPassportNeeded;
+	}
 	/**
 	 * Does this FlightTrip pass through the country supplied via the countryCode param
 	 *
@@ -718,7 +727,7 @@ public class FlightTrip implements JSONable {
 			if (mPassengers != null) {
 				JSONUtils.putJSONableList(obj, KEY_PASSENGERS, mPassengers);
 			}
-
+			obj.putOpt("isPassportNeeded", isPassportNeeded);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -806,7 +815,7 @@ public class FlightTrip implements JSONable {
 			mPassengers = new ArrayList<PassengerCategoryPrice>(
 				JSONUtils.getJSONableList(obj, KEY_PASSENGERS, PassengerCategoryPrice.class));
 		}
-
+		isPassportNeeded = obj.optBoolean("isPassportNeeded", false);
 		return true;
 	}
 
