@@ -48,7 +48,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TelephoneSpinner;
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
@@ -700,14 +699,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 				@Override
 				public void onDateChanged(DatePicker view, int year, int month, int day) {
-					// We do this because of a bug in ICS : http://code.google.com/p/android/issues/detail?id=25838
-					if (AndroidUtils.getSdkVersion() == 15) {
-						setDate(year, month, day);
-						customUpdateTitle(year, month, day);
-					}
-					else {
-						super.onDateChanged(view, year, month, day);
-					}
+					super.onDateChanged(view, year, month, day);
 
 					mYear = year;
 					mMonth = month;

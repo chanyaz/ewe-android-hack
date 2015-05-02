@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -54,7 +53,7 @@ public class LXDetailSectionDataWidget extends LinearLayout implements View.OnCl
 				new ViewTreeObserver.OnGlobalLayoutListener() {
 					@Override
 					public void onGlobalLayout() {
-						Ui.removeOnGlobalLayoutListener(sectionContent, this);
+						sectionContent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 						Layout textLayout = sectionContent.getLayout();
 						if (textLayout != null) {
 							int lines = textLayout.getLineCount();

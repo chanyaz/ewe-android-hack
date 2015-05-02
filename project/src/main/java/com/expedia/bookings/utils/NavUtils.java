@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
@@ -58,12 +57,7 @@ public class NavUtils {
 	}
 
 	public static void startActivity(Context context, Intent intent, Bundle options) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			context.startActivity(intent, options);
-		}
-		else {
-			context.startActivity(intent);
-		}
+		context.startActivity(intent, options);
 	}
 
 	public static boolean startActivitySafe(Context context, Intent intent) {

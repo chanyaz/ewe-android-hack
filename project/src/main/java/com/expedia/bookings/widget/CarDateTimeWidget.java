@@ -299,7 +299,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				pickupTimePopupContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				pickupTimePopupContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(
 						RelativeLayout.LayoutParams.WRAP_CONTENT,
 						RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -328,7 +328,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				pickupTimePopupContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				pickupTimePopupContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(
 						RelativeLayout.LayoutParams.WRAP_CONTENT,
 						RelativeLayout.LayoutParams.WRAP_CONTENT);
