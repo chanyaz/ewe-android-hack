@@ -38,12 +38,18 @@ import butterknife.OnClick;
 
 public class CarFilterWidget extends LinearLayout {
 
-	public CarFilter carFilter;
+	public CarFilter carFilterResults = new CarFilter();
+	public CarFilter carFilterDetails = new CarFilter();
+	public CarFilter workingCarFilter = new CarFilter();
 
 	public CarFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		setOrientation(VERTICAL);
 		inflate(context, R.layout.widget_car_filter, this);
+	}
+
+	public void setIsDetails(boolean isDetails) {
+		this.isDetails = isDetails;
 	}
 
 	@InjectView(R.id.ac_filter_checkbox)
@@ -85,15 +91,17 @@ public class CarFilterWidget extends LinearLayout {
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
 
-	LinkedHashSet carSupplierCheckedFilterResults;
-	LinkedHashSet carSupplierCheckedFilterDetails;
+	boolean isDetails;
 
+	public CarFilter getFilter() {
+		return isDetails ? carFilterDetails : carFilterResults;
+	}
 	@OnClick(R.id.transmission_filter_all)
 	public void allClicked() {
 		auto.setSelected(false);
 		manual.setSelected(false);
 		all.setSelected(true);
-		carFilter.carTransmissionType = CarDataUtils.transmissionFromString(getContext(), all.getText().toString());
+		getFilter().carTransmissionType = CarDataUtils.transmissionFromString(getContext(), all.getText().toString());
 	}
 
 	@OnClick(R.id.transmission_filter_manual)
@@ -101,7 +109,7 @@ public class CarFilterWidget extends LinearLayout {
 		auto.setSelected(false);
 		manual.setSelected(true);
 		all.setSelected(false);
-		carFilter.carTransmissionType = CarDataUtils.transmissionFromString(getContext(), manual.getText().toString());
+		getFilter().carTransmissionType = CarDataUtils.transmissionFromString(getContext(), manual.getText().toString());
 	}
 
 	@OnClick(R.id.transmission_filter_automatic)
@@ -109,7 +117,7 @@ public class CarFilterWidget extends LinearLayout {
 		auto.setSelected(true);
 		manual.setSelected(false);
 		all.setSelected(false);
-		carFilter.carTransmissionType = CarDataUtils.transmissionFromString(getContext(), auto.getText().toString());
+		getFilter().carTransmissionType = CarDataUtils.transmissionFromString(getContext(), auto.getText().toString());
 	}
 
 	@OnClick(R.id.ac_filter)
@@ -124,12 +132,12 @@ public class CarFilterWidget extends LinearLayout {
 
 	@OnCheckedChanged(R.id.ac_filter_checkbox)
 	public void onACFilterCheckedChanged(boolean checked) {
-		carFilter.hasAirConditioning = checked;
+		getFilter().hasAirConditioning = checked;
 	}
 
 	@OnCheckedChanged(R.id.umlimited_mileage_filter_checkbox)
 	public void onMileageFilterCheckedChanged(boolean checked) {
-		carFilter.hasUnlimitedMileage = checked;
+		getFilter().hasUnlimitedMileage = checked;
 	}
 
 	@Override
@@ -180,7 +188,7 @@ public class CarFilterWidget extends LinearLayout {
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Events.post(new Events.CarsFilterDone(carFilter));
+				Events.post(new Events.CarsFilterDone(getFilter()));
 			}
 		});
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
@@ -197,12 +205,12 @@ public class CarFilterWidget extends LinearLayout {
 		AtomicBoolean hasAirConditioning = new AtomicBoolean();
 
 		List<CategorizedCarOffers> categories = search.categories;
-		carFilter = new CarFilter();
+		carFilterResults = new CarFilter();
+		carFilterDetails = new CarFilter();
+		workingCarFilter = new CarFilter();
+
 		Set<CarCategory> filterCategories = new HashSet<CarCategory>();
 		Set<String> filterSuppliers = new HashSet<String>();
-		carFilter.carCategoryCheckedFilter = new LinkedHashSet();
-		carSupplierCheckedFilterResults = new LinkedHashSet();
-		carFilter.carSupplierCheckedFilter = carSupplierCheckedFilterResults;
 		airConditioningCheckbox.setChecked(false);
 		unlimitedMileageCheckbox.setChecked(false);
 
@@ -242,18 +250,20 @@ public class CarFilterWidget extends LinearLayout {
 	}
 
 	public void bind(Set<String> filterSuppliers, boolean isDetails) {
+		this.isDetails = isDetails;
+		carFilterDetails.carSupplierCheckedFilter.clear();
 		LinearLayout v = isDetails ? filterSuppliersContainerDetails : filterSuppliersContainerResults;
-		LinkedHashSet set = isDetails ? carSupplierCheckedFilterDetails : carSupplierCheckedFilterResults;
-		carFilter.carSupplierCheckedFilter = set;
+		LinkedHashSet set = getFilter().carSupplierCheckedFilter;
+		getFilter().carSupplierCheckedFilter = set;
 		v.removeAllViews();
 
 		if (filterSuppliers != null) {
 			for (String obj : filterSuppliers) {
 				CarsSupplierFilterWidget supplierView = Ui.inflate(R.layout.section_cars_supplier_filter_row, v, false);
 				supplierView.bind(obj);
-				if (carSupplierCheckedFilterResults.contains(obj)) {
+				if (carFilterResults.carSupplierCheckedFilter.contains(obj)) {
 					supplierView.onCategoryClick();
-					carSupplierCheckedFilterDetails.add(obj);
+					carFilterDetails.carSupplierCheckedFilter.add(obj);
 				}
 				v.addView(supplierView);
 			}
@@ -261,7 +271,6 @@ public class CarFilterWidget extends LinearLayout {
 	}
 
 	public void setFilterVisibilites(List<SearchCarOffer> offers) {
-		carSupplierCheckedFilterDetails = new LinkedHashSet();
 		Set<String> filterSuppliers = new HashSet<>();
 		AtomicBoolean hasManual = new AtomicBoolean();
 		AtomicBoolean hasAuto = new AtomicBoolean();
@@ -302,19 +311,19 @@ public class CarFilterWidget extends LinearLayout {
 	@Subscribe
 	public void onCategoryCheckChanged(Events.CarsCategoryFilterCheckChanged event) {
 		if (event.checked) {
-			carFilter.carCategoryCheckedFilter.add(event.checkBoxDisplayName);
+			getFilter().carCategoryCheckedFilter.add(event.checkBoxDisplayName);
 		}
 		else {
-			carFilter.carCategoryCheckedFilter.remove(event.checkBoxDisplayName);
+			getFilter().carCategoryCheckedFilter.remove(event.checkBoxDisplayName);
 		}
 	}
 
 	@Subscribe
 	public void onSupplierCheckChanged(Events.CarsSupplierFilterCheckChanged event) {
 		if (event.checked) {
-			carFilter.carSupplierCheckedFilter.add(event.checkBoxDisplayName);
-			if (carFilter.carSupplierCheckedFilter == carSupplierCheckedFilterDetails) {
-				carSupplierCheckedFilterResults.add(event.checkBoxDisplayName);
+			getFilter().carSupplierCheckedFilter.add(event.checkBoxDisplayName);
+			if (getFilter() == carFilterDetails) {
+				carFilterResults.carSupplierCheckedFilter.add(event.checkBoxDisplayName);
 				for (int i = 0; i < filterSuppliersContainerResults.getChildCount(); i++) {
 					CarsSupplierFilterWidget supplierView = (CarsSupplierFilterWidget) filterSuppliersContainerResults
 						.getChildAt(i);
@@ -327,9 +336,9 @@ public class CarFilterWidget extends LinearLayout {
 			}
 		}
 		else {
-			carFilter.carSupplierCheckedFilter.remove(event.checkBoxDisplayName);
-			if (carFilter.carSupplierCheckedFilter == carSupplierCheckedFilterDetails) {
-				carSupplierCheckedFilterResults.remove(event.checkBoxDisplayName);
+			getFilter().carSupplierCheckedFilter.remove(event.checkBoxDisplayName);
+			if (getFilter() == carFilterDetails) {
+				carFilterResults.carSupplierCheckedFilter.remove(event.checkBoxDisplayName);
 				for (int i = 0; i < filterSuppliersContainerResults.getChildCount(); i++) {
 					CarsSupplierFilterWidget supplierView = (CarsSupplierFilterWidget) filterSuppliersContainerResults
 						.getChildAt(i);
@@ -361,12 +370,10 @@ public class CarFilterWidget extends LinearLayout {
 		if (hide) {
 			filterSuppliersContainerResults.setVisibility(GONE);
 			filterSuppliersContainerDetails.setVisibility(VISIBLE);
-			carFilter.carSupplierCheckedFilter = carSupplierCheckedFilterDetails;
 		}
 		else {
 			filterSuppliersContainerResults.setVisibility(VISIBLE);
 			filterSuppliersContainerDetails.setVisibility(GONE);
-			carFilter.carSupplierCheckedFilter = carSupplierCheckedFilterResults;
 		}
 	}
 }

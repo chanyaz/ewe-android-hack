@@ -355,12 +355,23 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			toolbarBackground.setVisibility(VISIBLE);
 			toolbarBackground.setAlpha(1f);
 
-			int numCheckedFilters = filter.carFilter.carSupplierCheckedFilter.size() + (filter.carFilter.hasUnlimitedMileage ? 1 : 0) + (filter.carFilter.hasAirConditioning ? 1 : 0);
+			filter.setIsDetails(forward);
+			int numCheckedFilters = 0;
 
 			if (!forward) {
-				numCheckedFilters += filter.carFilter.carCategoryCheckedFilter.size();
-				Events.post(new Events.CarsFilterDone(filter.carFilter));
+				numCheckedFilters += filter.getFilter().carCategoryCheckedFilter.size();
+				filter.carFilterResults.hasAirConditioning = filter.carFilterDetails.hasAirConditioning;
+				filter.carFilterResults.hasUnlimitedMileage = filter.carFilterDetails.hasUnlimitedMileage;
+				filter.carFilterResults.carTransmissionType = filter.carFilterDetails.carTransmissionType;
+				Events.post(new Events.CarsFilterDone(filter.getFilter()));
 			}
+			else {
+				filter.carFilterDetails.hasAirConditioning = filter.carFilterResults.hasAirConditioning;
+				filter.carFilterDetails.hasUnlimitedMileage = filter.carFilterResults.hasUnlimitedMileage;
+				filter.carFilterDetails.carTransmissionType = filter.carFilterResults.carTransmissionType;
+			}
+			numCheckedFilters += filter.getFilter().carSupplierCheckedFilter.size() + (filter.getFilter().hasUnlimitedMileage ? 1 : 0) + (filter.getFilter().hasAirConditioning ? 1 : 0);
+
 			filterToolbar.setTranslationY(0);
 			showNumberOfFilters(numCheckedFilters);
 		}
@@ -525,7 +536,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			filter.hideCarCategories(false);
 			filter.hideCarResultsSupplies(false);
 			if (!forward) {
-				int numCheckedFilters = filter.carFilter.carCategoryCheckedFilter.size() + filter.carFilter.carSupplierCheckedFilter.size() + (filter.carFilter.hasUnlimitedMileage ? 1 : 0) + (filter.carFilter.hasAirConditioning ? 1 : 0);
+				int numCheckedFilters = filter.carFilterResults.carCategoryCheckedFilter.size() + filter.carFilterResults.carSupplierCheckedFilter.size() + (filter.carFilterResults.hasUnlimitedMileage ? 1 : 0) + (filter.carFilterResults.hasAirConditioning ? 1 : 0);
 				showNumberOfFilters(numCheckedFilters);
 			}
 		}
@@ -561,7 +572,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			filter.hideCarCategories(true);
 			filter.hideCarResultsSupplies(true);
 			if (!forward) {
-				int numCheckedFilters = filter.carFilter.carSupplierCheckedFilter.size() + (filter.carFilter.hasUnlimitedMileage ? 1 : 0) + (filter.carFilter.hasAirConditioning ? 1 : 0);
+				int numCheckedFilters = filter.carFilterDetails.carSupplierCheckedFilter.size() + (filter.carFilterDetails.hasUnlimitedMileage ? 1 : 0) + (filter.carFilterDetails.hasAirConditioning ? 1 : 0);
 				showNumberOfFilters(numCheckedFilters);
 			}
 		}

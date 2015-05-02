@@ -5,9 +5,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 public class CarFilter {
-	public static LinkedHashSet carCategoryCheckedFilter;
-	public static LinkedHashSet carSupplierCheckedFilter;
-	public static Transmission carTransmissionType;
+	public  LinkedHashSet carCategoryCheckedFilter = new LinkedHashSet();
+	public  LinkedHashSet carSupplierCheckedFilter = new LinkedHashSet();
+	public  Transmission carTransmissionType;
 	public boolean hasUnlimitedMileage;
 	public boolean hasAirConditioning;
 
