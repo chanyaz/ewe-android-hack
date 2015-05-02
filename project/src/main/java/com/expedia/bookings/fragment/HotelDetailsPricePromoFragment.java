@@ -140,11 +140,10 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 
 			if (centerFiller != null) {
 				//3858. Let's check to see if the promoText can fit in the available space. If not let's pull the plug on it.
-				final ViewTreeObserver vto = promoTextView.getViewTreeObserver();
-				vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+				promoTextView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 					@Override
 					public void onGlobalLayout() {
-						vto.removeOnGlobalLayoutListener(this);
+						promoTextView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 						Layout textLayout = promoTextView.getLayout();
 						if (textLayout != null) {
 							int lines = textLayout.getLineCount();
