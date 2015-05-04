@@ -378,7 +378,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	// Stored cards
 
 	private void showStoredCardContainer() {
-		StoredCreditCard card = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard();
+		StoredCreditCard card = Db.getBillingInfo().getStoredCard();
 		String cardName = card.getDescription();
 		CreditCardType cardType = card.getType();
 		showStoredCardContainer(cardName, cardType);
