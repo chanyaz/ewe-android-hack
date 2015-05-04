@@ -79,15 +79,15 @@ dependencies {
     }
 
     def stethoVersion = '1.1.0'
-    debugCompile "com.facebook.stetho:stetho:$stethoVersion"
-    debugCompile "com.facebook.stetho:stetho-okhttp:$stethoVersion"
+    debugCompile "com.facebook.stetho:stetho:${stethoVersion}"
+    debugCompile "com.facebook.stetho:stetho-okhttp:${stethoVersion}"
 
     // Test dependencies
-    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.0'){
+    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.1'){
         exclude group: 'com.android.support'
         exclude group: 'javax.inject'
     }
-    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.0'){
+    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.1'){
         exclude group: 'com.android.support'
         exclude group: 'javax.inject'
     }
