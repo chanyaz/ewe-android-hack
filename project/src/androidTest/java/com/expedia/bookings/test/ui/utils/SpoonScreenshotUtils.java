@@ -6,10 +6,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import android.app.Activity;
 import android.app.Instrumentation;
 
-import android.support.test.internal.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 
 import android.support.test.runner.lifecycle.Stage;
-import com.android.support.test.deps.guava.collect.Iterables;
 import com.mobiata.android.Log;
 import com.squareup.spoon.Spoon;
 
@@ -44,8 +43,11 @@ public class SpoonScreenshotUtils {
 			@Override
 			public void run() {
 				Collection<Activity> activities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED);
-				if (activities.size() > 0) {
-					activity.set(Iterables.getOnlyElement(activities));
+				if (activities.size() == 0) {
+					activity.set(((Activity) activities.toArray()[0]));
+				}
+				else {
+					throw new RuntimeException("Expected exactly 1 activitiy, got: " + activities.size());
 				}
 			}
 		});

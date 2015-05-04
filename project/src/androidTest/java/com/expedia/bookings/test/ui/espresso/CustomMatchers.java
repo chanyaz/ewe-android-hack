@@ -29,7 +29,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.data.Property;
 
-import static com.android.support.test.deps.guava.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
@@ -148,12 +147,10 @@ public class CustomMatchers {
 	}
 
 	public static Matcher<Object> withHotelName(String expectedText) {
-		checkNotNull(expectedText);
 		return withHotelName(equalTo(expectedText));
 	}
 
 	public static Matcher<Object> withHotelName(final Matcher<String> textMatcher) {
-		checkNotNull(textMatcher);
 		return new BoundedMatcher<Object, Property>(Property.class) {
 			@Override
 			public boolean matchesSafely(Property property) {
