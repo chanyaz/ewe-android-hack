@@ -40,16 +40,14 @@ public class CarFilterWidget extends LinearLayout {
 
 	public CarFilter carFilterResults = new CarFilter();
 	public CarFilter carFilterDetails = new CarFilter();
-	public CarFilter workingCarFilter = new CarFilter();
+	public CarFilter workingCarFilterResults = new CarFilter();
+	public CarFilter workingCarFilterDetails = new CarFilter();
+	boolean isDetails;
 
 	public CarFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		setOrientation(VERTICAL);
 		inflate(context, R.layout.widget_car_filter, this);
-	}
-
-	public void setIsDetails(boolean isDetails) {
-		this.isDetails = isDetails;
 	}
 
 	@InjectView(R.id.ac_filter_checkbox)
@@ -91,17 +89,24 @@ public class CarFilterWidget extends LinearLayout {
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
 
-	boolean isDetails;
+	public void setIsDetails(boolean isDetails) {
+		this.isDetails = isDetails;
+	}
+
+	public CarFilter getWorkingFilter() {
+		return isDetails ? workingCarFilterDetails : workingCarFilterResults;
+	}
 
 	public CarFilter getFilter() {
 		return isDetails ? carFilterDetails : carFilterResults;
 	}
+
 	@OnClick(R.id.transmission_filter_all)
 	public void allClicked() {
 		auto.setSelected(false);
 		manual.setSelected(false);
 		all.setSelected(true);
-		getFilter().carTransmissionType = CarDataUtils.transmissionFromString(getContext(), all.getText().toString());
+		getWorkingFilter().carTransmissionType = CarDataUtils.transmissionFromString(getContext(), all.getText().toString());
 	}
 
 	@OnClick(R.id.transmission_filter_manual)
@@ -109,7 +114,7 @@ public class CarFilterWidget extends LinearLayout {
 		auto.setSelected(false);
 		manual.setSelected(true);
 		all.setSelected(false);
-		getFilter().carTransmissionType = CarDataUtils.transmissionFromString(getContext(), manual.getText().toString());
+		getWorkingFilter().carTransmissionType = CarDataUtils.transmissionFromString(getContext(), manual.getText().toString());
 	}
 
 	@OnClick(R.id.transmission_filter_automatic)
@@ -117,7 +122,7 @@ public class CarFilterWidget extends LinearLayout {
 		auto.setSelected(true);
 		manual.setSelected(false);
 		all.setSelected(false);
-		getFilter().carTransmissionType = CarDataUtils.transmissionFromString(getContext(), auto.getText().toString());
+		getWorkingFilter().carTransmissionType = CarDataUtils.transmissionFromString(getContext(), auto.getText().toString());
 	}
 
 	@OnClick(R.id.ac_filter)
@@ -132,12 +137,12 @@ public class CarFilterWidget extends LinearLayout {
 
 	@OnCheckedChanged(R.id.ac_filter_checkbox)
 	public void onACFilterCheckedChanged(boolean checked) {
-		getFilter().hasAirConditioning = checked;
+		getWorkingFilter().hasAirConditioning = checked;
 	}
 
 	@OnCheckedChanged(R.id.umlimited_mileage_filter_checkbox)
 	public void onMileageFilterCheckedChanged(boolean checked) {
-		getFilter().hasUnlimitedMileage = checked;
+		getWorkingFilter().hasUnlimitedMileage = checked;
 	}
 
 	@Override
@@ -188,7 +193,16 @@ public class CarFilterWidget extends LinearLayout {
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Events.post(new Events.CarsFilterDone(getFilter()));
+				//copy the working filter to filter
+
+				carFilterDetails = new CarFilter(workingCarFilterDetails);
+				carFilterResults = new CarFilter(workingCarFilterResults);
+				if (isDetails) {
+					Events.post(new Events.CarsFilterDone(carFilterDetails));
+				}
+				else {
+					Events.post(new Events.CarsFilterDone(carFilterResults));
+				}
 			}
 		});
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
@@ -207,8 +221,8 @@ public class CarFilterWidget extends LinearLayout {
 		List<CategorizedCarOffers> categories = search.categories;
 		carFilterResults = new CarFilter();
 		carFilterDetails = new CarFilter();
-		workingCarFilter = new CarFilter();
-
+		workingCarFilterResults = new CarFilter();
+		workingCarFilterDetails = new CarFilter();
 		Set<CarCategory> filterCategories = new HashSet<CarCategory>();
 		Set<String> filterSuppliers = new HashSet<String>();
 		airConditioningCheckbox.setChecked(false);
@@ -251,19 +265,19 @@ public class CarFilterWidget extends LinearLayout {
 
 	public void bind(Set<String> filterSuppliers, boolean isDetails) {
 		this.isDetails = isDetails;
-		carFilterDetails.carSupplierCheckedFilter.clear();
+		workingCarFilterDetails.carSupplierCheckedFilter.clear();
 		LinearLayout v = isDetails ? filterSuppliersContainerDetails : filterSuppliersContainerResults;
-		LinkedHashSet set = getFilter().carSupplierCheckedFilter;
-		getFilter().carSupplierCheckedFilter = set;
+		LinkedHashSet set = getWorkingFilter().carSupplierCheckedFilter;
+		getWorkingFilter().carSupplierCheckedFilter = set;
 		v.removeAllViews();
 
 		if (filterSuppliers != null) {
 			for (String obj : filterSuppliers) {
 				CarsSupplierFilterWidget supplierView = Ui.inflate(R.layout.section_cars_supplier_filter_row, v, false);
 				supplierView.bind(obj);
-				if (carFilterResults.carSupplierCheckedFilter.contains(obj)) {
+				if (workingCarFilterResults.carSupplierCheckedFilter.contains(obj)) {
 					supplierView.onCategoryClick();
-					carFilterDetails.carSupplierCheckedFilter.add(obj);
+					workingCarFilterDetails.carSupplierCheckedFilter.add(obj);
 				}
 				v.addView(supplierView);
 			}
@@ -311,19 +325,21 @@ public class CarFilterWidget extends LinearLayout {
 	@Subscribe
 	public void onCategoryCheckChanged(Events.CarsCategoryFilterCheckChanged event) {
 		if (event.checked) {
-			getFilter().carCategoryCheckedFilter.add(event.checkBoxDisplayName);
+			workingCarFilterResults.carCategoryCheckedFilter.add(event.checkBoxDisplayName);
 		}
 		else {
-			getFilter().carCategoryCheckedFilter.remove(event.checkBoxDisplayName);
+			workingCarFilterResults.carCategoryCheckedFilter.remove(event.checkBoxDisplayName);
 		}
 	}
 
 	@Subscribe
 	public void onSupplierCheckChanged(Events.CarsSupplierFilterCheckChanged event) {
 		if (event.checked) {
-			getFilter().carSupplierCheckedFilter.add(event.checkBoxDisplayName);
-			if (getFilter() == carFilterDetails) {
-				carFilterResults.carSupplierCheckedFilter.add(event.checkBoxDisplayName);
+			getWorkingFilter().carSupplierCheckedFilter.add(event.checkBoxDisplayName);
+
+			//Update the filters in another filter view
+			if (getWorkingFilter() == workingCarFilterDetails) {
+				workingCarFilterResults.carSupplierCheckedFilter.add(event.checkBoxDisplayName);
 				for (int i = 0; i < filterSuppliersContainerResults.getChildCount(); i++) {
 					CarsSupplierFilterWidget supplierView = (CarsSupplierFilterWidget) filterSuppliersContainerResults
 						.getChildAt(i);
@@ -334,11 +350,25 @@ public class CarFilterWidget extends LinearLayout {
 					}
 				}
 			}
+			else {
+				for (int i = 0; i < filterSuppliersContainerDetails.getChildCount(); i++) {
+					CarsSupplierFilterWidget supplierView = (CarsSupplierFilterWidget) filterSuppliersContainerDetails
+						.getChildAt(i);
+
+					if (supplierView.vendorTitle.getText().toString().equals(event.checkBoxDisplayName)
+						&& !supplierView.vendorCheckBox.isChecked()) {
+						supplierView.onCategoryClick();
+						workingCarFilterDetails.carSupplierCheckedFilter.add(event.checkBoxDisplayName);
+					}
+				}
+			}
 		}
 		else {
-			getFilter().carSupplierCheckedFilter.remove(event.checkBoxDisplayName);
-			if (getFilter() == carFilterDetails) {
-				carFilterResults.carSupplierCheckedFilter.remove(event.checkBoxDisplayName);
+			getWorkingFilter().carSupplierCheckedFilter.remove(event.checkBoxDisplayName);
+
+			//Update the filters in another filter view
+			if (getWorkingFilter() == workingCarFilterDetails) {
+				workingCarFilterResults.carSupplierCheckedFilter.remove(event.checkBoxDisplayName);
 				for (int i = 0; i < filterSuppliersContainerResults.getChildCount(); i++) {
 					CarsSupplierFilterWidget supplierView = (CarsSupplierFilterWidget) filterSuppliersContainerResults
 						.getChildAt(i);
@@ -346,6 +376,18 @@ public class CarFilterWidget extends LinearLayout {
 					if (supplierView.vendorTitle.getText().toString().equals(event.checkBoxDisplayName)
 						&& supplierView.vendorCheckBox.isChecked()) {
 						supplierView.onCategoryClick();
+					}
+				}
+			}
+			else {
+				for (int i = 0; i < filterSuppliersContainerDetails.getChildCount(); i++) {
+					CarsSupplierFilterWidget supplierView = (CarsSupplierFilterWidget) filterSuppliersContainerDetails
+						.getChildAt(i);
+
+					if (supplierView.vendorTitle.getText().toString().equals(event.checkBoxDisplayName)
+						&& supplierView.vendorCheckBox.isChecked()) {
+						supplierView.onCategoryClick();
+						workingCarFilterDetails.carSupplierCheckedFilter.remove(event.checkBoxDisplayName);
 					}
 				}
 			}
@@ -357,7 +399,6 @@ public class CarFilterWidget extends LinearLayout {
 			carTypeText.setVisibility(GONE);
 			filterCategoriesContainer.setVisibility(GONE);
 			divider.setVisibility(GONE);
-
 		}
 		else {
 			carTypeText.setVisibility(VISIBLE);
@@ -374,6 +415,59 @@ public class CarFilterWidget extends LinearLayout {
 		else {
 			filterSuppliersContainerResults.setVisibility(VISIBLE);
 			filterSuppliersContainerDetails.setVisibility(GONE);
+		}
+	}
+
+	public void resetWorkingCarFilter() {
+		//reset the working car filters
+		workingCarFilterResults = new CarFilter(carFilterResults);
+		workingCarFilterDetails = new CarFilter(carFilterDetails);
+
+		//reset the UI checkboxes
+		resetCategoryFilters();
+		resetSupplierFiltersResults();
+		resetSupplierFiltersDetails();
+		resetOptionFilters();
+	}
+
+	public void resetCategoryFilters() {
+		for (int i = 0; i < filterCategoriesContainer.getChildCount(); i++) {
+			CarsCategoryFilterWidget categoryView = (CarsCategoryFilterWidget) filterCategoriesContainer.getChildAt(i);
+				categoryView.categoryCheckBox
+					.setChecked(carFilterResults.carCategoryCheckedFilter.contains(categoryView.carCategory.toString()));
+		}
+	}
+
+	public void resetSupplierFiltersResults() {
+		for (int i = 0; i < filterSuppliersContainerResults.getChildCount(); i++) {
+			CarsSupplierFilterWidget supplierView = (CarsSupplierFilterWidget) filterSuppliersContainerResults
+				.getChildAt(i);
+			supplierView.vendorCheckBox
+				.setChecked(carFilterResults.carSupplierCheckedFilter.contains(supplierView.vendorTitle.getText().toString()));
+		}
+	}
+
+	public void resetSupplierFiltersDetails() {
+		for (int i = 0; i < filterSuppliersContainerDetails.getChildCount(); i++) {
+			CarsSupplierFilterWidget supplierView = (CarsSupplierFilterWidget) filterSuppliersContainerDetails
+				.getChildAt(i);
+			supplierView.vendorCheckBox
+				.setChecked(carFilterDetails.carSupplierCheckedFilter.contains(supplierView.vendorTitle.getText().toString()));
+		}
+	}
+
+	public void resetOptionFilters() {
+		airConditioningCheckbox.setChecked(getFilter().hasAirConditioning);
+		unlimitedMileageCheckbox.setChecked(getFilter().hasUnlimitedMileage);
+
+		if (getFilter().carTransmissionType == Transmission.AUTOMATIC_TRANSMISSION) {
+			autoClicked();
+		}
+		else if (getFilter().carTransmissionType == Transmission.MANUAL_TRANSMISSION) {
+			manualClicked();
+		}
+		else {
+			allClicked();
 		}
 	}
 }

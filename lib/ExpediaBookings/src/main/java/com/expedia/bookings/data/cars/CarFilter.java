@@ -5,11 +5,23 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 public class CarFilter {
-	public  LinkedHashSet carCategoryCheckedFilter = new LinkedHashSet();
-	public  LinkedHashSet carSupplierCheckedFilter = new LinkedHashSet();
-	public  Transmission carTransmissionType;
+	public LinkedHashSet carCategoryCheckedFilter = new LinkedHashSet();
+	public LinkedHashSet carSupplierCheckedFilter = new LinkedHashSet();
+	public Transmission carTransmissionType;
 	public boolean hasUnlimitedMileage;
 	public boolean hasAirConditioning;
+
+	public CarFilter() {
+		//ignore
+	}
+
+	public CarFilter(CarFilter filter) {
+		this.carCategoryCheckedFilter.addAll(filter.carCategoryCheckedFilter);
+		this.carSupplierCheckedFilter.addAll(filter.carSupplierCheckedFilter);
+		this.carTransmissionType = filter.carTransmissionType;
+		this.hasUnlimitedMileage = filter.hasUnlimitedMileage;
+		this.hasAirConditioning = filter.hasAirConditioning;
+	}
 
 	public List<SearchCarOffer> applyFilters(CarSearchResponse carSearchResponse, CarFilter carFilter) {
 		List<SearchCarOffer> filteredSeachCarOffer = new ArrayList<>();
