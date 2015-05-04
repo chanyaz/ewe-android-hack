@@ -110,6 +110,7 @@ public class LXSearchParamsPresenter extends Presenter
 		location.setOnEditorActionListener(this);
 		location.setOnFocusChangeListener(mLocationFocusListener);
 		location.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
+		selectDates.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		addTransition(defaultToCal);
 		show(new LXParamsDefault());
 
@@ -327,13 +328,13 @@ public class LXSearchParamsPresenter extends Presenter
 			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_days_lx_search)));
 		calendarPicker.setDateChangedListener(this);
 		daysOfWeekView.setDayOfWeekRenderer(this);
-		daysOfWeekView.setTextColor(getContext().getResources().getColor(R.color.lx_calendar_week_color));
 		daysOfWeekView.setMaxTextSize(getResources().getDimension(R.dimen.lx_calendar_month_view_max_text_size));
 		monthView.setMaxTextSize(getResources().getDimension(R.dimen.lx_calendar_month_view_max_text_size));
 		monthView.setTextEqualDatesColor(Color.WHITE);
 		calendarPicker.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
-		daysOfWeekView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		daysOfWeekView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM));
 		// End date selection is disabled.
 		calendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_selection_date_range_lx));
 	}
