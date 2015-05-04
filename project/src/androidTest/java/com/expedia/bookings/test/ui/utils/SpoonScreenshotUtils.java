@@ -43,7 +43,7 @@ public class SpoonScreenshotUtils {
 			@Override
 			public void run() {
 				Collection<Activity> activities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED);
-				if (activities.size() == 0) {
+				if (activities.size() == 1) {
 					activity.set(((Activity) activities.toArray()[0]));
 				}
 				else {
