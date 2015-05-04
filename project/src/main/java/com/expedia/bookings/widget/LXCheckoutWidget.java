@@ -69,6 +69,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		summaryWidget.bind();
 		paymentInfoCardView.setCreditCardRequired(true);
 		clearCCNumber();
+		scrollCheckoutToTop();
 		slideWidget.resetSlider();
 
 		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
