@@ -73,7 +73,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		summaryWidget.bind(carProduct, originalOfferFormattedPrice);
 		paymentInfoCardView.setCreditCardRequired(carProduct.checkoutRequiresCard);
 		clearCCNumber();
-
+		scrollCheckoutToTop();
 		slideWidget.resetSlider();
 
 		int sliderMessage = carProduct.checkoutRequiresCard ? R.string.your_card_will_be_charged_TEMPLATE
