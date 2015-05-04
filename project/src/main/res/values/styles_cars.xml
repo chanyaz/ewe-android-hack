@@ -9,7 +9,9 @@
 
     <style name="V2.Theme.Hotels" parent="AppTheme.Base" />
 
-    <style name="V2.Theme.Cars" parent="AppTheme.Base">
+    <style name="V2.Theme.Cars" parent="CarsTheme.Base" />
+
+    <style name="CarsTheme.Base" parent="AppTheme.Base">
         <item name="android:textColorSecondary">@color/cars_actionbar_text_color</item>
         <item name="android:colorPrimaryDark">#532C45</item>
         <item name="android:colorButtonNormal">@color/cars_primary_color</item>
