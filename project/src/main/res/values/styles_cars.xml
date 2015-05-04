@@ -19,6 +19,13 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="colorAccent">@color/cars_primary_color</item>
         <item name="android:colorEdgeEffect">@color/cars_primary_color</item>
+    </style>
+
+    <style name="AppTheme.Base" parent="@style/Theme.AppCompat.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
 
         <item name="primary_color">@color/cars_primary_color</item>
         <item name="checkout_card_view_style">@style/CarsCardView</item>
@@ -29,13 +36,6 @@
         <item name="traveler_details_text">@string/enter_driver_details</item>
         <item name="card_list_image_container_height">@dimen/car_search_list_image_container_height</item>
         <item name="card_details_container_height">@dimen/car_search_details_container_height</item>
-    </style>
-
-    <style name="AppTheme.Base" parent="@style/Theme.AppCompat.Light">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
 
         <!-- Required white label attr for login widget -->
         <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
