@@ -25,6 +25,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
+import com.expedia.bookings.data.cars.CarFilter;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
@@ -355,12 +356,24 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			toolbarBackground.setVisibility(VISIBLE);
 			toolbarBackground.setAlpha(1f);
 
-			int numCheckedFilters = filter.carFilter.carSupplierCheckedFilter.size() + (filter.carFilter.hasUnlimitedMileage ? 1 : 0) + (filter.carFilter.hasAirConditioning ? 1 : 0);
+			filter.setIsDetails(forward);
+			int numCheckedFilters = 0;
 
 			if (!forward) {
-				numCheckedFilters += filter.carFilter.carCategoryCheckedFilter.size();
-				Events.post(new Events.CarsFilterDone(filter.carFilter));
+				numCheckedFilters += filter.getFilter().carCategoryCheckedFilter.size();
+				filter.workingCarFilterResults.hasAirConditioning = filter.workingCarFilterDetails.hasAirConditioning;
+				filter.workingCarFilterResults.hasUnlimitedMileage = filter.workingCarFilterDetails.hasUnlimitedMileage;
+				filter.workingCarFilterResults.carTransmissionType = filter.workingCarFilterDetails.carTransmissionType;
+				Events.post(new Events.CarsFilterDone(filter.getWorkingFilter()));
 			}
+			else {
+				filter.workingCarFilterDetails.hasAirConditioning = filter.workingCarFilterResults.hasAirConditioning;
+				filter.workingCarFilterDetails.hasUnlimitedMileage = filter.workingCarFilterResults.hasUnlimitedMileage;
+				filter.workingCarFilterDetails.carTransmissionType = filter.workingCarFilterResults.carTransmissionType;
+				filter.carFilterDetails = new CarFilter(filter.workingCarFilterDetails);
+			}
+			numCheckedFilters += filter.getWorkingFilter().carSupplierCheckedFilter.size() + (filter.getWorkingFilter().hasUnlimitedMileage ? 1 : 0) + (filter.getWorkingFilter().hasAirConditioning ? 1 : 0);
+
 			filterToolbar.setTranslationY(0);
 			showNumberOfFilters(numCheckedFilters);
 		}
@@ -525,8 +538,9 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			filter.hideCarCategories(false);
 			filter.hideCarResultsSupplies(false);
 			if (!forward) {
-				int numCheckedFilters = filter.carFilter.carCategoryCheckedFilter.size() + filter.carFilter.carSupplierCheckedFilter.size() + (filter.carFilter.hasUnlimitedMileage ? 1 : 0) + (filter.carFilter.hasAirConditioning ? 1 : 0);
+				int numCheckedFilters = filter.carFilterResults.carCategoryCheckedFilter.size() + filter.carFilterResults.carSupplierCheckedFilter.size() + (filter.carFilterResults.hasUnlimitedMileage ? 1 : 0) + (filter.carFilterResults.hasAirConditioning ? 1 : 0);
 				showNumberOfFilters(numCheckedFilters);
+				filter.resetWorkingCarFilter();
 			}
 		}
 
@@ -561,8 +575,9 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			filter.hideCarCategories(true);
 			filter.hideCarResultsSupplies(true);
 			if (!forward) {
-				int numCheckedFilters = filter.carFilter.carSupplierCheckedFilter.size() + (filter.carFilter.hasUnlimitedMileage ? 1 : 0) + (filter.carFilter.hasAirConditioning ? 1 : 0);
+				int numCheckedFilters = filter.carFilterDetails.carSupplierCheckedFilter.size() + (filter.carFilterDetails.hasUnlimitedMileage ? 1 : 0) + (filter.carFilterDetails.hasAirConditioning ? 1 : 0);
 				showNumberOfFilters(numCheckedFilters);
+				filter.resetWorkingCarFilter();
 			}
 		}
 
