@@ -108,12 +108,6 @@
     <dimen name="flight_trip_view_stroke_width">2dp</dimen>
     <dimen name="flight_line_min_padding_between_labels">2dp</dimen>
 
-    <!-- Flights ActionBar dimens -->
-    <dimen name="action_bar_nav_corner_inset_left">24dp</dimen>
-    <dimen name="action_bar_nav_corner_inset_top">12dp</dimen>
-    <dimen name="action_bar_nav_corner_inset_right">-24dp</dimen>
-    <dimen name="action_bar_nav_corner_inset_bottom">-12dp</dimen>
-
     <!-- Offset so that the price and "mobile exclusive" overlaps the gallery -->
     <dimen name="promo_banner_height">89dp</dimen>
     <dimen name="hotel_details_intro_offset">-89dp</dimen>

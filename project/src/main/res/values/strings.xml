@@ -2662,8 +2662,6 @@
     <string name="more_info">More Info</string>
 
     <!-- Booking info -->
-    <!-- Label for room type -->
-    <string name="room_type">Room Type</string>
     <!-- Error if we couldn't find the room type details -->
     <string name="error_room_type_nonexistant">We\'re sorry, we could not find extra details on this room.</string>
     <!-- Quantity for the length of stay -->

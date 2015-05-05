@@ -49,7 +49,6 @@ import com.expedia.bookings.data.FlightStatsFlightResponse;
 import com.expedia.bookings.data.FlightStatsRatingResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.GsonResponse;
-import com.expedia.bookings.data.HotelAffinitySearchResponse;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -914,40 +913,6 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("tlPaymentsSubmitEvent", "1"));
 			query.add(new BasicNameValuePair("tealeafTransactionId", tealeafId));
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Hotels Affinity Search
-	//
-	// Documentation: https://confluence/display/POS/Affinity+Search+API
-	//
-
-
-	// TODO determine the correct endpoint to hit
-	private static final String HOTELS_AFFINITY_SEARCH_BASE_URL = "http://afs.integration.bgb.karmalab.net:52418/affinity/api/v1/get/hotels";
-
-	public HotelAffinitySearchResponse hotelAffinitySearch(HotelSearchParams params) {
-		List<BasicNameValuePair> query = generateHotelAffinitySearchParams(params);
-		return doBasicGetRequest(HOTELS_AFFINITY_SEARCH_BASE_URL, query, new HotelAffinitySearchResponseHandler());
-	}
-
-	public List<BasicNameValuePair> generateHotelAffinitySearchParams(HotelSearchParams params) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		query.add(new BasicNameValuePair("format", "json"));
-
-		query.add(new BasicNameValuePair("userId", "ama")); // TODO get real client ID
-
-		if (params.hasRegionId()) {
-			Log.d("Searching by regionId...");
-			query.add(new BasicNameValuePair("regionId", params.getRegionId()));
-		}
-		else {
-			// TODO support current loc, etc..
-			throw new RuntimeException("Attempting an affinity search that is not yet supported");
-		}
-
-		return query;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
