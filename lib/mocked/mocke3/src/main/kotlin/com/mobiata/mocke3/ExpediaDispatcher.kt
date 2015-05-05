@@ -180,6 +180,14 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 		params.put("tzOffsetPacific", "" + pacificDaylightTzOffset)
 		params.put("tzOffsetEastern", "" + easternDaylightTzOffset)
 
+		// Inject hotel DateTimes
+		val hotelCancellationEnd = startOfTodayPacific.plusDays(9).plusHours(11).plusMinutes(32)
+		val hotelCheckIn = startOfTodayPacific.plusDays(10).plusHours(11).plusMinutes(32)
+		val hotelCheckOut = startOfTodayPacific.plusDays(12).plusHours(18).plusMinutes(4)
+		params.put("hotelCancellationEndEpochSeconds", "" + hotelCancellationEnd.getMillis() / 1000)
+		params.put("hotelCheckInEpochSeconds", "" + hotelCheckIn.getMillis() / 1000)
+		params.put("hotelCheckOutEpochSeconds", "" + hotelCheckOut.getMillis() / 1000)
+
 		// Inject flight DateTimes
 		val outboundFlightDeparture = startOfTodayPacific.plusDays(14).plusHours(11).plusMinutes(32)
 		val outboundFlightArrival = startOfTodayEastern.plusDays(14).plusHours(18).plusMinutes(4)
