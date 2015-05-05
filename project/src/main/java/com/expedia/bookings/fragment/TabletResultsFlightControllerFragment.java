@@ -732,7 +732,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				|| stateOne == ResultsFlightsState.CHOOSING_FLIGHT
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mCouldShowInfantPrompt = true;
-				mFlightMapC.setVisibility(View.GONE);
 			}
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mLoadingC.setAlpha(0.0f);
@@ -755,6 +754,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 			else {
 				mFlightMapC.setAlpha(1f);
+			}
+
+			if (!state.isFlightListState()) {
+				mFlightMapC.setVisibility(View.GONE);
 			}
 
 			// Make sure we are loading using the most recent params
