@@ -213,6 +213,7 @@
     <color name="placeholder_background_color">#21394E</color>
 
     <!-- Cars colors -->
+    <color name="hotels_primary_color">#117E74</color>
 
     <color name="cars_status_bar_color">#7E4569</color>
     <color name="cars_checkout_text_color">#676767</color>

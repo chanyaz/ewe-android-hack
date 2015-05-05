@@ -7,7 +7,18 @@
 
     <style name="V2.Widget" />
 
-    <style name="V2.Theme.Hotels" parent="AppTheme.Base" />
+    <style name="V2.Theme.Hotels" parent="AppTheme.Base" >
+        <item name="android:textColorSecondary">@color/cars_actionbar_text_color</item>
+        <item name="android:colorPrimaryDark">#0b514b</item>
+        <item name="android:colorButtonNormal">@color/hotels_primary_color</item>
+        <item name="colorControlNormal">#C3C3C3</item>
+        <item name="android:actionMenuTextColor">#FFFFFF</item>
+        <item name="actionMenuTextColor">#FFFFFF</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="colorAccent">@color/hotels_primary_color</item>
+        <item name="android:colorEdgeEffect">@color/hotels_primary_color</item>
+        <item name="primary_color">@color/hotels_primary_color</item>
+    </style>
 
     <style name="V2.Theme.Cars" parent="CarsTheme.Base" />
 

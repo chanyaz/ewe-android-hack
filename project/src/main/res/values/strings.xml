@@ -86,6 +86,10 @@
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_car_desc_support_TEMPLATE">Expedia Customer Support: %1$s and %2$s</string>
 
+    <!-- Label for hotel search toolbar -->
+    <string name="hotel_toolbar_title">Search Hotels</string>
+    <!-- Label for hotel suggestion -->
+    <string name="search_location">Search Location</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Pick-up location</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
