@@ -21,6 +21,7 @@ add_test "com.expedia.bookings.test.component.cars.CarSearchPresenterTests"
 add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarSearchErrorTests"
 add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarCreateTripErrorTests"
 add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarCheckoutErrorTests"
+add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarFilterTests"
 
 java \
     -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \
