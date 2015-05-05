@@ -1001,14 +1001,6 @@ public class ItineraryManager implements JSONable {
 		return true;
 	}
 
-	public boolean startPushNotificationSync() {
-		Log.i(LOGGING_TAG, "Starting push notification sync");
-
-		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
-		startSyncIfNotInProgress();
-		return true;
-	}
-
 	private void startSyncIfNotInProgress() {
 		if (!isSyncing()) {
 			Log.i(LOGGING_TAG, "Starting a sync...");
@@ -1942,13 +1934,15 @@ public class ItineraryManager implements JSONable {
 					String time = com.expedia.bookings.utils.DateUtils.convertMilliSecondsForLogging(notification.getTriggerTimeMillis());
 					Log.i(LOGGING_TAG, "Notification scheduled for " + time);
 
-					//Just to display scheduled notification time like 2015/03/28 11:45
-					//TODO: temporary -->
 					// This is just to get the notifications to show up frequently for development
-					//				notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
-					//				notification.setExpirationTimeMillis(System.currentTimeMillis() + DateUtils.DAY_IN_MILLIS);
-					//				notification.setStatus(com.expedia.bookings.notification.Notification.StatusType.NEW);
-					//TODO: <-- temporary
+					if (BuildConfig.DEBUG) {
+						String which = SettingUtils.get(mContext, R.string.preference_which_api_to_use_key, "");
+						if (which.equals("Mock Mode")) {
+							notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
+							notification.setExpirationTimeMillis(System.currentTimeMillis() + DateUtils.DAY_IN_MILLIS);
+							notification.setStatus(com.expedia.bookings.notification.Notification.StatusType.NEW);
+						}
+					}
 
 					notification.save();
 				}
