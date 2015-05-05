@@ -48,6 +48,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
+import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.KahunaUtils;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -125,8 +126,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		startupTimer.addSplit("ActiveAndroid Init");
 
-		boolean isLogEnablerInstalled = DebugUtils.isLogEnablerInstalled(this);
-		Log.configureLogging("ExpediaBookings", BuildConfig.DEBUG || isLogEnablerInstalled);
+		boolean isLogEnablerInstalled = BuildConfig.DEBUG ||
+			DebugUtils.isLogEnablerInstalled(this) ||
+			ExpediaDebugUtil.isEBToolApkInstalled(this);
+		Log.configureLogging("ExpediaBookings", isLogEnablerInstalled);
 
 		startupTimer.addSplit("Logger Init");
 
