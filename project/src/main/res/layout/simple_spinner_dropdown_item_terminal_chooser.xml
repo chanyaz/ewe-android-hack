@@ -25,4 +25,4 @@ This is here solely so we can specify ellipsize = middle (as opposed to marquee)
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:ellipsize="middle"
     android:singleLine="true"
-    android:textColor="@color/itin_white_text" />
+    android:textColor="?attr/skin_terminalChooserTextColor" />

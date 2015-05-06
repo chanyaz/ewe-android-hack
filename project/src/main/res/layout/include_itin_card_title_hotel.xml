@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:singleLine="true"
-        android:textColor="@color/itin_white_text"
+        android:textColor="?attr/skin_itinCardTitleTextColor"
         android:textSize="16dp"
         app:textStyle="normal" />
 

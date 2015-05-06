@@ -24,6 +24,7 @@ import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.LeanPlumUtils;
+import com.expedia.bookings.utils.Strings;
 import com.facebook.Session;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
@@ -392,7 +393,7 @@ public class User implements JSONable {
 	 * still return false, and user data will not be allowed to sync.
 	 */
 	public static void addUserToAccountManager(Context context, User usr) {
-		if (context != null && usr != null) {
+		if (context != null && usr != null && Strings.isNotEmpty(usr.getPrimaryTraveler().getEmail())) {
 			//Add the account to the account manager
 			String accountType = context.getString(R.string.expedia_account_type_identifier);
 			String tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier);

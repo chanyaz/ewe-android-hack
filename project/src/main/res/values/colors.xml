@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Action Bar colors -->
+    <color name="action_bar_selected_tab_underline_color">#FFED18</color>
+    <color name="actionbar_suggestion_text_color">@color/actionbar_text</color>
+    <color name="action_bar_flight_cancel_text_color">#E9E9E9</color>
+    <color name="action_bar_flight_result_separator_color">#5FFF</color>
+
     <!-- Tablet colors -->
     <color name="results_cal_trav_bg">#eaeaea</color>
     <color name="launch_tile_pressed_overlay">#40000000</color>
@@ -68,6 +74,7 @@
     <color name="flight_results_row_return_leg_bg_pressed">#408CA1</color>
     <color name="spinner_airport">#FFFFFF</color>
     <color name="spinner_airport_details">#777777</color>
+    <color name="flight_free_cancellation_text_color">#FFE980</color>
 
     <!-- Hotels colors -->
     <color name="hotels_cc_text_color_secondary">#868a8f</color>

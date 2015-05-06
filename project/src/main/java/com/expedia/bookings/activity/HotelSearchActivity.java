@@ -2189,7 +2189,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		int searchProgressImageResId = ProductFlavorFeatureConfiguration.getInstance().getSearchProgressImageResId();
 		if (searchProgressImageResId != 0) {
-			findViewById(searchProgressImageResId).bringToFront();
+			View searchProgressImage = findViewById(searchProgressImageResId);
+			searchProgressImage.bringToFront();
+			searchProgressImage.setClickable(true);
 		}
 
 		if (mContentViewPager.getCurrentItem() == VIEWPAGER_PAGE_HOTEL) {

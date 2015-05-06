@@ -246,7 +246,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 			}
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(R.string.total_due_today))
+					.setText(context.getString(Ui.obtainThemeResID(context, R.attr.skin_totalDueToday)))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())

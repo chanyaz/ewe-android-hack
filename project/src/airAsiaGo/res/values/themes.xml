@@ -91,6 +91,7 @@
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights_aag</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_aag_logo_small</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_aag</item>
+        <item name="skin_totalDueToday">@string/total_due_today</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
@@ -114,6 +115,7 @@
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_aag</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_aag</item>
         <item name="skin_flightCheckoutAccountLabel">@string/aag_account</item>
+        <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
     </style>
 
     <!-- Override the phone theme -->
@@ -172,6 +174,10 @@
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_aag</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_aag</item>
         <item name="skin_itineraryNumberString">@string/aag_itinerary</item>
+        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
+        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
+        <item name="skin_actionBarShopText">@string/shop</item>
     </style>
 
     <style name="LaunchActionBarTabAirAsiaGoStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
@@ -205,6 +211,9 @@
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_aag</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_aag</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel_aag</item>
+        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
+        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
     </style>
 
 </resources>

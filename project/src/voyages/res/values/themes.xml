@@ -97,6 +97,7 @@
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_logo_vsc</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights</item>
+        <item name="skin_totalDueToday">@string/total_due_today</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -123,6 +124,7 @@
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_vsc</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_vsc</item>
         <item name="skin_flightCheckoutAccountLabel">@string/vsc_account</item>
+        <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
     </style>
 
     <style name="FlightActionBarVSC" parent="FlightActionBar">
@@ -164,6 +166,10 @@
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_vsc</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_vsc</item>
         <item name="skin_itineraryNumberString">@string/vsc_itinerary</item>
+        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
+        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
+        <item name="skin_actionBarShopText">@string/shop</item>
     </style>
 
     <style name="LaunchActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
@@ -188,6 +194,9 @@
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_vsc</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel_vsc</item>
+        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
+        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
