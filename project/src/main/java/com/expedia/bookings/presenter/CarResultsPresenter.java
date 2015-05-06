@@ -331,6 +331,10 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		public void startTransition(boolean forward) {
 			filter.setVisibility(forward ? GONE : VISIBLE);
 			errorScreen.setVisibility(forward ? VISIBLE : GONE);
+			if (!forward) {
+				filter.carFilterResults = new CarFilter();
+				filter.carFilterDetails = new CarFilter();
+			}
 		}
 
 		@Override
