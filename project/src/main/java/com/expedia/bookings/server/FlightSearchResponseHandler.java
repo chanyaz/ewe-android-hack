@@ -45,10 +45,6 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 	private Map<String, String> mAirlineNames;
 	private Map<String, String> mOperatingAirlineNames;
 
-	public FlightSearchResponseHandler(Context context) {
-		mContext = context;
-	}
-
 	@Override
 	public FlightSearchResponse handleResponse(Response response) throws IOException {
 		long start = System.nanoTime();

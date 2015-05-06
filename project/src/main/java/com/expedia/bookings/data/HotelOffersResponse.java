@@ -12,7 +12,6 @@ import android.text.Html;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ServerError.ErrorCode;
-import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.Log;
@@ -22,8 +21,6 @@ public class HotelOffersResponse extends Response {
 	private List<Rate> mRates;
 
 	private Property mProperty;
-
-	private SummarizedRoomRates mSummarizedRoomRates;
 
 	public HotelOffersResponse() {
 		mRates = new ArrayList<Rate>();
@@ -89,15 +86,6 @@ public class HotelOffersResponse extends Response {
 
 	public List<Rate> getRates() {
 		return mRates;
-	}
-
-	public SummarizedRoomRates getSummarizedRoomRates() {
-		if (mSummarizedRoomRates == null) {
-			mSummarizedRoomRates = new SummarizedRoomRates();
-			mSummarizedRoomRates.updateSummarizedRoomRates(this);
-		}
-
-		return mSummarizedRoomRates;
 	}
 
 	public void setProperty(Property property) {
