@@ -53,6 +53,8 @@
         <item name="skin_actionbarTextColor">@color/lx_actionbar_text_color</item>
 
         <item name="checkout_unexpanded_space_height">@dimen/lx_unexpanded_space_height</item>
+        <item name="toolbarNavigationButtonStyle">@style/LXNavigationButtonStyle</item>
+        <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
     </style>
 
     <style name="DateRadioButton" parent="V2.Theme.LX">
@@ -151,6 +153,10 @@
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/lx_sort_filter_top_bar_text_color</item>
+    </style>
+
+    <style name="LXNavigationButtonStyle" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:background">?android:selectableItemBackground</item>
     </style>
 
 </resources>
