@@ -1,16 +1,13 @@
 package com.expedia.bookings.test.ui.phone.pagemodels.common;
 
-import android.util.Log;
+import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
-import android.support.test.espresso.ViewInteraction;
+import com.mobiata.android.Log;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-/**
- * Created by dmadan on 4/7/14.
- */
 public class ScreenActions {
 
 	public static void enterLog(String tag, String logText) {

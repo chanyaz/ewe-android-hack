@@ -115,7 +115,7 @@ public class DomainPreference extends ListPreference {
 			Builder builder = new AlertDialog.Builder(mContext);
 			builder.setTitle(R.string.dialog_clear_private_data_title);
 			if (User.isLoggedIn(mContext)) {
-				builder.setMessage(R.string.dialog_log_out_and_clear_private_data_msg);
+				builder.setMessage(R.string.dialog_sign_out_and_clear_private_data_msg);
 			}
 			else {
 				builder.setMessage(R.string.dialog_clear_private_data_msg);

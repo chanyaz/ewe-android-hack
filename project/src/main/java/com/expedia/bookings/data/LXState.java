@@ -2,7 +2,6 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
@@ -17,7 +16,7 @@ public class LXState {
 	public LXSearchParams searchParams;
 	public LXActivity activity;
 	public Offer offer;
-	public Map<Ticket, Integer> selectedTickets;
+	public List<Ticket> selectedTickets;
 
 	public LXState() {
 		Events.register(this);
@@ -36,7 +35,7 @@ public class LXState {
 	@Subscribe
 	public void onShowActivityDetails(Events.LXShowDetails event) {
 		activity.location = event.activityDetails.location;
-		activity.currencyCode = event.activityDetails.currencyCode;
+		activity.regionId = event.activityDetails.regionId;
 	}
 
 	@Subscribe
@@ -46,9 +45,8 @@ public class LXState {
 	}
 
 	public LXCreateTripParams createTripParams() {
-		LXOfferSelected offerSelected = new LXOfferSelected(activity.id, this.offer, this.selectedTickets);
+		LXOfferSelected offerSelected = new LXOfferSelected(activity.id, this.offer, this.selectedTickets, activity.regionId);
 
-		// TODO : Need to check if regionID & allDayActivity is required.
 		List<LXOfferSelected> offersSelected = new ArrayList<>();
 		offersSelected.add(offerSelected);
 

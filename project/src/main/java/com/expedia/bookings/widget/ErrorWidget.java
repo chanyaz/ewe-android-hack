@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CarApiError;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
@@ -71,7 +71,7 @@ public class ErrorWidget extends FrameLayout {
 		toolbar.setVisibility(visibility);
 	}
 
-	public void bind(final CarApiError error) {
+	public void bind(final ApiError error) {
 		if (error == null) {
 			showDefaultError();
 			return;

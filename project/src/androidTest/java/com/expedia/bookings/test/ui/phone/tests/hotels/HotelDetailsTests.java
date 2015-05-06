@@ -102,9 +102,6 @@ public class HotelDetailsTests extends PhoneTestCase {
 			HotelsDetailsScreen.bookNowButton().perform(scrollTo()).check(matches(isDisplayed()));
 			ScreenActions.enterLog(TAG, "Book now button is displayed");
 
-			HotelsDetailsScreen.bookByPhoneButton().perform(scrollTo()).check(matches(isDisplayed()));
-			ScreenActions.enterLog(TAG, "Book by phone button is displayed");
-
 			Espresso.pressBack();
 		}
 	}

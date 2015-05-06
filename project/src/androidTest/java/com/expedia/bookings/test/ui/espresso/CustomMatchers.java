@@ -1,5 +1,9 @@
 package com.expedia.bookings.test.ui.espresso;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -15,8 +19,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -161,6 +168,90 @@ public class CustomMatchers {
 		};
 	}
 
+	public static Matcher<View> withChildCount(final int expectedChildCount) {
+		return new BoundedMatcher<View, ViewGroup>(ViewGroup.class) {
+			@Override
+			public boolean matchesSafely(ViewGroup view) {
+				return expectedChildCount == view.getChildCount();
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("The radio group must have " + expectedChildCount + " options");
+			}
+		};
+	}
+
+	public static Matcher<View> withOneEnabled() {
+		return new BoundedMatcher<View, RadioGroup>(RadioGroup.class) {
+			@Override
+			public boolean matchesSafely(RadioGroup view) {
+				for (int i = 0; i < view.getChildCount(); i++) {
+					RadioButton button = (RadioButton) view.getChildAt(i);
+					if (button.isEnabled()) {
+						return true;
+					}
+				}
+				return false;
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("Atleast one radio button must be clickable");
+			}
+		};
+	}
+
+	public static Matcher<View> withDateCaptionAtIndex(final int index, final String weekDay, final String dayOfMonth) {
+		return new BoundedMatcher<View, RadioGroup>(RadioGroup.class) {
+			@Override
+			public boolean matchesSafely(RadioGroup view) {
+				RadioButton currentButton = (RadioButton) view.getChildAt(index);
+				String text = currentButton.getText().toString();
+				return text.startsWith(weekDay) && text.endsWith(dayOfMonth);
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("The offer selection button must have correct date format");
+			}
+		};
+	}
+
+	public static Matcher<View> withAtleastChildCount(final int leastCount) {
+		return new BoundedMatcher<View, ViewGroup>(ViewGroup.class) {
+			@Override
+			public boolean matchesSafely(ViewGroup view) {
+				return view.getChildCount() >= leastCount;
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("The view must have some children");
+			}
+		};
+	}
+
+	public static Matcher<View> withContainsAtleastOne(final List<String> needleList) {
+		return new BoundedMatcher<View, TextView>(TextView.class) {
+			@Override
+			public boolean matchesSafely(TextView view) {
+				String hayStack = view.getText().toString();
+				for (String needle : needleList) {
+					if (hayStack.contains(needle)) {
+						return true;
+					}
+				}
+				return false;
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("The view must contain atleast one of the supplied list");
+			}
+		};
+	}
+
 	public static Matcher<View> withFirstChildOf(final Matcher<View> parentMatcher) {
 		return new TypeSafeMatcher<View>() {
 			@Override
@@ -180,4 +271,25 @@ public class CustomMatchers {
 		};
 	}
 
+	public static Matcher<View> withTotalPrice(final BigDecimal expectedPrice) {
+		return new BoundedMatcher<View, Button>(Button.class) {
+			@Override
+			public boolean matchesSafely(Button view) {
+				String displayedText = view.getText().toString().replace(",", "");
+				Pattern p = Pattern.compile("([\\d.]+)");
+				java.util.regex.Matcher m = p.matcher(displayedText);
+				m.find();
+				BigDecimal foundPrice = new BigDecimal(m.group());
+				if (foundPrice.compareTo(expectedPrice) == 0) {
+					return true;
+				}
+				return false;
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("The total price must match");
+			}
+		};
+	}
 }

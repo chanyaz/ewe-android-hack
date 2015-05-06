@@ -142,6 +142,32 @@ public class Strings {
 		return gson.toJson(any);
 	}
 
+	public static int cutAtWordBarrier(CharSequence body, int cutoffLimit) {
+		int before = cutoffLimit;
+		for (int i = cutoffLimit; i > 0; i--) {
+			char c = body.charAt(i);
+			if (c == ' ' || c == ',' || c == '.') {
+				before = i;
+				break;
+			}
+		}
+		while (body.charAt(before) == ' ' || body.charAt(before) == ',' || body.charAt(before) == '.') {
+			before--;
+		}
+		before++;
+		int after = cutoffLimit;
+		for (int i = cutoffLimit; i < body.length(); i++) {
+			char c = body.charAt(i);
+			if (c == ' ' || c == ',' || c == '.') {
+				after = i;
+				break;
+			}
+		}
+		int leftDistance = Math.abs(cutoffLimit - before);
+		int rightDistance = Math.abs(after - cutoffLimit);
+		return (leftDistance < rightDistance) ? before : after;
+	}
+
 	public static String capitalizeFirstLetter(String word) {
 		if (Strings.isEmpty(word)) {
 			return word;
@@ -151,5 +177,12 @@ public class Strings {
 		return upper + lower;
 	}
 
-
+	public static String escapeQuotes(String content) {
+		if (isEmpty(content)) {
+			return content;
+		}
+		else {
+			return content.replaceAll("&quot;", "\"");
+		}
+	}
 }

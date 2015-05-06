@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -15,9 +16,12 @@ import com.expedia.bookings.data.Traveler.SeatPreference;
 import com.mobiata.android.util.Ui;
 
 public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
+	int color;
+
 	class SeatPreferenceSpinnerHelper {
 		SeatPreference mSeatPreference;
 		String mSeatPreferenceStr;
+
 
 		public SeatPreferenceSpinnerHelper(SeatPreference seatPreference, String seatPreferenceStr) {
 			setSeatPreference(seatPreference);
@@ -48,6 +52,8 @@ public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		super(context, R.layout.simple_spinner_traveler_item);
 		setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 		fillSeatPreferences(context);
+		color = getContext().getResources().getColor(R.color.checkout_traveler_birth_color);
+
 	}
 
 	public void setFormatString(String formatString) {
@@ -68,7 +74,11 @@ public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View retView = super.getView(position, convertView, parent);
 		TextView tv = Ui.findView(retView, android.R.id.text1);
-		tv.setText(Html.fromHtml(String.format(mFormatString, getItem(position))));
+		CharSequence item = getItem(position);
+		Spannable stringToSpan = new SpannableString(String.format(mFormatString, item));
+		com.expedia.bookings.utils.Ui.setTextStyleNormalText(stringToSpan, color, 0,
+			stringToSpan.toString().indexOf(item.toString()));
+		tv.setText(stringToSpan);
 		return retView;
 	}
 

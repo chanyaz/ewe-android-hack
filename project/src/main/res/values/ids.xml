@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <item name="check_in_time" type="id"/>
-    <item name="check_out_time" type="id"/>
-    <item name="sort_popular_button" type="id"/>
-    <item name="sort_price_button" type="id"/>
-    <item name="sort_deals_button" type="id"/>
-    <item name="sort_distance_button" type="id"/>
-    <item name="sort_reviews_button" type="id"/>
-    <item name="tag_flight_trip" type="id"/>
-    <item name="tag_flight_leg" type="id"/>
-    <item name="tag_flight_trip_position" type="id"/>
-    <item name="itin_flight_map_container_active" type="id"/>
-
     <!-- SwipeOutLayout ids -->
     <item name="swipe_out_content" type="id"/>
     <item name="swipe_out_indicator" type="id"/>
@@ -23,43 +10,5 @@
 
     <!-- for using Ids while running Expedia or Travelocity (part of replacement for search_progress_animation)-->
     <item name="search_progress_bar" type="id"/>
-    <item name="search_progress_image_tvly" type="id"/>
-
-    <!-- QA Automation ids -->
-    <item name="preference_suppress_hotel_booking_checkbox" type="id"/>
-    <item name="preference_suppress_flight_booking_checkbox" type="id"/>
-    <item name="preference_suppress_car_booking_checkbox" type="id"/>
-    <item name="preference_suppress_lx_booking_checkbox" type="id"/>
-
     <item name="plane_window_view" type="id"/>
-
-    <!-- Tvly tvly itin label text -->
-    <item name="tvly_itinerary" type="string"/>
-
-    <!-- AirAsiaGo Flight loading screen progress msg textColor -->
-    <item name="flight_list_progress_text_color" type="color"/>
-
-    <!-- AirAsiaGo FLight Loading screen Image-->
-    <item name="search_progress_flight_aag" type="id"/>
-
-    <!-- AirAsiaGo Hotel Loading Screen Image-->
-    <item name="search_progress_image_aag" type="id"/>
-
-    <!-- AirAsiaGo itin label text -->
-    <item name="aag_itinerary" type="string"/>
-
-    <item name="ic_stat_aag" type="drawable"/>
-
-    <!-- adding aag crossSell text and link to avoid errors in Expedia app compilation -->
-    <item name="share_template_long_ad_aag" type="string"/>
-    <!-- App Support URL for AAG -->
-    <item name="app_support_url_aag" type="string"/>
-    <!-- App Support URL for Travelocity -->
-    <item name="app_support_url_tvly" type="string"/>
-    <!-- adding vsc crossSell text and link to avoid errors in Expedia app compilation -->
-    <item name="share_template_long_ad_vsc" type="string"/>
-    <item name="share_template_long_ad_tvly" type="string"/>
-    <!-- Adding VSC Notification icon to avoid errors in Expedia app compilation -->
-    <item name="ic_stat_vsc" type="drawable"/>
-
 </resources>

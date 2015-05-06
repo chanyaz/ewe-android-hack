@@ -1,7 +1,6 @@
 package com.expedia.bookings.otto;
 
 import java.util.List;
-import java.util.Map;
 
 import org.joda.time.LocalDate;
 
@@ -24,7 +23,7 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
-import com.expedia.bookings.data.cars.CarApiError;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
@@ -38,12 +37,14 @@ import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
+import com.expedia.bookings.data.lx.LXCategoryMetadata;
+import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.Offer;
+import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.mobiata.android.Log;
@@ -539,6 +540,10 @@ public class Events {
 	 * Cars cars cars
 	 */
 
+	public static class SignOut {
+		// ignore
+	}
+
 	public static class CarsPriceChange {
 		// ignore
 	}
@@ -591,9 +596,9 @@ public class Events {
 	}
 
 	public static class CarsShowSearchResultsError {
-		public CarApiError error;
+		public ApiError error;
 
-		public CarsShowSearchResultsError(CarApiError error) {
+		public CarsShowSearchResultsError(ApiError error) {
 			this.error = error;
 		}
 	}
@@ -680,6 +685,14 @@ public class Events {
 		public LXNewSearchParamsAvailable(LXSearchParams params) {
 			lxSearchParams = params;
 		}
+
+		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, SearchType searchType) {
+			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate).searchType(searchType);
+		}
+
+		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate) {
+			this(locationName, startDate, endDate, SearchType.EXPLICIT_SEARCH);
+		}
 	}
 
 	public static class LXSearchResultsAvailable {
@@ -690,8 +703,24 @@ public class Events {
 		}
 	}
 
+	public static class LXFilterCategoryCheckedChanged {
+		public LXCategoryMetadata lxCategoryMetadata;
+		public String categoryKey;
+
+		public LXFilterCategoryCheckedChanged(LXCategoryMetadata lxCategoryMetadata, String categoryKey) {
+			this.lxCategoryMetadata = lxCategoryMetadata;
+			this.categoryKey = categoryKey;
+		}
+	}
+
 	public static class LXShowSearchError {
-		// ignore
+		public ApiError error;
+		public SearchType searchType;
+
+		public LXShowSearchError(ApiError error, SearchType searchType) {
+			this.error = error;
+			this.searchType = searchType;
+		}
 	}
 
 	public static class LXActivitySelected {
@@ -700,6 +729,10 @@ public class Events {
 		public LXActivitySelected(LXActivity lxActivity) {
 			this.lxActivity = lxActivity;
 		}
+	}
+
+	public static class LXActivitySelectedRetry {
+		//ignore
 	}
 
 	public static class LXShowDetails {
@@ -720,12 +753,10 @@ public class Events {
 
 	public static class LXTicketCountChanged {
 		public Ticket ticket;
-		public int count;
 		public String offerId;
 
-		public LXTicketCountChanged(Ticket ticket, int count, String offerId) {
+		public LXTicketCountChanged(Ticket ticket, String offerId) {
 			this.ticket = ticket;
-			this.count = count;
 			this.offerId = offerId;
 		}
 	}
@@ -740,19 +771,19 @@ public class Events {
 
 	public static class LXOfferBooked {
 		public Offer offer;
-		public Map<Ticket, Integer> selectedTickets;
+		public List<Ticket> selectedTickets;
 
-		public LXOfferBooked(Offer offer, Map<Ticket, Integer> selectedTickets) {
+		public LXOfferBooked(Offer offer, List<Ticket> selectedTickets) {
 			this.offer = offer;
 			this.selectedTickets = selectedTickets;
 		}
 	}
 
 	public static class LXKickOffCheckoutCall {
-		public LXCheckoutParamsBuilder checkoutParamsBuilder;
+		public LXCheckoutParams checkoutParams;
 
-		public LXKickOffCheckoutCall(LXCheckoutParamsBuilder checkoutParamsBuilder) {
-			this.checkoutParamsBuilder = checkoutParamsBuilder;
+		public LXKickOffCheckoutCall(LXCheckoutParams checkoutParams) {
+			this.checkoutParams = checkoutParams;
 		}
 	}
 
@@ -776,6 +807,25 @@ public class Events {
 		// ignore
 	}
 
+	public static class LXShowLoadingAnimation {
+		// ignore
+	}
+
+	public static class LXInvalidInput {
+		public String field;
+
+		public LXInvalidInput(String field) {
+			this.field = field;
+		}
+	}
+
+	public static class LXSessionTimeout {
+		// ignore
+	}
+
+	public static class LXPaymentFailed {
+		// ignore
+	}
 	// Launch screen
 
 	public static class LaunchHotelSearchResponse {
@@ -850,9 +900,6 @@ public class Events {
 		}
 	}
 
-	public static class LaunchLobRefresh {
-	}
-
-	public static class LaunchShowLoadingAnimation {
+	public static class PhoneLaunchOnResume {
 	}
 }

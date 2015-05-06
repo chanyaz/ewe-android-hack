@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
@@ -20,6 +21,7 @@ import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.CheckoutSummaryWidgetUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -100,29 +102,30 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		buildCarBreakdownDialog(getContext(), offer);
 	}
 
-	public static void buildCarBreakdownDialog(Context context, CreateTripCarOffer offer) {
+	private void buildCarBreakdownDialog(Context context, CreateTripCarOffer offer) {
 		List<RateBreakdownItem> rateBreakdownDueAtPickup = offer.detailedFare.priceBreakdownOfTotalDueAtPickup;
 		List<RateBreakdownItem> rateBreakdownDueToday = offer.detailedFare.priceBreakdownOfTotalDueToday;
 
-		View view = LayoutInflater.from(context).inflate(R.layout.car_cost_summary_alert, null);
+		View view = LayoutInflater.from(context).inflate(R.layout.cost_summary_alert, null);
 		LinearLayout ll = Ui.findView(view, R.id.parent);
 
 		if (rateBreakdownDueAtPickup != null && rateBreakdownDueAtPickup.size() > 0) {
 			for (RateBreakdownItem item : rateBreakdownDueAtPickup) {
-				ll.addView(
-					addRow(context, CarDataUtils.getFareBreakdownType(context, item.type), item.price.formattedPrice));
+				ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
+					CarDataUtils.getFareBreakdownType(context, item.type),
+					item.price.formattedPrice));
 			}
 		}
 
 		if (rateBreakdownDueToday != null && rateBreakdownDueToday.size() > 0) {
 			for (RateBreakdownItem item : rateBreakdownDueToday) {
-				ll.addView(
-					addRow(context, CarDataUtils.getFareBreakdownType(context, item.type), item.price.formattedPrice));
+				ll.addView(CheckoutSummaryWidgetUtils
+					.addRow(context, CarDataUtils.getFareBreakdownType(context, item.type), item.price.formattedPrice));
 			}
 		}
-		ll.addView(addRow(context, context.getString(R.string.car_cost_breakdown_due_today),
+		ll.addView(CheckoutSummaryWidgetUtils.addRow(context, context.getString(R.string.car_cost_breakdown_due_today),
 			offer.detailedFare.totalDueToday.formattedPrice));
-		ll.addView(addRow(context, context.getString(R.string.car_cost_breakdown_total_due),
+		ll.addView(CheckoutSummaryWidgetUtils.addRow(context, context.getString(R.string.car_cost_breakdown_total_due),
 			offer.detailedFare.totalDueAtPickup.formattedPrice));
 		ll.addView(addDisclaimerRow(context, offer.pickUpLocation.countryCode));
 
@@ -138,17 +141,8 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		builder.create().show();
 	}
 
-	public static View addRow(Context context, String leftSideText, String rightSideText) {
-		View row = LayoutInflater.from(context).inflate(R.layout.car_cost_summary_row, null);
-		TextView priceDescription = Ui.findView(row, R.id.price_type_text_view);
-		TextView priceValue = Ui.findView(row, R.id.price_text_view);
-		priceDescription.setText(leftSideText);
-		priceValue.setText(rightSideText);
-		return row;
-	}
-
-	public static View addDisclaimerRow(Context context, String country) {
-		View row = LayoutInflater.from(context).inflate(R.layout.car_price_disclaimer, null);
+	private View addDisclaimerRow(Context context, String country) {
+		View row = LayoutInflater.from(context).inflate(R.layout.checkout_breakdown_price_disclaimer, null);
 		TextView disclaimer = Ui.findView(row, R.id.price_disclaimer);
 		String pos = PointOfSale.getPointOfSale().getThreeLetterCountryCode();
 		boolean isCurrencySameAsPOS = Strings.equals(CurrencyUtils.currencyForLocale(country), CurrencyUtils.currencyForLocale(pos));

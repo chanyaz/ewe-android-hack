@@ -1,6 +1,6 @@
 package com.expedia.bookings.activity;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -57,7 +57,6 @@ import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class FlightTripOverviewActivity extends FragmentActivity implements LogInListener,
 	CheckoutInformationListener, ISlideToListener, DoLogoutListener,
@@ -124,6 +123,17 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// Recover data if it was flushed from memory
+
+		// Note: While TripBucketItemFlight is theoretically the only data necessary to exact a checkout
+		// FlightTripLeg references Db.getFlightSearch() to retrieves legs via HashMap.
+		if (Db.getFlightSearch().getSelectedFlightTrip() == null) {
+			boolean wasSuccess = Db.loadCachedFlightData(this);
+			if (!wasSuccess) {
+				finish();
+				mIsBailing = true;
+			}
+		}
+
 		if (Db.getTripBucket().isEmpty()) {
 			boolean wasSuccess = Db.loadTripBucket(this);
 			if (!wasSuccess || Db.getTripBucket().getFlight() == null) {
@@ -623,11 +633,10 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
 
-		Date depDate = DateTimeUtils
-			.getTimeInLocalTimeZone(trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime());
-		Date retDate = DateTimeUtils.getTimeInLocalTimeZone(trip.getLeg(trip.getLegCount() - 1).getLastWaypoint()
-			.getMostRelevantDateTime());
-		String dateRange = DateUtils.formatDateRange(this, depDate.getTime(), retDate.getTime(),
+		DateTime depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+		DateTime retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+
+		String dateRange = DateUtils.formatDateRange(this, depDate.getMillis(), retDate.getMillis(),
 			DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY
 				| DateUtils.FORMAT_ABBREV_MONTH
 		);

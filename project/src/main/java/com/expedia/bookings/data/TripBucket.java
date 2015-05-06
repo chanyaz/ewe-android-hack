@@ -79,6 +79,13 @@ public class TripBucket implements JSONable {
 	}
 
 	/**
+	 * Convenience method to remove all Cars from this TripBucket.
+	 */
+	public void clearCars() {
+		clear(LineOfBusiness.CARS);
+	}
+
+	/**
 	 * Convenience method to determine when we really need to refresh this TripBucket.
 	 * @return
 	 */
@@ -199,6 +206,16 @@ public class TripBucket implements JSONable {
 	public TripBucketItemHotel getHotel() {
 		int index = getIndexOf(LineOfBusiness.HOTELS);
 		return index == -1 ? null : (TripBucketItemHotel) mItems.get(index);
+	}
+
+	/**
+	 * Returns the trip bucket item based on LOB, or null if not found.
+	 *
+	 * @return
+	 */
+	public TripBucketItem getItem(LineOfBusiness lineOfBusiness) {
+		int index = getIndexOf(lineOfBusiness);
+		return index == -1 ? null : mItems.get(index);
 	}
 
 	/**
@@ -373,7 +390,7 @@ public class TripBucket implements JSONable {
 	}
 
 	public boolean isUserAirAttachQualified() {
-		return mAirAttach != null && mAirAttach.isAirAttachQualified() && !mAirAttach.getExpirationDate().isBeforeNow() && PointOfSale.getPointOfSale().shouldShowAirAttach();
+		return mAirAttach != null && mAirAttach.isAirAttachQualified() && !mAirAttach.getExpirationDate().isBeforeNow() && PointOfSale.getPointOfSale().showHotelCrossSell();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

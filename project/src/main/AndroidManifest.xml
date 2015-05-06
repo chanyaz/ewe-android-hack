@@ -257,6 +257,17 @@
             android:windowSoftInputMode="adjustNothing">
         </activity>
 
+        <!-- LX activity -->
+
+        <activity
+            android:name="com.expedia.bookings.activity.LXBaseActivity"
+            android:taskAffinity="com.expedia.bookings.activity.LXBaseActivity"
+            android:screenOrientation="portrait"
+            android:label="Activities"
+            android:theme="@style/V2.Theme.LX"
+            android:windowSoftInputMode="adjustNothing">
+        </activity>
+
         <!-- About/Preferences/WebView activities -->
 
         <activity

@@ -14,8 +14,7 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.cars.CarApiError;
-import com.expedia.bookings.data.cars.CarApiException;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
@@ -113,9 +112,8 @@ public class CarCheckoutPresenter extends Presenter {
 			if (RetrofitUtils.isNetworkError(e)) {
 				showCheckoutErrorDialog(R.string.error_no_internet);
 			}
-			else if (e instanceof CarApiException) {
-				CarApiException carSearchException = (CarApiException) e;
-				showErrorScreen(carSearchException.getApiError());
+			else if (e instanceof ApiError) {
+				showErrorScreen((ApiError) e);
 			}
 			else {
 				showErrorScreen(null);
@@ -131,9 +129,9 @@ public class CarCheckoutPresenter extends Presenter {
 				showErrorScreen(null);
 			}
 			else if (response.hasPriceChange()) {
-				Events.post(new Events.CarsShowCheckoutAfterPriceChange(response.originalCarProduct, /* originalOffer */
-					response.newCarProduct, /* newOffer */
-					response.tripId /* tripId */));
+				Events.post(new Events.CarsShowCheckoutAfterPriceChange(response.originalCarProduct,
+					response.newCarProduct,
+					response.tripId));
 				showErrorScreen(response.getFirstError());
 			}
 			else {
@@ -142,7 +140,7 @@ public class CarCheckoutPresenter extends Presenter {
 		}
 	};
 
-	private void showErrorScreen(CarApiError error) {
+	private void showErrorScreen(ApiError error) {
 		errorScreen.bind(error);
 		show(errorScreen);
 	}

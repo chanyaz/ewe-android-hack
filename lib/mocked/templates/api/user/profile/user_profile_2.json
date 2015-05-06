@@ -1,0 +1,42 @@
+{
+  "tuid": 2,
+  "firstName": "Expedia",
+  "middleName": "Automation",
+  "lastName": "Second",
+  "phoneNumbers": [
+    {
+      "number": "4567890",
+      "areaCode": "123",
+      "category": "PRIMARY",
+      "countryCode": "1",
+      "extensionNumber": ""
+    }
+  ],
+  "loyaltyMembershipNumber": "308127915",
+  "loyaltyMemebershipActive": true,
+  "loyaltyPointsAvailable": 549,
+  "loyaltyPointsPending": 108,
+  "loyaltyMemebershipName": "REWARDS",
+  "membershipTierName": "Blue",
+  "loyaltyTierCredits": {
+    "m_pointsAmount": 0,
+    "m_grossBookingValue": {
+      "amount": 0.00,
+      "currency": {
+        "currencyCode": "USD"
+      },
+      "uCurrency": {
+        "isoCode": "USD"
+      }
+    },
+    "m_roomNights": 0
+  },
+  "isSmokingPreferred": false,
+  "tsaDetails": {
+    "gender": "Male",
+    "dateOfBirth": "1991-01-27"
+  },
+  "seatPreference": "ANY",
+  "specialAssistance": "NONE",
+  "activityId": "f6f85b56-4227-44b8-a7e1-6320180919d9"
+}

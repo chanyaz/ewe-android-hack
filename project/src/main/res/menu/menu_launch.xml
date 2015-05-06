@@ -2,24 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/add_itinerary"
+        android:id="@+id/add_itinerary_guest"
         android:icon="@drawable/btn_add_guest_itin_normal"
         android:showAsAction="ifRoom"
-        android:title="@string/find_itinerary">
-        <menu>
-            <item
-                android:id="@+id/add_itinerary_login"
-                android:title="@string/log_in"/>
-            <item
-                android:id="@+id/add_itinerary_guest"
-                android:title="@string/find_itinerary_pound"/>
-        </menu>
-    </item>
+        android:title="@string/find_itinerary_pound"/>
+    <item
+        android:id="@+id/ab_log_in"
+        android:showAsAction="ifRoom"
+        android:title="@string/sign_in"/>
     <item
         android:id="@+id/ab_log_out"
         android:icon="@drawable/ic_log_out_person"
         android:showAsAction="never"
-        android:title="@string/log_out"/>
+        android:title="@string/sign_out"/>
     <item
         android:id="@+id/settings"
         android:icon="@android:drawable/ic_menu_manage"

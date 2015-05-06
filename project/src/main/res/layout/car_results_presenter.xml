@@ -20,11 +20,12 @@
             <com.expedia.bookings.widget.OptimizedImageView
                 android:id="@+id/header_image"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="@dimen/car_details_image_size"
                 android:scaleType="centerCrop"
                 tools:src="@drawable/bg_flight_summary_row_return_leg_tablet" />
 
             <View
+                android:id="@+id/cars_details_gradient"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:background="@drawable/cars_details_gradient_top" />
@@ -67,6 +68,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:minHeight="?attr/actionBarSize" />
+        android:minHeight="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/toolBarSearchText"
+                    style="@style/CarsToolbarTitleTextAppearance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/toolBarDetailText"
+                    style="@style/CarsToolbarTitleTextAppearance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/toolBarSubtitleText"
+                style="@style/CarsToolbarSubtitleTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
 
 </com.expedia.bookings.presenter.CarResultsPresenter>

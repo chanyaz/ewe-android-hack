@@ -31,6 +31,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.util.Ui;
 
 public class HotelDetailsIntroFragment extends Fragment {
@@ -257,37 +258,11 @@ public class HotelDetailsIntroFragment extends Fragment {
 			readMoreView.setOnClickListener(asd);
 
 			sectionBody = String.format(getString(R.string.ellipsize_text_template),
-					sectionBody.subSequence(0, cutAtWordBarrier(sectionBody)));
+					sectionBody.subSequence(0, Strings.cutAtWordBarrier(sectionBody, INTRO_PARAGRAPH_CUTOFF)));
 		}
 
 		// Always hide this for the intro
 		titleView.setVisibility(View.GONE);
 		bodyView.setText(sectionBody);
-	}
-
-	public static int cutAtWordBarrier(CharSequence body) {
-		int before = INTRO_PARAGRAPH_CUTOFF;
-		for (int i = INTRO_PARAGRAPH_CUTOFF; i > 0; i--) {
-			char c = body.charAt(i);
-			if (c == ' ' || c == ',' || c == '.') {
-				before = i;
-				break;
-			}
-		}
-		while (body.charAt(before) == ' ' || body.charAt(before) == ',' || body.charAt(before) == '.') {
-			before--;
-		}
-		before++;
-		int after = INTRO_PARAGRAPH_CUTOFF;
-		for (int i = INTRO_PARAGRAPH_CUTOFF; i < body.length(); i++) {
-			char c = body.charAt(i);
-			if (c == ' ' || c == ',' || c == '.') {
-				after = i;
-				break;
-			}
-		}
-		int leftDistance = Math.abs(INTRO_PARAGRAPH_CUTOFF - before);
-		int rightDistance = Math.abs(after - INTRO_PARAGRAPH_CUTOFF);
-		return (leftDistance < rightDistance) ? before : after;
 	}
 }

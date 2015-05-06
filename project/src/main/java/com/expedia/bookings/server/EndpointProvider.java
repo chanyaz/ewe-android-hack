@@ -57,11 +57,30 @@ public class EndpointProvider {
 		}
 	}
 
+	public String getAbacusEndpoint(final boolean isSecure) {
+		// Always point to production if release
+		if (BuildConfig.RELEASE) {
+			return getE3EndpointUrl(isSecure);
+		}
+
+		// Mock Server if enabled
+		EndPoint endPoint = getEndPoint();
+		if (endPoint == EndPoint.PROXY || endPoint == EndPoint.MOCK_SERVER || endPoint == EndPoint.CUSTOM_SERVER) {
+			return getE3EndpointUrl(isSecure);
+		}
+
+		// Default to Dev on debug
+		return  "http://phelabstb101.karmalab.net:9117/";
+	}
+
 	/**
 	 * Returns the base E3 server url, based on dev settings
 	 */
 	public String getE3EndpointUrl(final boolean isSecure) {
-		EndPoint endPoint = getEndPoint();
+		return getE3EndpointUrl(isSecure, getEndPoint());
+	}
+
+	public String getE3EndpointUrl(final boolean isSecure, EndPoint endPoint) {
 		String domain = PointOfSale.getPointOfSale().getUrl();
 
 		String urlTemplate = serverUrls.get(endPoint);
@@ -116,7 +135,7 @@ public class EndpointProvider {
 	}
 
 	public EndPoint getEndPoint() {
-		if (!BuildConfig.DEBUG) {
+		if (BuildConfig.RELEASE) {
 			// Fastpath
 			return EndPoint.PRODUCTION;
 		}

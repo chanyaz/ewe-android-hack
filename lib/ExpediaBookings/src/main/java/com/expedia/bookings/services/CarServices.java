@@ -8,7 +8,7 @@ import java.util.Map;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.cars.CarApiException;
+import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParams;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
@@ -49,9 +49,7 @@ public class CarServices {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
 
-		Gson gson = new GsonBuilder()
-			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
-			.create();
+		Gson gson = generateGson();
 
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
@@ -66,20 +64,47 @@ public class CarServices {
 
 	public Subscription carSearch(CarSearchParams params, Observer<CarSearch> observer) {
 		return mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate())
-			.observeOn(mObserveOn)
-			.subscribeOn(mSubscribeOn)
 			.doOnNext(HANDLE_ERRORS)
 			.flatMap(BUCKET_OFFERS)
 			.toSortedList(SORT_BY_LOWEST_TOTAL)
 			.map(PUT_IN_CAR_SEARCH)
+			.subscribeOn(mSubscribeOn)
+			.observeOn(mObserveOn)
 			.subscribe(observer);
 	}
 
-	private static final Action1<CarSearchResponse> HANDLE_ERRORS = new Action1<CarSearchResponse>() {
+	public Subscription createTrip(SearchCarOffer offer, Observer<CarCreateTripResponse> observer) {
+		return mApi.createTrip(offer.productKey, offer.fare.total.amount.toString())
+			.doOnNext(HANDLE_ERRORS)
+			.map(new SearchOfferInjector(offer))
+			.subscribeOn(mSubscribeOn)
+			.observeOn(mObserveOn)
+			.subscribe(observer);
+	}
+
+	public Subscription checkout(CreateTripCarOffer offer, CarCheckoutParams params,
+		Observer<CarCheckoutResponse> observer) {
+		return mApi.checkout(params.toQueryMap())
+			.doOnNext(HANDLE_ERRORS)
+			.map(new CreateTripOfferInjector(offer))
+			.subscribeOn(mSubscribeOn)
+			.observeOn(mObserveOn)
+			.subscribe(observer);
+	}
+
+	public static Gson generateGson() {
+		return new GsonBuilder()
+			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+			.create();
+	}
+
+	// Throw an error so the UI can handle it except for price changes.
+	// Let the remaining pipline handle those
+	private static final Action1<BaseApiResponse> HANDLE_ERRORS = new Action1<BaseApiResponse>() {
 		@Override
-		public void call(CarSearchResponse carSearchResponse) {
-			if (carSearchResponse.hasErrors()) {
-				throw new CarApiException(carSearchResponse.getFirstError());
+		public void call(BaseApiResponse response) {
+			if (response.hasErrors() && !response.hasPriceChange()) {
+				throw response.getFirstError();
 			}
 		}
 	};
@@ -125,16 +150,7 @@ public class CarServices {
 		}
 	};
 
-	public Subscription createTrip(SearchCarOffer offer, Observer<CarCreateTripResponse> observer) {
-		return mApi.createTrip(offer.productKey, offer.fare.total.amount.toString())
-			.observeOn(mObserveOn)
-			.subscribeOn(mSubscribeOn)
-			.map(new SearchOfferInjector(offer))
-			.subscribe(observer);
-	}
-
 	private class SearchOfferInjector implements Func1<CarCreateTripResponse, CarCreateTripResponse> {
-
 		SearchCarOffer searchCarOffer;
 
 		public SearchOfferInjector(SearchCarOffer offer) {
@@ -150,17 +166,7 @@ public class CarServices {
 		}
 	}
 
-	public Subscription checkout(CreateTripCarOffer offer, CarCheckoutParams params,
-		Observer<CarCheckoutResponse> observer) {
-		return mApi.checkout(params.toQueryMap())
-			.observeOn(mObserveOn)
-			.subscribeOn(mSubscribeOn)
-			.map(new CreateTripOfferInjector(offer))
-			.subscribe(observer);
-	}
-
 	private class CreateTripOfferInjector implements Func1<CarCheckoutResponse, CarCheckoutResponse> {
-
 		CreateTripCarOffer createTripCarOffer;
 
 		public CreateTripOfferInjector(CreateTripCarOffer offer) {
@@ -172,11 +178,7 @@ public class CarServices {
 			if (carCheckoutResponse.hasPriceChange()) {
 				carCheckoutResponse.originalCarProduct = createTripCarOffer;
 			}
-			else if (carCheckoutResponse.hasErrors()) {
-				throw new CarApiException(carCheckoutResponse.getFirstError());
-			}
 			return carCheckoutResponse;
 		}
 	}
-
 }

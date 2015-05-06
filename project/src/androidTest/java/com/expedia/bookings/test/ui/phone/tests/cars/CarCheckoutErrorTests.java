@@ -1,15 +1,18 @@
 package com.expedia.bookings.test.ui.phone.tests.cars;
 
-import org.joda.time.DateTime;
-
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarCreateTripResponse;
+import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.test.component.cars.CarViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.ui.utils.CarTestCase;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.google.gson.Gson;
+import com.mobiata.android.util.IoUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -17,9 +20,8 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-public class CarCheckoutErrorTests extends PhoneTestCase {
+public class CarCheckoutErrorTests extends CarTestCase {
 
-	private static final String CATEGORY = "Standard";
 	private static final int CC_NOT_REQUIRED = 0;
 	private static final int CC_REQUIRED = 1;
 	private static final String EMAIL = "george@mobiata.com";
@@ -27,26 +29,26 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 	public void testUnknownError() throws Throwable {
 		performCarCheckout(CC_NOT_REQUIRED, "UnknownError");
 
-		// Generic dialog
-		screenshot("Oops Error Dialog");
+		// Generic message
+		screenshot("Default Error Message");
 		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		CarViewModel.checkoutErrorText().check(matches(withText(R.string.error_server)));
 		CarViewModel.checkoutErrorButton().perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 		// TODO add test to support the retry behavior
-		screenshot("Oops Error Dialog close");
+		screenshot("Default Error Message Close");
 	}
 
 	public void testPriceChange() throws Throwable {
 		performCarCheckout(CC_NOT_REQUIRED, "PriceChange");
 
-		// Price change dialog
-		screenshot("Price Change Dialog");
+		// Price change message
+		screenshot("Price Change Message");
 		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		CarViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_price_change)));
 		CarViewModel.checkoutErrorButton().perform(click());
 
-		screenshot("Price Change Messaging");
+		screenshot("Price Change Resolution");
 		CarViewModel.checkoutTotalPrice().check(matches(withText("$125.18")));
 		EspressoUtils.assertViewWithTextIsDisplayed("Price changed from $108.47");
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
@@ -59,81 +61,102 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 		screenshot("Invalid Input Screen");
 		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		CarViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_invalid_name)));
+
 		CarViewModel.checkoutErrorButton().perform(click());
-
+		screenshot("Traveler Details");
 		EspressoUtils.assertViewIsDisplayed(R.id.main_contact_info_card_view);
-		CheckoutViewModel.pressClose();
 
+		CheckoutViewModel.pressClose();
+		screenshot("Still Ready to Purchase");
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 	}
 
 	public void testTripAlreadyBooked() throws Throwable {
 		performCarCheckout(CC_NOT_REQUIRED, "AlreadyBooked");
 
-		// Payment failed dialog
-		screenshot("Trip Already Booked Dialog");
+		// Payment failed message
+		screenshot("Trip Already Booked Message");
 		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		CarViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_already_exists)));
-		CarViewModel.checkoutErrorButton().perform(click());
 
-		screenshot("Car confirmation");
+		CarViewModel.checkoutErrorButton().perform(click());
+		screenshot("Trips");
 	}
 
 	public void testPaymentFailed() throws Throwable {
 		performCarCheckout(CC_REQUIRED, "PaymentFailed");
 
-		// Payment failed dialog
-		screenshot("Payment Failed Dialog");
+		// Payment failed message
+		screenshot("Payment Failed Message");
 		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		CarViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_payment_failed)));
 		CarViewModel.checkoutErrorButton().perform(click());
 
-		screenshot("Payment Failed Messaging");
-		// Should take you back to payment entry
+		screenshot("Payment Failed Recourse");
 		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
-		CheckoutViewModel.pressClose();
 
-		// TODO better assertions once error is handled better
+		CheckoutViewModel.pressClose();
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
+		screenshot("Payment Failed Recourse Complete");
 	}
 
 	public void testSessionTimeout() throws Throwable {
 		performCarCheckout(CC_NOT_REQUIRED, "SessionTimeout");
 
-		// Payment failed dialog
 		screenshot("Session Timeout");
 		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
 		CarViewModel.checkoutErrorText().check(matches(withText(R.string.reservation_time_out)));
-		CarViewModel.checkoutErrorButton().perform(click());
 
-		screenshot("Car Details");
-		EspressoUtils.assertViewIsDisplayed(R.id.details);
+		// TODO find a good way to verify this behavior without increasing test time
+		//		CarViewModel.checkoutErrorButton().perform(click());
+		//		screenshot("Car Details");
+		//		EspressoUtils.assertViewIsDisplayed(R.id.details);
 	}
 
+	/**
+	 * Go to checkout as quickly as possible. Load up JSON from assets dir, and post the
+	 * checkout display event.
+	 *
+	 * @param offer
+	 * @param firstName
+	 * @throws Throwable
+	 */
 	private void performCarCheckout(int offer, String firstName) throws Throwable {
-		screenshot("Launch");
-		LaunchScreen.launchCars();
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		String offerFilename;
+		String createFileName;
+		if (offer == CC_REQUIRED) {
+			offerFilename = "SearchCarOffer_CCRequired.json";
+			createFileName = "CarCreateTripResponse_CCRequired.json";
+		}
+		else if (offer == CC_NOT_REQUIRED) {
+			offerFilename = "SearchCarOffer_CCNotRequired.json";
+			createFileName = "CarCreateTripResponse_CCNotRequired.json";
+		}
+		else {
+			throw new RuntimeException("Car offer not valid");
+		}
+		SearchCarOffer searchCarOffer;
+		CarCreateTripResponse carCreateTripResponse;
+		Gson gson = CarServices.generateGson();
 
-		screenshot("Car Search");
-		CarViewModel.pickupLocation().perform(typeText("SFO"));
-		CarViewModel.selectPickupLocation(getInstrumentation(), "San Francisco, CA");
-		CarViewModel.selectDateButton().perform(click());
-		CarViewModel.selectDates(startDateTime.toLocalDate(), startDateTime.toLocalDate());
-		CarViewModel.searchButton().perform(click());
+		String offerStr = IoUtils.convertStreamToString(
+			getInstrumentation().getContext().getAssets().open(offerFilename));
+		String createStr = IoUtils.convertStreamToString(
+			getInstrumentation().getContext().getAssets().open(createFileName));
+		searchCarOffer = gson.fromJson(offerStr, SearchCarOffer.class);
+		carCreateTripResponse = gson.fromJson(createStr, CarCreateTripResponse.class);
+		if ("PriceChange".equals(firstName)) {
+			carCreateTripResponse.searchCarOffer = searchCarOffer;
+		}
+		Events.post(new Events.CarsShowCheckout(carCreateTripResponse));
 
-		screenshot("Car Results");
-		CarViewModel.selectCarCategory(CATEGORY);
-		screenshot("Car Details");
-		CarViewModel.selectCarOffer(offer);
 		screenshot("Car Checkout");
 		CarViewModel.travelerWidget().perform(click());
-		screenshot("Car Checkout - traveler details");
 		CarViewModel.firstName().perform(typeText(firstName));
 		CarViewModel.lastName().perform(typeText("Test"));
 		CarViewModel.email().perform(typeText(EMAIL));
 		CarViewModel.phoneNumber().perform(typeText("4151234567"));
-		screenshot("Car Checkout - traveler details entered");
+		screenshot("Car Checkout Traveler details entered");
 		CarViewModel.checkoutToolbarDone().perform(click());
 
 		if (offer == CC_REQUIRED) {
@@ -142,7 +165,7 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 			enterCVV("111");
 		}
 		else {
-			screenshot("Car Checkout - ready to purchase");
+			screenshot("Car Checkout ready to purchase");
 			ScreenActions.delay(1);
 			CheckoutViewModel.performSlideToPurchase();
 		}
@@ -150,14 +173,14 @@ public class CarCheckoutErrorTests extends PhoneTestCase {
 
 	private void enterCVV(String cvv) throws Throwable {
 		CVVEntryScreen.parseAndEnterCVV(cvv);
+		screenshot("Car CVV");
 		CVVEntryScreen.clickBookButton();
-		screenshot("Car_CVV");
 	}
 
 	private void enterPaymentInfoWithScreenshot() throws Throwable {
 		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
 		CheckoutViewModel.enterPaymentInfo();
-		screenshot("Car_Checkout_Payment_Entered");
+		screenshot("Car Checkout Payment Entered");
 		CheckoutViewModel.clickDone();
 	}
 

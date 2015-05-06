@@ -1,3 +1,9 @@
+Local
+=====
+
+* ExpediaBookings - Holds pure java code for the ExpediaBookings android app to use
+* mocked - Holds our mock data and MockWebServer implementations
+
 Submodule Links
 ===============
 
@@ -9,4 +15,3 @@ Submodule Links
  * [common](https://github.com/ExpediaInc/ewe-android-common)
  * [ExpediaSharedData](https://github.com/ExpediaInc/ewe-nativeapps-shared-data)
  * [FlightStatsDb](https://github.com/ExpediaInc/ewe-android-flight-stats-db)
- * [mocke3](https://github.com/ExpediaInc/ewe-mocke3)

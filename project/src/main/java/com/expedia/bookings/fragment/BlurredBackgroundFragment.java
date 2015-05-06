@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,7 +34,7 @@ public class BlurredBackgroundFragment extends Fragment {
 		mBackgroundBgView = Ui.findView(v, R.id.background_bg_view);
 		mBackgroundFgView = Ui.findView(v, R.id.background_fg_view);
 
-		loadBitmapFromCache(getActivity());
+		loadBitmapFromCache();
 
 		return v;
 	}
@@ -48,7 +47,7 @@ public class BlurredBackgroundFragment extends Fragment {
 		mBackgroundFgView = null;
 	}
 
-	public void loadBitmapFromCache(Context context) {
+	public void loadBitmapFromCache() {
 		if (getActivity() == null) {
 			return;
 		}

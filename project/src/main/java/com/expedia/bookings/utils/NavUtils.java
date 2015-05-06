@@ -23,6 +23,7 @@ import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.HotelSearchActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
+import com.expedia.bookings.activity.LXBaseActivity;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletLaunchActivity;
@@ -34,8 +35,11 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelBookingFragment;
+import com.expedia.bookings.services.CarServices;
+import com.google.gson.Gson;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
@@ -186,6 +190,34 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
+	public static void goToLocalExpert(Context context, Bundle animOptions) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, LXBaseActivity.class);
+		startActivity(context, intent, animOptions);
+	}
+
+	public static void goToLocalExpert(Context context, String location, String startDateStr, Bundle animOptions,
+		int flags) {
+
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent();
+
+		if (location != null) {
+			intent.putExtra("location", location);
+			intent.putExtra("startDateStr", startDateStr);
+			// Only used by phone search currently, but won't harm to put on tablet as well
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
+		}
+
+		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.putExtra(Codes.FROM_DEEPLINK, true);
+		}
+
+		Class<? extends Activity> routingTarget = LXBaseActivity.class;
+		intent.setClass(context, routingTarget);
+		startActivity(context, intent, animOptions);
+	}
+
 	public static void goToFlights(Context context) {
 		goToFlights(context, false, null);
 	}
@@ -228,6 +260,17 @@ public class NavUtils {
 	public static void goToCars(Context context, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, CarActivity.class);
+		startActivity(context, intent, animOptions);
+	}
+
+	public static void goToCars(Context context, Bundle animOptions, CarSearchParams searchParams) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, CarActivity.class);
+		if (searchParams != null) {
+			Gson gson = CarServices.generateGson();
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, gson.toJson(searchParams));
+		}
+
 		startActivity(context, intent, animOptions);
 	}
 

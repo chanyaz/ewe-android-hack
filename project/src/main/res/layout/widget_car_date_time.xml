@@ -101,7 +101,7 @@
 
     </RelativeLayout>
 
-    <com.expedia.bookings.widget.LinearLayout
+    <LinearLayout
         android:id="@+id/pickup_time_popup_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
         android:padding="1dp"
         android:visibility="gone">
 
-        <com.expedia.bookings.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/pickup_time_popup_text_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -143,7 +143,7 @@
                 android:text="pick up time"
                 android:textColor="@android:color/white"
                 android:textSize="10sp" />
-        </com.expedia.bookings.widget.LinearLayout>
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/pickup_time_popup_tail"
@@ -155,6 +155,6 @@
             android:src="@drawable/toolbar_arrow"
             android:tint="@color/cars_tooltip_color" />
 
-    </com.expedia.bookings.widget.LinearLayout>
+    </LinearLayout>
 
 </com.expedia.bookings.widget.CarDateTimeWidget>

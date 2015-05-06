@@ -5,7 +5,10 @@ import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.presenter.Presenter.Transition;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.CarConfirmationWidget;
 import com.squareup.otto.Subscribe;
@@ -47,11 +50,43 @@ public class CarPresenter extends Presenter {
 		carSearchPresenter.setVisibility(VISIBLE);
 	}
 
-	private Transition checkoutToConfirmation = new VisibilityTransition(this, CarCheckoutPresenter.class.getName(), CarConfirmationWidget.class.getName());
-	private Transition resultsToCheckout = new VisibilityTransition(this, CarResultsPresenter.class,
-		CarCheckoutPresenter.class);
-	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class,
-		CarSearchPresenter.class) {
+	private Transition checkoutToConfirmation = new VisibilityTransition(this, CarCheckoutPresenter.class, CarConfirmationWidget.class);
+
+	private Transition resultsToCheckout = new Transition(CarResultsPresenter.class, CarCheckoutPresenter.class) {
+		@Override
+		public void startTransition(boolean forward) {
+			carResultsPresenter.setTranslationX(forward ? 0 : -getWidth());
+			carResultsPresenter.setVisibility(VISIBLE);
+
+			carCheckoutPresenter.setTranslationX(forward ? getWidth() : 0);
+			carCheckoutPresenter.setVisibility(VISIBLE);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			float translationResults = forward ? -getWidth() * f : getWidth() * (f - 1);
+			carResultsPresenter.setTranslationX(translationResults);
+
+			float translationCheckout = forward ? -getWidth() * (f - 1) : getWidth() * f;
+			carCheckoutPresenter.setTranslationX(translationCheckout);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			carResultsPresenter.setVisibility(forward ? GONE : VISIBLE);
+			carResultsPresenter.setTranslationX(0);
+
+			carCheckoutPresenter.setVisibility(forward ? VISIBLE : GONE);
+			carCheckoutPresenter.setTranslationX(0);
+		}
+	};
+
+	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class, CarSearchPresenter.class) {
 		@Override
 		public void finalizeTransition(boolean forward) {
 			super.finalizeTransition(forward);
@@ -124,6 +159,8 @@ public class CarPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
+		Db.getTripBucket().clearCars();
+		Db.getTripBucket().add(new TripBucketItemCar(event.createTripResponse));
 		show(carCheckoutPresenter);
 	}
 

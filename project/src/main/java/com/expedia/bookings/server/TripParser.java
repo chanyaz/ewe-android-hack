@@ -298,7 +298,7 @@ public class TripParser {
 		return hotel;
 	}
 
-	private TripFlight parseTripFlight(JSONObject obj) {
+	public TripFlight parseTripFlight(JSONObject obj) {
 		TripFlight flight = new TripFlight();
 
 		parseTripCommon(obj, flight);
@@ -374,6 +374,7 @@ public class TripParser {
 				FlightCode flightCode = new FlightCode();
 				flightCode.mAirlineCode = segmentJson.optString("externalAirlineCode");
 				flightCode.mNumber = segmentJson.optString("flightNumber").trim();
+				flightCode.mAirlineName = segmentJson.optString("airlineName");
 				segment.addFlightCode(flightCode, Flight.F_PRIMARY_AIRLINE_CODE);
 
 				String operatedBy = segmentJson.optString("operatedByAirCarrierName", null);

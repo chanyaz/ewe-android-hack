@@ -21,7 +21,7 @@ public class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
 		out.value(value.getMillis() / 1000);
 
 		out.name("timeZoneOffsetSeconds");
-		out.value(value.getZone().getStandardOffset(0) / 1000);
+		out.value(value.withZone(DateTimeZone.UTC).getZone().getOffset(0) / 1000);
 
 		out.endObject();
 	}

@@ -47,7 +47,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
@@ -69,6 +68,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.content.AutocompleteProvider;
@@ -992,14 +992,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 		menu.findItem(R.id.menu_select_sort).setVisible(isListShowing);
 		menu.findItem(R.id.menu_select_search_map).setVisible(!isListShowing);
-
-		// Push actions into the overflow in landscape mode
-		int orientation = getWindowManager().getDefaultDisplay().getOrientation();
-		final boolean shouldShowMenuItems = orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180;
-		final int menuFlags = shouldShowMenuItems ? MenuItem.SHOW_AS_ACTION_ALWAYS : MenuItem.SHOW_AS_ACTION_NEVER;
-		menu.findItem(R.id.menu_select_sort).setShowAsActionFlags(menuFlags);
-		menu.findItem(R.id.menu_select_filter).setShowAsActionFlags(menuFlags);
-		menu.findItem(R.id.menu_select_search_map).setShowAsActionFlags(menuFlags);
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -2203,7 +2195,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// disable the hanging tag for speed purposes
 
 			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
-				if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
+				if (AndroidUtils.isEmulator() && BuildConfig.DEBUG) {
 					mProgressBar.setVisibility(View.GONE);
 				}
 				else {
@@ -2298,10 +2290,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			final int numChildren = searchParams.getNumChildren();
 			text = StrUtils.formatGuests(this, numAdults, numChildren);
 
-			int orientation = getWindowManager().getDefaultDisplay().getOrientation();
-			final int hidden = (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) ? View.GONE
-				: View.INVISIBLE;
-			mChildAgesLayout.setVisibility(numChildren == 0 ? hidden : View.VISIBLE);
 			mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
 				numChildren));
 

@@ -14,11 +14,21 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.BulletSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -28,6 +38,7 @@ import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
@@ -40,6 +51,9 @@ public class StrUtils {
 	private static final Pattern CITY_COUNTRY_PATTERN = Pattern.compile("^([^,]+,[^,]+(?= \\(.*\\)))");
 	// e.g. Kuantan, Malaysia (KUA-Sultan Haji Ahmad Shah) -> KUA-Sultan Haji Ahmad Shah
 	private static final Pattern AIRPORT_CODE_PATTERN = Pattern.compile("\\((.*?)\\)");
+	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco, CA, United States
+	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^((.+)(?= \\(.*\\)))");
+	public static final String HTML_TAGS_REGEX = "<[^>]*>";
 	/**
 	 * Formats the display of how many adults and children are picked currently.
 	 * This will display 0 adults or children.
@@ -370,6 +384,15 @@ public class StrUtils {
 		return city;
 	}
 
+	public static String formatCityStateCountryName(String suggestion) {
+		String displayName = suggestion;
+		Matcher displayNameMatcher = DISPLAY_NAME_PATTERN.matcher(displayName);
+		if (displayNameMatcher.find()) {
+			displayName = displayNameMatcher.group(1);
+		}
+		return displayName;
+	}
+
 	public static String formatAirport(Suggestion suggestion) {
 		String airportName = formatAirportName(suggestion.fullName);
 		if (!airportName.equals(suggestion.airportCode)) {
@@ -405,4 +428,56 @@ public class StrUtils {
 		return displayName;
 	}
 
+	public static SpannableStringBuilder generateLegalClickableLink(Context context, String rulesAndRestrictionsURL) {
+		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
+
+		String spannedRules = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			rulesAndRestrictionsURL, context.getResources().getString(R.string.rules_and_restrictions));
+		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
+			context.getResources().getString(R.string.info_label_terms_conditions));
+		String spannedPrivacy = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), context.getResources().getString(R.string.privacy_policy));
+		String statement = context.getResources()
+			.getString(R.string.legal_TEMPLATE, spannedRules, spannedTerms, spannedPrivacy);
+
+		legalTextSpan.append(Html.fromHtml(statement));
+		URLSpan[] spans = legalTextSpan.getSpans(0, statement.length(), URLSpan.class);
+
+		for (final URLSpan span : spans) {
+			int start = legalTextSpan.getSpanStart(span);
+			int end = legalTextSpan.getSpanEnd(span);
+			// Replace URL span with ClickableSpan to redirect to our own webview
+			legalTextSpan.removeSpan(span);
+			legalTextSpan.setSpan(new LegalClickableSpan(context, span.getURL(), legalTextSpan.subSequence(start, end).toString()), start,
+				end, 0);
+			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
+			legalTextSpan.setSpan(new UnderlineSpan(), start, end, 0);
+			legalTextSpan.setSpan(new ForegroundColorSpan(Ui.obtainThemeColor(context, R.attr.primary_color)), start,
+				end,
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
+
+		return legalTextSpan;
+	}
+
+	public static SpannableStringBuilder generateBulletedList(List<String> contentList) {
+		SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+		for (int i = 0; i < contentList.size(); i++) {
+			String content = stripHTMLTags(contentList.get(i));
+			if (i < contentList.size() - 1) {
+				content = content + "\n";
+			}
+			Spannable spannable = new SpannableString(content);
+			spannable.setSpan(new BulletSpan(20), 0, spannable.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+			spannableStringBuilder.append(spannable);
+		}
+		return spannableStringBuilder;
+
+	}
+
+	public static String stripHTMLTags(String htmlContent) {
+		return Html.fromHtml(htmlContent.replaceAll(HTML_TAGS_REGEX, "")).toString();
+	}
 }

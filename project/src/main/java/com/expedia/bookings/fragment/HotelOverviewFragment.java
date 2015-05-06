@@ -23,9 +23,12 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
@@ -44,6 +47,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.dialog.CouponDialogFragment;
@@ -71,7 +75,6 @@ import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelReceipt;
-import com.expedia.bookings.widget.LinearLayout;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.WalletButton;
@@ -124,10 +127,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private ScrollViewListener mScrollViewListener;
 
 	private HotelReceipt mHotelReceipt;
-	private LinearLayout mCheckoutLayout;
+	private FrameLayout mCheckoutLayout;
 
 	private AccountButton mAccountButton;
 	private WalletButton mWalletButton;
+	private LinearLayout mHintContainer;
+	private ImageView mCheckoutDivider;
 	private SectionTravelerInfo mTravelerSection;
 	private SectionBillingInfo mCreditCardSectionButton;
 	private SectionStoredCreditCard mStoredCreditCard;
@@ -234,6 +239,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		mAccountButton = Ui.findView(view, R.id.account_button_layout);
 		mWalletButton = Ui.findView(view, R.id.wallet_button_layout);
+		mHintContainer = Ui.findView(view, R.id.hint_container);
+		mCheckoutDivider = Ui.findView(view, R.id.checkout_divider);
 		mTravelerSection = Ui.findView(view, R.id.traveler_section);
 		mStoredCreditCard = Ui.findView(view, R.id.stored_creditcard_section_button);
 		mCreditCardSectionButton = Ui.findView(view, R.id.creditcard_section_button);
@@ -337,7 +344,15 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// We underline the coupon button text in code to avoid re-translating
 		mCouponButton.setPaintFlags(mCouponButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+		toggleOrMessaging(User.isLoggedIn(getActivity()));
+
 		return view;
+	}
+
+	private void toggleOrMessaging(boolean isSignedIn) {
+		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAddORToForm);
+		mHintContainer.setVisibility(isUserBucketedForTest && !isSignedIn ? View.VISIBLE : View.GONE);
+		mCheckoutDivider.setVisibility(isUserBucketedForTest && !isSignedIn ? View.GONE : View.VISIBLE);
 	}
 
 	@Override
@@ -643,7 +658,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mCheckoutDisclaimerTextView.setVisibility(View.GONE);
 		}
 
-		mSlideToPurchasePriceString = HotelUtils.getSlideToPurchaseString(getActivity(), property, rate);
+		mSlideToPurchasePriceString = HotelUtils.getSlideToPurchaseString(getActivity(), property, rate,
+			ExpediaBookingApp.useTabletInterface(getActivity()));
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
 		mHotelReceipt.bind(mIsDoneLoadingPriceChange, hotel);
@@ -1022,6 +1038,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mAccountButton.setEnabled(true);
 		mWasLoggedIn = false;
 
+		toggleOrMessaging(User.isLoggedIn(getActivity()));
+
 		Events.post(new Events.CreateTripDownloadRetry());
 	}
 
@@ -1050,6 +1068,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			updateViews();
 			updateViewVisibilities();
 		}
+		toggleOrMessaging(User.isLoggedIn(getActivity()));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1138,8 +1157,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	// Scroll Listener
 
 	private class ScrollViewListener extends GestureDetector.SimpleOnGestureListener implements OnScrollListener,
-			OnTouchListener, HotelReceipt.OnSizeChangedListener, LinearLayout.OnSizeChangedListener,
-			FrameLayout.OnSizeChangedListener {
+			OnTouchListener, HotelReceipt.OnSizeChangedListener, FrameLayout.OnSizeChangedListener {
 
 		private static final float FADE_RANGE = 100.0f;
 

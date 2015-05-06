@@ -9,11 +9,15 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -493,13 +497,41 @@ public class Ui extends com.mobiata.android.util.Ui {
 		v.setBackgroundColor(color);
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 
+		int toolbarSize = getToolbarSize(ctx);
+		viewGroup.setPadding(0, (int) toolbarSize + statusBarHeight, 0, 0);
+
+		return v;
+	}
+
+	public static int getToolbarSize(Context ctx) {
 		TypedValue typedValue = new TypedValue();
 		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
 		TypedArray a = ctx.obtainStyledAttributes(typedValue.data, textSizeAttr);
-		int toolbarSize = (int) a.getDimension(0, 44);
-		viewGroup.setPadding(0, toolbarSize + statusBarHeight, 0, 0);
+		return (int) a.getDimension(0, 44);
+	}
 
-		return v;
+	public static int toolbarSizeWithStatusBar(Context context) {
+		int toolbarSize = getToolbarSize(context);
+		int statusBarHeight = getStatusBarHeight(context);
+
+		return toolbarSize + statusBarHeight;
+	}
+
+	public static void setTextStyleBoldText(Spannable stringToSpan, int color, int startSpan, int endSpan) {
+		setTextStyle(stringToSpan, color, startSpan, endSpan, true);
+	}
+
+	public static void setTextStyleNormalText(Spannable stringToSpan, int color, int startSpan, int endSpan) {
+		setTextStyle(stringToSpan, color, startSpan, endSpan, false);
+	}
+
+	private static void setTextStyle(Spannable stringToSpan, int color, int startSpan, int endSpan, boolean isBold) {
+		stringToSpan.setSpan(new ForegroundColorSpan(color),
+			startSpan, endSpan,
+			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		if (isBold) {
+			stringToSpan.setSpan(new StyleSpan(Typeface.BOLD), startSpan, endSpan, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
 	}
 
 }

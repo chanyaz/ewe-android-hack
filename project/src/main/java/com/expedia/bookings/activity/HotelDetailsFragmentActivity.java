@@ -2,10 +2,7 @@ package com.expedia.bookings.activity;
 
 import org.joda.time.DateTime;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
@@ -18,7 +15,6 @@ import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -42,7 +38,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.AlphaImageView;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
 import com.expedia.bookings.widget.HotelDetailsScrollView.HotelDetailsMiniMapClickedListener;
 import com.expedia.bookings.widget.RecyclerGallery;
@@ -383,8 +378,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		if (scrollView != null) {
 			scrollView.setHotelDetailsMiniMapClickedListener(this);
 		}
-
-		initLandscapeGalleryLayout();
 	}
 
 	private void doOmnitureTracking() {
@@ -427,29 +420,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		}
 		else {
 			mBookByPhoneButton.setVisibility(View.GONE);
-		}
-	}
-
-	// Initialize the gallery if we're in landscape mode. The gallery should be scooched
-	// a little to the left to center it within the left 45% of the screen, and the
-	// price promo banner should take up the left 45% of the screen. "post" it to make
-	// sure that windowWidth is populated when this runs.
-	@TargetApi(11)
-	private void initLandscapeGalleryLayout() {
-		final View details = findViewById(R.id.hotel_details_landscape);
-		if (details != null) {
-			details.post(new Runnable() {
-				@Override
-				public void run() {
-					View gallery = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
-					View pricePromo = findViewById(R.id.hotel_details_price_promo_fragment_container);
-					int windowWidth = getWindow().getDecorView().getWidth();
-					gallery.setTranslationX(-windowWidth * 0.275f);
-					ViewGroup.LayoutParams lp = pricePromo.getLayoutParams();
-					lp.width = (int) (windowWidth * .45f) + 1;
-					pricePromo.setLayoutParams(lp);
-				}
-			});
 		}
 	}
 
@@ -544,79 +514,10 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			scrollView.toggleFullScreenGallery();
 			return;
 		}
-
-		View details = findViewById(R.id.hotel_details_landscape);
-		if (details != null) {
-			toggleFullScreenGalleryLandscape();
-		}
 	}
 
 	@Override
 	public void onGallerySwiped(int position) {
 		mGalleryFragment.toggleSwipeIndicators(position);
-	}
-
-	private void toggleFullScreenGalleryLandscape() {
-		// Do this if in landscape
-		final View detailsFragment = findViewById(R.id.hotel_details_landscape);
-		final View galleryFragment = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
-		final View pricePromoFragment = findViewById(R.id.hotel_details_price_promo_fragment_container);
-		final View pricePromoLayout = findViewById(R.id.price_and_promo_layout);
-		final AlphaImageView vipAccessIcon = (AlphaImageView) findViewById(R.id.vip_badge);
-		final int windowWidth = getWindow().getDecorView().getWidth();
-		final float rightSideWidth = windowWidth * .55f;
-
-		if (mGalleryToggleAnimator != null && mGalleryToggleAnimator.isRunning()) {
-			mGalleryToggleAnimator.cancel();
-		}
-		if (!isGalleryFullscreen) {
-			mGalleryToggleAnimator = new AnimatorSet();
-			mGalleryToggleAnimator.playTogether(
-				ObjectAnimator.ofFloat(detailsFragment, "translationX", windowWidth),
-				ObjectAnimator.ofFloat(galleryFragment, "translationX", 0.0f),
-				ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth, 0.0f),
-				ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth, 0.0f),
-				ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 255, 0)
-			);
-			mGalleryToggleAnimator.addListener(new AnimatorListenerAdapter() {
-				@TargetApi(11)
-				@Override
-				public void onAnimationStart(Animator arg0) {
-					ViewGroup.LayoutParams lp = pricePromoFragment.getLayoutParams();
-					lp.width = windowWidth;
-					pricePromoFragment.setLayoutParams(lp);
-
-					mPricePromoFragment.setVipIconEnabled(false);
-				}
-			});
-			mGalleryToggleAnimator.start();
-		}
-		else {
-			mGalleryToggleAnimator = new AnimatorSet();
-			mGalleryToggleAnimator.playTogether(
-				ObjectAnimator.ofFloat(detailsFragment, "translationX", 0.0f),
-				ObjectAnimator.ofFloat(galleryFragment, "translationX", -rightSideWidth / 2.0f),
-				ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth),
-				ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth),
-				ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 0, 255)
-			);
-			mGalleryToggleAnimator.addListener(new AnimatorListenerAdapter() {
-				@TargetApi(11)
-				@Override
-				public void onAnimationEnd(Animator arg0) {
-					ViewGroup.LayoutParams lp = pricePromoFragment.getLayoutParams();
-					lp.width = (int) (windowWidth * .45f) + 1;
-					pricePromoFragment.setLayoutParams(lp);
-
-					pricePromoLayout.setTranslationX(0f);
-					vipAccessIcon.setTranslationX(0f);
-
-					mPricePromoFragment.setVipIconEnabled(true);
-				}
-			});
-			mGalleryToggleAnimator.start();
-		}
-
-		isGalleryFullscreen = !isGalleryFullscreen;
 	}
 }

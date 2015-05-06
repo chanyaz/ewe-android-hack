@@ -67,7 +67,7 @@ locs = {
 }
 
 apk = pathToApk + 'project-expedia-debug-unaligned.apk'
-testApk = pathToApk + 'project-expedia-debug-test-unaligned.apk'
+testApk = pathToApk + 'project-expedia-debug-androidTest-unaligned.apk'
 
 os.system('adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X uninstall com.expedia.bookings.latest')
 os.system('adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X install {apkPath}'.format(apkPath=apk))

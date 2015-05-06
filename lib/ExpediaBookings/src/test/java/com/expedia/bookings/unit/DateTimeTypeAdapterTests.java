@@ -36,7 +36,8 @@ public class DateTimeTypeAdapterTests {
 		JSONObject json = new JSONObject(mGson.toJson(parsed));
 
 		assertEquals("1424453400", String.valueOf(json.getLong("epochSeconds")));
-		assertEquals("-18000", String.valueOf(json.getInt("timeZoneOffsetSeconds")));
+
+		assertEquals(DateTimeZone.UTC.getOffset(-18000), json.getInt("timeZoneOffsetSeconds"));
 	}
 
 	@Test

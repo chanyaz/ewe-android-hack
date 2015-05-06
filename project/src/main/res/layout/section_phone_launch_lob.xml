@@ -20,7 +20,7 @@
             android:layout_height="@dimen/launch_lob_height"
             android:background="@color/launch_lob_bg" />
 
-        <com.expedia.bookings.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/lob_btn_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                 app:btn_bg="@drawable/bg_lob_cars"
                 app:btn_icon="@drawable/lob_car"
                 app:btn_text="@string/nav_cars" />
-        </com.expedia.bookings.widget.LinearLayout>
+        </LinearLayout>
     </FrameLayout>
 
     <LinearLayout

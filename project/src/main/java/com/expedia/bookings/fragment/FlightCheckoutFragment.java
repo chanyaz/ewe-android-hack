@@ -184,8 +184,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mStoredCreditCard.setOnClickListener(gotoPaymentOptions);
 		mPaymentButton.setOnClickListener(gotoPaymentOptions);
 
-		buildTravelerBox();
-
 		return v;
 	}
 

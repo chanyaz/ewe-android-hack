@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.os.Process;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
@@ -26,7 +27,6 @@ import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airline;
@@ -61,12 +61,6 @@ public class Db {
 
 	// Launch hotel data - extracted from a HotelSearchResponse but cached as its own entity to keep data separate
 	private List<Hotel> mLaunchListHotelData;
-
-	private LaunchHotelData mLaunchHotelData;
-
-	private LaunchHotelFallbackData mLaunchHotelFallbackData;
-
-	private LaunchFlightData mLaunchFlightData;
 
 	// Hotel search object - represents both the parameters and
 	// the returned results
@@ -132,8 +126,16 @@ public class Db {
 	// To store the fullscreen average color for the ui
 	private int mFullscreenAverageColor = 0x66000000;
 
+	private String mGUID;
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
+	public static void setAbacusGuid(String guid) {
+		sDb.mGUID = guid;
+	}
+
+	public static String getAbacusGuid() {
+		return sDb.mGUID;
+	}
 
 	public static void setAbacusResponse(AbacusResponse abacusResponse) {
 		sDb.mAbacusResponse = abacusResponse;
@@ -149,30 +151,6 @@ public class Db {
 
 	public static List<Hotel> getLaunchListHotelData() {
 		return sDb.mLaunchListHotelData;
-	}
-
-	public static void setLaunchHotelData(LaunchHotelData launchHotelData) {
-		sDb.mLaunchHotelData = launchHotelData;
-	}
-
-	public static LaunchHotelData getLaunchHotelData() {
-		return sDb.mLaunchHotelData;
-	}
-
-	public static void setLaunchHotelFallbackData(LaunchHotelFallbackData launchHotelFallbackData) {
-		sDb.mLaunchHotelFallbackData = launchHotelFallbackData;
-	}
-
-	public static LaunchHotelFallbackData getLaunchHotelFallbackData() {
-		return sDb.mLaunchHotelFallbackData;
-	}
-
-	public static void setLaunchFlightData(LaunchFlightData launchFlightData) {
-		sDb.mLaunchFlightData = launchFlightData;
-	}
-
-	public static LaunchFlightData getLaunchFlightData() {
-		return sDb.mLaunchFlightData;
 	}
 
 	public static HotelSearch getHotelSearch() {
@@ -381,9 +359,7 @@ public class Db {
 		getHotelSearch().resetSearchParams();
 
 		sDb.mUser = null;
-		sDb.mLaunchHotelData = null;
-		sDb.mLaunchHotelFallbackData = null;
-		sDb.mLaunchFlightData = null;
+		sDb.mLaunchListHotelData = null;
 		sDb.mFlightRoutes = null;
 
 		sDb.mTripBucket.clear();
@@ -593,7 +569,7 @@ public class Db {
 			long searchTimestamp = SettingUtils.get(context, HOTEL_SEARCH_START_TIME, (long) 0);
 			if (bypassTimeout) {
 				Log.i("We don't care about hotel search timing out!!");
-				if (AndroidUtils.isRelease(context)) {
+				if (BuildConfig.RELEASE) {
 					throw new RuntimeException("Bypassing hotel search timeout with an RC. bad!");
 				}
 			}
@@ -939,6 +915,9 @@ public class Db {
 
 		File file = context.getFileStreamPath(SAVED_TRAVELER_DATA_FILE);
 		if (!file.exists()) {
+			List<Traveler> travelers = new ArrayList<Traveler>();
+			travelers.add(new Traveler());
+			Db.setTravelers(travelers);
 			return false;
 		}
 
@@ -1015,7 +994,7 @@ public class Db {
 
 	// Do not let people use these methods in non-debug builds
 	private static void safetyFirst(Context context) {
-		if (AndroidUtils.isRelease(context)) {
+		if (BuildConfig.RELEASE) {
 			throw new RuntimeException(
 				"This debug method should NEVER be called in a release build"
 					+ " (you should probably even remove it from the codebase)");

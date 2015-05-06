@@ -28,6 +28,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -52,7 +53,6 @@ import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
@@ -204,7 +204,7 @@ public class ItineraryManager implements JSONable {
 			for (ItinCardData data : mItinCardDatas) {
 				if (data instanceof ItinCardDataFlight) {
 					ItinCardDataFlight fData = (ItinCardDataFlight) data;
-					if (AndroidUtils.isRelease(mContext) || !SettingUtils.get(mContext,
+					if (BuildConfig.RELEASE || !SettingUtils.get(mContext,
 							mContext.getString(R.string.preference_push_notification_any_flight), false)) {
 						FlightLeg flightLeg = fData.getFlightLeg();
 						for (Flight segment : flightLeg.getSegments()) {
@@ -1243,7 +1243,7 @@ public class ItineraryManager implements JSONable {
 				Log.d(LOGGING_TAG, op.name() + ": " + mOpCount.get(op));
 			}
 
-			Log.i(LOGGING_TAG, "# Trips=" + mTrips.size() + "; # Added=" + mTripsAdded + "; # Removed=" + mTripsRemoved);
+			Log.i(LOGGING_TAG, "# Trips=" + (mTrips == null ? 0 : mTrips.size()) + "; # Added=" + mTripsAdded + "; # Removed=" + mTripsRemoved);
 			Log.i(LOGGING_TAG, "# Refreshed=" + mTripsRefreshed + "; # Failed Refresh=" + mTripRefreshFailures);
 			Log.i(LOGGING_TAG, "# Flights Updated=" + mFlightsUpdated);
 		}
@@ -1262,8 +1262,8 @@ public class ItineraryManager implements JSONable {
 						FlightLeg fl = flightTrip.getLeg(i);
 
 						for (Flight segment : fl.getSegments()) {
-							long takeOff = segment.getOriginWaypoint().getMostRelevantDateTime().getTimeInMillis();
-							long landing = segment.getArrivalWaypoint().getMostRelevantDateTime().getTimeInMillis();
+							long takeOff = segment.getOriginWaypoint().getMostRelevantDateTime().getMillis();
+							long landing = segment.getArrivalWaypoint().getMostRelevantDateTime().getMillis();
 							long timeToTakeOff = takeOff - now;
 							long timeSinceLastUpdate = now - segment.mLastUpdated;
 							if (segment.mFlightHistoryId == -1) {
@@ -1889,7 +1889,7 @@ public class ItineraryManager implements JSONable {
 				}
 			}
 
-			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(regId, siteId, userTuid,
+			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(mContext, regId, siteId, userTuid,
 					getItinFlights(false), getItinFlights(true));
 
 			Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());

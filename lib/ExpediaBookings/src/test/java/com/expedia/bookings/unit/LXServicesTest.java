@@ -1,15 +1,14 @@
 package com.expedia.bookings.unit;
 
 import java.io.File;
-import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXApiError;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
@@ -39,7 +38,7 @@ public class LXServicesTest {
 
 	@Test
 	public void testLXSearchResponse() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
@@ -106,14 +105,14 @@ public class LXServicesTest {
 
 	@Test
 	public void testDetailsResponse() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
 		BlockingObserver<ActivityDetailsResponse> blockingObserver = new BlockingObserver<>(1);
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		Subscription subscription = getLXServices().lxDetails(lxActivity, LocalDate.now(), LocalDate.now().plusDays(1), blockingObserver);
+		Subscription subscription = getLXServices().lxDetails(lxActivity, null, LocalDate.now(), LocalDate.now().plusDays(1), blockingObserver);
 		blockingObserver.await();
 		subscription.unsubscribe();
 		assertEquals(0, blockingObserver.getErrors().size());
@@ -131,7 +130,7 @@ public class LXServicesTest {
 
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		Subscription subscription = getLXServices().lxDetails(lxActivity, LocalDate.now(), LocalDate.now().plusDays(1), blockingObserver);
+		Subscription subscription = getLXServices().lxDetails(lxActivity, null, LocalDate.now(), LocalDate.now().plusDays(1), blockingObserver);
 
 		blockingObserver.await();
 		subscription.unsubscribe();
@@ -145,7 +144,7 @@ public class LXServicesTest {
 		mockServer.enqueue(new MockResponse().setBody("{Unexpected}"));
 		BlockingObserver<ActivityDetailsResponse> blockingObserver = new BlockingObserver<>(1);
 
-		Subscription subscription = getLXServices().lxDetails(new LXActivity(), null, null, blockingObserver);
+		Subscription subscription = getLXServices().lxDetails(new LXActivity(), null, null, null, blockingObserver);
 		blockingObserver.await();
 		subscription.unsubscribe();
 		assertEquals(1, blockingObserver.getErrors().size());
@@ -156,7 +155,7 @@ public class LXServicesTest {
 	// Checkout
 	@Test
 	public void testLXCheckoutResponse() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
@@ -193,7 +192,7 @@ public class LXServicesTest {
 
 	@Test
 	public void testCheckoutWithInvalidInput() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
@@ -207,20 +206,19 @@ public class LXServicesTest {
 		blockingObserver.await();
 		subscription.unsubscribe();
 
-		assertEquals(0, blockingObserver.getErrors().size());
-		assertEquals(1, blockingObserver.getItems().size());
-		List<LXApiError> errors = blockingObserver.getItems().get(0).errors;
-		assertEquals(2, errors.size());
-		for (LXApiError error : errors) {
-			assertEquals(LXApiError.Code.INVALID_INPUT, error.errorCode);
-			assertNotNull(error.errorInfo.field);
-			assertNotNull(error.errorInfo.summary);
-		}
+		assertEquals(1, blockingObserver.getErrors().size());
+		assertEquals(0, blockingObserver.getItems().size());
+
+		ApiError apiError = (ApiError) blockingObserver.getErrors().get(0);
+
+		assertEquals(ApiError.Code.INVALID_INPUT, apiError.errorCode);
+		assertNotNull(apiError.errorInfo.field);
+		assertNotNull(apiError.errorInfo.summary);
 	}
 
 	@Test
 	public void testCheckoutPaymentFailure() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
 
@@ -233,13 +231,13 @@ public class LXServicesTest {
 		blockingObserver.await();
 		subscription.unsubscribe();
 
-		assertEquals(0, blockingObserver.getErrors().size());
-		assertEquals(1, blockingObserver.getItems().size());
-		List<LXApiError> errors = blockingObserver.getItems().get(0).errors;
-		assertEquals(1, errors.size());
-		assertEquals(LXApiError.Code.PAYMENT_FAILED, errors.get(0).errorCode);
-		assertNotNull(errors.get(0).errorInfo.field);
-		assertNotNull(errors.get(0).errorInfo.summary);
+		assertEquals(1, blockingObserver.getErrors().size());
+		assertEquals(0, blockingObserver.getItems().size());
+
+		ApiError apiError = (ApiError) blockingObserver.getErrors().get(0);
+		assertEquals(ApiError.Code.PAYMENT_FAILED, apiError.errorCode);
+		assertNotNull(apiError.errorInfo.field);
+		assertNotNull(apiError.errorInfo.summary);
 	}
 
 	private LXCheckoutParams checkoutParams() {

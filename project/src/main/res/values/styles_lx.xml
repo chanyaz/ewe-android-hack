@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="V2.Theme.LX" parent="@style/Theme.AppCompat.Light">
+    <style name="V2.Theme.LX" parent="AppTheme.BaseLX"/>
+
+    <style name="AppTheme.BaseLX" parent="@style/Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
@@ -11,19 +13,22 @@
         <item name="checkout_slider_text">@string/lx_slider_text</item>
         <item name="toolbar_title_style">@style/LXToolbarTitleTextAppearance</item>
         <item name="android:textColorSecondary">@color/lx_actionbar_text_color</item>
-        <item name="android:colorPrimaryDark">#532C45</item>
+        <item name="android:colorPrimaryDark">#A8540D</item>
         <item name="android:colorButtonNormal">@color/lx_primary_color</item>
         <item name="colorControlNormal">#C3C3C3</item>
+        <item name="actionMenuTextColor">#FFFFFF</item>
         <item name="android:actionMenuTextColor">#FFFFFF</item>
+        <item name="colorAccent">@color/lx_primary_color</item>
+
 
         <!-- Required white label attr for login widget -->
         <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="skin_loginWithExpediaButtonText">@string/Log_in_with_Expedia</item>
+        <item name="skin_loginWithExpediaButtonText">@string/Sign_in_with_Expedia</item>
         <item name="skin_loginButtonColor">@android:color/black</item>
         <item name="skin_passwordHint">@string/expedia_password_hint</item>
         <item name="skin_loadingAccount">@string/loading_expedia_account</item>
-        <item name="skin_hotelCheckoutLoginButtonText">@string/Log_in_with_Expedia</item>
+        <item name="skin_hotelCheckoutLoginButtonText">@string/Sign_in_with_Expedia</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
@@ -38,6 +43,15 @@
 
         <item name="traveler_toolbar_text">@string/lx_traveler_details_text</item>
         <item name="traveler_details_text">@string/lx_traveler_enter_details_text</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/lx_traveler_checkout_circle</item>
+
+        <item name="card_list_image_container_height">@dimen/lx_search_list_image_container_height</item>
+        <item name="card_details_container_height">@dimen/lx_search_details_container_height</item>
+
+        <!-- Action Bar Attrs -->
+        <item name="skin_actionbarTextColor">@color/lx_actionbar_text_color</item>
+
+        <item name="checkout_unexpanded_space_height">@dimen/lx_unexpanded_space_height</item>
     </style>
 
     <style name="DateRadioButton" parent="V2.Theme.LX">
@@ -55,7 +69,7 @@
 
     <style name="LXAutocomplete" parent="V2.Theme.LX">
         <item name="android:background">@drawable/lx_autocomplete_background_selector</item>
-        <item name="android:layout_height">43dp</item>
+        <item name="android:layout_height">46dp</item>
         <item name="android:drawablePadding">12dp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">5dp</item>
@@ -72,17 +86,15 @@
 
     <style name="LXToolbarTitleTextAppearance" parent="V2.Theme.LX">
         <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
     <style name="LXToolbarSubtitleTextAppearance" parent="V2.Theme.LX">
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">#FFFFFF</item>
-    </style>
-
-    <style name="LXSearchToolbarTitleTextAppearance" parent="V2.Theme.LX">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/lx_actionbar_text_color</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="LXCardView" parent="V2.Theme.LX">
@@ -111,4 +123,29 @@
         <item name="android:paddingLeft">20dp</item>
         <item name="android:paddingRight">20dp</item>
     </style>
+
+    <style name="LXBookingButton" parent="V2.Theme.LX">   
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:background">@drawable/itin_button</item>
+        <item name="android:textColor">@color/lx_confirmation_action_text_color</item>     
+        <item name="android:textSize">15sp</item>     
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>     
+        <item name="android:drawablePadding">12dp</item>
+    </style>
+
+    <style name="LXRobotoFont">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="LXFilterTitleTextAppearance" parent="V2.Theme.LX">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/lx_sort_filter_top_bar_text_color</item>
+    </style>
+
 </resources>

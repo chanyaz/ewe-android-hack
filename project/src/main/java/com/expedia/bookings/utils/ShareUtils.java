@@ -1,8 +1,6 @@
 package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -289,11 +287,10 @@ public class ShareUtils {
 
 	public String getFlightShareSubject(FlightLeg firstLeg, FlightLeg lastLeg, int travelerCount, boolean isShared, String travelerName) {
 		String destinationCity = StrUtils.getWaypointCityOrCode(firstLeg.getLastWaypoint());
-
-		long start = DateTimeUtils.getTimeInLocalTimeZone(firstLeg.getFirstWaypoint().getMostRelevantDateTime())
-				.getTime();
-		long end = DateTimeUtils.getTimeInLocalTimeZone(
-				lastLeg.getLastWaypoint().getMostRelevantDateTime()).getTime();
+		DateTime first = firstLeg.getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+		DateTime last = lastLeg.getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+		long start = first.getMillis();
+		long end = last.getMillis();
 		String dateRange = DateUtils.formatDateRange(mContext, start, end, DateUtils.FORMAT_NUMERIC_DATE
 				| DateUtils.FORMAT_SHOW_DATE);
 
@@ -318,22 +315,22 @@ public class ShareUtils {
 		}
 
 		String destinationCity = leg.getLastWaypoint().getAirport().mCity;
-		Calendar departureCal = leg.getFirstWaypoint().getBestSearchDateTime();
-		Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(departureCal);
+		DateTime departureCal = leg.getFirstWaypoint().getBestSearchDateTime();
+		DateTime departureDate = departureCal.toLocalDateTime().toDateTime();
 
 		String shareText = "";
 
 		if (Locale.US.equals(Locale.getDefault())) {
 			if (!isShared) {
 				String template = mContext.getString(R.string.share_msg_template_short_flight);
-				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
+				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getMillis(),
 						DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
 				shareText = String.format(template, destinationCity, departureDateStr, shareableDetailsURL);
 			}
 			else {
 				// This is a reshare, hence append the primaryTraveler's FirstName to the share message.
 				String template = mContext.getString(R.string.share_msg_template_short_flight_reshare);
-				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
+				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getMillis(),
 						DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
 				shareText = String.format(template, travelerFirstName, destinationCity, departureDateStr,
 						shareableDetailsURL);
@@ -824,19 +821,20 @@ public class ShareUtils {
 			sb.append(mContext.getString(R.string.path_template, formatAirport(flight.getOriginWaypoint().getAirport()),
 					formatAirport(flight.getDestinationWaypoint().getAirport())));
 			sb.append("\n");
-			Date start = DateTimeUtils.getTimeInLocalTimeZone(flight.getOriginWaypoint().getBestSearchDateTime());
-			sb.append(DateUtils.formatDateTime(mContext, start.getTime(), DateUtils.FORMAT_SHOW_DATE
+			DateTime start = flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime();
+			sb.append(DateUtils.formatDateTime(mContext, start.getMillis(), DateUtils.FORMAT_SHOW_DATE
 					| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY));
 			sb.append("\n");
-			Date end = DateTimeUtils.getTimeInLocalTimeZone(flight.getDestinationWaypoint().getBestSearchDateTime());
+			DateTime end = flight.getDestinationWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime();
+
 			String departureTzString = FormatUtils.formatTimeZone(flightLeg.getFirstWaypoint().getAirport(), start,
 					MAX_TIMEZONE_LENGTH);
 			String arrivalTzString = FormatUtils.formatTimeZone(flightLeg.getLastWaypoint().getAirport(), end,
 					MAX_TIMEZONE_LENGTH);
-			sb.append(DateUtils.formatDateTime(mContext, start.getTime(), DateUtils.FORMAT_SHOW_TIME) + " "
+			sb.append(DateUtils.formatDateTime(mContext, start.getMillis(), DateUtils.FORMAT_SHOW_TIME) + " "
 					+ departureTzString);
 			sb.append(" - ");
-			sb.append(DateUtils.formatDateTime(mContext, end.getTime(), DateUtils.FORMAT_SHOW_TIME) + " "
+			sb.append(DateUtils.formatDateTime(mContext, end.getMillis(), DateUtils.FORMAT_SHOW_TIME) + " "
 					+ arrivalTzString);
 			sb.append("\n");
 			sb.append(FormatUtils.formatFlightNumber(flight, mContext));

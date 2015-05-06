@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.component.lx;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.junit.Before;
@@ -23,8 +23,10 @@ import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.utils.DateUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -64,15 +66,15 @@ public class LXCheckoutPresenterTests {
 
 		//Select Offer
 		Offer lxOffer = gson.fromJson("{\"id\": \"183619\", \"title\": \"2-Day New York Pass\", \"description\": \"\", \"currencySymbol\": \"$\", \"currencyDisplayedLeft\": true, \"freeCancellation\": true, \"duration\": \"2d\", \"discountPercentage\": null, \"directionality\": \"\", \"availabilityInfo\": [{\"availabilities\": {\"displayDate\": \"Tue, Feb 24\", \"valueDate\": \"2015-02-24 07:30:00\", \"allDayActivity\": false }, \"tickets\": [{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }, {\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"displayName\": null, \"defaultTicketCount\": 0 } ] } ], \"direction\": null }", Offer.class);
-		Map<Ticket, Integer> selectedTickets = new LinkedHashMap<>();
-		Ticket adultTicket = gson.fromJson("{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }", Ticket.class);
-		Ticket childTicket = gson.fromJson("{\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"displayName\": null, \"defaultTicketCount\": 0 }", Ticket.class);
+		List<Ticket> selectedTickets = new ArrayList<>();
+		Ticket adultTicket = gson.fromJson("{\"code\": \"Adult\",\"count\": \"3\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }", Ticket.class);
+		Ticket childTicket = gson.fromJson("{\"code\": \"Child\",\"count\": \"1\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"displayName\": null, \"defaultTicketCount\": 0 }", Ticket.class);
 
 		adultTicket.money = new Money(adultTicket.amount, "USD");
 		childTicket.money = new Money(childTicket.amount, "USD");
 
-		selectedTickets.put(adultTicket, 3);
-		selectedTickets.put(childTicket, 1);
+		selectedTickets.add(adultTicket);
+		selectedTickets.add(childTicket);
 		lxOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
 
 		Events.post(new Events.LXOfferBooked(lxOffer, selectedTickets));
@@ -86,11 +88,12 @@ public class LXCheckoutPresenterTests {
 
 	@Test
 	public void testVisibilitiesAndOfferDetailsOnCheckout() {
+		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		LXViewModel.checkoutWidget().check(matches(isDisplayed()));
 		LXViewModel.checkoutOfferTitle().check(matches(withText("2-Day New York Pass")));
-		LXViewModel.checkoutGroupText().check(matches(withText("3 Adult, 1 Child")));
+		LXViewModel.checkoutGroupText().check(matches(withText("3 Adults, 1 Child")));
 		LXViewModel.checkoutOfferLocation().check(matches(withText("New York, United States")));
-		LXViewModel.checkoutOfferDate().check(matches(withText("2015-02-24 07:30:00")));
+		LXViewModel.checkoutOfferDate().check(matches(withText("Tue, Feb 24")));
 		LXViewModel.checkoutGrandTotalText().check(matches(withText("Total with Tax")));
 		LXViewModel.checkoutPriceText().check(matches(withText("$500")));
 		LXViewModel.checkoutFreeCancellationText().check(matches(withText("Free Cancellation")));
@@ -103,8 +106,11 @@ public class LXCheckoutPresenterTests {
 
 	@Test
 	public void testSliderVisibility() {
+		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
+		ScreenActions.delay(1);
 		LXViewModel.checkoutSlideToPurchase().check(matches(not(isDisplayed())));
 		CheckoutViewModel.enterTravelerInfo();
+		ScreenActions.delay(1);
 		LXViewModel.checkoutSlideToPurchase().check(matches(not(isDisplayed())));
 		CheckoutViewModel.enterPaymentInfo();
 		CheckoutViewModel.clickDone();

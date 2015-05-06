@@ -539,7 +539,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			mAccountButton.setVisibility(View.VISIBLE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
 			if (mToolbarListener != null) {
-				mToolbarListener.setActionBarTitle(getResources().getString(R.string.already_logged_in));
+				mToolbarListener.setActionBarTitle(getResources().getString(R.string.already_signed_in));
 				if (animate) {
 					mToolbarListener.onWidgetClosed();
 				}
@@ -590,7 +590,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			mAccountButton.setVisibility(View.GONE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
 			if (mToolbarListener != null) {
-				mToolbarListener.setActionBarTitle(getResources().getString(R.string.Log_In));
+				mToolbarListener.setActionBarTitle(getResources().getString(R.string.Sign_In));
 			}
 			toggleLoginButtons(false, animate);
 			break;
@@ -621,7 +621,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			mAccountButton.setVisibility(View.GONE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
 			if (mToolbarListener != null) {
-				mToolbarListener.setActionBarTitle(getResources().getString(R.string.Log_In));
+				mToolbarListener.setActionBarTitle(getResources().getString(R.string.Sign_In));
 			}
 			toggleLoginButtons(true, animate);
 			break;
@@ -969,7 +969,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 	private void initiateLoginWithExpedia() {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (!bd.isDownloading(NET_MANUAL_LOGIN)) {
-			setLoadingText(R.string.logging_in);
+			setLoadingText(R.string.signing_in);
 			setIsLoading(true);
 			bd.startDownload(NET_MANUAL_LOGIN, mManualLoginDownload, mManualLoginCallback);
 		}
@@ -1009,12 +1009,12 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			if (response == null || response.hasErrors()) {
 				if (hasResetError(response)) {
 					mExpediaPassword.setText("");
-					setStatusText(R.string.login_reset_password, false);
+					setStatusText(R.string.sign_in_reset_password, false);
 					return;
 				}
 
 				mExpediaPassword.setText("");
-				setStatusText(R.string.login_failed_try_again, false);
+				setStatusText(R.string.sign_in_failed_try_again, false);
 				trackLoginError(response);
 			}
 			else {
@@ -1042,7 +1042,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 				Log.e("fbState invalid");
 			}
 
-			setLoadingText(R.string.attempting_to_log_in_with_facebook);
+			setLoadingText(R.string.attempting_to_sign_in_with_facebook);
 			ExpediaServices services = new ExpediaServices(getContext());
 			return services.facebookAutoLogin(mFbUserId, fbSession.getAccessToken());
 		}
@@ -1061,7 +1061,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 				return null;
 			}
 
-			setLoadingText(R.string.attempting_to_log_in_with_facebook);
+			setLoadingText(R.string.attempting_to_sign_in_with_facebook);
 			ExpediaServices services = new ExpediaServices(getContext());
 			return services.facebookLinkNewUser(mFbUserId, fbSession.getAccessToken(), mFbUserEmail);
 		}
@@ -1161,7 +1161,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 					}
 				}
 				else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.loginFailed) == 0) {
-					setStatusText(R.string.login_failed_try_again, false);
+					setStatusText(R.string.sign_in_failed_try_again, false);
 					clearPasswordField();
 					setIsLoading(false);
 				}
@@ -1204,7 +1204,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 				errorMessage = "Unknown error";
 			}
 		}
-		OmnitureTracking.trackAppCarCheckoutLoginError(getContext(), errorMessage);
+		OmnitureTracking.trackCheckoutLoginError(mLob, getContext(), errorMessage);
 	}
 
 	private final OnDownloadComplete<SignInResponse> mLoginHandler = new OnDownloadComplete<SignInResponse>() {
@@ -1261,7 +1261,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		else if (session == null || state == null || exception != null
 			|| state.equals(SessionState.CLOSED)
 			|| state.equals(SessionState.CLOSED_LOGIN_FAILED)) {
-			setStatusText(R.string.unable_to_log_into_facebook, false);
+			setStatusText(R.string.unable_to_sign_into_facebook, false);
 			goBack();
 		}
 		else if (session.isOpened()) {
@@ -1300,7 +1300,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 				}
 				else {
 					Log.d("FB: executeMeRequestAsync response - user == null || response.getError() != null");
-					setStatusText(R.string.unable_to_log_into_facebook, false);
+					setStatusText(R.string.unable_to_sign_into_facebook, false);
 					setIsLoading(false);
 				}
 			}
@@ -1325,7 +1325,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 
 		setIsLoading(true);
 		setLoadingText(R.string.fetching_facebook_info);
-		setStatusText(R.string.Log_in_with_Facebook, true);
+		setStatusText(R.string.Sign_in_with_Facebook, true);
 
 		// start Facebook Login
 		Session currentSession = Session.getActiveSession();
@@ -1409,7 +1409,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			clearLoginFields();
 			mExpediaUserName.requestFocus();
 			Ui.showKeyboard(mExpediaUserName, null);
-			OmnitureTracking.trackAppCarLoginPage(getContext());
+			OmnitureTracking.trackLoginPage(mLob, getContext());
+
 		}
 		if (mToolbarListener != null) {
 			mToolbarListener.setActionBarTitle(getActionBarTitle());
@@ -1451,7 +1452,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 
 	@Override
 	public String getActionBarTitle() {
-		return getResources().getString(R.string.Log_In);
+		return getResources().getString(R.string.Sign_In);
 	}
 
 	@Override

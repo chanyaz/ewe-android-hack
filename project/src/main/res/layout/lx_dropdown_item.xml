@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="@drawable/spinner_ripple"
     android:paddingBottom="10dp"
     android:paddingTop="10dp">
 
@@ -21,5 +21,16 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/lx_dropdown_imageView"
         android:paddingLeft="5dp"
-        android:textColor="@color/lx_secondary_color"/>
+        android:textColor="@color/lx_primary_color"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/city_name_textView"
+        android:paddingLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/lx_primary_color"
+        android:textSize="12sp"
+        android:layout_alignLeft="@+id/display_name_textView"
+        android:layout_below="@+id/display_name_textView"/>
+
 </RelativeLayout>

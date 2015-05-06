@@ -38,7 +38,6 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
-import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
@@ -134,7 +133,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mEmptyListLoadingContainer = Ui.findView(view, R.id.empty_list_loading_container);
 		mEmptyListContent = Ui.findView(view, R.id.empty_list_content);
 		mLoginButton = Ui.findView(view, R.id.login_button);
-		mLoginButton.setText(Html.fromHtml(getString(R.string.log_in_for_your_trips)));
+		mLoginButton.setText(Html.fromHtml(getString(R.string.sign_in_for_your_trips)));
 		mNoTripsRefreshButton = Ui.findView(view, R.id.no_trips_refresh_button);
 		mNoTripsTryAgainButton = Ui.findView(view, R.id.no_trips_try_again_button);
 		mErrorTv = Ui.findView(view, R.id.no_trips_error_message);
@@ -343,7 +342,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			Db.loadUser(getActivity());
 		}
 		String email = Db.getUser().getPrimaryTraveler().getEmail();
-		String logoutMessage = getResources().getString(R.string.itin_logout_confirmation_message_TEMPLATE, email);
+		String logoutMessage = getResources().getString(R.string.itin_sign_out_confirmation_message_TEMPLATE, email);
 		LoginConfirmLogoutDialogFragment df = LoginConfirmLogoutDialogFragment.getInstance(logoutMessage);
 		df.show(getFragmentManager(), LoginConfirmLogoutDialogFragment.TAG);
 	}
@@ -382,7 +381,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			@Override
 			public void onSignOutComplete() {
 				syncItinManager(true, false);
-				LeanPlumUtils.updateLoggedInStatus();
+				AdTracker.trackLogout();
 			}
 		});
 

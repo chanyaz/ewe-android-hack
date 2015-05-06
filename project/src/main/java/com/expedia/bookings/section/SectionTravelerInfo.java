@@ -16,6 +16,8 @@ import android.support.v4.app.FragmentActivity;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
@@ -841,13 +843,18 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		protected void onHasFieldAndData(TextView field, Traveler data) {
 			String btnTxt = "";
+			Spannable stringToSpan = null;
 			if (data.getBirthDate() != null) {
 				String formatStr = mContext.getString(R.string.born_on_colored_TEMPLATE);
 				String bdayStr = JodaUtils.formatLocalDate(mContext, data.getBirthDate(),
 					DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
 				btnTxt = String.format(formatStr, bdayStr);
+				stringToSpan = new SpannableString(btnTxt);
+				int color = mContext.getResources().getColor(R.color.checkout_traveler_birth_color);
+				Ui.setTextStyleNormalText(stringToSpan, color, 0, btnTxt.indexOf(bdayStr));
+
 			}
-			field.setText(Html.fromHtml(btnTxt));
+			field.setText(stringToSpan != null ? stringToSpan : btnTxt);
 		}
 
 		Validator<TextView> mValidator = new Validator<TextView>() {

@@ -24,6 +24,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -31,7 +32,6 @@ import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -334,7 +334,7 @@ public class WebViewFragment extends DialogFragment {
 			@Override
 			public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 				// Ignore
-				if (!AndroidUtils.isRelease(getActivity())) {
+				if (BuildConfig.DEBUG) {
 					Log.d("WebViewFragment: Got an SSL certificate error (primary: " + error.getPrimaryError()
 						+ "), but we're going to proceed anyways because this is a debug build.  URL=" + mUrl);
 

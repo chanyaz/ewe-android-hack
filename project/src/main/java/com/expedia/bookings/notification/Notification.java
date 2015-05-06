@@ -106,6 +106,7 @@ public class Notification extends Model implements JSONable {
 		R.drawable.ic_stat_car,
 		R.drawable.ic_stat_hotel,
 		R.drawable.bg_itin_placeholder_flight,
+		R.drawable.ic_itin_ready,
 	};
 
 	@Column(name = "UniqueId")

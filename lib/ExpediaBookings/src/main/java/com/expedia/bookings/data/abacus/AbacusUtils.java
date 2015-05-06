@@ -1,21 +1,29 @@
 package com.expedia.bookings.data.abacus;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AbacusUtils {
 
 	/**
 	 * ACTIVE KEYS
 	 * <p/>
 	 * When new tests need to be added just add a new key to this class
-	 * Then call isUserBucketedForTest(String key) to check if the user is
+	 * Then call isUserBucketedForTest(int key) to check if the user is
 	 * participating in the AB Test.
 	 */
-	public static final String EBAndroidAATest = "ExpediaAndroidAppAATest";
-	public static final String EBAndroidETPTest = "ExpediaAndroidAppETPDefaultNow";
-	public static final String EBAndroidAppHISBookAboveFoldTest = "EBAndroidAppHISBookAboveFold";
-	public static final String EBAndroidAppHISFreeCancellationTest = "EBAndroidAppHISFreeCancellation";
-	public static final String EBAndroidAppHISSwipablePhotosTest = "ExpediaAndroidAppSwipablePhotos";
-	public static final String EBAndroidAppFlightCKOFreeCancelationTest = "ExpediaAndroidAppFlightCKOFreeCancelation";
-	public static final String EBAndroidAppHSearchInfluenceMessagingTest = "ExpediaAndroidAppHSRLoadMessaging";
+
+	public static final int EBAndroidAATest = 6714;
+	public static final int EBAndroidETPTest = 6800;
+	public static final int EBAndroidAppHISBookAboveFoldTest = 6815;
+	public static final int EBAndroidAppHISFreeCancellationTest = 6801;
+	public static final int EBAndroidAppHISSwipablePhotosTest = 7021;
+	public static final int EBAndroidAppFlightCKOFreeCancelationTest = 7005;
+	public static final int EBAndroidAppHSearchInfluenceMessagingTest = 7017;
+	public static final int EBAndroidAppLaunchScreenTest = 7369;
+	public static final int EBAndroidAppAddORToForm = 7372;
+	public static final int EBAndroidAppSRPercentRecommend = 7373;
+	public static final int EBAndroidAppFlightConfCarsXsell = 7370;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -30,11 +38,6 @@ public class AbacusUtils {
 		SELECT_ROOM_ABOVE_FOLD
 	}
 
-	public static enum HISFreeCancellationVariate {
-		CONTROL,
-		BUCKETED
-	}
-
 	public static enum HSearchInfluenceMessagingVariate {
 		CONTROL,
 		WORKING_HARD,
@@ -42,33 +45,43 @@ public class AbacusUtils {
 		NO_TEXT
 	}
 
-	// Used for tracking when a user doesn't get bucketed(If the Abacus server is down/slow)
-	public static String experimentIDForKey(String key) {
-		if (key.equals(EBAndroidAATest)) {
-			return "6714";
-		}
-		else if (key.equals(EBAndroidETPTest)) {
-			return "6800";
-		}
-		else if (key.equals(EBAndroidAppHISBookAboveFoldTest)) {
-			return "6815";
-		}
-		else if (key.equals(EBAndroidAppHISFreeCancellationTest)) {
-			return "6801";
-		}
-		else if (key.equals(EBAndroidAppHISSwipablePhotosTest)) {
-			return "7021";
-		}
-		else if (key.equals(EBAndroidAppFlightCKOFreeCancelationTest)) {
-			return "7005";
-		}
-		else if (key.equals(EBAndroidAppHSearchInfluenceMessagingTest)) {
-			return "7017";
-		}
-		else {
-			return "0";
-		}
+	// Test ID's that we are bucketing the user for.
+	public static List<Integer> getActiveTests() {
+		List<Integer> testIDs = new ArrayList<>();
+		testIDs.add(EBAndroidAATest);
+		testIDs.add(EBAndroidETPTest);
+		testIDs.add(EBAndroidAppHISBookAboveFoldTest);
+		testIDs.add(EBAndroidAppHISFreeCancellationTest);
+		testIDs.add(EBAndroidAppHISSwipablePhotosTest);
+		testIDs.add(EBAndroidAppFlightCKOFreeCancelationTest);
+		testIDs.add(EBAndroidAppHSearchInfluenceMessagingTest);
+		testIDs.add(EBAndroidAppLaunchScreenTest);
+		testIDs.add(EBAndroidAppAddORToForm);
+		testIDs.add(EBAndroidAppSRPercentRecommend);
+		testIDs.add(EBAndroidAppFlightConfCarsXsell);
+		return testIDs;
 	}
 
+	public static String getAnalyticsString(AbacusTest test) {
+		String analyticsString;
+		if (test == null) {
+			analyticsString = "";
+		}
+		else {
+			// User is bucketed and the test is live, log ex: 7143.23456.1
+			analyticsString = String.format("%s.%s.%s", test.id, test.instanceId, test.value);
+		}
+
+		return analyticsString;
+	}
+
+	public static String appendString(String key) {
+		if (key == null || key.length() == 0) {
+			return "";
+		}
+		else {
+			return String.format("%s|", key);
+		}
+	}
 
 }

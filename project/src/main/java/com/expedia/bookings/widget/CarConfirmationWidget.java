@@ -206,7 +206,7 @@ public class CarConfirmationWidget extends FrameLayout {
 		}
 
 		// Add guest itin to itin manager
-		if (Db.getBillingInfo() != null && !User.isLoggedIn(getContext())) {
+		if (!User.isLoggedIn(getContext())) {
 			String email = builder.getEmailAddress();
 			String tripId = response.newTrip.itineraryNumber;
 			ItineraryManager.getInstance().addGuestTrip(email, tripId);

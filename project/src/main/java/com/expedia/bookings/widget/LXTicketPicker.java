@@ -2,14 +2,17 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LXDataUtils;
+import com.expedia.bookings.utils.Strings;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,13 +27,12 @@ public class LXTicketPicker extends LinearLayout {
 	TextView ticketCount;
 
 	@InjectView(R.id.ticket_add)
-	Button ticketAdd;
+	ImageButton ticketAdd;
 
 	@InjectView(R.id.ticket_remove)
-	Button ticketRemove;
+	ImageButton ticketRemove;
 
 	private Ticket ticket;
-	private int count;
 	private String offerId;
 
 	private static final int MIN_TICKET_COUNT = 0;
@@ -39,14 +41,14 @@ public class LXTicketPicker extends LinearLayout {
 	@OnClick(R.id.ticket_add)
 	public void onAddTicket() {
 		trackAddOrRemove("Add.");
-		count++;
+		ticket.count++;
 		setTicketCount();
 	}
 
 	@OnClick(R.id.ticket_remove)
 	public void onRemoveTicket() {
 		trackAddOrRemove("Remove.");
-		count--;
+		ticket.count--;
 		setTicketCount();
 	}
 
@@ -68,29 +70,41 @@ public class LXTicketPicker extends LinearLayout {
 		ButterKnife.inject(this);
 	}
 
-	public void bind(Ticket ticket, String offerId) {
+	public void bind(Ticket ticket, String offerId, int defaultCount) {
 		this.ticket = ticket;
 		this.offerId = offerId;
-		String ticketDetailsText = String
-			.format(getResources().getString(R.string.ticket_details_template), ticket.money.getFormattedMoney(),
-				getResources().getString(LXDataUtils.LX_TICKET_TYPE_NAME_MAP.get(ticket.code)), ticket.restrictionText);
+		String ticketDetailsText = null;
+		if (Strings.isNotEmpty(ticket.restrictionText)) {
+			ticketDetailsText = String
+				.format(getResources().getString(R.string.ticket_details_template), ticket.money.getFormattedMoney(
+						Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
+					LXDataUtils.ticketDisplayName(getContext(), ticket.code), ticket.restrictionText);
+		}
+		else {
+			ticketDetailsText = String
+				.format(getResources().getString(R.string.ticket_details_no_restriction_TEMPLATE),
+					ticket.money.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
+					LXDataUtils.ticketDisplayName(getContext(), ticket.code));
+		}
 		ticketDetails.setText(ticketDetailsText);
+		ticket.count = defaultCount;
+
 		setTicketCount();
 	}
 
 	private void setTicketCount() {
-		ticketCount.setText(String.valueOf(count));
+		ticketCount.setText(String.valueOf(ticket.count));
 		// Enable or disable add and remove option for ticket
-		if (count == MIN_TICKET_COUNT) {
+		if (ticket.count == MIN_TICKET_COUNT) {
 			ticketRemove.setEnabled(false);
 		}
-		else if (count == MAX_TICKET_COUNT) {
+		else if (ticket.count == MAX_TICKET_COUNT) {
 			ticketAdd.setEnabled(false);
 		}
 		else {
 			ticketAdd.setEnabled(true);
 			ticketRemove.setEnabled(true);
 		}
-		Events.post(new Events.LXTicketCountChanged(ticket, count, offerId));
+		Events.post(new Events.LXTicketCountChanged(ticket, offerId));
 	}
 }

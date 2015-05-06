@@ -121,6 +121,9 @@ public class PointOfSale {
 	// Whether to show cars on this POS
 	private boolean mSupportsCars;
 
+	// Whether to show activities on this POS
+	private boolean mSupportsLx;
+
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
 
@@ -141,9 +144,6 @@ public class PointOfSale {
 
 	// Does this POS have the VIP Access program?
 	private boolean mSupportsVipAccess;
-
-	// Does this POS support AirAttach pricing?
-	private boolean mShouldShowAirAttach;
 
 	// Does this POS support loyalty rewards?
 	private boolean mShouldShowRewards;
@@ -342,6 +342,10 @@ public class PointOfSale {
 		return mSupportsCars;
 	}
 
+	public boolean supportsLx() {
+		return mSupportsLx;
+	}
+
 	public boolean supportsStrikethroughPrice() {
 		return mShowHalfTileStrikethroughPrice;
 	}
@@ -446,11 +450,6 @@ public class PointOfSale {
 
 	public boolean supportsVipAccess() {
 		return mSupportsVipAccess;
-	}
-
-	public boolean shouldShowAirAttach() {
-		// Show Air Attach on all POS that allow hotel cross-sell
-		return mShowHotelCrossSell;
 	}
 
 	public boolean shouldShowRewards() {
@@ -817,12 +816,12 @@ public class PointOfSale {
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
 		pos.mSupportsGDE = data.optBoolean("gdeFlightsEnabled");
 		pos.mSupportsCars = data.optBoolean("carsEnabled");
+		pos.mSupportsLx = data.optBoolean("lxEnabled");
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
 		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);
-		pos.mShouldShowAirAttach = data.optBoolean("shouldShowAirAttach", false);
 		pos.mShouldShowRewards = data.optBoolean("shouldShowRewards", false);
 		pos.mShouldShowFTCResortRegulations = data.optBoolean("shouldShowFTCResortRegulations", false);
 		pos.mDisableForProduction = data.optBoolean("disableForProduction", false);

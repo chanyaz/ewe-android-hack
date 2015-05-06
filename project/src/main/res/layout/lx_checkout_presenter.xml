@@ -6,18 +6,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.LXConfirmationWidget
-        android:id="@+id/confirmation"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/lx_confirmation_background"
-        android:visibility="gone"/>
-
     <com.expedia.bookings.widget.CVVEntryWidget
         android:id="@+id/cvv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#3A424C"
         android:visibility="gone" />
+
+    <com.expedia.bookings.widget.LXErrorWidget
+        android:id="@+id/lx_checkout_error_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </merge>

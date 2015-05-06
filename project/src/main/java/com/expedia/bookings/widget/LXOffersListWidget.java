@@ -67,9 +67,12 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 			showMoreContainer.setVisibility(VISIBLE);
 			showMoreWithCountWidget.setCount(String.valueOf(availableOffers.size() - offersListInitialMaxCount));
 		}
+		else {
+			showMoreContainer.setVisibility(GONE);
+		}
 	}
 
-	@OnClick((R.id.show_more_widget))
+	@OnClick((R.id.offer_show_more_container))
 	public void onShowMoreClicked() {
 		for (int position = offersListInitialMaxCount; position < availableOffers.size(); position++) {
 			View offerRow = adapter.getView(position, null, this);

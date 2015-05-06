@@ -4,7 +4,6 @@ import android.content.Context;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -20,7 +19,6 @@ import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.SettingUtils;
 
 public class ClearPrivateDataUtil {
 	public static void clear(Context context) {
@@ -74,7 +72,6 @@ public class ClearPrivateDataUtil {
 		CookieManager.getInstance().removeAllCookie();
 
 		// Clear itin button dismissals
-		SettingUtils.remove(context, R.string.setting_hide_hotel_attach);
 		DismissedItinButton.clear();
 
 		// Clear image caches, why not
@@ -98,5 +95,9 @@ public class ClearPrivateDataUtil {
 
 		// Clear anything else out that might remain
 		Db.clear();
+
+		// Clear LX and cars suggestions history
+		SuggestionUtils.deleteCachedSuggestions(context);
+
 	}
 }

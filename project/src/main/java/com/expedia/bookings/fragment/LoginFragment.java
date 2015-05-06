@@ -719,7 +719,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mAccountButton.setVisibility(View.VISIBLE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
-			mTitleSetter.setActionBarTitle(getResources().getString(R.string.already_logged_in));
+			mTitleSetter.setActionBarTitle(getResources().getString(R.string.already_signed_in));
 			break;
 		case FACEBOOK_LINK:
 			setStatusTextVisibility(View.VISIBLE);
@@ -752,7 +752,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mAccountButton.setVisibility(View.GONE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
-			mTitleSetter.setActionBarTitle(getResources().getString(R.string.Log_In));
+			mTitleSetter.setActionBarTitle(getResources().getString(R.string.Sign_In));
 			toggleLoginButtons(false, animate);
 			break;
 		case EXPEDIA_WTIH_FB_BUTTON:
@@ -765,7 +765,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
 			mAccountButton.setVisibility(View.GONE);
-			mTitleSetter.setActionBarTitle(getResources().getString(R.string.Log_In));
+			mTitleSetter.setActionBarTitle(getResources().getString(R.string.Sign_In));
 			toggleLoginButtons(true, animate);
 			break;
 		}
@@ -1137,7 +1137,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	private void initiateLoginWithExpedia() {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (!bd.isDownloading(NET_MANUAL_LOGIN)) {
-			setLoadingText(R.string.logging_in);
+			setLoadingText(R.string.signing_in);
 			setIsLoading(true);
 			bd.startDownload(NET_MANUAL_LOGIN, mManualLoginDownload, mManualLoginCallback);
 		}
@@ -1177,12 +1177,12 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			if (response == null || response.hasErrors()) {
 				if (hasResetError(response)) {
 					mExpediaPassword.setText("");
-					setStatusText(R.string.login_reset_password, false);
+					setStatusText(R.string.sign_in_reset_password, false);
 					return;
 				}
 
 				mExpediaPassword.setText("");
-				setStatusText(R.string.login_failed_try_again, false);
+				setStatusText(R.string.sign_in_failed_try_again, false);
 			}
 			else {
 				User user = response.getUser();
@@ -1211,7 +1211,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				Log.e("fbState invalid");
 			}
 
-			setLoadingText(R.string.attempting_to_log_in_with_facebook);
+			setLoadingText(R.string.attempting_to_sign_in_with_facebook);
 			ExpediaServices services = new ExpediaServices(getActivity());
 			return services.facebookAutoLogin(mFbUserId, fbSession.getAccessToken());
 		}
@@ -1230,7 +1230,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				return null;
 			}
 
-			setLoadingText(R.string.attempting_to_log_in_with_facebook);
+			setLoadingText(R.string.attempting_to_sign_in_with_facebook);
 			ExpediaServices services = new ExpediaServices(getActivity());
 			return services.facebookLinkNewUser(mFbUserId, fbSession.getAccessToken(), mFbUserEmail);
 		}
@@ -1329,7 +1329,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 					}
 				}
 				else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.loginFailed) == 0) {
-					setStatusText(R.string.login_failed_try_again, false);
+					setStatusText(R.string.sign_in_failed_try_again, false);
 					clearPasswordField();
 					setIsLoading(false);
 				}
@@ -1414,7 +1414,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		else if (session == null || state == null || exception != null
 				|| state.equals(SessionState.CLOSED)
 				|| state.equals(SessionState.CLOSED_LOGIN_FAILED)) {
-			setStatusText(R.string.unable_to_log_into_facebook, false);
+			setStatusText(R.string.unable_to_sign_into_facebook, false);
 			goBack();
 		}
 		else if (session.isOpened()) {
@@ -1452,7 +1452,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				}
 				else {
 					Log.d("FB: executeMeRequestAsync response - user == null || response.getError() != null");
-					setStatusText(R.string.unable_to_log_into_facebook, false);
+					setStatusText(R.string.unable_to_sign_into_facebook, false);
 					setIsLoading(false);
 				}
 			}
@@ -1476,7 +1476,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 		setIsLoading(true);
 		setLoadingText(R.string.fetching_facebook_info);
-		setStatusText(R.string.Log_in_with_Facebook, true);
+		setStatusText(R.string.Sign_in_with_Facebook, true);
 
 		// start Facebook Login
 		Session currentSession = Session.getActiveSession();

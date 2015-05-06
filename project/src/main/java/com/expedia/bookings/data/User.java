@@ -23,8 +23,8 @@ import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.tracking.AdTracker;
 import com.facebook.Session;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
@@ -202,8 +202,7 @@ public class User implements JSONable {
 		performSignOutCleanupActions(context);
 		logger.addSplit("performSignOutCleanupActions");
 
-		LeanPlumUtils.updateLoggedInStatus();
-		logger.addSplit("updateLoggedInStatusLeanplum");
+		AdTracker.trackLogout();
 
 		logger.dumpToLog();
 	}
@@ -625,11 +624,14 @@ public class User implements JSONable {
 	 * @return
 	 */
 	public static Traveler.LoyaltyMembershipTier getLoggedInLoyaltyMembershipTier(Context context) {
-		if (User.isLoggedIn(context)
-			&& Db.getUser() != null
-			&& Db.getUser().getPrimaryTraveler() != null) {
+		if (User.isLoggedIn(context)) {
 
-			return Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier();
+			if (Db.getUser() == null) {
+				Db.loadUser(context);
+			}
+			if (Db.getUser().getPrimaryTraveler() != null) {
+				return Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier();
+			}
 		}
 
 		return Traveler.LoyaltyMembershipTier.NONE;
