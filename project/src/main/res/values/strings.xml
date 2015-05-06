@@ -2706,8 +2706,6 @@
     <string name="taxes_and_fees">Taxes &amp; Fees</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Included</string>
-    <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">Fees Paid to Hotel</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Discount</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
