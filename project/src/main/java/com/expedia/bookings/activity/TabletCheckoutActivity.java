@@ -125,6 +125,9 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 	public void onPause() {
 		super.onPause();
 		OmnitureTracking.onPause();
+		if (isFinishing()) {
+			clearCCNumber();
+		}
 	}
 
 	@Override
@@ -219,6 +222,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 		switch (item.getItemId()) {
 		case android.R.id.home: {
 			onBackPressed();
+			clearCCNumber();
 			return true;
 		}
 		}
@@ -335,6 +339,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 	@Override
 	public void onBackPressed() {
 		if (!mBackManager.doOnBackPressed()) {
+			clearCCNumber();
 			super.onBackPressed();
 		}
 	}
@@ -412,4 +417,13 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 		// ignore
 	}
 
+	private void clearCCNumber() {
+		try {
+			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setNumber(null);
+			Db.getBillingInfo().setNumber(null);
+		}
+		catch (Exception ex) {
+			Log.e("Error clearing billingInfo card number", ex);
+		}
+	}
 }

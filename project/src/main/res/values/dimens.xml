@@ -195,6 +195,7 @@
     <dimen name="login_bottom_room_spacing">6dp</dimen>
 
     <!-- Account / Login button -->
+    <dimen name="account_button_height">40dp</dimen>
     <dimen name="account_button_margin_top">12dp</dimen>
     <dimen name="account_button_padding">0dp</dimen>
     <dimen name="wallet_button_bottom_margin">8dp</dimen>
@@ -273,6 +274,8 @@
 
     <!-- Car Details -->
     <dimen name="car_details_image_size">240dp</dimen>
+
+    <dimen name="cars_checkout_cost_summary_min_height">270dp</dimen>
 
     <!-- Car Confirmation Slide to reserve -->
     <dimen name="car_slide_to_purchase_price_text_size">13dp</dimen>

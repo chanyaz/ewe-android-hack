@@ -54,18 +54,19 @@ public class LxSearchResultsTestCases extends LxTestCase {
 		//loop through each and every tile of the result and validate that we have correct data on every tile
 		int currentCounter = 1;
 		for (LXActivity activity : mActivities) {
+			String expectedTitle = Strings.escapeQuotes(activity.title);
 			LXSearchResultsPageModel.resultList().perform(RecyclerViewActions.scrollToPosition(currentCounter));
 			if (Strings.isEmpty(activity.duration)) {
-				LXSearchResultsPageModel.getTile(activity.title).check(matches(
+				LXSearchResultsPageModel.getTile(expectedTitle).check(matches(
 					hasDescendant((isEmpty()))));
 			}
 			else {
-				LXSearchResultsPageModel.getTile(activity.title).check(matches(
+				LXSearchResultsPageModel.getTile(expectedTitle).check(matches(
 					hasDescendant(withText(containsString(activity.duration)))));
 			}
-			LXSearchResultsPageModel.getTile(activity.title).check(matches(
+			LXSearchResultsPageModel.getTile(expectedTitle).check(matches(
 				hasDescendant(withText(containsString(activity.price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))))));
-			LXSearchResultsPageModel.getTile(activity.title).check(matches(
+			LXSearchResultsPageModel.getTile(expectedTitle).check(matches(
 				hasDescendant(withText(containsString(activity.fromPriceTicketCode.toString().toLowerCase())))));
 			currentCounter++;
 		}

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_container"
-    android:background="#eaeaea">
+    android:background="#eaeaea"
+    android:foreground="?android:attr/selectableItemBackground" >
 
         <LinearLayout
             android:id="@+id/root"
@@ -141,12 +142,21 @@
                     android:paddingRight="4dp" />
             </RelativeLayout>
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/map_view"
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                app:liteMode="true"
-                app:mapType="normal" />
+            <com.expedia.bookings.widget.FrameLayout
+                android:id="@+id/map_click_container"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground">
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    app:liteMode="true"
+                    app:mapType="normal" />
+
+            </com.expedia.bookings.widget.FrameLayout>
 
             <TextView
                 android:id="@+id/map_text"
