@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -17,12 +18,16 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
@@ -44,7 +49,7 @@ public class PaymentWidget extends ExpandableCardView {
 	ViewGroup billingInfoContainer;
 
 	@InjectView(R.id.section_billing_info)
-	SectionBillingInfo sectionBillingInfo;
+	public SectionBillingInfo sectionBillingInfo;
 
 	@InjectView(R.id.section_location_address)
 	SectionLocation sectionLocation;
@@ -82,7 +87,15 @@ public class PaymentWidget extends ExpandableCardView {
 	@InjectView(R.id.stored_card_name)
 	TextView storedCardName;
 
+	@InjectView(R.id.invalid_payment_container)
+	ViewGroup invalidPaymentContainer;
+
+	@InjectView(R.id.invalid_payment_text)
+	TextView invalidPaymentText;
+
 	private boolean isCreditCardRequired = false;
+
+	private LineOfBusiness lineOfBusiness;
 
 	public void setCreditCardRequired(boolean required) {
 		isCreditCardRequired = required;
@@ -133,11 +146,14 @@ public class PaymentWidget extends ExpandableCardView {
 				InvalidCharacterHelper.showInvalidCharacterPopup(activity.getSupportFragmentManager(), mode);
 			}
 		});
+		sectionBillingInfo.addChangeListener(mValidFormsOfPaymentListener);
 	}
 
 	public void setLineOfBusiness(LineOfBusiness lineOfBusiness) {
+		this.lineOfBusiness = lineOfBusiness;
 		sectionBillingInfo.setLineOfBusiness(lineOfBusiness);
 		sectionLocation.setLineOfBusiness(lineOfBusiness);
+		paymentButton.setLineOfBusiness(lineOfBusiness);
 	}
 
 	public void bind() {
@@ -243,7 +259,8 @@ public class PaymentWidget extends ExpandableCardView {
 			}
 			bind();
 			paymentButton.bind();
-			OmnitureTracking.trackAppCarCheckoutPayment(getContext());
+			mValidFormsOfPaymentListener.onChange();
+			OmnitureTracking.trackCheckoutPayment(lineOfBusiness, getContext());
 		}
 		else {
 			cardInfoContainer.setVisibility(VISIBLE);
@@ -334,5 +351,38 @@ public class PaymentWidget extends ExpandableCardView {
 
 		return CreditCardType.UNKNOWN;
 	}
+
+	final ISectionEditable.SectionChangeListener mValidFormsOfPaymentListener = new ISectionEditable.SectionChangeListener() {
+		@Override
+		public void onChange() {
+			if (sectionBillingInfo == null || sectionBillingInfo.getBillingInfo() == null) {
+				return;
+			}
+			CreditCardType cardType = sectionBillingInfo.getBillingInfo().getCardType();
+			TripBucketItem tripItem = Db.getTripBucket().getItem(lineOfBusiness);
+			if (cardType != null && tripItem != null) {
+				if (!tripItem.isCardTypeSupported(cardType)) {
+					String cardName = CreditCardUtils.getHumanReadableName(getContext(), cardType);
+					String message = null;
+					if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
+						message = getResources().getString(R.string.car_does_not_accept_cardtype_TEMPLATE,
+							((TripBucketItemCar)tripItem).mCarTripResponse.carProduct.vendor.name, cardName);
+					}
+					else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
+						message = getResources().getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName);
+					}
+					invalidPaymentText.setText(message);
+					invalidPaymentContainer.setVisibility(VISIBLE);
+				}
+				else {
+					invalidPaymentContainer.setVisibility(GONE);
+				}
+			}
+			else {
+				invalidPaymentContainer.setVisibility(GONE);
+			}
+		}
+	};
+
 
 }

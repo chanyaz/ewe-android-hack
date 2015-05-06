@@ -1,11 +1,13 @@
 package com.expedia.bookings.test.robolectric;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -28,16 +30,16 @@ public class LXStateTestUtil {
 		Offer lxOffer = gson.fromJson(
 			"{\"id\": \"183619\", \"title\": \"2-Day New York Pass\", \"description\": \"\", \"currencySymbol\": \"$\", \"currencyDisplayedLeft\": true, \"freeCancellation\": true, \"duration\": \"2d\", \"discountPercentage\": null, \"directionality\": \"\", \"availabilityInfo\": [{\"availabilities\": {\"displayDate\": \"Tue, Feb 24\", \"valueDate\": \"2015-02-24 07:30:00\", \"allDayActivity\": false }, \"tickets\": [{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }, {\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"displayName\": null, \"defaultTicketCount\": 0 } ] } ], \"direction\": null }",
 			Offer.class);
-		Map<Ticket, Integer> selectedTickets = new LinkedHashMap<>();
+		List<Ticket> selectedTickets = new ArrayList<>();
 		Ticket adultTicket = gson.fromJson(
-			"{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }",
+			"{\"code\": \"Adult\", \"count\": \"3\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }",
 			Ticket.class);
 		Ticket childTicket = gson.fromJson(
-			"{\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"displayName\": null, \"defaultTicketCount\": 0 }",
+			"{\"code\": \"Child\", \"count\": \"1\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"displayName\": null, \"defaultTicketCount\": 0 }",
 			Ticket.class);
-		selectedTickets.put(adultTicket, 3);
-		selectedTickets.put(childTicket, 1);
-		for (Ticket ticket : selectedTickets.keySet()) {
+		selectedTickets.add(adultTicket);
+		selectedTickets.add(childTicket);
+		for (Ticket ticket : selectedTickets) {
 			ticket.money = new Money(ticket.amount, "USD");
 		}
 		lxOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
@@ -45,9 +47,23 @@ public class LXStateTestUtil {
 	}
 
 	public static void checkoutSuccessState() {
+
+		LXCheckoutParams checkoutParams = new LXCheckoutParams()
+			.email("coolguy@expedia.com");
+		Events.post(new Events.LXKickOffCheckoutCall(checkoutParams));
+
 		LXCheckoutResponse checkoutResponse = gson.fromJson(
 			"{\"activityId\": \"9afe3fd5-13d7-4d57-924f-b377683af928\", \"currencyCode\": \"USD\", \"newTrip\": { \"itineraryNumber\": \"7666328719\", \"travelRecordLocator\": \"15251504\", \"tripId\": \"f9a4aea0-8756-47b7-aa7d-586d5b454184\" }, \"orderId\": \"000000\", \"totalCharges\": \"64.07\", \"totalChargesPrice\": { \"amount\": \"64.07\", \"formattedPrice\": \"$64.07\", \"formattedWholePrice\": \"$64\" }}",
 			LXCheckoutResponse.class);
 		Events.post(new Events.LXCheckoutSucceeded(checkoutResponse));
 	}
+
+	public static void searchParamsState() {
+		LXSearchParams searchParams = new LXSearchParams();
+		searchParams.location = "New York";
+		searchParams.startDate = DateUtils.yyyyMMddToLocalDate("2015-03-25");
+		searchParams.endDate = DateUtils.yyyyMMddToLocalDate("2015-04-08");
+		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
+	}
+
 }

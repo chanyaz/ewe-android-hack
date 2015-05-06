@@ -56,8 +56,8 @@ public class AddToCalendarUtils {
 		intent.setData(CalendarContract.Events.CONTENT_URI);
 		intent.putExtra(CalendarContract.Events.TITLE, context.getString(R.string.calendar_flight_title_TEMPLATE,
 			origin.mAirportCode, destination.mAirportCode));
-		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, origin.getMostRelevantDateTime().getTimeInMillis());
-		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, destination.getMostRelevantDateTime().getTimeInMillis());
+		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, origin.getMostRelevantDateTime().getMillis());
+		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, destination.getMostRelevantDateTime().getMillis());
 		intent.putExtra(
 			CalendarContract.Events.EVENT_LOCATION,
 			context.getString(R.string.calendar_flight_location_TEMPLATE, originAirport.mName,

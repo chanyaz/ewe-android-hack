@@ -26,11 +26,11 @@ public class CheckoutViewModel {
 	}
 
 	public static void clickDriverInfo() {
-		driverInfo().perform(click());
+		driverInfo().perform(scrollTo(), click());
 	}
 
 	public static void clickPaymentInfo() {
-		onView(withId(R.id.payment_info_card_view)).perform(click());
+		onView(withId(R.id.payment_info_card_view)).perform(scrollTo(), click());
 	}
 
 	public static ViewInteraction userName() {
@@ -138,7 +138,9 @@ public class CheckoutViewModel {
 	}
 
 	public static void enterTravelerInfo() {
+		ScreenActions.delay(1);
 		clickDriverInfo();
+		ScreenActions.delay(1);
 		enterFirstName("FiveStar");
 		enterLastName("Bear");
 		Common.closeSoftKeyboard(CheckoutViewModel.lastName());
@@ -151,8 +153,9 @@ public class CheckoutViewModel {
 	}
 
 	public static void enterPaymentInfo() {
+		ScreenActions.delay(1);
 		CheckoutViewModel.clickPaymentInfo();
-
+		ScreenActions.delay(1);
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		//Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		CardInfoScreen.clickOnExpirationDateButton();

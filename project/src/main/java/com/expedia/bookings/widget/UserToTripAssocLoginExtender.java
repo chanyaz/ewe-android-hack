@@ -57,7 +57,7 @@ public class UserToTripAssocLoginExtender extends LoginExtender {
 			bd.registerDownloadCallback(NET_ASSOCIATE_USER_TO_TRIP, mAssociateUserAndTripCompleteHandler);
 		}
 
-		setExtenderStatus(mContext.getString(R.string.logging_in));
+		setExtenderStatus(mContext.getString(R.string.signing_in));
 
 	}
 

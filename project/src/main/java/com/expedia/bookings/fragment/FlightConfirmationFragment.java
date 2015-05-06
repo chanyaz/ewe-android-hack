@@ -27,11 +27,14 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
+import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -162,6 +165,22 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 			Ui.findView(v, R.id.get_a_room_divider).setVisibility(View.GONE);
 		}
 
+		boolean isUserBucketedForTest = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightConfCarsXsell);
+		if (PointOfSale.getPointOfSale().supportsCars() && isUserBucketedForTest) {
+			Ui.setText(v, R.id.get_a_room_text_view, getString(R.string.add_to_your_trip));
+			Ui.findView(v, R.id.car_divider).setVisibility(View.VISIBLE);
+			Ui.findView(v, R.id.cars_action_text_view).setVisibility(View.VISIBLE);
+			Ui.setText(v, R.id.cars_action_text_view, getString(R.string.cars_in_TEMPLATE, destinationCity));
+			Ui.setOnClickListener(v, R.id.cars_action_text_view, new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					searchForCars();
+					OmnitureTracking.trackAddCarClick(getActivity());
+				}
+			});
+		}
+
 		Ui.setOnClickListener(v, R.id.share_action_text_view, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -241,6 +260,14 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	private void searchForHotels() {
 		HotelSearchParams sp = HotelSearchParams.fromFlightParams(Db.getTripBucket().getFlight());
 		NavUtils.goToHotels(getActivity(), sp);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Search for cars
+
+	private void searchForCars() {
+		CarSearchParams sp = CarDataUtils.fromFlightParams(Db.getTripBucket().getFlight().getFlightTrip());
+		NavUtils.goToCars(getActivity(), null, sp);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

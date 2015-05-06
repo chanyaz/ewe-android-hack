@@ -26,6 +26,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 
@@ -136,7 +137,6 @@ public class CarDateTimeWidget extends RelativeLayout implements
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
 		Events.register(this);
-		buildParams(calendar.getStartDate(), calendar.getEndDate());
 	}
 
 	@Override
@@ -181,6 +181,11 @@ public class CarDateTimeWidget extends RelativeLayout implements
 
 	@Override
 	public void onDateSelectionChanged(final LocalDate start, final LocalDate end) {
+
+		if (start == null) {
+			return;
+		}
+
 		// Logic to change the time slider value when user selects current date
 		DateTime now = DateTime.now();
 		if (start.equals(LocalDate.now()) && now.getHourOfDay() >= 8) {

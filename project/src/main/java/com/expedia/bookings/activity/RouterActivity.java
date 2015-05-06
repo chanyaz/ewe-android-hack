@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -47,6 +48,9 @@ public class RouterActivity extends Activity {
 		// Track the app loading
 		OmnitureTracking.trackAppLoading(mContext);
 		AdTracker.trackLaunch(mContext);
+
+		// We want to try to start loading data (but it may not be finished syncing before someone tries to use it).
+		ItineraryManager.getInstance().startSync(false);
 
 		//Hi Facebook!
 		facebookInstallTracking();

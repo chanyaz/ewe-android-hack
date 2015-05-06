@@ -20,6 +20,10 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 		mNextLeg = nextLeg;
 	}
 
+	public String getTripId() {
+		return mTripFlight.getParentTrip().getTripId();
+	}
+
 	public FlightLeg getFlightLeg() {
 		return mFirstLeg;
 	}

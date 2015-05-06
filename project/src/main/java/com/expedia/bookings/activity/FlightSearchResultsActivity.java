@@ -891,7 +891,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 				handleErrors(response);
 			}
 			else {
-				mBgFragment.loadBitmapFromCache(FlightSearchResultsActivity.this);
+				mBgFragment.loadBitmapFromCache();
 
 				if (response.getTripCount() == 0) {
 					showNoFlights(null);

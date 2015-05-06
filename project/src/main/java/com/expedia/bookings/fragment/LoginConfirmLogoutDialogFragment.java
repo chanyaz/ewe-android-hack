@@ -55,7 +55,7 @@ public class LoginConfirmLogoutDialogFragment extends DialogFragment {
 
 		builder.setMessage(messageText);
 		builder.setCancelable(false);
-		builder.setPositiveButton(R.string.log_out, new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(R.string.sign_out, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				if (mListener != null) {

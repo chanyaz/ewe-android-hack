@@ -7,6 +7,9 @@ import org.junit.runner.RunWith;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelFilter;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
+
 @RunWith(RobolectricSubmoduleTestRunner.class)
 public class HotelFilterTest {
 
@@ -26,16 +29,16 @@ public class HotelFilterTest {
 
 		left.setHotelName("A");
 		Assert.assertNull(right.getHotelName());
-		Assert.assertNotEquals(left, right);
+		Assert.assertThat(left, not(equalTo(right)));
 
 		right.setHotelName("B");
-		Assert.assertNotEquals(left, right);
+		Assert.assertThat(left, not(equalTo(right)));
 
 		right.setHotelName("A");
-		Assert.assertEquals(left, right);
+		Assert.assertThat(left, equalTo(right));
 
 		left.setHotelName(null);
-		Assert.assertNotEquals(left, right);
+		Assert.assertThat(left, not(equalTo(right)));
 	}
 
 	@Test
@@ -46,7 +49,7 @@ public class HotelFilterTest {
 		// SearchRadius
 		left.setSearchRadius(HotelFilter.SearchRadius.SMALL);
 		right.setSearchRadius(HotelFilter.SearchRadius.LARGE);
-		Assert.assertNotEquals(left, right);
+		Assert.assertThat(left, not(equalTo(right)));
 
 		right.setSearchRadius(HotelFilter.SearchRadius.SMALL);
 		Assert.assertEquals(left, right);
@@ -54,7 +57,7 @@ public class HotelFilterTest {
 		// Distance Unit
 		left.setDistanceUnit(DistanceUnit.KILOMETERS);
 		right.setDistanceUnit(DistanceUnit.MILES);
-		Assert.assertNotEquals(left, right);
+		Assert.assertThat(left, not(equalTo(right)));
 
 		right.setDistanceUnit(DistanceUnit.KILOMETERS);
 		Assert.assertEquals(left, right);

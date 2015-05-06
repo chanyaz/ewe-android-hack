@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -17,12 +18,11 @@ import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Settings;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileOpener;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
-
-import static com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils.getCurrentActivity;
 
 public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	public EspressoTestCase() {
@@ -44,8 +44,8 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	protected String mLanguage;
 	protected String mCountry;
 
+	@Override
 	public void runTest() throws Throwable {
-
 		Settings.clearPrivateData(getInstrumentation());
 
 		// Get server value from config file deployed in devices,
@@ -72,6 +72,9 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 		mRes = getInstrumentation().getTargetContext().getResources();
 
 		// Espresso will not launch our activity for us, we must launch it via getActivity().
+		Intent clearingIntent = new Intent();
+		clearingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		setActivityIntent(clearingIntent);
 		getActivity();
 
 		try {
@@ -88,6 +91,22 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			}
 			throw t;
 		}
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		if (mMockWebServer != null) {
+			mMockWebServer.shutdown();
+			mMockWebServer = null;
+		}
+
+		getApplication().setLXTestComponent(null);
+
+		super.tearDown();
+	}
+
+	public ExpediaBookingApp getApplication() {
+		return Ui.getApplication(getInstrumentation().getTargetContext());
 	}
 
 	// Returns the test class element by looking at the method InstrumentationTestCase invokes.
@@ -124,7 +143,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	}
 
 	public void rotateScreen() throws Throwable {
-		Activity currentActivity = getCurrentActivity(getInstrumentation());
+		Activity currentActivity = SpoonScreenshotUtils.getCurrentActivity(getInstrumentation());
 		Display display = ((WindowManager) currentActivity.getSystemService(getInstrumentation().getTargetContext().WINDOW_SERVICE)).getDefaultDisplay();
 		int orientation = display.getOrientation();
 
@@ -163,13 +182,5 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 
 	public String getPOS(Locale locale) {
 		return locale.getDisplayCountry(new Locale("en", "US")).replace(" ", "_").toUpperCase();
-	}
-
-	protected void tearDown() throws Exception {
-		if (mMockWebServer != null) {
-			mMockWebServer.shutdown();
-			mMockWebServer = null;
-		}
-		super.tearDown();
 	}
 }

@@ -52,12 +52,6 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="@string/preference_should_start_hierarchy_server"
-            android:summary="Needs app restart to take effect. Then you can use hierarchy viewing on a non-root device."
-            android:title="Start the hierarchy server on app launch" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="@string/preference_enable_picasso_logging"
             android:summary="Show detailed logging of Picasso activity."
             android:title="Enable Picasso Logging" />
@@ -72,7 +66,7 @@
             android:title="Disable Domain V2 Hotel Search" />
 
         <com.expedia.bookings.widget.CheckBoxPreference
-            app:id="@id/preference_suppress_hotel_booking_checkbox"
+            app:id="@+id/preference_suppress_hotel_booking_checkbox"
             android:defaultValue="true"
             android:key="@string/preference_suppress_hotel_bookings"
             android:summary="Do hotel bookings, but suppress any actual booking from going through"
@@ -100,7 +94,7 @@
     <PreferenceCategory android:title="Cars" >
 
         <com.expedia.bookings.widget.CheckBoxPreference
-            app:id="@id/preference_suppress_car_booking_checkbox"
+            app:id="@+id/preference_suppress_car_booking_checkbox"
             android:defaultValue="true"
             android:key="@string/preference_suppress_car_bookings"
             android:summary="Do car bookings, but suppress any actual booking from going through"
@@ -111,7 +105,7 @@
     <PreferenceCategory android:title="LX" >
 
         <com.expedia.bookings.widget.CheckBoxPreference
-            app:id="@id/preference_suppress_lx_booking_checkbox"
+            app:id="@+id/preference_suppress_lx_booking_checkbox"
             android:defaultValue="true"
             android:key="@string/preference_suppress_lx_bookings"
             android:summary="Do LX bookings, but suppress any actual booking from going through"
@@ -122,7 +116,7 @@
     <PreferenceCategory android:title="Flights" >
 
         <com.expedia.bookings.widget.CheckBoxPreference
-            app:id="@id/preference_suppress_flight_booking_checkbox"
+            app:id="@+id/preference_suppress_flight_booking_checkbox"
             android:defaultValue="true"
             android:key="@string/preference_suppress_flight_bookings"
             android:summary="Do flight bookings, but suppress any actual booking from going through"
@@ -207,6 +201,38 @@
             android:key="@string/preference_hotel_search_influence_messaging"
             android:summary="Select a test group"
             android:title="Hotel Search Influence Messaging" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_launch_screen"
+            android:summary="Select a test group"
+            android:title="Launch Screen NearBy Deals vs Collections" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_checkout_or_messaging"
+            android:summary="Select a test group"
+            android:title="Checkout OR Form Messaging" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_hotel_result_rating"
+            android:summary="Select a test group"
+            android:title="Hotel Result Rating Test" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_flight_confirmation_car_cross_sell"
+            android:summary="Select a test group"
+            android:title="Flight Confirmation Car Cross sell" />
 
     </PreferenceCategory>
 

@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -49,16 +48,13 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		layoutManager.scrollToPosition(0);
 
-		TypedValue typedValue = new TypedValue();
-		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
-		TypedArray a = getContext().obtainStyledAttributes(typedValue.data, textSizeAttr);
-		float toolbarSize = a.getDimension(0, 44f);
-		offset = toolbarSize + Ui.getStatusBarHeight(getContext());
+		int toolbarSize = Ui.getToolbarSize(getContext());
+		offset = Ui.toolbarSizeWithStatusBar(getContext());
 		headerHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 240, getContext().getResources().getDisplayMetrics());
 
 		offerList.setLayoutManager(layoutManager);
 		offerList.addItemDecoration(
-			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, (int) headerHeight, (int) toolbarSize, true));
+			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, (int) headerHeight, toolbarSize, true));
 		offerList.setHasFixedSize(true);
 
 		adapter = new CarOffersAdapter(getContext());

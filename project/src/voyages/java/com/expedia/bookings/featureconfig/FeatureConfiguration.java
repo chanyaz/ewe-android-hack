@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutActivity;
 import com.expedia.bookings.activity.VSCLocaleChangeReceiver;
@@ -108,7 +109,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public String getOmnitureReportSuiteIds(Context context) {
-		if (AndroidUtils.isRelease(context)) {
+		if (BuildConfig.RELEASE) {
 			return "expediaglobalapp" + ",expedia7androidapp";
 		}
 		else {
@@ -161,6 +162,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isLeanPlumEnabled() {
+		return false;
+	}
+
+	public boolean isKahunaEnabled() {
 		return false;
 	}
 

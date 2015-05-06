@@ -52,12 +52,20 @@ public class LaunchListWidget extends RecyclerView {
 		else {
 			margin = 24 / density;
 		}
-		LayoutInflater li = LayoutInflater.from(getContext());
-		header = li.inflate(R.layout.snippet_launch_list_header, null);
-		addItemDecoration(new LaunchListDividerDecoration(getContext(), (int) margin, false));
+
+		header = LayoutInflater.from(getContext()).inflate(R.layout.snippet_launch_list_header, null);
 		adapter = new LaunchListAdapter(header);
 		setAdapter(adapter);
+		addItemDecoration(new LaunchListDividerDecoration(getContext(), (int) margin, false));
 		setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
+	}
+
+	public void setHeaderPaddingTop(float paddingTop) {
+		int left = header.getPaddingLeft();
+		int top = (int) paddingTop;
+		int right = header.getPaddingRight();
+		int bottom = header.getPaddingBottom();
+		header.setPadding(left, top, right, bottom);
 	}
 
 	@Override
@@ -90,8 +98,7 @@ public class LaunchListWidget extends RecyclerView {
 		adapter.notifyDataSetChanged();
 	}
 
-	@Subscribe
-	public void onShowListLoadingAnimation(Events.LaunchShowLoadingAnimation event) {
+	public void showListLoadingAnimation() {
 		List<Integer> elements = createDummyListForAnimation();
 		String headerTitle = getResources().getString(R.string.loading_header);
 		adapter.setListData(elements, headerTitle);

@@ -5,9 +5,11 @@ import java.util.Stack;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.LoadingViewHolder;
 
 public class AnimUtils {
 
@@ -95,4 +98,59 @@ public class AnimUtils {
 		v.startAnimation(shake);
 	}
 
+	public static ValueAnimator setupLoadingAnimation(View v, int i) {
+		int mLoadingColorLight = Color.parseColor("#D3D4D4");
+		int mLoadingColorDark = Color.parseColor("#848F94");
+		if (LoadingViewHolder.index % 2 == 0) {
+			return animateBackground(v, mLoadingColorDark, mLoadingColorLight);
+		}
+		else {
+			return animateBackground(v, mLoadingColorLight, mLoadingColorDark);
+		}
+
+	}
+
+	private static ValueAnimator animateBackground(final View view, int startColor, int endColor) {
+		ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), startColor, endColor);
+		animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animator) {
+				view.setBackgroundColor((Integer) animator.getAnimatedValue());
+			}
+
+		});
+		animation.setRepeatMode(ValueAnimator.REVERSE);
+		animation.setRepeatCount(ValueAnimator.INFINITE);
+		animation.setDuration(600);
+		animation.start();
+		return animation;
+	}
+
+	public static void rotate(View v) {
+		Animation rotate = AnimationUtils.loadAnimation(v.getContext(), R.anim.rotate);
+		v.startAnimation(rotate);
+	}
+
+	public static void reverseRotate(View v) {
+		Animation rotate = AnimationUtils.loadAnimation(v.getContext(), R.anim.rotate_reverse);
+		v.startAnimation(rotate);
+	}
+
+	public static void slideUp(View v) {
+		Animation slideUp = AnimationUtils.loadAnimation(v.getContext(), R.anim.slide_up);
+		slideUp.setDuration(100);
+		v.startAnimation(slideUp);
+	}
+
+	public static void slideDown(View v) {
+		Animation slideDown = AnimationUtils.loadAnimation(v.getContext(), R.anim.slide_down);
+		slideDown.setDuration(400);
+		slideDown.setFillAfter(true);
+		v.startAnimation(slideDown);
+	}
+
+	public static void fadeIn(View v) {
+		Animation fadeIn = AnimationUtils.loadAnimation(v.getContext(), R.anim.fade_in);
+		v.startAnimation(fadeIn);
+	}
 }

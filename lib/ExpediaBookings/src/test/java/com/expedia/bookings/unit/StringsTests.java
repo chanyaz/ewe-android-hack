@@ -174,6 +174,18 @@ public class StringsTests {
 	}
 
 	@Test
+	public void cutAtWordBarrier() {
+		final String firstCutAtWord = "Ain't";
+		final String secondCutAtword = "Ain't no";
+		final String thirsCutAtWord = "Ain't no sunshine";
+		final String body = "Ain't no sunshine when she's gone";
+
+		assertEquals(firstCutAtWord.length(), Strings.cutAtWordBarrier(body, 5));
+		assertEquals(secondCutAtword.length(), Strings.cutAtWordBarrier(body, 7));
+		assertEquals(thirsCutAtWord.length(), Strings.cutAtWordBarrier(body, 14));
+	}
+
+	@Test
 	public void testStringsCapitalizeFirstLetter() {
 		assertEquals("", Strings.capitalizeFirstLetter(""));
 		assertEquals(null, Strings.capitalizeFirstLetter(null));
@@ -182,4 +194,13 @@ public class StringsTests {
 		assertEquals("Bcde", Strings.capitalizeFirstLetter("bcde"));
 	}
 
+	@Test
+	public void testEscapeQuotes() {
+		String textWithQuotes = "Test &quot;One&quot;";
+		String expectedTextWithQuotes = "Test \"One\"";
+		String textWithoutQuotes = "Test One";
+
+		assertEquals(expectedTextWithQuotes, Strings.escapeQuotes(textWithQuotes));
+		assertEquals(textWithoutQuotes, Strings.escapeQuotes(textWithoutQuotes));
+	}
 }

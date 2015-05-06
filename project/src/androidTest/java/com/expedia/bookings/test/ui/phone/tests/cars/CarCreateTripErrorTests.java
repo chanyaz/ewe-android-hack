@@ -4,9 +4,8 @@ import org.joda.time.DateTime;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.component.cars.CarViewModel;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.ui.utils.CarTestCase;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -14,16 +13,13 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-public class CarCreateTripErrorTests extends PhoneTestCase {
+public class CarCreateTripErrorTests extends CarTestCase {
 
 	private static final String CATEGORY = "Economy";
 
 	public void testCarCreateTripWithPriceChange() throws Throwable {
-		screenshot("Launch");
-		LaunchScreen.launchCars();
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-
 		screenshot("Car Search");
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		CarViewModel.pickupLocation().perform(typeText("SFO"));
 		CarViewModel.selectPickupLocation(getInstrumentation(), "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());
@@ -40,11 +36,8 @@ public class CarCreateTripErrorTests extends PhoneTestCase {
 	}
 
 	public void testCarCreateTripFailure() throws Throwable {
-		screenshot("Launch");
-		LaunchScreen.launchCars();
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-
 		screenshot("Car Search");
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		CarViewModel.pickupLocation().perform(typeText("SFO"));
 		CarViewModel.selectPickupLocation(getInstrumentation(), "San Francisco, CA");
 		CarViewModel.selectDateButton().perform(click());

@@ -2,6 +2,6 @@
 <com.expedia.bookings.widget.LXOfferDatesButton
     style="@style/DateRadioButton"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="50dp"
-    android:layout_height="54dp"
+    android:layout_width="@dimen/lx_offer_dates_container_width"
+    android:layout_height="@dimen/lx_offer_dates_container_height"
     android:textSize="10dp" />

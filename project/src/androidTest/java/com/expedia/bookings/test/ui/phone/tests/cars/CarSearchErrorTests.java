@@ -4,22 +4,18 @@ import org.joda.time.DateTime;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.component.cars.CarViewModel;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.ui.utils.CarTestCase;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 
-public class CarSearchErrorTests extends PhoneTestCase {
+public class CarSearchErrorTests extends CarTestCase {
 
 	public void testSearchErrorProductNotAvailable() throws Throwable {
-		screenshot("Launch");
-		LaunchScreen.launchCars();
+		screenshot("Car_Search");
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
-
-		screenshot("Car_Search");
 		CarViewModel.pickupLocation().perform(typeText("KTM"));
 		CarViewModel.selectPickupLocation(getInstrumentation(), "Kathmandu, Nepal");
 		CarViewModel.selectDateButton().perform(click());
@@ -31,11 +27,8 @@ public class CarSearchErrorTests extends PhoneTestCase {
 	}
 
 	public void testSearchErrorInvalidInput() throws Throwable {
-		screenshot("Launch");
-		LaunchScreen.launchCars();
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-
 		screenshot("Car Search");
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		CarViewModel.pickupLocation().perform(typeText("DTW"));
 		CarViewModel.selectPickupLocation(getInstrumentation(), "Detroit, MI");
 		CarViewModel.selectDateButton().perform(click());

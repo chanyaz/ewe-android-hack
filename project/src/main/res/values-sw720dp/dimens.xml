@@ -65,7 +65,6 @@
     <!-- Text size for search param labels - search screen, right container elements -->
     <dimen name="search_params_right_container_text_size">17sp</dimen>
     <dimen name="calender_header_height">56dp</dimen>
-    <dimen name="calender_month_advance_padding">16dp</dimen>
 
     <!-- Hotel Details Fragment -->
     <dimen name="tablet_hotel_details_top_padding">64dp</dimen>
@@ -117,7 +116,6 @@
 
     <!-- Hotel/Flight/Tripbucket Card dimensions -->
     <dimen name="hotel_flight_card_height">150dp</dimen>
-    <dimen name="hotel_flight_card_height_with_padding">162dp</dimen>
     <dimen name="hotel_flight_card_width">352dp</dimen>
     <dimen name="hotel_flight_card_padding_x">32dp</dimen>
     <dimen name="hotel_flight_card_padding_y">6dp</dimen>
@@ -148,9 +146,7 @@
     <dimen name="stored_credit_card_button_padding">10dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_image_width">276dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_padding_x">18dp</dimen>
-    <dimen name="tablet_checkout_trip_bucket_expanded_padding_major_y">24dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_padding_minor_y">10dp</dimen>
-    <dimen name="tablet_wallet_promo_height">25dp</dimen>
 
     <!-- CVV Screen -->
     <dimen name="cvv_finish_booking_container_height">200dp</dimen>
@@ -160,7 +156,6 @@
     <dimen name="confirmation_image_height">235dp</dimen>
     <!-- confirmation_image_height - (confirmation_checkmark_size/2) -->
     <dimen name="confirmation_checkmark_margin">210dp</dimen>
-    <dimen name="confirmation_button_bar_height">72dp</dimen>
     <dimen name="confirmation_custom_action_textsize">15sp</dimen>
 
     <!-- Select Airport button top margin (used when no origin is set) -->

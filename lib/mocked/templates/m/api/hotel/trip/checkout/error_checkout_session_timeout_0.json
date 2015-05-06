@@ -1,0 +1,12 @@
+{
+    "activityId": "1",
+    "errors": [
+        {
+            "diagnosticId": 0,
+            "errorCode": "SESSION_TIMEOUT",
+            "errorInfo": {
+                "summary": "The session information was empty, mostly likely because of a session id getting lost."
+            }
+        }
+    ]
+}

@@ -496,7 +496,7 @@ public class Rate implements JSONable {
 	}
 
 	public boolean isAirAttached() {
-		return mAirAttached && PointOfSale.getPointOfSale().shouldShowAirAttach();
+		return mAirAttached && PointOfSale.getPointOfSale().showHotelCrossSell();
 	}
 
 	public void setAirAttached(boolean isAirAttached) {

@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -16,12 +17,14 @@ import android.view.ViewGroup;
 import android.widget.Space;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -86,11 +89,15 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		slideWidget.addSlideToListener(this);
 
 		loginWidget.setLineOfBusiness(getLineOfBusiness());
+		mainContactInfoCardView.setLineOfBusiness(getLineOfBusiness());
+		paymentInfoCardView.setLineOfBusiness(getLineOfBusiness());
+
 		loginWidget.setToolbarListener(toolbarListener);
 		loginWidget.setLoginStatusListener(mLoginStatusListener);
 		mainContactInfoCardView.setToolbarListener(toolbarListener);
 		paymentInfoCardView.setToolbarListener(toolbarListener);
 		hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
+		legalInformationText.setMovementMethod(LinkMovementMethod.getInstance());
 		slideToContainer.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -183,7 +190,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					scrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				}
 			});
-			OmnitureTracking.trackAppCarCheckoutSlideToPurchase(getContext(), paymentInfoCardView.getCardType());
+			OmnitureTracking.trackCheckoutSlideToPurchase(getLineOfBusiness(), getContext(), paymentInfoCardView.getCardType());
 		}
 		else {
 			animateInSlideTo(false);
@@ -232,7 +239,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 
 			ViewGroup.LayoutParams params = space.getLayoutParams();
-			params.height = forward ? (int) getResources().getDimension(R.dimen.car_expanded_space_height) : (int) getResources().getDimension(R.dimen.car_unexpanded_space_height);
+			params.height = forward ? (int) getResources().getDimension(R.dimen.car_expanded_space_height) : (int) getResources().getDimension(Ui.obtainThemeResID(getContext(), R.attr.checkout_unexpanded_space_height));
 			space.setLayoutParams(params);
 
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()
@@ -277,7 +284,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			paymentInfoCardView.onLogin();
 			isCheckoutComplete();
 			hintContainer.setVisibility(GONE);
-			OmnitureTracking.trackAppCarCheckoutLoginSuccess(getContext());
+			OmnitureTracking.trackCheckoutLoginSuccess(getLineOfBusiness(), getContext());
 		}
 
 		@Override
@@ -306,5 +313,16 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			.ofFloat(slideToContainer, "translationY", visible ? 0 : slideToContainer.getHeight());
 		animator.setDuration(300);
 		animator.start();
+	}
+
+	public void clearCCNumber() {
+		try {
+			paymentInfoCardView.creditCardNumber.setText("");
+			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setNumber(null);
+			Db.getBillingInfo().setNumber(null);
+		}
+		catch (Exception ex) {
+			Log.e("Error clearing billingInfo card number", ex);
+		}
 	}
 }

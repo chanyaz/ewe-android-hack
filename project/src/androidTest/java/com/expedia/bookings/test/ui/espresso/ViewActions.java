@@ -7,6 +7,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
+import android.graphics.Rect;
 import android.support.test.espresso.PerformException;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
@@ -26,14 +27,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 import com.mobiata.android.widget.CalendarDatePicker;
 
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -424,9 +428,11 @@ public final class ViewActions {
 	}
 
 
-	public static ViewAction waitFor(final long howLong, final TimeUnit timeUnit) {
+	public static ViewAction waitFor(final Matcher<View> what, final long howLong, final TimeUnit timeUnit) {
 		return new ViewAction() {
 			private static final int SLEEP_UI_MS = 100;
+			private final long timeout = TimeUnit.MILLISECONDS.convert(howLong, timeUnit);
+			private final long timeoutSeconds = TimeUnit.SECONDS.convert(howLong, timeUnit);
 
 			@Override
 			public Matcher<View> getConstraints() {
@@ -435,31 +441,32 @@ public final class ViewActions {
 
 			@Override
 			public String getDescription() {
-				return String.format("Waiting for view to appear, max wait time is: %d seconds",
-						TimeUnit.SECONDS.convert(howLong, TimeUnit.SECONDS));
+				return String.format("Waiting for view to match given matcher, max wait time is: %d seconds", timeoutSeconds);
 			}
 
 			@Override
 			public void perform(final UiController uiController, final View view) {
 				uiController.loopMainThreadUntilIdle();
+				uiController.loopMainThreadForAtLeast(SLEEP_UI_MS);
 
-				final long endTime = System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(howLong, timeUnit);
+				final long endTime = System.currentTimeMillis() + timeout;
 				do {
-					if (view.getVisibility() == View.GONE || view.getVisibility() == View.INVISIBLE) {
+					if (what.matches(view)) {
+						Log.v("waitFor", "Matched");
 						return;
 					}
 
+					Log.v("waitFor", "Waitig for " + SLEEP_UI_MS + "ms");
 					uiController.loopMainThreadForAtLeast(SLEEP_UI_MS);
 				}
 				while (System.currentTimeMillis() <= endTime);
 
 				throw new PerformException.Builder()
-					.withActionDescription(this.getDescription())
+					.withActionDescription(getDescription())
 					.withViewDescription(HumanReadables.describe(view))
 					.build();
 			}
 		};
-
 	}
 
 	public static ViewAction clickOnFirstEnabled() {
@@ -486,6 +493,41 @@ public final class ViewActions {
 					}
 				}
 				return;
+			}
+		};
+	}
+
+	public static ViewAction customScroll() {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(new Matcher[] {
+					ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE), ViewMatchers.isDescendantOfA(
+					Matchers.anyOf(new Matcher[] {
+						ViewMatchers.isAssignableFrom(ScrollView.class),
+						ViewMatchers.isAssignableFrom(HorizontalScrollView.class)
+					}))
+				});
+			}
+
+			@Override
+			public String getDescription() {
+				return "Scroll to";
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				if (!ViewMatchers.isDisplayingAtLeast(90).matches(view)) {
+					Rect rect = new Rect();
+					view.getDrawingRect(rect);
+					if (!view.requestRectangleOnScreen(rect, true)) {
+						Log.i("Custom-Scroll", "Scrolling to view was requested, but none of the parents scrolled.");
+					}
+
+					uiController.loopMainThreadUntilIdle();
+					uiController.loopMainThreadForAtLeast(100);
+					return;
+				}
 			}
 		};
 	}

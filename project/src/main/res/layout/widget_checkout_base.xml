@@ -99,7 +99,7 @@
             <Space
                 android:id="@+id/spacer"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/car_unexpanded_space_height" />
+                android:layout_height="?attr/checkout_unexpanded_space_height" />
         </LinearLayout>
     </com.expedia.bookings.widget.ScrollView>
 

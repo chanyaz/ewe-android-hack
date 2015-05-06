@@ -1,0 +1,1058 @@
+{
+	"collections": [
+		{
+		   "title":"Ciudades de fiesta",
+		   "id":"global-nightlife",
+		   "imageCode":"global-nightlife",
+		   "locations":[
+				{
+					"title": "Ibiza",
+					"subtitle": "España",
+					"id": "global-nightlife.ibiza",
+					"description": "Ibiza es la meca de las discos, y los amantes de la fiesta deben visitar este lugar, como mínimo, una vez en la vida. Las fiestas en Ibiza son más bien una experiencia de vida.",
+					"imageCode": "ibiza",
+					"location": {
+						"s": "Isla de Ibiza, España",
+						"a": "IBZ",
+						"d": "Isla de <B>Ibiza</B>, España",
+						"id": "602653",
+						"t": "CITY",
+						"ll": {
+							"lat": "39.020010",
+							"lng": "1.482148"
+						},
+						"amc": "602653"
+					}
+				},
+				{
+					"title": "Bangkok",
+					"subtitle": "Tailandia",
+					"id": "global-nightlife.bangkok",
+					"description": "Desde la calle Khao San, el sitio por excelencia para los mochileros, y los bares de estilo rock and roll de Ratchathewi hasta los pubs de moda en Thlonglor y Ekamai, Bangkok tiene un sinfín de opciones para una noche de fiesta.",
+					"imageCode": "bangkok",
+					"location": {
+						"s": "Bangkok (y alrededores), Tailandia",
+						"a": "BKK",
+						"d": "<B>Bangkok</B>, Tailandia",
+						"id": "178236",
+						"t": "CITY",
+						"ll": {
+							"lat": "13.747500",
+							"lng": "100.536010"
+						},
+						"amc": "178236"
+					}
+				},
+				{
+					"title": "Hong Kong",
+					"subtitle": "Hong Kong",
+					"id": "global-nightlife.hong-kong",
+					"description": "La actividad en Hong Kong no termina cuando el reloj marca las diez. La gran variedad de clubs, bares y mercados nocturnos de esta ciudad tan cosmopolita ofrece múltiples oportunidades para divertirse por la noche.",
+					"imageCode": "hong-kong",
+					"location": {
+						"s": "Hong Kong (todo), Hong Kong",
+						"a": "HKG",
+						"d": "<B><B>Hong</B></B> <B><B>Kong</B></B> (todo), <B><B>Hong</B></B> <B><B>Kong</B></B>",
+						"id": "178263",
+						"t": "CITY",
+						"ll": {
+							"lat": "22.283330",
+							"lng": "114.158750"
+						},
+						"amc": "178263"
+					}
+				},
+				{
+					"title": "Berlín",
+					"subtitle": "Alemania",
+					"id": "global-nightlife.berlin",
+					"description": "A los habitantes de Berlín les encanta disfrutar de la noche, ya sea en sus cabarets ambientados con el estilo típico de 1920, sus bares retro y elegantes, o sus encantadores “jardines de cerveza”. Algunos de los mejores DJ europeos tocan en súper clubs, como Berghain, con su estilo entre elegante e industrial. En el verano, la fiesta continúa durante todo el día en bares relajados al aire libre, junto al río Spree.",
+					"imageCode": "berlin",
+					"location": {
+						"s": "Berlín (y alrededores), Alemania",
+						"a": "BER",
+						"d": "<B>Berlín</B>, Alemania",
+						"id": "179892",
+						"t": "CITY",
+						"ll": {
+							"lat": "52.513840",
+							"lng": "13.350080"
+						},
+						"amc": "179892"
+					}
+				},
+				{
+					"title": "Buenos Aires",
+					"subtitle": "Argentina",
+					"id": "global-nightlife.buenos-aires",
+					"description": "La noche de Buenos Aires no es para cualquiera. La fiesta no comienza hasta entrada la madrugada en la ciudad que inventó el tango.",
+					"imageCode": "buenos-aires",
+					"location": {
+						"s": "Buenos Aires (y alrededores), Argentina",
+						"a": "BUE",
+						"d": "<B>Buenos</B> <B>Aires</B>, <B>Argentina</B>",
+						"id": "178242",
+						"t": "CITY",
+						"ll": {
+							"lat": "-34.604861",
+							"lng": "-58.525835"
+						},
+						"amc": "178242"
+					}
+				},
+				{
+					"title": "Las Vegas",
+					"subtitle": "Nevada",
+					"id": "global-nightlife.las-vegas",
+					"description": "Las Vegas tiene opciones para todos los gustos. En el Strip, podrás satisfacer todos tus caprichos. Si bien el Strip es la principal atracción, aquellos que buscan una alternativa menos ostentosa y más tranquila deben visitar Fremont Street.",
+					"imageCode": "las-vegas",
+					"location": {
+						"s": "Las Vegas (y alrededores), Nevada, Estados Unidos",
+						"a": "LAS",
+						"d": "<B>Las</B> <B>Vegas</B>, <B>Nevada</B>, Estados Unidos",
+						"id": "178276",
+						"t": "CITY",
+						"ll": {
+							"lat": "36.114666",
+							"lng": "-115.172872"
+						},
+						"amc": "178276"
+					}
+				},
+				{
+					"title": "Miami",
+					"subtitle": "Florida",
+					"id": "global-nightlife.miami",
+					"description": "La vida nocturna siempre cobra emoción en Miami, y la elegante zona de South Beach es líder en materia de fiestas. ¡Encontrarás todo lo que buscas! Salones de fiesta muy relajados y discotecas con música bien fuerte adornan las callecitas de estilo Art Decó. Vístete para la ocasión.",
+					"imageCode": "miami",
+					"location": {
+						"s": "Miami (y alrededores), Florida, Estados Unidos",
+						"a": "MIA",
+						"d": "<B>Miami</B>, <B>Florida</B>, Estados Unidos",
+						"id": "178286",
+						"t": "CITY",
+						"ll": {
+							"lat": "25.771780",
+							"lng": "-80.190090"
+						},
+						"amc": "178286"
+					}
+				},
+				{
+					"title": "Montreal",
+					"subtitle": "Canadá",
+					"id": "global-nightlife.montreal",
+					"description": "Ven a disfrutar del joie de vivre en los cafés del viejo mundo, los clubs de jazz, las discos multitudinarias y bares súper concurridos hasta muy tarde en este destino de fiesta por descubrir en Norteamérica.",
+					"imageCode": "montreal",
+					"location": {
+						"s": "Montreal (y alrededores), Quebec, Canadá",
+						"a": "YMQ",
+						"d": "<B>Montreal</B>, Quebec, <B>Canadá</B>",
+						"id": "178288",
+						"t": "CITY",
+						"ll": {
+							"lat": "45.501950",
+							"lng": "-73.567140"
+						},
+						"amc": "178288"
+					}
+				},
+				{
+					"title": "Río de Janeiro",
+					"subtitle": "Brasil",
+					"id": "global-nightlife.rio-de-janeiro",
+					"description": "Llena de pasión, alma y espíritu, la temporada de fiesta en Río no termina con el Carnaval. Locales y turistas por igual beben, coquetean y bailan todo el año en las discos, los bares y las fiestas que se celebran en las calles y junto al mar.",
+					"imageCode": "rio-de-janeiro",
+					"location": {
+						"s": "Río de Janeiro (y alrededores), Brasil",
+						"a": "RIO",
+						"d": "<B>Río</B> <B>de</B> <B>Janeiro</B>, Brasil",
+						"id": "178301",
+						"t": "CITY",
+						"ll": {
+							"lat": "-22.906500",
+							"lng": "-43.178600"
+						},
+						"amc": "178301"
+					}
+				},
+				{
+					"title": "Nueva York",
+					"subtitle": "Nueva York",
+					"id": "global-nightlife.new-york",
+					"description": "Ya sea que participes en una interminable salida de copas por East Village, pruebes los cocktails en un elegante bar del SoHo o bailes toda la noche en una disco de Brooklyn, seguramente encontrarás la opción que cumpla todas tus expectativas en la ciudad que nunca duerme.",
+					"imageCode": "new-york",
+					"location": {
+						"s": "Nueva York (y alrededores), Nueva York, Estados Unidos",
+						"a": "NYC",
+						"d": "Nueva <B><B>York</B></B>, Nueva <B><B>York</B></B>, Estados Unidos",
+						"id": "178293",
+						"t": "CITY",
+						"ll": {
+							"lat": "40.756680",
+							"lng": "-73.986470"
+						},
+						"amc": "178293"
+					}
+				},
+				{
+					"title": "Tokio",
+					"subtitle": "Japón",
+					"id": "global-nightlife.tokyo",
+					"description": "El espíritu internacional de Tokio se ve reflejado en su vida nocturna. Los turistas encontrarán todo tipo de opciones, desde música en vivo y bares hasta tradicionales shows de Kabuki japoneses.",
+					"imageCode": "tokyo",
+					"location": {
+						"s": "Tokio (y alrededores), Japón",
+						"a": "TYO",
+						"d": "Tokio, Japón",
+						"id": "179900",
+						"t": "CITY",
+						"ll": {
+							"lat": "35.675000",
+							"lng": "139.760000"
+						},
+						"amc": "179900"
+					}
+				}
+			]
+		},
+		{
+            "title": "Un mundo de aventuras",
+            "id": "adventure-abounds",
+            "imageCode": "adventure-abounds",
+            "locations": [
+                {
+                    "title": "Pekín",
+                    "subtitle": "China",
+                    "id": "adventure-abounds.beijing-adventure",
+                    "description": "Construida alrededor del siglo VII a. C., la emblemática Gran muralla china de 21,195 kilómetros (13,170 mi) de longitud, atrae a más de 10 millones de visitantes al año. Baja de la Gran muralla china a través de un emocionante tobogán y disfruta de la increíble vista.",
+                    "image": "beijing-adventure",
+                    "imageCode": "beijing-adventure",
+                    "location": {
+                        "s": "Pekín (y alrededores), China",
+                        "a": "BJS",
+                        "d": "<B>Pekín</B>, <B>China</B>",
+                        "id": "178237",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "39.906000",
+                            "lng": "116.385000"
+                        },
+                        "amc": "178237"
+                    }
+                },
+                {
+                    "title": "Lima",
+                    "subtitle": "Perú",
+                    "id": "adventure-abounds.lima-adventure",
+                    "description": "Con ayuda de parapentes, las personas vuelan sobre el mar y los acantilados para disfrutar de una maravillosa vista aérea de la costa peruana. Lima también es famosa conocida por su deliciosa gastronomía, por lo que te recomendamos visitar los restaurantes de moda y los mercados.",
+                    "image": "lima-adventure",
+                    "imageCode": "lima-adventure",
+                    "location": {
+                        "s": "Lima (y alrededores), Perú",
+                        "a": "LIM",
+                        "d": "<B>Lima</B>, <B>Perú</B>",
+                        "id": "178277",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-12.040150",
+                            "lng": "-77.036160"
+                        },
+                        "amc": "178277"
+                    }
+                },
+                {
+                    "title": "Múnich",
+                    "subtitle": "Alemania",
+                    "id": "adventure-abounds.munich-adventure",
+                    "description": "Si la cerveza y salchichas no son suficientes, Bavaria cuenta con algo más para disfrutar. Se trata de unas tiendas para acampar que cuelgan de los árboles, donde pasarás la noche de una forma única. Mientras descansas en lo alto de un árbol, disfruta de las magníficas vistas del amanecer y el atardecer.",
+                    "image": "munich-adventure",
+                    "imageCode": "munich-adventure",
+                    "location": {
+                        "s": "Múnich (y alrededores), Alemania",
+                        "a": "MUC",
+                        "d": "<B>Múnich</B>, <B>Alemania</B>",
+                        "id": "179896",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "48.139800",
+                            "lng": "11.560050"
+                        },
+                        "amc": "179896"
+                    }
+                },
+                {
+                    "title": "Benidorm",
+                    "subtitle": "España",
+                    "id": "adventure-abounds.benidorm-adventure",
+                    "description": "¿Quién dice que no se puede escalar en la roca durante el invierno? Benidorm cuenta con un cielo soleado y las condiciones ideales para escalar durante el otoño hasta la primavera. Si prefieres algo más relajado, las aguas cristalinas de la Playa de Levante y las numerosas opciones de diversión nocturna también son atractivas para los amantes de la aventura.",
+                    "image": "benidorm-adventure",
+                    "imageCode": "benidorm-adventure",
+                    "location": {
+                        "s": "Benidorm",
+                        "a": "ALC",
+                        "d": "<B>Benidorm</B>, <B>España</B>",
+                        "id": "181363",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "38.536713",
+                            "lng": "-0.129450"
+                        },
+                        "amc": "6023825"
+                    }
+                },
+                {
+                    "title": "Borácay",
+                    "subtitle": "Filipinas",
+                    "id": "adventure-abounds.boracay-adventure",
+                    "description": "¡El kitesurf es toda una forma de vida aquí! Tanto principiantes como expertos disfrutan aquí este emocionante deporte, ya que la isla es famosa por sus condiciones ideales y su excelente escuela de kitesurf.",
+                    "image": "boracay-adventure",
+                    "imageCode": "boracay-adventure",
+                    "location": {
+                        "s": "Boracay, Filipinas",
+                        "a": "MPH",
+                        "d": "<B>Boracay</B>, <B>Filipinas</B>",
+                        "id": "601371",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "11.959059",
+                            "lng": "121.926270"
+                        },
+                        "amc": "6184368"
+                    }
+                },
+                {
+                    "title": "Port Lincoln",
+                    "subtitle": "Australia",
+                    "id": "adventure-abounds.portlincoln-adventure",
+                    "description": "Además del buceo, Port Lincoln cuenta con varias actividades para agregar a tu lista de deseos, ¡incluido el buceo con tiburones blancos!",
+                    "image": "portlincoln-adventure",
+                    "imageCode": "portlincoln-adventure",
+                    "location": {
+                        "s": "Port Lincoln (y alrededores), Australia Meridional, Australia",
+                        "a": "PLO",
+                        "d": "<B>Port</B> <B>Lincoln</B>, <B>Australia</B> Meridional, <B>Australia</B>",
+                        "id": "6142927",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-34.734804",
+                            "lng": "135.852622"
+                        },
+                        "amc": "6142927"
+                    }
+                },
+                {
+                    "title": "Dubái",
+                    "subtitle": "Emiratos Árabes Unidos",
+                    "id": "adventure-abounds.dubai-adventure",
+                    "description": "En el verano, la práctica del sandboard es la alternativa ideal para disfrutar la naturaleza de una forma diferente. Deslízate por las dunas de arena de Dubái y descubre una nueva manera de divertirte en el desierto.",
+                    "image": "dubai-adventure",
+                    "imageCode": "dubai-adventure",
+                    "location": {
+                        "s": "Emirato de Dubái, Emiratos Árabes Unidos",
+                        "a": "DXB",
+                        "d": "Emirato de <B>Dubái</B>, <B>Emiratos</B> <B>Árabes</B> <B>Unidos</B>",
+                        "id": "1079",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "25.110714",
+                            "lng": "55.394882"
+                        },
+                        "amc": "1079"
+                    }
+                },
+                {
+                    "title": "Livingstone",
+                    "subtitle": "Zambia",
+                    "id": "adventure-abounds.livingstone-adventure",
+                    "description": "Admira las fascinantes cataratas Victoria, una de las cascadas más grandes del mundo, mientras cruzas el puente colgante de la frontera entre Zambia y Zimbabwe. ¿Prefieres las emociones extremas? También puedes saltar del puente en bungeer, a 122 metros (400 ft) sobre el nivel del agua.",
+                    "image": "livingstone-adventure",
+                    "imageCode": "livingstone-adventure",
+                    "location": {
+                        "s": "Livingstone, Zambia",
+                        "a": "LVI",
+                        "d": "<B>Livingstone</B>, <B>Zambia</B>",
+                        "id": "2170",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-17.872034",
+                            "lng": "25.858815"
+                        },
+                        "amc": "2170"
+                    }
+                },
+                {
+                    "title": "Arusha",
+                    "subtitle": "Tanzania",
+                    "id": "adventure-abounds.arusha-adventure",
+                    "description": "Famoso por albergar uno de los ecosistemas más antiguos del planeta, el Parque Nacional del Serengueti recibe a más de 90,000 visitantes cada año. Planea tu visita para los meses octubre y noviembre, para observar la impresionante migración de ñus y cebras.",
+                    "image": "arusha-adventure",
+                    "imageCode": "arusha-adventure",
+                    "location": {
+                        "s": "Arusha, Tanzania",
+                        "a": "JRO",
+                        "d": "<B>Arusha</B>, <B>Tanzania</B>",
+                        "id": "178011",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-3.369788",
+                            "lng": "36.840055"
+                        },
+                        "amc": "178011"
+                    }
+                }
+            ]
+        },
+		{
+            "title": "Selecciones del personal de Expedia",
+            "id": "staff-picks",
+            "imageCode": "staff-picks",
+            "locations": [
+                {
+                    "title": "Kioto",
+                    "subtitle": "Japón",
+                    "id": "staff-picks.staff-kyoto",
+                    "description": "Con su riqueza cultural y su belleza natural, Kioto nunca te decepcionará. Descubre los múltiples templos y santuarios declarados Patrimonio de la Humanidad en esta bellísima ciudad japonesa. -Nao K.",
+                    "image": "staff-kyoto",
+                    "imageCode": "staff-kyoto",
+                    "location": {
+                        "s": "Kioto (y alrededores), Japón",
+                        "a": "OSA",
+                        "d": "Kioto, Japón",
+                        "id": "6131486",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "35.011229",
+                            "lng": "135.768125"
+                        },
+                        "amc": "179897"
+                    }
+                },
+                {
+                    "title": "Pensacola",
+                    "subtitle": "Florida",
+                    "id": "staff-picks.staff-pensacola",
+                    "description": "Fort Pickens, ubicado en Pensacola, es un parque nacional ideal para explorar antiguos fuertes, acampar, observar las distintas especies de vida silvestre y disfrutar del sol. Sus playas son más remotas que la animada playa de Pensacola, aunque se caracterizan por la brillante arena blanca de la costa del Golfo. -Tarran V.",
+                    "image": "staff-pensacola",
+                    "imageCode": "staff-pensacola",
+                    "location": {
+                        "s": "Pensacola (y alrededores), Florida, Estados Unidos",
+                        "a": "PNS",
+                        "d": "<B>Pensacola</B>, <B>Florida</B>, Estados Unidos",
+                        "id": "6023331",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "30.410358",
+                            "lng": "-87.214783"
+                        },
+                        "amc": "6023392"
+                    }
+                },
+                {
+                    "title": "Corniglia",
+                    "subtitle": "Italia",
+                    "id": "staff-picks.staff-corniglia",
+                    "description": "Corniglia es el más pequeño de los pueblos de Cinque Terre, aunque no por eso menos bello. Se encuentra en lo alto y no muy cerca del mar y, por este motivo, hay menos turistas. ¡Ellos se lo pierden! -Lacie T.",
+                    "image": "staff-corniglia",
+                    "imageCode": "staff-corniglia",
+                    "location": {
+                        "s": "Corniglia, Vernazza, Italia",
+                        "a": "PSA",
+                        "d": "<B>Corniglia</B>, Vernazza, Italia",
+                        "id": "179977",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "44.122589",
+                            "lng": "9.708674"
+                        },
+                        "amc": "179893"
+                    }
+                },
+                {
+                    "title": "Marrakech",
+                    "subtitle": "Marruecos",
+                    "id": "staff-picks.staff-marrakech",
+                    "description": "Visita Marrakech y escala el monte Toubkal en la fascinante cordillera del Atlas. Da un paseo en camello por el desierto, deléitate con los sabores locales, y descubre la cultura y la historia ancestral de Marrakech. -Steven V.",
+                    "image": "staff-marrakech",
+                    "imageCode": "staff-marrakech",
+                    "location": {
+                        "s": "Marrakech (y alrededores), Marruecos",
+                        "a": "RAK",
+                        "d": "<B>Marrakech</B>, Marruecos",
+                        "id": "6084756",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "31.631600",
+                            "lng": "-8.009210"
+                        },
+                        "amc": "6084756"
+                    }
+                },
+                {
+                    "title": "Williamsburg",
+                    "subtitle": "Virginia",
+                    "id": "staff-picks.staff-williamsburg",
+                    "description": "Sumérgete en la historia de los conservadores y los rebeldes en Colonial Williamsburg, además de Yorktown y Jamestown, muy cerca de aquí. Remóntate a una era antigua y descubre cómo era la vida en la primera etapa de la colonia en Estados Unidos con la comida, la arquitectura histórica, los barcos y mucho más. -Eric W.",
+                    "image": "staff-williamsburg",
+                    "imageCode": "staff-williamsburg",
+                    "location": {
+                        "s": "Williamsburg, Virginia, Estados Unidos",
+                        "a": "PHF",
+                        "d": "<B>Williamsburg</B>, <B>Virginia</B>, Estados Unidos",
+                        "id": "6296",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "37.297399",
+                            "lng": "-76.737958"
+                        },
+                        "amc": "6056964"
+                    }
+                },
+                {
+                    "title": "Baltra",
+                    "subtitle": "Ecuador",
+                    "id": "staff-picks.staff-baltra",
+                    "description": "Una vez que veas las islas Galápagos, entenderás la obsesión de Darwin. Cada isla tiene una variedad de especies que evolucionaron de forma distinta debido al aislamiento geográfico. Un viaje a la isla Baltra es una clase de Biología en uno de los sitios más maravillosos del planeta Tierra. -Eric G.",
+                    "image": "staff-baltra",
+                    "imageCode": "staff-baltra",
+                    "location": {
+                        "s": "Baltra, Ecuador",
+                        "a": "GPS",
+                        "d": "<B>Baltra</B>, <B>Ecuador</B>",
+                        "id": "6223000",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-0.454779",
+                            "lng": "-90.276524"
+                        },
+                        "amc": "6053670"
+                    }
+                },
+                {
+                    "title": "San Pedro de Atacama",
+                    "subtitle": "Chile",
+                    "id": "staff-picks.staff-atacama",
+                    "description": "San Pedro de Atacama es un oasis ubicado en el desierto más seco del mundo. San Pedro es ideal para andar en bicicleta, observar a los flamencos en un salar o tomar un baño en aguas termales naturales. ¡Además, es un lugar épico para practicar sandboarding! -Eric G.",
+                    "image": "staff-atacama",
+                    "imageCode": "staff-atacama",
+                    "location": {
+                        "s": "San Pedro de Atacama, Chile",
+                        "a": "CJC",
+                        "d": "<B>San</B> <B>Pedro</B> <B>de</B> <B>Atacama</B>, <B>Chile</B>",
+                        "id": "500224",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-22.910600",
+                            "lng": "-68.200352"
+                        },
+                        "amc": "500224"
+                    }
+                },
+                {
+                    "title": "Ciudad del Cabo",
+                    "subtitle": "Sudáfrica",
+                    "id": "staff-picks.staff-capetown",
+                    "description": "Entre las montañas de la asombrosa región de Cape Winelands, en Franschhoek encontrarás algunos de los mejores restaurantes y bodegas de vino del país. Al tratarse de una de las ciudades más antiguas de Sudáfrica, su asombrosa historia y bellísimo paisaje harán de esta visita una experiencia inolvidable. -Susanna V.",
+                    "image": "staff-capetown",
+                    "imageCode": "staff-capetown",
+                    "location": {
+                        "s": "Ciudad del Cabo (y alrededores), Sudáfrica",
+                        "a": "CPT",
+                        "d": "Ciudad del Cabo, Sudáfrica",
+                        "id": "6046820",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-33.922012",
+                            "lng": "18.423134"
+                        },
+                        "amc": "6046820"
+                    }
+                },
+                {
+                    "title": "Gante",
+                    "subtitle": "Bélgica",
+                    "id": "staff-picks.staff-ghent",
+                    "description": "Gante es una ciudad maravillosa, con una combinación vibrante de lugares históricos y contemporáneos. Aquí verás desde arquitectura medieval y bellísimos canales hasta cervecerías y encantadores cafés. Es un tesoro escondido con mucho por ofrecer para aquellos que buscan una aventura en Bélgica. -Cristen D.",
+                    "image": "staff-ghent",
+                    "imageCode": "staff-ghent",
+                    "location": {
+                        "s": "Gante, Bélgica",
+                        "a": "BRU",
+                        "d": "Gante, Bélgica",
+                        "id": "6052141",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "51.073648",
+                            "lng": "3.724662"
+                        },
+                        "amc": "178241"
+                    }
+                },
+                {
+                    "title": "Traverse City",
+                    "subtitle": "Míchigan",
+                    "id": "staff-picks.staff-traversecity",
+                    "description": "En la maravillosa bahía de Grand Traverse, Traverse City cautiva a aquellos que disfrutan de una cena elegante, festivales de cine, paseos en bicicleta, el golf, el vino o, incluso, las cerezas. Por el ambiente relajado, su excelente gastronomía y la magnífica vista, tu visita será genial. -Shawn P.",
+                    "image": "staff-traversecity",
+                    "imageCode": "staff-traversecity",
+                    "location": {
+                        "s": "Traverse City, Míchigan, Estados Unidos",
+                        "a": "TVC",
+                        "d": "<B>Traverse</B> <B>City</B>, <B>Míchigan</B>, Estados Unidos",
+                        "id": "3577",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "44.763420",
+                            "lng": "-85.620972"
+                        },
+                        "amc": "3577"
+                    }
+                },
+                {
+                    "title": "La Fortuna",
+                    "subtitle": "Costa Rica",
+                    "id": "staff-picks.staff-lafortuna",
+                    "description": "En La Fortuna, podrás caminar por el enorme volcán Arenal y recobrar tu energía en varios de los centros turísticos con aguas geotermales del área. Visita también el Bosque Nuboso Monteverde, aquí cerca, donde podrás ver las especies exóticas de la flora y fauna de la región. -Suzi F.",
+                    "image": "staff-lafortuna",
+                    "imageCode": "staff-lafortuna",
+                    "location": {
+                        "s": "Fortuna, Costa Rica",
+                        "a": "SJO",
+                        "d": "<B>Fortuna</B>, <B>Costa</B> <B>Rica</B>",
+                        "id": "6052925",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "10.471122",
+                            "lng": "-84.645862"
+                        },
+                        "amc": "603085"
+                    }
+                },
+                {
+                    "title": "Siem Reap",
+                    "subtitle": "Camboya",
+                    "id": "staff-picks.staff-siemreap",
+                    "description": "Sede de templos ancestrales, como Angkor Wat y Angkor Thom, los sitios históricos de Siem Reap te ofrecen la oportunidad de vivir el viaje de tu vida, además de una experiencia cultural inolvidable. -David Y.",
+                    "image": "staff-siemreap",
+                    "imageCode": "staff-siemreap",
+                    "location": {
+                        "s": "Siemréab, Camboya",
+                        "a": "REP",
+                        "d": "<B>Siem</B>réab, Camboya",
+                        "id": "2975",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "13.354465",
+                            "lng": "103.854790"
+                        },
+                        "amc": "2975"
+                    }
+                }
+            ]
+        },
+		{
+            "title": "Maravillas de invierno",
+            "id": "winter-wonderlands",
+            "imageCode": "winter-wonderlands",
+            "locations": [
+                {
+                    "title": "Copenhague",
+                    "subtitle": "Dinamarca",
+                    "id": "winter-wonderlands.copenhagen-winter",
+                    "description": "Los Jardines de Tivoli, uno de los parques de diversiones más famosos del mundo, se destacan durante el invierno, con sus más de 111.000 luces diseñadas especialmente para él, que brillan en torno a las bellísimas flores y la fachada del lugar.",
+                    "image": "copenhagen-winter",
+                    "imageCode": "copenhagen-winter",
+                    "location": {
+                        "s": "Copenhague (y alrededores), Dinamarca",
+                        "a": "CPH",
+                        "d": "Copenhague, Dinamarca",
+                        "id": "178252",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "55.675981",
+                            "lng": "12.568926"
+                        },
+                        "amc": "178252"
+                    }
+                },
+                {
+                    "title": "Ciudad de Nueva York",
+                    "subtitle": "Nueva York",
+                    "id": "winter-wonderlands.nyc-winter",
+                    "description": "Siempre encontrarás algo para hacer en la Gran Manzana, y el invierno no es la excepción. Podrás disfrutar de un espectáculo de las Rockettes en Radio City, admirar el enorme árbol de Navidad en el Rockefeller Center o dar un paseo por el Central Park cubierto de nieve.",
+                    "image": "nyc-winter",
+                    "imageCode": "nyc-winter",
+                    "location": {
+                        "s": "Nueva York (y alrededores), Nueva York, Estados Unidos",
+                        "a": "NYC",
+                        "d": "Nueva <B>York</B>, Nueva <B>York</B>, Estados Unidos",
+                        "id": "178293",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "40.756680",
+                            "lng": "-73.986470"
+                        },
+                        "amc": "178293"
+                    }
+                },
+                {
+                    "title": "Reikiavik",
+                    "subtitle": "Islandia",
+                    "id": "winter-wonderlands.reykjavik-winter",
+                    "description": "Las noches largas son perfectas para contemplar la aurora boreal en el cielo. También podrás ver las estrellas desde la calidez de las piscinas de aguas termales o arriesgarte a escalar glaciares.",
+                    "image": "reykjavik-winter",
+                    "imageCode": "reykjavik-winter",
+                    "location": {
+                        "s": "Reikiavik (y alrededores), Islandia",
+                        "a": "REK",
+                        "d": "Reikiavik, Islandia",
+                        "id": "6054688",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "64.148417",
+                            "lng": "-21.941398"
+                        },
+                        "amc": "6054688"
+                    }
+                },
+                {
+                    "title": "Anchorage",
+                    "subtitle": "Alaska",
+                    "id": "winter-wonderlands.anchorage-winter",
+                    "description": "El maravilloso paisaje invernal es el escenario ideal para caminar con raquetas de nieve o practicar pesca en hielo. Así mismo, el Festival Fur Rendezvous de Anchorage te invita a participar en concursos de muñecos de nieve, juegos mecánicos y actuaciones musicales.",
+                    "image": "anchorage-winter",
+                    "imageCode": "anchorage-winter",
+                    "location": {
+                        "s": "Anchorage (y alrededores), Alaska, Estados Unidos",
+                        "a": "ANC",
+                        "d": "<B>Anchorage</B>, <B>Alaska</B>, Estados Unidos",
+                        "id": "178230",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "61.217110",
+                            "lng": "-149.892410"
+                        },
+                        "amc": "178230"
+                    }
+                },
+                {
+                    "title": "Londres",
+                    "subtitle": "Reino Unido",
+                    "id": "winter-wonderlands.london-winter",
+                    "description": "Déjate cautivar por el mágico reino de hielo en que se transforma Hyde Park durante el invierno. Un circo espectacular, juegos y alegres mercados navideños te invitan a disfrutar al máximo de esta ciudad.",
+                    "image": "london-winter",
+                    "imageCode": "london-winter",
+                    "location": {
+                        "s": "Londres (y alrededores), Inglaterra, Reino Unido",
+                        "a": "LON",
+                        "d": "Londres, Inglaterra, Reino Unido",
+                        "id": "178279",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "51.507538",
+                            "lng": "-0.127804"
+                        },
+                        "amc": "178279"
+                    }
+                },
+                {
+                    "title": "Ebensee",
+                    "subtitle": "Austria",
+                    "id": "winter-wonderlands.ebensee-winter",
+                    "description": "Si siempre quisiste aprender a construir un iglú, el invierno de Austria es la ocasión perfecta para hacerlo. También es la estación ideal para dar paseos con raquetas de nieve, deslizarte en trineo y practicar ski.",
+                    "image": "ebensee-winter",
+                    "imageCode": "ebensee-winter",
+                    "location": {
+                        "s": "Ebensee, Austria",
+                        "a": "LNZ",
+                        "d": "<B>Ebensee</B>, <B>Austria</B>",
+                        "id": "6160078",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "47.782091",
+                            "lng": "13.772507"
+                        },
+                        "amc": "6055554"
+                    }
+                },
+                {
+                    "title": "Harbin",
+                    "subtitle": "China",
+                    "id": "winter-wonderlands.harbin-winter",
+                    "description": "Déjate cautivar por la colección de arte del Festival de esculturas de hielo y nieve de Harbin. Te quedarás sin palabras ante la exposición de faroles de hielo del Jardín Zhaolin y quedarás maravillado con las enormes construcciones de nieve, hechas con bloques de hielo de unos 5 a 7 cm (2 a 3 pulgadas) de espesor extraídos directamente del río Songhua.",
+                    "image": "harbin-winter",
+                    "imageCode": "harbin-winter",
+                    "location": {
+                        "s": "Harbin, China",
+                        "a": "HRB",
+                        "d": "<B>Harbin</B>, <B>China</B>",
+                        "id": "1510",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "45.658669",
+                            "lng": "127.948756"
+                        },
+                        "amc": "6140852"
+                    }
+                },
+                {
+                    "title": "Asahikawa",
+                    "subtitle": "Japón",
+                    "id": "winter-wonderlands.asahikawa-winter",
+                    "description": "El Festival de invierno de Asahikawa celebra el largo invierno de Hokkaido con asombrosas esculturas de hielo y espectáculos musicales. Si estás en la ciudad, recuerda visitar el cercano Festival de la nieve de Sapporo.",
+                    "image": "asahikawa-winter",
+                    "imageCode": "asahikawa-winter",
+                    "location": {
+                        "s": "Asahikawa (y alrededores), Japón",
+                        "a": "AKJ",
+                        "d": "<B>Asahikawa</B>, Japón",
+                        "id": "6143139",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "43.774547",
+                            "lng": "142.365571"
+                        },
+                        "amc": "6143139"
+                    }
+                },
+                {
+                    "title": "Park City",
+                    "subtitle": "Utah",
+                    "id": "winter-wonderlands.parkcity-winter",
+                    "description": "Además de las excelentes condiciones para practicar ski, Park City se enorgullece de celebrar cada año el Festival de cine de Sundance, el festival por excelencia del cine independiente.",
+                    "image": "parkcity-winter",
+                    "imageCode": "parkcity-winter",
+                    "location": {
+                        "s": "Park City (y alrededores), Utah, Estados Unidos",
+                        "a": "SLC",
+                        "d": "<B>Park</B> <B>City</B>, <B>Ut</B>ah, Estados Unidos",
+                        "id": "602285",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "40.644230",
+                            "lng": "-111.496071"
+                        },
+                        "amc": "178302"
+                    }
+                },
+                {
+                    "title": "Saas-Fee",
+                    "subtitle": "Suiza",
+                    "id": "winter-wonderlands.saasfee-winter",
+                    "description": "Este maravilloso glaciar te invita a descubrir brillantes esculturas de hielo. Toma el metro más alto del mundo con destino a uno de las mayores estructuras de hielo, donde podrás recorrer un túnel de 70 metros de largo para ver bloques de hielo que datan de miles de años de antigüedad.",
+                    "image": "saasfee-winter",
+                    "imageCode": "saasfee-winter",
+                    "location": {
+                        "s": "Saas-Fee, Suiza",
+                        "a": "GVA",
+                        "d": "<B>Saas</B>-<B>Fee</B>, Suiza",
+                        "id": "4352",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "46.088787",
+                            "lng": "7.900798"
+                        },
+                        "amc": "180003"
+                    }
+                }
+            ]
+        },
+		{
+		   "title":"Destinos gastronómicos",
+		   "id":"us-foodie",
+		   "imageCode":"us-foodie",
+		   "locations":[
+				{
+					"title": "Honolulú",
+					"subtitle": "Hawái",
+					"id": "us-foodie.honolulu",
+					"description": "Mientras tomas el sol en una de las magníficas playas de Oahu, tu sentido del gusto alcanzará el paraíso gracias a las delicias regionales, como el cerdo kalua (cocinado a fuego lento), los platillos mixtos multiétnicos, el poke y el hielo raspado.",
+					"imageCode": "honolulu",
+					"location": {
+						"s": "Honolulú, Hawái, Estados Unidos",
+						"a": "HNL",
+						"d": "<B>Honolulú</B>, Hawái, Estados Unidos",
+						"id": "1488",
+						"t": "CITY",
+						"ll": {
+							"lat": "21.309540",
+							"lng": "-157.861600"
+						},
+						"amc": "180077"
+					}
+				},
+				{
+					"title": "Austin",
+					"subtitle": "Texas",
+					"id": "us-foodie.austin",
+					"description": "La capital de Texas es famosa por tener las mejores carnes del país, aunque tiene mucho más que falda y costillitas de res por ofrecer. En Austin, también encontrarás increíbles restaurantes de comida tex-mex y japonesa, además de vibrantes puestos de comida ambulantes.",
+					"imageCode": "austin",
+					"location": {
+						"s": "Austin (y alrededores), Texas, Estados Unidos",
+						"a": "AUS",
+						"d": "<B>Austin</B>, <B>Texas</B>, Estados Unidos",
+						"id": "178234",
+						"t": "CITY",
+						"ll": {
+							"lat": "30.268050",
+							"lng": "-97.742810"
+						},
+						"amc": "178234"
+					}
+				},
+				{
+					"title": "Chicago",
+					"subtitle": "Illinois",
+					"id": "us-foodie.chicago",
+					"description": "Además de su emblemática pizza servida en plato hondo, los hot dogs típicos de Chicago y los sándwiches de carne italianos, la Ciudad del Viento se está convirtiendo rápidamente en un destino gourmet, con una escena culinaria con grandes chefs que han inaugurado, en esta ciudad, restaurantes de nivel menos exclusivo y más económicos, que surgieron como un producto derivado de sus prestigiosos restaurantes.",
+					"imageCode": "chicago",
+					"location": {
+						"s": "Chicago (y alrededores), Illinois, Estados Unidos",
+						"a": "CHI",
+						"d": "<B>Chicago</B>, <B>Illinois</B>, Estados Unidos",
+						"id": "178248",
+						"t": "CITY",
+						"ll": {
+							"lat": "41.881056",
+							"lng": "-87.964655"
+						},
+						"amc": "178248"
+					}
+				},
+				{
+					"title": "Las Vegas",
+					"subtitle": "Nevada",
+					"id": "us-foodie.las-vegas",
+					"description": "En Las Vegas, no solo se destacan las celebridades. En los últimos años, los chefs famosos (con estrellas Michelín y programas de televisión) se mudaron a Sin City.",
+					"imageCode": "las-vegas",
+					"location": {
+						"s": "Las Vegas (y alrededores), Nevada, Estados Unidos",
+						"a": "LAS",
+						"d": "<B>Las</B> <B>Vegas</B>, <B>Nevada</B>, Estados Unidos",
+						"id": "178276",
+						"t": "CITY",
+						"ll": {
+							"lat": "36.114666",
+							"lng": "-115.172872"
+						},
+						"amc": "178276"
+					}
+				},
+				{
+					"title": "Boston",
+					"subtitle": "Massachusetts",
+					"id": "us-foodie.boston",
+					"description": "Si bien Boston se destaca por sus increíbles mariscos (sopa de almejas, langosta, fish and chips, entre otros), también ofrece una amplia variedad de comida étnica, restaurantes gourmet muy exclusivos y mercados de productores locales, donde encontrarás todo tipo de opciones.",
+					"imageCode": "boston",
+					"location": {
+						"s": "Boston (y alrededores), Massachusetts, Estados Unidos",
+						"a": "BOS",
+						"d": "<B>Boston</B>, <B>Massachusetts</B>, Estados Unidos",
+						"id": "178239",
+						"t": "CITY",
+						"ll": {
+							"lat": "42.357690",
+							"lng": "-71.063240"
+						},
+						"amc": "178239"
+					}
+				},
+				{
+					"title": "Nueva Orleans",
+					"subtitle": "Luisiana",
+					"id": "us-foodie.new-orleans",
+					"description": "Aprovecha los buenos momentos en \"Nawlins\" (Nueva Orleans) y disfruta de lo mejor de la cocina criolla y cajún, que incluye jambalaya, gumbo, etouffe de cangrejo de río y buñuelos.",
+					"imageCode": "new-orleans",
+					"location": {
+						"s": "Nueva Orleans (y alrededores), Luisiana, Estados Unidos",
+						"a": "MSY",
+						"d": "Nueva <B>Orleans</B>, Luisiana, Estados Unidos",
+						"id": "178292",
+						"t": "CITY",
+						"ll": {
+							"lat": "30.009333",
+							"lng": "-90.128434"
+						},
+						"amc": "178292"
+					}
+				},
+				{
+					"title": "Los Ángeles",
+					"subtitle": "California",
+					"id": "us-foodie.los-angeles",
+					"description": "La ciudad de Los Ángeles se enorgullece de marcar tendencias, en lo que respecta a la gastronomía, y de contar con chefs famosos, un sinfín de puestos de comida ambulantes y restaurantes temporales.",
+					"imageCode": "los-angeles",
+					"location": {
+						"s": "Los Ángeles (y alrededores), California, Estados Unidos",
+						"a": "QLA",
+						"d": "<B>Los</B> Ángeles, <B>California</B>, Estados Unidos",
+						"id": "178280",
+						"t": "CITY",
+						"ll": {
+							"lat": "34.086247",
+							"lng": "-118.299343"
+						},
+						"amc": "178280"
+					}
+				},
+				{
+					"title": "Portland",
+					"subtitle": "Oregón",
+					"id": "us-foodie.portland",
+					"description": "Con más de 200 puestos de comida ambulantes y una amplia selección de restaurantes con productos frescos, pequeñas cervecerías artesanales y cafeterías con elaboración propia, Portland, una ciudad siempre verde, se destaca por ser un destino joven y vibrante, que está a la vanguardia de las nuevas tendencias gourmets.",
+					"imageCode": "portland",
+					"location": {
+						"s": "Portland (y alrededores), Oregón, Estados Unidos",
+						"a": "PDX",
+						"d": "<B>Portland</B>, <B>Oregón</B>, Estados Unidos",
+						"id": "178299",
+						"t": "CITY",
+						"ll": {
+							"lat": "45.458054",
+							"lng": "-122.661384"
+						},
+						"amc": "178299"
+					}
+				},
+				{
+					"title": "San Francisco",
+					"subtitle": "California",
+					"id": "us-foodie.san-francisco",
+					"description": "Con más de 3500 restaurantes (la ciudad con mayor cantidad de restaurantes per cápita) y delicias gastronómicas de mercados de productos locales y puestos de comida ambulantes, no cabe duda de que quienes visitan esta ciudad disfrutan con el corazón y el apetito en San Francisco.",
+					"imageCode": "san-francisco",
+					"location": {
+						"s": "San Francisco (y alrededores), California, Estados Unidos",
+						"a": "QSF",
+						"d": "<B>San</B> <B>Francisco</B>, <B>California</B>, Estados Unidos",
+						"id": "178305",
+						"t": "CITY",
+						"ll": {
+							"lat": "37.624590",
+							"lng": "-122.343839"
+						},
+						"amc": "178305"
+					}
+				},
+				{
+					"title": "Nueva York",
+					"subtitle": "Nueva York",
+					"id": "us-foodie.new-york",
+					"description": "¡Te damos la bienvenida a la Gran Manzana! Aquí podrás encontrar prácticamente todas las opciones gastronómicas y podrás comer bien a cualquier precio. Desde la alta cocina de chefs famosos hasta la comida étnica de los vendedores callejeros famosos en la ciudad, esta meca gastronómica tendrá algo para todos los gustos.",
+					"imageCode": "new-york",
+					"location": {
+						"s": "Nueva York (y alrededores), Nueva York, Estados Unidos",
+						"a": "NYC",
+						"d": "Nueva <B><B>York</B></B>, Nueva <B><B>York</B></B>, Estados Unidos",
+						"id": "178293",
+						"t": "CITY",
+						"ll": {
+							"lat": "40.756680",
+							"lng": "-73.986470"
+						},
+						"amc": "178293"
+					}
+				}
+			]
+		}
+	]
+}

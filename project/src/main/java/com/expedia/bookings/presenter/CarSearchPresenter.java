@@ -1,12 +1,7 @@
 package com.expedia.bookings.presenter;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,25 +24,26 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.SuggestionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView;
 import com.expedia.bookings.widget.CarDateTimeWidget;
 import com.expedia.bookings.widget.CarSuggestionAdapter;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.mobiata.android.Log;
 import com.mobiata.android.time.widget.CalendarPicker;
-import com.mobiata.android.util.IoUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -57,10 +52,7 @@ import butterknife.OnClick;
 public class CarSearchPresenter extends Presenter
 	implements EditText.OnEditorActionListener, CarDateTimeWidget.ICarDateTimeListener {
 
-	private static final String TOOLTIP_DATE_PATTERN = "MMM dd";
-	private DateTimeFormatter df = DateTimeFormat.forPattern(TOOLTIP_DATE_PATTERN);
-	private ArrayList<Suggestion> mRecentCarsLocationsSearches;
-	private static final String RECENT_ROUTES_CARS_LOCATION_FILE = "recent-cars-airport-routes-list.dat";
+	private ArrayList<Suggestion> mRecentCarsLocationsSearches = new ArrayList<>();
 	private static final int RECENT_MAX_SIZE = 3;
 
 	public CarSearchPresenter(Context context) {
@@ -107,7 +99,7 @@ public class CarSearchPresenter extends Presenter
 	}
 
 	@OnClick(R.id.dropoff_location)
-	public void displayAlertForDropOffLocacationClick() {
+	public void displayAlertForDropOffLocationClick() {
 		showAlertMessage(R.string.drop_off_same_as_pick_up, R.string.ok);
 	}
 
@@ -151,16 +143,14 @@ public class CarSearchPresenter extends Presenter
 		pickUpLocation.setOnEditorActionListener(this);
 		pickUpLocation.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 
-		Drawable drawableEnabled = getResources().getDrawable(R.drawable.location);
+		Drawable drawableEnabled = getResources().getDrawable(R.drawable.location).mutate();
 		drawableEnabled.setColorFilter(getResources().getColor(R.color.cars_secondary_color), PorterDuff.Mode.SRC_IN);
 		pickUpLocation.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
 
 		Drawable drawableDisabled = getResources().getDrawable(R.drawable.location).mutate();
 		drawableDisabled
-			.setColorFilter(getResources().getColor(R.color.cars_dropdown_disabled_stroke), PorterDuff.Mode.SRC_IN);
+			.setColorFilter(getResources().getColor(R.color.search_dropdown_disabled_stroke), PorterDuff.Mode.SRC_IN);
 		dropOffLocation.setCompoundDrawablesWithIntrinsicBounds(drawableDisabled, null, null, null);
-
-		loadHistory();
 
 		addTransition(defaultToCal);
 
@@ -171,6 +161,27 @@ public class CarSearchPresenter extends Presenter
 		}
 
 		show(new CarParamsDefault());
+
+		Gson gson = CarServices.generateGson();
+		String carSearchParamsString = ((Activity) getContext()).getIntent()
+			.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
+		CarSearchParams carSearchParams = gson.fromJson(carSearchParamsString, CarSearchParams.class);
+
+		if (carSearchParams != null) {
+			CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder = new CarSearchParamsBuilder.DateTimeBuilder()
+				.startDate(carSearchParams.startDateTime.toLocalDate())
+				.endDate(carSearchParams.endDateTime.toLocalDate());
+			searchParamsBuilder.dateTimeBuilder(dateTimeBuilder);
+			Suggestion suggestion = new Suggestion();
+			suggestion.airportCode = carSearchParams.origin;
+			suggestion.fullName = suggestion.shortName = suggestion.displayName = carSearchParams.originDescription;
+			setPickUpLocation(suggestion, false);
+			calendar.setSelectedDates(carSearchParams.startDateTime.toLocalDate(),
+				carSearchParams.endDateTime.toLocalDate());
+		}
+		else {
+			loadHistory();
+		}
 	}
 
 	public Button setupToolBarCheckmark(final MenuItem menuItem) {
@@ -192,8 +203,12 @@ public class CarSearchPresenter extends Presenter
 	}
 
 	private void setPickUpLocation(final Suggestion suggestion) {
+		setPickUpLocation(suggestion, true);
+	}
+
+	private void setPickUpLocation(final Suggestion suggestion, final boolean filter) {
 		Suggestion suggest = suggestion.clone();
-		pickUpLocation.setText(StrUtils.formatCityName(suggest.fullName));
+		pickUpLocation.setText(StrUtils.formatCityName(suggest.fullName), filter);
 		searchParamsBuilder.origin(suggest.airportCode);
 		searchParamsBuilder.originDescription(StrUtils.formatAirport(suggest));
 		paramsChanged();
@@ -272,20 +287,6 @@ public class CarSearchPresenter extends Presenter
 		return areRequiredParamsFilled;
 	}
 
-	private void showParamMissingToast() {
-		int messageResourceId;
-		if (carSearchParams == null || Strings.isEmpty(carSearchParams.origin)) {
-			messageResourceId = R.string.error_missing_origin_param;
-		}
-		else if (carSearchParams.startDateTime == null) {
-			messageResourceId = R.string.error_missing_start_date_param;
-		}
-		else {
-			messageResourceId = R.string.error_missing_end_date_param;
-		}
-		showAlertMessage(messageResourceId, R.string.ok);
-	}
-
 	/*
 	 * Pickup edit text helpers
 	 */
@@ -293,8 +294,7 @@ public class CarSearchPresenter extends Presenter
 	private AdapterView.OnItemClickListener mPickupListListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			Ui.hideKeyboard(CarSearchPresenter.this);
-			clearFocus();
+			hidePickupDropdown();
 			Suggestion suggestion = suggestionAdapter.getItem(position);
 			setPickUpLocation(suggestion);
 		}
@@ -354,51 +354,30 @@ public class CarSearchPresenter extends Presenter
 					setPickUpLocation(topSuggestion);
 				}
 			}
-			clearFocus();
+			hidePickupDropdown();
 		}
 		return false;
 	}
 
-	public void clearFocus() {
+	private void hidePickupDropdown() {
 		pickUpLocation.clearFocus();
-		InputMethodManager imm = (InputMethodManager) pickUpLocation.getContext()
-			.getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(pickUpLocation.getWindowToken(), 0);
+		Ui.hideKeyboard(pickUpLocation);
 	}
 
-	public void saveHistory() {
-		(new Thread(new Runnable() {
-			@Override
-			public void run() {
-				Type type = new TypeToken<ArrayList<Suggestion>>() {
-				}.getType();
-				String suggestionJson = new Gson().toJson(mRecentCarsLocationsSearches, type);
-				try {
-					IoUtils.writeStringToFile(RECENT_ROUTES_CARS_LOCATION_FILE, suggestionJson, getContext());
-				}
-				catch (IOException e) {
-					Log.e("Save History Error: ", e);
-				}
-			}
-		})).start();
+	private void saveHistory() {
+		SuggestionUtils
+			.saveSuggestionHistory(getContext(), mRecentCarsLocationsSearches, SuggestionUtils.RECENT_ROUTES_CARS_LOCATION_FILE);
 	}
 
 	private void loadHistory() {
-
-		mRecentCarsLocationsSearches = new ArrayList<Suggestion>();
-		try {
-			String str = IoUtils.readStringFromFile(RECENT_ROUTES_CARS_LOCATION_FILE, getContext());
-			Type type = new TypeToken<ArrayList<Suggestion>>() {
-			}.getType();
-			mRecentCarsLocationsSearches = new Gson().fromJson(str, type);
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		mRecentCarsLocationsSearches = SuggestionUtils.loadSuggestionHistory(getContext(),
+			SuggestionUtils.RECENT_ROUTES_CARS_LOCATION_FILE);
 		suggestionAdapter.addNearbyAndRecents(mRecentCarsLocationsSearches, getContext());
 		postDelayed(new Runnable() {
 			public void run() {
+				if (ExpediaBookingApp.sIsAutomation) {
+					return;
+				}
 				pickUpLocation.requestFocus();
 				Ui.showKeyboard(pickUpLocation, null);
 			}
@@ -456,10 +435,13 @@ public class CarSearchPresenter extends Presenter
 		public void finalizeTransition(boolean forward) {
 			calendarContainer.setTranslationY(forward ? 0 : calendarHeight);
 			if (forward) {
-				Ui.hideKeyboard(CarSearchPresenter.this);
-				pickUpLocation.clearFocus();
+				hidePickupDropdown();
 			}
 			setCalendarVisibility(View.VISIBLE);
+			if (forward && searchParamsBuilder.areRequiredParamsFilled()) {
+				calendarContainer.onDateSelectionChanged(carSearchParams.startDateTime.toLocalDate(),
+					carSearchParams.endDateTime.toLocalDate());
+			}
 		}
 	};
 

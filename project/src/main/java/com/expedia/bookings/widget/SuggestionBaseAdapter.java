@@ -14,6 +14,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.SuggestionServices;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.LocationServices;
@@ -26,6 +27,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 	// Implementing class decides how to use the suggestion service to provide suggestions
 	protected abstract Subscription suggest(SuggestionServices suggestionServices,
 		Observer<List<Suggestion>> suggestionsObserver, CharSequence query);
+	protected abstract Subscription getNearbySuggestions(String locale, String latLong, int siteId, Observer<List<Suggestion>> observer);
 
 	private static final long MINIMUM_TIME_AGO = DateUtils.HOUR_IN_MILLIS;
 	private boolean showRecentSearch = true;
@@ -47,7 +49,21 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 
 	public void addNearbyAndRecents(List<Suggestion> list, Context ctx) {
 		recentHistory.addAll(list);
-		getNearbyAirport(ctx);
+
+		long minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO;
+		android.location.Location loc = LocationServices.getLastBestLocation(ctx, minTime);
+
+		// just show the recent history items when there's no current loc
+		if (loc != null) {
+			showNearby = true;
+			String latlong = loc.getLatitude() + "|" + loc.getLongitude();
+
+			getNearbySuggestions(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId(), suggestionsObserver);
+		}
+		else {
+			suggestions.addAll(recentHistory);
+			filter.publishResults("", null);
+		}
 	}
 
 	public void updateRecentHistory(List<Suggestion> list) {
@@ -56,22 +72,6 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		recentHistory.addAll(list);
 		suggestions.addAll(recentHistory);
 		filter.publishResults("", null);
-	}
-
-	public void getNearbyAirport(Context ctx) {
-		long minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO;
-		android.location.Location loc = LocationServices.getLastBestLocation(ctx, minTime);
-
-		// just show the recent history items when there's no current loc
-		if (loc != null) {
-			showNearby = true;
-			String query = loc.getLatitude() + "|" + loc.getLongitude();
-			suggestionServices.getNearbyAirportSuggestions(query, suggestionsObserver);
-		}
-		else {
-			suggestions.addAll(recentHistory);
-			filter.publishResults("", null);
-		}
 	}
 
 	@Override

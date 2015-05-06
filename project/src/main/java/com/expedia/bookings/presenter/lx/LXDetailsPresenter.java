@@ -1,24 +1,30 @@
 package com.expedia.bookings.presenter.lx;
 
-import java.io.UnsupportedEncodingException;
-
 import javax.inject.Inject;
 
+import org.joda.time.LocalDate;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.StringRes;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucketItemLX;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
@@ -26,33 +32,35 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.RetrofitUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
+import com.expedia.bookings.widget.LXErrorWidget;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
-import rx.exceptions.OnErrorNotImplementedException;
 
-public class LXDetailsPresenter extends Presenter {
-
+public class LXDetailsPresenter extends Presenter implements UserAccountRefresher.IUserAccountRefreshListener {
 	public LXDetailsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
-
-	/**
-	 * TODO: Will need to refactor this based on the designs. If same loading is shown as on SRP, then reuse the progress bar
-	 */
-
-	@InjectView(R.id.loading_details)
-	ProgressBar loadingProgress;
 
 	@InjectView(R.id.activity_details)
 	LXActivityDetailsWidget details;
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
+
+	@InjectView(R.id.toolbar_background)
+	View toolbarBackground;
+
+	@InjectView(R.id.lx_details_error_widget)
+	LXErrorWidget errorScreen;
 
 	@Inject
 	LXState lxState;
@@ -65,13 +73,17 @@ public class LXDetailsPresenter extends Presenter {
 	@Inject
 	LXServices lxServices;
 
+	UserAccountRefresher userAccountRefresher;
+
 	// Transitions
-	private Transition loadingToDetails = new VisibilityTransition(this, ProgressBar.class.getName(), LXActivityDetailsWidget.class.getName());
-	DefaultTransition setUpLoading = new DefaultTransition(ProgressBar.class.getName()) {
+
+	private Transition detailsToError = new VisibilityTransition(this, LXActivityDetailsWidget.class.getName(), LXErrorWidget.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {
-			loadingProgress.setVisibility(View.VISIBLE);
-			details.setVisibility(View.GONE);
+			super.finalizeTransition(forward);
+			toolbar.setVisibility(View.GONE);
+			toolbarBackground.setAlpha(0f);
+			animationFinalize(forward);
 		}
 	};
 
@@ -80,14 +92,17 @@ public class LXDetailsPresenter extends Presenter {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
-		addTransition(loadingToDetails);
-		addDefaultTransition(setUpLoading);
+		addTransition(detailsToError);
 
 		createTripDialog = new ProgressDialog(getContext());
 		createTripDialog.setMessage(getResources().getString(R.string.preparing_checkout_message));
 		createTripDialog.setIndeterminate(true);
-
+		createTripDialog.setCancelable(false);
 		setupToolbar();
+		details.addOnScrollListener(parallaxScrollListener);
+		errorScreen.setVisibility(View.GONE);
+
+		userAccountRefresher = new UserAccountRefresher(getContext(), LineOfBusiness.LX, this);
 	}
 
 	@Override
@@ -107,6 +122,27 @@ public class LXDetailsPresenter extends Presenter {
 		}
 	}
 
+	private void showActivityFetchErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.LXActivitySelectedRetry());
+				}
+			})
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					((ActionBarActivity) getContext()).onBackPressed();
+				}
+			})
+			.show();
+	}
+
 	private Observer<ActivityDetailsResponse> detailsObserver = new Observer<ActivityDetailsResponse>() {
 		@Override
 		public void onCompleted() {
@@ -115,7 +151,13 @@ public class LXDetailsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
-			// ignore
+			if (RetrofitUtils.isNetworkError(e)) {
+				showActivityFetchErrorDialog(R.string.error_no_internet);
+			}
+			else {
+				//Bucket all other errors as Activity Details Fetch Error
+				showActivityFetchErrorDialog(R.string.lx_error_details);
+			}
 		}
 
 		@Override
@@ -127,9 +169,17 @@ public class LXDetailsPresenter extends Presenter {
 
 	@Subscribe
 	public void onActivitySelected(Events.LXActivitySelected event) {
-		show(loadingProgress);
-		setToolbarTitles();
-		detailsSubscription = lxServices.lxDetails(event.lxActivity, lxState.searchParams.startDate, lxState.searchParams.endDate, detailsObserver);
+		showActivityDetails(event.lxActivity, lxState.searchParams.startDate, lxState.searchParams.endDate);
+	}
+
+	@Subscribe
+	public void onActivitySelectedRetry(Events.LXActivitySelectedRetry event) {
+		showActivityDetails(lxState.activity, lxState.searchParams.startDate, lxState.searchParams.endDate);
+	}
+
+	private void showActivityDetails(LXActivity activity, LocalDate startDate, LocalDate endDate) {
+		setToolbarTitles(activity);
+		detailsSubscription = lxServices.lxDetails(activity, lxState.searchParams.location, startDate, endDate, detailsObserver);
 	}
 
 	private void setupToolbar() {
@@ -156,26 +206,24 @@ public class LXDetailsPresenter extends Presenter {
 		});
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
-		if (statusBarHeight > 0) {
-			int toolbarColor = getContext().getResources().getColor(R.color.lx_primary_color);
-			addView(Ui.setUpStatusBar(getContext(), toolbar, details, toolbarColor));
-		}
+		toolbarBackground.getLayoutParams().height += statusBarHeight;
+		toolbar.setPadding(0, statusBarHeight, 0, 0);
 	}
 
-	private void setToolbarTitles() {
+	private void setToolbarTitles(LXActivity lxActivity) {
 		LXSearchParams searchParams = lxState.searchParams;
-		toolbar.setTitle(searchParams.location);
+		toolbar.setTitle(lxActivity.title);
 		String dateRange = String.format(getResources().getString(R.string.lx_toolbar_date_range_template),
-			DateUtils.localDateToMMMdd(searchParams.startDate), DateUtils.localDateToMMMdd(searchParams.endDate));
+			DateUtils.localDateToMMMd(searchParams.startDate), DateUtils.localDateToMMMd(searchParams.endDate));
 		toolbar.setSubtitle(dateRange);
+		toolbarBackground.setAlpha(0);
 	}
 
 	@Subscribe
-	public void onOfferBooked(Events.LXOfferBooked event) throws UnsupportedEncodingException {
+	public void onOfferBooked(Events.LXOfferBooked event) {
 		createTripDialog.show();
 		cleanup();
-
-		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), createTripObserver);
+		userAccountRefresher.ensureAccountIsRefreshed();
 	}
 
 	private Observer<LXCreateTripResponse> createTripObserver = new Observer<LXCreateTripResponse>() {
@@ -186,7 +234,17 @@ public class LXDetailsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
-			throw new OnErrorNotImplementedException(e);
+			Log.e("LXCreateTrip - onError", e);
+			createTripDialog.dismiss();
+			if (RetrofitUtils.isNetworkError(e)) {
+				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
+			}
+			else if (e instanceof ApiError) {
+				showErrorScreen((ApiError) e);
+			}
+			else {
+				showErrorScreen(null);
+			}
 		}
 
 		@Override
@@ -198,4 +256,63 @@ public class LXDetailsPresenter extends Presenter {
 		}
 	};
 
+	private void showOnCreateNoInternetErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.LXOfferBooked(lxState.offer, lxState.selectedTickets));
+				}
+			})
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.show();
+	}
+
+	com.expedia.bookings.widget.ScrollView.OnScrollListener parallaxScrollListener = new com.expedia.bookings.widget.ScrollView.OnScrollListener() {
+		@Override
+		public void onScrollChanged(com.expedia.bookings.widget.ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			float ratio = details.parallaxScrollHeader(y);
+			toolbarBackground.setAlpha(ratio);
+		}
+	};
+
+	public void animationStart(boolean forward) {
+		toolbarBackground.setTranslationY(forward ? 0 : -toolbarBackground.getHeight());
+		toolbar.setTranslationY(forward ? 0 : 50);
+		toolbar.setVisibility(VISIBLE);
+	}
+
+	public void animationUpdate(float f, boolean forward) {
+		toolbarBackground
+			.setTranslationY(forward ? -toolbarBackground.getHeight() * f : -toolbarBackground.getHeight() * (1 - f));
+		toolbar.setTranslationY(forward ? 50 * f : 50 * (1 - f));
+	}
+
+	public void animationFinalize(boolean forward) {
+		toolbarBackground.setTranslationY(forward ? -toolbarBackground.getHeight() : 0);
+		toolbar.setTranslationY(forward ? 50 : 0);
+		toolbar.setVisibility(forward ? GONE : VISIBLE);
+		toolbarBackground.setAlpha(
+			Strings.equals(getCurrentState(), LXActivityDetailsWidget.class.getName()) ? toolbarBackground.getAlpha()
+				: 1f);
+	}
+
+	private void showErrorScreen(ApiError error) {
+		errorScreen.bind(error);
+		show(errorScreen);
+	}
+
+	@Override
+	public void onUserAccountRefreshed() {
+		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), createTripObserver);
+	}
 }
+

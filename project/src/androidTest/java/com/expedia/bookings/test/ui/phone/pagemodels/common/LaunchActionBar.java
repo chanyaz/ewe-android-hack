@@ -1,11 +1,11 @@
 package com.expedia.bookings.test.ui.phone.pagemodels.common;
 
-import com.expedia.bookings.R;
-
 import android.support.test.espresso.ViewInteraction;
 
-import static android.support.test.espresso.action.ViewActions.click;
+import com.expedia.bookings.R;
+
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.pressMenuKey;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -20,8 +20,8 @@ public class LaunchActionBar {
 	private static final int sInfoStringID = R.string.Info;
 	private static final int sTripsStringID = R.string.Your_Trips;
 	private static final int sShopStringID = R.string.shop;
-	private static final int sLogOutStringID = R.string.log_out;
-	private static final int sAddItinButtonID = R.id.add_itinerary;
+	private static final int sLogOutStringID = R.string.sign_out;
+	private static final int sAddItinButtonID = R.id.add_itinerary_guest;
 
 	public static ViewInteraction settingsString() {
 		return onView(withText(sSettingsStringID));

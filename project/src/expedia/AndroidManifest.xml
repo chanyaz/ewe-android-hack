@@ -38,6 +38,7 @@
                 <data android:host="hotelSearch" />
                 <data android:host="flightSearch" />
                 <data android:host="destination" />
+                <data android:host="localexpert"/>
 
                 <!-- We will handle iOS implementation of ItinSharing as well, just cause we can -->
                 <data android:host="addSharedItinerary" />
@@ -48,9 +49,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:pathPrefix="/m/trips/shared"
-                    android:scheme="https"/>
+                <data android:scheme="https"/>
+                <data android:scheme="http"/>
+                <data android:pathPrefix="/localexpert"/>
+                <data android:pathPrefix="/m/trips/shared"/>
                 <data android:host="www.expedia.com" />
                 <data android:host="www.expedia.com.ar" />
                 <data android:host="www.expedia.at" />
@@ -117,6 +119,21 @@
             </intent-filter>
         </receiver>
         <service android:name="com.leanplum.LeanplumPushService" />
+
+        <!--Push Notifications for kahuna sdk -->
+        <receiver android:name="com.kahuna.sdk.KahunaCoreReceiver" />
+        <receiver
+            android:name="com.kahuna.sdk.KahunaPushReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.kahuna.sdk.KahunaPushService" />
 
 
     </application>

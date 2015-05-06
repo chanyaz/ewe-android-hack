@@ -5,8 +5,8 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 
+import com.expedia.bookings.BuildConfig;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.squareup.otto.Bus;
 
@@ -68,7 +68,7 @@ public class Sp {
 	private static final String SP_TESTING_FILE_NAME = "sp_testing.json";
 
 	public static void saveOrLoadForTesting(android.app.Activity activity) {
-		if (AndroidUtils.isRelease(activity)) {
+		if (BuildConfig.RELEASE) {
 			throw new RuntimeException("You may not call saveOrLoadForTesting on release builds");
 		}
 

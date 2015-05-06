@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.CreateTripResponse;
@@ -31,7 +32,6 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 /**
@@ -309,7 +309,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		final Rate newRate = response.getAirAttachRate() != null ? response.getAirAttachRate() : response.getNewRate();
 
 		// Fake price change
-		if (!AndroidUtils.isRelease(getActivity())) {
+		if (BuildConfig.DEBUG) {
 			String priceChangeString = SettingUtils.get(getActivity(),
 				getString(R.string.preference_fake_hotel_price_change),
 				getString(R.string.preference_fake_price_change_default));

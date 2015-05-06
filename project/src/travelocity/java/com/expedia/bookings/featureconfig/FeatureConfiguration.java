@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.text.format.DateUtils;
 import android.view.View;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TravelocityLocaleChangeReceiver;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -21,7 +22,6 @@ import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.fragment.AboutSectionFragment;
-import com.mobiata.android.util.AndroidUtils;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	public String getServerEndpointsConfigurationPath() {
@@ -111,8 +111,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return adXPosIdentifier;
 	}
 
-	public String getOmnitureReportSuiteIds(Context context) {
-		if (AndroidUtils.isRelease(context)) {
+	public String getOmnitureReportSuiteIds() {
+		if (BuildConfig.RELEASE) {
 			return "tvlglobalapp";
 		}
 		else {
@@ -162,6 +162,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isLeanPlumEnabled() {
+		return false;
+	}
+
+	public boolean isKahunaEnabled() {
 		return false;
 	}
 

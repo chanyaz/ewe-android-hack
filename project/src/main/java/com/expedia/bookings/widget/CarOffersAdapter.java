@@ -6,14 +6,13 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -111,6 +110,9 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		@InjectView(R.id.category_price_text)
 		public TextView ratePrice;
 
+		@InjectView(R.id.map_click_container)
+		public FrameLayout mapClickContainer;
+
 		@InjectView(R.id.map_view)
 		public MapView mapView;
 
@@ -133,12 +135,10 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		public android.widget.FrameLayout mainContainer;
 
 		public Context mContext;
-		public Drawable selectedItemDrawable;
 
 		public ViewHolder(View view) {
 			super(view);
 			mContext = view.getContext();
-			selectedItemDrawable = getSelectedItemDrawable();
 			ButterKnife.inject(this, itemView);
 			itemView.setOnClickListener(this);
 		}
@@ -192,7 +192,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		}
 
 		private void updateState(boolean isChecked) {
-			mainContainer.setForeground(isChecked ? null : selectedItemDrawable);
+			mainContainer.setClickable(!isChecked);
 			reserveNow.setChecked(isChecked);
 
 			Ui.setViewBackground(root, isChecked ? mContext.getResources().getDrawable(R.drawable.card_background) : null);
@@ -224,14 +224,6 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			}
 		}
 
-		public Drawable getSelectedItemDrawable() {
-			int[] attrs = new int[] { R.attr.selectableItemBackground };
-			TypedArray ta = mContext.obtainStyledAttributes(attrs);
-			Drawable selectedItemDrawable = ta.getDrawable(0);
-			ta.recycle();
-			return selectedItemDrawable;
-		}
-
 		@Override
 		public void onClick(View view) {
 			onItemExpanded(getPosition());
@@ -248,9 +240,9 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
 				new LatLng(offer.pickUpLocation.latitude, offer.pickUpLocation.longitude),
 				MAP_ZOOM_LEVEL));
-			googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+			mapClickContainer.setOnClickListener(new View.OnClickListener() {
 				@Override
-				public void onMapClick(LatLng latLng) {
+				public void onClick(View v) {
 					String uri = String.format(Locale.ENGLISH, "geo:%f,%f", offer.pickUpLocation.latitude,
 						offer.pickUpLocation.longitude);
 					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));

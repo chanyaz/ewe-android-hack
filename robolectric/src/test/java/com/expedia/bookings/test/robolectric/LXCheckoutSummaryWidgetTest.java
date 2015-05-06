@@ -34,8 +34,8 @@ public class LXCheckoutSummaryWidgetTest {
 		TextView tripTotal = (TextView) checkoutSummaryWidget.findViewById(R.id.price_text);
 
 		assertEquals("New York, United States", location.getText());
-		assertEquals("2015-02-24 07:30:00", date.getText());
-		assertEquals("3 Adult, 1 Child", groupText.getText());
+		assertEquals("Tue, Feb 24", date.getText());
+		assertEquals("3 Adults, 1 Child", groupText.getText());
 		assertEquals("$500", tripTotal.getText());
 		assertEquals(View.VISIBLE, freeCancellation.getVisibility());
 	}

@@ -11,13 +11,15 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.lx.LXCheckoutParamsBuilder;
+import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
@@ -30,6 +32,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		super(context, attr);
 	}
 
+	private static final String RULES_RESTRICTIONS_URL_PATH = "Checkout/LXRulesAndRestrictions?tripid=";
 	@Inject
 	LXState lxState;
 
@@ -55,6 +58,9 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 
 	@Subscribe
 	public void onShowCheckout(Events.LXCreateTripSucceeded event) {
+
+		OmnitureTracking.trackAppLXCheckoutPayment(getContext(), lxState);
+
 		bind(event.createTripResponse);
 	}
 
@@ -62,16 +68,18 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		this.createTripResponse = createTripResponse;
 		summaryWidget.bind();
 		paymentInfoCardView.setCreditCardRequired(true);
+		clearCCNumber();
 		slideWidget.resetSlider();
 
-		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney();
+		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
 		sliderTotalText.setText(getResources().getString(R.string.your_card_will_be_charged_TEMPLATE, totalMoney));
 
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);
-		// TODO Make this LX specific
-		legalInformationText.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
+
+		String rulesAndRestrictionsURL = getRulesRestrictionsUrl(createTripResponse.tripId);
+		legalInformationText.setText(StrUtils.generateLegalClickableLink(getContext(), rulesAndRestrictionsURL));
 		isCheckoutComplete();
 		loginWidget.updateView();
 		show(new CheckoutDefault());
@@ -100,33 +108,39 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 	public void onBook(String cvv) {
 		final boolean suppressFinalBooking =
 			BuildConfig.DEBUG && SettingUtils.get(getContext(), R.string.preference_suppress_lx_bookings, true);
-		LXCheckoutParamsBuilder checkoutParamsBuilder = new LXCheckoutParamsBuilder()
+
+		LXCheckoutParams checkoutParams = new LXCheckoutParams()
 			.firstName(mainContactInfoCardView.firstName.getText().toString())
 			.lastName(mainContactInfoCardView.lastName.getText().toString())
 			.email(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail()
 				: mainContactInfoCardView.emailAddress.getText().toString())
-			.expectedTotalFare(LXUtils.getTotalAmount(lxState.selectedTickets).getAmount().toString())
+			.expectedTotalFare(LXUtils.getTotalAmount(lxState.selectedTickets).getAmount().setScale(2).toString())
 			.phoneCountryCode(
 				Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
 			.phone(mainContactInfoCardView.phoneNumber.getText().toString())
-			.expectedFareCurrencyCode(lxState.activity.currencyCode)
+			.expectedFareCurrencyCode(lxState.activity.price.currencyCode)
 			.tripId(createTripResponse.tripId)
 			.suppressFinalBooking(suppressFinalBooking);
 
 		if (Db.getBillingInfo().hasStoredCard()) {
-			checkoutParamsBuilder.storedCreditCardId(Db.getBillingInfo().getStoredCard().getId()).cvv(cvv);
+			checkoutParams.storedCreditCardId(Db.getBillingInfo().getStoredCard().getId()).cvv(cvv);
 		}
 		else {
 			BillingInfo info = Db.getBillingInfo();
 			String expirationYear = JodaUtils.format(info.getExpirationDate(), "yyyy");
 			String expirationMonth = JodaUtils.format(info.getExpirationDate(), "MM");
 
-			checkoutParamsBuilder.creditCardNumber(info.getNumber())
+			checkoutParams.creditCardNumber(info.getNumber())
 				.expirationDateYear(expirationYear)
 				.expirationDateMonth(expirationMonth)
 				.postalCode(info.getLocation().getPostalCode())
 				.nameOnCard(info.getNameOnCard()).cvv(cvv);
 		}
-		Events.post(new Events.LXKickOffCheckoutCall(checkoutParamsBuilder));
+		Events.post(new Events.LXKickOffCheckoutCall(checkoutParams));
+	}
+
+	private String getRulesRestrictionsUrl(String tripId) {
+		String endpoint = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl(true);
+		return endpoint + RULES_RESTRICTIONS_URL_PATH + tripId;
 	}
 }

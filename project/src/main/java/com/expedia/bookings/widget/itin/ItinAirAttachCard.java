@@ -184,8 +184,9 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 	}
 
 	private void hideForever() {
+		DismissedItinButton.dismiss(mTripId, ItinButtonCard.ItinButtonType.AIR_ATTACH);
 		if (mOnHideListener != null) {
-			mOnHideListener.onHideAll(null);
+			mOnHideListener.onHideAll(ItinButtonCard.ItinButtonType.AIR_ATTACH);
 		}
 	}
 

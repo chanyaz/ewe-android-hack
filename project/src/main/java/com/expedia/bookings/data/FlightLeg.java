@@ -3,6 +3,7 @@ package com.expedia.bookings.data;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -11,11 +12,13 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.data.trips.ItinShareInfo;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
-import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.Strings;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.maps.MapUtils;
+import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
@@ -155,11 +158,20 @@ public class FlightLeg implements JSONable, ItinSharable {
 	//
 	// F1060: Returned as a LinkedHashSet, in order of flights
 	public LinkedHashSet<String> getPrimaryAirlines() {
-		LinkedHashSet<String> airlines = new LinkedHashSet<String>();
+		LinkedHashSet<String> airlines = new LinkedHashSet<>();
 
-		if (mSegments != null) {
-			for (Flight flight : mSegments) {
-				airlines.add(flight.getPrimaryFlightCode().mAirlineCode);
+		if (mSegments == null) {
+			Log.w("FlightLeg", "Attempting to retrieve primaryAirlines with null mSegments");
+			return airlines;
+		}
+
+		for (Flight flight : mSegments) {
+			FlightCode code = flight.getPrimaryFlightCode();
+			if (code == null) {
+				Log.w("FlightLeg", "Attempting to retrieve primaryAirlines with null code");
+			}
+			else {
+				airlines.add(code.mAirlineCode);
 			}
 		}
 
@@ -184,8 +196,29 @@ public class FlightLeg implements JSONable, ItinSharable {
 		return code.mAirlineCode;
 	}
 
-	public String getAirlinesFormatted() {
-		return FlightUtils.getFormattedAirlinesList(getPrimaryAirlines());
+	public String getPrimaryAirlineNamesFormatted() {
+		if (mSegments == null) {
+			Log.w("FlightLeg", "Attempting to retrieve primaryAirlineNamesFormatted with null mSegments");
+			return "";
+		}
+
+		Set<String> airlineNames = new LinkedHashSet<>();
+		for (int i = 0; i < mSegments.size(); i++) {
+			// 1. FlightCode.mAirlineCode has precedence as this is information given from API
+			// 2. Fallback to use FS.db if we don't have information from the API.
+			FlightCode code = mSegments.get(i).getPrimaryFlightCode();
+			Airline airline = Db.getAirline(code.mAirlineCode);
+			if (Strings.isNotEmpty(code.mAirlineName)) {
+				airlineNames.add(code.mAirlineName);
+			}
+			else if (Strings.isNotEmpty(airline.mAirlineName)) {
+				airlineNames.add(airline.mAirlineName);
+			}
+			else {
+				Log.w("FlightLeg", "Attempting to retrieve primaryAirlineNamesFormatted with null code");
+			}
+		}
+		return Strings.joinWithoutEmpties(", ", airlineNames);
 	}
 
 	public boolean isSpirit() {

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import android.app.Activity;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.Html;
@@ -17,7 +16,6 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -351,21 +349,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			int drawableResId = percentRecommend >= 50.0f ? R.drawable.ic_good_rating : R.drawable.ic_bad_rating;
 			recommendText.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
 			recommendText.setText(styledText);
-		}
-
-		// In landscape mode, "19 reviews" and user rating bar are also present in this view
-		TextView numReviews = Ui.findView(mHeaderView, R.id.num_reviews);
-		if (numReviews != null) {
-			Resources res = getResources();
-			String title = res.getQuantityString(R.plurals.number_of_reviews, numTotal, numTotal);
-			numReviews.setText(title);
-		}
-		RatingBar userRating = Ui.findView(mHeaderView, R.id.user_rating);
-		if (userRating != null) {
-			float rating = (float) mProperty.getAverageExpediaRating();
-			userRating.setRating(rating);
-			userRating.setVisibility(View.VISIBLE);
-
 		}
 	}
 

@@ -1,0 +1,12 @@
+{
+    "errors": [
+        {
+            "diagnosticFullText": "com.expedia.www.domain.services.flight.agent.gulfstreamsvc.exception.InvalidGulfstreamResponseException: Flight detail call failed to retrieve product. 143: The flights you have selected are not available. Please select alternate flights and then try to reserve again.",
+            "diagnosticId": 0,
+            "errorCode": "FLIGHT_SOLD_OUT",
+            "errorInfo": {
+                "summary": "Selected seats are no longer available"
+            }
+        }
+    ]
+}

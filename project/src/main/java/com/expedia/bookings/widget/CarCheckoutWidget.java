@@ -1,15 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
-import android.text.style.URLSpan;
-import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.BuildConfig;
@@ -20,11 +11,10 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.LegalClickableSpan;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
@@ -65,6 +55,11 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	}
 
 	@Subscribe
+	public void onSignOut(Events.SignOut event) {
+		loginWidget.accountLogoutClicked();
+	}
+
+	@Subscribe
 	public void onShowCheckoutAfterPriceChange(Events.CarsShowCheckoutAfterPriceChange event) {
 		bind(event.newCreateTripOffer, /* createTripOffer */
 			event.originalCreateTripOffer.detailedFare.grandTotal.formattedPrice, /* originalPriceString */
@@ -77,6 +72,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		this.carProduct = createTripOffer;
 		summaryWidget.bind(carProduct, originalOfferFormattedPrice);
 		paymentInfoCardView.setCreditCardRequired(carProduct.checkoutRequiresCard);
+		clearCCNumber();
 
 		slideWidget.resetSlider();
 
@@ -89,7 +85,8 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);
 
-		generateLegalClickableLink(legalInformationText);
+		legalInformationText.setText(
+			StrUtils.generateLegalClickableLink(getContext(), carProduct.rulesAndRestrictionsURL));
 		isCheckoutComplete();
 		loginWidget.updateView();
 		show(new CheckoutDefault());
@@ -121,39 +118,6 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 			onBook(null);
 		}
 
-	}
-
-	public void generateLegalClickableLink(TextView tv) {
-		SpannableStringBuilder sb = new SpannableStringBuilder();
-
-		String spannedRules = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			carProduct.rulesAndRestrictionsURL, getResources().getString(R.string.rules_and_restrictions));
-		String spannedTerms = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
-			getResources().getString(R.string.info_label_terms_conditions));
-		String spannedPrivacy = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), getResources().getString(R.string.privacy_policy));
-		String statement = getResources()
-			.getString(R.string.car_legal_TEMPLATE, spannedRules, spannedTerms, spannedPrivacy);
-
-		sb.append(Html.fromHtml(statement));
-		URLSpan[] spans = sb.getSpans(0, statement.length(), URLSpan.class);
-
-		for (final URLSpan o : spans) {
-			int start = sb.getSpanStart(o);
-			int end = sb.getSpanEnd(o);
-			// Replace URL span with ClickableSpan to redirect to our own webview
-			sb.removeSpan(o);
-			sb.setSpan(new LegalClickableSpan(getContext(), o.getURL(), sb.subSequence(start, end).toString()), start,
-				end, 0);
-			sb.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
-			sb.setSpan(new UnderlineSpan(), start, end, 0);
-			sb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.cars_primary_color)), start, end,
-				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		}
-
-		tv.setText(sb);
-		tv.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	@Override

@@ -302,6 +302,8 @@
         <attr name="btn_bg" format="reference" />
         <!-- Button icon -->
         <attr name="btn_icon" format="reference"/>
+        <!-- Minimum scale factor for icon -->
+        <attr name="icon_min_scale" format="float" />
     </declare-styleable>
 
 </resources>

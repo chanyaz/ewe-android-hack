@@ -8,7 +8,11 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import com.expedia.bookings.R;
+import com.mobiata.android.util.SettingUtils;
+import com.squareup.okhttp.OkHttpClient;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
@@ -44,8 +48,15 @@ public class PicassoHelper implements Target, Callback {
 
 	private static Picasso mPicasso;
 
-	public static void init(Context context) {
-		mPicasso = Picasso.with(context);
+	public static void init(Context context, OkHttpClient client) {
+		OkHttpDownloader okHttpDownloader = new OkHttpDownloader(client);
+
+		mPicasso = new Picasso.Builder(context)
+			.downloader(okHttpDownloader)
+			.build();
+
+		boolean isLoggingEnabled = SettingUtils.get(context, context.getString(R.string.preference_enable_picasso_logging), false);
+		mPicasso.setLoggingEnabled(isLoggingEnabled);
 	}
 
 	private PicassoHelper(Context context) {

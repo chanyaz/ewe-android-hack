@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.component.lx;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
@@ -21,7 +22,6 @@ import com.expedia.bookings.test.ui.espresso.TabletViewActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
-import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.widget.LXResultsListAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -29,13 +29,14 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
@@ -69,12 +70,8 @@ public class LXViewModel {
 		calendar().perform(TabletViewActions.clickDates(start, end));
 	}
 
-	public static ViewInteraction progress() {
-		return onView(withId(R.id.loading_results));
-	}
-
 	public static ViewInteraction itinNumberOnConfirmationScreen() {
-		return onView(withId(R.id.itinerary_text_view));
+		return onView(withId(R.id.itin_number));
 	}
 
 	public static ViewInteraction searchResultsWidget() {
@@ -82,11 +79,27 @@ public class LXViewModel {
 	}
 
 	public static ViewInteraction searchFailed() {
-		return onView(withId(R.id.lx_search_failure));
+		return onView(withId(R.id.lx_search_error_widget));
 	}
 
 	public static ViewInteraction searchList() {
 		return onView(recyclerView(R.id.lx_search_results_list));
+	}
+
+	public static void waitForSearchListDisplayed() {
+		searchList().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
+	}
+
+	public static ViewInteraction sortAndFilterButton() {
+		return onView(withId(R.id.sort_filter_button));
+	}
+
+	public static ViewInteraction sortAndFilterWidget() {
+		return onView(withId(R.id.sort_filter_widget));
+	}
+
+	public static ViewInteraction closeFilter() {
+		return onView(withId(R.id.sort_filter_done_button));
 	}
 
 	public static Matcher<View> recyclerView(int viewId) {
@@ -100,7 +113,16 @@ public class LXViewModel {
 	}
 
 	public static ViewInteraction progressDetails() {
-		return onView(withId(R.id.loading_details));
+		return onView(withId(R.id.overlay_title_container));
+	}
+
+	public static void waitForLoadingDetailsNotDisplayed() {
+		progressDetails().perform(waitFor(not(isDisplayed()), 10, TimeUnit.SECONDS));
+	}
+
+	public static void waitForDetailsDisplayed() {
+		ScreenActions.delay(1);
+		onView(withId(R.id.offers)).perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
 	}
 
 	public static ViewInteraction detailsWidget() {
@@ -113,6 +135,10 @@ public class LXViewModel {
 
 	public static ViewInteraction infoContainer() {
 		return onView(withId(R.id.activity_info_container));
+	}
+
+	public static ViewInteraction alertDialogPositiveButton() {
+		return onView(withId(android.R.id.button1));
 	}
 
 	public static ViewInteraction withOfferText(String offerText) {
@@ -132,6 +158,10 @@ public class LXViewModel {
 		return onView(withId(R.id.show_more_widget));
 	}
 
+	public static ViewInteraction srpErrorToolbar() {
+		return onView(allOf(isDescendantOfA(withId(R.id.search_list_presenter)), withId(R.id.toolbar)));
+	}
+
 	public static ViewInteraction toolbar() {
 		return onView(withId(R.id.toolbar));
 	}
@@ -140,8 +170,12 @@ public class LXViewModel {
 		return onView(withId(R.id.menu_search));
 	}
 
+	public static ViewInteraction searchButtonInSRPToolbar() {
+		return onView(allOf(isDescendantOfA(withId(R.id.search_list_presenter)), withId(R.id.menu_open_search)));
+	}
+
 	public static ViewInteraction detailsDate(String dateText) {
-		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(endsWith(dateText))));
+		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(dateText)));
 	}
 
 	public static ViewInteraction detailsDateContainer() {
@@ -169,7 +203,8 @@ public class LXViewModel {
 		};
 	}
 
-	public static ViewAction performViewHolderComparison(final String title, final String price, final List<String> categoriesList) {
+	public static ViewAction performViewHolderComparison(final String title, final String price, final String duration,
+		final List<String> categoriesList) {
 		return new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
@@ -185,25 +220,14 @@ public class LXViewModel {
 			public void perform(UiController uiController, View viewHolder) {
 				TextView titleText = (TextView) viewHolder.findViewById(R.id.activity_title);
 				TextView priceText = (TextView) viewHolder.findViewById(R.id.activity_price);
-				TextView categoryText = (TextView) viewHolder.findViewById(R.id.activity_category);
+				TextView durationText = (TextView) viewHolder.findViewById(R.id.activity_duration);
 
 				Assert.assertEquals(title, titleText.getText());
 				Assert.assertEquals(price, priceText.getText());
-				Assert.assertEquals(LXUtils.bestApplicableCategory(categoriesList), categoryText.getText());
+				Assert.assertEquals(duration, durationText.getText());
 			}
 		};
 	}
-
-	public static ViewInteraction getTicketAddButtonViewFromTicketName(String ticketName, String travellerType) {
-		Matcher<View> rowMatcher = allOf(withText(containsString(travellerType)),
-			withParent(withParent(hasSibling(withText(containsString(ticketName))))));
-		return onView(allOf(withId(R.id.ticket_add), hasSibling(rowMatcher)));
-	}
-
-	public static ViewInteraction getBookNowButtonFromTicketName(String ticketName) {
-		return onView(allOf(withId(R.id.lx_book_now), withParent(hasSibling(withText(containsString(ticketName))))));
-	}
-
 
 	//Checkout
 	public static ViewInteraction checkoutWidget() {
@@ -243,5 +267,33 @@ public class LXViewModel {
 
 	public static ViewInteraction checkoutSlideToPurchase() {
 		return onView(withId(R.id.slide_to_purchase_widget));
+	}
+
+	public static ViewInteraction checkoutErrorScreen() {
+		return onView(withId(R.id.lx_checkout_error_widget));
+	}
+
+	public static ViewInteraction checkoutErrorText() {
+		return onView(allOf(isDescendantOfA(withId(R.id.lx_checkout_error_widget)), withId(R.id.error_text)));
+	}
+
+	public static ViewInteraction checkoutErrorButton() {
+		return onView(allOf(isDescendantOfA(withId(R.id.lx_checkout_error_widget)), withId(R.id.error_action_button)));
+	}
+
+	public static ViewInteraction searchErrorScreen() {
+		return onView(withId(R.id.lx_search_error_widget));
+	}
+
+	public static ViewInteraction searchErrorText() {
+		return onView(allOf(isDescendantOfA(withId(R.id.lx_search_error_widget)), withId(R.id.error_text)));
+	}
+
+	public static ViewInteraction searchErrorButton() {
+		return onView(allOf(isDescendantOfA(withId(R.id.lx_search_error_widget)), withId(R.id.error_action_button)));
+	}
+
+	public static ViewInteraction detailsErrorWidget() {
+		return onView(withId(R.id.lx_details_error_widget));
 	}
 }

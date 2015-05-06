@@ -5,7 +5,6 @@ import org.joda.time.DateTime;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.DateUtils;
@@ -26,7 +25,6 @@ import com.expedia.bookings.fragment.HotelRoomsAndRatesFragment;
 import com.expedia.bookings.fragment.HotelRoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -120,19 +118,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		}
 		hotelRating.setVisibility(View.VISIBLE);
 		hotelRating.setRating((float) property.getHotelRating());
-
-		// Only display nights header if orientation landscape
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			TextView nightsView = (TextView) findViewById(R.id.nights_text_view);
-			int numNights = Math.max(1, searchParams.getStayDuration());
-			nightsView.setText(getResources().getQuantityString(R.plurals.staying_nights, numNights, numNights));
-
-			TextView datesView = (TextView) findViewById(R.id.dates_text_view);
-			datesView.setText(DateFormatUtils.formatDateRange(this, searchParams));
-		}
-		else {
-			findViewById(R.id.nights_container).setVisibility(View.GONE);
-		}
 
 		if (savedInstanceState != null) {
 			mLastSearchTime = (DateTime) savedInstanceState.getSerializable(INSTANCE_LAST_SEARCH_TIME);

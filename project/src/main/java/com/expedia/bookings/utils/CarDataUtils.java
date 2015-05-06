@@ -5,10 +5,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.joda.time.LocalDate;
+
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.RateTerm;
@@ -218,5 +224,34 @@ public class CarDataUtils {
 			s = String.valueOf(maxVal);
 		}
 		return s;
+	}
+
+	public static CarSearchParams fromFlightParams(FlightTrip trip) {
+		FlightLeg firstLeg = trip.getLeg(0);
+		FlightLeg secondLeg = trip.getLegCount() > 1 ? trip.getLeg(1) : null;
+
+		LocalDate checkInDate = new LocalDate(firstLeg.getLastWaypoint().getBestSearchDateTime());
+
+		LocalDate checkOutDate;
+		if (secondLeg == null) {
+			// 1-way flight
+			checkOutDate = checkInDate.plusDays(3);
+		}
+		else {
+			// Round-trip flight
+			checkOutDate = new LocalDate(secondLeg.getFirstWaypoint()
+				.getMostRelevantDateTime());
+		}
+		CarSearchParamsBuilder builder = new CarSearchParamsBuilder();
+		CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder = new CarSearchParamsBuilder.DateTimeBuilder()
+			.startDate(checkInDate)
+			.endDate(checkOutDate);
+		builder.origin(firstLeg.getAirport(false).mAirportCode);
+		builder.originDescription(firstLeg.getAirport(false).mName);
+		// Empty DateTimeBuilder
+		builder.dateTimeBuilder(dateTimeBuilder);
+
+
+		return builder.build();
 	}
 }

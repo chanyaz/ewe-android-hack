@@ -15,16 +15,16 @@
     <string name="cars_hourly_text">Per jam</string>
     <!-- Cars price templates-->
     <string name="cars_daily_text">Per hari</string>
+    <!-- Cars checkout price breakdown for POS same as pickup location templates-->
+    <string name="cars_checkout_breakdown_us_text">Harga dinyatakan dalam %s.</string>
+    <!-- Cars checkout price breakdown for pickup location different than POS templates-->
+    <string name="cars_checkout_breakdown_non_us_text">Harga dinyatakan dalam %1$s. Semua pajak dan biaya yang dibayar saat pengambilan adalah dalam mata uang lokal %2$s</string>
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">Per minggu</string>
     <!-- Cars weekly price templates-->
     <string name="cars_monthly_text">Per bulan</string>
     <!-- Cars price templates-->
     <string name="cars_total_template">Total %s</string>
-    <!-- Text for cars promo codes-->
-    <string name="cars_promo_code">Kode Promo</string>
-    <!-- Text for cars sort and filter-->
-    <string name="cars_sort_filter">Urutkan &amp; Filter</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Geser untuk memesan</string>
     <!-- Text for checkout toolbar-->
@@ -57,8 +57,6 @@
     <string name="enter_payment_details">Masukkan rincian pembayaran</string>
     <!-- Template for selected credit card-->
     <string name="selected_card_template">Kedaluwarsa %s</string>
-    <!-- Template for car offer detail-->
-    <string name="car_offer_template">%s atau serupa</string>
     <!-- Car doors text-->
     <string name="car_doors_text">Pintu</string>
     <!-- Car bags text-->
@@ -67,16 +65,14 @@
     <string name="car_auto_tran_text">Transmisi Matic</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">Transimi Manual</string>
-    <!-- Log in Text-->
-    <string name="cars_login_text">Masuk dengan akun Expedia</string>
+    <!-- Sign in Text-->
+    <string name="cars_sign_in_text">Login dengan Expedia</string>
 
     <!-- car result -->
     <!-- car door range -->
     <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
     <!-- car details template -->
     <string name="car_details_TEMPLATE">%1$s %2$s</string>
-    <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="car_legal_TEMPLATE">Dengan menyelesaikan pemesanan ini, saya menyatakan bahwa saya telah membaca dan menerima %1$s, %2$s, dan %3$s.</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
@@ -87,15 +83,7 @@
     <string name="calendar_car_desc_itinerary_TEMPLATE">No. Itinerary Expedia: %s</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_car_desc_support_TEMPLATE">Layanan Pelanggan Expedia: %1$s dan %2$s</string>
-    <!-- Showing local phone number in  car confirmation screen  -->
-    <string name="car_confirmation_local_support_TEMPLATE">Nomor lokal: %s</string>
-    <!-- Showing toll free phone number in  car confirmation screen  -->
-    <string name="car_confirmation_toll_free_support_TEMPLATE">Nomor bebas pulsa: %s</string>
 
-    <!-- Car search label for pick-up time -->
-    <string name="pick_up_time">Waktu pengambilan</string>
-    <!-- Car search label for drop-off time-->
-    <string name="drop_off_time">Waktu pengembalian</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Lokasi pengambilan</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -112,14 +100,6 @@
     <string name="drop_off_time_label">Pengembalian</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Segera hadir! Di versi berikutnya, kami akan mencoba mengusahakan Anda bisa mengembalikan mobil di lokasi yang berbeda.</string>
-    <!-- Error messge for missing Origin in search form -->
-    <string name="error_missing_origin_param">Kota asal belum diisi</string>
-    <!-- Error messge for missing Start date in search form -->
-    <string name="error_missing_start_date_param">Tanggal awal belum diisi</string>
-    <!-- Error messge for missing End date date in search form -->
-    <string name="error_missing_end_date_param">Tanggal akhir belum diisi</string>
-    <!-- Temporary String for general error message -->
-    <string name="error_car">Terjadi kesalahan. Periksa parameter pencarian.</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string>
     <!-- Checkout -->
@@ -163,16 +143,10 @@
     <string name="successful_checkout_email_label">Itinerary telah dikirim ke</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Petunjuk arah ke %1$s</string>
-    <!-- Button label for calling customer support -->
-    <string name="call_customer_support">Telepon Layanan Pelanggan</string>
 
     <!-- Car error strings -->
-    <!-- Message for user that to verify pick-up date."  -->
-    <string name="pick_up_date_error">Harap konfirmasikan tanggal pengambilan.</string>
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">Harap sesuaikan waktu pengambilan dan pengembalian Anda.</string>
-    <!-- Message for user that to verify drop-off date."  -->
-    <string name="drop_off_date_error">Harap konfirmasikan tanggal pengembalian.</string>
     <!-- Message for user  to choose a closer date.""  -->
     <string name="drop_off_too_far_error">Harap pilih tanggal yang lebih dekat.</string>
     <!-- Message for user that date is too far out."  -->
@@ -192,8 +166,6 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hmm… pembayaran Anda tidak berhasil. Harap periksa kembali rincian pembayaran, lalu cobalah lagi.</string>
-    <!-- Payment failed button text that takes you back to checkout -->
-    <string name="payment_failed">Pembayaran tidak berhasil.</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">Lihat Perubahan Harga</string>
     <!-- My Trips button that takes you to Itins -->
@@ -237,13 +209,7 @@
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
-    <string name="search_widget_heading">Lihat Objek Wisata</string>
-    <!-- Search widget location hint -->
-    <string name="search_location_hint">Masukkan lokasi</string>
-    <!-- Error messge for missing Location in LX search form -->
-    <string name="lx_error_missing_location">Lokasi belum dimasukkan</string>
-    <!-- Error messge for missing start date in LX search form -->
-    <string name="lx_error_missing_start_date">Tanggal belum diisi</string>
+    <string name="lx_search_widget_heading">Tanggal &amp; Lokasi</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Pilih tanggal</string>
     <!-- Activity details highlights heading -->
@@ -252,25 +218,47 @@
     <string name="description_activity_details">Deskripsi</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">Lokasi</string>
-    <!-- Free cancellation message for LX activity -->
-    <string name="activity_free_cancellation">Pembatalan gratis</string>
+    <!-- Activity details inclusions heading -->
+    <string name="inclusions_activity_details">Termasuk</string>
+    <!-- Activity details exclusions heading -->
+    <string name="exclusions_activity_details">Belum Termasuk</string>
+    <!-- Activity details know before you book heading -->
+    <string name="know_before_you_book_activity_details">Teliti Sebelum Membeli</string>
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">Pesan Sekarang%1$s</string>
-    <!-- Template for tickets type and count  summary -->
-    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <string name="offer_book_now_TEMPLATE">Pesan %1$s</string>
+    <!-- Template for multiple duration text on Search results Eg: 2d+ -->
+    <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
+    <!-- Cancellation policy template -->
+    <string name="cancellation_policy_TEMPLATE">Anda bisa membatalkan gratis sampai dengan %1$s sebelum kegiatan dimulai. Setelah batas waktu tersebut, pembatalan, perubahan, dan refund tidak tersedia.</string>
+    <!-- Cancellation policy text for non-cancellable activities -->
+    <string name="lx_policy_non_cancellable">Pemesanan ini bersifat non-refundable dan karena itu tidak bisa diubah dan dibatalkan setelah dikonfirmasi</string>
+    <!-- LX checkout cost breakdown total due today -->
+    <string name="lx_cost_breakdown_due_today">Dibayar hari ini</string>
+    <!-- LX checkout cost breakdown total due today -->
+    <string name="lx_cost_breakdown_taxes_included">Termasuk Pajak dan Biaya</string>
+    <!-- LX checkout cost breakdown for alert button -->
+    <string name="lx_cost_breakdown_button_text">Selesai</string>
+    <!-- LX checkout price breakdown for POS same as pickup location templates-->
+    <string name="lx_checkout_breakdown_price_disclaimer_text">Harga dinyatakan dalam %s.</string>
+    <!-- Checkout price breakdown Total Price Label -->
+    <string name="checkout_breakdown_total_price">Harga Total</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">Perubahan Harga</string>
     <!-- LX Ticket type names -->
-    <string name="ticket_type_traveler">Pelancong</string>
+    <string name="ticket_type_traveler">Traveler</string>
     <string name="ticket_type_adult">Dewasa</string>
     <string name="ticket_type_child">Anak</string>
     <string name="ticket_type_infant">Bayi</string>
-    <string name="ticket_type_youth">Balita</string>
+    <string name="ticket_type_youth">Remaja</string>
     <string name="ticket_type_senior">Manula</string>
     <string name="ticket_type_group">Rombongan</string>
     <string name="ticket_type_couple">Pasangan</string>
-    <string name="ticket_type_two_adults">2 Dewasa</string>
-    <string name="ticket_type_military">Militer</string>
+    <string name="ticket_type_two_adults">Pasangan Dewasa</string>
+    <string name="ticket_type_military">Anggota Militer</string>
     <string name="ticket_type_student">Pelajar</string>
     <string name="ticket_type_sedan">Sedan</string>
     <string name="ticket_type_minivan">Minivan</string>
@@ -280,10 +268,10 @@
     <string name="ticket_type_luxury_car">Mobil Mewah</string>
     <string name="ticket_type_limousine">Limosin</string>
     <string name="ticket_type_towncar">Towncar</string>
-    <string name="ticket_type_vehicle_parking_spot">Tempat Parkir Kendaraan</string>
-    <string name="ticket_type_book">Pesan</string>
-    <string name="ticket_type_guide">Panduan</string>
-    <string name="ticket_type_travel_card">Kartu Kendaraan Umum</string>
+    <string name="ticket_type_vehicle_parking_spot">Tempat Parkir</string>
+    <string name="ticket_type_book">Buku</string>
+    <string name="ticket_type_guide">Pemandu</string>
+    <string name="ticket_type_travel_card">Kartu Kendaraan</string>
     <string name="ticket_type_boat">Kapal</string>
     <string name="ticket_type_motorcycle">Sepeda Motor</string>
     <string name="ticket_type_ceremony">Upacara</string>
@@ -293,8 +281,8 @@
     <string name="ticket_type_helicopter">Helikopter</string>
     <string name="ticket_type_device">Perangkat</string>
     <string name="ticket_type_room">Kamar</string>
-    <string name="ticket_type_carriage">Gerbong</string>
-    <string name="ticket_type_buggy">Kereta Buggy</string>
+    <string name="ticket_type_carriage">Kereta</string>
+    <string name="ticket_type_buggy">Buggy</string>
     <string name="ticket_type_atv">ATV</string>
     <string name="ticket_type_jet_ski">Jet Ski</string>
     <string name="ticket_type_scooter">Skuter</string>
@@ -302,21 +290,206 @@
     <string name="ticket_type_snowmobile">Snowmobile</string>
     <string name="ticket_type_day">Hari</string>
     <string name="ticket_type_bike">Sepeda</string>
-    <string name="ticket_type_week">minggu</string>
-    <string name="ticket_type_subscription">langganan</string>
+    <string name="ticket_type_week">Minggu</string>
+    <string name="ticket_type_subscription">Langganan</string>
     <string name="ticket_type_electric_bike">Sepeda Listrik</string>
     <string name="ticket_type_segway">Segway</string>
-    <string name="ticket_type_vehicle">kendaraan:</string>
+    <string name="ticket_type_vehicle">Kendaraan</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">%1$s Traveler</item>
+        <item quantity="other">%1$s Traveler</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">%1$s Dewasa</item>
+        <item quantity="other">%1$s Dewasa</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">%1$s Anak</item>
+        <item quantity="other">%1$s Anak</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">%1$s Bayi</item>
+        <item quantity="other">%1$s Bayi</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">%1$s Remaja</item>
+        <item quantity="other">%1$s Remaja</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">%1$s Manula</item>
+        <item quantity="other">%1$s Manula</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">%1$s Rombongan</item>
+        <item quantity="other">%1$s Rombongan</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">%1$s Pasangan</item>
+        <item quantity="other">%1$s Pasangan</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">%1$s Pasangan Dewasa</item>
+        <item quantity="other">%1$s Pasangan Dewasa</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">%1$s Anggota Militer</item>
+        <item quantity="other">%1$s Anggota Militer</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">%1$s Pelajar</item>
+        <item quantity="other">%1$s Pelajar</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">%1$s Sedan</item>
+        <item quantity="other">%1$s Sedan</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">%1$s Minivan</item>
+        <item quantity="other">%1$s Minivan</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">%1$s Taksi Air</item>
+        <item quantity="other">%1$s Taksi air</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">%1$s SUV</item>
+        <item quantity="other">%1$s SUV</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">%1$s Mobil Eksekutif</item>
+        <item quantity="other">%1$s Mobil eksekutif</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">%1$s Mobil Mewah</item>
+        <item quantity="other">%1$s Mobil mewah</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">%1$s Limosin</item>
+        <item quantity="other">%1$s Limosin</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">%1$s Towncar</item>
+        <item quantity="other">%1$s Towncar</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">%1$s Tempat Parkir</item>
+        <item quantity="other">%1$s Tempat Parkir</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">%1$s Buku</item>
+        <item quantity="other">%1$s Buku</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">%1$s Pemandu</item>
+        <item quantity="other">%1$s Pemandu</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">%1$s Kartu Kendaraan</item>
+        <item quantity="other">%1$s Kartu Kendaraan</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">%1$s Kapal</item>
+        <item quantity="other">%1$s Kapal</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">%1$s Sepeda Motor</item>
+        <item quantity="other">%1$s Sepeda Motor</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">%1$s Upacara</item>
+        <item quantity="other">%1$s Upacara</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">%1$s Kartu Telepon</item>
+        <item quantity="other">%1$s Kartu Telepon</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">%1$s Tiket</item>
+        <item quantity="other">%1$s Tiket</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">%1$s Minibus</item>
+        <item quantity="other">%1$s Minibus</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">%1$s Helikopter</item>
+        <item quantity="other">%1$s Helikopter</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">%1$s Perangkat</item>
+        <item quantity="other">%1$s Perangkat</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">%1$s Kamar</item>
+        <item quantity="other">%1$s Kamar</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">%1$s Kereta</item>
+        <item quantity="other">%1$s Kereta</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">%1$s Buggy</item>
+        <item quantity="other">%1$s Buggy</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">%1$s ATV</item>
+        <item quantity="other">%1$s ATV</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">%1$s Jet Ski</item>
+        <item quantity="other">%1$s Jet Ski</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">%1$s Skuter</item>
+        <item quantity="other">%1$s Skuter</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">%1$s Mobil Skuter</item>
+        <item quantity="other">%1$s Mobil Skuter</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">%1$s Snowmobile</item>
+        <item quantity="other">%1$s Snowmobile</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s Hari</item>
+        <item quantity="other">%1$s Hari</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">%1$s Sepeda</item>
+        <item quantity="other">%1$s Sepeda</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s Minggu</item>
+        <item quantity="other">%1$s Minggu</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">%1$s Langganan</item>
+        <item quantity="other">%1$s Langganan</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">%1$s Sepeda Listrik</item>
+        <item quantity="other">%1$s Sepeda Listrik</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">%1$s Segway</item>
+        <item quantity="other">%1$s Segway</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">%1$s Kendaraan</item>
+        <item quantity="other">%1$s Kendaraan</item>
+    </plurals>
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">per traveler</string>
     <string name="per_ticket_type_adult">per dewasa</string>
     <string name="per_ticket_type_child">per anak</string>
     <string name="per_ticket_type_infant">per bayi</string>
-    <string name="per_ticket_type_youth">per balita</string>
+    <string name="per_ticket_type_youth">per remaja</string>
     <string name="per_ticket_type_senior">per manula</string>
     <string name="per_ticket_type_group">per rombongan</string>
     <string name="per_ticket_type_couple">per pasangan</string>
-    <string name="per_ticket_type_two_adults">per 2 dewasa</string>
+    <string name="per_ticket_type_two_adults">per pasangan dewasa</string>
     <string name="per_ticket_type_military">per anggota militer</string>
     <string name="per_ticket_type_student">per pelajar</string>
     <string name="per_ticket_type_sedan">per sedan</string>
@@ -329,7 +502,7 @@
     <string name="per_ticket_type_towncar">per towncar</string>
     <string name="per_ticket_type_vehicle_parking_spot">per tempat parkir</string>
     <string name="per_ticket_type_book">per buku</string>
-    <string name="per_ticket_type_guide">per panduan</string>
+    <string name="per_ticket_type_guide">per pemandu</string>
     <string name="per_ticket_type_travel_card">per kartu kendaraan</string>
     <string name="per_ticket_type_boat">per kapal</string>
     <string name="per_ticket_type_motorcycle">per sepeda motor</string>
@@ -340,7 +513,7 @@
     <string name="per_ticket_type_helicopter">per helikopter</string>
     <string name="per_ticket_type_device">per perangkat</string>
     <string name="per_ticket_type_room">per kamar</string>
-    <string name="per_ticket_type_carriage">per gerbong</string>
+    <string name="per_ticket_type_carriage">per kereta</string>
     <string name="per_ticket_type_buggy">per buggy</string>
     <string name="per_ticket_type_atv">per ATV</string>
     <string name="per_ticket_type_jet_ski">per jet ski</string>
@@ -358,23 +531,56 @@
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">Geser untuk memesan</string>
-    <!-- Text for checkout toolbar-->
-    <string name="lx_checkout_text">Pembayaran</string>
-    <!-- Free cancellation -->
-    <string name="lx_free_cancellation">Pembatalan gratis</string>
     <!-- Total with tax -->
     <string name="lx_total_with_tax">Total dengan Pajak</string>
-    <!-- Contact Details Toolbar -->
-    <string name="lx_contact_details">Rincian kontak</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Masukkan rincian kontak</string>
     <!-- LX search error -->
-    <string name="error_lx_search_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string> 	<!-- Offers show more string -->
+    <string name="error_lx_search_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string> 
+    <!-- LX search error -->
+    <string name="error_lx_current_location_search_message">Kami tidak berhasil mendeteksi lokasi Anda saat ini untuk mencarikan aktivitas yang relevan bagi Anda.</string> 
+    <!-- Text for generic error toolbar-->
+    <string name="lx_error_text">Kesalahan</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_invalid_input_text">Informasi Tidak Valid</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_duplicate_trip_text">Ulangi Perjalanan</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_session_timeout_text">Waktu Habis</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_payment_failed_text">Pembayaran Tidak Berhasil</string>
+    <!-- Offers show more string -->
     <string name="lx_show_more_offers">Tampilkan Lainnya</string>
     <!-- Text for traveler details toolbar-->
     <string name="lx_traveler_details_text">Rincian traveler</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Masukkan rincian traveler</string>
+    <!-- Text for lx sort and filter-->
+    <string name="lx_sort_filter">Urutkan &amp; Filter</string>
+    <!--Price sort button -->
+    <string name="lx_price_sort_button">Harga</string>
+    <!-- Popularity sort button -->
+    <string name="lx_popularity_sort_button">Popularitas</string>
+    <!-- Select ticket button -->
+    <string name="lx_select_ticket">Pilih Tiket</string>
+    <!-- Free cancellation text in offer  -->
+    <string name="lx_free_cancellation">Pembatalan Gratis</string>
+    <!-- Card brand not supported (e.g. "Visa not accepted") -->
+    <string name="lx_does_not_accept_cardtype_TEMPLATE">Hotel tidak menerima %1$s</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">Maaf, harga aktivitas ini telah berubah. Silakan coba lagi nanti.</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">Tiket Anda telah dikirimkan ke</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">Pemesanan Anda telah dikonfirmasi!</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">Mendeteksi lokasi…</string>
+    <!-- LX Error Fetching activity details -->
+    <string name="lx_error_details">Gagal mengakses rincian. Silakan coba lagi.</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">Silakan coba lagi</string>
+    <!-- LX No Activities for Current location -->
+    <string name="lx_error_current_location_no_results">Kami tidak bisa menemukan pilihan aktivitas di dekat lokasi Anda. Harap coba kembali mencari dengan kriteria yang berbeda.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -468,6 +674,15 @@
         <item quantity="other">Item dalam Perjalanan</item>
     </plurals>
 
+    <!-- LX Sort & Filter "Apply" header -->
+    <string name="lx_apply_sort_filter">Gunakan</string>
+    <!-- LX Sort & Filter "Sort By" section header -->
+    <string name="lx_sort_by">Urutkan Berdasarkan</string>
+    <!-- LX Sort & Filter "Categories" header -->
+    <string name="lx_categories">Kategori</string>
+    <!-- LX Sort & Filter "Filter" header -->
+    <string name="lx_filter">Filter</string>
+
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
     <string name="Sort_By">Urutkan Berdasarkan</string>
@@ -487,14 +702,6 @@
     <string name="distance">Jarak</string>
     <!-- Short label for "sort by discounts" button -->
     <string name="discounts">Diskon</string>
-    <!-- Content description for "sort by popular" button -->
-    <string name="cd_sort_by_popular">Tekan untuk mengurutkan dari hotel terpopuler</string>
-    <!-- Content description for "sort by price" button -->
-    <string name="cd_sort_by_price">Tekan untuk mengurutkan dari hotel termurah</string>
-    <!-- Content description for "sort by rating" button -->
-    <string name="cd_sort_by_rating">Tekan untuk mengurutkan dari hotel dengan nilai tertinggi</string>
-    <!-- Content description for "sort by distance" button -->
-    <string name="cd_sort_by_distance">Tekan untuk mengurutkan dari hotel terdekat</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Mulai dari %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
@@ -548,14 +755,12 @@
     <string name="room_rate_pay_now">Bayar Sekarang</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">Dibayar Sekarang</string>
-    <!-- Rooms and rates pay later total -->
-    <string name="room_rate_pay_later_total_template">%s Total</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/malam</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_included_template">Biaya hotel untuk perjalanan ini (sudah termasuk): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_included_template">Biaya hotel untuk perjalanan ini (sudah termasuk): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_not_included_template">Biaya hotel untuk perjalanan ini (belum termasuk): &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">Biaya hotel untuk perjalanan ini (belum termasuk): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">Tambahkan ke Perjalanan</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -619,20 +824,20 @@
     <string name="facebook_weve_found_your_account">Halo &lt;b&gt;%1$s&lt;/b&gt;, kami menemukan akun Expedia Anda! Masukkan kata sandi Expedia di bawah untuk menghubungkan akun Facebook dan Expedia Anda.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Halo &lt;b&gt;%1$s&lt;/b&gt;, kami sudah memuat informasi Facebook Anda!</string>
-    <!-- Log in with facebook (button text) -->
-    <string name="Log_in_with_Facebook">Masuk dengan Facebook</string>
+    <!-- Sign in with facebook (button text) -->
+    <string name="Sign_in_with_Facebook">Login dengan Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Mengakses informasi dari Facebook…</string>
-    <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Mencoba memasukkan Anda dengan kredensial Facebook…</string>
+    <!-- Attempting to sign you in with facebook credentials -->
+    <string name="attempting_to_sign_in_with_facebook">Mencoba menghubungkan Anda dengan data login Facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Kami mengalami masalah yang tidak dikenali. Coba lagi nanti.</string>
-    <!-- Unable to log in to Facebook -->
-    <string name="unable_to_log_into_facebook">Tidak bisa masuk ke Facebook.</string>
-    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="login_failed_try_again">Login tak berhasil. Jika email dan kata sandi Anda sudah benar, periksa apakah pengaturan Negara pada aplikasi Anda juga sudah benar.</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="unable_to_sign_into_facebook">Tidak bisa masuk ke Facebook.</string>
+    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="sign_in_failed_try_again">Login gagal. Jika email dan kata sandi Anda sudah benar, periksa apakah pengaturan Negara pada aplikasi Anda juga sudah benar.</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs Expedia.&lt;br&gt;Harap reset kata sandi Anda menggunakan link \&apos;Lupa kata sandi?\&apos; di bawah ini.</string>
+    <string name="sign_in_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs Expedia.&lt;br&gt;Harap reset kata sandi Anda menggunakan link \&apos;Lupa kata sandi Anda?\&apos; di bawah ini.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Kata Sandi Expedia</string>
     <!-- Link accounts -->
@@ -644,21 +849,21 @@
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">Izin Email</string>
     <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">Untuk login dengan Facebook, kami memerlukan izin untuk memverifikasi alamat email Anda. \n\nSilakan ketuk tombol Facebook di bawah ini untuk memberi izin pada Expedia untuk memverifikasi alamat email Anda. Terima kasih!</string>
+    <string name="user_denied_permission_email_message">Untuk login dengan Facebook, kami memerlukan izin verifikasi alamat email Anda. \n\nSilakan ketuk tombol Facebook di bawah ini untuk memberi izin pada Expedia untuk memverifikasi alamat email Anda. Terima kasih!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Menghubungkan akun Anda…</string>
-    <!-- Log In -->
-    <string name="Log_In">Masuk</string>
-    <!-- Log in with Expedia -->
-    <string name="Log_in_with_Expedia">Masuk dengan akun Expedia</string>
+    <!-- Sign In -->
+    <string name="Sign_In">Masuk</string>
+    <!-- Sign in with Expedia -->
+    <string name="Sign_in_with_Expedia">Masuk dengan Expedia</string>
     <!-- or -->
     <string name="or">atau</string>
-    <!-- Already logged in -->
-    <string name="already_logged_in">Sudah masuk</string>
+    <!-- Already signed in -->
+    <string name="already_signed_in">Sudah login</string>
 
     <!-- Restricted Profile -->
-    <!-- Restricted profile login message -->
-    <string name="restricted_profile_login_message">Untuk masuk ke Expedia, Anda harus menggunakan profil pengguna yang tanpa batasan di perangkat Anda.</string>
+    <!-- Restricted profile sign in message -->
+    <string name="restricted_profile_sign_in_message">Untuk masuk ke Expedia, Anda harus menetapkan profil pengguna tanpa batasan di perangkat Anda.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
@@ -667,10 +872,10 @@
     <string name="nav_hotels">Hotel</string>
     <!-- Cars -->
     <string name="nav_cars">Mobil</string>
+    <!-- Activities -->
+    <string name="nav_lx">Aktivitas</string>
 
     <!-- New launch screen -->
-    <!-- Shop travel label -->
-    <string name="shop_travel">Pesan perjalanan</string>
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Hotel Populer Malam Ini</string>
     <!-- See all nearby deals -->
@@ -679,23 +884,15 @@
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
     <string name="loading_header">Memuat…</string>
-    <!-- Hotel list rating text -->
+    <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">dari 5: skor tamu</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">dari 5</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">khusus-mobile!</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">hanya malam ini!</string>
 
-
-    <!-- Launch screen -->
-    <!-- Label for launch screen hotel button secondary text -->
-    <string name="launch_hotel_secondary_text">Cari kamar.</string>
-    <!-- Label for launch screen flight button secondary text -->
-    <string name="launch_flight_secondary_text">Cari tiket.</string>
-    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Terbang ke&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
-    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Menginap di&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Maaf, kami tidak dapat menghubungkan.</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -782,8 +979,8 @@
     <string name="fetching_your_itinerary">Mengakses itinerary Anda…</string>
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Error dalam mengakses itinerary Anda</string>
-    <!-- Log in for your trips -->
-    <string name="log_in_for_your_trips">&lt;b&gt;Masuk&lt;/b&gt; untuk melihat perjalanan Anda</string>
+    <!-- Sign in for your trips -->
+    <string name="sign_in_for_your_trips">Loginlah untuk mengakses perjalanan Anda</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Besok</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -901,8 +1098,8 @@
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;Di %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Dari %1$s&lt;/b&gt; - %2$s</string>
-    <!-- Itin logout confirmation message -->
-    <string name="itin_logout_confirmation_message_TEMPLATE">Jika Anda keluar dari %1$s, semua itinerary yang terkait dengan akun ini akan dihapus. Yakin ingin keluar?</string>
+    <!-- Itin sign out confirmation message -->
+    <string name="itin_sign_out_confirmation_message_TEMPLATE">Setelah logout dari %1$s, semua itinerary di bawah akun ini akan terhapus. Yakin mau logout?</string>
     <!-- Directions -->
     <string name="directions">Arah</string>
     <!-- Terminal Map -->
@@ -1066,8 +1263,6 @@
     <string name="car_category_result_premium_elite">Premium Elite</string>
     <!-- Car category: luxury elite -->
     <string name="car_category_result_luxury_elite">Luxury Elite</string>
-    <!-- Car category: special -->
-    <string name="car_category_result_special">Khusus</string>
     <!-- Car category: oversize -->
     <string name="car_category_result_oversize">Ukuran besar</string>
 
@@ -1357,9 +1552,9 @@
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">Pilih tanggal keberangkatan</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (Sekali-Jalan)</string>
+    <string name="one_way_TEMPLATE">%1$s (Sekali-Jalan)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="round_trip_TEMPLATE">%1$s ke %2$s</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Urutkan Penerbangan</string>
     <!-- Edit search title -->
@@ -1496,6 +1691,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Maskapai penerbangan ini tidak menerima %1$s</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">Hotel tidak menerima %1$s</string>
+    <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
+    <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s tidak menerima kartu %2$s</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">Tidak menerima kartu debit.</string>
 
@@ -1570,18 +1767,12 @@
     <string name="best_price_guarantee">Garansi Harga Terbaik</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Pembatalan gratis&lt;/b&gt; sebelum &lt;b&gt;%s pukul &lt;/b&gt;</string>
-    <!-- Resort fees -->
-    <string name="resort_fee">Biaya Resor:</string>
-    <!-- Pay now or later -->
-    <string name="pay_later">Untuk dibayar ke Expedia sekarang:</string>
-    <!-- Log out -->
-    <string name="log_out">Keluar</string>
+    <!-- Sign out -->
+    <string name="sign_out">Logout</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Anda akan mendapat %1$s poin dari pemesanan ini!</string>
-    <!-- Blurb text displayed on account login button when already logged in -->
+    <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_points_for_this_trip_TEMPLATE">Anda akan mendapatkan %1$s poin untuk perjalanan ini!</string>
-    <!-- You'll earn bonus points for this booking -->
-    <string name="youll_earn_bonus_points_for_this_booking">Anda akan mendapatkan poin bonus untuk pemesanan ini</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Menghitung Pajak dan Biaya…</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -1692,7 +1883,7 @@
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Tanggal Lahir %1$s</string>
     <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;Tanggal Lahir&lt;/font&gt; %1$s</string>
+    <string name="born_on_colored_TEMPLATE">Tanggal Lahir %1$s</string>
     <!-- <brand> expiring <date> template -->
     <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; kedaluwarsa %2$s</string>
 
@@ -1708,7 +1899,7 @@
     <!-- email disclaimer -->
     <string name="email_disclaimer">Email konfirmasi Anda akan dikirim ke sini</string>
     <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Kedaluwarsa &lt;/font&gt;%1$s</string>
+    <string name="expires_colored_TEMPLATE">Kedaluwarsa %1$s</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -1719,8 +1910,6 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Nomor Kartu Kredit</string>
-    <!-- Security code (CVV) hint -->
-    <string name="cvv_hint">CVV</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Tanggal Kedaluwarsa</string>
     <!-- Set expiration date button -->
@@ -1777,8 +1966,6 @@
     <string name="middle_name">Nama Tengah</string>
     <!-- Last name label -->
     <string name="last_name">Nama Belakang</string>
-    <!-- First and Last Name label -->
-    <string name="first_and_last_name">Nama depan dan belakang</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Tanggal Lahir</string>
     <!-- male -->
@@ -1821,7 +2008,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Lebih Memilih Tempat Duduk %1$s</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Lebih Memilih Tempat Duduk &lt;/font&gt;%1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE">Lebih Memilih Tempat Duduk %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Memuat informasi traveler…</string>
     <!-- Passport -->
@@ -1868,8 +2055,12 @@
     <string name="itinerary_confirmation_TEMPLATE">Itinerary no. %s telah dikirim ke</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Cari Akomodasi</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">Tambahkan</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotel di %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
+    <string name="cars_in_TEMPLATE">Mobil Sewa di %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Tindakan Lainnya</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -1882,8 +2073,6 @@
     <string name="add_to_flighttrack">Lacak dengan FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Telepon Layanan Pelanggan Expedia</string>
-    <!-- Button label for VSC support webpage link -->
-    <string name="vsc_customer_support">Hubungi Kami</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Tambah Asuransi</string>
     <!-- Insurance -->
@@ -2235,7 +2424,7 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Mulai dari %s</string>
-    <string name="From_x_per_night_template">Mulai dari &lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/malam</string>
+    <string name="From_x_per_night_template">Mulai dari %s/malam</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2271,8 +2460,6 @@
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- Discount percent shown in hotel results list -->
     <string name="minus_x_percent">-%2.0f%%</string>
-    <!-- Discount percent shown in hotel details fragment -->
-    <string name="x_percent_OFF_TEMPLATE">DISKON %2.0f%%</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% tamu merekomendasikan hotel ini.</string>
 
@@ -2400,14 +2587,6 @@
     <string name="etp_select_room">Pilih Kamar</string>
 
     <!-- Room and rates list -->
-    <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
-    <plurals name="staying_nights">
-        <item quantity="zero">Menginap %d malam</item>
-        <item quantity="one">Menginap %d malam</item>
-        <item quantity="two">Menginap %d malam</item>
-        <item quantity="many">Menginap %d malam</item>
-        <item quantity="other">Menginap %d malam</item>
-    </plurals>
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">Mencari kamar yang tersedia…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
@@ -2442,8 +2621,6 @@
     <string name="Tonight">Malam ini</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Pembatalan Gratis</string>
-    <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">Biaya ini tidak termasuk dalam total</string>
     <!-- Top line of resort fee text -->
     <string name="hotel_fees_for_this_stay">Biaya hotel untuk perjalanan ini</string>
     <!-- Included in the price -->
@@ -2477,7 +2654,7 @@
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">Semua informasi penagihan dan kontak yang tersimpan akan dihapus.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_log_out_and_clear_private_data_msg">Anda akan keluar dari akun Anda dan semua informasi penagihan dan kontak akan dihapus.</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">Anda akan keluar dari akun Anda dan semua informasi penagihan serta kontak akan dihapus.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Data pribadi dihapus</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
@@ -2520,35 +2697,31 @@
     <!-- Policy displayed to user when a deposit is required -->
     <string name="PolicyDepositRequired">Kartu kredit Anda akan dikenai deposit untuk pemesanan Anda. Kartu kredit Anda akan dikenai biaya langsung oleh hotel saat pemesanan dilakukan.</string>
     <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">Informasi kartu kredit diperlukan agar kami dapat mengamaknkan pemesanan Anda. Kartu kredit Anda tidak akan dikenai biaya sampai Anda datang ke hotel atau tenggat waktu pembatalan terlampaui.</string>
+    <string name="PolicyGuaranteeRequired">Informasi kartu kredit diperlukan agar kami dapat mengamankan pemesanan Anda. Kartu kredit Anda tidak akan dikenai biaya sampai Anda datang ke hotel atau tenggat waktu pembatalan terlampaui.</string>
     <!-- Expedia merchant hotel policies -->
     <string name="PolicyExpediaMerchant">Dengan melanjutkan proses pemesanan ini, Anda berarti menyetujui semua syarat dan ketentuan, yang mencakup Kebijakan Pembatalan dan semua syarat dan ketentuan yang tercantum dalam Perjanjian Pengguna.\n\nAnda setuju untuk membayar biaya pemesanan Anda. Jika Anda tidak membayar tagihan ini dan biaya ditagihkan melalui jasa agen penagihan, pengacara, atau melalui prosedur hukum lainnya, Anda menyetujui untuk membayar semua biaya atau pengeluaran yang wajar, termasuk biaya pengacara dan pengadilan, yang dikeluarkan terkait dengan upaya penagihan tersebut.</string>
     <!-- Expedia agent hotel policies -->
     <string name="PolicyExpediaAgent">Anda memesan properti non-diskon. Semua harga berlaku untuk per malam dan 2 orang per kamar, kecuali jika dinyatakan berlainan. Silakan baca deskripsi kamar dan ketentuan harga secara saksama untuk memastikan kamar yang Anda pilih dapat mengakomodasi seluruh tamu. Beberapa harga memerlukan Anda untuk menunjukkan identifikasi khusus. Tidak termasuk biaya pemesanan kami, pajak, dan biaya tambahan lainnya yang dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu yang ditentukan untuk kamar tersebut dapat dikenai biaya tambahan berdasarkan pertimbangan hotel.\n\nPermintaan untuk jumlah tamu lebih dari yang ditentukan oleh harga yang Anda pilih akan dikirim ke hotel, tapi hal ini tidak bisa dijamin. Jika diterima, pemesanan ini akan dikenai biaya tambahan berdasarkan kebijaksanaan hotel.</string>
 
     <!-- Expedia Accounts -->
-    <!-- Label for menu item to log into account -->
-    <string name="log_in">Masuk</string>
-    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
+    <!-- Label for menu item to sign into account -->
+    <string name="sign_in">Masuk</string>
+    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
     <string name="Earn_points_and_book_fast">Dapatkan poin dan pesan dengan cepat.</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">Kata Sandi</string>
-    <!-- Progress dialog text when we are logging the user into Expedia -->
-    <string name="logging_in">Sedang Masuk…</string>
-    <!-- Message that tells user they failed to log in -->
-    <string name="login_failed">Harap masuk kembali</string>
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation">Yakin ingin keluar dari akun Expedia?</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">Member Expedia+ Rewards\u2122</string>
+    <!-- Progress dialog text when we are signing the user into Expedia -->
+    <string name="signing_in">Sedang login…</string>
+    <!-- Message that tells user they failed to sign in -->
+    <string name="sign_in_failed">Harap login kembali</string>
+    <!-- Label for sign out confirmation -->
+    <string name="sign_out_confirmation">Yakin ingin keluar dari akun Expedia Anda?</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +silver rewards program name -->
     <string name="Expedia_plus_silver">Expedia +silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
-    <!-- Label for account name -->
-    <string name="logged_in_as">Masuk sebagai</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Akun Expedia</string>
     <!-- Label for loading user profile from expedia.com -->
@@ -2578,29 +2751,29 @@
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Maaf, namun kode kupon ini tidak valid.</string>
+    <string name="coupon_error_unrecognized">Maaf, kupon ini tidak valid.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Maaf, tapi kode kupon ini telah kedaluwarsa.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Maaf, kami sedang mengalami masalah. Harap coba lagi.</string>
+    <string name="coupon_error_not_redeemed">Maaf, kami sedang mengalami masalah. Silakan coba lagi.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">Maaf, tapi kode kupon ini telah digunakan.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Maaf, kami sedang mengalami masalah. Harap coba lagi.</string>
+    <string name="coupon_error_fallback">Maaf, kami sedang mengalami masalah. Silakan coba lagi.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Biaya pemesanan telah berubah sehingga kami tidak menggunakan kupon. Periksa kembali dan coba lagi.</string>
+    <string name="coupon_error_price_change">Biaya pemesanan telah berubah, karena itu kami tidak memberlakukan kupon ini. Periksa kembali dan coba lagi.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">Maaf, kode kupon ini untuk negara yang lain.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Maaf, Anda tidak memilih jumlah malam minimal.</string>
+    <string name="coupon_error_min_stay_not_met">Maaf, tapi pemesanan tidak mencapai syarat jumlah malam minimal.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Maaf, kupon ini tidak berlaku untuk tanggal-tanggal ini.</string>
+    <string name="coupon_error_invalid_travel_dates">Maaf, tapi kupon ini tidak valid untuk tanggal pilihan Anda.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Maaf, hotel ini tidak menerima kupon.</string>
+    <string name="coupon_error_invalid_product">Maaf, tapi hotel ini ini tidak menerima kupon.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Maaf, tapi ini tidak memenuhi syarat biaya minimal.</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Maaf, tapi pemesanan tidak mencapai syarat biaya minimal.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_hotel_excluded">Maaf, hotel ini tidak menerima kupon.</string>
+    <string name="coupon_error_hotel_excluded">Maaf, tapi hotel ini ini tidak menerima kupon.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">Maaf, kupon tidak bisa digunakan untuk hotel ini.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
@@ -2612,7 +2785,7 @@
     <!-- Error when applying coupon - Exceeded Earn Limit -->
     <string name="coupon_error_exceeded_earn_limit">Maaf, kupon ini telah digunakan terlalu sering, karena itu tidak lagi berlaku.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
-    <string name="coupon_error_invalid_average_price">Maaf, harga rata-rata per malam minimum yang diharuskan tidak memenuhi syarat untuk penggunaan kupon ini.</string>
+    <string name="coupon_error_invalid_average_price">Maaf, harga rata-rata per malam tidak memenuhi syarat minimum untuk kupon ini.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2644,9 +2817,9 @@
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Hak cipta 2012-%1$s Expedia, Inc.\nSemua hak dilindungi undang-undang.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_logged_out_and_cleared_private_data">Anda sudah keluar dan data sudah dihapus</string>
+    <string name="dialog_title_signed_out_and_cleared_private_data">Anda sudah keluar dan data sudah dihapus</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">Anda sudah keluar dari akun Expedia Anda, dan semua informasi penagihan dan kontak telah dihapus.</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data">Anda sudah keluar dari akun Expedia Anda, dan semua informasi penagihan dan kontak telah dihapus.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Data pribadi dihapus</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3065,18 +3238,14 @@
     <string name="wallet_buy_with_google_wallet">Beli dengan Google wallet</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Hemat <b>$50</b> untuk perjalanan senilai <b>lebih dari $200</b> dengan Google Wallet!</string>
-    <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Anda menghemat $50 dengan Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">Hanya satu kupon yang bisa digunakan untuk setiap pemesanan. Kami mengganti kupon Anda yang sebelumnya dengan diskon $50 untuk penggunaan Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Menerapkan diskon Google Wallet…</string>
-    <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
-    <string name="error_wallet_promo_cannot_apply">Maaf, diskon Google Wallet tidak bisa diterapkan ke pemesanan ini.</string>
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Syarat &amp; Ketentuan Kupon Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Penawaran: Dapatkan diskon kupon cepat $50 untuk menginap di hotel. Harga pemesanan yang memenuhi syarat minimum harus $200. Cara menukar: Pilih waktu menginap di hotel yang memenuhi syarat. Pada halaman checkout, gunakan "Beli dengan Google" saat checkout. Kupon harus ditukar di aplikasi Expedia Android pada jam 23.59 (Waktu Pasifik) pada tanggal 31 Desember 2014 untuk perjalanan mulai dari sekarang hingga 31 Maret 2015. Penawaran periode terbatas: subjek untuk diganti Batas 1 (satu) kupon untuk setiap akun pengguna dan untuk setiap pemesanan hotel yang memenuhi syarat Penawaran ini diberikan oleh Expedia.com dan hanya berlaku untuk pelanggan aplikasi Android Expedia.com AS. Pelanggan yang berafiliasi dengan Program Afiliasi Agen Wisata Expedia tidak memenuhi syarat untuk penawaran. Kupon hanya berlaku untuk Tarif Hotel Expedia yang memenuhi syarat. Subjek pemesanan bergantung pada ketersediaan serta semua syarat dan ketentuan. Kupon kemungkinan tidak bisa digunakan dengan kupon, promosi, atau penawaran khusus lainnya. Diskon kupon tidak bisa diterapkan pada pajak, biaya yang dikenakan suplier, denda pembatalan atau perubahan, biaya administrasi, atau biaya lainnya, yang merupakan tanggung jawab pelanggan. Kupon akan dianggap telah ditukar seluruhnya setelah pemesanan yang memenuhi syarat dibuat dan tidak dapat digunakan kembali. Bila Anda mengubah atau membatalkan sebagian pemesanan, kupon tidak akan berlaku untuk jadwal perjalanan yang diganti. Syarat dan ketentuan kupon ini adalah seperti yang tertulis dan tidak bisa diubah oleh perwakilan pihak yang tidak berwenang, termasuk oleh karyawan Expedia, Inc. Kupon tidak bisa dipindahtangankan dan tidak bisa ditukarkan dengan uang tunai. Expedia, Inc. dapat membatalkan atau mengubah penawaran ini sewaktu-waktu. Tidak berlaku jika dilarang oleh undang-undang setempat.</string>
+    <string name="wallet_promo_tc_message">Penawaran: Dapatkan diskon kupon cepat $50 untuk menginap di hotel. Harga pemesanan yang memenuhi syarat minimum harus $200. Cara menukar: Pilih waktu menginap di hotel yang memenuhi syarat. Pada halaman checkout, gunakan "Beli dengan Google" saat checkout. Kupon harus ditukar di aplikasi Expedia Android pada jam 23.59 (Waktu Pasifik) pada tanggal 31 Desember 2014 untuk perjalanan mulai dari sekarang hingga 31 Maret 2015. Penawaran periode terbatas: subjek untuk diganti Batas 1 (satu) kupon untuk setiap akun pengguna dan untuk setiap pemesanan hotel yang memenuhi syarat Penawaran ini diberikan oleh Expedia.com dan hanya berlaku untuk pelanggan aplikasi Android Expedia.com AS. Pelanggan yang berafiliasi dengan Program Afiliasi Agen Perjalanaan (TAAP) tidak bisa menggunakan penawaran ini. Kupon hanya berlaku untuk Tarif Hotel Expedia yang memenuhi syarat. Subjek pemesanan bergantung pada ketersediaan serta semua syarat dan ketentuan. Kupon kemungkinan tidak bisa digunakan dengan kupon, promosi, atau penawaran khusus lainnya. Diskon kupon tidak bisa diterapkan pada pajak, biaya yang dikenakan suplier, denda pembatalan atau perubahan, biaya administrasi, atau biaya lainnya, yang merupakan tanggung jawab pelanggan. Kupon akan dianggap telah ditukar seluruhnya setelah pemesanan yang memenuhi syarat dibuat dan tidak dapat digunakan kembali. Bila Anda mengubah atau membatalkan sebagian pemesanan, kupon tidak akan berlaku untuk jadwal perjalanan yang diganti. Syarat dan ketentuan kupon ini adalah seperti yang tertulis dan tidak bisa diubah oleh perwakilan pihak yang tidak berwenang, termasuk oleh karyawan Expedia, Inc. Kupon tidak bisa dipindahtangankan dan tidak bisa ditukarkan dengan uang tunai. Expedia, Inc. dapat membatalkan atau mengubah penawaran ini sewaktu-waktu. Tidak berlaku jika dilarang oleh undang-undang setempat.</string>
     <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
     <string name="wallet_coupon_not_applied_manually">Kupon ini mungkin hanya berlaku saat memilih Google Wallet sebagai bentuk pembayaran Anda.</string>
 
@@ -3200,26 +3369,7 @@
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
     <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">Pemesanan Anda telah dikonfirmasi! Lihat di aplikasi.</string>
 
-    <!-- VSC Info Screen -->
-    <!-- Header for a list of apps also written by VSC -->
-    <string name="AlsoByVSC">Juga dari VSC</string>
-    <!-- Name of VSC Train app -->
-    <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
-    <!-- Description for FT Free app -->
-    <string name="VSC_Voyages_SNF_description">Aplikasi Voyages-sncf.com</string>
-
     <!-- Content Description Labels -->
-    <!-- Expedia Bookings Launch Screen -->
-    <!-- Content description for action: Press button to launch Hotels -->
-    <string name="cd_launch_hotels">Cari Hotel</string>
-    <!-- Content description for action: Press button to launch Flights -->
-    <string name="cd_launch_flights">Cari Penerbangan</string>
-    <!-- Content description for action: Press button to open menu list -->
-    <string name="cd_launch_open_menu_list">Buka daftar menu</string>
-    <!-- Content description for action: Open Settings Menu -->
-    <string name="cd_launch_open_settings_menu">Buka menu pengaturan</string>
-    <!-- Content description for action: Open App Info Screen -->
-    <string name="cd_launch_open_eb_info_screen">Buka layar informasi Pemesanan Expedia</string>
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">Tekan untuk memperbarui daftar perjalanan</string>
@@ -3228,32 +3378,8 @@
     <string name="cd_hotel_search_edittext">Masukkan teks ke bidang pencarian hotel</string>
     <!-- Content description for action: Open hotel booking dates calendar -->
     <string name="cd_hotel_search_open_calendar">Buka kalender pemesanan hotel</string>
-    <!-- Content description for action: Press "Search" from hotel calendar fragment -->
-    <string name="cd_hotel_search_press_search_from_calendar">Tekan untuk mencari hotel</string>
     <!-- Content description for action: Open hotel guest picker -->
     <string name="cd_hotel_search_open_guest_picker">Buka pilihan tamu hotel</string>
-    <!-- Content description for action: Press "Search" from hotel guest picker fragment -->
-    <string name="cd_hotel_search_press_search_from_guest_picker">Tekan untuk mencari hotel</string>
-    <!-- Content description for action: Press to open hotel sort options -->
-    <string name="cd_hotel_search_open_sort_options">Buka opsi pengurutan hotel</string>
-    <!-- Content description for action: Switch to map view - hotels search -->
-    <string name="cd_hotel_search_switch_to_map_view">Ganti ke tampilan peta</string>
-    <!-- Content description for action: Switch to list view - hotels search -->
-    <string name="cd_hotel_search_switch_to_list_view">Ganti ke tampilan daftar</string>
-    <!-- Hotel sort options -->
-    <!-- Content description for action: Press to sort hotels by popularity -->
-    <string name="cd_sort_hotels_by_popularity">Urutkan menurut popularitas</string>
-    <!-- Content description for action: Press to sort hotels by deals -->
-    <string name="cd_sort_hotels_by_deals">Urutkan menurut diskon</string>
-    <!-- Content description for action: Press to sort hotels by price -->
-    <string name="cd_sort_hotels_by_price">Urutkan menurut harga</string>
-    <!-- Content description for action: Press to sort hotels by rating -->
-    <string name="cd_sort_hotels_by_rating">Urutkan menurut skor tamu</string>
-    <!-- Content description for action: Press to open hotel filter options -->
-    <string name="cd_filter_open_hotel_filter_options">Buka opsi filter hotel</string>
-    <!-- Hotel filter options -->
-    <!-- Content description for action: Entering text into hotel filter text field -->
-    <string name="cd_filter_by_hotel_name">Masukkan teks ke kolom teks filter hotel</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
     <string name="cd_filter_hotels_for_three_or_more_stars">Tekan untuk memfilter hotel dengan bintang tiga atau lebih</string>
@@ -3298,30 +3424,10 @@
     <!-- Content description for action: Press to display critical reviews -->
     <string name="cd_display_critical_reviews">Tekan untuk menampilkan ulasan negatif</string>
     <!-- Flight Search -->
-    <!-- Content description for action: Edit departure airport -->
-    <string name="cd_flights_search_departure_edit_text">Ubah bandara keberangkatan</string>
-    <!-- Content description for action: Edit arrival airport -->
-    <string name="cd_flights_search_arrival_edit_text">Ubah bandara kedatangan</string>
-    <!-- Content description for action: Press to edit departure and arrival dates -->
-    <string name="cd_flights_search_dates_edit">Tekan untuk mengubah tanggal keberangkatan dan kedatangan</string>
     <!-- Content description for action: Press to clear selected dates -->
     <string name="cd_flights_clear_selected_dates">Tekan untuk menghapus tanggal yang dipilih</string>
     <!-- Content description for action: Press to edit number of travelers -->
     <string name="cd_flights_search_number_of_travelers_edit">Tekan untuk mengubah jumlah traveler</string>
-    <!-- Flight Search Results -->
-    <!-- Content description for action: Press to return to flight search -->
-    <string name="cd_flights_search_search_button">Tekan untuk kembali ke pencarian penerbangan</string>
-    <!-- Content description for action: Press to open flight sort options -->
-    <string name="cd_flights_search_results_sort">Tekan untuk membuka opsi pengurutan penerbangan</string>
-    <!-- Flight sort options -->
-    <!-- Content description for action: Press to sort flights by price -->
-    <string name="cd_sort_flights_by_price">Tekan untuk mengurutkan penerbangan menurut harga</string>
-    <!-- Content description for action: Press to sort flights by when they depart -->
-    <string name="cd_sort_flights_by_departs">Tekan untuk mengurutkan penerbangan menurut waktu berangkat</string>
-    <!-- Content description for action: Press to sort flights by when they arrive -->
-    <string name="cd_sort_flights_by_arrives">Tekan untuk mengurutkan penerbangan menurut waktu tiba</string>
-    <!-- Content description for action: Press to sort flights by their durations -->
-    <string name="cd_sort_flights_by_duration">Tekan untuk mengurutkan penerbangan menurut durasi</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
     <string name="cd_flight_leg_cancel">Batalkan pilihan penerbangan dan kembali ke hasil pencarian</string>
@@ -3335,27 +3441,17 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">Tekan untuk memulai proses pembayaran</string>
-    <!-- Content description for action: Press to log in with your Expedia account -->
-    <string name="cd_checkout_log_in_with_expedia">Tekan untuk masuk ke akun Expedia Anda</string>
-    <!-- Content description for action: Press to make this purchase with Google Wallet -->
-    <string name="cd_checkout_buy_with_google">Tekan untuk melakukan pembelian dengan Google Wallet</string>
+    <!-- Content description for action: Press to sign in with your Expedia account -->
+    <string name="cd_checkout_sign_in_with_expedia">Klik untuk login ke akun Expedia Anda</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">Tekan untuk menambahkan traveler ke pemesanan ini</string>
     <!-- Content description for action: Press to select payment for this booking -->
     <string name="cd_checkout_select_payment">Tekan untuk memilih pembayaran untuk pemesanan ini</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Tekan untuk memasukkan kode kupon atau promo</string>
-    <!-- Content description for action: Enter coupon or promotional code into text field -->
-    <string name="cd_checkout_coupon_code_entry_field">Masukan kode kupon atau promo ke bidang teks</string>
-    <!-- Content description for action: Press to apply coupon -->
-    <string name="cd_checkout_apply_coupon_button">Tekan untuk menggunakan kupon</string>
-    <!-- Log in screen -->
-    <!-- Content description for action: Enter Expedia account email address -->
-    <string name="cd_log_in_email_edit_text">Masukkan alamat email akun Expedia</string>
-    <!-- Content description for action: Enter Expedia account password -->
-    <string name="cd_log_in_password_edit_text">Masukkan kata sandi akun Expedia</string>
-    <!-- Content description for action: Press to log into Expedia with your Facebook account -->
-    <string name="cd_log_in_with_facebook">Tekan untuk masuk ke Expedia dengan akun Facebook Anda</string>
+    <!-- Sign in screen -->
+    <!-- Content description for action: Press to sign into Expedia with your Facebook account -->
+    <string name="cd_sign_in_with_facebook">Klik untuk login ke Expedia dengan akun Facebook Anda</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Tekan untuk memasukkan traveler baru</string>
@@ -3364,53 +3460,18 @@
     <!-- Content description for action: Press to edit traveler's passport country -->
     <string name="cd_traveler_edit_passport_country">Ubah negara paspor</string>
     <!-- Traveler Information edit/entry screen -->
-    <!-- Content description for action: Enter first name -->
-    <string name="cd_traveler_first_name_edit_text">Masukkan nama depan</string>
-    <!-- Content description for action: Enter middle name -->
-    <string name="cd_traveler_middle_name_edit_text">Masukkan nama tengah</string>
-    <!-- Content description for action: Enter last name -->
-    <string name="cd_traveler_last_name_edit_text">Masukkan nama belakang</string>
-    <!-- Content description for action: Press to select country calling codes -->
-    <string name="cd_traveler_list_international_phone_codes">Tekan untuk memilih kode negara</string>
-    <!-- Content description for action: Enter phone number -->
-    <string name="cd_traveler_phone_number">Masukkan nomor telepon</string>
     <!-- Content description for action: Press to finish entering traveler information -->
     <string name="cd_traveler_information_done">Tekan untuk menyelesaikan pengisian informasi traveler</string>
     <!-- Extra traveler information - flights -->
-    <!-- Content description for action: Press to select traveler's birthday -->
-    <string name="cd_traveler_birthday_edit">Tekan untuk memilih tanggal lahir traveler</string>
     <!-- Content description for action: Press to select traveler's gender -->
     <string name="cd_traveler_gender_edit">Tekan untuk memilih jenis kelamin traveler</string>
-    <!-- Content description for action: Enter redress number, if applicable -->
-    <string name="cd_traveler_redress_number_edit_text">Masukkan alamat redress, jika ada</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">Pilih jenis bantuan khusus yang diperlukan traveler</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
     <string name="cd_traveler_seat_preference_edit">Pilih tempat duduk yang dikehendaki</string>
     <!-- Credit Card Information -->
-    <!-- Button text for choosing a stored payment. Clicking this button will open a popup listing all stored cards. -->
-    <string name="Stored_Cards">Kartu yang Disimpan</string>
-    <!-- Content description for action: Enter credit card number -->
-    <string name="cd_card_info_card_number_edit_text">Masukkan nomor kartu kredit</string>
-    <!-- Content description for action: Enter cardholder name -->
-    <string name="cd_card_info_cardholder_name">Masukkan nama pemegang kartu</string>
-    <!-- Content description for action: Enter cardholder's email address -->
-    <string name="cd_card_info_email_address">Masukkan alamat email pemegang kartu</string>
-    <!-- Content description for action: Enter billing address - line 1 -->
-    <string name="cd_card_info_billing_address_line_1">Masukkan alamat penagihan - baris 1</string>
-    <!-- Content description for action: Enter billing address - line 2 -->
-    <string name="cd_card_info_billing_address_line_2">Masukkan alamat penagihan - baris 2</string>
-    <!-- Content description for action: Enter billing address city -->
-    <string name="cd_card_info_billing_address_city">Masukkan kota alamat penagihan</string>
-    <!-- Content description for action: Enter billing address state -->
-    <string name="cd_card_info_billing_address_state">Masukkan provinsi alamat penagihan</string>
-    <!-- Content description for action: Enter billing address postal code -->
-    <string name="cd_card_info_billing_address_postal_code">Masukkan kode pos alamat penagihan</string>
     <!-- Content description for action: Select billing address country -->
     <string name="cd_card_info_billing_address_country">Masukkan negara alamat penagihan</string>
-    <!-- Common actionbar elements -->
-    <!-- Content description for action: Press to go back to previous screen -->
-    <string name="cd_go_back">Tekan untuk kembali ke layar sebelumnya</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="cd_share_menu_btn">Tekan untuk pilihan mengirim itinerary</string>
@@ -3476,10 +3537,9 @@
     <!-- Dialog negative button message -->
     <string name="no">Tidak</string>
 
-    <!-- Mail intent chooser dialog title -->
-    <string name="mailto_title">Mengirim email…</string>
-
     <!-- Template for generating textview clicks -->
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
+    <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="legal_TEMPLATE">Dengan menyelesaikan pemesanan ini, saya menyatakan bahwa saya telah membaca dan menerima %1$s, %2$s, dan %3$s.</string>
 
 </resources>

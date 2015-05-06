@@ -1,0 +1,13 @@
+{
+    "activityId": "58b6be8a-d533-4eb0-aaa6-0228e000056c",
+    "errors": [
+        {
+            "diagnosticId": 2048,
+            "errorCode": "APPLY_COUPON_ERROR",
+            "errorInfo": {
+                "couponErrorType": "ExceededEarnLimit",
+                "summary": "This coupon was redeemed, and can't be reused for the same user."
+            }
+        }
+    ]
+}

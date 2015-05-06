@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.ui.phone.tests.hotels;
 
+import android.support.test.espresso.Espresso;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen;
@@ -15,16 +17,14 @@ import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
-import android.support.test.espresso.Espresso;
-
-import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.Matchers.not;
 
 /**
@@ -169,7 +169,7 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
 		ScreenActions.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
 		HotelsCheckoutScreen.clickLogOutButton();
-		onView(withText(mRes.getString(R.string.log_out))).perform(click());
+		onView(withText(mRes.getString(R.string.sign_out))).perform(click());
 		try {
 			onView(withText(R.string.ok)).perform(click());
 		}

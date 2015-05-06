@@ -21,6 +21,10 @@ import rx.Subscription;
 
 public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 
+	protected Subscription getNearbySuggestions(String locale, String latLong, int siteId, Observer<List<Suggestion>> observer) {
+		return suggestionServices.getNearbyLxSuggestions(locale, latLong, siteId, observer);
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LxSuggestionViewHolder holder;
@@ -43,11 +47,15 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 		@InjectView(R.id.lx_dropdown_imageView)
 		ImageView dropdownImage;
 
+		@InjectView(R.id.city_name_textView)
+		TextView cityName;
+
 		public LxSuggestionViewHolder(View root) {
 			ButterKnife.inject(this, root);
 		}
 
 		public void bind(Suggestion suggestion) {
+			cityName.setText(StrUtils.formatAirportName(suggestion.shortName));
 			displayName.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
 			if (suggestion.iconType == Suggestion.IconType.HISTORY_ICON) {
 				dropdownImage.setImageResource(R.drawable.recents);
@@ -59,7 +67,7 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 				dropdownImage.setImageResource(R.drawable.search_type_icon);
 			}
 			dropdownImage
-				.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.lx_secondary_color));
+				.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.lx_primary_color));
 		}
 	}
 

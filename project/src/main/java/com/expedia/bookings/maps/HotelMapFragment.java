@@ -11,6 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,10 +31,10 @@ import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
 import com.expedia.bookings.data.HotelFilter.PriceRange;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.enums.ResultsHotelsState;
@@ -232,7 +234,13 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 					if (lowestRate != null) {
 						String formattedMoney = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
 						if (lowestRate.getUserPriceType() == Rate.UserPriceType.PER_NIGHT_RATE_NO_TAXES) {
-							price.setText(Html.fromHtml(getString(R.string.From_x_per_night_template, formattedMoney)));
+							String formattedString = getString(R.string.From_x_per_night_template, formattedMoney);
+							Spannable stringToSpan = new SpannableString(formattedString);
+							int color = getResources().getColor(R.color.hotel_map_text_color);
+							int startIndex = formattedString.indexOf(formattedMoney);
+							Ui.setTextStyleBoldText(stringToSpan, color, startIndex,
+								startIndex + formattedMoney.length());
+							price.setText(stringToSpan);
 						}
 						else {
 							price

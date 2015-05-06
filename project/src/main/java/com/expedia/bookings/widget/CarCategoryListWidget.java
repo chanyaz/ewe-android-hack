@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.View;
 
 import com.expedia.bookings.R;
@@ -16,6 +14,7 @@ import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -52,13 +51,10 @@ public class CarCategoryListWidget extends FrameLayout {
 		layoutManager.scrollToPosition(0);
 		recyclerView.setLayoutManager(layoutManager);
 
-		TypedValue typedValue = new TypedValue();
-		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
-		TypedArray a = getContext().obtainStyledAttributes(typedValue.data, textSizeAttr);
-		int toolbarSize = (int) a.getDimension(0, 44);
+		int toolbarSize = Ui.getToolbarSize(getContext());
 
 		recyclerView.addItemDecoration(
-			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, toolbarSize, 0, false));
+			new RecyclerDividerDecoration(getContext(), 0, LIST_DIVIDER_HEIGHT, 0, LIST_DIVIDER_HEIGHT, toolbarSize + Ui.getStatusBarHeight(getContext()), 0, false));
 		recyclerView.setHasFixedSize(true);
 		recyclerView.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 

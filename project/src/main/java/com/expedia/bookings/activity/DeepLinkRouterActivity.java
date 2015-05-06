@@ -40,6 +40,7 @@ import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
@@ -103,6 +104,11 @@ public class DeepLinkRouterActivity extends Activity {
 			finish();
 			return;
 		}
+		else if (dataString.contains("localexpert")) {
+			handleLocalExpert(data, queryData);
+			finish();
+			return;
+		}
 		else if (ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl().equalsIgnoreCase(host)) {
 			final String shortUrl = dataString;
 			final ExpediaServices services = new ExpediaServices(this);
@@ -139,6 +145,10 @@ public class DeepLinkRouterActivity extends Activity {
 			handleFlightSearch(data, queryData);
 			finish = true;
 			break;
+		case "localexpert":
+			handleLocalExpert(data, queryData);
+			finish = true;
+			break;
 		case "destination":
 			Log.i(TAG, "Launching destination search from deep link!");
 			handleDestination(data, queryData);
@@ -153,6 +163,29 @@ public class DeepLinkRouterActivity extends Activity {
 		if (finish) {
 			finish();
 		}
+	}
+
+	private boolean handleLocalExpert(Uri data, Set<String> queryData) {
+
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			String startDateStr = null;
+			// Add date (if supplied)
+			if (queryData.contains("startDate")) {
+				startDateStr = data.getQueryParameter("startDate");
+			}
+			String location = null;
+			// Determine the search location.  Defaults to "current location" if none supplied
+			// or the supplied variables could not be parsed.
+			if (queryData.contains("location")) {
+				location = (data.getQueryParameter("location"));
+				Log.d(TAG, "Setting activity search location: " + location);
+			}
+
+			// Launch activity search
+			Log.i(TAG, "Launching activity search from deep link!");
+			NavUtils.goToLocalExpert(this, location, startDateStr, null, NavUtils.FLAG_DEEPLINK);
+		}
+		return true;
 	}
 
 	/**
@@ -294,10 +327,23 @@ public class DeepLinkRouterActivity extends Activity {
 				return false;
 			}
 			else {
-				SuggestionV2 destination = new SuggestionV2();
-				destination.setResultType(SuggestionV2.ResultType.CURRENT_LOCATION);
-				mSearchParams.setDestination(destination);
-				NavUtils.goToTabletResults(this, mSearchParams, LineOfBusiness.HOTELS);
+				final android.location.Location location =
+					LocationServices.getLastBestLocation(this, 60 * 1000 /* one hour */);
+				if (location != null && location.getLatitude() != 0 && location.getLongitude() != 0) {
+					mIsCurrentLocationSearch = true;
+					bgd.startDownload(DL_KEY_LAT_LNG, new BackgroundDownloader.Download<SuggestionResponse>() {
+						@Override
+						public SuggestionResponse doDownload() {
+							ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
+							return services.suggestionsCityNearby(location.getLatitude(), location.getLongitude());
+						}
+					}, mSuggestCallback);
+					return false;
+				}
+				else {
+					Intent launchIntent = new Intent(DeepLinkRouterActivity.this, TabletLaunchActivity.class);
+					startActivity(launchIntent);
+				}
 			}
 		}
 		else {
@@ -566,31 +612,6 @@ public class DeepLinkRouterActivity extends Activity {
 			Log.w(TAG, "Could not decode destination", e);
 			NavUtils.goToLaunchScreen(this);
 		}
-	}
-
-	private boolean kickoffLatLngSearch(BackgroundDownloader bgd, final Double lat, final Double lng) {
-		boolean finish = true;
-		try {
-			// Check that lat/lng are valid
-			if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
-				Log.d(TAG, "Setting hotel search lat/lng: (" + lat + ", " + lng + ")");
-				finish = false;
-				bgd.startDownload(DL_KEY_LAT_LNG, new BackgroundDownloader.Download<SuggestionResponse>() {
-					@Override
-					public SuggestionResponse doDownload() {
-						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-						return services.suggestionsCityNearby(lat, lng);
-					}
-				}, mSuggestCallback);
-			}
-			else {
-				Log.w(TAG, "Lat/lng out of valid range: (" + lat + ", " + lng + ")");
-			}
-		}
-		catch (NumberFormatException e) {
-			Log.w(TAG, "Could not parse latitude/longitude (" + lat + ", " + lng + ")", e);
-		}
-		return finish;
 	}
 
 	@Override

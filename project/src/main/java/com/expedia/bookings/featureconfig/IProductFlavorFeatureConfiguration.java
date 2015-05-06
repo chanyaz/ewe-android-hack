@@ -53,7 +53,7 @@ public interface IProductFlavorFeatureConfiguration {
 
 	int getAdXPosIdentifier();
 
-	String getOmnitureReportSuiteIds(Context context);
+	String getOmnitureReportSuiteIds();
 
 	String getOmnitureTrackingServer();
 
@@ -72,6 +72,8 @@ public interface IProductFlavorFeatureConfiguration {
 	View.OnClickListener getInsuranceLinkViewClickListener(final Context context, final String insuranceTermsUrl);
 
 	boolean isLeanPlumEnabled();
+
+	boolean isKahunaEnabled();
 
 	boolean isWeAreHiringInAboutEnabled();
 

@@ -1,10 +1,10 @@
 package com.expedia.bookings.activity;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.UUID;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -19,20 +19,21 @@ import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.dagger.AppModule;
 import com.expedia.bookings.dagger.AppComponent;
+import com.expedia.bookings.dagger.AppModule;
 import com.expedia.bookings.dagger.CarComponent;
 import com.expedia.bookings.dagger.DaggerAppComponent;
 import com.expedia.bookings.dagger.DaggerCarComponent;
-import com.expedia.bookings.dagger.DaggerLaunchComponent;
 import com.expedia.bookings.dagger.DaggerLXComponent;
-import com.expedia.bookings.dagger.LaunchComponent;
+import com.expedia.bookings.dagger.DaggerLaunchComponent;
 import com.expedia.bookings.dagger.LXComponent;
+import com.expedia.bookings.dagger.LaunchComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
+import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -42,15 +43,15 @@ import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.KahunaUtils;
 import com.expedia.bookings.utils.LeanPlumUtils;
-import com.expedia.bookings.utils.SocketActivityHierarchyServer;
 import com.expedia.bookings.utils.StethoShim;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
@@ -65,10 +66,7 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import io.fabric.sdk.android.Fabric;
-import retrofit.RestAdapter;
 import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler,
 	AdvertisingIdUtils.OnIDFALoaded {
@@ -81,6 +79,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	// For bug #2249 where we did not point at the production push server
 	private static final String PREF_UPGRADED_TO_PRODUCTION_PUSH = "PREF_UPGRADED_TO_PRODUCTION_PUSH";
 
+	// For Abacus bucketing GUID
+	private static final String PREF_ABACUS_GUID = "PREF_ABACUS_GUID";
+
 	public static final String MEDIA_URL = BuildConfig.MEDIA_URL;
 
 	private UncaughtExceptionHandler mOriginalUncaughtExceptionHandler;
@@ -88,12 +89,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	// Debug / test settings
 
 	public static boolean sIsAutomation = false;
-
-	// This is used only for testing; normally you can assume that onCreate()
-	// has been called before any other code, but that's not always the case
-	// with unit tests.  This allows a unit test to wait until it knows that
-	// we've initialized key parts of the app.
-	private boolean mInitialized = false;
 
 	public static void setAutomation(boolean isAutomation) {
 		sIsAutomation = isAutomation;
@@ -116,31 +111,15 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			.build();
 		startupTimer.addSplit("Dagger AppModule created");
 
-		PicassoHelper.init(this);
-		Boolean isLoggingEnabled = SettingUtils.get(this, getString(R.string.preference_enable_picasso_logging), false);
-		new PicassoHelper.Builder(this).build().setLoggingEnabled(isLoggingEnabled);
+		PicassoHelper.init(this, mAppComponent.okHttpClient());
 		startupTimer.addSplit("Picasso started.");
-
-		if (!AndroidUtils.isRelease(this) && SettingUtils.get(this,
-			getString(R.string.preference_should_start_hierarchy_server), false)) {
-			SocketActivityHierarchyServer activityHierarchyServer = new SocketActivityHierarchyServer();
-			try {
-				activityHierarchyServer.start();
-				registerActivityLifecycleCallbacks(activityHierarchyServer);
-			}
-			catch (Exception e) {
-				Log.e("Failed to start HierarchyServer", e);
-			}
-			startupTimer.addSplit("SocketActivityHierarchyServer Init");
-		}
 
 		ActiveAndroid.initialize(this);
 
 		startupTimer.addSplit("ActiveAndroid Init");
 
-		boolean isRelease = AndroidUtils.isRelease(this);
 		boolean isLogEnablerInstalled = DebugUtils.isLogEnablerInstalled(this);
-		Log.configureLogging("ExpediaBookings", !isRelease || isLogEnablerInstalled);
+		Log.configureLogging("ExpediaBookings", BuildConfig.DEBUG || isLogEnablerInstalled);
 
 		startupTimer.addSplit("Logger Init");
 
@@ -150,7 +129,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("Joda TZ Provider Init");
 
 		try {
-			if (!isRelease) {
+			if (BuildConfig.DEBUG) {
 				FlightStatsDbUtils.setUpgradeCutoff(DateUtils.DAY_IN_MILLIS); // 1 day cutoff for upgrading FS.db
 			}
 
@@ -163,7 +142,11 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("FS.db Init");
 
 		// Pull down advertising ID
-		AdvertisingIdUtils.loadIDFA(this, this);
+		if (!sIsAutomation) {
+			AdvertisingIdUtils.loadIDFA(this, this);
+			startupTimer.addSplit("IDFA wireup");
+		}
+
 		// Init required for Omniture tracking
 		OmnitureTracking.init(this);
 		// Setup Omniture for tracking crashes
@@ -186,11 +169,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			myConfig.locale = locale;
 			getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
 			startupTimer.addSplit("Force locale to " + locale.getLanguage());
-		}
-
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
-			LeanPlumUtils.init(this);
-			startupTimer.addSplit("LeanPlum started.");
 		}
 
 		FontCache.initialize(this);
@@ -216,10 +194,21 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
 
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+			LeanPlumUtils.init(this);
+			startupTimer.addSplit("LeanPlum started.");
+		}
+
+		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+			KahunaUtils.init(this);
+			registerActivityLifecycleCallbacks(new ExpediaActivityLifeCycleCallBack());
+			startupTimer.addSplit("Kahuna started.");
+		}
+
 		// 2249: We were not sending push registrations to the prod push server
 		// If we are upgrading from a previous version we will send an unregister to the test push server
 		// We also don't want to bother if the user has never launched the app before
-		if (isRelease
+		if (BuildConfig.RELEASE
 			&& !SettingUtils.get(this, PREF_UPGRADED_TO_PRODUCTION_PUSH, false)
 			&& SettingUtils.get(this, PREF_FIRST_LAUNCH_OCCURED, false)) {
 
@@ -235,9 +224,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			PushNotificationUtils.unRegister(this, testPushServer, regId, callback);
 		}
 		startupTimer.addSplit("Push server unregistered (if needed)");
-
-		// We want to try to start loading data (but it may not be finished syncing before someone tries to use it).
-		ItineraryManager.getInstance().startSync(false);
 
 		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH_OCCURED, false)) {
 			SettingUtils.save(this, PREF_FIRST_LAUNCH_OCCURED, true);
@@ -283,9 +269,12 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		CurrencyUtils.initMap(this);
 		startupTimer.addSplit("Currency Utils init");
 
-		startupTimer.dumpToLog();
+		AbacusEvaluateQuery query = new AbacusEvaluateQuery(generateAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
+		query.addExperiments(AbacusUtils.getActiveTests());
+		mAppComponent.abacus().downloadBucket(query, abacusSubscriber);
+		startupTimer.addSplit("Abacus Guid init");
 
-		mInitialized = true;
+		startupTimer.dumpToLog();
 	}
 
 	@Override
@@ -330,8 +319,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	private AppComponent mAppComponent;
 	private CarComponent mCarComponent;
-	private LXComponent mLXComponent;
 	private LaunchComponent mLaunchComponent;
+
+	private LXComponent mLXComponent;
+	private LXComponent mLXTestComponent;
 
 	public AppComponent appComponent() {
 		return mAppComponent;
@@ -352,13 +343,18 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	}
 
 	public void defaultLXComponents() {
-		setLXComponent(DaggerLXComponent.builder()
-			.appComponent(mAppComponent)
-			.build());
+		if (mLXTestComponent == null) {
+			mLXComponent = DaggerLXComponent.builder()
+				.appComponent(mAppComponent)
+				.build();
+		}
+		else {
+			mLXComponent = mLXTestComponent;
+		}
 	}
 
-	public void setLXComponent(LXComponent lxComponent) {
-		mLXComponent = lxComponent;
+	public void setLXTestComponent(LXComponent lxTestComponent) {
+		mLXTestComponent = lxTestComponent;
 	}
 
 	public LXComponent lxComponent() {
@@ -495,20 +491,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onIDFALoaded(String idfa) {
-		String endPoint;
-		RestAdapter.LogLevel logLevel;
-		if (BuildConfig.DEBUG) {
-			endPoint = AbacusServices.DEV;
-			logLevel = RestAdapter.LogLevel.FULL;
-		}
-		else {
-			endPoint = AbacusServices.PRODUCTION;
-			logLevel = RestAdapter.LogLevel.NONE;
-		}
-		new AbacusServices(endPoint,
-			new File(getCacheDir(), "abacus"), AndroidSchedulers.mainThread(),
-			Schedulers.io(), logLevel)
-			.downloadBucket(idfa, String.valueOf(PointOfSale.getPointOfSale().getTpid()), abacusSubscriber);
+
 	}
 
 	@Override
@@ -524,27 +507,40 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		@Override
 		public void onError(Throwable e) {
+			// onError is called during debuging & cannot connect to dev endpoint
+			// but we still want to modify the tests for debugging and QA purposes
+			updateAbacus(new AbacusResponse());
 			Log.d("AbacusReponse - onError", e);
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
-			if (ExpediaBookingApp.sIsAutomation) {
-				return;
-			}
-
-			Db.setAbacusResponse(abacusResponse);
-			// Modify the bucket values based on dev settings;
-			if (!AndroidUtils.isRelease(ExpediaBookingApp.this)) {
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAATest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_aa_test), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidETPTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_etp_test), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHISBookAboveFoldTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_book_above_fold), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHISFreeCancellationTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_hotel_free_cancellation), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHISSwipablePhotosTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_hotel_photo_treatment), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightCKOFreeCancelationTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_flight_free_cancellation), AbacusUtils.ABTEST_IGNORE_DEBUG));
-				abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest, SettingUtils.get(ExpediaBookingApp.this, getString(R.string.preference_hotel_search_influence_messaging), AbacusUtils.ABTEST_IGNORE_DEBUG));
-			}
+			updateAbacus(abacusResponse);
 			Log.d("AbacusReponse - onNext");
 		}
 	};
+
+	private void updateAbacus(AbacusResponse abacusResponse) {
+		if (ExpediaBookingApp.sIsAutomation) {
+			return;
+		}
+
+		Db.setAbacusResponse(abacusResponse);
+		// Modify the bucket values based on dev settings;
+		if (BuildConfig.DEBUG) {
+			for (int key : AbacusUtils.getActiveTests()) {
+				Db.getAbacusResponse().updateABTestForDebug(key, SettingUtils.get(ExpediaBookingApp.this, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
+			}
+		}
+	}
+
+	public String generateAbacusGuid() {
+		String guid = SettingUtils.get(ExpediaBookingApp.this, PREF_ABACUS_GUID, "");
+		if (Strings.isEmpty(guid)) {
+			guid = UUID.randomUUID().toString();
+			SettingUtils.save(ExpediaBookingApp.this, PREF_ABACUS_GUID, guid);
+		}
+		Db.setAbacusGuid(guid);
+		return guid;
+	}
 }

@@ -27,7 +27,7 @@
     <ImageButton
         android:id="@+id/wallet_button"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:background="@drawable/wallet_button_background"
         android:contentDescription="@string/wallet_buy_with_google_wallet"
         android:minWidth="200dp"

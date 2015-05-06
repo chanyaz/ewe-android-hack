@@ -39,7 +39,7 @@ public class LXSearchParamsTest {
 		LXViewModel.toolbar().check(matches(isDisplayed()));
 		LXViewModel.toolbar().check(matches(hasDescendant(isAssignableFrom(Button.class))));
 		LXViewModel.searchButton().check(matches(isDisplayed()));
-		LXViewModel.toolbar().check(matches(hasDescendant(withText(R.string.search_widget_heading))));
+		LXViewModel.toolbar().check(matches(hasDescendant(withText(R.string.lx_search_widget_heading))));
 		LXViewModel.location().check(matches(isDisplayed()));
 		LXViewModel.selectDateButton().check(matches(isDisplayed()));
 		LXViewModel.calendar().check(matches(not(isDisplayed())));
@@ -70,7 +70,7 @@ public class LXSearchParamsTest {
 
 		// Select start date
 		LXViewModel.selectDates(start, null);
-		String expectedDateText = JodaUtils.format(LocalDate.now(), "MMM dd");
+		String expectedDateText = JodaUtils.format(LocalDate.now(), "MMMM d");
 		LXViewModel.selectDateButton().check(matches(withText(expectedDateText)));
 		LXViewModel.searchButton().perform(click());
 		LXSearchParams actual = searchParamsWidget.getCurrentParams();

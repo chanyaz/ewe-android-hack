@@ -1,0 +1,216 @@
+{
+    "airRecordLocator": "208994059",
+    "bookingProvider": "Amadeus",
+    "bookingStatus": "BOOKED",
+    "bookingStatusMessage": "Your reservation is booked and confirmed. There is no need to call us to reconfirm this reservation.",
+    "bookingStatusText": "Confirmed",
+    "confirmationNumbers": [
+        {
+            "airlineName": "Jetairfly",
+            "number": "QRA2J2"
+        }
+    ],
+    "expediaBookingId": "3T6LCN",
+    "farePerPassenger": [
+        {
+            "base": "60.0",
+            "baseFormatted": "$60.00",
+            "currency": "USD",
+            "fees": [
+                {
+                    "amount": "19.16",
+                    "amountFormatted": "$19.16",
+                    "localizedName": "Airline Fuel Surcharge"
+                },
+                {
+                    "amount": "29.16",
+                    "amountFormatted": "$29.16",
+                    "localizedName": "France: Passenger Service Charge"
+                },
+                {
+                    "amount": "4.94",
+                    "amountFormatted": "$4.94",
+                    "localizedName": "Georgia: Air Passenger Solidarity Tax"
+                },
+                {
+                    "amount": "22.63",
+                    "amountFormatted": "$22.63",
+                    "localizedName": "France: Airport Tax"
+                }
+            ],
+            "passengerIndex": 0,
+            "passengerTypeCode": "ADULT",
+            "passengerTypeCodeLocalized": "Adult",
+            "taxes": "75.89",
+            "taxesFormatted": "$75.89",
+            "total": "135.89",
+            "totalFormatted": "$135.89"
+        }
+    ],
+    "fareTotal": {
+        "base": "60.0",
+        "baseFormatted": "$60.00",
+        "currency": "USD",
+        "subTotal": "135.89",
+        "subTotalFormatted": "$135.89",
+        "taxes": "75.89",
+        "taxesFormatted": "$75.89",
+        "total": "135.89",
+        "totalFormatted": "$135.89"
+    },
+    "fareType": "PUBLISHED",
+    "flightType": "ONE_WAY",
+    "fulfillmentMethod": "ETICKET",
+    "hasTrainTransfer": false,
+    "isInternational": true,
+    "isLccOrCharter": false,
+    "isSeatMapAvailable": true,
+    "isSplitTicket": false,
+    "legs": [
+        {
+            "airlineLogoURL": "http://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smTB.gif",
+            "duration": "PT3H15M",
+            "numberOfStops": 0,
+            "segments": [
+                {
+                    "airSegmentStatusCode": "HK",
+                    "airlineCode": "TB",
+                    "airlineName": "Jetairfly",
+                    "arrivalLocation": {
+                        "airportCode": "RAK",
+                        "city": "Marrakech",
+                        "countryCode": "MAR",
+                        "latitude": 31.603247,
+                        "longName": "Marrakech, Morocco (RAK-Menara)",
+                        "longitude": -8.024826,
+                        "name": "Menara"
+                    },
+                    "arrivalTime": {
+                        "epochSeconds": 1430607660,
+                        "localized": "May 2, 2015 7:01:00 PM",
+                        "localizedShortDate": "Sat, 2 May",
+                        "raw": "2015-05-02T19:01:00-04:00",
+                        "timeZoneOffsetSeconds": -14400
+                    },
+                    "arrivalType": "FLIGHT_ARRIVAL",
+                    "bookingCode": "N",
+                    "cabinCode": "coach",
+                    "cabinCodeLocalized": "Economy / Coach",
+                    "confirmationAirline": "Jetairfly",
+                    "confirmationNUmber": "QRA2J2",
+                    "departureLocation": {
+                        "airportCode": "ORY",
+                        "airportMetroCode": "PAR",
+                        "city": "Paris",
+                        "countryCode": "FRA",
+                        "latitude": 48.73233,
+                        "longName": "Paris, France (ORY-Orly)",
+                        "longitude": 2.36618,
+                        "name": "Orly"
+                    },
+                    "departureTime": {
+                        "epochSeconds": 1430532300,
+                        "localized": "May 2, 2015 3:05:00 AM",
+                        "localizedShortDate": "Sat, 2 May",
+                        "raw": "2015-05-02T03:05:00+01:00",
+                        "timeZoneOffsetSeconds": 3600
+                    },
+                    "departureType": "FLIGHT_DEPARTURE",
+                    "duration": "PT3H15M",
+                    "equipmentCode": "73H",
+                    "equipmentDescription": "BOEING 737-800 (WINGLETS) PASSENGER",
+                    "externalAirlineCode": "TB",
+                    "flightIdForSeatMap": "FAA68EBB-F60D-466B-9957-3EC67A158D11_0_L1_S1_1",
+                    "flightNumber": "1008",
+                    "formattedDuration": "3h 15m",
+                    "isHidden": false,
+                    "isSeatMapAvailable": true,
+                    "operatedByAirCarrierName": "OPERATED BY JAF",
+                    "providerCode": "Amadeus",
+                    "status": "UNKNOWN",
+                    "transportationType": "FLIGHT"
+                }
+            ],
+            "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/n-jtUgxqnVFibmqLneY_MMDCrObZg876A6YsFPDWaM6YaovLBAB-KD_9xjdTp31AOd8DhSvy8uvtph5kljHLia4AiDE5rv90xSFw5c7wFnlZSf8lt-NLqGe0xMfNrsSQAKgz_DZo-7w-FNMj4MiaNA",
+            "state": "PRE_START_4",
+            "type": "NONSTOP"
+        }
+    ],
+    "orderLineNumber": "9b0cb0c2-4a1f-492a-8b22-da67f37b434f",
+    "orderNumber": "8118264712310",
+    "passengers": [
+        {
+            "TSARedressNumber": "",
+            "firstName": "abderrahim",
+            "frequentFlyerPlans": [],
+            "fullName": "abderrahim oumezzi",
+            "lastName": "oumezzi",
+            "passportCountryCode": "US",
+            "passportNumber": "",
+            "phoneNumbers": [
+                {
+                    "countryCode": "1",
+                    "phone": "9197717194"
+                }
+            ],
+            "seats": [
+                {
+                    "assigned": "",
+                    "legIndex": 0,
+                    "seatPreference": "",
+                    "seatPreferenceLocalized": "Unknown",
+                    "segmentIndex": 0,
+                    "smokingAllowed": false
+                }
+            ],
+            "ticketNumbers": [
+                "6127617105697"
+            ],
+            "typeCode": "ADULT",
+            "typeLocalized": "Adult"
+        }
+    ],
+    "paymentModel": "AGENCY",
+    "rules": {
+        "additionalAirlineFees": {
+            "text": "The airline may charge additional fees for checked baggage or other optional services.",
+            "textAndURL": "The airline may charge <a href=\"https://www.expedia.com/Flights-BagFees?originapt=ORY&destinationapt=RAK&cabinclass=3&mktgcarrier=TB&opcarrier=&farebasis=NJAFOW&bookingclass=N&travelDate=2015-04-06\" class=\"tooltip\" target=\"rulesAndRestrictions\">additional fees <span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span> </a> for checked baggage or other optional services.",
+            "url": "https://www.expedia.com/Flights-BagFees?originapt=ORY&destinationapt=RAK&cabinclass=3&mktgcarrier=TB&opcarrier=&farebasis=NJAFOW&bookingclass=N&travelDate=2015-04-06"
+        },
+        "airlineCheckInInstructionText": "Remember to bring your itinerary and government-issued photo ID for airport check-in and security.",
+        "airlineLiabilityLimitations": {
+            "text": "Please read important information regarding airline liability limitations.",
+            "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/pub/agent.dll?qscr=hgen&hfnm=warsaw.htx\" class=\"tooltip\" target=\"rulesAndRestrictions\">airline liability limitations <span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span> </a>.",
+            "url": "https://www.expedia.com/pub/agent.dll?qscr=hgen&hfnm=warsaw.htx"
+        },
+        "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+        "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+        "completePenaltyRules": {
+            "apiURL": "https://www.expedia.com/api/trips/1101796433887/items/FAA68EBB-F60D-466B-9957-3EC67A158D11_0/gdsFareRulesText?useCache=true",
+            "text": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+            "textAndURL": "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://www.expedia.com/Fare-Rules?tripid=4176faa2-02a0-46f9-9169-97cae8e7d01c\" class=\"tooltip\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations <span class=\"visually-hidden\" style=\"display:none;\">(Opens a new window) </span> </a> applicable to this fare.",
+            "url": "https://www.expedia.com/Fare-Rules?tripid=4176faa2-02a0-46f9-9169-97cae8e7d01c"
+        },
+        "expediaChangeFeeChargeable": false,
+        "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
+        "internationalPassportNoteText": "Proof of citizenship is required for international travel.  Be sure to bring all necessary documentation (e.g. passport, visa, transit permit). To learn more, visit our <a href=\"http://visacentral.com/index.php?login=85001&utm_campaign=Expedia&utm_medium=1&utm_source=US&rfrr=FLT.Itin.VisaSite\" class=\"tooltip\" >Visa and Passport page <span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span></a>.",
+        "railFeederMessages": [],
+        "refundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed."
+    },
+    "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/n-jtUgxqnVFibmqLneY_MMDCrObZg876A6YsFPDWaM6YaovLBAB-KD_9xjdTp31AOd8DhSvy8uvtph5kljHLia4AiDE5rv90xSFw5c7wFnmXek2cJzYDVor4tp3dZeFb",
+    "ticketingAirCarrierNames": [
+        "Jetairfly"
+    ],
+    "ticketingStatus": "COMPLETE",
+    "ticketingTime": {
+        "epochSeconds": 1427813880,
+        "localized": "Mar 31, 2015 7:58:00 AM",
+        "localizedShortDate": "Tue, 31 Mar",
+        "raw": "2015-03-31T07:58:00-07:00",
+        "timeZoneOffsetSeconds": -25200
+    },
+    "uniqueID": "FAA68EBB-F60D-466B-9957-3EC67A158D11_0",
+    "updateFrequentFlyerPathURL": "https://www.expedia.com/api/trips/4176faa2-02a0-46f9-9169-97cae8e7d01c/updateFrequentFlyerInformation",
+    "webCancelPathURL": "https://www.expedia.com/flight-cancel-exchange?itinnumber=1101796433887&arl=208994059&bookingid=3T6LCN",
+    "webChangePathURL": "https://www.expedia.com/flight-change-gds?itinnumber=1101796433887&arl=208994059&cname=Jetairfly"
+}

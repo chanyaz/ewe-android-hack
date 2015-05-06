@@ -9,7 +9,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +20,7 @@ import javax.net.ssl.SSLContext;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -101,7 +101,6 @@ import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
@@ -555,12 +554,12 @@ public class ExpediaServices implements DownloadListener {
 
 	// Suppress final bookings if we're not in release mode and the preference is set to suppress
 	private static boolean suppressFinalFlightBooking(Context context) {
-		return !AndroidUtils.isRelease(context)
+		return BuildConfig.DEBUG
 			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_flight_bookings), true);
 	}
 
 	private static boolean suppressFinalHotelBooking(Context context) {
-		return !AndroidUtils.isRelease(context)
+		return BuildConfig.DEBUG
 			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_hotel_bookings), true);
 	}
 
@@ -616,11 +615,11 @@ public class ExpediaServices implements DownloadListener {
 		else {
 			// get based on flight number
 			FlightCode flightCode = flight.getPrimaryFlightCode();
-			Calendar departure = flight.getOriginWaypoint().getBestSearchDateTime();
+			DateTime departure = flight.getOriginWaypoint().getBestSearchDateTime();
 			baseUrl = FS_FLEX_BASE_URI + "/flightstatus/rest/v2/json/flight/status/" + flightCode.mAirlineCode + "/"
 				+ flightCode.mNumber.trim()
-				+ "/dep/" + departure.get(Calendar.YEAR) + "/" + (departure.get(Calendar.MONTH) + 1) + "/"
-				+ departure.get(Calendar.DAY_OF_MONTH) + "?";
+				+ "/dep/" + departure.getYear() + "/" + (departure.getMonthOfYear() + 1) + "/"
+				+ departure.getDayOfMonth() + "?";
 
 			parameters.add(new BasicNameValuePair("utc", "false"));
 			parameters.add(new BasicNameValuePair("airport", flight.getOriginWaypoint().mAirportCode));
@@ -688,7 +687,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 		rh.setNumNights(params.getStayDuration());
 
-		if (!AndroidUtils.isRelease(mContext)) {
+		if (BuildConfig.DEBUG) {
 			boolean disabled = SettingUtils
 				.get(mContext, mContext.getString(R.string.preference_disable_domain_v2_hotel_search), false);
 
@@ -1488,7 +1487,7 @@ public class ExpediaServices implements DownloadListener {
 			post.addHeader("MobiataPushName", appNameForMobiataPushNameHeader + "Alpha");
 		}
 
-		if (AndroidUtils.isRelease(mContext)
+		if (BuildConfig.RELEASE
 			|| !SettingUtils.get(mContext, mContext.getString(R.string.preference_disable_push_registration), false)) {
 
 			synchronized (PushNotificationUtils.getLockObject(regId)) {
