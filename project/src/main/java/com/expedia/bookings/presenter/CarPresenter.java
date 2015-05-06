@@ -8,7 +8,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.presenter.Presenter.Transition;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.CarConfirmationWidget;
 import com.squareup.otto.Subscribe;
