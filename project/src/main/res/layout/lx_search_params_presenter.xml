@@ -45,7 +45,7 @@
                     android:dropDownHeight="fill_parent"
                     android:dropDownSelector="#FFFFFF"
                     android:dropDownWidth="fill_parent"
-                    android:hint="@string/pick_up_location"
+                    android:hint="@string/location_activity_details"
                     android:imeOptions="actionDone"
                     android:inputType="textNoSuggestions" />
 
