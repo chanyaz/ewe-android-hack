@@ -23,7 +23,6 @@ dependencies {
             'admsAppLibrary-3.0.5.jar',
             'adxtag3.2.6.jar',
             'Kahuna.jar',
-            'anko-0.6-15s.jar',
     ])
     compile project(':lib:FlightLib')
     compile project(':lib:svg-android:svgandroid')
