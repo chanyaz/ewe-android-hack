@@ -1126,6 +1126,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 					}
 					else if (state == ResultsHotelsState.ROOMS_AND_RATES) {
 						setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
+						Db.getHotelSearch().setSelectedProperty(null);
 						return true;
 					}
 					else if (state == ResultsHotelsState.REVIEWS) {
