@@ -136,6 +136,14 @@ public class Property implements JSONable {
 	private String mOmnitureAdDisplayedUrl;
 	private String mOmnitureAdClickedUrl;
 
+	private boolean mIsETPHotel;
+
+	public boolean isETPHotel() {
+		return mIsETPHotel;
+	}
+	public void setIsETPHotel(boolean mIsETPHotel) {
+		this.mIsETPHotel = mIsETPHotel;
+	}
 	public void setHasShownImpression(Boolean value) {
 		this.mHasShownImpression = value;
 	}
@@ -692,6 +700,7 @@ public class Property implements JSONable {
 			obj.putOpt("hasShownImpression", mHasShownImpression);
 			obj.putOpt("omnitureAdClickedUrl", mOmnitureAdClickedUrl);
 			obj.putOpt("omnitureAdDisplayedUrl", mOmnitureAdDisplayedUrl);
+			obj.putOpt("isETPHotel", mIsETPHotel);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -743,6 +752,7 @@ public class Property implements JSONable {
 		mHasShownImpression = obj.optBoolean("hasShownImpression", false);
 		mOmnitureAdClickedUrl = obj.optString("omnitureAdClickedUrl", null);
 		mOmnitureAdDisplayedUrl = obj.optString("omnitureAdDisplayedUrl", null);
+		mIsETPHotel = obj.optBoolean("isETPHotel", false);
 		return true;
 	}
 

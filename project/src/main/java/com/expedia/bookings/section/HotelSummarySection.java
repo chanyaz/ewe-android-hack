@@ -298,8 +298,13 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		if (mUrgencyText != null) {
+			boolean isEtpSearchResultsBucket = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelETPSearchResults);
 			int roomsLeft = property.getRoomsLeftAtThisRate();
-			if (property.isSponsored()) {
+			if (isEtpSearchResultsBucket && property.isETPHotel()) {
+				mUrgencyText.setText(context.getString(R.string.book_now_pay_later));
+				mUrgencyText.setVisibility(View.VISIBLE);
+			}
+			else if (property.isSponsored()) {
 				if (!property.hasShownImpression()) {
 					//Ad is being inflated for the first time, fire impression tracking
 					property.setHasShownImpression(true);

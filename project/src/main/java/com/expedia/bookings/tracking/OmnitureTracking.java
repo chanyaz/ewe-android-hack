@@ -252,6 +252,7 @@ public class OmnitureTracking {
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAATest);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppSRPercentRecommend);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidETPTest);
 
 		// Send the tracking data
 		s.track();
