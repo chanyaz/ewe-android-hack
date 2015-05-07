@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.presenter.hotel.HotelSearchPresenter xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
+    android:orientation="vertical"
     tools:ignore="UnusedResources">
 
     <LinearLayout
@@ -25,7 +25,7 @@
             android:clipToPadding="false"
             android:orientation="vertical">
 
-        <LinearLayout
+            <LinearLayout
                 android:id="@+id/location_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -232,4 +232,5 @@
         app:title="@string/hotel_toolbar_title"
         app:titleTextAppearance="@style/CarsToolbarTitleTextAppearance" />
 
-</FrameLayout>
+
+</com.expedia.bookings.presenter.hotel.HotelSearchPresenter>
