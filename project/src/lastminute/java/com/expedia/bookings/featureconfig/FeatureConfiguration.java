@@ -33,7 +33,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public String getAppNameForMobiataPushNameHeader() {
-		return "LastMinuteBookings";
+		return "LMBookings";
 	}
 
 	public String getAppSupportUrl(Context context) {
