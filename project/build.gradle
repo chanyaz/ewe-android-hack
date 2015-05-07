@@ -203,6 +203,17 @@ android {
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
         }
+
+        lastMinute {
+            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+            applicationId "com.lastminute.android"
+            def major = 1
+            def minor = 0
+            def patch = 0
+            def build = 0
+            versionCode GradleUtil.versionCode(major, minor, patch, build)
+            versionName GradleUtil.versionName(major, minor, patch, build)
+        }
     }
 
     buildTypes {
