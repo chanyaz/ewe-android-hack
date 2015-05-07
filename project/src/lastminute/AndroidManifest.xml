@@ -1,19 +1,20 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
 
-        <receiver
-            android:name="com.expedia.bookings.activity.LastMinuteLocaleChangeReceiver"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.expedia.bookings.action.lastminute_locale_changed" />
-            </intent-filter>
-        </receiver>
+        <!-- AD-X -->
+        <meta-data
+            android:name="ADX_CLIENT_ID"
+            android:value="exp3dia050615dw" />
+
+        <meta-data
+            android:name="APP_NAME"
+            android:value="com.lastminute.android" />
 
         <!-- Deep link routing activity -->
         <activity
             android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"
-            android:theme="@android:style/Theme.NoDisplay" >
+            android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -47,7 +48,7 @@
 
                 <data
                     android:pathPrefix="/m/trips/shared"
-                    android:scheme="https"/>
+                    android:scheme="https" />
                 <data android:host="www.lastminute.com.au" />
                 <data android:host="www.lastminute.co.nz" />
 
@@ -58,6 +59,22 @@
                 <data android:host="wwwlastminutecomau.trunk.sb.karmalab.net" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name="com.expedia.bookings.activity.LastMinuteLocaleChangeReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.expedia.bookings.action.lastminute_locale_changed" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.AdX.tag.AdXAppTracker"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
