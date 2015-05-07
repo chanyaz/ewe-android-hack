@@ -131,7 +131,6 @@
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/border_horizontal_expedia_striped</item>
-        <item name="skin_costSummaryBookingFeesString">@string/expedia_booking_fee</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="skin_loginWithExpediaButtonText">@string/Sign_in_with_Expedia</item>
         <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>

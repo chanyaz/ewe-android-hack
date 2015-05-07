@@ -153,8 +153,6 @@
 
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server_vsc">Désolé, la connexion aux serveurs VSC a échoué. Veuillez réessayer plus tard.</string>
-    <!-- Expedia booking fee -->
-    <string name="vsc_booking_fee">Frais de réservation VSC</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure_vsc">Désolés, nous n\&apos;avons pas pu vous connecter à VSC. Veuillez réessayer.</string>
 

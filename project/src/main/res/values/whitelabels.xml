@@ -84,7 +84,6 @@
     <!-- Cost Summary Breakdown Dialog Stripe -->
     <attr name="skin_costSummaryDialogStripeDrawable" format="reference" />
     <attr name="skin_flightsCostSummaryDialogStripeDrawable" format="reference" />
-    <attr name="skin_costSummaryBookingFeesString" format="reference|string" />
 
     <!-- Log in with Expedia/VSC screen -->
     <!-- This drawable is used in hotel detail for Book Now button as well -->
