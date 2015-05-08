@@ -269,15 +269,14 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToLx(Context context, Bundle animOptions, LXSearchParams searchParams) {
+	public static void goToLx(Context context, Bundle animOptions, LXSearchParams searchParams, boolean openResults) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, LXBaseActivity.class);
 		if (searchParams != null) {
-			intent.putExtra(Codes.FROM_DEEPLINK, true);
 			intent.putExtra("startDateStr", DateUtils.localDateToyyyyMMdd(searchParams.startDate));
 			intent.putExtra("location", searchParams.location);
+			intent.putExtra((openResults ? Codes.EXTRA_OPEN_RESULTS : Codes.EXTRA_OPEN_SEARCH), true);
 		}
-
 		startActivity(context, intent, animOptions);
 	}
 

@@ -48,7 +48,6 @@ import com.mobiata.android.time.widget.DaysOfWeekView;
 import com.mobiata.android.time.widget.MonthView;
 import com.squareup.otto.Subscribe;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
@@ -97,7 +96,6 @@ public class LXSearchParamsPresenter extends Presenter
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
 
 		setupCalendar();
 		suggestionAdapter = new LxSuggestionAdapter();
@@ -355,6 +353,18 @@ public class LXSearchParamsPresenter extends Presenter
 		if (!Strings.isEmpty(location.getText())) {
 			show(new LXParamsCalendar());
 		}
+	}
+
+	@Subscribe
+	public void onNewSearch(Events.LXNewSearch event) {
+		location.setText(event.locationName);
+		calendarPicker.setSelectedDates(event.startDate, null);
+		searchParams.location(event.locationName);
+		searchParams.startDate(event.startDate);
+		searchParams.endDate(event.endDate);
+		show(new LXParamsCalendar());
+		searchParamsChanged();
+		setUpSearchButton();
 	}
 
 	private Presenter.Transition defaultToCal = new Presenter.Transition(LXParamsDefault.class, LXParamsCalendar.class) {
