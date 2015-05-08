@@ -2,7 +2,7 @@ package com.expedia.bookings.data.trips;
 
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.utils.AirAttachUtils;
+import com.expedia.bookings.utils.HotelCrossSellUtils;
 
 public class ItinCardDataAirAttach extends ItinCardData {
 
@@ -23,7 +23,7 @@ public class ItinCardDataAirAttach extends ItinCardData {
 	}
 
 	public HotelSearchParams getSearchParams() {
-		return AirAttachUtils.generateHotelSearchParamsFromItinData(mTripFlight, mFirstLeg, mNextLeg);
+		return HotelCrossSellUtils.generateHotelSearchParamsFromItinData(mTripFlight, mFirstLeg, mNextLeg);
 	}
 
 	@Override

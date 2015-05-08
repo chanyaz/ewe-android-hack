@@ -302,7 +302,7 @@ public class TripParser {
 			return flight;
 		}
 
-		//Parse confirmations
+		// Parse confirmations
 		JSONArray confirmationArr = obj.optJSONArray("confirmationNumbers");
 		if (confirmationArr != null) {
 			for (int a = 0; a < confirmationArr.length(); a++) {
@@ -315,6 +315,9 @@ public class TripParser {
 				}
 			}
 		}
+
+		// Parse destination regionId
+		flight.setDestinationRegionId(obj.optString("destinationRegionId"));
 
 		FlightTrip flightTrip = new FlightTrip();
 		flight.setFlightTrip(flightTrip);

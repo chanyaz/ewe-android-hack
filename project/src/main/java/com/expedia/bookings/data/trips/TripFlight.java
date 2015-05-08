@@ -20,6 +20,8 @@ public class TripFlight extends TripComponent {
 
 	private List<FlightConfirmation> mConfirmations = new ArrayList<FlightConfirmation>();
 
+	private String mDestinationRegionId;
+
 	public TripFlight() {
 		super(Type.FLIGHT);
 	}
@@ -64,6 +66,14 @@ public class TripFlight extends TripComponent {
 		return childTravelers;
 	}
 
+	public String getDestinationRegionId() {
+		return mDestinationRegionId;
+	}
+
+	public void setDestinationRegionId(String destinationRegionId) {
+		mDestinationRegionId = destinationRegionId;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -78,6 +88,7 @@ public class TripFlight extends TripComponent {
 			JSONUtils.putJSONable(obj, "flightTrip", mFlightTrip);
 			JSONUtils.putJSONableList(obj, "travelers", mTravelers);
 			JSONUtils.putJSONableList(obj, "confirmationNumbers", mConfirmations);
+			obj.put("destinationRegionId", mDestinationRegionId);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -91,6 +102,7 @@ public class TripFlight extends TripComponent {
 		mFlightTrip = JSONUtils.getJSONable(obj, "flightTrip", FlightTrip.class);
 		mTravelers = JSONUtils.getJSONableList(obj, "travelers", Traveler.class);
 		mConfirmations = JSONUtils.getJSONableList(obj, "confirmationNumbers", FlightConfirmation.class);
+		mDestinationRegionId = obj.optString("destinationRegionId", "");
 		return true;
 	}
 }

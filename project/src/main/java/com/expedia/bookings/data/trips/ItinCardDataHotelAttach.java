@@ -31,7 +31,8 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 	public HotelSearchParams getSearchParams() {
 		List<ChildTraveler> childTravelersInTrip = mTripFlight.getChildTravelers();
 		int numAdults = mTripFlight.getTravelers().size() - childTravelersInTrip.size();
-		return HotelSearchParams.fromFlightParams(mFirstLeg, mNextLeg, numAdults, childTravelersInTrip);
+		String regionId = mTripFlight.getDestinationRegionId();
+		return HotelSearchParams.fromFlightParams(regionId, mFirstLeg, mNextLeg, numAdults, childTravelersInTrip);
 	}
 
 	@Override

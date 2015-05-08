@@ -15,25 +15,25 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.util.AndroidUtils;
 
-public class AirAttachUtils {
+public class HotelCrossSellUtils {
 
 	public static HotelSearchParams generateHotelSearchParamsFromItinData(TripFlight tripFlight,
 		FlightLeg firstLeg, FlightLeg secondLeg) {
 		List<ChildTraveler> childTravelersInTrip = tripFlight.getChildTravelers();
 		int numAdults = tripFlight.getTravelers().size() - childTravelersInTrip.size();
-		return HotelSearchParams.fromFlightParams(firstLeg, secondLeg, numAdults, childTravelersInTrip);
+		String regionId = tripFlight.getDestinationRegionId();
+		return HotelSearchParams.fromFlightParams(regionId, firstLeg, secondLeg, numAdults, childTravelersInTrip);
 	}
 
 	public static void deepLinkHotels(final Context context, final HotelSearchParams hotelSearchParams) {
 		if (AndroidUtils.isTablet(context)) {
 			final SearchParams searchParams = SearchParams.fromHotelSearchParams(hotelSearchParams);
 			BackgroundDownloader.getInstance()
-				.startDownload("itinCrossSellSuggest", new BackgroundDownloader.Download<SuggestionResponse>() {
+				.startDownload("hotelCrossSellUtils", new BackgroundDownloader.Download<SuggestionResponse>() {
 					@Override
 					public SuggestionResponse doDownload() {
 						ExpediaServices services = new ExpediaServices(context);
-						return services.suggestionsCityNearby(searchParams.getDestination().getLocation().getLatitude(),
-							searchParams.getDestination().getLocation().getLongitude());
+						return services.suggestionResolution(hotelSearchParams.getRegionId());
 					}
 				}, new BackgroundDownloader.OnDownloadComplete<SuggestionResponse>() {
 					@Override
@@ -46,24 +46,7 @@ public class AirAttachUtils {
 				});
 		}
 		else {
-			BackgroundDownloader.getInstance()
-				.startDownload("itinCrossSellSuggest", new BackgroundDownloader.Download<SuggestionResponse>() {
-					@Override
-					public SuggestionResponse doDownload() {
-						ExpediaServices services = new ExpediaServices(context);
-						return services.suggestionsCityNearby(hotelSearchParams.getSearchLatitude(),
-							hotelSearchParams.getSearchLongitude());
-					}
-				}, new BackgroundDownloader.OnDownloadComplete<SuggestionResponse>() {
-					@Override
-					public void onDownload(SuggestionResponse results) {
-						if (results != null && results.getSuggestions().size() > 0) {
-							hotelSearchParams.setRegionId(Integer.toString(
-								results.getSuggestions().get(0).getMultiCityRegionId()));
-							NavUtils.goToHotels(context, hotelSearchParams);
-						}
-					}
-				});
+			NavUtils.goToHotels(context, hotelSearchParams);
 		}
 	}
 
