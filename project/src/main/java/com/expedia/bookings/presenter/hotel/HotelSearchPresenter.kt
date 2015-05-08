@@ -1,18 +1,24 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
+import android.graphics.PorterDuff
+import android.graphics.drawable.NinePatchDrawable
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.ToggleButton
-import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.TravelerPicker
 import com.mobiata.android.time.widget.CalendarPicker
+import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
+import org.joda.time.YearMonth
 import kotlin.properties.Delegates
+import com.expedia.bookings.R
 
-public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CalendarPicker.DateSelectionChangedListener, TravelerPicker.TravelersUpdatedListener {
+public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CalendarPicker.DateSelectionChangedListener, TravelerPicker.TravelersUpdatedListener,CalendarPicker.YearMonthDisplayedChangedListener {
 
     val selectDate: ToggleButton by Delegates.lazy {
         findViewById(R.id.select_date) as ToggleButton
@@ -51,24 +57,37 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         selectTraveler.setOnClickListener {
             calendar.setVisibility(View.GONE)
+            hideToolTip()
             traveler.setVisibility(View.VISIBLE)
         }
     }
 
     override fun onDateSelectionChanged(start: LocalDate?, end: LocalDate?) {
-        var displayText: String = if (start == null && end == null) "Select Dates"
-        else if (end == null) start.toString()
-        else start.toString() + " to " + end.toString()
+        var displayText: String = if (start == null && end == null) getResources().getString(R.string.select_dates_proper_case)
+        else if (end == null) DateUtils.localDateToMMMd(start)
+        else getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
 
         selectDate.setText(displayText)
         selectDate.setTextOff(displayText)
         selectDate.setTextOn(displayText)
+
+        calendar.setToolTipText(displayText, if (end == null) getResources().getString(R.string.calendar_tooltip_bottom_select_return_date)
+                                              else getResources().getString(R.string.calendar_tooltip_bottom_drag_to_modify))
+
     }
 
     override fun onTravelerUpdate(text: String) {
         selectTraveler.setTextOn(text)
         selectTraveler.setTextOff(text)
         selectTraveler.setText(text)
+    }
+
+    override fun onYearMonthDisplayed(yearMonth: YearMonth?) {
+        hideToolTip()
+    }
+
+    fun hideToolTip() {
+        calendar.hideToolTip()
     }
 }
 
