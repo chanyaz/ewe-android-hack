@@ -1852,7 +1852,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Taxes &amp; Fees</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Expedia Booking Fee</string>
+    <string name="brand_booking_fee">{brand} Booking Fee</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">Airline Card Fee</string>
     <!-- Flight -->
