@@ -714,6 +714,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
 		}
 		OmnitureTracking.trackPageLoadHotelsInfosite(getActivity(), -1);
+		AdTracker.trackHotelInfoSite();
 	}
 
 	private void updateFragsForRoomsAndRates() {

@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -201,6 +203,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			show(categories, FLAG_CLEAR_TOP);
 			bindFilter(carSearch);
 			OmnitureTracking.trackAppCarSearch(getContext(), mParams, carSearch.categories.size());
+			AdTracker.trackCarSearch(mParams);
 		}
 	};
 
