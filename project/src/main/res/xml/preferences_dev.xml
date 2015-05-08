@@ -250,6 +250,14 @@
             android:summary="Select a test group"
             android:title="Flight Confirmation Lx Cross sell" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_hotel_etp_search_results"
+            android:summary="Select a test group"
+            android:title="Hotels ETP book now/pay later search results" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >

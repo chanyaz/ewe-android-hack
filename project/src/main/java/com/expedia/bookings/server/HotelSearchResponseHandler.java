@@ -314,6 +314,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 				// ignore for 4.3
 				//property.setShowCircles(!allowedToDisplayRatingAsStars);
 			}
+			else if (name.equals("isShowEtpChoice")) {
+				property.setIsETPHotel(reader.nextBoolean());
+			}
 			else {
 				reader.skipValue();
 			}
