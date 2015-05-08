@@ -15,6 +15,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     var selectDate: ToggleButton? = null
 
+    init {
+        View.inflate(context, R.layout.widget_hotel_search_params, this)
+    }
+
     override fun onFinishInflate() {
         super<Presenter>.onFinishInflate()
         var calendar: CalendarPicker = findViewById(R.id.calendar) as CalendarPicker

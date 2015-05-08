@@ -6,12 +6,11 @@
     android:orientation="vertical"
     tools:ignore="UnusedResources">
 
-    <include
+    <com.expedia.bookings.presenter.hotel.HotelSearchPresenter
         android:id="@+id/widget_hotel_params"
-        layout="@layout/widget_hotel_search_params"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible" />
+        android:visibility="visible"/>
 
 
 </com.expedia.bookings.presenter.hotel.HotelPresenter>
