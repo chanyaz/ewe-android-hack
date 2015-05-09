@@ -43,7 +43,7 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
 
     public fun getAirportSuggestions(query: String, observer: Observer<MutableList<Suggestion>>): Subscription {
         val type = SuggestionResultType.AIRPORT
-        val lob = ""
+        val lob = null;
         return suggestV3(query, type, lob)
                 .map { list -> list.take(MAX_AIRPORTS_RETURNED).toArrayList() }
                 .subscribe(observer)
@@ -55,7 +55,7 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
         return suggestV3(query, type, lob).subscribe(observer)
     }
 
-    private fun suggestV3(query: String, type: Int, lob: String): Observable<MutableList<Suggestion>> {
+    private fun suggestV3(query: String, type: Int, lob: String?): Observable<MutableList<Suggestion>> {
         return suggestApi.suggestV3(query, type, lob)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
