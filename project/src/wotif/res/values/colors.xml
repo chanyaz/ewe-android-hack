@@ -39,4 +39,10 @@
     <color name="action_bar_flight_text_color">@color/actionbar_text_wotif</color>
     <color name="action_bar_flight_cancel_text_color">@color/actionbar_text_wotif</color>
     <color name="action_bar_flight_result_separator_color">#999999</color>
+
+    <color name="tablet_book_button_text_color_wotif">#57B3FF</color>
+    <color name="tablet_trip_bucket_text_color_wotif">#FFFFFF</color>
+    <color name="tablet_search_result_error_button_pressed_wotif">#D1EAFF</color>
+    <color name="tablet_search_result_error_button_wotif">#004E93</color>
+    <color name="tablet_results_search_blue_wotif">#608405</color>
 </resources>
