@@ -40,6 +40,12 @@
 
     </style>
 
+    <style name="V2.Widget.ActionBar.TabletWeb">
+        <item name="android:displayOptions">showHome|useLogo|homeAsUp|showTitle</item>
+        <item name="android:background">@color/action_bar_bg_color</item>
+        <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
+    </style>
+
     <style name="V2.Theme" parent="Theme.Wotif.Tablet" />
 
 </resources>

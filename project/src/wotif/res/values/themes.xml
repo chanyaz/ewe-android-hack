@@ -117,6 +117,8 @@
 
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
+        <item name="skin_itinActionOverflowDrawable">@drawable/ic_menu_overflow_image</item>
+
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Wotif">
@@ -209,7 +211,7 @@
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Wotif</item>
 
         <!-- PopupMenu -->
-        <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.Wotif</item>
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_wotif_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_wotif_background</item>
         <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_wotif_placeholder_cruises</item>
