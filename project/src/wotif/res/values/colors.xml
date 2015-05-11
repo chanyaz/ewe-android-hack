@@ -45,4 +45,6 @@
     <color name="tablet_search_result_error_button_pressed_wotif">#D1EAFF</color>
     <color name="tablet_search_result_error_button_wotif">#004E93</color>
     <color name="tablet_results_search_blue_wotif">#608405</color>
+
+    <color name="tablet_map_pin_text_color">#DDDFE1</color>
 </resources>
