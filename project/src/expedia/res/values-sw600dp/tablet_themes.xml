@@ -33,6 +33,8 @@
 
         <item name="skin_tablet_flight_confirmation_placeholder">@drawable/bg_itin_placeholder</item>
         <item name="skin_tablet_hotel_confirmation_placeholder">@drawable/bg_itin_placeholder</item>
+
+        <item name="skin_bgSaleTextViewDrawable">@drawable/bg_sale_text_view</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Expedia.Tablet" />
