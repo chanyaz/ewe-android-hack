@@ -253,7 +253,8 @@ public class ExpediaServices implements DownloadListener {
 	private enum SuggestType {
 		AUTOCOMPLETE,
 		NEARBY,
-		HID
+		HID,
+		RID
 	}
 
 	public SuggestResponse suggest(String query, int flags) {
@@ -346,6 +347,18 @@ public class ExpediaServices implements DownloadListener {
 		return doSuggestionRequest(url, params);
 	}
 
+	public SuggestionResponse suggestionResolution(String regionId) {
+		String urlBase = getSuggestUrl(1, SuggestType.RID);
+		urlBase += "/";
+		urlBase += regionId;
+		String url = NetUtils.formatUrl(urlBase);
+
+		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+		addCommonParams(params);
+
+		return doSuggestionRequest(url, params);
+	}
+
 	private SuggestionResponse doSuggestionRequest(String url, List<BasicNameValuePair> params) {
 		Request.Builder get = createHttpGet(url, params);
 
@@ -390,6 +403,9 @@ public class ExpediaServices implements DownloadListener {
 			break;
 		case HID:
 			sb.append("hid/");
+			break;
+		case RID:
+			sb.append("rid/");
 			break;
 		}
 

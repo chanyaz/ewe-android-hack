@@ -47,7 +47,7 @@ import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.AirAttachUtils;
+import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
@@ -1846,7 +1846,7 @@ public class ItineraryManager implements JSONable {
 			if (insertButtonCard) {
 				// Check if user qualifies for air attach
 				if (isUserAirAttachQualified) {
-					return AirAttachUtils.generateHotelSearchParamsFromItinData(tripFlight,
+					return HotelCrossSellUtils.generateHotelSearchParamsFromItinData(tripFlight,
 						itinFlightLeg, nextFlightLeg);
 				}
 			}
