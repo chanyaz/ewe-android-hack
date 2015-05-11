@@ -38,6 +38,8 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
         <item name="android:homeAsUpIndicator" >@drawable/ic_action_bar_back_arrow_white_wotif</item>
 
+        <item name="skin_bgSaleTextViewDrawable">@drawable/bg_sale_text_view_wotif</item>
+
     </style>
 
     <style name="V2.Widget.ActionBar.TabletWeb">

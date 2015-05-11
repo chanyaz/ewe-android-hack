@@ -318,4 +318,6 @@
 
     <attr name="skin_totalDueToday" format="reference|string" />
     <attr name="skin_actionBarShopText" format="reference|string" />
+
+    <attr name="skin_bgSaleTextViewDrawable" format="reference" />
 </resources>

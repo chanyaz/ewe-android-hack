@@ -47,4 +47,5 @@
     <color name="tablet_results_search_blue_wotif">#608405</color>
 
     <color name="tablet_map_pin_text_color">#DDDFE1</color>
+    <color name="bg_sale_text_view_color_wotif">#E57AC231</color>
 </resources>
