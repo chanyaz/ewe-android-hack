@@ -86,10 +86,10 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
-import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
@@ -569,24 +569,13 @@ public class ExpediaServices implements DownloadListener {
 
 	// Suppress final bookings if we're not in release mode and the preference is set to suppress
 	private static boolean suppressFinalFlightBooking(Context context) {
-		return BuildConfig.DEBUG
-			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_flight_bookings), true);
+		return BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings);
 	}
 
 	private static boolean suppressFinalHotelBooking(Context context) {
-		return BuildConfig.DEBUG
-			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_hotel_bookings), true);
+		return BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_hotel_bookings);
 	}
 
-	private static boolean flightBookingHasKids(List<Traveler> travelers) {
-		for (Traveler traveler : travelers) {
-			PassengerCategory category = traveler.getPassengerCategory();
-			if (category != PassengerCategory.ADULT && category != PassengerCategory.SENIOR) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	// Ancillary flight data

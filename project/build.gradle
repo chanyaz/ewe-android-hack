@@ -207,15 +207,21 @@ android {
             ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
 
             buildConfigField "boolean", "RELEASE", "false"
+            buildConfigField "boolean", "USABILITY", GradleUtil.isUsabilityBuild(project) ? "true" : "false"
         }
 
         release {
+            if (GradleUtil.isUsabilityBuild(project)) {
+                applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
+            }
+
             minifyEnabled true
             proguardFile file('proguard.cfg')
             zipAlignEnabled true
             signingConfig signingConfigs.release
 
             buildConfigField "boolean", "RELEASE", "true"
+            buildConfigField "boolean", "USABILITY", GradleUtil.isUsabilityBuild(project) ? "true" : "false"
         }
     }
 
@@ -294,7 +300,7 @@ public class GradleUtil {
 
     static def getAppName(Project project, variant) {
         // Don't touch release builds
-        if (variant.buildType.name == "release") {
+        if (variant.buildType.name == "release" || isUsabilityBuild(project)) {
             return null
         }
 
@@ -309,6 +315,10 @@ public class GradleUtil {
 
         def appname = flavor + " " + type
         return appname.tr('_', '.')
+    }
+
+    static def isUsabilityBuild(Project project) {
+        return getBuildIdentifier(project) == "usability"
     }
 
     static def getGitRevision() {
