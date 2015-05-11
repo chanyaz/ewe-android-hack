@@ -228,6 +228,18 @@
         <item name="skin_totalDueToday">@string/total_due_today</item>
         <item name="skin_itinActionOverflowDrawable">@drawable/ic_itin_action_overflow_white</item>
         <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
+        <item name="skin_tablet_legal_blurb_text_color">@color/tablet_legal_blurb_text_color</item>
+        <item name="skin_tablet_confirmation_book_next_arrow_icon">@drawable/ic_tablet_confirmation_book_next_arrow</item>
+        <item name="skin_tablet_confirmation_book_next_arrow_color">@color/tablet_confirmation_color</item>
+        <item name="skin_tablet_confirmation_done_booking_icon">@drawable/ic_tablet_confirmation_done_booking</item>
+        <item name="skin_tablet_confirmation_done_booking_color">@color/tablet_confirmation_color</item>
+        <item name="skin_tablet_confirmation_calendar_icon">@drawable/ic_tablet_confirmation_calendar</item>
+        <item name="skin_tablet_confirmation_phone_icon">@drawable/ic_tablet_confirmation_phone</item>
+        <item name="skin_tablet_confirmation_share_icon">@drawable/ic_tablet_confirmation_share</item>
+        <item name="skin_tablet_confirmation_action_color">@color/tablet_confirmation_action_color</item>
+        <item name="skin_tablet_price_expanded_bucket_text_color">@color/tablet_confirmation_action_color</item>
+        <item name="skin_tablet_checkout_price_breakdown_icon">@drawable/ic_tablet_checkout_price_breakdown</item>
+
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

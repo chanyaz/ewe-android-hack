@@ -10,6 +10,10 @@
     <!-- Tablet colors -->
     <color name="results_cal_trav_bg">#eaeaea</color>
     <color name="launch_tile_pressed_overlay">#40000000</color>
+    <color name="tablet_legal_blurb_text_color">#A7DAFF</color>
+    <color name="tablet_confirmation_color">#374F6E</color>
+    <color name="tablet_confirmation_action_color">#2970CC</color>
+    <color name="tablet_price_expanded_bucket_text_color">#444444</color>
 
     <!-- Launch screen colors -->
     <color name="launch_primary">#f3f3f3</color>

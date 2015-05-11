@@ -317,7 +317,6 @@
     <attr name="skin_hotelSearchPopupFilterTextColor" format="reference|color" />
 
     <attr name="skin_totalDueToday" format="reference|string" />
-
     <attr name="skin_bgSaleTextViewDrawable" format="reference" />
 
     <attr name="skin_bgFlightSummaryRowTablet" format="reference" />
@@ -325,4 +324,16 @@
     <attr name="skin_bgFlightSummaryRowReturnLegTabletDrawable" format="reference" />
     <attr name="skin_launchCirclePlaceholderDrawable" format="reference" />
     <attr name="skin_icActionBarTripsDrawable" format="reference" />
+    <attr name="skin_tablet_legal_blurb_text_color" format="reference|color" />
+    <attr name="skin_tablet_confirmation_book_next_arrow_icon" format="reference" />
+    <attr name="skin_tablet_confirmation_book_next_arrow_color" format="reference|color" />
+    <attr name="skin_tablet_confirmation_done_booking_icon" format="reference" />
+    <attr name="skin_tablet_confirmation_done_booking_color" format="reference|color" />
+    <attr name="skin_tablet_confirmation_calendar_icon" format="reference" />
+    <attr name="skin_tablet_confirmation_share_icon" format="reference" />
+    <attr name="skin_tablet_confirmation_phone_icon" format="reference" />
+    <attr name="skin_tablet_confirmation_action_color" format="reference|color" />
+    <attr name="skin_tablet_price_expanded_bucket_text_color" format="reference|color" />
+    <attr name="skin_tablet_checkout_price_breakdown_icon" format="reference" />
+
 </resources>
