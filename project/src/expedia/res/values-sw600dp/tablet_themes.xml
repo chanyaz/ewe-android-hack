@@ -40,6 +40,9 @@
         <item name="skin_bgFlightSummaryRowReturnLegTabletDrawable">@drawable/bg_flight_summary_row_return_leg_tablet</item>
 
         <item name="skin_icActionBarTripsDrawable">@drawable/ic_action_bar_trips</item>
+        <item name="skin_tabletCalenderResultsSearchBlue">@color/tablet_results_search_blue</item>
+        <item name="skin_sectionFlightEditTravelerLinkColor">@color/section_flight_edit_traveler_link_color</item>
+
     </style>
 
     <style name="V2.Theme" parent="Theme.Expedia.Tablet" />
