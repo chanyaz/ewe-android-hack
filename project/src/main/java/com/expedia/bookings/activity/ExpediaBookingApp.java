@@ -63,6 +63,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+import com.squareup.leakcanary.LeakCanary;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -276,6 +277,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		CurrencyUtils.initMap(this);
 		startupTimer.addSplit("Currency Utils init");
+
+		LeakCanary.install(this);
+		startupTimer.addSplit("LeakCanary init");
 
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(generateAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
 		query.addExperiments(AbacusUtils.getActiveTests());

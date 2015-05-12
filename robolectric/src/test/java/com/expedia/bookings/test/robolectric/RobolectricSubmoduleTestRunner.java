@@ -3,8 +3,13 @@ package com.expedia.bookings.test.robolectric;
 import org.junit.runners.model.InitializationError;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.internal.SdkConfig;
+import org.robolectric.internal.bytecode.ClassInfo;
+import org.robolectric.internal.bytecode.InstrumentingClassLoaderConfig;
 import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.res.Fs;
+
+import com.squareup.leakcanary.LeakCanary;
 
 public class RobolectricSubmoduleTestRunner extends RobolectricGradleTestRunner {
 
@@ -38,5 +43,23 @@ public class RobolectricSubmoduleTestRunner extends RobolectricGradleTestRunner 
 
 		manifest.setPackageName("com.expedia.bookings");
 		return manifest;
+	}
+
+	@Override
+	protected ClassLoader createRobolectricClassLoader(InstrumentingClassLoaderConfig config, SdkConfig sdkConfig) {
+		return super.createRobolectricClassLoader(new DirtyInstrumentingConfig(config), sdkConfig);
+	}
+
+	public static class DirtyInstrumentingConfig extends InstrumentingClassLoaderConfig {
+		private InstrumentingClassLoaderConfig original;
+
+		public DirtyInstrumentingConfig(InstrumentingClassLoaderConfig original) {
+			this.original = original;
+		}
+
+		@Override
+		public boolean shouldInstrument(ClassInfo info) {
+			return original.shouldInstrument(info) || info.getName().equals(LeakCanary.class.getName());
+		}
 	}
 }
