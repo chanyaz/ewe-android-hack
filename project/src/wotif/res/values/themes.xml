@@ -118,6 +118,7 @@
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_itinActionOverflowDrawable">@drawable/ic_menu_overflow_image</item>
+        <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder_wotif</item>
 
     </style>
 

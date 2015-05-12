@@ -324,4 +324,6 @@
     <attr name="skin_bgFlightSummaryRowTablet" format="reference" />
     <attr name="skin_bgSelectedFlightCard" format="reference" />
     <attr name="skin_bgFlightSummaryRowReturnLegTabletDrawable" format="reference" />
+    <attr name="skin_launchCirclePlaceholderDrawable" format="reference" />
+    <attr name="skin_icActionBarTripsDrawable" format="reference" />
 </resources>

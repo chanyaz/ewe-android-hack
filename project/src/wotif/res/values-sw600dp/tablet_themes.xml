@@ -34,6 +34,9 @@
 
         <item name="skin_tablet_flight_confirmation_placeholder">@drawable/bg_itin_placeholder_wotif</item>
         <item name="skin_tablet_hotel_confirmation_placeholder">@drawable/bg_itin_placeholder_wotif</item>
+        <item name="skin_icActionBarTripsDrawable">@drawable/ic_action_bar_trips_wotif</item>
+
+        <item name="android:actionMenuTextColor">@color/actionbar_menu_text_color</item>
 
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
         <item name="android:homeAsUpIndicator" >@drawable/ic_action_bar_back_arrow_white_wotif</item>
