@@ -41,6 +41,7 @@ import rx.Subscription;
 public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
 
 	private Subscription locSubscription;
+	private Subscription abacusSubscription;
 	private boolean wasOffline;
 	private AbacusResponse launchScreenTest;
 
@@ -75,6 +76,9 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		if (locSubscription != null) {
 			locSubscription.unsubscribe();
 		}
+		if (abacusSubscription != null) {
+			abacusSubscription.unsubscribe();
+		}
 		getActivity().unregisterReceiver(broadcastReceiver);
 		Events.unregister(this);
 		OmnitureTracking.onPause();
@@ -85,7 +89,8 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			return;
 		}
 		else {
-			boolean isUserBucketedForTest = launchScreenTest.isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchScreenTest);
+			boolean isUserBucketedForTest = launchScreenTest
+				.isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchScreenTest);
 			if (isUserBucketedForTest) {
 				// show collection data to users irrespective of location Abacus A/B test
 				Events.post(new Events.LaunchLocationFetchError());
@@ -179,13 +184,18 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		// ignore
 	}
 
-	public void bucketLaunchScreen() {
+	private void bucketLaunchScreen() {
 		if (launchScreenTest == null) {
-			AbacusEvaluateQuery query = new AbacusEvaluateQuery(
-				Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
+			AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(),
+				PointOfSale.getPointOfSale().getTpid(),
+				0);
 			query.addExperiment(AbacusUtils.EBAndroidAppLaunchScreenTest);
-			Ui.getApplication(getActivity()).appComponent().abacus().downloadBucket(query, abacusSubscriber,
-				AbacusServices.TIMEOUT_5_SECONDS, TimeUnit.SECONDS);
+			abacusSubscription = Ui.getApplication(getActivity()).appComponent()
+				.abacus()
+				.downloadBucket(query,
+					abacusSubscriber,
+					AbacusServices.TIMEOUT_5_SECONDS,
+					TimeUnit.SECONDS);
 		}
 		else {
 			// onResume, could be returning from dev settings so we should update the test
@@ -197,21 +207,21 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	private Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
 		@Override
 		public void onCompleted() {
-			Log.d("AbacusReponse - onCompleted");
+			Log.d("AbacusResponse - onCompleted");
 		}
 
 		@Override
 		public void onError(Throwable e) {
 			updateAbacus(new AbacusResponse());
 			onReactToUserActive();
-			Log.d("AbacusReponse - onError", e);
+			Log.d("AbacusResponse - onError", e);
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
 			updateAbacus(abacusResponse);
 			onReactToUserActive();
-			Log.d("AbacusReponse - onNext");
+			Log.d("AbacusResponse - onNext");
 		}
 	};
 
@@ -224,8 +234,9 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		launchScreenTest = abacusResponse;
 
 		if (BuildConfig.DEBUG) {
-			launchScreenTest.updateABTestForDebug(AbacusUtils.EBAndroidAppLaunchScreenTest, SettingUtils
-				.get(getActivity(), String.valueOf(AbacusUtils.EBAndroidAppLaunchScreenTest),
+			launchScreenTest.updateABTestForDebug(AbacusUtils.EBAndroidAppLaunchScreenTest,
+				SettingUtils.get(getActivity(),
+					String.valueOf(AbacusUtils.EBAndroidAppLaunchScreenTest),
 					AbacusUtils.ABTEST_IGNORE_DEBUG));
 		}
 	}

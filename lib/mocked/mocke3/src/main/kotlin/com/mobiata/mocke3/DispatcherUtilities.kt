@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
 import java.util.Calendar
 import java.util.LinkedHashMap
+import java.util.concurrent.TimeUnit
 
 fun unUrlEscape(str: String): String {
 	return str.replace("%20", " ")
@@ -57,7 +58,14 @@ fun constructParamsFromVarArray(requestStr: String): MutableMap<String, String> 
 
 fun makeEmptyResponse(): MockResponse {
 	val resp = MockResponse()
-	MockResponse().setResponseCode(200)
+	resp.setResponseCode(200)
+	return resp
+}
+
+fun makeDelayedResponse(): MockResponse {
+	val resp = makeEmptyResponse()
+	resp.setBody("Much delay, wow")
+	resp.setBodyDelay(7, TimeUnit.SECONDS)
 	return resp
 }
 

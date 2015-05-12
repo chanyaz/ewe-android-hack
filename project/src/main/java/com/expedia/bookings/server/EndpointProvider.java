@@ -57,7 +57,7 @@ public class EndpointProvider {
 
 		// Mock Server if enabled
 		EndPoint endPoint = getEndPoint();
-		if (endPoint == EndPoint.CUSTOM_SERVER) {
+		if (endPoint == EndPoint.CUSTOM_SERVER || endPoint == EndPoint.MOCK_MODE) {
 			return getE3EndpointUrl(isSecure);
 		}
 
