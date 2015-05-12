@@ -35,6 +35,17 @@
         <item name="skin_tablet_flight_confirmation_placeholder">@drawable/bg_itin_placeholder_wotif</item>
         <item name="skin_tablet_hotel_confirmation_placeholder">@drawable/bg_itin_placeholder_wotif</item>
         <item name="skin_icActionBarTripsDrawable">@drawable/ic_action_bar_trips_wotif</item>
+        <item name="skin_tablet_legal_blurb_text_color">@color/tablet_legal_blurb_text_color_wotif</item>
+        <item name="skin_tablet_confirmation_book_next_arrow_icon">@drawable/ic_tablet_confirmation_book_next_arrow_wotif</item>
+        <item name="skin_tablet_confirmation_book_next_arrow_color">@color/tablet_confirmation_action_color_wotif</item>
+        <item name="skin_tablet_confirmation_done_booking_icon">@drawable/ic_tablet_confirmation_done_booking_wotif</item>
+        <item name="skin_tablet_confirmation_done_booking_color">@color/tablet_confirmation_action_color_wotif</item>
+        <item name="skin_tablet_confirmation_calendar_icon">@drawable/ic_tablet_confirmation_calendar_wotif</item>
+        <item name="skin_tablet_confirmation_phone_icon">@drawable/ic_tablet_confirmation_phone_wotif</item>
+        <item name="skin_tablet_confirmation_share_icon">@drawable/ic_tablet_confirmation_share_wotif</item>
+        <item name="skin_tablet_confirmation_action_color">@color/tablet_confirmation_action_color_wotif</item>
+        <item name="skin_tablet_price_expanded_bucket_text_color">@color/tablet_price_expanded_bucket_text_color</item>
+        <item name="skin_tablet_checkout_price_breakdown_icon">@drawable/ic_tablet_checkout_price_breakdown_wotif</item>
 
         <item name="android:actionMenuTextColor">@color/actionbar_menu_text_color</item>
 
