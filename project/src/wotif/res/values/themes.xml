@@ -198,7 +198,6 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_menu_overflow_image</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_wotif</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_wotif</item>
-        <item name="skin_actionBarShopText">@string/shop_travel</item>
 
     </style>
 
