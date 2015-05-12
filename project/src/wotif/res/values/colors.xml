@@ -48,4 +48,7 @@
 
     <color name="tablet_map_pin_text_color">#DDDFE1</color>
     <color name="bg_sale_text_view_color_wotif">#E57AC231</color>
+    <color name="flight_results_row_bg_wotif">#1972B2</color>
+    <color name="flight_results_row_return_leg_bg_wotif">#00335D</color>
+
 </resources>
