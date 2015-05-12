@@ -12,12 +12,12 @@ TERM=dumb
   "clean" \
   ":lib:ExpediaBookings:checkstyleMain" ":lib:ExpediaBookings:checkstyleTest" \
   ":lib:ExpediaBookings:test" ":lib:ExpediaBookings:jacocoTestReport" || \
+  ":lib:mocked:mocke3:test" \
 ./gradlew --no-daemon \
   "clean" \
   ":lib:ExpediaBookings:checkstyleMain" ":lib:ExpediaBookings:checkstyleTest" \
-  ":lib:ExpediaBookings:test" ":lib:ExpediaBookings:jacocoTestReport"
-
-./gradlew --no-daemon -PrunProguard=false "assembleExpediaDebug" "assembleExpediaDebugAndroidTest"
+  ":lib:ExpediaBookings:test" ":lib:ExpediaBookings:jacocoTestReport" \
+  ":lib:mocked:mocke3:test"
 
 ./gradlew --no-daemon \
   "checkstyle" ":robolectric:checkstyleTest" "lintExpediaDebug"
