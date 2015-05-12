@@ -337,4 +337,5 @@
     <attr name="skin_tablet_checkout_price_breakdown_icon" format="reference" />
     <attr name="skin_tabletCalenderResultsSearchBlue" format="reference|color" />
 
+    <attr name="skin_sectionFlightEditTravelerLinkColor" format="reference|color" />
 </resources>
