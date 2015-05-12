@@ -153,6 +153,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 		userAccountRefresher = new UserAccountRefresher(getContext(), LineOfBusiness.CARS, this);
 		filterNumber.setVisibility(GONE);
+
 	}
 
 	@Override
@@ -682,24 +683,35 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	}
 
 	public void animationStart(boolean forward) {
-		toolbarBackground.setTranslationY(forward ? 0 : -toolbarBackground.getHeight());
-		toolbar.setTranslationY(forward ? 0 : 50);
 		toolbar.setVisibility(VISIBLE);
+		if (CarCategoryDetailsWidget.class.getName().equals(getCurrentState())) {
+			details.setVisibility(VISIBLE);
+			details.setAlpha(forward ? 0 : 1);
+		}
+		else {
+			categories.setVisibility(VISIBLE);
+			categories.setAlpha(forward ? 0 : 1);
+		}
 	}
 
 	public void animationUpdate(float f, boolean forward) {
-		toolbarBackground
-			.setTranslationY(forward ? -toolbarBackground.getHeight() * f : -toolbarBackground.getHeight() * (1 - f));
-		toolbar.setTranslationY(forward ? 50 * f : 50 * (1 - f));
+		float alphaD = forward ? Math.abs(1 - f) : f;
+		if (CarCategoryDetailsWidget.class.getName().equals(getCurrentState())) {
+			details.setAlpha(alphaD);
+		}
+		else {
+			categories.setAlpha(alphaD);
+		}
+		toolbar.setAlpha(alphaD);
 	}
 
 	public void animationFinalize(boolean forward) {
-		toolbarBackground.setTranslationY(forward ? -toolbarBackground.getHeight() : 0);
-		toolbar.setTranslationY(forward ? 50 : 0);
 		toolbar.setVisibility(forward ? GONE : VISIBLE);
 		toolbarBackground.setAlpha(
 			Strings.equals(getCurrentState(), CarCategoryDetailsWidget.class.getName()) ? toolbarBackground.getAlpha()
 				: 1f);
+		toolbar.setVisibility(VISIBLE);
+		toolbarBackground.setVisibility(VISIBLE);
 	}
 
 	@Override

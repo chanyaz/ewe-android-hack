@@ -17,11 +17,14 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -74,8 +77,14 @@ public class CarSearchPresenter extends Presenter
 	@InjectView(R.id.pickup_location)
 	AlwaysFilterAutoCompleteTextView pickUpLocation;
 
+	@InjectView(R.id.search_params_container)
+	LinearLayout searchParamsContainer;
+
 	@InjectView(R.id.search_container)
 	ViewGroup searchContainer;
+
+	@InjectView(R.id.location_image_view)
+	ImageView locationImageView;
 
 	@InjectView(R.id.dropoff_location)
 	AlwaysFilterAutoCompleteTextView dropOffLocation;
@@ -91,6 +100,15 @@ public class CarSearchPresenter extends Presenter
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
+
+	@InjectView(R.id.toolbar_search_text)
+	TextView toolBarSearchText;
+
+	@InjectView(R.id.toolbar_detail_text)
+	TextView toolBarDetailText;
+
+	@InjectView(R.id.toolbar_subtitle_text)
+	TextView toolBarSubtitleText;
 
 	Button searchButton;
 
@@ -116,9 +134,7 @@ public class CarSearchPresenter extends Presenter
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp);
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
-		toolbar.setTitle(getResources().getString(R.string.toolbar_search_cars));
-		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
-		toolbar.setTitleTextColor(Color.WHITE);
+		toolBarSearchText.setText(getResources().getString(R.string.toolbar_search_cars));
 		toolbar.setBackgroundColor(getResources().getColor(R.color.cars_primary_color));
 		toolbar.inflateMenu(R.menu.cars_search_menu);
 
@@ -179,6 +195,14 @@ public class CarSearchPresenter extends Presenter
 		else {
 			loadHistory();
 		}
+
+		searchParamsContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				searchParamsContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				searchParamsContainerHeight = searchParamsContainer.getMeasuredHeight();
+			}
+		});
 	}
 
 	public Button setupToolBarCheckmark(final MenuItem menuItem) {
@@ -330,6 +354,8 @@ public class CarSearchPresenter extends Presenter
 		if (carSearchParams.startDateTime != null) {
 			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), carSearchParams,
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
+			toolBarSubtitleText.setText(dateTimeRange);
+			toolBarDetailText.setText(carSearchParams.originDescription);
 			selectDateButton.setText(dateTimeRange);
 			selectDateButton.setTextOff(dateTimeRange);
 			selectDateButton.setTextOn(dateTimeRange);
@@ -448,19 +474,32 @@ public class CarSearchPresenter extends Presenter
 	};
 
 	public void animationStart(boolean forward) {
-		searchContainer.setTranslationY(forward ? searchContainer.getHeight() : 0);
-		toolbar.setTranslationY(forward ? -toolbar.getHeight() : 0);
+		calendarContainer.setTranslationY(forward ? searchContainer.getHeight() : 0);
+		searchContainer.setBackgroundColor(Color.TRANSPARENT);
+		toolBarSearchText.setAlpha(forward ? 0 : 1);
+		searchButton.setAlpha(forward ? 0 : 1);
 	}
+
+	private int searchParamsContainerHeight;
 
 	public void animationUpdate(float f, boolean forward) {
 		float translation = forward ? searchContainer.getHeight() * (1 - f) : searchContainer.getHeight() * f;
-		searchContainer.setTranslationY(translation);
-		toolbar.setTranslationY(forward ? -toolbar.getHeight() * (1 - f) : -toolbar.getHeight() * f);
+		float yTrans = forward ? - ((toolBarDetailText.getY()) * (1 - f)) : - ((toolBarDetailText.getY()) * f);
+
+		LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) searchParamsContainer.getLayoutParams();
+		layoutParams.height = forward ? (int) (f * (searchParamsContainerHeight)) : (int) (Math.abs(f - 1) * (searchParamsContainerHeight));
+		searchParamsContainer.setLayoutParams(layoutParams);
+
+		calendarContainer.setTranslationY(translation);
+		toolBarSearchText.setTranslationY(yTrans);
+		toolBarSearchText.setAlpha(forward ? f : Math.abs(1 - f));
+		searchButton.setAlpha(forward ? f : Math.abs(1 - f));
+		toolbar.setAlpha(forward ? f : Math.abs(1 - f));
 	}
 
 	public void animationFinalize(boolean forward) {
-		searchContainer.setTranslationY(0);
-		toolbar.setTranslationY(forward ? 0 : -toolbar.getHeight());
+		calendarContainer.setTranslationY(0);
+		searchContainer.setBackgroundColor(Color.WHITE);
 	}
 
 	public void setUpSearchButton() {
