@@ -88,3 +88,14 @@ resulting `applicationId` becomes `com.expedia.bookings.feature.UNIQUE_FEATURE_N
     $ ./gradlew -Pid="feature.UNIQUE_FEATURE_NAME" crashlyticsUploadDistributionExpediaDebug
 ````
 
+Creating Usability Builds
+=======================
+
+Passing in `-Pid="usability` while assembling a release build triggers special functionality
+to always suppress final bookings for all lines of business. This is behavior deemed important
+for third-party usability testing through www.usertesting.com. We will likely share these builds
+via Crashlytics share link.
+
+````shell
+    $ ./gradlew -Pid="usability" assembleExpediaRelease
+````

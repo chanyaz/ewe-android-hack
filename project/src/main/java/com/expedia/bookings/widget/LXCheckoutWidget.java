@@ -5,7 +5,6 @@ import javax.inject.Inject;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -17,11 +16,11 @@ import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -107,8 +106,8 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 
 	@Override
 	public void onBook(String cvv) {
-		final boolean suppressFinalBooking =
-			BuildConfig.DEBUG && SettingUtils.get(getContext(), R.string.preference_suppress_lx_bookings, true);
+		final boolean suppressFinalBooking = BookingSuppressionUtils
+			.shouldSuppressFinalBooking(getContext(), R.string.preference_suppress_lx_bookings);
 
 		LXCheckoutParams checkoutParams = new LXCheckoutParams()
 			.firstName(mainContactInfoCardView.firstName.getText().toString())
