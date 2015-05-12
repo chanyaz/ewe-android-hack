@@ -69,7 +69,6 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.AutocompleteSuggestion;
 import com.expedia.bookings.data.ChildTraveler;
@@ -474,21 +473,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 	}
 
-	private OnSearchParamsChangedInWidgetListener mSearchParamsChangedListener = new OnSearchParamsChangedInWidgetListener() {
-
-		@Override
-		public void onSearchParamsChanged(HotelSearchParams searchParams) {
-			Db.getHotelSearch().setSearchParams(searchParams);
-			if (searchParams != null) {
-				searchParams.ensureValidCheckInDate();
-			}
-			else {
-				Db.getHotelSearch().resetSearchParams();
-			}
-			mStartSearchOnResume = true;
-		}
-	};
-
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Static Methods
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -629,9 +613,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	protected void onPause() {
 		super.onPause();
 
-		((ExpediaBookingApp) getApplicationContext())
-			.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
-
 		mIsActivityResumed = false;
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
@@ -663,8 +644,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	@Override
 	protected void onResume() {
 		super.onResume();
-		((ExpediaBookingApp) getApplicationContext())
-			.registerSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
 
 		Db.getFilter().addOnFilterChangedListener(this);
 
