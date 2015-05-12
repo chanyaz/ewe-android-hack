@@ -227,6 +227,7 @@
         <item name="skin_etp_pay_now_charges_text">@string/etp_pay_now_charges_text</item>
         <item name="skin_totalDueToday">@string/total_due_today</item>
         <item name="skin_itinActionOverflowDrawable">@drawable/ic_itin_action_overflow_white</item>
+        <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

@@ -104,9 +104,10 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 			mLaunchLocation = event.launchLocation;
 			final String imageUrl = getResizedImageUrl(getActivity(), event.launchLocation);
 
-			new PicassoHelper.Builder(mRoundImage).setError(R.drawable.launch_circle_placeholder).setTarget(
-				callback).build()
-				.load(imageUrl);
+			new PicassoHelper.Builder(mRoundImage)
+				.setError(Ui.obtainThemeResID(getActivity(), R.attr.skin_launchCirclePlaceholderDrawable))
+				.setTarget(callback).build().load(
+				imageUrl);
 
 			TextView textTitle = Ui.findView(mRootC, R.id.text_title);
 			textTitle.setText(event.launchLocation.title);

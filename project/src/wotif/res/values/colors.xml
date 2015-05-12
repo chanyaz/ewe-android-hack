@@ -29,6 +29,7 @@
     <color name="hotel_price_sale_text_color">#599027</color>
     <color name="actionbar_text_wotif">#4F4F4F</color>
     <color name="actionbar_text">#4F4F4F</color>
+    <color name="actionbar_menu_text_color">#7AC231</color>
     <color name="menu_bar_text_color">#DDDFE1</color>
     <color name="actionbar_suggestion_text_color">#DDDFE1</color>
 
