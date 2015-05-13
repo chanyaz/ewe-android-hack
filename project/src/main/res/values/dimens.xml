@@ -283,4 +283,5 @@
     <dimen name="car_image_width">300dp</dimen>
     <dimen name="car_unexpanded_space_height">125dp</dimen>
     <dimen name="car_expanded_space_height">350dp</dimen>
+    <dimen name="hotel_spinner_height">50dp</dimen>
 </resources>

@@ -147,6 +147,8 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="HotelSpinner" parent="@style/Base.Widget.AppCompat.Spinner.Underlined" />
+
     <style name="CarsCardView" parent="V2.Theme.Cars">
         <item name="android:background">#FFF</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
