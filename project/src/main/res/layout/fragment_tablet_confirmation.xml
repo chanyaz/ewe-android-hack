@@ -179,7 +179,7 @@
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:text="@string/tablet_confirmation_book_next"
-                                android:textColor="#374F6E"
+                                android:textColor="?attr/skin_tablet_confirmation_done_booking_color"
                                 android:textSize="14sp"
                                 app:textStyle="medium" />
 
@@ -189,7 +189,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="-2dp"
                                 android:gravity="center"
-                                android:textColor="#374F6E"
+                                android:textColor="?attr/skin_tablet_confirmation_done_booking_color"
                                 android:textSize="10sp" />
 
                         </LinearLayout>

@@ -338,4 +338,5 @@
     <attr name="skin_tabletCalenderResultsSearchBlue" format="reference|color" />
 
     <attr name="skin_sectionFlightEditTravelerLinkColor" format="reference|color" />
+    <attr name="skin_roomRateRefundableCancellationTextColor" format="reference|color" />
 </resources>

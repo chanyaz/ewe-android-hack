@@ -46,6 +46,7 @@
         <item name="skin_tabletCalenderResultsSearchBlue">@color/tablet_results_search_blue</item>
         <item name="skin_sectionFlightEditTravelerLinkColor">@color/section_flight_edit_traveler_link_color</item>
 
+        <item name="skin_roomRateRefundableCancellationTextColor">@color/room_rate_refundable_cancellation_text_color</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Travelocity.Tablet" />
