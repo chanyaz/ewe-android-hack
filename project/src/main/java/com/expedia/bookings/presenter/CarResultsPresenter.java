@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.widget.TextView;
@@ -91,6 +92,18 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	@InjectView(R.id.search_error_widget)
 	ErrorWidget errorScreen;
 
+	@InjectView(R.id.toolbar_search_text)
+	android.widget.TextView toolBarSearchText;
+
+	@InjectView(R.id.toolbar_detail_text)
+	android.widget.TextView toolBarDetailText;
+
+	@InjectView(R.id.toolbar_subtitle_text)
+	android.widget.TextView toolBarSubtitleText;
+
+	@InjectView(R.id.toolbar_two)
+	LinearLayout toolbarTwo;
+
 	private ProgressDialog createTripDialog;
 	private Subscription searchSubscription;
 	private Subscription createTripSubscription;
@@ -99,7 +112,8 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	private SearchCarOffer offer;
 	private String category;
 	private CarSearch search = new CarSearch();
-	String lastState;
+	private int searchTop;
+	private String lastState;
 
 	@Override
 	protected void onFinishInflate() {
@@ -140,6 +154,9 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if (Strings.equals(lastState,CarCategoryDetailsWidget.class.getName())) {
+					Events.post(new Events.CarsFilterDone(filter.getWorkingFilter()));
+				}
 				((Activity) getContext()).onBackPressed();
 			}
 		});
@@ -160,6 +177,17 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	protected void onDetachedFromWindow() {
 		cleanup();
 		super.onDetachedFromWindow();
+	}
+
+	@Override
+	public boolean back() {
+		if (Strings.equals(lastState,CarCategoryDetailsWidget.class.getName())) {
+			filter.workingCarFilterResults.hasAirConditioning = filter.workingCarFilterDetails.hasAirConditioning;
+			filter.workingCarFilterResults.hasUnlimitedMileage = filter.workingCarFilterDetails.hasUnlimitedMileage;
+			filter.workingCarFilterResults.carTransmissionType = filter.workingCarFilterDetails.carTransmissionType;
+			Events.post(new Events.CarsFilterDone(filter.workingCarFilterResults));
+		}
+		return super.back();
 	}
 
 	public void cleanup() {
@@ -369,10 +397,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 			if (!forward) {
 				numCheckedFilters += filter.getFilter().carCategoryCheckedFilter.size();
-				filter.workingCarFilterResults.hasAirConditioning = filter.workingCarFilterDetails.hasAirConditioning;
-				filter.workingCarFilterResults.hasUnlimitedMileage = filter.workingCarFilterDetails.hasUnlimitedMileage;
-				filter.workingCarFilterResults.carTransmissionType = filter.workingCarFilterDetails.carTransmissionType;
-				Events.post(new Events.CarsFilterDone(filter.getWorkingFilter()));
 			}
 			else {
 				filter.workingCarFilterDetails.hasAirConditioning = filter.workingCarFilterResults.hasAirConditioning;
@@ -424,7 +448,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 	private void setToolBarDetailsText() {
 		if (mOffer != null) {
-			toolbar.setTitle(mOffer.carCategoryDisplayLabel);
+			toolBarDetailText.setText(mOffer.carCategoryDisplayLabel);
 		}
 	}
 
@@ -432,8 +456,8 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		if (mParams != null) {
 			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), mParams,
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
-			toolbar.setTitle(mParams.originDescription);
-			toolbar.setSubtitle(dateTimeRange);
+			toolBarDetailText.setText(mParams.originDescription);
+			toolBarSubtitleText.setText(dateTimeRange);
 		}
 	}
 
@@ -682,8 +706,10 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		setToolBarResultsText();
 	}
 
-	public void animationStart(boolean forward) {
+	public float animationStart(boolean forward) {
 		toolbar.setVisibility(VISIBLE);
+		searchTop = toolBarSearchText.getTop() - toolbarTwo.getTop();
+
 		if (CarCategoryDetailsWidget.class.getName().equals(getCurrentState())) {
 			details.setVisibility(VISIBLE);
 			details.setAlpha(forward ? 0 : 1);
@@ -692,6 +718,10 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			categories.setVisibility(VISIBLE);
 			categories.setAlpha(forward ? 0 : 1);
 		}
+		toolBarDetailText.setTranslationY(searchTop);
+		toolBarSubtitleText.setTranslationY(searchTop);
+
+		return (CarCategoryDetailsWidget.class.getName().equals(getCurrentState())) ? toolbarBackground.getAlpha() : 1f;
 	}
 
 	public void animationUpdate(float f, boolean forward) {
@@ -703,6 +733,10 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			categories.setAlpha(alphaD);
 		}
 		toolbar.setAlpha(alphaD);
+
+		float yTrans = forward ?  - (searchTop * -f) : (searchTop * (1 - f));
+		toolBarDetailText.setTranslationY(yTrans);
+		toolBarSubtitleText.setTranslationY(yTrans);
 	}
 
 	public void animationFinalize(boolean forward) {
@@ -712,6 +746,8 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 				: 1f);
 		toolbar.setVisibility(VISIBLE);
 		toolbarBackground.setVisibility(VISIBLE);
+		toolBarDetailText.setTranslationY(0);
+		toolBarSubtitleText.setTranslationY(0);
 	}
 
 	@Override

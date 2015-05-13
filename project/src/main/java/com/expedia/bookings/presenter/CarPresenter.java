@@ -34,6 +34,8 @@ public class CarPresenter extends Presenter {
 	@InjectView(R.id.confirmation)
 	CarConfirmationWidget confirmation;
 
+	private float searchStartingAlpha = 0f;
+
 	private static class ParamsOverlayState {
 	}
 
@@ -47,6 +49,7 @@ public class CarPresenter extends Presenter {
 		addTransition(checkoutToConfirmation);
 		show(carSearchPresenter);
 		carSearchPresenter.setVisibility(VISIBLE);
+		carResultsPresenter.setVisibility(INVISIBLE);
 	}
 
 	private Transition checkoutToConfirmation = new LeftToRightTransition(this, CarCheckoutPresenter.class, CarConfirmationWidget.class);
@@ -67,14 +70,19 @@ public class CarPresenter extends Presenter {
 		public void startTransition(boolean forward) {
 			carResultsPresenter.setVisibility(VISIBLE);
 			carSearchPresenter.setVisibility(VISIBLE);
-			carResultsPresenter.animationStart(forward);
-			carSearchPresenter.animationStart(forward);
+			if (forward) {
+				searchStartingAlpha = carResultsPresenter.animationStart(forward);
+			}
+			else {
+				carResultsPresenter.animationStart(forward);
+			}
+			carSearchPresenter.animationStart(forward, searchStartingAlpha);
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			carResultsPresenter.animationUpdate(f, forward);
-			carSearchPresenter.animationUpdate(f, forward);
+			carSearchPresenter.animationUpdate(f, forward, searchStartingAlpha);
 		}
 
 		@Override
@@ -97,13 +105,13 @@ public class CarPresenter extends Presenter {
 			carResultsPresenter.setVisibility(VISIBLE);
 			carSearchPresenter.setVisibility(VISIBLE);
 			carResultsPresenter.animationStart(!forward);
-			carSearchPresenter.animationStart(!forward);
+			carSearchPresenter.animationStart(!forward, 1f);
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			carResultsPresenter.animationUpdate(f, !forward);
-			carSearchPresenter.animationUpdate(f, !forward);
+			carSearchPresenter.animationUpdate(f, !forward, 1f);
 		}
 
 		@Override

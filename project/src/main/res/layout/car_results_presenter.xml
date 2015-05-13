@@ -64,37 +64,39 @@
         android:layout_gravity="top"
         android:minHeight="?attr/actionBarSize">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:minHeight="?attr/actionBarSize">
 
-            <FrameLayout
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/toolbar_search_text"
+                style="@style/CarsToolbarTitleTextAppearance"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+            <LinearLayout
+                android:id="@+id/toolbar_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical" >
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/toolbar_search_text"
+                    android:id="@+id/toolbar_detail_text"
                     style="@style/CarsToolbarTitleTextAppearance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/toolBarDetailText"
-                    style="@style/CarsToolbarTitleTextAppearance"
+                    android:id="@+id/toolbar_subtitle_text"
+                    style="@style/CarsToolbarSubtitleTextAppearance"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone" />
+                    android:layout_height="wrap_content" />
 
-            </FrameLayout>
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/toolBarSubtitleText"
-                style="@style/CarsToolbarSubtitleTextAppearance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
 
     </android.support.v7.widget.Toolbar>
 
