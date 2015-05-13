@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -29,7 +28,6 @@ import com.expedia.bookings.dagger.DaggerLaunchComponent;
 import com.expedia.bookings.dagger.LXComponent;
 import com.expedia.bookings.dagger.LaunchComponent;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
@@ -65,6 +63,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+import com.squareup.leakcanary.LeakCanary;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -279,6 +278,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		CurrencyUtils.initMap(this);
 		startupTimer.addSplit("Currency Utils init");
 
+		LeakCanary.install(this);
+		startupTimer.addSplit("LeakCanary init");
+
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(generateAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
 		query.addExperiments(AbacusUtils.getActiveTests());
 		mAppComponent.abacus().downloadBucket(query, abacusSubscriber);
@@ -385,42 +387,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		return mLaunchComponent;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// LISTENERS FOR WHEN SEARCH PARAMS CHANGE IN THE WIDGET
-	//////////////////////////////////////////////////////////////////////////////////////////
-	/*
-	 *  The app maintains a list of listeners to notify when search params
-	 *  change in the widget. This is so that we can easily propogate through the
-	 *  the app the need to use searchParams from the widget instead of the ones
-	 *  being driven by user parameters set within the app
-	 */
-	public interface OnSearchParamsChangedInWidgetListener {
-		public void onSearchParamsChanged(HotelSearchParams searchParams);
-	}
-
-	private ArrayList<OnSearchParamsChangedInWidgetListener> mListeners;
-
-	public void registerSearchParamsChangedInWidgetListener(OnSearchParamsChangedInWidgetListener listener) {
-		if (mListeners == null) {
-			mListeners = new ArrayList<OnSearchParamsChangedInWidgetListener>();
-		}
-		mListeners.add(listener);
-	}
-
-	public void unregisterSearchParamsChangedInWidgetListener(OnSearchParamsChangedInWidgetListener listener) {
-		if (mListeners == null) {
-			return;
-		}
-		mListeners.remove(listener);
-	}
-
-	public void broadcastSearchParamsChangedInWidget(HotelSearchParams searchParams) {
-		if (mListeners != null) {
-			for (OnSearchParamsChangedInWidgetListener listener : mListeners) {
-				listener.onSearchParamsChanged(searchParams);
-			}
-		}
-	}
+	// Configuration changes
 
 	@Override
 	public void onConfigurationChanged(final Configuration newConfig) {
