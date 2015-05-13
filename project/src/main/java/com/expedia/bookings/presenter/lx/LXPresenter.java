@@ -50,7 +50,6 @@ public class LXPresenter extends Presenter {
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
-		Events.register(this);
 		addTransition(searchParamsToResults);
 		addTransition(resultsToDetails);
 		addTransition(searchOverlayOnResults);
@@ -201,6 +200,11 @@ public class LXPresenter extends Presenter {
 	@Subscribe
 	public void onNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
 		show(resultsPresenter, FLAG_CLEAR_TOP);
+	}
+
+	@Subscribe
+	public void onNewSearch(Events.LXNewSearch event) {
+		show(searchParamsWidget, FLAG_CLEAR_BACKSTACK);
 	}
 
 	@Subscribe

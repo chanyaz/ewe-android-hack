@@ -737,6 +737,18 @@ public class Events {
 		// ignore
 	}
 
+	public static class LXNewSearch {
+		public String locationName;
+		public LocalDate startDate;
+		public LocalDate endDate;
+
+		public LXNewSearch(String locationName, LocalDate startDate, LocalDate endDate) {
+			this.locationName = locationName;
+			this.startDate = startDate;
+			this.endDate = endDate;
+		}
+	}
+
 	public static class LXNewSearchParamsAvailable {
 		public LXSearchParams lxSearchParams;
 

@@ -9,14 +9,13 @@ import org.robolectric.shadows.ShadowTelephonyManager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.LXConfirmationWidget;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -34,23 +33,29 @@ public class LXConfirmationWidgetTest {
 		shadowTelephonyManager.setNetworkOperatorName("Test Operator");
 	}
 
+	public static class TestActivity extends Activity {
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			Ui.getApplication(this).defaultLXComponents();
+			setContentView(R.layout.test_lx_confirmation_widget);
+		}
+	}
+
 	@Test
 	public void testConfirmationWidgetViews() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		Ui.getApplication(activity).defaultLXComponents();
-		LXConfirmationWidget confirmationWidget = (LXConfirmationWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.test_lx_confirmation_widget, null);
+		Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().visible().get();
 		mockConfirmationLXState();
 
-		ImageView confirmationImage = (ImageView) confirmationWidget.findViewById(R.id.confirmation_image_view);
-		TextView title = (TextView) confirmationWidget.findViewById(R.id.title);
-		TextView location = (TextView) confirmationWidget.findViewById(R.id.location);
-		TextView tickets = (TextView) confirmationWidget.findViewById(R.id.tickets);
-		TextView date = (TextView) confirmationWidget.findViewById(R.id.date);
-		TextView email = (TextView) confirmationWidget.findViewById(R.id.email_text);
-		TextView confirmation = (TextView) confirmationWidget.findViewById(R.id.confirmation_text);
-		TextView itinNumber = (TextView) confirmationWidget.findViewById(R.id.itin_number);
-		TextView reservationConfirmation = (TextView) confirmationWidget.findViewById(R.id.reservation_confirmation_text);
+		ImageView confirmationImage = (ImageView) activity.findViewById(R.id.confirmation_image_view);
+		TextView title = (TextView) activity.findViewById(R.id.title);
+		TextView location = (TextView) activity.findViewById(R.id.location);
+		TextView tickets = (TextView) activity.findViewById(R.id.tickets);
+		TextView date = (TextView) activity.findViewById(R.id.date);
+		TextView email = (TextView) activity.findViewById(R.id.email_text);
+		TextView confirmation = (TextView) activity.findViewById(R.id.confirmation_text);
+		TextView itinNumber = (TextView) activity.findViewById(R.id.itin_number);
+		TextView reservationConfirmation = (TextView) activity.findViewById(R.id.reservation_confirmation_text);
 
 		String expectedConfirmationText = activity.getResources().getString(R.string.lx_successful_checkout_email_label);
 		String reservationConfirmationText = activity.getResources().getString(

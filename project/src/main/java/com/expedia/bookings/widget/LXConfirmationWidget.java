@@ -80,7 +80,6 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		Events.register(this);
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp).mutate();
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);

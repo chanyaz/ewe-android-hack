@@ -114,7 +114,6 @@ public class LXResultsPresenter extends Presenter {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		Events.register(this);
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
 		addTransition(searchResultsToSortFilter);
