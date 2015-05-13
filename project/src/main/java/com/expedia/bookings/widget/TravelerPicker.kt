@@ -2,24 +2,32 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
-import android.widget.LinearLayout
-import android.view.ViewGroup
-import android.widget.ToggleButton
-import com.expedia.bookings.R
-import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.ChildAgeSpinnerAdapter
-import com.expedia.bookings.utils.StrUtils
-import android.widget.ImageButton
-import android.widget.TableRow
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.Spinner
+import android.widget.TableRow
+import com.expedia.bookings.R
+import com.expedia.bookings.utils.StrUtils
+import kotlin.properties.Delegates
 
 public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
+    val travelerInfoText: TextView by Delegates.lazy {
+        findViewById(R.id.num_guests) as TextView
+    }
+
+    val adultText: TextView by Delegates.lazy {
+        findViewById(R.id.adult) as TextView
+    }
+
+    val childText: TextView by Delegates.lazy {
+        findViewById(R.id.children) as TextView
+    }
+
     val MAX_GUESTS = 6
     val MIN_ADULTS: Int = 1
-    val MAX_ADULTS = 6
     val MIN_CHILDREN: Int = 0
     val MAX_CHILDREN = 4
     val DEFAULT_CHILD_AGE = 10
@@ -27,9 +35,6 @@ public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayou
     var numChildren: Int = 0
     var numAdults: Int = 1
     var listener: TravelersUpdatedListener? = null;
-    var travelerInfoText: TextView? = null
-    var adultText: TextView? = null
-    var childText: TextView? = null
     init {
         View.inflate(context, R.layout.widget_traveler_picker, this)
     }
@@ -45,9 +50,6 @@ public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayou
     override fun onFinishInflate() {
         super<LinearLayout>.onFinishInflate()
 
-        travelerInfoText: TextView = findViewById(R.id.num_guests) as TextView
-        adultText: TextView = findViewById(R.id.adult) as TextView
-        childText: TextView = findViewById(R.id.children) as TextView
         var adultPlus: ImageButton = findViewById(R.id.adults_plus) as ImageButton
         var adultMinus: ImageButton = findViewById(R.id.adults_minus) as ImageButton
         var childrenRow1: TableRow = findViewById(R.id.children_row1) as TableRow
@@ -113,14 +115,14 @@ public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayou
         lp.weight = 1f
         spinner.setLayoutParams(lp)
         spinner.setAdapter(ChildAgeSpinnerAdapter(getContext()))
-        spinner.setSelection(10)
+        spinner.setSelection(DEFAULT_CHILD_AGE)
 
         return spinner;
     }
 
     private fun updateText() {
-        travelerInfoText?.setText(StrUtils.formatGuests(getContext(), numAdults, numChildren))
-        childText?.setText(getContext().getResources().getQuantityString(R.plurals.number_of_children, numChildren, numChildren))
-        adultText?.setText(getContext().getResources().getQuantityString(R.plurals.number_of_adults, numAdults, numAdults))
+        travelerInfoText.setText(StrUtils.formatGuests(getContext(), numAdults, numChildren))
+        childText.setText(getContext().getResources().getQuantityString(R.plurals.number_of_children, numChildren, numChildren))
+        adultText.setText(getContext().getResources().getQuantityString(R.plurals.number_of_adults, numAdults, numAdults))
     }
 }
