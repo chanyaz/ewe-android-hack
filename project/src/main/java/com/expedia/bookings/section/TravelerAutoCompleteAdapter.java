@@ -251,6 +251,12 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 	@Override
 	public boolean isEnabled(int position) {
-		return getItem(position).isSelectable();
+		Traveler traveler = getItem(position);
+		if (traveler != null) {
+			return traveler.isSelectable();
+		}
+		else {
+			return false;
+		}
 	}
 }
