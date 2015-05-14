@@ -487,7 +487,9 @@ public class CarSearchPresenter extends Presenter
 		searchButton.setAlpha(forward ? 0 : 1);
 		searchTop = toolbarTwo.getTop() -  searchContainer.getTop();
 		searchParamsContainer.setAlpha(forward ? alpha : 1f);
-		statusBar.setAlpha(forward ? alpha : 1f);
+		if (statusBar != null) {
+			statusBar.setAlpha(forward ? alpha : 1f);
+		}
 	}
 
 	public void animationUpdate(float f, boolean forward, float alpha) {
@@ -499,7 +501,9 @@ public class CarSearchPresenter extends Presenter
 		searchParamsContainer.setLayoutParams(layoutParams);
 
 		searchParamsContainer.setAlpha(forward ? alpha + ((1f - alpha) * f) : Math.abs(1 - f) + alpha);
-		statusBar.setAlpha(forward ? alpha + ((1f - alpha) * f) : Math.abs(1 - f) + alpha);
+		if (statusBar != null) {
+			statusBar.setAlpha(forward ? alpha + ((1f - alpha) * f) : Math.abs(1 - f) + alpha);
+		}
 
 		calendarContainer.setTranslationY(translation);
 		toolBarSearchText.setTranslationY(yTrans);
