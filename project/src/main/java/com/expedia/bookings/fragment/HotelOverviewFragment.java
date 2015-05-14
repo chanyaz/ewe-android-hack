@@ -225,7 +225,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			ft.add(mHotelBookingFragment, HotelBookingFragment.TAG);
 			ft.commit();
 		}
-
+		OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
 	}
 
 	@Override
@@ -370,8 +370,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (mWalletPromoThrobberDialog != null && mWalletPromoThrobberDialog.isAdded()) {
 			mWalletPromoThrobberDialog.setCancelListener(this);
 		}
-
-		OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
