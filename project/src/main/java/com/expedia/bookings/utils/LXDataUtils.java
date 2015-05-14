@@ -233,7 +233,7 @@ public class LXDataUtils {
 		LocalDate checkInDate = new LocalDate(firstLeg.getLastWaypoint().getBestSearchDateTime());
 
 		LXSearchParams searchParams = new LXSearchParams()
-			.location(firstLeg.getAirport(false).mCity)
+			.location(firstLeg.getAirport(false).mName)
 			.startDate(checkInDate)
 			.endDate(checkInDate.plusDays(14))
 			.searchType(SearchType.EXPLICIT_SEARCH);
