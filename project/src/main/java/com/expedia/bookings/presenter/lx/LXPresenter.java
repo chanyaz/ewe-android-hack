@@ -40,6 +40,8 @@ public class LXPresenter extends Presenter {
 	@InjectView(R.id.confirmation)
 	LXConfirmationWidget confirmationWidget;
 
+	private float searchStartingAlpha;
+
 	private static class LXParamsOverlay {
 		// ignore
 	}
@@ -74,7 +76,7 @@ public class LXPresenter extends Presenter {
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			resultsPresenter.animationUpdate(f, !forward);
-			searchParamsWidget.animationUpdate(f, !forward);
+			searchParamsWidget.animationUpdate(f, !forward, 1f);
 		}
 
 		@Override
@@ -147,7 +149,7 @@ public class LXPresenter extends Presenter {
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			resultsPresenter.animationUpdate(f, forward);
-			searchParamsWidget.animationUpdate(f, forward);
+			searchParamsWidget.animationUpdate(f, forward, 1f);
 		}
 	
 		@Override
@@ -170,14 +172,19 @@ public class LXPresenter extends Presenter {
 		public void startTransition(boolean forward) {
 			detailsPresenter.setVisibility(VISIBLE);
 			searchParamsWidget.setVisibility(VISIBLE);
-			detailsPresenter.animationStart(forward);
+			if (forward) {
+				searchStartingAlpha = detailsPresenter.animationStart(forward);
+			}
+			else {
+				detailsPresenter.animationStart(forward);
+			}
 			searchParamsWidget.animationStart(forward);
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			detailsPresenter.animationUpdate(f, forward);
-			searchParamsWidget.animationUpdate(f, forward);
+			searchParamsWidget.animationUpdate(f, forward, searchStartingAlpha);
 		}
 
 		@Override

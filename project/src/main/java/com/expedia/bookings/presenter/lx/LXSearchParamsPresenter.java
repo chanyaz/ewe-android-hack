@@ -20,11 +20,13 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
 import com.expedia.bookings.R;
@@ -69,8 +71,11 @@ public class LXSearchParamsPresenter extends Presenter
 	@InjectView(R.id.calendar_container)
 	View calendarContainer;
 
+	@InjectView(R.id.search_container)
+	ViewGroup searchContainer;
+
 	@InjectView(R.id.search_params_container)
-	ViewGroup searchParamContainer;
+	ViewGroup searchParamsContainer;
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
@@ -81,7 +86,23 @@ public class LXSearchParamsPresenter extends Presenter
 	@InjectView(R.id.month)
 	MonthView monthView;
 
+	@InjectView(R.id.toolbar_search_text)
+	android.widget.TextView toolBarSearchText;
+
+	@InjectView(R.id.toolbar_detail_text)
+	android.widget.TextView toolBarDetailText;
+
+	@InjectView(R.id.toolbar_subtitle_text)
+	android.widget.TextView toolBarSubtitleText;
+
+	@InjectView(R.id.toolbar_two)
+	LinearLayout toolbarTwo;
+
 	Button searchButton;
+
+	private View statusBar;
+	private int searchParamsContainerHeight;
+	private int searchTop;
 
 	LXSearchParams searchParams = new LXSearchParams();
 	private LxSuggestionAdapter suggestionAdapter;
@@ -113,6 +134,16 @@ public class LXSearchParamsPresenter extends Presenter
 		show(new LXParamsDefault());
 
 		loadHistory();
+
+		searchParamsContainer.getViewTreeObserver().addOnGlobalLayoutListener(
+			new ViewTreeObserver.OnGlobalLayoutListener() {
+				@Override
+				public void onGlobalLayout() {
+					searchParamsContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					searchParamsContainerHeight = searchParamsContainer.getMeasuredHeight();
+				}
+			});
+
 	}
 
 	private AdapterView.OnItemClickListener mLocationListListener = new AdapterView.OnItemClickListener() {
@@ -283,7 +314,7 @@ public class LXSearchParamsPresenter extends Presenter
 		MenuItem item = toolbar.getMenu().findItem(R.id.menu_search);
 		setupToolBarCheckmark(item);
 
-		toolbar.setTitle(getResources().getString(R.string.lx_search_title));
+		toolBarSearchText.setText(getResources().getString(R.string.lx_search_title));
 		toolbar.setTitleTextColor(Color.WHITE);
 		toolbar.setBackgroundColor(getResources().getColor(R.color.lx_primary_color));
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
@@ -299,7 +330,8 @@ public class LXSearchParamsPresenter extends Presenter
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
 			int toolbarColor = getContext().getResources().getColor(R.color.lx_primary_color);
-			addView(Ui.setUpStatusBar(getContext(), toolbar, searchParamContainer, toolbarColor));
+			statusBar = Ui.setUpStatusBar(getContext(), toolbar, searchContainer, toolbarColor);
+			addView(statusBar);
 		}
 	}
 
@@ -411,19 +443,41 @@ public class LXSearchParamsPresenter extends Presenter
 	}
 
 	public void animationStart(boolean forward) {
-		searchParamContainer.setTranslationY(forward ? searchParamContainer.getHeight() : 0);
-		toolbar.setTranslationY(forward ? -toolbar.getHeight() : 0);
+		calendarContainer.setTranslationY(forward ? searchContainer.getHeight() : 0);
+		searchContainer.setBackgroundColor(Color.TRANSPARENT);
+		toolBarSearchText.setAlpha(forward ? 0 : 1);
+		searchButton.setAlpha(forward ? 0 : 1);
+		searchTop = toolbarTwo.getTop() -  searchContainer.getTop();
+		searchParamsContainer.setAlpha(1f);
+		if (statusBar != null) {
+			statusBar.setAlpha(1f);
+		}
 	}
 
-	public void animationUpdate(float f, boolean forward) {
-		float translation = forward ? searchParamContainer.getHeight() * (1 - f) : searchParamContainer.getHeight() * f;
-		searchParamContainer.setTranslationY(translation);
-		toolbar.setTranslationY(forward ? -toolbar.getHeight() * (1 - f) : -toolbar.getHeight() * f);
+	public void animationUpdate(float f, boolean forward, float alpha) {
+		float translation = forward ? searchContainer.getHeight() * (1 - f) : searchContainer.getHeight() * f;
+		float yTrans = forward ?  - (searchTop * (1 - f)) : - (searchTop * f);
+
+		LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) searchParamsContainer.getLayoutParams();
+		layoutParams.height = forward ? (int) (f * (searchParamsContainerHeight)) : (int) (Math.abs(f - 1) * (searchParamsContainerHeight));
+		searchParamsContainer.setLayoutParams(layoutParams);
+
+		searchParamsContainer.setAlpha(forward ? alpha + ((1f - alpha) * f) : Math.abs(1 - f) + alpha);
+		if (statusBar != null) {
+			statusBar.setAlpha(forward ? alpha + ((1f - alpha) * f) : Math.abs(1 - f) + alpha);
+		}
+
+		calendarContainer.setTranslationY(translation);
+		toolBarSearchText.setTranslationY(yTrans);
+		toolBarSearchText.setAlpha(forward ? f : Math.abs(1 - f));
+				searchButton.setAlpha(forward ? f : Math.abs(1 - f));
+				toolbar.setAlpha(forward ? f : Math.abs(1 - f));
 	}
 
 	public void animationFinalize(boolean forward) {
-		searchParamContainer.setTranslationY(0);
-		toolbar.setTranslationY(forward ? 0 : -toolbar.getHeight());
+		calendarContainer.setTranslationY(0);
+		searchContainer.setBackgroundColor(Color.WHITE);
+		toolBarSearchText.setTranslationY(0);
 		if (forward && Strings.isEmpty(location.getText())) {
 			postDelayed(new Runnable() {
 				public void run() {

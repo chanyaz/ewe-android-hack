@@ -29,7 +29,6 @@ import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
-import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXSearchResultsWidget;
 import com.expedia.bookings.widget.LXSortFilterWidget;
@@ -67,6 +66,20 @@ public class LXResultsPresenter extends Presenter {
 	// This is here just for an animation
 	@InjectView(R.id.toolbar_background)
 	View toolbarBackground;
+
+	@InjectView(R.id.toolbar_search_text)
+	android.widget.TextView toolBarSearchText;
+
+	@InjectView(R.id.toolbar_detail_text)
+	android.widget.TextView toolBarDetailText;
+
+	@InjectView(R.id.toolbar_subtitle_text)
+	android.widget.TextView toolBarSubtitleText;
+
+	@InjectView(R.id.toolbar_two)
+	LinearLayout toolbarTwo;
+
+	private int searchTop;
 
 	private SearchResultObserver searchResultObserver = new SearchResultObserver();
 
@@ -222,7 +235,7 @@ public class LXResultsPresenter extends Presenter {
 	public void onLXSearchError(Events.LXShowSearchError event) {
 		if (event.searchType.equals(SearchType.DEFAULT_SEARCH)
 			&& event.error.errorCode != ApiError.Code.LX_SEARCH_NO_RESULTS) {
-			toolbar.setTitle(getResources().getString(R.string.lx_error_current_location_toolbar_text));
+			toolBarDetailText.setText(getResources().getString(R.string.lx_error_current_location_toolbar_text));
 		}
 	}
 
@@ -252,35 +265,35 @@ public class LXResultsPresenter extends Presenter {
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		toolbarBackground.getLayoutParams().height += statusBarHeight;
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
-		toolbar.setTitle(getResources().getString(R.string.lx_getting_current_location));
+		toolBarDetailText.setText(getResources().getString(R.string.lx_getting_current_location));
 	}
 
 	private void setToolbarTitles(LXSearchParams searchParams) {
-		toolbar.setTitle(searchParams.location);
-
+		toolBarDetailText.setText(searchParams.location);
 		String dateRange = String.format(getResources().getString(R.string.lx_toolbar_date_range_template),
 			DateUtils.localDateToMMMd(searchParams.startDate), DateUtils.localDateToMMMd(searchParams.endDate));
-		toolbar.setSubtitle(dateRange);
+		toolBarSubtitleText.setText(dateRange);
 	}
 
 	public void animationStart(boolean forward) {
-		toolbarBackground.setTranslationY(forward ? 0 : -toolbarBackground.getHeight());
-		toolbar.setTranslationY(forward ? 0 : 50);
+		searchTop = toolBarSearchText.getTop() - toolbarTwo.getTop();
 		toolbar.setVisibility(VISIBLE);
+		toolBarDetailText.setTranslationY(searchTop);
+		toolBarSubtitleText.setTranslationY(searchTop);
 	}
 
 	public void animationUpdate(float f, boolean forward) {
-		toolbarBackground
-			.setTranslationY(forward ? -toolbarBackground.getHeight() * f : -toolbarBackground.getHeight() * (1 - f));
-		toolbar.setTranslationY(forward ? 50 * f : 50 * (1 - f));
+		float yTrans = forward ?  - (searchTop * -f) : (searchTop * (1 - f));
+		toolBarDetailText.setTranslationY(yTrans);
+		toolBarSubtitleText.setTranslationY(yTrans);
 	}
 
 	public void animationFinalize(boolean forward) {
-		toolbarBackground.setTranslationY(forward ? -toolbarBackground.getHeight() : 0);
-		toolbar.setTranslationY(forward ? 50 : 0);
-		toolbar.setVisibility(forward ? GONE : VISIBLE);
-		toolbarBackground.setAlpha(
-			Strings.equals(getCurrentState(), LXSearchResultsWidget.class.getName()) ? toolbarBackground.getAlpha() : 1f);
+		toolbarBackground.setAlpha(1f);
+		toolbar.setVisibility(VISIBLE);
+		toolbarBackground.setVisibility(VISIBLE);
+		toolBarDetailText.setTranslationY(0);
+		toolBarSubtitleText.setTranslationY(0);
 	}
 
 	RecyclerView.OnScrollListener recyclerScrollListener = new RecyclerView.OnScrollListener() {

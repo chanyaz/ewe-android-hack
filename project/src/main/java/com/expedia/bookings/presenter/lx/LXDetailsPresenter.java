@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -33,7 +34,6 @@ import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
-import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
@@ -65,10 +65,23 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 	@Inject
 	LXState lxState;
 
+	@InjectView(R.id.toolbar_search_text)
+	android.widget.TextView toolBarSearchText;
+
+	@InjectView(R.id.toolbar_detail_text)
+	android.widget.TextView toolBarDetailText;
+
+	@InjectView(R.id.toolbar_subtitle_text)
+	android.widget.TextView toolBarSubtitleText;
+
+	@InjectView(R.id.toolbar_two)
+	LinearLayout toolbarTwo;
+
 	private ProgressDialog createTripDialog;
 
 	private Subscription detailsSubscription;
 	private Subscription createTripSubscription;
+	private int searchTop;
 
 	@Inject
 	LXServices lxServices;
@@ -212,10 +225,10 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 
 	private void setToolbarTitles(LXActivity lxActivity) {
 		LXSearchParams searchParams = lxState.searchParams;
-		toolbar.setTitle(lxActivity.title);
+		toolBarDetailText.setText(lxActivity.title);
 		String dateRange = String.format(getResources().getString(R.string.lx_toolbar_date_range_template),
 			DateUtils.localDateToMMMd(searchParams.startDate), DateUtils.localDateToMMMd(searchParams.endDate));
-		toolbar.setSubtitle(dateRange);
+		toolBarSubtitleText.setText(dateRange);
 		toolbarBackground.setAlpha(0);
 	}
 
@@ -284,25 +297,25 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 		}
 	};
 
-	public void animationStart(boolean forward) {
-		toolbarBackground.setTranslationY(forward ? 0 : -toolbarBackground.getHeight());
-		toolbar.setTranslationY(forward ? 0 : 50);
+	public float animationStart(boolean forward) {
+		searchTop = toolBarSearchText.getTop() - toolbarTwo.getTop();
 		toolbar.setVisibility(VISIBLE);
+		toolBarDetailText.setTranslationY(searchTop);
+		toolBarSubtitleText.setTranslationY(searchTop);
+		return toolbarBackground.getAlpha();
 	}
 
 	public void animationUpdate(float f, boolean forward) {
-		toolbarBackground
-			.setTranslationY(forward ? -toolbarBackground.getHeight() * f : -toolbarBackground.getHeight() * (1 - f));
-		toolbar.setTranslationY(forward ? 50 * f : 50 * (1 - f));
+		float yTrans = forward ?  - (searchTop * -f) : (searchTop * (1 - f));
+		toolBarDetailText.setTranslationY(yTrans);
+		toolBarSubtitleText.setTranslationY(yTrans);
 	}
 
 	public void animationFinalize(boolean forward) {
-		toolbarBackground.setTranslationY(forward ? -toolbarBackground.getHeight() : 0);
-		toolbar.setTranslationY(forward ? 50 : 0);
-		toolbar.setVisibility(forward ? GONE : VISIBLE);
-		toolbarBackground.setAlpha(
-			Strings.equals(getCurrentState(), LXActivityDetailsWidget.class.getName()) ? toolbarBackground.getAlpha()
-				: 1f);
+		toolbar.setVisibility(VISIBLE);
+		toolbarBackground.setVisibility(VISIBLE);
+		toolBarDetailText.setTranslationY(0);
+		toolBarSubtitleText.setTranslationY(0);
 	}
 
 	private void showErrorScreen(ApiError error) {

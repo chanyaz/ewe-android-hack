@@ -144,6 +144,42 @@
         android:layout_gravity="top"
         android:minHeight="?attr/actionBarSize"
         app:subtitleTextAppearance="@style/LXToolbarSubtitleTextAppearance"
-        app:titleTextAppearance="@style/LXToolbarTitleTextAppearance" />
+        app:titleTextAppearance="@style/LXToolbarTitleTextAppearance">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:minHeight="?attr/actionBarSize">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/toolbar_search_text"
+                style="@style/CarsToolbarTitleTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+            <LinearLayout
+                android:id="@+id/toolbar_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/toolbar_detail_text"
+                    style="@style/CarsToolbarTitleTextAppearance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/toolbar_subtitle_text"
+                    style="@style/CarsToolbarSubtitleTextAppearance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </FrameLayout>
+    </android.support.v7.widget.Toolbar>
 
 </com.expedia.bookings.presenter.lx.LXDetailsPresenter>
