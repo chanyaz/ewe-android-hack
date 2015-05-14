@@ -168,7 +168,8 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 		DateTime currentDate = new DateTime();
 		int numDays = JodaUtils.daysBetween(currentDate, Db.getTripBucket().getAirAttach().getExpirationDate());
 		mAirAttachExpiresTextView.setText(R.string.air_attach_expires);
-		mAirAttachExpirationDateTextView.setText(getString(R.string.air_attach_expiration_date_TEMPLATE, numDays));
+		mAirAttachExpirationDateTextView.setText(getResources().getQuantityString(R.plurals.days_from_now, numDays, numDays));
+
 	}
 
 	@Override

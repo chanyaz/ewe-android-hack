@@ -144,7 +144,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 				DateTime currentDate = new DateTime();
 				int daysRemaining = JodaUtils.daysBetween(currentDate, expirationDate);
 				TextView expirationDateTv = Ui.findView(v, R.id.itin_air_attach_expiration_date_text_view);
-				expirationDateTv.setText(getResources().getString(R.string.air_attach_expiration_date_TEMPLATE, daysRemaining));
+				expirationDateTv.setText(getResources().getQuantityString(R.plurals.days_from_now, daysRemaining, daysRemaining));
+
 
 				OmnitureTracking.trackFlightConfirmationAirAttach(getActivity());
 			}

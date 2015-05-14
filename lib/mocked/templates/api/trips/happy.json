@@ -230,7 +230,7 @@
       "airAttachQualificationInfo": {
         "airAttachQualified": true,
         "offerExpires": {
-          "epochSeconds": "${inboundFlightArrivalEpochSeconds}",
+          "epochSeconds": "${airAttachOfferExpiresEpochSeconds}",
           "timeZoneOffsetSeconds": "${tzOffsetPacific}"
         }
       },

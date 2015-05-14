@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.ui.happy;
 
-import org.joda.time.LocalDate;
-
 import android.support.test.espresso.DataInteraction;
 
 import com.expedia.bookings.R;
@@ -28,6 +26,8 @@ import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
 import junit.framework.Assert;
+
+import org.joda.time.LocalDate;
 
 import static android.support.test.espresso.action.ViewActions.click;
 
@@ -184,6 +184,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		DataInteraction airAttachRow = TripsScreen.tripsListItem().atPosition(2);
 		String airAttachMessage = EspressoUtils.getListItemValues(airAttachRow, R.id.itin_air_attach_text_view);
 		Assert.assertEquals("Because you booked a flight", airAttachMessage);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.itin_air_attach_expiration_date_text_view, "1 day");
 
 		// Car assertions
 		DataInteraction carRow = TripsScreen.tripsListItem().atPosition(3);
