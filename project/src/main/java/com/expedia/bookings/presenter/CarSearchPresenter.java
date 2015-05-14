@@ -110,7 +110,15 @@ public class CarSearchPresenter extends Presenter
 	@InjectView(R.id.toolbar_subtitle_text)
 	TextView toolBarSubtitleText;
 
+	@InjectView(R.id.toolbar_two)
+	LinearLayout toolbarTwo;
+
 	Button searchButton;
+
+	View statusBar;
+
+	private int searchParamsContainerHeight;
+	private int searchTop;
 
 	@OnClick(R.id.pickup_location)
 	public void onPickupEditClicked() {
@@ -169,8 +177,9 @@ public class CarSearchPresenter extends Presenter
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
-			int color = getContext().getResources().getColor(R.color.cars_status_bar_color);
-			addView(Ui.setUpStatusBar(getContext(), toolbar, searchContainer, color));
+			int color = getContext().getResources().getColor(R.color.cars_primary_color);
+			statusBar = Ui.setUpStatusBar(getContext(), toolbar, searchContainer, color);
+			addView(statusBar);
 		}
 
 		show(new CarParamsDefault());
@@ -354,8 +363,6 @@ public class CarSearchPresenter extends Presenter
 		if (carSearchParams.startDateTime != null) {
 			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), carSearchParams,
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
-			toolBarSubtitleText.setText(dateTimeRange);
-			toolBarDetailText.setText(carSearchParams.originDescription);
 			selectDateButton.setText(dateTimeRange);
 			selectDateButton.setTextOff(dateTimeRange);
 			selectDateButton.setTextOn(dateTimeRange);
@@ -473,22 +480,26 @@ public class CarSearchPresenter extends Presenter
 		}
 	};
 
-	public void animationStart(boolean forward) {
+	public void animationStart(boolean forward, float alpha) {
 		calendarContainer.setTranslationY(forward ? searchContainer.getHeight() : 0);
 		searchContainer.setBackgroundColor(Color.TRANSPARENT);
 		toolBarSearchText.setAlpha(forward ? 0 : 1);
 		searchButton.setAlpha(forward ? 0 : 1);
+		searchTop = toolbarTwo.getTop() -  searchContainer.getTop();
+		searchParamsContainer.setAlpha(forward ? alpha : 1f);
+		statusBar.setAlpha(forward ? alpha : 1f);
 	}
 
-	private int searchParamsContainerHeight;
-
-	public void animationUpdate(float f, boolean forward) {
+	public void animationUpdate(float f, boolean forward, float alpha) {
 		float translation = forward ? searchContainer.getHeight() * (1 - f) : searchContainer.getHeight() * f;
-		float yTrans = forward ? - ((toolBarDetailText.getY()) * (1 - f)) : - ((toolBarDetailText.getY()) * f);
+		float yTrans = forward ?  - (searchTop * (1 - f)) : - (searchTop * f);
 
 		LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) searchParamsContainer.getLayoutParams();
 		layoutParams.height = forward ? (int) (f * (searchParamsContainerHeight)) : (int) (Math.abs(f - 1) * (searchParamsContainerHeight));
 		searchParamsContainer.setLayoutParams(layoutParams);
+
+		searchParamsContainer.setAlpha(forward ? alpha + ((1f - alpha) * f) : Math.abs(1 - f) + alpha);
+		statusBar.setAlpha(forward ? alpha + ((1f - alpha) * f) : Math.abs(1 - f) + alpha);
 
 		calendarContainer.setTranslationY(translation);
 		toolBarSearchText.setTranslationY(yTrans);
@@ -500,6 +511,7 @@ public class CarSearchPresenter extends Presenter
 	public void animationFinalize(boolean forward) {
 		calendarContainer.setTranslationY(0);
 		searchContainer.setBackgroundColor(Color.WHITE);
+		toolBarSearchText.setTranslationY(0);
 	}
 
 	public void setUpSearchButton() {

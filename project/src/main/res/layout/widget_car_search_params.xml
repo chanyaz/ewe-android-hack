@@ -6,6 +6,7 @@
 
     <LinearLayout
         android:id="@+id/search_container"
+        android:background="#FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -33,7 +34,6 @@
                     android:layout_width="55dp"
                     android:layout_height="50dp"
                     android:scaleType="center"
-                    android:layout_marginRight="1dp"
                     android:src="@drawable/location"
                     android:tint="#FFFFFF" />
 
@@ -81,7 +81,7 @@
                 android:layout_below="@id/location_container"
                 android:layout_margin="0dp"
                 android:drawableLeft="@drawable/date"
-                android:drawablePadding="24dp"
+                android:drawablePadding="23dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="20dp"
@@ -116,7 +116,8 @@
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/toolbar_search_text"
@@ -129,15 +130,14 @@
                 android:id="@+id/toolbar_two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical" >
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/toolbar_detail_text"
                     style="@style/CarsToolbarTitleTextAppearance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/toolbar_subtitle_text"
