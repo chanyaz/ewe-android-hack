@@ -1226,6 +1226,11 @@
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">Add a hotel</string>
 
+    <!-- Button label to search for an activity in the hotel city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_lx_TEMPLATE">Find activities while in %1$s</string>
+    <!-- Button label to search for an activity in the hotel city. Used only when we don't know the destination city. -->
+    <string name="add_lx_fallback">Find activities while at your destination</string>
+
     <!-- Car category -->
     <!-- Car category: mini -->
     <string name="car_category_mini">Mini Car</string>

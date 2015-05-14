@@ -2434,6 +2434,8 @@ public class OmnitureTracking {
 
 	private static final String CROSS_SELL_ITIN_TO_HOTEL = "CrossSell.Itinerary.Hotels";
 	private static final String CROSS_SELL_FLIGHT_TO_HOTEL = "CrossSell.Flights.Hotels";
+	private static final String CROSS_SELL_LX_FROM_ITIN = "Itinerary.CrossSell.LX";
+	private static final String ADD_LX_ITIN = "App.Itin.XSell.LX";
 
 	public static void trackCrossSellItinToHotel(Context context) {
 		trackCrossSell(context, CROSS_SELL_ITIN_TO_HOTEL);
@@ -2453,6 +2455,17 @@ public class OmnitureTracking {
 		s.setEvar(12, link);
 
 		s.trackLink(null, "o", link, null, null);
+	}
+
+	public static void trackAddLxItinClick(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(28, ADD_LX_ITIN);
+		s.setProp(16, ADD_LX_ITIN);
+		s.setEvar(12, CROSS_SELL_LX_FROM_ITIN);
+
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelItinLXXsell);
+		s.trackLink(null, "o", "Itinerary X-Sell", null, null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

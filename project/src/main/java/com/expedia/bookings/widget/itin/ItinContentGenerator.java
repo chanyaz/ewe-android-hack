@@ -45,6 +45,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFallback;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
+import com.expedia.bookings.data.trips.ItinCardDataLXAttach;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -117,7 +118,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		else if (itinCardData != null && itinCardData.getTripComponentType() == Type.CRUISE) {
 			return new CruiseItinContentGenerator(context, itinCardData);
 		}
-
+		else if (itinCardData instanceof ItinCardDataLXAttach) {
+			return new LXAttachItinContentGenerator(context, (ItinCardDataLXAttach) itinCardData);
+		}
 		return null;
 	}
 
