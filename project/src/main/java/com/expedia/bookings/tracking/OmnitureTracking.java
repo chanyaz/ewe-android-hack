@@ -1464,10 +1464,13 @@ public class OmnitureTracking {
 	private static final String BASE_RFFR_FEATURED_LINK = "App.LS.Featured.";
 	private static final String BASE_RFFR_MAP_LINK = "App.LS.Map.";
 
+	private static final String TABLET_COLLECTIONS_EVAR12 = "Launch.Search.Collections";
+
 	// When a bottom tile is clicked – collection selection
 	public static void trackTabletLaunchTileSelect(Context context, String tileUniqueId) {
 		ADMS_Measurement s = createTrackLinkEvent(context, "nil");
 		addLaunchScreenCommonParams(s, BASE_RFFR_FEATURED_LINK, tileUniqueId);
+		s.setEvar(12, TABLET_COLLECTIONS_EVAR12);
 		internalTrackLink(s);
 	}
 
