@@ -129,16 +129,9 @@ public class CarFilterWidget extends LinearLayout {
 	}
 
 	@Override
-	protected void onDetachedFromWindow() {
-		Events.unregister(this);
-		super.onDetachedFromWindow();
-	}
-
-	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		Events.register(this);
 
 		toolbar.setTitle(getResources().getString(R.string.Sort_and_Filter));
 		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
@@ -164,6 +157,18 @@ public class CarFilterWidget extends LinearLayout {
 				return true;
 			}
 		});
+	}
+
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		Events.register(this);
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		Events.unregister(this);
+		super.onDetachedFromWindow();
 	}
 
 	public Button setupToolBarCheckmark(final MenuItem menuItem) {
