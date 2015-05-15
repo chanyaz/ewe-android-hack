@@ -107,11 +107,11 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 		mExpirationTodayTv = Ui.findView(this, R.id.air_attach_expires_today_text_view);
 
 		// Air attach expiration message
-		if (daysRemaining > 1) {
+		if (daysRemaining > 0) {
 			mExpirationCountdown.setVisibility(View.VISIBLE);
 			mExpirationTodayTv.setVisibility(View.GONE);
 			TextView expirationDateTv = Ui.findView(this, R.id.itin_air_attach_expiration_date_text_view);
-			expirationDateTv.setText(getResources().getString(R.string.air_attach_expiration_date_TEMPLATE, daysRemaining));
+			expirationDateTv.setText(getResources().getQuantityString(R.plurals.days_from_now, daysRemaining, daysRemaining));
 		}
 		else {
 			mExpirationCountdown.setVisibility(View.GONE);

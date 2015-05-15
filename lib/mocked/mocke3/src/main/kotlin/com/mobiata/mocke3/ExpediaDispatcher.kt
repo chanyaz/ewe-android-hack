@@ -198,6 +198,9 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 		params.put("inboundFlightDepartureEpochSeconds", "" + inboundFlightDeparture.getMillis() / 1000)
 		params.put("inboundFlightArrivalEpochSeconds", "" + inboundFlightArrival.getMillis() / 1000)
 
+		// Inject air attach times
+		params.put("airAttachOfferExpiresEpochSeconds", "" + startOfTodayPacific.plusDays(1).getMillis() / 1000);
+
 		// Inject car DateTimes
 		val carPickup = startOfTodayEastern.plusDays(14).plusHours(11).plusMinutes(32)
 		val carDropoff = startOfTodayEastern.plusDays(22).plusHours(18).plusMinutes(29)
