@@ -289,7 +289,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	}
 
 	private void searchForActivities() {
-		LXSearchParams sp = LXDataUtils.fromFlightParams(Db.getTripBucket().getFlight().getFlightTrip());
+		LXSearchParams sp = LXDataUtils.fromFlightParams(getActivity(), Db.getTripBucket().getFlight().getFlightTrip());
 		NavUtils.goToLx(getActivity(), null, sp, false);
 	}
 
