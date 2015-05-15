@@ -129,6 +129,12 @@ public class CarFilterWidget extends LinearLayout {
 	}
 
 	@Override
+	protected void onDetachedFromWindow() {
+		Events.unregister(this);
+		super.onDetachedFromWindow();
+	}
+
+	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
