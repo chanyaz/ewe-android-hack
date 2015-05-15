@@ -709,15 +709,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	public float animationStart(boolean forward) {
 		toolbar.setVisibility(VISIBLE);
 		searchTop = toolBarSearchText.getTop() - toolbarTwo.getTop();
-
-		if (CarCategoryDetailsWidget.class.getName().equals(getCurrentState())) {
-			details.setVisibility(VISIBLE);
-			details.setAlpha(forward ? 0 : 1);
-		}
-		else {
-			categories.setVisibility(VISIBLE);
-			categories.setAlpha(forward ? 0 : 1);
-		}
 		toolBarDetailText.setTranslationY(searchTop);
 		toolBarSubtitleText.setTranslationY(searchTop);
 
@@ -726,21 +717,13 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 	public void animationUpdate(float f, boolean forward) {
 		float alphaD = forward ? Math.abs(1 - f) : f;
-		if (CarCategoryDetailsWidget.class.getName().equals(getCurrentState())) {
-			details.setAlpha(alphaD);
-		}
-		else {
-			categories.setAlpha(alphaD);
-		}
 		toolbar.setAlpha(alphaD);
-
 		float yTrans = forward ?  - (searchTop * -f) : (searchTop * (1 - f));
 		toolBarDetailText.setTranslationY(yTrans);
 		toolBarSubtitleText.setTranslationY(yTrans);
 	}
 
 	public void animationFinalize(boolean forward) {
-		toolbar.setVisibility(forward ? GONE : VISIBLE);
 		toolbarBackground.setAlpha(
 			Strings.equals(getCurrentState(), CarCategoryDetailsWidget.class.getName()) ? toolbarBackground.getAlpha()
 				: 1f);

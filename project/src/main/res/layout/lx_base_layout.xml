@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
     <com.expedia.bookings.presenter.lx.LXCheckoutPresenter
         android:id="@+id/lx_checkout_presenter"
