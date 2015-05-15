@@ -1,13 +1,12 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.drawable.NinePatchDrawable
+import android.graphics.Color
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.ToggleButton
+import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.TravelerPicker
@@ -16,7 +15,6 @@ import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 import org.joda.time.YearMonth
 import kotlin.properties.Delegates
-import com.expedia.bookings.R
 
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CalendarPicker.DateSelectionChangedListener, TravelerPicker.TravelersUpdatedListener,CalendarPicker.YearMonthDisplayedChangedListener {
 
@@ -30,6 +28,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     val calendar: CalendarPicker by Delegates.lazy {
         findViewById(R.id.calendar) as CalendarPicker
+    }
+
+    val monthView: MonthView by Delegates.lazy {
+        findViewById(R.id.month) as MonthView
     }
 
     val traveler: TravelerPicker by Delegates.lazy {
@@ -50,6 +52,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         calendar.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)))
         calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_hotel_stay))
         calendar.setDateChangedListener(this)
+        monthView.setTextEqualDatesColor(Color.WHITE)
         selectDate.setOnClickListener {
             calendar.setVisibility(View.VISIBLE)
             traveler.setVisibility(View.GONE)
