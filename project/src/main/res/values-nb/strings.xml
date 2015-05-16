@@ -41,6 +41,8 @@
     <string name="cars_invalid_input_text">Ugyldig informasjon</string>
     <!-- Text for generic error toolbar-->
     <string name="cars_error_text">Feil</string>
+    <!-- Text for toolbar on no search results -->
+    <string name="cars_no_results_text">Ingen resultater</string>
     <!-- Text for reserving car-->
     <string name="cars_reserve_text">Bestill</string>
     <!-- Text for viewing details-->
@@ -84,12 +86,16 @@
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_car_desc_support_TEMPLATE">Expedia kundeservice: %1$s og %2$s</string>
 
+    <!-- Label for hotel search toolbar -->
+    <string name="hotel_toolbar_title">Søk etter hoteller</string>
+    <!-- Label for hotel suggestion -->
+    <string name="search_location">Søk etter sted</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Sted for henting</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="same_as_pick_up">Samme som henting</string>
+    <string name="drop_off_location">Avlevering</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">Dato og sted</string>
+    <string name="toolbar_search_cars">Søk etter leiebiler</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Velg datoer for henting og avlevering</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
@@ -102,6 +108,25 @@
     <string name="drop_off_same_as_pick_up">Kommer snart! Vi jobber hardt for å legge til enveisbestillinger i en kommende versjon.</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterer.</string>
+    <!-- Car no filtered search results -->
+    <string name="filter_no_car_search_results_message">Søket ditt ga ingen resultater. Prøv å bruke færre filtre.</string>
+    <!-- Transmission options filter label for a car rental -->
+    <string name="options">Alternativer</string>
+    <!-- Automatic transmission filter button-->
+    <string name="car_filter_automatic">Automatgir</string>
+    <!-- Manual transmission filter button-->
+    <string name="car_filter_manual">Manuelle gir</string>
+    <!-- Any transmission type filter button -->
+    <string name="car_filter_all">Alle</string>
+    <!-- Air conditioning option checkbox filter -->
+    <string name="car_filter_checkbox_air_conditioning">Air conditioning</string>
+    <!-- Unlimited mileage option checkbox filter -->
+    <string name="car_filter_checkbox_unlimited_mileage">Ubegrenset kjørelengde</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_types">Biltyper</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_vendors">Bilutleiefirmaer</string>
+
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s eller lignende</string>
@@ -166,6 +191,8 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hm… Betalingen din mislyktes. Kontroller at betalingsopplysningene er korrekte og prøv på nytt.</string>
+    <!-- Shown to a user when their ability to rent a specific car expires -->
+    <string name="error_cars_product_expired">Søket ditt har utløpt. Velg en gyldig hentetid.</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">Vis prisendring</string>
     <!-- My Trips button that takes you to Itins -->
@@ -209,7 +236,7 @@
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
-    <string name="lx_search_widget_heading">Dato og sted</string>
+    <string name="lx_search_title">Søk etter aktiviteter</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Velg dato</string>
     <!-- Activity details highlights heading -->
@@ -536,7 +563,7 @@
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Oppgi kontaktdetaljer</string>
     <!-- LX search error -->
-    <string name="error_lx_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterer.</string> 
+    <string name="error_lx_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterer.</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">Vi kunne ikke finne din nåværende posisjon, så vi kan ikke finne aktiviteter rundt deg.</string> 
     <!-- Text for generic error toolbar-->
@@ -1825,7 +1852,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Skatter og avgifter</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Expedias bestillingsavgift</string>
+    <string name="brand_booking_fee">{brand}-bestillingsgebyr</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">Flyselskapsavgift</string>
     <!-- Flight -->
@@ -1885,7 +1912,7 @@
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Født %1$s</string>
     <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; utløper den %2$s</string>
+    <string name="brand_expiring_TEMPLATE">%1$s utløper den %2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -2014,7 +2041,7 @@
     <!-- Passport -->
     <string name="passport">Pass</string>
     <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Gjeldende reisende –&lt;/font&gt; %1$s %2$s</string>
+    <string name="current_traveler_TEMPLATE">Gjeldende reisende – %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2061,6 +2088,8 @@
     <string name="hotels_in_TEMPLATE">Hoteller i %s</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Biler i %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
+    <string name="lx_in_TEMPLATE">Aktiviteter i %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Annet</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2093,7 +2122,6 @@
     <string name="air_attach_add_hotel">Legg til hotell</string>
     <!-- Air attach add hotel button subtitle -->
     <string name="air_attach_with_discounts">med rabatt</string>
-
 
 
     <!-- Hotel confirmation page -->
@@ -2145,6 +2173,8 @@
     <string name="accept">Aksepter</string>
     <!-- Button label for retrying after getting an error -->
     <string name="retry">Prøv på nytt</string>
+    <!-- Button label for adjusting filters after getting no results -->
+    <string name="edit_filters">Rediger filtre</string>
     <!-- Button label for calling -->
     <string name="call_support">Støtte</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
@@ -2321,6 +2351,8 @@
     <string name="tonight_only">Kun i kveld!</string>
     <!-- Expedia sponsored listing -->
     <string name="sponsored">Sponset</string>
+    <!-- Expedia ETP book now/pay later search results -->
+    <string name="book_now_pay_later">Bestill nå, betal senere!</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">Beklager, vi kan ikke søke etter hoteller for opphold på mer enn %1$s dager.</string>
     <!-- Search Error title text "Search Error" -->
@@ -2636,8 +2668,6 @@
     <string name="more_info">Mer informasjon</string>
 
     <!-- Booking info -->
-    <!-- Label for room type -->
-    <string name="room_type">Romtype</string>
     <!-- Error if we couldn't find the room type details -->
     <string name="error_room_type_nonexistant">Vi kunne dessverre ikke finne tilleggsopplysninger om dette rommet.</string>
     <!-- Quantity for the length of stay -->
@@ -2682,8 +2712,6 @@
     <string name="taxes_and_fees">Skatter og avgifter</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Inkludert</string>
-    <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">Avgifter betales på hotellet</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Rabatt</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
