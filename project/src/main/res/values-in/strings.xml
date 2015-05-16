@@ -41,6 +41,8 @@
     <string name="cars_invalid_input_text">Informasi Tidak Valid</string>
     <!-- Text for generic error toolbar-->
     <string name="cars_error_text">Kesalahan</string>
+    <!-- Text for toolbar on no search results -->
+    <string name="cars_no_results_text">Tidak Ditemukan Hasil</string>
     <!-- Text for reserving car-->
     <string name="cars_reserve_text">Pesan</string>
     <!-- Text for viewing details-->
@@ -84,12 +86,16 @@
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_car_desc_support_TEMPLATE">Layanan Pelanggan Expedia: %1$s dan %2$s</string>
 
+    <!-- Label for hotel search toolbar -->
+    <string name="hotel_toolbar_title">Cari Hotel</string>
+    <!-- Label for hotel suggestion -->
+    <string name="search_location">Cari Lokasi</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Lokasi pengambilan</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="same_as_pick_up">Sama seperti pengambilan</string>
+    <string name="drop_off_location">Pengembalian</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">Tanggal &amp; Lokasi</string>
+    <string name="toolbar_search_cars">Cari Mobil</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Pilih tanggal pengambilan dan pengembalian</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
@@ -102,6 +108,25 @@
     <string name="drop_off_same_as_pick_up">Segera hadir! Di versi berikutnya, kami akan mencoba mengusahakan Anda bisa mengembalikan mobil di lokasi yang berbeda.</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string>
+    <!-- Car no filtered search results -->
+    <string name="filter_no_car_search_results_message">Tidak ditemukan hasil pencarian. Cobalah kurangi jumlah filter.</string>
+    <!-- Transmission options filter label for a car rental -->
+    <string name="options">Opsi</string>
+    <!-- Automatic transmission filter button-->
+    <string name="car_filter_automatic">Matic</string>
+    <!-- Manual transmission filter button-->
+    <string name="car_filter_manual">Manual</string>
+    <!-- Any transmission type filter button -->
+    <string name="car_filter_all">Semua</string>
+    <!-- Air conditioning option checkbox filter -->
+    <string name="car_filter_checkbox_air_conditioning">AC</string>
+    <!-- Unlimited mileage option checkbox filter -->
+    <string name="car_filter_checkbox_unlimited_mileage">Mileage Tak Terbatas</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_types">Jenis Mobil</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_vendors">Perusahaan Rental</string>
+
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s atau serupa</string>
@@ -166,6 +191,8 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hmm… pembayaran Anda tidak berhasil. Harap periksa kembali rincian pembayaran, lalu cobalah lagi.</string>
+    <!-- Shown to a user when their ability to rent a specific car expires -->
+    <string name="error_cars_product_expired">Pencarian melewati batas waktu. Harap pilih waktu pengambilan yang valid.</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">Lihat Perubahan Harga</string>
     <!-- My Trips button that takes you to Itins -->
@@ -209,7 +236,7 @@
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
-    <string name="lx_search_widget_heading">Tanggal &amp; Lokasi</string>
+    <string name="lx_search_title">Cari Aktivitas</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Pilih tanggal</string>
     <!-- Activity details highlights heading -->
@@ -536,7 +563,7 @@
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Masukkan rincian kontak</string>
     <!-- LX search error -->
-    <string name="error_lx_search_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string> 
+    <string name="error_lx_search_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">Kami tidak berhasil mendeteksi lokasi Anda saat ini untuk mencarikan aktivitas yang relevan bagi Anda.</string> 
     <!-- Text for generic error toolbar-->
@@ -1825,7 +1852,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Pajak &amp; Biaya</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Biaya Pemesanan Expedia</string>
+    <string name="brand_booking_fee">Biaya Pemesanan {brand}</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">Biaya Kartu Maskapai</string>
     <!-- Flight -->
@@ -1885,7 +1912,7 @@
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Tanggal Lahir %1$s</string>
     <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; kedaluwarsa %2$s</string>
+    <string name="brand_expiring_TEMPLATE">%1$s kedaluwarsa %2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -2014,7 +2041,7 @@
     <!-- Passport -->
     <string name="passport">Paspor</string>
     <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Traveler ini -&lt;/font&gt; %1$s %2$s</string>
+    <string name="current_traveler_TEMPLATE">Traveler saat ini - %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2061,6 +2088,8 @@
     <string name="hotels_in_TEMPLATE">Hotel di %s</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Mobil Sewa di %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
+    <string name="lx_in_TEMPLATE">Aktivitas di %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Tindakan Lainnya</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2093,7 +2122,6 @@
     <string name="air_attach_add_hotel">Tambahkan Hotel</string>
     <!-- Air attach add hotel button subtitle -->
     <string name="air_attach_with_discounts">dengan diskon</string>
-
 
 
     <!-- Hotel confirmation page -->
@@ -2145,6 +2173,8 @@
     <string name="accept">Terima</string>
     <!-- Button label for retrying after getting an error -->
     <string name="retry">Coba lagi</string>
+    <!-- Button label for adjusting filters after getting no results -->
+    <string name="edit_filters">Ubah Filter</string>
     <!-- Button label for calling -->
     <string name="call_support">Dukungan</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
@@ -2321,6 +2351,8 @@
     <string name="tonight_only">Hanya Malam Ini!</string>
     <!-- Expedia sponsored listing -->
     <string name="sponsored">Sponsor</string>
+    <!-- Expedia ETP book now/pay later search results -->
+    <string name="book_now_pay_later">Pesan Sekarang, Bayar Belakangan</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">Maaf, kami tidak bisa mencari hotel untuk menginap lebih dari %1$s hari.</string>
     <!-- Search Error title text "Search Error" -->
@@ -2636,8 +2668,6 @@
     <string name="more_info">Info Lainnya</string>
 
     <!-- Booking info -->
-    <!-- Label for room type -->
-    <string name="room_type">Jenis Kamar</string>
     <!-- Error if we couldn't find the room type details -->
     <string name="error_room_type_nonexistant">Maaf, kami tidak dapat menemukan informasi tambahan mengenai kamar ini.</string>
     <!-- Quantity for the length of stay -->
@@ -2682,8 +2712,6 @@
     <string name="taxes_and_fees">Pajak &amp; Biaya</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Termasuk</string>
-    <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">Biaya Terbayar ke Hotel</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Diskon</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->

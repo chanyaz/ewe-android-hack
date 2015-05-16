@@ -41,6 +41,8 @@
     <string name="cars_invalid_input_text">資料無效</string>
     <!-- Text for generic error toolbar-->
     <string name="cars_error_text">錯誤</string>
+    <!-- Text for toolbar on no search results -->
+    <string name="cars_no_results_text">沒有結果</string>
     <!-- Text for reserving car-->
     <string name="cars_reserve_text">預訂</string>
     <!-- Text for viewing details-->
@@ -84,12 +86,16 @@
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_car_desc_support_TEMPLATE">Expedia 客戶支援：%1$s 及 %2$s</string>
 
+    <!-- Label for hotel search toolbar -->
+    <string name="hotel_toolbar_title">搜尋酒店</string>
+    <!-- Label for hotel suggestion -->
+    <string name="search_location">搜尋地點</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">取車地點</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="same_as_pick_up">與取車時相同</string>
+    <string name="drop_off_location">還車</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">日期與地點</string>
+    <string name="toolbar_search_cars">搜尋租車</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">選擇取車及還車日期</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
@@ -102,6 +108,25 @@
     <string name="drop_off_same_as_pick_up">即將推出！我們正加緊努力，以於新版本中加入單程航班預訂。</string>
     <!-- Car search error -->
     <string name="error_car_search_message">搜尋沒有結果。請以其他條件再次搜尋。</string>
+    <!-- Car no filtered search results -->
+    <string name="filter_no_car_search_results_message">沒有搜尋結果。請嘗試減少篩選條件。</string>
+    <!-- Transmission options filter label for a car rental -->
+    <string name="options">選項</string>
+    <!-- Automatic transmission filter button-->
+    <string name="car_filter_automatic">自動變速</string>
+    <!-- Manual transmission filter button-->
+    <string name="car_filter_manual">手動變速</string>
+    <!-- Any transmission type filter button -->
+    <string name="car_filter_all">全部</string>
+    <!-- Air conditioning option checkbox filter -->
+    <string name="car_filter_checkbox_air_conditioning">空調</string>
+    <!-- Unlimited mileage option checkbox filter -->
+    <string name="car_filter_checkbox_unlimited_mileage">無限里數</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_types">車款</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_vendors">租車公司</string>
+
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s 或類似車款</string>
@@ -166,6 +191,8 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">但是，您尚未成功付款。請再次檢查您的付款資料並重試。</string>
+    <!-- Shown to a user when their ability to rent a specific car expires -->
+    <string name="error_cars_product_expired">您的搜尋已逾時。請選擇有效的取車時間。</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">檢視價格變動</string>
     <!-- My Trips button that takes you to Itins -->
@@ -209,7 +236,7 @@
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
-    <string name="lx_search_widget_heading">日期與地點</string>
+    <string name="lx_search_title">搜尋活動</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">請選擇日期</string>
     <!-- Activity details highlights heading -->
@@ -536,7 +563,7 @@
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">輸入聯絡資料</string>
     <!-- LX search error -->
-    <string name="error_lx_search_message">搜尋沒有結果。請以其他條件再次搜尋。</string> 
+    <string name="error_lx_search_message">搜尋沒有結果。請以其他條件再次搜尋。</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">我們無法確定您的目前位置以搜尋您附近的活動。</string> 
     <!-- Text for generic error toolbar-->
@@ -1825,7 +1852,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">稅項及服務費</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Expedia 預訂費用</string>
+    <string name="brand_booking_fee">{brand} 預訂費</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">航空公司信用卡費用</string>
     <!-- Flight -->
@@ -1885,7 +1912,7 @@
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">出生日期：%1$s</string>
     <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt;於%2$s到期</string>
+    <string name="brand_expiring_TEMPLATE">%1$s 到期日：%2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -2014,7 +2041,7 @@
     <!-- Passport -->
     <string name="passport">護照</string>
     <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;目前旅客 -&lt;/font&gt; %1$s %2$s</string>
+    <string name="current_traveler_TEMPLATE">目前旅客 - %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2061,6 +2088,8 @@
     <string name="hotels_in_TEMPLATE">%s酒店</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">%s租車</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
+    <string name="lx_in_TEMPLATE">%s的活動</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">其他指示</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2093,7 +2122,6 @@
     <string name="air_attach_add_hotel">加訂酒店</string>
     <!-- Air attach add hotel button subtitle -->
     <string name="air_attach_with_discounts">獲享折扣優惠</string>
-
 
 
     <!-- Hotel confirmation page -->
@@ -2145,6 +2173,8 @@
     <string name="accept">接受</string>
     <!-- Button label for retrying after getting an error -->
     <string name="retry">重試</string>
+    <!-- Button label for adjusting filters after getting no results -->
+    <string name="edit_filters">更改篩選條件</string>
     <!-- Button label for calling -->
     <string name="call_support">支援</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
@@ -2321,6 +2351,8 @@
     <string name="tonight_only">只限今晚！</string>
     <!-- Expedia sponsored listing -->
     <string name="sponsored">贊助</string>
+    <!-- Expedia ETP book now/pay later search results -->
+    <string name="book_now_pay_later">立即預訂，到酒店才付款</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">很抱歉，我們無法搜尋超過 %1$s 日的酒店住宿。</string>
     <!-- Search Error title text "Search Error" -->
@@ -2636,8 +2668,6 @@
     <string name="more_info">詳情</string>
 
     <!-- Booking info -->
-    <!-- Label for room type -->
-    <string name="room_type">客房類型</string>
     <!-- Error if we couldn't find the room type details -->
     <string name="error_room_type_nonexistant">很抱歉，找不到此客房的其他詳情。</string>
     <!-- Quantity for the length of stay -->
@@ -2682,8 +2712,6 @@
     <string name="taxes_and_fees">稅項及服務費</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">包括在內</string>
-    <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">支付酒店的費用</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">折扣</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
