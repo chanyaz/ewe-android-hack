@@ -118,7 +118,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/umlimited_mileage_filter"
+                android:id="@+id/unlimited_mileage_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
@@ -130,7 +130,7 @@
                 android:paddingTop="5dp">
 
                 <TextView
-                    android:id="@+id/umlimited_mileage_filter_text"
+                    android:id="@+id/unlimited_mileage_filter_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -138,7 +138,7 @@
                     android:text="@string/car_filter_checkbox_unlimited_mileage" />
 
                 <CheckBox
-                    android:id="@+id/umlimited_mileage_filter_checkbox"
+                    android:id="@+id/unlimited_mileage_filter_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -184,16 +184,11 @@
                 android:textColor="@color/cars_primary_color" />
 
             <LinearLayout
-                android:id="@+id/filter_suppliers_results"
+                android:id="@+id/filter_suppliers"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical" />
 
-            <LinearLayout
-                android:id="@+id/filter_suppliers_details"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" />
         </LinearLayout>
     </ScrollView>
 </merge>

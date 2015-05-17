@@ -61,7 +61,7 @@ public class CarFilterTests extends CarTestCase {
 		screenshot("Car_Details");
 		CarViewModel.searchFilter().perform(click());
 		onView(allOf(withId(R.id.vendor), withText("NoCCRequired"),
-			isDescendantOfA(withId(R.id.filter_suppliers_details)))).perform(click());
+			isDescendantOfA(withId(R.id.filter_suppliers)))).perform(click());
 		screenshot("Details_Filter_Select_Car_Supplier");
 		CarViewModel.clickFilterDone();
 		int filterdOffersNumber = EspressoUtils.getListCount(CarViewModel.carOfferList());
@@ -97,7 +97,7 @@ public class CarFilterTests extends CarTestCase {
 		CarViewModel.searchFilter().perform(click());
 		screenshot("Categories_Filters_updated");
 		onView(allOf(withId(R.id.vendor_check_box), hasSibling(withText("NoCCRequired")),
-			isDescendantOfA(withId(R.id.filter_suppliers_details)))).check(matches(isChecked()));
+			isDescendantOfA(withId(R.id.filter_suppliers)))).check(matches(isChecked()));
 		onView(allOf(withId(R.id.category_check_box), hasSibling(withText(CATEGORY)))).check(matches(isChecked()));
 	}
 }

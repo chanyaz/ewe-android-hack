@@ -95,10 +95,10 @@ public class CarServicesTest {
 	public void testMockFilterSearchWorks() throws Throwable {
 		//Set Car filter object
 		CarFilter carFilter = new CarFilter();
-		carFilter.carCategoryCheckedFilter = new LinkedHashSet();
-		carFilter.carSupplierCheckedFilter = new LinkedHashSet();
+		carFilter.categoriesIncluded = new LinkedHashSet();
+		carFilter.suppliersIncluded = new LinkedHashSet();
 		carFilter.carTransmissionType = Transmission.MANUAL_TRANSMISSION;
-		carFilter.carSupplierCheckedFilter.add("NoCCRequired");
+		carFilter.suppliersIncluded.add("NoCCRequired");
 
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);

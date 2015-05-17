@@ -78,7 +78,6 @@ public class CarCategoryListWidget extends FrameLayout {
 
 	@Subscribe
 	public void onCarsIsFiltered(Events.CarsIsFiltered event) {
-		Events.post(new Events.CarsShowResults());
 		recyclerView.setVisibility(View.VISIBLE);
 		adapter.setCategories(event.carSearch.categories);
 		adapter.loadingState = false;

@@ -1,34 +1,30 @@
 package com.expedia.bookings.data.cars;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CarFilter {
-	public LinkedHashSet carCategoryCheckedFilter = new LinkedHashSet();
-	public LinkedHashSet carSupplierCheckedFilter = new LinkedHashSet();
+	// Total set of supported filters
+	public Set<CarCategory> categoriesSupported = EnumSet.noneOf(CarCategory.class);
+	public Set<String> suppliersSupported = new LinkedHashSet<>();
+
+	// Current set of filters the user has chosen
+	public Set<CarCategory> categoriesIncluded = EnumSet.noneOf(CarCategory.class);
+	public Set<String> suppliersIncluded = new LinkedHashSet<>();
+
 	public Transmission carTransmissionType;
 	public boolean hasUnlimitedMileage;
 	public boolean hasAirConditioning;
 
-	public CarFilter() {
-		//ignore
-	}
-
-	public CarFilter(CarFilter filter) {
-		this.carCategoryCheckedFilter.addAll(filter.carCategoryCheckedFilter);
-		this.carSupplierCheckedFilter.addAll(filter.carSupplierCheckedFilter);
-		this.carTransmissionType = filter.carTransmissionType;
-		this.hasUnlimitedMileage = filter.hasUnlimitedMileage;
-		this.hasAirConditioning = filter.hasAirConditioning;
-	}
-
-	public List<SearchCarOffer> applyFilters(CarSearchResponse carSearchResponse, CarFilter carFilter) {
+	public List<SearchCarOffer> applyFilters(CarSearchResponse carSearchResponse) {
 		List<SearchCarOffer> filteredSeachCarOffer = new ArrayList<>();
 
 		for (SearchCarOffer unfilteredCarSearchCarOffer : carSearchResponse.offers) {
 			// If offer/category does not match whats selected in the filter, continue
-			if (matches(unfilteredCarSearchCarOffer, carFilter)) {
+			if (matches(unfilteredCarSearchCarOffer)) {
 				filteredSeachCarOffer.add(unfilteredCarSearchCarOffer);
 			}
 		}
@@ -36,32 +32,29 @@ public class CarFilter {
 		if (!filteredSeachCarOffer.isEmpty()) {
 			return filteredSeachCarOffer;
 		}
-		else if (carFilter.carCategoryCheckedFilter.isEmpty() && carFilter.carSupplierCheckedFilter.isEmpty()
-			&& carFilter.carTransmissionType == null
-			&& !carFilter.hasAirConditioning && !carFilter.hasUnlimitedMileage) {
+		else if (categoriesIncluded.isEmpty() && suppliersIncluded.isEmpty()
+			&& carTransmissionType == null
+			&& !hasAirConditioning && !hasUnlimitedMileage) {
 			return carSearchResponse.offers;
 		}
 		throw new ApiError(ApiError.Code.CAR_FILTER_NO_RESULTS);
 	}
 
-	private boolean matches(SearchCarOffer offer, CarFilter carFilter) {
-
-		if (!carFilter.carCategoryCheckedFilter.isEmpty() && !carFilter.carCategoryCheckedFilter
-			.contains(offer.vehicleInfo.category.toString())) {
+	private boolean matches(SearchCarOffer offer) {
+		if (!categoriesIncluded.isEmpty() && !categoriesIncluded.contains(offer.vehicleInfo.category)) {
 			return false;
 		}
-		if (!carFilter.carSupplierCheckedFilter.isEmpty() && !carFilter.carSupplierCheckedFilter
-			.contains(offer.vendor.name)) {
+		if (!suppliersIncluded.isEmpty() && !suppliersIncluded.contains(offer.vendor.name)) {
 			return false;
 		}
-		if (carFilter.carTransmissionType != null && carFilter.carTransmissionType != Transmission.UNKNOWN
-			&& carFilter.carTransmissionType != offer.vehicleInfo.transmission) {
+		if (carTransmissionType != null && carTransmissionType != Transmission.UNKNOWN
+			&& carTransmissionType != offer.vehicleInfo.transmission) {
 			return false;
 		}
-		if (carFilter.hasAirConditioning && !offer.vehicleInfo.hasAirConditioning) {
+		if (hasAirConditioning && !offer.vehicleInfo.hasAirConditioning) {
 			return false;
 		}
-		if (carFilter.hasUnlimitedMileage && !offer.hasUnlimitedMileage) {
+		if (hasUnlimitedMileage && !offer.hasUnlimitedMileage) {
 			return false;
 		}
 		return true;
