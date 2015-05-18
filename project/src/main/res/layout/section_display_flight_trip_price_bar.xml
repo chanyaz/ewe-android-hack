@@ -17,29 +17,35 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/cd_flight_selection_cost_summary" >
 
-        <TextView
-            android:id="@+id/total_price_label"
+        <LinearLayout
+            android:id="@+id/price_description_container"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/total_price_label"
-            android:textColor="@color/trip_info_text"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/taxes_fees_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/total_price_label"
-            android:text="@string/includes_taxes_and_fees"
-            android:textColor="@color/trip_info_text"
-            android:textSize="14dp" />
+            <TextView
+                android:id="@+id/total_price_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_price_label"
+                android:textColor="@color/trip_info_text"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/taxes_fees_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/includes_taxes_and_fees"
+                android:textColor="@color/trip_info_text"
+                android:textSize="14dp" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/info_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/taxes_fees_label"
+            android:layout_toRightOf="@+id/price_description_container"
             android:paddingBottom="10dp"
             android:paddingLeft="6dp"
             android:paddingRight="4dp"
