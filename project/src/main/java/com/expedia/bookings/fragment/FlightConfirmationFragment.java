@@ -187,6 +187,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		isUserBucketedForTest = Db.getAbacusResponse()
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightConfLXXsell);
 		if (PointOfSale.getPointOfSale().supportsLx() && isUserBucketedForTest) {
+			Ui.setText(v, R.id.get_a_room_text_view, getString(R.string.add_to_your_trip));
 			Ui.findView(v, R.id.lx_divider).setVisibility(View.VISIBLE);
 			Ui.findView(v, R.id.lx_action_text_view).setVisibility(View.VISIBLE);
 			Ui.setText(v, R.id.lx_action_text_view, getString(R.string.lx_in_TEMPLATE, destinationCity));
