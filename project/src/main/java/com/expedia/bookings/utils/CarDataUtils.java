@@ -254,15 +254,4 @@ public class CarDataUtils {
 
 		return builder.build();
 	}
-
-	public static Transmission transmissionFromString(Context c, String string) {
-		if (string.equals(c.getString(R.string.car_filter_automatic))) {
-			return Transmission.AUTOMATIC_TRANSMISSION;
-		}
-		else if (string.equals(c.getString(R.string.car_filter_manual))) {
-			return Transmission.MANUAL_TRANSMISSION;
-		}
-
-		return null;
-	}
 }

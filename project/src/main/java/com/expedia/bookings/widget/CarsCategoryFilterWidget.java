@@ -28,7 +28,7 @@ public class CarsCategoryFilterWidget extends LinearLayout {
 	@InjectView(R.id.category_check_box)
 	CheckBox categoryCheckBox;
 
-	CarCategory carCategory;
+	CarCategory category;
 
 	@OnClick(R.id.filter_categories_widget)
 	public void onCategoryClick() {
@@ -37,7 +37,7 @@ public class CarsCategoryFilterWidget extends LinearLayout {
 
 	@OnCheckedChanged(R.id.category_check_box)
 	public void onCategoryCheckedChanged(boolean checked) {
-		Events.post(new Events.CarsCategoryFilterCheckChanged(carCategory.toString(), checked));
+		Events.post(new Events.CarsCategoryFilterCheckChanged(category, checked));
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class CarsCategoryFilterWidget extends LinearLayout {
 	}
 
 	public void bind(CarCategory category) {
-		carCategory = category;
+		this.category = category;
 		categoryTitle.setText(CarDataUtils.getCategoryStringForResults(getContext(), category));
 		categoryCheckBox.setChecked(false);
 	}

@@ -78,8 +78,7 @@ public class CarServices {
 	}
 
 	public Subscription carFilterSearch(Observer<CarSearch> observer, CarFilter carFilter) {
-		return Observable.just(cachedCarSearchResponse)
-			.map(new CarSearchFilterer(carFilter))
+		return Observable.combineLatest(Observable.just(cachedCarSearchResponse), Observable.just(carFilter), FILTER_RESULTS)
 			.flatMap(BUCKET_OFFERS)
 			.toSortedList(SORT_BY_LOWEST_TOTAL)
 			.map(PUT_IN_CAR_SEARCH)
@@ -175,20 +174,14 @@ public class CarServices {
 		}
 	};
 
-	private class CarSearchFilterer implements Func1<CarSearchResponse, CarSearchResponse> {
-		CarFilter carFilter;
-
-		public CarSearchFilterer(CarFilter carFilter) {
-			this.carFilter = carFilter;
-		}
-
+	private static final Func2<CarSearchResponse, CarFilter, CarSearchResponse> FILTER_RESULTS = new Func2<CarSearchResponse, CarFilter, CarSearchResponse>() {
 		@Override
-		public CarSearchResponse call(CarSearchResponse searchResponse) {
-			CarSearchResponse filteredCarSearch = new CarSearchResponse();
-			filteredCarSearch.offers.addAll(carFilter.applyFilters(searchResponse, carFilter));
-			return filteredCarSearch;
+		public CarSearchResponse call(CarSearchResponse response, CarFilter filter) {
+			CarSearchResponse filteredResponse = new CarSearchResponse();
+			filteredResponse.offers.addAll(filter.applyFilters(response));
+			return filteredResponse;
 		}
-	}
+	};
 
 	private class SearchOfferInjector implements Func1<CarCreateTripResponse, CarCreateTripResponse> {
 		SearchCarOffer searchCarOffer;

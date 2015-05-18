@@ -28,7 +28,6 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
-import com.expedia.bookings.data.cars.CarFilter;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
@@ -107,11 +106,10 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	private ProgressDialog createTripDialog;
 	private Subscription searchSubscription;
 	private Subscription createTripSubscription;
-	private CarSearchParams mParams;
-	private CategorizedCarOffers mOffer;
-	private SearchCarOffer offer;
-	private String category;
-	private CarSearch search = new CarSearch();
+	private CarSearchParams searchedParams;
+	private CategorizedCarOffers selectedCategorizedCarOffers;
+	private SearchCarOffer selectedOffer;
+	private CarSearch unfilteredSearch = new CarSearch();
 	private int searchTop;
 	private String lastState;
 
@@ -154,9 +152,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (Strings.equals(lastState,CarCategoryDetailsWidget.class.getName())) {
-					Events.post(new Events.CarsFilterDone(filter.getWorkingFilter()));
-				}
 				((Activity) getContext()).onBackPressed();
 			}
 		});
@@ -170,24 +165,12 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 		userAccountRefresher = new UserAccountRefresher(getContext(), LineOfBusiness.CARS, this);
 		filterNumber.setVisibility(GONE);
-
 	}
 
 	@Override
 	protected void onDetachedFromWindow() {
 		cleanup();
 		super.onDetachedFromWindow();
-	}
-
-	@Override
-	public boolean back() {
-		if (Strings.equals(lastState,CarCategoryDetailsWidget.class.getName())) {
-			filter.workingCarFilterResults.hasAirConditioning = filter.workingCarFilterDetails.hasAirConditioning;
-			filter.workingCarFilterResults.hasUnlimitedMileage = filter.workingCarFilterDetails.hasUnlimitedMileage;
-			filter.workingCarFilterResults.carTransmissionType = filter.workingCarFilterDetails.carTransmissionType;
-			Events.post(new Events.CarsFilterDone(filter.workingCarFilterResults));
-		}
-		return super.back();
 	}
 
 	public void cleanup() {
@@ -225,14 +208,14 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 		@Override
 		public void onNext(CarSearch carSearch) {
-			search = carSearch;
+			unfilteredSearch = carSearch;
 			filterToolbar.setVisibility(View.VISIBLE);
 			showNumberOfFilters(0);
 			Events.post(new Events.CarsShowSearchResults(carSearch));
 			show(categories, FLAG_CLEAR_TOP);
 			bindFilter(carSearch);
-			OmnitureTracking.trackAppCarSearch(getContext(), mParams, carSearch.categories.size());
-			AdTracker.trackCarSearch(mParams);
+			OmnitureTracking.trackAppCarSearch(getContext(), searchedParams, carSearch.categories.size());
+			AdTracker.trackCarSearch(searchedParams);
 		}
 	};
 
@@ -252,12 +235,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 		@Override
 		public void onNext(CarSearch carSearch) {
-			if (lastState.equals(CarCategoryDetailsWidget.class.getName())) {
-				Events.post(new Events.CarsIsFilteredOnDetails(carSearch, category));
-			}
-			else {
-				Events.post(new Events.CarsIsFiltered(carSearch, category));
-			}
+			Events.post(new Events.CarsIsFiltered(carSearch, selectedCategorizedCarOffers));
 		}
 	};
 
@@ -311,7 +289,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
-					Events.post(new Events.CarsKickOffSearchCall(mParams));
+					Events.post(new Events.CarsKickOffSearchCall(searchedParams));
 				}
 			})
 			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -363,10 +341,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		public void startTransition(boolean forward) {
 			filter.setVisibility(forward ? GONE : VISIBLE);
 			errorScreen.setVisibility(forward ? VISIBLE : GONE);
-			if (!forward) {
-				filter.carFilterResults = new CarFilter();
-				filter.carFilterDetails = new CarFilter();
-			}
 		}
 
 		@Override
@@ -392,22 +366,8 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			toolbarBackground.setVisibility(VISIBLE);
 			toolbarBackground.setAlpha(1f);
 
-			filter.setIsDetails(forward);
-			int numCheckedFilters = 0;
-
-			if (!forward) {
-				numCheckedFilters += filter.getFilter().carCategoryCheckedFilter.size();
-			}
-			else {
-				filter.workingCarFilterDetails.hasAirConditioning = filter.workingCarFilterResults.hasAirConditioning;
-				filter.workingCarFilterDetails.hasUnlimitedMileage = filter.workingCarFilterResults.hasUnlimitedMileage;
-				filter.workingCarFilterDetails.carTransmissionType = filter.workingCarFilterResults.carTransmissionType;
-				filter.carFilterDetails = new CarFilter(filter.workingCarFilterDetails);
-			}
-			numCheckedFilters += filter.getWorkingFilter().carSupplierCheckedFilter.size() + (filter.getWorkingFilter().hasUnlimitedMileage ? 1 : 0) + (filter.getWorkingFilter().hasAirConditioning ? 1 : 0);
-
 			filterToolbar.setTranslationY(0);
-			showNumberOfFilters(numCheckedFilters);
+			showNumberOfFilters(filter.getNumCheckedFilters(forward));
 		}
 
 		@Override
@@ -420,9 +380,12 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 		@Override
 		public void endTransition(boolean forward) {
-			if (!forward) {
-				filter.hideCarCategories(false);
-				filter.rebind();
+			if (forward) {
+				filter.onTransitionToDetails(unfilteredSearch.getFromDisplayLabel(selectedCategorizedCarOffers.carCategoryDisplayLabel));
+			}
+			else {
+				selectedCategorizedCarOffers = null;
+				filter.onTransitionToResults();
 			}
 		}
 
@@ -441,22 +404,21 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			}
 			else {
 				setToolBarResultsText();
-				category = null;
 			}
 		}
 	};
 
 	private void setToolBarDetailsText() {
-		if (mOffer != null) {
-			toolBarDetailText.setText(mOffer.carCategoryDisplayLabel);
+		if (selectedCategorizedCarOffers != null) {
+			toolBarDetailText.setText(selectedCategorizedCarOffers.carCategoryDisplayLabel);
 		}
 	}
 
 	private void setToolBarResultsText() {
-		if (mParams != null) {
-			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), mParams,
+		if (searchedParams != null) {
+			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), searchedParams,
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
-			toolBarDetailText.setText(mParams.originDescription);
+			toolBarDetailText.setText(searchedParams.originDescription);
 			toolBarSubtitleText.setText(dateTimeRange);
 		}
 	}
@@ -546,7 +508,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
-					Events.post(new Events.CarsKickOffCreateTrip(offer));
+					Events.post(new Events.CarsKickOffCreateTrip(selectedOffer));
 				}
 			})
 			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -567,12 +529,8 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		@Override
 		public void startTransition(boolean forward) {
 			filter.setVisibility(View.VISIBLE);
-			filter.hideCarCategories(false);
-			filter.hideCarResultsSupplies(false);
 			if (!forward) {
-				int numCheckedFilters = filter.carFilterResults.carCategoryCheckedFilter.size() + filter.carFilterResults.carSupplierCheckedFilter.size() + (filter.carFilterResults.hasUnlimitedMileage ? 1 : 0) + (filter.carFilterResults.hasAirConditioning ? 1 : 0);
-				showNumberOfFilters(numCheckedFilters);
-				filter.resetWorkingCarFilter();
+				showNumberOfFilters(filter.getNumCheckedFilters(false /*isDetails*/));
 			}
 		}
 
@@ -604,12 +562,8 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		@Override
 		public void startTransition(boolean forward) {
 			filter.setVisibility(View.VISIBLE);
-			filter.hideCarCategories(true);
-			filter.hideCarResultsSupplies(true);
 			if (!forward) {
-				int numCheckedFilters = filter.carFilterDetails.carSupplierCheckedFilter.size() + (filter.carFilterDetails.hasUnlimitedMileage ? 1 : 0) + (filter.carFilterDetails.hasAirConditioning ? 1 : 0);
-				showNumberOfFilters(numCheckedFilters);
-				filter.resetWorkingCarFilter();
+				showNumberOfFilters(filter.getNumCheckedFilters(true /*isDetails*/));
 			}
 		}
 
@@ -641,9 +595,8 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		}
 		show(categories, FLAG_CLEAR_BACKSTACK);
 		cleanup();
-		mParams = event.carSearchParams;
-		searchSubscription = carServices
-			.carSearch(event.carSearchParams, searchObserver);
+		searchedParams = event.carSearchParams;
+		searchSubscription = carServices.carSearch(searchedParams, searchObserver);
 		setToolBarResultsText();
 	}
 
@@ -651,7 +604,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	public void onShowFilteredSearchResults(Events.CarsShowFilteredSearchResults event) {
 		((Activity) getContext()).onBackPressed();
 		filterToolbar.setVisibility(View.VISIBLE);
-		Events.post(new Events.CarsShowSearchResults(search));
+		Events.post(new Events.CarsShowSearchResults(unfilteredSearch));
 	}
 
 	@Subscribe
@@ -669,14 +622,8 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 	@Subscribe
 	public void onShowDetails(Events.CarsShowDetails event) {
-		category = event.categorizedCarOffers.carCategoryDisplayLabel;
-		for (CategorizedCarOffers categorizedCarOffer : search.categories) {
-			if (categorizedCarOffer.carCategoryDisplayLabel.equals(category)) {
-				filter.setFilterVisibilites(categorizedCarOffer.offers);
-			}
-		}
 		show(details, FLAG_CLEAR_TOP);
-		mOffer = event.categorizedCarOffers;
+		selectedCategorizedCarOffers = event.categorizedCarOffers;
 		setToolBarDetailsText();
 	}
 
@@ -694,7 +641,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	public void onOfferSelected(Events.CarsKickOffCreateTrip event) {
 		createTripDialog.show();
 		cleanup();
-		offer = event.offer;
+		selectedOffer = event.offer;
 		userAccountRefresher.ensureAccountIsRefreshed();
 	}
 
@@ -735,7 +682,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 	@Override
 	public void onUserAccountRefreshed() {
-		createTripSubscription = carServices.createTrip(offer, createTripObserver);
+		createTripSubscription = carServices.createTrip(selectedOffer, createTripObserver);
 	}
 
 	RecyclerView.OnScrollListener recyclerScrollListener = new RecyclerView.OnScrollListener() {

@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.List;
-
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +10,6 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
@@ -41,7 +38,6 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	private static final int LIST_DIVIDER_HEIGHT = 0;
 	private float headerHeight;
 	private float offset;
-	private CategorizedCarOffers category;
 
 	@Override
 	public void onFinishInflate() {
@@ -63,7 +59,6 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 
 		adapter = new CarOffersAdapter(getContext());
 		offerList.setAdapter(adapter);
-
 	}
 
 	@Override
@@ -79,25 +74,12 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	}
 
 	@Subscribe
-	public void onCarsIsFiltered(Events.CarsIsFilteredOnDetails event) {
-		if (event.carCategory != null) {
-			category = getCategory(event.carSearch.categories, event.carCategory);
-			if (category != null) {
-				Events.post(new Events.CarsShowDetails(category));
-			}
-			else {
-				Events.post(new Events.CarsShowSearchResultsError(new ApiError(ApiError.Code.CAR_FILTER_NO_RESULTS)));
-			}
+	public void onCarsIsFiltered(Events.CarsIsFiltered event) {
+		if (event.categorizedCarOffers != null) {
+			CategorizedCarOffers bucket = event.carSearch.getFromDisplayLabel(event.categorizedCarOffers.carCategoryDisplayLabel);
+			adapter.setCarOffers(bucket.offers);
+			adapter.notifyDataSetChanged();
 		}
-	}
-
-	private CategorizedCarOffers getCategory(List<CategorizedCarOffers> categories, String carCategory) {
-		for (CategorizedCarOffers category : categories) {
-			if (category.carCategoryDisplayLabel.equals(carCategory)) {
-				return category;
-			}
-		}
-		return null;
 	}
 
 	@Subscribe

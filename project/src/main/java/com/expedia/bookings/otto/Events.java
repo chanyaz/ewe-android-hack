@@ -24,6 +24,7 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
 import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
@@ -690,47 +691,37 @@ public class Events {
 	}
 
 	public static class CarsCategoryFilterCheckChanged {
-		public String checkBoxDisplayName;
+		public CarCategory category;
 		public boolean checked;
 
-		public CarsCategoryFilterCheckChanged(String checkBoxDisplayName, boolean checked) {
-			this.checkBoxDisplayName = checkBoxDisplayName;
+		public CarsCategoryFilterCheckChanged(CarCategory category, boolean checked) {
+			this.category = category;
 			this.checked = checked;
 		}
 	}
 
 	public static class CarsSupplierFilterCheckChanged {
-		public String checkBoxDisplayName;
+		public String supplier;
 		public boolean checked;
 
-		public CarsSupplierFilterCheckChanged(String checkBoxDisplayName, boolean checked) {
-			this.checkBoxDisplayName = checkBoxDisplayName;
+		public CarsSupplierFilterCheckChanged(String supplier, boolean checked) {
+			this.supplier = supplier;
 			this.checked = checked;
 		}
 	}
 
 	public static class CarsIsFiltered {
 		public CarSearch carSearch;
-		public String carCategory;
+		public CategorizedCarOffers categorizedCarOffers;
 
-		public CarsIsFiltered(CarSearch carSearch, String carCategory) {
+		public CarsIsFiltered(CarSearch carSearch, CategorizedCarOffers categorizedCarOffers) {
 			this.carSearch = carSearch;
-			this.carCategory = carCategory;
-		}
-	}
-
-	public static class CarsIsFilteredOnDetails {
-		public CarSearch carSearch;
-		public String carCategory;
-
-		public CarsIsFilteredOnDetails(CarSearch carSearch, String carCategory) {
-			this.carSearch = carSearch;
-			this.carCategory = carCategory;
+			this.categorizedCarOffers = categorizedCarOffers;
 		}
 	}
 
 	public static class FinishActivity {
-
+		// ignore
 	}
 
 	public static class LXShowSearchWidget {
