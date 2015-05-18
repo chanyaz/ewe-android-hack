@@ -1086,7 +1086,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		// In the case of hotels with resort fees, the data received from /create
 		// is different enough to warrant a complete re-bind. This has to do with
 		// rate types, etc.
-		if (event.createTripResponse instanceof CreateTripResponse) {
+		if (mHorizontalHotelFrag != null && event.createTripResponse instanceof CreateTripResponse) {
 			mHorizontalHotelFrag.refreshRate();
 		}
 	}
