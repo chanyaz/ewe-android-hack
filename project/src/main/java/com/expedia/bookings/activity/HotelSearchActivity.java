@@ -636,12 +636,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-		OmnitureTracking.trackAppHotelsSearch(this);
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
 
