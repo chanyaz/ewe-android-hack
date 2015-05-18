@@ -207,6 +207,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	@Override
 	public void onPause() {
 		super.onPause();
+		Events.unregister(this);
 
 		//If the save dialog is showing, we close it, and then we show it again from the onCreate method.
 		if (mPos.equals(YoYoPosition.SAVE)) {
