@@ -1040,7 +1040,7 @@ public class ExpediaServices implements DownloadListener {
 			Log.e("Couldn't add the long_url to the argument json");
 		}
 
-		StringBuffer shortUrl = new StringBuffer("https://");
+		StringBuffer shortUrl = new StringBuffer("http://");
 		shortUrl.append(ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl());
 		shortUrl.append("/v1/shorten");
 
