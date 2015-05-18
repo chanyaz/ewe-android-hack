@@ -64,10 +64,19 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 		}
 		else {
 			ValueAnimator animation = AnimUtils
-				.setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, LoadingViewHolder.index);
-			LoadingViewHolder.index++;
+				.setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, position);
+			((LoadingViewHolder) holder).setAnimator(animation);
 		}
 	}
+
+	@Override
+	public void onViewRecycled(RecyclerView.ViewHolder holder) {
+		if (holder.getItemViewType() == LOADING_VIEW) {
+			((LoadingViewHolder) holder).cancelAnimation();
+		}
+		super.onViewRecycled(holder);
+	}
+
 
 	@Override
 	public int getItemCount() {

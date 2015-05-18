@@ -51,11 +51,22 @@ public class LXSortFilterWidget extends LinearLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		Events.register(this);
 
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
 		navIcon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN);
 		doneButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
+	}
+
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		Events.register(this);
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		Events.unregister(this);
+		super.onDetachedFromWindow();
 	}
 
 	@OnClick(R.id.price_sort_button)

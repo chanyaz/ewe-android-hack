@@ -17,7 +17,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.widget.LoadingViewHolder;
 
 public class AnimUtils {
 
@@ -101,7 +100,7 @@ public class AnimUtils {
 	public static ValueAnimator setupLoadingAnimation(View v, int i) {
 		int mLoadingColorLight = Color.parseColor("#D3D4D4");
 		int mLoadingColorDark = Color.parseColor("#848F94");
-		if (LoadingViewHolder.index % 2 == 0) {
+		if (i % 2 == 0) {
 			return animateBackground(v, mLoadingColorDark, mLoadingColorLight);
 		}
 		else {
