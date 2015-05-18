@@ -40,7 +40,6 @@ public class LXSearchResultsWidget extends FrameLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		Events.register(this);
 
 		LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -59,7 +58,14 @@ public class LXSearchResultsWidget extends FrameLayout {
 	}
 
 	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		Events.register(this);
+	}
+
+	@Override
 	protected void onDetachedFromWindow() {
+		Events.unregister(this);
 		super.onDetachedFromWindow();
 	}
 
