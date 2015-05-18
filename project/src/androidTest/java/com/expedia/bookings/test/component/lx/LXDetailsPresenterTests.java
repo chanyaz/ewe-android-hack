@@ -145,6 +145,14 @@ public class LXDetailsPresenterTests {
 		ViewInteraction secondOfferTicketPicker = LXViewModel.ticketPicker("3-Day New York Pass");
 		ViewInteraction thirdOfferTicketPicker = LXViewModel.ticketPicker("5-Day New York Pass");
 
+		firstOfferTicketPicker.check(matches(not(isDisplayed())));
+		secondOfferTicketPicker.check(matches(not(isDisplayed())));
+		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
+
+		ViewInteraction firstOfferSelectTicket = LXViewModel.selectTicketsButton("2-Day New York Pass");
+		LXViewModel.withOfferText("2-Day New York Pass").perform(customScroll());
+		firstOfferSelectTicket.perform(customScroll(), click());
+
 		firstOfferTicketPicker.check(matches(isDisplayed()));
 		secondOfferTicketPicker.check(matches(not(isDisplayed())));
 		thirdOfferTicketPicker.check(matches(not(isDisplayed())));

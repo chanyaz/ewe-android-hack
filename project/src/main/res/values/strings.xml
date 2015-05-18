@@ -616,6 +616,11 @@
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">We couldn\&apos;t find any activities near you. Please retry your search with different criteria.</string>
 
+    <!-- Ground Transport bags text-->
+    <string name="lx_ground_transport_bags_text">%1$s Bags</string>
+    <!-- Ground Transport passengers text-->
+    <string name="lx_ground_transport_passengers_text">%1$s Passengers</string>
+
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">Sort &amp; Filter</string>

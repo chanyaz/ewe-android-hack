@@ -30,9 +30,10 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 	public void setOffers(List<Offer> offers) {
 		this.offers = offers;
-		for (int i = 0; i < offers.size(); i++) {
-			Offer offer = offers.get(i);
-			offer.isToggled = i == 0;
+
+		// If there is only one offer, expand it.
+		if (offers.size() == 1) {
+			offers.get(0).isToggled = true;
 		}
 	}
 
@@ -120,9 +121,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 			FontCache.setTypeface(bookNow, FontCache.Font.ROBOTO_REGULAR);
 
 			List<String> priceSummaries = new ArrayList<String>();
-			ticketSelectionWidget.setOfferId(offer.id);
-			ticketSelectionWidget.setOfferTitle(offer.title);
-			ticketSelectionWidget.setFreeCancellation(offer.freeCancellation);
+			ticketSelectionWidget.bind(offer);
 
 			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
 				priceSummaries.add(String.format("%s %s",
@@ -134,6 +133,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 			ticketSelectionWidget.buildTicketPickers(offer.availabilityInfoOfSelectedDate);
 
 			offerTitle.setText(offer.title);
+
 			updateState(offer.isToggled);
 		}
 
