@@ -140,7 +140,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 	}
 
 	private String getRulesRestrictionsUrl(String tripId) {
-		String endpoint = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl(true);
+		String endpoint = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
 		return endpoint + RULES_RESTRICTIONS_URL_PATH + tripId;
 	}
 }

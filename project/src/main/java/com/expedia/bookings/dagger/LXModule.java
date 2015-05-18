@@ -19,14 +19,14 @@ public class LXModule {
 	@Provides
 	@LXScope
 	LXServices provideLXServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
-		final String endpoint = endpointProvider.getE3EndpointUrl(true /*isSecure*/);
+		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new LXServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
 	@Provides
 	@LXScope
 	SuggestionServices provideLxSuggestionServices(EndpointProvider endpointProvider, OkHttpClient client, RestAdapter.LogLevel logLevel) {
-		final String endpoint = endpointProvider.getEssEndpointUrl(true /*isSecure*/);
+		final String endpoint = endpointProvider.getEssEndpointUrl();
 		return new SuggestionServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 

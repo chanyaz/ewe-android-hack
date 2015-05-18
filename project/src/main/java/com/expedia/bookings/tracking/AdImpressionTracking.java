@@ -30,7 +30,7 @@ public class AdImpressionTracking {
 			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 			query.add(new BasicNameValuePair("tripId", tripId));
 			query.add(new BasicNameValuePair("clientid", ServicesUtil.generateClientId(context)));
-			String endpoint = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl(false /*isSecure*/);
+			String endpoint = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl();
 			String baseUrl = endpoint + CONVERSION_URL;
 			trackAdClickOrImpression(context, baseUrl, query);
 	}
