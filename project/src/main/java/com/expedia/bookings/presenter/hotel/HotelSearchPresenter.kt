@@ -3,20 +3,29 @@ package com.expedia.bookings.presenter.hotel
 import android.content.Context
 import android.graphics.Color
 import android.support.v7.widget.Toolbar
+import android.text.Html
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ToggleButton
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
+import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.TravelerPicker
 import com.mobiata.android.time.widget.CalendarPicker
 import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 import org.joda.time.YearMonth
 import kotlin.properties.Delegates
+import com.expedia.bookings.utils.Ui
 
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CalendarPicker.DateSelectionChangedListener, TravelerPicker.TravelersUpdatedListener,CalendarPicker.YearMonthDisplayedChangedListener {
+
+    val searchLocation: AlwaysFilterAutoCompleteTextView by Delegates.lazy {
+        findViewById(R.id.hotel_location) as AlwaysFilterAutoCompleteTextView
+    }
 
     val selectDate: ToggleButton by Delegates.lazy {
         findViewById(R.id.select_date) as ToggleButton
@@ -36,6 +45,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     val traveler: TravelerPicker by Delegates.lazy {
         findViewById(R.id.traveler_view) as TravelerPicker
+    }
+
+    val hotelSuggestionAdapter: HotelSuggestionAdapter by Delegates.lazy {
+        HotelSuggestionAdapter()
     }
 
     init {
@@ -62,6 +75,13 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             calendar.setVisibility(View.GONE)
             hideToolTip()
             traveler.setVisibility(View.VISIBLE)
+        }
+
+        Ui.getApplication(getContext()).hotelComponent().inject(hotelSuggestionAdapter)
+        searchLocation.setAdapter(hotelSuggestionAdapter)
+        searchLocation.setOnItemClickListener {
+            adapterView, view, position, l ->
+            searchLocation.setText(Html.fromHtml(StrUtils.formatCityName(hotelSuggestionAdapter.getItem(position).displayName)).toString(), false)
         }
     }
 

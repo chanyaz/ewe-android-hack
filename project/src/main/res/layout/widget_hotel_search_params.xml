@@ -43,7 +43,7 @@
                     android:tint="#FFFFFF" />
 
                 <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
-                    android:id="@+id/pickup_location"
+                    android:id="@+id/hotel_location"
                     style="@style/CarAutocomplete"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
