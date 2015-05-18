@@ -17,14 +17,14 @@ public final class LaunchModule {
 	@Provides
 	@LaunchScope
 	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
-		final String endpoint = endpointProvider.getE3EndpointUrl(true /*isSecure*/);
+		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new HotelServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
 	@Provides
 	@LaunchScope
 	CollectionServices provideCollectionServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
-		final String endpoint = endpointProvider.getE3EndpointUrl(true /*isSecure*/);
+		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new CollectionServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
