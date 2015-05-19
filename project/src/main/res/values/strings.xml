@@ -126,6 +126,13 @@
     <string name="car_types">Car Types</string>
     <!-- Car types checkbox filter label for a car rental-->
     <string name="car_vendors">Rental Companies</string>
+    <!-- Button label to clear user selected filters -->
+    <string name="clear_filters">Clear Filters</string>
+    <!-- Label to tell the user how many products match thier filter -->
+    <plurals name="number_results_template">
+        <item quantity="one">{number} Result</item>
+        <item quantity="other">{number} Results</item>
+    </plurals>
 
     <!-- Checkout -->
     <!-- Car model templates-->
