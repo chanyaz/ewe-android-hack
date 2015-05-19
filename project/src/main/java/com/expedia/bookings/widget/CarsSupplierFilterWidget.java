@@ -42,6 +42,13 @@ public class CarsSupplierFilterWidget extends LinearLayout {
 		ButterKnife.inject(this);
 	}
 
+	@Override
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		vendorTitle.setEnabled(enabled);
+		vendorCheckBox.setEnabled(enabled);
+	}
+
 	public void bind(String category) {
 		vendorTitle.setText(category);
 		vendorCheckBox.setChecked(false);
