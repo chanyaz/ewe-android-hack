@@ -18,7 +18,6 @@ public class FlightSearchLoadingFragment extends AbsFlightSearchLoadingFragment 
 		View flightSearchView = Ui.findView(v, R.id.search_progress_flight_lm);
 		flightSearchView.bringToFront();
 		mMessageTextView.bringToFront();
-		mMessageTextView.setTextColor(getResources().getColor(R.color.flight_list_progress_text_color));
 		displayStatus();
 
 		return v;
