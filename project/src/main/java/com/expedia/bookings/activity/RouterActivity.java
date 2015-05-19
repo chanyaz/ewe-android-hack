@@ -49,8 +49,8 @@ public class RouterActivity extends Activity {
 		OmnitureTracking.trackAppLoading(mContext);
 		AdTracker.trackLaunch(mContext);
 
-		// We want to try to start loading data (but it may not be finished syncing before someone tries to use it).
-		ItineraryManager.getInstance().startSync(false);
+		// Update data
+		ItineraryManager.getInstance().startSync(false, false, true);
 
 		//Hi Facebook!
 		facebookInstallTracking();

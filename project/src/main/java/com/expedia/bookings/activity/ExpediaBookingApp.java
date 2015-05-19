@@ -194,7 +194,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("AdTracker Init");
 
 		ItineraryManager.getInstance().init(this);
-		startupTimer.addSplit("ItineraryManager Init");
+		// Load data from Disk
+		ItineraryManager.getInstance().startSync(false, true, false);
+		startupTimer.addSplit("ItineraryManager Init/Load");
 
 		// If we are upgrading from a pre-AccountManager version, update account manager to include our logged in user.
 		if (!SettingUtils.get(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, false)) {
