@@ -49,6 +49,15 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
                 .subscribe(observer)
     }
 
+    public fun getHotelSuggestions(query: String, observer: Observer<MutableList<Suggestion>>): Subscription {
+        val type = SuggestionResultType.REGION
+        return suggestApi.suggestV2(query, type)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .map { response -> response.suggestions.toArrayList() }
+                .subscribe(observer)
+    }
+
     public fun getLxSuggestions(query: String, observer: Observer<MutableList<Suggestion>>): Subscription {
         val type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD
         val lob = "ACTIVITIES"
