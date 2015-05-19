@@ -54,6 +54,10 @@ public class CarsSupplierFilterWidget extends LinearLayout {
 		vendorCheckBox.setChecked(false);
 	}
 
+	public void setChecked(boolean checked) {
+		vendorCheckBox.setChecked(checked);
+	}
+
 	public CharSequence getText() {
 		return vendorTitle.getText();
 	}

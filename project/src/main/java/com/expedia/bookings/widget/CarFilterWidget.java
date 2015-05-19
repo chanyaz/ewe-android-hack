@@ -13,9 +13,11 @@ import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCategory;
@@ -27,6 +29,7 @@ import com.expedia.bookings.data.cars.Transmission;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -79,6 +82,15 @@ public class CarFilterWidget extends LinearLayout {
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
 
+	@InjectView(R.id.dynamic_feedback_container)
+	ViewGroup dynamicFeedbackContainer;
+
+	@InjectView(R.id.dynamic_feedback_counter)
+	TextView dynamicFeedbackCounter;
+
+	@InjectView(R.id.dynamic_feedback_clear_button)
+	TextView dynamicFeedbackClearButton;
+
 	@OnClick(R.id.transmission_filter_all)
 	public void allClicked() {
 		auto.setSelected(false);
@@ -126,6 +138,12 @@ public class CarFilterWidget extends LinearLayout {
 	public void onMileageFilterCheckedChanged(boolean checked) {
 		filter.hasUnlimitedMileage = checked;
 		postCarFilterEvent();
+	}
+
+	@OnClick(R.id.dynamic_feedback_clear_button)
+	public void onClearFiltersClick() {
+		reset();
+		Events.post(new Events.CarsFilterDone(filter));
 	}
 
 	@Override
@@ -200,15 +218,38 @@ public class CarFilterWidget extends LinearLayout {
 				+ (filter.hasAirConditioning ? 1 : 0);
 	}
 
+	private void reset() {
+		hideDynamicFeedback();
+
+		airConditioningCheckbox.setChecked(false);
+		unlimitedMileageCheckbox.setChecked(false);
+		auto.setSelected(false);
+		manual.setSelected(false);
+		all.setSelected(true);
+
+		for (int i = 0, count = filterSuppliersContainer.getChildCount(); i < count; i++) {
+			View v = filterSuppliersContainer.getChildAt(i);
+			if (v instanceof CarsSupplierFilterWidget) {
+				((CarsSupplierFilterWidget) v).setChecked(false);
+			}
+		}
+
+		for (int i = 0, count = filterCategoriesContainer.getChildCount(); i < count; i++) {
+			View v = filterCategoriesContainer.getChildAt(i);
+			if (v instanceof CarsCategoryFilterWidget) {
+				((CarsCategoryFilterWidget) v).setChecked(false);
+			}
+		}
+	}
+
 	public void bind(CarSearch search) {
 		List<CategorizedCarOffers> categories = search.categories;
 
 		filter = new CarFilter();
-		airConditioningCheckbox.setChecked(false);
-		unlimitedMileageCheckbox.setChecked(false);
-
 		filterCategoriesContainer.removeAllViews();
 		filterSuppliersContainer.removeAllViews();
+
+		reset();
 
 		// Find the supported categories, suppliers and filters for this search
 		for (int i = 0, size = categories.size(); i < size; i++) {
@@ -229,9 +270,6 @@ public class CarFilterWidget extends LinearLayout {
 			filterSuppliersContainer.addView(supplierView);
 		}
 
-		auto.setSelected(false);
-		manual.setSelected(false);
-		all.setSelected(true);
 	}
 
 	public void onTransitionToResults() {
@@ -284,6 +322,40 @@ public class CarFilterWidget extends LinearLayout {
 		}
 
 		postCarFilterEvent();
+	}
+
+	@Subscribe
+	public void onCarsIsFiltered(Events.CarsIsFiltered event) {
+		if (!filter.altered()) {
+			hideDynamicFeedback();
+			return;
+		}
+		else {
+			showDynamicFeedback();
+		}
+
+		int count = 0;
+		if (event.categorizedCarOffers == null) {
+			for (CategorizedCarOffers category : event.carSearch.categories) {
+				count += category.offers.size();
+			}
+		}
+		else {
+			count += event.categorizedCarOffers.offers.size();
+		}
+
+		CharSequence text = Phrase.from(getContext().getResources().getQuantityString(R.plurals.number_results_template, count))
+			.put("number", count)
+			.format();
+		dynamicFeedbackCounter.setText(text);
+	}
+
+	private void hideDynamicFeedback() {
+		dynamicFeedbackContainer.setVisibility(View.GONE);
+	}
+
+	private void showDynamicFeedback() {
+		dynamicFeedbackContainer.setVisibility(View.VISIBLE);
 	}
 
 	private void hideCarCategories(boolean hide) {

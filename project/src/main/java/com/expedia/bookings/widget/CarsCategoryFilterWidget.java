@@ -52,4 +52,7 @@ public class CarsCategoryFilterWidget extends LinearLayout {
 		categoryCheckBox.setChecked(false);
 	}
 
+	public void setChecked(boolean checked) {
+		categoryCheckBox.setChecked(checked);
+	}
 }

@@ -59,4 +59,17 @@ public class CarFilter {
 		}
 		return true;
 	}
+
+	// Checks if the user has altered the filter
+	public boolean altered() {
+		boolean ret = false;
+		ret |= !categoriesIncluded.isEmpty();
+		ret |= !suppliersIncluded.isEmpty();
+		ret |= hasUnlimitedMileage;
+		ret |= hasAirConditioning;
+		ret |= carTransmissionType == Transmission.AUTOMATIC_TRANSMISSION;
+		ret |= carTransmissionType == Transmission.MANUAL_TRANSMISSION;
+
+		return ret;
+	}
 }
