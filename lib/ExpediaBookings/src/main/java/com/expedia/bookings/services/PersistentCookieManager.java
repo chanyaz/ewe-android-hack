@@ -101,6 +101,7 @@ public class PersistentCookieManager extends CookieManager {
 		String json = gson.toJson(pairs);
 
 		try {
+			storage.getParentFile().mkdirs();
 			storage.createNewFile();
 			FileWriter writer = new FileWriter(storage);
 			writer.write(json, 0, json.length());

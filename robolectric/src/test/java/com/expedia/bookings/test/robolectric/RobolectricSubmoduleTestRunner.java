@@ -1,15 +1,16 @@
 package com.expedia.bookings.test.robolectric;
 
+import java.lang.reflect.Method;
+
 import org.junit.runners.model.InitializationError;
+import org.robolectric.DefaultTestLifecycle;
+import org.robolectric.TestLifecycle;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
-import org.robolectric.internal.SdkConfig;
-import org.robolectric.internal.bytecode.ClassInfo;
-import org.robolectric.internal.bytecode.InstrumentingClassLoaderConfig;
 import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.res.Fs;
 
-import com.squareup.leakcanary.LeakCanary;
+import android.app.Application;
 
 public class RobolectricSubmoduleTestRunner extends RobolectricGradleTestRunner {
 
@@ -46,20 +47,14 @@ public class RobolectricSubmoduleTestRunner extends RobolectricGradleTestRunner 
 	}
 
 	@Override
-	protected ClassLoader createRobolectricClassLoader(InstrumentingClassLoaderConfig config, SdkConfig sdkConfig) {
-		return super.createRobolectricClassLoader(new DirtyInstrumentingConfig(config), sdkConfig);
+	protected Class<? extends TestLifecycle> getTestLifecycleClass() {
+		return SubmoduleTestLifecycle.class;
 	}
 
-	public static class DirtyInstrumentingConfig extends InstrumentingClassLoaderConfig {
-		private InstrumentingClassLoaderConfig original;
-
-		public DirtyInstrumentingConfig(InstrumentingClassLoaderConfig original) {
-			this.original = original;
-		}
-
+	public static class SubmoduleTestLifecycle extends DefaultTestLifecycle {
 		@Override
-		public boolean shouldInstrument(ClassInfo info) {
-			return original.shouldInstrument(info) || info.getName().equals(LeakCanary.class.getName());
+		public Application createApplication(final Method method, final AndroidManifest appManifest, Config config) {
+			return new TestExpediaBookingApp();
 		}
 	}
 }
