@@ -213,7 +213,7 @@ public class CarFilterWidget extends LinearLayout {
 		// Find the supported categories, suppliers and filters for this search
 		for (int i = 0, size = categories.size(); i < size; i++) {
 			filter.categoriesSupported.add(categories.get(i).category);
-			computeFilterVisibilites(categories.get(i).offers, filter.suppliersSupported);
+			appendSupplierSetFromOffers(categories.get(i).offers, filter.suppliersSupported);
 		}
 
 		// Build the ui
@@ -237,40 +237,26 @@ public class CarFilterWidget extends LinearLayout {
 	public void onTransitionToResults() {
 		hideCarCategories(false);
 
-		// make all suppliers visible
+		// Enable all suppliers
 		for (int i = 0, count = filterSuppliersContainer.getChildCount(); i < count; i++) {
-			View v = filterSuppliersContainer.getChildAt(i);
-			if (v instanceof CarsSupplierFilterWidget) {
-				v.setVisibility(View.VISIBLE);
-			}
+			filterSuppliersContainer.getChildAt(i).setEnabled(true);
 		}
 	}
 
 	public void onTransitionToDetails(CategorizedCarOffers unfilteredCategorizedCarOffers) {
 		hideCarCategories(true);
 
-		List<SearchCarOffer> detailsOffers = unfilteredCategorizedCarOffers.offers;
-
 		Set<String> suppliersAvailableOnDetails = new HashSet<>();
-		computeFilterVisibilites(detailsOffers, suppliersAvailableOnDetails);
+		appendSupplierSetFromOffers(unfilteredCategorizedCarOffers.offers, suppliersAvailableOnDetails);
 
-		if (suppliersAvailableOnDetails != null) {
-			for (int i = 0, count = filterSuppliersContainer.getChildCount(); i < count; i++) {
-				View v = filterSuppliersContainer.getChildAt(i);
-				if (v instanceof CarsSupplierFilterWidget) {
-					String title = ((CarsSupplierFilterWidget) v).getText().toString();
-					if (suppliersAvailableOnDetails.contains(title)) {
-						v.setVisibility(View.VISIBLE);
-					}
-					else {
-						v.setVisibility(View.GONE);
-					}
-				}
-			}
+		for (int i = 0, count = filterSuppliersContainer.getChildCount(); i < count; i++) {
+			CarsSupplierFilterWidget checkWidget = (CarsSupplierFilterWidget) filterSuppliersContainer.getChildAt(i);
+			String title = checkWidget.getText().toString();
+			checkWidget.setEnabled(suppliersAvailableOnDetails.contains(title));
 		}
 	}
 
-	private void computeFilterVisibilites(List<SearchCarOffer> offers, Set<String> availableSuppliers) {
+	private void appendSupplierSetFromOffers(List<SearchCarOffer> offers, Set<String> availableSuppliers) {
 		for (SearchCarOffer offer : offers) {
 			availableSuppliers.add(offer.vendor.name);
 		}
