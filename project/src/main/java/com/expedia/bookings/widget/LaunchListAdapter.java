@@ -145,6 +145,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	@Override
+	public void onViewRecycled(RecyclerView.ViewHolder holder) {
+		if (holder.getItemViewType() == LOADING_VIEW) {
+			((LoadingViewHolder) holder).cancelAnimation();
+		}
+		super.onViewRecycled(holder);
+	}
+
+	@Override
 	public int getItemViewType(int position) {
 		if (isHeader(position)) {
 			return HEADER_VIEW;
@@ -515,6 +523,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	public static class LoadingViewHolder extends RecyclerView.ViewHolder {
 		private final static int LOADING_COLOR_LIGHT = Color.parseColor("#D3D4D4");
 		private final static int LOADING_COLOR_DARK = Color.parseColor("#848F94");
+		private final static ArgbEvaluator ARGB_EVALUATOR = new ArgbEvaluator();
+
+		private ValueAnimator animation;
 
 		@InjectView(R.id.background_image_view)
 		public ImageView backgroundImageView;
@@ -557,7 +568,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 
 		private void animateBackground(final View view, int startColor, int endColor) {
-			ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), startColor, endColor);
+			animation = ValueAnimator.ofObject(ARGB_EVALUATOR, startColor, endColor);
 			animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 				@Override
 				public void onAnimationUpdate(ValueAnimator animator) {
@@ -568,6 +579,13 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			animation.setRepeatCount(ValueAnimator.INFINITE);
 			animation.setDuration(600);
 			animation.start();
+		}
+
+		public void cancelAnimation() {
+			if (animation != null) {
+				animation.removeAllUpdateListeners();
+				animation.cancel();
+			}
 		}
 
 	}
