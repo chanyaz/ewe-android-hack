@@ -9,7 +9,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#CACACA" />
+        android:background="@color/launch_lob_bg" />
 
     <View
         android:layout_width="match_parent"
