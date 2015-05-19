@@ -258,6 +258,14 @@
             android:summary="Select a test group"
             android:title="Hotels ETP book now/pay later search results" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_hotel_itin_lx_cross_sell"
+            android:summary="Select a test group"
+            android:title="Hotel Itin Lx Cross sell" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >
