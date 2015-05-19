@@ -122,6 +122,8 @@ public class LXInfositeTestCases extends LxTestCase {
 		LXInfositePageModel.offersWidgetContainer().perform(LXInfositePageModel.loadTicketSummary(0, ticketSummary));
 		mExpectedDataTktWdgt = new ExpectedDataSupplierForTicketWidget(ticketSummary);
 
+		LXInfositePageModel.selectOffer(mExpectedDataTktWdgt.getTicketName()).perform(click());
+
 		LXInfositePageModel.ticketContainer(mExpectedDataTktWdgt.getTicketName())
 			.check(matches(withChildCount(mExpectedDataTktWdgt.numberOfTicketRows())));
 		//Below is the default state verification
