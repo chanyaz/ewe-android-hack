@@ -8,6 +8,17 @@ import com.expedia.bookings.utils.Strings;
 public class CarSearch {
 	public List<CategorizedCarOffers> categories = new ArrayList<>();
 
+	public boolean hasDisplayLabel(String displayLabel) {
+		for (int i = 0, count = categories.size(); i < count; i++) {
+			CategorizedCarOffers result = categories.get(i);
+			if (Strings.equals(result.carCategoryDisplayLabel, displayLabel)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public CategorizedCarOffers getFromDisplayLabel(String displayLabel) {
 		for (int i = 0, count = categories.size(); i < count; i++) {
 			CategorizedCarOffers result = categories.get(i);

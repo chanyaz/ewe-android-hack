@@ -707,12 +707,12 @@ public class Events {
 	}
 
 	public static class CarsIsFiltered {
-		public CarSearch carSearch;
-		public CategorizedCarOffers categorizedCarOffers;
+		public CarSearch filteredCarSearch;
+		public CategorizedCarOffers filteredCarOffers;
 
-		public CarsIsFiltered(CarSearch carSearch, CategorizedCarOffers categorizedCarOffers) {
-			this.carSearch = carSearch;
-			this.categorizedCarOffers = categorizedCarOffers;
+		public CarsIsFiltered(CarSearch filteredCarSearch, CategorizedCarOffers filteredCarOffers) {
+			this.filteredCarSearch = filteredCarSearch;
+			this.filteredCarOffers = filteredCarOffers;
 		}
 	}
 
