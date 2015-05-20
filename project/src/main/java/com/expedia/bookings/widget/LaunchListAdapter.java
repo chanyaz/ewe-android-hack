@@ -18,7 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -104,6 +106,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 		if (listData.get(0).getClass() == Hotel.class) {
 			headerView.setOnClickListener(SEE_ALL_LISTENER);
+		}
+		else if (BuildConfig.DEBUG && Db.getMemoryTestActive()) {
+			headerView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Events.post(new Events.MemoryTestImpetus());
+				}
+			});
 		}
 
 		StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
