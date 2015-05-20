@@ -29,7 +29,7 @@ public class LXAttachItinContentGenerator extends ItinButtonContentGenerator<Iti
 		return new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				NavUtils.goToLx(v.getContext(), null, getItinCardData().getLxSearchParams(v.getContext()), true);
+				NavUtils.goToLx(v.getContext(), null, getItinCardData().getLxSearchParams(v.getContext()), false);
 				OmnitureTracking.trackAddLxItinClick(v.getContext());
 			}
 		};
