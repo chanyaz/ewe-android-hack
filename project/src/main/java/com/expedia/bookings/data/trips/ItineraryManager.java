@@ -893,6 +893,10 @@ public class ItineraryManager implements JSONable {
 	 * @return true if the sync started or is in progress, false if it never started
 	 */
 	public boolean startSync(boolean forceRefresh) {
+		return startSync(forceRefresh, true, true);
+	}
+
+	public boolean startSync(boolean forceRefresh, boolean load, boolean update) {
 		if (!forceRefresh && DateTime.now().getMillis() < UPDATE_CUTOFF + mLastUpdateTime) {
 			Log.d(LOGGING_TAG, "ItineraryManager sync started too soon since last one; ignoring.");
 			return false;
@@ -913,15 +917,19 @@ public class ItineraryManager implements JSONable {
 			Log.i(LOGGING_TAG, "Starting an ItineraryManager sync...");
 
 			// Add default sync operations
-			mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
-			mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
-			mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
-			mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
-			mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
-			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
-			mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
-			mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
-			mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
+			if (load) {
+				mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
+			}
+			if (update) {
+				mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
+				mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
+				mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
+				mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
+				mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+				mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+				mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
+				mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
+			}
 
 			startSyncIfNotInProgress();
 
