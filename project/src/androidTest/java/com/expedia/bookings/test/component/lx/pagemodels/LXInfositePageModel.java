@@ -70,7 +70,7 @@ public class LXInfositePageModel {
 
 	public static ViewInteraction priceSummary(String ticketName) {
 		return onView(
-			Matchers.allOf(withId(R.id.selected_ticket_summary), withParent(withParent(hasSibling(withText(ticketName))))));
+			Matchers.allOf(withId(R.id.selected_ticket_summary), withParent(hasSibling(withText(ticketName)))));
 	}
 
 	public static ViewInteraction bookNowButton(String ticketName) {
