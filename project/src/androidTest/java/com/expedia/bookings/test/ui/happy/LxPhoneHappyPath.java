@@ -92,6 +92,7 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 		LXViewModel.waitForLoadingDetailsNotDisplayed();
 		screenshot("LX Details");
 
+		LXInfositePageModel.selectOffer("2-Day New York Pass").perform(scrollTo(), click());
 		LXInfositePageModel.ticketAddButton(ticketName, "Adult").perform(scrollTo(), click());
 		LXInfositePageModel.bookNowButton(ticketName).perform(scrollTo());
 		screenshot("LX Ticket Selection");
