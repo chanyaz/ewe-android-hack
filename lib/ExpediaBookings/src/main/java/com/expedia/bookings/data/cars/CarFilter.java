@@ -20,24 +20,20 @@ public class CarFilter {
 	public boolean hasAirConditioning;
 
 	public List<SearchCarOffer> applyFilters(CarSearchResponse carSearchResponse) {
-		List<SearchCarOffer> filteredSeachCarOffer = new ArrayList<>();
+		if (!altered()) {
+			return carSearchResponse.offers;
+		}
+
+		List<SearchCarOffer> filteredOffers = new ArrayList<>();
 
 		for (SearchCarOffer unfilteredCarSearchCarOffer : carSearchResponse.offers) {
 			// If offer/category does not match whats selected in the filter, continue
 			if (matches(unfilteredCarSearchCarOffer)) {
-				filteredSeachCarOffer.add(unfilteredCarSearchCarOffer);
+				filteredOffers.add(unfilteredCarSearchCarOffer);
 			}
 		}
 
-		if (!filteredSeachCarOffer.isEmpty()) {
-			return filteredSeachCarOffer;
-		}
-		else if (categoriesIncluded.isEmpty() && suppliersIncluded.isEmpty()
-			&& carTransmissionType == null
-			&& !hasAirConditioning && !hasUnlimitedMileage) {
-			return carSearchResponse.offers;
-		}
-		throw new ApiError(ApiError.Code.CAR_FILTER_NO_RESULTS);
+		return filteredOffers;
 	}
 
 	private boolean matches(SearchCarOffer offer) {

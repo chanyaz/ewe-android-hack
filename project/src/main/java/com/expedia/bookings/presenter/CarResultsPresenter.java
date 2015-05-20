@@ -51,6 +51,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscription;
+import rx.exceptions.OnErrorNotImplementedException;
 
 public class CarResultsPresenter extends Presenter implements UserAccountRefresher.IUserAccountRefreshListener {
 
@@ -231,11 +232,25 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 				handleInputValidationErrors((ApiError) e);
 				return;
 			}
+			throw new OnErrorNotImplementedException(e);
 		}
 
 		@Override
-		public void onNext(CarSearch carSearch) {
-			Events.post(new Events.CarsIsFiltered(carSearch, selectedCategorizedCarOffers));
+		public void onNext(CarSearch filteredCarSearch) {
+			CategorizedCarOffers filteredBucket = null;
+
+			if (selectedCategorizedCarOffers != null) {
+				if (filteredCarSearch.hasDisplayLabel(selectedCategorizedCarOffers.carCategoryDisplayLabel)) {
+					filteredBucket = filteredCarSearch.getFromDisplayLabel(selectedCategorizedCarOffers.carCategoryDisplayLabel);
+				}
+				else {
+					filteredBucket = new CategorizedCarOffers();
+					filteredBucket.carCategoryDisplayLabel = selectedCategorizedCarOffers.carCategoryDisplayLabel;
+					filteredBucket.category = selectedCategorizedCarOffers.category;
+					filteredBucket.type = selectedCategorizedCarOffers.type;
+				}
+			}
+			Events.post(new Events.CarsIsFiltered(filteredCarSearch, filteredBucket));
 		}
 	};
 

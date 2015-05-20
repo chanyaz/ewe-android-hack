@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -28,6 +29,8 @@ import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.cars.Transmission;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
@@ -40,6 +43,7 @@ import butterknife.OnClick;
 public class CarFilterWidget extends LinearLayout {
 
 	private CarFilter filter = new CarFilter();
+	private boolean isZero = false;
 
 	public CarFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -89,8 +93,7 @@ public class CarFilterWidget extends LinearLayout {
 	@InjectView(R.id.dynamic_feedback_counter)
 	TextView dynamicFeedbackCounter;
 
-	@InjectView(R.id.dynamic_feedback_clear_button)
-	TextView dynamicFeedbackClearButton;
+	private Button doneButton;
 
 	@OnClick(R.id.transmission_filter_all)
 	public void allClicked() {
@@ -165,17 +168,13 @@ public class CarFilterWidget extends LinearLayout {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		toolbar.setTitle(getResources().getString(R.string.Sort_and_Filter));
+		toolbar.setTitle(getResources().getString(R.string.filter));
 		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
 		toolbar.setTitleTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
 		toolbar.inflateMenu(R.menu.cars_filter_menu);
 
 		MenuItem item = toolbar.getMenu().findItem(R.id.apply_check);
 		setupToolBarCheckmark(item);
-
-		auto.setSelected(false);
-		manual.setSelected(false);
-		all.setSelected(true);
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
@@ -204,21 +203,23 @@ public class CarFilterWidget extends LinearLayout {
 	}
 
 	public Button setupToolBarCheckmark(final MenuItem menuItem) {
-		Button tv = Ui.inflate(getContext(), R.layout.toolbar_checkmark_item, null);
-		tv.setText(R.string.done);
-		tv.setTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
-		tv.setOnClickListener(new OnClickListener() {
+		doneButton = Ui.inflate(getContext(), R.layout.toolbar_checkmark_item, null);
+		doneButton.setText(R.string.done);
+		doneButton.setTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
+		doneButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((Activity) getContext()).onBackPressed();
+				if (isNonZeroResults()) {
+					((Activity) getContext()).onBackPressed();
+				}
 			}
 		});
 
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
 		navIcon.setColorFilter(getResources().getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
-		tv.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
-		menuItem.setActionView(tv);
-		return tv;
+		doneButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
+		menuItem.setActionView(doneButton);
+		return doneButton;
 	}
 
 	private void postCarFilterEvent() {
@@ -235,11 +236,9 @@ public class CarFilterWidget extends LinearLayout {
 	private void reset() {
 		hideDynamicFeedback();
 
+		allClicked();
 		airConditioningCheckbox.setChecked(false);
 		unlimitedMileageCheckbox.setChecked(false);
-		auto.setSelected(false);
-		manual.setSelected(false);
-		all.setSelected(true);
 
 		for (int i = 0, count = filterSuppliersContainer.getChildCount(); i < count; i++) {
 			View v = filterSuppliersContainer.getChildAt(i);
@@ -283,11 +282,12 @@ public class CarFilterWidget extends LinearLayout {
 			supplierView.bind(supplier);
 			filterSuppliersContainer.addView(supplierView);
 		}
-
 	}
 
 	public void onTransitionToResults() {
-		hideCarCategories(false);
+		carTypeText.setVisibility(VISIBLE);
+		filterCategoriesContainer.setVisibility(VISIBLE);
+		divider.setVisibility(VISIBLE);
 
 		// Enable all suppliers
 		for (int i = 0, count = filterSuppliersContainer.getChildCount(); i < count; i++) {
@@ -296,7 +296,9 @@ public class CarFilterWidget extends LinearLayout {
 	}
 
 	public void onTransitionToDetails(CategorizedCarOffers unfilteredCategorizedCarOffers) {
-		hideCarCategories(true);
+		carTypeText.setVisibility(GONE);
+		filterCategoriesContainer.setVisibility(GONE);
+		divider.setVisibility(GONE);
 
 		Set<String> suppliersAvailableOnDetails = new HashSet<>();
 		appendSupplierSetFromOffers(unfilteredCategorizedCarOffers.offers, suppliersAvailableOnDetails);
@@ -343,6 +345,8 @@ public class CarFilterWidget extends LinearLayout {
 	@Subscribe
 	public void onCarsIsFiltered(Events.CarsIsFiltered event) {
 		if (!filter.altered()) {
+			isZero = false;
+			updateDoneButton();
 			hideDynamicFeedback();
 			return;
 		}
@@ -351,19 +355,38 @@ public class CarFilterWidget extends LinearLayout {
 		}
 
 		int count = 0;
-		if (event.categorizedCarOffers == null) {
-			for (CategorizedCarOffers category : event.carSearch.categories) {
+		if (event.filteredCarOffers == null) {
+			for (CategorizedCarOffers category : event.filteredCarSearch.categories) {
 				count += category.offers.size();
 			}
 		}
 		else {
-			count += event.categorizedCarOffers.offers.size();
+			count += event.filteredCarOffers.offers.size();
 		}
 
 		CharSequence text = Phrase.from(getContext().getResources().getQuantityString(R.plurals.number_results_template, count))
 			.put("number", count)
 			.format();
+
+		if (count == 0) {
+			SpannableBuilder sb = new SpannableBuilder();
+			sb.append(text, new ForegroundColorSpan(0xFFE6492C));
+			text = sb.build();
+			isZero = true;
+		}
+		else {
+			isZero = false;
+		}
+		updateDoneButton();
 		dynamicFeedbackCounter.setText(text);
+	}
+
+	private boolean isNonZeroResults() {
+		if (isZero) {
+			AnimUtils.doTheHarlemShake(dynamicFeedbackContainer);
+		}
+
+		return !isZero;
 	}
 
 	private void hideDynamicFeedback() {
@@ -374,16 +397,12 @@ public class CarFilterWidget extends LinearLayout {
 		dynamicFeedbackContainer.setVisibility(View.VISIBLE);
 	}
 
-	private void hideCarCategories(boolean hide) {
-		if (hide) {
-			carTypeText.setVisibility(GONE);
-			filterCategoriesContainer.setVisibility(GONE);
-			divider.setVisibility(GONE);
+	private void updateDoneButton() {
+		if (isZero) {
+			doneButton.setAlpha(0.15f);
 		}
 		else {
-			carTypeText.setVisibility(VISIBLE);
-			filterCategoriesContainer.setVisibility(VISIBLE);
-			divider.setVisibility(VISIBLE);
+			doneButton.setAlpha(1.0f);
 		}
 	}
 }

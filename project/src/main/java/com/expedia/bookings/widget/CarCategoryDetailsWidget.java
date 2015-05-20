@@ -76,9 +76,8 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 
 	@Subscribe
 	public void onCarsIsFiltered(Events.CarsIsFiltered event) {
-		if (event.categorizedCarOffers != null) {
-			CategorizedCarOffers bucket = event.carSearch.getFromDisplayLabel(event.categorizedCarOffers.carCategoryDisplayLabel);
-			adapter.setCarOffers(bucket.offers);
+		if (event.filteredCarOffers != null) {
+			adapter.setCarOffers(event.filteredCarOffers.offers);
 			adapter.notifyDataSetChanged();
 		}
 	}
