@@ -39,7 +39,7 @@ public class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearL
         offerDescription.setText(description)
     }
 
-    Subscribe fun onOfferExpanded(event : Events.LXOfferExpanded) {
+    Subscribe fun onOfferExpanded([suppress("UNUSED_PARAMETER")] event : Events.LXOfferExpanded) {
         readMore.clearAnimation()
         setClickable(false)
 
