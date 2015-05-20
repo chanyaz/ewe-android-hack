@@ -51,6 +51,9 @@ public class CarFilterWidget extends LinearLayout {
 		inflate(context, R.layout.widget_car_filter, this);
 	}
 
+	@InjectView(R.id.car_filter_scrollview)
+	ScrollView scrollView;
+
 	@InjectView(R.id.ac_filter_checkbox)
 	CheckBox airConditioningCheckbox;
 
@@ -188,7 +191,20 @@ public class CarFilterWidget extends LinearLayout {
 				return true;
 			}
 		});
+
+		scrollView.addOnScrollListener(scrollListener);
 	}
+
+	private final ScrollView.OnScrollListener scrollListener = new ScrollView.OnScrollListener() {
+		@Override
+		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			int drift = oldy - y;
+			float total = dynamicFeedbackContainer.getTranslationY() - drift;
+			total = Math.min(dynamicFeedbackContainer.getHeight() * 2, total);
+			total = Math.max(0, total);
+			dynamicFeedbackContainer.setTranslationY(total);
+		}
+	};
 
 	@Override
 	protected void onAttachedToWindow() {
@@ -211,6 +227,9 @@ public class CarFilterWidget extends LinearLayout {
 			public void onClick(View v) {
 				if (isNonZeroResults()) {
 					((Activity) getContext()).onBackPressed();
+				}
+				else {
+					showDynamicFeedback();
 				}
 			}
 		});
@@ -282,6 +301,7 @@ public class CarFilterWidget extends LinearLayout {
 			supplierView.bind(supplier);
 			filterSuppliersContainer.addView(supplierView);
 		}
+		scrollView.setScrollY(0);
 	}
 
 	public void onTransitionToResults() {
@@ -391,10 +411,14 @@ public class CarFilterWidget extends LinearLayout {
 
 	private void hideDynamicFeedback() {
 		dynamicFeedbackContainer.setVisibility(View.GONE);
+		dynamicFeedbackContainer.setTranslationY(0.0f);
+		dynamicFeedbackContainer.animate().alpha(0.0f);
 	}
 
 	private void showDynamicFeedback() {
 		dynamicFeedbackContainer.setVisibility(View.VISIBLE);
+		dynamicFeedbackContainer.setTranslationY(0.0f);
+		dynamicFeedbackContainer.animate().alpha(1.0f);
 	}
 
 	private void updateDoneButton() {
