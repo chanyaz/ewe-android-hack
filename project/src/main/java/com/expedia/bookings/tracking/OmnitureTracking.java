@@ -3214,6 +3214,7 @@ public class OmnitureTracking {
 	private static final String CAR_DEST_SEARCH = "App.Cars.Dest-Search";
 	private static final String CAR_NO_RESULT = "App.Cars.NoResults";
 	private static final String CAR_SEARCH = "App.Cars.Search";
+	private static final String CAR_FILTERS = "App.Cars.Search.Filter";
 	private static final String CAR_RATE_DETAIL = "App.Cars.RateDetails";
 	private static final String CAR_VIEW_DETAILS = "App.Cars.RD.ViewDetails";
 	private static final String CAR_VIEW_MAP = "App.Cars.RD.ViewMap";
@@ -3267,13 +3268,29 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppCarRateDetails(Context context, SearchCarOffer mOffer) {
+	public static void trackAppCarFilter(Context context) {
+		Log.d(TAG, "Tracking \"" + CAR_FILTERS + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(context, CAR_FILTERS);
+		s.track();
+	}
+
+	public static void trackAppCarFilterUsage(Context context, String filter) {
+		Log.d(TAG, "Tracking \"" + CAR_FILTERS + "." + filter + "\" trackLink...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.setEvar(28, CAR_FILTERS + "." + filter);
+
+		s.trackLink(null, "o", "Car Search", null, null);
+	}
+
+	public static void trackAppCarRateDetails(Context context, SearchCarOffer offer) {
 		Log.d(TAG, "Tracking \"" + CAR_RATE_DETAIL + "\" pageLoad...");
 		ADMS_Measurement s = internalTrackAppCar(context, CAR_RATE_DETAIL);
 
 		s.setEvents("event4");
-		String evar38String = Strings.capitalizeFirstLetter(mOffer.vehicleInfo.category.toString()) + ":" + Strings
-			.capitalizeFirstLetter(mOffer.vehicleInfo.type.toString().replaceAll("_"," "));
+		String evar38String = Strings.capitalizeFirstLetter(offer.vehicleInfo.category.toString()) + ":" + Strings
+			.capitalizeFirstLetter(offer.vehicleInfo.type.toString().replaceAll("_", " "));
 
 		s.setEvar(38, evar38String);
 
@@ -3281,6 +3298,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppCarViewDetails(Context context) {
+		Log.d(TAG, "Tracking \"" + CAR_RATE_DETAIL + ".sh" + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addStandardFields(context, s);
 

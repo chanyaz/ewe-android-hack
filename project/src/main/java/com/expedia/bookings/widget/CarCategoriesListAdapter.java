@@ -22,7 +22,6 @@ import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarFare;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Images;
 import com.squareup.picasso.Picasso;
@@ -152,7 +151,6 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 		public void onClick(View view) {
 			CategorizedCarOffers offers = (CategorizedCarOffers) view.getTag();
 			Events.post(new Events.CarsShowDetails(offers));
-			OmnitureTracking.trackAppCarRateDetails(itemView.getContext(), offers.offers.get(0));
 		}
 
 		private PicassoTarget target = new PicassoTarget() {

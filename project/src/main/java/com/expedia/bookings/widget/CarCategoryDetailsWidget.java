@@ -12,6 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -97,6 +98,8 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 			.fade()
 			.build()
 			.load(url);
+
+		OmnitureTracking.trackAppCarRateDetails(getContext(), bucket.offers.get(0));
 	}
 
 	public float parallaxScrollHeader() {

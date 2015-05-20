@@ -27,6 +27,7 @@ import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.cars.Transmission;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
@@ -98,6 +99,8 @@ public class CarFilterWidget extends LinearLayout {
 		all.setSelected(true);
 		filter.carTransmissionType = null;
 		postCarFilterEvent();
+
+		OmnitureTracking.trackAppCarFilterUsage(getContext(), "All");
 	}
 
 	@OnClick(R.id.transmission_filter_manual)
@@ -107,6 +110,9 @@ public class CarFilterWidget extends LinearLayout {
 		all.setSelected(false);
 		filter.carTransmissionType = Transmission.MANUAL_TRANSMISSION;
 		postCarFilterEvent();
+
+		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Manual");
+
 	}
 
 	@OnClick(R.id.transmission_filter_automatic)
@@ -116,28 +122,36 @@ public class CarFilterWidget extends LinearLayout {
 		all.setSelected(false);
 		filter.carTransmissionType = Transmission.AUTOMATIC_TRANSMISSION;
 		postCarFilterEvent();
+
+		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Auto");
+
 	}
 
 	@OnClick(R.id.ac_filter)
 	public void onAirConditioningFilterClick() {
 		airConditioningCheckbox.setChecked(!airConditioningCheckbox.isChecked());
+		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Air");
+
 	}
 
 	@OnClick(R.id.unlimited_mileage_filter)
 	public void onMileageFilterClick() {
 		unlimitedMileageCheckbox.setChecked(!unlimitedMileageCheckbox.isChecked());
+		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Unlimited");
 	}
 
 	@OnCheckedChanged(R.id.ac_filter_checkbox)
 	public void onACFilterCheckedChanged(boolean checked) {
 		filter.hasAirConditioning = checked;
 		postCarFilterEvent();
+		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Air");
 	}
 
 	@OnCheckedChanged(R.id.unlimited_mileage_filter_checkbox)
 	public void onMileageFilterCheckedChanged(boolean checked) {
 		filter.hasUnlimitedMileage = checked;
 		postCarFilterEvent();
+		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Unlimited");
 	}
 
 	@OnClick(R.id.dynamic_feedback_clear_button)
@@ -310,6 +324,7 @@ public class CarFilterWidget extends LinearLayout {
 		}
 
 		postCarFilterEvent();
+		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Category");
 	}
 
 	@Subscribe
@@ -322,6 +337,7 @@ public class CarFilterWidget extends LinearLayout {
 		}
 
 		postCarFilterEvent();
+		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Vendor");
 	}
 
 	@Subscribe

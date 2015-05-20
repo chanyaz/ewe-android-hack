@@ -626,10 +626,6 @@ public class Events {
 		}
 	}
 
-	public static class CarsShowResults {
-		// ignore
-	}
-
 	public static class CarsShowCheckoutAfterPriceChange {
 		public CreateTripCarOffer originalCreateTripOffer;
 		public CreateTripCarOffer newCreateTripOffer;

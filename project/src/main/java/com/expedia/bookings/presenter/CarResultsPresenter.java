@@ -214,7 +214,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 			Events.post(new Events.CarsShowSearchResults(carSearch));
 			show(categories, FLAG_CLEAR_TOP);
 			bindFilter(carSearch);
-			OmnitureTracking.trackAppCarSearch(getContext(), searchedParams, carSearch.categories.size());
+			OmnitureTracking.trackAppCarSearch(getContext(), searchedParams, unfilteredSearch.categories.size());
 			AdTracker.trackCarSearch(searchedParams);
 		}
 	};
@@ -548,6 +548,13 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		public void finalizeTransition(boolean forward) {
 			filter.setVisibility(forward ? VISIBLE : GONE);
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
+
+			if (!forward) {
+				OmnitureTracking.trackAppCarSearch(getContext(), searchedParams, unfilteredSearch.categories.size());
+			}
+			else {
+				OmnitureTracking.trackAppCarFilter(getContext());
+			}
 		}
 	};
 
@@ -581,6 +588,9 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		public void finalizeTransition(boolean forward) {
 			filter.setVisibility(forward ? VISIBLE : GONE);
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
+			if (forward) {
+				OmnitureTracking.trackAppCarFilter(getContext());
+			}
 		}
 	};
 
@@ -625,11 +635,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		show(details, FLAG_CLEAR_TOP);
 		selectedCategorizedCarOffers = event.categorizedCarOffers;
 		setToolBarDetailsText();
-	}
-
-	@Subscribe
-	public void onShowResults(Events.CarsShowResults event) {
-		show(categories, FLAG_CLEAR_TOP);
 	}
 
 	@Subscribe
