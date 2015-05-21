@@ -109,8 +109,11 @@ public class AnimUtils {
 
 	}
 
-	private static ValueAnimator animateBackground(final View view, int startColor, int endColor) {
-		ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), startColor, endColor);
+	// This is stateless so we should cache it
+	public final static ArgbEvaluator ARGB_EVALUATOR = new ArgbEvaluator();
+
+	public static ValueAnimator animateBackground(final View view, int startColor, int endColor) {
+		ValueAnimator animation = ValueAnimator.ofObject(ARGB_EVALUATOR, startColor, endColor);
 		animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator animator) {
