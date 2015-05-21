@@ -1,10 +1,8 @@
 package com.expedia.bookings.widget;
 
 import android.animation.ValueAnimator;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 
@@ -15,10 +13,7 @@ public class LoadingViewHolder extends RecyclerView.ViewHolder {
 	private ValueAnimator animator;
 
 	@InjectView(R.id.background_image_view)
-	public ImageView backgroundImageView;
-
-	@InjectView(R.id.loading_card_view)
-	public CardView cardView;
+	public View backgroundImageView;
 
 	public LoadingViewHolder(View view) {
 		super(view);

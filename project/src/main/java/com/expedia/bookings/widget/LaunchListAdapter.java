@@ -3,7 +3,6 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
@@ -523,20 +522,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	public static class LoadingViewHolder extends RecyclerView.ViewHolder {
 		private final static int LOADING_COLOR_LIGHT = Color.parseColor("#D3D4D4");
 		private final static int LOADING_COLOR_DARK = Color.parseColor("#848F94");
-		private final static ArgbEvaluator ARGB_EVALUATOR = new ArgbEvaluator();
 
 		private ValueAnimator animation;
 
 		@InjectView(R.id.background_image_view)
-		public ImageView backgroundImageView;
+		public View backgroundImageView;
 
 		public LoadingViewHolder(View view) {
 			super(view);
 			ButterKnife.inject(this, itemView);
-		}
-
-		public void bind() {
-			setupLoadingAnimation();
 		}
 
 		/**
@@ -551,34 +545,19 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		 | etc etc etc |
 
 		 **/
-
-		private void setupLoadingAnimation() {
+		public void bind() {
 			switch (getPosition() % 10) {
 			case 0:
 			case 3:
 			case 4:
 			case 6:
 			case 7:
-				animateBackground(backgroundImageView, LOADING_COLOR_DARK, LOADING_COLOR_LIGHT);
+				animation = AnimUtils.animateBackground(backgroundImageView, LOADING_COLOR_DARK, LOADING_COLOR_LIGHT);
 				break;
 			default:
-				animateBackground(backgroundImageView, LOADING_COLOR_LIGHT, LOADING_COLOR_DARK);
+				animation = AnimUtils.animateBackground(backgroundImageView, LOADING_COLOR_LIGHT, LOADING_COLOR_DARK);
 				break;
 			}
-		}
-
-		private void animateBackground(final View view, int startColor, int endColor) {
-			animation = ValueAnimator.ofObject(ARGB_EVALUATOR, startColor, endColor);
-			animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-				@Override
-				public void onAnimationUpdate(ValueAnimator animator) {
-					view.setBackgroundColor((Integer) animator.getAnimatedValue());
-				}
-			});
-			animation.setRepeatMode(ValueAnimator.REVERSE);
-			animation.setRepeatCount(ValueAnimator.INFINITE);
-			animation.setDuration(600);
-			animation.start();
 		}
 
 		public void cancelAnimation() {
