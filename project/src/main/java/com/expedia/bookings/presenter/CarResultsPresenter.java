@@ -719,7 +719,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 				else if (scrolledDistance != 0) {
 					filterToolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
 				}
-				scrolledDistance = 0;
 			}
 		}
 
