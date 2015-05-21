@@ -35,6 +35,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
@@ -332,6 +333,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			mLoginButton.setVisibility(mShowError ? View.GONE : View.VISIBLE);
 			mNoTripsRefreshButton.setVisibility(View.GONE);
 		}
+		mLoginButton.setVisibility(ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled() ? View.VISIBLE : View.GONE);
 	}
 
 	public void accountLogoutClicked() {

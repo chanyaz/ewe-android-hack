@@ -244,4 +244,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isAppSupportUrlEnabled() {
 		return false;
 	}
+
+	public boolean isSigninEnabled() {
+		return true;
+	}
 }
