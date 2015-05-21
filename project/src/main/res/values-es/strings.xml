@@ -126,6 +126,13 @@
     <string name="car_types">Tipos de auto</string>
     <!-- Car types checkbox filter label for a car rental-->
     <string name="car_vendors">Agencias de alquiler</string>
+    <!-- Button label to clear user selected filters -->
+    <string name="clear_filters">Borrar filtros</string>
+    <!-- Label to tell the user how many products match thier filter -->
+    <plurals name="number_results_template">
+        <item quantity="one">{number} Resultado</item>
+        <item quantity="other">{number} Resultados</item>
+    </plurals>
 
     <!-- Checkout -->
     <!-- Car model templates-->
@@ -608,6 +615,11 @@
     <string name="lx_error_current_location_toolbar_text">Inténtalo de nuevo</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">No pudimos encontrar actividades cerca de ti. Repite la búsqueda con otros criterios.</string>
+
+    <!-- Ground Transport bags text-->
+    <string name="lx_ground_transport_bags_text">%1$sPiezas de equipaje</string>
+    <!-- Ground Transport passengers text-->
+    <string name="lx_ground_transport_passengers_text">%1$sPasajeros</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1218,6 +1230,11 @@
     <string name="add_hotel_fallback">Agregar un hotel a tu destino</string>
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">Agregar un hotel</string>
+
+    <!-- Button label to search for an activity in the hotel city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_lx_TEMPLATE">Encuentra actividades mientras estás en %1$s</string>
+    <!-- Button label to search for an activity in the hotel city. Used only when we don't know the destination city. -->
+    <string name="add_lx_fallback">Encuentra actividades mientras estás en tu destino</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -1920,7 +1937,7 @@
     <!-- email hint -->
     <string name="email_address_hint">Dirección de correo electrónico</string>
     <!-- phone number hint -->
-    <string name="phone_number_hint">Número de teléfono</string>
+    <string name="phone_number_hint">Teléfono</string>
     <!-- Cardholder -->
     <string name="cardholder">Titular de la tarjeta</string>
     <!-- email disclaimer -->
@@ -1933,6 +1950,9 @@
     <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
     <!-- Single Line City State Zip -->
     <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
+
+    <!-- Airport to LX template (e.g. "Boise, ID or Paris, France" -->
+    <string name="lx_destination_TEMPLATE">%1$s, %2$s</string>
 
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
@@ -2114,8 +2134,6 @@
     <string name="air_attach_amount_discounted_TEMPLATE">¡Ahorrarás un %s si reservas tu hotel ahora!</string>
     <!-- Air attach offer expiration alert -->
     <string name="air_attach_expires">La oferta vence en</string>
-    <!-- Air attach offer expiration date -->
-    <string name="air_attach_expiration_date_TEMPLATE">%d días</string>
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">La oferta vence hoy</string>
     <!-- Air attach add hotel button -->
@@ -3569,5 +3587,8 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Al completar esta reservación, acepto que he leído y acepto las %1$s, los %2$s, y la %3$s.</string>
+
+    <!-- Used in hotel search for specifying traveler -->
+    <string name="child_age_label">Selecciona la edad de cada niño</string>
 
 </resources>

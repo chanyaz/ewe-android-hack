@@ -126,6 +126,13 @@
     <string name="car_types">Autotypes</string>
     <!-- Car types checkbox filter label for a car rental-->
     <string name="car_vendors">Autoverhuurders</string>
+    <!-- Button label to clear user selected filters -->
+    <string name="clear_filters">Filters wissen</string>
+    <!-- Label to tell the user how many products match thier filter -->
+    <plurals name="number_results_template">
+        <item quantity="one">{number} resultaat</item>
+        <item quantity="other">{number} resultaten</item>
+    </plurals>
 
     <!-- Checkout -->
     <!-- Car model templates-->
@@ -608,6 +615,11 @@
     <string name="lx_error_current_location_toolbar_text">Probeer het opnieuw</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">We konden geen lokale activiteiten vinden. Zoek opnieuw met andere zoekcriteria</string>
+
+    <!-- Ground Transport bags text-->
+    <string name="lx_ground_transport_bags_text">%1$sStuks bagage</string>
+    <!-- Ground Transport passengers text-->
+    <string name="lx_ground_transport_passengers_text">%1$sPassagiers</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1218,6 +1230,11 @@
     <string name="add_hotel_fallback">Voeg een hotel toe op je bestemming</string>
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">Hotel toevoegen</string>
+
+    <!-- Button label to search for an activity in the hotel city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_lx_TEMPLATE">Vind activiteiten in %1$s</string>
+    <!-- Button label to search for an activity in the hotel city. Used only when we don't know the destination city. -->
+    <string name="add_lx_fallback">Vind activiteiten op je bestemming</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -1934,6 +1951,9 @@
     <!-- Single Line City State Zip -->
     <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
 
+    <!-- Airport to LX template (e.g. "Boise, ID or Paris, France" -->
+    <string name="lx_destination_TEMPLATE">%1$s, %2$s</string>
+
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Creditcardnummer</string>
@@ -2114,8 +2134,6 @@
     <string name="air_attach_amount_discounted_TEMPLATE">bespaar je %s als je je hotel nu boekt!</string>
     <!-- Air attach offer expiration alert -->
     <string name="air_attach_expires">Aanbieding verloopt over</string>
-    <!-- Air attach offer expiration date -->
-    <string name="air_attach_expiration_date_TEMPLATE">%d dagen</string>
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Aanbieding verloopt vandaag</string>
     <!-- Air attach add hotel button -->
@@ -3569,5 +3587,8 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Door deze boeking te voltooien, bevestig ik de %1$s, de %2$s en het %3$s te hebben gelezen en goedgekeurd.</string>
+
+    <!-- Used in hotel search for specifying traveler -->
+    <string name="child_age_label">Selecteer de leeftijd van elk kind</string>
 
 </resources>
