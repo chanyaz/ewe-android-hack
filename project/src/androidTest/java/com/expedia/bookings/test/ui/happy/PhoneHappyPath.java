@@ -22,14 +22,18 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
-
-import junit.framework.Assert;
 
 import org.joda.time.LocalDate;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.utils.EspressoUtils.assertViewWithTextIsDisplayed;
+import static com.expedia.bookings.test.ui.utils.EspressoUtils.getListItemValues;
+import static org.hamcrest.Matchers.containsString;
 
 public class PhoneHappyPath extends PhoneTestCase {
 
@@ -170,32 +174,57 @@ public class PhoneHappyPath extends PhoneTestCase {
 
 		// Hotel assertions
 		DataInteraction hotelRow = TripsScreen.tripsListItem().atPosition(0);
-		String hotelTitle = EspressoUtils.getListItemValues(hotelRow, R.id.header_text_view);
+		String hotelTitle = getListItemValues(hotelRow, R.id.header_text_view);
 		final String expectedHotelTitle = "Orchard Hotel";
-		Assert.assertEquals(expectedHotelTitle, hotelTitle);
+		assertEquals(expectedHotelTitle, hotelTitle);
+		hotelRow.onChildView(withText(containsString("Check in"))).atPosition(0).perform(click());
+		onView(withId(R.id.bed_type_text_view)).perform(scrollTo());
+		assertViewWithTextIsDisplayed(R.id.local_phone_number_header_text_view, "Local Phone");
+		assertViewWithTextIsDisplayed(R.id.local_phone_number_text_view, "1-415-362-8878");
+		assertViewWithTextIsDisplayed(R.id.room_type_header_text_view, "Room Type");
+		assertViewWithTextIsDisplayed(R.id.room_type_text_view, "Deluxe Room, 1 King Bed");
+		assertViewWithTextIsDisplayed(R.id.bed_type_header_text_view, "Bed Type");
+		assertViewWithTextIsDisplayed(R.id.bed_type_text_view, "1 king bed");
+		hotelRow.onChildView(withText(containsString("Check in"))).perform(scrollTo(), click());
 
 		// Flight assertions
 		DataInteraction outboundFlightRow = TripsScreen.tripsListItem().atPosition(1);
-		String outboundFlightAirportTimeStr = EspressoUtils
-			.getListItemValues(outboundFlightRow, R.id.flight_status_bottom_line);
-		Assert.assertEquals("From SFO at 11:32 AM", outboundFlightAirportTimeStr);
+		String outboundFlightAirportTimeStr = getListItemValues(outboundFlightRow, R.id.flight_status_bottom_line);
+		assertEquals("From SFO at 11:32 AM", outboundFlightAirportTimeStr);
+		outboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
+		assertViewWithTextIsDisplayed(R.id.departure_time, "11:32 AM");
+		assertViewWithTextIsDisplayed(R.id.departure_time_tz, "Depart (PDT)");
+		assertViewWithTextIsDisplayed(R.id.arrival_time, "9:04 PM");
+		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, "Arrive (EDT)");
+		onView(withText("Booking Info")).perform(scrollTo());
+		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
+		assertViewWithTextIsDisplayed(R.id.airline_text_view, "Delta Air Lines 745");
+		assertViewWithTextIsDisplayed(R.id.departure_time_text_view, "11:32 AM");
+		assertViewWithTextIsDisplayed(R.id.arrival_time_text_view, "9:04 PM");
+		assertViewWithTextIsDisplayed("Detroit Metropolitan Wayne County Airport");
+		assertViewWithTextIsDisplayed(R.id.passengers_label, "Passengers");
+		assertViewWithTextIsDisplayed(R.id.passenger_name_list, "Philip J. Fry, Turanga Leela");
+		assertViewWithTextIsDisplayed("Airline Confirmation");
+		assertViewWithTextIsDisplayed("1102138068718");
+		assertViewWithTextIsDisplayed("Directions");
+		outboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(scrollTo(), click());
 
 		// Air attach assertions
 		DataInteraction airAttachRow = TripsScreen.tripsListItem().atPosition(2);
-		String airAttachMessage = EspressoUtils.getListItemValues(airAttachRow, R.id.itin_air_attach_text_view);
-		Assert.assertEquals("Because you booked a flight", airAttachMessage);
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.itin_air_attach_expiration_date_text_view, "1 day");
+		String airAttachMessage = getListItemValues(airAttachRow, R.id.itin_air_attach_text_view);
+		assertEquals("Because you booked a flight", airAttachMessage);
+		assertViewWithTextIsDisplayed(R.id.itin_air_attach_expiration_date_text_view, "1 day");
 
 		// Car assertions
 		DataInteraction carRow = TripsScreen.tripsListItem().atPosition(3);
-		String carTitle = EspressoUtils.getListItemValues(carRow, R.id.header_text_view);
-		Assert.assertEquals("Budget", carTitle);
+		String carTitle = getListItemValues(carRow, R.id.header_text_view);
+		assertEquals("Budget", carTitle);
 
 		// Lx assertions
 		DataInteraction lxRow = TripsScreen.tripsListItem().atPosition(5);
-		String lxTitle = EspressoUtils.getListItemValues(lxRow, R.id.header_text_view);
+		String lxTitle = getListItemValues(lxRow, R.id.header_text_view);
 		final String expectedLxTitle = "Explorer Pass: Choose 4 Museums, Attractions, & Tours: Explorer Pass - Chose 4 Attractions & Tours";
-		Assert.assertEquals(expectedLxTitle, lxTitle);
+		assertEquals(expectedLxTitle, lxTitle);
 
 		// TODO more assertions for flight, air attach car (e.g. details?)
 		// TODO more LOB
