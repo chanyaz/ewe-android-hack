@@ -191,20 +191,7 @@ public class CarFilterWidget extends LinearLayout {
 				return true;
 			}
 		});
-
-		scrollView.addOnScrollListener(scrollListener);
 	}
-
-	private final ScrollView.OnScrollListener scrollListener = new ScrollView.OnScrollListener() {
-		@Override
-		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
-			int drift = oldy - y;
-			float total = dynamicFeedbackContainer.getTranslationY() - drift;
-			total = Math.min(dynamicFeedbackContainer.getHeight() * 2, total);
-			total = Math.max(0, total);
-			dynamicFeedbackContainer.setTranslationY(total);
-		}
-	};
 
 	@Override
 	protected void onAttachedToWindow() {
@@ -410,13 +397,11 @@ public class CarFilterWidget extends LinearLayout {
 	}
 
 	private void hideDynamicFeedback() {
-		dynamicFeedbackContainer.setVisibility(View.GONE);
 		dynamicFeedbackContainer.setTranslationY(0.0f);
 		dynamicFeedbackContainer.animate().alpha(0.0f);
 	}
 
 	private void showDynamicFeedback() {
-		dynamicFeedbackContainer.setVisibility(View.VISIBLE);
 		dynamicFeedbackContainer.setTranslationY(0.0f);
 		dynamicFeedbackContainer.animate().alpha(1.0f);
 	}
