@@ -2823,7 +2823,7 @@
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">Sorry, but the coupon cannot be applied to this hotel.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Sorry, but we cannot process coupons currently.  Please try again.</string>
+    <string name="coupon_error_service_down">Sorry, but we cannot process coupons currently. Please try again.</string>
     <!-- Error when applying coupon - session timeout -->
     <string name="coupon_error_service_timeout">Sorry, but it took too long to apply the code. Please try again.</string>
     <!-- Error when applying coupon - Invalid Stay Dates -->
