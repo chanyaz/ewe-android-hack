@@ -337,6 +337,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// We underline the coupon button text in code to avoid re-translating
 		mCouponButton.setPaintFlags(mCouponButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+		mAccountButton.setVisibility(ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled() ? View.VISIBLE : View.GONE);
+
 		return view;
 	}
 
