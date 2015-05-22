@@ -12,7 +12,9 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
@@ -100,6 +102,12 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 
 	@OnClick(R.id.lob_btn_bg)
 	public void onBgClick(View v) {
+
+		if (Db.getMemoryTestActive()) {
+			Events.post(new Events.MemoryTestInput(getId()));
+			return;
+		}
+
 		if (isEnabled()) {
 			Bundle animOptions = AnimUtils.createActivityScaleBundle(v);
 			switch (getId()) {

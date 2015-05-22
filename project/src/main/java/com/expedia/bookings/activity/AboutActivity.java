@@ -21,7 +21,9 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -437,6 +439,9 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		ImageView logo = Ui.findView(this, com.mobiata.android.R.id.logo);
 		if (logo != null) {
 			logo.setImageResource(R.drawable.ic_secret);
+			if (BuildConfig.DEBUG) {
+				Db.setMemoryTestActive(true);
+			}
 		}
 	}
 }
