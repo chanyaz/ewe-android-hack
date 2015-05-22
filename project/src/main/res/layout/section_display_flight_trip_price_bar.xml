@@ -56,7 +56,7 @@
         </LinearLayout>
 
         <Space
-            android:layout_width="4dp"
+            android:layout_width="10dp"
             android:layout_height="match_parent" />
 
         <com.mobiata.android.widget.AutoResizeTextView
