@@ -13,6 +13,7 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsCheckoutScreen
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
+import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
@@ -58,6 +59,7 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 		verifyMissingTravelerInformationAlerts();
 		verifyMissingCardInfoAlerts();
 		verifyLoginButtonNotAppearing();
+		verifyCreditCardCleared();
 	}
 
 	private void verifyRulesAndRestrictionsButton() {
@@ -178,5 +180,26 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 		}
 		HotelsCheckoutScreen.logInButton().check(matches(isDisplayed()));
 		ScreenActions.enterLog(TAG, "Log out button was visible and able to be clicked. Email address no longer visible on checkout screen");
+	}
+
+	private void verifyCreditCardCleared() {
+		HotelsCheckoutScreen.clickSelectPaymentButton();
+		CardInfoScreen.typeTextCreditCardEditText(mUser.getCreditCardNumber());
+		CardInfoScreen.clickOnExpirationDateButton();
+		CardInfoScreen.clickMonthUpButton();
+		CardInfoScreen.clickYearUpButton();
+		CardInfoScreen.clickSetButton();
+		CardInfoScreen.typeTextNameOnCardEditText(mUser.getFirstName() + mUser.getLastName());
+		CardInfoScreen.clickOnDoneButton();
+
+		Common.pressBack();
+		Common.pressBack();
+		HotelsRoomsRatesScreen.selectRoomItem(0);
+		HotelsCheckoutScreen.clickCheckoutButton();
+
+		HotelsCheckoutScreen.clickSelectPaymentButton();
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "");
+		CardInfoScreen.clickOnDoneButton();
+		CardInfoScreen.creditCardNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 	}
 }
