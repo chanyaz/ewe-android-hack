@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.JodaUtils;
 
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -174,6 +175,10 @@ public final class CarSearchPresenterTests {
 		CarViewModel.searchButton().perform(click());
 		CarViewModel.didNotGoToResults();
 
+		//Test with invalid airport code we dont show calendar
+		CarViewModel.pickupLocation().perform(typeText("AAAA"));
+		CarViewModel.searchButton().perform(click());
+		CarViewModel.didNotshowCalendar();
 	}
 
 	@Test
