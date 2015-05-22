@@ -191,10 +191,11 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 					}
 				}
 			});
-			updateState(offer.isToggled);
+			updateState(offer);
 		}
 
-		private void updateState(boolean isChecked) {
+		private void updateState(SearchCarOffer offer) {
+			boolean isChecked = offer.isToggled;
 			mainContainer.setClickable(!isChecked);
 			reserveNow.setChecked(isChecked);
 
@@ -211,9 +212,13 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			reserveNow.setPadding(isChecked ? reserveExpanded : toggleCollapsed, 0,
 				isChecked ? reserveExpanded : toggleCollapsed, 0);
 
-			passengers.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-			bags.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-			doors.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+			boolean passengerVisibility = isChecked && offer.vehicleInfo.adultCapacity > 0;
+			boolean bagsVisibility = isChecked && offer.vehicleInfo.largeLuggageCapacity + offer.vehicleInfo.smallLuggageCapacity > 0;
+			boolean doorsVisibility = isChecked && offer.vehicleInfo.maxDoors > 0;
+
+			passengers.setVisibility(passengerVisibility ? View.VISIBLE : View.GONE);
+			bags.setVisibility(bagsVisibility ? View.VISIBLE : View.GONE);
+			doors.setVisibility(doorsVisibility ? View.VISIBLE : View.GONE);
 			transmission.setVisibility(isChecked ? View.VISIBLE : View.GONE);
 
 			mapView.setVisibility(isChecked ? View.VISIBLE : View.GONE);
