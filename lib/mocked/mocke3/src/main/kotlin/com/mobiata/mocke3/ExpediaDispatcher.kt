@@ -112,7 +112,7 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 		}
 		else if (request.getPath().startsWith("/api/m/trip/coupon")) {
 			val params = parseRequest(request)
-			return makeResponse("api/m/trip/coupon/" + params.get("tripId") + ".json", params)
+			return makeResponse("api/m/trip/coupon/" + params.get("coupon.code") + ".json", params)
 		}
 		else if (request.getPath().startsWith("/m/api/hotel/trip/checkout")) {
 			val params = parseRequest(request)

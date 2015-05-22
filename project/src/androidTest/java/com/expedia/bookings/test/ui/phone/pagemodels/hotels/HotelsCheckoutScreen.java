@@ -14,6 +14,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class HotelsCheckoutScreen extends CommonCheckoutScreen {
 	private static final int TITLE_VIEW_ID = R.id.title;
 	private static final int RATING_VIEW_ID = R.id.rating_stars;
+	private static final int COUPON_TEXT_ID = R.id.coupon_button;
+
 	private HotelReceiptModel mHotelReceiptModel;
 
 	public HotelReceiptModel hotelReceiptModel() {
@@ -35,5 +37,9 @@ public class HotelsCheckoutScreen extends CommonCheckoutScreen {
 
 	public static ViewInteraction guestCountView() {
 		return onView(withId(R.id.guests_text));
+	}
+
+	public static ViewInteraction couponButton() {
+		return onView(withId(COUPON_TEXT_ID));
 	}
 }
