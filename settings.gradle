@@ -1,7 +1,6 @@
 // Main projects
 include ':lib:ExpediaBookings'
 include ':project'
-include ':robolectric'
 
 // libraries, order does not matter
 // Order matters in the dependencies block of individual projects

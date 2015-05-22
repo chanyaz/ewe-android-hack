@@ -86,6 +86,11 @@ dependencies {
     debugCompile "com.facebook.stetho:stetho-okhttp:${stethoVersion}"
 
     // Test dependencies
+    testCompile 'junit:junit:4.12'
+    def roboVersion = '3.0-rc3'
+    testCompile "org.robolectric:robolectric:${roboVersion}"
+    testCompile "org.robolectric:shadows-multidex:${roboVersion}"
+
     androidTestCompile ('com.android.support.test.espresso:espresso-core:2.1'){
         exclude group: 'com.android.support'
         exclude group: 'javax.inject'
@@ -373,3 +378,7 @@ android.applicationVariants.all { variant ->
     }
     variant.resValue "string", "launcher_name", "${launcherName}"
 }
+
+// robolectric - fix for robolectric issue
+apply from: "build.workaround-missing-resource.gradle"
+
