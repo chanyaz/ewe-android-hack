@@ -32,9 +32,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.core.IsNot.not;
 
-/**
- * Created by dmadan on 5/8/14.
- */
 public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 
 	private static final String TAG = FlightCheckoutUserInfoTests.class.getSimpleName();
@@ -387,7 +384,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
 		FlightsCheckoutScreen.logOutButton().perform(scrollTo());
 		FlightsCheckoutScreen.clickLogOutButton();
-		onView(withText("Log Out")).perform(click());
+		onView(withText(mRes.getString(R.string.sign_out))).perform(click());
 		FlightsCheckoutScreen.logInButton().check(matches(isDisplayed()));
 		ScreenActions.enterLog(TAG, "Log out button was visible and able to be clicked. Email address no longer visible on checkout screen");
 	}

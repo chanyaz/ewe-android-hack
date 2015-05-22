@@ -21,9 +21,6 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
-/**
- * Created by dmadan on 6/12/14.
- */
 public class CreditCardsInfoEditTest extends PhoneTestCase {
 
 	List<TestData> mTestData = new LinkedList<TestData>();
