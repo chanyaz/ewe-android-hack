@@ -41,7 +41,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public int getCrossSellStringResourceIdForShareEmail() {
-		return R.string.share_template_long_ad;
+		return R.string.share_template_long_ad_lm;
 	}
 
 	public boolean isAppCrossSellInActivityShareContentEnabled() {
