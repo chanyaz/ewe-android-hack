@@ -114,4 +114,8 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isAppSupportUrlEnabled();
 
 	boolean isSigninEnabled();
+
+	boolean isAppCrossSellInHotelShareContentEnabled();
+
+	boolean isAppCrossSellInFlightShareContentEnabled();
 }
