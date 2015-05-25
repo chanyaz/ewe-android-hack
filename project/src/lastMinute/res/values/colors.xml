@@ -41,4 +41,5 @@
     <color name="action_bar_flight_result_separator_color">#FFFFFF</color>
 
     <color name="bg_sale_text_view_color_lm">#E57AC231</color>
+    <color name="confirmation_header_divider_color">#4D555D</color>
 </resources>

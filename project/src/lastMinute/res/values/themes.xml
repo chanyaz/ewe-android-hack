@@ -120,6 +120,8 @@
         <item name="skin_hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon_lm</item>
         <item name="skin_roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon_lm</item>
 
+        <item name="skin_confirmationHeaderHotelDividerLineColor">@color/confirmation_header_divider_color</item>
+        <item name="skin_confirmationHeaderFlightDividerLineColor">@color/confirmation_header_divider_color</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.LM">
@@ -186,7 +188,7 @@
         <item name="skin_itinCardBackground">@drawable/bg_itin_card_lm</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color_lm</item>
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach_lm</item>
-        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal_lm</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_lm</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_lm</item>
         <item name="skin_addToCalenderMessage">@string/contact_phone_template_lm</item>
@@ -199,7 +201,6 @@
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_lm</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_lm</item>
         <item name="skin_actionBarShopText">@string/shop</item>
-
     </style>
 
     <style name="FlightActionBarlm" parent="FlightActionBar">
@@ -223,7 +224,7 @@
         <item name="skin_itinCardBackground">@drawable/bg_itin_card_lm</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color_lm</item>
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach_lm</item>
-        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal_lm</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_lm</item>
         <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itin_card_lm</item>
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title_lm</item>
