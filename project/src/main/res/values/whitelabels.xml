@@ -317,4 +317,6 @@
 
     <attr name="skin_totalDueToday" format="reference|string" />
     <attr name="skin_actionBarShopText" format="reference|string" />
+    <attr name="skin_confirmationHeaderHotelDividerLineColor" format="reference|color" />
+    <attr name="skin_confirmationHeaderFlightDividerLineColor" format="reference|color" />
 </resources>

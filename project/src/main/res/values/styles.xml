@@ -708,11 +708,11 @@
     </style>
 
     <style name="Confirmation.Divider.Header.Flight">
-        <item name="android:background">@color/confirmation_header_divider_flight</item>
+        <item name="android:background">?attr/skin_confirmationHeaderHotelDividerLineColor</item>
     </style>
 
     <style name="Confirmation.Divider.Header.Hotel">
-        <item name="android:background">@color/confirmation_header_divider_hotel</item>
+        <item name="android:background">?attr/skin_confirmationHeaderFlightDividerLineColor</item>
     </style>
 
     <style name="FauxActionBarTitleText">

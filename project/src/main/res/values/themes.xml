@@ -226,6 +226,8 @@
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
         <item name="skin_etp_pay_now_charges_text">@string/etp_pay_now_charges_text</item>
         <item name="skin_totalDueToday">@string/total_due_today</item>
+        <item name="skin_confirmationHeaderHotelDividerLineColor">@color/confirmation_header_divider_hotel</item>
+        <item name="skin_confirmationHeaderFlightDividerLineColor">@color/confirmation_header_divider_flight</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
