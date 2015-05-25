@@ -119,6 +119,7 @@
         <item name="skin_hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale_lm</item>
         <item name="skin_hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon_lm</item>
         <item name="skin_roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon_lm</item>
+        <item name="skin_checkmarkFlightDrawable">@drawable/checkmark_flight_lm</item>
 
         <item name="skin_confirmationHeaderHotelDividerLineColor">@color/confirmation_header_divider_color</item>
         <item name="skin_confirmationHeaderFlightDividerLineColor">@color/confirmation_header_divider_color</item>
