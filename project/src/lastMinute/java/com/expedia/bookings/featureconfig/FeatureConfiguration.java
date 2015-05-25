@@ -45,11 +45,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isAppCrossSellInActivityShareContentEnabled() {
-		return true;
+		return false;
 	}
 
 	public boolean isAppCrossSellInCarShareContentEnabled() {
-		return true;
+		return false;
 	}
 
 	public String getHostnameForShortUrl() {
@@ -250,6 +250,14 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isSigninEnabled() {
+		return false;
+	}
+
+	public boolean isAppCrossSellInHotelShareContentEnabled() {
+		return false;
+	}
+
+	public boolean isAppCrossSellInFlightShareContentEnabled() {
 		return false;
 	}
 }

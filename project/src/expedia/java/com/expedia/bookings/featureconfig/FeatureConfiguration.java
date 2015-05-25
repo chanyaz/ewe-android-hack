@@ -245,4 +245,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isSigninEnabled() {
 		return true;
 	}
+
+	public boolean isAppCrossSellInHotelShareContentEnabled() {
+		return true;
+	}
+
+	public boolean isAppCrossSellInFlightShareContentEnabled() {
+		return true;
+	}
 }
