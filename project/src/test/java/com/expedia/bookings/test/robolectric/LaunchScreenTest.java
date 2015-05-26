@@ -24,12 +24,12 @@ import com.expedia.bookings.widget.LaunchListWidget;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricRunner.class)
-public class LuanchScreenTest {
+public class LaunchScreenTest {
 	private CollectionLocation collectionLocation = new CollectionLocation();
 	private Hotel hotel = new Hotel();
+	private Hotel hotelNoRating = new Hotel();
 	@Before
 	public void before() {
-		hotel.name = "Hotel";
 		HotelRate rate = new HotelRate();
 		rate.maxNightlyRate = 1;
 		rate.averageRate = 1;
@@ -53,9 +53,16 @@ public class LuanchScreenTest {
 		rate.roomTypeCode = "";
 		rate.ratePlanCode = "";
 
+		hotel.name = "Hotel";
 		hotel.lowRateInfo = rate;
 		hotel.largeThumbnailUrl = "";
 		hotel.hotelGuestRating = 5f;
+
+		hotelNoRating.name = "Hotel No Rating";
+		hotelNoRating.lowRateInfo = rate;
+		hotelNoRating.largeThumbnailUrl = "";
+		hotelNoRating.hotelGuestRating = 0f;
+
 		collectionLocation.id = "1";
 		collectionLocation.title = "San Francisco";
 		collectionLocation.subtitle = "California";
@@ -108,5 +115,53 @@ public class LuanchScreenTest {
 		assertEquals(LaunchListAdapter.HeaderViewHolder.class, launchListWidget.findViewHolderForPosition(0).getClass());
 		assertEquals(LaunchListAdapter.HotelViewHolder.class, launchListWidget.findViewHolderForPosition(1).getClass());
 
+	}
+
+	@Test
+	public void testZeroRating() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
+		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
+		launchListWidget.setHeaderPaddingTop(10);
+		launchListWidget.showListLoadingAnimation();
+
+		List<Hotel> hotels = new ArrayList<>();
+		hotels.add(hotel);
+		hotels.add(hotelNoRating);
+		hotels.add(hotelNoRating);
+		hotels.add(hotelNoRating);
+		hotels.add(hotelNoRating);
+		hotels.add(hotelNoRating);
+		Events.LaunchHotelSearchResponse event = new Events.LaunchHotelSearchResponse(hotels);
+		launchListWidget.onNearbyHotelsSearchResults(event);
+		launchListWidget.measure(0, 0);
+		launchListWidget.layout(0, 0, 100, 10000);
+
+
+		LaunchListAdapter.HotelViewHolder h1 = (LaunchListAdapter.HotelViewHolder) launchListWidget.findViewHolderForPosition(1);
+		LaunchListAdapter.HotelViewHolder h2 = (LaunchListAdapter.HotelViewHolder) launchListWidget.findViewHolderForPosition(2);
+		LaunchListAdapter.HotelViewHolder h3 = (LaunchListAdapter.HotelViewHolder) launchListWidget.findViewHolderForPosition(3);
+		LaunchListAdapter.HotelViewHolder h4 = (LaunchListAdapter.HotelViewHolder) launchListWidget.findViewHolderForPosition(4);
+		LaunchListAdapter.HotelViewHolder h5 = (LaunchListAdapter.HotelViewHolder) launchListWidget.findViewHolderForPosition(5);
+		LaunchListAdapter.HotelViewHolder h6 = (LaunchListAdapter.HotelViewHolder) launchListWidget.findViewHolderForPosition(6);
+
+		assertEquals("5.0", h1.rating.getText());
+		assertEquals(View.VISIBLE, h1.ratingText.getVisibility());
+
+		assertEquals(View.INVISIBLE, h2.ratingInfo.getVisibility());
+		assertEquals(View.GONE, h2.ratingText.getVisibility());
+
+		assertEquals(View.INVISIBLE, h3.ratingInfo.getVisibility());
+		assertEquals(View.GONE, h3.ratingText.getVisibility());
+
+		assertEquals(View.INVISIBLE, h4.ratingInfo.getVisibility());
+		assertEquals(View.GONE, h4.ratingText.getVisibility());
+
+		assertEquals(View.INVISIBLE, h5.ratingInfo.getVisibility());
+		assertEquals(View.GONE, h5.ratingText.getVisibility());
+
+		assertEquals("Not Rated", h6.noRatingText.getText());
+		assertEquals(View.VISIBLE, h6.noRatingText.getVisibility());
+		assertEquals(View.GONE, h6.ratingInfo.getVisibility());
 	}
 }
