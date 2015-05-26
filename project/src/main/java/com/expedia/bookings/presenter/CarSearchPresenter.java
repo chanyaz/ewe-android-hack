@@ -411,7 +411,7 @@ public class CarSearchPresenter extends Presenter
 		suggestionAdapter.addNearbyAndRecents(mRecentCarsLocationsSearches, getContext());
 		postDelayed(new Runnable() {
 			public void run() {
-				if (ExpediaBookingApp.sIsAutomation) {
+				if (ExpediaBookingApp.isAutomation()) {
 					return;
 				}
 				pickUpLocation.requestFocus();

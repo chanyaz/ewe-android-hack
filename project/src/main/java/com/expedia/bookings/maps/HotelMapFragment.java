@@ -148,7 +148,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		super.onViewCreated(view, savedInstanceState);
 
 		mMap = getMap();
-		if (ExpediaBookingApp.sIsAutomation) {
+		if (ExpediaBookingApp.isAutomation()) {
 			// We don't want to waste time loading tiles on an automation build
 			mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
 		}

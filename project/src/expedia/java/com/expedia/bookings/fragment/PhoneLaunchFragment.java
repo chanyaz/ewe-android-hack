@@ -123,7 +123,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 	private boolean checkConnection() {
 		Context context = getActivity();
-		if (context != null && !NetUtils.isOnline(context) && !ExpediaBookingApp.sIsAutomation) {
+		if (context != null && !NetUtils.isOnline(context) && !ExpediaBookingApp.isAutomation()) {
 			wasOffline = true;
 			Events.post(new Events.LaunchOfflineState());
 			return false;
@@ -226,7 +226,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	};
 
 	private void updateAbacus(AbacusResponse abacusResponse) {
-		if (ExpediaBookingApp.sIsAutomation) {
+		if (ExpediaBookingApp.isAutomation()) {
 			launchScreenTest = new AbacusResponse();
 			return;
 		}

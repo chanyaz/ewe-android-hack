@@ -2,6 +2,7 @@ package com.expedia.bookings.test.ui.utils;
 
 import android.app.Application;
 import android.app.KeyguardManager;
+import android.os.Bundle;
 import android.os.PowerManager;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -15,10 +16,15 @@ import static android.os.PowerManager.FULL_WAKE_LOCK;
 import static android.os.PowerManager.ON_AFTER_RELEASE;
 
 public class SpoonInstrumentationTestRunner extends AndroidJUnitRunner {
+
+	@Override
+	public void onCreate(Bundle args) {
+		ExpediaBookingApp.setAutomation(true);
+		super.onCreate(args);
+	}
+
 	@Override
 	public void onStart() {
-		ExpediaBookingApp.setAutomation(true);
-
 		runOnMainSync(new Runnable() {
 			@Override
 			public void run() {

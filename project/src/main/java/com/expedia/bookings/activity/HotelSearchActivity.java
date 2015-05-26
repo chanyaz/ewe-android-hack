@@ -615,7 +615,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		mIsActivityResumed = false;
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 			mProgressBar.onPause();
 		}
 

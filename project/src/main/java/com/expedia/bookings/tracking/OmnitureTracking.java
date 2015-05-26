@@ -111,7 +111,7 @@ public class OmnitureTracking {
 	public static void init(Context context) {
 		Log.d(TAG, "init");
 
-		if (!ExpediaBookingApp.sIsAutomation) {
+		if (!ExpediaBookingApp.isAutomation()) {
 			ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 			s.configureMeasurement(getReportSuiteIds(), getTrackingServer(context));
 		}

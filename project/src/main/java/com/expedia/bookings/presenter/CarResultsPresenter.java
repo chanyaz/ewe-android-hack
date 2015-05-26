@@ -615,7 +615,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 	@Subscribe
 	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
-		if (!ExpediaBookingApp.sIsAutomation) {
+		if (!ExpediaBookingApp.isAutomation()) {
 			Events.post(new Events.CarsShowLoadingAnimation());
 		}
 		show(categories, FLAG_CLEAR_BACKSTACK);
