@@ -49,7 +49,21 @@ public class EndpointProvider {
 		}
 	}
 
-	public String getAbacusEndpoint(final boolean isSecure) {
+	public String getShortlyEndpointUrl() {
+		if (BuildConfig.RELEASE) {
+			return "http://" + ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl();
+		}
+
+		// Mock Server if enabled
+		EndPoint endPoint = getEndPoint();
+		if (endPoint == EndPoint.CUSTOM_SERVER || endPoint == EndPoint.MOCK_MODE) {
+			return getE3EndpointUrl();
+		}
+
+		return "http://" + ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl();
+	}
+
+	public String getAbacusEndpointUrl() {
 		// Always point to production if release
 		if (BuildConfig.RELEASE) {
 			return getE3EndpointUrl();
