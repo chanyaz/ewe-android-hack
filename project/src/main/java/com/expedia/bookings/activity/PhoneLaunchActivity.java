@@ -275,8 +275,8 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 			if (isInItinMode && mItinListFragment != null && mItinListFragment.getItinCardCount() > 0) {
 				addNewItinButtonEnabled = true;
 			}
-			loginBtnEnabled = isInItinMode && !User.isLoggedIn(this);
-			logoutBtnEnabled = isInItinMode && User.isLoggedIn(this);
+			loginBtnEnabled = isInItinMode && !User.isLoggedIn(this) && ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled();
+			logoutBtnEnabled = isInItinMode && User.isLoggedIn(this) && ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled();
 
 			MenuItem addNewItinBtn = menu.findItem(R.id.add_itinerary);
 			if (addNewItinBtn != null) {
@@ -295,6 +295,11 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 				if (addGuestBtn != null) {
 					addGuestBtn.setVisible(loginBtnEnabled);
 					addGuestBtn.setEnabled(loginBtnEnabled);
+				}
+				// If Signin is not enabled, show user the find Itinerary.
+				if (!ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled() && addGuestBtn != null) {
+					addGuestBtn.setVisible(true);
+					addGuestBtn.setEnabled(true);
 				}
 			}
 			MenuItem logOutBtn = menu.findItem(R.id.ab_log_out);
