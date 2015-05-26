@@ -29,12 +29,10 @@ import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 import com.expedia.bookings.utils.DateFormatUtils;
 
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 
-/**
- * Created by dmadan on 5/13/14.
- */
 public class HotelConfirmationTests extends PhoneTestCase {
 
 	private static final String TAG = HotelConfirmationTests.class.getSimpleName();
@@ -112,6 +110,10 @@ public class HotelConfirmationTests extends PhoneTestCase {
 		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
 		CVVEntryScreen.clickBookButton();
 		verifyConfirmationTexts();
+
+		// Hitting done takes you to launch (as does back press)
+		HotelsConfirmationScreen.doneButton().perform(click());
+		EspressoUtils.assertViewIsDisplayed(R.id.launch_toolbar);
 	}
 
 	private void setGuests(int adults, int children) {
@@ -151,22 +153,30 @@ public class HotelConfirmationTests extends PhoneTestCase {
 
 	private void verifyConfirmationTexts() {
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
+
+		// Guests / dates string
 		int cachedNumberOfGuests = params.getNumAdults() + params.getNumChildren();
 		assertEquals(mNumberOfGuests, cachedNumberOfGuests);
-		ScreenActions.enterLog(TAG, "no guest  " + mNumberOfGuests + "," + cachedNumberOfGuests);
-
 		String guestString = getActivity().getResources().getQuantityString(R.plurals.number_of_guests, mNumberOfGuests, mNumberOfGuests);
 		mDateRangeString = DateFormatUtils.formatRangeDateToDate(getActivity(), params, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
 		String expectedSummaryString = getActivity().getResources().getString(R.string.stay_summary_TEMPLATE, guestString, mDateRangeString);
 		HotelsConfirmationScreen.summaryTextView().check(matches(withText(expectedSummaryString)));
 
+		// Hotel name
 		HotelsConfirmationScreen.hotelNameTextView().check(matches(withText(mHotelName)));
 
+		// Itinerary number
 		String expectedItineraryNumber = Db.getTripBucket().getHotel().getBookingResponse().getItineraryId();
 		String expectedItineraryConfirmationText = getActivity().getResources().getString(R.string.itinerary_confirmation_TEMPLATE, expectedItineraryNumber);
 		HotelsConfirmationScreen.itineraryTextView().check(matches(withText(expectedItineraryConfirmationText)));
 
+		// Email address
 		String expectedEmailAddString = mUser.getLoginEmail();
 		HotelsConfirmationScreen.emailTextView().check(matches(withText(expectedEmailAddString)));
+
+		// Actions are displayed (share, add to calendar, call expedia)
+		EspressoUtils.assertViewIsDisplayed(R.id.call_action_text_view);
+		EspressoUtils.assertViewIsDisplayed(R.id.share_action_text_view);
+		EspressoUtils.assertViewIsDisplayed(R.id.calendar_action_text_view);
 	}
 }

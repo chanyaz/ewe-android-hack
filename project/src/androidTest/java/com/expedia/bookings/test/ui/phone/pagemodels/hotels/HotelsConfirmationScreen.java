@@ -7,9 +7,6 @@ import android.support.test.espresso.ViewInteraction;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-/**
- * Created by dmadan on 4/10/14.
- */
 public class HotelsConfirmationScreen extends ConfirmationScreen {
 	private static final int SUMMARY_TEXT_VIEW_ID = R.id.stay_summary_text_view;
 	private static final int HOTEL_NAME_TEXT_VIEW_ID = R.id.hotel_name_text_view;
@@ -30,5 +27,9 @@ public class HotelsConfirmationScreen extends ConfirmationScreen {
 
 	public static ViewInteraction emailTextView() {
 		return onView(withId(R.id.email_text_view));
+	}
+
+	public static ViewInteraction doneButton() {
+		return onView(withId(R.id.menu_done));
 	}
 }
