@@ -4,8 +4,8 @@ import java.util.Locale;
 
 import android.content.Context;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.HotelMedia;
@@ -21,6 +21,20 @@ public class Images {
 		// ignore
 	}
 
+	private static String sCustomHost = null;
+
+	public static void setCustomHost(String customHost) {
+		sCustomHost = customHost;
+	}
+
+	public static String getMediaHost() {
+		if (Strings.isNotEmpty(sCustomHost)) {
+			return sCustomHost;
+		}
+
+		return BuildConfig.MEDIA_URL;
+	}
+
 	public static String getCollectionImageUrl(CollectionLocation location, int widthPx) {
 		String url = getTabletLaunch(location.imageCode);
 		return new Akeakamai(url) //
@@ -29,15 +43,15 @@ public class Images {
 	}
 
 	public static String getTabletLaunch(String destination) {
-		return ExpediaBookingApp.MEDIA_URL + "/mobiata/mobile/apps/ExpediaBooking/LaunchDestinations/images/" + destination + ".jpg";
+		return getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/LaunchDestinations/images/" + destination + ".jpg";
 	}
 
 	public static String getFlightDestination(String destination) {
-		return ExpediaBookingApp.MEDIA_URL + "/mobiata/mobile/apps/ExpediaBooking/FlightDestinations/images/" + destination + ".jpg";
+		return getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/FlightDestinations/images/" + destination + ".jpg";
 	}
 
 	public static String getTabletDestination(String destination) {
-		return ExpediaBookingApp.MEDIA_URL + "/mobiata/mobile/apps/ExpediaBooking/TabletDestinations/images/" + destination + ".jpg";
+		return getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/TabletDestinations/images/" + destination + ".jpg";
 	}
 
 	public static String getCarRental(Car car, float width) {
@@ -48,7 +62,7 @@ public class Images {
 		final String categoryString = category.toString().replace("_", "").toLowerCase(Locale.ENGLISH);
 		final String typeString = type.toString().replace("_", "").toLowerCase(Locale.ENGLISH);
 		final String code = categoryString + "_" + typeString;
-		return new Akeakamai(ExpediaBookingApp.MEDIA_URL + "/mobiata/mobile/apps/ExpediaBooking/CarRentals/images/" + code + ".jpg")
+		return new Akeakamai(getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/CarRentals/images/" + code + ".jpg")
 			.downsize(Akeakamai.pixels((int) width), Akeakamai.preserve())
 			.build();
 	}
@@ -58,7 +72,7 @@ public class Images {
 	}
 
 	public static String getNearbyHotelImage(Hotel offer) {
-		return ExpediaBookingApp.MEDIA_URL + offer.largeThumbnailUrl;
+		return getMediaHost() + offer.largeThumbnailUrl;
 	}
 
 	public static HeaderBitmapDrawable makeLaunchListBitmapDrawable(Context context) {
@@ -72,7 +86,6 @@ public class Images {
 	}
 
 	public static HeaderBitmapDrawable makeHotelBitmapDrawable(Context context, HeaderBitmapDrawable.CallbackListener listener, int width, String url, String tag) {
-
 		HeaderBitmapDrawable headerBitmapDrawable = makeLaunchListBitmapDrawable(context);
 		headerBitmapDrawable.setCallbackListener(listener);
 		HotelMedia hotelMedia = new HotelMedia(url);
@@ -88,7 +101,6 @@ public class Images {
 	}
 
 	public static HeaderBitmapDrawable makeCollectionBitmapDrawable(Context context, HeaderBitmapDrawable.CallbackListener listener, String url, String tag) {
-
 		HeaderBitmapDrawable headerBitmapDrawable = makeLaunchListBitmapDrawable(context);
 		headerBitmapDrawable.setCallbackListener(listener);
 

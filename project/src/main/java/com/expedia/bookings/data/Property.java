@@ -11,9 +11,9 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.utils.GsonUtil;
+import com.expedia.bookings.utils.Images;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -619,7 +619,7 @@ public class Property implements JSONable {
 		mDescriptionText = offer.shortDescription;
 		String thumbnailUrl = offer.largeThumbnailUrl;
 		if (!TextUtils.isEmpty(thumbnailUrl) && !thumbnailUrl.startsWith("http://")) {
-			mThumbnail = new HotelMedia(ExpediaBookingApp.MEDIA_URL + thumbnailUrl);
+			mThumbnail = new HotelMedia(Images.getMediaHost() + thumbnailUrl);
 		}
 		else {
 			mThumbnail = new HotelMedia(thumbnailUrl);

@@ -84,13 +84,11 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	// For Abacus bucketing GUID
 	private static final String PREF_ABACUS_GUID = "PREF_ABACUS_GUID";
 
-	public static final String MEDIA_URL = BuildConfig.MEDIA_URL;
-
 	private UncaughtExceptionHandler mOriginalUncaughtExceptionHandler;
 
 	// Debug / test settings
 
-	public static boolean sIsAutomation = false;
+	private static boolean sIsAutomation = false;
 
 	public static boolean isAutomation() {
 		return sIsAutomation;
@@ -167,7 +165,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		// Init required for Omniture tracking
 		OmnitureTracking.init(this);
-		if (!isRobolectric()) {
+		if (!isRobolectric() && !isAutomation()) {
 			// Setup Omniture for tracking crashes
 			mOriginalUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 			Thread.setDefaultUncaughtExceptionHandler(this);

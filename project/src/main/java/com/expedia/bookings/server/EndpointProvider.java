@@ -111,7 +111,7 @@ public class EndpointProvider {
 		return ESS_PRODUCTION_ENDPOINT;
 	}
 
-	private String getCustomServerAddress() {
+	public String getCustomServerAddress() {
 		boolean forceHttp = SettingUtils.get(context, R.string.preference_force_custom_server_http_only, false);
 		String protocol = !forceHttp ? "https" : "http";
 		String server = SettingUtils.get(context, R.string.preference_proxy_server_address, "localhost:3000");

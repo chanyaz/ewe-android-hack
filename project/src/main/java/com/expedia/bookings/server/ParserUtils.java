@@ -11,12 +11,12 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.utils.Images;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
@@ -44,7 +44,7 @@ public class ParserUtils {
 		}
 
 		if (!TextUtils.isEmpty(url) && !url.startsWith("http://")) {
-			url = ExpediaBookingApp.MEDIA_URL + url;
+			url = Images.getMediaHost() + url;
 		}
 
 		return new HotelMedia(url);
