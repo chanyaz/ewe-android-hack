@@ -166,7 +166,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	AbacusServices provideAbacus(OkHttpClient client, EndpointProvider endpointProvider, RestAdapter.LogLevel loglevel) {
-		final String endpoint = endpointProvider.getAbacusEndpoint(true /*isSecure*/);
+		final String endpoint = endpointProvider.getAbacusEndpointUrl();
 		return new AbacusServices(client, endpoint, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
 	}
 }
