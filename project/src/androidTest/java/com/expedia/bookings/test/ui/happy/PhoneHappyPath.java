@@ -196,7 +196,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.departure_time_tz, "Depart (PDT)");
 		assertViewWithTextIsDisplayed(R.id.arrival_time, "9:04 PM");
 		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, "Arrive (EDT)");
-		onView(withText("Booking Info")).perform(scrollTo());
+		onView(withText("1102138068718")).perform(scrollTo());
 		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
 		assertViewWithTextIsDisplayed(R.id.airline_text_view, "Delta Air Lines 745");
 		assertViewWithTextIsDisplayed(R.id.departure_time_text_view, "11:32 AM");
