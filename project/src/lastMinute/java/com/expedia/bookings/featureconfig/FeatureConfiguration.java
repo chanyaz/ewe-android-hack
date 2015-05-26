@@ -74,7 +74,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public int getNotificationIconResourceId() {
-		return R.drawable.ic_stat_expedia;
+		return R.drawable.ic_stat_lm;
 	}
 
 	public int getNotificationIndicatorLEDColor() {
