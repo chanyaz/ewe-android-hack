@@ -219,7 +219,7 @@ public class LXResultsPresenter extends Presenter {
 	@Subscribe
 	public void onLXNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
 		// Dispatch loading animation event if explicit search. Default search dispatches event separately.
-		if (!ExpediaBookingApp.sIsAutomation && event.lxSearchParams.searchType.equals(SearchType.EXPLICIT_SEARCH)) {
+		if (!ExpediaBookingApp.isAutomation() && event.lxSearchParams.searchType.equals(SearchType.EXPLICIT_SEARCH)) {
 			Events.post(new Events.LXShowLoadingAnimation());
 		}
 		cleanup();

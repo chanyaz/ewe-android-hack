@@ -92,6 +92,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public static boolean sIsAutomation = false;
 
+	public static boolean isAutomation() {
+		return sIsAutomation;
+	}
+
 	public static void setAutomation(boolean isAutomation) {
 		sIsAutomation = isAutomation;
 	}
@@ -102,7 +106,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		super.onCreate();
 		startupTimer.addSplit("super.onCreate()");
 
-		if (!isRobolectric()) {
+		if (!isRobolectric() && !isAutomation()) {
 			Fabric.with(this, new Crashlytics());
 			startupTimer.addSplit("Crashlytics started.");
 
@@ -156,7 +160,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("FS.db Init");
 
 		// Pull down advertising ID
-		if (!sIsAutomation) {
+		if (!isAutomation()) {
 			AdvertisingIdUtils.loadIDFA(this, this);
 			startupTimer.addSplit("IDFA wireup");
 		}
@@ -505,7 +509,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	};
 
 	private void updateAbacus(AbacusResponse abacusResponse) {
-		if (ExpediaBookingApp.sIsAutomation) {
+		if (ExpediaBookingApp.isAutomation()) {
 			return;
 		}
 

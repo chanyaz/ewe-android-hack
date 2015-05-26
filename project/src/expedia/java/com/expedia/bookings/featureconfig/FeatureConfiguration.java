@@ -59,7 +59,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public String getActionForLocaleChangeEvent() {
-		if (ExpediaBookingApp.sIsAutomation) {
+		if (ExpediaBookingApp.isAutomation()) {
 			return null;
 		}
 		throw new UnsupportedOperationException("Not Required/Implemented for Expedia App");

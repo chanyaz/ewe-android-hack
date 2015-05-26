@@ -442,7 +442,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 	// onResume()-esque behavior
 
 	private void setListState() {
-		if (isExpired() && !ExpediaBookingApp.sIsAutomation) {
+		if (isExpired() && !ExpediaBookingApp.isAutomation()) {
 			launchListWidget.showListLoadingAnimation();
 		}
 	}
