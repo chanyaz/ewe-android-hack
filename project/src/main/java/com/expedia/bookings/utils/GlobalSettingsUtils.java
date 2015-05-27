@@ -8,18 +8,11 @@ import android.provider.Settings;
 public class GlobalSettingsUtils {
 	@TargetApi(17)
 	public static float getAnimatorDurationScale(Context context) {
-		try {
-			float result;
-			if (Build.VERSION.SDK_INT >= 17) {
-				result = Settings.Global.getFloat(context.getContentResolver(), Settings.Global.ANIMATOR_DURATION_SCALE);
-			}
-			else {
-				result = Settings.System.getFloat(context.getContentResolver(), Settings.System.ANIMATOR_DURATION_SCALE);
-			}
-			return result;
+		if (Build.VERSION.SDK_INT >= 17) {
+			return Settings.Global.getFloat(context.getContentResolver(), Settings.Global.ANIMATOR_DURATION_SCALE, 1.0f);
 		}
-		catch (Throwable t) {
-			throw new RuntimeException("Critical failure", t);
+		else {
+			return Settings.System.getFloat(context.getContentResolver(), Settings.System.ANIMATOR_DURATION_SCALE, 1.0f);
 		}
 	}
 }
