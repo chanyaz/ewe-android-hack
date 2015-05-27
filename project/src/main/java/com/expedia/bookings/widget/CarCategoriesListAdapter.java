@@ -63,7 +63,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			((ViewHolder) holder).bindCategorizedOffers(cco);
 		}
 		else {
-			ValueAnimator animation = AnimUtils.setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, position);
+			ValueAnimator animation = AnimUtils.setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, position % 2 == 0);
 			((LoadingViewHolder) holder).setAnimator(animation);
 		}
 	}

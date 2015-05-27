@@ -46,9 +46,7 @@ public class LXBaseActivity extends ActionBarActivity {
 	}
 
 	private void triggerCurrentLocationSuggestions() {
-		if (!ExpediaBookingApp.isAutomation()) {
-			Events.post(new Events.LXShowLoadingAnimation());
-		}
+		Events.post(new Events.LXShowLoadingAnimation());
 		LXSearchParams currentLocationSearchParams = new LXSearchParams()
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range)))

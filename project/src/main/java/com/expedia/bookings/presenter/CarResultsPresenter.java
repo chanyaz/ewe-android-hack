@@ -24,7 +24,6 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
@@ -615,9 +614,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 	@Subscribe
 	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
-		if (!ExpediaBookingApp.isAutomation()) {
-			Events.post(new Events.CarsShowLoadingAnimation());
-		}
+		Events.post(new Events.CarsShowLoadingAnimation());
 		show(categories, FLAG_CLEAR_BACKSTACK);
 		cleanup();
 		searchedParams = event.carSearchParams;

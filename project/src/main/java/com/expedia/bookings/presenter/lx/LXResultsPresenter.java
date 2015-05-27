@@ -17,7 +17,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.lx.LXSearchParams;
@@ -219,7 +218,7 @@ public class LXResultsPresenter extends Presenter {
 	@Subscribe
 	public void onLXNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
 		// Dispatch loading animation event if explicit search. Default search dispatches event separately.
-		if (!ExpediaBookingApp.isAutomation() && event.lxSearchParams.searchType.equals(SearchType.EXPLICIT_SEARCH)) {
+		if (event.lxSearchParams.searchType.equals(SearchType.EXPLICIT_SEARCH)) {
 			Events.post(new Events.LXShowLoadingAnimation());
 		}
 		cleanup();

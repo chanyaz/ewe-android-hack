@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -67,7 +66,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private static boolean isHeader(int position) {
 		return position == 0;
 	}
-	
+
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		if (viewType == HEADER_VIEW) {
@@ -523,20 +522,16 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	 * A Viewholder for the list header
 	 */
 	public static class HeaderViewHolder extends RecyclerView.ViewHolder {
-
 		public HeaderViewHolder(View view) {
 			super(view);
 		}
 	}
 
 	public static class LoadingViewHolder extends RecyclerView.ViewHolder {
-		private final static int LOADING_COLOR_LIGHT = Color.parseColor("#D3D4D4");
-		private final static int LOADING_COLOR_DARK = Color.parseColor("#848F94");
-
-		private ValueAnimator animation;
-
 		@InjectView(R.id.background_image_view)
 		public View backgroundImageView;
+
+		private ValueAnimator animation;
 
 		public LoadingViewHolder(View view) {
 			super(view);
@@ -562,10 +557,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			case 4:
 			case 6:
 			case 7:
-				animation = AnimUtils.animateBackground(backgroundImageView, LOADING_COLOR_DARK, LOADING_COLOR_LIGHT);
+				animation = AnimUtils.setupLoadingAnimation(backgroundImageView, true);
 				break;
 			default:
-				animation = AnimUtils.animateBackground(backgroundImageView, LOADING_COLOR_LIGHT, LOADING_COLOR_DARK);
+				animation = AnimUtils.setupLoadingAnimation(backgroundImageView, false);
 				break;
 			}
 		}
@@ -576,6 +571,5 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				animation.cancel();
 			}
 		}
-
 	}
 }

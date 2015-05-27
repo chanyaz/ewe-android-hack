@@ -63,8 +63,7 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 			((ViewHolder) holder).bind(activity);
 		}
 		else {
-			ValueAnimator animation = AnimUtils
-				.setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, position);
+			ValueAnimator animation = AnimUtils.setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, position % 2 == 0);
 			((LoadingViewHolder) holder).setAnimator(animation);
 		}
 	}
