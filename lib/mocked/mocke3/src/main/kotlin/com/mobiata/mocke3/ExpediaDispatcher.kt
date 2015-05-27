@@ -5,17 +5,13 @@ import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.io.UnsupportedEncodingException
-import java.net.URLDecoder
 import java.util.Calendar
 import java.util.Date
-import java.util.LinkedHashMap
 
 // Mocks out various mobile Expedia APIs
 public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
+
+	private val travelAdRequests = hashMapOf<String, Int>()
 
 	throws(javaClass<InterruptedException>())
 	override fun dispatch(request: RecordedRequest): MockResponse {
@@ -80,7 +76,26 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 			return dispatchUserProfile(request)
 		}
 
-		// Not found
+		// Travel Ad Impression
+		if (request.getPath().startsWith("/TravelAdsService/v3/Hotels/TravelAdImpression")) {
+			return dispatchTravelAd("/TravelAdsService/v3/Hotels/TravelAdImpression")
+		}
+
+		// Travel Ad Click
+		if (request.getPath().startsWith("/TravelAdsService/v3/Hotels/TravelAdClick")) {
+			return dispatchTravelAd("/TravelAdsService/v3/Hotels/TravelAdClick")
+		}
+
+		// Travel Ad Beacon
+		if (request.getPath().startsWith("/travel")) {
+			return dispatchTravelAd("/travel")
+		}
+
+		// Travel Ad on Confirmation
+		if (request.getPath().startsWith("/ads/hooklogic")) {
+			return dispatchTravelAd("/ads/hooklogic")
+		}
+
 		return make404()
 	}
 
@@ -362,5 +377,20 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 		return makeResponse(fileName, params, fileOpener)
 	}
 
+	private fun dispatchTravelAd(endPoint: String): MockResponse {
+		var count = 0;
+		if (travelAdRequests.get(endPoint) != null) {
+			count = travelAdRequests.get(endPoint);
+		}
+		travelAdRequests.put(endPoint, count + 1)
+		return makeEmptyResponse();
+	}
+
+	public fun numOfTravelAdRequests(key: String) : Int {
+		if (travelAdRequests.get(key) != null) {
+			return travelAdRequests.get(key)
+		}
+		return 0
+	}
 }
 

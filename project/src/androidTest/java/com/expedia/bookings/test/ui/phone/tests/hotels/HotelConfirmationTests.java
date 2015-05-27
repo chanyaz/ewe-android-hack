@@ -24,14 +24,15 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
+import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 import com.expedia.bookings.utils.DateFormatUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class HotelConfirmationTests extends PhoneTestCase {
 
@@ -59,6 +60,8 @@ public class HotelConfirmationTests extends PhoneTestCase {
 		HotelsSearchScreen.clickOnGuestsButton();
 		setGuests(pair.first, pair.second);
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
+		HotelsSearchScreen.clickListItem(1);
+		Common.pressBack();
 		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickSelectButton();
 
@@ -110,6 +113,7 @@ public class HotelConfirmationTests extends PhoneTestCase {
 		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
 		CVVEntryScreen.clickBookButton();
 		verifyConfirmationTexts();
+		verifyTravelAdTracking();
 
 		// Hitting done takes you to launch (as does back press)
 		HotelsConfirmationScreen.doneButton().perform(click());
@@ -178,5 +182,12 @@ public class HotelConfirmationTests extends PhoneTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.call_action_text_view);
 		EspressoUtils.assertViewIsDisplayed(R.id.share_action_text_view);
 		EspressoUtils.assertViewIsDisplayed(R.id.calendar_action_text_view);
+	}
+
+	private void verifyTravelAdTracking() {
+		assertEquals(2, mDispatcher.numOfTravelAdRequests("/travel"));
+		assertEquals(2, mDispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdImpression"));
+		assertEquals(2, mDispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdClick"));
+		assertEquals(1, mDispatcher.numOfTravelAdRequests("/ads/hooklogic"));
 	}
 }
