@@ -201,4 +201,13 @@ public class CreditCardsInfoEditTest extends PhoneTestCase {
 			runTestCase(mTestData.get(i));
 		}
 	}
+
+	// NOTE: subsequent tests after this test fail without backing out in this manner.
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		if (Common.isPhone(getInstrumentation())) {
+			Common.pressBackOutOfApp(getInstrumentation());
+		}
+	}
 }
