@@ -26,6 +26,9 @@ add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelFieldValidationTe
 add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelReviewsTests"
 add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelDateAcrossMonths"
 
+#Localization tests. Adding to this script, for now.
+add_test "com.expedia.bookings.test.ui.phone.tests.ui.InfoScreenPhoneNumberTest"
+
 java \
     -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \
     --apk  "${APK}" \
