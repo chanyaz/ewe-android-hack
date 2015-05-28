@@ -3294,7 +3294,7 @@ public class OmnitureTracking {
 			.capitalizeFirstLetter(offer.vehicleInfo.type.toString().replaceAll("_", " "));
 
 		s.setEvar(38, evar38String);
-
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppCarRatesCollapseTopListing);
 		s.track();
 	}
 

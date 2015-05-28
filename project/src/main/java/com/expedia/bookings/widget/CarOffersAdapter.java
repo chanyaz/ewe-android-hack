@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
@@ -52,6 +54,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 
 	private List<SearchCarOffer> offers = new ArrayList<>();
 	private int mLastExpanded = 0;
+	private static final int NONE_EXPANDED = -1;
 	private static final float MAP_ZOOM_LEVEL = 12;
 
 	public CarOffersAdapter(Context context) {
@@ -261,21 +264,26 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 	}
 
 	public void setCarOffers(List<SearchCarOffer> offers) {
-		mLastExpanded = 0;
 		this.offers = offers;
-		for (int i = 0; i < offers.size(); i++) {
-			SearchCarOffer offer = offers.get(i);
-			offer.isToggled = i == 0;
+		boolean shouldCollapseFirstItem = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppCarRatesCollapseTopListing);
+		if (shouldCollapseFirstItem) {
+			mLastExpanded = NONE_EXPANDED;
+		}
+		else {
+			for (int i = 0; i < offers.size(); i++) {
+				SearchCarOffer offer = offers.get(i);
+				offer.isToggled = i == 0;
+			}
 		}
 	}
 
 	public void onItemExpanded(int index) {
-		if (mLastExpanded != index) {
+		if (mLastExpanded != NONE_EXPANDED && mLastExpanded != index) {
 			offers.get(mLastExpanded).isToggled = false;
 			notifyItemChanged(mLastExpanded);
-			offers.get(index).isToggled = true;
-			notifyItemChanged(index);
-			mLastExpanded = index;
 		}
+		offers.get(index).isToggled = true;
+		notifyItemChanged(index);
+		mLastExpanded = index;
 	}
 }

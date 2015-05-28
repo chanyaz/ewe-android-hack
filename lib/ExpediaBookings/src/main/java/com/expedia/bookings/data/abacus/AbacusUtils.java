@@ -29,6 +29,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelETPSearchResults = 7532;
 	public static final int EBAndroidAppHotelItinLXXsell = 7612;
 	public static final int EBAndroidAppHSRMapIconTest = 7772;
+	public static final int EBAndroidAppCarRatesCollapseTopListing = 7769;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -75,6 +76,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelETPSearchResults);
 		testIDs.add(EBAndroidAppHotelItinLXXsell);
 		testIDs.add(EBAndroidAppHSRMapIconTest);
+		testIDs.add(EBAndroidAppCarRatesCollapseTopListing);
 		return testIDs;
 	}
 

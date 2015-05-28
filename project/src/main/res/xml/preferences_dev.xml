@@ -263,6 +263,14 @@
             android:summary="Select a test group"
             android:title="Hotel HSR Map Icon" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_car_rates_collapse_top_listing"
+            android:summary="Select a test group"
+            android:title="Car Rates Collapse Top Listing" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >
