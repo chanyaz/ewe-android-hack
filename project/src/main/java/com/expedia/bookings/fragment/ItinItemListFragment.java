@@ -76,6 +76,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private ViewGroup mErrorContainer;
 	private TextView mErrorTv;
 	private View mErrorMask;
+	private Button mFindItineraryButton;
 
 	private String mErrorMessage;
 	private boolean mShowError = false;
@@ -141,6 +142,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mErrorTv = Ui.findView(view, R.id.no_trips_error_message);
 		mErrorMask = Ui.findView(view, R.id.empty_list_error_mask);
 		mErrorContainer = Ui.findView(view, R.id.error_container);
+		mFindItineraryButton = Ui.findView(view, R.id.find_itinerary_button);
 
 		mItinListView.setEmptyView(mEmptyView);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
@@ -154,6 +156,12 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		});
 
 		mOrEnterNumberTv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startAddGuestItinActivity();
+			}
+		});
+		mFindItineraryButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				startAddGuestItinActivity();
@@ -333,7 +341,10 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			mLoginButton.setVisibility(mShowError ? View.GONE : View.VISIBLE);
 			mNoTripsRefreshButton.setVisibility(View.GONE);
 		}
-		mLoginButton.setVisibility(ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled() ? View.VISIBLE : View.GONE);
+		boolean isSignInEnabled = ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled();
+		mLoginButton.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
+		mOrEnterNumberTv.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
+		mFindItineraryButton.setVisibility(isSignInEnabled ? View.GONE : View.VISIBLE);
 	}
 
 	public void accountLogoutClicked() {
