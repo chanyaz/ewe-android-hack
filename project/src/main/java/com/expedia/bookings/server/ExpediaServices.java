@@ -6,6 +6,7 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.HttpCookie;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -1842,6 +1843,19 @@ public class ExpediaServices implements DownloadListener {
 		if (TextUtils.isEmpty(url)) {
 			return false;
 		}
+
+		if (mEndpointProvider.getEndPoint() == EndPoint.CUSTOM_SERVER
+			|| mEndpointProvider.getEndPoint() == EndPoint.MOCK_MODE) {
+			try {
+				URL originalURL = new URL(url);
+				url = mEndpointProvider.getCustomServerAddress()
+					.substring(0, mEndpointProvider.getCustomServerAddress().length() - 1) + originalURL.getFile();
+			}
+			catch (MalformedURLException ex) {
+				Log.e("Exception modifying url", ex);
+			}
+		}
+
 		return doGet(url, params);
 	}
 

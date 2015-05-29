@@ -44,6 +44,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	protected Resources mRes;
 	protected String mLanguage;
 	protected String mCountry;
+	protected ExpediaDispatcher mDispatcher;
 
 	@Override
 	public void runTest() throws Throwable {
@@ -61,8 +62,8 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			mMockWebServer = new MockWebServer();
 			mMockWebServer.start();
 			mFileOpener = new AndroidFileOpener(getInstrumentation().getTargetContext());
-			ExpediaDispatcher dispatcher = new ExpediaDispatcher(mFileOpener);
-			mMockWebServer.setDispatcher(dispatcher);
+			mDispatcher = new ExpediaDispatcher(mFileOpener);
+			mMockWebServer.setDispatcher(mDispatcher);
 
 			//get mock web server address
 			URL mockUrl = mMockWebServer.getUrl("");
