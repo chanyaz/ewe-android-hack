@@ -23,7 +23,7 @@
             ],
             "currentAllotment": "40",
             "hasFreeCancellation": false,
-            "nonRefundable": false,
+            "nonRefundable": true,
             "productKey": "${hotelId}_0",
             "promoDescription": "",
             "rateChange": false,
@@ -33,7 +33,7 @@
                     "averageBaseRate": "109.00",
                     "averageRate": "109.00",
                     "currencyCode": "USD",
-                    "discountPercent": 0,
+                    "discountPercent": "20",
                     "maxNightlyRate": "109.00",
                     "nightlyRateTotal": "109.00",
                     "nightlyRatesPerRoom": [
@@ -87,7 +87,9 @@
                     "total": "124.98",
                     "totalMandatoryFees": "0.00",
                     "totalPriceWithMandatoryFees": "124.98",
-                    "userPriceType": "PerNightRateNoTaxes"
+                    "userPriceType": "PerNightRateNoTaxes",
+                    "showResortFeeMessage": true,
+                    "resortFeeInclusion": false
                 },
                 "priceBreakdown": true,
                 "promo": true,
@@ -110,7 +112,7 @@
             "roomThumbnailUrl": "/hotels/1000000/30000/27300/27274/27274_178_d.jpg",
             "supplierType": "MERCHANT",
             "rateChange": false,
-            "nonRefundable": false,
+            "nonRefundable": true,
             "hasFreeCancellation": false,
             "guaranteeRequired": false,
             "depositRequired": false,
@@ -139,7 +141,7 @@
                   "surchargeTotalForEntireStay": "336.88",
                   "averageBaseRate": "1029.00",
                   "nightlyRateTotal": "2058.00",
-                  "discountPercent": 0,
+                  "discountPercent": "20",
                   "total": "2394.88",
                   "currencyCode": "USD",
                   "currencySymbol": "$",
@@ -202,7 +204,9 @@
                   "checkoutPriceType": "total",
                   "airAttached": false,
                   "roomTypeCode": "200410806",
-                  "ratePlanCode": "202384972"
+                  "ratePlanCode": "202384972",
+                  "showResortFeeMessage": true,
+                  "resortFeeInclusion": false
                }
             },
             "valueAdds": [],
