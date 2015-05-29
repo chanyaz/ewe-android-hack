@@ -1,6 +1,6 @@
 package com.expedia.bookings.test.ui.phone.tests.flights;
 
-import org.joda.time.LocalDate;
+import android.support.test.espresso.Espresso;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -16,10 +16,16 @@ import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsCheckoutScre
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsCheckoutScreen;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
-import android.support.test.espresso.Espresso;
+
+import org.joda.time.LocalDate;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.expedia.bookings.test.ui.utils.EspressoUtils.assertViewWithTextIsDisplayed;
+import static com.expedia.bookings.test.ui.utils.EspressoUtils.getText;
 
 /**
  * Created by dmadan on 4/30/14.
@@ -34,6 +40,19 @@ public class FlightsConfirmationTests extends PhoneTestCase {
 		mUser = new HotelsUserData(getInstrumentation());
 		ScreenActions.enterLog(TAG, "START TEST: Testing confirmation screen for guest flight booking");
 		getToCheckout();
+		ScreenActions.enterLog(TAG, "START TEST: Testing confirmation screen for air attach messaging");
+		testAirAttach();
+	}
+
+	private void testAirAttach() {
+		assertViewWithTextIsDisplayed(R.id.itin_air_attach_text_view, "Because you booked a flight");
+		assertViewWithTextIsDisplayed(R.id.itin_air_attach_savings_text_view, "Save up to 55% on a hotel.");
+		assertViewWithTextIsDisplayed(R.id.itin_air_attach_expires_text_view, "Offer expires in");
+		assertViewWithTextIsDisplayed(R.id.itin_air_attach_expiration_date_text_view, "10 days");
+		assertViewWithTextIsDisplayed(R.id.action_text_view, "Add a hotel");
+		onView(withId(R.id.action_text_view)).perform(click());
+		// assert we're seeing hotel search results
+		assertViewWithTextIsDisplayed("vip_hotel");
 	}
 
 	private void getToCheckout() throws Exception {
@@ -53,11 +72,11 @@ public class FlightsConfirmationTests extends PhoneTestCase {
 
 		// Search results
 		ScreenActions.enterLog(TAG, "Flight search results loaded");
-		FlightsSearchResultsScreen.clickListItem(1);
+		FlightsSearchResultsScreen.clickListItem(7);
 		FlightLegScreen.clickSelectFlightButton();
-		String airlineName = EspressoUtils.getText(R.id.airline_text_view);
-		String departureTime = EspressoUtils.getText(R.id.departure_time_text_view);
-		String arrivalTime = EspressoUtils.getText(R.id.arrival_time_text_view);
+		String airlineName = getText(R.id.airline_text_view);
+		String departureTime = getText(R.id.departure_time_text_view);
+		String arrivalTime = getText(R.id.arrival_time_text_view);
 
 		// Checkout
 		FlightsCheckoutScreen.clickCheckoutButton();
@@ -109,9 +128,9 @@ public class FlightsConfirmationTests extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "Entering CCV: " + mUser.getCCV());
 		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
 		CVVEntryScreen.clickBookButton();
-		EspressoUtils.assertViewWithTextIsDisplayed(airlineName);
-		EspressoUtils.assertViewWithTextIsDisplayed(departureTime);
-		EspressoUtils.assertViewWithTextIsDisplayed(arrivalTime);
-		EspressoUtils.assertViewWithTextIsDisplayed("Booking Complete");
+		assertViewWithTextIsDisplayed(airlineName);
+		assertViewWithTextIsDisplayed(departureTime);
+		assertViewWithTextIsDisplayed(arrivalTime);
+		assertViewWithTextIsDisplayed("Booking Complete");
 	}
 }
