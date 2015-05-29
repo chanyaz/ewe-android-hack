@@ -21,6 +21,7 @@ add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelDetailsTests"
 add_test "com.expedia.bookings.test.ui.phone.tests.ui.CreditCardsInfoEditTest"
 add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelConfirmationTests"
 add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelRoomsAndRatesTests"
+add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelFieldValidationTest"
 
 java \
     -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \
