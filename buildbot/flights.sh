@@ -18,6 +18,7 @@ fi
 
 # flights
 add_test "com.expedia.bookings.test.ui.phone.tests.flights.FlightCheckoutUserInfoTests"
+add_test "com.expedia.bookings.test.ui.phone.tests.flights.FlightFieldValidationTest"
 
 java \
     -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \
