@@ -58,6 +58,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarTrackingData;
@@ -1215,6 +1216,7 @@ public class OmnitureTracking {
 	private static final String LX_CHECKOUT_PAYMENT_INFO = "App.LX.Checkout.Payment.Edit.Info";
 	private static final String LX_CHECKOUT_SLIDE_TO_PURCHASE = "App.LX.Checkout.SlideToPurchase";
 	private static final String LX_CHECKOUT_CVV_SCREEN = "App.LX.Checkout.Payment.CID";
+	private static final String LX_NO_SEARCH_RESULTS = "App.LX.NoResults";
 
 	public static void trackAppLXSearch(Context context, LXSearchParams lxSearchParams, LXSearchResponse lxSearchResponse) {
 		// Start actually tracking the search result change
@@ -1241,6 +1243,23 @@ public class OmnitureTracking {
 		if (lxSearchResponse.activities.size() > 0) {
 			s.setProp(1, Integer.toString(lxSearchResponse.activities.size()));
 		}
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackAppLXNoSearchResults(Context context, ApiError apiError) {
+		Log.d(TAG, "Tracking \"" + LX_NO_SEARCH_RESULTS + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(context, LX_NO_SEARCH_RESULTS);
+
+		// Destination
+		if (Strings.isNotEmpty(apiError.regionId)) {
+			s.setProp(4, apiError.regionId);
+			s.setEvar(4, "D=c4");
+		}
+
+		s.setProp(36, apiError.errorInfo.cause);
 
 		// Send the tracking data
 		s.track();
