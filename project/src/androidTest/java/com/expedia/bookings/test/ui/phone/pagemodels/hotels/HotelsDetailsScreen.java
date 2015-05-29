@@ -3,7 +3,6 @@ package com.expedia.bookings.test.ui.phone.pagemodels.hotels;
 import static android.support.test.espresso.action.ViewActions.click;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 
 import android.support.test.espresso.ViewInteraction;
 
@@ -19,10 +18,8 @@ public class HotelsDetailsScreen extends ScreenActions {
 	private static final int REVIEWS_TITLE_VIEW_ID = R.id.user_rating_text_view;
 	private static final int BANNER_VIEW_ID = R.id.banner_message_text_view;
 	private static final int SELECT_BUTTON_ID = R.id.menu_select_hotel;
-	private static final int BACK_BUTTON_ID = android.R.id.home;
 	private static final int VIP_IMAGE_VIEW = R.id.vip_badge;
 	private static final int GALLERY_VIEW_ID = R.id.images_gallery;
-	private static final int SALE_BANNER_TEXT_VIEW_ID = R.id.sale_banner_text_view;
 
 // Object access
 
@@ -32,10 +29,6 @@ public class HotelsDetailsScreen extends ScreenActions {
 
 	public static ViewInteraction bookNowButton() {
 		return onView(withId(BOOK_NOW_BUTTON_ID));
-	}
-
-	public static ViewInteraction bookByPhoneButton() {
-		return onView(withId(R.id.book_by_phone_button));
 	}
 
 	public static ViewInteraction reviewsTitle() {
@@ -50,20 +43,12 @@ public class HotelsDetailsScreen extends ScreenActions {
 		return onView(withId(SELECT_BUTTON_ID));
 	}
 
-	public static ViewInteraction backButton() {
-		return onView(withId(BACK_BUTTON_ID));
-	}
-
 	public static ViewInteraction vipImageView() {
 		return onView(withId(VIP_IMAGE_VIEW));
 	}
 
 	public static ViewInteraction hotelGallery() {
 		return onView(withId(GALLERY_VIEW_ID));
-	}
-
-	public static ViewInteraction saleBannerInfo() {
-		return onView(withId(SALE_BANNER_TEXT_VIEW_ID));
 	}
 
 	// Object interaction
@@ -78,10 +63,6 @@ public class HotelsDetailsScreen extends ScreenActions {
 
 	public static void clickSelectButton() {
 		(selectButton()).perform(click());
-	}
-
-	public static void clickBackButton() {
-		(backButton()).perform(click());
 	}
 
 	public static void clickVIPImageView() {

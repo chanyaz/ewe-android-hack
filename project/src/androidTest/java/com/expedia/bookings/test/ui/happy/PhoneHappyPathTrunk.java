@@ -9,13 +9,13 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.BillingAddressScreen
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonPaymentMethodScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsTravelerInfoScreen;
@@ -37,7 +37,7 @@ public class PhoneHappyPathTrunk extends PhoneTestCase {
 	public void testBookFlightGuestUser() throws Throwable {
 		goToFlightCheckout();
 
-		FlightsCheckoutScreen.clickTravelerDetails();
+		CommonCheckoutScreen.clickTravelerDetails();
 		FlightsTravelerInfoScreen.enterFirstName("Mobiata");
 		FlightsTravelerInfoScreen.enterLastName("Auto");
 		FlightsTravelerInfoScreen.enterPhoneNumber("1112223333");
@@ -55,8 +55,8 @@ public class PhoneHappyPathTrunk extends PhoneTestCase {
 		BillingAddressScreen.clickNextButton();
 		FlightsTravelerInfoScreen.clickDoneButton();
 		Common.pressBack();
-		FlightsCheckoutScreen.clickCheckoutButton();
-		FlightsCheckoutScreen.clickSelectPaymentButton();
+		CommonCheckoutScreen.clickCheckoutButton();
+		CommonCheckoutScreen.clickSelectPaymentButton();
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 		BillingAddressScreen.typeTextCity("San Francisco");
 		BillingAddressScreen.typeTextPostalCode("94105");
@@ -75,7 +75,7 @@ public class PhoneHappyPathTrunk extends PhoneTestCase {
 		CardInfoScreen.clickOnDoneButton();
 
 		screenshot("Slide_To_Purchase");
-		FlightsCheckoutScreen.slideToCheckout();
+		CommonCheckoutScreen.slideToCheckout();
 		CVVEntryScreen.parseAndEnterCVV("111");
 		CVVEntryScreen.clickBookButton();
 		screenshot("Confirmation");
@@ -112,7 +112,7 @@ public class PhoneHappyPathTrunk extends PhoneTestCase {
 		CardInfoScreen.clickNoThanksButton();
 
 		screenshot("Slide_To_Purchase");
-		FlightsCheckoutScreen.slideToCheckout();
+		CommonCheckoutScreen.slideToCheckout();
 		CVVEntryScreen.parseAndEnterCVV("111");
 		CVVEntryScreen.clickBookButton();
 		screenshot("Confirmation");
@@ -243,7 +243,7 @@ public class PhoneHappyPathTrunk extends PhoneTestCase {
 		FlightLegScreen.clickSelectFlightButton();
 		FlightsSearchResultsScreen.clickListItem(1);
 		FlightLegScreen.clickSelectFlightButton();
-		FlightsCheckoutScreen.clickCheckoutButton();
+		CommonCheckoutScreen.clickCheckoutButton();
 	}
 
 	public void goToHotelCheckout() throws Throwable {

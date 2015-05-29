@@ -8,7 +8,6 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -20,10 +19,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class HotelCouponErrorTests extends PhoneTestCase {
 
 	private static final String TAG = HotelCouponErrorTests.class.getSimpleName();
-	HotelsUserData mUser;
 
 	public void testHotelCouponErrors() throws Exception {
-		mUser = new HotelsUserData(getInstrumentation());
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();

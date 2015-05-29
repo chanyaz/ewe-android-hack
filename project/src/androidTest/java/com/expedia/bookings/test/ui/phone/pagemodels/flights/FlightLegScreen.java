@@ -2,7 +2,6 @@ package com.expedia.bookings.test.ui.phone.pagemodels.flights;
 
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 
 import android.support.test.espresso.ViewInteraction;
 

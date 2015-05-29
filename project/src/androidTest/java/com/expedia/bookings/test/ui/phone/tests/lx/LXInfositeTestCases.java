@@ -10,7 +10,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.component.lx.LXViewModel;
 import com.expedia.bookings.test.component.lx.models.TicketDataModel;
 import com.expedia.bookings.test.component.lx.models.TicketSummaryDataModel;
-import com.expedia.bookings.test.component.lx.models.TileDataModel;
 import com.expedia.bookings.test.component.lx.pagemodels.LXInfositePageModel;
 import com.expedia.bookings.test.component.lx.pagemodels.LXSearchResultsPageModel;
 import com.expedia.bookings.test.component.lx.utils.ExpectedDataSupplierForTicketWidget;
@@ -59,8 +58,6 @@ import static org.hamcrest.Matchers.not;
 */
 public class LXInfositeTestCases extends LxTestCase {
 
-	private TileDataModel mTileData;
-
 	private ExpectedDataSupplierForTicketWidget mExpectedDataTktWdgt;
 
 	public void testInfoSiteTestSuite() throws Throwable {
@@ -77,7 +74,6 @@ public class LXInfositeTestCases extends LxTestCase {
 			LXViewModel.searchButton().perform(click());
 		}
 		LXViewModel.waitForSearchListDisplayed();
-		mTileData = LXSearchResultsPageModel.getTileDataAtIndex(1);
 		screenshot("LX captured data");
 		LXSearchResultsPageModel.clickOnTileAtIndex(1);
 		onView(withId(R.id.overlay_title_container)).perform(waitFor(not(isDisplayed()), 20L, TimeUnit.SECONDS));

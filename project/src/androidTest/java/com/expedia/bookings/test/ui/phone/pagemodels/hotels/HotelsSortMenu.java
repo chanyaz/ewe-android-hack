@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.ui.phone.pagemodels.hotels;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+
 import android.support.test.espresso.ViewInteraction;
 
 import static android.support.test.espresso.Espresso.onView;

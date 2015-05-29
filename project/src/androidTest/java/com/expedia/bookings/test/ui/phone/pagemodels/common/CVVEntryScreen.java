@@ -26,7 +26,6 @@ public class CVVEntryScreen extends ScreenActions {
 	private static final int NINE_BUTTON_ID = R.id.nine_button;
 	private static final int ZERO_BUTTON_ID = R.id.zero_button;
 	private static final int BOOKING_BUTTON_ID = R.id.book_button;
-	private static final int sBookingStringID = R.string.booking_loading;
 
 	private static final Map<Integer, Integer> INTEGER_TO_RESOURCE = new HashMap<Integer, Integer>() {
 		{
@@ -47,10 +46,6 @@ public class CVVEntryScreen extends ScreenActions {
 
 	public static ViewInteraction bookButton() {
 		return onView(withId(BOOKING_BUTTON_ID));
-	}
-
-	public static ViewInteraction booking() {
-		return onView(withText(sBookingStringID));
 	}
 
 	public static ViewInteraction okString() {

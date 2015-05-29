@@ -12,7 +12,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 /**
  * Created by dmadan on 4/7/14.
  */
-public class ConfirmationScreen extends ScreenActions {
+public class ConfirmationScreen {
 	private static final int DONE_BUTTON_ID = R.id.menu_done;
 
 	// Object access

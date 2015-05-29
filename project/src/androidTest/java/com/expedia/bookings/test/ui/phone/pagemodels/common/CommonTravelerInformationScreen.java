@@ -24,7 +24,6 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 	private static final int DONE_STRING_ID = R.string.done;
 	private static final int NEXT_BUTTON_ID = R.id.menu_next;
 	private static final int DONE_BUTTON_ID = R.id.menu_done;
-	private static final int SET_STRING_ID = R.string.btn_set;
 
 	// Object access
 
@@ -64,9 +63,6 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 		return onView(withId(NEXT_BUTTON_ID));
 	}
 
-	public static ViewInteraction set() {
-		return onView(withText(SET_STRING_ID));
-	}
 	// Object interaction
 
 	public static void enterFirstName(String firstName) {
@@ -99,10 +95,6 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 
 	public static void clickNextButton() {
 		nextButton().perform(click());
-	}
-
-	public static void clickSetButton() {
-		set().perform(click());
 	}
 
 	public static ViewInteraction phoneCountryCodeText() {

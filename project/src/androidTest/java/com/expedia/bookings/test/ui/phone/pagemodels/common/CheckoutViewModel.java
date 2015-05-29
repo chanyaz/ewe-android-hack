@@ -81,16 +81,8 @@ public class CheckoutViewModel {
 		phone().perform(scrollTo(), typeText(number));
 	}
 
-	public static ViewInteraction checkoutDataEnterDone() {
-		return onView(withId(R.id.menu_checkout));
-	}
-
 	public static void pressClose() {
 		onView(withId(R.id.checkout_toolbar)).perform(ViewActions.getChildViewButton(0));
-	}
-
-	public static void pressDone() {
-		checkoutDataEnterDone().perform(click());
 	}
 
 	public static void clickStoredTravelerButton() {

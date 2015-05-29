@@ -18,8 +18,6 @@ public class CheckoutStoredCreditCardTest extends TabletTestCase {
 
 	HotelsUserData mUser;
 
-	private static final String TAG = CheckoutStoredCreditCardTest.class.getSimpleName();
-
 	private String creditCardName = "AmexTesting";
 
 	private void addFlightHotelGoToCheckoutAndLogin() throws Throwable {

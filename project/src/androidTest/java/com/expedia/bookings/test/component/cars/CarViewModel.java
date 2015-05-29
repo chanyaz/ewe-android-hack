@@ -101,10 +101,6 @@ public final class CarViewModel {
 		return onView(withId(android.R.id.button1));
 	}
 
-	public static ViewInteraction alertDialogNeutralButton() {
-		return onView(withId(android.R.id.button3));
-	}
-
 	public static ViewInteraction searchButton() {
 		return onView(withId(R.id.menu_check));
 	}
@@ -175,10 +171,6 @@ public final class CarViewModel {
 		return onView(withId(R.id.edit_phone_number));
 	}
 
-	public static ViewInteraction checkoutToolbarNext() {
-		return onView(withId(R.id.menu_next));
-	}
-
 	public static ViewInteraction checkoutToolbarDone() {
 		return onView(withId(R.id.menu_done));
 	}
@@ -197,11 +189,6 @@ public final class CarViewModel {
 
 	public static ViewInteraction checkoutErrorButton() {
 		return onView(allOf(isDescendantOfA(withId(R.id.checkout_error_widget)), withId(R.id.error_action_button)));
-	}
-
-	// Confirmation
-	public static ViewInteraction confirmationNumber() {
-		return onView(withId(R.id.confirmation_text));
 	}
 
 }

@@ -24,7 +24,6 @@ public class CardInfoScreen extends ScreenActions {
 	private static final int MONTH_UP_BUTTON_ID = R.id.month_up;
 	private static final int MONTH_DOWN_BUTTON_ID = R.id.month_down;
 	private static final int YEAR_UP_BUTTON_ID = R.id.year_up;
-	private static final int YEAR_DOWN_BUTTON_ID = R.id.year_down;
 
 // Object access
 
@@ -48,10 +47,6 @@ public class CardInfoScreen extends ScreenActions {
 		return onView(withText(R.string.no_thanks));
 	}
 
-	public static ViewInteraction saveButtonString() {
-		return onView(withText(R.string.save));
-	}
-
 	public static ViewInteraction emailEditText() {
 		return onView(withId(EMAIL_ADDRESS_EDIT_TEXT_ID));
 	}
@@ -73,16 +68,8 @@ public class CardInfoScreen extends ScreenActions {
 		return onView(withId(YEAR_UP_BUTTON_ID));
 	}
 
-	public static ViewInteraction yearDownButton() {
-		return onView(withId(YEAR_DOWN_BUTTON_ID));
-	}
-
 	public static ViewInteraction setButton() {
 		return onView(withId(R.id.positive_button));
-	}
-
-	public static ViewInteraction cancelButton() {
-		return onView(withId(R.id.negative_button));
 	}
 
 	public static ViewInteraction nextButton() {
@@ -129,24 +116,12 @@ public class CardInfoScreen extends ScreenActions {
 		yearUpButton().perform(click());
 	}
 
-	public static void clickYearDownButton() {
-		yearDownButton().perform(click());
-	}
-
 	public static void clickSetButton() {
 		setButton().perform(click());
 	}
 
-	public static void clickCancelButton() {
-		cancelButton().perform(click());
-	}
-
 	public static void clickNoThanksButton() {
 		noThanksButtonString().perform(click());
-	}
-
-	public static void clickSaveButton() {
-		saveButtonString().perform(click());
 	}
 
 	public static void clickNextButton() {

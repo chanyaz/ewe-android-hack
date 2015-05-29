@@ -29,8 +29,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
@@ -56,11 +54,6 @@ public final class ViewActions {
 	public static ViewAction slowSwipeUp() {
 		return new GeneralSwipeAction(Swipe.SLOW, GeneralLocation.BOTTOM_CENTER,
 			GeneralLocation.TOP_CENTER, Press.FINGER);
-	}
-
-	public static ViewAction swipeDown() {
-		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.TOP_CENTER,
-			GeneralLocation.BOTTOM_CENTER, Press.FINGER);
 	}
 
 	public static ViewAction swipeRight() {
@@ -464,34 +457,6 @@ public final class ViewActions {
 					.withActionDescription(getDescription())
 					.withViewDescription(HumanReadables.describe(view))
 					.build();
-			}
-		};
-	}
-
-	public static ViewAction clickOnFirstEnabled() {
-		return new ViewAction() {
-			@Override
-			public Matcher<View> getConstraints() {
-				return isAssignableFrom(RadioGroup.class);
-			}
-
-			@Override
-			public String getDescription() {
-				return null;
-			}
-
-			@Override
-			public void perform(UiController uiController, View view) {
-				for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-					RadioButton button = (RadioButton) (((ViewGroup) view).getChildAt(i));
-					if (button.isEnabled()) {
-						button.setChecked(true);
-						button.performClick();
-						uiController.loopMainThreadUntilIdle();
-						break;
-					}
-				}
-				return;
 			}
 		};
 	}

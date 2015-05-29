@@ -6,13 +6,13 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonTravelerInformationScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ConfirmationScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.TripsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsCheckoutScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsConfirmationScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsTravelerInfoScreen;
@@ -57,10 +57,10 @@ public class PhoneHappyPath extends PhoneTestCase {
 		FlightsSearchResultsScreen.clickListItem(1);
 		FlightLegScreen.clickSelectFlightButton();
 		screenshot("Checkout_Overview");
-		FlightsCheckoutScreen.clickCheckoutButton();
+		CommonCheckoutScreen.clickCheckoutButton();
 		screenshot("Checkout_Details");
 
-		FlightsCheckoutScreen.clickTravelerDetails();
+		CommonCheckoutScreen.clickTravelerDetails();
 		screenshot("Checkout_Traveler");
 		FlightsTravelerInfoScreen.enterFirstName("Mobiata");
 		FlightsTravelerInfoScreen.enterLastName("Auto");
@@ -77,8 +77,8 @@ public class PhoneHappyPath extends PhoneTestCase {
 		BillingAddressScreen.clickNextButton();
 		FlightsTravelerInfoScreen.clickDoneButton();
 		Common.pressBack();
-		FlightsCheckoutScreen.clickCheckoutButton();
-		FlightsCheckoutScreen.clickSelectPaymentButton();
+		CommonCheckoutScreen.clickCheckoutButton();
+		CommonCheckoutScreen.clickSelectPaymentButton();
 		screenshot("Checkout_Payment_Address");
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 		BillingAddressScreen.typeTextCity("San Francisco");
@@ -99,12 +99,12 @@ public class PhoneHappyPath extends PhoneTestCase {
 		CardInfoScreen.clickOnDoneButton();
 
 		screenshot("Slide_To_Purchase");
-		FlightsCheckoutScreen.slideToCheckout();
+		CommonCheckoutScreen.slideToCheckout();
 		CVVEntryScreen.parseAndEnterCVV("111");
 		screenshot("CVV");
 		CVVEntryScreen.clickBookButton();
 		screenshot("Confirmation");
-		FlightsConfirmationScreen.clickDoneButton();
+		ConfirmationScreen.clickDoneButton();
 	}
 
 	public void testBookHotel() throws Throwable {
@@ -199,7 +199,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		onView(withText("1102138068718")).perform(scrollTo());
 		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
 		// TODO - investigate why flight name differs locally to buildbot #4657
-//		assertViewWithTextIsDisplayed(R.id.airline_text_view, "Delta Air Lines 745");
+		//assertViewWithTextIsDisplayed(R.id.airline_text_view, "Delta Air Lines 745");
 		assertViewWithTextIsDisplayed(R.id.departure_time_text_view, "11:32 AM");
 		assertViewWithTextIsDisplayed(R.id.arrival_time_text_view, "9:04 PM");
 		assertViewWithTextIsDisplayed("Detroit Metropolitan Wayne County Airport");
