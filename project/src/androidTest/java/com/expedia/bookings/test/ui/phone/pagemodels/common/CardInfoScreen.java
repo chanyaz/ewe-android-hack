@@ -78,11 +78,11 @@ public class CardInfoScreen extends ScreenActions {
 	}
 
 	public static ViewInteraction setButton() {
-		return positiveButton();
+		return onView(withId(R.id.positive_button));
 	}
 
 	public static ViewInteraction cancelButton() {
-		return negativeButton();
+		return onView(withId(R.id.negative_button));
 	}
 
 	public static ViewInteraction nextButton() {

@@ -23,13 +23,4 @@ public class ScreenActions {
 			//ignore
 		}
 	}
-
-	protected static ViewInteraction positiveButton() {
-		return onView(withId(R.id.positive_button));
-	}
-
-	protected static ViewInteraction negativeButton() {
-		return onView(withId(R.id.negative_button));
-	}
-
 }
