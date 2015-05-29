@@ -19,10 +19,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-/**
- * Created by dmadan on 4/7/14.
- */
-public class FlightsSearchScreen extends ScreenActions {
+public class FlightsSearchScreen {
 	private static final int DEPARTURE_AIRPORT_EDIT_TEXT_ID = R.id.departure_airport_edit_text;
 	private static final int ARRIVAL_AIRPORT_EDIT_TEXT_ID = R.id.arrival_airport_edit_text;
 	private static final int SELECT_DEPARTURE_VIEW_ID = R.id.dates_button;

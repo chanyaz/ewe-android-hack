@@ -12,10 +12,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
 
-/**
- * Created by dmadan on 4/7/14.
- */
-public class FlightsSearchResultsScreen extends ScreenActions {
+public class FlightsSearchResultsScreen {
 	private static final int FLIGHT_LIST_ID = android.R.id.list;
 	private static final int SORT_FLIGHTS_VIEW_ID = R.id.menu_sort;
 	private static final int SORT_PRICE_STRING = R.string.sort_description_price;

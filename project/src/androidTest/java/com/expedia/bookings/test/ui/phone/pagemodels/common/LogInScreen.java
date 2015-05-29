@@ -7,10 +7,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-/**
- * Created by dmadan on 4/7/14.
- */
-public class LogInScreen extends ScreenActions {
+public class LogInScreen {
 	private static final int EMAIL_ADDRESS_ET_STRING_ID = R.id.username_edit_text;
 	private static final int PASSWORD_ET_STRING_ID = R.id.password_edit_text;
 	private static final int FACEBOOK_BTN_ID = R.id.log_in_with_facebook_btn;

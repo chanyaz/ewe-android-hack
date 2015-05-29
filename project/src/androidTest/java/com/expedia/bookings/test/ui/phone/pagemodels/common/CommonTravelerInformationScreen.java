@@ -10,10 +10,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-/**
- * Created by dmadan on 4/7/14.
- */
-public class CommonTravelerInformationScreen extends ScreenActions {
+public class CommonTravelerInformationScreen {
 
 	private static final int FIRST_NAME_EDIT_TEXT_ID = R.id.edit_first_name;
 	private static final int MIDDLE_NAME_EDIT_TEXT_ID = R.id.edit_middle_name;

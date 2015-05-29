@@ -10,10 +10,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-/**
- * Created by dmadan on 4/7/14.
- */
-public class FlightLegScreen extends ScreenActions {
+public class FlightLegScreen {
 	private static final int SELECT_FLIGHT_BUTTON_ID = R.id.select_text_view;
 	private static final int CANCEL_BUTTON_ID = R.id.cancel_button;
 	private static final int BAGGAGE_FEE_INFO_VIEW_ID = R.id.fees_text_view;

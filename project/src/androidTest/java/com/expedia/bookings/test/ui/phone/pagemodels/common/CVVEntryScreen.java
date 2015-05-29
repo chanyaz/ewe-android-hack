@@ -11,10 +11,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-/**
- * Created by dmadan on 4/7/14.
- */
-public class CVVEntryScreen extends ScreenActions {
+public class CVVEntryScreen {
 	private static final int ONE_BUTTON_ID = R.id.one_button;
 	private static final int TWO_BUTTON_ID = R.id.two_button;
 	private static final int THREE_BUTTON_ID = R.id.three_button;

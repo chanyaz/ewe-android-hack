@@ -11,10 +11,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-/**
- * Created by dmadan on 4/10/14.
- */
-public class HotelReceiptModel extends ScreenActions {
+public class HotelReceiptModel {
 
 	private static final int NIGHTS_TEXT_VIEW_ID = R.id.nights_text;
 	private static final int GRAND_TOTAL_TEXT_VIEW_ID = R.id.grand_total_text;

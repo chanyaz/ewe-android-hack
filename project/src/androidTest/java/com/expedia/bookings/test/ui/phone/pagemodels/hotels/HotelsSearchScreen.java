@@ -24,10 +24,7 @@ import com.expedia.bookings.test.ui.espresso.ViewActions;
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 
-/**
- * Created by dmadan on 4/10/14.
- */
-public class HotelsSearchScreen extends ScreenActions {
+public class HotelsSearchScreen {
 	// Top action bar
 	private static final int SEARCH_EDIT_TEXT_ID = R.id.search_edit_text;
 	private static final int CLEAR_SEARCH_EDIT_TEXT_ID = R.id.clear_search_button;

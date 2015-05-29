@@ -14,7 +14,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.core.AllOf.allOf;
 
-public class HotelsRoomsRatesScreen extends ScreenActions {
+public class HotelsRoomsRatesScreen {
 	private static final int NUM_HEADERS_IN_LIST_VIEW = 1;
 
 	// Object access

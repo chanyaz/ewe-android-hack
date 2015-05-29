@@ -10,10 +10,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-/**
- * Created by dmadan on 4/7/14.
- */
-public class CardInfoScreen extends ScreenActions {
+public class CardInfoScreen {
 	private static final int CREDIT_CARD_NUMBER_EDIT_TEXT_ID = R.id.edit_creditcard_number;
 	private static final int EXPIRATION_DATE_BUTTON_ID = R.id.edit_creditcard_exp_text_btn;
 	private static final int NAME_ON_CARD_EDIT_TEXT_ID = R.id.edit_name_on_card;
@@ -25,7 +22,7 @@ public class CardInfoScreen extends ScreenActions {
 	private static final int MONTH_DOWN_BUTTON_ID = R.id.month_down;
 	private static final int YEAR_UP_BUTTON_ID = R.id.year_up;
 
-// Object access
+	// Object access
 
 	public static ViewInteraction creditCardNumberEditText() {
 		return onView(withId(CREDIT_CARD_NUMBER_EDIT_TEXT_ID));

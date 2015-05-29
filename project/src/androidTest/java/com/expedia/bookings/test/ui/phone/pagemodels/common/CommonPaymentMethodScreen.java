@@ -9,10 +9,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-/**
- * Created by dmadan on 4/7/14.
- */
-public class CommonPaymentMethodScreen extends ScreenActions {
+public class CommonPaymentMethodScreen {
 	private static final int sAddNewCardTextViewID = R.id.new_payment_new_card;
 
 	//Object access
