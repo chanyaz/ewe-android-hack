@@ -56,7 +56,7 @@ public class CreditCardsInfoEditTest extends PhoneTestCase {
 		}
 	}
 
-	protected void runTestCase(TestData testData) throws Exception {
+	private void runTestCase(TestData testData) throws Exception {
 		Random rand = new Random();
 		int randomNumber;
 
@@ -126,7 +126,7 @@ public class CreditCardsInfoEditTest extends PhoneTestCase {
 		mTestData.add(new TestData(testName, prefixes, length, imageID));
 	}
 
-	public void testCCBrandIcon() throws Exception {
+	public void testCCBrandIcon() throws Throwable {
 		recordData("Visa16", new String[] {"4"}, 16, R.drawable.ic_visa_white);
 
 		recordData("Visa13", new String[] {"4"}, 13, R.drawable.ic_visa_white);

@@ -8,11 +8,10 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonTravelerInformationScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ConfirmationScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.SettingsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsCheckoutScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsConfirmationScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsTravelerInfoScreen;
@@ -24,6 +23,11 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.setText;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickCheckoutButton;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickNewPaymentCard;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickSelectPaymentButton;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickTravelerDetails;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.slideToCheckout;
 
 public class FlightFieldValidationTest extends PhoneTestCase {
 
@@ -44,9 +48,9 @@ public class FlightFieldValidationTest extends PhoneTestCase {
 		FlightLegScreen.clickSelectFlightButton();
 		FlightsSearchResultsScreen.clickListItem(1);
 		FlightLegScreen.clickSelectFlightButton();
-		FlightsCheckoutScreen.clickCheckoutButton();
+		clickCheckoutButton();
 
-		FlightsCheckoutScreen.clickTravelerDetails();
+		clickTravelerDetails();
 
 		//test field validation for multibyte character
 		onView(withId(R.id.edit_first_name)).perform(setText("ш"));
@@ -68,10 +72,10 @@ public class FlightFieldValidationTest extends PhoneTestCase {
 		BillingAddressScreen.clickNextButton();
 		FlightsTravelerInfoScreen.clickDoneButton();
 		Common.pressBack();
-		FlightsCheckoutScreen.clickCheckoutButton();
-		FlightsCheckoutScreen.clickSelectPaymentButton();
+		clickCheckoutButton();
+		clickSelectPaymentButton();
 		try {
-			FlightsCheckoutScreen.clickNewPaymentCard();
+			clickNewPaymentCard();
 		}
 		catch (Exception e) {
 			// No add new card option
@@ -116,10 +120,10 @@ public class FlightFieldValidationTest extends PhoneTestCase {
 		catch (Exception e) {
 			//No I accept
 		}
-		FlightsCheckoutScreen.slideToCheckout();
+		slideToCheckout();
 		CVVEntryScreen.parseAndEnterCVV("111");
 		CVVEntryScreen.clickBookButton();
-		FlightsConfirmationScreen.clickDoneButton();
+		ConfirmationScreen.clickDoneButton();
 	}
 
 	private void assertPopup() {

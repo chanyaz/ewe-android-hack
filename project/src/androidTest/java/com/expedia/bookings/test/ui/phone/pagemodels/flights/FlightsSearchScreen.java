@@ -6,7 +6,6 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.espresso.ViewActions;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 
 import android.support.test.espresso.ViewInteraction;
 
@@ -19,12 +18,8 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-/**
- * Created by dmadan on 4/7/14.
- */
-public class FlightsSearchScreen extends ScreenActions {
+public class FlightsSearchScreen {
 	private static final int DEPARTURE_AIRPORT_EDIT_TEXT_ID = R.id.departure_airport_edit_text;
 	private static final int ARRIVAL_AIRPORT_EDIT_TEXT_ID = R.id.arrival_airport_edit_text;
 	private static final int SELECT_DEPARTURE_VIEW_ID = R.id.dates_button;
@@ -32,7 +27,6 @@ public class FlightsSearchScreen extends ScreenActions {
 	private static final int PASSENGER_SELECTION_BUTTON_ID = R.id.num_travelers_button;
 	private static final int CALENDAR_DATE_PICKER_ID = R.id.calendar_date_picker;
 	private static final int SEARCH_BUTTON_ID = R.id.search_button;
-	private static final int OK_STRING_ID = R.string.ok;
 
 	//Object retrievers
 
@@ -62,10 +56,6 @@ public class FlightsSearchScreen extends ScreenActions {
 
 	public static ViewInteraction calendarDatePicker() {
 		return onView(withId(CALENDAR_DATE_PICKER_ID));
-	}
-
-	public static ViewInteraction okString() {
-		return onView(withText(OK_STRING_ID));
 	}
 
 	// Object interactions

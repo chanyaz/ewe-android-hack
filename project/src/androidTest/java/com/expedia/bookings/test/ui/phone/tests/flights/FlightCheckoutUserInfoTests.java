@@ -12,7 +12,6 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsTravelerInfoScreen;
@@ -30,6 +29,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDis
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickCheckoutButton;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickLogOutButton;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.logInButton;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.logOutButton;
 import static org.hamcrest.core.IsNot.not;
 
 public class FlightCheckoutUserInfoTests extends PhoneTestCase {
@@ -54,7 +57,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "Flight search results loaded");
 		FlightsSearchResultsScreen.clickListItem(2);
 		FlightLegScreen.clickSelectFlightButton();
-		FlightsCheckoutScreen.clickCheckoutButton();
+		clickCheckoutButton();
 
 		// Check
 		verifyNameMustMatchIdWarning();
@@ -209,7 +212,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		FlightsTravelerInfoScreen.redressEditText().check(matches(withText("1234567")));
 		ScreenActions.enterLog(TAG, "Asserted that redress EditText has a max capacity of 7 chars");
 		FlightsTravelerInfoScreen.clickDoneButton();
-		FlightsCheckoutScreen.logInButton().check(matches(isDisplayed()));
+		logInButton().check(matches(isDisplayed()));
 		ScreenActions.enterLog(TAG, "After all traveler info was entered, the test was able to return to the checkout screen");
 	}
 
@@ -352,15 +355,15 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "After entering email address, that edit text no longer has error icon");
 		CardInfoScreen.clickOnDoneButton();
 
-		FlightsCheckoutScreen.logInButton().perform(scrollTo());
-		FlightsCheckoutScreen.logInButton().check(matches(isDisplayed()));
+		logInButton().perform(scrollTo());
+		logInButton().check(matches(isDisplayed()));
 		ScreenActions.enterLog(TAG, "After all card info was added, the test was able to return to the checkout screen");
 	}
 
 	private void verifyLoginButtonNotAppearing() throws Exception {
 		Common.pressBack();
-		FlightsCheckoutScreen.clickCheckoutButton();
-		FlightsCheckoutScreen.logInButton().perform(scrollTo(), click());
+		clickCheckoutButton();
+		logInButton().perform(scrollTo(), click());
 		try {
 			Thread.sleep(1000);
 		}
@@ -379,13 +382,13 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();
-		FlightsCheckoutScreen.clickCheckoutButton();
+		clickCheckoutButton();
 		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
 		ScreenActions.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
-		FlightsCheckoutScreen.logOutButton().perform(scrollTo());
-		FlightsCheckoutScreen.clickLogOutButton();
+		logOutButton().perform(scrollTo());
+		clickLogOutButton();
 		onView(withText(mRes.getString(R.string.sign_out))).perform(click());
-		FlightsCheckoutScreen.logInButton().check(matches(isDisplayed()));
+		logInButton().check(matches(isDisplayed()));
 		ScreenActions.enterLog(TAG, "Log out button was visible and able to be clicked. Email address no longer visible on checkout screen");
 	}
 }

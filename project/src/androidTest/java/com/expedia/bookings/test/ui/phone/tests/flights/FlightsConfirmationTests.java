@@ -7,12 +7,12 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonPaymentMethodScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsCheckoutScreen;
@@ -79,7 +79,7 @@ public class FlightsConfirmationTests extends PhoneTestCase {
 		String arrivalTime = getText(R.id.arrival_time_text_view);
 
 		// Checkout
-		FlightsCheckoutScreen.clickCheckoutButton();
+		CommonCheckoutScreen.clickCheckoutButton();
 		ScreenActions.enterLog(TAG, "Clicked checkout button");
 
 		// Log in
@@ -88,7 +88,7 @@ public class FlightsConfirmationTests extends PhoneTestCase {
 		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();
-		FlightsCheckoutScreen.clickCheckoutButton();
+		CommonCheckoutScreen.clickCheckoutButton();
 
 		// Enter payment as logged in user
 		HotelsCheckoutScreen.clickSelectPaymentButton();
@@ -122,7 +122,7 @@ public class FlightsConfirmationTests extends PhoneTestCase {
 
 		//Slide to purchase
 		ScreenActions.enterLog(TAG, "Sliding to checkout");
-		FlightsCheckoutScreen.slideToCheckout();
+		CommonCheckoutScreen.slideToCheckout();
 
 		// CVV Entry
 		ScreenActions.enterLog(TAG, "Entering CCV: " + mUser.getCCV());

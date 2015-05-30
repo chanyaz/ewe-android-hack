@@ -35,10 +35,6 @@ public class Checkout {
 		onView(withId(R.id.traveler_section_container)).perform(click());
 	}
 
-	public static void clickOnTravelerEditDetails() {
-		onView(withId(R.id.edit_traveler_button)).perform(click());
-	}
-
 	public static ViewInteraction nameMustMatchTextView() {
 		final AtomicReference<String> value = new AtomicReference<String>();
 		onView(allOf(withId(R.id.header_container), withParent(withParent(withParent(withId(R.id.traveler_form_container)))))).perform(getNameMatchWarningView(value));
@@ -140,32 +136,12 @@ public class Checkout {
 		onView(withId(R.id.empty_saved_creditcard_fake_spinner)).perform(click());
 	}
 
-	public static void clickOnEmptyStoredCCEditButton() {
-		onView(withId(R.id.empty_edit_creditcard_button)).perform(click());
-	}
-
-	public static void clickOnStoredCCSpinnerButton() {
-		onView(withId(R.id.stored_creditcard_fake_spinner)).perform(click());
-	}
-
 	public static void clickOnStoredCCEditButton() {
 		onView(withId(R.id.stored_creditcard_edit_button)).perform(click());
 	}
 
-	public static void clickOnManualCCSpinnerButton() {
-		onView(withId(R.id.new_creditcard_fake_spinner)).perform(click());
-	}
-
-	public static void clickOnManualCCEditButton() {
-		onView(withId(R.id.new_creditcard_edit_button)).perform(click());
-	}
-
 	public static void clickOnRemoveStoredCCButton() {
 		onView(withId(R.id.remove_stored_card_button)).perform(click());
-	}
-
-	public static void clickOnEmptyStoredTravelerSpinnerButton() {
-		onView(withId(R.id.empty_saved_creditcard_fake_spinner)).perform(click());
 	}
 
 	public static void clickOnStoredTravelerSpinnerButton() {
