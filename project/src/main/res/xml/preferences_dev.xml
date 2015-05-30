@@ -18,12 +18,6 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="@string/preference_cookie_logging"
-            android:summary="Log sent/received cookies in logcat.  Very verbose, so usually you want it off."
-            android:title="Enable Cookie Logging" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="@string/preference_force_custom_server_http_only"
             android:summary="Force http only when using the Custom Server api"
             android:title="Custom Server HTTP Only" />
