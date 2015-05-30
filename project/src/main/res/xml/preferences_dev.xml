@@ -16,11 +16,6 @@
             android:summary="The address of your server/proxy (e.g., 192.168.0.5:3000 for proxy)"
             android:title="Server/Proxy Address" />
 
-        <Preference
-            android:key="@string/preference_stubconfig_page"
-            android:summary="Only works while connected to VPN (or using E3MockProxy)"
-            android:title="Stub Configuration Page" />
-
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_cookie_logging"
