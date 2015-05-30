@@ -50,6 +50,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	public void runTest() throws Throwable {
 		Settings.clearPrivateData(getInstrumentation());
 
+		Settings.setFakeCurrentLocation(getInstrumentation(), "0", "0");
 		// Get server value from config file deployed in devices,
 		// if not defined in config defaults to MockWebServer.
 		if (TestConfiguration.doesConfigFileExist()) {
