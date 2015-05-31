@@ -31,11 +31,13 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -109,6 +111,11 @@ public class DeepLinkRouterActivity extends Activity {
 			finish();
 			return;
 		}
+		else if (dataString.contains("carSearch")) {
+			handleCarsSearch(data, queryData);
+			finish();
+			return;
+		}
 		else if (ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl().equalsIgnoreCase(host)) {
 			final String shortUrl = dataString;
 			final ExpediaServices services = new ExpediaServices(this);
@@ -163,6 +170,34 @@ public class DeepLinkRouterActivity extends Activity {
 		if (finish) {
 			finish();
 		}
+	}
+
+	private boolean handleCarsSearch(Uri data, Set<String> queryData) {
+
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			String pickupDateTime = null;
+			String dropoffDateTime = null;
+			String pickupLocation = null;
+			String originDescription = null;
+
+			if (queryData.contains("pickupLocation")) {
+				pickupLocation = (data.getQueryParameter("pickupLocation"));
+			}
+
+			if (queryData.contains("pickupDateTime")) {
+				pickupDateTime = data.getQueryParameter("pickupDateTime");
+			}
+			if (queryData.contains("dropoffDateTime")) {
+				dropoffDateTime = data.getQueryParameter("dropoffDateTime");
+			}
+			if (queryData.contains("originDescription")) {
+				originDescription = data.getQueryParameter("originDescription");
+			}
+
+			CarSearchParams carSearchParams = CarDataUtils.fromDeepLink(pickupLocation, pickupDateTime, dropoffDateTime, originDescription);
+			NavUtils.goToCars(this, null, carSearchParams, NavUtils.FLAG_DEEPLINK);
+		}
+		return true;
 	}
 
 	private boolean handleLocalExpert(Uri data, Set<String> queryData) {

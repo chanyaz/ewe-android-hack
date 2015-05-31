@@ -118,4 +118,9 @@ public class DateUtils {
 	public static DateTime yyyyMMddHHmmssToDateTime(String dateyyyyMMddHHmmss) {
 		return DateTime.parse(dateyyyyMMddHHmmss, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
 	}
+
+	public static DateTime yyyyMMddTHHmmssToDateTime(String dateyyyyMMddTHHmmss) {
+		return DateTime.parse(dateyyyyMMddTHHmmss, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss"));
+	}
+
 }

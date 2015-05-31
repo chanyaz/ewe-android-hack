@@ -366,4 +366,11 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		v.startAnimation(animation);
 	}
 
+	public void setPickupTime(DateTime startDateTime) {
+		pickupTimeSeekBar.setProgress(startDateTime);
+	}
+
+	public void setDropoffTime(DateTime endDateTime) {
+		dropoffTimeSeekBar.setProgress(endDateTime);
+	}
 }

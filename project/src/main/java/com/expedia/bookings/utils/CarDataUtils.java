@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.cars.CarCategory;
@@ -20,6 +23,8 @@ import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.RateTerm;
 import com.expedia.bookings.data.cars.RentalFareBreakdownType;
 import com.expedia.bookings.data.cars.Transmission;
+import com.expedia.bookings.services.CarServices;
+import com.google.gson.Gson;
 
 /*
  * Connecting lib-ExpediaBookings car data stuctures to Android-based
@@ -253,5 +258,25 @@ public class CarDataUtils {
 
 
 		return builder.build();
+	}
+
+	public static CarSearchParams fromDeepLink(String pickupLocation, String pickupDateTime, String dropoffDateTime, String originDescription) {
+
+		DateTime pickup = DateUtils.yyyyMMddTHHmmssToDateTime(pickupDateTime);
+		DateTime dropOff = DateUtils.yyyyMMddTHHmmssToDateTime(dropoffDateTime);
+
+		CarSearchParams carSearchParams = new CarSearchParams();
+		carSearchParams.startDateTime = pickup;
+		carSearchParams.endDateTime = dropOff;
+		carSearchParams.origin = pickupLocation;
+		carSearchParams.originDescription = originDescription;
+
+		return carSearchParams;
+	}
+
+	public static CarSearchParams getCarSearchParams(Intent intent) {
+		Gson gson = CarServices.generateGson();
+		String carSearchParamsString = intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
+		return gson.fromJson(carSearchParamsString, CarSearchParams.class);
 	}
 }
