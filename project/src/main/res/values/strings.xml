@@ -159,6 +159,8 @@
     <string name="car_rental_breakdown_drop_off_charges">Drop off charge</string>
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">Unlimited mileage</string>
+    <!-- Insurance included -->
+    <string name="insurance_included">Insurance included</string>
     <!-- Checkout confirmation message (temporary) -->
     <string name="successful_checkout_TEMPLATE">Itinerary #%1$s</string>
     <!-- Error message for some missing checkout params -->

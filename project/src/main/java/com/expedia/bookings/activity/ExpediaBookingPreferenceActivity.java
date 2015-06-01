@@ -113,6 +113,9 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			ListPreference carRatesCollapseTopListing = (ListPreference) findPreference(
 					getString(R.string.preference_car_rates_collapse_top_listing));
 			carRatesCollapseTopListing.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference carInsuranceIncludedCKO = (ListPreference) findPreference(
+				getString(R.string.preference_car_insurance_included_cko));
+			carInsuranceIncludedCKO.setOnPreferenceChangeListener(abacusPrefListener);
 		}
 
 		String clearPrivateDateKey = getString(R.string.preference_clear_private_data_key);

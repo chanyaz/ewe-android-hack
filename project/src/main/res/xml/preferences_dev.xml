@@ -239,6 +239,14 @@
             android:summary="Select a test group"
             android:title="Car Rates Collapse Top Listing" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_car_insurance_included_cko"
+            android:summary="Select a test group"
+            android:title="Car Insurance Included CKO" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >
