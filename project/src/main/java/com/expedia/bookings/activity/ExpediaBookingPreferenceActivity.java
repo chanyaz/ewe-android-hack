@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -195,10 +194,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			setResult(RESULT_CHANGED_PREFS);
 		}
 
-		if (key.equals(getString(R.string.preference_stubconfig_page))) {
-			startActivity(new Intent(this, StubConfigActivity.class));
-		}
-		else if (key.equals(getString(R.string.preference_force_fs_db_update))) {
+		if (key.equals(getString(R.string.preference_force_fs_db_update))) {
 			try {
 				FlightStatsDbUtils.setUpgradeCutoff(0);
 				FlightStatsDbUtils.createDatabaseIfNotExists(this);

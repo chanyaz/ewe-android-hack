@@ -65,9 +65,6 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.RoutesResponse;
-import com.expedia.bookings.data.Scenario;
-import com.expedia.bookings.data.ScenarioResponse;
-import com.expedia.bookings.data.ScenarioSetResponse;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestResponse;
@@ -1776,22 +1773,6 @@ public class ExpediaServices implements DownloadListener {
 				mRequest = null;
 			}
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Debug/utility (not for release)
-
-	public ScenarioResponse getScenarios() {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("json", "true"));
-		return doE3Request("stubConfiguration/list", query, new ScenarioResponseHandler(), 0);
-	}
-
-	public ScenarioSetResponse setScenario(Scenario config) {
-		String serverUrl = mEndpointProvider.getE3EndpointUrl() + config.getUrl();
-		Log.d(TAG_REQUEST, "Hitting scenario: " + serverUrl);
-		Request.Builder get = new Request.Builder().url(serverUrl);
-		return doRequest(get, new ScenarioSetResponseHandler(), F_ALLOW_REDIRECT);
 	}
 
 	private static final CookieManager sBlackHoleCookieManager = new CookieManager(null, CookiePolicy.ACCEPT_NONE);

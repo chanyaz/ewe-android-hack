@@ -17,10 +17,6 @@
     <!-- Template for time - distance.  E.g., "9h 40m - 5,5000 miles" -->
     <string name="time_distance_TEMPLATE"> &lt;b&gt;%1$s&lt;/b&gt; - %2$s</string>
 
-    <!-- Stub configuration -->
-    <!-- Warning about clearing data when changing stub -->
-    <string name="warning_setting_a_scenario_clears_all_data">WARNING: Setting a scenario clears all data.</string>
-
     <!-- Facebook -->
     <!-- Development Facebook app id -->
     <string name="facebook_dev_app_id">317210574974208</string>
@@ -70,7 +66,6 @@
     <string name="PointOfSaleKey">point_of_sale_key</string>
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
-    <string name="preference_stubconfig_page">preference_stubconfig_page</string>
     <string name="preference_fake_hotel_price_change">fake_hotel_price_change</string>
     <string name="preference_fake_flight_price_change">fake_flight_price_change</string>
     <string name="preference_flight_fake_obfees">flight_fake_obfees</string>
