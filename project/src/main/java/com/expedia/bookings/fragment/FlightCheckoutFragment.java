@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity;
 import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
@@ -445,7 +446,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				for (int i = 0; i < travelers.size(); i++) {
 					SectionTravelerInfo travSection = mTravelerSections.get(i);
 					boolean currentTravelerValid = false;
-					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational()) {
+					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational() || ExpediaBookingApp.IS_AAG) {
 						currentTravelerValid = (state.allTravelerInfoIsValidForInternationalFlight(travelers.get(i)));
 					}
 					else {
