@@ -111,18 +111,34 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 
 		if (rateBreakdownDueAtPickup != null && rateBreakdownDueAtPickup.size() > 0) {
 			for (RateBreakdownItem item : rateBreakdownDueAtPickup) {
-				ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
-					CarDataUtils.getFareBreakdownType(context, item.type),
-					item.price.formattedPrice));
+				if (item.price == null) {
+					ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
+						CarDataUtils.getFareBreakdownType(context, item.type),
+						getContext().getString(R.string.included)));
+				}
+				else {
+					ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
+						CarDataUtils.getFareBreakdownType(context, item.type),
+						item.price.formattedPrice));
+				}
 			}
 		}
 
 		if (rateBreakdownDueToday != null && rateBreakdownDueToday.size() > 0) {
 			for (RateBreakdownItem item : rateBreakdownDueToday) {
-				ll.addView(CheckoutSummaryWidgetUtils
-					.addRow(context, CarDataUtils.getFareBreakdownType(context, item.type), item.price.formattedPrice));
+				if (item.price == null) {
+					ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
+						CarDataUtils.getFareBreakdownType(context, item.type),
+						getContext().getString(R.string.included)));
+				}
+				else {
+					ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
+						CarDataUtils.getFareBreakdownType(context, item.type),
+						item.price.formattedPrice));
+				}
 			}
 		}
+
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context, context.getString(R.string.car_cost_breakdown_due_today),
 			offer.detailedFare.totalDueToday.formattedPrice));
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context, context.getString(R.string.car_cost_breakdown_total_due),
