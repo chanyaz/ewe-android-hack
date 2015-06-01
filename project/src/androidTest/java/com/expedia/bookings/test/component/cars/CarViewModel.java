@@ -5,6 +5,7 @@ import org.joda.time.LocalDate;
 import android.app.Instrumentation;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.espresso.TabletViewActions;
@@ -18,6 +19,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
@@ -117,6 +119,14 @@ public final class CarViewModel {
 
 	public static void selectCarCategory(String name) {
 		carCategoryList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(name)), click()));
+	}
+
+	public static ViewInteraction searchErrorWidgetButton() {
+		return onView(allOf(withId(R.id.error_action_button), isDescendantOfA(withId(R.id.search_error_widget))));
+	}
+
+	public static ViewInteraction searchErrorToolbarBack() {
+		return onView(allOf(isAssignableFrom(ImageButton.class), isDescendantOfA(allOf(withId(R.id.error_toolbar), isDescendantOfA(withId(R.id.car_results_presenter))))));
 	}
 
 	// Details
