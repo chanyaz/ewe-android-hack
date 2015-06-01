@@ -107,8 +107,8 @@ android {
             buildConfigField "boolean", "IS_AAG", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
             applicationId "com.airasiago.android"
-            versionCode 2
-            versionName "2.0"
+            versionCode 3
+            versionName "2.0.1"
         }
 
         expediaAutomation {
