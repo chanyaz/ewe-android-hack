@@ -186,7 +186,7 @@ public class HotelConfirmationTests extends PhoneTestCase {
 
 	private void verifyTravelAdTracking() {
 		assertEquals(3, mDispatcher.numOfTravelAdRequests("/travel"));
-		assertEquals(2, mDispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdImpression"));
+		assertEquals(3, mDispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdImpression"));
 		assertEquals(2, mDispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdClick"));
 		assertEquals(1, mDispatcher.numOfTravelAdRequests("/ads/hooklogic"));
 	}
