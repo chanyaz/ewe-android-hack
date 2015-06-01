@@ -104,6 +104,10 @@ public class FlightsSearchScreen {
 		onView(withId(R.id.adults_plus)).perform(click());
 	}
 
+	public static void incrementChildrenButton() {
+		onView(withId(R.id.children_plus)).perform(click());
+	}
+
 	public static String getTravelerNumberText() {
 		final AtomicReference<String> value = new AtomicReference<String>();
 		onView(withId(R.id.adult_count_text)).perform(getString(value));
