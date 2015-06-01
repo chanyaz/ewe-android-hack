@@ -639,7 +639,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	@Subscribe
 	public void onCarsShowSearchResultsError(Events.CarsShowSearchResultsError event) {
 		errorScreen.bind(event.error);
-		show(errorScreen);
+		show(errorScreen, Presenter.FLAG_CLEAR_BACKSTACK);
 	}
 
 	@Subscribe
