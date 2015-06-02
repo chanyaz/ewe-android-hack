@@ -28,9 +28,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.Matchers.not;
 
-/**
- * Created by dmadan on 5/12/14.
- */
 public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 
 	private static final String TAG = HotelCheckoutUserInfoTests.class.getSimpleName();
@@ -179,21 +176,12 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 			//
 		}
 		HotelsCheckoutScreen.logInButton().check(matches(isDisplayed()));
-		ScreenActions.enterLog(TAG, "Log out button was visible and able to be clicked. Email address no longer visible on checkout screen");
+		ScreenActions.enterLog(TAG, "Log out button was visible and clickable. Email address no longer visible on checkout screen");
+		Common.pressBack();
+		Common.pressBack();
 	}
 
 	private void verifyCreditCardCleared() {
-		HotelsCheckoutScreen.clickSelectPaymentButton();
-		CardInfoScreen.typeTextCreditCardEditText(mUser.getCreditCardNumber());
-		CardInfoScreen.clickOnExpirationDateButton();
-		CardInfoScreen.clickMonthUpButton();
-		CardInfoScreen.clickYearUpButton();
-		CardInfoScreen.clickSetButton();
-		CardInfoScreen.typeTextNameOnCardEditText(mUser.getFirstName() + mUser.getLastName());
-		CardInfoScreen.clickOnDoneButton();
-
-		Common.pressBack();
-		Common.pressBack();
 		HotelsRoomsRatesScreen.selectRoomItem(0);
 		HotelsCheckoutScreen.clickCheckoutButton();
 
@@ -201,5 +189,9 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "");
 		CardInfoScreen.clickOnDoneButton();
 		CardInfoScreen.creditCardNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+
+		Common.pressBack();
+		Common.pressBack();
 	}
+
 }

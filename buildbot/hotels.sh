@@ -18,6 +18,7 @@ fi
 
 # hotels
 add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelDetailsTests"
+add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelCheckoutUserInfoTests"
 add_test "com.expedia.bookings.test.ui.phone.tests.ui.CreditCardsInfoEditTest"
 add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelConfirmationTests"
 add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelRoomsAndRatesTests"
