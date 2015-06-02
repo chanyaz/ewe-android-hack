@@ -745,7 +745,9 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 	@Override
 	public void onLoginCompleted() {
-		mPriceBottomFragment.startCreateTripDownload();
+		if (Ui.isAdded(mPriceBottomFragment)) {
+			mPriceBottomFragment.startCreateTripDownload();
+		}
 	}
 
 	@Override
