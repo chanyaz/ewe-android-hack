@@ -78,6 +78,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.Strings;
@@ -1295,9 +1296,7 @@ public class OmnitureTracking {
 
 		s.setProducts(addLXProducts(activityId, totalMoney, ticketCount));
 
-		// prop and evar 5, 6
-		LXSearchParams searchParams = lxState.searchParams;
-		setDateValues(s, searchParams.startDate, searchParams.endDate);
+		setLXDateValues(lxState, s);
 
 		// Send the tracking data
 		s.track();
@@ -1326,9 +1325,7 @@ public class OmnitureTracking {
 
 		s.setProducts(addLXProducts(activityId, totalMoney, ticketCount));
 
-		// prop and evar 5, 6
-		LXSearchParams searchParams = lxState.searchParams;
-		setDateValues(s, searchParams.startDate, searchParams.endDate);
+		setLXDateValues(lxState, s);
 
 		// Send the tracking data
 		s.track();
@@ -1450,6 +1447,17 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 		s.setProp(2, LX_LOB);
 		return s;
+	}
+
+	private static void setLXDateValues(LXState lxState, ADMS_Measurement s) {
+		LocalDate activityStartDate = DateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
+		String activityStartDateString = activityStartDate.toString(PROP_DATE_FORMAT);
+		s.setProp(5, activityStartDateString);
+
+		// num days between current day (now) and activity start date.
+		LocalDate now = LocalDate.now();
+		String numDaysOut = Integer.toString(JodaUtils.daysBetween(now, activityStartDate));
+		s.setEvar(5, numDaysOut);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
