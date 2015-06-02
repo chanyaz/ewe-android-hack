@@ -20,10 +20,17 @@ public class ConfirmationScreen {
 	public static ViewInteraction doneButton() {
 		return onView(withId(DONE_BUTTON_ID));
 	}
+	public static ViewInteraction airAttachAddHotelButton() {
+		return onView(withId(R.id.action_text_view));
+	}
 
 	// Object interaction
 
 	public static void clickDoneButton() {
 		doneButton().perform(click());
+	}
+
+	public static void clickAirAttachAddHotelButton() {
+		airAttachAddHotelButton().perform(click());
 	}
 }
