@@ -25,6 +25,7 @@ add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelRoomsAndRatesTest
 add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelFieldValidationTest"
 add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelReviewsTests"
 add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelDateAcrossMonths"
+add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelCouponErrorTests"
 
 #Localization tests. Adding to this script, for now.
 add_test "com.expedia.bookings.test.ui.phone.tests.ui.InfoScreenPhoneNumberTest"
