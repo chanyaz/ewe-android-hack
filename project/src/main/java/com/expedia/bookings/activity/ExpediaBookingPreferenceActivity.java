@@ -119,6 +119,9 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			ListPreference hotelItinLXCrossSell = (ListPreference) findPreference(
 				getString(R.string.preference_hotel_itin_lx_cross_sell));
 			hotelItinLXCrossSell.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference hotelHSRMapIcon = (ListPreference) findPreference(
+				getString(R.string.preference_hotel_hsr_map_icon));
+			hotelHSRMapIcon.setOnPreferenceChangeListener(abacusPrefListener);
 		}
 
 		String clearPrivateDateKey = getString(R.string.preference_clear_private_data_key);

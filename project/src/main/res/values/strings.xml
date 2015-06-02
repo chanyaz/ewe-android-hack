@@ -2359,6 +2359,8 @@
     <string name="DONE">DONE</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Search Map</string>
+    <!-- Button label for toggling to the map -->
+    <string name="map_text">Map</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="sort">Sort</string>
     <!-- Label to swtich between map and list search results -->

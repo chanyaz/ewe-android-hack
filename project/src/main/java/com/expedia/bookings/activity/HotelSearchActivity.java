@@ -940,6 +940,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		menu.findItem(R.id.menu_select_filter).setEnabled(shouldEnableMenuItems);
 		menu.findItem(R.id.menu_select_search_map).setEnabled(shouldEnableMenuItems);
 		menu.findItem(R.id.menu_select_change_view).setEnabled(shouldEnableMenuItems);
+		MenuItem map = menu.findItem(R.id.menu_select_change_view);
 
 		// Disable distance sort
 		menu.findItem(R.id.menu_select_sort_distance).setVisible(mShowDistance);
@@ -951,7 +952,17 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 		boolean isListShowing = mTag.equals(getString(R.string.tag_hotel_list));
 		if (isListShowing) {
-			menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_map);
+			int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHSRMapIconTest);
+			if (testVariate == AbacusUtils.HISMapIconVariate.MAP_PIN.ordinal()) {
+				map.setIcon(R.drawable.ab_map);
+			}
+			else if (testVariate == AbacusUtils.HISMapIconVariate.TEXT_ONLY.ordinal()) {
+				map.setIcon(null);
+				map.setTitle(R.string.map_text);
+			}
+			else {
+				map.setIcon(R.drawable.ic_menu_map);
+			}
 		}
 		else {
 			menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_list);

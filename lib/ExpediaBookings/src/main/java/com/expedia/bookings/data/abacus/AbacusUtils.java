@@ -28,6 +28,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightConfLXXsell = 7533;
 	public static final int EBAndroidAppHotelETPSearchResults = 7532;
 	public static final int EBAndroidAppHotelItinLXXsell = 7612;
+	public static final int EBAndroidAppHSRMapIconTest = 7772;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -49,6 +50,12 @@ public class AbacusUtils {
 		NO_TEXT
 	}
 
+	public static enum HISMapIconVariate {
+		CONTROL,
+		MAP_PIN,
+		TEXT_ONLY
+	}
+
 	// Test ID's that we are bucketing the user for.
 	public static List<Integer> getActiveTests() {
 		List<Integer> testIDs = new ArrayList<>();
@@ -67,6 +74,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightConfLXXsell);
 		testIDs.add(EBAndroidAppHotelETPSearchResults);
 		testIDs.add(EBAndroidAppHotelItinLXXsell);
+		testIDs.add(EBAndroidAppHSRMapIconTest);
 		return testIDs;
 	}
 

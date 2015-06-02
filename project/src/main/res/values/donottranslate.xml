@@ -104,6 +104,7 @@
     <string name="preference_flight_confirmation_lx_cross_sell">7533</string>
     <string name="preference_hotel_etp_search_results">7532</string>
     <string name="preference_hotel_itin_lx_cross_sell">7612</string>
+    <string name="preference_hotel_hsr_map_icon">7772</string>
 
     <string name="preference_abacus_setting_server">Abacus Server</string>
     <string name="preference_abacus_setting_controlgroup">Control Group</string>
