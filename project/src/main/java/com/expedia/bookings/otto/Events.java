@@ -799,6 +799,10 @@ public class Events {
 		}
 	}
 
+	public static class LXShowRulesOnCheckout {
+		//ignore
+	}
+
 	public static class LXActivitySelectedRetry {
 		//ignore
 	}
@@ -813,9 +817,11 @@ public class Events {
 
 	public static class LXCreateTripSucceeded {
 		public LXCreateTripResponse createTripResponse;
+		public LXActivity activity;
 
-		public LXCreateTripSucceeded(LXCreateTripResponse createTripResponse) {
+		public LXCreateTripSucceeded(LXCreateTripResponse createTripResponse, LXActivity activity) {
 			this.createTripResponse = createTripResponse;
+			this.activity = activity;
 		}
 	}
 

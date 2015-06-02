@@ -19,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXUtils;
@@ -75,6 +76,11 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		tripTotalText.setText(totalMoney);
 
 		freeCancellationText.setVisibility(lxState.offer.freeCancellation ? VISIBLE : GONE);
+	}
+
+	@OnClick(R.id.free_cancellation_text)
+	public void showLxRules() {
+		Events.post(new Events.LXShowRulesOnCheckout());
 	}
 
 	@OnClick(R.id.price_text)

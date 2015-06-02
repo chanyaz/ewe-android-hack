@@ -57,6 +57,7 @@
             android:paddingTop="8dp"
             android:layout_marginRight="12dp"
             android:drawableLeft="@drawable/check"
+            android:drawableRight="@drawable/info"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:text="@string/free_cancellation"

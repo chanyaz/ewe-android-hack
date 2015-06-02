@@ -20,6 +20,7 @@ public class LXActivity {
 	//Utility Members
 	public String location;
 	public String regionId;
+	public String cancellationPolicyText;
 	public Money price;
 	public Money originalPrice;
 }
