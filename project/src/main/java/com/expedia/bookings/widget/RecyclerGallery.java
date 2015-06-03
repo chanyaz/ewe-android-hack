@@ -421,13 +421,6 @@ public class RecyclerGallery extends RecyclerView {
 		}
 	}
 
-	public void showPrevious() {
-		int position = mLayoutManager.findFirstVisibleItemPosition() - 1;
-		if (position >= 0 && position < mAdapter.getItemCount()) {
-			smoothScrollToPosition(position);
-		}
-	}
-
 	private static final int FLIP_MSG = 1;
 
 	private static final class LeakSafeHandler extends Handler {
@@ -458,34 +451,9 @@ public class RecyclerGallery extends RecyclerView {
 
 	public interface GalleryItemListener {
 		public void onGalleryItemClicked(Object item);
-		public void onGallerySwiped(int position);
 	}
 
 	public void setOnItemClickListener(GalleryItemListener listener) {
 		mListener = listener;
-	}
-
-	@Override
-	public void smoothScrollToPosition(int position) {
-		super.smoothScrollToPosition(position);
-		if (mListener != null) {
-			mListener.onGallerySwiped(position);
-		}
-	}
-
-	@Override
-	public void smoothScrollBy(int dx, int dy) {
-		super.smoothScrollBy(dx, dy);
-		if (mListener != null) {
-			mListener.onGallerySwiped(dx > 0 ? mLayoutManager.findLastVisibleItemPosition() : mLayoutManager.findFirstVisibleItemPosition());
-		}
-	}
-
-	@Override
-	public void scrollToPosition(int position) {
-		super.scrollToPosition(position);
-		if (mListener != null) {
-			mListener.onGallerySwiped(position);
-		}
 	}
 }

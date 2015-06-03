@@ -373,9 +373,6 @@ public class OmnitureTracking {
 		// Abacus Hotel Info site Free cancellation confidence placement test
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHISFreeCancellationTest);
 
-		// Abacus Hotel Info site swipeable photos test
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHISSwipablePhotosTest);
-
 		// Send the tracking data
 		s.track();
 	}

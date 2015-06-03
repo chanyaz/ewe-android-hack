@@ -16,7 +16,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAATest = 6714;
 	public static final int EBAndroidETPTest = 6800;
 	public static final int EBAndroidAppHISFreeCancellationTest = 6801;
-	public static final int EBAndroidAppHISSwipablePhotosTest = 7021;
 	public static final int EBAndroidAppFlightCKOFreeCancelationTest = 7005;
 	public static final int EBAndroidAppHSearchInfluenceMessagingTest = 7017;
 	public static final int EBAndroidAppLaunchScreenTest = 7369;
@@ -56,7 +55,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAATest);
 		testIDs.add(EBAndroidETPTest);
 		testIDs.add(EBAndroidAppHISFreeCancellationTest);
-		testIDs.add(EBAndroidAppHISSwipablePhotosTest);
 		testIDs.add(EBAndroidAppFlightCKOFreeCancelationTest);
 		testIDs.add(EBAndroidAppHSearchInfluenceMessagingTest);
 		testIDs.add(EBAndroidAppLaunchScreenTest);
