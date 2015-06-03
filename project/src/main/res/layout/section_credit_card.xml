@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- This is a RelativeLayout -->
-<com.expedia.bookings.section.CreditCardSection xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!-- This is a RelativeLayout -->
+<com.expedia.bookings.section.CreditCardSection android:id="@+id/credit_card_section"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/credit_card_section"
     android:layout_width="@dimen/credit_card_checkout_width"
     android:layout_height="@dimen/credit_card_checkout_height"
     android:layout_gravity="right"
@@ -19,8 +18,8 @@
             android:id="@+id/svg_amex_logo"
             android:layout_width="match_parent"
             android:layout_height="18dp"
-            android:layout_marginTop="12dp"
             android:layout_marginRight="64dp"
+            android:layout_marginTop="12dp"
             android:alpha=".7"
             app:src="@raw/american_express_logo"
             app:zoomMode="fitHeight" />
@@ -29,9 +28,9 @@
             android:id="@+id/svg_amex_head"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="12dp"
             android:layout_marginRight="64dp"
+            android:layout_marginTop="12dp"
+            android:layout_weight="1"
             android:alpha=".1"
             app:src="@raw/ic_amex_head"
             app:zoomMode="fitHeight" />
@@ -40,10 +39,10 @@
             android:id="@+id/obscured_card_digits"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-22dp"
             android:layout_marginRight="64dp"
-            android:gravity="center"
+            android:layout_marginTop="-22dp"
             android:alpha=".7"
+            android:gravity="center"
             android:textColor="@android:color/white"
             app:textStyle="bold" />
 
@@ -65,8 +64,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:alpha=".7"
             android:layout_marginLeft="21dp"
+            android:alpha=".7"
             android:textColor="@android:color/white"
             android:textSize="12sp"
             app:textStyle="bold" />
@@ -84,9 +83,9 @@
             android:id="@+id/magnetic_stripe"
             android:layout_width="match_parent"
             android:layout_height="38dp"
-            android:layout_marginTop="17dp"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
+            android:layout_marginTop="17dp"
             android:background="#1e000000" />
 
         <TextView
@@ -104,10 +103,10 @@
 
     <FrameLayout
         android:id="@+id/signature_strip_frame"
-        android:layout_below="@+id/other_cards_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="84dp" >
+        android:layout_below="@+id/other_cards_container"
+        android:layout_marginRight="84dp">
 
         <View
             android:id="@+id/credit_card_signature_bg_view"
@@ -144,10 +143,10 @@
         android:background="@drawable/div_cvv"
         android:freezesText="true"
         android:gravity="center"
+        android:inputType="textPassword"
         android:maxLength="4"
         android:textColor="@color/cvv_normal"
-        android:textSize="20dp"
-        android:inputType="textPassword" />
+        android:textSize="20dp" />
 
     <!-- "Security Code for Doug's VISA" prompt -->
 
@@ -167,8 +166,8 @@
         android:id="@+id/cc_logo_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_marginBottom="8dp"
         android:layout_marginRight="8dp" />
 
