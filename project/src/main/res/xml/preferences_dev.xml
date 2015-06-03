@@ -247,6 +247,14 @@
             android:summary="Select a test group"
             android:title="Car Insurance Included CKO" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_hotel_checkout_traveler_advance"
+            android:summary="Select a test group"
+            android:title="Hotel Checkout Traveler to Payment" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >

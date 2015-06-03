@@ -16,6 +16,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.fragment.HotelPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment.HotelPaymentYoYoListener;
@@ -42,6 +43,8 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 
 	private MenuItem mMenuDone;
 	private MenuItem mMenuNext;
+
+	boolean isUserBucketedForTest;
 
 	private YoYoMode mMode = YoYoMode.NONE;
 	private YoYoPosition mPos = YoYoPosition.OPTIONS;
@@ -78,6 +81,9 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		isUserBucketedForTest = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHCKOTraveler);
 
 		//If we have a working BillingInfo object that was cached we try to load it from disk
 		WorkingBillingInfoManager billMan = Db.getWorkingBillingInfoManager();
@@ -309,11 +315,13 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 						displaySaveDialog();
 					}
 					else {
+						setIntentResultOk();
 						displayCheckout();
 					}
 				}
 				break;
 			case SAVE:
+				setIntentResultOk();
 				displayCheckout();
 				OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditSave(getApplicationContext());
 				break;
@@ -434,6 +442,9 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 			}
 		}
 		else if (mMode.equals(YoYoMode.NONE)) {
+			if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() != null) {
+				setIntentResultOk();
+			}
 			displayCheckout();
 		}
 		return true;
@@ -496,6 +507,12 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(this);
 		finish();
+	}
+
+	public void setIntentResultOk() {
+		if (isUserBucketedForTest) {
+			setResult(RESULT_OK);
+		}
 	}
 
 	// Private helper methods
