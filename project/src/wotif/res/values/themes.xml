@@ -111,12 +111,17 @@
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights_wotif</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_wotif</item>
-        <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
+        <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color_wotif</item>
         <item name="skin_etp_pay_now_charges_text">@string/etp_pay_now_charges_text_wotif</item>
         <item name="skin_totalDueToday">@string/total_due_today_wotif</item>
 
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
+        <item name="skin_itinActionOverflowDrawable">@drawable/ic_menu_overflow_image</item>
+        <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder_wotif</item>
+
+        <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen_wotif</item>
+        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_wotif</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Wotif">
@@ -195,7 +200,6 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_menu_overflow_image</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_wotif</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_wotif</item>
-        <item name="skin_actionBarShopText">@string/shop_travel</item>
 
     </style>
 
@@ -209,7 +213,7 @@
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Wotif</item>
 
         <!-- PopupMenu -->
-        <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.Wotif</item>
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_wotif_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_wotif_background</item>
         <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_wotif_placeholder_cruises</item>

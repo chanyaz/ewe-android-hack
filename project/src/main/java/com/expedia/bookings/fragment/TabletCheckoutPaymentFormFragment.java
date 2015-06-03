@@ -116,7 +116,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		public void onClick(View arg0) {
 			mAttemptToLeaveMade = true;
 
-			if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
+			if (Db.getBillingInfo().hasStoredCard()) {
 				//If we have a saved card we're good to go
 				commitAndLeave();
 			}
@@ -269,6 +269,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			else {
 				showStoredCardContainer();
 			}
+			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
 		}
 		else {
 			showNewCardContainer();
@@ -378,7 +379,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	// Stored cards
 
 	private void showStoredCardContainer() {
-		StoredCreditCard card = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard();
+		StoredCreditCard card = Db.getBillingInfo().getStoredCard();
 		String cardName = card.getDescription();
 		CreditCardType cardType = card.getType();
 		showStoredCardContainer(cardName, cardType);

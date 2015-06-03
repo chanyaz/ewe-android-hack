@@ -652,7 +652,7 @@
         <item name="android:gravity">center</item>
         <item name="android:padding">8dp</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">#2970CC</item>
+        <item name="android:textColor">?attr/skin_tablet_confirmation_action_color</item>
         <item name="android:textSize">@dimen/confirmation_custom_action_textsize</item>
         <item name="textStyle">condensed_bold</item>
     </style>
