@@ -255,6 +255,14 @@
             android:summary="Select a test group"
             android:title="Hotel Itin Lx Cross sell" />
 
+        <ListPreference
+            android:entries="@array/abacus_hsr_map_choices"
+            android:entryValues="@array/abacus_hsr_map_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_hotel_hsr_map_icon"
+            android:summary="Select a test group"
+            android:title="Hotel HSR Map Icon" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >
