@@ -203,6 +203,7 @@ public class LXServices {
 			String currencyCode = response.currencyCode;
 			for (LXActivity activity : response.activities) {
 				activity.price = new Money(activity.fromPriceValue, currencyCode);
+				activity.originalPrice = new Money(activity.fromOriginalPriceValue, currencyCode);
 				activity.title = Strings.escapeQuotes(activity.title);
 			}
 			return response;

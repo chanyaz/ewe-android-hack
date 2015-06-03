@@ -13,6 +13,7 @@ public class LXActivity {
 	public LXTicketType fromPriceTicketCode;
 	public List<String> categories;
 	public String duration;
+	public String fromOriginalPriceValue;
 	// True if the offers have different durations.
 	public boolean isMultiDuration;
 
@@ -20,4 +21,5 @@ public class LXActivity {
 	public String location;
 	public String regionId;
 	public Money price;
+	public Money originalPrice;
 }

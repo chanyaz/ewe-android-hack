@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
+import com.mobiata.android.text.StrikethroughTagHandler;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
@@ -116,6 +119,9 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 		@InjectView(R.id.activity_price)
 		TextView activityPrice;
 
+		@InjectView(R.id.activity_original_price)
+		TextView activityOriginalPrice;
+
 		@InjectView(R.id.results_card_view)
 		CardView cardView;
 
@@ -144,6 +150,18 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 			else {
 				fromPriceTicketType.setText("");
 				activityPrice.setText("");
+			}
+
+			if (activity.originalPrice.getAmount().equals(BigDecimal.ZERO)) {
+				activityOriginalPrice.setVisibility(View.GONE);
+			}
+			else {
+				activityOriginalPrice.setVisibility(View.VISIBLE);
+				String formattedOriginalPrice = activity.originalPrice.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP);
+				activityOriginalPrice.setText(Html.fromHtml(
+						itemView.getContext().getString(R.string.strike_template, formattedOriginalPrice),
+						null,
+						new StrikethroughTagHandler()));
 			}
 
 			String activityDuration = activity.duration;

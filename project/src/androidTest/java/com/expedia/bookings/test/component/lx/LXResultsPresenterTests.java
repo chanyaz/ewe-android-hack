@@ -98,6 +98,7 @@ public class LXResultsPresenterTests {
 	public void testResultListAdapter() throws Throwable {
 		String title = "test";
 		Money price = new Money("10", "USD");
+		Money originalPrice = new Money("11", "USD");
 		String category = "tour";
 		String duration = "2d";
 		LXTicketType code = LXTicketType.Adult;
@@ -110,6 +111,7 @@ public class LXResultsPresenterTests {
 		LXActivity a = new LXActivity();
 		a.title = title;
 		a.price = price;
+		a.originalPrice = originalPrice;
 		a.categories = categoriesList;
 		a.fromPriceTicketCode = code;
 		a.duration = duration;
@@ -117,7 +119,7 @@ public class LXResultsPresenterTests {
 
 		onView(withId(R.id.lx_search_results_list)).perform(LXViewModel.setLXActivities(activities));
 		onView(withId(R.id.lx_search_results_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0,
-			LXViewModel.performViewHolderComparison(title, price.getFormattedMoney(), duration, categoriesList)));
+			LXViewModel.performViewHolderComparison(title, price.getFormattedMoney(), originalPrice.getFormattedMoney(), duration, categoriesList)));
 
 	}
 
