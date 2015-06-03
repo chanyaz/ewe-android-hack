@@ -72,7 +72,8 @@ public class GuestsPickerUtils {
 		if (numChildren == 0) {
 			container.setVisibility(View.GONE);
 			return;
-		} else {
+		}
+		else {
 			container.setVisibility(View.VISIBLE);
 		}
 
