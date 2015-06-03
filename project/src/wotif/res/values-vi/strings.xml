@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="call_wotif_customer_support">Gọi bộ phận Hỗ trợ Khách hàng Wotif</string>
+
+    <!-- Log in with Wotif -->
+    <string name="Log_in_with_Wotif">Đăng nhập với Wotif</string>
+    <!-- Label for signin screen -->
+    <string name="wotif_account">Tài khoản Wotif</string>
+    <!-- Content description for action: Press to log in with your Wotif account -->
+    <string name="cd_checkout_log_in_with_wotif">Bấm để đăng nhập tài khoản Wotif</string>
+
+    <string name="wotif_website">Trang web Wotif</string>
+    <string name="wotif_app_support">Hỗ trợ app Wotif</string>
+    <string name="wotif_copyright_TEMPLATE">© Copyright 2012-%1$s Wotif\nMọi quyền được bảo lưu.</string>
+    <string name="wotif_info_url">http://www.wotif.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_wotif">Quý vị có chắc chắn muốn thoát tài khoản Wotif không?</string>
+
+    <!-- Expedia booking fee -->
+    <string name="wotif_booking_fee">Phí đặt phòng Wotif</string>
+
+    <string name="error_flight_unhandled_wotif_TEMPLATE">Rất tiếc, chúng tôi hiện không thể xử lý yêu cầu của quý vị. Vui lòng thử lại hoặc gọi cho bộ phận Hỗ trợ Khách hàng Wotif và thông báo số lịch trình sau: %s</string>
+    <string name="error_server_wotif">Rất tiếc, chúng tôi không thể kết nối với máy chủ Wotif.  Vui lòng thử lại sau.</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_wotif_info_message">Lưu hình thức thanh toán này vào tài khoản Wotif của quý vị để thanh toán nhanh hơn trong những lần sau?</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_wotif_message_TEMPLATE">Lưu thông tin %1$s vào tài khoản Wotif của quý vị để tiết kiệm thời gian trong những lần đặt sau?</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_wotif">Số lịch trình Wotif: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_wotif">Hỗ trợ Khách hàng Wotif: %s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_wotif">Quý vị đã thoát khỏi tài khoản Wotif, mọi thông tin thanh toán và liên lạc đã được xóa.</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_wotif">Rất tiếc, chúng tôi không thể kết nối với Wotif. Vui lòng thử lại.</string>
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">Khách sạn</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">Tìm và đặt</string>
+
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_wotif_via">Liên hệ Wotif qua…</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_wotif_email_subject">Hỗ trợ đặt phòng Wotif</string>
+    <!-- Wotif- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_wotif">Nếu có câu hỏi về đặt chỗ của mình, vui lòng liên hệ Wotif qua %s.</string>
+    <!-- Wotif Itinerary -->
+    <string name="wotif_itinerary">Số lịch trình Wotif</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Wotif</string>
+
+    <string name="error_flight_no_longer_available_wotif">Rất tiếc, hiện Wotif không còn chuyến bay của quý vị.</string>
+
+    <string name="error_flights_no_longer_available_wotif">Rất tiếc, hiện Wotif không còn một trong các chuyến bay của quý vị.</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_wotif">Rất tiếc, hiện Wotif không còn phòng tại khách sạn này.</string>
+    <!--A message stating this hotel is Not currently available on Wotif -->
+    <string name="not_currently_available_wotif">Không có tại Wotif</string>
+    <!-- A message stating this hotel is sold out on Wotif -->
+    <string name="sold_out_on_wotif">Hết phòng tại Wotif</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Wotif Nov. 3-4" -->
+    <string name="not_currently_available_wotif_TEMPLATE">Không có phòng tại Wotif %s</string>
+
+    <!-- Missing strings for Wotif from Expedia-->
+    <string name="tell_a_friend_body_wotif">Xin chào,\n\nHãy thử ứng dụng Wotif Hotels cho iPhone và điện thoại Android. MIỄN PHÍ và quý vị có thể tìm và đặt phòng tại hơn 140.000 khách sạn trên toàn thế giới. Đây là cách đặt phòng dễ dàng nhất từ điện thoại di động.</string>
+    <string name="tell_a_friend_subject_wotif">Wotif Hotels</string>
+    <string name="restricted_profile_login_message_wotif">Để đăng nhập Wotif, quý vị phải sử dụng tài khoản người dùng không giới hạn trên thiết bị của mình.</string>
+    <string name="loading_wotif_account">Đang tải tài khoản Wotif</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_wotif">Quý vị đã đặt phòng khách sạn thành công! Nếu cần lịch trình ngay, vui lòng gọi bộ phận Hỗ trợ Khách hàng Wotif.</string>
+    <string name="wotif_password_hint">Mật khẩu Wotif</string>
+    <string name="dialog_message_launch_wotif_mobile_site">Mở trang web cho di động của Wotif?</string>
+    <string name="sorry_rooms_sold_out_wotif">Rất tiếc, hiện Wotif đã hết phòng.</string>
+    <!-- Wotif App download link -->
+    <string name="share_template_long_ad_wotif">Đặt phòng khách sạn, chuyến bay; xem &amp; chia sẻ lịch trình của quý vị. Tải ứng dụng di động Wotif miễn phí ngay hôm nay.\n%s</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">Tổng phí thanh toán cho Wotif hôm nay:</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Quý vị cần tạo tài khoản mới, dùng chung cho tất cả các trang web Wotif.&lt;br&gt;Vui lòng thiết lập lại mật khẩu bằng cách bấm vào ‘Quên mật khẩu?’ dưới đây.</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_wotif">Phí thanh toán cho Wotif hôm nay</string>
+    <string name="etp_pay_now_charges_text_wotif">Wotif sẽ xử lý chi tiết thanh toán của quý vị.</string>
+</resources>

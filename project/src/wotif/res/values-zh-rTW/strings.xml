@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="call_wotif_customer_support">聯絡 Wotif 客戶服務</string>
+
+    <!-- Log in with Wotif -->
+    <string name="Log_in_with_Wotif">登入 Wotif</string>
+    <!-- Label for signin screen -->
+    <string name="wotif_account">Wotif 帳戶</string>
+    <!-- Content description for action: Press to log in with your Wotif account -->
+    <string name="cd_checkout_log_in_with_wotif">按下以登入您的 Wotif 帳戶</string>
+
+    <string name="wotif_website">Wotif 網站</string>
+    <string name="wotif_app_support">Wotif App 支援</string>
+    <string name="wotif_copyright_TEMPLATE">© Copyright 2012-%1$s Wotif\n著作權所有，並保留一切權利。</string>
+    <string name="wotif_info_url">http://www.wotif.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_wotif">您確定要登出您的 Wotif 帳戶嗎？</string>
+
+    <!-- Expedia booking fee -->
+    <string name="wotif_booking_fee">Wotif 預訂費用</string>
+
+    <string name="error_flight_unhandled_wotif_TEMPLATE">很抱歉，我們目前無法處理您的預訂。請再試一次，或聯絡 Wotif 客戶服務並告知您的行程編號：%s</string>
+    <string name="error_server_wotif">很抱歉，我們無法連線到 Wotif 的伺服器。請稍後再試一次。</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_wotif_info_message">是否要將此付款方式儲存在您的 Wotif 帳戶中，以便在日後加快預訂速度？</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_wotif_message_TEMPLATE">是否要將 %1$s 的資訊儲存在您的 Wotif 帳戶中，以便在日後加快預訂速度？</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_wotif">Wotif 行程編號：%s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_wotif">Wotif 客戶支援：%s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_wotif">您已經登出 Wotif 帳戶，同時所有儲存的帳單和聯絡資訊皆已清除。</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_wotif">很抱歉，我們無法連接到 Wotif。請再試一次。</string>
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">住宿</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">搜尋行程</string>
+
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_wotif_via">聯絡 Wotif…</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_wotif_email_subject">Wotif 預訂支援</string>
+    <!-- Wotif- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_wotif">如果您對預訂有任何疑問，請聯絡 Wotif，電話：%s。</string>
+    <!-- Wotif Itinerary -->
+    <string name="wotif_itinerary">Wotif 行程編號</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Wotif</string>
+
+    <string name="error_flight_no_longer_available_wotif">很抱歉，您的班機在 Wotif 已售完。</string>
+
+    <string name="error_flights_no_longer_available_wotif">很抱歉，您的其中一個班機在 Wotif 已售完。</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_wotif">很抱歉，此飯店在 Wotif 已訂滿。</string>
+    <!--A message stating this hotel is Not currently available on Wotif -->
+    <string name="not_currently_available_wotif">目前在 Wotif 沒有空房</string>
+    <!-- A message stating this hotel is sold out on Wotif -->
+    <string name="sold_out_on_wotif">在 Wotif 已售完</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Wotif Nov. 3-4" -->
+    <string name="not_currently_available_wotif_TEMPLATE">%s 在 Wotif 沒有空房</string>
+
+    <!-- Missing strings for Wotif from Expedia-->
+    <string name="tell_a_friend_body_wotif">好消息！\n\n現在使用 iPhone 和 Android 手機也可以預訂 Wotif 的飯店了！它不但完全免費，還有全球超過 14 萬家飯店供您搜尋和預訂。用手機就能訂房，真是再方便不過了！</string>
+    <string name="tell_a_friend_subject_wotif">Wotif 飯店</string>
+    <string name="restricted_profile_login_message_wotif">若要登入 Wotif，您在行動裝置上的使用者設定不得有任何限制。</string>
+    <string name="loading_wotif_account">正在載入 Wotif 帳戶</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_wotif">您已成功預訂飯店!如需立即取得行程表，請致電 Expedia 客戶支援。</string>
+    <string name="wotif_password_hint">Wotif 密碼</string>
+    <string name="dialog_message_launch_wotif_mobile_site">開啟 Wotif 行動版網站？</string>
+    <string name="sorry_rooms_sold_out_wotif">很抱歉，Wotif 上的所有客房已訂滿。</string>
+    <!-- Wotif App download link -->
+    <string name="share_template_long_ad_wotif">預訂飯店和機票，並查看和分享您的行程。立即下載免費的 Wotif App！\n%s</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">今天應付給 Wotif：</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">您必須新建一個所有 Wotif 網站皆適用的國際登入帳戶。&lt;br&gt;請使用下方的「忘記密碼」連結來重設您的密碼。</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_wotif">今天應付給 Wotif</string>
+    <string name="etp_pay_now_charges_text_wotif">Wotif 會處理您的付款資料。</string>
+</resources>

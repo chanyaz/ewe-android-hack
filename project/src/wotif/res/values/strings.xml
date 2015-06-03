@@ -44,9 +44,6 @@
     <!-- Phone Fragment Header-->
     <string name="nav_accommodation">Accommodation</string>
     
-    <!-- Shop travel label -->
-    <string name="shop_travel">Shop travel</string>
-
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_wotif_via">Contact Wotif Via…</string>
     <!-- Contact Expedia via email subject -->
