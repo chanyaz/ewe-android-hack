@@ -345,6 +345,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mCouponButton.setPaintFlags(mCouponButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
 		toggleOrMessaging(User.isLoggedIn(getActivity()));
+		mAccountButton.setVisibility(ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled() ? View.VISIBLE : View.GONE);
 
 		return view;
 	}

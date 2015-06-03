@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
+import android.os.Bundle;
 import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -242,6 +243,13 @@ public class DomainPreference extends ListPreference {
 			holder.mDomainTextView.setText(d.mDomain);
 
 			return convertView;
+		}
+	}
+
+	@Override
+	protected void showDialog(Bundle state) {
+		if (mEntries != null && mEntries.length > 1) {
+			super.showDialog(state);
 		}
 	}
 }

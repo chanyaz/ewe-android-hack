@@ -114,4 +114,10 @@ public interface IProductFlavorFeatureConfiguration {
 	String getAdXKey();
 
 	boolean isAppSupportUrlEnabled();
+
+	boolean isSigninEnabled();
+
+	boolean isAppCrossSellInHotelShareContentEnabled();
+
+	boolean isAppCrossSellInFlightShareContentEnabled();
 }

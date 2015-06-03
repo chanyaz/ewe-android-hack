@@ -125,6 +125,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		mWalletButton.setOnClickListener(mWalletButtonClickListener);
 
 		bind();
+		mAccountButton.setVisibility(ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled() ? View.VISIBLE : View.GONE);
 
 		return v;
 

@@ -33,6 +33,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.model.FlightTravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -183,6 +184,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mCreditCardSectionButton.setOnClickListener(gotoPaymentOptions);
 		mStoredCreditCard.setOnClickListener(gotoPaymentOptions);
 		mPaymentButton.setOnClickListener(gotoPaymentOptions);
+
+		buildTravelerBox();
+
+		mAccountButton.setVisibility(ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled() ? View.VISIBLE : View.GONE);
 
 		return v;
 	}
