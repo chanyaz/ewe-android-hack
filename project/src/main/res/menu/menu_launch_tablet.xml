@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/menu_your_trips"
-        android:icon="@drawable/ic_action_bar_trips"
+        android:icon="?attr/skin_icActionBarTripsDrawable"
         android:showAsAction="always|withText"
         android:title="@string/Your_Trips"/>
     <item
