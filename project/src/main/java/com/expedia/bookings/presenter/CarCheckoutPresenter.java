@@ -166,8 +166,8 @@ public class CarCheckoutPresenter extends Presenter {
 			.show();
 	}
 
-	private Transition checkoutToCvv = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), CVVEntryWidget.class.getName());
-	private Transition checkoutToError = new VisibilityTransition(this, CarCheckoutWidget.class.getName(), ErrorWidget.class.getName()) {
+	private Transition checkoutToCvv = new VisibilityTransition(this, CarCheckoutWidget.class, CVVEntryWidget.class);
+	private Transition checkoutToError = new VisibilityTransition(this, CarCheckoutWidget.class, ErrorWidget.class) {
 		@Override
 		public void finalizeTransition(boolean forward) {
 			super.finalizeTransition(forward);
@@ -176,7 +176,7 @@ public class CarCheckoutPresenter extends Presenter {
 			}
 		}
 	};
-	private Transition cvvToError = new VisibilityTransition(this, CVVEntryWidget.class.getName(), ErrorWidget.class.getName());
+	private Transition cvvToError = new VisibilityTransition(this, CVVEntryWidget.class, ErrorWidget.class);
 	private DefaultTransition defaultCheckoutTransition = new DefaultTransition(CarCheckoutWidget.class.getName()) {
 		@Override
 		public void finalizeTransition(boolean forward) {

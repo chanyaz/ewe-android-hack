@@ -15,7 +15,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextPaint;
@@ -359,11 +358,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				// Common options for decoding bitmaps
 				BitmapFactory.Options opts = new BitmapFactory.Options();
 				opts.inScaled = false;
-
-				// #470: This var was only added in 10+
-				if (Build.VERSION.SDK_INT >= 10) {
-					opts.inPreferQualityOverSpeed = true;
-				}
+				opts.inPreferQualityOverSpeed = true;
 
 				mCanvasWidth = width;
 				mCanvasHeight = height;

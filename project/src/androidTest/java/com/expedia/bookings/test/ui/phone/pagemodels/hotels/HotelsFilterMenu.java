@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.ui.phone.pagemodels.hotels;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+
 import android.support.test.espresso.ViewInteraction;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -13,23 +13,17 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 /**
  * Created by dmadan on 4/10/14.
  */
-public class HotelsFilterMenu extends ScreenActions {
+public class HotelsFilterMenu {
 	private static final int FILTER_EDIT_TEXT_ID = R.id.filter_hotel_name_edit_text;
 
 	private static final int SMALL_RADIUS_BUTTON_ID = R.id.radius_small_button;
 	private static final int MEDIUM_RADIUS_BUTTON_ID = R.id.radius_medium_button;
 	private static final int LARGE_RADIUS_BUTTON_ID = R.id.radius_large_button;
-	private static final int ALL_RADIUS_BUTTON_ID = R.id.radius_all_button;
 
 	private static final int LOW_RATING_BUTTON_ID = R.id.rating_low_button;
 	private static final int MEDIUM_RATING_BUTTON_ID = R.id.rating_medium_button;
 	private static final int HIGH_RATING_BUTTON_ID = R.id.rating_high_button;
 	private static final int ALL_RATING_BUTTON_ID = R.id.rating_all_button;
-
-	private static final int LOW_PRICE_BUTTON_ID = R.id.price_cheap_button;
-	private static final int MODERATE_PRICE_BUTTON_ID = R.id.price_moderate_button;
-	private static final int EXPENSIVE_PRICE_BUTTON_ID = R.id.price_expensive_button;
-	private static final int ALL_PRICE_BUTTON_ID = R.id.price_all_button;
 
 	private static final int VIP_ACCESS_BUTTON_ID = R.id.filter_vip_access;
 
@@ -65,22 +59,6 @@ public class HotelsFilterMenu extends ScreenActions {
 
 	public static ViewInteraction allRatingFilterButton() {
 		return onView(withId(ALL_RATING_BUTTON_ID));
-	}
-
-	public static ViewInteraction lowPriceFilterButton() {
-		return onView(withId(LOW_PRICE_BUTTON_ID));
-	}
-
-	public static ViewInteraction moderatePriceFilterButton() {
-		return onView(withId(MODERATE_PRICE_BUTTON_ID));
-	}
-
-	public static ViewInteraction expensivePriceFilterButton() {
-		return onView(withId(EXPENSIVE_PRICE_BUTTON_ID));
-	}
-
-	public static ViewInteraction allPriceFilterButton() {
-		return onView(withId(ALL_PRICE_BUTTON_ID));
 	}
 
 	public static ViewInteraction filterVIPAccessButton() {

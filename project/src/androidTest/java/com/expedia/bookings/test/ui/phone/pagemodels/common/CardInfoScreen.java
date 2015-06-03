@@ -10,10 +10,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-/**
- * Created by dmadan on 4/7/14.
- */
-public class CardInfoScreen extends ScreenActions {
+public class CardInfoScreen {
 	private static final int CREDIT_CARD_NUMBER_EDIT_TEXT_ID = R.id.edit_creditcard_number;
 	private static final int EXPIRATION_DATE_BUTTON_ID = R.id.edit_creditcard_exp_text_btn;
 	private static final int NAME_ON_CARD_EDIT_TEXT_ID = R.id.edit_name_on_card;
@@ -24,9 +21,8 @@ public class CardInfoScreen extends ScreenActions {
 	private static final int MONTH_UP_BUTTON_ID = R.id.month_up;
 	private static final int MONTH_DOWN_BUTTON_ID = R.id.month_down;
 	private static final int YEAR_UP_BUTTON_ID = R.id.year_up;
-	private static final int YEAR_DOWN_BUTTON_ID = R.id.year_down;
 
-// Object access
+	// Object access
 
 	public static ViewInteraction creditCardNumberEditText() {
 		return onView(withId(CREDIT_CARD_NUMBER_EDIT_TEXT_ID));
@@ -46,10 +42,6 @@ public class CardInfoScreen extends ScreenActions {
 
 	public static ViewInteraction noThanksButtonString() {
 		return onView(withText(R.string.no_thanks));
-	}
-
-	public static ViewInteraction saveButtonString() {
-		return onView(withText(R.string.save));
 	}
 
 	public static ViewInteraction emailEditText() {
@@ -73,16 +65,8 @@ public class CardInfoScreen extends ScreenActions {
 		return onView(withId(YEAR_UP_BUTTON_ID));
 	}
 
-	public static ViewInteraction yearDownButton() {
-		return onView(withId(YEAR_DOWN_BUTTON_ID));
-	}
-
 	public static ViewInteraction setButton() {
-		return positiveButton();
-	}
-
-	public static ViewInteraction cancelButton() {
-		return negativeButton();
+		return onView(withId(R.id.positive_button));
 	}
 
 	public static ViewInteraction nextButton() {
@@ -129,24 +113,12 @@ public class CardInfoScreen extends ScreenActions {
 		yearUpButton().perform(click());
 	}
 
-	public static void clickYearDownButton() {
-		yearDownButton().perform(click());
-	}
-
 	public static void clickSetButton() {
 		setButton().perform(click());
 	}
 
-	public static void clickCancelButton() {
-		cancelButton().perform(click());
-	}
-
 	public static void clickNoThanksButton() {
 		noThanksButtonString().perform(click());
-	}
-
-	public static void clickSaveButton() {
-		saveButtonString().perform(click());
 	}
 
 	public static void clickNextButton() {

@@ -18,6 +18,7 @@ import com.expedia.bookings.test.component.lx.models.TicketSummaryDataModel;
 import com.expedia.bookings.widget.LXOffersListWidget;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -46,6 +47,10 @@ public class LXInfositePageModel {
 		return onView(Matchers.allOf(withId(R.id.ticket_selectors_container), hasSibling(withText(ticketName))));
 	}
 
+	public static ViewInteraction selectOffer(String ticketName) {
+		return onView(Matchers.allOf(withId(R.id.offer_row), hasDescendant(withText(ticketName))));
+	}
+
 	public static ViewInteraction ticketRemoveButton(String ticketName, String travellerType) {
 		Matcher<View> rowMatcher = Matchers.allOf(withText(containsString(travellerType)),
 			withParent(withParent(hasSibling(withText(ticketName)))));
@@ -65,7 +70,7 @@ public class LXInfositePageModel {
 
 	public static ViewInteraction priceSummary(String ticketName) {
 		return onView(
-			Matchers.allOf(withId(R.id.selected_ticket_summary), withParent(withParent(hasSibling(withText(ticketName))))));
+			Matchers.allOf(withId(R.id.selected_ticket_summary), withParent(hasSibling(withText(ticketName)))));
 	}
 
 	public static ViewInteraction bookNowButton(String ticketName) {

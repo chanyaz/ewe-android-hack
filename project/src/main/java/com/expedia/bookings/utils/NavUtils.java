@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
@@ -36,6 +35,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.expedia.bookings.services.CarServices;
@@ -57,12 +57,7 @@ public class NavUtils {
 	}
 
 	public static void startActivity(Context context, Intent intent, Bundle options) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			context.startActivity(intent, options);
-		}
-		else {
-			context.startActivity(intent);
-		}
+		context.startActivity(intent, options);
 	}
 
 	public static boolean startActivitySafe(Context context, Intent intent) {
@@ -271,6 +266,17 @@ public class NavUtils {
 			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, gson.toJson(searchParams));
 		}
 
+		startActivity(context, intent, animOptions);
+	}
+
+	public static void goToLx(Context context, Bundle animOptions, LXSearchParams searchParams, boolean openResults) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, LXBaseActivity.class);
+		if (searchParams != null) {
+			intent.putExtra("startDateStr", DateUtils.localDateToyyyyMMdd(searchParams.startDate));
+			intent.putExtra("location", searchParams.location);
+			intent.putExtra((openResults ? Codes.EXTRA_OPEN_RESULTS : Codes.EXTRA_OPEN_SEARCH), true);
+		}
 		startActivity(context, intent, animOptions);
 	}
 

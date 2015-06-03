@@ -17,6 +17,7 @@ public class ApiError extends RuntimeException {
 		CAR_SERVICE_ERROR,
 		CAR_SEARCH_ERROR,
 		CAR_SEARCH_WINDOW_VIOLATION,
+		CAR_FILTER_NO_RESULTS,
 
 		// Create trip errors
 		INVALID_CAR_PRODUCT_KEY, // Most likely invalid dates

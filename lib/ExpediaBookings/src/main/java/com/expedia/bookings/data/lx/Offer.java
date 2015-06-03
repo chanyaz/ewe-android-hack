@@ -11,9 +11,14 @@ public class Offer {
 	public String title;
 	public List<AvailabilityInfo> availabilityInfo;
 	public boolean freeCancellation;
+	public String duration;
+	public String description;
 
 	// This is not coming from server, its for client side manipulation
 	public boolean isToggled;
+	public String bags;
+	public String passengers;
+	public boolean isGroundTransport;
 
 	// Utility for available info on selected date - not coming from the API
 	public AvailabilityInfo availabilityInfoOfSelectedDate;

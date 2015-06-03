@@ -41,6 +41,8 @@
     <string name="cars_invalid_input_text">Thông tin không hợp lệ</string>
     <!-- Text for generic error toolbar-->
     <string name="cars_error_text">Lỗi</string>
+    <!-- Text for toolbar on no search results -->
+    <string name="cars_no_results_text">Không có kết quả</string>
     <!-- Text for reserving car-->
     <string name="cars_reserve_text">Đặt</string>
     <!-- Text for viewing details-->
@@ -84,12 +86,16 @@
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_car_desc_support_TEMPLATE">Hỗ trợ khách hàng Expedia: %1$s &amp; %2$s</string>
 
+    <!-- Label for hotel search toolbar -->
+    <string name="hotel_toolbar_title">Tìm khách sạn</string>
+    <!-- Label for hotel suggestion -->
+    <string name="search_location">Tìm địa điểm</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Địa điểm nhận xe</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="same_as_pick_up">Cùng địa điểm nhận xe</string>
+    <string name="drop_off_location">Trả xe</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">Ngày &amp; Địa điểm</string>
+    <string name="toolbar_search_cars">Tìm xe</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Chọn ngày nhận và trả xe</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
@@ -102,6 +108,32 @@
     <string name="drop_off_same_as_pick_up">Sắp ra mắt! Chúng tôi đang nỗ lực hết sức để thêm tính năng đặt thuê xe một chiều trong phiên bản sắp ra mắt.</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string>
+    <!-- Car no filtered search results -->
+    <string name="filter_no_car_search_results_message">Không tìm được kết quả. Vui lòng giảm số bộ lọc.</string>
+    <!-- Transmission options filter label for a car rental -->
+    <string name="options">Tùy chọn</string>
+    <!-- Automatic transmission filter button-->
+    <string name="car_filter_automatic">Tự động</string>
+    <!-- Manual transmission filter button-->
+    <string name="car_filter_manual">Số sàn (số tay)</string>
+    <!-- Any transmission type filter button -->
+    <string name="car_filter_all">Tất cả</string>
+    <!-- Air conditioning option checkbox filter -->
+    <string name="car_filter_checkbox_air_conditioning">Máy lạnh</string>
+    <!-- Unlimited mileage option checkbox filter -->
+    <string name="car_filter_checkbox_unlimited_mileage">Không giới hạn dặm</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_types">Loại xe</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_vendors">Công ty cho thuê xe</string>
+    <!-- Button label to clear user selected filters -->
+    <string name="clear_filters">Xóa bộ lọc</string>
+    <!-- Label to tell the user how many products match thier filter -->
+    <plurals name="number_results_template">
+        <item quantity="one">{number} kết quả</item>
+        <item quantity="other">{number} kết quả</item>
+    </plurals>
+
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s hoặc tương tự</string>
@@ -166,6 +198,8 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hmm…Thanh toán không thành công. Vui lòng kiểm tra thông tin thanh toán và thử lại.</string>
+    <!-- Shown to a user when their ability to rent a specific car expires -->
+    <string name="error_cars_product_expired">Đã hết hạn phiên tìm kiếm. Vui lòng chọn thời gian nhận xe hợp lệ.</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">Xem thay đổi giá</string>
     <!-- My Trips button that takes you to Itins -->
@@ -209,7 +243,7 @@
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
-    <string name="lx_search_widget_heading">Ngày &amp; Địa điểm</string>
+    <string name="lx_search_title">Tìm hoạt động giải trí</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Chọn ngày</string>
     <!-- Activity details highlights heading -->
@@ -536,7 +570,7 @@
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Nhập chi tiết liên hệ</string>
     <!-- LX search error -->
-    <string name="error_lx_search_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string> 
+    <string name="error_lx_search_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">Chúng tôi không xác nhận được địa điểm hiện tại của quý vị để tìm hoạt động giải trí phù hợp.</string> 
     <!-- Text for generic error toolbar-->
@@ -581,6 +615,11 @@
     <string name="lx_error_current_location_toolbar_text">Vui lòng thử lại</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">Chúng tôi không tìm được hoạt động giải trí gần địa điểm của quý vị. Vui lòng thử tìm lại với dữ liệu khác.</string>
+
+    <!-- Ground Transport bags text-->
+    <string name="lx_ground_transport_bags_text">%1$s túi</string>
+    <!-- Ground Transport passengers text-->
+    <string name="lx_ground_transport_passengers_text">%1$s khách</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1051,7 +1090,7 @@
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Mã xác nhận của Khách sạn</string>
     <!-- Passengers Label -->
-    <string name="passengers_label">Hành khách</string>
+    <string name="passengers_label">Khách</string>
     <!-- Booking info label -->
     <string name="booking_info">Thông tin đặt</string>
     <!-- Itin flight generic terminal and gate template -->
@@ -1191,6 +1230,11 @@
     <string name="add_hotel_fallback">Thêm khách sạn tại điểm đến của quý vị</string>
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">Thêm khách sạn</string>
+
+    <!-- Button label to search for an activity in the hotel city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_lx_TEMPLATE">Tìm hoạt động giải trí tại %1$s</string>
+    <!-- Button label to search for an activity in the hotel city. Used only when we don't know the destination city. -->
+    <string name="add_lx_fallback">Tìm hoạt động giải trí tại điểm đến</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -1825,7 +1869,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Thuế &amp; Phí</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Phí đặt của Expedia</string>
+    <string name="brand_booking_fee">Phí đặt chỗ của {brand}</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">Phí thẻ hãng hàng không</string>
     <!-- Flight -->
@@ -1885,7 +1929,7 @@
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Sinh %1$s</string>
     <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; hết hạn %2$s</string>
+    <string name="brand_expiring_TEMPLATE">%1$s hết hạn %2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -1906,6 +1950,9 @@
     <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
     <!-- Single Line City State Zip -->
     <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
+
+    <!-- Airport to LX template (e.g. "Boise, ID or Paris, France" -->
+    <string name="lx_destination_TEMPLATE">%1$s, %2$s</string>
 
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
@@ -2014,7 +2061,7 @@
     <!-- Passport -->
     <string name="passport">Hộ chiếu</string>
     <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Khách hiện tại - &lt;/font&gt; %1$s %2$s</string>
+    <string name="current_traveler_TEMPLATE">Khách hiện tại - %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2061,6 +2108,8 @@
     <string name="hotels_in_TEMPLATE">Khách sạn tại %s</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Xe tại %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
+    <string name="lx_in_TEMPLATE">Hoạt động tại %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Các thao tác khác</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2085,15 +2134,12 @@
     <string name="air_attach_amount_discounted_TEMPLATE">Quý vị sẽ tiết kiệm %s nếu quý vị đặt phòng khách sạn ngay bây giờ!</string>
     <!-- Air attach offer expiration alert -->
     <string name="air_attach_expires">Ưu đãi hết hạn vào</string>
-    <!-- Air attach offer expiration date -->
-    <string name="air_attach_expiration_date_TEMPLATE">%d ngày</string>
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Ưu đãi hết hạn hôm nay</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">Thêm khách sạn</string>
     <!-- Air attach add hotel button subtitle -->
     <string name="air_attach_with_discounts">có giảm giá</string>
-
 
 
     <!-- Hotel confirmation page -->
@@ -2145,6 +2191,8 @@
     <string name="accept">Chấp nhận</string>
     <!-- Button label for retrying after getting an error -->
     <string name="retry">Thử lại</string>
+    <!-- Button label for adjusting filters after getting no results -->
+    <string name="edit_filters">Chỉnh sửa bộ lọc</string>
     <!-- Button label for calling -->
     <string name="call_support">Hỗ trợ</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
@@ -2321,6 +2369,8 @@
     <string name="tonight_only">Chỉ tối nay!</string>
     <!-- Expedia sponsored listing -->
     <string name="sponsored">Tài trợ</string>
+    <!-- Expedia ETP book now/pay later search results -->
+    <string name="book_now_pay_later">Đặt ngay, thanh toán sau</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">Rất tiếc, chúng tôi không thể tìm khách sạn cho thời gian lưu trú dài hơn %1$s ngày.</string>
     <!-- Search Error title text "Search Error" -->
@@ -2636,8 +2686,6 @@
     <string name="more_info">Thông tin khác</string>
 
     <!-- Booking info -->
-    <!-- Label for room type -->
-    <string name="room_type">Loại phòng</string>
     <!-- Error if we couldn't find the room type details -->
     <string name="error_room_type_nonexistant">Rất tiếc, chúng tôi không thể tìm các thông tin bổ sung về phòng này.</string>
     <!-- Quantity for the length of stay -->
@@ -2682,8 +2730,6 @@
     <string name="taxes_and_fees">Thuế &amp; Phí</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Bao gồm</string>
-    <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">Phí thanh toán cho khách sạn</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Giảm giá</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -3541,5 +3587,8 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Bằng việc hoàn tất quy trình đặt, tôi đồng ý mình đã đọc và chấp thuận %1$s, %2$s và %3$s.</string>
+
+    <!-- Used in hotel search for specifying traveler -->
+    <string name="child_age_label">Chọn tuổi từng trẻ</string>
 
 </resources>

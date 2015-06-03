@@ -78,10 +78,6 @@ public class Results {
 		}
 	}
 
-	public static ViewInteraction actionUpButton() {
-		return onView(withId(android.R.id.home));
-	}
-
 	public static void clickBookHotel() {
 		onView(allOf(withId(R.id.book_button_text), withText("Book Hotel"))).perform(scrollTo(), click());
 	}

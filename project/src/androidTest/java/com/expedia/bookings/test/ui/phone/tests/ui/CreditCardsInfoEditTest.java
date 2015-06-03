@@ -21,9 +21,6 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
-/**
- * Created by dmadan on 6/12/14.
- */
 public class CreditCardsInfoEditTest extends PhoneTestCase {
 
 	List<TestData> mTestData = new LinkedList<TestData>();
@@ -59,7 +56,7 @@ public class CreditCardsInfoEditTest extends PhoneTestCase {
 		}
 	}
 
-	protected void runTestCase(TestData testData) throws Exception {
+	private void runTestCase(TestData testData) throws Exception {
 		Random rand = new Random();
 		int randomNumber;
 
@@ -129,7 +126,7 @@ public class CreditCardsInfoEditTest extends PhoneTestCase {
 		mTestData.add(new TestData(testName, prefixes, length, imageID));
 	}
 
-	public void testCCBrandIcon() throws Exception {
+	public void testCCBrandIcon() throws Throwable {
 		recordData("Visa16", new String[] {"4"}, 16, R.drawable.ic_visa_white);
 
 		recordData("Visa13", new String[] {"4"}, 13, R.drawable.ic_visa_white);
@@ -202,6 +199,15 @@ public class CreditCardsInfoEditTest extends PhoneTestCase {
 		//loop through the TestData
 		for (int i = 0; i < mTestData.size(); i++) {
 			runTestCase(mTestData.get(i));
+		}
+	}
+
+	// NOTE: subsequent tests after this test fail without backing out in this manner.
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		if (Common.isPhone(getInstrumentation())) {
+			Common.pressBackOutOfApp(getInstrumentation());
 		}
 	}
 }

@@ -2,6 +2,8 @@ package com.expedia.bookings.data.lx;
 
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ActivityDetailsResponse {
 	public String id;
 	public String title;
@@ -18,4 +20,8 @@ public class ActivityDetailsResponse {
 	public List<String> exclusions;
 	public List<String> knowBeforeYouBook;
 	public String cancellationPolicyText;
+	@SerializedName("typeGT")
+	public boolean isGroundTransport;
+	public String passengers;
+	public String bags;
 }

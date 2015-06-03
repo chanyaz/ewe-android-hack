@@ -23,16 +23,10 @@ public class EndpointProvider {
 
 	public static class EndpointMap {
 		String production;
-		String stable;
 		String integration;
 		String development;
-		String loginDevelopment;
-		String pulpoDevelopment;
-		String local;
-		String custom;
 		String trunk;
 		String publicIntegration;
-		String stubbed;
 	}
 
 	public EndpointProvider(Context context, InputStream input) {
@@ -46,10 +40,8 @@ public class EndpointProvider {
 			serverUrls.put(EndPoint.PRODUCTION, endpoints.production.replace('@', 's'));
 			serverUrls.put(EndPoint.DEV, endpoints.development.replace('@', 's'));
 			serverUrls.put(EndPoint.INTEGRATION, endpoints.integration.replace('@', 's'));
-			serverUrls.put(EndPoint.STABLE, endpoints.stable.replace('@', 's'));
 			serverUrls.put(EndPoint.PUBLIC_INTEGRATION, endpoints.publicIntegration.replace('@', 's'));
 			serverUrls.put(EndPoint.TRUNK, endpoints.trunk.replace('@', 's'));
-			serverUrls.put(EndPoint.TRUNK_STUBBED, endpoints.stubbed.replace('@', 's'));
 		}
 		catch (Exception e) {
 			// If the endpoints fail to load, then we should fail horribly
@@ -57,35 +49,49 @@ public class EndpointProvider {
 		}
 	}
 
-	public String getAbacusEndpoint(final boolean isSecure) {
-		// Always point to production if release
+	public String getShortlyEndpointUrl() {
 		if (BuildConfig.RELEASE) {
-			return getE3EndpointUrl(isSecure);
+			return "http://" + ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl();
 		}
 
 		// Mock Server if enabled
 		EndPoint endPoint = getEndPoint();
-		if (endPoint == EndPoint.PROXY || endPoint == EndPoint.MOCK_SERVER || endPoint == EndPoint.CUSTOM_SERVER) {
-			return getE3EndpointUrl(isSecure);
+		if (endPoint == EndPoint.CUSTOM_SERVER || endPoint == EndPoint.MOCK_MODE) {
+			return getE3EndpointUrl();
+		}
+
+		return "http://" + ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl();
+	}
+
+	public String getAbacusEndpointUrl() {
+		// Always point to production if release
+		if (BuildConfig.RELEASE) {
+			return getE3EndpointUrl();
+		}
+
+		// Mock Server if enabled
+		EndPoint endPoint = getEndPoint();
+		if (endPoint == EndPoint.CUSTOM_SERVER || endPoint == EndPoint.MOCK_MODE) {
+			return getE3EndpointUrl();
 		}
 
 		// Default to Dev on debug
-		return  "http://phelabstb101.karmalab.net:9117/";
+		return "http://phelabstb101.karmalab.net:9117/";
 	}
 
 	/**
 	 * Returns the base E3 server url, based on dev settings
 	 */
-	public String getE3EndpointUrl(final boolean isSecure) {
-		return getE3EndpointUrl(isSecure, getEndPoint());
+	public String getE3EndpointUrl() {
+		return getE3EndpointUrl(getEndPoint());
 	}
 
-	public String getE3EndpointUrl(final boolean isSecure, EndPoint endPoint) {
+	public String getE3EndpointUrl(EndPoint endPoint) {
 		String domain = PointOfSale.getPointOfSale().getUrl();
 
 		String urlTemplate = serverUrls.get(endPoint);
 		if (Strings.isNotEmpty(urlTemplate)) {
-			String protocol = isSecure ? "https" : "http";
+			String protocol = "https";
 
 			if (ProductFlavorFeatureConfiguration.getInstance().shouldUseDotlessDomain(endPoint)) {
 				domain = Strings.joinWithoutEmpties("", Arrays.asList(domain.split("\\.")));
@@ -96,18 +102,8 @@ public class EndpointProvider {
 
 			return serverURL;
 		}
-
-		else if (endPoint == EndPoint.PROXY || endPoint == EndPoint.MOCK_SERVER) {
-			return "http://" + SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address),
-				"localhost:3000") + "/" + domain + "/";
-		}
-		else if (endPoint == EndPoint.CUSTOM_SERVER) {
-			boolean forceHttp = SettingUtils
-				.get(context, context.getString(R.string.preference_force_custom_server_http_only), false);
-			String protocol = isSecure && !forceHttp ? "https" : "http";
-			String server = SettingUtils
-				.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
-			return protocol + "://" + server + "/";
+		else if (endPoint == EndPoint.CUSTOM_SERVER || endPoint == EndPoint.MOCK_MODE) {
+			return getCustomServerAddress();
 		}
 		else {
 			throw new RuntimeException("Didn't know how to handle EndPoint: " + endPoint);
@@ -117,21 +113,23 @@ public class EndpointProvider {
 	/**
 	 * Returns the base suggestion server url, based on dev settings
 	 */
-	private final static String ESS_PRODUCTION_ENDPOINT = "http://suggest.expedia.com/";
+	private final static String ESS_PRODUCTION_ENDPOINT = "https://suggest.expedia.com/";
 
-	public String getEssEndpointUrl(final boolean isSecure) {
+	public String getEssEndpointUrl() {
 		EndPoint endPoint = getEndPoint();
 
-		if (endPoint == EndPoint.CUSTOM_SERVER) {
-			boolean forceHttp = SettingUtils
-				.get(context, context.getString(R.string.preference_force_custom_server_http_only), false);
-			String protocol = isSecure && !forceHttp ? "https" : "http";
-			String server = SettingUtils
-				.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
-			return protocol + "://" + server + "/";
+		if (endPoint == EndPoint.CUSTOM_SERVER || endPoint == EndPoint.MOCK_MODE) {
+			return getCustomServerAddress();
 		}
 
 		return ESS_PRODUCTION_ENDPOINT;
+	}
+
+	public String getCustomServerAddress() {
+		boolean forceHttp = SettingUtils.get(context, R.string.preference_force_custom_server_http_only, false);
+		String protocol = !forceHttp ? "https" : "http";
+		String server = SettingUtils.get(context, R.string.preference_proxy_server_address, "localhost:3000");
+		return protocol + "://" + server + "/";
 	}
 
 	public EndPoint getEndPoint() {
@@ -145,29 +143,20 @@ public class EndpointProvider {
 		if (which.equals("Dev")) {
 			return EndPoint.DEV;
 		}
-		else if (which.equals("Proxy")) {
-			return EndPoint.PROXY;
-		}
-		else if (which.equals("Mock Server")) {
-			return EndPoint.MOCK_SERVER;
-		}
 		else if (which.equals("Public Integration")) {
 			return EndPoint.PUBLIC_INTEGRATION;
 		}
 		else if (which.equals("Integration")) {
 			return EndPoint.INTEGRATION;
 		}
-		else if (which.equals("Stable")) {
-			return EndPoint.STABLE;
-		}
 		else if (which.equals("Trunk")) {
 			return EndPoint.TRUNK;
 		}
-		else if (which.equals("Trunk (Stubbed)")) {
-			return EndPoint.TRUNK_STUBBED;
-		}
 		else if (which.equals("Custom Server")) {
 			return EndPoint.CUSTOM_SERVER;
+		}
+		else if (which.equals("Mock Mode")) {
+			return EndPoint.MOCK_MODE;
 		}
 		else {
 			return EndPoint.PRODUCTION;

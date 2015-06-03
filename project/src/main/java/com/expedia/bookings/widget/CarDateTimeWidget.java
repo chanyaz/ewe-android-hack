@@ -112,7 +112,6 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		calendar.setYearMonthDisplayedChangedListener(this);
 
 		daysOfWeekView.setDayOfWeekRenderer(this);
-		daysOfWeekView.setTextColor(getContext().getResources().getColor(R.color.cars_calendar_week_color));
 		daysOfWeekView.setMaxTextSize(getResources().getDimension(R.dimen.car_calendar_month_view_max_text_size));
 		monthView.setMaxTextSize(getResources().getDimension(R.dimen.car_calendar_month_view_max_text_size));
 		monthView.setTextEqualDatesColor(Color.WHITE);
@@ -129,8 +128,9 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		dropoffTimeSeekBar.addOnSeekBarChangeListener(this);
 
 		calendar.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
-		daysOfWeekView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		daysOfWeekView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM));
 	}
 
 	@Override
@@ -299,7 +299,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				pickupTimePopupContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				pickupTimePopupContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(
 						RelativeLayout.LayoutParams.WRAP_CONTENT,
 						RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -328,7 +328,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				pickupTimePopupContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				pickupTimePopupContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(
 						RelativeLayout.LayoutParams.WRAP_CONTENT,
 						RelativeLayout.LayoutParams.WRAP_CONTENT);

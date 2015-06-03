@@ -4,8 +4,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.matcher.ViewMatchers;
 
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withImageDrawable;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.getChildCount;
 import static com.expedia.bookings.test.ui.espresso.ViewActions.getCount;
@@ -36,10 +38,6 @@ public class EspressoUtils {
 		onView(allOf(withId(id), withText(text))).check(matches(isDisplayed()));
 	}
 
-	public static void assertViewWithTextIsNotDisplayed(String text) {
-		onView(withText(text)).check(matches(not(isDisplayed())));
-	}
-
 	public static void assertViewWithTextIsNotDisplayed(int id, String text) {
 		onView(allOf(withId(id), withText(text))).check(matches(not(isDisplayed())));
 	}
@@ -61,7 +59,7 @@ public class EspressoUtils {
 	}
 
 	public static void assertTextWithChildrenIsDisplayed(int id, String text) {
-		onView(allOf(withId(id), withChild(withText(text)))).check(matches(isDisplayed()));
+		onView(allOf(withId(id), withChild(withText(text)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).check(matches(isDisplayed()));
 	}
 
 	public static String getText(int id) {

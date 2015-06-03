@@ -25,7 +25,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -350,7 +349,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 			searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
 			searchParams.setFromLaunchScreen(true);
 
-			downloadSubscription = hotelServices.hotelSearch(params, downloadListener);
+			downloadSubscription = hotelServices.nearbyHotels(params, downloadListener);
 			launchDataTimeStamp = DateTime.now();
 		}
 	}
@@ -442,7 +441,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 	// onResume()-esque behavior
 
 	private void setListState() {
-		if (isExpired() && !ExpediaBookingApp.sIsAutomation) {
+		if (isExpired()) {
 			launchListWidget.showListLoadingAnimation();
 		}
 	}

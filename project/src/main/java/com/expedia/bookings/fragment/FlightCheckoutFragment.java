@@ -459,7 +459,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				for (int i = 0; i < travelers.size(); i++) {
 					SectionTravelerInfo travSection = mTravelerSections.get(i);
 					boolean currentTravelerValid = false;
-					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational()) {
+					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational() || Db.getTripBucket().getFlight().getFlightTrip().isPassportNeeded()) {
 						currentTravelerValid = (state.allTravelerInfoIsValidForInternationalFlight(travelers.get(i)));
 					}
 					else {

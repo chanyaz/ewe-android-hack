@@ -208,6 +208,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		@Override
 		public void startTransition(boolean forward) {
+			scrollCheckoutToTop();
 			if (forward) {
 				summaryContainer.setVisibility(GONE);
 				if (loginWidget != currentExpandedCard) {
@@ -324,5 +325,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		catch (Exception ex) {
 			Log.e("Error clearing billingInfo card number", ex);
 		}
+	}
+
+	public void scrollCheckoutToTop() {
+		scrollView.scrollTo(0, 0);
 	}
 }

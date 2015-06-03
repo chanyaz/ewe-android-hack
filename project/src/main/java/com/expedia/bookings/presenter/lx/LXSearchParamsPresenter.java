@@ -20,11 +20,13 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
 import com.expedia.bookings.R;
@@ -48,8 +50,8 @@ import com.mobiata.android.time.widget.DaysOfWeekView;
 import com.mobiata.android.time.widget.MonthView;
 import com.squareup.otto.Subscribe;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class LXSearchParamsPresenter extends Presenter
@@ -69,8 +71,11 @@ public class LXSearchParamsPresenter extends Presenter
 	@InjectView(R.id.calendar_container)
 	View calendarContainer;
 
+	@InjectView(R.id.search_container)
+	ViewGroup searchContainer;
+
 	@InjectView(R.id.search_params_container)
-	ViewGroup searchParamContainer;
+	ViewGroup searchParamsContainer;
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
@@ -81,7 +86,23 @@ public class LXSearchParamsPresenter extends Presenter
 	@InjectView(R.id.month)
 	MonthView monthView;
 
+	@InjectView(R.id.toolbar_search_text)
+	android.widget.TextView toolBarSearchText;
+
+	@InjectView(R.id.toolbar_detail_text)
+	android.widget.TextView toolBarDetailText;
+
+	@InjectView(R.id.toolbar_subtitle_text)
+	android.widget.TextView toolBarSubtitleText;
+
+	@InjectView(R.id.toolbar_two)
+	LinearLayout toolbarTwo;
+
 	Button searchButton;
+
+	private View statusBar;
+	private int searchParamsContainerHeight;
+	private int searchTop;
 
 	LXSearchParams searchParams = new LXSearchParams();
 	private LxSuggestionAdapter suggestionAdapter;
@@ -96,7 +117,6 @@ public class LXSearchParamsPresenter extends Presenter
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
 
 		setupCalendar();
 		suggestionAdapter = new LxSuggestionAdapter();
@@ -108,13 +128,22 @@ public class LXSearchParamsPresenter extends Presenter
 		location.setOnItemClickListener(mLocationListListener);
 		location.setOnEditorActionListener(this);
 		location.setOnFocusChangeListener(mLocationFocusListener);
-		Drawable locationDrawable = getResources().getDrawable(R.drawable.location).mutate();
-		locationDrawable.setColorFilter(getResources().getColor(R.color.lx_primary_color), PorterDuff.Mode.SRC_IN);
-		location.setCompoundDrawablesWithIntrinsicBounds(locationDrawable, null, null, null);
+		location.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
+		selectDates.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		addTransition(defaultToCal);
 		show(new LXParamsDefault());
 
 		loadHistory();
+
+		searchParamsContainer.getViewTreeObserver().addOnGlobalLayoutListener(
+			new ViewTreeObserver.OnGlobalLayoutListener() {
+				@Override
+				public void onGlobalLayout() {
+					searchParamsContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					searchParamsContainerHeight = searchParamsContainer.getMeasuredHeight();
+				}
+			});
+
 	}
 
 	private AdapterView.OnItemClickListener mLocationListListener = new AdapterView.OnItemClickListener() {
@@ -181,6 +210,13 @@ public class LXSearchParamsPresenter extends Presenter
 		suggestionAdapter.addNearbyAndRecents(mRecentLXLocationsSearches, getContext());
 	}
 
+	@OnCheckedChanged(R.id.select_dates)
+	public void onDateCheckedChanged(boolean isChecked) {
+		Drawable drawableEnabled = getResources().getDrawable(R.drawable.date).mutate();
+		drawableEnabled.setColorFilter(isChecked ? Color.WHITE : getResources().getColor(R.color.lx_unchecked_toggle_text_color), PorterDuff.Mode.SRC_IN);
+		selectDates.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
+	}
+
 	@Override
 	protected void onDetachedFromWindow() {
 		if (suggestionAdapter != null) {
@@ -198,6 +234,7 @@ public class LXSearchParamsPresenter extends Presenter
 			selectDates.setChecked(false);
 			return;
 		}
+		selectDates.setChecked(true);
 		show(new LXParamsCalendar());
 	}
 
@@ -270,15 +307,16 @@ public class LXSearchParamsPresenter extends Presenter
 	}
 
 	private void setupToolbar() {
-		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp);
-		navIcon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp).mutate();
+		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
 		toolbar.inflateMenu(R.menu.lx_search_menu);
 		MenuItem item = toolbar.getMenu().findItem(R.id.menu_search);
 		setupToolBarCheckmark(item);
 
-		toolbar.setTitle(getResources().getString(R.string.lx_search_widget_heading));
-		toolbar.setTitleTextColor(getResources().getColor(R.color.lx_actionbar_text_color));
+		toolBarSearchText.setText(getResources().getString(R.string.lx_search_title));
+		toolbar.setTitleTextColor(Color.WHITE);
+		toolbar.setBackgroundColor(getResources().getColor(R.color.lx_primary_color));
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -292,7 +330,8 @@ public class LXSearchParamsPresenter extends Presenter
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
 			int toolbarColor = getContext().getResources().getColor(R.color.lx_primary_color);
-			addView(Ui.setUpStatusBar(getContext(), toolbar, searchParamContainer, toolbarColor));
+			statusBar = Ui.setUpStatusBar(getContext(), toolbar, searchContainer, toolbarColor);
+			addView(statusBar);
 		}
 	}
 
@@ -308,7 +347,7 @@ public class LXSearchParamsPresenter extends Presenter
 			}
 		});
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
-		navIcon.setColorFilter(getResources().getColor(R.color.lx_primary_color), PorterDuff.Mode.SRC_IN);
+		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		searchButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
 		menuItem.setActionView(searchButton);
 	}
@@ -319,13 +358,13 @@ public class LXSearchParamsPresenter extends Presenter
 			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_days_lx_search)));
 		calendarPicker.setDateChangedListener(this);
 		daysOfWeekView.setDayOfWeekRenderer(this);
-		daysOfWeekView.setTextColor(getContext().getResources().getColor(R.color.lx_calendar_week_color));
 		daysOfWeekView.setMaxTextSize(getResources().getDimension(R.dimen.lx_calendar_month_view_max_text_size));
 		monthView.setMaxTextSize(getResources().getDimension(R.dimen.lx_calendar_month_view_max_text_size));
 		monthView.setTextEqualDatesColor(Color.WHITE);
 		calendarPicker.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
-		daysOfWeekView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		daysOfWeekView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM));
 		// End date selection is disabled.
 		calendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_selection_date_range_lx));
 	}
@@ -348,6 +387,18 @@ public class LXSearchParamsPresenter extends Presenter
 		}
 	}
 
+	@Subscribe
+	public void onNewSearch(Events.LXNewSearch event) {
+		location.setText(event.locationName);
+		calendarPicker.setSelectedDates(event.startDate, null);
+		searchParams.location(event.locationName);
+		searchParams.startDate(event.startDate);
+		searchParams.endDate(event.endDate);
+		show(new LXParamsCalendar());
+		searchParamsChanged();
+		setUpSearchButton();
+	}
+
 	private Presenter.Transition defaultToCal = new Presenter.Transition(LXParamsDefault.class, LXParamsCalendar.class) {
 		private int calendarHeight;
 
@@ -355,8 +406,6 @@ public class LXSearchParamsPresenter extends Presenter
 		public void startTransition(boolean forward) {
 			int parentHeight = getHeight();
 			calendarHeight = calendarContainer.getHeight();
-			selectDates.setEnabled(!forward);
-			selectDates.setChecked(forward);
 			float pos = forward ? parentHeight + calendarHeight : calendarHeight;
 			calendarContainer.setTranslationY(pos);
 			calendarContainer.setVisibility(View.VISIBLE);
@@ -389,24 +438,46 @@ public class LXSearchParamsPresenter extends Presenter
 			searchButton.setAlpha(1f);
 		}
 		else {
-			searchButton.setAlpha(.7f);
+			searchButton.setAlpha(.15f);
 		}
 	}
 
 	public void animationStart(boolean forward) {
-		searchParamContainer.setTranslationY(forward ? searchParamContainer.getHeight() : 0);
-		toolbar.setTranslationY(forward ? -toolbar.getHeight() : 0);
+		calendarContainer.setTranslationY(forward ? searchContainer.getHeight() : 0);
+		searchContainer.setBackgroundColor(Color.TRANSPARENT);
+		toolBarSearchText.setAlpha(forward ? 0 : 1);
+		searchButton.setAlpha(forward ? 0 : 1);
+		searchTop = toolbarTwo.getTop() -  searchContainer.getTop();
+		searchParamsContainer.setAlpha(1f);
+		if (statusBar != null) {
+			statusBar.setAlpha(1f);
+		}
 	}
 
-	public void animationUpdate(float f, boolean forward) {
-		float translation = forward ? searchParamContainer.getHeight() * (1 - f) : searchParamContainer.getHeight() * f;
-		searchParamContainer.setTranslationY(translation);
-		toolbar.setTranslationY(forward ? -toolbar.getHeight() * (1 - f) : -toolbar.getHeight() * f);
+	public void animationUpdate(float f, boolean forward, float alpha) {
+		float translation = forward ? searchContainer.getHeight() * (1 - f) : searchContainer.getHeight() * f;
+		float yTrans = forward ?  - (searchTop * (1 - f)) : - (searchTop * f);
+
+		LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) searchParamsContainer.getLayoutParams();
+		layoutParams.height = forward ? (int) (f * (searchParamsContainerHeight)) : (int) (Math.abs(f - 1) * (searchParamsContainerHeight));
+		searchParamsContainer.setLayoutParams(layoutParams);
+
+		searchParamsContainer.setAlpha(forward ? alpha + ((1f - alpha) * f) : Math.abs(1 - f) + alpha);
+		if (statusBar != null) {
+			statusBar.setAlpha(forward ? alpha + ((1f - alpha) * f) : Math.abs(1 - f) + alpha);
+		}
+
+		calendarContainer.setTranslationY(translation);
+		toolBarSearchText.setTranslationY(yTrans);
+		toolBarSearchText.setAlpha(forward ? f : Math.abs(1 - f));
+				searchButton.setAlpha(forward ? f : Math.abs(1 - f));
+				toolbar.setAlpha(forward ? f : Math.abs(1 - f));
 	}
 
 	public void animationFinalize(boolean forward) {
-		searchParamContainer.setTranslationY(0);
-		toolbar.setTranslationY(forward ? 0 : -toolbar.getHeight());
+		calendarContainer.setTranslationY(0);
+		searchContainer.setBackgroundColor(Color.WHITE);
+		toolBarSearchText.setTranslationY(0);
 		if (forward && Strings.isEmpty(location.getText())) {
 			postDelayed(new Runnable() {
 				public void run() {

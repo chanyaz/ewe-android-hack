@@ -251,7 +251,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 					new ViewTreeObserver.OnGlobalLayoutListener() {
 						@Override
 						public void onGlobalLayout() {
-							Ui.removeOnGlobalLayoutListener(offerDatesScrollView, this);
+							offerDatesScrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 							offerDatesScrollView.scrollTo(dateButtonWidth, 0);
 						}
 					});

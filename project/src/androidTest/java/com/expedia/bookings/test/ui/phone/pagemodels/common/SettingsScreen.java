@@ -10,7 +10,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 /**
  * Created by dmadan on 4/7/14.
  */
-public class SettingsScreen extends ScreenActions {
+public class SettingsScreen {
 	private static final int CLEAR_PRIVATE_DATE_STRING_ID = R.string.clear_private_data;
 	private static final int OK_STRING_ID = R.string.ok;
 	private static final int ACCEPT_STRING_ID = R.string.accept;

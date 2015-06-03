@@ -34,7 +34,6 @@
         <item name="skin_hotelListMapMarkerDrawable">@drawable/map_pin_normal_wotif</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_wotif</item>
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_wotif</item>
-        <item name="skin_costSummaryBookingFeesString">@string/wotif_booking_fee</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_wotif</item>
         <item name="skin_actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark_blue_wotif</item>
         <item name="skin_actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_blue_wotif</item>
@@ -161,17 +160,15 @@
     <style name="LaunchTheme" parent="Theme.AppCompat">
         <item name="android:logo">@drawable/ic_ab_wotif_logo</item>
         <item name="actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
-        <item name="actionBarTabBarStyle">@style/LaunchActionBarTabBarStyle</item>
+        <item name="actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
-        <item name="android:actionBarTabBarStyle">@style/LaunchActionBarTabBarStyle</item>
+        <item name="android:actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="android:actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        <item name="android:selectableItemBackground">@drawable/selectable_item_background</item>
-        <item name="selectableItemBackground">@drawable/selectable_item_background</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <item name="textColor">@color/actionbar_text</item>
 

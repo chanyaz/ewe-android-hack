@@ -301,12 +301,6 @@
             android:theme="@style/LoginTheme"
             android:windowSoftInputMode="adjustPan" />
 
-        <!-- Testing activities -->
-
-        <activity
-            android:name="com.expedia.bookings.activity.StubConfigActivity"
-            android:theme="@style/Theme.Phone" />
-
         <!-- Notifications -->
 
         <receiver

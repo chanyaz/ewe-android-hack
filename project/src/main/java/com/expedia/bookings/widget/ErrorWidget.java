@@ -81,6 +81,9 @@ public class ErrorWidget extends FrameLayout {
 		case CAR_SEARCH_ERROR:
 			showDefaultSearchError();
 			break;
+		case CAR_FILTER_NO_RESULTS:
+			showNoFilterSearchResultError();
+			break;
 		case CAR_PRODUCT_NOT_AVAILABLE:
 			showNoProductSearchError();
 			break;
@@ -194,12 +197,25 @@ public class ErrorWidget extends FrameLayout {
 	public void showNoProductSearchError() {
 		bindText(R.drawable.car,
 			R.string.error_car_search_message,
-			R.string.cars_error_text,
+			R.string.cars_no_results_text,
 			R.string.edit_search);
 		errorButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Events.post(new Events.CarsGoToSearch());
+			}
+		});
+	}
+
+	public void showNoFilterSearchResultError() {
+		bindText(R.drawable.car,
+			R.string.filter_no_car_search_results_message,
+			R.string.cars_no_results_text,
+			R.string.edit_filters);
+		errorButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Events.post(new Events.CarsShowFilteredSearchResults());
 			}
 		});
 	}

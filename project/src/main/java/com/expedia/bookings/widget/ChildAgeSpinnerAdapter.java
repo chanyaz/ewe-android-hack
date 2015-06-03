@@ -2,6 +2,8 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +29,25 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		return createViewFromResource(position, convertView, parent, R.layout.simple_spinner_item);
+		View v = createViewFromResource(position, convertView, parent, R.layout.child_spinner_item);
+		TextView textView = (TextView) v;
+		Drawable icon = mResources.getDrawable(R.drawable.traveler).mutate();
+		icon.setColorFilter(mResources.getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		textView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null);
+		return v;
 	}
 
+	private String getAgeText(int position) {
+		int age = position + GuestsPickerUtils.MIN_CHILD_AGE;
+		String str = null;
+		if (age == 0) {
+			str = mResources.getString(R.string.child_age_less_than_one);
+		}
+		else {
+			str = mResources.getQuantityString(R.plurals.child_age, age, age);
+		}
+		return Html.fromHtml(str).toString();
+	}
 	protected View createViewFromResource(int position, View convertView, ViewGroup parent, int resource) {
 		View view;
 
@@ -41,16 +59,7 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 		}
 
 		TextView text = (TextView) view;
-
-		int age = position + GuestsPickerUtils.MIN_CHILD_AGE;
-		String str = null;
-		if (age == 0) {
-			str = mResources.getString(R.string.child_age_less_than_one);
-		}
-		else {
-			str = mResources.getQuantityString(R.plurals.child_age, age, age);
-		}
-		text.setText(Html.fromHtml(str).toString()); // converts to Html, then strips out so no loc changes
+		text.setText(getAgeText(position));// converts to Html, then strips out so no loc changes
 
 		return view;
 	}

@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -14,6 +15,17 @@ import com.mobiata.android.util.SettingUtils;
  * This is a utility for debug build related tasks
  */
 public class ExpediaDebugUtil {
+
+	public static boolean isEBToolApkInstalled(Context context) {
+		PackageManager pm = context.getPackageManager();
+		try {
+			pm.getPackageInfo("com.expedia.tool", PackageManager.GET_ACTIVITIES);
+			return true;
+		}
+		catch (PackageManager.NameNotFoundException e) {
+			return false;
+		}
+	}
 
 	/**
 	 * Notifies QA with a toast that a memory crash has been saved to disk.

@@ -41,6 +41,8 @@
     <string name="cars_invalid_input_text">Información no válida</string>
     <!-- Text for generic error toolbar-->
     <string name="cars_error_text">Error</string>
+    <!-- Text for toolbar on no search results -->
+    <string name="cars_no_results_text">Sin resultados</string>
     <!-- Text for reserving car-->
     <string name="cars_reserve_text">Reservar</string>
     <!-- Text for viewing details-->
@@ -84,12 +86,16 @@
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_car_desc_support_TEMPLATE">Servicio de atención a clientes de Expedia: %1$s y %2$s</string>
 
+    <!-- Label for hotel search toolbar -->
+    <string name="hotel_toolbar_title">Busca hoteles</string>
+    <!-- Label for hotel suggestion -->
+    <string name="search_location">Busca un lugar</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Lugar de entrega</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="same_as_pick_up">Igual a la entrega</string>
+    <string name="drop_off_location">Devolución</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">Fechas y ubicación</string>
+    <string name="toolbar_search_cars">Busca autos</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Selecciona las fechas de entrega y devolución</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
@@ -102,6 +108,32 @@
     <string name="drop_off_same_as_pick_up">¡Próximamente! Estamos trabajando para agregar viajes solo de ida en una próxima versión.</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Tu búsqueda no arrojó resultados. Repite la búsqueda con otros criterios.</string>
+    <!-- Car no filtered search results -->
+    <string name="filter_no_car_search_results_message">Tu búsqueda no arrojó resultados. Intenta reducir la cant. de filtros.</string>
+    <!-- Transmission options filter label for a car rental -->
+    <string name="options">Opciones</string>
+    <!-- Automatic transmission filter button-->
+    <string name="car_filter_automatic">Automático</string>
+    <!-- Manual transmission filter button-->
+    <string name="car_filter_manual">Manual</string>
+    <!-- Any transmission type filter button -->
+    <string name="car_filter_all">Todos</string>
+    <!-- Air conditioning option checkbox filter -->
+    <string name="car_filter_checkbox_air_conditioning">Aire acondicionado</string>
+    <!-- Unlimited mileage option checkbox filter -->
+    <string name="car_filter_checkbox_unlimited_mileage">Kilometraje ilimitado</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_types">Tipos de auto</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_vendors">Agencias de alquiler</string>
+    <!-- Button label to clear user selected filters -->
+    <string name="clear_filters">Borrar filtros</string>
+    <!-- Label to tell the user how many products match thier filter -->
+    <plurals name="number_results_template">
+        <item quantity="one">{number} Resultado</item>
+        <item quantity="other">{number} Resultados</item>
+    </plurals>
+
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s o similar</string>
@@ -166,6 +198,8 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Tu pago no fue procesado. Verifica los detalles de tu pago e inténtalo de nuevo.</string>
+    <!-- Shown to a user when their ability to rent a specific car expires -->
+    <string name="error_cars_product_expired">Tu búsqueda caducó. Selecciona un horario de entrega válido.</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">Ver el cambio de precio</string>
     <!-- My Trips button that takes you to Itins -->
@@ -209,7 +243,7 @@
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
-    <string name="lx_search_widget_heading">Fechas y ubicación</string>
+    <string name="lx_search_title">Busca actividades</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Seleccionar fecha</string>
     <!-- Activity details highlights heading -->
@@ -536,7 +570,7 @@
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Ingresa los detalles de contacto</string>
     <!-- LX search error -->
-    <string name="error_lx_search_message">Tu búsqueda no arrojó resultados. Repite la búsqueda con otros criterios.</string> 
+    <string name="error_lx_search_message">Tu búsqueda no arrojó resultados. Repite la búsqueda con otros criterios.</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">No pudimos determinar tu ubicación actual para buscar actividades cerca de ti.</string> 
     <!-- Text for generic error toolbar-->
@@ -581,6 +615,11 @@
     <string name="lx_error_current_location_toolbar_text">Inténtalo de nuevo</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">No pudimos encontrar actividades cerca de ti. Repite la búsqueda con otros criterios.</string>
+
+    <!-- Ground Transport bags text-->
+    <string name="lx_ground_transport_bags_text">%1$sPiezas de equipaje</string>
+    <!-- Ground Transport passengers text-->
+    <string name="lx_ground_transport_passengers_text">%1$sPasajeros</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1191,6 +1230,11 @@
     <string name="add_hotel_fallback">Agregar un hotel a tu destino</string>
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">Agregar un hotel</string>
+
+    <!-- Button label to search for an activity in the hotel city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_lx_TEMPLATE">Encuentra actividades mientras estás en %1$s</string>
+    <!-- Button label to search for an activity in the hotel city. Used only when we don't know the destination city. -->
+    <string name="add_lx_fallback">Encuentra actividades mientras estás en tu destino</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -1825,7 +1869,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Impuestos y cargos</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Comisión de Expedia por la reservación</string>
+    <string name="brand_booking_fee">{brand}Cargo por reservación de</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">Cargo de la línea aérea por la tarjeta</string>
     <!-- Flight -->
@@ -1885,7 +1929,7 @@
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Fecha de nacimiento %1$s</string>
     <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; vencimiento %2$s</string>
+    <string name="brand_expiring_TEMPLATE">%1$s vencimiento %2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -1893,7 +1937,7 @@
     <!-- email hint -->
     <string name="email_address_hint">Dirección de correo electrónico</string>
     <!-- phone number hint -->
-    <string name="phone_number_hint">Número de teléfono</string>
+    <string name="phone_number_hint">Teléfono</string>
     <!-- Cardholder -->
     <string name="cardholder">Titular de la tarjeta</string>
     <!-- email disclaimer -->
@@ -1906,6 +1950,9 @@
     <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
     <!-- Single Line City State Zip -->
     <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
+
+    <!-- Airport to LX template (e.g. "Boise, ID or Paris, France" -->
+    <string name="lx_destination_TEMPLATE">%1$s, %2$s</string>
 
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
@@ -2014,7 +2061,7 @@
     <!-- Passport -->
     <string name="passport">Pasaporte</string>
     <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Pasajero actual -&lt;/font&gt;%1$s%2$s</string>
+    <string name="current_traveler_TEMPLATE">Pasajero actual -%1$s%2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2061,6 +2108,8 @@
     <string name="hotels_in_TEMPLATE">Hoteles en %s</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Autos en %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
+    <string name="lx_in_TEMPLATE">Actividades en %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Más acciones</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2085,15 +2134,12 @@
     <string name="air_attach_amount_discounted_TEMPLATE">¡Ahorrarás un %s si reservas tu hotel ahora!</string>
     <!-- Air attach offer expiration alert -->
     <string name="air_attach_expires">La oferta vence en</string>
-    <!-- Air attach offer expiration date -->
-    <string name="air_attach_expiration_date_TEMPLATE">%d días</string>
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">La oferta vence hoy</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">Agregar un hotel</string>
     <!-- Air attach add hotel button subtitle -->
     <string name="air_attach_with_discounts">con descuento</string>
-
 
 
     <!-- Hotel confirmation page -->
@@ -2145,6 +2191,8 @@
     <string name="accept">Aceptar</string>
     <!-- Button label for retrying after getting an error -->
     <string name="retry">Intentarlo de nuevo</string>
+    <!-- Button label for adjusting filters after getting no results -->
+    <string name="edit_filters">Editar filtros</string>
     <!-- Button label for calling -->
     <string name="call_support">Ayuda</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
@@ -2321,6 +2369,8 @@
     <string name="tonight_only">¡Solo esta noche!</string>
     <!-- Expedia sponsored listing -->
     <string name="sponsored">Patrocinado</string>
+    <!-- Expedia ETP book now/pay later search results -->
+    <string name="book_now_pay_later">Reserva ahora, paga después</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">Lo sentimos, pero no nos es posible realizar búsquedas de hotel para estadías de más de %1$s días.</string>
     <!-- Search Error title text "Search Error" -->
@@ -2636,8 +2686,6 @@
     <string name="more_info">Más información</string>
 
     <!-- Booking info -->
-    <!-- Label for room type -->
-    <string name="room_type">Tipo de habitación</string>
     <!-- Error if we couldn't find the room type details -->
     <string name="error_room_type_nonexistant">Lo sentimos, no pudimos encontrar más detalles sobre esta habitación.</string>
     <!-- Quantity for the length of stay -->
@@ -2682,8 +2730,6 @@
     <string name="taxes_and_fees">Impuestos y cargos</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Incluidos</string>
-    <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">Cargos con pago en el hotel</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Descuento</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -3541,5 +3587,8 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Al completar esta reservación, acepto que he leído y acepto las %1$s, los %2$s, y la %3$s.</string>
+
+    <!-- Used in hotel search for specifying traveler -->
+    <string name="child_age_label">Selecciona la edad de cada niño</string>
 
 </resources>

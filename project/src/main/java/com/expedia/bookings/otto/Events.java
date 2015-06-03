@@ -24,9 +24,11 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
 import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
+import com.expedia.bookings.data.cars.CarFilter;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
@@ -166,7 +168,7 @@ public class Events {
 		public LaunchLocation selectedLocation;
 
 		public LaunchCollectionsAvailable(List<LaunchCollection> collections, LaunchCollection selectedCollection,
-			LaunchLocation selectedLocation) {
+										  LaunchLocation selectedLocation) {
 			this.collections = collections;
 			this.selectedCollection = selectedCollection;
 			this.selectedLocation = selectedLocation;
@@ -572,6 +574,14 @@ public class Events {
 		// ignore
 	}
 
+	public static class CarsFilterDone {
+		public CarFilter carFilter;
+
+		public CarsFilterDone(CarFilter carFilter) {
+			this.carFilter = carFilter;
+		}
+	}
+
 	public static class CarsGoToOverlay {
 		// ignore
 	}
@@ -585,6 +595,7 @@ public class Events {
 	}
 
 	public static class CarsShowLoadingAnimation {
+		// ignore
 	}
 
 	public static class CarsShowSearchResults {
@@ -593,6 +604,10 @@ public class Events {
 		public CarsShowSearchResults(CarSearch results) {
 			this.results = results;
 		}
+	}
+
+	public static class CarsShowFilteredSearchResults {
+		// ignore
 	}
 
 	public static class CarsShowSearchResultsError {
@@ -671,12 +686,54 @@ public class Events {
 		}
 	}
 
-	public static class FinishActivity {
+	public static class CarsCategoryFilterCheckChanged {
+		public CarCategory category;
+		public boolean checked;
 
+		public CarsCategoryFilterCheckChanged(CarCategory category, boolean checked) {
+			this.category = category;
+			this.checked = checked;
+		}
+	}
+
+	public static class CarsSupplierFilterCheckChanged {
+		public String supplier;
+		public boolean checked;
+
+		public CarsSupplierFilterCheckChanged(String supplier, boolean checked) {
+			this.supplier = supplier;
+			this.checked = checked;
+		}
+	}
+
+	public static class CarsIsFiltered {
+		public CarSearch filteredCarSearch;
+		public CategorizedCarOffers filteredCarOffers;
+
+		public CarsIsFiltered(CarSearch filteredCarSearch, CategorizedCarOffers filteredCarOffers) {
+			this.filteredCarSearch = filteredCarSearch;
+			this.filteredCarOffers = filteredCarOffers;
+		}
+	}
+
+	public static class FinishActivity {
+		// ignore
 	}
 
 	public static class LXShowSearchWidget {
 		// ignore
+	}
+
+	public static class LXNewSearch {
+		public String locationName;
+		public LocalDate startDate;
+		public LocalDate endDate;
+
+		public LXNewSearch(String locationName, LocalDate startDate, LocalDate endDate) {
+			this.locationName = locationName;
+			this.startDate = startDate;
+			this.endDate = endDate;
+		}
 	}
 
 	public static class LXNewSearchParamsAvailable {
@@ -901,5 +958,17 @@ public class Events {
 	}
 
 	public static class PhoneLaunchOnResume {
+	}
+
+	// Memory testing
+
+	public static class MemoryTestImpetus {
+	}
+
+	public static class MemoryTestInput {
+		public int viewId;
+		public MemoryTestInput(int viewId) {
+			this.viewId = viewId;
+		}
 	}
 }

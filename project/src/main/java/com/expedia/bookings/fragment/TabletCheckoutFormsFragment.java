@@ -26,6 +26,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
@@ -1075,6 +1076,17 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	@Subscribe
 	public void onCouponRemoveSuccess(Events.CouponRemoveDownloadSuccess event) {
 		if (mHorizontalHotelFrag != null) {
+			mHorizontalHotelFrag.refreshRate();
+		}
+		updateResortFeeText();
+	}
+
+	@Subscribe
+	public void onCreateTripSuccess(Events.CreateTripDownloadSuccess event) {
+		// In the case of hotels with resort fees, the data received from /create
+		// is different enough to warrant a complete re-bind. This has to do with
+		// rate types, etc.
+		if (mHorizontalHotelFrag != null && event.createTripResponse instanceof CreateTripResponse) {
 			mHorizontalHotelFrag.refreshRate();
 		}
 		updateResortFeeText();

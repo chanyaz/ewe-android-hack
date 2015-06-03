@@ -25,7 +25,6 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -70,7 +69,6 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.AutocompleteSuggestion;
 import com.expedia.bookings.data.ChildTraveler;
@@ -475,21 +473,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 	}
 
-	private OnSearchParamsChangedInWidgetListener mSearchParamsChangedListener = new OnSearchParamsChangedInWidgetListener() {
-
-		@Override
-		public void onSearchParamsChanged(HotelSearchParams searchParams) {
-			Db.getHotelSearch().setSearchParams(searchParams);
-			if (searchParams != null) {
-				searchParams.ensureValidCheckInDate();
-			}
-			else {
-				Db.getHotelSearch().resetSearchParams();
-			}
-			mStartSearchOnResume = true;
-		}
-	};
-
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Static Methods
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -630,12 +613,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	protected void onPause() {
 		super.onPause();
 
-		((ExpediaBookingApp) getApplicationContext())
-			.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
-
 		mIsActivityResumed = false;
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 			mProgressBar.onPause();
 		}
 
@@ -656,21 +636,13 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-		OmnitureTracking.trackAppHotelsSearch(this);
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
-		((ExpediaBookingApp) getApplicationContext())
-			.registerSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
 
 		Db.getFilter().addOnFilterChangedListener(this);
 
 		if (mDisplayType != DisplayType.CALENDAR) {
-			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 				mProgressBar.onResume();
 				mProgressBar.reset();
 			}
@@ -771,13 +743,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		super.onStop();
 
 		// If the configuration isn't changing but we are stopping this activity, save the search params
-		//
-		// Due to not being able to tell a config change or not on earlier versions of Android, we just
-		// always save.
-		boolean configChange = false;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			configChange = isChangingConfigurations();
-		}
+		boolean configChange = isChangingConfigurations();
 		if (!configChange) {
 			// Save here to prevent saving to disk all the time. This will only save to disk when the user
 			// is leaving the screen. Moreover, waiting until now to save to disk will ensure HotelSearch
@@ -1856,7 +1822,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 			hideFilterOptions();
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 				mProgressBar.onResume();
 				mProgressBar.reset();
 			}
@@ -1891,7 +1857,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// make sure to draw/redraw the calendar
 			mDatesCalendarDatePicker.markAllCellsDirty();
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 				mProgressBar.onPause();
 			}
 
@@ -1969,11 +1935,11 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		if (mTag.equals(getString(R.string.tag_hotel_list))) {
 			newFragmentTag = getString(R.string.tag_hotel_map);
-			OmnitureTracking.trackAppHotelsSearch(this);
+			onSwitchToMap();
 		}
 		else {
 			newFragmentTag = getString(R.string.tag_hotel_list);
-			onSwitchToMap();
+			OmnitureTracking.trackAppHotelsSearch(this);
 		}
 
 		showFragment(newFragmentTag);
@@ -2152,7 +2118,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		// Here, we post it so that we have a few precious frames more of the progress bar before
 		// it's covered up by search results (or a lack thereof).  This keeps a black screen from
 		// showing up for a split second for reason I'm not entirely sure of.  ~dlew
-		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 			mProgressBar.postDelayed(new Runnable() {
 				public void run() {
 					mProgressBar.setVisibility(View.GONE);
@@ -2194,7 +2160,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// In the case that the user is an emulator and this isn't a release build,
 			// disable the hanging tag for speed purposes
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 				if (AndroidUtils.isEmulator() && BuildConfig.DEBUG) {
 					mProgressBar.setVisibility(View.GONE);
 				}
@@ -2776,7 +2742,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	private void onSwitchToMap() {
-		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Map", null, null);
+		OmnitureTracking.trackHotelSearchMapSwitch(this);
 	}
 
 	// HotelFilter tracking

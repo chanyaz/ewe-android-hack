@@ -49,6 +49,11 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 					checkoutResponse.setNewOffer(newOffer);
 				}
 			}
+			else {
+				// Region id for cross-sell
+				JSONObject detailResponse = response.optJSONObject("flightDetailResponse");
+				checkoutResponse.setDestinationRegionId(detailResponse.optString("destinationRegionId"));
+			}
 
 			// Continue parsing other fields even if we got an error.  This is
 			// important when we get a TRIP_ALREADY_BOOKED error.

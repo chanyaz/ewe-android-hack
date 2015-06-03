@@ -3,7 +3,6 @@ package com.expedia.bookings.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -12,11 +11,12 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -52,6 +52,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 			"" : event.createTripResponse.searchCarOffer.fare.total.formattedPrice;
 		bind(event.createTripResponse.carProduct, ogPriceForPriceChange, event.createTripResponse.tripId);
 		OmnitureTracking.trackAppCarCheckoutPage(getContext(), event.createTripResponse.carProduct);
+		AdTracker.trackCarCheckoutStarted(event.createTripResponse.carProduct);
 	}
 
 	@Subscribe
@@ -73,7 +74,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		summaryWidget.bind(carProduct, originalOfferFormattedPrice);
 		paymentInfoCardView.setCreditCardRequired(carProduct.checkoutRequiresCard);
 		clearCCNumber();
-
+		scrollCheckoutToTop();
 		slideWidget.resetSlider();
 
 		int sliderMessage = carProduct.checkoutRequiresCard ? R.string.your_card_will_be_charged_TEMPLATE
@@ -126,8 +127,8 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	@Override
 	public void onBook(String cvv) {
-		final boolean suppressFinalBooking =
-			BuildConfig.DEBUG && SettingUtils.get(getContext(), R.string.preference_suppress_car_bookings, true);
+		final boolean suppressFinalBooking = BookingSuppressionUtils
+			.shouldSuppressFinalBooking(getContext(), R.string.preference_suppress_car_bookings);
 		CarCheckoutParamsBuilder builder =
 			new CarCheckoutParamsBuilder()
 				.firstName(mainContactInfoCardView.firstName.getText().toString())

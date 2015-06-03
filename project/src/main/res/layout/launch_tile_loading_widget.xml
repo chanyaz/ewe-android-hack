@@ -7,9 +7,9 @@
     android:layout_height="160dp"
     app:cardCornerRadius="4dp"
     app:cardElevation="1dp"
-    app:cardPreventCornerOverlap="false">
+    app:cardPreventCornerOverlap="false" >
 
-    <com.expedia.bookings.widget.OptimizedImageView
+    <View
         android:id="@+id/background_image_view"
         android:layout_width="match_parent"
         android:layout_height="144dp" />

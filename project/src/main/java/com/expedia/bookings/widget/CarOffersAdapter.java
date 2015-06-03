@@ -150,7 +150,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			carDetails.setText(CarDataUtils.getMakeName(mContext, offer.vehicleInfo.makes));
 			CarInfo vehicleInfo = offer.vehicleInfo;
 			passengers.setText(mContext.getString(R.string.car_details_TEMPLATE,
-				String.valueOf(offer.vehicleInfo.adultCapacity + vehicleInfo.childCapacity),
+				String.valueOf(offer.vehicleInfo.adultCapacity),
 				mContext.getString(R.string.passengers_label)));
 			bags.setText(mContext.getString(R.string.car_details_TEMPLATE,
 				String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity),

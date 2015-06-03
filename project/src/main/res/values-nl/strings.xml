@@ -41,6 +41,8 @@
     <string name="cars_invalid_input_text">Ongeldige info</string>
     <!-- Text for generic error toolbar-->
     <string name="cars_error_text">Fout</string>
+    <!-- Text for toolbar on no search results -->
+    <string name="cars_no_results_text">Geen resultaten</string>
     <!-- Text for reserving car-->
     <string name="cars_reserve_text">Reserveren</string>
     <!-- Text for viewing details-->
@@ -84,12 +86,16 @@
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_car_desc_support_TEMPLATE">Expedia klantenservice: %1$s en %2$s</string>
 
+    <!-- Label for hotel search toolbar -->
+    <string name="hotel_toolbar_title">Hotels zoeken</string>
+    <!-- Label for hotel suggestion -->
+    <string name="search_location">Locatie zoeken</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Ophaallocatie</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="same_as_pick_up">Zelfde als ophaallocatie</string>
+    <string name="drop_off_location">Inleverlocatie</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">Datums &amp; Locatie</string>
+    <string name="toolbar_search_cars">Auto\&apos;s zoeken</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Selecteer ophaal- en inleverdatums</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
@@ -102,6 +108,32 @@
     <string name="drop_off_same_as_pick_up">Binnenkort! We zijn hard aan het werk om enkele vluchten toe te voegen aan een volgende versie.</string>
     <!-- Car search error -->
     <string name="error_car_search_message">Jouw zoekopdracht leverde geen resultaten op. Zoek opnieuw met andere zoekcriteria</string>
+    <!-- Car no filtered search results -->
+    <string name="filter_no_car_search_results_message">Je zoekopdracht leverde geen resultaten op. Probeer het aantal filters te reduceren.</string>
+    <!-- Transmission options filter label for a car rental -->
+    <string name="options">Opties</string>
+    <!-- Automatic transmission filter button-->
+    <string name="car_filter_automatic">Automaat</string>
+    <!-- Manual transmission filter button-->
+    <string name="car_filter_manual">Handgeschakeld</string>
+    <!-- Any transmission type filter button -->
+    <string name="car_filter_all">Alle</string>
+    <!-- Air conditioning option checkbox filter -->
+    <string name="car_filter_checkbox_air_conditioning">Airconditioning</string>
+    <!-- Unlimited mileage option checkbox filter -->
+    <string name="car_filter_checkbox_unlimited_mileage">Onbeperkt aantal km</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_types">Autotypes</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_vendors">Autoverhuurders</string>
+    <!-- Button label to clear user selected filters -->
+    <string name="clear_filters">Filters wissen</string>
+    <!-- Label to tell the user how many products match thier filter -->
+    <plurals name="number_results_template">
+        <item quantity="one">{number} resultaat</item>
+        <item quantity="other">{number} resultaten</item>
+    </plurals>
+
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s of soortgelijk</string>
@@ -166,6 +198,8 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Sorry, de betaling was niet succesvol. Controleer even je betalingsinfo en probeer opnieuw.</string>
+    <!-- Shown to a user when their ability to rent a specific car expires -->
+    <string name="error_cars_product_expired">Je zoekopdracht is verlopen. Kies een geldige ophaaltijd.</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">Prijswijziging weergeven</string>
     <!-- My Trips button that takes you to Itins -->
@@ -209,7 +243,7 @@
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
-    <string name="lx_search_widget_heading">Datums &amp; Locatie</string>
+    <string name="lx_search_title">Activiteiten zoeken</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Selecteer datum</string>
     <!-- Activity details highlights heading -->
@@ -536,7 +570,7 @@
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Contactinfo invoeren</string>
     <!-- LX search error -->
-    <string name="error_lx_search_message">Je zoekopdracht leverde geen resultaten op. Zoek opnieuw met andere zoekcriteria</string> 
+    <string name="error_lx_search_message">Je zoekopdracht leverde geen resultaten op. Zoek opnieuw met andere zoekcriteria</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">We konden je huidige locatie voor lokale activiteiten niet bepalen.</string> 
     <!-- Text for generic error toolbar-->
@@ -581,6 +615,11 @@
     <string name="lx_error_current_location_toolbar_text">Probeer het opnieuw</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">We konden geen lokale activiteiten vinden. Zoek opnieuw met andere zoekcriteria</string>
+
+    <!-- Ground Transport bags text-->
+    <string name="lx_ground_transport_bags_text">%1$sStuks bagage</string>
+    <!-- Ground Transport passengers text-->
+    <string name="lx_ground_transport_passengers_text">%1$sPassagiers</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1191,6 +1230,11 @@
     <string name="add_hotel_fallback">Voeg een hotel toe op je bestemming</string>
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">Hotel toevoegen</string>
+
+    <!-- Button label to search for an activity in the hotel city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_lx_TEMPLATE">Vind activiteiten in %1$s</string>
+    <!-- Button label to search for an activity in the hotel city. Used only when we don't know the destination city. -->
+    <string name="add_lx_fallback">Vind activiteiten op je bestemming</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -1825,7 +1869,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Belastingen &amp; toeslagen</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Expedia boekingskosten</string>
+    <string name="brand_booking_fee">Boekingskosten van {brand}</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">Creditcardtoeslag airline</string>
     <!-- Flight -->
@@ -1885,7 +1929,7 @@
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Geboren op %1$s</string>
     <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; vervalt op %2$s</string>
+    <string name="brand_expiring_TEMPLATE">%1$s vervalt op %2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -1906,6 +1950,9 @@
     <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
     <!-- Single Line City State Zip -->
     <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
+
+    <!-- Airport to LX template (e.g. "Boise, ID or Paris, France" -->
+    <string name="lx_destination_TEMPLATE">%1$s, %2$s</string>
 
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
@@ -2014,7 +2061,7 @@
     <!-- Passport -->
     <string name="passport">Paspoort</string>
     <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Huidige reiziger -&lt;/font&gt; %1$s %2$s</string>
+    <string name="current_traveler_TEMPLATE">Huidige reiziger - %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2061,6 +2108,8 @@
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Auto\&apos;s in %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
+    <string name="lx_in_TEMPLATE">Activiteiten in %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Meer opties</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2085,15 +2134,12 @@
     <string name="air_attach_amount_discounted_TEMPLATE">bespaar je %s als je je hotel nu boekt!</string>
     <!-- Air attach offer expiration alert -->
     <string name="air_attach_expires">Aanbieding verloopt over</string>
-    <!-- Air attach offer expiration date -->
-    <string name="air_attach_expiration_date_TEMPLATE">%d dagen</string>
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Aanbieding verloopt vandaag</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">Hotel toevoegen</string>
     <!-- Air attach add hotel button subtitle -->
     <string name="air_attach_with_discounts">met kortingen</string>
-
 
 
     <!-- Hotel confirmation page -->
@@ -2145,6 +2191,8 @@
     <string name="accept">Goedkeuren</string>
     <!-- Button label for retrying after getting an error -->
     <string name="retry">Opnieuw proberen</string>
+    <!-- Button label for adjusting filters after getting no results -->
+    <string name="edit_filters">Filters bewerken</string>
     <!-- Button label for calling -->
     <string name="call_support">Ondersteuning</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
@@ -2321,6 +2369,8 @@
     <string name="tonight_only">Alleen vandaag!</string>
     <!-- Expedia sponsored listing -->
     <string name="sponsored">Gesponsord</string>
+    <!-- Expedia ETP book now/pay later search results -->
+    <string name="book_now_pay_later">Boek nu, betaal later</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">Helaas, we kunnen geen zoekopdracht doen van meer dan %1$s overnachtingen.</string>
     <!-- Search Error title text "Search Error" -->
@@ -2636,8 +2686,6 @@
     <string name="more_info">Meer info</string>
 
     <!-- Booking info -->
-    <!-- Label for room type -->
-    <string name="room_type">Kamertype</string>
     <!-- Error if we couldn't find the room type details -->
     <string name="error_room_type_nonexistant">Het spijt ons, we kunnen geen extra kamergegevens vinden.</string>
     <!-- Quantity for the length of stay -->
@@ -2682,8 +2730,6 @@
     <string name="taxes_and_fees">Belastingen &amp; toeslagen</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Inbegrepen</string>
-    <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">Toeslagen verrekend aan hotel</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Korting</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -3541,5 +3587,8 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Door deze boeking te voltooien, bevestig ik de %1$s, de %2$s en het %3$s te hebben gelezen en goedgekeurd.</string>
+
+    <!-- Used in hotel search for specifying traveler -->
+    <string name="child_age_label">Selecteer de leeftijd van elk kind</string>
 
 </resources>

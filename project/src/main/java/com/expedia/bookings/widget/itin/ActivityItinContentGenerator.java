@@ -146,14 +146,35 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 		// Bind
 		Resources res = getResources();
-		infoTriplet.setValues(
-			itinCardData.getFormattedValidDate(getContext()),
-			itinCardData.getFormattedExpirationDate(getContext()),
-			itinCardData.getFormattedGuestCount());
-		infoTriplet.setLabels(
-			res.getString(R.string.itin_card_details_active),
-			res.getString(R.string.itin_card_details_expires),
-			res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
+		CharSequence[] infoTripletValues;
+		CharSequence[] infoTripletLabels;
+		/**
+		 * Activity read trip returns guest count as 0 when only Summary details are present for the trip.
+		 * Displaying only Start and Expire in such cases.
+		 */
+		if (itinCardData.getGuestCount() != 0) {
+			infoTripletValues = new CharSequence[] {
+				itinCardData.getFormattedValidDate(getContext()), itinCardData.getFormattedExpirationDate(getContext()),
+				itinCardData.getFormattedGuestCount()
+			};
+			infoTripletLabels = new CharSequence[] {
+				res.getString(R.string.itin_card_details_active),
+				res.getString(R.string.itin_card_details_expires),
+				res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount())
+			};
+		}
+		else {
+			infoTripletValues = new CharSequence[] {
+				itinCardData.getFormattedValidDate(getContext()), itinCardData.getFormattedExpirationDate(getContext())
+			};
+			infoTripletLabels = new CharSequence[] {
+				res.getString(R.string.itin_card_details_active),
+				res.getString(R.string.itin_card_details_expires)
+			};
+		}
+
+		infoTriplet.setValues(infoTripletValues);
+		infoTriplet.setLabels(infoTripletLabels);
 
 		final List<Traveler> travelers = itinCardData.getTravelers();
 		final int size = travelers == null ? 0 : travelers.size();

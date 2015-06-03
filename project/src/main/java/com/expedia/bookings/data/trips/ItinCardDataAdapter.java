@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
@@ -223,6 +224,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		// Add air attach and hotel attach cards where applicable
 		addAttachData(mItinCardDatasSync);
 
+		// Add lx attach cards where applicable.
+		addLXAttachData(mItinCardDatasSync);
+
 		// Do some calculations on the data
 		Pair<Integer, Integer> summaryCardPositions = calculateSummaryCardPositions(mItinCardDatasSync);
 
@@ -345,7 +349,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	private boolean isItemAButtonCard(int position) {
 		final ItinCardData item = getItem(position);
-		return item instanceof ItinCardDataHotelAttach;
+		return (item instanceof ItinCardDataHotelAttach || item instanceof ItinCardDataLXAttach);
 	}
 
 	private boolean isItemAnAirAttachCard(int position) {
@@ -484,18 +488,15 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			DateTime start = data.getStartDate();
 			DateTime currentDate = DateTime.now(start.getZone());
 
-			// Ignore dismissed buttons
-			if (dismissedTripIds.contains(data.getTripId())) {
+			if (ignoreDismissedTripIds(dismissedTripIds, data)) {
 				continue;
 			}
 
-			// Ignore fallback cards
-			if (data instanceof ItinCardDataFallback) {
+			if (ignoreItinCardDataFallback(data)) {
 				continue;
 			}
 
-			// Ignore past itineraries
-			if (currentDate.isAfter(start) && currentDate.getDayOfYear() > start.getDayOfYear()) {
+			if (ignorePastItineraries(start, currentDate)) {
 				continue;
 			}
 
@@ -528,8 +529,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				Type nextType = nextData.getTripComponentType();
 				DateTime dateTimeOne = new DateTime(itinDestination.getMostRelevantDateTime());
 
-				// Ignore fallback cards
-				if (nextData instanceof ItinCardDataFallback) {
+				if (ignoreItinCardDataFallback(nextData)) {
 					continue;
 				}
 
@@ -592,6 +592,78 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				}
 			}
 		}
+	}
+
+	private void addLXAttachData(List<ItinCardData> itinCardDatas) {
+		boolean isUserBucketedForTest = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelItinLXXsell);
+		if (!PointOfSale.getPointOfSale().supportsLx() || !isUserBucketedForTest) {
+			return;
+		}
+		// Nothing to do if there are no itineraries
+		int len = itinCardDatas.size();
+		if (len == 0) {
+			return;
+		}
+		// Get previously dismissed buttons
+		final HashSet<String> dismissedTripIds = DismissedItinButton
+			.getDismissedTripIds(ItinButtonType.LX_ATTACH);
+
+		for (int i = 0; i < len; i++) {
+			ItinCardData data = itinCardDatas.get(i);
+			DateTime start = data.getStartDate();
+			DateTime currentDate = DateTime.now(start.getZone());
+
+			if (ignoreDismissedTripIds(dismissedTripIds, data)) {
+				continue;
+			}
+
+			if (ignoreItinCardDataFallback(data)) {
+				continue;
+			}
+
+			if (ignorePastItineraries(start, currentDate)) {
+				continue;
+			}
+
+			if (ignoreNonHotelItineraries(data)) {
+				continue;
+			}
+
+			TripHotel tripHotel = (TripHotel) data.getTripComponent();
+			itinCardDatas
+				.add(i + 1, new ItinCardDataLXAttach(tripHotel));
+			len++;
+			i++;
+		}
+	}
+
+	private boolean ignoreNonHotelItineraries(ItinCardData data) {
+		if (!data.getTripComponentType().equals(Type.HOTEL) || !(data instanceof ItinCardDataHotel)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean ignoreItinCardDataFallback(ItinCardData data) {
+		if (data instanceof ItinCardDataFallback) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean ignorePastItineraries(DateTime start, DateTime currentDate) {
+		if (currentDate.isAfter(start) && currentDate.getDayOfYear() > start.getDayOfYear()) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean ignoreDismissedTripIds(HashSet<String> dismissedTripIds, ItinCardData data) {
+		if (dismissedTripIds.contains(data.getTripId())) {
+			return true;
+		}
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

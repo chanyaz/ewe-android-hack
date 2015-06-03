@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
@@ -16,10 +17,14 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -47,6 +52,7 @@ import com.mobiata.android.time.widget.CalendarPicker;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class CarSearchPresenter extends Presenter
@@ -71,11 +77,17 @@ public class CarSearchPresenter extends Presenter
 	@InjectView(R.id.pickup_location)
 	AlwaysFilterAutoCompleteTextView pickUpLocation;
 
+	@InjectView(R.id.search_params_container)
+	LinearLayout searchParamsContainer;
+
 	@InjectView(R.id.search_container)
 	ViewGroup searchContainer;
 
+	@InjectView(R.id.location_image_view)
+	ImageView locationImageView;
+
 	@InjectView(R.id.dropoff_location)
-	TextView dropOffLocation;
+	AlwaysFilterAutoCompleteTextView dropOffLocation;
 
 	@InjectView(R.id.select_date)
 	ToggleButton selectDateButton;
@@ -89,7 +101,24 @@ public class CarSearchPresenter extends Presenter
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
 
+	@InjectView(R.id.toolbar_search_text)
+	TextView toolBarSearchText;
+
+	@InjectView(R.id.toolbar_detail_text)
+	TextView toolBarDetailText;
+
+	@InjectView(R.id.toolbar_subtitle_text)
+	TextView toolBarSubtitleText;
+
+	@InjectView(R.id.toolbar_two)
+	LinearLayout toolbarTwo;
+
 	Button searchButton;
+
+	View statusBar;
+
+	private int searchParamsContainerHeight;
+	private int searchTop;
 
 	@OnClick(R.id.pickup_location)
 	public void onPickupEditClicked() {
@@ -111,11 +140,10 @@ public class CarSearchPresenter extends Presenter
 		calendarContainer.setCarDateTimeListener(this);
 
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp);
-		navIcon.setColorFilter(getResources().getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
-		toolbar.setTitle(getResources().getString(R.string.dates_and_location));
-		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
-		toolbar.setTitleTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
+		toolBarSearchText.setText(getResources().getString(R.string.toolbar_search_cars));
+		toolbar.setBackgroundColor(getResources().getColor(R.color.cars_primary_color));
 		toolbar.inflateMenu(R.menu.cars_search_menu);
 
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
@@ -130,6 +158,7 @@ public class CarSearchPresenter extends Presenter
 		setUpSearchButton();
 
 		pickUpLocation.setVisibility(View.VISIBLE);
+		onDateCheckedChanged(false);
 		dropOffLocation.setVisibility(View.VISIBLE);
 		selectDateButton.setVisibility(View.VISIBLE);
 		setCalendarVisibility(View.INVISIBLE);
@@ -142,22 +171,15 @@ public class CarSearchPresenter extends Presenter
 		pickUpLocation.setOnFocusChangeListener(mPickupClickListener);
 		pickUpLocation.setOnEditorActionListener(this);
 		pickUpLocation.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
-
-		Drawable drawableEnabled = getResources().getDrawable(R.drawable.location).mutate();
-		drawableEnabled.setColorFilter(getResources().getColor(R.color.cars_secondary_color), PorterDuff.Mode.SRC_IN);
-		pickUpLocation.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
-
-		Drawable drawableDisabled = getResources().getDrawable(R.drawable.location).mutate();
-		drawableDisabled
-			.setColorFilter(getResources().getColor(R.color.search_dropdown_disabled_stroke), PorterDuff.Mode.SRC_IN);
-		dropOffLocation.setCompoundDrawablesWithIntrinsicBounds(drawableDisabled, null, null, null);
+		selectDateButton.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 
 		addTransition(defaultToCal);
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
-			int color = getContext().getResources().getColor(R.color.cars_status_bar_color);
-			addView(Ui.setUpStatusBar(getContext(), toolbar, searchContainer, color));
+			int color = getContext().getResources().getColor(R.color.cars_primary_color);
+			statusBar = Ui.setUpStatusBar(getContext(), toolbar, searchContainer, color);
+			addView(statusBar);
 		}
 
 		show(new CarParamsDefault());
@@ -182,6 +204,14 @@ public class CarSearchPresenter extends Presenter
 		else {
 			loadHistory();
 		}
+
+		searchParamsContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				searchParamsContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				searchParamsContainerHeight = searchParamsContainer.getMeasuredHeight();
+			}
+		});
 	}
 
 	public Button setupToolBarCheckmark(final MenuItem menuItem) {
@@ -196,7 +226,7 @@ public class CarSearchPresenter extends Presenter
 			}
 		});
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
-		navIcon.setColorFilter(getResources().getColor(R.color.cars_primary_color), PorterDuff.Mode.SRC_IN);
+		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		tv.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
 		menuItem.setActionView(tv);
 		return tv;
@@ -249,14 +279,21 @@ public class CarSearchPresenter extends Presenter
 
 	@OnClick(R.id.select_date)
 	public void onPickupDateTimeClicked() {
-		if (!searchParamsBuilder.hasOrigin()) {
+		if (!searchParamsBuilder.hasOrigin() && selectDateButton.isChecked()) {
 			AnimUtils.doTheHarlemShake(pickUpLocation);
 			selectDateButton.setChecked(false);
 			return;
 		}
+		selectDateButton.setChecked(true);
 		show(new CarParamsCalendar());
 	}
 
+	@OnCheckedChanged(R.id.select_date)
+	public void onDateCheckedChanged(boolean isChecked) {
+		Drawable drawableEnabled = getResources().getDrawable(R.drawable.date).mutate();
+		drawableEnabled.setColorFilter(isChecked ? Color.WHITE : getResources().getColor(R.color.cars_unchecked_toggle_text_color), PorterDuff.Mode.SRC_IN);
+		selectDateButton.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
+	}
 	/*
 	 * Error handling
 	 */
@@ -308,7 +345,6 @@ public class CarSearchPresenter extends Presenter
 					back();
 				}
 				selectDateButton.setChecked(false);
-				selectDateButton.setEnabled(true);
 				pickUpLocation.setText("");
 				searchParamsBuilder.origin("");
 				searchParamsBuilder.originDescription("");
@@ -375,7 +411,7 @@ public class CarSearchPresenter extends Presenter
 		suggestionAdapter.addNearbyAndRecents(mRecentCarsLocationsSearches, getContext());
 		postDelayed(new Runnable() {
 			public void run() {
-				if (ExpediaBookingApp.sIsAutomation) {
+				if (ExpediaBookingApp.isAutomation()) {
 					return;
 				}
 				pickUpLocation.requestFocus();
@@ -406,14 +442,13 @@ public class CarSearchPresenter extends Presenter
 	}
 
 	private Presenter.Transition defaultToCal = new Presenter.Transition(CarParamsDefault.class,
-		CarParamsCalendar.class) {
+		CarParamsCalendar.class, new DecelerateInterpolator(), Transition.DEFAULT_ANIMATION_DURATION) {
 		private int calendarHeight;
 
 		@Override
 		public void startTransition(boolean forward) {
 			int parentHeight = getHeight();
 			calendarHeight = calendarContainer.getHeight();
-			selectDateButton.setEnabled(!forward);
 			selectDateButton.setChecked(forward);
 			float pos = forward ? parentHeight + calendarHeight : calendarHeight;
 			calendarContainer.setTranslationY(pos);
@@ -445,20 +480,42 @@ public class CarSearchPresenter extends Presenter
 		}
 	};
 
-	public void animationStart(boolean forward) {
-		searchContainer.setTranslationY(forward ? searchContainer.getHeight() : 0);
-		toolbar.setTranslationY(forward ? -toolbar.getHeight() : 0);
+	public void animationStart(boolean forward, float alpha) {
+		calendarContainer.setTranslationY(forward ? searchContainer.getHeight() : 0);
+		searchContainer.setBackgroundColor(Color.TRANSPARENT);
+		toolBarSearchText.setAlpha(forward ? 0 : 1);
+		searchButton.setAlpha(forward ? 0 : 1);
+		searchTop = toolbarTwo.getTop() -  searchContainer.getTop();
+		searchParamsContainer.setAlpha(forward ? alpha : 1f);
+		if (statusBar != null) {
+			statusBar.setAlpha(forward ? alpha : 1f);
+		}
 	}
 
-	public void animationUpdate(float f, boolean forward) {
+	public void animationUpdate(float f, boolean forward, float alpha) {
 		float translation = forward ? searchContainer.getHeight() * (1 - f) : searchContainer.getHeight() * f;
-		searchContainer.setTranslationY(translation);
-		toolbar.setTranslationY(forward ? -toolbar.getHeight() * (1 - f) : -toolbar.getHeight() * f);
+		float yTrans = forward ?  - (searchTop * (1 - f)) : - (searchTop * f);
+
+		LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) searchParamsContainer.getLayoutParams();
+		layoutParams.height = forward ? (int) (f * (searchParamsContainerHeight)) : (int) (Math.abs(f - 1) * (searchParamsContainerHeight));
+		searchParamsContainer.setLayoutParams(layoutParams);
+
+		searchParamsContainer.setAlpha(forward ? alpha + ((1f - alpha) * f) : Math.abs(1 - f) + alpha);
+		if (statusBar != null) {
+			statusBar.setAlpha(forward ? alpha + ((1f - alpha) * f) : Math.abs(1 - f) + alpha);
+		}
+
+		calendarContainer.setTranslationY(translation);
+		toolBarSearchText.setTranslationY(yTrans);
+		toolBarSearchText.setAlpha(forward ? f : Math.abs(1 - f));
+		searchButton.setAlpha(forward ? f : Math.abs(1 - f));
+		toolbar.setAlpha(forward ? f : Math.abs(1 - f));
 	}
 
 	public void animationFinalize(boolean forward) {
-		searchContainer.setTranslationY(0);
-		toolbar.setTranslationY(forward ? 0 : -toolbar.getHeight());
+		calendarContainer.setTranslationY(0);
+		searchContainer.setBackgroundColor(Color.WHITE);
+		toolBarSearchText.setTranslationY(0);
 	}
 
 	public void setUpSearchButton() {
@@ -466,7 +523,7 @@ public class CarSearchPresenter extends Presenter
 			searchButton.setAlpha(1f);
 		}
 		else {
-			searchButton.setAlpha(.7f);
+			searchButton.setAlpha(.15f);
 		}
 	}
 }

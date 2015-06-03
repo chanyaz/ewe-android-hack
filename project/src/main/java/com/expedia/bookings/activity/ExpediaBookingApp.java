@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -17,19 +16,19 @@ import android.text.format.DateUtils;
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
-import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.dagger.AppComponent;
 import com.expedia.bookings.dagger.AppModule;
 import com.expedia.bookings.dagger.CarComponent;
 import com.expedia.bookings.dagger.DaggerAppComponent;
 import com.expedia.bookings.dagger.DaggerCarComponent;
+import com.expedia.bookings.dagger.DaggerHotelComponent;
 import com.expedia.bookings.dagger.DaggerLXComponent;
 import com.expedia.bookings.dagger.DaggerLaunchComponent;
+import com.expedia.bookings.dagger.HotelComponent;
 import com.expedia.bookings.dagger.LXComponent;
 import com.expedia.bookings.dagger.LaunchComponent;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
@@ -42,26 +41,29 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
+import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.KahunaUtils;
 import com.expedia.bookings.utils.LeanPlumUtils;
+import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
-import com.mobiata.android.debug.MemoryUtils;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+import com.squareup.leakcanary.LeakCanary;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -82,13 +84,15 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	// For Abacus bucketing GUID
 	private static final String PREF_ABACUS_GUID = "PREF_ABACUS_GUID";
 
-	public static final String MEDIA_URL = BuildConfig.MEDIA_URL;
-
 	private UncaughtExceptionHandler mOriginalUncaughtExceptionHandler;
 
 	// Debug / test settings
 
-	public static boolean sIsAutomation = false;
+	private static boolean sIsAutomation = false;
+
+	public static boolean isAutomation() {
+		return sIsAutomation;
+	}
 
 	public static void setAutomation(boolean isAutomation) {
 		sIsAutomation = isAutomation;
@@ -100,16 +104,26 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		super.onCreate();
 		startupTimer.addSplit("super.onCreate()");
 
-		Fabric.with(this, new Crashlytics());
-		startupTimer.addSplit("Crashlytics started.");
+		if (!isRobolectric() && !isAutomation()) {
+			Fabric.with(this, new Crashlytics());
+			startupTimer.addSplit("Crashlytics started.");
 
-		StethoShim.install(this);
-		startupTimer.addSplit("Stetho Init");
+			StethoShim.install(this);
+			startupTimer.addSplit("Stetho init");
+
+			LeakCanary.install(this);
+			startupTimer.addSplit("LeakCanary init");
+		}
 
 		mAppComponent = DaggerAppComponent.builder()
 			.appModule(new AppModule(this))
 			.build();
 		startupTimer.addSplit("Dagger AppModule created");
+
+		if (mAppComponent.endpointProvider().getEndPoint() == EndPoint.MOCK_MODE) {
+			MockModeShim.initMockWebServer(this);
+			startupTimer.addSplit("Mock mode init");
+		}
 
 		PicassoHelper.init(this, mAppComponent.okHttpClient());
 		startupTimer.addSplit("Picasso started.");
@@ -118,8 +132,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		startupTimer.addSplit("ActiveAndroid Init");
 
-		boolean isLogEnablerInstalled = DebugUtils.isLogEnablerInstalled(this);
-		Log.configureLogging("ExpediaBookings", BuildConfig.DEBUG || isLogEnablerInstalled);
+		boolean isLogEnablerInstalled = BuildConfig.DEBUG ||
+			DebugUtils.isLogEnablerInstalled(this) ||
+			ExpediaDebugUtil.isEBToolApkInstalled(this);
+		Log.configureLogging("ExpediaBookings", isLogEnablerInstalled);
 
 		startupTimer.addSplit("Logger Init");
 
@@ -142,16 +158,18 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("FS.db Init");
 
 		// Pull down advertising ID
-		if (!sIsAutomation) {
+		if (!isAutomation()) {
 			AdvertisingIdUtils.loadIDFA(this, this);
 			startupTimer.addSplit("IDFA wireup");
 		}
 
 		// Init required for Omniture tracking
 		OmnitureTracking.init(this);
-		// Setup Omniture for tracking crashes
-		mOriginalUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
-		Thread.setDefaultUncaughtExceptionHandler(this);
+		if (!isRobolectric() && !isAutomation()) {
+			// Setup Omniture for tracking crashes
+			mOriginalUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+			Thread.setDefaultUncaughtExceptionHandler(this);
+		}
 
 		startupTimer.addSplit("Omniture Init");
 
@@ -178,7 +196,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("AdTracker Init");
 
 		ItineraryManager.getInstance().init(this);
-		startupTimer.addSplit("ItineraryManager Init");
+		// Load data from Disk
+		ItineraryManager.getInstance().startSync(false, true, false);
+		startupTimer.addSplit("ItineraryManager Init/Load");
 
 		// If we are upgrading from a pre-AccountManager version, update account manager to include our logged in user.
 		if (!SettingUtils.get(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, false)) {
@@ -241,7 +261,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			@Override
 			public void run() {
 				boolean walletPromoEnabled = SettingUtils.get(getApplicationContext(),
-					WalletUtils.SETTING_SHOW_WALLET_COUPON, false);
+						WalletUtils.SETTING_SHOW_WALLET_COUPON, false);
 
 				ExpediaServices services = new ExpediaServices(getApplicationContext());
 				WalletPromoResponse response = services.googleWalletPromotionEnabled();
@@ -250,13 +270,13 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 				if (walletPromoEnabled != isNowEnabled) {
 					Log.i("Google Wallet promo went from \"" + walletPromoEnabled + "\" to \"" + isNowEnabled + "\"");
 					SettingUtils.save(getApplicationContext(), WalletUtils.SETTING_SHOW_WALLET_COUPON,
-						isNowEnabled);
+							isNowEnabled);
 				}
 				else {
 					Log.d("Google Wallet promo enabled: " + walletPromoEnabled);
 				}
 			}
-		})).start();
+		}, "WalletCheck")).start();
 
 		startupTimer.addSplit("Google Wallet promo thread creation");
 
@@ -279,30 +299,12 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void uncaughtException(Thread thread, Throwable ex) {
-		OmnitureTracking.trackCrash(this, ex);
+		setCrashlyticsMetadata();
 
-		// Perform a heap dump on OOME for easy reference.
-		if (ex != null) {
-			Throwable rootCause = ex;
-			while (rootCause.getCause() != null) {
-				rootCause = rootCause.getCause();
-			}
-
-			setCrashlyticsMetadata();
-
-			Log.d("ExpediaBookingApp exception handler w/ class:" + ex.getClass() + "; root cause="
-				+ rootCause.getClass());
-			if (OutOfMemoryError.class.equals(rootCause.getClass())) {
-				new PicassoHelper.Builder(this).build().getDebugInfo();
-
-				if (MemoryUtils.dumpMemoryStateToDisk(getApplicationContext())) {
-					SettingUtils.save(this, getString(R.string.preference_debug_notify_oom_crash), true);
-				}
-			}
-		}
-
-		// Call the original exception handler
+		// Call the original exception handler - probably crashlytics
 		mOriginalUncaughtExceptionHandler.uncaughtException(thread, ex);
+
+		OmnitureTracking.trackCrash(this, ex);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -319,6 +321,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	private AppComponent mAppComponent;
 	private CarComponent mCarComponent;
+	private HotelComponent mHotelComponent;
 	private LaunchComponent mLaunchComponent;
 
 	private LXComponent mLXComponent;
@@ -340,6 +343,20 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public CarComponent carComponent() {
 		return mCarComponent;
+	}
+
+	public void defaultHotelComponents() {
+		setHotelComponent(DaggerHotelComponent.builder()
+			.appComponent(mAppComponent)
+			.build());
+	}
+
+	public void setHotelComponent(HotelComponent hotelComponent) {
+		mHotelComponent = hotelComponent;
+	}
+
+	public HotelComponent hotelComponent() {
+		return mHotelComponent;
 	}
 
 	public void defaultLXComponents() {
@@ -375,42 +392,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		return mLaunchComponent;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// LISTENERS FOR WHEN SEARCH PARAMS CHANGE IN THE WIDGET
-	//////////////////////////////////////////////////////////////////////////////////////////
-	/*
-	 *  The app maintains a list of listeners to notify when search params
-	 *  change in the widget. This is so that we can easily propogate through the
-	 *  the app the need to use searchParams from the widget instead of the ones
-	 *  being driven by user parameters set within the app
-	 */
-	public interface OnSearchParamsChangedInWidgetListener {
-		public void onSearchParamsChanged(HotelSearchParams searchParams);
-	}
-
-	private ArrayList<OnSearchParamsChangedInWidgetListener> mListeners;
-
-	public void registerSearchParamsChangedInWidgetListener(OnSearchParamsChangedInWidgetListener listener) {
-		if (mListeners == null) {
-			mListeners = new ArrayList<OnSearchParamsChangedInWidgetListener>();
-		}
-		mListeners.add(listener);
-	}
-
-	public void unregisterSearchParamsChangedInWidgetListener(OnSearchParamsChangedInWidgetListener listener) {
-		if (mListeners == null) {
-			return;
-		}
-		mListeners.remove(listener);
-	}
-
-	public void broadcastSearchParamsChangedInWidget(HotelSearchParams searchParams) {
-		if (mListeners != null) {
-			for (OnSearchParamsChangedInWidgetListener listener : mListeners) {
-				listener.onSearchParamsChanged(searchParams);
-			}
-		}
-	}
+	// Configuration changes
 
 	@Override
 	public void onConfigurationChanged(final Configuration newConfig) {
@@ -499,6 +481,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		// ignore
 	}
 
+	public boolean isRobolectric() {
+		return false;
+	}
+
 	private Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
 		@Override
 		public void onCompleted() {
@@ -521,7 +507,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	};
 
 	private void updateAbacus(AbacusResponse abacusResponse) {
-		if (ExpediaBookingApp.sIsAutomation) {
+		if (ExpediaBookingApp.isAutomation()) {
 			return;
 		}
 

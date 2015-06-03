@@ -40,6 +40,8 @@ public class LXPresenter extends Presenter {
 	@InjectView(R.id.confirmation)
 	LXConfirmationWidget confirmationWidget;
 
+	private float searchStartingAlpha;
+
 	private static class LXParamsOverlay {
 		// ignore
 	}
@@ -50,7 +52,6 @@ public class LXPresenter extends Presenter {
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
-		Events.register(this);
 		addTransition(searchParamsToResults);
 		addTransition(resultsToDetails);
 		addTransition(searchOverlayOnResults);
@@ -75,7 +76,7 @@ public class LXPresenter extends Presenter {
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			resultsPresenter.animationUpdate(f, !forward);
-			searchParamsWidget.animationUpdate(f, !forward);
+			searchParamsWidget.animationUpdate(f, !forward, 1f);
 		}
 
 		@Override
@@ -91,8 +92,7 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class,
-		LXCheckoutPresenter.class);
+	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class, LXCheckoutPresenter.class);
 
 	private Presenter.Transition resultsToDetails = new Presenter.Transition(LXResultsPresenter.class.getName(),
 		LXDetailsPresenter.class.getName(),
@@ -149,7 +149,7 @@ public class LXPresenter extends Presenter {
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			resultsPresenter.animationUpdate(f, forward);
-			searchParamsWidget.animationUpdate(f, forward);
+			searchParamsWidget.animationUpdate(f, forward, 1f);
 		}
 	
 		@Override
@@ -172,14 +172,19 @@ public class LXPresenter extends Presenter {
 		public void startTransition(boolean forward) {
 			detailsPresenter.setVisibility(VISIBLE);
 			searchParamsWidget.setVisibility(VISIBLE);
-			detailsPresenter.animationStart(forward);
+			if (forward) {
+				searchStartingAlpha = detailsPresenter.animationStart(forward);
+			}
+			else {
+				detailsPresenter.animationStart(forward);
+			}
 			searchParamsWidget.animationStart(forward);
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			detailsPresenter.animationUpdate(f, forward);
-			searchParamsWidget.animationUpdate(f, forward);
+			searchParamsWidget.animationUpdate(f, forward, searchStartingAlpha);
 		}
 
 		@Override
@@ -195,15 +200,18 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class,
-		LXSearchParamsPresenter.class);
+	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class, LXSearchParamsPresenter.class);
 
-	private Transition checkoutToConfirmation = new VisibilityTransition(this, LXCheckoutPresenter.class.getName(),
-		LXConfirmationWidget.class.getName());
+	private Transition checkoutToConfirmation = new VisibilityTransition(this, LXCheckoutPresenter.class, LXConfirmationWidget.class);
 
 	@Subscribe
 	public void onNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
 		show(resultsPresenter, FLAG_CLEAR_TOP);
+	}
+
+	@Subscribe
+	public void onNewSearch(Events.LXNewSearch event) {
+		show(searchParamsWidget, FLAG_CLEAR_BACKSTACK);
 	}
 
 	@Subscribe

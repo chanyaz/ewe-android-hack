@@ -51,8 +51,7 @@ public class TravelerButton extends LinearLayout {
 	private ITravelerButtonListener mTravelerButtonListener;
 
 	public interface ITravelerButtonListener {
-		public void onTravelerChosen(Traveler traveler);
-		public void onAddNewTravelerSelected();
+		void onTravelerChosen(Traveler traveler);
 	}
 
 	@InjectView(R.id.select_traveler_button)

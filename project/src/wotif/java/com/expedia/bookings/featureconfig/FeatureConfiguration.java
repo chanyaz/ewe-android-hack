@@ -110,7 +110,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return adXPosIdentifier;
 	}
 
-	public String getOmnitureReportSuiteIds(Context context) {
+	public String getOmnitureReportSuiteIds() {
 		if (BuildConfig.RELEASE) {
 			return "expediaglobalapp";
 		}
@@ -162,6 +162,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isLeanPlumEnabled() {
+		return false;
+	}
+
+	public boolean isKahunaEnabled() {
 		return false;
 	}
 

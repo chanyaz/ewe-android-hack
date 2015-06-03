@@ -10,7 +10,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.PropertyValuesHolder;
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -310,23 +309,21 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 
 		AnimatorSet animSet = AnimUtils.playTogether(set);
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			animSet.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationStart(Animator animation) {
-					for (View view : hwLayerViews) {
-						view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-					}
+		animSet.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator animation) {
+				for (View view : hwLayerViews) {
+					view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				}
+			}
 
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					for (View view : hwLayerViews) {
-						view.setLayerType(View.LAYER_TYPE_NONE, null);
-					}
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				for (View view : hwLayerViews) {
+					view.setLayerType(View.LAYER_TYPE_NONE, null);
 				}
-			});
-		}
+			}
+		});
 
 		return animSet;
 	}

@@ -34,6 +34,7 @@ import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment;
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -382,6 +383,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 	private void doOmnitureTracking() {
 		OmnitureTracking.trackPageLoadHotelsInfosite(mContext, getIntent().getIntExtra(EXTRA_POSITION, -1));
+		AdTracker.trackHotelInfoSite();
 	}
 
 	private void setupBookByPhoneButton(HotelOffersResponse response) {

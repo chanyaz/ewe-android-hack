@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UnusedResources">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/num_guests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="28dp"
+            android:textColor="@color/cars_actionbar_text_color"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/adults_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/lx_minus_icon"
+                android:tint="@color/cars_actionbar_text_color" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/adult"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:textColor="@color/cars_actionbar_text_color" />
+
+            <ImageButton
+                android:id="@+id/adults_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/lx_plus_icon"
+                android:tint="@color/cars_actionbar_text_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/children_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/lx_minus_icon"
+                android:tint="@color/cars_actionbar_text_color" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/children"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:textColor="@color/cars_actionbar_text_color" />
+
+            <ImageButton
+                android:id="@+id/children_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/lx_plus_icon"
+                android:tint="@color/cars_actionbar_text_color" />
+        </LinearLayout>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/child_age_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/child_age_label"
+            android:textColor="@color/cars_actionbar_text_color"
+            android:textStyle="bold" />
+
+        <TableLayout
+            android:id="@+id/children_ages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableRow
+                android:id="@+id/children_row1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TableRow
+                android:id="@+id/children_row2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </TableLayout>
+
+</merge>

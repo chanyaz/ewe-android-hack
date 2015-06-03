@@ -36,7 +36,7 @@
             "segments": [
                 {
                     "airlineCode": "VX",
-                    "airlineName": "Virgin America",
+                    "airlineName": "Child Traveler Airways",
                     "arrivalAirportCode": "${arrivalAirport}",
                     "arrivalAirportLocation": "${arrivalAirport}",
                     "arrivalTime": "June 28, 2014 10:55:00 AM",
@@ -390,6 +390,24 @@
                         "formattedWholePrice": "$520"
                     },
                     "passengerCategory": "ADULT",
+                    "taxesPrice": {
+                        "amount": "68.54",
+                        "formattedPrice": "$68.54",
+                        "formattedWholePrice": "$69"
+                    },
+                    "totalPrice": {
+                        "amount": "589.00",
+                        "formattedPrice": "$589.00",
+                        "formattedWholePrice": "$589"
+                    }
+                },
+                {
+                    "basePrice": {
+                        "amount": "520.46",
+                        "formattedPrice": "$520.46",
+                        "formattedWholePrice": "$520"
+                    },
+                    "passengerCategory": "CHILD",
                     "taxesPrice": {
                         "amount": "68.54",
                         "formattedPrice": "$68.54",

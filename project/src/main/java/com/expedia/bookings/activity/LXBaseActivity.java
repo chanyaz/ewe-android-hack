@@ -5,6 +5,7 @@ import org.joda.time.LocalDate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
@@ -41,16 +42,11 @@ public class LXBaseActivity extends ActionBarActivity {
 		setContentView(R.layout.lx_base_layout);
 		ButterKnife.inject(this);
 		Ui.showTransparentStatusBar(this);
-
-		if (!handleNavigationViaDeepLink()) {
-			triggerCurrentLocationSuggestions();
-		}
+		handleNavigationViaDeepLink();
 	}
 
 	private void triggerCurrentLocationSuggestions() {
-		if (!ExpediaBookingApp.sIsAutomation) {
-			Events.post(new Events.LXShowLoadingAnimation());
-		}
+		Events.post(new Events.LXShowLoadingAnimation());
 		LXSearchParams currentLocationSearchParams = new LXSearchParams()
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range)))
@@ -61,19 +57,31 @@ public class LXBaseActivity extends ActionBarActivity {
 		currentLocationSuggestionSubscription = currentLocationSuggestionObservable.subscribe(currentLocationSuggestionObserver);
 	}
 
-	private boolean handleNavigationViaDeepLink() {
+	private void handleNavigationViaDeepLink() {
 		Intent intent = getIntent();
-		boolean hasDeepLinkIntent = intent != null && intent.getBooleanExtra(Codes.FROM_DEEPLINK, false);
-		if (!hasDeepLinkIntent) {
-			return false;
-		}
+		final boolean navigateToResults = (intent != null) && intent.getBooleanExtra(Codes.EXTRA_OPEN_RESULTS, false);
+		final boolean navigateToSearch = (intent != null) && intent.getBooleanExtra(Codes.EXTRA_OPEN_SEARCH, false);
 
-		LocalDate startDate = DateUtils.yyyyMMddToLocalDateSafe(intent.getStringExtra("startDateStr"), LocalDate.now());
-		Events.post(new Events.LXNewSearchParamsAvailable(intent.getStringExtra("location"),
-			startDate,
-			startDate.plusDays(getResources().getInteger(R.integer.lx_default_search_range))));
+		final String location = intent.getStringExtra("location");
+		final LocalDate startDate = DateUtils.yyyyMMddToLocalDateSafe(intent.getStringExtra("startDateStr"), LocalDate.now());
+		final LocalDate endDate = startDate.plusDays(getResources().getInteger(R.integer.lx_default_search_range));
 
-		return true;
+		lxPresenter.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				lxPresenter.getViewTreeObserver().removeOnPreDrawListener(this);
+				if (navigateToSearch) {
+					Events.post(new Events.LXNewSearch(location, startDate, endDate));
+					return true;
+				}
+				else if (navigateToResults) {
+					Events.post(new Events.LXNewSearchParamsAvailable(location, startDate, endDate));
+					return true;
+				}
+				triggerCurrentLocationSuggestions();
+				return true;
+			}
+		});
 	}
 
 	@Override

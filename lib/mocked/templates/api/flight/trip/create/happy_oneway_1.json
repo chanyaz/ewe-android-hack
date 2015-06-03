@@ -67,6 +67,24 @@
                         "formattedPrice": "$589.00",
                         "formattedWholePrice": "$589"
                     }
+                },
+                {
+                    "basePrice": {
+                        "amount": "520.46",
+                        "formattedPrice": "$520.46",
+                        "formattedWholePrice": "$520"
+                    },
+                    "passengerCategory": "CHILD",
+                    "taxesPrice": {
+                        "amount": "68.54",
+                        "formattedPrice": "$68.54",
+                        "formattedWholePrice": "$69"
+                    },
+                    "totalPrice": {
+                        "amount": "589.00",
+                        "formattedPrice": "$589.00",
+                        "formattedWholePrice": "$589"
+                    }
                 }
             ],
             "productKey": "happy_oneway_1",
@@ -108,7 +126,8 @@
         "tripId": "happy_oneway_1"
     },
     "passengerCategories": [
-        "ADULT"
+        "ADULT",
+        "CHILD"
     ],
     "rewardsPoints": "",
     "rules": {

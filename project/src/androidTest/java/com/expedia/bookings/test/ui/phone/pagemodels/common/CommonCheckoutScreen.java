@@ -10,10 +10,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-/**
- * Created by dmadan on 4/7/14.
- */
-public class CommonCheckoutScreen extends ScreenActions {
+public class CommonCheckoutScreen {
 	private static final int CHECKOUT_BUTTON_ID = R.id.menu_checkout;
 	private static final int LOG_IN_BUTTON_ID = R.id.login_text_view;
 	private static final int LOG_OUT_BUTTON_ID = R.id.account_logout_logout_button;

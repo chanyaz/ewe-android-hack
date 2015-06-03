@@ -16,17 +16,6 @@
             android:summary="The address of your server/proxy (e.g., 192.168.0.5:3000 for proxy)"
             android:title="Server/Proxy Address" />
 
-        <Preference
-            android:key="@string/preference_stubconfig_page"
-            android:summary="Only works while connected to VPN (or using E3MockProxy)"
-            android:title="Stub Configuration Page" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/preference_cookie_logging"
-            android:summary="Log sent/received cookies in logcat.  Very verbose, so usually you want it off."
-            android:title="Enable Cookie Logging" />
-
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_force_custom_server_http_only"
@@ -233,6 +222,38 @@
             android:key="@string/preference_flight_confirmation_car_cross_sell"
             android:summary="Select a test group"
             android:title="Flight Confirmation Car Cross sell" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_hotel_search_sale_pin"
+            android:summary="Select a test group"
+            android:title="Hotel Search Sale Pin Green" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_flight_confirmation_lx_cross_sell"
+            android:summary="Select a test group"
+            android:title="Flight Confirmation Lx Cross sell" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_hotel_etp_search_results"
+            android:summary="Select a test group"
+            android:title="Hotels ETP book now/pay later search results" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_hotel_itin_lx_cross_sell"
+            android:summary="Select a test group"
+            android:title="Hotel Itin Lx Cross sell" />
 
     </PreferenceCategory>
 

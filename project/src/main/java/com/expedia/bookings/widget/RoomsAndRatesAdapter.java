@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.Build;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -267,15 +266,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			padding = mBedSalePadding;
 		}
 		else {
-			if (Build.VERSION.SDK_INT > 7) {
-				padding = 0;
-			}
-			else {
-				// We have to do some special acrobatics here because the beds view won't properly align
-				// to othe bottom on API 7 or less.
-				padding = (holder.priceExplanation.getVisibility() == View.VISIBLE) ? mBedSalePadding : (int) Math
-					.round(mResources.getDisplayMetrics().density * 10);
-			}
+			padding = 0;
 		}
 
 		mBuilder.setLength(0);

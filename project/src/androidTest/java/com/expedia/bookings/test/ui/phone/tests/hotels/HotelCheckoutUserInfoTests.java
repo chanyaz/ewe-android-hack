@@ -13,6 +13,7 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsCheckoutScreen
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
+import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
@@ -27,9 +28,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.Matchers.not;
 
-/**
- * Created by dmadan on 5/12/14.
- */
 public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 
 	private static final String TAG = HotelCheckoutUserInfoTests.class.getSimpleName();
@@ -58,6 +56,7 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 		verifyMissingTravelerInformationAlerts();
 		verifyMissingCardInfoAlerts();
 		verifyLoginButtonNotAppearing();
+		verifyCreditCardCleared();
 	}
 
 	private void verifyRulesAndRestrictionsButton() {
@@ -177,6 +176,22 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 			//
 		}
 		HotelsCheckoutScreen.logInButton().check(matches(isDisplayed()));
-		ScreenActions.enterLog(TAG, "Log out button was visible and able to be clicked. Email address no longer visible on checkout screen");
+		ScreenActions.enterLog(TAG, "Log out button was visible and clickable. Email address no longer visible on checkout screen");
+		Common.pressBack();
+		Common.pressBack();
 	}
+
+	private void verifyCreditCardCleared() {
+		HotelsRoomsRatesScreen.selectRoomItem(0);
+		HotelsCheckoutScreen.clickCheckoutButton();
+
+		HotelsCheckoutScreen.clickSelectPaymentButton();
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "");
+		CardInfoScreen.clickOnDoneButton();
+		CardInfoScreen.creditCardNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+
+		Common.pressBack();
+		Common.pressBack();
+	}
+
 }

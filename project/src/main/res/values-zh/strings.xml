@@ -41,6 +41,8 @@
     <string name="cars_invalid_input_text">信息无效</string>
     <!-- Text for generic error toolbar-->
     <string name="cars_error_text">错误</string>
+    <!-- Text for toolbar on no search results -->
+    <string name="cars_no_results_text">无结果</string>
     <!-- Text for reserving car-->
     <string name="cars_reserve_text">预订</string>
     <!-- Text for viewing details-->
@@ -84,12 +86,16 @@
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_car_desc_support_TEMPLATE">Expedia 客服电话：%1$s 和 %2$s</string>
 
+    <!-- Label for hotel search toolbar -->
+    <string name="hotel_toolbar_title">搜索酒店</string>
+    <!-- Label for hotel suggestion -->
+    <string name="search_location">搜索地点</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">取车地点</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="same_as_pick_up">与取车地点相同</string>
+    <string name="drop_off_location">还车</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">日期和地点</string>
+    <string name="toolbar_search_cars">搜索租车</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">请选择取车和还车日期</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
@@ -102,6 +108,32 @@
     <string name="drop_off_same_as_pick_up">即将推出！我们正在努力，争取尽快添加单程预订功能。</string>
     <!-- Car search error -->
     <string name="error_car_search_message">您所做的搜索未返回任何结果。请选择其他标准，再搜索一次。</string>
+    <!-- Car no filtered search results -->
+    <string name="filter_no_car_search_results_message">您所做的搜索未返回任何结果。请尝试减少筛选条件。</string>
+    <!-- Transmission options filter label for a car rental -->
+    <string name="options">选项</string>
+    <!-- Automatic transmission filter button-->
+    <string name="car_filter_automatic">自动档</string>
+    <!-- Manual transmission filter button-->
+    <string name="car_filter_manual">手动档</string>
+    <!-- Any transmission type filter button -->
+    <string name="car_filter_all">全部</string>
+    <!-- Air conditioning option checkbox filter -->
+    <string name="car_filter_checkbox_air_conditioning">空调</string>
+    <!-- Unlimited mileage option checkbox filter -->
+    <string name="car_filter_checkbox_unlimited_mileage">不限里程</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_types">车型</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_vendors">租车公司</string>
+    <!-- Button label to clear user selected filters -->
+    <string name="clear_filters">清除筛选条件</string>
+    <!-- Label to tell the user how many products match thier filter -->
+    <plurals name="number_results_template">
+        <item quantity="one">{number} 个结果</item>
+        <item quantity="other">{number} 个结果</item>
+    </plurals>
+
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s 或相近车型</string>
@@ -166,6 +198,8 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">嗯…您的付款没有成功。请仔细检查付款信息，然后再试一次。</string>
+    <!-- Shown to a user when their ability to rent a specific car expires -->
+    <string name="error_cars_product_expired">您的搜索已经过期了。请选择有效的取车时间。</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">查看价格变化</string>
     <!-- My Trips button that takes you to Itins -->
@@ -209,7 +243,7 @@
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!-- Search widget header text -->
-    <string name="lx_search_widget_heading">日期和地点</string>
+    <string name="lx_search_title">搜索活动</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">选择日期</string>
     <!-- Activity details highlights heading -->
@@ -536,7 +570,7 @@
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">请输入详细联系信息</string>
     <!-- LX search error -->
-    <string name="error_lx_search_message">您所做的搜索未返回任何结果。请选择其他条件，再搜索一次。</string> 
+    <string name="error_lx_search_message">您所做的搜索未返回任何结果。请选择其他条件，再搜索一次。</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">我们无法确定您目前的位置以查找在您附近的活动。</string> 
     <!-- Text for generic error toolbar-->
@@ -581,6 +615,11 @@
     <string name="lx_error_current_location_toolbar_text">请再试一次。</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">我们找不到任何在您附近的活动。请选择其他条件，再搜索一次。</string>
+
+    <!-- Ground Transport bags text-->
+    <string name="lx_ground_transport_bags_text">%1$s 个旅行袋</string>
+    <!-- Ground Transport passengers text-->
+    <string name="lx_ground_transport_passengers_text">%1$s 位乘客</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1191,6 +1230,11 @@
     <string name="add_hotel_fallback">添加您的目的地的酒店</string>
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">添加酒店</string>
+
+    <!-- Button label to search for an activity in the hotel city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_lx_TEMPLATE">查找在%1$s的活动</string>
+    <!-- Button label to search for an activity in the hotel city. Used only when we don't know the destination city. -->
+    <string name="add_lx_fallback">查找在您目的地的活动</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -1825,7 +1869,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">税款与服务费</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Expedia 预订费</string>
+    <string name="brand_booking_fee">{brand} 预订费</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">航空公司卡费用</string>
     <!-- Flight -->
@@ -1885,7 +1929,7 @@
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">生日：%1$s</string>
     <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; 于 %2$s 到期</string>
+    <string name="brand_expiring_TEMPLATE">%1$s 于 %2$s 到期</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -1906,6 +1950,9 @@
     <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
     <!-- Single Line City State Zip -->
     <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
+
+    <!-- Airport to LX template (e.g. "Boise, ID or Paris, France" -->
+    <string name="lx_destination_TEMPLATE">%1$s, %2$s</string>
 
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
@@ -2014,7 +2061,7 @@
     <!-- Passport -->
     <string name="passport">护照</string>
     <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;当前旅客 -&lt;/font&gt; %1$s %2$s</string>
+    <string name="current_traveler_TEMPLATE">当前旅客 - %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2061,6 +2108,8 @@
     <string name="hotels_in_TEMPLATE">%s的酒店</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">在%s租车</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
+    <string name="lx_in_TEMPLATE">%s的活动</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">其他选择</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2085,15 +2134,12 @@
     <string name="air_attach_amount_discounted_TEMPLATE">如果现在订酒店，可以节省 %s！</string>
     <!-- Air attach offer expiration alert -->
     <string name="air_attach_expires">优惠期限：</string>
-    <!-- Air attach offer expiration date -->
-    <string name="air_attach_expiration_date_TEMPLATE">%d 天</string>
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">优惠今天到期</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">添加酒店</string>
     <!-- Air attach add hotel button subtitle -->
     <string name="air_attach_with_discounts">惊喜折扣</string>
-
 
 
     <!-- Hotel confirmation page -->
@@ -2145,6 +2191,8 @@
     <string name="accept">接受</string>
     <!-- Button label for retrying after getting an error -->
     <string name="retry">重试</string>
+    <!-- Button label for adjusting filters after getting no results -->
+    <string name="edit_filters">编辑筛选条件</string>
     <!-- Button label for calling -->
     <string name="call_support">客户支持服务</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
@@ -2321,6 +2369,8 @@
     <string name="tonight_only">只限今晚！</string>
     <!-- Expedia sponsored listing -->
     <string name="sponsored">赞助商</string>
+    <!-- Expedia ETP book now/pay later search results -->
+    <string name="book_now_pay_later">立即预订，稍后付款</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">很抱歉，我们无法搜索超过 %1$s 天的酒店预订。</string>
     <!-- Search Error title text "Search Error" -->
@@ -2636,8 +2686,6 @@
     <string name="more_info">更多信息</string>
 
     <!-- Booking info -->
-    <!-- Label for room type -->
-    <string name="room_type">客房类型</string>
     <!-- Error if we couldn't find the room type details -->
     <string name="error_room_type_nonexistant">很抱歉，我们无法找到此客房的其他详细说明。</string>
     <!-- Quantity for the length of stay -->
@@ -2682,8 +2730,6 @@
     <string name="taxes_and_fees">税款与服务费</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">已包含</string>
-    <!-- Label for the "Mandatory Fees" -->
-    <string name="MandatoryFees">需付给酒店的费用</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">折扣</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -3541,5 +3587,8 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">完成此次预订即表示，您已经阅读并接受%1$s、%2$s和%3$s。</string>
+
+    <!-- Used in hotel search for specifying traveler -->
+    <string name="child_age_label">选择每个儿童的年龄</string>
 
 </resources>

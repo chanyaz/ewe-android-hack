@@ -38,7 +38,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public String getAppNameForMobiataPushNameHeader() {
-		return "VSCBookings";
+		return null;
 	}
 
 	public String getAppSupportUrl(Context context) {
@@ -86,7 +86,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean shouldShowBrandLogoOnAccountButton() {
-		return false;
+		return true;
 	}
 
 	public int getLoginContainerBackgroundResId(Context context) {
@@ -109,7 +109,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		throw new UnsupportedOperationException("AdX not enabled for VSC.");
 	}
 
-	public String getOmnitureReportSuiteIds(Context context) {
+	public String getOmnitureReportSuiteIds() {
 		if (BuildConfig.RELEASE) {
 			return "expediaglobalapp" + ",expedia7androidapp";
 		}
@@ -288,11 +288,15 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isETPEnabled() {
-		return false;
+		return true;
 	}
 
 	public String getClientShortName() {
 		return "vsc";
+	}
+
+	public boolean isLOBChooserScreenEnabled() {
+		return false;
 	}
 
 	public String getAdXKey() {
@@ -313,6 +317,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isAppCrossSellInFlightShareContentEnabled() {
+		return true;
+	}
+
+	public boolean isItinDisabled() {
 		return true;
 	}
 }

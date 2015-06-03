@@ -31,6 +31,7 @@ public class Codes {
 
 	// Indicates we should open search automatically when launching a screen
 	public static final String EXTRA_OPEN_SEARCH = "EXTRA_OPEN_SEARCH";
+	public static final String EXTRA_OPEN_RESULTS = "EXTRA_OPEN_RESULTS";
 
 	// For EF
 	public final static String TRAVELER_INDEX = "TRAVELER_INDEX";

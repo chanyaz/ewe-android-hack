@@ -6,11 +6,20 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.LocalDate;
+
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
+import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.data.trips.TripHotel;
+import com.mobiata.flightlib.data.Airport;
 
 public class LXDataUtils {
 
@@ -220,5 +229,39 @@ public class LXDataUtils {
 		}
 
 		return Strings.joinWithoutEmpties(", ", ticketSummaries);
+	}
+
+	public static LXSearchParams fromFlightParams(Context context, FlightTrip trip) {
+		FlightLeg firstLeg = trip.getLeg(0);
+		LocalDate checkInDate = new LocalDate(firstLeg.getLastWaypoint().getBestSearchDateTime());
+
+		LXSearchParams searchParams = new LXSearchParams()
+			.location(formatAirport(context, firstLeg.getAirport(false)))
+			.startDate(checkInDate)
+			.endDate(checkInDate.plusDays(14))
+				.searchType(SearchType.EXPLICIT_SEARCH);
+
+		return searchParams;
+	}
+
+	private static String formatAirport(Context c, Airport airport) {
+		return c.getResources().getString(R.string.lx_destination_TEMPLATE, airport.mCity, Strings.isEmpty(airport.mStateCode) ? airport.mCountryCode : airport.mStateCode);
+	}
+
+	public static LXSearchParams fromHotelParams(Context context, TripHotel tripHotel) {
+		LocalDate checkInDate = new LocalDate(tripHotel.getStartDate());
+		Location location = tripHotel.getProperty().getLocation();
+
+		LXSearchParams searchParams = new LXSearchParams()
+			.location(formatLocation(context, location))
+			.startDate(checkInDate)
+			.endDate(checkInDate.plusDays(14))
+			.searchType(SearchType.EXPLICIT_SEARCH);
+
+		return searchParams;
+	}
+
+	private static String formatLocation(Context c, Location location) {
+		return c.getResources().getString(R.string.lx_destination_TEMPLATE, location.getCity(), Strings.isEmpty(location.getStateCode()) ? location.getCountryCode() : location.getStateCode());
 	}
 }

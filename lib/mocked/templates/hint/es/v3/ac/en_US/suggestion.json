@@ -22,7 +22,7 @@
             },
             "pb": "false",
             "rt": "MULTICITY",
-            "s": "San Francisco (and vicinity)",
+            "s": "results",
             "t": "CITY"
         },
         {
@@ -44,7 +44,7 @@
             },
             "pb": "false",
             "rt": "MULTICITY",
-            "s": "Detroit (and vicinity)",
+            "s": "invalid input",
             "t": "CITY"
         },
         {
@@ -66,7 +66,7 @@
             },
             "pb": "false",
             "rt": "AIRPORT",
-            "s": "Kathmandu (KTM-Tribhuvan Intl.)",
+            "s": "no results",
             "t": "AIRPORT"
         }
     ]
