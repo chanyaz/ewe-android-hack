@@ -155,7 +155,7 @@ android {
         testApplicationId "com.expedia.bookings.test"
         testInstrumentationRunner "com.expedia.bookings.test.ui.utils.SpoonInstrumentationTestRunner"
 
-        buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+        buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
         buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
 
@@ -165,7 +165,7 @@ android {
 
     productFlavors {
         expedia {
-            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.expedia.bookings"
 
             def major = 6
@@ -177,7 +177,7 @@ android {
         }
 
         voyages {
-            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.expedia.bookings.vsc"
 
             def major = 2
@@ -201,7 +201,7 @@ android {
         }
 
         airAsiaGo {
-            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.airasiago.android"
             def major = 2
             def minor = 0
@@ -212,7 +212,7 @@ android {
         }
 
         wotif {
-            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.wotif.android"
             def major = 2
             def minor = 1
@@ -223,7 +223,7 @@ android {
         }
 
         lastMinute {
-            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.lastminute.android"
             def major = 1
             def minor = 0
