@@ -279,9 +279,6 @@ public class OmnitureTracking {
 		// Products
 		addProducts(s, property);
 
-		// Abacus ETP Test
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidETPTest);
-
 		// Send the tracking data
 		s.track();
 	}
