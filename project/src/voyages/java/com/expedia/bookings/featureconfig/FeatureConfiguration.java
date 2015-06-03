@@ -19,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutActivity;
 import com.expedia.bookings.activity.VSCLocaleChangeReceiver;
 import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.AboutUtils;
@@ -37,11 +38,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public String getAppNameForMobiataPushNameHeader() {
-		return "VSCBookings";
+		return null;
 	}
 
 	public String getAppSupportUrl(Context context) {
-		return context.getString(R.string.app_support_url_vsc);
+		return PointOfSale.getPointOfSale().getAppSupportUrl();
 	}
 
 	public int getCrossSellStringResourceIdForShareEmail() {
@@ -85,7 +86,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean shouldShowBrandLogoOnAccountButton() {
-		return false;
+		return true;
 	}
 
 	public int getLoginContainerBackgroundResId(Context context) {
@@ -108,7 +109,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		throw new UnsupportedOperationException("AdX not enabled for VSC.");
 	}
 
-	public String getOmnitureReportSuiteIds(Context context) {
+	public String getOmnitureReportSuiteIds() {
 		if (BuildConfig.RELEASE) {
 			return "expediaglobalapp" + ",expedia7androidapp";
 		}
@@ -287,10 +288,23 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isETPEnabled() {
-		return false;
+		return true;
 	}
 
 	public String getClientShortName() {
 		return "vsc";
+	}
+
+	public boolean isLOBChooserScreenEnabled() {
+		return false;
+	}
+
+	public String getAdXKey() {
+		//Key not available for VSC for now, so passing blank.
+		return "";
+	}
+
+	public boolean isItinDisabled() {
+		return true;
 	}
 }

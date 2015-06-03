@@ -29,10 +29,10 @@ import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -261,7 +261,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 			total = rateWeCareAbout.getTotalPriceWithMandatoryFees();
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(PointOfSale.getPointOfSale().getCostSummaryMandatoryFeeTitle(context))
+					.setText(context.getString(R.string.fees_paid_at_hotel))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())
@@ -408,7 +408,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		if (trip.getFees() != null) {
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(Ui.obtainThemeResID(context, R.attr.skin_costSummaryBookingFeesString)))
+					.setText(StrUtils.getBrandedString(context, R.string.brand_booking_fee))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())

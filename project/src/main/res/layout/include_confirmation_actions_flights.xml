@@ -28,6 +28,17 @@
         android:visibility="gone"
         android:drawableLeft="@drawable/ic_car" />
 
+    <View
+        android:id="@+id/lx_divider"
+        android:visibility="gone"
+        style="@style/Confirmation.Divider.Action.Flight" />
+
+    <TextView
+        android:id="@+id/lx_action_text_view"
+        style="@style/Confirmation.Action"
+        android:visibility="gone"
+        android:drawableLeft="@drawable/ic_activity" />
+
     <include layout="@layout/include_air_attach_button"
         android:id="@+id/air_attach_confirmation_banner"
         android:layout_width="match_parent"

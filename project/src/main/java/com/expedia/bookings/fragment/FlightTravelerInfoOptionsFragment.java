@@ -386,6 +386,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	private void refreshCurrentTraveler() {
 		FlightTravelerFlowState state = FlightTravelerFlowState.getInstance(getActivity());
 		boolean international = Db.getTripBucket().getFlight().getFlightTrip().isInternational();
+		boolean isPassportNeeded = Db.getTripBucket().getFlight().getFlightTrip().isPassportNeeded();
 		boolean validDomesticTraveler = (state != null)
 			&& state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler);
 		boolean validInternationalTraveler = validDomesticTraveler && state.hasValidTravelerPartThree(mCurrentTraveler);
@@ -404,7 +405,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			mEditTravelerContainer.setVisibility(View.VISIBLE);
 			mEditTravelerLabel.setVisibility(View.VISIBLE);
 			mSelectTravelerLabel.setText(getString(R.string.select_a_different_traveler));
-			if (international) {
+			if (international || isPassportNeeded) {
 				mInternationalDivider.setVisibility(View.VISIBLE);
 				mTravelerPassportCountry.setVisibility(View.VISIBLE);
 			}

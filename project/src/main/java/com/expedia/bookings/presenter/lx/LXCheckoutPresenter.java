@@ -145,11 +145,11 @@ public class LXCheckoutPresenter extends Presenter {
 			errorScreen.setVisibility(View.GONE);
 		}
 	};
-	private Transition checkoutToCvv = new VisibilityTransition(this, CVVEntryWidget.class.getName(), LXCheckoutWidget.class.getName());
+	private Transition checkoutToCvv = new VisibilityTransition(this, CVVEntryWidget.class, LXCheckoutWidget.class);
 
-	private Transition cvvToError = new VisibilityTransition(this, CVVEntryWidget.class.getName(), LXErrorWidget.class.getName());
+	private Transition cvvToError = new VisibilityTransition(this, CVVEntryWidget.class, LXErrorWidget.class);
 
-	private Transition checkoutToError = new VisibilityTransition(this, LXCheckoutWidget.class.getName(), LXErrorWidget.class.getName()) {
+	private Transition checkoutToError = new VisibilityTransition(this, LXCheckoutWidget.class, LXErrorWidget.class) {
 		@Override
 		public void finalizeTransition(boolean forward) {
 			super.finalizeTransition(forward);

@@ -981,6 +981,18 @@ public class Db {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Memory test
+
+	private boolean mMemoryTestActive;
+	public static void setMemoryTestActive(boolean memoryTestActive) {
+		sDb.mMemoryTestActive = memoryTestActive;
+	}
+
+	public static boolean getMemoryTestActive() {
+		return sDb.mMemoryTestActive;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Test data
 	//
 	// Allows you to "checkpoint" the database using saveDbForTesting(), then

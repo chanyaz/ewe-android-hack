@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.cars;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -7,5 +8,5 @@ import org.joda.time.DateTime;
 public class CarSearchResponse extends BaseApiResponse {
 	public DateTime pickupTime;
 	public DateTime dropOffTime;
-	public List<SearchCarOffer> offers;
+	public List<SearchCarOffer> offers = new ArrayList<>();
 }

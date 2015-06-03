@@ -20,15 +20,11 @@ import static org.hamcrest.Matchers.not;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.espresso.ViewActions;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 
-/**
- * Created by dmadan on 4/10/14.
- */
-public class HotelsSearchScreen extends ScreenActions {
+public class HotelsSearchScreen {
 	// Top action bar
 	private static final int SEARCH_EDIT_TEXT_ID = R.id.search_edit_text;
 	private static final int CLEAR_SEARCH_EDIT_TEXT_ID = R.id.clear_search_button;
@@ -49,30 +45,21 @@ public class HotelsSearchScreen extends ScreenActions {
 	private static final int FILTER_BUTTON_ID = R.id.menu_select_filter;
 
 	// Fragments
-	private static HotelsSortMenu mSortMenu;
-	private static HotelsFilterMenu mFilterMenu;
-	private static HotelsGuestPicker mGuestPicker;
+	private static HotelsSortMenu mSortMenu = new HotelsSortMenu();
+	private static HotelsFilterMenu mFilterMenu = new HotelsFilterMenu();
+	private static HotelsGuestPicker mGuestPicker = new HotelsGuestPicker();
 
 	// Menu access
 
 	public static HotelsSortMenu sortMenu() {
-		if (mSortMenu == null) {
-			mSortMenu = new HotelsSortMenu();
-		}
 		return mSortMenu;
 	}
 
 	public static HotelsFilterMenu filterMenu() {
-		if (mFilterMenu == null) {
-			mFilterMenu = new HotelsFilterMenu();
-		}
 		return mFilterMenu;
 	}
 
 	public static HotelsGuestPicker guestPicker() {
-		if (mGuestPicker == null) {
-			mGuestPicker = new HotelsGuestPicker();
-		}
 		return mGuestPicker;
 	}
 	// Object access

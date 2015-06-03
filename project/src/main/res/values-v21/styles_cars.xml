@@ -4,7 +4,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="V2.Theme.Cars" parent="AppTheme.Base">
+    <style name="V2.Theme.Cars" parent="CarsTheme.Base">
         <item name="android:alertDialogTheme">@style/Theme.AlertDialog</item>
     </style>
 

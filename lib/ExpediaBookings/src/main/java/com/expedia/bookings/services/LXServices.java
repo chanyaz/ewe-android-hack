@@ -115,9 +115,17 @@ public class LXServices {
 	private static final Action1<ActivityDetailsResponse> DETAILS_TITLE_AND_TICKET_MONEY = new Action1<ActivityDetailsResponse>() {
 		@Override
 		public void call(ActivityDetailsResponse response) {
+			String bags = response.bags;
+			String passengers = response.passengers;
+			boolean isGroundTransport = response.isGroundTransport;
+
 			response.title = Strings.escapeQuotes(response.title);
+
 			for (Offer offer : response.offersDetail.offers) {
 				offer.title = Strings.escapeQuotes(offer.title);
+				offer.bags = bags;
+				offer.passengers = passengers;
+				offer.isGroundTransport = isGroundTransport;
 				for (AvailabilityInfo availabilityInfo : offer.availabilityInfo) {
 					for (Ticket ticket : availabilityInfo.tickets) {
 						ticket.money = new Money(ticket.amount, response.currencyCode);

@@ -24,6 +24,10 @@ public class AbacusUtils {
 	public static final int EBAndroidAppAddORToForm = 7372;
 	public static final int EBAndroidAppSRPercentRecommend = 7373;
 	public static final int EBAndroidAppFlightConfCarsXsell = 7370;
+	public static final int EBAndroidAppHotelHSRSalePinTest = 7535;
+	public static final int EBAndroidAppFlightConfLXXsell = 7533;
+	public static final int EBAndroidAppHotelETPSearchResults = 7532;
+	public static final int EBAndroidAppHotelItinLXXsell = 7612;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -59,6 +63,10 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppAddORToForm);
 		testIDs.add(EBAndroidAppSRPercentRecommend);
 		testIDs.add(EBAndroidAppFlightConfCarsXsell);
+		testIDs.add(EBAndroidAppHotelHSRSalePinTest);
+		testIDs.add(EBAndroidAppFlightConfLXXsell);
+		testIDs.add(EBAndroidAppHotelETPSearchResults);
+		testIDs.add(EBAndroidAppHotelItinLXXsell);
 		return testIDs;
 	}
 

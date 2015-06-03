@@ -16,6 +16,8 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 	// A new offer can be returned in some error cases, like price changes
 	private FlightTrip mNewOffer;
 
+	private String mDestinationRegionId;
+
 	public void setOrderId(String orderId) {
 		mOrderId = orderId;
 	}
@@ -40,6 +42,14 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 		return mNewOffer;
 	}
 
+	public void setDestinationRegionId(String destinationRegionId) {
+		mDestinationRegionId = destinationRegionId;
+	}
+
+	public String getDestinationRegionId() {
+		return mDestinationRegionId;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable interface
 
@@ -54,6 +64,7 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 			obj.put("orderId", mOrderId);
 			GsonUtil.putForJsonable(obj, "totalCharges", mTotalCharges);
 			JSONUtils.putJSONable(obj, "newOffer", mNewOffer);
+			obj.put("destinationRegionId", mDestinationRegionId);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -64,11 +75,10 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
-
 		mOrderId = obj.optString("orderId", null);
 		mTotalCharges = GsonUtil.getForJsonable(obj, "totalCharges", Money.class);
 		mNewOffer = JSONUtils.getJSONable(obj, "newOffer", FlightTrip.class);
-
+		mDestinationRegionId = obj.optString("destinationRegionId");
 		return true;
 	}
 }

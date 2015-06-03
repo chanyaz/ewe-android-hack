@@ -136,6 +136,14 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 			vh.tv.setText(trav.getFullName());
 			vh.initials.setBackgroundResource(mTravelerBackgroundDrawable);
 			vh.initials.setText(TravelerIconUtils.getInitialsFromDisplayName(trav.getFullName()));
+			if (!trav.isSelectable()) {
+				vh.tv.setAlpha(0.15f);
+				vh.initials.setAlpha(0.15f);
+			}
+			else {
+				vh.tv.setAlpha(1);
+				vh.initials.setAlpha(1);
+			}
 			break;
 		case ITEM_VIEW_TYPE_ADD_TRAVELER:
 			if (retView == null) {
@@ -241,4 +249,14 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 		}
 	}
 
+	@Override
+	public boolean isEnabled(int position) {
+		Traveler traveler = getItem(position);
+		if (traveler != null) {
+			return traveler.isSelectable();
+		}
+		else {
+			return false;
+		}
+	}
 }

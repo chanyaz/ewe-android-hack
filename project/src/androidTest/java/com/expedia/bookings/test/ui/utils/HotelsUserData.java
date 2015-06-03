@@ -1,9 +1,6 @@
 package com.expedia.bookings.test.ui.utils;
 
-import java.util.Locale;
-
 import android.app.Instrumentation;
-import android.util.Pair;
 
 import com.expedia.bookings.test.R;
 
@@ -26,29 +23,11 @@ public class HotelsUserData {
 
 	//Credit Card Information
 	private String mCreditCardNumber;
-	private String mCardExpMonth;
-	private String mCardExpYear;
 	private String mCCV;
-
-	//Search options
-	private String mFilterText;
 
 	//Log in Information.
 	private String mLoginEmail;
 	private String mLoginPassword;
-
-	//Configuration options
-	private String mBookingServer;
-
-	//Airports and hotel locations
-	private String mDepartureAirport;
-	private String mArrivalAirport;
-	private String mHotelSearchCity;
-
-	//Settings
-	private String mProxyIP;
-	private String mProxyPort;
-	private boolean mLogInForCheckout;
 
 	public HotelsUserData(Instrumentation instrumentation) {
 		setFirstName("JexperCC");
@@ -64,88 +43,13 @@ public class HotelsUserData {
 		setLoginPassword(instrumentation.getContext().getString(R.string.user_password));
 
 		setCreditCardNumber("4111111111111111");
-		setCardExpMonth("12");
-		setCardExpYear("20");
 		setCCV("111");
 
-		setFilterText("Westin");
-
-		setBookingServer("Production");
-
-		setDepartureAirport("SFO");
-		setArrivalAirport("LAX");
-		setHotelSearchCity("New York City");
-		setServerIP("localhost");
-		setServerPort("3000");
-		setLogInForCheckout(true);
-	}
-
-	public void setAirportsToRandomUSAirports() {
-		LocationSelectUtils airportSelect = new LocationSelectUtils();
-		Pair<String, String> airportPair = airportSelect.getTwoRandomAmericanAirports();
-		setDepartureAirport(airportPair.first);
-		setArrivalAirport(airportPair.second);
-	}
-
-	public void setAirportsToRandomINTLAirports() {
-		LocationSelectUtils airportSelect = new LocationSelectUtils();
-		Pair<String, String> airportPair = airportSelect.getTwoRandomInternationalAirports();
-		setDepartureAirport(airportPair.first);
-		setArrivalAirport(airportPair.second);
-	}
-
-	public void setAirportsToRandomINTLAndUSAirports() {
-		LocationSelectUtils airportSelect = new LocationSelectUtils();
-		Pair<String, String> airportPair = airportSelect.getRandomAmericanAndInternationalAirport();
-		setDepartureAirport(airportPair.first);
-		setArrivalAirport(airportPair.second);
-	}
-
-	public void setHotelCityToRandomUSCity() {
-		LocationSelectUtils citySelect = new LocationSelectUtils();
-		String hotelCity = citySelect.getRandomAmericanAndInternationalCity().first;
-		setHotelSearchCity(hotelCity);
-	}
-
-	public void setAirportsToLocaleDefault(Locale l) {
-		Pair<String, String> airports = MarketingSearchParamsUtils.getAirportPairForLocale(l);
-		setDepartureAirport(airports.first);
-		setArrivalAirport(airports.second);
-	}
-
-	public void setHotelDestinationToLocaleDefault(Locale l) {
-		String hotelDestination = MarketingSearchParamsUtils.getHotelDestinationForLocale(l);
-		setHotelSearchCity(hotelDestination);
 	}
 
 	/*
 	 *  Getters and setters for all attributes
 	 */
-
-	// API settings
-	public String getBookingServer() {
-		return mBookingServer;
-	}
-
-	public void setBookingServer(String bookingServer) {
-		mBookingServer = bookingServer;
-	}
-
-	public String getServerIP() {
-		return mProxyIP;
-	}
-
-	public void setServerIP(String proxyIP) {
-		mProxyIP = proxyIP;
-	}
-
-	public String getServerPort() {
-		return mProxyPort;
-	}
-
-	public void setServerPort(String proxyPort) {
-		mProxyPort = proxyPort;
-	}
 
 	// Name
 
@@ -173,22 +77,6 @@ public class HotelsUserData {
 
 	public void setCreditCardNumber(String creditCardNumber) {
 		mCreditCardNumber = creditCardNumber;
-	}
-
-	public String getCardExpMonth() {
-		return mCardExpMonth;
-	}
-
-	public void setCardExpMonth(String cardExpMonth) {
-		mCardExpMonth = cardExpMonth;
-	}
-
-	public String getCardExpYear() {
-		return mCardExpYear;
-	}
-
-	public void setCardExpYear(String cardExpYear) {
-		mCardExpYear = cardExpYear;
 	}
 
 	public String getCCV() {
@@ -257,48 +145,6 @@ public class HotelsUserData {
 
 	public void setLoginPassword(String loginPassword) {
 		mLoginPassword = loginPassword;
-	}
-
-	public boolean getLogInForCheckout() {
-		return mLogInForCheckout;
-	}
-
-	public void setLogInForCheckout(boolean logInForCheckout) {
-		mLogInForCheckout = logInForCheckout;
-	}
-
-	// Search Settings
-
-	public String getFilterText() {
-		return mFilterText;
-	}
-
-	public void setFilterText(String filterText) {
-		mFilterText = filterText;
-	}
-
-	public String getDepartureAirport() {
-		return mDepartureAirport;
-	}
-
-	public void setDepartureAirport(String departureAirport) {
-		mDepartureAirport = departureAirport;
-	}
-
-	public String getArrivalAirport() {
-		return mArrivalAirport;
-	}
-
-	public void setArrivalAirport(String arrivalAirport) {
-		mArrivalAirport = arrivalAirport;
-	}
-
-	public String getHotelSearchCity() {
-		return mHotelSearchCity;
-	}
-
-	public void setHotelSearchCity(String hotelSearchCity) {
-		mHotelSearchCity = hotelSearchCity;
 	}
 
 }

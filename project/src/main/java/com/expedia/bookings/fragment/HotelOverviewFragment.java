@@ -77,6 +77,7 @@ import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelReceipt;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.expedia.bookings.widget.WalletButton;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.MaskedWalletRequest.Builder;
@@ -128,6 +129,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private HotelReceipt mHotelReceipt;
 	private FrameLayout mCheckoutLayout;
+	private TouchableFrameLayout mCheckoutLayoutBlocker;
 
 	private AccountButton mAccountButton;
 	private WalletButton mWalletButton;
@@ -223,7 +225,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			ft.add(mHotelBookingFragment, HotelBookingFragment.TAG);
 			ft.commit();
 		}
-
+		OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
 	}
 
 	@Override
@@ -236,6 +238,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		mHotelReceipt = Ui.findView(view, R.id.receipt);
 		mCheckoutLayout = Ui.findView(view, R.id.checkout_layout);
+		mCheckoutLayoutBlocker = Ui.findView(view, R.id.checkout_layout_touch_blocker);
 
 		mAccountButton = Ui.findView(view, R.id.account_button_layout);
 		mWalletButton = Ui.findView(view, R.id.wallet_button_layout);
@@ -285,7 +288,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 		}
 
+		// Dont show checkout or let use touch it when receipt is showing
 		mCheckoutLayout.setAlpha(0);
+		mCheckoutLayoutBlocker.setBlockNewEventsEnabled(true);
 
 		//We start loading the checkout data on the parent activity, but if it isn't finished we should wait
 		if (CheckoutDataLoader.getInstance().isLoading()) {
@@ -365,8 +370,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (mWalletPromoThrobberDialog != null && mWalletPromoThrobberDialog.isAdded()) {
 			mWalletPromoThrobberDialog.setCancelListener(this);
 		}
-
-		OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
@@ -1242,6 +1245,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				alpha = 100;
 			}
 
+			mCheckoutLayoutBlocker.setBlockNewEventsEnabled(alpha == 0);
 			mCheckoutLayout.setAlpha(alpha);
 
 			// If we've lifted our finger that means the scroll view is scrolling

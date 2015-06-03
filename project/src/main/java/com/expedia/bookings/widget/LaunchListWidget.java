@@ -16,7 +16,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.otto.Events;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -46,7 +45,7 @@ public class LaunchListWidget extends RecyclerView {
 		// decoration spacing gets crazy. This is (hopefully) a temporary solution.
 		float margin;
 		float density = getResources().getDisplayMetrics().density;
-		if (AndroidUtils.getSdkVersion() < Build.VERSION_CODES.LOLLIPOP) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 			margin = 16 / density;
 		}
 		else {
@@ -83,7 +82,6 @@ public class LaunchListWidget extends RecyclerView {
 
 	@Subscribe
 	public void onNearbyHotelsSearchResults(Events.LaunchHotelSearchResponse event) {
-		adapter.cleanup();
 		String headerTitle = getResources().getString(R.string.nearby_deals_title);
 		Db.setLaunchListHotelData(event.topHotels);
 		adapter.setListData(event.topHotels, headerTitle);
@@ -92,7 +90,6 @@ public class LaunchListWidget extends RecyclerView {
 
 	@Subscribe
 	public void onCollectionDownloadComplete(Events.CollectionDownloadComplete event) {
-		adapter.cleanup();
 		String headerTitle = event.collection.title;
 		adapter.setListData(event.collection.locations, headerTitle);
 		adapter.notifyDataSetChanged();
@@ -152,7 +149,7 @@ public class LaunchListWidget extends RecyclerView {
 
 			// Because of way the height computation works with the lack of rounded corners on
 			// <LOLLIPOP, we are shaving off some of the margin temporarily.
-			if (AndroidUtils.getSdkVersion() < Build.VERSION_CODES.LOLLIPOP) {
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 				mBottom -= (int) context.getResources().getDisplayMetrics().density * 4;
 			}
 		}

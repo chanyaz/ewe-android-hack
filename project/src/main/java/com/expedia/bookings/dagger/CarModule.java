@@ -18,14 +18,14 @@ public final class CarModule {
 	@Provides
 	@CarScope
 	CarServices provideCarServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
-		final String endpoint = endpointProvider.getE3EndpointUrl(true /*isSecure*/);
+		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new CarServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
 	@Provides
 	@CarScope
 	SuggestionServices provideCarSuggestionServices(EndpointProvider endpointProvider, OkHttpClient client, RestAdapter.LogLevel logLevel) {
-		final String endpoint = endpointProvider.getEssEndpointUrl(true /*isSecure*/);
+		final String endpoint = endpointProvider.getEssEndpointUrl();
 		return new SuggestionServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 }

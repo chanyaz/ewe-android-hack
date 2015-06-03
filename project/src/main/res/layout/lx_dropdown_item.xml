@@ -13,24 +13,23 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:paddingLeft="1dp" />
+        android:layout_marginRight="11dp"
+        android:paddingLeft="9dp" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/display_name_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/lx_dropdown_imageView"
-        android:paddingLeft="5dp"
         android:textColor="@color/lx_primary_color"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/city_name_textView"
-        android:paddingLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/lx_primary_color"
-        android:textSize="12sp"
         android:layout_alignLeft="@+id/display_name_textView"
-        android:layout_below="@+id/display_name_textView"/>
+        android:layout_below="@+id/display_name_textView"
+        android:textColor="@color/lx_primary_color"
+        android:textSize="12sp"/>
 
 </RelativeLayout>

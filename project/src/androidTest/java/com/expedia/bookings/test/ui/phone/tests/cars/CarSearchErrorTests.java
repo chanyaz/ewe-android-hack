@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.component.cars.CarViewModel;
+import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.CarTestCase;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 
@@ -13,7 +14,6 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 public class CarSearchErrorTests extends CarTestCase {
 
 	public void testSearchErrorProductNotAvailable() throws Throwable {
-		screenshot("Car_Search");
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
 		CarViewModel.pickupLocation().perform(typeText("KTM"));
@@ -24,10 +24,23 @@ public class CarSearchErrorTests extends CarTestCase {
 
 		screenshot("Car Search No Product");
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.error_car_search_message));
+
+		// Make sure the button works
+		CarViewModel.searchErrorWidgetButton().perform(click());
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.toolbar_search_cars));
+
+		// Make sure the back button works
+		CarViewModel.searchButton().perform(click());
+		Common.pressBack();
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.toolbar_search_cars));
+
+		// Make sure the toolbar button works
+		CarViewModel.searchButton().perform(click());
+		CarViewModel.searchErrorToolbarBack().perform(click());
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.toolbar_search_cars));
 	}
 
 	public void testSearchErrorInvalidInput() throws Throwable {
-		screenshot("Car Search");
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		CarViewModel.pickupLocation().perform(typeText("DTW"));
 		CarViewModel.selectPickupLocation(getInstrumentation(), "Detroit, MI");

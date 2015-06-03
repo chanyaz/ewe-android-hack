@@ -3,70 +3,88 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:id="@+id/search_params_container"
+        android:id="@+id/search_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#F9F9F9"
+        android:background="#FFFFFF"
         android:paddingTop="?attr/actionBarSize" >
 
         <LinearLayout
-            android:id="@+id/location_container"
+            android:id="@+id/search_params_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:paddingBottom="@dimen/search_dropdown_padding"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal">
+            android:background="@color/lx_primary_color"
+            android:orientation="vertical">
 
-            <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
-                android:id="@+id/search_location"
-                style="@style/LXAutocomplete"
+            <LinearLayout
+                android:id="@+id/location_container"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:completionThreshold="1"
-                android:dropDownAnchor="@+id/location_container"
-                android:hint="@string/Destination"
-                android:imeOptions="actionDone"
-                android:inputType="textNoSuggestions"
-                android:dropDownSelector="#FFFFFF"/>
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal" >
 
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="50dp"
+                    android:scaleType="center"
+                    android:src="@drawable/location"
+                    android:tint="#FFFFFF" />
+
+                <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
+                    android:id="@+id/search_location"
+                    style="@style/LXAutocomplete"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:completionThreshold="1"
+                    android:dropDownAnchor="@+id/drop_down_anchor"
+                    android:dropDownHeight="fill_parent"
+                    android:dropDownSelector="#FFFFFF"
+                    android:dropDownWidth="fill_parent"
+                    android:hint="@string/location_activity_details"
+                    android:imeOptions="actionDone"
+                    android:inputType="textNoSuggestions" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/drop_down_anchor"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+
+            <ToggleButton
+                android:id="@+id/select_dates"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/location_container"
+                android:layout_margin="0dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableLeft="@drawable/date"
+                android:drawablePadding="23dp"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="20dp"
+                android:textAllCaps="false"
+                android:textColor="@drawable/lx_text_selector"
+                android:textOff="@string/select_lx_search_dates"
+                android:textOn="@string/select_lx_search_dates"
+                android:textSize="15sp"
+                android:textStyle="normal" />
         </LinearLayout>
-
-        <ToggleButton
-            android:id="@+id/select_dates"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="@dimen/search_toggle_button_padding"
-            android:background="@drawable/lx_button_background_selector"
-            android:drawableLeft="@drawable/lx_button_circle"
-            android:drawablePadding="12dp"
-            android:gravity="left|center_vertical"
-            android:paddingLeft="13dp"
-            android:paddingRight="5dp"
-            android:textAllCaps="false"
-            android:textColor="@drawable/lx_text_selector"
-            android:textOff="@string/select_lx_search_dates"
-            android:textOn="@string/select_lx_search_dates"
-            android:textSize="14sp" />
 
         <LinearLayout
             android:id="@id/calendar_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="vertical" >
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/drop_shadow" />
+                android:background="@drawable/revers_drop_shadow" />
 
             <com.mobiata.android.time.widget.CalendarPicker
                 android:id="@+id/search_calendar"
@@ -76,11 +94,12 @@
                 android:background="@android:color/white"
                 android:paddingBottom="8dp"
                 app:calendarDaySelectionFillColor="@android:color/white"
+                app:calendarDaysOfWeekColor="@color/lx_primary_color"
                 app:calendarHeaderTextColor="@color/lx_primary_color"
                 app:calendarHeaderTextSize="16dp"
                 app:calendarHighlightColor="@color/lx_primary_color"
                 app:calendarHighlightInverseColor="@color/lx_primary_color"
-                app:calendarTodayColor="@color/lx_valid_days_calendar"
+                app:calendarTodayColor="@color/lx_primary_color"
                 app:calendarInvalidDaysColor="@color/lx_invalid_days_calendar"
                 app:calendarLayout="@layout/calendar_cars_lx_layout"
                 app:calendarBaseColor="@color/lx_valid_days_calendar"
@@ -97,6 +116,42 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:minHeight="?attr/actionBarSize"
-        app:titleTextAppearance="@style/LXToolbarTitleTextAppearance" />
+        app:titleTextAppearance="@style/LXToolbarTitleTextAppearance">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:minHeight="?attr/actionBarSize">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/toolbar_search_text"
+                style="@style/CarsToolbarTitleTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+            <LinearLayout
+                android:id="@+id/toolbar_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical" >
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/toolbar_detail_text"
+                    style="@style/CarsToolbarTitleTextAppearance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/toolbar_subtitle_text"
+                    style="@style/CarsToolbarSubtitleTextAppearance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </FrameLayout>
+    </android.support.v7.widget.Toolbar>
 
 </merge>

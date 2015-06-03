@@ -100,6 +100,7 @@ public class LXCheckoutErrorTests extends LxTestCase {
 			R.string.highlights_activity_details))).check(matches(
 			isDisplayed()));
 		//click book now button again so that we can test if upon click of Back button we must reach back to CVV Screen
+		LXInfositePageModel.selectOffer("2-Day New York Pass").perform(click());
 		LXInfositePageModel.bookNowButton("2-Day New York Pass").perform(scrollTo(), click());
 		CheckoutViewModel.enterPaymentInfo();
 		CheckoutViewModel.clickDone();
@@ -132,6 +133,7 @@ public class LXCheckoutErrorTests extends LxTestCase {
 		LXViewModel.waitForSearchListDisplayed();
 		LXViewModel.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 		LXViewModel.waitForDetailsDisplayed();
+		LXInfositePageModel.selectOffer("2-Day New York Pass").perform(click());
 		LXInfositePageModel.bookNowButton("2-Day New York Pass").perform(scrollTo(), click());
 		CheckoutViewModel.driverInfo().perform(click());
 		CheckoutViewModel.firstName().perform(typeText(firstName));

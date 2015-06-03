@@ -12,6 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -59,7 +60,6 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 
 		adapter = new CarOffersAdapter(getContext());
 		offerList.setAdapter(adapter);
-
 	}
 
 	@Override
@@ -75,8 +75,18 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	}
 
 	@Subscribe
+	public void onCarsIsFiltered(Events.CarsIsFiltered event) {
+		if (event.filteredCarOffers != null) {
+			adapter.setCarOffers(event.filteredCarOffers.offers);
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	@Subscribe
 	public void onCarsShowDetails(Events.CarsShowDetails event) {
 		CategorizedCarOffers bucket = event.categorizedCarOffers;
+		offerList.setVisibility(View.VISIBLE);
+		backgroundHeader.setVisibility(View.VISIBLE);
 
 		adapter.setCarOffers(bucket.offers);
 		adapter.notifyDataSetChanged();
@@ -87,14 +97,16 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 			.fade()
 			.build()
 			.load(url);
+
+		OmnitureTracking.trackAppCarRateDetails(getContext(), bucket.offers.get(0));
 	}
 
- 	public float parallaxScrollHeader() {
+	public float parallaxScrollHeader() {
 		View view = offerList.getChildAt(0);
 		int top = view.getTop();
 		float y = headerHeight - top;
 		backgroundHeader.setTranslationY(Math.min(-y * 0.5f, 0f));
-		return y  / (headerHeight - offset);
+		return y / (headerHeight - offset);
 	}
 
 	public void reset() {

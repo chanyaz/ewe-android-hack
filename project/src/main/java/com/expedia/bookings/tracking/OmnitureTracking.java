@@ -111,7 +111,7 @@ public class OmnitureTracking {
 	public static void init(Context context) {
 		Log.d(TAG, "init");
 
-		if (!ExpediaBookingApp.sIsAutomation) {
+		if (!ExpediaBookingApp.isAutomation()) {
 			ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 			s.configureMeasurement(getReportSuiteIds(), getTrackingServer(context));
 		}
@@ -252,6 +252,7 @@ public class OmnitureTracking {
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAATest);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppSRPercentRecommend);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelETPSearchResults);
 
 		// Send the tracking data
 		s.track();
@@ -606,6 +607,16 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_CID);
 	}
 
+	public static void trackHotelSearchMapSwitch(Context context) {
+		ADMS_Measurement s = OmnitureTracking.getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setAppState("App.Hotels.Search.Map");
+
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
+
+		s.track();
+	}
+
 	// Coupon tracking: https://mingle/projects/eb_ad_app/cards/1003
 
 	private static void addCouponFields(Context context, ADMS_Measurement s, String refererId) {
@@ -799,6 +810,7 @@ public class OmnitureTracking {
 		s.setProp(72, orderId);
 
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppFlightConfCarsXsell);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppFlightConfLXXsell);
 		s.track();
 	}
 
@@ -1452,10 +1464,13 @@ public class OmnitureTracking {
 	private static final String BASE_RFFR_FEATURED_LINK = "App.LS.Featured.";
 	private static final String BASE_RFFR_MAP_LINK = "App.LS.Map.";
 
+	private static final String TABLET_COLLECTIONS_EVAR12 = "Launch.Search.Collections";
+
 	// When a bottom tile is clicked – collection selection
 	public static void trackTabletLaunchTileSelect(Context context, String tileUniqueId) {
 		ADMS_Measurement s = createTrackLinkEvent(context, "nil");
 		addLaunchScreenCommonParams(s, BASE_RFFR_FEATURED_LINK, tileUniqueId);
+		s.setEvar(12, TABLET_COLLECTIONS_EVAR12);
 		internalTrackLink(s);
 	}
 
@@ -1792,7 +1807,9 @@ public class OmnitureTracking {
 	private static final String AIR_ATTACH_HOTEL_ADD = "App.Hotels.IS.AddTrip";
 	private static final String ADD_ATTACH_HOTEL = "App.Flight.CKO.Add.AttachHotel";
 	private static final String ADD_ATTACH_CAR = "App.Flight.CKO.Confirm.Xsell";
+	private static final String ADD_ATTACH_LX = "App.Flight.CKO.Confirm.Xsell";
 	private static final String CROSS_SELL_CAR_FROM_FLIGHT = "CrossSell.Flight.Confirm.Cars";
+	private static final String CROSS_SELL_LX_FROM_FLIGHT = "CrossSell.Flight.Confirm.LX";
 	private static final String BOOK_NEXT_ATTACH_HOTEL = "App.Flight.CKO.BookNext";
 	private static final String AIR_ATTACH_ITIN_XSELL = "Itinerary X-Sell";
 	private static final String AIR_ATTACH_ITIN_XSELL_REF = "App.Itin.X-Sell.Hotel";
@@ -1970,6 +1987,14 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
 	}
 
+	public static void trackAddLxClick(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(28, ADD_ATTACH_LX);
+		s.setProp(16, ADD_ATTACH_LX);
+		s.setEvar(12, CROSS_SELL_LX_FROM_FLIGHT);
+		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
+	}
 	public static void trackDoneBookingClick(Context context, LineOfBusiness lob) {
 		String link = getBase(lob == LineOfBusiness.FLIGHTS) + ".Confirm.Done";
 		internalTrackLink(context, link);
@@ -2409,6 +2434,8 @@ public class OmnitureTracking {
 
 	private static final String CROSS_SELL_ITIN_TO_HOTEL = "CrossSell.Itinerary.Hotels";
 	private static final String CROSS_SELL_FLIGHT_TO_HOTEL = "CrossSell.Flights.Hotels";
+	private static final String CROSS_SELL_LX_FROM_ITIN = "Itinerary.CrossSell.LX";
+	private static final String ADD_LX_ITIN = "App.Itin.XSell.LX";
 
 	public static void trackCrossSellItinToHotel(Context context) {
 		trackCrossSell(context, CROSS_SELL_ITIN_TO_HOTEL);
@@ -2428,6 +2455,17 @@ public class OmnitureTracking {
 		s.setEvar(12, link);
 
 		s.trackLink(null, "o", link, null, null);
+	}
+
+	public static void trackAddLxItinClick(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(28, ADD_LX_ITIN);
+		s.setProp(16, ADD_LX_ITIN);
+		s.setEvar(12, CROSS_SELL_LX_FROM_ITIN);
+
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelItinLXXsell);
+		s.trackLink(null, "o", "Itinerary X-Sell", null, null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2857,7 +2895,7 @@ public class OmnitureTracking {
 		}
 
 		// Add offline tracking, so user doesn't have to be online to be tracked
-		if (ExpediaBookingApp.sIsAutomation) {
+		if (ExpediaBookingApp.isAutomation()) {
 			s.setOfflineTrackingEnabled(false);
 			s.clearTrackingQueue();
 		}
@@ -3176,6 +3214,7 @@ public class OmnitureTracking {
 	private static final String CAR_DEST_SEARCH = "App.Cars.Dest-Search";
 	private static final String CAR_NO_RESULT = "App.Cars.NoResults";
 	private static final String CAR_SEARCH = "App.Cars.Search";
+	private static final String CAR_FILTERS = "App.Cars.Search.Filter";
 	private static final String CAR_RATE_DETAIL = "App.Cars.RateDetails";
 	private static final String CAR_VIEW_DETAILS = "App.Cars.RD.ViewDetails";
 	private static final String CAR_VIEW_MAP = "App.Cars.RD.ViewMap";
@@ -3229,13 +3268,29 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppCarRateDetails(Context context, SearchCarOffer mOffer) {
+	public static void trackAppCarFilter(Context context) {
+		Log.d(TAG, "Tracking \"" + CAR_FILTERS + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(context, CAR_FILTERS);
+		s.track();
+	}
+
+	public static void trackAppCarFilterUsage(Context context, String filter) {
+		Log.d(TAG, "Tracking \"" + CAR_FILTERS + "." + filter + "\" trackLink...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.setEvar(28, CAR_FILTERS + "." + filter);
+
+		s.trackLink(null, "o", "Car Search", null, null);
+	}
+
+	public static void trackAppCarRateDetails(Context context, SearchCarOffer offer) {
 		Log.d(TAG, "Tracking \"" + CAR_RATE_DETAIL + "\" pageLoad...");
 		ADMS_Measurement s = internalTrackAppCar(context, CAR_RATE_DETAIL);
 
 		s.setEvents("event4");
-		String evar38String = Strings.capitalizeFirstLetter(mOffer.vehicleInfo.category.toString()) + ":" + Strings
-			.capitalizeFirstLetter(mOffer.vehicleInfo.type.toString().replaceAll("_"," "));
+		String evar38String = Strings.capitalizeFirstLetter(offer.vehicleInfo.category.toString()) + ":" + Strings
+			.capitalizeFirstLetter(offer.vehicleInfo.type.toString().replaceAll("_", " "));
 
 		s.setEvar(38, evar38String);
 
@@ -3243,6 +3298,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppCarViewDetails(Context context) {
+		Log.d(TAG, "Tracking \"" + CAR_RATE_DETAIL + ".sh" + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addStandardFields(context, s);
 

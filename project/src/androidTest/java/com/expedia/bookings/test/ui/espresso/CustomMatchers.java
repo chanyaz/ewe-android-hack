@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.ui.espresso;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import org.hamcrest.Description;
@@ -29,7 +28,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.data.Property;
 
-import static com.android.support.test.deps.guava.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
@@ -148,12 +146,10 @@ public class CustomMatchers {
 	}
 
 	public static Matcher<Object> withHotelName(String expectedText) {
-		checkNotNull(expectedText);
 		return withHotelName(equalTo(expectedText));
 	}
 
 	public static Matcher<Object> withHotelName(final Matcher<String> textMatcher) {
-		checkNotNull(textMatcher);
 		return new BoundedMatcher<Object, Property>(Property.class) {
 			@Override
 			public boolean matchesSafely(Property property) {
@@ -228,45 +224,6 @@ public class CustomMatchers {
 			@Override
 			public void describeTo(Description description) {
 				description.appendText("The view must have some children");
-			}
-		};
-	}
-
-	public static Matcher<View> withContainsAtleastOne(final List<String> needleList) {
-		return new BoundedMatcher<View, TextView>(TextView.class) {
-			@Override
-			public boolean matchesSafely(TextView view) {
-				String hayStack = view.getText().toString();
-				for (String needle : needleList) {
-					if (hayStack.contains(needle)) {
-						return true;
-					}
-				}
-				return false;
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("The view must contain atleast one of the supplied list");
-			}
-		};
-	}
-
-	public static Matcher<View> withFirstChildOf(final Matcher<View> parentMatcher) {
-		return new TypeSafeMatcher<View>() {
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("with first child view of type parentMatcher");
-			}
-
-			@Override
-			public boolean matchesSafely(View view) {
-				if (!(view.getParent() instanceof ViewGroup)) {
-					return parentMatcher.matches(view.getParent());
-				}
-				ViewGroup group = (ViewGroup) view.getParent();
-				return parentMatcher.matches(view.getParent()) && group.getChildAt(0).equals(view);
-
 			}
 		};
 	}

@@ -47,7 +47,7 @@ import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.AirAttachUtils;
+import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
@@ -893,6 +893,10 @@ public class ItineraryManager implements JSONable {
 	 * @return true if the sync started or is in progress, false if it never started
 	 */
 	public boolean startSync(boolean forceRefresh) {
+		return startSync(forceRefresh, true, true);
+	}
+
+	public boolean startSync(boolean forceRefresh, boolean load, boolean update) {
 		if (!forceRefresh && DateTime.now().getMillis() < UPDATE_CUTOFF + mLastUpdateTime) {
 			Log.d(LOGGING_TAG, "ItineraryManager sync started too soon since last one; ignoring.");
 			return false;
@@ -913,15 +917,19 @@ public class ItineraryManager implements JSONable {
 			Log.i(LOGGING_TAG, "Starting an ItineraryManager sync...");
 
 			// Add default sync operations
-			mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
-			mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
-			mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
-			mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
-			mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
-			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
-			mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
-			mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
-			mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
+			if (load) {
+				mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
+			}
+			if (update) {
+				mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
+				mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
+				mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
+				mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
+				mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+				mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+				mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
+				mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
+			}
 
 			startSyncIfNotInProgress();
 
@@ -998,14 +1006,6 @@ public class ItineraryManager implements JSONable {
 
 		startSyncIfNotInProgress();
 
-		return true;
-	}
-
-	public boolean startPushNotificationSync() {
-		Log.i(LOGGING_TAG, "Starting push notification sync");
-
-		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
-		startSyncIfNotInProgress();
 		return true;
 	}
 
@@ -1854,7 +1854,7 @@ public class ItineraryManager implements JSONable {
 			if (insertButtonCard) {
 				// Check if user qualifies for air attach
 				if (isUserAirAttachQualified) {
-					return AirAttachUtils.generateHotelSearchParamsFromItinData(tripFlight,
+					return HotelCrossSellUtils.generateHotelSearchParamsFromItinData(tripFlight,
 						itinFlightLeg, nextFlightLeg);
 				}
 			}
@@ -1942,13 +1942,15 @@ public class ItineraryManager implements JSONable {
 					String time = com.expedia.bookings.utils.DateUtils.convertMilliSecondsForLogging(notification.getTriggerTimeMillis());
 					Log.i(LOGGING_TAG, "Notification scheduled for " + time);
 
-					//Just to display scheduled notification time like 2015/03/28 11:45
-					//TODO: temporary -->
 					// This is just to get the notifications to show up frequently for development
-					//				notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
-					//				notification.setExpirationTimeMillis(System.currentTimeMillis() + DateUtils.DAY_IN_MILLIS);
-					//				notification.setStatus(com.expedia.bookings.notification.Notification.StatusType.NEW);
-					//TODO: <-- temporary
+					if (BuildConfig.DEBUG) {
+						String which = SettingUtils.get(mContext, R.string.preference_which_api_to_use_key, "");
+						if (which.equals("Mock Mode")) {
+							notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
+							notification.setExpirationTimeMillis(System.currentTimeMillis() + DateUtils.DAY_IN_MILLIS);
+							notification.setStatus(com.expedia.bookings.notification.Notification.StatusType.NEW);
+						}
+					}
 
 					notification.save();
 				}

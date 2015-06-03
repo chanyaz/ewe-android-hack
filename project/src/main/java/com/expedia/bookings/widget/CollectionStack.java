@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.support.v7.graphics.Palette;
 import android.util.AttributeSet;
 import android.view.View;
@@ -194,14 +193,8 @@ public class CollectionStack extends FrameLayout {
 			GradientDrawable checkMarkViewBackground = (GradientDrawable) getResources()
 				.getDrawable(R.drawable.selected_tile_overlay);
 			checkMarkViewBackground.setColor(fullColor);
-			if (Build.VERSION.SDK_INT < 16) {
-				mTextView.setBackgroundDrawable(textViewBackground);
-				mCheckView.setBackgroundDrawable(checkMarkViewBackground);
-			}
-			else {
-				mTextView.setBackground(textViewBackground);
-				mCheckView.setBackground(checkMarkViewBackground);
-			}
+			mTextView.setBackground(textViewBackground);
+			mCheckView.setBackground(checkMarkViewBackground);
 		}
 
 		@Override

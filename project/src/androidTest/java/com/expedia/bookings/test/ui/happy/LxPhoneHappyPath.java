@@ -21,8 +21,8 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 
 public class LxPhoneHappyPath extends PhoneTestCase {
 
@@ -92,6 +92,7 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 		LXViewModel.waitForLoadingDetailsNotDisplayed();
 		screenshot("LX Details");
 
+		LXInfositePageModel.selectOffer("2-Day New York Pass").perform(scrollTo(), click());
 		LXInfositePageModel.ticketAddButton(ticketName, "Adult").perform(scrollTo(), click());
 		LXInfositePageModel.bookNowButton(ticketName).perform(scrollTo());
 		screenshot("LX Ticket Selection");
@@ -111,4 +112,5 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 		screenshot("LX Checkout Started");
 		LXViewModel.itinNumberOnConfirmationScreen().check(matches(withText(containsString("7672544862"))));
 	}
+
 }

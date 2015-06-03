@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
+import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.LXDataUtils;
@@ -48,11 +52,21 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	@InjectView(R.id.ticket_summary_container)
 	LinearLayout ticketSummaryContainer;
 
+	@InjectView(R.id.offer_passengers)
+	com.expedia.bookings.widget.TextView offerPassengers;
+
+	@InjectView(R.id.offer_bags)
+	com.expedia.bookings.widget.TextView offerBags;
+
+	@InjectView(R.id.offer_duration)
+	com.expedia.bookings.widget.TextView offerDuration;
+
+	@InjectView(R.id.offer_description)
+	LXOfferDescription offerDescription;
+
 	private List<Ticket> selectedTickets = new ArrayList<>();
 
 	private String offerId;
-	private String offerTitle;
-	private boolean freeCancellation;
 
 	@Override
 	protected void onFinishInflate() {
@@ -65,23 +79,52 @@ public class LXTicketSelectionWidget extends LinearLayout {
 		return selectedTickets;
 	}
 
-	public void setFreeCancellation(boolean freeCancellation) {
-		this.freeCancellation = freeCancellation;
-	}
+	public void bind(Offer offer) {
+		this.offerId = offer.id;
+		title.setText(offer.title);
 
-	public void setOfferId(String offerId) {
-		this.offerId = offerId;
-	}
+		freeCancellationText.setVisibility(offer.freeCancellation ? VISIBLE : GONE);
 
-	public void setOfferTitle(String offerTitle) {
-		this.offerTitle = offerTitle;
+		if (Strings.isNotEmpty(offer.description)) {
+			offerDescription.setVisibility(View.VISIBLE);
+			offerDescription.bindData(offer.description);
+		}
+		else {
+			offerDescription.setVisibility(View.GONE);
+		}
+
+		if (Strings.isNotEmpty(offer.duration)) {
+			offerDuration.setText(offer.duration);
+			offerDuration.setVisibility(View.VISIBLE);
+		}
+		else {
+			offerDuration.setText("");
+			offerDuration.setVisibility(View.GONE);
+		}
+
+		if (offer.isGroundTransport) {
+			if (Strings.isNotEmpty(offer.passengers)) {
+				offerPassengers.setText(getContext().getString(R.string.lx_ground_transport_passengers_text,
+					offer.passengers));
+				offerPassengers.setVisibility(View.VISIBLE);
+			}
+			if (Strings.isNotEmpty(offer.bags)) {
+				offerBags.setText(getContext().getString(R.string.lx_ground_transport_bags_text, offer.bags));
+				offerBags.setVisibility(View.VISIBLE);
+			}
+		}
+
+		Drawable freeCancellationDrawable = getResources().getDrawable(R.drawable.check).mutate();
+		freeCancellationDrawable.setColorFilter(getResources().getColor(R.color.lx_primary_color), PorterDuff.Mode.SRC_IN);
+		freeCancellationText.setCompoundDrawablesWithIntrinsicBounds(freeCancellationDrawable, null, null, null);
+
+		Drawable durationDrawable = getResources().getDrawable(R.drawable.time).mutate();
+		durationDrawable.setColorFilter(getResources().getColor(R.color.lx_primary_color), PorterDuff.Mode.SRC_IN);
+		offerDuration.setCompoundDrawablesWithIntrinsicBounds(durationDrawable, null, null, null);
 	}
 
 	public void buildTicketPickers(AvailabilityInfo availabilityInfo) {
 
-		title.setText(offerTitle);
-
-		freeCancellationText.setVisibility(freeCancellation ? VISIBLE : GONE);
 		int index = 0;
 		for (Ticket ticket : availabilityInfo.tickets) {
 			LXTicketPicker ticketPicker = Ui.inflate(R.layout.lx_ticket_picker, ticketSelectorContainer, false);

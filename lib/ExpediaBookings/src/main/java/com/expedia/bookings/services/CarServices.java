@@ -13,6 +13,7 @@ import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParams;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
+import com.expedia.bookings.data.cars.CarFilter;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchResponse;
@@ -41,6 +42,8 @@ public class CarServices {
 
 	private CarApi mApi;
 
+	private static CarSearchResponse cachedCarSearchResponse = new CarSearchResponse();
+
 	private Scheduler mObserveOn;
 	private Scheduler mSubscribeOn;
 
@@ -65,6 +68,17 @@ public class CarServices {
 	public Subscription carSearch(CarSearchParams params, Observer<CarSearch> observer) {
 		return mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate())
 			.doOnNext(HANDLE_ERRORS)
+			.doOnNext(CACHE_SEARCH_RESPONSE)
+			.flatMap(BUCKET_OFFERS)
+			.toSortedList(SORT_BY_LOWEST_TOTAL)
+			.map(PUT_IN_CAR_SEARCH)
+			.subscribeOn(mSubscribeOn)
+			.observeOn(mObserveOn)
+			.subscribe(observer);
+	}
+
+	public Subscription carFilterSearch(Observer<CarSearch> observer, CarFilter carFilter) {
+		return Observable.combineLatest(Observable.just(cachedCarSearchResponse), Observable.just(carFilter), FILTER_RESULTS)
 			.flatMap(BUCKET_OFFERS)
 			.toSortedList(SORT_BY_LOWEST_TOTAL)
 			.map(PUT_IN_CAR_SEARCH)
@@ -109,6 +123,14 @@ public class CarServices {
 		}
 	};
 
+	private static final Action1<CarSearchResponse> CACHE_SEARCH_RESPONSE = new Action1<CarSearchResponse>() {
+		@Override
+		public void call(CarSearchResponse response) {
+			cachedCarSearchResponse = response;
+		}
+	};
+
+
 	private static final Func1<CarSearchResponse, Observable<CategorizedCarOffers>> BUCKET_OFFERS = new Func1<CarSearchResponse, Observable<CategorizedCarOffers>>() {
 		@Override
 		public Observable<CategorizedCarOffers> call(CarSearchResponse carSearchResponse) {
@@ -117,7 +139,8 @@ public class CarServices {
 				String label = offer.vehicleInfo.carCategoryDisplayLabel;
 				CarCategory category = offer.vehicleInfo.category;
 				if (Strings.isEmpty(label)) {
-					throw new OnErrorNotImplementedException(new RuntimeException("offer.vehicle.carCategoryDisplayLabel is empty for productKey=" + offer.productKey));
+					throw new OnErrorNotImplementedException(new RuntimeException(
+						"offer.vehicle.carCategoryDisplayLabel is empty for productKey=" + offer.productKey));
 				}
 
 				CategorizedCarOffers bucket = buckets.get(label);
@@ -133,6 +156,7 @@ public class CarServices {
 	};
 
 	private static final Func1<List<CategorizedCarOffers>, CarSearch> PUT_IN_CAR_SEARCH = new Func1<List<CategorizedCarOffers>, CarSearch>() {
+
 		@Override
 		public CarSearch call(List<CategorizedCarOffers> categories) {
 			CarSearch search = new CarSearch();
@@ -147,6 +171,15 @@ public class CarServices {
 			Money leftMoney = left.getLowestTotalPriceOffer().fare.total;
 			Money rightMoney = right.getLowestTotalPriceOffer().fare.total;
 			return leftMoney.compareTo(rightMoney);
+		}
+	};
+
+	private static final Func2<CarSearchResponse, CarFilter, CarSearchResponse> FILTER_RESULTS = new Func2<CarSearchResponse, CarFilter, CarSearchResponse>() {
+		@Override
+		public CarSearchResponse call(CarSearchResponse response, CarFilter filter) {
+			CarSearchResponse filteredResponse = new CarSearchResponse();
+			filteredResponse.offers.addAll(filter.applyFilters(response));
+			return filteredResponse;
 		}
 	};
 

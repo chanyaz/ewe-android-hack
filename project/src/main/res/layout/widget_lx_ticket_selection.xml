@@ -24,6 +24,79 @@
         app:textStyle="medium" />
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="14dp"
+        android:paddingTop="9dp" >
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/offer_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:textColor="@color/lx_ticket_summary_color"
+            android:textSize="11sp" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/free_cancellation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lx_free_cancellation"
+            android:gravity="center_vertical"
+            android:drawablePadding="8dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/lx_ticket_summary_color"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="14dp"
+        android:paddingTop="7dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/offer_passengers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:drawableLeft="@drawable/passenger_details"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:textColor="@color/lx_ticket_summary_color"
+            android:textSize="10sp"
+            android:visibility="gone" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/offer_bags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/bag_details"
+            android:drawablePadding="9dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:textColor="@color/lx_ticket_summary_color"
+            android:textSize="10sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <com.expedia.bookings.widget.LXOfferDescription
+        android:id="@+id/offer_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="?attr/selectableItemBackground"
+        android:paddingTop="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp" />
+
+    <LinearLayout
         android:id="@+id/ticket_selectors_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,33 +112,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center"
         android:padding="14dp">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/selected_ticket_summary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/selected_ticket_summary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textColor="@color/lx_ticket_summary_color"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/free_cancellation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lx_free_cancellation"
-                android:gravity="center_vertical"
-                android:drawableLeft="@drawable/check"
-                android:drawablePadding="8dp"
-                android:textColor="@color/lx_ticket_summary_color"
-                android:textSize="12sp" />
-        </LinearLayout>
+            android:gravity="center_vertical"
+            android:textColor="@color/lx_ticket_summary_color"
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/lx_book_now"

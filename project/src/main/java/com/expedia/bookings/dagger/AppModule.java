@@ -17,6 +17,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
@@ -60,7 +61,9 @@ public class AppModule {
 	@Provides
 	@Singleton
 	RestAdapter.LogLevel provideLogLevel() {
-		if (BuildConfig.DEBUG || DebugUtils.isLogEnablerInstalled(context)) {
+		if (BuildConfig.DEBUG
+			|| DebugUtils.isLogEnablerInstalled(context)
+			|| ExpediaDebugUtil.isEBToolApkInstalled(context)) {
 			return RestAdapter.LogLevel.FULL;
 		}
 		return RestAdapter.LogLevel.NONE;
@@ -163,7 +166,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	AbacusServices provideAbacus(OkHttpClient client, EndpointProvider endpointProvider, RestAdapter.LogLevel loglevel) {
-		final String endpoint = endpointProvider.getAbacusEndpoint(true /*isSecure*/);
+		final String endpoint = endpointProvider.getAbacusEndpointUrl();
 		return new AbacusServices(client, endpoint, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
 	}
 }

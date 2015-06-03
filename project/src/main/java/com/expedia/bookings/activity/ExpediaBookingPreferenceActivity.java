@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -29,7 +28,7 @@ import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
@@ -55,7 +54,9 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			ListPreference apiPref = (ListPreference) findPreference(apiKey);
 			apiPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					ClearPrivateDataUtil.clear(ExpediaBookingPreferenceActivity.this);
+					if ("Mock Mode".equals(newValue)) {
+						MockModeShim.initMockWebServer(ExpediaBookingPreferenceActivity.this);
+					}
 					return true;
 				}
 			});
@@ -106,6 +107,18 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			ListPreference confirmationCrossSell = (ListPreference) findPreference(
 				getString(R.string.preference_flight_confirmation_car_cross_sell));
 			confirmationCrossSell.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference hotelSearchSalePin = (ListPreference) findPreference(
+				getString(R.string.preference_hotel_search_sale_pin));
+			hotelSearchSalePin.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference confirmationLxCrossSell = (ListPreference) findPreference(
+				getString(R.string.preference_flight_confirmation_lx_cross_sell));
+			confirmationLxCrossSell.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference hotelEtpSearchResults = (ListPreference) findPreference(
+					getString(R.string.preference_hotel_etp_search_results));
+			hotelEtpSearchResults.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference hotelItinLXCrossSell = (ListPreference) findPreference(
+				getString(R.string.preference_hotel_itin_lx_cross_sell));
+			hotelItinLXCrossSell.setOnPreferenceChangeListener(abacusPrefListener);
 		}
 
 		String clearPrivateDateKey = getString(R.string.preference_clear_private_data_key);
@@ -181,10 +194,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			setResult(RESULT_CHANGED_PREFS);
 		}
 
-		if (key.equals(getString(R.string.preference_stubconfig_page))) {
-			startActivity(new Intent(this, StubConfigActivity.class));
-		}
-		else if (key.equals(getString(R.string.preference_force_fs_db_update))) {
+		if (key.equals(getString(R.string.preference_force_fs_db_update))) {
 			try {
 				FlightStatsDbUtils.setUpgradeCutoff(0);
 				FlightStatsDbUtils.createDatabaseIfNotExists(this);

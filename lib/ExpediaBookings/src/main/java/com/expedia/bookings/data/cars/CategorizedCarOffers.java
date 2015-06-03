@@ -33,7 +33,7 @@ public class CategorizedCarOffers {
 			lowestTotalPriceOffer = offer;
 		}
 		offers.add(offer);
-		passengerSet.addIgnoreZero(offer.vehicleInfo.adultCapacity + offer.vehicleInfo.childCapacity);
+		passengerSet.addIgnoreZero(offer.vehicleInfo.adultCapacity);
 		luggageSet.addIgnoreZero(offer.vehicleInfo.largeLuggageCapacity + offer.vehicleInfo.smallLuggageCapacity);
 		doorSet.addIgnoreZero(offer.vehicleInfo.maxDoors);
 		doorSet.addIgnoreZero(offer.vehicleInfo.minDoors);

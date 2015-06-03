@@ -129,18 +129,6 @@ public class LXViewModel {
 		return onView(withId(R.id.activity_details));
 	}
 
-	public static Matcher<View> recyclerGalleryMatcher() {
-		return withId(R.id.activity_gallery);
-	}
-
-	public static ViewInteraction infoContainer() {
-		return onView(withId(R.id.activity_info_container));
-	}
-
-	public static ViewInteraction alertDialogPositiveButton() {
-		return onView(withId(android.R.id.button1));
-	}
-
 	public static ViewInteraction withOfferText(String offerText) {
 		return onView(allOf(withId(R.id.offer_row), withChild(withChild(withText(startsWith(offerText))))));
 	}
@@ -176,10 +164,6 @@ public class LXViewModel {
 
 	public static ViewInteraction detailsDate(String dateText) {
 		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(dateText)));
-	}
-
-	public static ViewInteraction detailsDateContainer() {
-		return onView(withId(R.id.offer_dates_container));
 	}
 
 	public static ViewAction setLXActivities(final List<LXActivity> activities) {
@@ -293,7 +277,4 @@ public class LXViewModel {
 		return onView(allOf(isDescendantOfA(withId(R.id.lx_search_error_widget)), withId(R.id.error_action_button)));
 	}
 
-	public static ViewInteraction detailsErrorWidget() {
-		return onView(withId(R.id.lx_details_error_widget));
-	}
 }

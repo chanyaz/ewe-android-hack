@@ -66,7 +66,7 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 				Activity activity = getActivity();
 				if (activity == null) {
 					//Sometimes if the fragment attaches and then detaches quickly, activity will be null by this point.
-					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 					return;
 				}
 
@@ -83,7 +83,7 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 				Activity activity = getActivity();
 				if (activity == null) {
 					//Sometimes if the fragment attaches and then detaches quickly, activity will be null by this point.
-					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 					return;
 				}
 
@@ -95,7 +95,7 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 				final int minSize = (int) (200 * activity.getResources().getDisplayMetrics().density);
 				if (height > minSize && width > minSize) {
 					// Now that we've determined the map is large enough to touch we can remove the listener
-					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 					onMapLayout();
 				}
 			}

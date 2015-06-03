@@ -15,9 +15,6 @@ import android.support.test.espresso.DataInteraction;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 
-/**
- * Created by dmadan on 5/1/14.
- */
 public class FlightDetailsTests extends PhoneTestCase {
 
 	private static final String TAG = FlightDetailsTests.class.getName();

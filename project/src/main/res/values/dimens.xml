@@ -108,12 +108,6 @@
     <dimen name="flight_trip_view_stroke_width">2dp</dimen>
     <dimen name="flight_line_min_padding_between_labels">2dp</dimen>
 
-    <!-- Flights ActionBar dimens -->
-    <dimen name="action_bar_nav_corner_inset_left">24dp</dimen>
-    <dimen name="action_bar_nav_corner_inset_top">12dp</dimen>
-    <dimen name="action_bar_nav_corner_inset_right">-24dp</dimen>
-    <dimen name="action_bar_nav_corner_inset_bottom">-12dp</dimen>
-
     <!-- Offset so that the price and "mobile exclusive" overlaps the gallery -->
     <dimen name="promo_banner_height">89dp</dimen>
     <dimen name="hotel_details_intro_offset">-89dp</dimen>
@@ -277,8 +271,6 @@
     <dimen name="car_search_list_image_container_height">134dp</dimen>
     <dimen name="car_search_list_image_container_margin">9dp</dimen>
     <dimen name="car_search_details_container_height">35dp</dimen>
-    <dimen name="search_dropdown_padding">0dp</dimen>
-    <dimen name="search_toggle_button_padding">10dp</dimen>
 
     <!-- Car Details -->
     <dimen name="car_details_image_size">240dp</dimen>
@@ -291,4 +283,5 @@
     <dimen name="car_image_width">300dp</dimen>
     <dimen name="car_unexpanded_space_height">125dp</dimen>
     <dimen name="car_expanded_space_height">350dp</dimen>
+    <dimen name="hotel_spinner_height">50dp</dimen>
 </resources>

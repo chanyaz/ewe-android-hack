@@ -18,6 +18,7 @@ import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Settings;
+import com.expedia.bookings.utils.AndroidFileOpener;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.mocke3.ExpediaDispatcher;
@@ -43,11 +44,13 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	protected Resources mRes;
 	protected String mLanguage;
 	protected String mCountry;
+	protected ExpediaDispatcher mDispatcher;
 
 	@Override
 	public void runTest() throws Throwable {
 		Settings.clearPrivateData(getInstrumentation());
 
+		Settings.setFakeCurrentLocation(getInstrumentation(), "0", "0");
 		// Get server value from config file deployed in devices,
 		// if not defined in config defaults to MockWebServer.
 		if (TestConfiguration.doesConfigFileExist()) {
@@ -58,10 +61,10 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 		}
 		else {
 			mMockWebServer = new MockWebServer();
-			mMockWebServer.play();
-			mFileOpener = new AndroidFileOpener(getInstrumentation().getContext());
-			ExpediaDispatcher dispatcher = new ExpediaDispatcher(mFileOpener);
-			mMockWebServer.setDispatcher(dispatcher);
+			mMockWebServer.start();
+			mFileOpener = new AndroidFileOpener(getInstrumentation().getTargetContext());
+			mDispatcher = new ExpediaDispatcher(mFileOpener);
+			mMockWebServer.setDispatcher(mDispatcher);
 
 			//get mock web server address
 			URL mockUrl = mMockWebServer.getUrl("");

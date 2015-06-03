@@ -42,14 +42,17 @@ Restart Android Studio and select `MobiataIntellij` via `Preferences -> Code Sty
 
 Set XML style via `Preferences -> Code Style -> XML - > Set from ... -> Predefined Style -> Android`.
 
-Jvm Unit Tests
+Unit Tests
 ==============
 
 These live in `lib/ExpediaBookings/` and have no Android dependencies so we can
 run them very quickly just on the `JVM`.
 
+There are also android unit tests and robolectric tests living in the android project
+
+
 ````shell
-./buildbot/jvm_unittests.sh
+./gradlew :lib:ExpediaBookings:test :lib:mocked:mocke3:test :project:testExpediaDebug
 ````
 
 Android Tests
@@ -61,10 +64,6 @@ Window Animation, Transition Animation, Animator Duration.
 ````shell
 BUILDER_NAME=expedia # or another product flavor
 ./buildbot/build.sh
-
-# Robolectric (Android Unit) tests
-./buildbot/robolectric.sh
-open robolectric/build/reports/tests/index.html
 
 # Happy path tests
 ./buildbot/happypath.sh
@@ -88,3 +87,14 @@ resulting `applicationId` becomes `com.expedia.bookings.feature.UNIQUE_FEATURE_N
     $ ./gradlew -Pid="feature.UNIQUE_FEATURE_NAME" crashlyticsUploadDistributionExpediaDebug
 ````
 
+Creating Usability Builds
+=======================
+
+Passing in `-Pid="usability` while assembling a release build triggers special functionality
+to always suppress final bookings for all lines of business. This is behavior deemed important
+for third-party usability testing through www.usertesting.com. We will likely share these builds
+via Crashlytics share link.
+
+````shell
+    $ ./gradlew -Pid="usability" assembleExpediaRelease
+````

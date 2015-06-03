@@ -31,6 +31,7 @@ import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
@@ -213,6 +214,7 @@ public class CarConfirmationWidget extends FrameLayout {
 		}
 
 		OmnitureTracking.trackAppCarCheckoutConfirmation(getContext(), response);
+		AdTracker.trackCarBooked(response);
 	}
 
 	@OnClick(R.id.add_hotel_textView)

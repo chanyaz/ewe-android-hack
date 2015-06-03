@@ -9,7 +9,6 @@ import com.squareup.otto.Subscribe;
 
 public class IdlingResources {
 	public static class Resource {
-		public String tag;
 		protected CountingIdlingResource resource;
 
 		public Resource(String tag) {

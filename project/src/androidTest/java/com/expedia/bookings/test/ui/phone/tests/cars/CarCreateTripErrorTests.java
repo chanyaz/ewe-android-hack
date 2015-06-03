@@ -18,7 +18,6 @@ public class CarCreateTripErrorTests extends CarTestCase {
 	private static final String CATEGORY = "Economy";
 
 	public void testCarCreateTripWithPriceChange() throws Throwable {
-		screenshot("Car Search");
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		CarViewModel.pickupLocation().perform(typeText("SFO"));
 		CarViewModel.selectPickupLocation(getInstrumentation(), "San Francisco, CA");
@@ -26,7 +25,6 @@ public class CarCreateTripErrorTests extends CarTestCase {
 		CarViewModel.selectDates(startDateTime.toLocalDate(), startDateTime.toLocalDate());
 		CarViewModel.searchButton().perform(click());
 
-		screenshot("Car Results");
 		CarViewModel.selectCarCategory(CATEGORY);
 		screenshot("Car Offers");
 		CarViewModel.selectCarOffer(0);
@@ -36,7 +34,6 @@ public class CarCreateTripErrorTests extends CarTestCase {
 	}
 
 	public void testCarCreateTripFailure() throws Throwable {
-		screenshot("Car Search");
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		CarViewModel.pickupLocation().perform(typeText("SFO"));
 		CarViewModel.selectPickupLocation(getInstrumentation(), "San Francisco, CA");
@@ -44,7 +41,6 @@ public class CarCreateTripErrorTests extends CarTestCase {
 		CarViewModel.selectDates(startDateTime.toLocalDate(), startDateTime.toLocalDate());
 		CarViewModel.searchButton().perform(click());
 
-		screenshot("Car Results");
 		CarViewModel.selectCarCategory(CATEGORY);
 		screenshot("Car Offers");
 		CarViewModel.selectCarOffer(1);
@@ -55,7 +51,28 @@ public class CarCreateTripErrorTests extends CarTestCase {
 		CarViewModel.alertDialogPositiveButton().perform(click());
 
 		screenshot("Car Search");
-		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.dates_and_location));
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.toolbar_search_cars));
+	}
+
+	public void testCarCreateTripExpiredProduct() throws Throwable {
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		CarViewModel.pickupLocation().perform(typeText("SFO"));
+		CarViewModel.selectPickupLocation(getInstrumentation(), "San Francisco, CA");
+		CarViewModel.selectDateButton().perform(click());
+		CarViewModel.selectDates(startDateTime.toLocalDate(), startDateTime.toLocalDate());
+		CarViewModel.searchButton().perform(click());
+
+		CarViewModel.selectCarCategory(CATEGORY);
+		screenshot("Car Offers");
+		CarViewModel.selectCarOffer(3);
+
+		screenshot("Car Create Trip Expired Product Dialog");
+		CarViewModel.alertDialog().check(matches(isDisplayed()));
+		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_cars_product_expired)));
+		CarViewModel.alertDialogPositiveButton().perform(click());
+
+		screenshot("Car Search");
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.toolbar_search_cars));
 	}
 
 }

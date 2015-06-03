@@ -16,7 +16,6 @@ import com.expedia.bookings.test.ui.utils.TabletTestCase;
 
 public class CheckoutStoredTravelerTest extends TabletTestCase {
 
-	private static final String TAG = CheckoutStoredTravelerTest.class.getSimpleName();
 	HotelsUserData mUser;
 	private String travelerFirstName = "Expedia";
 	private String travelerMiddleName = "Automation";

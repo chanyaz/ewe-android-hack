@@ -10,6 +10,9 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.cars.CarCheckoutResponse;
+import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.KahunaUtils;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -18,7 +21,7 @@ import com.mobiata.android.Log;
 public class AdTracker {
 
 	public static void initialize(Context context) {
-		boolean adxEnabled = !ExpediaBookingApp.sIsAutomation && ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled();
+		boolean adxEnabled = !ExpediaBookingApp.isAutomation() && ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled();
 		AdX.initialize(context, adxEnabled);
 	}
 
@@ -53,6 +56,7 @@ public class AdTracker {
 	public static void trackViewItinList() {
 		AdX.trackViewItinList();
 		LeanPlumUtils.tracking("Itinerary");
+		KahunaUtils.tracking("view_itinerary");
 	}
 
 	public static void trackViewItinExpanded() {
@@ -74,6 +78,7 @@ public class AdTracker {
 		Property property = Db.getTripBucket().getHotel().getProperty();
 		AdX.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
 		LeanPlumUtils.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
+		KahunaUtils.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
 	}
 
 	public static void trackFlightBooked() {
@@ -88,12 +93,18 @@ public class AdTracker {
 						money.getCurrency(), money.getAmount().doubleValue());
 					LeanPlumUtils.trackFlightBooked(Db.getTripBucket().getFlight().getFlightSearch(), orderNumber,
 						money.getCurrency(), money.getAmount().doubleValue());
+					KahunaUtils.trackFlightBooked(Db.getTripBucket().getFlight().getFlightSearch(), orderNumber,
+						money.getCurrency(), money.getAmount().doubleValue());
 				}
 			}
 		}
 		catch (Exception ex) {
 			Log.e("Exception tracking flight checkout", ex);
 		}
+	}
+
+	public static void trackCarBooked(CarCheckoutResponse carCheckoutResponse) {
+		KahunaUtils.trackCarBooked(carCheckoutResponse);
 	}
 
 	public static void trackHotelCheckoutStarted() {
@@ -103,6 +114,7 @@ public class AdTracker {
 		Property property = Db.getTripBucket().getHotel().getProperty();
 		AdX.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 		LeanPlumUtils.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+		KahunaUtils.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 	}
 
 	public static void trackFlightCheckoutStarted() {
@@ -110,20 +122,31 @@ public class AdTracker {
 			Money totalPrice = Db.getTripBucket().getFlight().getFlightTrip().getTotalFare();
 			AdX.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 			LeanPlumUtils.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+			KahunaUtils.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 		}
+	}
+
+	public static void trackCarCheckoutStarted(CreateTripCarOffer carOffer) {
+		KahunaUtils.trackCarCheckoutStarted(carOffer);
 	}
 
 	public static void trackHotelSearch() {
 		if (Db.getHotelSearch() != null) {
 			AdX.trackHotelSearch(Db.getHotelSearch());
 			LeanPlumUtils.trackHotelSearch();
+			KahunaUtils.trackHotelSearch();
 		}
+	}
+
+	public static void trackHotelInfoSite() {
+		KahunaUtils.trackHotelInfoSite();
 	}
 
 	public static void trackFlightSearch() {
 		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchParams() != null) {
 			AdX.trackFlightSearch(Db.getFlightSearch());
 			LeanPlumUtils.trackFlightSearch();
+			KahunaUtils.trackFlightSearch();
 		}
 	}
 
@@ -131,4 +154,9 @@ public class AdTracker {
 		LeanPlumUtils.updatePOS();
 		KahunaUtils.updatePOS();
 	}
+
+	public static void trackCarSearch(CarSearchParams params) {
+		KahunaUtils.trackCarSearch(params);
+	}
+
 }

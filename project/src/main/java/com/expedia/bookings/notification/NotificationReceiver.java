@@ -145,13 +145,6 @@ public class NotificationReceiver extends BroadcastReceiver {
 		}
 
 		public void start() {
-			// Disable any image downloading if this device doesn't show bitmaps in notifications anyway
-			if (AndroidUtils.getSdkVersion() < 16) {
-				mBitmap = null;
-				display();
-				return;
-			}
-
 			Notification.ImageType imageType = mNotification.getImageType();
 			switch (imageType) {
 			case RESOURCE:

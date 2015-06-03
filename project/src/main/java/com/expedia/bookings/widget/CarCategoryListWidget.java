@@ -29,9 +29,6 @@ public class CarCategoryListWidget extends FrameLayout {
 	@InjectView(R.id.category_list)
 	public RecyclerView recyclerView;
 
-	@InjectView(R.id.search_error_widget)
-	ErrorWidget errorScreen;
-
 	CarCategoriesListAdapter adapter;
 
 	private static final String PICASSO_TAG = "CAR_CATEGORY_LIST";
@@ -60,8 +57,6 @@ public class CarCategoryListWidget extends FrameLayout {
 
 		adapter = new CarCategoriesListAdapter();
 		recyclerView.setAdapter(adapter);
-
-		errorScreen.setToolbarVisibility(GONE);
 	}
 
 	@Override
@@ -82,10 +77,16 @@ public class CarCategoryListWidget extends FrameLayout {
 	}
 
 	@Subscribe
-	public void onCarsShowSearchResults(Events.CarsShowSearchResults event) {
-		adapter.cleanup();
+	public void onCarsIsFiltered(Events.CarsIsFiltered event) {
 		recyclerView.setVisibility(View.VISIBLE);
-		errorScreen.setVisibility(View.GONE);
+		adapter.setCategories(event.filteredCarSearch.categories);
+		adapter.loadingState = false;
+		adapter.notifyDataSetChanged();
+	}
+
+	@Subscribe
+	public void onCarsShowSearchResults(Events.CarsShowSearchResults event) {
+		recyclerView.setVisibility(View.VISIBLE);
 		adapter.setCategories(event.results.categories);
 		adapter.loadingState = false;
 		adapter.notifyDataSetChanged();
@@ -96,16 +97,8 @@ public class CarCategoryListWidget extends FrameLayout {
 		recyclerView.setVisibility(View.VISIBLE);
 		List<CategorizedCarOffers> elements = createDummyListForAnimation();
 		adapter.loadingState = true;
-		errorScreen.setVisibility(View.GONE);
 		adapter.setCategories(elements);
 		adapter.notifyDataSetChanged();
-	}
-
-	@Subscribe
-	public void onCarsShowSearchResultsError(Events.CarsShowSearchResultsError event) {
-		recyclerView.setVisibility(View.GONE);
-		errorScreen.bind(event.error);
-		errorScreen.setVisibility(View.VISIBLE);
 	}
 
 	@Subscribe

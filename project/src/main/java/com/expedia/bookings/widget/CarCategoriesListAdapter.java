@@ -22,7 +22,6 @@ import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarFare;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Images;
 import com.squareup.picasso.Picasso;
@@ -36,7 +35,6 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 	private static final int DATA_VIEW = 1;
 	private List<CategorizedCarOffers> categories = new ArrayList<>();
 	private static final String ROW_PICASSO_TAG = "CAR_CATEGORY_LIST";
-	private ArrayList<ValueAnimator> mAnimations = new ArrayList<ValueAnimator>();
 	public static boolean loadingState = false;
 
 	@Override
@@ -65,17 +63,17 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			((ViewHolder) holder).bindCategorizedOffers(cco);
 		}
 		else {
-			ValueAnimator animation = AnimUtils.setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, LoadingViewHolder.index);
-			mAnimations.add(animation);
-			LoadingViewHolder.index++;
+			ValueAnimator animation = AnimUtils.setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, position % 2 == 0);
+			((LoadingViewHolder) holder).setAnimator(animation);
 		}
 	}
 
-	public void cleanup() {
-		for (ValueAnimator animation : mAnimations) {
-			animation.cancel();
+	@Override
+	public void onViewRecycled(RecyclerView.ViewHolder holder) {
+		if (holder.getItemViewType() == LOADING_VIEW) {
+			((LoadingViewHolder) holder).cancelAnimation();
 		}
-		mAnimations.clear();
+		super.onViewRecycled(holder);
 	}
 
 	@Override
@@ -153,7 +151,6 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 		public void onClick(View view) {
 			CategorizedCarOffers offers = (CategorizedCarOffers) view.getTag();
 			Events.post(new Events.CarsShowDetails(offers));
-			OmnitureTracking.trackAppCarRateDetails(itemView.getContext(), offers.offers.get(0));
 		}
 
 		private PicassoTarget target = new PicassoTarget() {

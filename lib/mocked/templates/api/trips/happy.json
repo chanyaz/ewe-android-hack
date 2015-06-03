@@ -1,888 +1,664 @@
 {
-    "apiVersion": "1.0",
-    "responseData": [
+  "apiVersion": "1.0",
+  "responseType": "TRIP_SUMMARY",
+  "responseData": [
+    {
+      "levelOfDetail": "FULL",
+      "tripId": "fb24d134-adbd-44f6-9904-48cfb33bbd50",
+      "webDetailsURL": "https://www.expedia.com/trips/1103274148635",
+      "tripNumber": 1103274148635,
+      "title": "Mobile Itinerary",
+      "description": "",
+      "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/fb24d134-adbd-44f6-9904-48cfb33bbd50/updateTripNameDescription",
+      "startTime": {
+        "epochSeconds": "${hotelCheckOutEpochSeconds}",
+        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+      },
+      "endTime": {
+        "epochSeconds": "${hotelCheckOutEpochSeconds}",
+        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+      },
+      "bookingStatus": "BOOKED",
+      "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/pIKlUOQoG9oOTMrSCQKbBQOvgzOArmMlOrDMFACXvO_6jYldmVbMU54aZwdZbn7e",
+      "customerSupport": {
+        "customerSupportURL": "http://support.expedia.com/app/home",
+        "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+        "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+        "customerSupportPhoneInfoForEmail": [
+          "Call Expedia+ blue Customer Care at 1-877-787-3117.",
+          "For faster service, mention itinerary # <strong> 1103274148635 </strong>"
+        ],
+        "termsAndConditionsURL": ""
+      },
+      "isBookedUsingForeignCurrency": false,
+      "hotels": [
         {
-            "bookingStatus": "BOOKED",
-            "customerSupport": {
-                "customerSupportPhoneInfoForEmail": [
-                    "Call Expedia+ blue Customer Care at 1-877-787-3117.",
-                    "For faster service, mention itinerary # <strong> 184338880897 </strong>"
-                ],
-                "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
-                "customerSupportPhoneNumberInternational": "+1-877-787-3117",
-                "customerSupportURL": "http://support.expedia.com/app/home",
-                "termsAndConditionsURL": ""
+          "uniqueID": "5D5D96B6-0BB4-4A08-B82F-C9FBADF85532_0",
+          "hotelId": "564858",
+          "checkInDateTime": {
+            "epochSeconds": "${hotelCheckInEpochSeconds}",
+            "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+          },
+          "checkOutDateTime": {
+            "epochSeconds": "${hotelCheckOutEpochSeconds}",
+            "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+          },
+          "numberOfNights": 2,
+          "bookingStatus": "BOOKED",
+          "bookingStatusText": "Completed",
+          "bookingStatusMessage": "This reservation is complete. We hope you had a great trip.",
+          "inventoryType": "MERCHANT",
+          "inventorySource": "INTERNAL",
+          "paymentModel": "EXPEDIA_COLLECT",
+          "inventoryVisibility": "VISIBLE",
+          "orderNumber": "8115321894499",
+          "state": "POST_END_3",
+          "infositeURL": "http://www.expedia.com/itin.h564858.Hotel-Information?langid=1033",
+          "hotelPropertyInfo": {
+            "address": {
+              "addressLine1": "665 Bush St",
+              "city": "San Francisco",
+              "countrySubdivisionCode": "CA",
+              "postalCode": "94108",
+              "countryCode": "USA",
+              "countryName": " United States of America",
+              "fullAddress": "665 Bush St, San Francisco, CA, 94108 United States of America",
+              "airportCode": "SFO"
             },
-            "description": "",
-            "endTime": {
-                "epochSeconds": 1459465440,
-                "localized": "Mar 31, 2016 4:04:00 PM",
-                "localizedShortDate": "Thu, 31 Mar",
-                "raw": "2016-03-31T16:04:00-07:00",
-                "timeZoneOffsetSeconds": -25200
-            },
-            "flights": [
-                {
-                    "airRecordLocator": "190200636",
-                    "bookingProvider": "SABRE",
-                    "bookingStatus": "BOOKED",
-                    "bookingStatusMessage": "Your reservation is booked and confirmed. There is no need to call us to reconfirm this reservation.",
-                    "bookingStatusText": "Confirmed",
-                    "confirmationNumbers": [
-                        {
-                            "airlineName": "JetBlue Airways",
-                            "number": "OCXJOK"
-                        }
-                    ],
-                    "farePerPassenger": [
-                        {
-                            "base": "50.24",
-                            "baseFormatted": "$50.24",
-                            "currency": "USD",
-                            "fees": [
-                                {
-                                    "amount": "3.76",
-                                    "amountFormatted": "$3.76",
-                                    "localizedName": "Transportation Tax"
-                                },
-                                {
-                                    "amount": "8.0",
-                                    "amountFormatted": "$8.00",
-                                    "localizedName": "Flight Segment Tax"
-                                },
-                                {
-                                    "amount": "5.6",
-                                    "amountFormatted": "$5.60",
-                                    "localizedName": "Passenger Civil Aviation Security Service Fee"
-                                },
-                                {
-                                    "amount": "9.0",
-                                    "amountFormatted": "$9.00",
-                                    "localizedName": "Passenger Facility Charge"
-                                }
-                            ],
-                            "passengerIndex": 0,
-                            "passengerTypeCode": "ADULT",
-                            "passengerTypeCodeLocalized": "Adult",
-                            "taxes": "26.36",
-                            "taxesFormatted": "$26.36",
-                            "total": "76.6",
-                            "totalFormatted": "$76.60"
-                        }
-                    ],
-                    "fareTotal": {
-                        "base": "50.24",
-                        "baseFormatted": "$50.24",
-                        "currency": "USD",
-                        "subTotal": "76.6",
-                        "subTotalFormatted": "$76.60",
-                        "taxes": "26.36",
-                        "taxesFormatted": "$26.36",
-                        "total": "76.6",
-                        "totalFormatted": "$76.60"
-                    },
-                    "fareType": "PUBLISHED",
-                    "flightType": "ONE_WAY",
-                    "fulfillmentMethod": "ETICKET",
-                    "hasTrainTransfer": false,
-                    "isInternational": false,
-                    "isLccOrCharter": false,
-                    "isSeatMapAvailable": true,
-                    "isSplitTicket": false,
-                    "legs": [
-                        {
-                            "airlineLogoURL": "http://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smb6.gif",
-                            "duration": "PT2H59M",
-                            "numberOfStops": 1,
-                            "segments": [
-                                {
-                                    "airOriginDestinationReferenceIndex": 0,
-                                    "airSegmentStatusCode": "HK",
-                                    "airlineCode": "B6",
-                                    "airlineName": "JetBlue Airways",
-                                    "arrivalLocation": {
-                                        "airportCode": "LGB",
-                                        "airportMetroCode": "QLA",
-                                        "city": "Long Beach",
-                                        "countryCode": "USA",
-                                        "latitude": 33.81841,
-                                        "longName": "Long Beach, CA (LGB-Long Beach Municipal)",
-                                        "longitude": -118.14437,
-                                        "name": "Long Beach Municipal"
-                                    },
-                                    "arrivalTime": {
-                                        "epochSeconds": 1459459620,
-                                        "localized": "Mar 31, 2016 2:27:00 PM",
-                                        "localizedShortDate": "Thu, 31 Mar",
-                                        "raw": "2016-03-31T14:27:00-07:00",
-                                        "timeZoneOffsetSeconds": -25200
-                                    },
-                                    "arrivalType": "FLIGHT_ARRIVAL",
-                                    "bookingCode": "P",
-                                    "cabinCode": "coach",
-                                    "cabinCodeLocalized": "Economy / Coach",
-                                    "confirmationAirline": "JetBlue Airways",
-                                    "confirmationNUmber": "OCXJOK",
-                                    "departureLocation": {
-                                        "airportCode": "SFO",
-                                        "airportMetroCode": "QSF",
-                                        "city": "San Francisco",
-                                        "countryCode": "USA",
-                                        "latitude": 37.61594,
-                                        "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
-                                        "longitude": -122.387996,
-                                        "name": "San Francisco Intl."
-                                    },
-                                    "departureTime": {
-                                        "epochSeconds": 1459454700,
-                                        "localized": "Mar 31, 2016 1:05:00 PM",
-                                        "localizedShortDate": "Thu, 31 Mar",
-                                        "raw": "2016-03-31T13:05:00-07:00",
-                                        "timeZoneOffsetSeconds": -25200
-                                    },
-                                    "departureType": "FLIGHT_DEPARTURE",
-                                    "distance": 355,
-                                    "distanceUnits": "mi",
-                                    "duration": "PT1H22M",
-                                    "equipmentCode": "320",
-                                    "equipmentDescription": "Airbus A320",
-                                    "externalAirlineCode": "B6",
-                                    "flightIdForSeatMap": "494F721E-F497-4561-BCC7-3140EB19EB9B_0_L1_S1_1",
-                                    "flightNumber": "1435",
-                                    "formattedDuration": "1h 22m",
-                                    "isHidden": false,
-                                    "isSeatMapAvailable": true,
-                                    "layoverDuration": "PT33M",
-                                    "operatedByAirCarrierName": "",
-                                    "status": "UNKNOWN",
-                                    "transportationType": "FLIGHT"
-                                },
-                                {
-                                    "airOriginDestinationReferenceIndex": 0,
-                                    "airSegmentStatusCode": "HK",
-                                    "airlineCode": "B6",
-                                    "airlineName": "JetBlue Airways",
-                                    "arrivalLocation": {
-                                        "airportCode": "LAS",
-                                        "airportMetroCode": "LAS",
-                                        "city": "Las Vegas",
-                                        "countryCode": "USA",
-                                        "latitude": 36.085393,
-                                        "longName": "Las Vegas, NV (LAS-All Airports)",
-                                        "longitude": -115.150098,
-                                        "name": "McCarran Intl."
-                                    },
-                                    "arrivalTime": {
-                                        "epochSeconds": 1459465440,
-                                        "localized": "Mar 31, 2016 4:04:00 PM",
-                                        "localizedShortDate": "Thu, 31 Mar",
-                                        "raw": "2016-03-31T16:04:00-07:00",
-                                        "timeZoneOffsetSeconds": -25200
-                                    },
-                                    "arrivalType": "FLIGHT_ARRIVAL",
-                                    "bookingCode": "P",
-                                    "cabinCode": "coach",
-                                    "cabinCodeLocalized": "Economy / Coach",
-                                    "confirmationAirline": "JetBlue Airways",
-                                    "confirmationNUmber": "OCXJOK",
-                                    "departureLocation": {
-                                        "airportCode": "LGB",
-                                        "airportMetroCode": "QLA",
-                                        "city": "Long Beach",
-                                        "countryCode": "USA",
-                                        "latitude": 33.81841,
-                                        "longName": "Long Beach, CA (LGB-Long Beach Municipal)",
-                                        "longitude": -118.14437,
-                                        "name": "Long Beach Municipal"
-                                    },
-                                    "departureTime": {
-                                        "epochSeconds": 1459461600,
-                                        "localized": "Mar 31, 2016 3:00:00 PM",
-                                        "localizedShortDate": "Thu, 31 Mar",
-                                        "raw": "2016-03-31T15:00:00-07:00",
-                                        "timeZoneOffsetSeconds": -25200
-                                    },
-                                    "departureType": "FLIGHT_DEPARTURE",
-                                    "distance": 235,
-                                    "distanceUnits": "mi",
-                                    "duration": "PT1H4M",
-                                    "equipmentCode": "320",
-                                    "equipmentDescription": "Airbus A320",
-                                    "externalAirlineCode": "B6",
-                                    "flightIdForSeatMap": "494F721E-F497-4561-BCC7-3140EB19EB9B_0_L1_S2_1",
-                                    "flightNumber": "1780",
-                                    "formattedDuration": "1h 4m",
-                                    "isHidden": false,
-                                    "isSeatMapAvailable": true,
-                                    "operatedByAirCarrierName": "",
-                                    "status": "UNKNOWN",
-                                    "transportationType": "FLIGHT"
-                                }
-                            ],
-                            "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/gqIS1pvThIQGMeVGFK88l2gu8wQt8bfrNV8UbJnr7oQoq6DxBPRzAcExVI_oX3uXue3jRaylF9VJBbgiCjEnEYEEn2wdwWpM_E6cWvTjq5EtLpoWK1LCMDXKTfSqFMil",
-                            "type": "ONESTOP"
-                        }
-                    ],
-                    "orderLineNumber": "935a7047-7c13-43ac-8815-81ec702bcdc6",
-                    "orderNumber": "8027454524666",
-                    "passengers": [
-                        {
-                            "age": 29,
-                            "dateOfBirth": "1985-11-1",
-                            "firstName": "Jexper",
-                            "frequentFlyerPlans": [],
-                            "fullName": "Jexper Io MobiataTestaverde",
-                            "gender": "Male",
-                            "lastName": "MobiataTestaverde",
-                            "middleName": "Io",
-                            "phoneNumbers": [
-                                {
-                                    "countryCode": "1",
-                                    "phone": "4564567"
-                                }
-                            ],
-                            "seats": [
-                                {
-                                    "assigned": "07A",
-                                    "legIndex": 0,
-                                    "seatPreference": "",
-                                    "seatPreferenceLocalized": "Unknown",
-                                    "segmentIndex": 0,
-                                    "smokingAllowed": false
-                                },
-                                {
-                                    "assigned": "07A",
-                                    "legIndex": 0,
-                                    "seatPreference": "",
-                                    "seatPreferenceLocalized": "Unknown",
-                                    "segmentIndex": 1,
-                                    "smokingAllowed": false
-                                }
-                            ],
-                            "ticketNumbers": [
-                                "2797490809403"
-                            ],
-                            "title": "",
-                            "typeCode": "ADULT",
-                            "typeLocalized": "Adult"
-                        }
-                    ],
-                    "paymentModel": "AGENCY",
-                    "rules": {
-                        "additionalAirlineFees": {
-                            "text": "The airline may charge additional fees for checked baggage or other optional services.",
-                            "textAndURL": "The airline may charge <a href=\"https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=B6&opcarrier=&farebasis=PL21AE2U&bookingclass=P&travelDate=3/31/2015\" class=\"tooltip\" target=\"rulesAndRestrictions\">additional fees <span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span> </a> for checked baggage or other optional services.",
-                            "url": "https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=B6&opcarrier=&farebasis=PL21AE2U&bookingclass=P&travelDate=3/31/2015"
-                        },
-                        "airlineCheckInInstructionText": "Remember to bring your itinerary and government-issued photo ID for airport check-in and security.",
-                        "airlineLiabilityLimitations": {
-                            "text": "Please read important information regarding airline liability limitations.",
-                            "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/pub/agent.dll?qscr=hgen&hfnm=warsaw.htx\" class=\"tooltip\" target=\"rulesAndRestrictions\">airline liability limitations <span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span> </a>.",
-                            "url": "https://www.expedia.com/pub/agent.dll?qscr=hgen&hfnm=warsaw.htx"
-                        },
-                        "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
-                        "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
-                        "completePenaltyRules": {
-                            "apiURL": "https://www.expedia.com/api/trips/184338880897/items/494F721E-F497-4561-BCC7-3140EB19EB9B_0/gdsFareRulesText?useCache=true",
-                            "text": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
-                            "textAndURL": "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://www.expedia.com/Fare-Rules?tripid=1aad6bd6-b6b6-49ce-977f-83de74cb3f78\" class=\"tooltip\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations <span class=\"visually-hidden\" style=\"display:none;\">(Opens a new window) </span> </a> applicable to this fare.",
-                            "url": "https://www.expedia.com/Fare-Rules?tripid=1aad6bd6-b6b6-49ce-977f-83de74cb3f78"
-                        },
-                        "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
-                        "refundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed."
-                    },
-                    "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/gqIS1pvThIQGMeVGFK88l2gu8wQt8bfrNV8UbJnr7oQoq6DxBPRzAcExVI_oX3uXue3jRaylF9VJBbgiCjEnEYEEn2wdwWpM_E6cWvTjq5GzEmNcLzdjUfUlNcZ71W90",
-                    "ticketingAirCarrierNames": [
-                        "JetBlue Airways"
-                    ],
-                    "ticketingStatus": "COMPLETE",
-                    "ticketingTime": {
-                        "epochSeconds": 1409711280,
-                        "localized": "Sep 2, 2014 7:28:00 PM",
-                        "localizedShortDate": "Tue, 2 Sep",
-                        "raw": "2014-09-02T19:28:00-07:00",
-                        "timeZoneOffsetSeconds": -25200
-                    },
-                    "uniqueID": "494F721E-F497-4561-BCC7-3140EB19EB9B_0",
-                    "updateFrequentFlyerPathURL": "https://www.expedia.com/api/trips/1aad6bd6-b6b6-49ce-977f-83de74cb3f78/updateFrequentFlyerInformation",
-                    "webCancelPathURL": "https://www.expedia.com/flight-cancel-exchange?itinnumber=184338880897&arl=190200636&bookingid=EXLNXP",
-                    "webChangePathURL": "https://www.expedia.com/flight-change-gds?itinnumber=184338880897&arl=190200636"
-                }
+            "name": "Orchard Hotel",
+            "starRating": "35",
+            "photoThumbnailURL": "/hotels/1000000/570000/564900/564858/564858_42_l.jpg",
+            "photoThumbnail500pixURL": "/hotels/1000000/570000/564900/564858/564858_42_y.jpg",
+            "photoThumbnail1000pixURL": "/hotels/1000000/570000/564900/564858/564858_42_z.jpg",
+            "localPhone": "1-415-362-8878",
+            "formattedPhoneNumbers": "Tel: 1 (415) 362-8878, Fax: 1 (415) 362-8088",
+            "checkInPolicies": [
+              "Minimum check-in age is 18",
+              "Check-in time starts at 3 PM"
             ],
-            "isBookedUsingForeignCurrency": false,
-            "levelOfDetail": "FULL",
-            "readTripError": false,
-            "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/gqIS1pvThIQGMeVGFK88l2gu8wQt8bfrNV8UbJnr7oQeGhKxVh4nzWQGQizCVFk0",
-            "startTime": {
-                "epochSeconds": 1459454700,
-                "localized": "Mar 31, 2016 1:05:00 PM",
-                "localizedShortDate": "Thu, 31 Mar",
-                "raw": "2016-03-31T13:05:00-07:00",
-                "timeZoneOffsetSeconds": -25200
+            "checkInStartTimePolicy": {
+              "label": "Check-in time starts at",
+              "value": "3 PM"
             },
-            "title": "Mobile Itinerary",
-            "tripCacheUpdatedTime": {
-                "epochSeconds": 1421107363,
-                "localized": "Jan 13, 2015 12:02:43 AM",
-                "localizedShortDate": "Tue, 13 Jan",
-                "raw": "2015-01-13T00:02:43Z",
-                "timeZoneOffsetSeconds": 0
+            "checkInEndTimePolicy": {},
+            "checkOutTimePolicy": {
+              "label": "Check-out time is",
+              "value": "Noon"
             },
-            "tripCreatedTime": {
-                "epochSeconds": 1409711152,
-                "localized": "Sep 3, 2014 2:25:52 AM",
-                "localizedShortDate": "Wed, 3 Sep",
-                "raw": "2014-09-03T02:25:52Z",
-                "timeZoneOffsetSeconds": 0
-            },
-            "tripId": "1aad6bd6-b6b6-49ce-977f-83de74cb3f78",
-            "tripNumber": 184338880897,
-            "tripUpdatedTime": {
-                "epochSeconds": 1421107363,
-                "localized": "Jan 13, 2015 12:02:43 AM",
-                "localizedShortDate": "Tue, 13 Jan",
-                "raw": "2015-01-13T00:02:43Z",
-                "timeZoneOffsetSeconds": 0
-            },
-            "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/1aad6bd6-b6b6-49ce-977f-83de74cb3f78/updateTripNameDescription",
-            "webDetailsURL": "https://www.expedia.com/trips/184338880897"
-        },
-        {
-            "bookingStatus": "BOOKED",
-            "customerSupport": {
-                "customerSupportPhoneInfoForEmail": [
-                    "Call Expedia+ blue Customer Care at 1-877-787-3117.",
-                    "For faster service, mention itinerary # <strong> 184336182236 </strong>"
-                ],
-                "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
-                "customerSupportPhoneNumberInternational": "+1-877-787-3117",
-                "customerSupportURL": "http://support.expedia.com/app/home",
-                "termsAndConditionsURL": ""
-            },
-            "description": "",
-            "endTime": {
-                "epochSeconds": 1462407900,
-                "localized": "May 4, 2016 8:25:00 PM",
-                "localizedShortDate": "Wed, 4 May",
-                "raw": "2016-05-04T20:25:00-04:00",
-                "timeZoneOffsetSeconds": -14400
-            },
-            "flights": [
-                {
-                    "airRecordLocator": "190196322",
-                    "bookingProvider": "Amadeus",
-                    "bookingStatus": "BOOKED",
-                    "bookingStatusMessage": "Your reservation is booked and confirmed. There is no need to call us to reconfirm this reservation.",
-                    "bookingStatusText": "Confirmed",
-                    "confirmationNumbers": [
-                        {
-                            "airlineName": "Delta",
-                            "number": "H3W2FM"
-                        }
-                    ],
-                    "expediaBookingId": "2TOAS5",
-                    "farePerPassenger": [
-                        {
-                            "base": "192.55",
-                            "baseFormatted": "$192.55",
-                            "currency": "USD",
-                            "fees": [
-                                {
-                                    "amount": "14.45",
-                                    "amountFormatted": "$14.45",
-                                    "localizedName": "Transportation Tax"
-                                },
-                                {
-                                    "amount": "5.6",
-                                    "amountFormatted": "$5.60",
-                                    "localizedName": "Passenger Civil Aviation Security Service Fee"
-                                },
-                                {
-                                    "amount": "12.0",
-                                    "amountFormatted": "$12.00",
-                                    "localizedName": "Flight Segment Tax"
-                                },
-                                {
-                                    "amount": "9.0",
-                                    "amountFormatted": "$9.00",
-                                    "localizedName": "Passenger Facility Charge"
-                                }
-                            ],
-                            "passengerIndex": 0,
-                            "passengerTypeCode": "ADULT",
-                            "passengerTypeCodeLocalized": "Adult",
-                            "taxes": "41.05",
-                            "taxesFormatted": "$41.05",
-                            "total": "233.6",
-                            "totalFormatted": "$233.60"
-                        },
-                        {
-                            "base": "192.55",
-                            "baseFormatted": "$192.55",
-                            "currency": "USD",
-                            "fees": [
-                                {
-                                    "amount": "14.45",
-                                    "amountFormatted": "$14.45",
-                                    "localizedName": "Transportation Tax"
-                                },
-                                {
-                                    "amount": "5.6",
-                                    "amountFormatted": "$5.60",
-                                    "localizedName": "Passenger Civil Aviation Security Service Fee"
-                                },
-                                {
-                                    "amount": "12.0",
-                                    "amountFormatted": "$12.00",
-                                    "localizedName": "Flight Segment Tax"
-                                },
-                                {
-                                    "amount": "9.0",
-                                    "amountFormatted": "$9.00",
-                                    "localizedName": "Passenger Facility Charge"
-                                }
-                            ],
-                            "passengerIndex": 1,
-                            "passengerTypeCode": "CHILD",
-                            "passengerTypeCodeLocalized": "Child",
-                            "taxes": "41.05",
-                            "taxesFormatted": "$41.05",
-                            "total": "233.6",
-                            "totalFormatted": "$233.60"
-                        },
-                        {
-                            "baseFormatted": "$0.00",
-                            "currency": "USD",
-                            "passengerIndex": 2,
-                            "passengerTypeCode": "INFANT_IN_LAP",
-                            "passengerTypeCodeLocalized": "Infant in lap",
-                            "taxesFormatted": "$0.00",
-                            "totalFormatted": "$0.00"
-                        }
-                    ],
-                    "fareTotal": {
-                        "base": "385.1",
-                        "baseFormatted": "$385.10",
-                        "currency": "USD",
-                        "subTotal": "467.2",
-                        "subTotalFormatted": "$467.20",
-                        "taxes": "82.1",
-                        "taxesFormatted": "$82.10",
-                        "total": "467.2",
-                        "totalFormatted": "$467.20"
-                    },
-                    "fareType": "PUBLISHED",
-                    "flightType": "ONE_WAY",
-                    "fulfillmentMethod": "ETICKET",
-                    "hasTrainTransfer": false,
-                    "isInternational": false,
-                    "isLccOrCharter": false,
-                    "isSeatMapAvailable": true,
-                    "isSplitTicket": false,
-                    "legs": [
-                        {
-                            "airlineLogoURL": "http://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smDL.gif",
-                            "duration": "PT8H35M",
-                            "numberOfStops": 2,
-                            "segments": [
-                                {
-                                    "airOriginDestinationReferenceIndex": 0,
-                                    "airSegmentStatusCode": "HK",
-                                    "airlineCode": "DL",
-                                    "airlineName": "Delta",
-                                    "arrivalLocation": {
-                                        "airportCode": "MSP",
-                                        "airportMetroCode": "MSP",
-                                        "city": "Minneapolis",
-                                        "countryCode": "USA",
-                                        "latitude": 44.88317,
-                                        "longName": "Minneapolis, MN (MSP-All Airports)",
-                                        "longitude": -93.21063,
-                                        "name": "Minneapolis - St. Paul Intl."
-                                    },
-                                    "arrivalTerminal": "1",
-                                    "arrivalTime": {
-                                        "epochSeconds": 1462382460,
-                                        "localized": "May 4, 2016 12:21:00 PM",
-                                        "localizedShortDate": "Wed, 4 May",
-                                        "raw": "2016-05-04T12:21:00-05:00",
-                                        "timeZoneOffsetSeconds": -18000
-                                    },
-                                    "arrivalType": "FLIGHT_ARRIVAL",
-                                    "bookingCode": "X",
-                                    "cabinCode": "coach",
-                                    "cabinCodeLocalized": "Economy / Coach",
-                                    "confirmationAirline": "Delta",
-                                    "confirmationNUmber": "H3W2FM",
-                                    "departureLocation": {
-                                        "airportCode": "ORD",
-                                        "airportMetroCode": "CHI",
-                                        "city": "Chicago",
-                                        "countryCode": "USA",
-                                        "latitude": 41.976928,
-                                        "longName": "Chicago, IL (ORD-O'Hare Intl.)",
-                                        "longitude": -87.904787,
-                                        "name": "O'Hare Intl."
-                                    },
-                                    "departureTerminal": "2",
-                                    "departureTime": {
-                                        "epochSeconds": 1462377000,
-                                        "localized": "May 4, 2016 10:50:00 AM",
-                                        "localizedShortDate": "Wed, 4 May",
-                                        "raw": "2016-05-04T10:50:00-05:00",
-                                        "timeZoneOffsetSeconds": -18000
-                                    },
-                                    "departureType": "FLIGHT_DEPARTURE",
-                                    "duration": "PT1H31M",
-                                    "equipmentCode": "320",
-                                    "equipmentDescription": "Airbus A320",
-                                    "externalAirlineCode": "DL",
-                                    "flightIdForSeatMap": "A631F0EE-F749-47C2-A178-DA3B7A08BFAB_0_L1_S1_1",
-                                    "flightNumber": "867",
-                                    "formattedDuration": "1h 31m",
-                                    "isHidden": false,
-                                    "isSeatMapAvailable": true,
-                                    "layoverDuration": "PT1H34M",
-                                    "operatedByAirCarrierName": "",
-                                    "providerCode": "Amadeus",
-                                    "status": "UNKNOWN",
-                                    "transportationType": "FLIGHT"
-                                },
-                                {
-                                    "airOriginDestinationReferenceIndex": 0,
-                                    "airSegmentStatusCode": "HK",
-                                    "airlineCode": "DL",
-                                    "airlineName": "Delta",
-                                    "arrivalLocation": {
-                                        "airportCode": "CMH",
-                                        "airportMetroCode": "CMH",
-                                        "city": "Columbus",
-                                        "countryCode": "USA",
-                                        "latitude": 39.99818,
-                                        "longName": "Columbus, OH (CMH-All Airports)",
-                                        "longitude": -82.88502,
-                                        "name": "Port Columbus Intl."
-                                    },
-                                    "arrivalTime": {
-                                        "epochSeconds": 1462395180,
-                                        "localized": "May 4, 2016 4:53:00 PM",
-                                        "localizedShortDate": "Wed, 4 May",
-                                        "raw": "2016-05-04T16:53:00-04:00",
-                                        "timeZoneOffsetSeconds": -14400
-                                    },
-                                    "arrivalType": "FLIGHT_ARRIVAL",
-                                    "bookingCode": "X",
-                                    "cabinCode": "coach",
-                                    "cabinCodeLocalized": "Economy / Coach",
-                                    "confirmationAirline": "Delta",
-                                    "confirmationNUmber": "H3W2FM",
-                                    "departureLocation": {
-                                        "airportCode": "MSP",
-                                        "airportMetroCode": "MSP",
-                                        "city": "Minneapolis",
-                                        "countryCode": "USA",
-                                        "latitude": 44.88317,
-                                        "longName": "Minneapolis, MN (MSP-All Airports)",
-                                        "longitude": -93.21063,
-                                        "name": "Minneapolis - St. Paul Intl."
-                                    },
-                                    "departureTerminal": "1",
-                                    "departureTime": {
-                                        "epochSeconds": 1462388100,
-                                        "localized": "May 4, 2016 1:55:00 PM",
-                                        "localizedShortDate": "Wed, 4 May",
-                                        "raw": "2016-05-04T13:55:00-05:00",
-                                        "timeZoneOffsetSeconds": -18000
-                                    },
-                                    "departureType": "FLIGHT_DEPARTURE",
-                                    "duration": "PT1H58M",
-                                    "equipmentCode": "319",
-                                    "equipmentDescription": "Airbus A319",
-                                    "externalAirlineCode": "DL",
-                                    "flightIdForSeatMap": "A631F0EE-F749-47C2-A178-DA3B7A08BFAB_0_L1_S2_1",
-                                    "flightNumber": "2048",
-                                    "formattedDuration": "1h 58m",
-                                    "isHidden": false,
-                                    "isSeatMapAvailable": true,
-                                    "layoverDuration": "PT1H52M",
-                                    "operatedByAirCarrierName": "",
-                                    "providerCode": "Amadeus",
-                                    "status": "UNKNOWN",
-                                    "transportationType": "FLIGHT"
-                                },
-                                {
-                                    "airOriginDestinationReferenceIndex": 0,
-                                    "airSegmentStatusCode": "HK",
-                                    "airlineCode": "DL",
-                                    "airlineName": "Delta",
-                                    "arrivalLocation": {
-                                        "airportCode": "ATL",
-                                        "airportMetroCode": "ATL",
-                                        "city": "Atlanta",
-                                        "countryCode": "USA",
-                                        "latitude": 33.640785,
-                                        "longName": "Atlanta, GA (ATL-All Airports)",
-                                        "longitude": -84.446036,
-                                        "name": "Hartsfield-Jackson Atlanta Intl."
-                                    },
-                                    "arrivalTerminal": "S",
-                                    "arrivalTime": {
-                                        "epochSeconds": 1462407900,
-                                        "localized": "May 4, 2016 8:25:00 PM",
-                                        "localizedShortDate": "Wed, 4 May",
-                                        "raw": "2016-05-04T20:25:00-04:00",
-                                        "timeZoneOffsetSeconds": -14400
-                                    },
-                                    "arrivalType": "FLIGHT_ARRIVAL",
-                                    "bookingCode": "T",
-                                    "cabinCode": "coach",
-                                    "cabinCodeLocalized": "Economy / Coach",
-                                    "confirmationAirline": "Delta",
-                                    "confirmationNUmber": "H3W2FM",
-                                    "departureLocation": {
-                                        "airportCode": "CMH",
-                                        "airportMetroCode": "CMH",
-                                        "city": "Columbus",
-                                        "countryCode": "USA",
-                                        "latitude": 39.99818,
-                                        "longName": "Columbus, OH (CMH-All Airports)",
-                                        "longitude": -82.88502,
-                                        "name": "Port Columbus Intl."
-                                    },
-                                    "departureTime": {
-                                        "epochSeconds": 1462401900,
-                                        "localized": "May 4, 2016 6:45:00 PM",
-                                        "localizedShortDate": "Wed, 4 May",
-                                        "raw": "2016-05-04T18:45:00-04:00",
-                                        "timeZoneOffsetSeconds": -14400
-                                    },
-                                    "departureType": "FLIGHT_DEPARTURE",
-                                    "duration": "PT1H40M",
-                                    "equipmentCode": "M90",
-                                    "equipmentDescription": "MDC MD90",
-                                    "externalAirlineCode": "DL",
-                                    "flightIdForSeatMap": "A631F0EE-F749-47C2-A178-DA3B7A08BFAB_0_L1_S3_1",
-                                    "flightNumber": "1347",
-                                    "formattedDuration": "1h 40m",
-                                    "isHidden": false,
-                                    "isSeatMapAvailable": true,
-                                    "operatedByAirCarrierName": "",
-                                    "providerCode": "Amadeus",
-                                    "status": "UNKNOWN",
-                                    "transportationType": "FLIGHT"
-                                }
-                            ],
-                            "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/gqIS1pvThIQGMeVGFK88l2gu8wQt8bfrNV8UbJnr7oS8Vf_x96uv2fIHlbh6VLo3klOugnC5E657Q9k4Rxbsf1qWhJXlFa8_Jzyqn4Lr7Nvo4LBDEcu-STIKO0LVZ99v",
-                            "type": "MULTISTOP"
-                        }
-                    ],
-                    "orderLineNumber": "40bd38d9-cc8a-43ae-8fc7-7cd145fe4a9c",
-                    "orderNumber": "8052782251485",
-                    "passengers": [
-                        {
-                            "age": 29,
-                            "dateOfBirth": "1985-11-1",
-                            "firstName": "Jexper",
-                            "frequentFlyerPlans": [],
-                            "fullName": "Jexper Io MobiataTestaverde",
-                            "gender": "Male",
-                            "lastName": "MobiataTestaverde",
-                            "middleName": "Io",
-                            "phoneNumbers": [
-                                {
-                                    "countryCode": "1",
-                                    "phone": "4564567"
-                                }
-                            ],
-                            "seats": [
-                                {
-                                    "assigned": "14E",
-                                    "legIndex": 0,
-                                    "seatPreference": "",
-                                    "seatPreferenceLocalized": "Unknown",
-                                    "segmentIndex": 0,
-                                    "smokingAllowed": false
-                                },
-                                {
-                                    "assigned": "12B",
-                                    "legIndex": 0,
-                                    "seatPreference": "",
-                                    "seatPreferenceLocalized": "Unknown",
-                                    "segmentIndex": 1,
-                                    "smokingAllowed": false
-                                },
-                                {
-                                    "assigned": "22B",
-                                    "legIndex": 0,
-                                    "seatPreference": "",
-                                    "seatPreferenceLocalized": "Unknown",
-                                    "segmentIndex": 2,
-                                    "smokingAllowed": false
-                                },
-                                {
-                                    "assigned": "22A",
-                                    "legIndex": 0,
-                                    "seatPreference": "",
-                                    "seatPreferenceLocalized": "Unknown",
-                                    "segmentIndex": 2,
-                                    "smokingAllowed": false
-                                }
-                            ],
-                            "ticketNumbers": [
-                                "0067440370195"
-                            ],
-                            "title": "",
-                            "typeCode": "ADULT",
-                            "typeLocalized": "Adult"
-                        },
-                        {
-                            "age": 3,
-                            "dateOfBirth": "2012-1-27",
-                            "firstName": "Lowell",
-                            "frequentFlyerPlans": [],
-                            "fullName": "Lowell Buttz",
-                            "gender": "Male",
-                            "lastName": "Buttz",
-                            "phoneNumbers": [],
-                            "seats": [
-                                {
-                                    "assigned": "14D",
-                                    "legIndex": 0,
-                                    "seatPreference": "",
-                                    "seatPreferenceLocalized": "Unknown",
-                                    "segmentIndex": 0,
-                                    "smokingAllowed": false
-                                },
-                                {
-                                    "assigned": "12C",
-                                    "legIndex": 0,
-                                    "seatPreference": "",
-                                    "seatPreferenceLocalized": "Unknown",
-                                    "segmentIndex": 1,
-                                    "smokingAllowed": false
-                                },
-                                {
-                                    "assigned": "22C",
-                                    "legIndex": 0,
-                                    "seatPreference": "",
-                                    "seatPreferenceLocalized": "Unknown",
-                                    "segmentIndex": 2,
-                                    "smokingAllowed": false
-                                },
-                                {
-                                    "assigned": "22B",
-                                    "legIndex": 0,
-                                    "seatPreference": "",
-                                    "seatPreferenceLocalized": "Unknown",
-                                    "segmentIndex": 2,
-                                    "smokingAllowed": false
-                                }
-                            ],
-                            "ticketNumbers": [
-                                "0067440370194"
-                            ],
-                            "title": "",
-                            "typeCode": "CHILD",
-                            "typeLocalized": "Child"
-                        },
-                        {
-                            "age": 0,
-                            "dateOfBirth": "2014-9-2",
-                            "firstName": "Infant",
-                            "frequentFlyerPlans": [],
-                            "fullName": "Infant MobiataTestaverde",
-                            "gender": "Male",
-                            "lastName": "MobiataTestaverde",
-                            "phoneNumbers": [],
-                            "seats": [],
-                            "ticketNumbers": [
-                                "0067440370195"
-                            ],
-                            "title": "",
-                            "typeCode": "INFANT_IN_LAP",
-                            "typeLocalized": "Infant in lap"
-                        }
-                    ],
-                    "paymentModel": "AGENCY",
-                    "rules": {
-                        "additionalAirlineFees": {
-                            "text": "The airline may charge additional fees for checked baggage or other optional services.",
-                            "textAndURL": "The airline may charge <a href=\"https://www.expedia.com/Flights-BagFees?originapt=ORD&destinationapt=ATL&cabinclass=3&mktgcarrier=DL&opcarrier=DL&farebasis=XA21A0NA&bookingclass=X&travelDate=5/4/2015\" class=\"tooltip\" target=\"rulesAndRestrictions\">additional fees <span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span> </a> for checked baggage or other optional services.",
-                            "url": "https://www.expedia.com/Flights-BagFees?originapt=ORD&destinationapt=ATL&cabinclass=3&mktgcarrier=DL&opcarrier=DL&farebasis=XA21A0NA&bookingclass=X&travelDate=5/4/2015"
-                        },
-                        "airlineCheckInInstructionText": "Remember to bring your itinerary and government-issued photo ID for airport check-in and security.",
-                        "airlineLiabilityLimitations": {
-                            "text": "Please read important information regarding airline liability limitations.",
-                            "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/pub/agent.dll?qscr=hgen&hfnm=warsaw.htx\" class=\"tooltip\" target=\"rulesAndRestrictions\">airline liability limitations <span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span> </a>.",
-                            "url": "https://www.expedia.com/pub/agent.dll?qscr=hgen&hfnm=warsaw.htx"
-                        },
-                        "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
-                        "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
-                        "completePenaltyRules": {
-                            "apiURL": "https://www.expedia.com/api/trips/184336182236/items/A631F0EE-F749-47C2-A178-DA3B7A08BFAB_0/gdsFareRulesText?useCache=true",
-                            "text": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
-                            "textAndURL": "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://www.expedia.com/Fare-Rules?tripid=dcb63d9f-a7ae-4723-a54f-cf96163eb610\" class=\"tooltip\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations <span class=\"visually-hidden\" style=\"display:none;\">(Opens a new window) </span> </a> applicable to this fare.",
-                            "url": "https://www.expedia.com/Fare-Rules?tripid=dcb63d9f-a7ae-4723-a54f-cf96163eb610"
-                        },
-                        "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
-                        "refundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed."
-                    },
-                    "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/gqIS1pvThIQGMeVGFK88l2gu8wQt8bfrNV8UbJnr7oS8Vf_x96uv2fIHlbh6VLo3klOugnC5E657Q9k4Rxbsf1qWhJXlFa8_Jzyqn4Lr7Nu_eIDJeeAV7lGk33Cqe_xQ",
-                    "ticketingAirCarrierNames": [
-                        "Delta"
-                    ],
-                    "ticketingStatus": "COMPLETE",
-                    "ticketingTime": {
-                        "epochSeconds": 1409709060,
-                        "localized": "Sep 2, 2014 6:51:00 PM",
-                        "localizedShortDate": "Tue, 2 Sep",
-                        "raw": "2014-09-02T18:51:00-07:00",
-                        "timeZoneOffsetSeconds": -25200
-                    },
-                    "uniqueID": "A631F0EE-F749-47C2-A178-DA3B7A08BFAB_0",
-                    "updateFrequentFlyerPathURL": "https://www.expedia.com/api/trips/dcb63d9f-a7ae-4723-a54f-cf96163eb610/updateFrequentFlyerInformation",
-                    "webCancelPathURL": "https://www.expedia.com/flight-cancel-exchange?itinnumber=184336182236&arl=190196322&bookingid=2TOAS5",
-                    "webChangePathURL": "https://www.expedia.com/flight-change-gds?itinnumber=184336182236&arl=190196322"
-                }
+            "generalRules": [
+              "Check-out time is Noon"
             ],
-            "isBookedUsingForeignCurrency": false,
-            "levelOfDetail": "FULL",
-            "readTripError": false,
-            "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/gqIS1pvThIQGMeVGFK88l2gu8wQt8bfrNV8UbJnr7oTsOMahOzzWJHDe6lwAJbm0",
-            "startTime": {
-                "epochSeconds": 1462377000,
-                "localized": "May 4, 2016 10:50:00 AM",
-                "localizedShortDate": "Wed, 4 May",
-                "raw": "2016-05-04T10:50:00-05:00",
-                "timeZoneOffsetSeconds": -18000
-            },
-            "title": "Mobile Itinerary",
-            "tripCacheUpdatedTime": {
-                "epochSeconds": 1419354437,
-                "localized": "Dec 23, 2014 5:07:17 PM",
-                "localizedShortDate": "Tue, 23 Dec",
-                "raw": "2014-12-23T17:07:17Z",
-                "timeZoneOffsetSeconds": 0
-            },
-            "tripCreatedTime": {
-                "epochSeconds": 1409708835,
-                "localized": "Sep 3, 2014 1:47:15 AM",
-                "localizedShortDate": "Wed, 3 Sep",
-                "raw": "2014-09-03T01:47:15Z",
-                "timeZoneOffsetSeconds": 0
-            },
-            "tripId": "dcb63d9f-a7ae-4723-a54f-cf96163eb610",
-            "tripNumber": 184336182236,
-            "tripUpdatedTime": {
-                "epochSeconds": 1419354437,
-                "localized": "Dec 23, 2014 5:07:17 PM",
-                "localizedShortDate": "Tue, 23 Dec",
-                "raw": "2014-12-23T17:07:17Z",
-                "timeZoneOffsetSeconds": 0
-            },
-            "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/dcb63d9f-a7ae-4723-a54f-cf96163eb610/updateTripNameDescription",
-            "webDetailsURL": "https://www.expedia.com/trips/184336182236"
+            "restrictionPolicies": [],
+            "fees": [
+              "The following fees and deposits are charged by the property at time of service, check-in, or check-out.<ul> <li>Breakfast fee: USD 14 per person (approximately)</li>       <li>Valet parking fee: USD 40 per night (in/out privileges)</li>       <li>Deposit: USD 100.00 per night</li>     <li>Crib (infant bed) fee: USD 10 per night</li><li>Rollaway beds are available for an additional fee</li>  </ul>",
+              "The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change."
+            ],
+            "mandatoryFees": [],
+            "specialCheckInInstructions": [],
+            "latitude": 37.790248,
+            "longitude": -122.408469,
+            "isVipAccess": false,
+            "googleMapsLink": "http://maps.google.com?q=94108+San+Francisco,+665+Bush+St+"
+          },
+          "rooms": [
+            {
+              "uniqueID": "5D5D96B6-0BB4-4A08-B82F-C9FBADF85532_0_520073486",
+              "roomRatePlanDescription": "Deluxe Room, 1 King Bed",
+              "roomTypeCode": "22746",
+              "ratePlanCode": "1964586",
+              "bookingStatus": "BOOKED",
+              "drrRateDiscountDescription": "Book now and save",
+              "orderLineNumber": "da0459bd-bd1a-4b84-b054-b1bcdcd75aa1",
+              "refundabilityStatus": "REFUNDABLE",
+              "availableOnAllDates": true,
+              "totalPriceDetails": {
+                "primaryCurrencyCode": "USD",
+                "base": "504.46",
+                "baseFormatted": "$504.46",
+                "baseWithAdjustmentForDRRRateDiscount": "450.66",
+                "baseWithAdjustmentForDRRRateDiscountFormatted": "$450.66",
+                "taxesAndFees": "70.28",
+                "taxesAndFeesFormatted": "$70.28",
+                "adjustmentForDRRRateDiscount": "-53.80",
+                "adjustmentForDRRRateDiscountFormatted": "-$53.80",
+                "adjustmentForCoupon": "-90.14",
+                "adjustmentForCouponFormatted": "-$90.14",
+                "subTotalBeforeCoupon": "520.94",
+                "subTotalBeforeCouponFormatted": "$520.94",
+                "total": "430.80",
+                "totalFormatted": "$430.80",
+                "averagePricePerDay": "225.33",
+                "averagePricePerDayFormatted": "$225.33",
+                "averageTaxPerDay": "35.14",
+                "averageTaxPerDayFormatted": "$35.14",
+                "isSameRateForAllNights": true,
+                "expediaChangeFee": "0",
+                "expediaChangeFeeFormatted": "$0.00"
+              },
+              "roomPreferences": {
+                "primaryOccupant": {
+                  "firstName": "Kevin",
+                  "fullName": "Kevin Carpenter",
+                  "email": "kevinjcarpenter@gmail.com",
+                  "phone": "1-173-47400492"
+                },
+                "otherOccupantInfo": {
+                  "adultCount": 1,
+                  "childCount": 0,
+                  "infantCount": 0,
+                  "childAndInfantCount": 0,
+                  "childAndInfantAges": []
+                },
+                "occupantSelectedRoomOptions": {
+                  "bedTypeName": "1 king bed",
+                  "smokingPreference": "NONSMOKING_ROOM",
+                  "accessibilityOptions": [],
+                  "hasExtraBedAdult": false,
+                  "hasExtraBedChild": false,
+                  "hasExtraBedInfant": false,
+                  "isSmokingPreferenceSelected": true,
+                  "isRoomOptionsAvailable": true
+                },
+                "availableRoomOptions": {
+                  "bedTypes": [
+                    {
+                      "id": "14",
+                      "description": "1 king bed",
+                      "selected": true
+                    }
+                  ],
+                  "accessibilityOptions": [
+                    {
+                      "id": "2424",
+                      "description": "Accessibility equipment for the deaf",
+                      "selected": false
+                    },
+                    {
+                      "id": "2420",
+                      "description": "Accessible bathroom",
+                      "selected": false
+                    },
+                    {
+                      "id": "2419",
+                      "description": "Accessible path of travel",
+                      "selected": false
+                    },
+                    {
+                      "id": "2421",
+                      "description": "Roll-in shower",
+                      "selected": false
+                    },
+                    {
+                      "id": "2423",
+                      "description": "In-room accessibility",
+                      "selected": false
+                    },
+                    {
+                      "id": "2425",
+                      "description": "Braille or raised signage",
+                      "selected": false
+                    }
+                  ],
+                  "isSmokingRoomAvailable": false,
+                  "isNonSmokingRoomAvailable": true
+                }
+              },
+              "amenities": [
+                "Free Wireless Internet"
+              ]
+            }
+          ],
+          "isFreeCancellationAvailable": true
         }
-    ],
-    "responseType": "TRIP_SUMMARY"
+      ]
+    },
+    {
+      "levelOfDetail": "FULL",
+      "tripId": "e252dea4-1373-4278-b61b-f910bd99d446",
+      "webDetailsURL": "https://www.expedia.com/trips/1102138068718",
+      "tripNumber": 1102138068718,
+      "title": "Detroit",
+      "description": "",
+      "startTime": {
+        "epochSeconds": "${outboundFlightDepartureEpochSeconds}",
+        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+      },
+      "endTime": {
+        "epochSeconds": "${inboundFlightArrivalEpochSeconds}",
+        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+      },
+      "airAttachQualificationInfo": {
+        "airAttachQualified": true,
+        "offerExpires": {
+          "epochSeconds": "${airAttachOfferExpiresEpochSeconds}",
+          "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+        }
+      },
+      "bookingStatus": "BOOKED",
+      "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXrl-0ktkRBF5hmKJR5jCRVF",
+      "customerSupport": {
+        "customerSupportURL": "http://support.expedia.com/app/home",
+        "customerSupportPhoneInfo": [
+          "Call Expedia+ silver Priority Customer Care at 1-866-230-3837 or 1-417-520-5298.",
+          "For faster service, mention itinerary # <strong> 1102138068718 </strong>"
+        ],
+        "customerSupportPhoneNumberDomestic": "+1-866-230-3837",
+        "customerSupportPhoneNumberInternational": "+1-417-520-5298",
+        "customerSupportPhoneInfoForEmail": [
+          "Call Expedia+ silver Priority Customer Care at 1-866-230-3837 or 1-417-520-5298.",
+          "For faster service, mention itinerary # <strong> 1102138068718 </strong>"
+        ],
+        "termsAndConditionsURL": ""
+      },
+      "flights": [
+        {
+          "uniqueID": "3E9915B0-B622-4A5E-9953-95374B242BB2_0",
+          "bookingStatus": "BOOKED",
+          "orderNumber": "8106875184294",
+          "confirmationNumbers": [
+            {
+              "airlineName": "Delta",
+              "number": "GWF4NY"
+            }
+          ],
+          "fareTotal": {
+            "subTotal": "1112.4",
+            "subTotalFormatted": "$1,112.40",
+            "currency": "USD",
+            "base": "982.32",
+            "baseFormatted": "$982.32",
+            "taxes": "130.08",
+            "taxesFormatted": "$130.08",
+            "total": "1112.4",
+            "totalFormatted": "$1,112.40"
+          },
+          "passengers": [
+            {
+              "typeCode": "ADULT",
+              "typeLocalized": "Adult",
+              "firstName": "Philip",
+              "middleName": "J",
+              "lastName": "Fry",
+              "fullName": "Philip J. Fry",
+              "age": 26,
+              "gender": "Male",
+              "dateOfBirth": "1989-4-12",
+              "TSARedressNumber": "",
+              "phoneNumbers": [
+                {
+                  "countryCode": "1",
+                  "phone": "9899482855"
+                }
+              ],
+              "ticketNumbers": [
+                "0067586790127"
+              ],
+              "frequentFlyerPlans": [
+                {
+                  "airlineCode": "DL",
+                  "programCode": "DL-SKY",
+                  "programName": "Delta SkyMiles",
+                  "membershipNumber": "9304336499"
+                }
+              ],
+              "seats": [
+                {
+                  "assigned": "30C",
+                  "seatPreference": "",
+                  "seatPreferenceLocalized": "Unknown",
+                  "smokingAllowed": false,
+                  "legIndex": 0,
+                  "segmentIndex": 0
+                },
+                {
+                  "assigned": "36F",
+                  "seatPreference": "",
+                  "seatPreferenceLocalized": "Unknown",
+                  "smokingAllowed": false,
+                  "legIndex": 1,
+                  "segmentIndex": 0
+                }
+              ]
+            },
+            {
+              "typeCode": "ADULT",
+              "typeLocalized": "Adult",
+              "firstName": "Turanga",
+              "lastName": "Leela",
+              "fullName": "Turanga Leela",
+              "age": 25,
+              "gender": "Female",
+              "dateOfBirth": "1990-1-14",
+              "TSARedressNumber": "",
+              "phoneNumbers": [],
+              "ticketNumbers": [
+                "0067586790128"
+              ],
+              "frequentFlyerPlans": [],
+              "seats": [
+                {
+                  "assigned": "30B",
+                  "seatPreference": "",
+                  "seatPreferenceLocalized": "Unknown",
+                  "smokingAllowed": false,
+                  "legIndex": 0,
+                  "segmentIndex": 0
+                },
+                {
+                  "assigned": "36G",
+                  "seatPreference": "",
+                  "seatPreferenceLocalized": "Unknown",
+                  "smokingAllowed": false,
+                  "legIndex": 1,
+                  "segmentIndex": 0
+                }
+              ]
+            }
+          ],
+          "legs": [
+            {
+              "type": "NONSTOP",
+              "state": "PRE_START_4",
+              "numberOfStops": 0,
+              "airlineLogoURL": "http://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smDL.gif",
+              "segments": [
+                {
+                  "transportationType": "FLIGHT",
+                  "departureType": "FLIGHT_DEPARTURE",
+                  "departureLocation": {
+                    "latitude": 37.61594,
+                    "longitude": -122.387996,
+                    "name": "San Francisco Intl.",
+                    "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                    "airportCode": "SFO",
+                    "airportMetroCode": "QSF",
+                    "city": "San Francisco",
+                    "countryCode": "USA"
+                  },
+                  "departureTime": {
+                    "epochSeconds": "${outboundFlightDepartureEpochSeconds}",
+                    "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+                  },
+                  "arrivalType": "FLIGHT_ARRIVAL",
+                  "arrivalLocation": {
+                    "latitude": 42.221613,
+                    "longitude": -83.348916,
+                    "name": "Detroit Metropolitan Wayne County",
+                    "longName": "Detroit, MI (DTW-Detroit Metropolitan Wayne County)",
+                    "airportCode": "DTW",
+                    "airportMetroCode": "DTT",
+                    "city": "Detroit",
+                    "countryCode": "USA"
+                  },
+                  "arrivalTime": {
+                    "epochSeconds": "${outboundFlightArrivalEpochSeconds}",
+                    "timeZoneOffsetSeconds": "${tzOffsetEastern}"
+                  },
+                  "airlineCode": "DL",
+                  "externalAirlineCode": "DL",
+                  "airlineName": "Delta",
+                  "operatedByAirCarrierName": "",
+                  "confirmationAirline": "Delta",
+                  "confirmationNUmber": "GWF4NY",
+                  "flightNumber": "745",
+                  "equipmentCode": "739",
+                  "equipmentDescription": "Boeing 737-900",
+                  "distance": 2083,
+                  "distanceUnits": "mi",
+                  "duration": "PT4H32M",
+                  "formattedDuration": "4h 32m",
+                  "bookingCode": "V",
+                  "cabinCode": "coach",
+                  "cabinCodeLocalized": "Economy / Coach",
+                  "isSeatMapAvailable": true,
+                  "flightIdForSeatMap": "3E9915B0-B622-4A5E-9953-95374B242BB2_0_L1_S1_1",
+                  "status": "UNKNOWN",
+                  "airSegmentStatusCode": "HK",
+                  "isHidden": false
+                }
+              ],
+              "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1PmiJGMsrgOUFaAzyh7U1HgHxkxn4HJ1FTjqhxO8UAxhw",
+              "duration": "PT4H32M"
+            },
+            {
+              "type": "NONSTOP",
+              "state": "PRE_START_4",
+              "numberOfStops": 0,
+              "airlineLogoURL": "http://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smDL.gif",
+              "segments": [
+                {
+                  "transportationType": "FLIGHT",
+                  "departureType": "FLIGHT_DEPARTURE",
+                  "departureLocation": {
+                    "latitude": 42.221613,
+                    "longitude": -83.348916,
+                    "name": "Detroit Metropolitan Wayne County",
+                    "longName": "Detroit, MI (DTW-Detroit Metropolitan Wayne County)",
+                    "airportCode": "DTW",
+                    "airportMetroCode": "DTT",
+                    "city": "Detroit",
+                    "countryCode": "USA"
+                  },
+                  "departureTime": {
+                    "epochSeconds": "${inboundFlightDepartureEpochSeconds}",
+                    "timeZoneOffsetSeconds": "${tzOffsetEastern}"
+                  },
+                  "arrivalType": "FLIGHT_ARRIVAL",
+                  "arrivalLocation": {
+                    "latitude": 37.61594,
+                    "longitude": -122.387996,
+                    "name": "San Francisco Intl.",
+                    "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                    "airportCode": "SFO",
+                    "airportMetroCode": "QSF",
+                    "city": "San Francisco",
+                    "countryCode": "USA"
+                  },
+                  "arrivalTime": {
+                    "epochSeconds": "${inboundFlightArrivalEpochSeconds}",
+                    "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+                  },
+                  "airlineCode": "DL",
+                  "externalAirlineCode": "DL",
+                  "airlineName": "Delta",
+                  "operatedByAirCarrierName": "",
+                  "confirmationAirline": "Delta",
+                  "confirmationNUmber": "GWF4NY",
+                  "flightNumber": "373",
+                  "equipmentCode": "763",
+                  "equipmentDescription": "Boeing 767-300",
+                  "distance": 2083,
+                  "distanceUnits": "mi",
+                  "duration": "PT5H12M",
+                  "formattedDuration": "5h 12m",
+                  "bookingCode": "V",
+                  "cabinCode": "coach",
+                  "cabinCodeLocalized": "Economy / Coach",
+                  "isSeatMapAvailable": true,
+                  "flightIdForSeatMap": "3E9915B0-B622-4A5E-9953-95374B242BB2_0_L2_S1_1",
+                  "status": "UNKNOWN",
+                  "airSegmentStatusCode": "HK",
+                  "isHidden": false
+                }
+              ],
+              "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1MzAaePZYDF9ZAe9O6tHZlBAe1IRdXeg5mWRPx6mvvzlQ",
+              "duration": "PT5H12M"
+            }
+          ],
+          "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1M7nkfGMpNuW45-jpNeURf3"
+        }
+      ]
+    },
+    {
+      "levelOfDetail": "FULL",
+      "tripId": "5e06b2fc-77ac-4adc-9a48-7713e24b7df9",
+      "webDetailsURL": "https://www.expedia.com/trips/7106609170947",
+      "tripNumber": 7106609170947,
+      "title": "Car rental in Detroit",
+      "startTime": {
+        "epochSeconds": "${carStartEpochSeconds}",
+        "timeZoneOffsetSeconds": "${tzOffsetEastern}"
+      },
+      "endTime": {
+        "epochSeconds": "${carEndEpochSeconds}",
+        "timeZoneOffsetSeconds": "${tzOffsetEastern}"
+      },
+      "bookingStatus": "BOOKED",
+      "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXrb99ZxgVH6kVO_T_F2S7Fg",
+      "customerSupport": {
+        "customerSupportURL": "http://support.expedia.com/app/home",
+        "customerSupportPhoneInfo": [
+          "Call Expedia+ silver Priority Customer Care at 1-866-230-3837 or 1-417-520-5298.",
+          "For faster service, mention itinerary # <strong> 7106609170947 </strong>"
+        ],
+        "customerSupportPhoneNumberDomestic": "+1-866-230-3837",
+        "customerSupportPhoneNumberInternational": "+1-417-520-5298",
+        "customerSupportPhoneInfoForEmail": [
+          "Call Expedia+ silver Priority Customer Care at 1-866-230-3837 or 1-417-520-5298.",
+          "For faster service, mention itinerary # <strong> 7106609170947 </strong>"
+        ],
+        "termsAndConditionsURL": ""
+      },
+      "cars": [
+        {
+          "uniqueID": "0200CA9B-975E-43B8-B4FF-75DBFD510691_0",
+          "bookingStatus": "BOOKED",
+          "bookingStatusText": "Confirmed",
+          "bookingStatusMessage": "Your reservation is booked and confirmed. No need to call us to reconfirm this reservation.",
+          "state": "PRE_START_4",
+          "orderNumber": 8117703825595,
+          "orderLineNumber": "10cf7bb4-6405-433e-b1fd-682b696f295f",
+          "paymentModel": "EXPEDIA_COLLECT",
+          "reservationGuaranteePolicy": "RESERVATION_GUARANTEE_OPTIONAL",
+          "price": {
+            "rateTerm": "WEEKLY",
+            "rateTermLocalized": "week",
+            "rateTermDescriptionMessage": "Weekly rates often reflect a savings over daily rates; returning a weekly rental early may not result in a proportionate refund. Additional days beyond the weekly rate plan periods may be charged at the extra day rate.",
+            "rate": "297.61",
+            "rateFormatted": "$297.61",
+            "mileageChargesDescription": "Unlimited mileage",
+            "isTotalRate": true,
+            "totalContainsTaxesAndFees": true,
+            "taxesAreEstimated": false,
+            "insuranceIncluded": false,
+            "currency": "USD",
+            "taxes": "48.4",
+            "taxesFormatted": "$48.40",
+            "total": "297.61",
+            "totalFormatted": "$297.61"
+          },
+          "confirmationNumber": "08285519US4",
+          "webCancelPathURL": "https://www.expedia.com/api/cancelCarBooking/5e06b2fc-77ac-4adc-9a48-7713e24b7df9",
+          "webGetCarCancelDetailPathURL": "https://www.expedia.com/api/trips/5e06b2fc-77ac-4adc-9a48-7713e24b7df9/ordernumber/8117703825595/orderlinenumber/10cf7bb4-6405-433e-b1fd-682b696f295f/isMerchant/true/getCarCancelDetail",
+          "webCarRulesPageURL": "http://www.expedia.com/Checkout/CarRulesAndRestrictions?tripid=5e06b2fc-77ac-4adc-9a48-7713e24b7df9",
+          "bookingId": "48716941",
+          "travelers": [
+            {
+              "firstName": "Zapp",
+              "lastName": "Brannigan"
+            }
+          ],
+          "pickupTime": {
+            "epochSeconds": "${carPickupEpochSeconds}",
+            "timeZoneOffsetSeconds": "${tzOffsetEastern}"
+          },
+          "dropOffTime": {
+            "epochSeconds": "${carDropoffEpochSeconds}",
+            "timeZoneOffsetSeconds": "${tzOffsetEastern}"
+          },
+          "pickupLocation": {
+            "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+            "locationDescription": "Detroit (DTW)",
+            "airportInstructions": "Shuttle to counter and car",
+            "latitude": 42.2357,
+            "longitude": -83.334,
+            "addressLine1": "BUILDING 287 LUCAS DRIVE",
+            "cityName": "Detroit",
+            "provinceStateName": "MI",
+            "countryCode": "USA",
+            "locationCode": "DTW",
+            "regionId": 9602
+          },
+          "dropOffLocation": {
+            "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+            "locationDescription": "Detroit (DTW)",
+            "latitude": 42.2357,
+            "longitude": -83.334,
+            "addressLine1": "BUILDING 287 LUCAS DRIVE",
+            "cityName": "Detroit",
+            "provinceStateName": "MI",
+            "countryCode": "USA",
+            "locationCode": "DTW",
+            "regionId": 9602
+          },
+          "carVendor": {
+            "longName": "Budget",
+            "code": "ZD",
+            "shortName": "Budget",
+            "logoURL": "https://images.trvl-media.com/cars/logos/ZD.png",
+            "phoneNumber": "1-800-527-0700",
+            "localPhoneNumber": "1-734-941-3632"
+          },
+          "carCategoryImageURL": "https://images.trvl-media.com/cars%2F39%2FZDUSChrysler200_ZD_USA_20141113_s.jpg",
+          "carCategory": "Standard",
+          "carType": "TwoDoorCar"
+        }
+      ]
+    },
+    {
+      "levelOfDetail": "FULL",
+      "tripId": "77648d50-de49-47e4-8d35-83d91bebb487",
+      "webDetailsURL": "https://www.expedia.com/trips/7109680939468",
+      "tripNumber": 7109680939468,
+      "title": "San Francisco, United States",
+      "startTime": {
+        "epochSeconds": "${lxStartEpochSeconds}",
+        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+      },
+      "endTime": {
+        "epochSeconds": "${lxEndEpochSeconds}",
+        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+      },
+      "bookingStatus": "BOOKED",
+      "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/gqIS1pvThIQGMeVGFK88ly_D0E56QTNnvV6IvUzoNv2nXHkC-Xx99-q-zBPCmUEQ",
+      "customerSupport": {
+        "customerSupportURL": "http://support.expedia.com/app/home",
+        "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+        "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+        "customerSupportPhoneInfoForEmail": [
+          "Call Expedia+ blue Customer Care at 1-877-787-3117.",
+          "For faster service, mention itinerary # <strong> 7109680939468 </strong>"
+        ],
+        "termsAndConditionsURL": ""
+      },
+      "isBookedUsingForeignCurrency": false,
+      "activities": [
+        {
+          "uniqueID": "8187BC63-5D35-4379-904F-29AACB4A2FAF_0_221385_221387",
+          "bookingStatus": "BOOKED",
+          "bookingStatusText": "Confirmed",
+          "bookingStatusMessage": "Your activity is booked. Please check your voucher for details.",
+          "supplierReferenceNumber": "1103690045523",
+          "startTime": {
+            "epochSeconds": "${lxStartEpochSeconds}",
+            "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+          },
+          "endTime": {
+            "epochSeconds": "${lxEndEpochSeconds}",
+            "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+          },
+          "activityTitle": "Explorer Pass: Choose 4 Museums, Attractions, & Tours: Explorer Pass - Chose 4 Attractions & Tours",
+          "travelers": [
+            {
+              "isRedeemer": true,
+              "firstName": "Professor",
+              "lastName": "Farnsworth",
+              "fullName": "Professor Farnsworth"
+            }
+          ],
+          "voucherPrintURL": "https://www.expedia.com/itinerary-print?tripid=77648d50-de49-47e4-8d35-83d91bebb487&itineraryNumber=1103690045523"
+        }
+      ]
+    }
+  ]
 }
