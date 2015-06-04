@@ -187,7 +187,7 @@ public class LXViewModel {
 		};
 	}
 
-	public static ViewAction performViewHolderComparison(final String title, final String price, final String duration,
+	public static ViewAction performViewHolderComparison(final String title, final String price, final String originalPrice, final String duration,
 		final List<String> categoriesList) {
 		return new ViewAction() {
 			@Override
@@ -204,10 +204,12 @@ public class LXViewModel {
 			public void perform(UiController uiController, View viewHolder) {
 				TextView titleText = (TextView) viewHolder.findViewById(R.id.activity_title);
 				TextView priceText = (TextView) viewHolder.findViewById(R.id.activity_price);
+				TextView originalPriceText = (TextView) viewHolder.findViewById(R.id.activity_original_price);
 				TextView durationText = (TextView) viewHolder.findViewById(R.id.activity_duration);
 
 				Assert.assertEquals(title, titleText.getText());
 				Assert.assertEquals(price, priceText.getText());
+				Assert.assertEquals(originalPrice, originalPriceText.getText().toString());
 				Assert.assertEquals(duration, durationText.getText());
 			}
 		};
