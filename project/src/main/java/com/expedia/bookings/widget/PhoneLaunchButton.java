@@ -117,6 +117,10 @@ public class PhoneLaunchButton extends FrameLayout {
 				OmnitureTracking.trackNewLaunchScreenLobNavigation(getContext(), LineOfBusiness.CARS);
 				NavUtils.goToCars(getContext(), animOptions);
 				break;
+			case R.id.lx_button:
+				OmnitureTracking.trackNewLaunchScreenLobNavigation(getContext(), LineOfBusiness.LX);
+				NavUtils.goToLocalExpert(getContext(), animOptions);
+				break;
 			default:
 				throw new RuntimeException("No onClick defined for PhoneLaunchButton with id: " + getId());
 			}
