@@ -27,6 +27,7 @@ import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.leanplum.Leanplum;
 import com.leanplum.LeanplumActivityHelper;
+import com.leanplum.LeanplumPushNotificationCustomizer;
 import com.leanplum.LeanplumPushService;
 import com.leanplum.annotations.Parser;
 import com.leanplum.callbacks.VariablesChangedCallback;
@@ -69,7 +70,7 @@ public class LeanPlumUtils {
 		}
 
 		LeanplumPushService.setGcmSenderId(PushNotificationUtils.SENDER_ID);
-		LeanplumPushService.setCustomizer(new LeanplumPushService.NotificationCustomizer() {
+		LeanplumPushService.setCustomizer(new LeanplumPushNotificationCustomizer() {
 			@Override
 			public void customize(NotificationCompat.Builder builder, Bundle bundle) {
 				String campaignText = bundle.getString(CAMPAIGN_TEXT_KEY, DEFAULT_CAMPAIGN_TEXT);
