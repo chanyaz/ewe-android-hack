@@ -29,6 +29,7 @@
     <color name="hotel_price_sale_text_color">#0079a1</color>
     <color name="actionbar_text_lm">#FFFFFF</color>
     <color name="actionbar_text">#FFFFFF</color>
+    <color name="actionbar_menu_text_color">#FFFFFF</color>
     <color name="menu_bar_text_color">#FFFFFF</color>
     <color name="actionbar_suggestion_text_color">#FFFFFF</color>
 
@@ -48,4 +49,15 @@
     <color name="tablet_search_result_error_button_pressed_lm">#D1EAFF</color>
     <color name="tablet_search_result_error_button_lm">#004E93</color>
     <color name="tablet_results_search_blue_lm">#608405</color>
+    <color name="tablet_map_pin_text_color">#DDDFE1</color>
+    <color name="flight_results_row_bg_lm">#1972B2</color>
+    <color name="flight_results_row_return_leg_bg_lm">#00335D</color>
+    <color name="tablet_legal_blurb_text_color_lm">#7AC231</color>
+    <color name="tablet_confirmation_action_color_lm">#2CA2E2</color>
+    <color name="tablet_price_expanded_bucket_text_color">#599027</color>
+    <color name="tablet_calender_results_search_blue_lm">#1972B2</color>
+
+    <color name="section_flight_edit_traveler_link_color_lm">#1F8EDE</color>
+    <color name="room_rate_refundable_cancellation_text_color_lm">#599027</color>
+    <color name="tablet_hotel_coupon_text_color_lm">#1F8EDE</color>
 </resources>
