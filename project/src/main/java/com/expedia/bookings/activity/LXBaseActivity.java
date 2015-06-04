@@ -61,10 +61,12 @@ public class LXBaseActivity extends ActionBarActivity {
 		Intent intent = getIntent();
 		final boolean navigateToResults = (intent != null) && intent.getBooleanExtra(Codes.EXTRA_OPEN_RESULTS, false);
 		final boolean navigateToSearch = (intent != null) && intent.getBooleanExtra(Codes.EXTRA_OPEN_SEARCH, false);
+		final boolean navigateToResultsFromDeepLink = (intent != null) && intent.getBooleanExtra(Codes.FROM_DEEPLINK, false);
 
 		final String location = intent.getStringExtra("location");
 		final LocalDate startDate = DateUtils.yyyyMMddToLocalDateSafe(intent.getStringExtra("startDateStr"), LocalDate.now());
 		final LocalDate endDate = startDate.plusDays(getResources().getInteger(R.integer.lx_default_search_range));
+		final String filters = intent.getStringExtra("filters");
 
 		lxPresenter.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
@@ -76,6 +78,10 @@ public class LXBaseActivity extends ActionBarActivity {
 				}
 				else if (navigateToResults) {
 					Events.post(new Events.LXNewSearchParamsAvailable(location, startDate, endDate));
+					return true;
+				}
+				else if (navigateToResultsFromDeepLink) {
+					Events.post(new Events.LXNewSearchParamsAvailable(location, startDate, endDate, filters));
 					return true;
 				}
 				triggerCurrentLocationSuggestions();

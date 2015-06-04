@@ -2,15 +2,19 @@ package com.expedia.bookings.test.robolectric;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
+import android.net.Uri;
 
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 
 import static org.junit.Assert.assertEquals;
@@ -73,5 +77,43 @@ public class LXDataUtilsTest {
 	public void testPerTicketTypeDisplayLabel() {
 		assertEquals(LXDataUtils.perTicketTypeDisplayLabel(getContext(), LXTicketType.Adult), "per adult");
 		assertEquals(LXDataUtils.perTicketTypeDisplayLabel(getContext(), LXTicketType.Child), "per child");
+	}
+
+	@Test
+	public void testBuildLXSearchParamsFromDeeplinkSearch() {
+		final String expectedURL = "expda://activitySearch?startDate=2015-08-08&location=San+Francisco";
+		final String location = "San Francisco";
+		final String startDate = "2015-08-08";
+
+		LXSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
+
+		LXSearchParams expectedLxSearchParams = new LXSearchParams();
+		expectedLxSearchParams.location(location).startDate(DateUtils.yyyyMMddToLocalDate(startDate));
+
+		assertEquals(expectedLxSearchParams.location, obtainedLxSearchParams.location);
+		assertEquals(expectedLxSearchParams.startDate, obtainedLxSearchParams.startDate);
+	}
+
+	@Test
+	public void testBuildLXSearchParamsFromDeeplinkSearchWithFilters() {
+		final String expectedURL = "expda://activitySearch?startDate=2015-08-08&location=San+Francisco&filters=Private+Transfers|Shared+Transfers";
+		final String location = "San Francisco";
+		final String startDate = "2015-08-08";
+		final String filters = "Private Transfers|Shared Transfers";
+
+		LXSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
+
+		LXSearchParams expectedLxSearchParams = new LXSearchParams();
+		expectedLxSearchParams.filters(filters).location(location).startDate(DateUtils.yyyyMMddToLocalDate(startDate));
+
+		assertEquals(expectedLxSearchParams.location, obtainedLxSearchParams.location);
+		assertEquals(expectedLxSearchParams.filters, obtainedLxSearchParams.filters);
+		assertEquals(expectedLxSearchParams.startDate, obtainedLxSearchParams.startDate);
+	}
+
+	private LXSearchParams getLxSearchParamsFromDeeplink(String expectedURL) {
+		Uri data = Uri.parse(expectedURL);
+		Set<String> queryData = data.getQueryParameterNames();
+		return LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
 	}
 }

@@ -5,10 +5,12 @@ import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.joda.time.LocalDate;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
@@ -263,5 +265,19 @@ public class LXDataUtils {
 
 	private static String formatLocation(Context c, Location location) {
 		return c.getResources().getString(R.string.lx_destination_TEMPLATE, location.getCity(), Strings.isEmpty(location.getStateCode()) ? location.getCountryCode() : location.getStateCode());
+	}
+
+	public static LXSearchParams buildLXSearchParamsFromDeeplink(Uri data, Set<String> queryData) {
+		LXSearchParams searchParams = new LXSearchParams();
+		if (queryData.contains("startDate")) {
+			searchParams.startDate(DateUtils.yyyyMMddToLocalDate(data.getQueryParameter("startDate")));
+		}
+		if (queryData.contains("location")) {
+			searchParams.location(data.getQueryParameter("location"));
+		}
+		if (queryData.contains("filters")) {
+			searchParams.filters(data.getQueryParameter("filters"));
+		}
+		return searchParams;
 	}
 }
