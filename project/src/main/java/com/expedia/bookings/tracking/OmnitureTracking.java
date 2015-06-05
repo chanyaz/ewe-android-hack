@@ -370,9 +370,6 @@ public class OmnitureTracking {
 		String drrString = internalGenerateDRRString(context, property);
 		s.setEvar(9, drrString);
 
-		// Abacus Hotel Info site Free cancellation confidence placement test
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHISFreeCancellationTest);
-
 		// Send the tracking data
 		s.track();
 	}

@@ -91,7 +91,6 @@
     <string name="preference_force_passenger_category_error">preference_force_passenger_category_error</string>
     <string name="preference_aa_test">6714</string>
     <string name="preference_etp_test">6800</string>
-    <string name="preference_hotel_free_cancellation">6801</string>
     <string name="preference_flight_free_cancellation">7005</string>
     <string name="preference_hotel_search_influence_messaging">7017</string>
     <string name="preference_launch_screen">7369</string>
