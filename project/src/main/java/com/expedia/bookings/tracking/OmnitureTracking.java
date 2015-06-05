@@ -472,6 +472,7 @@ public class OmnitureTracking {
 		addStandardFields(context, s);
 		s.setEvents("event70");
 
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelHCKOTraveler);
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		s.setEvar(47, getEvar47String(params));
 		addHotelRegionId(s, params);
