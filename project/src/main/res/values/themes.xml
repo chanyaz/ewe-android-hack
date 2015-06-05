@@ -242,6 +242,7 @@
         <item name="skin_tablet_confirmation_action_color">@color/tablet_confirmation_action_color</item>
         <item name="skin_tablet_price_expanded_bucket_text_color">@color/tablet_confirmation_action_color</item>
         <item name="skin_tablet_checkout_price_breakdown_icon">@drawable/ic_tablet_checkout_price_breakdown</item>
+        <item name="skin_icTabletConfirmationCheckmarkDrawable">@drawable/ic_tablet_confirmation_checkmark</item>
 
     </style>
 

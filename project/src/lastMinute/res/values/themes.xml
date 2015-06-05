@@ -71,6 +71,7 @@
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_lm_white_logo_small</item>
         <item name="skin_bgFindItineraryButton">@drawable/btn_find_lm</item>
         <item name="skin_flightPriceTextColor">@color/flight_trip_price</item>
+        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_lm</item>
 
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels_lm</item>
         <item name="skin_hotelWebViewActionBarLogo">@drawable/ic_logo_hotels_lm</item>
