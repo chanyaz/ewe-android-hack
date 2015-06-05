@@ -172,4 +172,74 @@ public class InfoScreenSupportNumberLoyaltyTierTest {
 		Common.enterLog(TAG, "Japan POS Set");
 		clickAndVerifyNumber();
 	}
+
+	@Test
+	public void testSingaporeGold() {
+		setPOSUserTier(PointOfSaleId.SINGAPORE, Traveler.LoyaltyMembershipTier.GOLD);
+		Common.enterLog(TAG, "Singapore POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testSingaporeSilver() {
+		setPOSUserTier(PointOfSaleId.SINGAPORE, Traveler.LoyaltyMembershipTier.SILVER);
+		Common.enterLog(TAG, "Singapore POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testSpainGold() {
+		setPOSUserTier(PointOfSaleId.SPAIN, Traveler.LoyaltyMembershipTier.GOLD);
+		Common.enterLog(TAG, "Spain POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testSpainSilver() {
+		setPOSUserTier(PointOfSaleId.SPAIN, Traveler.LoyaltyMembershipTier.SILVER);
+		Common.enterLog(TAG, "Spain POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testNorwayGold() {
+		setPOSUserTier(PointOfSaleId.NORWAY, Traveler.LoyaltyMembershipTier.GOLD);
+		Common.enterLog(TAG, "Norway POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testNorwaySilver() {
+		setPOSUserTier(PointOfSaleId.NORWAY, Traveler.LoyaltyMembershipTier.SILVER);
+		Common.enterLog(TAG, "Norway POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testSwedenGold() {
+		setPOSUserTier(PointOfSaleId.SWEDEN, Traveler.LoyaltyMembershipTier.GOLD);
+		Common.enterLog(TAG, "Sweden POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testSwedenSilver() {
+		setPOSUserTier(PointOfSaleId.SWEDEN, Traveler.LoyaltyMembershipTier.SILVER);
+		Common.enterLog(TAG, "Sweden POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testHongKongGold() {
+		setPOSUserTier(PointOfSaleId.HONG_KONG, Traveler.LoyaltyMembershipTier.GOLD);
+		Common.enterLog(TAG, "Hong Kong POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testHongKongSilver() {
+		setPOSUserTier(PointOfSaleId.HONG_KONG, Traveler.LoyaltyMembershipTier.SILVER);
+		Common.enterLog(TAG, "Hong Kong POS Set");
+		clickAndVerifyNumber();
+	}
 }
