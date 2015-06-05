@@ -68,7 +68,7 @@ public class Images {
 	}
 
 	public static String getLXImageURL(String url) {
-		return "http:" + url;
+		return "https:" + url;
 	}
 
 	public static String getNearbyHotelImage(Hotel offer) {
