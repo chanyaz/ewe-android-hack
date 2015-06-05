@@ -3319,6 +3319,7 @@ public class OmnitureTracking {
 
 		s.setEvents("event73");
 		s.setCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency());
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppCarInsuranceIncludedCKO);
 		s.track();
 	}
 

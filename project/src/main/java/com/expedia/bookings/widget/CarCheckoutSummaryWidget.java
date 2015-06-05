@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -13,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.RateBreakdownItem;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -51,11 +54,14 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 	@InjectView(R.id.date_time_text)
 	TextView dateTimeText;
 
-	@InjectView(R.id.free_cancellation_text)
-	TextView freeCancellationText;
+	@InjectView(R.id.ticked_info_text_1)
+	TextView tickedInfoText1;
 
-	@InjectView(R.id.unlimited_mileage_text)
-	TextView unlimitedMileageText;
+	@InjectView(R.id.ticked_info_text_2)
+	TextView tickedInfoText2;
+
+	@InjectView(R.id.ticked_info_text_3)
+	TextView tickedInfoText3;
 
 	@InjectView(R.id.price_text)
 	TextView tripTotalText;
@@ -93,8 +99,47 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 			priceChangeText.setText(getResources().getString(R.string.price_changed_from_TEMPLATE,
 				originalFormattedPrice));
 		}
-		freeCancellationText.setVisibility(offer.hasFreeCancellation ? VISIBLE : GONE);
-		unlimitedMileageText.setVisibility(offer.hasUnlimitedMileage ? VISIBLE : GONE);
+
+		updateTickedInfoTextFields();
+	}
+
+	private void updateTickedInfoTextFields() {
+		List<String> tickedInfoTextStringValues = new ArrayList<>();
+		//Ordering Preference - Free Cancellation, Insurance Included, Unlimited Mileage
+		if (offer.hasFreeCancellation) {
+			tickedInfoTextStringValues.add(getResources().getString(R.string.free_cancellation));
+		}
+		boolean isUserBucketedForCarInsuranceIncludedCheckout = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppCarInsuranceIncludedCKO);
+		if (isUserBucketedForCarInsuranceIncludedCheckout && offer.isInsuranceIncluded) {
+			tickedInfoTextStringValues.add(getResources().getString(R.string.insurance_included));
+		}
+		if (offer.hasUnlimitedMileage) {
+			tickedInfoTextStringValues.add(getResources().getString(R.string.unlimited_mileage));
+		}
+
+		for (int iInfoTextIndex = 0; iInfoTextIndex < 3; iInfoTextIndex++) {
+			TextView infoTextView = null;
+			switch (iInfoTextIndex) {
+			case 0:
+				infoTextView = tickedInfoText1;
+				break;
+			case 1:
+				infoTextView = tickedInfoText2;
+				break;
+			case 2:
+				infoTextView = tickedInfoText3;
+				break;
+			}
+
+			if (iInfoTextIndex < tickedInfoTextStringValues.size()) {
+				infoTextView.setVisibility(VISIBLE);
+				infoTextView.setText(tickedInfoTextStringValues.get(iInfoTextIndex));
+			}
+			else {
+				infoTextView.setVisibility(GONE);
+			}
+		}
 	}
 
 	@OnClick(R.id.price_text)

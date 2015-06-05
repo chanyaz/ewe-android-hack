@@ -192,6 +192,10 @@ public class CarServices {
 
 		@Override
 		public CarCreateTripResponse call(CarCreateTripResponse carCreateTripResponse) {
+			//Propagate "isInsuranceIncluded" from Search Offer to Create Trip Offer
+			carCreateTripResponse.carProduct.isInsuranceIncluded = searchCarOffer.isInsuranceIncluded;
+
+			//Set Original Search Car Offer in case there was a Price Change
 			if (carCreateTripResponse.hasPriceChange()) {
 				carCreateTripResponse.searchCarOffer = searchCarOffer;
 			}

@@ -17,7 +17,7 @@
 
         <LinearLayout
             android:id="@+id/info_block"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:orientation="vertical">
@@ -82,29 +82,38 @@
                 android:paddingTop="8dp">
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/free_cancellation_text"
+                    android:id="@+id/ticked_info_text_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
                     android:drawableLeft="@drawable/check"
                     android:drawablePadding="8dp"
                     android:gravity="center_vertical"
-                    android:text="@string/free_cancellation"
                     android:textColor="@color/cars_checkout_text_color"
                     android:textSize="12sp" />
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/unlimited_mileage_text"
+                    android:id="@+id/ticked_info_text_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/check"
                     android:drawablePadding="8dp"
                     android:gravity="center_vertical"
-                    android:text="@string/unlimited_mileage"
                     android:textColor="@color/cars_checkout_text_color"
                     android:textSize="12sp" />
-
             </LinearLayout>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/ticked_info_text_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:drawableLeft="@drawable/check"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/cars_checkout_text_color"
+                android:textSize="12sp"
+                android:paddingTop="8dp" />
 
         </LinearLayout>
 

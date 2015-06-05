@@ -86,8 +86,8 @@ public class CarCheckoutSummaryWidgetTest {
 		TextView locationDescription = (TextView) checkoutSummaryWidget.findViewById(R.id.location_description_text);
 		TextView airportText = (TextView) checkoutSummaryWidget.findViewById(R.id.airport_text);
 		TextView dateTime = (TextView) checkoutSummaryWidget.findViewById(R.id.date_time_text);
-		TextView freeCancellation = (TextView) checkoutSummaryWidget.findViewById(R.id.free_cancellation_text);
-		TextView unlimitedMileage = (TextView) checkoutSummaryWidget.findViewById(R.id.unlimited_mileage_text);
+		TextView freeCancellation = (TextView) checkoutSummaryWidget.findViewById(R.id.ticked_info_text_1);
+		TextView unlimitedMileage = (TextView) checkoutSummaryWidget.findViewById(R.id.ticked_info_text_2);
 		TextView tripTotal = (TextView) checkoutSummaryWidget.findViewById(R.id.price_text);
 		ViewGroup priceChangeContainer = (ViewGroup) checkoutSummaryWidget.findViewById(R.id.price_change_container);
 
@@ -98,6 +98,7 @@ public class CarCheckoutSummaryWidgetTest {
 		assertEquals("San Francisco (SFO)", airportText.getText());
 		assertEquals("Shuttle to counter and car", locationDescription.getText());
 		assertEquals(View.VISIBLE, freeCancellation.getVisibility());
+		assertEquals("Free Cancellation", freeCancellation.getText());
 		assertEquals(View.GONE, unlimitedMileage.getVisibility());
 		assertEquals("$50", tripTotal.getText());
 		assertEquals(View.GONE, priceChangeContainer.getVisibility());
