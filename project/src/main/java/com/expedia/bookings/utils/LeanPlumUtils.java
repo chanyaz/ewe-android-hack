@@ -63,12 +63,6 @@ public class LeanPlumUtils {
 		String deviceType = ExpediaBookingApp.useTabletInterface(mContext) ? "Tablet" : "Phone";
 		mUserAtrributes.put("DeviceType", deviceType);
 
-		boolean isUserLoggedIn = User.isLoggedIn(mContext);
-		mUserAtrributes.put("isUserLoggedIn", isUserLoggedIn);
-		if (isUserLoggedIn) {
-			mUserAtrributes.put("membershipTier", User.getLoggedInLoyaltyMembershipTier(mContext).toString());
-		}
-
 		LeanplumPushService.setGcmSenderId(PushNotificationUtils.SENDER_ID);
 		LeanplumPushService.setCustomizer(new LeanplumPushNotificationCustomizer() {
 			@Override
@@ -82,6 +76,7 @@ public class LeanPlumUtils {
 		Leanplum.setApplicationContext(mContext);
 		LeanplumActivityHelper.enableLifecycleCallbacks(app);
 		Leanplum.start(mContext, mUserAtrributes);
+		updateLoggedInStatus();
 		Parser.parseVariablesForClasses(LeanPlumFlags.class);
 		Leanplum.addVariablesChangedHandler(flightShareCallback);
 
@@ -97,6 +92,16 @@ public class LeanPlumUtils {
 			String deviceLocale = Locale.getDefault().toString();
 			mUserAtrributes.put("DeviceLocale", deviceLocale);
 
+			boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
+				Db.getTripBucket().isUserAirAttachQualified();
+			updateAirAttachState(isUserAirAttachQualified);
+		}
+	}
+
+	public static void updateAirAttachState(boolean userIsAttachEligible) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+			// Air attach state
+			mUserAtrributes.put("airattach_eligible", userIsAttachEligible);
 			Leanplum.setUserAttributes(mUserAtrributes);
 		}
 	}
@@ -106,9 +111,17 @@ public class LeanPlumUtils {
 			boolean isUserLoggedIn = User.isLoggedIn(mContext);
 			mUserAtrributes.put("isUserLoggedIn", isUserLoggedIn);
 			if (isUserLoggedIn) {
+				if (Db.getUser() == null) {
+					Db.loadUser(mContext);
+				}
+				if (Db.getUser().getPrimaryTraveler() != null) {
+					mUserAtrributes.put("first_name", Db.getUser().getPrimaryTraveler().getFirstName());
+				}
 				mUserAtrributes.put("membershipTier", User.getLoggedInLoyaltyMembershipTier(mContext).toString());
 			}
-			Leanplum.setUserAttributes(mUserAtrributes);
+			boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
+				Db.getTripBucket().isUserAirAttachQualified();
+			updateAirAttachState(isUserAirAttachQualified);
 		}
 	}
 

@@ -23,6 +23,7 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.LeanPlumUtils;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -492,7 +493,7 @@ public class Db {
 	}
 
 	public static boolean loadTripBucket(Context context) {
-		return loadFromDisk(context, new IDiskLoad() {
+		boolean hasTrip = loadFromDisk(context, new IDiskLoad() {
 			@Override
 			public boolean doLoad(JSONObject json) throws Exception, OutOfMemoryError {
 				if (json.has("tripBucket")) {
@@ -501,6 +502,9 @@ public class Db {
 				return true;
 			}
 		}, SAVED_TRIP_BUCKET_FILE_NAME, "TripBucket");
+		boolean isAirAttachQualified = hasTrip ? sDb.mTripBucket.isUserAirAttachQualified() : false;
+		LeanPlumUtils.updateAirAttachState(isAirAttachQualified);
+		return hasTrip;
 	}
 
 	public static boolean deleteTripBucket(Context context) {
