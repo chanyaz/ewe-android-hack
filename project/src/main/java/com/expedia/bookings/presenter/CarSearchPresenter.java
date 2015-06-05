@@ -200,6 +200,8 @@ public class CarSearchPresenter extends Presenter
 			setPickUpLocation(suggestion, false);
 			calendar.setSelectedDates(carSearchParams.startDateTime.toLocalDate(),
 				carSearchParams.endDateTime.toLocalDate());
+			calendarContainer.setPickupTime(carSearchParams.startDateTime);
+			calendarContainer.setDropoffTime(carSearchParams.endDateTime);
 		}
 		else {
 			loadHistory();
