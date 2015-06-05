@@ -63,6 +63,10 @@
 
     </style>
 
+    <style name="OverflowMenuButton" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_overflow_pink</item>
+    </style>
+
     <style name="V2.Theme.Activity.TabletWeb">
         <item name="android:windowActionBarOverlay">false</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletWeb</item>
