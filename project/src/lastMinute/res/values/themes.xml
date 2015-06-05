@@ -209,6 +209,10 @@
         <item name="android:backgroundSplit" tools:targetApi="11">@drawable/bg_action_bar_flight_bottom_lm</item>
     </style>
 
+    <style name="ItineraryThemeOverflowMenuButton" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_overflow_white</item>
+    </style>
+
     <style name="ItineraryTheme" parent="Theme.LM">
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_lm_logo</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.LM</item>
@@ -235,6 +239,8 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_lm</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_lm</item>
+        <item name="android:actionOverflowButtonStyle">@style/ItineraryThemeOverflowMenuButton</item>
+        <item name="actionOverflowButtonStyle">@style/ItineraryThemeOverflowMenuButton</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
