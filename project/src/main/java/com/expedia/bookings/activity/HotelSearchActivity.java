@@ -951,8 +951,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			mTag = prefs.getString("tag", getString(R.string.tag_hotel_list));
 		}
 		boolean isListShowing = mTag.equals(getString(R.string.tag_hotel_list));
+		int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHSRMapIconTest);
 		if (isListShowing) {
-			int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHSRMapIconTest);
 			if (testVariate == AbacusUtils.HISMapIconVariate.MAP_PIN.ordinal()) {
 				map.setIcon(R.drawable.ab_map);
 			}
@@ -965,7 +965,13 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			}
 		}
 		else {
-			menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_list);
+			if (testVariate == AbacusUtils.HISMapIconVariate.TEXT_ONLY.ordinal()) {
+				map.setIcon(null);
+				map.setTitle(R.string.list_text);
+			}
+			else {
+				map.setIcon(R.drawable.ic_menu_list);
+			}
 		}
 		menu.findItem(R.id.menu_select_sort).setVisible(isListShowing);
 		menu.findItem(R.id.menu_select_search_map).setVisible(!isListShowing);
