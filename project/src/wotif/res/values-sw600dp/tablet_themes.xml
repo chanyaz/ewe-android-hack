@@ -60,6 +60,8 @@
         <item name="skin_tabletCalenderResultsSearchBlue">@color/tablet_calender_results_search_blue_wotif</item>
         <item name="skin_sectionFlightEditTravelerLinkColor">@color/section_flight_edit_traveler_link_color_wotif</item>
         <item name="skin_roomRateRefundableCancellationTextColor">@color/room_rate_refundable_cancellation_text_color_wotif</item>
+        <item name="skin_icRenovationTabletDrawable">@drawable/ic_renovation_tablet</item>
+        <item name="skin_icFeesTabletDrawable">@drawable/ic_fees_tablet</item>
 
     </style>
 

@@ -97,7 +97,7 @@
                 android:layout_height="@dimen/confirmation_checkmark_size"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/confirmation_checkmark_margin"
-                android:src="@drawable/ic_tablet_confirmation_checkmark" />
+                android:src="?attr/skin_icTabletConfirmationCheckmarkDrawable" />
 
         </FrameLayout>
 

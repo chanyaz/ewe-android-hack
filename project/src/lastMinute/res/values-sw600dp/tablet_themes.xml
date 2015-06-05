@@ -45,7 +45,7 @@
         <item name="skin_tablet_confirmation_phone_icon">@drawable/ic_tablet_confirmation_phone_lm</item>
         <item name="skin_tablet_confirmation_share_icon">@drawable/ic_tablet_confirmation_share_lm</item>
         <item name="skin_tablet_confirmation_action_color">@color/tablet_confirmation_action_color_lm</item>
-        <item name="skin_tablet_price_expanded_bucket_text_color">@color/tablet_price_expanded_bucket_text_color</item>
+        <item name="skin_tablet_price_expanded_bucket_text_color">@color/tablet_price_expanded_bucket_text_color_lm</item>
         <item name="skin_tablet_checkout_price_breakdown_icon">@drawable/ic_tablet_checkout_price_breakdown_lm</item>
 
         <item name="android:actionMenuTextColor">@color/action_bar_bg_color</item>
@@ -60,6 +60,9 @@
         <item name="skin_tabletCalenderResultsSearchBlue">@color/tablet_calender_results_search_blue_lm</item>
         <item name="skin_sectionFlightEditTravelerLinkColor">@color/section_flight_edit_traveler_link_color_lm</item>
         <item name="skin_roomRateRefundableCancellationTextColor">@color/room_rate_refundable_cancellation_text_color_lm</item>
+        <item name="skin_icTabletConfirmationCheckmarkDrawable">@drawable/ic_tablet_confirmation_checkmark_lm</item>
+        <item name="skin_icRenovationTabletDrawable">@drawable/ic_renovation_tablet_lm</item>
+        <item name="skin_icFeesTabletDrawable">@drawable/ic_fees_tablet_lm</item>
 
     </style>
 
