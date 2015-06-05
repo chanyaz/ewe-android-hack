@@ -501,9 +501,4 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			return;
 		}
 	}
-
-	@Override
-	public void onGallerySwiped(int position) {
-		mGalleryFragment.toggleSwipeIndicators(position);
-	}
 }
