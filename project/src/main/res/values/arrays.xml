@@ -844,21 +844,7 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-
-    <string-array name="abacus_book_choices">
-        <item>@string/preference_abacus_setting_server</item>
-        <item>@string/preference_abacus_setting_controlgroup</item>
-        <item>Book above the fold</item>
-        <item>Select room above the fold</item>
-    </string-array>
-
-    <string-array name="abacus_book_choice_values">
-        <item>-1</item>
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
+    
     <string-array name="abacus_search_influence_choices">
         <item>@string/preference_abacus_setting_server</item>
         <item>@string/preference_abacus_setting_controlgroup</item>

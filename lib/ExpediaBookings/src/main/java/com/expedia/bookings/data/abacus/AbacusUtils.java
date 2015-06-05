@@ -15,7 +15,6 @@ public class AbacusUtils {
 
 	public static final int EBAndroidAATest = 6714;
 	public static final int EBAndroidETPTest = 6800;
-	public static final int EBAndroidAppHISBookAboveFoldTest = 6815;
 	public static final int EBAndroidAppHISFreeCancellationTest = 6801;
 	public static final int EBAndroidAppHISSwipablePhotosTest = 7021;
 	public static final int EBAndroidAppFlightCKOFreeCancelationTest = 7005;
@@ -38,12 +37,6 @@ public class AbacusUtils {
 		BUCKETED
 	}
 
-	public static enum HISBookAboveFoldVariate {
-		CONTROL,
-		BOOK_ABOVE_FOLD,
-		SELECT_ROOM_ABOVE_FOLD
-	}
-
 	public static enum HSearchInfluenceMessagingVariate {
 		CONTROL,
 		WORKING_HARD,
@@ -62,7 +55,6 @@ public class AbacusUtils {
 		List<Integer> testIDs = new ArrayList<>();
 		testIDs.add(EBAndroidAATest);
 		testIDs.add(EBAndroidETPTest);
-		testIDs.add(EBAndroidAppHISBookAboveFoldTest);
 		testIDs.add(EBAndroidAppHISFreeCancellationTest);
 		testIDs.add(EBAndroidAppHISSwipablePhotosTest);
 		testIDs.add(EBAndroidAppFlightCKOFreeCancelationTest);
