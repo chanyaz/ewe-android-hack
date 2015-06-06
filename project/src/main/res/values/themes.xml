@@ -178,7 +178,6 @@
         <item name="skin_infoContactUsString">@string/contact_expedia_via</item>
         <item name="skin_infoContactEmailSubjectString">@string/contact_expedia_email_subject</item>
         <item name="skin_loadingAirAsiaRoutesString">@string/loading_air_asia_routes</item>
-        <item name="skin_emailUserNameString">@string/email_user_name</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
         <item name="skin_singleFlightNotAvailableError">@string/error_flight_no_longer_available_expedia</item>

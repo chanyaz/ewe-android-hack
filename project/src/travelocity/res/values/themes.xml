@@ -54,7 +54,6 @@
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_travelocity</item>
         <item name="skin_infoContactUsString">@string/contact_travelocity_via</item>
         <item name="skin_infoContactEmailSubjectString">@string/contact_travelocity_email_subject</item>
-        <item name="skin_emailUserNameString">@string/email_user_name_tvly</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
         <item name="skin_singleFlightNotAvailableError">@string/error_flight_no_longer_available_tvly</item>

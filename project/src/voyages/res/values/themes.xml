@@ -52,7 +52,6 @@
         <item name="skin_aboutAppNameString">@string/vsc_full_app_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/ic_voyages_sncf</item>
         <item name="skin_aboutWebsiteString">@string/vsc_website</item>
-        <item name="skin_emailUserNameString">@string/email_user_name_vsc</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_vsc_purple_flat</item>
         <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure_vsc</item>
         <item name="skin_loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_vsc</item>

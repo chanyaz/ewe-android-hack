@@ -196,7 +196,6 @@
     <attr name="skin_infoContactEmailSubjectString" format="reference|string"/>
 
     <attr name="skin_loadingAirAsiaRoutesString" format="reference|string" />
-    <attr name="skin_emailUserNameString" format="reference|string" />
     <attr name="skin_itineraryNumberString" format="reference|string" />
     <attr name="skin_itinCardOverflowDrawable" format="reference"/>
     <attr name="skin_itinCardActionBarCheckmark" format="reference"/>
