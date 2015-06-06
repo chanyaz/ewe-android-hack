@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -37,6 +38,7 @@ import com.expedia.bookings.section.HotelReceiptExtraSection;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 public class HotelReceipt extends LinearLayout {
 	public interface OnSizeChangedListener {
@@ -309,8 +311,12 @@ public class HotelReceipt extends LinearLayout {
 		else {
 			HotelReceiptExtraSection dueToExpediaRow = Ui
 				.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
-			String totalDueToExpediaToday = getResources().getString(R.string.total_due_to_our_brand_today);
-			dueToExpediaRow.bind(totalDueToExpediaToday, rate.getTotalAmountAfterTax().getFormattedMoney());
+
+			String totalDueToOurBrandToday = Phrase.from(this, R.string.total_due_to_brand_today_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format()
+				.toString();
+			dueToExpediaRow.bind(totalDueToOurBrandToday, rate.getTotalAmountAfterTax().getFormattedMoney());
 			mExtrasLayout.addView(dueToExpediaRow);
 		}
 	}
@@ -320,7 +326,10 @@ public class HotelReceipt extends LinearLayout {
 		mExtrasDivider.setVisibility(View.VISIBLE);
 
 		HotelReceiptExtraSection dueToOurBrandRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
-		String totalDueToOurBrandToday = getResources().getString(R.string.total_due_to_our_brand_today);
+		String totalDueToOurBrandToday = Phrase.from(this, R.string.total_due_to_brand_today_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format()
+			.toString();
 		dueToOurBrandRow.bind(totalDueToOurBrandToday, rate.getDepositAmount().getFormattedMoney());
 
 		if (rate.getDepositAmount().isZero()) {
