@@ -220,6 +220,10 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			.put("brand", BuildConfig.brand)
 			.format());
 
+		mLinkPassword.setHint(Phrase.from(this, R.string.brand_password_hint_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
+
 		if (Session.getActiveSession() != null) {
 			Session.getActiveSession().addCallback(mFacebookStatusCallback);
 		}

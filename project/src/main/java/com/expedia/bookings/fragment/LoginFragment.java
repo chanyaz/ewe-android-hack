@@ -242,6 +242,10 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			.put("brand", BuildConfig.brand)
 			.format());
 
+		mLinkPassword.setHint(Phrase.from(getActivity(), R.string.brand_password_hint_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
+
 		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled()) {
 			setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
 			mSignInBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
