@@ -66,7 +66,6 @@
         <item name="skin_addToCalenderMessage">@string/contact_phone_template_tvly</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_tvly</item>
         <item name="skin_passwordHint">@string/tvly_password_hint</item>
-        <item name="skin_loadingAccount">@string/loading_tvly_account</item>
         <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_login_message_tvly</item>
         <item name="skin_tellAFriendSubject">@string/tell_a_friend_subject_tvly</item>
         <item name="skin_tellAFriendBody">@string/tell_a_friend_body_tvly</item>

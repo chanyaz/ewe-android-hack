@@ -238,7 +238,6 @@
     <attr name="skin_tellAFriendSubject" format="reference|string" />
     <attr name="skin_sorryRoomsSoldOut" format="reference|string" />
     <attr name="skin_passwordHint" format="reference|string" />
-    <attr name="skin_loadingAccount" format="reference|string" />
     <attr name="skin_restrictedProfileLoginMessage" format="reference|string" />
     <attr name="skin_dialogMessageLaunchMobileSite" format="reference|string" />
     <attr name="skin_sorryRoomsSoldOutErrorMessage" format="reference|string" />

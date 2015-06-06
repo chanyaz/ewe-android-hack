@@ -191,7 +191,6 @@
         <item name="skin_addToCalenderMessage">@string/contact_phone_template</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out</item>
         <item name="skin_passwordHint">@string/expedia_password_hint</item>
-        <item name="skin_loadingAccount">@string/loading_expedia_account</item>
         <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_sign_in_message</item>
         <item name="skin_tellAFriendSubject">@string/tell_a_friend_subject</item>
         <item name="skin_tellAFriendBody">@string/tell_a_friend_body</item>

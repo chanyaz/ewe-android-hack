@@ -90,7 +90,6 @@
         <item name="skin_addToCalenderMessage">@string/contact_phone_template_lm</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_lm</item>
         <item name="skin_passwordHint">@string/lm_password_hint</item>
-        <item name="skin_loadingAccount">@string/loading_lm_account</item>
         <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_login_message_lm</item>
         <item name="skin_tellAFriendSubject">@string/tell_a_friend_subject_lm</item>
         <item name="skin_tellAFriendBody">@string/tell_a_friend_body_lm</item>

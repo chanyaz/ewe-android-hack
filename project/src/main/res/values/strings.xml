@@ -2762,8 +2762,8 @@
     <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia Account</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Loading Expedia Account</string>
+    <!-- Label for loading user profile from Expedia -->
+    <string name="loading_brand_account_TEMPLATE">Loading {brand} Account</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Forgot your password?</string>
     <!-- Webview title for password recovery -->

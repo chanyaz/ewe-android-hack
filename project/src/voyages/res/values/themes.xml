@@ -71,7 +71,6 @@
         <item name="skin_addToCalenderMessage">@string/contact_phone_template_vsc</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_vsc</item>
         <item name="skin_passwordHint">@string/vsc_password_hint</item>
-        <item name="skin_loadingAccount">@string/loading_vsc_account</item>
         <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_login_message_vsc</item>
         <item name="skin_tellAFriendSubject">@string/tell_a_friend_subject_vsc</item>
         <item name="skin_tellAFriendBody">@string/tell_a_friend_body_vsc</item>
