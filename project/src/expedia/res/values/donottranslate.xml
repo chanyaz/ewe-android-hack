@@ -3,4 +3,7 @@
     <string name="brand_name">Expedia</string>
 
     <string name="app_name">Expedia</string>
+
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Expedia, Inc.</string>
 </resources>

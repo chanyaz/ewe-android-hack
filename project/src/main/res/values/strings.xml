@@ -3276,8 +3276,6 @@
     <string name="country_ax">Åland Islands</string>
 
     <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Expedia, Inc.</string>
     <!-- Loading message -->
     <string name="loading">Loading</string>
     <!-- Google Wallet label -->
