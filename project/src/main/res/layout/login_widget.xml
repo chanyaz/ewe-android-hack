@@ -123,15 +123,12 @@
                     android:visibility="gone">
 
                     <Button
-                        android:id="@+id/log_in_with_expedia_btn"
+                        android:id="@+id/log_in_btn"
                         style="@style/CarsLoginFormButton"
-                        android:contentDescription="?attr/skin_loginWithExpediaContentDescription"
                         android:gravity="center"
                         android:background="@drawable/btn_signin_cars"
                         android:textColor="#836B11"
-                        android:textAllCaps="false"
-                        android:text="?attr/skin_loginWithExpediaButtonText"
-                      />
+                        android:textAllCaps="false" />
 
                     <TextView
                         android:id="@+id/forgot_your_password_link"
@@ -258,13 +255,12 @@
         android:visibility="gone" />
 
     <com.expedia.bookings.widget.TextView
+        android:id="@+id/login_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:textSize="18sp"
-        android:id="@+id/login_text"
         android:drawableLeft="@drawable/expedia"
         android:gravity="center|left"
-        android:drawablePadding="16dp"
-        android:text="@string/cars_sign_in_text" />
+        android:drawablePadding="16dp" />
 </merge>

@@ -33,7 +33,6 @@
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_vsc</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/rainbow_bar</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_vsc</item>
-        <item name="skin_loginWithExpediaButtonText">@string/Log_in_with_VSC</item>
         <item name="skin_loginWithExpediaTitleText">@string/vsc_account</item>
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_vsc</item>
         <item name="skin_hotelConfirmationCallActionDrawable">@null</item>
@@ -54,7 +53,6 @@
         <item name="skin_aboutWebsiteString">@string/vsc_website</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_vsc_purple_flat</item>
         <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure_vsc</item>
-        <item name="skin_loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_vsc</item>
         <item name="skin_hotelConfirmationCallActionText">@string/call_vsc_customer_support</item>
         <item name="skin_logoutConfirmationString">@string/logout_confirmation_vsc</item>
         <item name="skin_flightUnhandledErrorMessage">@string/error_flight_unhandled_TEMPLATE_vsc</item>

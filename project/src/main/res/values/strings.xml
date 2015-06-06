@@ -67,8 +67,6 @@
     <string name="car_auto_tran_text">Automatic Transmission</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">Manual Transmission</string>
-    <!-- Sign in Text-->
-    <string name="cars_sign_in_text">Sign in with Expedia</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -897,6 +895,8 @@
     <string name="Sign_In">Sign In</string>
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_Expedia">Sign in with Expedia</string>
+    <!-- Sign in with the current brand -->
+    <string name="sign_in_with_brand_TEMPLATE">Sign in with {brand}</string>
     <!-- or -->
     <string name="or">or</string>
     <!-- Already signed in -->
@@ -3493,8 +3493,6 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">Press to begin checkout</string>
-    <!-- Content description for action: Press to sign in with your Expedia account -->
-    <string name="cd_checkout_sign_in_with_expedia">Press to sign in to your Expedia account</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">Press to add a traveler to this booking</string>
     <!-- Content description for action: Press to select payment for this booking -->

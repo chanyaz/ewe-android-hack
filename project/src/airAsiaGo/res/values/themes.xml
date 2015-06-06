@@ -20,8 +20,6 @@
         <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_aag</item>
         <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_aag</item>
         <item name="skin_loginWithExpediaTitleText">@string/aag_account</item>
-        <item name="skin_loginWithExpediaButtonText">@string/Log_in_with_aag</item>
-        <item name="skin_loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_aag</item>
         <item name="skin_aboutWebsiteString">@string/aag_website</item>
         <item name="skin_aboutAppSupportString">@string/aag_app_support</item>
         <item name="skin_aboutCopyrightString">@string/aag_copyright_TEMPLATE</item>

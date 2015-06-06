@@ -125,12 +125,10 @@
                 android:visibility="gone" >
 
                 <Button
-                    android:id="@+id/log_in_with_expedia_btn"
+                    android:id="@+id/log_in_btn"
                     style="@style/LoginFormButton"
                     android:background="?attr/skin_loginBookNowButtonDrawable"
-                    android:contentDescription="?attr/skin_loginWithExpediaContentDescription"
                     android:gravity="center"
-                    android:text="?attr/skin_loginWithExpediaButtonText"
                     android:textColor="?attr/skin_loginButtonColor" />
 
                 <TextView

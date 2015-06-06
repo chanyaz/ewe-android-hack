@@ -23,8 +23,6 @@
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>
         <item name="skin_loginWithExpediaTitleText">@string/travelocity_account</item>
-        <item name="skin_loginWithExpediaButtonText">@string/Log_in_with_Travelocity</item>
-        <item name="skin_loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_travelocity</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>

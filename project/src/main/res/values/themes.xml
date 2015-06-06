@@ -132,7 +132,6 @@
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/border_horizontal_expedia_striped</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="skin_loginWithExpediaButtonText">@string/Sign_in_with_Expedia</item>
         <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
         <item name="skin_loginButtonColor">@android:color/black</item>
         <item name="skin_hotelBookButtonColor">@android:color/black</item>
@@ -170,7 +169,6 @@
         <item name="skin_serverErrorMessageString">@string/error_server</item>
         <item name="skin_savePaymentToAccountString">@string/save_billing_info_message</item>
         <item name="skin_saveTravelerToAccountString">@string/save_traveler_message_TEMPLATE</item>
-        <item name="skin_loginWithExpediaContentDescription">@string/cd_checkout_sign_in_with_expedia</item>
         <item name="skin_cvvEntryTitleText">@string/security_code_TEMPLATE</item>
         <item name="skin_bgFindItineraryButton">@drawable/btn_find</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
