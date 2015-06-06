@@ -182,7 +182,6 @@
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error</item>
         <item name="skin_clearPrivateDataMsg">@string/dialog_message_signed_out_and_cleared_private_data</item>
-        <item name="skin_hotelSearchResultNotAvailale">@string/not_currently_available</item>
         <item name="skin_hotelSearchResultSoldOut">@string/sold_out_on_expedia</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>

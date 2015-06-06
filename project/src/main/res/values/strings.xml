@@ -3309,9 +3309,9 @@
 
     <!-- Handling sold out hotels -->
     <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available">Not currently available from Expedia</string>
+    <string name="not_currently_available_from_brand_TEMPLATE">Not currently available from {brand}</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_from_brand_TEMPLATE">Not available from {brand} {dates}</string>
+    <string name="not_currently_available_from_brand_dates_TEMPLATE">Not available from {brand} {dates}</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->

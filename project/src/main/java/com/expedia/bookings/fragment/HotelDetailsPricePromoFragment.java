@@ -72,12 +72,15 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 
 			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 			if (params.isDefaultStay()) {
-				mSoldOutTextView.setText((Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelSearchResultNotAvailale)));
+				mSoldOutTextView.setText(
+					Phrase.from(getActivity(), R.string.not_currently_available_from_brand_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.format());
 			}
 			else {
 				String dates = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_ABBREV_ALL);
 				mSoldOutTextView.setText(
-					Phrase.from(getActivity(), R.string.not_currently_available_from_brand_TEMPLATE)
+					Phrase.from(getActivity(), R.string.not_currently_available_from_brand_dates_TEMPLATE)
 					.put("brand", BuildConfig.brand)
 					.put("dates", dates)
 					.format());
