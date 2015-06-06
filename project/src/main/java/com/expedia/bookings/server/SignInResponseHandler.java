@@ -42,7 +42,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 
 		try {
 			// Check for errors
-			signInResponse.addErrors(ParserUtils.parseErrors(mContext, ServerError.ApiMethod.SIGN_IN, response));
+			signInResponse.addErrors(ParserUtils.parseErrors(ServerError.ApiMethod.SIGN_IN, response));
 			signInResponse.setSuccess(response.optBoolean("success", true));
 
 			if (signInResponse.isSuccess()) {

@@ -30,7 +30,7 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 
 		try {
 			// Check for errors, return if found
-			checkoutResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.FLIGHT_CHECKOUT, response));
+			checkoutResponse.addErrors(ParserUtils.parseErrors(ApiMethod.FLIGHT_CHECKOUT, response));
 			if (!checkoutResponse.isSuccess()) {
 				// Some errors require special parsing
 				JSONObject detailResponse = response.optJSONObject("flightDetailResponse");

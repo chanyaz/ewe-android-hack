@@ -109,7 +109,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 				}
 
 				Rate selectedRate = hotel.getRate();
-				HotelBookingResponse response = services.reservation(hotel.getHotelSearchParams(), hotel.getProperty(),
+				HotelBookingResponse response = services.reservation(hotel.getHotelSearchParams(),
 					selectedRate, Db.getBillingInfo(), tripId, userId, tuid, tealeafId);
 
 				notifyWalletTransactionStatus(response);

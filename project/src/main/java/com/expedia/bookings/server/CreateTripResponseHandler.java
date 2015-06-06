@@ -32,8 +32,8 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 	public CreateTripResponse handleJson(JSONObject response) {
 		CreateTripResponse createTripResponse = new CreateTripResponse();
 		try {
-			List<ServerError> errors = ParserUtils.parseErrors(mContext, ServerError.ApiMethod.CREATE_TRIP, response);
-			List<ServerError> warnings = ParserUtils.parseWarnings(mContext, ServerError.ApiMethod.CREATE_TRIP, response);
+			List<ServerError> errors = ParserUtils.parseErrors(ServerError.ApiMethod.CREATE_TRIP, response);
+			List<ServerError> warnings = ParserUtils.parseWarnings(ServerError.ApiMethod.CREATE_TRIP, response);
 			List<ServerError> allErrors = new ArrayList<ServerError>();
 			if (errors != null) {
 				allErrors.addAll(errors);

@@ -286,7 +286,7 @@ public class ExpediaServices implements DownloadListener {
 		return doRequest(get, responseHandler, 0);
 	}
 
-	public SuggestionResponse suggestions(String query, int flags) {
+	public SuggestionResponse suggestions(String query) {
 		if (query == null || query.length() < getMinSuggestQueryLength()) {
 			return null;
 		}
@@ -427,11 +427,11 @@ public class ExpediaServices implements DownloadListener {
 	// Documentation: http://www.expedia.com/static/mobile/APIConsole/flight.html
 
 	public FlightSearchResponse flightSearch(FlightSearchParams params, int flags) {
-		List<BasicNameValuePair> query = generateFlightSearchParams(params, flags);
+		List<BasicNameValuePair> query = generateFlightSearchParams(params);
 		return doFlightsRequest("api/flight/search", query, new StreamingFlightSearchResponseHandler(mContext), flags);
 	}
 
-	public List<BasicNameValuePair> generateFlightSearchParams(FlightSearchParams params, int flags) {
+	public List<BasicNameValuePair> generateFlightSearchParams(FlightSearchParams params) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		// This code currently assumes that you are either making a one-way or round trip flight,
@@ -497,7 +497,7 @@ public class ExpediaServices implements DownloadListener {
 
 	public FlightCheckoutResponse flightCheckout(TripBucketItemFlight flightItem, BillingInfo billingInfo,
 		List<Traveler> travelers, int flags) {
-		List<BasicNameValuePair> query = generateFlightCheckoutParams(flightItem, billingInfo, travelers, flags);
+		List<BasicNameValuePair> query = generateFlightCheckoutParams(flightItem, billingInfo, travelers);
 
 		Itinerary itinerary = flightItem.getItinerary();
 		Log.v("tealeafTransactionId for flight: " + itinerary.getTealeafId());
@@ -507,7 +507,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public List<BasicNameValuePair> generateFlightCheckoutParams(TripBucketItemFlight flightItem,
-		BillingInfo billingInfo, List<Traveler> travelers, int flags) {
+		BillingInfo billingInfo, List<Traveler> travelers) {
 		FlightTrip flightTrip = flightItem.getFlightTrip();
 		Itinerary itinerary = flightItem.getItinerary();
 
@@ -826,7 +826,7 @@ public class ExpediaServices implements DownloadListener {
 		return query;
 	}
 
-	public HotelBookingResponse reservation(HotelSearchParams params, Property property, Rate rate,
+	public HotelBookingResponse reservation(HotelSearchParams params, Rate rate,
 		BillingInfo billingInfo,
 		String tripId, String userId, Long tuid, String tealeafId) {
 		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId, userId,
@@ -971,7 +971,7 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// Documentation: https://www.expedia.com/static/mobile/APIConsole/trip.html
 
-	public TripResponse getTrips(boolean getCachedDetails, int flags) {
+	public TripResponse getTrips(boolean getCachedDetails) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		addCommonParams(query);
 		query.add(new BasicNameValuePair("filterBookingStatus", "PENDING"));

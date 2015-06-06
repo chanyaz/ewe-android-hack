@@ -1459,7 +1459,7 @@ public class ItineraryManager implements JSONable {
 				Log.d(LOGGING_TAG, "User is logged in, refreshing the user list.  Using cached details call: "
 						+ getCachedDetails);
 
-				TripResponse response = mServices.getTrips(getCachedDetails, 0);
+				TripResponse response = mServices.getTrips(getCachedDetails);
 
 				if (isCancelled()) {
 					return;

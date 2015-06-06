@@ -356,7 +356,7 @@ public class DeepLinkRouterActivity extends Activity {
 					@Override
 					public SuggestionResponse doDownload() {
 						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-						return services.suggestions(query, 0);
+						return services.suggestions(query);
 					}
 				}, mSuggestCallback);
 				return false;
@@ -525,7 +525,7 @@ public class DeepLinkRouterActivity extends Activity {
 					@Override
 					public SuggestionResponse doDownload() {
 						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-						return services.suggestions(destAirportCode, 0);
+						return services.suggestions(destAirportCode);
 					}
 				}, mSuggestCallback);
 		}

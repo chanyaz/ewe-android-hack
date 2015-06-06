@@ -45,7 +45,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		HotelOffersResponse availResponse = new HotelOffersResponse();
 		try {
 			// Check for errors, return if found
-			availResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.HOTEL_OFFERS, response));
+			availResponse.addErrors(ParserUtils.parseErrors(ApiMethod.HOTEL_OFFERS, response));
 			if (!availResponse.isSuccess()) {
 				return availResponse;
 			}
