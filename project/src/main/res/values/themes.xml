@@ -184,7 +184,6 @@
         <item name="skin_clearPrivateDataMsg">@string/dialog_message_signed_out_and_cleared_private_data</item>
         <item name="skin_hotelSearchResultNotAvailale">@string/not_currently_available</item>
         <item name="skin_hotelSearchResultSoldOut">@string/sold_out_on_expedia</item>
-        <item name="skin_hotelSearchResultTEMPLATE">@string/not_currently_available_TEMPLATE</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
         <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>

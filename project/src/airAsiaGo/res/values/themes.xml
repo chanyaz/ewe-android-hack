@@ -61,7 +61,6 @@
         <item name="skin_clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_aag</item>
         <item name="skin_hotelSearchResultNotAvailale">@string/not_currently_available_aag</item>
         <item name="skin_hotelSearchResultSoldOut">@string/sold_out_on_agg</item>
-        <item name="skin_hotelSearchResultTEMPLATE">@string/not_currently_available_aag_TEMPLATE</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_aag_yellow_flat</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_aag</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_aag</item>
