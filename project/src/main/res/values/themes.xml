@@ -162,7 +162,6 @@
         <item name="skin_aboutInfoUrlString">@string/app_mobiata_info_url</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/mobiata</item>
-        <item name="skin_logoutConfirmationString">@string/sign_out_confirmation</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/black</item>
         <item name="skin_flightLoadingMessagePosition">@id/plane_window_view</item>
         <item name="skin_flightUnhandledErrorMessage">@string/error_flight_unhandled_TEMPLATE</item>
@@ -291,7 +290,6 @@
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="skin_logoutConfirmationString">@string/sign_out_confirmation</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
         <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>

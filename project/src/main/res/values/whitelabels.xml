@@ -147,9 +147,6 @@
     <attr name="skin_aboutAppNameString" format="reference|string" />
     <attr name="skin_aboutAppLogoDrawable" format="reference" />
 
-    <!-- for logout confirmation -->
-    <attr name="skin_logoutConfirmationString" format="reference|string" />
-
     <!-- Flight loading screen message position -->
     <attr name="skin_flightLoadingMessagePosition" format="reference" />
 

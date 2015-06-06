@@ -56,7 +56,6 @@
         <item name="skin_aboutInfoUrlString">@string/lm_info_url</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/ic_launcher</item>
-        <item name="skin_logoutConfirmationString">@string/logout_confirmation_lm</item>
         <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_lm_logo_small</item>
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_lm</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
@@ -172,7 +171,6 @@
         <item name="textColor">@color/actionbar_text</item>
 
         <!-- PopupMenu -->
-        <item name="skin_logoutConfirmationString">@string/logout_confirmation_lm</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_lm_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_lm_background</item>
         <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_lm_placeholder_cruises</item>

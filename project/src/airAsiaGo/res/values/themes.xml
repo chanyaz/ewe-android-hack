@@ -24,7 +24,6 @@
         <item name="skin_aboutAppSupportString">@string/aag_app_support</item>
         <item name="skin_aboutCopyrightString">@string/aag_copyright_TEMPLATE</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
-        <item name="skin_logoutConfirmationString">@string/logout_confirmation_aag</item>
         <item name="skin_flightUnhandledErrorMessage">@string/error_flight_unhandled_aag_TEMPLATE</item>
         <item name="skin_serverErrorMessageString">@string/error_server_aag</item>
         <item name="skin_savePaymentToAccountString">@string/save_billing_aag_info_message</item>
@@ -151,7 +150,6 @@
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="skin_logoutConfirmationString">@string/sign_out_confirmation</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
         <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>
