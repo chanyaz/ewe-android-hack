@@ -224,6 +224,14 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			.put("brand", BuildConfig.brand)
 			.format());
 
+		mTryFacebookAgain.setContentDescription(Phrase.from(this, R.string.cd_sign_into_brand_with_your_facebook_account_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
+
+		mLogInWithFacebookBtn.setContentDescription(Phrase.from(this, R.string.cd_sign_into_brand_with_your_facebook_account_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
+
 		if (Session.getActiveSession() != null) {
 			Session.getActiveSession().addCallback(mFacebookStatusCallback);
 		}

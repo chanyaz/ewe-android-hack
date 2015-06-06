@@ -109,7 +109,6 @@
                     android:layout_marginLeft="@dimen/login_side_margin_small"
                     android:layout_marginRight="@dimen/login_side_margin_small"
                     android:background="@drawable/btn_facebook_signin"
-                    android:contentDescription="@string/cd_sign_in_with_facebook"
                     android:gravity="center"
                     android:text="@string/Sign_in_with_Facebook" />
             </LinearLayout>
@@ -191,7 +190,6 @@
                 style="@style/LoginFormButton"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/btn_facebook_signin"
-                android:contentDescription="@string/cd_sign_in_with_facebook"
                 android:gravity="center"
                 android:text="@string/authorize_email_facebook_button" />
 

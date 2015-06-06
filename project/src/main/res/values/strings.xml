@@ -3484,8 +3484,8 @@
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Press to enter a coupon or promotional code</string>
     <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign into Expedia with your Facebook account -->
-    <string name="cd_sign_in_with_facebook">Press to sign into Expedia with your Facebook account</string>
+    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
+    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">Press to sign into {brand} with your Facebook account</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Press to enter a new traveler</string>
