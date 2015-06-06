@@ -733,7 +733,7 @@ public class ExpediaServices implements DownloadListener {
 	public HotelOffersResponse availability(HotelSearchParams params, Property property) {
 		List<BasicNameValuePair> query = generateHotelAvailabilityParams(params, property);
 
-		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, params, property);
+		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, params);
 
 		return doE3Request("m/api/hotel/offers", query, responseHandler, 0);
 	}
@@ -766,7 +766,7 @@ public class ExpediaServices implements DownloadListener {
 	public HotelOffersResponse hotelInformation(Property property) {
 		List<BasicNameValuePair> query = generateHotelAvailabilityParams(null, property);
 
-		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, null, property);
+		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, null);
 
 		return doE3Request("m/api/hotel/info", query, responseHandler, 0);
 	}
