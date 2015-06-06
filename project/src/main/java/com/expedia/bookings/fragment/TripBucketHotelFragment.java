@@ -166,7 +166,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		String feesPaidAtHotel = getResources().getString(R.string.fees_paid_at_hotel);
 		addExtraRow(feesPaidAtHotel, rate.getTotalMandatoryFees().getFormattedMoney(), false);
 
-		String totalDueToOurBrandToday = Phrase.from(getActivity(), R.string.total_due_to_brand_today_TEMPLATE)
+		String totalDueToOurBrandToday = Phrase.from(getActivity(), R.string.due_to_brand_today_TEMPLATE)
 			.put("brand", BuildConfig.brand)
 			.format()
 			.toString();

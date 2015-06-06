@@ -312,7 +312,7 @@ public class HotelReceipt extends LinearLayout {
 			HotelReceiptExtraSection dueToExpediaRow = Ui
 				.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
 
-			String totalDueToOurBrandToday = Phrase.from(this, R.string.total_due_to_brand_today_TEMPLATE)
+			String totalDueToOurBrandToday = Phrase.from(this, R.string.due_to_brand_today_TEMPLATE)
 				.put("brand", BuildConfig.brand)
 				.format()
 				.toString();
@@ -326,7 +326,7 @@ public class HotelReceipt extends LinearLayout {
 		mExtrasDivider.setVisibility(View.VISIBLE);
 
 		HotelReceiptExtraSection dueToOurBrandRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
-		String totalDueToOurBrandToday = Phrase.from(this, R.string.total_due_to_brand_today_TEMPLATE)
+		String totalDueToOurBrandToday = Phrase.from(this, R.string.due_to_brand_today_TEMPLATE)
 			.put("brand", BuildConfig.brand)
 			.format()
 			.toString();

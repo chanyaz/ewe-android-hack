@@ -106,7 +106,6 @@
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_lm_logo_small</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_lm</item>
         <item name="skin_etp_pay_now_charges_text">@string/etp_pay_now_charges_text_lm</item>
-        <item name="skin_totalDueToday">@string/total_due_today_lm</item>
 
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>

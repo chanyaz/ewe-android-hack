@@ -1827,8 +1827,6 @@
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">We\&apos;ve got great news! The cost of your stay just decreased from %1$s to %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Done</string>
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Due to Expedia Today</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Please use the Roman alphabet</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -1836,7 +1834,7 @@
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Fees Paid at Hotel:</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
-    <string name="total_due_to_brand_today_TEMPLATE">Due to {brand} Today:</string>
+    <string name="due_to_brand_today_TEMPLATE">Due to {brand} Today:</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">The &lt;b&gt;%1$s&lt;/b&gt; resort fee will be collected at the hotel. The total price for your stay will be &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
