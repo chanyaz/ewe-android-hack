@@ -2834,18 +2834,12 @@
     <string name="contact_expedia_via">Contact Expedia Via…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Phone</string>
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">Expedia Reservations Support</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Website</string>
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Expedia Website</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App Support</string>
-    <!-- Subject line for "tell a friend" feature -->
-    <string name="tell_a_friend_subject">Expedia Hotels</string>
-    <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Hi there,\n\nCheck out Expedia Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Terms and Conditions</string>
     <!-- Label for link to privacy policy -->
@@ -2860,8 +2854,6 @@
     <string name="dialog_title_cleared_private_data">Private data cleared</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">All saved billing and contact information has been removed.</string>
-    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">Launch the Expedia mobile website?</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">Subscribe</string>
     <!-- Action button label to follow on twitter -->

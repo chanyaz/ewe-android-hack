@@ -173,7 +173,6 @@
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
         <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color</item>
         <item name="skin_infoContactUsString">@string/contact_expedia_via</item>
-        <item name="skin_infoContactEmailSubjectString">@string/contact_expedia_email_subject</item>
         <item name="skin_loadingAirAsiaRoutesString">@string/loading_air_asia_routes</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
@@ -190,9 +189,6 @@
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out</item>
         <item name="skin_passwordHint">@string/expedia_password_hint</item>
         <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_sign_in_message</item>
-        <item name="skin_tellAFriendSubject">@string/tell_a_friend_subject</item>
-        <item name="skin_tellAFriendBody">@string/tell_a_friend_body</item>
-        <item name="skin_dialogMessageLaunchMobileSite">@string/dialog_message_launch_expedia_mobile_site</item>
         <item name="skin_flightPriceTextColor">@color/flight_trip_price</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>

@@ -188,7 +188,6 @@
     <attr name="skin_couponSuccessMessageColor" fomrat="reference|color"/>
 
     <attr name="skin_infoContactUsString" format="reference|string"/>
-    <attr name="skin_infoContactEmailSubjectString" format="reference|string"/>
 
     <attr name="skin_loadingAirAsiaRoutesString" format="reference|string" />
     <attr name="skin_itineraryNumberString" format="reference|string" />
@@ -232,12 +231,9 @@
     <attr name="skin_addToCalenderMessage" format="reference|string" />
 
     <!--Missing string in AirAsiaGo and Travelocity-->
-    <attr name="skin_tellAFriendBody" format="reference|string" />
-    <attr name="skin_tellAFriendSubject" format="reference|string" />
     <attr name="skin_sorryRoomsSoldOut" format="reference|string" />
     <attr name="skin_passwordHint" format="reference|string" />
     <attr name="skin_restrictedProfileLoginMessage" format="reference|string" />
-    <attr name="skin_dialogMessageLaunchMobileSite" format="reference|string" />
     <attr name="skin_sorryRoomsSoldOutErrorMessage" format="reference|string" />
 
     <!--Change the color of flight circles and lines -->

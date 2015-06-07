@@ -74,7 +74,6 @@
         <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color_lm</item>
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_lm</item>
         <item name="skin_infoContactUsString">@string/contact_lm_via</item>
-        <item name="skin_infoContactEmailSubjectString">@string/contact_lm_email_subject</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_lm_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_lm_white_logo_small</item>
         <item name="skin_singleFlightNotAvailableError">@string/error_flight_no_longer_available_lm</item>
@@ -89,9 +88,6 @@
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_lm</item>
         <item name="skin_passwordHint">@string/lm_password_hint</item>
         <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_login_message_lm</item>
-        <item name="skin_tellAFriendSubject">@string/tell_a_friend_subject_lm</item>
-        <item name="skin_tellAFriendBody">@string/tell_a_friend_body_lm</item>
-        <item name="skin_dialogMessageLaunchMobileSite">@string/dialog_message_launch_lm_mobile_site</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_lm</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_lm</item>
         <item name="skin_sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_lm</item>

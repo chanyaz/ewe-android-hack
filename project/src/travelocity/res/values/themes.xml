@@ -50,7 +50,6 @@
         <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color_tvly</item>
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_travelocity</item>
         <item name="skin_infoContactUsString">@string/contact_travelocity_via</item>
-        <item name="skin_infoContactEmailSubjectString">@string/contact_travelocity_email_subject</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
         <item name="skin_singleFlightNotAvailableError">@string/error_flight_no_longer_available_tvly</item>
@@ -65,9 +64,6 @@
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_tvly</item>
         <item name="skin_passwordHint">@string/tvly_password_hint</item>
         <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_login_message_tvly</item>
-        <item name="skin_tellAFriendSubject">@string/tell_a_friend_subject_tvly</item>
-        <item name="skin_tellAFriendBody">@string/tell_a_friend_body_tvly</item>
-        <item name="skin_dialogMessageLaunchMobileSite">@string/dialog_message_launch_tvly_mobile_site</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_tvly</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_tvly</item>
         <item name="skin_sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_tvly</item>

@@ -59,7 +59,6 @@
         <item name="skin_savePaymentToAccountString">@string/save_billing_info_message_vsc</item>
         <item name="skin_saveTravelerToAccountString">@string/save_traveler_message_TEMPLATE_vsc</item>
         <item name="skin_infoContactUsString">@string/contact_vsc_via</item>
-        <item name="skin_infoContactEmailSubjectString">@string/contact_vsc_email_subject</item>
         <item name="skin_singleFlightNotAvailableError">@string/error_flight_no_longer_available_vsc</item>
         <item name="skin_flightsNotAvailableError">@string/error_flights_no_longer_available_vsc</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_vsc</item>
@@ -70,9 +69,6 @@
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_vsc</item>
         <item name="skin_passwordHint">@string/vsc_password_hint</item>
         <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_login_message_vsc</item>
-        <item name="skin_tellAFriendSubject">@string/tell_a_friend_subject_vsc</item>
-        <item name="skin_tellAFriendBody">@string/tell_a_friend_body_vsc</item>
-        <item name="skin_dialogMessageLaunchMobileSite">@string/dialog_message_launch_vsc_mobile_site</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_vsc</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_vsc</item>
         <item name="skin_sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_vsc</item>
