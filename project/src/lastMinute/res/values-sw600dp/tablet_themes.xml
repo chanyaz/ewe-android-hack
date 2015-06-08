@@ -62,6 +62,7 @@
         <item name="skin_icRenovationTabletDrawable">@drawable/ic_renovation_tablet_lm</item>
         <item name="skin_icFeesTabletDrawable">@drawable/ic_fees_tablet_lm</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color_lm</item>
+        <item name="skin_tabletFilterPriceTextColor">@color/tablet_filter_price_text_lm</item>
 
     </style>
 
