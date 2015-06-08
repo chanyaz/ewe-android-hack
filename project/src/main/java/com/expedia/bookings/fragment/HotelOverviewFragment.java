@@ -1048,8 +1048,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	public void onLoginCompleted() {
-		Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
-		if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+		if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
 			if (mHotelBookingFragment != null && !mHotelBookingFragment.isDownloadingCreateTrip()) {
 				mHotelBookingFragment.startDownload(HotelBookingState.CREATE_TRIP);
 				showCreateTripDialog();
