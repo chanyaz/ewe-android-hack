@@ -456,6 +456,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELS_RATE_DETAILS + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, HOTELS_RATE_DETAILS);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppAddORToForm);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelPayLaterCouponMessaging);
 		s.track();
 	}
 

@@ -104,7 +104,7 @@
     <string name="preference_car_rates_collapse_top_listing">7769</string>
     <string name="preference_car_insurance_included_cko">7774</string>
     <string name="preference_hotel_checkout_traveler_advance">7775</string>
-
+    <string name="preference_hotel_choices">7777</string>
     <string name="preference_abacus_setting_server">Abacus Server</string>
     <string name="preference_abacus_setting_controlgroup">Control Group</string>
     <string name="preference_abacus_setting_bucketed">Bucketed</string>

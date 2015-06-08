@@ -255,6 +255,14 @@
             android:summary="Select a test group"
             android:title="Hotel Checkout Traveler to Payment" />
 
+        <ListPreference
+            android:entries="@array/abacus_hotel_choices"
+            android:entryValues="@array/abacus_hotel_choice_values"
+            android:defaultValue="-1"
+            android:key="@string/preference_hotel_choices"
+            android:summary="Select a test group"
+            android:title="Hotel Coupon ETP Test" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >
