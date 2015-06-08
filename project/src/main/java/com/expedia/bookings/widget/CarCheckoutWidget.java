@@ -1,25 +1,39 @@
 package com.expedia.bookings.widget;
 
+import javax.inject.Inject;
+
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
+import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
+import rx.Observer;
+import rx.Subscription;
 
 public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntryWidget.CVVEntryFragmentListener {
 
@@ -32,6 +46,12 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	CarCheckoutSummaryWidget summaryWidget;
 
+	private Subscription createTripSubscription;
+	private SearchCarOffer selectedOffer;
+
+	@Inject
+	CarServices carServices;
+
 	protected LineOfBusiness getLineOfBusiness() {
 		return LineOfBusiness.CARS;
 	}
@@ -40,19 +60,116 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		Ui.getApplication(getContext()).carComponent().inject(this);
 		summaryWidget = Ui.inflate(R.layout.car_checkout_summary_widget, summaryContainer, false);
 		summaryContainer.addView(summaryWidget);
 		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details));
 		paymentInfoCardView.setLineOfBusiness(LineOfBusiness.CARS);
 	}
 
+	// Create Trip network handling
+
+	private Observer<CarCreateTripResponse> createTripObserver = new Observer<CarCreateTripResponse>() {
+		@Override
+		public void onCompleted() {
+
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			Log.e("CarCreateTrip - onError", e);
+			isDownloadingCreateTrip(false);
+
+			if (RetrofitUtils.isNetworkError(e)) {
+				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
+			}
+			else {
+				handleCreateTripError((ApiError) e);
+			}
+		}
+
+		@Override
+		public void onNext(CarCreateTripResponse createTripResponse) {
+			Events.post(new Events.CarsCheckoutCreateTripSuccess(createTripResponse));
+			Db.getTripBucket().add(new TripBucketItemCar(createTripResponse));
+			isDownloadingCreateTrip(false);
+
+			String ogPriceForPriceChange = createTripResponse.searchCarOffer == null ?
+				"" : createTripResponse.searchCarOffer.fare.total.formattedPrice;
+			bind(createTripResponse.carProduct, ogPriceForPriceChange, createTripResponse.tripId);
+			show(new Ready(), FLAG_CLEAR_BACKSTACK);
+			OmnitureTracking.trackAppCarCheckoutPage(getContext(), createTripResponse.carProduct);
+			AdTracker.trackCarCheckoutStarted(createTripResponse.carProduct);
+		}
+	};
+
+	private void handleCreateTripError(final ApiError error) {
+		switch (error.errorCode) {
+		case INVALID_CAR_PRODUCT_KEY:
+			showInvalidProductErrorDialog();
+			break;
+		default:
+			showGenericCreateTripErrorDialog();
+			break;
+		}
+	}
+
+	private void showGenericCreateTripErrorDialog() {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(R.string.error_server))
+			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.CarsGoToSearch());
+				}
+			})
+			.show();
+	}
+
+	private void showInvalidProductErrorDialog() {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(R.string.error_cars_product_expired))
+			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.CarsGoToSearch());
+				}
+			})
+			.show();
+	}
+
+	private void showOnCreateNoInternetErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					doCreateTrip();
+				}
+			})
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.show();
+	}
+
+
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
-		String ogPriceForPriceChange = event.createTripResponse.searchCarOffer == null ?
-			"" : event.createTripResponse.searchCarOffer.fare.total.formattedPrice;
-		bind(event.createTripResponse.carProduct, ogPriceForPriceChange, event.createTripResponse.tripId);
-		OmnitureTracking.trackAppCarCheckoutPage(getContext(), event.createTripResponse.carProduct);
-		AdTracker.trackCarCheckoutStarted(event.createTripResponse.carProduct);
+		isDownloadingCreateTrip(true);
+		selectedOffer = event.selectedCarOffer;
+		cleanup();
+		showCheckout();
+
 	}
 
 	@Subscribe
@@ -81,7 +198,6 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 			: R.string.amount_due_today_TEMPLATE;
 		sliderTotalText.setText(getResources()
 			.getString(sliderMessage, carProduct.detailedFare.totalDueToday.formattedPrice));
-
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);
@@ -90,7 +206,6 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 			StrUtils.generateLegalClickableLink(getContext(), carProduct.rulesAndRestrictionsURL));
 		isCheckoutComplete();
 		loginWidget.updateView();
-		show(new CheckoutDefault());
 	}
 
 	@Subscribe
@@ -155,6 +270,25 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 				.ccName(info.getNameOnCard()).cvv(cvv);
 		}
 		Events.post(new Events.CarsKickOffCheckoutCall(builder));
+	}
+
+	public void cleanup() {
+		if (createTripSubscription != null) {
+			createTripSubscription.unsubscribe();
+			createTripSubscription = null;
+		}
+	}
+
+	@Override
+	public void doCreateTrip() {
+		cleanup();
+		isDownloadingCreateTrip(true);
+		createTripSubscription = carServices.createTrip(selectedOffer, createTripObserver);
+	}
+
+	public void isDownloadingCreateTrip(boolean isDownloading) {
+		showSummaryProgress(isDownloading);
+		summaryWidget.setVisibility(isDownloading ? INVISIBLE : VISIBLE);
 	}
 }
 

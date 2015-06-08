@@ -224,6 +224,10 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			.put("brand", BuildConfig.brand)
 			.format());
 
+		loginText.setText(Phrase.from(this, R.string.sign_in_with_brand_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
+
 		mLinkPassword.setHint(Phrase.from(this, R.string.brand_password_hint_TEMPLATE)
 			.put("brand", BuildConfig.brand)
 			.format());

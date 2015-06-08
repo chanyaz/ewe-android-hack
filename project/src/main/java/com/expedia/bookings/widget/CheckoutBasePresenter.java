@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Space;
 
 import com.expedia.bookings.R;
@@ -24,12 +25,14 @@ import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.UserAccountRefresher;
 import com.mobiata.android.Log;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public abstract class CheckoutBasePresenter extends Presenter implements SlideToWidgetLL.ISlideToListener {
+public abstract class CheckoutBasePresenter extends Presenter implements SlideToWidgetLL.ISlideToListener,
+	UserAccountRefresher.IUserAccountRefreshListener {
 
 	protected abstract LineOfBusiness getLineOfBusiness();
 
@@ -56,6 +59,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@InjectView(R.id.summary_container)
 	CardView summaryContainer;
 
+	@InjectView(R.id.summary_progress_layout)
+	ProgressBar mSummaryProgressLayout;
+
 	@InjectView(R.id.login_widget)
 	AccountLoginWidget loginWidget;
 
@@ -78,7 +84,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	MenuItem menuDone;
 
 	ExpandableCardView lastExpandedCard;
-	ExpandableCardView currentExpandedCard;
+	ExpandableCardView currentExpandedCard;;
 
 	@Override
 	protected void onFinishInflate() {
@@ -86,6 +92,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		setupToolbar();
 
 		addTransition(defaultToExpanded);
+		addTransition(defaultToReady);
+		addDefaultTransition(defaultTransition);
+
 		slideWidget.addSlideToListener(this);
 
 		loginWidget.setLineOfBusiness(getLineOfBusiness());
@@ -105,6 +114,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				return true;
 			}
 		});
+
+		userAccountRefresher = new UserAccountRefresher(getContext(), getLineOfBusiness(), this);
 	}
 
 	public void setupToolbar() {
@@ -199,11 +210,56 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	public static class CheckoutDefault {
 	}
-
+	public static class Ready {
+	}
 	public static class WidgetExpanded {
 	}
 
-	private Presenter.Transition defaultToExpanded = new Presenter.Transition(CheckoutDefault.class,
+	private DefaultTransition defaultTransition = new DefaultTransition(CheckoutDefault.class.getName()) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			paymentInfoCardView.setCreditCardRequired(false);
+			mainContactInfoCardView.setExpanded(false, false);
+			paymentInfoCardView.setExpanded(false, false);
+			slideToContainer.setVisibility(INVISIBLE);
+			loginWidget.setVisibility(GONE);
+			hintContainer.setVisibility(GONE);
+			mainContactInfoCardView.setVisibility(GONE);
+			paymentInfoCardView.setVisibility(GONE);
+			legalInformationText.setVisibility(GONE);
+		}
+	};
+
+	private Transition defaultToReady = new Transition(CheckoutDefault.class, Ready.class) {
+		@Override
+		public void startTransition(boolean forward) {
+			super.startTransition(forward);
+			loginWidget.setVisibility(VISIBLE);
+			hintContainer.setVisibility(VISIBLE);
+			mainContactInfoCardView.setVisibility(VISIBLE);
+			if (paymentInfoCardView.isCreditCardRequired()) {
+				paymentInfoCardView.setVisibility(VISIBLE);
+			}
+			legalInformationText.setVisibility(VISIBLE);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			super.updateTransition(f, forward);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			super.finalizeTransition(forward);
+			isCheckoutComplete();
+		}
+	};
+	private Presenter.Transition defaultToExpanded = new Presenter.Transition(Ready.class,
 		WidgetExpanded.class) {
 
 		@Override
@@ -286,6 +342,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			isCheckoutComplete();
 			hintContainer.setVisibility(GONE);
 			OmnitureTracking.trackCheckoutLoginSuccess(getLineOfBusiness(), getContext());
+			doCreateTrip();
 		}
 
 		@Override
@@ -299,6 +356,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			paymentInfoCardView.onLogout();
 			isCheckoutComplete();
 			hintContainer.setVisibility(VISIBLE);
+			doCreateTrip();
 		}
 	};
 
@@ -329,5 +387,22 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	public void scrollCheckoutToTop() {
 		scrollView.scrollTo(0, 0);
+	}
+
+	UserAccountRefresher userAccountRefresher;
+
+	@Override
+	public void onUserAccountRefreshed() {
+		doCreateTrip();
+	}
+
+	public abstract void doCreateTrip();
+	public void showCheckout() {
+		show(new CheckoutDefault());
+		userAccountRefresher.ensureAccountIsRefreshed();
+	}
+
+	public void showSummaryProgress(boolean show) {
+		mSummaryProgressLayout.setVisibility(show ? VISIBLE : GONE);
 	}
 }

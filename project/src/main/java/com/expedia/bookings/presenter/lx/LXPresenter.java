@@ -243,7 +243,7 @@ public class LXPresenter extends Presenter {
 	}
 
 	@Subscribe
-	public void onShowCheckout(Events.LXCreateTripSucceeded event) {
+	public void onOfferBooked(Events.LXOfferBooked event) {
 		show(checkoutPresenter);
 	}
 

@@ -135,7 +135,6 @@ public class CarPresenter extends Presenter {
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
 		Db.getTripBucket().clearCars();
-		Db.getTripBucket().add(new TripBucketItemCar(event.createTripResponse));
 		show(carCheckoutPresenter);
 	}
 

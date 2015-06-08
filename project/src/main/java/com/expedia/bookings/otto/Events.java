@@ -639,10 +639,18 @@ public class Events {
 	}
 
 	public static class CarsShowCheckout {
-		public CarCreateTripResponse createTripResponse;
+		public SearchCarOffer selectedCarOffer;
 
-		public CarsShowCheckout(CarCreateTripResponse createTripResponse) {
-			this.createTripResponse = createTripResponse;
+		public CarsShowCheckout(SearchCarOffer carOffer) {
+			this.selectedCarOffer = carOffer;
+		}
+	}
+
+	public static class CarsCheckoutCreateTripSuccess {
+		public CarCreateTripResponse response;
+
+		public CarsCheckoutCreateTripSuccess(CarCreateTripResponse carCreateTripResponse) {
+			this.response = carCreateTripResponse;
 		}
 	}
 
@@ -659,14 +667,6 @@ public class Events {
 
 		public CarsKickOffSearchCall(CarSearchParams params) {
 			this.carSearchParams = params;
-		}
-	}
-
-	public static class CarsKickOffCreateTrip {
-		public SearchCarOffer offer;
-
-		public CarsKickOffCreateTrip(SearchCarOffer offer) {
-			this.offer = offer;
 		}
 	}
 

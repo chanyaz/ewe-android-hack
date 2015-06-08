@@ -149,13 +149,13 @@ public class CarConfirmationWidget extends FrameLayout {
 	}
 
 	@Subscribe
-	public void onOfferSelected(Events.CarsKickOffCreateTrip event) {
-		searchOffer = event.offer;
+	public void onOfferSelected(Events.CarsShowCheckout event) {
+		searchOffer = event.selectedCarOffer;
 	}
 
 	@Subscribe
-	public void onShowCheckout(Events.CarsShowCheckout event) {
-		createTrip = event.createTripResponse;
+	public void onCheckoutCreateTripSuccess(Events.CarsCheckoutCreateTripSuccess event) {
+		createTrip = event.response;
 	}
 
 	public void bind(CarCheckoutResponse response) {

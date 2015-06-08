@@ -112,6 +112,7 @@
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/cars_checkout_text_color"
+                android:visibility="gone"
                 android:textSize="12sp"
                 android:paddingTop="8dp" />
 
@@ -159,7 +160,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/top_container"
         android:background="#f2f2f2"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <View
             android:layout_width="match_parent"
