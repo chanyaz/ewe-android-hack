@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="action_bar_bg_color">#E40088</color>
-    <color name="actionbarTabletTitleColorLm">@color/action_bar_bg_color</color>
     <color name="action_bar_text_color">#FFFFFF</color>
     <color name="action_bar_selected_tab_underline_color">#FFFFFF</color>
 
@@ -20,10 +19,10 @@
     <color name="login_text_flight">#FFFFFF</color>
     <color name="coupon_success_message_color_lm">#E40088</color>
     <color name="collection_overlay_color">#56a1d5</color>
-    <color name="hotel_room_rate_select_room_button_lm">#00568F</color>
-    <color name="hotel_room_rate_select_room_button_pressed_lm">#00568F</color>
+    <color name="hotel_room_rate_select_room_button_lm">#0079A1</color>
+    <color name="hotel_room_rate_select_room_button_pressed_lm">#005B79</color>
     <color name="hotel_room_rate_add_room_button_lm">@color/action_bar_bg_color</color>
-    <color name="hotel_room_rate_add_room_button_pressed_lm">@color/action_bar_bg_color</color>
+    <color name="hotel_room_rate_add_room_button_pressed_lm">#A1266C</color>
     <color name="launch_pin_detail_button_text_lm">@color/action_bar_bg_color</color>
 
     <color name="hotel_price_text_color">#4F4F4F</color>
@@ -47,8 +46,8 @@
 
     <color name="tablet_book_button_text_color_lm">@color/action_bar_bg_color</color>
     <color name="tablet_trip_bucket_text_color_lm">#FFFFFF</color>
-    <color name="tablet_search_result_error_button_pressed_lm">#D1EAFF</color>
-    <color name="tablet_search_result_error_button_lm">#004E93</color>
+    <color name="tablet_search_result_error_button_pressed_lm">#005B79</color>
+    <color name="tablet_search_result_error_button_lm">#0079A1</color>
     <color name="tablet_results_search_blue_lm">#00568F</color>
     <color name="tablet_map_pin_text_color">#DDDFE1</color>
     <color name="flight_results_row_bg_lm">#0079A1</color>
@@ -60,5 +59,5 @@
 
     <color name="section_flight_edit_traveler_link_color_lm">@color/action_bar_bg_color</color>
     <color name="room_rate_refundable_cancellation_text_color_lm">#599027</color>
-    <color name="tablet_hotel_coupon_text_color_lm">#1F8EDE</color>
+    <color name="tablet_hotel_coupon_text_color_lm">@color/action_bar_bg_color</color>
 </resources>
