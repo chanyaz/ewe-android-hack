@@ -659,6 +659,33 @@
           "voucherPrintURL": "https://www.expedia.com/itinerary-print?tripid=77648d50-de49-47e4-8d35-83d91bebb487&itineraryNumber=1103690045523"
         }
       ]
+    },
+    {
+        "levelOfDetail": "FULL",
+        "tripId": "7ecc9078-10d5-4bbb-8708-3e7abea31de7",
+        "webDetailsURL": "http://cruise.expedia.com.stage01.sb.karmalab.net/book/payment.aspx?email=itin.peter1@yahoo.com&expediaBookingNumber=179210277",
+        "tripNumber": 1000012013010046,
+        "title": "External Cruise, Booked",
+        "description": "Trip description - Anonymized on Jan 24 2013 1:26PM",
+        "startTime": {
+            "raw": "3999-01-01T01:00:00-08:00",
+            "localized": "Jan 1, 3999 1:00:00 AM",
+            "epochSeconds": 64029085200,
+            "timeZoneOffsetSeconds": -28800
+        },
+        "endTime": {
+            "raw": "3999-01-01T01:00:00-08:00",
+            "localized": "Jan 1, 3999 1:00:00 AM",
+            "epochSeconds": 64029085200,
+            "timeZoneOffsetSeconds": -28800
+        },
+        "bookingStatus": "BOOKED",
+        "timePeriod": "UPCOMING",
+        "cruises": [
+            {
+                "bookingStatus": "BOOKED"
+            }
+        ]
     }
   ]
 }
