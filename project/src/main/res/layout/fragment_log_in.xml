@@ -109,7 +109,6 @@
                     android:layout_marginLeft="@dimen/login_side_margin_small"
                     android:layout_marginRight="@dimen/login_side_margin_small"
                     android:background="@drawable/btn_facebook_signin"
-                    android:contentDescription="@string/cd_sign_in_with_facebook"
                     android:gravity="center"
                     android:text="@string/Sign_in_with_Facebook" />
             </LinearLayout>
@@ -125,12 +124,10 @@
                 android:visibility="gone" >
 
                 <Button
-                    android:id="@+id/log_in_with_expedia_btn"
+                    android:id="@+id/log_in_btn"
                     style="@style/LoginFormButton"
                     android:background="?attr/skin_loginBookNowButtonDrawable"
-                    android:contentDescription="?attr/skin_loginWithExpediaContentDescription"
                     android:gravity="center"
-                    android:text="?attr/skin_loginWithExpediaButtonText"
                     android:textColor="?attr/skin_loginButtonColor" />
 
                 <TextView
@@ -162,7 +159,6 @@
                 android:layout_marginBottom="@dimen/login_bottom_room_spacing"
                 android:layout_marginLeft="@dimen/login_side_margin_medium"
                 android:layout_marginRight="@dimen/login_side_margin_medium"
-                android:hint="?attr/skin_passwordHint"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword" />
         </LinearLayout>
@@ -194,7 +190,6 @@
                 style="@style/LoginFormButton"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/btn_facebook_signin"
-                android:contentDescription="@string/cd_sign_in_with_facebook"
                 android:gravity="center"
                 android:text="@string/authorize_email_facebook_button" />
 

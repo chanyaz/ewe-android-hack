@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightTrip;
@@ -35,6 +36,7 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
+import com.squareup.phrase.Phrase;
 
 /**
  * Generalized class which displays a breakdown of some sort - i.e., line items.
@@ -244,9 +246,14 @@ public class BreakdownDialogFragment extends DialogFragment {
 			else {
 				dueToday = rateWeCareAbout.getTotalAmountAfterTax();
 			}
+
+			CharSequence dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format();
+
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(Ui.obtainThemeResID(context, R.attr.skin_totalDueToday)))
+					.setText(dueTodayText)
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())

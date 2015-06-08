@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- User name label for support email sent to user happiness team -->
-    <string name="email_user_name">Expedia user name:</string>
+    <string name="email_user_name_template">{brand} user name: {email}</string>
     <!-- App Support URL -->
     <string name="app_support_url">http://www.mobiata.com/support/expedia-android</string>
 

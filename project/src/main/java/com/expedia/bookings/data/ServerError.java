@@ -11,7 +11,6 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -191,7 +190,6 @@ public class ServerError implements JSONable {
 	private String mDiagnosticFullText;
 
 	// Expedia-specific items
-	private String mVerboseMessage;
 	private String mPresentationMessage;
 
 	// Expedia-specific error handling codes
@@ -208,14 +206,6 @@ public class ServerError implements JSONable {
 	}
 
 	public ServerError(ApiMethod apiMethod) {
-		mApiMethod = apiMethod;
-	}
-
-	public ApiMethod getApiMethod() {
-		return mApiMethod;
-	}
-
-	public void setApiMethod(ApiMethod apiMethod) {
 		mApiMethod = apiMethod;
 	}
 
@@ -274,14 +264,6 @@ public class ServerError implements JSONable {
 
 	public void setMessage(String message) {
 		this.mMessage = message;
-	}
-
-	public String getVerboseMessage() {
-		return mVerboseMessage;
-	}
-
-	public void setVerboseMessage(String verboseMessage) {
-		this.mVerboseMessage = verboseMessage;
 	}
 
 	public String getPresentationMessage() {
@@ -364,19 +346,9 @@ public class ServerError implements JSONable {
 			}
 		}
 
-		if (TextUtils.isEmpty(message)) {
-			message = mVerboseMessage;
-			if (TextUtils.isEmpty(message)) {
-				message = mMessage;
-			}
-		}
-
 		if (mExtras != null && mExtras.containsKey("emailSent") && mExtras.get("emailSent").equals("unknown")) {
 			// This is a special case for E3
 			message = context.getString(R.string.error_unable_to_send_email);
-		}
-		else if (Strings.equals(message, "TravelNow.com cannot service this request.") && mVerboseMessage != null) {
-			message = mVerboseMessage.replace("Data in this request could not be validated: ", "");
 		}
 		else if (ERRORS.containsKey(message)) {
 			message = context.getString(ERRORS.get(message));
@@ -412,10 +384,6 @@ public class ServerError implements JSONable {
 		return message;
 	}
 
-	public ErrorCode getCouponErrorCode() {
-		return mCouponErrorCode;
-	}
-
 	public String getCouponErrorMessage(Context context) {
 		// Let's make this the default message in case the errorCode sent is not recognized.
 		String message = context.getString(R.string.coupon_error_fallback);
@@ -436,7 +404,6 @@ public class ServerError implements JSONable {
 			obj.putOpt("code", mCode);
 			obj.putOpt("message", mMessage);
 			obj.putOpt("diagnosticFullText", mDiagnosticFullText);
-			obj.putOpt("verboseMessage", mVerboseMessage);
 			obj.putOpt("presentationMessage", mPresentationMessage);
 			obj.putOpt("category", mCategory);
 			obj.putOpt("handling", mHandling);
@@ -455,7 +422,6 @@ public class ServerError implements JSONable {
 		setCode(obj.optString("code")); // handles mCode, mErrorCode
 		mMessage = obj.optString("message");
 		mDiagnosticFullText = obj.optString("diagnosticFullText");
-		mVerboseMessage = obj.optString("verboseMessage");
 		mPresentationMessage = obj.optString("presentationMessage");
 		mCategory = obj.optString("category");
 		mHandling = obj.optString("handling");

@@ -132,7 +132,6 @@
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/border_horizontal_expedia_striped</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="skin_loginWithExpediaButtonText">@string/Sign_in_with_Expedia</item>
         <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
         <item name="skin_loginButtonColor">@android:color/black</item>
         <item name="skin_hotelBookButtonColor">@android:color/black</item>
@@ -163,22 +162,18 @@
         <item name="skin_aboutInfoUrlString">@string/app_mobiata_info_url</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/mobiata</item>
-        <item name="skin_logoutConfirmationString">@string/sign_out_confirmation</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/black</item>
         <item name="skin_flightLoadingMessagePosition">@id/plane_window_view</item>
         <item name="skin_flightUnhandledErrorMessage">@string/error_flight_unhandled_TEMPLATE</item>
         <item name="skin_serverErrorMessageString">@string/error_server</item>
         <item name="skin_savePaymentToAccountString">@string/save_billing_info_message</item>
         <item name="skin_saveTravelerToAccountString">@string/save_traveler_message_TEMPLATE</item>
-        <item name="skin_loginWithExpediaContentDescription">@string/cd_checkout_sign_in_with_expedia</item>
         <item name="skin_cvvEntryTitleText">@string/security_code_TEMPLATE</item>
         <item name="skin_bgFindItineraryButton">@drawable/btn_find</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
         <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color</item>
         <item name="skin_infoContactUsString">@string/contact_expedia_via</item>
-        <item name="skin_infoContactEmailSubjectString">@string/contact_expedia_email_subject</item>
         <item name="skin_loadingAirAsiaRoutesString">@string/loading_air_asia_routes</item>
-        <item name="skin_emailUserNameString">@string/email_user_name</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
         <item name="skin_singleFlightNotAvailableError">@string/error_flight_no_longer_available_expedia</item>
@@ -186,20 +181,14 @@
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error</item>
         <item name="skin_clearPrivateDataMsg">@string/dialog_message_signed_out_and_cleared_private_data</item>
-        <item name="skin_hotelSearchResultNotAvailale">@string/not_currently_available</item>
         <item name="skin_hotelSearchResultSoldOut">@string/sold_out_on_expedia</item>
-        <item name="skin_hotelSearchResultTEMPLATE">@string/not_currently_available_TEMPLATE</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
         <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
         <item name="skin_addToCalenderMessage">@string/contact_phone_template</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out</item>
         <item name="skin_passwordHint">@string/expedia_password_hint</item>
-        <item name="skin_loadingAccount">@string/loading_expedia_account</item>
         <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_sign_in_message</item>
-        <item name="skin_tellAFriendSubject">@string/tell_a_friend_subject</item>
-        <item name="skin_tellAFriendBody">@string/tell_a_friend_body</item>
-        <item name="skin_dialogMessageLaunchMobileSite">@string/dialog_message_launch_expedia_mobile_site</item>
         <item name="skin_flightPriceTextColor">@color/flight_trip_price</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
@@ -225,7 +214,6 @@
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
         <item name="skin_etp_pay_now_charges_text">@string/etp_pay_now_charges_text</item>
-        <item name="skin_totalDueToday">@string/total_due_today</item>
         <item name="skin_itinActionOverflowDrawable">@drawable/ic_itin_action_overflow_white</item>
         <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
         <item name="skin_tablet_legal_blurb_text_color">@color/tablet_legal_blurb_text_color</item>
@@ -294,7 +282,6 @@
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="skin_logoutConfirmationString">@string/sign_out_confirmation</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
         <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>

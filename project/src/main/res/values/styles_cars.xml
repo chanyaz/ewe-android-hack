@@ -55,10 +55,8 @@
         <!-- Required white label attr for login widget -->
         <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="skin_loginWithExpediaButtonText">@string/Sign_in_with_Expedia</item>
         <item name="skin_loginButtonColor">@android:color/black</item>
         <item name="skin_passwordHint">@string/expedia_password_hint</item>
-        <item name="skin_loadingAccount">@string/loading_expedia_account</item>
         <item name="skin_hotelCheckoutLoginButtonText">@string/Sign_in_with_Expedia</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>

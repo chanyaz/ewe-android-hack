@@ -65,7 +65,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 		// Handle errors
 		try {
-			mResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.FLIGHT_SEARCH, response));
+			mResponse.addErrors(ParserUtils.parseErrors(ApiMethod.FLIGHT_SEARCH, response));
 			if (!mResponse.isSuccess()) {
 				return mResponse;
 			}

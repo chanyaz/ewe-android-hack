@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
@@ -26,6 +27,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
+import com.squareup.phrase.Phrase;
 
 public class AccountButton extends LinearLayout {
 	private Context mContext;
@@ -41,6 +43,7 @@ public class AccountButton extends LinearLayout {
 	private View mLogoutButton;
 	private View mLoadingLogoutButton;
 	private ImageView mExpediaLogo;
+	private TextView mLoadingTextView;
 
 	public AccountButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -62,6 +65,7 @@ public class AccountButton extends LinearLayout {
 		mRewardsContainer = findViewById(R.id.account_rewards_container);
 		mRewardsTextView = Ui.findView(mRewardsContainer, R.id.account_rewards_textview);
 		mExpediaLogo = Ui.findView(this, R.id.card_icon);
+		mLoadingTextView = Ui.findView(this, R.id.loading_textview);
 
 		mLoginContainer.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -85,6 +89,10 @@ public class AccountButton extends LinearLayout {
 
 		mLogoutButton.setOnClickListener(logoutListener);
 		mLoadingLogoutButton.setOnClickListener(logoutListener);
+
+		mLoadingTextView.setText(Phrase.from(this, R.string.loading_brand_account_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
 	}
 
 	@Override
