@@ -349,4 +349,5 @@
     <attr name="skin_icTabletConfirmationCheckmarkDrawable" format="reference" />
     <attr name="skin_icRenovationTabletDrawable" format="reference" />
     <attr name="skin_icFeesTabletDrawable" format="reference" />
+    <attr name="skin_tabletFilterPriceTextColor" format="reference|color" />
 </resources>
