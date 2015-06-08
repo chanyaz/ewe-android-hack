@@ -33,6 +33,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -145,6 +146,13 @@ public class CarConfirmationWidget extends FrameLayout {
 	@Subscribe
 	public void onCarsShowDetails(Events.CarsShowDetails event) {
 		bucket = event.categorizedCarOffers;
+	}
+
+	@Subscribe
+	public void onCarsShowProductKeyDetails(Events.CarsShowProductKeyDetails event) {
+		if (CollectionUtils.isNotEmpty(event.productKeyCarSearch.categories)) {
+			bucket = event.productKeyCarSearch.categories.get(0);
+		}
 	}
 
 	@Subscribe

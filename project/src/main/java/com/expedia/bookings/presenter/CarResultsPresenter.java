@@ -28,6 +28,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Strings;
@@ -164,6 +165,27 @@ public class CarResultsPresenter extends Presenter {
 		}
 	}
 
+	private Observer<CarSearch> searchWithProductKeyObserver = new Observer<CarSearch>() {
+		@Override
+		public void onCompleted() {
+			cleanup();
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			if (e instanceof ApiError) {
+				handleInputValidationErrors((ApiError) e);
+				return;
+			}
+		}
+
+		@Override
+		public void onNext(CarSearch carSearch) {
+			Events.post(new Events.CarsShowResultsForProductKey(carSearch));
+			handleCarSearchResults(carSearch);
+		}
+	};
+
 	private Observer<CarSearch> searchObserver = new Observer<CarSearch>() {
 		@Override
 		public void onCompleted() {
@@ -188,14 +210,8 @@ public class CarResultsPresenter extends Presenter {
 
 		@Override
 		public void onNext(CarSearch carSearch) {
-			unfilteredSearch = carSearch;
-			filterToolbar.setVisibility(View.VISIBLE);
-			showNumberOfFilters(0);
 			Events.post(new Events.CarsShowSearchResults(carSearch));
-			show(categories, FLAG_CLEAR_TOP);
-			bindFilter(carSearch);
-			OmnitureTracking.trackAppCarSearch(getContext(), searchedParams, unfilteredSearch.categories.size());
-			AdTracker.trackCarSearch(searchedParams);
+			handleCarSearchResults(carSearch);
 		}
 	};
 
@@ -232,6 +248,16 @@ public class CarResultsPresenter extends Presenter {
 			Events.post(new Events.CarsIsFiltered(filteredCarSearch, filteredBucket));
 		}
 	};
+
+	private void handleCarSearchResults(CarSearch carSearch) {
+		unfilteredSearch = carSearch;
+		filterToolbar.setVisibility(View.VISIBLE);
+		showNumberOfFilters(0);
+		show(categories, FLAG_CLEAR_TOP);
+		bindFilter(carSearch);
+		OmnitureTracking.trackAppCarSearch(getContext(), searchedParams, unfilteredSearch.categories.size());
+		AdTracker.trackCarSearch(searchedParams);
+	}
 
 	private void bindFilter(CarSearch carSearch) {
 		filter.bind(carSearch);
@@ -513,7 +539,12 @@ public class CarResultsPresenter extends Presenter {
 		show(categories, FLAG_CLEAR_BACKSTACK);
 		cleanup();
 		searchedParams = event.carSearchParams;
-		searchSubscription = carServices.carSearch(searchedParams, searchObserver);
+		if (event.productKey != null) {
+			searchSubscription = carServices.carSearchWithProductKey(searchedParams, event.productKey, searchWithProductKeyObserver);
+		}
+		else {
+			searchSubscription = carServices.carSearch(searchedParams, searchObserver);
+		}
 		setToolBarResultsText();
 	}
 
@@ -542,6 +573,15 @@ public class CarResultsPresenter extends Presenter {
 		show(details, FLAG_CLEAR_TOP);
 		selectedCategorizedCarOffers = event.categorizedCarOffers;
 		setToolBarDetailsText();
+	}
+
+	@Subscribe
+	public void onShowDetailsForProductKey(Events.CarsShowProductKeyDetails event) {
+		if (CollectionUtils.isNotEmpty(event.productKeyCarSearch.categories)) {
+			show(details, FLAG_CLEAR_TOP);
+			selectedCategorizedCarOffers = event.productKeyCarSearch.categories.get(0);
+			setToolBarDetailsText();
+		}
 	}
 
 	@Subscribe

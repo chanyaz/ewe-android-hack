@@ -8,6 +8,7 @@ import java.util.Map;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParams;
@@ -67,6 +68,18 @@ public class CarServices {
 
 	public Subscription carSearch(CarSearchParams params, Observer<CarSearch> observer) {
 		return mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate())
+			.doOnNext(HANDLE_ERRORS)
+			.doOnNext(CACHE_SEARCH_RESPONSE)
+			.flatMap(BUCKET_OFFERS)
+			.toSortedList(SORT_BY_LOWEST_TOTAL)
+			.map(PUT_IN_CAR_SEARCH)
+			.subscribeOn(mSubscribeOn)
+			.observeOn(mObserveOn)
+			.subscribe(observer);
+	}
+
+	public Subscription carSearchWithProductKey(CarSearchParams params, String productKey, Observer<CarSearch> observer) {
+		return Observable.combineLatest(mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate()), Observable.just(productKey), FIND_PRODUCT_KEY)
 			.doOnNext(HANDLE_ERRORS)
 			.doOnNext(CACHE_SEARCH_RESPONSE)
 			.flatMap(BUCKET_OFFERS)
@@ -192,6 +205,20 @@ public class CarServices {
 			Money leftMoney = left.getLowestTotalPriceOffer().fare.total;
 			Money rightMoney = right.getLowestTotalPriceOffer().fare.total;
 			return leftMoney.compareTo(rightMoney);
+		}
+	};
+
+	private static final Func2<CarSearchResponse, String, CarSearchResponse> FIND_PRODUCT_KEY = new Func2<CarSearchResponse, String, CarSearchResponse>() {
+		@Override
+		public CarSearchResponse call(CarSearchResponse response, String productKey) {
+			CarSearchResponse productKeyCarSearchResponse = new CarSearchResponse();
+			if (response.hasProductKey(productKey)) {
+				productKeyCarSearchResponse.offers.add(response.getProductKeyResponse(productKey));
+			}
+			else {
+				throw new ApiError(ApiError.Code.CAR_PRODUCT_NOT_AVAILABLE);
+			}
+			return productKeyCarSearchResponse;
 		}
 	};
 

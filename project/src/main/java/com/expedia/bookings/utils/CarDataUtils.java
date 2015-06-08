@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
@@ -260,7 +262,28 @@ public class CarDataUtils {
 		return builder.build();
 	}
 
-	public static CarSearchParams fromDeepLink(String pickupLocation, String pickupDateTime, String dropoffDateTime, String originDescription) {
+	public static CarSearchParams fromDeepLink(Uri data, Set<String> queryData) {
+		String pickupDateTime = null;
+		String dropoffDateTime = null;
+		String pickupLocation = null;
+		String originDescription = null;
+		String productKey = null;
+
+		if (queryData.contains("pickupLocation")) {
+			pickupLocation = data.getQueryParameter("pickupLocation");
+		}
+		if (queryData.contains("pickupDateTime")) {
+			pickupDateTime = data.getQueryParameter("pickupDateTime");
+		}
+		if (queryData.contains("dropoffDateTime")) {
+			dropoffDateTime = data.getQueryParameter("dropoffDateTime");
+		}
+		if (queryData.contains("originDescription")) {
+			originDescription = data.getQueryParameter("originDescription");
+		}
+		if (queryData.contains("productKey")) {
+			productKey = data.getQueryParameter("productKey");
+		}
 
 		DateTime pickup = DateUtils.yyyyMMddTHHmmssToDateTime(pickupDateTime);
 		DateTime dropOff = DateUtils.yyyyMMddTHHmmssToDateTime(dropoffDateTime);

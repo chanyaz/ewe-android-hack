@@ -81,7 +81,9 @@ public class CarActivity extends ActionBarActivity {
 
 	private void handleNavigationViaDeepLink() {
 		Intent intent = getIntent();
+		final String productKey = intent.getStringExtra(Codes.CARS_PRODUCT_KEY);
 		final boolean navigateToSearchResults = (intent != null) && (intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS) != null) && (intent.getBooleanExtra(Codes.FROM_DEEPLINK, false));
+		final boolean navigateToCheckout = (intent != null) && (intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS) != null) && (productKey != null);
 
 		final CarSearchParams carSearchParams = CarDataUtils.getCarSearchParams(intent);
 
@@ -92,6 +94,9 @@ public class CarActivity extends ActionBarActivity {
 				if (navigateToSearchResults && carSearchParams != null) {
 					Events.post(new Events.CarsNewSearchParams(carSearchParams));
 					return true;
+				}
+				if (navigateToCheckout && carSearchParams != null) {
+					Events.post(new Events.CarsNewSearchParams(carSearchParams, productKey));
 				}
 				return true;
 			}
