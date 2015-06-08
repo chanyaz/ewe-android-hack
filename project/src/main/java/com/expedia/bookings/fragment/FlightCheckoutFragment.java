@@ -633,7 +633,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	public void onLoginCompleted() {
 		Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
-		if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+		if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
 			mLogInListener.onLoginCompleted();
 			mWasLoggedIn = true;
 		}
