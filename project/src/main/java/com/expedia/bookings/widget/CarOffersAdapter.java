@@ -271,14 +271,11 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 	public void setCarOffers(List<SearchCarOffer> offers) {
 		this.offers = offers;
 		boolean shouldCollapseFirstItem = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppCarRatesCollapseTopListing);
-		if (shouldCollapseFirstItem) {
-			mLastExpanded = NONE_EXPANDED;
-		}
-		else {
-			for (int i = 0; i < offers.size(); i++) {
-				SearchCarOffer offer = offers.get(i);
-				offer.isToggled = i == 0;
-			}
+
+		mLastExpanded = shouldCollapseFirstItem ? NONE_EXPANDED : 0;
+		for (int i = 0; i < offers.size(); i++) {
+			SearchCarOffer offer = offers.get(i);
+			offer.isToggled = shouldCollapseFirstItem ? false : i == 0;
 		}
 	}
 
