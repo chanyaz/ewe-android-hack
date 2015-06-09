@@ -10,7 +10,6 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
@@ -71,7 +70,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		scrollCheckoutToTop();
 		slideWidget.resetSlider();
 
-		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
+		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney();
 		sliderTotalText.setText(getResources().getString(R.string.your_card_will_be_charged_TEMPLATE, totalMoney));
 
 		mainContactInfoCardView.setExpanded(false);
