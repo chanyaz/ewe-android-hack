@@ -96,6 +96,26 @@ public class NavUtils {
 		}
 	}
 
+	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall, LineOfBusiness lobNotSupported) {
+		Intent intent;
+		if (ExpediaBookingApp.useTabletInterface(context)) {
+			intent = new Intent(context, TabletLaunchActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+		}
+		else {
+			intent = new Intent(context, PhoneLaunchActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+			if (forceShowWaterfall) {
+				intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+			}
+
+			sendKillActivityBroadcast(context);
+		}
+		intent.putExtra(Codes.LOB_NOT_SUPPORTED, lobNotSupported);
+		context.startActivity(intent);
+	}
+
 	public static void goToTabletResults(Context context, SearchParams searchParams, LineOfBusiness lob) {
 		Sp.setParams(searchParams, false);
 

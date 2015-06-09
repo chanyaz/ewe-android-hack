@@ -6,7 +6,9 @@ import org.joda.time.DateTime;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +24,9 @@ import android.view.View;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -43,6 +47,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.PhoneLaunchToolbar;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -131,6 +136,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		getSupportActionBar().getThemedContext();
 
 		Intent intent = getIntent();
+		LineOfBusiness lineOfBusiness = (LineOfBusiness) intent.getSerializableExtra(Codes.LOB_NOT_SUPPORTED);
 		if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
 			// No need to do anything special, waterfall is the default behavior anyway
 		}
@@ -143,6 +149,20 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		}
 		else if (haveTimelyItinItem()) {
 			gotoItineraries();
+		}
+		else if (lineOfBusiness != null) {
+			CharSequence errorMessage = null;
+			if (lineOfBusiness == LineOfBusiness.CARS) {
+				errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message)
+					.put("lob", getString(R.string.Car))
+					.format();
+			}
+			else if (lineOfBusiness == LineOfBusiness.LX) {
+				errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message)
+					.put("lob", getString(R.string.Activity))
+					.format();
+			}
+			showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok);
 		}
 
 		// Debug code to notify QA to open ExpediaDebug app
@@ -589,5 +609,19 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		if (Ui.isAdded(mItinListFragment)) {
 			mItinListFragment.doLogout();
 		}
+	}
+
+	public static void showLOBNotSupportedAlertMessage(Context context, CharSequence errorMessage,
+		int confirmButtonResourceId) {
+		AlertDialog.Builder b = new AlertDialog.Builder(context);
+		b.setCancelable(false)
+			.setMessage(errorMessage)
+			.setPositiveButton(confirmButtonResourceId, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.show();
 	}
 }

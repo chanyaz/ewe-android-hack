@@ -33,6 +33,7 @@ import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.ExpediaServices;
@@ -190,7 +191,7 @@ public class DeepLinkRouterActivity extends Activity {
 	 */
 	private boolean handleCarsSearch(Uri data, Set<String> queryData) {
 
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
+		if (PointOfSale.getPointOfSale().supportsCars()) {
 			String productKey = null;
 
 			if (queryData.contains("productKey")) {
@@ -199,6 +200,9 @@ public class DeepLinkRouterActivity extends Activity {
 
 			CarSearchParams carSearchParams = CarDataUtils.fromDeepLink(data, queryData);
 			NavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
+		}
+		else {
+			NavUtils.goToLaunchScreen(this, false, LineOfBusiness.CARS);
 		}
 		return true;
 	}
@@ -226,9 +230,12 @@ public class DeepLinkRouterActivity extends Activity {
 	 */
 	private boolean handleActivitySearch(Uri data, Set<String> queryData) {
 
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
+		if (PointOfSale.getPointOfSale().supportsLx()) {
 			LXSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
 			NavUtils.goToActivities(this, null, searchParams, NavUtils.FLAG_DEEPLINK);
+		}
+		else {
+			NavUtils.goToLaunchScreen(this, false, LineOfBusiness.LX);
 		}
 		return true;
 	}
