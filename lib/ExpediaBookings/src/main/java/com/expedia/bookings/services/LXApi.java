@@ -8,12 +8,13 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 
+import retrofit.http.FieldMap;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Headers;
 import retrofit.http.POST;
 import retrofit.http.Query;
-import retrofit.http.QueryMap;
 import rx.Observable;
 
 public interface LXApi {
@@ -46,8 +47,9 @@ public interface LXApi {
 		@Body LXCreateTripParams createTripParams
 	);
 
-	@GET("/m/api/lx/trip/checkout")
+	@FormUrlEncoded
+	@POST("/m/api/lx/trip/checkout")
 	public Observable<LXCheckoutResponse> checkout(
-		@QueryMap Map<String, Object> params
+		@FieldMap Map<String, Object> params
 	);
 }
