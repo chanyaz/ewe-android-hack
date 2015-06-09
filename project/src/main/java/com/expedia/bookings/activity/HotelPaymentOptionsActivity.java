@@ -397,9 +397,15 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 				//If we are backing up we want to restore the base billing info...
 				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
 					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+						Db.getWorkingBillingInfoManager().getBaseBillingInfo());
 				}
-				displayOptions();
+				//show options only if user is logged in or have selected google wallet as payment method
+				if (!User.isLoggedIn(this) && Db.getMaskedWallet() == null) {
+					displayCheckout();
+				}
+				else {
+					displayOptions();
+				}
 				break;
 			case SAVE:
 				closeSaveDialog();
