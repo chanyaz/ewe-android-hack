@@ -91,7 +91,7 @@ public class AdTracker {
 						Db.getTripBucket().getFlight().getCheckoutResponse().getOrderId() : "";
 					AdX.trackFlightBooked(Db.getTripBucket().getFlight().getFlightSearch(), orderNumber,
 						money.getCurrency(), money.getAmount().doubleValue());
-					LeanPlumUtils.trackFlightBooked(Db.getTripBucket().getFlight().getFlightSearch(), orderNumber,
+					LeanPlumUtils.trackFlightBooked(Db.getTripBucket().getFlight(), orderNumber,
 						money.getCurrency(), money.getAmount().doubleValue());
 					KahunaUtils.trackFlightBooked(Db.getTripBucket().getFlight().getFlightSearch(), orderNumber,
 						money.getCurrency(), money.getAmount().doubleValue());

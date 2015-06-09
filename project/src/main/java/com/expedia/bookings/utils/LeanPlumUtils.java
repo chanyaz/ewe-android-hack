@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -15,11 +16,13 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -38,6 +41,7 @@ public class LeanPlumUtils {
 	public static Context mContext;
 	public static final String CAMPAIGN_TEXT_KEY = "campaignText";
 	public static final String DEFAULT_CAMPAIGN_TEXT = "leanplum.notification";
+	public static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ssZZ";
 
 	public static void init(ExpediaBookingApp app) {
 		mContext = app.getApplicationContext();
@@ -155,6 +159,7 @@ public class LeanPlumUtils {
 			eventParams.put("CheckOutDate", DateUtils.convertDatetoInt(params.getCheckOutDate()));
 			eventParams.put("b_win", "" + getBookingWindow(params.getCheckInDate()));
 			eventParams.put("p_type", "HOTEL");
+			eventParams.put("hotel_friendly_name", property.getName());
 			eventParams.put("PropertyId", property.getPropertyId());
 			eventParams.put("AveragePrice", "" + avgPrice);
 			eventParams.put("StayDuration", "" + params.getStayDuration());
@@ -165,9 +170,10 @@ public class LeanPlumUtils {
 		}
 	}
 
-	public static void trackFlightBooked(FlightSearch search, String orderId, String currency, double totalPrice) {
+	public static void trackFlightBooked(TripBucketItemFlight tripBucketItemFlight, String orderId, String currency, double totalPrice) {
 		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
-			FlightSearchParams params = search.getSearchParams();
+			FlightSearchParams params = tripBucketItemFlight.getFlightSearch().getSearchParams();
+			List<FlightLeg> flightLegs = tripBucketItemFlight.getFlightTrip().getLegs();
 			String eventName = "Sale Flight";
 			Log.i("LeanPlum flight booking event currency=" + currency + " total=" + totalPrice);
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
@@ -180,8 +186,17 @@ public class LeanPlumUtils {
 			eventParams.put("DepartureId", params.getDepartureLocation().getDestinationId());
 			eventParams.put("ArrivalId", params.getArrivalLocation().getDestinationId());
 			eventParams.put("DepartureDate", DateUtils.convertDatetoInt(params.getDepartureDate()));
+
+			eventParams.put("DepartureTakeoffDatetime",
+				flightLegs.get(0).getFirstWaypoint().getBestSearchDateTime().toString(DATE_PATTERN));
+			eventParams.put("DepartureLandingDatetime",
+				flightLegs.get(0).getLastWaypoint().getBestSearchDateTime().toString(DATE_PATTERN));
 			if (params.isRoundTrip()) {
 				eventParams.put("ReturnDate", DateUtils.convertDatetoInt(params.getReturnDate()));
+				eventParams.put("ReturnTakeoffDatetime",
+					flightLegs.get(1).getFirstWaypoint().getBestSearchDateTime().toString(DATE_PATTERN));
+				eventParams.put("ReturnLandingDatetime",
+					flightLegs.get(1).getLastWaypoint().getBestSearchDateTime().toString(DATE_PATTERN));
 			}
 			eventParams.put("b_win", "" + getBookingWindow(params.getDepartureDate()));
 			eventParams.put("p_type", "FLIGHT");
