@@ -28,6 +28,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppCarRatesCollapseTopListing = 7769;
 	public static final int EBAndroidAppCarInsuranceIncludedCKO = 7774;
 	public static final int EBAndroidAppHotelHCKOTraveler = 7775;
+	public static final int EBAndroidAppHotelPayLaterCouponMessaging = 7777;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -67,6 +68,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppCarRatesCollapseTopListing);
 		testIDs.add(EBAndroidAppCarInsuranceIncludedCKO);
 		testIDs.add(EBAndroidAppHotelHCKOTraveler);
+		testIDs.add(EBAndroidAppHotelPayLaterCouponMessaging);
 		return testIDs;
 	}
 

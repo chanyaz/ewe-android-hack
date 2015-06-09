@@ -2822,6 +2822,8 @@
     <string name="coupon_error_exceeded_earn_limit">Sorry, this coupon has been used too many times and can no longer be applied.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
     <string name="coupon_error_invalid_average_price">Sorry, but the average price per night doesn\&apos;t meet the minimum for this coupon.</string>
+    <!-- Error when applying coupon - Pay Later Hotel -->
+    <string name="coupon_error_pay_later_hotel">Coupons cannot be applied to Pay Later rooms, please select a Pay Now room.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->

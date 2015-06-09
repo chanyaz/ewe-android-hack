@@ -119,6 +119,9 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			ListPreference hotelCheckoutTraveler = (ListPreference) findPreference(
 				getString(R.string.preference_hotel_checkout_traveler_advance));
 			hotelCheckoutTraveler.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference hotelPreference = (ListPreference) findPreference(
+				getString(R.string.preference_hotel_choices));
+			hotelPreference.setOnPreferenceChangeListener(abacusPrefListener);
 		}
 
 		String clearPrivateDateKey = getString(R.string.preference_clear_private_data_key);
