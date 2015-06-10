@@ -147,10 +147,6 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 		if (Db.getTravelersAreDirty()) {
 			Db.kickOffBackgroundTravelerSave(getActivity());
 		}
-
-		if (Db.getBillingInfoIsDirty()) {
-			Db.kickOffBackgroundBillingInfoSave(getActivity());
-		}
 	}
 
 	@Override

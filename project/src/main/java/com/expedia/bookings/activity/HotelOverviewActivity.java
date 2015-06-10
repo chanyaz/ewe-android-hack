@@ -264,7 +264,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 	public void onSlideAllTheWay() {
 
 		if (!BookingInfoUtils
-			.migrateRequiredCheckoutDataToDbBillingInfo(this, LineOfBusiness.HOTELS, Db.getTravelers().get(0), true)) {
+			.migrateRequiredCheckoutDataToDbBillingInfo(this, LineOfBusiness.HOTELS, Db.getTravelers().get(0))) {
 			if (mBookingOverviewFragment != null) {
 				mBookingOverviewFragment.resetSlider();
 			}

@@ -170,9 +170,8 @@ public class Db {
 		return sDb.mFilter;
 	}
 
-	public static BillingInfo resetBillingInfo() {
+	public static void resetBillingInfo() {
 		sDb.mBillingInfo = new BillingInfo();
-		return sDb.mBillingInfo;
 	}
 
 	public static void setBillingInfo(BillingInfo billingInfo) {
@@ -181,7 +180,7 @@ public class Db {
 
 	public static BillingInfo getBillingInfo() {
 		if (sDb.mBillingInfo == null) {
-			throw new RuntimeException("Need to call Database.loadBillingInfo() before attempting to use BillingInfo.");
+			sDb.mBillingInfo = new BillingInfo();
 		}
 
 		return sDb.mBillingInfo;
@@ -949,38 +948,6 @@ public class Db {
 		}
 		else {
 			return file.delete();
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Saving/loading the BillingInfo object
-
-	public static void kickOffBackgroundBillingInfoSave(final Context context) {
-		(new Thread(new Runnable() {
-			@Override
-			public void run() {
-				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
-				if (Db.getBillingInfo() != null && context != null) {
-					BillingInfo tempBi = new BillingInfo(Db.getBillingInfo());
-					tempBi.save(context);
-				}
-			}
-		})).start();
-	}
-
-	public static boolean loadBillingInfo(Context context) {
-		if (sDb.mBillingInfo == null) {
-			sDb.mBillingInfo = new BillingInfo();
-			return sDb.mBillingInfo.load(context);
-		}
-		else {
-			return true;
-		}
-	}
-
-	public static void deleteBillingInfo(Context context) {
-		if (sDb.mBillingInfo != null) {
-			sDb.mBillingInfo.delete(context);
 		}
 	}
 
