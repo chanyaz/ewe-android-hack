@@ -93,6 +93,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		addTransition(defaultToExpanded);
 		addTransition(defaultToReady);
+		addTransition(widgetToCheckoutDefault);
 		addDefaultTransition(defaultTransition);
 
 		slideWidget.addSlideToListener(this);
@@ -227,6 +228,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			mainContactInfoCardView.setVisibility(GONE);
 			paymentInfoCardView.setVisibility(GONE);
 			legalInformationText.setVisibility(GONE);
+			showSummaryProgress(true);
 		}
 	};
 
@@ -234,13 +236,14 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		@Override
 		public void startTransition(boolean forward) {
 			super.startTransition(forward);
-			loginWidget.setVisibility(VISIBLE);
-			hintContainer.setVisibility(VISIBLE);
-			mainContactInfoCardView.setVisibility(VISIBLE);
+			loginWidget.setVisibility(forward ? VISIBLE : INVISIBLE);
+			hintContainer.setVisibility(forward ? VISIBLE : INVISIBLE);
+			mainContactInfoCardView.setVisibility(forward ? VISIBLE : INVISIBLE);
 			if (paymentInfoCardView.isCreditCardRequired()) {
-				paymentInfoCardView.setVisibility(VISIBLE);
+				paymentInfoCardView.setVisibility(forward ? VISIBLE : INVISIBLE);
 			}
-			legalInformationText.setVisibility(VISIBLE);
+			legalInformationText.setVisibility(forward ? VISIBLE : INVISIBLE);
+
 		}
 
 		@Override
@@ -256,9 +259,55 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		@Override
 		public void finalizeTransition(boolean forward) {
 			super.finalizeTransition(forward);
+			showSummaryProgress(!forward);
 			isCheckoutComplete();
 		}
 	};
+
+	private Transition widgetToCheckoutDefault = new Transition(WidgetExpanded.class, CheckoutDefault.class) {
+		@Override
+		public void startTransition(boolean forward) {
+			super.startTransition(forward);
+			if (forward) {
+				currentExpandedCard.setExpanded(false, false);
+				summaryContainer.setVisibility(VISIBLE);
+
+				loginWidget.setVisibility(GONE);
+				hintContainer.setVisibility(GONE);
+				mainContactInfoCardView.setVisibility(GONE);
+				paymentInfoCardView.setVisibility(GONE);
+				legalInformationText.setVisibility(GONE);
+				Ui.hideKeyboard(CheckoutBasePresenter.this);
+
+				ViewGroup.LayoutParams params = space.getLayoutParams();
+				params.height = forward ? (int) getResources().getDimension(R.dimen.car_expanded_space_height) : (int) getResources().getDimension(Ui.obtainThemeResID(getContext(), R.attr.checkout_unexpanded_space_height));
+				space.setLayoutParams(params);
+
+				toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
+				Drawable nav = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp).mutate();
+				nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+				toolbar.setNavigationIcon(nav);
+				menuNext.setVisible(false);
+				menuDone.setVisible(false);
+			}
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			super.updateTransition(f, forward);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			super.finalizeTransition(forward);
+		}
+	};
+
 	private Presenter.Transition defaultToExpanded = new Presenter.Transition(Ready.class,
 		WidgetExpanded.class) {
 
@@ -339,7 +388,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void onLoginCompleted() {
 			mainContactInfoCardView.onLogin();
 			paymentInfoCardView.onLogin();
-			isCheckoutComplete();
 			hintContainer.setVisibility(GONE);
 			OmnitureTracking.trackCheckoutLoginSuccess(getLineOfBusiness(), getContext());
 			doCreateTrip();
@@ -354,7 +402,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void onLogout() {
 			mainContactInfoCardView.onLogout();
 			paymentInfoCardView.onLogout();
-			isCheckoutComplete();
 			hintContainer.setVisibility(VISIBLE);
 			doCreateTrip();
 		}
@@ -397,6 +444,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	public abstract void doCreateTrip();
+
 	public void showCheckout() {
 		show(new CheckoutDefault());
 		userAccountRefresher.ensureAccountIsRefreshed();

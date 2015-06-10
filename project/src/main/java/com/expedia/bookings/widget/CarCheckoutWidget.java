@@ -93,13 +93,12 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 			Events.post(new Events.CarsCheckoutCreateTripSuccess(createTripResponse));
 			Db.getTripBucket().add(new TripBucketItemCar(createTripResponse));
 			isDownloadingCreateTrip(false);
-
 			String ogPriceForPriceChange = createTripResponse.searchCarOffer == null ?
 				"" : createTripResponse.searchCarOffer.fare.total.formattedPrice;
 			bind(createTripResponse.carProduct, ogPriceForPriceChange, createTripResponse.tripId);
-			show(new Ready(), FLAG_CLEAR_BACKSTACK);
 			OmnitureTracking.trackAppCarCheckoutPage(getContext(), createTripResponse.carProduct);
 			AdTracker.trackCarCheckoutStarted(createTripResponse.carProduct);
+			show(new Ready(), FLAG_CLEAR_BACKSTACK);
 		}
 	};
 
@@ -165,11 +164,9 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
-		isDownloadingCreateTrip(true);
 		selectedOffer = event.selectedCarOffer;
 		cleanup();
 		showCheckout();
-
 	}
 
 	@Subscribe
@@ -204,7 +201,6 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 		legalInformationText.setText(
 			StrUtils.generateLegalClickableLink(getContext(), carProduct.rulesAndRestrictionsURL));
-		isCheckoutComplete();
 		loginWidget.updateView();
 	}
 
@@ -283,6 +279,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	public void doCreateTrip() {
 		cleanup();
 		isDownloadingCreateTrip(true);
+		show(new CheckoutDefault());
 		createTripSubscription = carServices.createTrip(selectedOffer, createTripObserver);
 	}
 
