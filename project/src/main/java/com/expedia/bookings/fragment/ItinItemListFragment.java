@@ -189,6 +189,11 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			mJumpToItinId = getArguments().getString(ARG_JUMP_TO_UNIQUE_ID);
 		}
 
+		boolean isSignInEnabled = ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled();
+		mLoginButton.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
+		mOrEnterNumberTv.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
+		mFindItineraryButton.setVisibility(isSignInEnabled ? View.GONE : View.VISIBLE);
+
 		return view;
 	}
 
@@ -340,10 +345,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			mLoginButton.setVisibility(mShowError ? View.GONE : View.VISIBLE);
 			mNoTripsRefreshButton.setVisibility(View.GONE);
 		}
-		boolean isSignInEnabled = ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled();
-		mLoginButton.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
-		mOrEnterNumberTv.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
-		mFindItineraryButton.setVisibility(isSignInEnabled ? View.GONE : View.VISIBLE);
 	}
 
 	public void accountLogoutClicked() {
