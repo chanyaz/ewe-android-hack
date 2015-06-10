@@ -216,6 +216,10 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		FontCache.setTypeface(mLinkPassword, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.or_tv, Font.ROBOTO_LIGHT);
 
+		loginText.setText(Phrase.from(this, R.string.sign_in_with_brand_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
+
 		mSignInBtn.setText(Phrase.from(this, R.string.sign_in_with_brand_TEMPLATE)
 			.put("brand", BuildConfig.brand)
 			.format());
