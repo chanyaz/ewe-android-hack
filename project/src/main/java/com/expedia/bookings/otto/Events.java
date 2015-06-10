@@ -856,6 +856,14 @@ public class Events {
 		}
 	}
 
+	public static class LXError {
+		public ApiError apiError;
+
+		public LXError(ApiError apiError) {
+			this.apiError = apiError;
+		}
+	}
+
 	public static class LXDetailsDateChanged {
 		public LocalDate dateSelected;
 

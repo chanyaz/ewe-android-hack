@@ -453,4 +453,12 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public void showSummaryProgress(boolean show) {
 		mSummaryProgressLayout.setVisibility(show ? VISIBLE : GONE);
 	}
+
+	@Override
+	public boolean back() {
+		if (CheckoutDefault.class.getName().equals(getCurrentState())) {
+			return true;
+		}
+		return super.back();
+	}
 }

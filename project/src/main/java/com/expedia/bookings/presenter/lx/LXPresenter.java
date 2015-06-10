@@ -6,12 +6,15 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.LXActivityDetailsWidget;
 import com.expedia.bookings.widget.LXConfirmationWidget;
+import com.expedia.bookings.widget.LXErrorWidget;
 import com.expedia.bookings.widget.LXLoadingOverlayWidget;
 import com.squareup.otto.Subscribe;
 
@@ -61,6 +64,7 @@ public class LXPresenter extends Presenter {
 		addTransition(checkoutToConfirmation);
 		show(resultsPresenter);
 		resultsPresenter.setVisibility(VISIBLE);
+
 	}
 
 	private Transition searchParamsToResults = new Transition(LXSearchParamsPresenter.class,

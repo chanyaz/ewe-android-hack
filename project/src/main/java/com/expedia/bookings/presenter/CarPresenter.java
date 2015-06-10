@@ -61,6 +61,7 @@ public class CarPresenter extends Presenter {
 		public void finalizeTransition(boolean forward) {
 			super.finalizeTransition(forward);
 			carSearchPresenter.animationFinalize(forward);
+			carSearchPresenter.reset();
 		}
 	};
 

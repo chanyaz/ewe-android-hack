@@ -2,8 +2,11 @@ package com.expedia.bookings.widget;
 
 import javax.inject.Inject;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
@@ -60,11 +63,6 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		ButterKnife.inject(this);
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
-		createTripDialog = new ProgressDialog(getContext());
-		createTripDialog.setMessage(getResources().getString(R.string.preparing_checkout_message));
-		createTripDialog.setIndeterminate(true);
-		createTripDialog.setCancelable(false);
-
 		summaryWidget = Ui.inflate(R.layout.lx_checkout_summary_widget, summaryContainer, false);
 		summaryContainer.addView(summaryWidget);
 		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.lx_enter_contact_details));
@@ -74,7 +72,8 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 	@Override
 	public void doCreateTrip() {
 		cleanup();
-		createTripDialog.show();
+		isDownloadingCreateTrip(true);
+		show(new CheckoutDefault());
 		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), createTripObserver);
 	}
 
@@ -168,38 +167,61 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		@Override
 		public void onError(Throwable e) {
 			Log.e("LXCreateTrip - onError", e);
-			createTripDialog.dismiss();
+			isDownloadingCreateTrip(false);
 			if (RetrofitUtils.isNetworkError(e)) {
-				//showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
+				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
 			}
 			else if (e instanceof ApiError) {
-				//showErrorScreen((ApiError) e);
+				Events.post(new Events.LXError((ApiError) e));
 			}
 			else {
-				//showErrorScreen(null);
+				Events.post(new Events.LXError(null));
 			}
 		}
 
 		@Override
 		public void onNext(LXCreateTripResponse response) {
-			createTripDialog.dismiss();
 			Db.getTripBucket().clearLX();
 			Db.getTripBucket().add(new TripBucketItemLX(response));
-
+			isDownloadingCreateTrip(false);
 			OmnitureTracking.trackAppLXCheckoutPayment(getContext(), lxState);
-
 			bind(response);
-
+			show(new Ready(), FLAG_CLEAR_BACKSTACK);
 		}
 	};
 
 	private Subscription createTripSubscription;
-	private ProgressDialog createTripDialog;
 
 	public void cleanup() {
 		if (createTripSubscription != null) {
 			createTripSubscription.unsubscribe();
 			createTripSubscription = null;
 		}
+	}
+
+	public void isDownloadingCreateTrip(boolean isDownloading) {
+		showSummaryProgress(isDownloading);
+		summaryWidget.setVisibility(isDownloading ? INVISIBLE : VISIBLE);
+	}
+
+	private void showOnCreateNoInternetErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					doCreateTrip();
+				}
+			})
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.LXActivitySelectedRetry());
+				}
+			})
+			.show();
 	}
 }

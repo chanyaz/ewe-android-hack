@@ -59,9 +59,6 @@ public class LXDetailsPresenter extends Presenter{
 	@InjectView(R.id.toolbar_background)
 	View toolbarBackground;
 
-	@InjectView(R.id.lx_details_error_widget)
-	LXErrorWidget errorScreen;
-
 	@Inject
 	LXState lxState;
 
@@ -86,29 +83,13 @@ public class LXDetailsPresenter extends Presenter{
 	@Inject
 	LXServices lxServices;
 
-	// Transitions
-
-	private Transition detailsToError = new VisibilityTransition(this, LXActivityDetailsWidget.class, LXErrorWidget.class) {
-		@Override
-		public void finalizeTransition(boolean forward) {
-			super.finalizeTransition(forward);
-			toolbar.setVisibility(View.GONE);
-			toolbarBackground.setAlpha(0f);
-			animationFinalize(forward);
-		}
-	};
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).lxComponent().inject(this);
-
-		addTransition(detailsToError);
-
-
 		setupToolbar();
 		details.addOnScrollListener(parallaxScrollListener);
-		errorScreen.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -221,27 +202,6 @@ public class LXDetailsPresenter extends Presenter{
 		toolbarBackground.setAlpha(0);
 	}
 
-
-	private void showOnCreateNoInternetErrorDialog(@StringRes int message) {
-		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-		b.setCancelable(false)
-			.setMessage(getResources().getString(message))
-			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-					Events.post(new Events.LXOfferBooked(lxState.offer, lxState.selectedTickets));
-				}
-			})
-			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-			})
-			.show();
-	}
-
 	com.expedia.bookings.widget.ScrollView.OnScrollListener parallaxScrollListener = new com.expedia.bookings.widget.ScrollView.OnScrollListener() {
 		@Override
 		public void onScrollChanged(com.expedia.bookings.widget.ScrollView scrollView, int x, int y, int oldx, int oldy) {
@@ -271,9 +231,5 @@ public class LXDetailsPresenter extends Presenter{
 		toolBarSubtitleText.setTranslationY(0);
 	}
 
-	private void showErrorScreen(ApiError error) {
-		errorScreen.bind(error);
-		show(errorScreen);
-	}
 }
 

@@ -70,8 +70,6 @@ public class LXCheckoutPresenter extends Presenter {
 		addTransition(cvvToError);
 		addTransition(checkoutToError);
 
-
-
 		cvv.setCVVEntryListener(checkout);
 
 		checkoutDialog = new ProgressDialog(getContext());
@@ -246,7 +244,13 @@ public class LXCheckoutPresenter extends Presenter {
 
 	@Subscribe
 	public void onOfferBooked(Events.LXOfferBooked event) {
-		show(checkout);
 		checkout.showCheckout();
+		show(checkout);
+	}
+
+	@Subscribe
+	public void onShowErrorScreen(Events.LXError event) {
+		errorScreen.bind(event.apiError);
+		show(errorScreen, FLAG_CLEAR_BACKSTACK);
 	}
 }
