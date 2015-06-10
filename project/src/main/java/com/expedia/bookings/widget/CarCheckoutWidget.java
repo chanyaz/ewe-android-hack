@@ -78,7 +78,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		@Override
 		public void onError(Throwable e) {
 			Log.e("CarCreateTrip - onError", e);
-			isDownloadingCreateTrip(false);
+			showProgress(false);
 
 			if (RetrofitUtils.isNetworkError(e)) {
 				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
@@ -92,7 +92,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		public void onNext(CarCreateTripResponse createTripResponse) {
 			Events.post(new Events.CarsCheckoutCreateTripSuccess(createTripResponse));
 			Db.getTripBucket().add(new TripBucketItemCar(createTripResponse));
-			isDownloadingCreateTrip(false);
+			showProgress(false);
 			String ogPriceForPriceChange = createTripResponse.searchCarOffer == null ?
 				"" : createTripResponse.searchCarOffer.fare.total.formattedPrice;
 			bind(createTripResponse.carProduct, ogPriceForPriceChange, createTripResponse.tripId);
@@ -268,7 +268,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		Events.post(new Events.CarsKickOffCheckoutCall(builder));
 	}
 
-	public void cleanup() {
+	private void cleanup() {
 		if (createTripSubscription != null) {
 			createTripSubscription.unsubscribe();
 			createTripSubscription = null;
@@ -278,14 +278,13 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	@Override
 	public void doCreateTrip() {
 		cleanup();
-		isDownloadingCreateTrip(true);
-		show(new CheckoutDefault());
 		createTripSubscription = carServices.createTrip(selectedOffer, createTripObserver);
 	}
 
-	public void isDownloadingCreateTrip(boolean isDownloading) {
-		showSummaryProgress(isDownloading);
-		summaryWidget.setVisibility(isDownloading ? INVISIBLE : VISIBLE);
+	@Override
+	public void showProgress(boolean show) {
+		summaryWidget.setVisibility(show ? INVISIBLE : VISIBLE);
+		mSummaryProgressLayout.setVisibility(show ? VISIBLE : GONE);
 	}
 }
 

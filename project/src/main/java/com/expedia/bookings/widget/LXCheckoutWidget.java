@@ -3,7 +3,6 @@ package com.expedia.bookings.widget;
 import javax.inject.Inject;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
@@ -14,7 +13,6 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemLX;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.ApiError;
@@ -30,13 +28,12 @@ import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import rx.Observer;
 import rx.Subscription;
 
-public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryWidget.CVVEntryFragmentListener{
+public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryWidget.CVVEntryFragmentListener {
 
 	public LXCheckoutWidget(Context context, AttributeSet attr) {
 		super(context, attr);
@@ -67,14 +64,6 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		summaryContainer.addView(summaryWidget);
 		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.lx_enter_contact_details));
 		paymentInfoCardView.setLineOfBusiness(LineOfBusiness.LX);
-	}
-
-	@Override
-	public void doCreateTrip() {
-		cleanup();
-		isDownloadingCreateTrip(true);
-		show(new CheckoutDefault());
-		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), createTripObserver);
 	}
 
 	private void bind(LXCreateTripResponse createTripResponse) {
@@ -167,7 +156,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		@Override
 		public void onError(Throwable e) {
 			Log.e("LXCreateTrip - onError", e);
-			isDownloadingCreateTrip(false);
+			showProgress(false);
 			if (RetrofitUtils.isNetworkError(e)) {
 				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
 			}
@@ -183,7 +172,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		public void onNext(LXCreateTripResponse response) {
 			Db.getTripBucket().clearLX();
 			Db.getTripBucket().add(new TripBucketItemLX(response));
-			isDownloadingCreateTrip(false);
+			showProgress(false);
 			OmnitureTracking.trackAppLXCheckoutPayment(getContext(), lxState);
 			bind(response);
 			show(new Ready(), FLAG_CLEAR_BACKSTACK);
@@ -192,16 +181,23 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 
 	private Subscription createTripSubscription;
 
-	public void cleanup() {
+	private void cleanup() {
 		if (createTripSubscription != null) {
 			createTripSubscription.unsubscribe();
 			createTripSubscription = null;
 		}
 	}
 
-	public void isDownloadingCreateTrip(boolean isDownloading) {
-		showSummaryProgress(isDownloading);
-		summaryWidget.setVisibility(isDownloading ? INVISIBLE : VISIBLE);
+	@Override
+	public void doCreateTrip() {
+		cleanup();
+		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), createTripObserver);
+	}
+
+	@Override
+	public void showProgress(boolean show) {
+		summaryWidget.setVisibility(show ? INVISIBLE : VISIBLE);
+		mSummaryProgressLayout.setVisibility(show ? VISIBLE : GONE);
 	}
 
 	private void showOnCreateNoInternetErrorDialog(@StringRes int message) {

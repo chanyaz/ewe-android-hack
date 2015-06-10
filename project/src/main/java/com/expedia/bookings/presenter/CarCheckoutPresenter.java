@@ -193,6 +193,7 @@ public class CarCheckoutPresenter extends Presenter {
 	@Subscribe
 	public void showPriceChange(Events.CarsPriceChange event) {
 		show(checkout, FLAG_CLEAR_TOP);
+		checkout.isCheckoutComplete();
 	}
 
 	@Subscribe

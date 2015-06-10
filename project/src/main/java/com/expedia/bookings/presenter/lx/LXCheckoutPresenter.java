@@ -25,7 +25,6 @@ import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.LXCheckoutWidget;
 import com.expedia.bookings.widget.LXErrorWidget;

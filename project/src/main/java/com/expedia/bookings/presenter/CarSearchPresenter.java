@@ -122,7 +122,7 @@ public class CarSearchPresenter extends Presenter
 
 	public void reset() {
 		LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) searchParamsContainer.getLayoutParams();
-		layoutParams.height =searchParamsContainerHeight;
+		layoutParams.height = searchParamsContainerHeight;
 		searchParamsContainer.setLayoutParams(layoutParams);
 		toolBarSearchText.setAlpha(1f);
 		searchParamsContainer.setAlpha(1f);

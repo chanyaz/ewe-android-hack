@@ -6,7 +6,6 @@ import org.joda.time.LocalDate;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
@@ -19,33 +18,24 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
-import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.TripBucketItemLX;
-import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
-import com.expedia.bookings.widget.LXErrorWidget;
-import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
 
-public class LXDetailsPresenter extends Presenter{
+public class LXDetailsPresenter extends Presenter {
 	public LXDetailsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -74,15 +64,12 @@ public class LXDetailsPresenter extends Presenter{
 	@InjectView(R.id.toolbar_two)
 	LinearLayout toolbarTwo;
 
-
-
 	private Subscription detailsSubscription;
 
 	private int searchTop;
 
 	@Inject
 	LXServices lxServices;
-
 
 	@Override
 	protected void onFinishInflate() {

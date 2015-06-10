@@ -148,7 +148,7 @@ public class CarCheckoutErrorTests extends CarTestCase {
 		if ("PriceChange".equals(firstName)) {
 			carCreateTripResponse.searchCarOffer = searchCarOffer;
 		}
-		Events.post(new Events.CarsShowCheckout(carCreateTripResponse));
+		Events.post(new Events.CarsShowCheckout(searchCarOffer));
 
 		CarViewModel.travelerWidget().perform(click());
 		CarViewModel.firstName().perform(typeText(firstName));
