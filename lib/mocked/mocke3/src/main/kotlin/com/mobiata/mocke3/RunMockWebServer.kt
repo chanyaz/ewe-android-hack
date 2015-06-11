@@ -7,7 +7,7 @@ import com.squareup.okhttp.mockwebserver.MockWebServer
 import kotlin.platform.platformStatic
 
 public object RunMockWebServer {
-	throws(javaClass<Throwable>())
+	@throws(Throwable::class)
 	platformStatic public fun main(args: Array<String>) {
 		val server = MockWebServer()
 

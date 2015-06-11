@@ -10,10 +10,10 @@ repositories {
 }
 
 dependencies {
-    compile 'com.squareup.okhttp:mockwebserver:2.3.0'
-    compile 'joda-time:joda-time:2.7'
+    compile 'com.squareup.okhttp:mockwebserver:2.4.0'
+    compile 'joda-time:joda-time:2.8'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
-    testCompile 'junit:junit:4.11'
+    testCompile 'junit:junit:4.12'
 }
 
 mainClassName = "com.mobiata.mocke3.RunMockWebServer"

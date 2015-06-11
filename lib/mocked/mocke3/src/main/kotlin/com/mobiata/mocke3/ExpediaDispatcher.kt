@@ -13,7 +13,7 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 
 	private val travelAdRequests = hashMapOf<String, Int>()
 
-	throws(javaClass<InterruptedException>())
+	@throws(InterruptedException::class)
 	override fun dispatch(request: RecordedRequest): MockResponse {
 
 		// Hotels API
@@ -325,8 +325,7 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 			val params = parseRequest(request)
 			val DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss"
 			val startDateTime = DateTime.now().withTimeAtStartOfDay()
-			val endDateTime = startDateTime.plusDays(5)
-			// supply the dates to the response
+            // supply the dates to the response
 			params.put("startDate", startDateTime.toString(DATE_TIME_PATTERN))
 			// Add availability dates for 13 days which should make the last date selector disabled.
 			for (iPlusDays in 1..12) {
