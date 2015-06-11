@@ -194,7 +194,7 @@
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">Names must not contain numbers or special characters.</string>
     <!-- Show to user when their phone number is invalid -->
-    <string name="reservation_invalid_phone">Phone number length must be between 1 and 20.</string>
+    <string name="reservation_invalid_phone">Phone number length must be between 4 and 20.</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hmm&#8230;Your payment didn\'t go through. Please double check your payment details and try again.</string>
