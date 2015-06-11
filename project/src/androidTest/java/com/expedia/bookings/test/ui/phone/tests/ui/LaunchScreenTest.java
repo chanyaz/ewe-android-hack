@@ -51,6 +51,9 @@ public class LaunchScreenTest extends PhoneTestCase {
 		else if (testMethodName.contains("NewZealand")) {
 			setPOS(PointOfSaleId.NEW_ZEALND);
 		}
+		else if (testMethodName.contains("Australia")) {
+			setPOS(PointOfSaleId.AUSTRALIA);
+		}
 		super.runTest();
 	}
 
@@ -152,6 +155,10 @@ public class LaunchScreenTest extends PhoneTestCase {
 	}
 
 	public void testCarLXSupportNewZealandPOS() throws Throwable {
+		checkForCarLXButtons();
+	}
+
+	public void testCarLXSupportAustraliaPOS() {
 		checkForCarLXButtons();
 	}
 
