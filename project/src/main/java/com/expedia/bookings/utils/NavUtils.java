@@ -51,6 +51,7 @@ public class NavUtils {
 
 	public static final int FLAG_DEEPLINK = 1;
 	public static final int FLAG_OPEN_SEARCH = 2;
+	public static final int FLAG_OPEN_RESULTS = 3;
 
 	public static boolean canHandleIntent(Context context, Intent intent) {
 		return intent.resolveActivity(context.getPackageManager()) != null;
@@ -185,31 +186,9 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToLocalExpert(Context context, Bundle animOptions) {
+	public static void goToActivities(Context context, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, LXBaseActivity.class);
-		startActivity(context, intent, animOptions);
-	}
-
-	public static void goToLocalExpert(Context context, String location, String startDateStr, Bundle animOptions,
-		int flags) {
-
-		sendKillActivityBroadcast(context);
-		Intent intent = new Intent();
-
-		if (location != null) {
-			intent.putExtra("location", location);
-			intent.putExtra("startDateStr", startDateStr);
-			// Only used by phone search currently, but won't harm to put on tablet as well
-			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
-		}
-
-		if ((flags & FLAG_DEEPLINK) != 0) {
-			intent.putExtra(Codes.FROM_DEEPLINK, true);
-		}
-
-		Class<? extends Activity> routingTarget = LXBaseActivity.class;
-		intent.setClass(context, routingTarget);
 		startActivity(context, intent, animOptions);
 	}
 
@@ -277,14 +256,33 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToLx(Context context, Bundle animOptions, LXSearchParams searchParams, boolean openResults) {
+	public static void goToActivities(Context context, Bundle animOptions, LXSearchParams searchParams, int flags) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, LXBaseActivity.class);
 		if (searchParams != null) {
 			intent.putExtra("startDateStr", DateUtils.localDateToyyyyMMdd(searchParams.startDate));
 			intent.putExtra("location", searchParams.location);
-			intent.putExtra((openResults ? Codes.EXTRA_OPEN_RESULTS : Codes.EXTRA_OPEN_SEARCH), true);
 		}
+
+		if (flags == FLAG_OPEN_SEARCH) {
+			intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
+		}
+
+		if (flags == FLAG_OPEN_RESULTS) {
+			intent.putExtra(Codes.EXTRA_OPEN_RESULTS, true);
+		}
+
+		if (flags == FLAG_DEEPLINK) {
+			// If we don't have filters, open search box.
+			if (searchParams.filters == null) {
+				intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
+			}
+			else {
+				intent.putExtra("filters", searchParams.filters);
+				intent.putExtra(Codes.FROM_DEEPLINK, true);
+			}
+		}
+
 		startActivity(context, intent, animOptions);
 	}
 

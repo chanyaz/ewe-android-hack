@@ -750,6 +750,10 @@ public class Events {
 		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate) {
 			this(locationName, startDate, endDate, SearchType.EXPLICIT_SEARCH);
 		}
+
+		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, String filters) {
+			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate).searchType(SearchType.EXPLICIT_SEARCH).filters(filters);
+		}
 	}
 
 	public static class LXSearchResultsAvailable {

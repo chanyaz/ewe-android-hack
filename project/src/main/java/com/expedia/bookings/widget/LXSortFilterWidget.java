@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
@@ -29,7 +30,8 @@ import rx.functions.Func1;
 
 public class LXSortFilterWidget extends LinearLayout {
 
-	private Map<String, LXCategoryMetadata> filterCategories;
+	public static final String DEEPLINK_FILTER_DILIMITER = "\\|";
+	private Map<String, LXCategoryMetadata> selectedFilterCategories = new HashMap<>();
 
 	public LXSortFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -94,7 +96,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		@Override
 		public LXSortFilterMetadata call(OnClickEvent nothing) {
 			LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata();
-			lxSortFilterMetadata.lxCategoryMetadataMap = filterCategories;
+			lxSortFilterMetadata.lxCategoryMetadataMap = selectedFilterCategories;
 			lxSortFilterMetadata.sort = priceSortButton.isSelected() ? LXSortType.PRICE : LXSortType.POPULARITY;
 			return lxSortFilterMetadata;
 		}
@@ -104,14 +106,13 @@ public class LXSortFilterWidget extends LinearLayout {
 		// Reset Popularity sort as default.
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);
-		this.filterCategories = filterCategories;
 		filterCategoriesContainer.removeAllViews();
 		if (filterCategories != null) {
 			for (Map.Entry<String, LXCategoryMetadata> filterCategory : filterCategories.entrySet()) {
 
 				LXCategoryMetadata lxCategoryMetadata = filterCategory.getValue();
 				String categoryKey = filterCategory.getKey();
-
+				lxCategoryMetadata.checked = selectedFilterCategories.containsKey(categoryKey) ? true : false;
 				LXFilterCategoryWidget categoryView = Ui
 					.inflate(R.layout.section_lx_filter_row, filterCategoriesContainer, false);
 				categoryView.bind(lxCategoryMetadata, categoryKey);
@@ -122,9 +123,23 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	@Subscribe
 	public void onCategoryCheckChanged(Events.LXFilterCategoryCheckedChanged event) {
-		if (filterCategories != null) {
-			// Updating the category map.
-			filterCategories.put(event.categoryKey, event.lxCategoryMetadata);
+		// Updating the category map.
+		if (event.lxCategoryMetadata.checked) {
+			selectedFilterCategories.put(event.categoryKey, event.lxCategoryMetadata);
+		}
+		else {
+			selectedFilterCategories.remove(event.categoryKey);
+		}
+	}
+
+	public void setDeepLinkFilters(String filters) {
+		selectedFilterCategories.clear();
+		String[] filter = filters.split(DEEPLINK_FILTER_DILIMITER);
+		for (String filterDisplayValue : filter) {
+			LXCategoryMetadata lxCategoryMetadata = new LXCategoryMetadata();
+			lxCategoryMetadata.checked = true;
+			lxCategoryMetadata.displayValue = filterDisplayValue;
+			selectedFilterCategories.put(filterDisplayValue, lxCategoryMetadata);
 		}
 	}
 }

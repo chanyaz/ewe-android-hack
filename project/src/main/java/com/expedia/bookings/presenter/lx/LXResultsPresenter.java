@@ -28,6 +28,7 @@ import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXSearchResultsWidget;
 import com.expedia.bookings.widget.LXSortFilterWidget;
@@ -227,6 +228,9 @@ public class LXResultsPresenter extends Presenter {
 		sortFilterWidget.bind(null);
 		sortFilterButton.setVisibility(View.GONE);
 		searchResultObserver.setSearchType(event.lxSearchParams.searchType);
+		if (Strings.isNotEmpty(event.lxSearchParams.filters)) {
+			sortFilterWidget.setDeepLinkFilters(event.lxSearchParams.filters);
+		}
 		searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams, sortFilterWidget.filterSortEventStream(), searchResultObserver);
 	}
 
