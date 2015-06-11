@@ -287,8 +287,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
 					}
 				}
-				Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
-				if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+				if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
 					Db.getTripBucket().getFlight().getFlightTrip().setRewardsPoints("");
 				}
 				mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.FLIGHTS);
