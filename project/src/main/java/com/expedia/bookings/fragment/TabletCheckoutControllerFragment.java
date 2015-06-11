@@ -289,7 +289,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		// Remove invalid credit cards when going from hotels -> flights
 		if (mCurrentLob == LineOfBusiness.FLIGHTS) {
-			Db.loadBillingInfo(getActivity());
 			BillingInfo billingInfo = Db.getBillingInfo();
 
 			boolean isValidCard = Db.getTripBucket().getFlight().isCardTypeSupported(billingInfo.getCardType());
@@ -948,7 +947,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onSlideAllTheWay() {
 		final CheckoutState stateTwo = bookingWithGoogleWallet() ? CheckoutState.BOOKING : CheckoutState.CVV;
 		if (!BookingInfoUtils
-			.migrateRequiredCheckoutDataToDbBillingInfo(getActivity(), getLob(), Db.getTravelers().get(0), true)) {
+			.migrateRequiredCheckoutDataToDbBillingInfo(getActivity(), getLob(), Db.getTravelers().get(0))) {
 			//Somehow we don't have the information we need. This should be very rare, but it could happen.
 
 			if (mSlideFragment != null) {

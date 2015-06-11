@@ -1440,7 +1440,8 @@ public class OmnitureTracking {
 	}
 
 	private static void setLXDateValues(LXState lxState, ADMS_Measurement s) {
-		LocalDate activityStartDate = DateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
+		LocalDate activityStartDate = DateUtils.yyyyMMddHHmmssToLocalDate(
+			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 		String activityStartDateString = activityStartDate.toString(PROP_DATE_FORMAT);
 		s.setProp(5, activityStartDateString);
 
@@ -2971,10 +2972,8 @@ public class OmnitureTracking {
 
 		// If the email is still null, check against the BillingInfo in Db which is populated from manual forms
 		if (TextUtils.isEmpty(email)) {
-			if (Db.loadBillingInfo(context)) {
-				if (Db.hasBillingInfo()) {
-					email = Db.getBillingInfo().getEmail();
-				}
+			if (Db.hasBillingInfo()) {
+				email = Db.getBillingInfo().getEmail();
 			}
 		}
 
@@ -3095,7 +3094,8 @@ public class OmnitureTracking {
 	private static String getTrackingServer(Context context) {
 		EndPoint endpoint = Ui.getApplication(context).appComponent().endpointProvider().getEndPoint();
 		if (endpoint == EndPoint.CUSTOM_SERVER) {
-			return SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
+			return SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address),
+				"localhost:3000");
 		}
 		else {
 			return ProductFlavorFeatureConfiguration.getInstance().getOmnitureTrackingServer();

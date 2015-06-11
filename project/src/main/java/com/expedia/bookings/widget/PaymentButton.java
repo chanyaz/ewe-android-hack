@@ -60,7 +60,6 @@ public class PaymentButton extends LinearLayout {
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		inflater.inflate(R.layout.checkout_payment_button, this);
 		ButterKnife.inject(this);
-		Db.loadBillingInfo(getContext());
 	}
 
 	public void bind() {

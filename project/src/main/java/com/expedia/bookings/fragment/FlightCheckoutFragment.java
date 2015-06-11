@@ -212,10 +212,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			Db.kickOffBackgroundTravelerSave(getActivity());
 		}
 
-		if (Db.getBillingInfoIsDirty()) {
-			Db.kickOffBackgroundBillingInfoSave(getActivity());
-		}
-
 		if (getActivity().isFinishing()) {
 			BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
 		}

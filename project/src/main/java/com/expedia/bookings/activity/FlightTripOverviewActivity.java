@@ -822,7 +822,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	@Override
 	public void onSlideAllTheWay() {
 		if (!BookingInfoUtils
-			.migrateRequiredCheckoutDataToDbBillingInfo(this, LineOfBusiness.FLIGHTS, Db.getTravelers().get(0), true)) {
+			.migrateRequiredCheckoutDataToDbBillingInfo(this, LineOfBusiness.FLIGHTS, Db.getTravelers().get(0))) {
 			if (mSlideToPurchaseFragment != null) {
 				mSlideToPurchaseFragment.resetSlider();
 			}

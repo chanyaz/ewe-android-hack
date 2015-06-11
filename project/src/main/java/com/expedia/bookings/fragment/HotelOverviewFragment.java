@@ -428,10 +428,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (Db.getTravelersAreDirty()) {
 			Db.kickOffBackgroundTravelerSave(getActivity());
 		}
-
-		if (Db.getBillingInfoIsDirty()) {
-			Db.kickOffBackgroundBillingInfoSave(getActivity());
-		}
 	}
 
 	@Override

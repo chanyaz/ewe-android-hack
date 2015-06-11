@@ -320,8 +320,7 @@ public class User implements JSONable {
 				Db.saveTripBucket(context);
 			}
 
-			Db.loadBillingInfo(context);
-			Db.getBillingInfo().delete(context);
+			Db.resetBillingInfo();
 			Db.getTravelers().clear();
 			logger.addSplit("User billing and traveler info deletion.");
 		}
