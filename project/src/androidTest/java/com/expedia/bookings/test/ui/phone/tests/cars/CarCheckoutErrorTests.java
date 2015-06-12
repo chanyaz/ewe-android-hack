@@ -150,6 +150,7 @@ public class CarCheckoutErrorTests extends CarTestCase {
 			carCreateTripResponse.searchCarOffer = searchCarOffer;
 		}
 		Events.post(new Events.CarsShowCheckout(searchCarOffer.productKey, searchCarOffer.fare.total, searchCarOffer.isInsuranceIncluded, new LatLng(searchCarOffer.pickUpLocation.latitude, searchCarOffer.pickUpLocation.longitude)));
+		ScreenActions.delay(1);
 
 		CarViewModel.travelerWidget().perform(click());
 		CarViewModel.firstName().perform(typeText(firstName));
