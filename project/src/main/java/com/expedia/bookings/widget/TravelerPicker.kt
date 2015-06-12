@@ -39,7 +39,7 @@ public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayou
         View.inflate(context, R.layout.widget_traveler_picker, this)
     }
 
-    public trait TravelersUpdatedListener {
+    public interface TravelersUpdatedListener {
         fun onTravelerUpdate(text: String)
     }
 

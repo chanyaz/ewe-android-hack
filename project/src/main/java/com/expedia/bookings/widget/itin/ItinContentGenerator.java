@@ -764,7 +764,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		// TODO: consider changing to something like "in less than 1 minute"
 		if (hours == 0 && minutes == 0) {
 			Resources res = context.getResources();
-			int resId = past ? R.plurals.num_minutes_ago : R.plurals.in_num_minutes;
+			int resId = past ? R.plurals.joda_time_android_num_minutes_ago : R.plurals.joda_time_android_in_num_minutes;
 			return res.getQuantityString(resId, 1, 1);
 		}
 

@@ -24,5 +24,10 @@ class DispatcherUtilitiesTest {
 		assertEquals("HTTP/1.1 404 OK", response404.getStatus())
 	}
 
+    test fun parseRequestWorks() {
+        val request = RecordedRequest("GET /hint/es/v2/ac/en_US/LAX?type=95&lob=Flights&  HTTP/1.1", null, null, 0, null, 0, null);
+        parseRequest(request)
+    }
+
 }
 
