@@ -10,6 +10,7 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.CarTestCase;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.mobiata.android.util.IoUtils;
 
@@ -62,7 +63,7 @@ public class CarCreditCardTests extends CarTestCase {
 		String offerStr = IoUtils.convertStreamToString(
 			getInstrumentation().getContext().getAssets().open(createFileName));
 		searchCarOffer = gson.fromJson(offerStr, SearchCarOffer.class);
-		Events.post(new Events.CarsShowCheckout(searchCarOffer));
+		Events.post(new Events.CarsShowCheckout(searchCarOffer.productKey, searchCarOffer.fare.total, searchCarOffer.isInsuranceIncluded, new LatLng(searchCarOffer.pickUpLocation.latitude, searchCarOffer.pickUpLocation.longitude)));
 	}
 
 }

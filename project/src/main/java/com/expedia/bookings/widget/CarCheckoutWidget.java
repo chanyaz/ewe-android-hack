@@ -18,7 +18,6 @@ import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
-import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.AdTracker;
@@ -47,7 +46,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	CarCheckoutSummaryWidget summaryWidget;
 
 	private Subscription createTripSubscription;
-	private SearchCarOffer selectedOffer;
+	private Events.CarsShowCheckout createTripParams;
 
 	@Inject
 	CarServices carServices;
@@ -93,8 +92,8 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 			Events.post(new Events.CarsCheckoutCreateTripSuccess(createTripResponse));
 			Db.getTripBucket().add(new TripBucketItemCar(createTripResponse));
 			showProgress(false);
-			String ogPriceForPriceChange = createTripResponse.searchCarOffer == null ?
-				"" : createTripResponse.searchCarOffer.fare.total.formattedPrice;
+			String ogPriceForPriceChange = createTripResponse.originalPrice == null ?
+				"" : createTripResponse.originalPrice;
 			bind(createTripResponse.carProduct, ogPriceForPriceChange, createTripResponse.tripId);
 			OmnitureTracking.trackAppCarCheckoutPage(getContext(), createTripResponse.carProduct);
 			AdTracker.trackCarCheckoutStarted(createTripResponse.carProduct);
@@ -164,7 +163,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
-		selectedOffer = event.selectedCarOffer;
+		createTripParams = event;
 		cleanup();
 		showCheckout();
 	}
@@ -278,7 +277,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	@Override
 	public void doCreateTrip() {
 		cleanup();
-		createTripSubscription = carServices.createTrip(selectedOffer, createTripObserver);
+		createTripSubscription = carServices.createTrip(createTripParams.productKey, createTripParams.fare, createTripParams.isInsuranceIncluded, createTripObserver);
 	}
 
 	@Override

@@ -182,7 +182,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 					if (!isChecked) {
 						offer.isToggled = true;
 						reserveNow.setChecked(true);
-						Events.post(new Events.CarsShowCheckout(offer));
+						Events.post(new Events.CarsShowCheckout(offer.productKey, offer.fare.total, offer.isInsuranceIncluded, new LatLng(offer.pickUpLocation.latitude, offer.pickUpLocation.longitude)));
 					}
 					else {
 						offer.isToggled = false;
