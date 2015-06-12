@@ -86,7 +86,6 @@
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext</item>
         <item name="skin_addToCalenderMessage">@string/contact_phone_template_wotif</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_wotif</item>
-        <item name="skin_passwordHint">@string/wotif_password_hint</item>
         <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_login_message_wotif</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_wotif</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_wotif</item>

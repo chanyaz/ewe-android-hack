@@ -67,8 +67,6 @@
     <string name="car_auto_tran_text">Transmission automatique</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">Transmission manuelle</string>
-    <!-- Sign in Text-->
-    <string name="cars_sign_in_text">Se connecter avec Expedia</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -159,6 +157,8 @@
     <string name="car_rental_breakdown_drop_off_charges">Frais de restitution</string>
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">Kilométrage illimité</string>
+    <!-- Insurance included -->
+    <string name="insurance_included">Assurance comprise</string>
     <!-- Checkout confirmation message (temporary) -->
     <string name="successful_checkout_TEMPLATE">N° de voyage : %1$s</string>
     <!-- Error message for some missing checkout params -->
@@ -877,8 +877,8 @@
     <string name="sign_in_failed_try_again">Connexion non réussie. Si votre adresse e-mail et votre mot de passe sont corrects, vérifiez et confirmez que votre paramètre Pays de l\&apos;appli est correct.</string>
     <!-- User needs to reset password -->
     <string name="sign_in_reset_password">Vous devez créer une nouvelle connexion internationale pour tous les sites Expedia.&lt;br&gt;Veuillez réinitialiser votre mot de passe en utilisant le lien « Mot de passe oublié ? » situé ci-dessous.</string>
-    <!-- Facebook connect expedia password hint -->
-    <string name="expedia_password_hint">Mot de passe Expedia</string>
+    <!-- Facebook connect password hint -->
+    <string name="brand_password_hint_TEMPLATE">Mot de passe {brand}</string>
     <!-- Link accounts -->
     <string name="link_accounts">Associer les comptes</string>
     <!-- Failure to update the user -->
@@ -895,6 +895,8 @@
     <string name="Sign_In">Se connecter</string>
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_Expedia">Se connecter avec Expedia</string>
+    <!-- Sign in with the current brand -->
+    <string name="sign_in_with_brand_TEMPLATE">Se connecter avec {brand}</string>
     <!-- or -->
     <string name="or">ou</string>
     <!-- Already signed in -->
@@ -1825,16 +1827,14 @@
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">Bonne nouvelle ! Le prix de votre séjour est passé de %1$s à %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Terminé</string>
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Dû à Expedia aujourd\&apos;hui</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Veuillez utiliser l\&apos;alphabet latin</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Veuillez saisir une adresse e-mail valide</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Frais d\&apos;hôtel à régler sur place :</string>
-    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">Dû à Expedia aujourd\&apos;hui :</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
+    <string name="due_to_brand_today_TEMPLATE">Dû à {brand} aujourd\&apos;hui :</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">Les frais d\&apos;établissement d\&apos;un montant de &lt;b&gt;%1$s&lt;/b&gt; seront payés à l\&apos;hôtel. Le prix total pour votre séjour sera de &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -2359,6 +2359,10 @@
     <string name="DONE">OK</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Rechercher</string>
+    <!-- Button label for toggling to the map -->
+    <string name="map_text">Plan</string>
+    <!-- Button label for toggling to the hotel list -->
+    <string name="list_text">Liste</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="sort">Trier</string>
     <!-- Label to swtich between map and list search results -->
@@ -2735,20 +2739,6 @@
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
     <string name="unknown">Inconnu</string>
 
-    <!-- Expedia policy strings -->
-    <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">Le montant sera entièrement prélevé de votre carte de paiement au moment de la réservation.</string>
-    <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">Nous vous proposons un prix exceptionnellement bas. Et c\&apos;est pour cette raison que ce tarif n\&apos;est pas remboursable. Si vous décidez d\&apos;annuler cette réservation, vous ne recevrez aucun remboursement.</string>
-    <!-- Policy displayed to user when a deposit is required -->
-    <string name="PolicyDepositRequired">Un acompte sera prélevé de votre carte de paiement au moment de la réservation. Le montant sera prélevé directement par l\&apos;hôtel dès qu\&apos;il recevra votre réservation.</string>
-    <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">Les coordonnées de votre de paiement sont nécessaires pour garantir la réservation. Aucun montant ne sera prélevé jusqu\&apos;à ce que vous arriviez à l\&apos;hôtel ou dépassiez la limite de temps prévue par la politique d\&apos;annulation.</string>
-    <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">En effectuant cette réservation, vous acceptez la totalité des conditions générales de vente, qui incluent la politique d\&apos;annulation et tous les termes et conditions indiqués dans les Conditions générales de vente.\n\nVous acceptez de payer le montant de la réservation. Si vous ne payez pas le montant et que l\&apos;argent est récupéré par le biais d\&apos;une agence de recouvrement, d\&apos;un avocat ou de toute autre action légale, vous acceptez de payer tous les coûts ou frais raisonnables encourus, notamment les honoraires d\&apos;avocat et les frais de justice.</string>
-    <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">Vous effectuez une réservation dans un établissement hors promotion. Tous les tarifs sont calculés sur la base d\&apos;une nuit en chambre double, sauf indication contraire. Lisez la description des chambres et des tarifs avec soin pour être sûr que la chambre choisie puisse accueillir toutes les personnes qui participent au voyage. Certains tarifs sont réservés à certaines catégories de personnes. Les frais de réservations, taxes et autres suppléments imposés par l\&apos;hôtel ne sont pas inclus. Toute personne additionnelle (adulte ou enfant) dépassant la capacité indiquée de la chambre peut comporter le paiement d\&apos;un supplément, à la discrétion de l\&apos;établissement.\n\nLes demandes pour plus de 2 personnes, ou pour un nombre de personnes supérieur à celui indiqué dans le tarif que vous avez sélectionné, seront envoyées à l\&apos;établissement mais ne sont pas garanties. Si l\&apos;hôtel accepte ce genre de réservation, il se réserve le droit de vous faire payer des frais supplémentaires.</string>
-
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Se connecter</string>
@@ -2761,7 +2751,7 @@
     <!-- Message that tells user they failed to sign in -->
     <string name="sign_in_failed">Veuillez vous connecter à nouveau.</string>
     <!-- Label for sign out confirmation -->
-    <string name="sign_out_confirmation">Êtes-vous sûr de vouloir vous déconnecter de votre compte Expedia ?</string>
+    <string name="sign_out_confirmation_TEMPLATE">Êtes-vous sûr de vouloir vous déconnecter de votre compte {brand} ?</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +silver rewards program name -->
@@ -2770,8 +2760,8 @@
     <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Compte Expedia</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Chargement compte Expedia…</string>
+    <!-- Label for loading user profile from Expedia -->
+    <string name="loading_brand_account_TEMPLATE">Chargement de votre compte {brand}</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Mot de passe oublié ?</string>
     <!-- Webview title for password recovery -->
@@ -2823,7 +2813,7 @@
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">Désolé, ce bon de réduction ne peut pas être appliqué à cet hôtel.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Désolé, nous ne sommes pas en mesure d\&apos;accepter les bons de réduction pour le moment. Veuillez réessayer.</string>
+    <string name="coupon_error_service_down">Désolés, nous ne sommes pas en mesure d\&apos;accepter les bons de réduction pour le moment. Veuillez réessayer.</string>
     <!-- Error when applying coupon - session timeout -->
     <string name="coupon_error_service_timeout">Désolé, l\&apos;application du bon de réduction a pris trop longtemps. Veuillez réessayer.</string>
     <!-- Error when applying coupon - Invalid Stay Dates -->
@@ -2832,6 +2822,8 @@
     <string name="coupon_error_exceeded_earn_limit">Désolé, ce bon de réduction a été utilisé un trop grand nombre de fois et ne peut plus être appliqué.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
     <string name="coupon_error_invalid_average_price">Désolé, le prix moyen par nuit est inférieur au minimum requis pour utiliser ce bon de réduction.</string>
+    <!-- Error when applying coupon - Pay Later Hotel -->
+    <string name="coupon_error_pay_later_hotel">Les bons de réduction ne peuvent pas être appliqués pour des chambres de type « Payer plus tard ». Veuillez sélectionner une chambre de type « Payer maintenant ».</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2844,18 +2836,12 @@
     <string name="contact_expedia_via">Contacter Expedia par…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Téléphone</string>
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">Assistance réservations Expedia</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Site Internet</string>
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Site Internet Expedia</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Assistance pour l\&apos;app</string>
-    <!-- Subject line for "tell a friend" feature -->
-    <string name="tell_a_friend_subject">Expedia Hôtels</string>
-    <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Bonjour,\n\nVenez découvrir Expedia Hôtels pour iPhone et téléphones Android. Cette application est gratuite et vous permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec votre téléphone !\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Conditions d\&apos;utilisation</string>
     <!-- Label for link to privacy policy -->
@@ -2870,8 +2856,6 @@
     <string name="dialog_title_cleared_private_data">Données personnelles supprimées</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">Toutes les informations de facturation et les coordonnées utilisateurs ont été effacées.</string>
-    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">Ouvrir le site mobile d\&apos;Expedia ?</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">S\&apos;inscrire</string>
     <!-- Action button label to follow on twitter -->
@@ -3270,8 +3254,6 @@
     <string name="country_ax">Åland</string>
 
     <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Expedia, INc.</string>
     <!-- Loading message -->
     <string name="loading">Chargement</string>
     <!-- Google Wallet label -->
@@ -3321,9 +3303,9 @@
 
     <!-- Handling sold out hotels -->
     <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available">Actuellement non disponible sur Expedia</string>
+    <string name="not_currently_available_from_brand_TEMPLATE">Actuellement non disponible sur {brand}</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_TEMPLATE">Actuellement non disponible sur Expedia %s</string>
+    <string name="not_currently_available_from_brand_dates_TEMPLATE">Non disponible sur {brand} les {dates}</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -3487,8 +3469,6 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">Appuyez pour passer au paiement</string>
-    <!-- Content description for action: Press to sign in with your Expedia account -->
-    <string name="cd_checkout_sign_in_with_expedia">Appuyez pour vous connecter à votre compte Expedia</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">Appuyez pour ajouter un voyageur à cette réservation</string>
     <!-- Content description for action: Press to select payment for this booking -->
@@ -3496,8 +3476,8 @@
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Appuyez pour saisir un code promotionnel</string>
     <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign into Expedia with your Facebook account -->
-    <string name="cd_sign_in_with_facebook">Appuyez pour vous connecter à Expedia avec votre compte Facebook</string>
+    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
+    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">Appuyez pour vous connecter à {brand} avec votre compte Facebook</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Appuyez pour ajouter un voyageur</string>
