@@ -67,8 +67,6 @@
     <string name="car_auto_tran_text">自動變速</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">手動變速</string>
-    <!-- Sign in Text-->
-    <string name="cars_sign_in_text">以 Expedia 帳戶登入</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -159,6 +157,8 @@
     <string name="car_rental_breakdown_drop_off_charges">還車費用</string>
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">無限里數</string>
+    <!-- Insurance included -->
+    <string name="insurance_included">包保險</string>
     <!-- Checkout confirmation message (temporary) -->
     <string name="successful_checkout_TEMPLATE">行程編號 %1$s</string>
     <!-- Error message for some missing checkout params -->
@@ -700,7 +700,7 @@
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">很抱歉，目前沒有航班\n可供預訂。</string>
     <!-- Tablet search results, no flights available due to invalid start date -->
-    <string name="flight_search_range_error_TEMPLATE">抱歉，我們無法搜尋從今天起超過 %1$s 天的機票。</string>
+    <string name="flight_search_range_error_TEMPLATE">很抱歉，我們無法搜尋 %1$s 日後的機票。</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">已移除</string>
     <!-- Label indicating how many items are being booked for the current trip -->
@@ -877,8 +877,8 @@
     <string name="sign_in_failed_try_again">無法登入。如電郵和密碼均正確無誤，請確認 App 的「國家/地區」設定是否正確。</string>
     <!-- User needs to reset password -->
     <string name="sign_in_reset_password">您必須建立一個適用於所有 Expedia 網站的新國際登入帳戶。&lt;br&gt;請使用以下「忘記密碼？」連結重設密碼。</string>
-    <!-- Facebook connect expedia password hint -->
-    <string name="expedia_password_hint">Expedia 密碼</string>
+    <!-- Facebook connect password hint -->
+    <string name="brand_password_hint_TEMPLATE">{brand} 密碼</string>
     <!-- Link accounts -->
     <string name="link_accounts">連接帳戶</string>
     <!-- Failure to update the user -->
@@ -895,6 +895,8 @@
     <string name="Sign_In">登入</string>
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_Expedia">以 Expedia 帳戶登入</string>
+    <!-- Sign in with the current brand -->
+    <string name="sign_in_with_brand_TEMPLATE">以 {brand} 帳戶登入</string>
     <!-- or -->
     <string name="or">或</string>
     <!-- Already signed in -->
@@ -1825,16 +1827,14 @@
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">好消息！您住宿的收費剛由 %1$s 降低至 %2$s。</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">完成</string>
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">目前應付予 Expedia</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">請使用英文字母</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">請輸入有效的電郵地址</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">於酒店支付的費用：</string>
-    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">目前應付予 Expedia：</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
+    <string name="due_to_brand_today_TEMPLATE">現時應付 {brand}：</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; 休閒設施費將於酒店收取。您住宿的總價將為 &lt;b&gt;%2$s&lt;/b&gt;。</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -2359,6 +2359,10 @@
     <string name="DONE">完成</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">搜尋地圖</string>
+    <!-- Button label for toggling to the map -->
+    <string name="map_text">地圖</string>
+    <!-- Button label for toggling to the hotel list -->
+    <string name="list_text">清單</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="sort">排序</string>
     <!-- Label to swtich between map and list search results -->
@@ -2735,20 +2739,6 @@
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
     <string name="unknown">未明</string>
 
-    <!-- Expedia policy strings -->
-    <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">預訂總金額將於您訂房時立即從您的信用卡中扣除。</string>
-    <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">此酒店目前提供超低價。因此預訂不設退款。如選擇取消此預訂，您將無法獲得任何退款。</string>
-    <!-- Policy displayed to user when a deposit is required -->
-    <string name="PolicyDepositRequired">我們會在您預訂時，從您的信用卡扣除一筆訂金。酒店會在收到您的預訂要求時，直接從您的信用卡中收費。</string>
-    <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">我們需要您的信用卡資料，用來作為您預訂的保證。我們會等到您抵達酒店後、或取消最後限期已截止時，才會從您的信用卡中扣款。</string>
-    <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">於作出預訂後，即表示您已同意所有條款及細則，包括取消政策及用戶協議所載的所有條款及細則。\n\n您同意支付預訂費用。如您未依約支付這筆欠款，以致我們必須委託收帳公司、律師或透過其他法律程序向您收取這筆款項，則您同意支付所有合理的成本或費用，包括與這類收款工作有關的律師費和訴訟費。</string>
-    <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">您預訂的是一間不提供折扣的酒店。除非另有註明，否則顯示的所有價格均為單一客房的每晚價格，並以雙人入住為準。請仔細閱讀客房說明和價格規定，以確保您選擇的客房可容納與您同行的所有旅客。部分價格可能需要出示特殊的身份證明。我們的預訂費、稅項以及酒店規定收取的其他附加費並未包含在內。如有任何成年人或小童入住數目超出客房所列出的入住人數上限，酒店有權決定是否收取額外費用。\n\n如要求入住人數超過 2 人，或超過所選客房價格所示的人數上限，此項要求會通知酒店，但無法保證是否批准。如果您的要求獲接納，則必須依據酒店的內部規定加收額外費用。</string>
-
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">登入</string>
@@ -2761,7 +2751,7 @@
     <!-- Message that tells user they failed to sign in -->
     <string name="sign_in_failed">請再次登入</string>
     <!-- Label for sign out confirmation -->
-    <string name="sign_out_confirmation">您確定要登出您的 Expedia 帳戶嗎？</string>
+    <string name="sign_out_confirmation_TEMPLATE">您確定要登出您的 {brand} 帳戶嗎？</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +silver rewards program name -->
@@ -2770,8 +2760,8 @@
     <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia 帳戶</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">正在載入 Expedia 帳戶</string>
+    <!-- Label for loading user profile from Expedia -->
+    <string name="loading_brand_account_TEMPLATE">正載入 {brand} 帳戶</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">忘記密碼？</string>
     <!-- Webview title for password recovery -->
@@ -2791,7 +2781,7 @@
     <!-- Message shown when a coupon was successfully applied -->
     <string name="coupon_applied">已使用優惠券</string>
     <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
-    <string name="coupon_saved_TEMPLATE">您慳了%s！</string>
+    <string name="coupon_saved_TEMPLATE">您慳了 %s！</string>
     <!-- Message shown when a coupon is being removed -->
     <string name="coupon_removing_dialog">移除優惠券</string>
 
@@ -2832,6 +2822,8 @@
     <string name="coupon_error_exceeded_earn_limit">很抱歉，此優惠券已被多次使用並已不再適用。</string>
     <!-- Error when applying coupon - Invalid Average Price -->
     <string name="coupon_error_invalid_average_price">很抱歉，平均每晚價格未達使用此優惠券的最低要求。</string>
+    <!-- Error when applying coupon - Pay Later Hotel -->
+    <string name="coupon_error_pay_later_hotel">優惠券不適用於到酒店才付款的客房，請選擇立即付款的客房。</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2844,18 +2836,12 @@
     <string name="contact_expedia_via">透過以下途徑聯絡 Expedia…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">電話</string>
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">Expedia 預訂支援</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">網站</string>
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Expedia 網站</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App 技術支援</string>
-    <!-- Subject line for "tell a friend" feature -->
-    <string name="tell_a_friend_subject">Expedia Hotels</string>
-    <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">您好，\n\n誠意推薦以 iPhone 和 Android 手機搜尋 Expedia Hotels。服務既免費，還能讓您輕鬆搜尋並預訂全球超過 14 萬間酒店的客房。這個以手機預訂酒店的方法最方便。\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">條款與細則</string>
     <!-- Label for link to privacy policy -->
@@ -2870,8 +2856,6 @@
     <string name="dialog_title_cleared_private_data">私人資料已清除</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">所有儲存帳單及聯絡資料已移除。</string>
-    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">推出 Expedia 手機網站嗎？</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">訂閱</string>
     <!-- Action button label to follow on twitter -->
@@ -3270,8 +3254,6 @@
     <string name="country_ax">亞蘭群島</string>
 
     <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Expedia, Inc.</string>
     <!-- Loading message -->
     <string name="loading">載入中</string>
     <!-- Google Wallet label -->
@@ -3321,9 +3303,9 @@
 
     <!-- Handling sold out hotels -->
     <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available">Expedia 現已訂滿</string>
+    <string name="not_currently_available_from_brand_TEMPLATE">{brand} 現已訂滿</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_TEMPLATE">%s於 Expedia 已訂滿</string>
+    <string name="not_currently_available_from_brand_dates_TEMPLATE">{brand} 於 {dates}已訂滿</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -3487,8 +3469,6 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">輕按以前往結帳</string>
-    <!-- Content description for action: Press to sign in with your Expedia account -->
-    <string name="cd_checkout_sign_in_with_expedia">輕按以登入您的 Expedia 帳戶</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">輕按以新增旅客至此預訂</string>
     <!-- Content description for action: Press to select payment for this booking -->
@@ -3496,8 +3476,8 @@
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">輕按以輸入優惠券或推廣代碼</string>
     <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign into Expedia with your Facebook account -->
-    <string name="cd_sign_in_with_facebook">輕按以使用您的 Facebook 帳戶登入 Expedia</string>
+    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
+    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">輕按以使用您的 Facebook 帳戶登入 {brand}</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">輕按以輸入新的旅客</string>
