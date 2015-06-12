@@ -20,7 +20,6 @@ import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.TripBucketItemHotel;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.otto.Events;
@@ -529,18 +528,10 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		@Override
 		public void onDownload(CreateTripResponse response) {
 			// Don't execute if we were killed before finishing
-			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-			Rate selectedRate = hotel.getRate();
-			boolean isPayLater = selectedRate.isPayLater();
 			if (!isAdded()) {
 				return;
 			}
-
-			boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPayLaterCouponMessaging);
-			if (isPayLater && isUserBucketedForTest) {
-				handlePayLaterCouponError();
-			}
-			else if (response == null || response.hasErrors()) {
+			if (response == null || response.hasErrors()) {
 				handleCouponError(response);
 			}
 			else {
@@ -667,16 +658,5 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	@Override
 	public void handleBookingErrorResponse(Response response) {
 		super.handleBookingErrorResponse(response, LineOfBusiness.HOTELS);
-	}
-
-	/*
-	 * Pay Later Coupon Error Handling
-	 */
-
-	private void handlePayLaterCouponError() {
-		String errorMessage = getString(R.string.coupon_error_pay_later_hotel);
-		DialogFragment df = SimpleDialogFragment.newInstance(null, errorMessage);
-		df.show(getChildFragmentManager(), "couponError");
-		Events.post(new Events.CouponDownloadError());
 	}
 }
