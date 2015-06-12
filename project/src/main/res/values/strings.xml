@@ -1814,6 +1814,8 @@
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Free Cancellation&lt;/b&gt; by &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">Sign Out</string>
+    <!-- AB Test 3x messaging for hotel points -->
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">You\'ll earn %1$s points &lt;br/&gt;&#x2014; 3x points for booking on the app!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">You\'ll earn %1$s points for this booking!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->

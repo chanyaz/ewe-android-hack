@@ -20,6 +20,7 @@ import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.TripBucketItemLX;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -286,6 +287,15 @@ public class AccountButton extends LinearLayout {
 				youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, rewardPoints));
 				break;
 			case HOTELS:
+				boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotel3xMessaging);
+				boolean isTablet = AndroidUtils.isTablet(getContext());
+				if (isUserBucketedForTest && !isTablet) {
+					youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.youll_earn_points_ab_test_3x_TEMPLATE, rewardPoints));
+				}
+				else {
+					youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
+				}
+				break;
 			case LX:
 				youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
 			}

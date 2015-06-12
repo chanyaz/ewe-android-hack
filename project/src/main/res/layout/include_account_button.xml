@@ -156,7 +156,8 @@
         <TextView
             android:id="@+id/account_rewards_textview"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/account_rewards_container_height"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/account_rewards_container_height"
             android:gravity="center"
             android:textSize="@dimen/account_button_points_text_size"/>
     </LinearLayout>
