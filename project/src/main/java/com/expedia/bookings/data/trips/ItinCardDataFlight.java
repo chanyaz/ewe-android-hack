@@ -20,6 +20,8 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	private int mLegNumber;
 	private DateTime mEndDate;
 	private DateTime mStartDate;
+	private boolean mShowAirAttach;
+	private FlightLeg mNextFlightLeg;
 
 	public ItinCardDataFlight(TripFlight parent, int leg) {
 		super(parent);
@@ -160,6 +162,22 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 			return leg.getLastWaypoint().getMostRelevantDateTime();
 		}
 		return null;
+	}
+
+	public boolean showAirAttach() {
+		return mShowAirAttach;
+	}
+
+	public void setShowAirAttach(boolean show) {
+		mShowAirAttach = show;
+	}
+
+	public FlightLeg getNextFlightLeg() {
+		return mNextFlightLeg;
+	}
+
+	public void setNextFlightLeg(FlightLeg nextLeg) {
+		mNextFlightLeg = nextLeg;
 	}
 
 	@Override
