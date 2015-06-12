@@ -67,7 +67,6 @@
         <item name="skin_hotelSearchResultSoldOut">@string/sold_out_on_vsc</item>
         <item name="skin_addToCalenderMessage">@string/contact_phone_template_vsc</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_vsc</item>
-        <item name="skin_passwordHint">@string/vsc_password_hint</item>
         <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_login_message_vsc</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_vsc</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_vsc</item>
