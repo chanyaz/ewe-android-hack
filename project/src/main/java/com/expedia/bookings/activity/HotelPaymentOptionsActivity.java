@@ -341,8 +341,14 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 					}
 					else {
 						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
-						displayOptions();
+							Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+						if (isUserBucketedForTest) {
+							setIntentResultOk();
+							displayCheckout();
+						}
+						else {
+							displayOptions();
+						}
 					}
 				}
 				break;
