@@ -87,10 +87,10 @@ public class CarServices {
 			.subscribe(observer);
 	}
 
-	public Subscription createTrip(SearchCarOffer offer, Observer<CarCreateTripResponse> observer) {
-		return mApi.createTrip(offer.productKey, offer.fare.total.amount.toString())
+	public Subscription createTrip(String productKey, Money fare, boolean isInsuranceIncluded, Observer<CarCreateTripResponse> observer) {
+		return mApi.createTrip(productKey, fare.amount.toString())
 			.doOnNext(HANDLE_ERRORS)
-			.map(new SearchOfferInjector(offer))
+			.map(new SearchOfferInjector(isInsuranceIncluded, fare.formattedPrice))
 			.subscribeOn(mSubscribeOn)
 			.observeOn(mObserveOn)
 			.subscribe(observer);
@@ -130,6 +130,27 @@ public class CarServices {
 		}
 	};
 
+	private class SearchOfferInjector implements Func1<CarCreateTripResponse, CarCreateTripResponse> {
+		private boolean isInsuranceIncluded;
+		private String originalPrice;
+
+		public SearchOfferInjector(boolean isInsuranceIncluded, String originalPrice) {
+			this.isInsuranceIncluded = isInsuranceIncluded;
+			this.originalPrice = originalPrice;
+		}
+
+		@Override
+		public CarCreateTripResponse call(CarCreateTripResponse carCreateTripResponse) {
+			//Propagate "isInsuranceIncluded" from Search Offer to Create Trip Offer
+			carCreateTripResponse.carProduct.isInsuranceIncluded = isInsuranceIncluded;
+
+			//Set Original Search Car Offer in case there was a Price Change
+			if (carCreateTripResponse.hasPriceChange()) {
+				carCreateTripResponse.originalPrice = originalPrice;
+			}
+			return carCreateTripResponse;
+		}
+	}
 
 	private static final Func1<CarSearchResponse, Observable<CategorizedCarOffers>> BUCKET_OFFERS = new Func1<CarSearchResponse, Observable<CategorizedCarOffers>>() {
 		@Override
@@ -182,26 +203,6 @@ public class CarServices {
 			return filteredResponse;
 		}
 	};
-
-	private class SearchOfferInjector implements Func1<CarCreateTripResponse, CarCreateTripResponse> {
-		SearchCarOffer searchCarOffer;
-
-		public SearchOfferInjector(SearchCarOffer offer) {
-			searchCarOffer = offer;
-		}
-
-		@Override
-		public CarCreateTripResponse call(CarCreateTripResponse carCreateTripResponse) {
-			//Propagate "isInsuranceIncluded" from Search Offer to Create Trip Offer
-			carCreateTripResponse.carProduct.isInsuranceIncluded = searchCarOffer.isInsuranceIncluded;
-
-			//Set Original Search Car Offer in case there was a Price Change
-			if (carCreateTripResponse.hasPriceChange()) {
-				carCreateTripResponse.searchCarOffer = searchCarOffer;
-			}
-			return carCreateTripResponse;
-		}
-	}
 
 	private class CreateTripOfferInjector implements Func1<CarCheckoutResponse, CarCheckoutResponse> {
 		CreateTripCarOffer createTripCarOffer;

@@ -4,7 +4,6 @@ import javax.inject.Inject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -20,29 +19,24 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
-import com.expedia.bookings.tracking.AdTracker;
-import com.expedia.bookings.widget.TextView;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
-import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.CarCategoryListWidget;
 import com.expedia.bookings.widget.CarFilterWidget;
 import com.expedia.bookings.widget.ErrorWidget;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -52,7 +46,7 @@ import rx.Observer;
 import rx.Subscription;
 import rx.exceptions.OnErrorNotImplementedException;
 
-public class CarResultsPresenter extends Presenter implements UserAccountRefresher.IUserAccountRefreshListener {
+public class CarResultsPresenter extends Presenter {
 
 	public CarResultsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -73,8 +67,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
-
-	UserAccountRefresher userAccountRefresher;
 
 	@InjectView(R.id.sort_toolbar)
 	ViewGroup filterToolbar;
@@ -103,12 +95,9 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	@InjectView(R.id.toolbar_two)
 	LinearLayout toolbarTwo;
 
-	private ProgressDialog createTripDialog;
 	private Subscription searchSubscription;
-	private Subscription createTripSubscription;
 	private CarSearchParams searchedParams;
 	private CategorizedCarOffers selectedCategorizedCarOffers;
-	private SearchCarOffer selectedOffer;
 	private CarSearch unfilteredSearch = new CarSearch();
 	private int searchTop;
 	private String lastState;
@@ -124,11 +113,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		addTransition(categoriesToError);
 		addTransition(detailsToFilter);
 		addDefaultTransition(setUpLoading);
-
-		createTripDialog = new ProgressDialog(getContext());
-		createTripDialog.setMessage(getResources().getString(R.string.preparing_checkout_message));
-		createTripDialog.setIndeterminate(true);
-		createTripDialog.setCancelable(false);
 
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
@@ -163,7 +147,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		toolbarBackground.getLayoutParams().height += statusBarHeight;
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 
-		userAccountRefresher = new UserAccountRefresher(getContext(), LineOfBusiness.CARS, this);
+
 		filterNumber.setVisibility(GONE);
 	}
 
@@ -177,10 +161,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		if (searchSubscription != null) {
 			searchSubscription.unsubscribe();
 			searchSubscription = null;
-		}
-		if (createTripSubscription != null) {
-			createTripSubscription.unsubscribe();
-			createTripSubscription = null;
 		}
 	}
 
@@ -447,92 +427,7 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		}
 	};
 
-	// Create Trip network handling
 
-	private Observer<CarCreateTripResponse> createTripObserver = new Observer<CarCreateTripResponse>() {
-		@Override
-		public void onCompleted() {
-			cleanup();
-		}
-
-		@Override
-		public void onError(Throwable e) {
-			Log.e("CarCreateTrip - onError", e);
-			createTripDialog.dismiss();
-
-			if (RetrofitUtils.isNetworkError(e)) {
-				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
-			}
-			else {
-				handleCreateTripError((ApiError) e);
-			}
-		}
-
-		@Override
-		public void onNext(CarCreateTripResponse response) {
-			createTripDialog.dismiss();
-			Events.post(new Events.CarsShowCheckout(response));
-		}
-	};
-
-	private void handleCreateTripError(final ApiError error) {
-		switch (error.errorCode) {
-		case INVALID_CAR_PRODUCT_KEY:
-			showInvalidProductErrorDialog();
-			break;
-		default:
-			showGenericCreateTripErrorDialog();
-			break;
-		}
-	}
-
-	private void showGenericCreateTripErrorDialog() {
-		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-		b.setCancelable(false)
-			.setMessage(getResources().getString(R.string.error_server))
-			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-					Events.post(new Events.CarsGoToSearch());
-				}
-			})
-			.show();
-	}
-
-	private void showInvalidProductErrorDialog() {
-		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-		b.setCancelable(false)
-			.setMessage(getResources().getString(R.string.error_cars_product_expired))
-			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-					Events.post(new Events.CarsGoToSearch());
-				}
-			})
-			.show();
-	}
-
-	private void showOnCreateNoInternetErrorDialog(@StringRes int message) {
-		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-		b.setCancelable(false)
-			.setMessage(getResources().getString(message))
-			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-					Events.post(new Events.CarsKickOffCreateTrip(selectedOffer));
-				}
-			})
-			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-			})
-			.show();
-	}
 
 	@OnClick(R.id.sort_toolbar)
 	public void onFilterClick() {
@@ -655,14 +550,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 	}
 
 	@Subscribe
-	public void onOfferSelected(Events.CarsKickOffCreateTrip event) {
-		createTripDialog.show();
-		cleanup();
-		selectedOffer = event.offer;
-		userAccountRefresher.ensureAccountIsRefreshed();
-	}
-
-	@Subscribe
 	public void onCarSearchParams(Events.CarsKickOffSearchCall event) {
 		cleanup();
 		searchSubscription = carServices
@@ -695,11 +582,6 @@ public class CarResultsPresenter extends Presenter implements UserAccountRefresh
 		toolbarBackground.setVisibility(VISIBLE);
 		toolBarDetailText.setTranslationY(0);
 		toolBarSubtitleText.setTranslationY(0);
-	}
-
-	@Override
-	public void onUserAccountRefreshed() {
-		createTripSubscription = carServices.createTrip(selectedOffer, createTripObserver);
 	}
 
 	RecyclerView.OnScrollListener recyclerScrollListener = new RecyclerView.OnScrollListener() {

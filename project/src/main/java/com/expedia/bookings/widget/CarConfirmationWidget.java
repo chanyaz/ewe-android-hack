@@ -27,7 +27,6 @@ import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
-import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.otto.Events;
@@ -101,7 +100,7 @@ public class CarConfirmationWidget extends FrameLayout {
 	ViewGroup textContainer;
 
 	private CreateTripCarOffer offer;
-	private SearchCarOffer searchOffer;
+	private Events.CarsShowCheckout tripParams;
 	private String itineraryNumber;
 
 	@Override
@@ -149,13 +148,13 @@ public class CarConfirmationWidget extends FrameLayout {
 	}
 
 	@Subscribe
-	public void onOfferSelected(Events.CarsKickOffCreateTrip event) {
-		searchOffer = event.offer;
+	public void onOfferSelected(Events.CarsShowCheckout event) {
+		tripParams = event;
 	}
 
 	@Subscribe
-	public void onShowCheckout(Events.CarsShowCheckout event) {
-		createTrip = event.createTripResponse;
+	public void onCheckoutCreateTripSuccess(Events.CarsCheckoutCreateTripSuccess event) {
+		createTrip = event.response;
 	}
 
 	public void bind(CarCheckoutResponse response) {
@@ -202,8 +201,8 @@ public class CarConfirmationWidget extends FrameLayout {
 
 		// Fallback lat long in case we don't get it from create trip call.
 		if (offer.pickUpLocation.latitude == null || offer.dropOffLocation.longitude == null) {
-			offer.pickUpLocation.latitude = searchOffer.pickUpLocation.latitude;
-			offer.pickUpLocation.longitude = searchOffer.pickUpLocation.longitude;
+			offer.pickUpLocation.latitude = tripParams.location.latitude;
+			offer.pickUpLocation.longitude = tripParams.location.longitude;
 		}
 
 		// Add guest itin to itin manager

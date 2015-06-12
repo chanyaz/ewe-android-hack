@@ -77,7 +77,7 @@ public class LXCreateTripErrorTests {
 		lxOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
 
 		Events.post(new Events.LXOfferBooked(lxOffer, selectedTickets));
-		onView(withId(R.id.lx_details_error_widget)).inRoot(
+		onView(withId(R.id.lx_checkout_error_widget)).inRoot(
 			withDecorView(is(playground.get().getWindow().getDecorView())))
 			.perform(waitFor((isDisplayed()), 10L, TimeUnit.SECONDS));
 

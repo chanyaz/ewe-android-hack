@@ -561,7 +561,6 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			mAccountButton.setVisibility(View.VISIBLE);
 			mFacebookEmailDeniedContainer.setVisibility(View.GONE);
 			if (mToolbarListener != null) {
-				mToolbarListener.setActionBarTitle(getResources().getString(R.string.already_signed_in));
 				if (animate) {
 					mToolbarListener.onWidgetClosed();
 				}

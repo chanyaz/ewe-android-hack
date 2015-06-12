@@ -6,7 +6,6 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.CarConfirmationWidget;
@@ -61,6 +60,7 @@ public class CarPresenter extends Presenter {
 		public void finalizeTransition(boolean forward) {
 			super.finalizeTransition(forward);
 			carSearchPresenter.animationFinalize(forward);
+			carSearchPresenter.reset();
 		}
 	};
 
@@ -135,7 +135,6 @@ public class CarPresenter extends Presenter {
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
 		Db.getTripBucket().clearCars();
-		Db.getTripBucket().add(new TripBucketItemCar(event.createTripResponse));
 		show(carCheckoutPresenter);
 	}
 

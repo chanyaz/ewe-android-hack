@@ -18,6 +18,7 @@ import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
@@ -33,7 +34,6 @@ import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
-import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.collections.Collection;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -49,6 +49,7 @@ import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.enums.ResultsSearchState;
+import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
 
@@ -639,10 +640,24 @@ public class Events {
 	}
 
 	public static class CarsShowCheckout {
-		public CarCreateTripResponse createTripResponse;
+		public String productKey;
+		public Money fare;
+		public boolean isInsuranceIncluded;
+		public LatLng location;
 
-		public CarsShowCheckout(CarCreateTripResponse createTripResponse) {
-			this.createTripResponse = createTripResponse;
+		public CarsShowCheckout(String productKey, Money fare, boolean isInsuranceIncluded, LatLng location) {
+			this.productKey = productKey;
+			this.fare = fare;
+			this.isInsuranceIncluded = isInsuranceIncluded;
+			this.location = location;
+		}
+	}
+
+	public static class CarsCheckoutCreateTripSuccess {
+		public CarCreateTripResponse response;
+
+		public CarsCheckoutCreateTripSuccess(CarCreateTripResponse carCreateTripResponse) {
+			this.response = carCreateTripResponse;
 		}
 	}
 
@@ -659,14 +674,6 @@ public class Events {
 
 		public CarsKickOffSearchCall(CarSearchParams params) {
 			this.carSearchParams = params;
-		}
-	}
-
-	public static class CarsKickOffCreateTrip {
-		public SearchCarOffer offer;
-
-		public CarsKickOffCreateTrip(SearchCarOffer offer) {
-			this.offer = offer;
 		}
 	}
 
@@ -853,6 +860,14 @@ public class Events {
 
 		public LXCheckoutSucceeded(LXCheckoutResponse checkoutResponse) {
 			this.checkoutResponse = checkoutResponse;
+		}
+	}
+
+	public static class LXError {
+		public ApiError apiError;
+
+		public LXError(ApiError apiError) {
+			this.apiError = apiError;
 		}
 	}
 

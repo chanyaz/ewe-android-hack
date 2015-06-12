@@ -120,6 +120,16 @@ public class CarSearchPresenter extends Presenter
 	private int searchParamsContainerHeight;
 	private int searchTop;
 
+	public void reset() {
+		LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) searchParamsContainer.getLayoutParams();
+		layoutParams.height = searchParamsContainerHeight;
+		searchParamsContainer.setLayoutParams(layoutParams);
+		toolBarSearchText.setAlpha(1f);
+		searchParamsContainer.setAlpha(1f);
+		toolbar.setAlpha(1f);
+		setUpSearchButton();
+	}
+
 	@OnClick(R.id.pickup_location)
 	public void onPickupEditClicked() {
 		if (getCurrentState() != null && !getCurrentState().equals(CarParamsDefault.class.getName())) {

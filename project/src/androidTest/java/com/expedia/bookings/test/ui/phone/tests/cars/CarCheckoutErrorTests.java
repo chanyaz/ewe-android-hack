@@ -12,6 +12,7 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.utils.CarTestCase;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.google.gson.Gson;
+import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.util.IoUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -148,7 +149,7 @@ public class CarCheckoutErrorTests extends CarTestCase {
 		if ("PriceChange".equals(firstName)) {
 			carCreateTripResponse.searchCarOffer = searchCarOffer;
 		}
-		Events.post(new Events.CarsShowCheckout(carCreateTripResponse));
+		Events.post(new Events.CarsShowCheckout(searchCarOffer.productKey, searchCarOffer.fare.total, searchCarOffer.isInsuranceIncluded, new LatLng(searchCarOffer.pickUpLocation.latitude, searchCarOffer.pickUpLocation.longitude)));
 
 		CarViewModel.travelerWidget().perform(click());
 		CarViewModel.firstName().perform(typeText(firstName));

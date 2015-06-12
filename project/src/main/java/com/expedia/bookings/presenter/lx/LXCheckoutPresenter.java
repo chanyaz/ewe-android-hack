@@ -87,6 +87,7 @@ public class LXCheckoutPresenter extends Presenter {
 			checkoutSubscription.unsubscribe();
 			checkoutSubscription = null;
 		}
+
 	}
 
 	private void showAlertMessage(String message, String confirmButton) {
@@ -162,10 +163,6 @@ public class LXCheckoutPresenter extends Presenter {
 	 * Events
 	 */
 
-	@Subscribe
-	public void onShowCheckout(Events.LXCreateTripSucceeded event) {
-		show(checkout);
-	}
 
 	@Subscribe
 	public void onShowCVV(Events.ShowCVV event) {
@@ -242,5 +239,17 @@ public class LXCheckoutPresenter extends Presenter {
 			String itineraryNumber = checkoutResponse.newTrip.itineraryNumber;
 			ItineraryManager.getInstance().addGuestTrip(email, itineraryNumber);
 		}
+	}
+
+	@Subscribe
+	public void onOfferBooked(Events.LXOfferBooked event) {
+		checkout.showCheckout();
+		show(checkout);
+	}
+
+	@Subscribe
+	public void onShowErrorScreen(Events.LXError event) {
+		errorScreen.bind(event.apiError);
+		show(errorScreen, FLAG_CLEAR_BACKSTACK);
 	}
 }

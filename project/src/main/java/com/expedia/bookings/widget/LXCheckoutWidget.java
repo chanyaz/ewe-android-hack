@@ -2,7 +2,10 @@ package com.expedia.bookings.widget;
 
 import javax.inject.Inject;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
@@ -10,19 +13,25 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.TripBucketItemLX;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXUtils;
+import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.squareup.otto.Subscribe;
+import com.mobiata.android.Log;
 
 import butterknife.ButterKnife;
+import rx.Observer;
+import rx.Subscription;
 
 public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryWidget.CVVEntryFragmentListener {
 
@@ -38,6 +47,9 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 
 	LXCreateTripResponse createTripResponse;
 
+	@Inject
+	LXServices lxServices;
+
 	protected LineOfBusiness getLineOfBusiness() {
 		return LineOfBusiness.LX;
 	}
@@ -52,14 +64,6 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		summaryContainer.addView(summaryWidget);
 		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.lx_enter_contact_details));
 		paymentInfoCardView.setLineOfBusiness(LineOfBusiness.LX);
-	}
-
-	@Subscribe
-	public void onShowCheckout(Events.LXCreateTripSucceeded event) {
-
-		OmnitureTracking.trackAppLXCheckoutPayment(getContext(), lxState);
-
-		bind(event.createTripResponse);
 	}
 
 	private void bind(LXCreateTripResponse createTripResponse) {
@@ -141,5 +145,79 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 	private String getRulesRestrictionsUrl(String tripId) {
 		String endpoint = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
 		return endpoint + RULES_RESTRICTIONS_URL_PATH + tripId;
+	}
+
+	private Observer<LXCreateTripResponse> createTripObserver = new Observer<LXCreateTripResponse>() {
+		@Override
+		public void onCompleted() {
+			cleanup();
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			Log.e("LXCreateTrip - onError", e);
+			showProgress(false);
+			if (RetrofitUtils.isNetworkError(e)) {
+				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
+			}
+			else if (e instanceof ApiError) {
+				Events.post(new Events.LXError((ApiError) e));
+			}
+			else {
+				Events.post(new Events.LXError(null));
+			}
+		}
+
+		@Override
+		public void onNext(LXCreateTripResponse response) {
+			Db.getTripBucket().clearLX();
+			Db.getTripBucket().add(new TripBucketItemLX(response));
+			showProgress(false);
+			OmnitureTracking.trackAppLXCheckoutPayment(getContext(), lxState);
+			bind(response);
+			show(new Ready(), FLAG_CLEAR_BACKSTACK);
+		}
+	};
+
+	private Subscription createTripSubscription;
+
+	private void cleanup() {
+		if (createTripSubscription != null) {
+			createTripSubscription.unsubscribe();
+			createTripSubscription = null;
+		}
+	}
+
+	@Override
+	public void doCreateTrip() {
+		cleanup();
+		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), createTripObserver);
+	}
+
+	@Override
+	public void showProgress(boolean show) {
+		summaryWidget.setVisibility(show ? INVISIBLE : VISIBLE);
+		mSummaryProgressLayout.setVisibility(show ? VISIBLE : GONE);
+	}
+
+	private void showOnCreateNoInternetErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					doCreateTrip();
+				}
+			})
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.LXActivitySelectedRetry());
+				}
+			})
+			.show();
 	}
 }
