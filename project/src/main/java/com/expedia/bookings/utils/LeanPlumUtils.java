@@ -83,6 +83,7 @@ public class LeanPlumUtils {
 
 		Leanplum.setApplicationContext(mContext);
 		LeanplumActivityHelper.enableLifecycleCallbacks(app);
+		LeanPlumTemplate.register(mContext);
 		Leanplum.start(mContext, mUserAtrributes);
 		updateLoggedInStatus();
 		Parser.parseVariablesForClasses(LeanPlumFlags.class);
