@@ -14,8 +14,6 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.model.Search;
-import com.expedia.bookings.model.WorkingBillingInfoManager;
-import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.mobiata.android.Log;
@@ -41,20 +39,14 @@ public class ClearPrivateDataUtil {
 
 		Db.deleteTripBucket(context);
 
-		WorkingBillingInfoManager biManager = new WorkingBillingInfoManager();
-		biManager.deleteWorkingBillingInfoFile(context);
-
-		WorkingTravelerManager travManager = new WorkingTravelerManager();
-		travManager.deleteWorkingTravelerFile(context);
-
 		try {
 			//If the data has already been populated in memory, we should clear that....
 			if (Db.getWorkingBillingInfoManager() != null) {
-				Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(context);
+				Db.getWorkingBillingInfoManager().clearWorkingBillingInfo();
 			}
 
 			if (Db.getWorkingTravelerManager() != null) {
-				Db.getWorkingTravelerManager().clearWorkingTraveler(context);
+				Db.getWorkingTravelerManager().clearWorkingTraveler();
 			}
 
 			Db.getBillingInfo().delete(context);

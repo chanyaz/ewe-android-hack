@@ -88,9 +88,6 @@ public class PointOfSale {
 	// The POS's gold rewards member phone number
 	private String mSupportPhoneNumberGold;
 
-	// The POS's support email address
-	private String mSupportEmail;
-
 	// The two-letter country code associated with this locale (e.g. "US")
 	private String mTwoLetterCountryCode;
 
@@ -539,15 +536,6 @@ public class PointOfSale {
 		return !TextUtils.isEmpty(number) ? number : getSupportPhoneNumber();
 	}
 
-	public String getSupportEmail() {
-		if (!TextUtils.isEmpty(mSupportEmail)) {
-			return mSupportEmail;
-		}
-		else {
-			return "support@expedia.com";
-		}
-	}
-
 	public String getTwoLetterCountryCode() {
 		return mTwoLetterCountryCode;
 	}
@@ -672,10 +660,6 @@ public class PointOfSale {
 	}
 
 	// TODO: As more complicated payment combinations arise, think about a refactor
-
-	public RequiredPaymentFields getRequiredPaymentFieldsFlights() {
-		return mRequiredPaymentFieldsFlights;
-	}
 
 	public boolean requiresBillingAddressFlights() {
 		return mRequiredPaymentFieldsFlights == RequiredPaymentFields.ALL;
@@ -1046,7 +1030,6 @@ public class PointOfSale {
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
 		pos.mSupportPhoneNumberSilver = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberSilver");
 		pos.mSupportPhoneNumberGold = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
-		pos.mSupportEmail = data.optString("supportEmail");
 
 		// POS config
 		pos.mDistanceUnit = data.optString("distanceUnit", "").equals("miles") ? DistanceUnit.MILES

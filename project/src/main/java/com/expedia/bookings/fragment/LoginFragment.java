@@ -1204,7 +1204,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			}
 			else {
 				User user = response.getUser();
-				user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
 				user.save(getActivity());
 
@@ -1391,7 +1390,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			}
 			else {
 				User user = response.getUser();
-				user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
 				user.save(getActivity());
 				Log.d("User saved!");

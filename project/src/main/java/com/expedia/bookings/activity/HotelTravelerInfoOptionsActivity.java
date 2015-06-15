@@ -21,7 +21,6 @@ import com.expedia.bookings.fragment.HotelTravelerInfoOneFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
 import com.expedia.bookings.model.HotelTravelerFlowState;
-import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
@@ -91,22 +90,6 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 
 		//Which traveler are we working with
 		mTravelerIndex = getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
-
-		//If we have a working traveler that was cached we try to load it from disk...
-		WorkingTravelerManager travMan = Db.getWorkingTravelerManager();
-		if (travMan.getAttemptToLoadFromDisk() && travMan.hasTravelerOnDisk(this)) {
-			//Load up the traveler from disk
-			travMan.loadWorkingTravelerFromDisk(this);
-			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
-				//If we don't have a saved state, but we do have a saved temp traveler go ahead to the entry screens
-				mPos = YoYoPosition.ONE;
-				mMode = YoYoMode.YOYO;
-			}
-		}
-		else {
-			//If we don't load it from disk, then we delete the file.
-			travMan.deleteWorkingTravelerFile(this);
-		}
 
 		switch (mPos) {
 		case OPTIONS:
@@ -426,8 +409,8 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 	@Override
 	public void displayCheckout() {
 		//First we commit our traveler stuff...
-		Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex, this);
-		Db.getWorkingTravelerManager().clearWorkingTraveler(this);
+		Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex);
+		Db.getWorkingTravelerManager().clearWorkingTraveler();
 		finish();
 	}
 

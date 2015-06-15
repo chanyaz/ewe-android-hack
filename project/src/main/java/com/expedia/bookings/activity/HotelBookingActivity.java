@@ -216,7 +216,6 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 			traveler.getPrimaryPhoneNumber().setNumber(null);
 		}
 		Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getTravelers().get(0));
-		Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(false);
 
 		startActivity(intent);
 	}

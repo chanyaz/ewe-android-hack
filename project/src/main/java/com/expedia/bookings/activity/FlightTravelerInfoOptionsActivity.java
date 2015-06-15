@@ -30,7 +30,6 @@ import com.expedia.bookings.fragment.FlightTravelerInfoTwoFragment;
 import com.expedia.bookings.fragment.FlightTravelerSaveDialogFragment;
 import com.expedia.bookings.fragment.OverwriteExistingTravelerDialogFragment;
 import com.expedia.bookings.interfaces.IDialogForwardBackwardListener;
-import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.model.WorkingTravelerManager.ITravelerUpdateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -129,22 +128,6 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 			else {
 				mPos = YoYoPosition.OPTIONS;
 			}
-		}
-
-		//If we have a working traveler that was cached we try to load it from disk...
-		WorkingTravelerManager travMan = Db.getWorkingTravelerManager();
-		if (travMan.getAttemptToLoadFromDisk() && travMan.hasTravelerOnDisk(this)) {
-			//Load up the traveler from disk
-			travMan.loadWorkingTravelerFromDisk(this);
-			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
-				//If we don't have a saved state, but we do have a saved temp traveler go ahead to the entry screens
-				mPos = YoYoPosition.ONE;
-				mMode = YoYoMode.YOYO;
-			}
-		}
-		else {
-			//If we don't load it from disk, then we delete the file.
-			travMan.deleteWorkingTravelerFile(this);
 		}
 
 		switch (mPos) {
@@ -752,13 +735,13 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 		//First we commit our traveler stuff...
 		// TODO consider background kill / resume scenario, this code crashes out because Db.getTravelers() is not valid
 		PassengerCategory passengerCategoryToSave = Db.getTravelers().get(mTravelerIndex).getPassengerCategory();
-		Traveler trav = Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex, this);
+		Traveler trav = Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex);
 		// If we're going back to checkout without the working traveler having a birthdate,
 		// we retain the previously set birthdate.
 		if (trav.getBirthDate() == null) {
 			trav.setPassengerCategory(passengerCategoryToSave);
 		}
-		Db.getWorkingTravelerManager().clearWorkingTraveler(this);
+		Db.getWorkingTravelerManager().clearWorkingTraveler();
 		if (trav.getSaveTravelerToExpediaAccount() && User.isLoggedIn(this)) {
 			if (trav.hasTuid()) {
 				//Background save..
