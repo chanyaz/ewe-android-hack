@@ -576,6 +576,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			}
 
 			if (insertButtonCard) {
+				((ItinCardDataFlight) data).setShowAirAttach(true);
+				((ItinCardDataFlight) data).setNextFlightLeg(nextFlightLeg);
 				// Check if user qualifies for air attach
 				if (isUserAirAttachQualified) {
 					itinCardDatas
