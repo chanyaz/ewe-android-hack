@@ -455,8 +455,6 @@ public class OmnitureTracking {
 	public static void trackPageLoadHotelsRateDetails(Context context) {
 		Log.d(TAG, "Tracking \"" + HOTELS_RATE_DETAILS + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, HOTELS_RATE_DETAILS);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppAddORToForm);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelPayLaterCouponMessaging);
 		s.track();
 	}
 
@@ -474,6 +472,10 @@ public class OmnitureTracking {
 		s.setEvents("event70");
 
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelHCKOTraveler);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppAddORToForm);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelPayLaterCouponMessaging);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotel3xMessaging);
+
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		s.setEvar(47, getEvar47String(params));
 		addHotelRegionId(s, params);
