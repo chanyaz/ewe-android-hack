@@ -14,10 +14,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Space;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
@@ -60,7 +60,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	CardView summaryContainer;
 
 	@InjectView(R.id.summary_progress_layout)
-	ProgressBar mSummaryProgressLayout;
+	View mSummaryProgressLayout;
 
 	@InjectView(R.id.login_widget)
 	AccountLoginWidget loginWidget;
@@ -117,7 +117,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				return true;
 			}
 		});
-
+		if (ExpediaBookingApp.isAutomation()) {
+			//Espresso hates progress bars
+			mSummaryProgressLayout = new View(getContext(), null);
+		}
 		userAccountRefresher = new UserAccountRefresher(getContext(), getLineOfBusiness(), this);
 	}
 
