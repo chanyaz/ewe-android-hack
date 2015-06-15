@@ -13,9 +13,11 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemLX;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.lx.LXBookableItem;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.otto.Events;
@@ -23,9 +25,9 @@ import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
-import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -47,7 +49,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 
 	LXCheckoutSummaryWidget summaryWidget;
 
-	LXCreateTripResponse createTripResponse;
+	String tripId;
 
 	@Inject
 	LXServices lxServices;
@@ -68,23 +70,37 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		paymentInfoCardView.setLineOfBusiness(LineOfBusiness.LX);
 	}
 
-	private void bind(LXCreateTripResponse createTripResponse) {
-		this.createTripResponse = createTripResponse;
-		summaryWidget.bind();
+	@Subscribe
+	public void onUpdateCheckoutAfterPriceChange(Events.LXUpdateCheckoutSummaryAfterPriceChange event) {
+		// We don't support multiple ticket booking as of now, passing only the first bookable item.
+		bind(event.lxCheckoutResponse.tripId, event.lxCheckoutResponse.originalPrice,
+			event.lxCheckoutResponse.newTotalPrice, event.lxCheckoutResponse.lxProduct.lxBookableItems.get(0));
+		slideWidget.resetSlider();
+	}
+
+	/**
+	 *
+	 * @param originalPrice - In case there was a Price Change [during CreateTrip/Checkout], this is non-null
+	 *                        and contains the original price. Otherwise it is null.
+	 * @param newPrice - Always non-null. Contains the up-to-date price of the selected offer(s) to be displayed to the user
+	 *                 and deducted during Payment.
+	 */
+	private void bind(String tripId, Money originalPrice, Money newPrice, LXBookableItem lxBookableItem) {
+		this.tripId = tripId;
+		summaryWidget.bind(originalPrice, newPrice, lxBookableItem);
 		paymentInfoCardView.setCreditCardRequired(true);
 		clearCCNumber();
 		scrollCheckoutToTop();
 		slideWidget.resetSlider();
 
-		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney();
-		sliderTotalText.setText(getResources().getString(R.string.your_card_will_be_charged_TEMPLATE, totalMoney));
+		sliderTotalText.setText(getResources().getString(R.string.your_card_will_be_charged_TEMPLATE, newPrice.getFormattedMoney()));
 
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);
 
 		String e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
-		String rulesAndRestrictionsURL = LXDataUtils.getRulesRestrictionsUrl(e3EndpointUrl, createTripResponse.tripId);
+		String rulesAndRestrictionsURL = LXDataUtils.getRulesRestrictionsUrl(e3EndpointUrl, tripId);
 		legalInformationText.setText(StrUtils.generateLegalClickableLink(getContext(), rulesAndRestrictionsURL));
 		isCheckoutComplete();
 		if (User.isLoggedIn(getContext())) {
@@ -93,7 +109,6 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		else {
 			loginWidget.bind(false, false, null,  getLineOfBusiness());
 		}
-		show(new CheckoutDefault());
 	}
 
 	@Override
@@ -125,12 +140,12 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 			.lastName(mainContactInfoCardView.lastName.getText().toString())
 			.email(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail()
 				: mainContactInfoCardView.emailAddress.getText().toString())
-			.expectedTotalFare(LXUtils.getTotalAmount(lxState.selectedTickets).getAmount().setScale(2).toString())
+			.expectedTotalFare(lxState.latestTotalPrice().getAmount().setScale(2).toString())
 			.phoneCountryCode(
 				Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
 			.phone(mainContactInfoCardView.phoneNumber.getText().toString())
 			.expectedFareCurrencyCode(lxState.activity.price.currencyCode)
-			.tripId(createTripResponse.tripId)
+			.tripId(tripId)
 			.guid(Db.getAbacusGuid())
 			.suppressFinalBooking(suppressFinalBooking);
 
@@ -177,9 +192,14 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 			Db.getTripBucket().clearLX();
 			Db.getTripBucket().add(new TripBucketItemLX(response));
 			showProgress(false);
-			OmnitureTracking.trackAppLXCheckoutPayment(getContext(), lxState);
-			AdTracker.trackLXCheckoutStarted(lxState);
-			bind(response);
+			OmnitureTracking.trackAppLXCheckoutPayment(getContext(), lxState.activity.id,
+				DateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),
+				lxState.selectedTicketsCount(), lxState.latestTotalPrice().getAmount().setScale(2).toString());
+			Money tripTotalPrice = response.hasPriceChange() ? response.newTotalPrice : lxState.latestTotalPrice();
+			// We don't support multiple ticket booking as of now, passing only the first bookable item.
+			bind(response.tripId, response.originalPrice, tripTotalPrice, response.lxProduct.lxBookableItems.get(0));
+			AdTracker.trackLXCheckoutStarted(lxState.activity.destination, tripTotalPrice,
+				lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate, lxState.activity.categories, lxState.selectedTicketsCount(), lxState.activity.title);
 			show(new Ready(), FLAG_CLEAR_BACKSTACK);
 			Events.post(new Events.LXCreateTripSucceeded(response, lxState.activity));
 		}
@@ -197,7 +217,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 	@Override
 	public void doCreateTrip() {
 		cleanup();
-		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), createTripObserver);
+		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), lxState.originalTotalPrice(), createTripObserver);
 	}
 
 	@Override

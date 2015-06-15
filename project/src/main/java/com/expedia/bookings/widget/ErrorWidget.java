@@ -136,7 +136,7 @@ public class ErrorWidget extends FrameLayout {
 			errorButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Events.post(new Events.CarsPriceChange());
+					Events.post(new Events.CarsShowCheckoutAfterPriceChange());
 				}
 			});
 			break;

@@ -24,7 +24,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
-import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -113,8 +112,12 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 	@Subscribe
 	public void onCheckoutSuccess(Events.LXCheckoutSucceeded event) {
-		OmnitureTracking.trackAppLXCheckoutConfirmation(getContext(), event.checkoutResponse, lxState);
-		AdTracker.trackLXBooked(lxState, event.checkoutResponse.orderId);
+		OmnitureTracking.trackAppLXCheckoutConfirmation(getContext(), event.checkoutResponse, lxState.activity.id,
+			DateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),
+			lxState.selectedTicketsCount());
+		AdTracker.trackLXBooked(lxState.activity.location, lxState.latestTotalPrice(),
+			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate,
+			lxState.activity.categories, event.checkoutResponse.orderId, lxState.activity.title);
 
 		final Resources res = getResources();
 		String url = Images.getLXImageURL(lxState.activity.imageUrl);
@@ -125,7 +128,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 			.build()
 			.load(url);
 		title.setText(lxState.activity.title);
-		tickets.setText(LXDataUtils.ticketsCountSummary(getContext(), lxState.selectedTickets));
+		tickets.setText(lxState.selectedTicketsCountSummary(getContext()));
 		location.setText(lxState.activity.location);
 		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
 			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);

@@ -131,7 +131,7 @@ public class CarCheckoutPresenter extends Presenter {
 				showErrorScreen(null);
 			}
 			else if (response.hasPriceChange()) {
-				Events.post(new Events.CarsShowCheckoutAfterPriceChange(response.originalCarProduct,
+				Events.post(new Events.CarsUpdateCheckoutSummaryAfterPriceChange(response.originalCarProduct,
 					response.newCarProduct,
 					response.tripId));
 				showErrorScreen(response.getFirstError());
@@ -194,7 +194,7 @@ public class CarCheckoutPresenter extends Presenter {
 	 */
 
 	@Subscribe
-	public void showPriceChange(Events.CarsPriceChange event) {
+	public void showPriceChange(Events.CarsShowCheckoutAfterPriceChange event) {
 		show(checkout, FLAG_CLEAR_TOP);
 	}
 

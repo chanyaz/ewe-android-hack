@@ -174,19 +174,22 @@ public class LXServices {
 		}
 	};
 
-	public Subscription createTrip(LXCreateTripParams createTripParams, Observer<LXCreateTripResponse> observer) {
+	public Subscription createTrip(LXCreateTripParams createTripParams, Money originalPrice, Observer<LXCreateTripResponse> observer) {
 		return lxApi.
 			createTrip(createTripParams)
 			.doOnNext(HANDLE_ERRORS)
+			.doOnNext(new SearchOriginalPriceInjector(originalPrice))
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
 			.subscribe(observer);
 	}
 
-	public Subscription lxCheckout(LXCheckoutParams checkoutParams, Observer<LXCheckoutResponse> observer) {
+	public Subscription lxCheckout(LXCheckoutParams checkoutParams , Observer<LXCheckoutResponse> observer) {
+		Money originalPrice = new Money(checkoutParams.expectedTotalFare, checkoutParams.expectedFareCurrencyCode);
 		return lxApi.
 			checkout(checkoutParams.toQueryMap())
 			.doOnNext(HANDLE_ERRORS)
+			.doOnNext(new CreateTripOriginalPriceInjector(originalPrice))
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
 			.subscribe(observer);
@@ -195,11 +198,42 @@ public class LXServices {
 	private static final Action1<BaseApiResponse> HANDLE_ERRORS = new Action1<BaseApiResponse>() {
 		@Override
 		public void call(BaseApiResponse response) {
-			if (response.hasErrors()) {
+			if (response.hasErrors() && !response.hasPriceChange()) {
 				throw response.getFirstError();
 			}
 		}
 	};
+
+	private class SearchOriginalPriceInjector implements Action1<LXCreateTripResponse> {
+		private Money originalPrice;
+
+		public SearchOriginalPriceInjector(Money originalPrice) {
+			this.originalPrice = originalPrice;
+		}
+
+		@Override
+		public void call(LXCreateTripResponse lxCreateTripResponse) {
+			//Set Original Price in case there was a Price Change
+			if (lxCreateTripResponse.hasPriceChange()) {
+				lxCreateTripResponse.originalPrice = originalPrice;
+			}
+		}
+	}
+
+	private class CreateTripOriginalPriceInjector implements Action1<LXCheckoutResponse> {
+		Money originalPrice;
+
+		public CreateTripOriginalPriceInjector(Money originalPrice) {
+			this.originalPrice = originalPrice;
+		}
+
+		@Override
+		public void call(LXCheckoutResponse lxCheckoutResponse) {
+			if (lxCheckoutResponse.hasPriceChange()) {
+				lxCheckoutResponse.originalPrice = originalPrice;
+			}
+		}
+	}
 
 	// Add money in tickets for easier handling and remove &quot; from activity title.
 	private static final Action1<LXSearchResponse> ACTIVITIES_MONEY_TITLE = new Action1<LXSearchResponse>() {

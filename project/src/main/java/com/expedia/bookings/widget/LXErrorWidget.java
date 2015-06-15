@@ -166,7 +166,7 @@ public class LXErrorWidget extends FrameLayout {
 			errorButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Events.post(new Events.LXActivitySelectedRetry());
+					Events.post(new Events.LXShowCheckoutAfterPriceChange());
 				}
 			});
 			break;

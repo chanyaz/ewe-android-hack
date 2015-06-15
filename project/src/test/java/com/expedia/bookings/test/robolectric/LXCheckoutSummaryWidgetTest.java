@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget;
 import com.expedia.bookings.widget.TextView;
@@ -25,7 +26,8 @@ public class LXCheckoutSummaryWidgetTest {
 			.inflate(R.layout.lx_checkout_summary_widget, null);
 		LXStateTestUtil.selectActivityState();
 		LXStateTestUtil.offerSelected();
-		checkoutSummaryWidget.bind();
+		Money price = new Money("500", "USD");
+		checkoutSummaryWidget.bind(price, price, null);
 
 		TextView location = (TextView) checkoutSummaryWidget.findViewById(R.id.lx_offer_location);
 		TextView groupText = (TextView) checkoutSummaryWidget.findViewById(R.id.lx_group_text);

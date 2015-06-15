@@ -181,7 +181,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	}
 
 	@Subscribe
-	public void onShowCheckoutAfterPriceChange(Events.CarsShowCheckoutAfterPriceChange event) {
+	public void onShowCheckoutAfterPriceChange(Events.CarsUpdateCheckoutSummaryAfterPriceChange event) {
 		bind(event.newCreateTripOffer, /* createTripOffer */
 			event.originalCreateTripOffer.detailedFare.grandTotal.formattedPrice, /* originalPriceString */
 			event.tripId /* tripId */);
