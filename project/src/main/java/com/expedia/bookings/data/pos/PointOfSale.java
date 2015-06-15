@@ -38,6 +38,7 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 
@@ -158,6 +159,8 @@ public class PointOfSale {
 
 	// Should we show strikethrough prices on half-width launch tiles for this POS?
 	private boolean mShowHalfTileStrikethroughPrice;
+
+	private static boolean mIsTablet;
 
 	private static Map<String, Integer> sCountryCodeMap;
 
@@ -593,7 +596,7 @@ public class PointOfSale {
 	}
 
 	public boolean supportsLx() {
-		return mSupportsLx;
+		return mSupportsLx && !mIsTablet;
 	}
 
 	public boolean supportsStrikethroughPrice() {
@@ -824,6 +827,7 @@ public class PointOfSale {
 
 		// Init the cache
 		getPointOfSale(context);
+		mIsTablet = AndroidUtils.isTablet(context);
 	}
 
 	/**
