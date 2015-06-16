@@ -250,6 +250,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 					Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
 				.phoneNumber(mainContactInfoCardView.phoneNumber.getText().toString())
 				.tripId(tripId)
+				.guid(Db.getAbacusGuid())
 				.suppressFinalBooking(suppressFinalBooking);
 
 		if (carProduct.checkoutRequiresCard && Db.getBillingInfo().hasStoredCard()) {
