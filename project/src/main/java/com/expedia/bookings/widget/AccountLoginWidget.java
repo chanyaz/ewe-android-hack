@@ -1040,7 +1040,6 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			}
 			else {
 				User user = response.getUser();
-				user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
 				user.save(getContext());
 				loginWorkComplete();
@@ -1241,7 +1240,6 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			}
 			else {
 				User user = response.getUser();
-				user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
 				user.save(getContext());
 				setIsLoading(false);

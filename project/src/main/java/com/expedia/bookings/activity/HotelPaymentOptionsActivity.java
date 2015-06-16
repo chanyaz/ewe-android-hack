@@ -23,7 +23,6 @@ import com.expedia.bookings.fragment.HotelPaymentOptionsFragment.HotelPaymentYoY
 import com.expedia.bookings.fragment.HotelPaymentSaveDialogFragment;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.model.HotelPaymentFlowState;
-import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
@@ -84,22 +83,6 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 
 		isUserBucketedForTest = Db.getAbacusResponse()
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHCKOTraveler);
-
-		//If we have a working BillingInfo object that was cached we try to load it from disk
-		WorkingBillingInfoManager billMan = Db.getWorkingBillingInfoManager();
-		if (billMan.getAttemptToLoadFromDisk() && billMan.hasBillingInfoOnDisk(this)) {
-			//Load working billing info from disk
-			billMan.loadWorkingBillingInfoFromDisk(this);
-			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
-				//If we don't have a saved state, but we do have a saved temp billingInfo go ahead to the entry screens
-				mPos = YoYoPosition.CREDITCARD;
-				mMode = YoYoMode.YOYO;
-			}
-		}
-		else {
-			//If we don't load from disk, then we delete the file
-			billMan.deleteWorkingBillingInfoFile(this);
-		}
 
 		Bundle bundle = savedInstanceState;
 		if (savedInstanceState == null) {
@@ -517,7 +500,7 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 	@Override
 	public void displayCheckout() {
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
-		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(this);
+		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo();
 		finish();
 	}
 

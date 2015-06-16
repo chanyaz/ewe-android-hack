@@ -628,7 +628,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 			else {
 				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
-				User.signOutAsync(getActivity(), null);
+				User.signOut(getActivity());
 				mAccountButton.bind(false, false, null, LineOfBusiness.HOTELS);
 			}
 		}
@@ -1023,7 +1023,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mRefreshedUserTime = 0L;
 
 		// Sign out user
-		User.signOutAsync(getActivity(), null);
+		User.signOut(getActivity());
 
 		// Update UI
 		mAccountButton.bind(false, false, null, LineOfBusiness.HOTELS);
@@ -1115,7 +1115,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				else {
 					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(new Traveler());
 				}
-				Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(false);
 				startActivity(new Intent(getActivity(), HotelTravelerInfoOptionsActivity.class));
 				break;
 			}

@@ -147,8 +147,6 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 					mSectionLocation.performValidation();
 				}
 			}
-			//Attempt to save on change
-			Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
 		}
 	};
 

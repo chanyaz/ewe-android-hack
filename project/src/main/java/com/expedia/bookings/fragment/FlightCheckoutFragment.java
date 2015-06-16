@@ -429,8 +429,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(new Traveler());
 			}
 
-			Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(false);
-
 			startActivity(editTravelerIntent);
 		}
 	}
