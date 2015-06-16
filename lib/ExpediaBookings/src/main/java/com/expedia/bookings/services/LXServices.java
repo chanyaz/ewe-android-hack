@@ -84,7 +84,12 @@ public class LXServices {
 		@Override
 		public void call(LXSearchResponse lxSearchResponse) {
 			if (lxSearchResponse.searchFailure) {
-				throw new ApiError(ApiError.Code.LX_SEARCH_NO_RESULTS);
+				ApiError apiError = new ApiError(ApiError.Code.LX_SEARCH_NO_RESULTS);
+				apiError.regionId = lxSearchResponse.regionId;
+				ApiError.ErrorInfo errorInfo = new ApiError.ErrorInfo();
+				errorInfo.cause = "No results from api.";
+				apiError.errorInfo = errorInfo;
+				throw apiError;
 			}
 		}
 	};
