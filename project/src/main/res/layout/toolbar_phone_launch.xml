@@ -11,5 +11,5 @@
         android:id="@+id/tab_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/cars_launch_actionbar_color" />
+        android:background="?attr/skin_launchActionBarBackgroundColor" />
 </android.support.v7.widget.Toolbar>

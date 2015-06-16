@@ -113,10 +113,11 @@
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabTravelocityStyle</item>
     </style>
 
-    <style name="LaunchTheme" parent="@android:style/Theme.Holo">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_travelocity_logo</item>
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Travelocity</item>
-        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabTravelocityStyle</item>
+    <style name="LaunchTheme" parent="Theme.AppCompat">
+        <item name="android:logo">@drawable/ic_ab_travelocity_logo</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <!-- PopupMenu -->
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
@@ -141,6 +142,8 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
+        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator_tvly</item>
+        <item name="skin_launchActionBarBackgroundColor">@color/launch_actionbar_color_tvly</item>
     </style>
 
     <style name="LaunchActionBarTabTravelocityStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">

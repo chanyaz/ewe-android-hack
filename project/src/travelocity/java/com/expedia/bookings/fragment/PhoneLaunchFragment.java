@@ -4,6 +4,8 @@ import java.util.Random;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +53,12 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		//Randomly select an image to display
 		mCurrentImageIndex = new Random().nextInt(BACKGROUND_RES_IDS.length);
 		mSlidingImage.setImageResource(BACKGROUND_RES_IDS[mCurrentImageIndex]);
+
+		ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+		actionBar.setIcon(R.drawable.ic_ab_travelocity_logo);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setElevation(0);
+
 		return view;
 	}
 

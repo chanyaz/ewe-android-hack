@@ -329,4 +329,7 @@
     <attr name="skin_confirmationHeaderHotelDividerLineColor" format="reference|color" />
     <attr name="skin_confirmationHeaderFlightDividerLineColor" format="reference|color" />
     <attr name="skin_checkmarkFlightDrawable" format="reference" />
+
+    <attr name="skin_launchTabIndicatorColor" format="reference|color" />
+    <attr name="skin_launchActionBarBackgroundColor" format="reference|color" />
 </resources>
