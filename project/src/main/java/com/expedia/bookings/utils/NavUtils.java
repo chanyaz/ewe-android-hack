@@ -237,6 +237,18 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
+	public static void goToCars(Context context, Bundle animOptions, CarSearchParams searchParams, String productKey, int flags) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, CarActivity.class);
+		if (searchParams != null) {
+			Gson gson = CarServices.generateGson();
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, gson.toJson(searchParams));
+		}
+
+		intent.putExtra(Codes.CARS_PRODUCT_KEY, productKey);
+		startActivity(context, intent, animOptions);
+	}
+
 	public static void goToCars(Context context, Bundle animOptions, CarSearchParams searchParams, int flags) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, CarActivity.class);

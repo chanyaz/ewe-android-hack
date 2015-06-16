@@ -179,33 +179,26 @@ public class DeepLinkRouterActivity extends Activity {
 	 * <p/>
 	 * Example: Car search results.
 	 * This will show results for a car with pickup location, pickup time & drop off time.
-	 * expda://carSearch?pickupLocation=SFO&pickupDateTime=2015-06-25T09:00:00&dropoffDateTime=2015-06-25T09:00:00&originDescription=San Francisco
+	 * expda://carSearch?pickupLocation=SFO&pickupDateTime=2015-06-25T09:00:00&dropoffDateTime=2015-06-25T09:00:00&originDescription=SFO-San Francisco International Airport
+	 *
+	 * Example: Car Details.
+	 * This will show the details for a car with pickup location, pickup time & drop off time & productKey.
+	 * expda://carSearch?pickupLocation=SFO&pickupDateTime=2015-06-26T09:00:00&dropoffDateTime=2015-06-27T09:00:00&originDescription=SFO-San Francisco International Airport
+	 * &productKey= AQAQAQLRg2IAAoADCS_0847plQQANQ8AKQAdYumAHhoASgAdsBqAHbAQ
+	 *
 	 * <p/>
 	 */
 	private boolean handleCarsSearch(Uri data, Set<String> queryData) {
 
 		if (!ExpediaBookingApp.useTabletInterface(this)) {
-			String pickupDateTime = null;
-			String dropoffDateTime = null;
-			String pickupLocation = null;
-			String originDescription = null;
+			String productKey = null;
 
-			if (queryData.contains("pickupLocation")) {
-				pickupLocation = (data.getQueryParameter("pickupLocation"));
+			if (queryData.contains("productKey")) {
+				productKey = data.getQueryParameter("productKey");
 			}
 
-			if (queryData.contains("pickupDateTime")) {
-				pickupDateTime = data.getQueryParameter("pickupDateTime");
-			}
-			if (queryData.contains("dropoffDateTime")) {
-				dropoffDateTime = data.getQueryParameter("dropoffDateTime");
-			}
-			if (queryData.contains("originDescription")) {
-				originDescription = data.getQueryParameter("originDescription");
-			}
-
-			CarSearchParams carSearchParams = CarDataUtils.fromDeepLink(pickupLocation, pickupDateTime, dropoffDateTime, originDescription);
-			NavUtils.goToCars(this, null, carSearchParams, NavUtils.FLAG_DEEPLINK);
+			CarSearchParams carSearchParams = CarDataUtils.fromDeepLink(data, queryData);
+			NavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
 		}
 		return true;
 	}

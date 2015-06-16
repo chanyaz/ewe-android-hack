@@ -13,6 +13,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -85,6 +86,18 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	@Subscribe
 	public void onCarsShowDetails(Events.CarsShowDetails event) {
 		CategorizedCarOffers bucket = event.categorizedCarOffers;
+		handleCarsShowDetails(bucket);
+	}
+
+	@Subscribe
+	public void onCarsShowProductKeyDetails(Events.CarsShowProductKeyDetails event) {
+		if (CollectionUtils.isNotEmpty(event.productKeyCarSearch.categories)) {
+			CategorizedCarOffers bucket = event.productKeyCarSearch.categories.get(0);
+			handleCarsShowDetails(bucket);
+		}
+	}
+
+	private void handleCarsShowDetails(CategorizedCarOffers bucket) {
 		offerList.setVisibility(View.VISIBLE);
 		backgroundHeader.setVisibility(View.VISIBLE);
 

@@ -589,10 +589,16 @@ public class Events {
 
 	public static class CarsNewSearchParams {
 		public CarSearchParams carSearchParams;
+		public String productKey;
 
 		public CarsNewSearchParams(CarSearchParams params) {
 			carSearchParams = params;
 		}
+		public CarsNewSearchParams(CarSearchParams params, String productKey) {
+			carSearchParams = params;
+			this.productKey = productKey;
+		}
+
 	}
 
 	public static class CarsShowLoadingAnimation {
@@ -720,6 +726,22 @@ public class Events {
 		public CarsIsFiltered(CarSearch filteredCarSearch, CategorizedCarOffers filteredCarOffers) {
 			this.filteredCarSearch = filteredCarSearch;
 			this.filteredCarOffers = filteredCarOffers;
+		}
+	}
+
+	public static class CarsShowProductKeyDetails {
+		public CarSearch productKeyCarSearch;
+
+		public CarsShowProductKeyDetails(CarSearch productKeyCarSearch) {
+			this.productKeyCarSearch = productKeyCarSearch;
+		}
+	}
+
+	public static class CarsShowResultsForProductKey {
+		public CarSearch productKeyCarSearch;
+
+		public CarsShowResultsForProductKey(CarSearch productKeyCarSearch) {
+			this.productKeyCarSearch = productKeyCarSearch;
 		}
 	}
 
