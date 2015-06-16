@@ -28,7 +28,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -710,9 +709,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 					.newInstance(getString(R.string.loading_flight_details));
 				mFlightCreateTripDownloadThrobber.show(getFragmentManager(), TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
 				mFlightBookingFrag.startDownload(FlightBookingState.CREATE_TRIP);
-			}
-			else {
-				dismissLoadingDialogs();
 			}
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
@@ -1561,8 +1557,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onLoginStateChanged() {
-		Traveler.LoyaltyMembershipTier userTier = User.getLoggedInLoyaltyMembershipTier(getActivity());
-		if (User.isLoggedIn(getActivity()) && userTier.isGoldOrSilver()) {
+		if (User.isLoggedIn(getActivity())) {
 			if (getLob() == LineOfBusiness.FLIGHTS) {
 				Db.getTripBucket().getFlight().clearCheckoutData();
 			}
