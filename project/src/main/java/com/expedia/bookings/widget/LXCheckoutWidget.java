@@ -23,6 +23,7 @@ import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -39,7 +40,6 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		super(context, attr);
 	}
 
-	private static final String RULES_RESTRICTIONS_URL_PATH = "Checkout/LXRulesAndRestrictions?tripid=";
 	@Inject
 	LXState lxState;
 
@@ -81,7 +81,8 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);
 
-		String rulesAndRestrictionsURL = getRulesRestrictionsUrl(createTripResponse.tripId);
+		String e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
+		String rulesAndRestrictionsURL = LXDataUtils.getRulesRestrictionsUrl(e3EndpointUrl, createTripResponse.tripId);
 		legalInformationText.setText(StrUtils.generateLegalClickableLink(getContext(), rulesAndRestrictionsURL));
 		isCheckoutComplete();
 		loginWidget.updateView();
@@ -142,11 +143,6 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		Events.post(new Events.LXKickOffCheckoutCall(checkoutParams));
 	}
 
-	private String getRulesRestrictionsUrl(String tripId) {
-		String endpoint = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
-		return endpoint + RULES_RESTRICTIONS_URL_PATH + tripId;
-	}
-
 	private Observer<LXCreateTripResponse> createTripObserver = new Observer<LXCreateTripResponse>() {
 		@Override
 		public void onCompleted() {
@@ -176,6 +172,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 			OmnitureTracking.trackAppLXCheckoutPayment(getContext(), lxState);
 			bind(response);
 			show(new Ready(), FLAG_CLEAR_BACKSTACK);
+			Events.post(new Events.LXCreateTripSucceeded(response, lxState.activity));
 		}
 	};
 

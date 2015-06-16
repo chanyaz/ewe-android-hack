@@ -81,7 +81,7 @@ public class LXCheckoutPresenterTests {
 
 		//Make Create Trip Succeed
 		LXCreateTripResponse lxCreateTripResponse = gson.fromJson("{tripId:\"c0eb37f7-9553-441b-975a-877eff95e8fa\", itineraryNumber:11528775160, activityId:\"0c0af1cb-f721-4cbf-8b99-e4f753cb6caa\", validFormsOfPayment:[{name:\"AmericanExpress\"}, {name:\"Diner's Club International\"}, {name:\"Discover\"}, {name:\"JCB\"}, {name:\"MasterCard\"}, {name:\"Visa\"} ] }", LXCreateTripResponse.class);
-		Events.post(new Events.LXCreateTripSucceeded(lxCreateTripResponse));
+		Events.post(new Events.LXCreateTripSucceeded(lxCreateTripResponse, lxActivity));
 		Db.getTripBucket().add(new TripBucketItemLX(lxCreateTripResponse));
 		ScreenActions.delay(2);
 	}

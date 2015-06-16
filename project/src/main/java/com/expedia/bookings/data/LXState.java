@@ -36,6 +36,7 @@ public class LXState {
 	public void onShowActivityDetails(Events.LXShowDetails event) {
 		activity.location = event.activityDetails.location;
 		activity.regionId = event.activityDetails.regionId;
+		activity.cancellationPolicyText = event.activityDetails.cancellationPolicyText;
 	}
 
 	@Subscribe

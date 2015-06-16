@@ -6,6 +6,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <com.expedia.bookings.widget.LxRulesWidget
+        android:id="@+id/rules"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <com.expedia.bookings.widget.CVVEntryWidget
         android:id="@+id/cvv"
         android:layout_width="match_parent"

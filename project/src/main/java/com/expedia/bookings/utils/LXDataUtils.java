@@ -24,6 +24,7 @@ import com.expedia.bookings.data.trips.TripHotel;
 import com.mobiata.flightlib.data.Airport;
 
 public class LXDataUtils {
+	private static final String RULES_RESTRICTIONS_URL_PATH = "Checkout/LXRulesAndRestrictions?tripid=";
 
 	private static final Map<LXTicketType, Integer> LX_PER_TICKET_TYPE_MAP = new EnumMap<LXTicketType, Integer>(LXTicketType.class) {
 		{
@@ -261,6 +262,19 @@ public class LXDataUtils {
 			.searchType(SearchType.EXPLICIT_SEARCH);
 
 		return searchParams;
+	}
+
+	public static String getRulesRestrictionsUrl(String e3EndpointUrl, String tripId) {
+		return e3EndpointUrl + RULES_RESTRICTIONS_URL_PATH + tripId;
+	}
+
+	public static String getCancelationPolicyDisplayText(Context context, String cancellationPolicyTextFromAPIResponse) {
+		if (Strings.isNotEmpty(cancellationPolicyTextFromAPIResponse)) {
+			return String.format(context.getString(R.string.cancellation_policy_TEMPLATE), StrUtils.stripHTMLTags(cancellationPolicyTextFromAPIResponse));
+		}
+		else {
+			return context.getString(R.string.lx_policy_non_cancellable);
+		}
 	}
 
 	private static String formatLocation(Context c, Location location) {
