@@ -222,7 +222,9 @@ public class LXServices {
 		@Override
 		public LXSearchResponse call(LXSearchResponse lxSearchResponse, LXSortFilterMetadata lxSortFilterMetadata) {
 
-			unfilteredActivities.addAll(lxSearchResponse.activities);
+			if (unfilteredActivities.size() == 0) {
+				unfilteredActivities.addAll(lxSearchResponse.activities);
+			}
 			if (lxSortFilterMetadata.lxCategoryMetadataMap == null) {
 				return lxSearchResponse;
 			}
