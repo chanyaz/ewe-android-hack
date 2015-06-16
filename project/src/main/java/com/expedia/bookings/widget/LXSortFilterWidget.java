@@ -119,6 +119,9 @@ public class LXSortFilterWidget extends LinearLayout {
 				filterCategoriesContainer.addView(categoryView);
 			}
 		}
+		else {
+			selectedFilterCategories.clear();
+		}
 	}
 
 	@Subscribe
