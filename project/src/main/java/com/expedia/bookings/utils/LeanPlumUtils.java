@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -24,6 +25,9 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.cars.CarCheckoutResponse;
+import com.expedia.bookings.data.cars.CarLocation;
+import com.expedia.bookings.data.cars.CreateTripCarFare;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
@@ -354,5 +358,37 @@ public class LeanPlumUtils {
 			Log.i("Show Share flight Notification " + LeanPlumFlags.mShowShareFlightNotification);
 		}
 	};
+
+	public static void trackCarBooked(CarCheckoutResponse response) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+			String eventName = "Sale Car";
+			CarLocation pickUplocation = response.newCarProduct.pickUpLocation;
+			Log.i("LeanPlum car booking event origin = " + pickUplocation.cityName);
+
+			HashMap<String, Object> eventParams = new HashMap<String, Object>();
+
+			addCommonProductRetargeting(eventParams, pickUplocation.cityName, pickUplocation.provinceStateName,
+				pickUplocation.countryCode);
+
+			DateTime pickUpTime = response.newCarProduct.getPickupTime();
+			DateTime dropOfTime = response.newCarProduct.getDropOffTime();
+
+			eventParams.put("Destination", pickUplocation.cityName);
+			eventParams.put("PickupDate", DateUtils.convertDatetoInt(pickUpTime.toLocalDate()));
+			eventParams.put("PickupDatetime", pickUpTime.toString(DATE_PATTERN));
+			eventParams.put("DropoffDate", DateUtils.convertDatetoInt(dropOfTime.toLocalDate()));
+			eventParams.put("DropoffDatetime", dropOfTime.toString(DATE_PATTERN));
+			eventParams.put("RentalDuration", JodaUtils.hoursBetween(pickUpTime, dropOfTime));
+
+			CreateTripCarFare carFare = response.newCarProduct.detailedFare;
+			eventParams.put("TotalPrice", String.valueOf(carFare.grandTotal.getAmount().doubleValue()));
+			eventParams.put("currency", carFare.grandTotal.getCurrency());
+
+			eventParams.put("b_win", "" + getBookingWindow(pickUpTime.toLocalDate()));
+			eventParams.put("p_type", "CAR");
+
+			tracking(eventName, eventParams);
+		}
+	}
 
 }
