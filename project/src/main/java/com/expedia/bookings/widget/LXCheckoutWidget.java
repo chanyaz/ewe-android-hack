@@ -124,6 +124,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 			.phone(mainContactInfoCardView.phoneNumber.getText().toString())
 			.expectedFareCurrencyCode(lxState.activity.price.currencyCode)
 			.tripId(createTripResponse.tripId)
+			.guid(Db.getAbacusGuid())
 			.suppressFinalBooking(suppressFinalBooking);
 
 		if (Db.getBillingInfo().hasStoredCard()) {
