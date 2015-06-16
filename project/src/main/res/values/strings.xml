@@ -617,6 +617,8 @@
     <string name="lx_ground_transport_bags_text">%1$s Bags</string>
     <!-- Ground Transport passengers text-->
     <string name="lx_ground_transport_passengers_text">%1$s Passengers</string>
+    <!-- Incorrect date search for LX -->
+    <string name="lx_start_date_error">This date is in the past, please choose a new date.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->

@@ -16,6 +16,7 @@ import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.location.LXCurrentLocationSuggestionObserver;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.lx.LXPresenter;
+import com.expedia.bookings.utils.AlertDialogUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Ui;
 import com.facebook.Session;
@@ -72,6 +73,11 @@ public class LXBaseActivity extends ActionBarActivity {
 			@Override
 			public boolean onPreDraw() {
 				lxPresenter.getViewTreeObserver().removeOnPreDrawListener(this);
+				if (startDate.isBefore(LocalDate.now())) {
+					AlertDialogUtils.showDialog(LXBaseActivity.this, getResources().getString(R.string.lx_start_date_error),
+						new Events.LXShowSearchWidget(), getResources().getString(R.string.ok), null, null);
+					return true;
+				}
 				if (navigateToSearch) {
 					Events.post(new Events.LXNewSearch(location, startDate, endDate));
 					return true;
