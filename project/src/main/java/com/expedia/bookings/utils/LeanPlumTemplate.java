@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +11,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.TextView;
 import com.leanplum.ActionArgs;
 import com.leanplum.ActionContext;
@@ -21,6 +21,7 @@ import com.leanplum.callbacks.ActionCallback;
 import com.leanplum.callbacks.VariablesChangedCallback;
 import com.leanplum.messagetemplates.BaseMessageDialog;
 import com.leanplum.messagetemplates.CenterPopupOptions;
+import com.mobiata.android.Log;
 
 /**
  * Created by t-junguyen on 6/11/15.
@@ -28,62 +29,76 @@ import com.leanplum.messagetemplates.CenterPopupOptions;
 public class LeanPlumTemplate extends BaseMessageDialog {
 
 	public static final String BACKGROUND_IMAGE = "http://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/ABDestinations/images/SYD.jpg";
+	public static final String MESSAGE = "Message";
+	public static final String DISMISS_TEXT = "Dismiss Text";
+	public static final String BACKGROUND = "Background";
+	public static final String CAMPAIGN_TEXT = "Campaign Text";
+	public static final String DISMISS_ACTION = "Dismiss Action";
+	public static final String TITLE = "Title";
 
 	public LeanPlumTemplate(Activity activity, CenterPopupOptions options) {
 		super(activity, false, options, null);
 		this.options = options;
 	}
 
-	static String getApplicationName(Context context) {
-		int stringId = context.getApplicationInfo().labelRes;
-		if (stringId == 0) {
-			return context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
-		}
-		return context.getString(stringId);
-	}
-
 	public static void register(Context context) {
 		Leanplum.defineAction(
-			"My Template",
+			"LeanPlum Simple Message",
 			Leanplum.ACTION_KIND_MESSAGE | Leanplum.ACTION_KIND_ACTION,
-			new ActionArgs().with("My Template", getApplicationName(context))
-				.with("Message", "Alert Message")
-				.with("Dismiss Text", "Ok")
-				.with("Background", "BACKGROUND_IMAGE")
-				.withAction("Dismiss Action", null), new ActionCallback() {
+			new ActionArgs()
+				.with(TITLE, context.getString(R.string.app_name))
+				.with(MESSAGE, "")
+				.with(DISMISS_TEXT, context.getString(R.string.ok))
+				.with(BACKGROUND, BACKGROUND_IMAGE)
+				.with(CAMPAIGN_TEXT, "default")
+				.withAction(DISMISS_ACTION, null), new ActionCallback() {
 
 				@Override
-				public boolean onResponse(final ActionContext context) {
+				public boolean onResponse(final ActionContext actionContext) {
 					LeanplumActivityHelper.queueActionUponActive(new VariablesChangedCallback() {
 						@Override
 						public void variablesChanged() {
+							if (Strings.isEmpty(actionContext.stringNamed(MESSAGE))) {
+								Log.d("Cannot show leanplum dialog with empty message");
+								return;
+							}
+
 							Activity activity = LeanplumActivityHelper.getCurrentActivity();
 							AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 							LayoutInflater inflater = activity.getLayoutInflater();
 
+							OmnitureTracking.trackLeanPlumInAppMessage(activity, actionContext.stringNamed(CAMPAIGN_TEXT));
 							// Inflate and set the layout for the dialog
 							// Pass null as the parent view because its going in the dialog layout
 							View view = inflater.inflate(R.layout.leanplum_dialog, null);
 							alertDialogBuilder.setView(view);
 							TextView title = (TextView) view.findViewById(R.id.leanplumtemplate_title);
-							title.setText(context.stringNamed("My Template"));
+							title.setText(actionContext.stringNamed(TITLE));
 							TextView message = (TextView) view.findViewById(R.id.leanplumtemplate_message);
-							message.setText(context.stringNamed("Message"));
+							message.setText(actionContext.stringNamed(MESSAGE));
 							ImageView background = (ImageView) view.findViewById(R.id.leanplumtemplate_background);
+
+							String originalImageUrl = actionContext.stringNamed(BACKGROUND);
+							int width = activity.getResources().getDimensionPixelSize(
+								R.dimen.leanplum_dialog_image_width);
+							int height = activity.getResources().getDimensionPixelSize(R.dimen.leanplum_dialog_image_height);
+							String imageUrl = new Akeakamai(originalImageUrl)
+								.resizeExactly(width, height)
+								.build();
 
 							new PicassoHelper.Builder(background)
 								.setError(R.drawable.cars_fallback)
 								.fade()
 								.build()
-								.load(BACKGROUND_IMAGE);
+								.load(imageUrl);
 
 							//set the image for background
 							alertDialogBuilder
 								.setCancelable(false)
-								.setPositiveButton(context.stringNamed("Dismiss Text"),
+								.setPositiveButton(actionContext.stringNamed(DISMISS_TEXT),
 									new DialogInterface.OnClickListener() {
 										public void onClick(DialogInterface dialog, int id) {
-											context.runActionNamed("Dismiss Action");
+											actionContext.runActionNamed(DISMISS_ACTION);
 										}
 									});
 							AlertDialog alertDialog = alertDialogBuilder.create();
@@ -91,8 +106,8 @@ public class LeanPlumTemplate extends BaseMessageDialog {
 
 							Button b = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
 							if (b != null) {
-								b.setBackgroundColor(Color.parseColor("#FFFFFF"));
-								b.setTextColor(Color.parseColor("#fc2176"));
+								b.setBackgroundColor(activity.getResources().getColor(android.R.color.white));
+								b.setTextColor(activity.getResources().getColor(R.color.leanplum_dialog_button_color));
 							}
 							alertDialog.getWindow()
 								.setBackgroundDrawableResource(R.drawable.leanplum_dialog_background);
