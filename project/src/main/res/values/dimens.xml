@@ -166,7 +166,7 @@
     <!-- Account support dimensions -->
     <dimen name="login_button_icon_padding_left">-3dp</dimen>
     <dimen name="login_button_icon_padding_right">1dp</dimen>
-    <dimen name="account_button_points_text_size">13sp</dimen>
+    <dimen name="account_button_points_text_size">11.5sp</dimen>
     <dimen name="account_rewards_container_height">20dp</dimen>
     <dimen name="account_rewards_container_height_for_empty_message">8dp</dimen>
     <dimen name="card_icon_padding">5dp</dimen>
