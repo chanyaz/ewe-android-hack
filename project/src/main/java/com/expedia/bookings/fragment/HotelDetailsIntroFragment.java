@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPayLaterInfoActivity;
 import com.expedia.bookings.activity.UserReviewsListActivity;
@@ -32,6 +33,7 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.util.Ui;
+import com.squareup.phrase.Phrase;
 
 public class HotelDetailsIntroFragment extends Fragment {
 
@@ -164,7 +166,12 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}
 		// Special case if no urgency and no recommendations: hide this while banner section.
 		else if (percentRecommend == 0 && numReviews == 0) {
-			return;
+			String banner = property.isMerchant() ? getString(R.string.best_price_guarantee) : Phrase.from(getActivity(), R.string.non_merchant_rate_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format().toString();
+			bannerTextView.setText(banner);
+			bannerTextView.setVisibility(View.VISIBLE);
+			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_hotel_details_free_cancellation_checkmark, 0, 0, 0);
 		}
 		// xx% recommend this hotel
 		else {
