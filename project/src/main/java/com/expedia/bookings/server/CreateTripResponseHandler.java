@@ -68,6 +68,7 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 
 			createTripResponse.setNewRate(newRate);
 			createTripResponse.setOriginalRate(originalRate);
+			createTripResponse.setSupplierType(newHotelResponse.getString("supplierType"));
 
 			List<ValidPayment> payments = CreateItineraryResponseHandler.parseValidPayments(response);
 			createTripResponse.setValidPayments(payments);

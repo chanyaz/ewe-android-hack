@@ -298,7 +298,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppHotelsCheckoutConfirmation(Context context, HotelSearchParams searchParams,
-			Property property, BillingInfo billingInfo, Rate rate, HotelBookingResponse response) {
+			Property property, String supplierType, Rate rate, HotelBookingResponse response) {
 		Log.d(TAG, "Tracking \"App.Hotels.Checkout.Confirmation\" pageLoad");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
@@ -332,7 +332,7 @@ public class OmnitureTracking {
 		if (rate != null && rate.getTotalAmountAfterTax() != null) {
 			totalCost = rate.getTotalAmountAfterTax().getAmount().doubleValue();
 		}
-		addProducts(s, property, numDays, totalCost);
+		addProducts(s, property, supplierType, numDays, totalCost);
 
 		// Currency code
 		s.setCurrencyCode(rate.getTotalAmountAfterTax().getCurrency());
@@ -428,6 +428,28 @@ public class OmnitureTracking {
 
 	private static void addProducts(ADMS_Measurement s, Property property, int numNights, double totalCost) {
 		addProducts(s, property);
+
+		DecimalFormat df = new DecimalFormat("#.##");
+		String products = s.getProducts();
+		products += ";" + numNights + ";" + df.format(totalCost);
+		s.setProducts(products);
+	}
+
+	private static void addProducts(ADMS_Measurement s, Property property, String supplierType, int numNights, double totalCost) {
+		// The "products" field uses this format:
+		// Hotel;<supplier> Hotel:<hotel id>
+
+		if (TextUtils.isEmpty(supplierType)) {
+			supplierType = "";
+		}
+		String properCaseSupplierType;
+		if (supplierType.length() > 1) {
+			properCaseSupplierType = supplierType.substring(0, 1).toUpperCase(Locale.US) + supplierType.substring(1).toLowerCase(Locale.US);
+		}
+		else {
+			properCaseSupplierType = supplierType;
+		}
+		s.setProducts("Hotel;" + properCaseSupplierType + " Hotel:" + property.getPropertyId());
 
 		DecimalFormat df = new DecimalFormat("#.##");
 		String products = s.getProducts();
