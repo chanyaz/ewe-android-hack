@@ -261,8 +261,10 @@ public class NavUtils {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, CarActivity.class);
 		if (searchParams != null) {
-			Gson gson = CarServices.generateGson();
-			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, gson.toJson(searchParams));
+			intent.putExtra("pickupLocation", searchParams.origin);
+			intent.putExtra("originDescription", searchParams.originDescription);
+			intent.putExtra("pickupDateTime", DateUtils.carSearchFormatFromDateTime(searchParams.startDateTime));
+			intent.putExtra("dropoffDateTime", DateUtils.carSearchFormatFromDateTime(searchParams.endDateTime));
 		}
 
 		if ((flags & FLAG_DEEPLINK) != 0) {

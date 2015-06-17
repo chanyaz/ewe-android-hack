@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -38,6 +39,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
@@ -194,10 +196,17 @@ public class CarSearchPresenter extends Presenter
 
 		show(new CarParamsDefault());
 
+		CarSearchParams carSearchParams = null;
 		Gson gson = CarServices.generateGson();
-		String carSearchParamsString = ((Activity) getContext()).getIntent()
-			.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
-		CarSearchParams carSearchParams = gson.fromJson(carSearchParamsString, CarSearchParams.class);
+		Intent intent = ((Activity) getContext()).getIntent();
+		String carSearchParamsString = intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
+
+		if (intent.getBooleanExtra(Codes.FROM_DEEPLINK, false)) {
+			carSearchParams = CarDataUtils.getCarSearchParamsFromDeeplink(intent);
+		}
+		else if (Strings.isNotEmpty(carSearchParamsString)) {
+			carSearchParams = gson.fromJson(carSearchParamsString, CarSearchParams.class);
+		}
 
 		if (carSearchParams != null) {
 			CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder = new CarSearchParamsBuilder.DateTimeBuilder()

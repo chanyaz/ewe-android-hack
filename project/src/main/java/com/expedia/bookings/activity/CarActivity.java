@@ -83,15 +83,13 @@ public class CarActivity extends ActionBarActivity {
 	private void handleNavigationViaDeepLink() {
 		Intent intent = getIntent();
 		final String productKey = intent.getStringExtra(Codes.CARS_PRODUCT_KEY);
-		final boolean navigateToSearchResults =
-			(intent != null) && (intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS) != null) && (intent
-				.getBooleanExtra(Codes.FROM_DEEPLINK, false)) && (Strings.isEmpty(productKey));
-		final boolean navigateToDetails =
-			(intent != null) && (intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS) != null) && (intent
-				.getBooleanExtra(Codes.FROM_DEEPLINK, false)) && (Strings
-				.isNotEmpty(productKey));
+		final boolean navigateToSearchResults = (intent != null) && (intent
+			.getBooleanExtra(Codes.FROM_DEEPLINK, false)) && (Strings.isEmpty(productKey));
+		final boolean navigateToDetails = (intent != null) && (intent
+			.getBooleanExtra(Codes.FROM_DEEPLINK, false)) && (Strings
+			.isNotEmpty(productKey));
 
-		final CarSearchParams carSearchParams = CarDataUtils.getCarSearchParams(intent);
+		final CarSearchParams carSearchParams = CarDataUtils.getCarSearchParamsFromDeeplink(intent);
 
 		carsPresenter.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 			@Override
