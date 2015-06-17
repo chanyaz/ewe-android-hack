@@ -3,6 +3,9 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +18,9 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.LaunchDb;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.fragment.TabletLaunchControllerFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
@@ -28,6 +33,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
@@ -60,6 +66,22 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
+		Intent intent = getIntent();
+		LineOfBusiness lineOfBusiness = (LineOfBusiness) intent.getSerializableExtra(Codes.LOB_NOT_SUPPORTED);
+		if (lineOfBusiness != null) {
+			CharSequence errorMessage = null;
+			if (lineOfBusiness == LineOfBusiness.CARS) {
+				errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message)
+					.put("lob", getString(R.string.Car))
+					.format();
+			}
+			else if (lineOfBusiness == LineOfBusiness.LX) {
+				errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message)
+					.put("lob", getString(R.string.Activity))
+					.format();
+			}
+			showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok);
+		}
 
 		OmnitureTracking.trackPageLoadLaunchScreen(this, null);
 	}
@@ -249,4 +271,17 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		mMeasurementListeners.remove(listener);
 	}
 
+	public static void showLOBNotSupportedAlertMessage(Context context, CharSequence errorMessage,
+		int confirmButtonResourceId) {
+		AlertDialog.Builder b = new AlertDialog.Builder(context);
+		b.setCancelable(false)
+			.setMessage(errorMessage)
+			.setPositiveButton(confirmButtonResourceId, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.show();
+	}
 }

@@ -3570,4 +3570,6 @@
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Select each child\'s age</string>
 
+    <string name="lob_not_supported_error_message">Sorry, but {lob} booking is not yet available in your location.</string>
+
 </resources>

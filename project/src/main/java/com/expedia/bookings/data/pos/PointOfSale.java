@@ -580,7 +580,7 @@ public class PointOfSale {
 	}
 
 	public boolean supportsCars() {
-		return mSupportsCars;
+		return mSupportsCars && !mIsTablet;
 	}
 
 	public boolean supportsLx() {
