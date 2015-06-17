@@ -2434,8 +2434,6 @@ public class OmnitureTracking {
 	// Lean Plum Notification Tracking
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final String LEAN_PLUM_NOTIFICATION = "App Notification";
-
 	public static void trackLeanPlumNotification(Context context, String campaignText) {
 		Log.d(TAG, "Tracking LeanPlumNotification \"" + campaignText + "\"");
 
@@ -2446,7 +2444,25 @@ public class OmnitureTracking {
 		s.setEvar(11, campaignText);
 		s.setEvents("event12");
 
-		s.trackLink(null, "o", LEAN_PLUM_NOTIFICATION, null, null);
+		s.trackLink(null, "o", "App Notification", null, null);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// In App Messaging Tracking
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void trackLeanPlumInAppMessage(Context context, String campaignText) {
+		Log.d(TAG, "Tracking LeanPlumNotification \"" + campaignText + "\"");
+
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		addStandardFields(context, s);
+
+		s.setEvar(11, campaignText);
+		s.setEvents("event12");
+
+		s.trackLink(null, "o", "In App Messaging", null, null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

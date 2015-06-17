@@ -288,4 +288,8 @@
     <dimen name="car_unexpanded_with_price_change_space_height">130dp</dimen>
     <dimen name="car_expanded_space_height">350dp</dimen>
     <dimen name="hotel_spinner_height">50dp</dimen>
+
+    <!-- Dimensions for leanplum in app message templates -->
+    <dimen name="leanplum_dialog_image_width">280dp</dimen>
+    <dimen name="leanplum_dialog_image_height">157dp</dimen>
 </resources>
