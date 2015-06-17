@@ -1016,6 +1016,9 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		public void onClick(View v) {
 			Log.d("Selected flight leg!");
 
+			// disable buttons to prevent duplicate events firing
+			setMenusEnabled(false);
+
 			// Set the selected leg
 			FlightTripLeg ftl = mFlightDetailsFragment.getFlightTripLeg();
 			FlightSearch flightSearch = Db.getFlightSearch();
