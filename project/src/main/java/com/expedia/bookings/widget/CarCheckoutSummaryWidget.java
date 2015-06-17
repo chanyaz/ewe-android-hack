@@ -20,11 +20,11 @@ import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.RateBreakdownItem;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.CarDataUtils;
+import com.expedia.bookings.utils.CheckoutSummaryWidgetUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.CheckoutSummaryWidgetUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -74,6 +74,9 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 
 	@InjectView(R.id.price_change_text)
 	TextView priceChangeText;
+
+	@InjectView(R.id.divider_line)
+	View dividerLine;
 
 	@Override
 	protected void onFinishInflate() {
@@ -163,6 +166,7 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 				infoTextView.setVisibility(GONE);
 			}
 		}
+		dividerLine.setVisibility(tickedInfoTextStringValues.size() == 3 ? VISIBLE : GONE);
 	}
 
 	@OnClick(R.id.price_text)
