@@ -2481,10 +2481,13 @@ public class OmnitureTracking {
 
 		addStandardFields(context, s);
 
-		s.setEvar(11, campaignText);
+		s.setEvar(25, campaignText);
 		s.setEvents("event12");
 
-		s.trackLink(null, "o", "In App Messaging", null, null);
+		s.setProp(16, "App.Push.In-App Message");
+		s.setEvar(28, "App.Push.In-App Message");
+
+		s.trackLink(null, "o", "In-App Notification", null, null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
