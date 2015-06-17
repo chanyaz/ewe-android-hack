@@ -21,6 +21,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.TripBucketItemFlight;
@@ -387,6 +388,31 @@ public class LeanPlumUtils {
 
 			eventParams.put("b_win", "" + getBookingWindow(pickUpTime.toLocalDate()));
 			eventParams.put("p_type", "CAR");
+
+			tracking(eventName, eventParams);
+		}
+	}
+
+	public static void trackLXBooked(LXState lxState) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+			String eventName = "Sale LX";
+			Log.i("LeanPlum LX booking event origin = " + lxState.activity.location);
+
+			HashMap<String, Object> eventParams = new HashMap<String, Object>();
+
+			eventParams.put("destination", lxState.activity.location);
+
+			eventParams.put("TotalPrice", String.valueOf(LXUtils.getTotalAmount(lxState.selectedTickets).getAmount().doubleValue()));
+			eventParams.put("currency", LXUtils.getTotalAmount(lxState.selectedTickets).getCurrency());
+
+			LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
+				lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
+
+			eventParams.put("ActivityDate", "" + DateUtils.convertDatetoInt(offerSelectedDate));
+			eventParams.put("ActivityDatetime", "" + DateUtils.yyyyMMddHHmmssToDateTime(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate).toString(DATE_PATTERN));
+			eventParams.put("ActivityCategory", "" + Strings.joinWithoutEmpties(",", lxState.activity.categories));
+			eventParams.put("b_win", "" + getBookingWindow(offerSelectedDate));
+			eventParams.put("p_type", "LX");
 
 			tracking(eventName, eventParams);
 		}
