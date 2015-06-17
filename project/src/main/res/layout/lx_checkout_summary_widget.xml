@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_gravity="right"
-            android:text="@string/lx_total_with_tax"
+            android:text="@string/total_with_tax"
             android:textSize="11sp" />
 
         <com.expedia.bookings.widget.TextView

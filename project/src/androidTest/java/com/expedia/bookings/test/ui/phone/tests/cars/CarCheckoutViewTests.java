@@ -34,7 +34,7 @@ public class CarCheckoutViewTests extends CarTestCase {
 		assertViewWithTextIsDisplayed(R.id.car_vendor_text, "Fox");
 		assertViewWithTextIsDisplayed(R.id.grand_total_text, "Total with Tax");
 		assertViewWithTextIsDisplayed(R.id.price_text, "$108.47");
-		assertViewWithTextIsDisplayed(R.id.pickup_text, "Due at pick-up");
+		assertViewWithTextIsDisplayed(R.id.due_at_text, "Due at pick-up");
 		assertViewWithTextIsDisplayed(R.id.car_model_text, "Toyota Yaris or similar");
 		assertViewWithTextIsDisplayed(R.id.location_description_text, "Shuttle to counter and car");
 		assertViewWithTextIsDisplayed(R.id.airport_text, "San Francisco (SFO)");

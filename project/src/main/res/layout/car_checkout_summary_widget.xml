@@ -123,8 +123,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_alignRight="@+id/pickup_text"
-            android:text="Total with Tax"
+            android:layout_alignRight="@+id/due_at_text"
+            android:text="@string/total_with_tax"
             android:textColor="@color/cars_checkout_text_color"
             android:textSize="11sp" />
 
@@ -143,12 +143,11 @@
             app:textStyle="medium" />
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/pickup_text"
+            android:id="@+id/due_at_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/price_text"
-            android:text="Due at pick-up"
             android:textColor="@color/cars_checkout_text_color"
             android:textSize="11sp" />
 

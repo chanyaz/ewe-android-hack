@@ -63,6 +63,9 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 	@InjectView(R.id.ticked_info_text_3)
 	TextView tickedInfoText3;
 
+	@InjectView(R.id.due_at_text)
+	TextView dueAtText;
+
 	@InjectView(R.id.price_text)
 	TextView tripTotalText;
 
@@ -101,6 +104,26 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		}
 
 		updateTickedInfoTextFields();
+		updateDueAtLabel();
+	}
+
+	private void updateDueAtLabel() {
+		boolean anyPriceDueToday = anyPriceDue(offer.detailedFare.priceBreakdownOfTotalDueToday);
+		boolean anyPriceDueAtPickup = anyPriceDue(offer.detailedFare.priceBreakdownOfTotalDueAtPickup);
+
+		if (anyPriceDueToday && !anyPriceDueAtPickup) {
+			//Everything due today!
+			dueAtText.setText(getResources().getString(R.string.car_cost_breakdown_due_today));
+			dueAtText.setVisibility(VISIBLE);
+		}
+		else if (!anyPriceDueToday && anyPriceDueAtPickup) {
+			//Everything due at pickup!
+			dueAtText.setText(getResources().getString(R.string.car_cost_breakdown_total_due));
+			dueAtText.setVisibility(VISIBLE);
+		}
+		else {
+			dueAtText.setVisibility(GONE);
+		}
 	}
 
 	private void updateTickedInfoTextFields() {
@@ -145,6 +168,10 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 	@OnClick(R.id.price_text)
 	public void showCarCostBreakdown() {
 		buildCarBreakdownDialog(getContext(), offer);
+	}
+
+	private static boolean anyPriceDue(List<RateBreakdownItem> rateBreakdownItems) {
+		return (rateBreakdownItems != null && rateBreakdownItems.size() > 0);
 	}
 
 	private void buildCarBreakdownDialog(Context context, CreateTripCarOffer offer) {
