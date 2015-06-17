@@ -12,6 +12,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.CarPresenter;
 import com.expedia.bookings.utils.CarDataUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.facebook.Session;
 import com.mobiata.android.Log;
@@ -82,8 +83,13 @@ public class CarActivity extends ActionBarActivity {
 	private void handleNavigationViaDeepLink() {
 		Intent intent = getIntent();
 		final String productKey = intent.getStringExtra(Codes.CARS_PRODUCT_KEY);
-		final boolean navigateToSearchResults = (intent != null) && (intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS) != null) && (intent.getBooleanExtra(Codes.FROM_DEEPLINK, false));
-		final boolean navigateToCheckout = (intent != null) && (intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS) != null) && (productKey != null);
+		final boolean navigateToSearchResults =
+			(intent != null) && (intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS) != null) && (intent
+				.getBooleanExtra(Codes.FROM_DEEPLINK, false)) && (Strings.isEmpty(productKey));
+		final boolean navigateToDetails =
+			(intent != null) && (intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS) != null) && (intent
+				.getBooleanExtra(Codes.FROM_DEEPLINK, false)) && (Strings
+				.isNotEmpty(productKey));
 
 		final CarSearchParams carSearchParams = CarDataUtils.getCarSearchParams(intent);
 
@@ -95,7 +101,7 @@ public class CarActivity extends ActionBarActivity {
 					Events.post(new Events.CarsNewSearchParams(carSearchParams));
 					return true;
 				}
-				if (navigateToCheckout && carSearchParams != null) {
+				if (navigateToDetails && carSearchParams != null) {
 					Events.post(new Events.CarsNewSearchParams(carSearchParams, productKey));
 				}
 				return true;
