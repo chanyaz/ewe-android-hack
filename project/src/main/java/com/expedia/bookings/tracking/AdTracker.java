@@ -105,6 +105,7 @@ public class AdTracker {
 
 	public static void trackCarBooked(CarCheckoutResponse carCheckoutResponse) {
 		KahunaUtils.trackCarBooked(carCheckoutResponse);
+		LeanPlumUtils.trackCarBooked(carCheckoutResponse);
 	}
 
 	public static void trackHotelCheckoutStarted() {
