@@ -245,6 +245,10 @@ public class NavUtils {
 			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, gson.toJson(searchParams));
 		}
 
+		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.putExtra(Codes.FROM_DEEPLINK, true);
+		}
+
 		intent.putExtra(Codes.CARS_PRODUCT_KEY, productKey);
 		startActivity(context, intent, animOptions);
 	}
