@@ -20,6 +20,8 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchResponse;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.cars.RateTerm;
+import com.expedia.bookings.data.cars.RateTermDeserializer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
@@ -122,6 +124,7 @@ public class CarServices {
 	public static Gson generateGson() {
 		return new GsonBuilder()
 			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+			.registerTypeAdapter(RateTerm.class, new RateTermDeserializer())
 			.create();
 	}
 

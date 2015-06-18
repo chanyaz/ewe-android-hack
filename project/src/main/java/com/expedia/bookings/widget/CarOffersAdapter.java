@@ -21,6 +21,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarInfo;
+import com.expedia.bookings.data.cars.RateTerm;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -166,10 +167,17 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 					mContext.getString(R.string.car_doors_text)));
 			transmission.setText(CarDataUtils.getStringForTransmission(mContext, vehicleInfo.transmission));
 
-			ratePrice.setText(
-				mContext.getString(R.string.car_details_TEMPLATE,
-					CarDataUtils.getStringTemplateForRateTerm(mContext, offer.fare.rateTerm),
-					offer.fare.rate.getFormattedMoney()));
+			if (offer.fare.rateTerm.equals(RateTerm.UNKNOWN)) {
+				ratePrice.setText("");
+				ratePrice.setVisibility(View.GONE);
+			}
+			else {
+				ratePrice.setText(
+					mContext.getString(R.string.car_details_TEMPLATE,
+						CarDataUtils.getStringTemplateForRateTerm(mContext, offer.fare.rateTerm),
+						offer.fare.rate.getFormattedMoney()));
+				ratePrice.setVisibility(View.VISIBLE);
+			}
 			totalPrice.setText(
 				totalPrice.getContext().getString(R.string.cars_total_template, offer.fare.total.getFormattedMoney()));
 			address.setText(offer.pickUpLocation.locationDescription);
