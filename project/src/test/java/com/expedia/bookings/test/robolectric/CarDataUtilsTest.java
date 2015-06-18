@@ -3,6 +3,7 @@ package com.expedia.bookings.test.robolectric;
 import java.io.File;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -95,8 +96,10 @@ public class CarDataUtilsTest {
 		CarSearchParams obtainedCarSearchParams = getCarSearchParamsFromDeeplink(expectedURL);
 
 		CarSearchParams expectedCarSearchParams = new CarSearchParams();
-		expectedCarSearchParams.startDateTime = DateUtils.yyyyMMddTHHmmssToDateTime(pickupDateTime);
-		expectedCarSearchParams.endDateTime = DateUtils.yyyyMMddTHHmmssToDateTime(dropoffDateTime);
+		expectedCarSearchParams.startDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTime, DateTime.now());
+		expectedCarSearchParams.endDateTime = DateUtils
+			.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTime, expectedCarSearchParams.startDateTime.plusDays(3));
+
 		expectedCarSearchParams.origin = pickupLocation;
 		expectedCarSearchParams.originDescription = originDescription;
 
