@@ -19,6 +19,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.RateTerm;
 import com.expedia.bookings.data.cars.SearchCarFare;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AnimUtils;
@@ -128,10 +129,18 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			setTextAndVisibility(bagCount, CarDataUtils.getBagCount(cco));
 
 			cardView.setPreventCornerOverlap(false);
-			bestPriceTextView.setText(totalTextView.getContext()
-				.getString(R.string.car_details_TEMPLATE,
-					CarDataUtils.getStringTemplateForRateTerm(bestPriceTextView.getContext(), lowestFare.rateTerm),
-					lowestFare.rate.getFormattedMoney()));
+
+			if (lowestFare.rateTerm.equals(RateTerm.UNKNOWN)) {
+				bestPriceTextView.setText("");
+				bestPriceTextView.setVisibility(View.GONE);
+			}
+			else {
+				bestPriceTextView.setText(totalTextView.getContext()
+					.getString(R.string.car_details_TEMPLATE,
+						CarDataUtils.getStringTemplateForRateTerm(bestPriceTextView.getContext(), lowestFare.rateTerm),
+						lowestFare.rate.getFormattedMoney()));
+				bestPriceTextView.setVisibility(View.VISIBLE);
+			}
 			totalTextView.setText(totalTextView.getContext()
 				.getString(R.string.cars_total_template, lowestFare.total.getFormattedMoney()));
 			gradientMask.setVisibility(View.GONE);
