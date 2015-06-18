@@ -148,8 +148,6 @@
     <!-- Car checkout rental fare breakdown types -->
     <!--Cost breakdown type base -->
     <string name="car_rental_breakdown_base">Car rental</string>
-    <!--Cost breakdown type taxes and fees -->
-    <string name="car_rental_breakdown_taxes_and_fees">Estimated taxes and fees</string>
     <!--Cost breakdown type insurance -->
     <string name="car_rental_breakdown_insurance">Insurance</string>
     <!--Cost breakdown type drop off charge -->

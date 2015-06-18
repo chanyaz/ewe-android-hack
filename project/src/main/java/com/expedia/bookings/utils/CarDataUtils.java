@@ -21,6 +21,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.RateBreakdownItem;
 import com.expedia.bookings.data.cars.RateTerm;
 import com.expedia.bookings.data.cars.RentalFareBreakdownType;
 import com.expedia.bookings.data.cars.Transmission;
@@ -133,7 +134,7 @@ public class CarDataUtils {
 	public static final Map<RentalFareBreakdownType, Integer> RENTAL_FARE_BREAKDOWN_TYPE_MAP = new HashMap<RentalFareBreakdownType, Integer>() {
 		{
 			put(RentalFareBreakdownType.BASE, R.string.car_rental_breakdown_base);
-			put(RentalFareBreakdownType.TAXES_AND_FEES, R.string.car_rental_breakdown_taxes_and_fees);
+			put(RentalFareBreakdownType.TAXES_AND_FEES, R.string.taxes_and_fees);
 			put(RentalFareBreakdownType.INSURANCE, R.string.car_rental_breakdown_insurance);
 			put(RentalFareBreakdownType.DROP_OFF_CHARGE, R.string.car_rental_breakdown_drop_off_charges);
 
@@ -310,5 +311,17 @@ public class CarDataUtils {
 			return uri.getQueryParameter(paramKey);
 		}
 		return null;
+	}
+
+	public static boolean areTaxesAndFeesIncluded(List<RateBreakdownItem> rateBreakdown) {
+		if (rateBreakdown != null && rateBreakdown.size() > 0) {
+			for (RateBreakdownItem item : rateBreakdown) {
+				if (item.type == RentalFareBreakdownType.TAXES_AND_FEES) {
+					return item.price == null;
+				}
+			}
+		}
+
+		return true;
 	}
 }
