@@ -232,7 +232,6 @@
 
     <!--Missing string in AirAsiaGo and Travelocity-->
     <attr name="skin_sorryRoomsSoldOut" format="reference|string" />
-    <attr name="skin_restrictedProfileLoginMessage" format="reference|string" />
     <attr name="skin_sorryRoomsSoldOutErrorMessage" format="reference|string" />
 
     <!--Change the color of flight circles and lines -->

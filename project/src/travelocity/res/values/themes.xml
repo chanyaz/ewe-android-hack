@@ -62,7 +62,6 @@
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
         <item name="skin_addToCalenderMessage">@string/contact_phone_template_tvly</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_tvly</item>
-        <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_login_message_tvly</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_tvly</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_tvly</item>
         <item name="skin_sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_tvly</item>

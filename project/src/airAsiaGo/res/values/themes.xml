@@ -65,7 +65,6 @@
         <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark_aag</item>
         <item name="skin_addToCalenderMessage">@string/contact_phone_template_aag</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_aag</item>
-        <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_login_message_aag</item>
         <item name="skin_flightLineColor">@color/flight_trip_color_aag</item>
         <item name="skin_flightPriceTextColor">@color/flight_trip_price_aag</item>
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_aag</item>

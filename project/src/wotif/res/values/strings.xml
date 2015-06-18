@@ -69,7 +69,6 @@
     <!-- Missing strings for Wotif from Expedia-->
     <string name="tell_a_friend_body_wotif">Hi there,\n\nCheck out Wotif Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
     <string name="tell_a_friend_subject_wotif">Wotif Hotels</string>
-    <string name="restricted_profile_login_message_wotif">To log in to Wotif, you must use an unrestricted user profile on your device.</string>
     <string name="loading_wotif_account">Loading Wotif Account</string>
     <string name="e3_error_checkout_booking_succeeded_with_errors_wotif">You successfully booked your hotel! If you need an itinerary immediately, please call Wotif Customer Support.</string>
     <string name="wotif_password_hint">Wotif Password</string>

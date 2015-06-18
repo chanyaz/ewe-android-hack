@@ -72,7 +72,6 @@
     <!-- Missing strings for lastminute.com.au from Expedia-->
     <string name="tell_a_friend_body_lm">Hi there,\n\nCheck out lastminute.com.au Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
     <string name="tell_a_friend_subject_lm">lastminute.com.au Hotels</string>
-    <string name="restricted_profile_login_message_lm">To log in to lastminute.com.au, you must use an unrestricted user profile on your device.</string>
     <string name="loading_lm_account">Loading lastminute.com.au Account</string>
     <string name="e3_error_checkout_booking_succeeded_with_errors_lm">You successfully booked your hotel! If you need an itinerary immediately, please call lastminute.com.au Customer Support.</string>
     <string name="lm_password_hint">lastminute.com.au Password</string>
