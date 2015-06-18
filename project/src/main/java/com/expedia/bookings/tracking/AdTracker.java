@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -158,6 +159,10 @@ public class AdTracker {
 
 	public static void trackCarSearch(CarSearchParams params) {
 		KahunaUtils.trackCarSearch(params);
+	}
+
+	public static void trackLXBooked(LXState lxState) {
+		LeanPlumUtils.trackLXBooked(lxState);
 	}
 
 }
