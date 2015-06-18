@@ -47,6 +47,7 @@ public class PicassoHelper implements Target, Callback {
 	private boolean mHasLoadedPlaceholder;
 
 	private static Picasso mPicasso;
+	private boolean mDisableFallback;
 
 	public static void init(Context context, OkHttpClient client) {
 		OkHttpDownloader okHttpDownloader = new OkHttpDownloader(client);
@@ -183,16 +184,26 @@ public class PicassoHelper implements Target, Callback {
 			return;
 		}
 
-		// All urls have failed. Load the placeholder or error if it
+		// All urls have failed. Load the placeholder as the image or error if it
 		// hasn't been set before.
-		if ((mErrorResId != 0 || mDefaultResId != 0) && !mHasLoadedPlaceholder) {
-			mResId = mErrorResId != 0 ? mErrorResId : mDefaultResId;
-			mDefaultResId = 0;
-			mBlur = false;
-			retrieveImage(true);
-			return;
+		// - will callback success
+		if (!mDisableFallback) {
+			if ((mErrorResId != 0 || mDefaultResId != 0) && !mHasLoadedPlaceholder) {
+				mResId = mErrorResId != 0 ? mErrorResId : mDefaultResId;
+				mDefaultResId = 0;
+				mBlur = false;
+				retrieveImage(true);
+				return;
+			}
 		}
-
+		else { // no image. fallback behaviour disabled. fetch placeholder
+			// - will callback failure (but use placeholder if exists)
+			String url = getUrl();
+			if (!TextUtils.isEmpty(url)) {
+				mRetrieving = true;
+				loadImage(url);
+			}
+		}
 	}
 
 	/**
@@ -292,6 +303,10 @@ public class PicassoHelper implements Target, Callback {
 		return mPicasso.isLoggingEnabled();
 	}
 
+	public void setDisableFallback(boolean disableFallback) {
+		this.mDisableFallback = disableFallback;
+	}
+
 	public static class Builder {
 
 		// Required attributes
@@ -310,6 +325,7 @@ public class PicassoHelper implements Target, Callback {
 		private boolean mCenterCrop;
 
 		private String mTag;
+		private boolean mDisableFallback = false;
 
 		public Builder(Context context) {
 			this.mContext = context;
@@ -389,7 +405,13 @@ public class PicassoHelper implements Target, Callback {
 			picassoHelper.setImageView(mView);
 			picassoHelper.setFade(mFade);
 			picassoHelper.setTag(mTag);
+			picassoHelper.setDisableFallback(mDisableFallback);
 			return picassoHelper;
+		}
+
+		public Builder disableFallback() {
+			mDisableFallback = true;
+			return this;
 		}
 	}
 }
