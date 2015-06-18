@@ -117,8 +117,9 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		monthView.setTextEqualDatesColor(Color.WHITE);
 
 		NinePatchDrawable drawablePopUp = (NinePatchDrawable) getResources().getDrawable(R.drawable.toolbar_bg).mutate();
-		drawablePopUp
-				.setColorFilter(getResources().getColor(R.color.cars_tooltip_color), PorterDuff.Mode.SRC_IN);
+		drawablePopUp.setColorFilter(
+			getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsTooltipColor)),
+			PorterDuff.Mode.SRC_IN);
 
 		Ui.setViewBackground(pickupTimePopupContainerText, drawablePopUp);
 
@@ -275,7 +276,8 @@ public class CarDateTimeWidget extends RelativeLayout implements
 
 	private void setUpTooltipColor(boolean isValid) {
 		NinePatchDrawable drawablePopUp = (NinePatchDrawable) getResources().getDrawable(R.drawable.toolbar_bg).mutate();
-		int color = isValid ? getResources().getColor(R.color.cars_tooltip_disabled_color) : getResources().getColor(R.color.cars_tooltip_color);
+		int color = isValid ? getResources().getColor(R.color.cars_tooltip_disabled_color)
+			: getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsTooltipColor));
 		drawablePopUp.setColorFilter(color, PorterDuff.Mode.SRC_IN);
 		Ui.setViewBackground(pickupTimePopupContainerText, drawablePopUp);
 		pickupTimePopupTail.setColorFilter(color, PorterDuff.Mode.SRC_IN);
