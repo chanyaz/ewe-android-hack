@@ -284,8 +284,8 @@
     <dimen name="car_slide_to_purchase_price_text_size">13dp</dimen>
     <dimen name="car_slide_to_purchase_padding">50dp</dimen>
     <dimen name="car_image_width">300dp</dimen>
-    <dimen name="car_unexpanded_space_height">125dp</dimen>
-    <dimen name="car_unexpanded_with_price_change_space_height">130dp</dimen>
+    <dimen name="car_unexpanded_space_height">165dp</dimen>
+    <dimen name="car_unexpanded_with_price_change_space_height">170dp</dimen>
     <dimen name="car_expanded_space_height">350dp</dimen>
     <dimen name="hotel_spinner_height">50dp</dimen>
 
