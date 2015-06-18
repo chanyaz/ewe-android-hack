@@ -1,15 +1,17 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.TableRow
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.StrUtils
-import java.util.*
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -139,7 +141,7 @@ public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayou
         listener?.onTravelerUpdate(StrUtils.formatGuests(getContext(), numAdults, numChildren))
     }
 
-    public fun getChildAges() : String {
+    fun getChildAges() : MutableList<Int> {
         var children : MutableList<Int> = ArrayList<Int>()
         for (i in 0..childrenRow1.getChildCount() -1 ) {
             children.add(getChildAge(i))
@@ -147,7 +149,7 @@ public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayou
         for (i in 0..childrenRow2.getChildCount() -1 ) {
             children.add(getChildAge(i))
         }
-        return TextUtils.join(",", children)
+        return children
     }
 
     private fun getChildAge(index: Int): Int {

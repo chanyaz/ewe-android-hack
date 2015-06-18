@@ -1,7 +1,6 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.LaunchScope;
-import com.expedia.bookings.presenter.hotel.HotelSearchPresenter;
 import com.expedia.bookings.widget.PhoneLaunchWidget;
 import dagger.Component;
 
@@ -9,5 +8,4 @@ import dagger.Component;
 @Component(dependencies = {AppComponent.class}, modules = {LaunchModule.class})
 public interface LaunchComponent {
 	void inject(PhoneLaunchWidget phoneLaunchWidget);
-	void inject(HotelSearchPresenter presenter);
 }

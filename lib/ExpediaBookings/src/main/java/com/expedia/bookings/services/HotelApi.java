@@ -18,12 +18,10 @@ public interface HotelApi {
 		@Query("sortOrder") String sortOrder,
 		@Query("filterUnavailable") String filterUnavailable);
 
-	@GET("/m/api/hotel/search")
+	@GET("/m/api/hotel/search?sourceType=mobileApp&sortOrder=ExpertPicks&resultsPerPage=200&pageIndex=0&filterUnavailable=true&enableSponsoredListings=true")
 	public Observable<HotelSearchResponse> suggestionHotelSearch(
-		@Query("city") String latitude,
+		@Query("city") String city,
 		@Query("checkInDate") String checkInDate,
 		@Query("checkOutDate") String checkOutDate,
-		@Query("sourceType") String sourceType,
-		@Query("room1") String count);
-
+		@Query("room1") String travelers);
 }

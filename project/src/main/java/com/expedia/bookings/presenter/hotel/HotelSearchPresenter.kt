@@ -2,47 +2,36 @@ package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.v7.widget.Toolbar
 import android.text.Html
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.ToggleButton
 import android.widget.Button
-import android.graphics.PorterDuff
+import android.widget.ToggleButton
 import com.expedia.bookings.R
-import com.expedia.bookings.data.cars.CarSearch
-import com.expedia.bookings.presenter.CarSearchPresenter
+import com.expedia.bookings.data.cars.Suggestion
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
 import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.TravelerPicker
 import com.mobiata.android.time.widget.CalendarPicker
+import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
-import com.expedia.bookings.data.cars.Suggestion
-import com.expedia.bookings.data.hotels.HotelSearchParams
 import org.joda.time.LocalDate
 import org.joda.time.YearMonth
-import android.graphics.drawable.Drawable
-import android.os.Build
-import android.view.LayoutInflater
-import com.expedia.bookings.utils.FontCache
-import kotlin.properties.Delegates
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
-import com.mobiata.android.time.widget.DaysOfWeekView
+import rx.subjects.PublishSubject
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
-import com.expedia.bookings.services.HotelServices
-import rx.Observer
-import rx.Subscription
-
-import com.expedia.bookings.data.hotels.Hotel
-import com.mobiata.android.Log
-
+import kotlin.properties.Delegates
 
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CalendarPicker.DateSelectionChangedListener, TravelerPicker.TravelersUpdatedListener, CalendarPicker.YearMonthDisplayedChangedListener, DaysOfWeekView.DayOfWeekRenderer {
 
@@ -55,15 +44,15 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     val dayOfWeek: DaysOfWeekView by bindView(R.id.days_of_week)
 
     var hotelServices : HotelServices? = null
-    [Inject] set
+    @Inject set
 
-    var downloadSubscription: Subscription? = null
-
-    var hotelSearchParams : HotelSearchParams = HotelSearchParams()
+    var hotelSearchParamsBuilder : HotelSearchParams.Builder = HotelSearchParams.Builder()
 
     val hotelSuggestionAdapter: HotelSuggestionAdapter by Delegates.lazy {
         HotelSuggestionAdapter()
     }
+
+    val paramsSubject = PublishSubject.create<HotelSearchParams>()
 
     init {
         View.inflate(context, R.layout.widget_hotel_search_params, this)
@@ -71,8 +60,6 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     override fun onFinishInflate() {
         super<Presenter>.onFinishInflate()
-        Ui.getApplication(getContext()).defaultLaunchComponents()
-        Ui.getApplication(getContext()).launchComponent().inject(this)
         var toolbar: Toolbar = findViewById(R.id.toolbar) as Toolbar
 
         toolbar.inflateMenu(R.menu.cars_search_menu)
@@ -80,10 +67,6 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         var menuItem: MenuItem = toolbar.getMenu().findItem(R.id.menu_check)
         var customButton: Button = setupToolBarCheckmark(menuItem)
         customButton.setTextColor(getResources().getColor(android.R.color.white))
-
-        toolbar.setOnMenuItemClickListener {
-            item -> doSearch()
-        }
 
         traveler.setTravelerUpdatedListener(this)
         calendar.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)))
@@ -115,9 +98,9 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         searchLocation.setAdapter(hotelSuggestionAdapter)
         searchLocation.setOnItemClickListener {
             adapterView, view, position, l ->
-            var suggestion: Suggestion = hotelSuggestionAdapter.getItem(position) as Suggestion
+            var suggestion: Suggestion = hotelSuggestionAdapter.getItem(position)
             searchLocation.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)).toString(), false)
-            hotelSearchParams.location = suggestion
+            hotelSearchParamsBuilder.city(suggestion)
         }
     }
 
@@ -130,20 +113,16 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         selectDate.setTextOff(displayText)
         selectDate.setTextOn(displayText)
 
-        calendar.setToolTipText(displayText, if (end == null) getResources().getString(R.string.calendar_tooltip_bottom_select_return_date)
-        else getResources().getString(R.string.calendar_tooltip_bottom_drag_to_modify))
-
-        hotelSearchParams.checkIn = start
-        hotelSearchParams.checkOut = end
+        var textResource = if (end == null) R.string.calendar_tooltip_bottom_select_return_date else R.string.calendar_tooltip_bottom_drag_to_modify
+        calendar.setToolTipText(displayText, getResources().getString(textResource))
+        hotelSearchParamsBuilder.checkIn(start)
+        hotelSearchParamsBuilder.checkOut(end)
     }
 
     override fun onTravelerUpdate(text: String) {
         selectTraveler.setTextOn(text)
         selectTraveler.setTextOff(text)
         selectTraveler.setText(text)
-        hotelSearchParams.mNumAdults = traveler.numAdults
-        hotelSearchParams.mChildren = traveler.getChildAges()
-        System.out.println("Malcolm " + hotelSearchParams.mChildren)
     }
 
     override fun onYearMonthDisplayed(yearMonth: YearMonth?) {
@@ -159,6 +138,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         val navIcon: Drawable = getResources().getDrawable(R.drawable.ic_check_white_24dp)!!.mutate() as Drawable
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         tv.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
+        tv.setOnClickListener { view -> doSearch() }
         menuItem.setActionView(tv)
         return tv
     }
@@ -174,24 +154,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     fun doSearch() : Boolean {
-        System.out.println("Malcolm " + hotelSearchParams?.location?.shortName)
-        downloadSubscription = hotelServices?.suggestHotels(hotelSearchParams, downloadListener)
+        hotelSearchParamsBuilder.children(traveler.getChildAges())
+        hotelSearchParamsBuilder.adults(traveler.numAdults)
+        paramsSubject.onNext(hotelSearchParamsBuilder.build())
         return true
     }
-
-    val downloadListener : Observer<MutableList<Hotel>> = object : Observer<MutableList<Hotel>> {
-        override fun onNext(t: MutableList<Hotel>?) {
-            Log.d("Malcolm Next")
-        }
-
-        override fun onCompleted() {
-            Log.d("Malcolm Completed")
-        }
-
-        override fun onError(e: Throwable?) {
-            Log.d("Malcolm Error")
-        }
-    }
-    
 }
 

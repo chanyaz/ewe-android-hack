@@ -1,7 +1,7 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
-import com.expedia.bookings.presenter.hotel.HotelSearchPresenter;
+import com.expedia.bookings.presenter.hotel.HotelResultsPresenter;
 import com.expedia.bookings.widget.HotelSuggestionAdapter;
 
 import dagger.Component;
@@ -10,4 +10,5 @@ import dagger.Component;
 @Component(dependencies = {AppComponent.class}, modules = {HotelModule.class})
 public interface HotelComponent {
 	void inject(HotelSuggestionAdapter adapter);
+	void inject(HotelResultsPresenter presenter);
 }
