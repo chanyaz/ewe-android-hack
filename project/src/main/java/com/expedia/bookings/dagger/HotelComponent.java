@@ -1,6 +1,7 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
+import com.expedia.bookings.presenter.hotel.HotelSearchPresenter;
 import com.expedia.bookings.widget.HotelSuggestionAdapter;
 
 import dagger.Component;

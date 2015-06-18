@@ -15,6 +15,7 @@ import rx.Scheduler
 import rx.Subscription
 import kotlin.properties.Delegates
 
+
 public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
 	val hotelApi: HotelApi by Delegates.lazy {
@@ -40,5 +41,14 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			.subscribeOn(subscribeOn)
 			.map { response -> response.hotelList.take(25).toArrayList() }
 			.subscribe(observer)
+	}
+
+	public fun suggestHotels(params: HotelSearchParams, observer: Observer<MutableList<Hotel>>): Subscription {
+		return hotelApi.suggestionHotelSearch(params?.location?.shortName, params.checkIn.toString(), params.checkOut.toString(), "mobileApp",
+				params.getRoomParam())
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+				.map { response -> response.hotelList.toArrayList() }
+				.subscribe(observer)
 	}
 }

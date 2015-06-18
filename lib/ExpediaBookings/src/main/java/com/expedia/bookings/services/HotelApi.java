@@ -17,4 +17,13 @@ public interface HotelApi {
 		@Query("checkOutDate") String checkOutDate,
 		@Query("sortOrder") String sortOrder,
 		@Query("filterUnavailable") String filterUnavailable);
+
+	@GET("/m/api/hotel/search")
+	public Observable<HotelSearchResponse> suggestionHotelSearch(
+		@Query("city") String latitude,
+		@Query("checkInDate") String checkInDate,
+		@Query("checkOutDate") String checkOutDate,
+		@Query("sourceType") String sourceType,
+		@Query("room1") String count);
+
 }
