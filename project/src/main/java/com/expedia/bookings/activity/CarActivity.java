@@ -33,7 +33,9 @@ public class CarActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_car);
 		Ui.showTransparentStatusBar(this);
 		ButterKnife.inject(this);
-		handleNavigationViaDeepLink();
+		if (getIntent() != null && getIntent().getBooleanExtra(Codes.FROM_DEEPLINK, false)) {
+			handleNavigationViaDeepLink();
+		}
 	}
 
 	@Override
@@ -83,24 +85,21 @@ public class CarActivity extends ActionBarActivity {
 	private void handleNavigationViaDeepLink() {
 		Intent intent = getIntent();
 		final String productKey = intent.getStringExtra(Codes.CARS_PRODUCT_KEY);
-		final boolean navigateToSearchResults = (intent != null) && (intent
-			.getBooleanExtra(Codes.FROM_DEEPLINK, false)) && (Strings.isEmpty(productKey));
-		final boolean navigateToDetails = (intent != null) && (intent
-			.getBooleanExtra(Codes.FROM_DEEPLINK, false)) && (Strings
-			.isNotEmpty(productKey));
-
 		final CarSearchParams carSearchParams = CarDataUtils.getCarSearchParamsFromDeeplink(intent);
 
 		carsPresenter.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
 				carsPresenter.getViewTreeObserver().removeOnPreDrawListener(this);
-				if (navigateToSearchResults && carSearchParams != null) {
-					Events.post(new Events.CarsNewSearchParams(carSearchParams));
-					return true;
-				}
-				if (navigateToDetails && carSearchParams != null) {
-					Events.post(new Events.CarsNewSearchParams(carSearchParams, productKey));
+				if (carSearchParams != null) {
+					if (Strings.isEmpty(productKey)) {
+						Events.post(new Events.CarsNewSearchParams(carSearchParams));
+						return true;
+					}
+					else {
+						Events.post(new Events.CarsNewSearchParams(carSearchParams, productKey));
+						return true;
+					}
 				}
 				return true;
 			}

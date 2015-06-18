@@ -98,7 +98,8 @@ public class DateUtilsTests {
 
 		String localDateStringRepresentation = "2015-01-31T10:00:00";
 
-		DateTime dateTimeObtained = DateUtils.yyyyMMddTHHmmssToDateTime(localDateStringRepresentation);
+		DateTime dateTimeObtained = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(localDateStringRepresentation,
+			DateTime.now());
 
 		assertEquals(dateTimeObtained, dateTimeExpected);
 	}

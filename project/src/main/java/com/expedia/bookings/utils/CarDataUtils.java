@@ -260,30 +260,16 @@ public class CarDataUtils {
 	}
 
 	public static CarSearchParams fromDeepLink(Uri data, Set<String> queryData) {
-		String pickupDateTime = null;
-		String dropoffDateTime = null;
-		String pickupLocation = null;
-		String originDescription = null;
-		String productKey = null;
+		String pickupDateTime = getQueryParameterIfExists(data, queryData, "pickupDateTime");
+		String dropoffDateTime = getQueryParameterIfExists(data, queryData, "dropoffDateTime");
+		String pickupLocation = getQueryParameterIfExists(data, queryData, "pickupLocation");
+		String originDescription = getQueryParameterIfExists(data, queryData, "originDescription");
+		String productKey = getQueryParameterIfExists(data, queryData, "productKey");
 
-		if (queryData.contains("pickupLocation")) {
-			pickupLocation = data.getQueryParameter("pickupLocation");
-		}
-		if (queryData.contains("pickupDateTime")) {
-			pickupDateTime = data.getQueryParameter("pickupDateTime");
-		}
-		if (queryData.contains("dropoffDateTime")) {
-			dropoffDateTime = data.getQueryParameter("dropoffDateTime");
-		}
-		if (queryData.contains("originDescription")) {
-			originDescription = data.getQueryParameter("originDescription");
-		}
-		if (queryData.contains("productKey")) {
-			productKey = data.getQueryParameter("productKey");
-		}
-
-		DateTime pickup = DateUtils.yyyyMMddTHHmmssToDateTime(pickupDateTime);
-		DateTime dropOff = DateUtils.yyyyMMddTHHmmssToDateTime(dropoffDateTime);
+		// Input validation - in case the date time passed from the outside world is in a garbled format,
+		// we fallback to proper defaults to have a graceful behavior and nothing undesirable.
+		DateTime pickup = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTime, DateTime.now());
+		DateTime dropOff = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTime, pickup.plusDays(3));
 
 		CarSearchParams carSearchParams = new CarSearchParams();
 		carSearchParams.startDateTime = pickup;
@@ -301,15 +287,28 @@ public class CarDataUtils {
 		String pickupLocation = intent.getStringExtra("pickupLocation");
 		String originDescription = intent.getStringExtra("originDescription");
 
-		DateTime pickup = DateUtils.yyyyMMddTHHmmssToDateTime(pickupDateTime);
-		DateTime dropOff = DateUtils.yyyyMMddTHHmmssToDateTime(dropoffDateTime);
+		if (Strings.isNotEmpty(pickupDateTime) && Strings.isNotEmpty(dropoffDateTime) && Strings
+			.isNotEmpty(pickupLocation) && Strings.isNotEmpty(originDescription)) {
 
-		CarSearchParams carSearchParams = new CarSearchParams();
-		carSearchParams.startDateTime = pickup;
-		carSearchParams.endDateTime = dropOff;
-		carSearchParams.origin = pickupLocation;
-		carSearchParams.originDescription = originDescription;
+			// Input validation - in case the date time passed from the outside world is in a garbled format,
+			// we fallback to proper defaults to have a graceful behavior and nothing undesirable.
+			DateTime pickup = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTime, DateTime.now());
+			DateTime dropOff = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTime, pickup.plusDays(3));
 
-		return carSearchParams;
+			CarSearchParams carSearchParams = new CarSearchParams();
+			carSearchParams.startDateTime = pickup;
+			carSearchParams.endDateTime = dropOff;
+			carSearchParams.origin = pickupLocation;
+			carSearchParams.originDescription = originDescription;
+			return carSearchParams;
+		}
+		return null;
+	}
+
+	private static String getQueryParameterIfExists(Uri uri, Set<String> queryData, String paramKey) {
+		if (queryData.contains(paramKey)) {
+			return uri.getQueryParameter(paramKey);
+		}
+		return null;
 	}
 }
