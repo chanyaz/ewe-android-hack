@@ -74,9 +74,6 @@ public class Db {
 	// The billing info.  Make sure to properly clear this out when requested
 	private BillingInfo mBillingInfo;
 
-	//Is the billingInfo object dirty? This is to help the coder manage saves, and it is up to them to set it when needed
-	private boolean mBillingInfoIsDirty = false;
-
 	// Google Masked Wallet; kept separate from BillingInfo as it is more transient
 	private MaskedWallet mMaskedWallet;
 
@@ -306,14 +303,6 @@ public class Db {
 
 	public static Traveler getGoogleWalletTraveler() {
 		return sDb.mGoogleWalletTraveler;
-	}
-
-	public static void setBillingInfoIsDirty(boolean dirty) {
-		sDb.mBillingInfoIsDirty = dirty;
-	}
-
-	public static boolean getBillingInfoIsDirty() {
-		return sDb.mBillingInfoIsDirty;
 	}
 
 	public static WorkingTravelerManager getWorkingTravelerManager() {
