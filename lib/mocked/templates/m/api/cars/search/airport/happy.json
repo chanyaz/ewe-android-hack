@@ -408,6 +408,63 @@
             }
         },
         {
+            "dropOffLocation": {
+                "locationCode": "SFO",
+                "locationDescription": "San Francisco (SFO)",
+                "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+                "latitude": 37.61594,
+                "longitude": -122.387996
+            },
+            "fare": {
+                "rate": {
+                    "amount": "37.50",
+                    "currencyCode": "USD",
+                    "formattedPrice": "$37.50",
+                    "formattedWholePrice": "$37"
+                },
+                "rateTerm": "WEEKEND",
+                "total": {
+                    "amount": "36.50",
+                    "currencyCode": "USD",
+                    "formattedPrice": "$37.50",
+                    "formattedWholePrice": "$37"
+                }
+            },
+            "pickUpLocation": {
+                "airportInstructions": "Shuttle to counter and car",
+                "latitude": 37.61594,
+                "locationCode": "SFO",
+                "locationDescription": "San Francisco (SFO)",
+                "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+                "longitude": -122.387996
+            },
+            "productKey": "rangeOfPassengerDoorsBags",
+            "reservationGuaranteeRequired": false,
+            "vehicleInfo": {
+                "adultCapacity": 5,
+                "carCategoryDisplayLabel": "Economy",
+                "category": "ECONOMY",
+                "childCapacity": 0,
+                "drive": "TWO_WHEEL_DRIVE",
+                "fuel": "UNKNOWN",
+                "hasAirConditioning": true,
+                "largeLuggageCapacity": 5,
+                "makes": [
+                    "Economy"
+                ],
+                "maxDoors": 6,
+                "minDoors": 6,
+                "smallLuggageCapacity": 0,
+                "transmission": "AUTOMATIC_TRANSMISSION",
+                "type": "SUV"
+            },
+            "vendor": {
+                "code": "DetailsInRange",
+                "id": 71,
+                "name": "DetailsInRange"
+            }
+        },
+        {
             "creditCardRequiredToGuaranteeReservation": true,
             "dropOffLocation": {
                 "latitude": 37.61594,
