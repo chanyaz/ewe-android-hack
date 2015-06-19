@@ -461,6 +461,27 @@ public final class ViewActions {
 		};
 	}
 
+	// View action to set visibility of a view
+
+	public static ViewAction setVisibility(final int visibility) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(View.class));
+			}
+
+			@Override
+			public String getDescription() {
+				return "Setting view visibility to = " + visibility;
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				view.setVisibility(visibility);
+			}
+		};
+	}
+
 	public static ViewAction customScroll() {
 		return new ViewAction() {
 			@Override
