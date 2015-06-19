@@ -102,6 +102,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             var suggestion: SuggestionV4 = hotelSuggestionAdapter.getItem(position)
             searchLocation.setText(Html.fromHtml(StrUtils.formatCityName(hotelSuggestionAdapter.getItem(position).regionNames.displayName)).toString(), false)
             hotelSearchParamsBuilder.city(suggestion)
+            com.mobiata.android.util.Ui.hideKeyboard(this)
         }
     }
 
@@ -155,6 +156,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     fun doSearch() : Boolean {
+        hideToolTip()
         hotelSearchParamsBuilder.children(traveler.getChildAges())
         hotelSearchParamsBuilder.adults(traveler.numAdults)
         paramsSubject.onNext(hotelSearchParamsBuilder.build())
