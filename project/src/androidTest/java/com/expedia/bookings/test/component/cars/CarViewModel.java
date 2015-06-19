@@ -5,6 +5,7 @@ import org.joda.time.LocalDate;
 import android.app.Instrumentation;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.view.View;
 import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
@@ -26,6 +27,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.setVisibility;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -133,7 +135,7 @@ public final class CarViewModel {
 	//Filters
 
 	public static void clickFilterButton() {
-		onView(withId(R.id.sort_filter_button)).perform(click());
+		searchFilter().perform(click());
 	}
 
 	public static void selectCategoryForFilter(String categoryName) {
@@ -144,6 +146,10 @@ public final class CarViewModel {
 		onView(withId(R.id.apply_check)).perform(click());
 	}
 
+	public static void hideFilterButton() {
+		searchFilter().perform(setVisibility(View.GONE));
+	}
+
 	// Details
 
 	public static ViewInteraction carOfferList() {
@@ -151,6 +157,7 @@ public final class CarViewModel {
 	}
 
 	public static void expandCarOffer(int position) {
+		hideFilterButton();
 		//To make the selection of an item work correctly on smaller screen size phones
 		//we need to scroll to the next item
 		int listCount = EspressoUtils.getListCount(CarViewModel.carOfferList());
