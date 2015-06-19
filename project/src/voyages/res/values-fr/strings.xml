@@ -206,8 +206,6 @@
     <string name="contact_vsc_email_subject">Assistance réservations L’Agence Voyages-sncf.com</string>
     <!-- Label for "VSC website" button in info page -->
     <string name="vsc_website">Site Internet L’Agence Voyages-sncf.com</string>
-    <!-- Button label for calling vsc customer support -->
-    <string name="call_vsc_customer_support">Appeler l\&apos;assistance clientèle L’Agence Voyages-sncf.com</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_logged_out_and_cleared_private_data_vsc">Vous vous êtes déconnecté de votre compte L’Agence Voyages-sncf.com. Toutes les coordonnées et les données de facturation sauvegardées ont été supprimées.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the vsc mobile site in an external browser -->

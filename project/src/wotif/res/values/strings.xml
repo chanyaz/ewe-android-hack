@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="call_wotif_customer_support">Call Wotif Customer Support</string>
 
     <!-- Log in with Wotif -->
     <string name="Log_in_with_Wotif">Log in with Wotif</string>

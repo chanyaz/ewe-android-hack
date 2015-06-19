@@ -2122,7 +2122,7 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">Track with FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">Call Expedia Customer Support</string>
+    <string name="call_customer_support_TEMPLATE">Call {brand} Customer Support</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Add Insurance</string>
     <!-- Insurance -->

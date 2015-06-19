@@ -14,7 +14,6 @@
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
-        <item name="skin_hotelConfirmationCallActionText">@string/call_aag_customer_support</item>
         <item name="skin_hotelCheckoutLoginButtonText">@string/Log_in_with_aag</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels_aag</item>
         <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_aag</item>

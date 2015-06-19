@@ -137,7 +137,6 @@
         <item name="skin_hotelBookButtonColor">@android:color/black</item>
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
         <item name="skin_hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
-        <item name="skin_hotelConfirmationCallActionText">@string/call_expedia_customer_support</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
         <item name="skin_hotelCheckoutLoginButtonText">@string/Sign_in_with_Expedia</item>

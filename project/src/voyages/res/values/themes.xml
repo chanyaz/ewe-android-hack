@@ -53,7 +53,6 @@
         <item name="skin_aboutWebsiteString">@string/vsc_website</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_vsc_purple_flat</item>
         <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure_vsc</item>
-        <item name="skin_hotelConfirmationCallActionText">@string/call_vsc_customer_support</item>
         <item name="skin_flightUnhandledErrorMessage">@string/error_flight_unhandled_TEMPLATE_vsc</item>
         <item name="skin_serverErrorMessageString">@string/error_server_vsc</item>
         <item name="skin_savePaymentToAccountString">@string/save_billing_info_message_vsc</item>

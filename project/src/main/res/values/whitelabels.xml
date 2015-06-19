@@ -96,8 +96,6 @@
     <!-- Hotel Confirmation, Customer support option drawable -->
     <attr name="skin_hotelConfirmationCallActionDrawable" format="reference" />
 
-    <!-- Hotel Confirmation Customer support text-->
-    <attr name="skin_hotelConfirmationCallActionText" format="reference" />
 
     <!-- Hotel confirmation screen, login button text and icons -->
     <attr name="skin_hotelCheckoutLoginButtonText" format="reference|string" />

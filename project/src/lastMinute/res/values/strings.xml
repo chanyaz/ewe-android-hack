@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="call_lm_customer_support">Call lastminute.com.au Customer Support</string>
 
     <!-- Log in with lastminute.com.au -->
     <string name="Log_in_with_lm">Log in with lastminute.com.au</string>
