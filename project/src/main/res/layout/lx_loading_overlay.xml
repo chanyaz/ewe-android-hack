@@ -11,7 +11,7 @@
             android:id="@+id/overlay_title_container"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/lx_primary_color">
+            android:background="?attr/skin_lxPrimaryColor">
 
             <TextView
                 android:id="@+id/overlay_loading_text"
