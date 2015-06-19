@@ -339,10 +339,10 @@ public final class ViewActions {
 			public void perform(UiController uiController, View view) {
 				int children = 0;
 				if (view instanceof AdapterView) {
-					children = ((AdapterView) view).getCount();
+					children = ((AdapterView) view).getAdapter().getCount();
 				}
 				else if (view instanceof RecyclerView) {
-					children = ((RecyclerView) view).getChildCount();
+					children = ((RecyclerView) view).getAdapter().getItemCount();
 				}
 				count.set(children);
 			}
