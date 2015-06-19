@@ -85,8 +85,7 @@
                     android:textColor="@drawable/cars_text_selector"
                     android:textOff="@string/select_dates"
                     android:textOn="@string/select_dates"
-                    android:textSize="15sp"
-                    android:textStyle="normal" />
+                    android:textSize="15sp" />
 
                 <ToggleButton
                     android:id="@+id/select_traveler"
@@ -102,8 +101,7 @@
                     android:textColor="@drawable/cars_text_selector"
                     android:textOff="1 Traveler"
                     android:textOn="1 Traveler"
-                    android:textSize="15sp"
-                    android:textStyle="normal" />
+                    android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -157,6 +155,5 @@
         app:navigationIcon="@drawable/ic_close_white_24dp"
         app:title="@string/hotel_toolbar_title"
         app:titleTextAppearance="@style/CarsToolbarTitleTextAppearance" />
-
 
 </merge>

@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
@@ -77,7 +78,7 @@ public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayou
             if (numAdults + numChildren + 1 <= MAX_GUESTS && numChildren + 1 <= MAX_CHILDREN) {
                 numChildren++
 
-                var spinner = buildChildSpinner()
+                var spinner = buildChildSpinner(numChildren)
 
                 if (numChildren <= 2) {
                     childrenRow1.addView(spinner)
@@ -106,13 +107,19 @@ public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayou
         }
     }
 
-    private fun buildChildSpinner() : Spinner {
+    private fun buildChildSpinner(numChildren : Int) : Spinner {
         var layoutInflater: LayoutInflater = getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater;
         var v: View = layoutInflater.inflate(R.layout.child_spinner, null)
         var spinner: Spinner = v.findViewById(R.id.spinner) as Spinner
 
         var lp: TableRow.LayoutParams = TableRow.LayoutParams(0, getResources().getDimensionPixelSize(R.dimen.hotel_spinner_height))
         lp.weight = 1f
+
+        if (numChildren == 2 || numChildren == 4) {
+            var margin : Int = getResources().getDimensionPixelSize(R.dimen.hotel_traveler_table_margin);
+            lp.setMargins(margin, 0, 0, 0)
+        }
+
         spinner.setLayoutParams(lp)
         spinner.setAdapter(ChildAgeSpinnerAdapter(getContext()))
         spinner.setSelection(DEFAULT_CHILD_AGE)

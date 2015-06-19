@@ -10,5 +10,4 @@
     android:drawablePadding="10dp"
     android:textAllCaps="true"
     android:text="@string/search"
-    android:textSize="14sp"
-    android:textColor="#FFFFFF" />
+    android:textSize="14sp" />
