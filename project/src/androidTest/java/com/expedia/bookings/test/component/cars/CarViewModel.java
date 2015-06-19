@@ -19,6 +19,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -127,6 +128,20 @@ public final class CarViewModel {
 
 	public static ViewInteraction searchErrorToolbarBack() {
 		return onView(allOf(isAssignableFrom(ImageButton.class), isDescendantOfA(allOf(withId(R.id.error_toolbar), isDescendantOfA(withId(R.id.car_results_presenter))))));
+	}
+
+	//Filters
+
+	public static void clickFilterButton() {
+		onView(withId(R.id.sort_filter_button)).perform(click());
+	}
+
+	public static void selectCategoryForFilter(String categoryName) {
+		onView(allOf(withId(R.id.category_check_box), hasSibling(withText(categoryName)))).perform(click());
+	}
+
+	public static void clickDoneButton() {
+		onView(withId(R.id.apply_check)).perform(click());
 	}
 
 	// Details

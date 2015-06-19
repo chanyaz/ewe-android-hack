@@ -77,6 +77,30 @@ public class CarDetailsTests extends PhoneTestCase {
 		assertViewWithIdAppearsInFirstOffer(R.id.map_text);
 	}
 
+	public void testCarDetailsCountInRange() throws Throwable {
+		screenshot("Launch");
+		LaunchScreen.launchCars();
+
+		screenshot("Car_Search");
+		enterSearchParams("SFO", "San Francisco, CA");
+
+		screenshot("Car_Search_Params_Entered");
+		CarViewModel.searchButton().perform(click());
+
+		screenshot("Car_Search_Results");
+		CarViewModel.clickFilterButton();
+
+		CarViewModel.selectCategoryForFilter("Economy");
+		CarViewModel.clickDoneButton();
+
+		assertTextAppearsInFirstCategory("4-5");
+		assertTextAppearsInFirstCategory("2-5");
+		assertTextAppearsInFirstCategory("4-6");
+		assertTextAppearsInFirstCategory("Daily $32");
+		assertTextAppearsInFirstCategory("Total $32");
+	}
+
+
 	private void enterSearchParams(String searchQuery, String location) throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
@@ -95,6 +119,10 @@ public class CarDetailsTests extends PhoneTestCase {
 	private void assertTextAppearsInFirstOffer(String text) {
 		ViewInteraction carOfferList = CarViewModel.carOfferList();
 		carOfferList.check(RecyclerViewAssertions.assertionOnItemAtPosition(1, hasDescendant(withText(text))));
+	}
+	private void assertTextAppearsInFirstCategory(String text) {
+		ViewInteraction carCategoryList = CarViewModel.carCategoryList();
+		carCategoryList.check(RecyclerViewAssertions.assertionOnItemAtPosition(0, hasDescendant(withText(text))));
 	}
 
 	private void assertViewWithIdAppearsInFirstOffer(int id) {
