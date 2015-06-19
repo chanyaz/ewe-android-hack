@@ -437,6 +437,28 @@ public class OmnitureTracking {
 
 	private static void addProducts(ADMS_Measurement s, Property property, String supplierType, int numNights, double totalCost) {
 		// The "products" field uses this format:
+		// Hotel;Hotel;<supplier> Hotel:<hotel id>
+
+		if (TextUtils.isEmpty(supplierType)) {
+			supplierType = "";
+		}
+		String properCaseSupplierType;
+		if (supplierType.length() > 1) {
+			properCaseSupplierType = supplierType.substring(0, 1).toUpperCase(Locale.US) + supplierType.substring(1).toLowerCase(Locale.US);
+		}
+		else {
+			properCaseSupplierType = supplierType;
+		}
+		s.setProducts("Hotel;Hotel;" + properCaseSupplierType + " Hotel:" + property.getPropertyId());
+
+		DecimalFormat df = new DecimalFormat("#.##");
+		String products = s.getProducts();
+		products += ";" + numNights + ";" + df.format(totalCost);
+		s.setProducts(products);
+	}
+
+	private static void addProducts(ADMS_Measurement s, Property property, String supplierType) {
+		// The "products" field uses this format:
 		// Hotel;<supplier> Hotel:<hotel id>
 
 		if (TextUtils.isEmpty(supplierType)) {
@@ -450,11 +472,6 @@ public class OmnitureTracking {
 			properCaseSupplierType = supplierType;
 		}
 		s.setProducts("Hotel;" + properCaseSupplierType + " Hotel:" + property.getPropertyId());
-
-		DecimalFormat df = new DecimalFormat("#.##");
-		String products = s.getProducts();
-		products += ";" + numNights + ";" + df.format(totalCost);
-		s.setProducts(products);
 	}
 
 	private static void addEventsAndProductsForAirAttach(ADMS_Measurement s, Property property, String eventVar,
@@ -502,7 +519,7 @@ public class OmnitureTracking {
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		s.setEvar(47, getEvar47String(params));
 		addHotelRegionId(s, params);
-		addProducts(s, Db.getTripBucket().getHotel().getProperty());
+		addProducts(s, Db.getTripBucket().getHotel().getProperty(), Db.getTripBucket().getHotel().getCreateTripResponse().getSupplierType());
 		addStandardHotelFields(s, params);
 
 		s.track();
