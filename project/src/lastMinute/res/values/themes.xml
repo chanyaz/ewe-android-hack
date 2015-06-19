@@ -178,7 +178,6 @@
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_lm</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
-        <item name="skin_itineraryNumberString">@string/lm_itinerary</item>
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_lm</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_lm</item>
@@ -214,7 +213,6 @@
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title_lm</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
-        <item name="skin_itineraryNumberString">@string/lm_itinerary</item>
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_lm</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_lm</item>

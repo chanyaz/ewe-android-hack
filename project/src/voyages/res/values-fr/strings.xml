@@ -166,8 +166,6 @@
     <string name="share_template_long_hotel_1_greeting">Merci d’avoir choisi l’application de L’Agence Voyages-sncf.com ! Votre réservation est confirmée : %1$s, pendant %2$s.</string>
     <!-- App download link -->
     <string name="share_template_long_ad_vsc">A bientôt sur notre application. Voyages-sncf vous souhaite un bon voyage.</string>
-    <!-- VSC Itinerary -->
-    <string name="vsc_itinerary">N° de voyage L’Agence Voyages-sncf.com</string>
 
     <!-- Content description for action: Press to log in with your VSC account -->
     <string name="cd_checkout_log_in_with_vsc">Appuyez pour vous connecter à votre compte L’Agence Voyages-sncf.com</string>

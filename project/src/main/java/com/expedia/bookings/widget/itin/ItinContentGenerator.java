@@ -29,6 +29,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
@@ -60,6 +61,7 @@ import com.expedia.bookings.utils.TravelerIconUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.squareup.phrase.Phrase;
 
 public abstract class ItinContentGenerator<T extends ItinCardData> {
 
@@ -370,9 +372,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		if (hasItinNumber() && !isSharedItin()) {
 			String itineraryNumber = this.getItinCardData().getTripComponent().getParentTrip().getTripNumber();
 
-			int itineraryLabelResId = (Ui.obtainThemeResID(mContext, R.attr.skin_itineraryNumberString));
+			String itineraryLabel = Phrase.from(mContext, R.string.itinerary_TEMPLATE).put("brand",
+				BuildConfig.brand).format().toString();
 
-			View view = getClickToCopyItinDetailItem(itineraryLabelResId, itineraryNumber, false);
+			View view = getClickToCopyItinDetailItem(itineraryLabel, itineraryNumber, false);
 			if (view != null) {
 				Log.d("ITIN: addItineraryNumber to container");
 				container.addView(view);

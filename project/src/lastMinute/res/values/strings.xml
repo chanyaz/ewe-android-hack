@@ -52,8 +52,6 @@
     <string name="contact_lm_email_subject">lastminute.com.au Reservations Support</string>
     <!-- lastminute.com.au- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template_lm">If you have questions about your reservation, please call lastminute.com.au at %s.</string>
-    <!-- lastminute.com.au Itinerary -->
-    <string name="lm_itinerary">lastminute.com.au Itinerary #</string>
 
     <string name="error_flight_no_longer_available_lm">We\'re really sorry, your flight is no longer available from lastminute.com.au.</string>
 
