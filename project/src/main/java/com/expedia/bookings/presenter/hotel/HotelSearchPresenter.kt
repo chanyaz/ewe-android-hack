@@ -20,32 +20,16 @@ import org.joda.time.LocalDate
 import org.joda.time.YearMonth
 import kotlin.properties.Delegates
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CalendarPicker.DateSelectionChangedListener, TravelerPicker.TravelersUpdatedListener,CalendarPicker.YearMonthDisplayedChangedListener {
 
-    val searchLocation: AlwaysFilterAutoCompleteTextView by Delegates.lazy {
-        findViewById(R.id.hotel_location) as AlwaysFilterAutoCompleteTextView
-    }
-
-    val selectDate: ToggleButton by Delegates.lazy {
-        findViewById(R.id.select_date) as ToggleButton
-    }
-
-    val selectTraveler: ToggleButton by Delegates.lazy {
-        findViewById(R.id.select_traveler) as ToggleButton
-    }
-
-    val calendar: CalendarPicker by Delegates.lazy {
-        findViewById(R.id.calendar) as CalendarPicker
-    }
-
-    val monthView: MonthView by Delegates.lazy {
-        findViewById(R.id.month) as MonthView
-    }
-
-    val traveler: TravelerPicker by Delegates.lazy {
-        findViewById(R.id.traveler_view) as TravelerPicker
-    }
+    val searchLocation: AlwaysFilterAutoCompleteTextView by bindView(R.id.hotel_location)
+    val selectDate: ToggleButton by bindView(R.id.select_date)
+    val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
+    val calendar: CalendarPicker by bindView(R.id.calendar)
+    val monthView: MonthView by bindView(R.id.month)
+    val traveler: TravelerPicker by bindView(R.id.traveler_view)
 
     val hotelSuggestionAdapter: HotelSuggestionAdapter by Delegates.lazy {
         HotelSuggestionAdapter()
