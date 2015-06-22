@@ -229,6 +229,22 @@
         <item name="skin_confirmationHeaderHotelDividerLineColor">@color/confirmation_header_divider_hotel</item>
         <item name="skin_confirmationHeaderFlightDividerLineColor">@color/confirmation_header_divider_flight</item>
         <item name="skin_checkmarkFlightDrawable">@drawable/checkmark_flight</item>
+        <item name="skin_itinActionOverflowDrawable">@drawable/ic_itin_action_overflow_white</item>
+        <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
+        <item name="skin_tablet_legal_blurb_text_color">@color/tablet_legal_blurb_text_color</item>
+        <item name="skin_tablet_confirmation_book_next_arrow_icon">@drawable/ic_tablet_confirmation_book_next_arrow</item>
+        <item name="skin_tablet_confirmation_book_next_arrow_color">@color/tablet_confirmation_color</item>
+        <item name="skin_tablet_confirmation_done_booking_icon">@drawable/ic_tablet_confirmation_done_booking</item>
+        <item name="skin_tablet_confirmation_done_booking_color">@color/tablet_confirmation_color</item>
+        <item name="skin_tablet_confirmation_calendar_icon">@drawable/ic_tablet_confirmation_calendar</item>
+        <item name="skin_tablet_confirmation_phone_icon">@drawable/ic_tablet_confirmation_phone</item>
+        <item name="skin_tablet_confirmation_share_icon">@drawable/ic_tablet_confirmation_share</item>
+        <item name="skin_tablet_confirmation_action_color">@color/tablet_confirmation_action_color</item>
+        <item name="skin_tablet_price_expanded_bucket_text_color">@color/tablet_confirmation_action_color</item>
+        <item name="skin_tablet_checkout_price_breakdown_icon">@drawable/ic_tablet_checkout_price_breakdown</item>
+        <item name="skin_icTabletConfirmationCheckmarkDrawable">@drawable/ic_tablet_confirmation_checkmark</item>
+        <item name="skin_tabletFilterPriceTextColor">@color/tablet_filter_price_text</item>
+
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -314,7 +330,6 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_actionBarShopText">@string/shop</item>
     </style>
 
     <style name="ItineraryTheme" parent="Theme.Expedia">
