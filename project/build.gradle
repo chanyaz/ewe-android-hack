@@ -32,7 +32,6 @@ dependencies {
             'Kahuna.jar',
     ])
     compile project(':lib:FlightLib')
-    compile project(':lib:svg-android:svgandroid')
     compile project(':lib:Utils')
     compile project(':lib:ShareEverywhere:shareeverywhere')
     compile project(':lib:AndroidTime')
@@ -40,6 +39,7 @@ dependencies {
     compile (project(':lib:ExpediaBookings')) {
         exclude group: 'org.json'
     }
+    compile 'com.expedia:svg-android:0.1.0'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
 
