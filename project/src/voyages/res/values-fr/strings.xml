@@ -111,8 +111,6 @@
     <string name="error_booking_null">Impossible de se connecter aux serveurs de L’Agence Voyages-sncf.com. Veuillez vérifier votre connexion et réessayer plus tard.</string>
 
     <!-- Confirmation activity -->
-    <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template_vsc">Si vous avez des questions au sujet de votre réservation, veuillez contacter L’Agence Voyages-sncf.com au %s.</string>
 
     <!-- Rate template strings -->
     <!-- Label for total cost paid to expedia (not including "mandatory fees") -->

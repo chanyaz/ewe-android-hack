@@ -2727,7 +2727,7 @@
     <!-- Itinerary number label -->
     <string name="itinerary_number">Itinerary #</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">If you have questions about your reservation, please call Expedia at %s.</string>
+    <string name="contact_phone_TEMPLATE">If you have questions about your reservation, please call {brand} at {phone}.</string>
 
 
     <!-- Rate template strings -->

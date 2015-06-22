@@ -40,8 +40,6 @@
     <string name="contact_aag_via">Contact AirAsiaGo Via…</string>
     <!-- Contact AirAsiaGo via email subject -->
     <string name="contact_aag_email_subject">AirAsiaGo Reservations Support</string>
-    <!-- AirAsiaGo- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template_aag">If you have questions about your reservation, please call AirAsiaGo at %s.</string>
 
     <string name="loading_air_asia_routes_aag">Loading AirAsiaGo routes…</string>
 

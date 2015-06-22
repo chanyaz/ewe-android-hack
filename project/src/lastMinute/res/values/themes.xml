@@ -82,7 +82,6 @@
         <item name="skin_hotelSearchResultSoldOut">@string/sold_out_on_lm</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_lm</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext</item>
-        <item name="skin_addToCalenderMessage">@string/contact_phone_template_lm</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_lm</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_lm</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_lm</item>
@@ -172,7 +171,6 @@
         <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_lm</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_lm</item>
-        <item name="skin_addToCalenderMessage">@string/contact_phone_template_lm</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_lm</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_lm</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>

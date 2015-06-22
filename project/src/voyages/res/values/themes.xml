@@ -63,7 +63,6 @@
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_vsc</item>
         <item name="skin_clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_vsc</item>
         <item name="skin_hotelSearchResultSoldOut">@string/sold_out_on_vsc</item>
-        <item name="skin_addToCalenderMessage">@string/contact_phone_template_vsc</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_vsc</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_vsc</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_vsc</item>
@@ -144,7 +143,6 @@
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_vsc</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_vsc</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel_vsc</item>
-        <item name="skin_addToCalenderMessage">@string/contact_phone_template_vsc</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_vsc</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_vsc</item>
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
