@@ -14,11 +14,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -92,7 +94,7 @@ public class ErrorWidget extends FrameLayout {
 			break;
 		case PAYMENT_FAILED:
 			bindText(R.drawable.error_payment,
-				R.string.reservation_payment_failed,
+				getResources().getString(R.string.reservation_payment_failed),
 				R.string.cars_payment_failed_text,
 				R.string.edit_payment);
 			errorButton.setOnClickListener(new OnClickListener() {
@@ -103,18 +105,20 @@ public class ErrorWidget extends FrameLayout {
 			});
 			break;
 		case INVALID_INPUT:
-			int resID = R.string.error_server;
+			String message = Phrase.from(getContext(), R.string.error_server_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format().toString();
 			if (error.errorInfo.field.equals("mainMobileTraveler.lastName")) {
-				resID = R.string.reservation_invalid_name;
+				message = getResources().getString(R.string.reservation_invalid_name);
 			}
 			else if (error.errorInfo.field.equals("mainMobileTraveler.firstName")) {
-				resID = R.string.reservation_invalid_name;
+				message = getResources().getString(R.string.reservation_invalid_name);
 			}
 			else if (error.errorInfo.field.equals("mainMobileTraveler.phone")) {
-				resID = R.string.reservation_invalid_phone;
+				message = getResources().getString(R.string.reservation_invalid_phone);
 			}
 			bindText(R.drawable.error_default,
-				resID,
+				message,
 				R.string.cars_invalid_input_text,
 				R.string.edit_info);
 			errorButton.setOnClickListener(new OnClickListener() {
@@ -126,7 +130,7 @@ public class ErrorWidget extends FrameLayout {
 			break;
 		case PRICE_CHANGE:
 			bindText(R.drawable.error_price,
-				R.string.reservation_price_change,
+				getResources().getString(R.string.reservation_price_change),
 				R.string.cars_price_change_text,
 				R.string.view_price_change);
 			errorButton.setOnClickListener(new OnClickListener() {
@@ -138,7 +142,7 @@ public class ErrorWidget extends FrameLayout {
 			break;
 		case SESSION_TIMEOUT:
 			bindText(R.drawable.error_timeout,
-				R.string.reservation_time_out,
+				getResources().getString(R.string.reservation_time_out),
 				R.string.cars_session_timeout_text,
 				R.string.edit_search);
 			errorButton.setOnClickListener(new OnClickListener() {
@@ -150,7 +154,7 @@ public class ErrorWidget extends FrameLayout {
 			break;
 		case TRIP_ALREADY_BOOKED:
 			bindText(R.drawable.error_trip_booked,
-				R.string.reservation_already_exists,
+				getResources().getString(R.string.reservation_already_exists),
 				R.string.cars_dupe_trip_text,
 				R.string.my_trips);
 			errorButton.setOnClickListener(new OnClickListener() {
@@ -170,7 +174,7 @@ public class ErrorWidget extends FrameLayout {
 
 	private void showDefaultError() {
 		bindText(R.drawable.error_default,
-			R.string.error_server,
+			getResources().getString(R.string.error_server_TEMPLATE),
 			R.string.cars_error_text,
 			R.string.retry);
 		errorButton.setOnClickListener(new OnClickListener() {
@@ -183,7 +187,7 @@ public class ErrorWidget extends FrameLayout {
 
 	public void showDefaultSearchError() {
 		bindText(R.drawable.error_default,
-			R.string.error_server,
+			getResources().getString(R.string.error_server_TEMPLATE),
 			R.string.cars_error_text,
 			R.string.retry);
 		errorButton.setOnClickListener(new OnClickListener() {
@@ -196,7 +200,7 @@ public class ErrorWidget extends FrameLayout {
 
 	public void showNoProductSearchError() {
 		bindText(R.drawable.car,
-			R.string.error_car_search_message,
+			getResources().getString(R.string.error_car_search_message),
 			R.string.cars_no_results_text,
 			R.string.edit_search);
 		errorButton.setOnClickListener(new OnClickListener() {
@@ -209,7 +213,7 @@ public class ErrorWidget extends FrameLayout {
 
 	public void showNoFilterSearchResultError() {
 		bindText(R.drawable.car,
-			R.string.filter_no_car_search_results_message,
+			getResources().getString(R.string.filter_no_car_search_results_message),
 			R.string.cars_no_results_text,
 			R.string.edit_filters);
 		errorButton.setOnClickListener(new OnClickListener() {
@@ -220,11 +224,10 @@ public class ErrorWidget extends FrameLayout {
 		});
 	}
 
-	private void bindText(int imageId, int textId, int toolbarTextId, int buttonTextId) {
+	private void bindText(int imageId, String text, int toolbarTextId, int buttonTextId) {
 		errorImage.setImageResource(imageId);
-		errorText.setText(textId);
+		errorText.setText(text);
 		toolbar.setTitle(toolbarTextId);
 		errorButton.setText(buttonTextId);
 	}
-
 }

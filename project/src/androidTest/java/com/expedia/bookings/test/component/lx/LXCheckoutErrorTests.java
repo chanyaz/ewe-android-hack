@@ -7,12 +7,14 @@ import org.joda.time.LocalDate;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.component.lx.pagemodels.LXInfositePageModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.LxTestCase;
+import com.squareup.phrase.Phrase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -49,7 +51,9 @@ public class LXCheckoutErrorTests extends LxTestCase {
 		// Generic dialog
 		screenshot("Oops Error Dialog");
 		LXViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
-		LXViewModel.checkoutErrorText().check(matches(withText(R.string.error_server)));
+		LXViewModel.checkoutErrorText()
+			.check(matches(withText(Phrase.from(getActivity(), R.string.error_server_TEMPLATE).put("brand",
+				BuildConfig.brand).format().toString())));
 		LXViewModel.checkoutErrorButton().perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Security code for card ending in 1111");
 	}

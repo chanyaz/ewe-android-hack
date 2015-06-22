@@ -149,8 +149,6 @@
     <!-- VSC Copyright information -->
     <string name="VSC_copyright_TEMPLATE">© Copyright 2012-%1$s L’Agence Voyages-sncf.com.\nTous droits réservés.</string>
 
-    <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server_vsc">Désolé, la connexion aux serveurs L’Agence Voyages-sncf.com a échoué. Veuillez réessayer plus tard.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure_vsc">Désolés, nous n\&apos;avons pas pu vous connecter à L’Agence Voyages-sncf.com. Veuillez réessayer.</string>
 

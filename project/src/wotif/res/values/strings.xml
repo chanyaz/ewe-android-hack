@@ -20,7 +20,6 @@
     <!-- Expedia booking fee -->
     <string name="wotif_booking_fee">Wotif Booking Fee</string>
 
-    <string name="error_server_wotif">Sorry, we could not connect to Wotif\'s servers.  Please try again later.</string>
 
     <!-- save billing info message -->
     <string name="save_billing_wotif_info_message">Save this payment method under your Wotif account to speed up future purchases?</string>

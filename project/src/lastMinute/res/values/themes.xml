@@ -59,7 +59,6 @@
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_lm</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_flightLoadingMessagePosition">@id/search_progress_flight_lm</item>
-        <item name="skin_serverErrorMessageString">@string/error_server_lm</item>
         <item name="skin_savePaymentToAccountString">@string/save_billing_lm_info_message</item>
         <item name="skin_saveTravelerToAccountString">@string/save_traveler_lm_message_TEMPLATE</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_lm_white_logo_small</item>

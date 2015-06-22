@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarSearch;
@@ -40,6 +41,7 @@ import com.expedia.bookings.widget.ErrorWidget;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -292,7 +294,9 @@ public class CarResultsPresenter extends Presenter {
 			showInvalidInputErrorDialog(R.string.pick_up_time_error);
 			break;
 		default:
-			showInvalidInputErrorDialog(R.string.error_server);
+			showInvalidInputErrorDialog(
+				Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format()
+					.toString());
 			break;
 		}
 	}
@@ -323,9 +327,13 @@ public class CarResultsPresenter extends Presenter {
 	}
 
 	private void showInvalidInputErrorDialog(@StringRes int message) {
+		showInvalidInputErrorDialog(getResources().getString(message));
+	}
+
+	private void showInvalidInputErrorDialog(String message) {
 		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
 		b.setCancelable(false)
-			.setMessage(getResources().getString(message))
+			.setMessage(message)
 			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -452,8 +460,6 @@ public class CarResultsPresenter extends Presenter {
 			errorScreen.setVisibility(View.GONE);
 		}
 	};
-
-
 
 	@OnClick(R.id.sort_toolbar)
 	public void onFilterClick() {

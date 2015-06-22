@@ -130,6 +130,7 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.SegmentedControlGroup;
+import com.squareup.phrase.Phrase;
 
 public class HotelSearchActivity extends FragmentActivity implements OnDrawStartedListener,
 	HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
@@ -368,7 +369,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private void loadHotelOffers(HotelOffersResponse offersResponse) {
 		if (offersResponse == null) {
 			Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
-			simulateErrorResponse(Ui.obtainThemeResID(this, R.attr.skin_serverErrorMessageString));
+			simulateErrorResponse(
+				Phrase.from(HotelSearchActivity.this, R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand)
+					.format().toString());
 		}
 		else if (offersResponse.isHotelUnavailable()) {
 			// Start an info call, so we can show an unavailable hotel
@@ -377,7 +380,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			bd.startDownload(KEY_HOTEL_INFO, mHotelInfoDownload, mHotelInfoCallback);
 		}
 		else if (offersResponse.hasErrors()) {
-			String message = getString(Ui.obtainThemeResID(this, R.attr.skin_serverErrorMessageString));
+			String message = Phrase.from(HotelSearchActivity.this, R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format().toString();
 			for (ServerError error : offersResponse.getErrors()) {
 				message = error.getPresentableMessage(HotelSearchActivity.this);
 			}
@@ -405,7 +408,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 		else {
 			Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
-			simulateErrorResponse(Ui.obtainThemeResID(this, R.attr.skin_serverErrorMessageString));
+			simulateErrorResponse(
+				Phrase.from(HotelSearchActivity.this, R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 		}
 	}
 

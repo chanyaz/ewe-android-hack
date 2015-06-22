@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.ui.phone.tests.cars;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.SearchCarOffer;
@@ -14,6 +15,7 @@ import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.google.gson.Gson;
 import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.util.IoUtils;
+import com.squareup.phrase.Phrase;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -33,7 +35,9 @@ public class CarCheckoutErrorTests extends CarTestCase {
 		// Generic message
 		screenshot("Default Error Message");
 		CarViewModel.checkoutErrorScreen().check(matches(isDisplayed()));
-		CarViewModel.checkoutErrorText().check(matches(withText(R.string.error_server)));
+		CarViewModel.checkoutErrorText()
+			.check(matches(withText(Phrase.from(getActivity(), R.string.error_server_TEMPLATE).put("brand",
+				BuildConfig.brand).format().toString())));
 		CarViewModel.checkoutErrorButton().perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 		// TODO add test to support the retry behavior

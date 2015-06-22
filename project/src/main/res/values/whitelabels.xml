@@ -148,7 +148,6 @@
     <!-- Flight loading screen message position -->
     <attr name="skin_flightLoadingMessagePosition" format="reference" />
 
-    <attr name="skin_serverErrorMessageString" format="reference|string" />
     <attr name="skin_savePaymentToAccountString" format="reference|string" />
     <attr name="skin_saveTravelerToAccountString" format="reference|string" />
 
