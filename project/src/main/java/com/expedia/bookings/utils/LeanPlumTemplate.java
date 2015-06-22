@@ -77,17 +77,12 @@ public class LeanPlumTemplate extends BaseMessageDialog {
 							message.setText(actionContext.stringNamed(MESSAGE));
 							ImageView background = (ImageView) view.findViewById(R.id.leanplumtemplate_background);
 							Button b = (Button) view.findViewById(R.id.positive_button);
-							b.setOnClickListener(new View.OnClickListener() {
-								@Override
-								public void onClick(View view) {
-									actionContext.runActionNamed(DISMISS_ACTION);
-								}
-							});
 
 							String originalImageUrl = actionContext.stringNamed(BACKGROUND);
 							int width = activity.getResources().getDimensionPixelSize(
 								R.dimen.leanplum_dialog_image_width);
-							int height = activity.getResources().getDimensionPixelSize(R.dimen.leanplum_dialog_image_height);
+							int height = activity.getResources().getDimensionPixelSize(
+								R.dimen.leanplum_dialog_image_height);
 							String imageUrl = new Akeakamai(originalImageUrl)
 								.resizeExactly(width, height)
 								.build();
@@ -101,8 +96,16 @@ public class LeanPlumTemplate extends BaseMessageDialog {
 							//set the image for background
 							alertDialogBuilder
 								.setCancelable(false);
-							AlertDialog alertDialog = alertDialogBuilder.create();
+							final AlertDialog alertDialog = alertDialogBuilder.create();
 							alertDialog.show();
+
+							b.setOnClickListener(new View.OnClickListener() {
+								@Override
+								public void onClick(View view) {
+									actionContext.runActionNamed(DISMISS_ACTION);
+									alertDialog.dismiss();
+								}
+							});
 						}
 					});
 					return true;
