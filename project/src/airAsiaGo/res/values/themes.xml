@@ -23,7 +23,6 @@
         <item name="skin_aboutAppSupportString">@string/aag_app_support</item>
         <item name="skin_aboutCopyrightString">@string/aag_copyright_TEMPLATE</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
-        <item name="skin_flightUnhandledErrorMessage">@string/error_flight_unhandled_aag_TEMPLATE</item>
         <item name="skin_serverErrorMessageString">@string/error_server_aag</item>
         <item name="skin_savePaymentToAccountString">@string/save_billing_aag_info_message</item>
         <item name="skin_saveTravelerToAccountString">@string/save_traveler_aag_message_TEMPLATE</item>

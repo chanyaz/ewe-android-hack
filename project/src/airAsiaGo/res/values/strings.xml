@@ -17,7 +17,6 @@
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_aag">Are you sure you want to log out of your AirAsiaGo account?</string>
 
-    <string name="error_flight_unhandled_aag_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call AirAsiaGo Customer Support and quote this itinerary number: %s</string>
     <string name="error_server_aag">Sorry, we could not connect to AirAsiaGo\'s servers.  Please try again later.</string>
 
     <!-- save billing info message -->

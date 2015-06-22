@@ -20,7 +20,6 @@
     <!-- Expedia booking fee -->
     <string name="lm_booking_fee">lastminute.com.au Booking Fee</string>
 
-    <string name="error_flight_unhandled_lm_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call lastminute.com.au Customer Support and quote this itinerary number: %s</string>
     <string name="error_server_lm">Sorry, we could not connect to lastminute.com.au\'s servers.  Please try again later.</string>
 
     <!-- save billing info message -->

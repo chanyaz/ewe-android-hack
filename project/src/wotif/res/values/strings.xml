@@ -20,7 +20,6 @@
     <!-- Expedia booking fee -->
     <string name="wotif_booking_fee">Wotif Booking Fee</string>
 
-    <string name="error_flight_unhandled_wotif_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call Wotif Customer Support and quote this itinerary number: %s</string>
     <string name="error_server_wotif">Sorry, we could not connect to Wotif\'s servers.  Please try again later.</string>
 
     <!-- save billing info message -->
