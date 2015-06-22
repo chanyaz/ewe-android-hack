@@ -442,13 +442,8 @@ public class OmnitureTracking {
 		if (TextUtils.isEmpty(supplierType)) {
 			supplierType = "";
 		}
-		String properCaseSupplierType;
-		if (supplierType.length() > 1) {
-			properCaseSupplierType = supplierType.substring(0, 1).toUpperCase(Locale.US) + supplierType.substring(1).toLowerCase(Locale.US);
-		}
-		else {
-			properCaseSupplierType = supplierType;
-		}
+		String properCaseSupplierType = Strings.splitAndCapitalizeFirstLetters(supplierType);
+
 		s.setProducts("Hotel;Hotel;" + properCaseSupplierType + " Hotel:" + property.getPropertyId());
 
 		DecimalFormat df = new DecimalFormat("#.##");
@@ -464,13 +459,8 @@ public class OmnitureTracking {
 		if (TextUtils.isEmpty(supplierType)) {
 			supplierType = "";
 		}
-		String properCaseSupplierType;
-		if (supplierType.length() > 1) {
-			properCaseSupplierType = supplierType.substring(0, 1).toUpperCase(Locale.US) + supplierType.substring(1).toLowerCase(Locale.US);
-		}
-		else {
-			properCaseSupplierType = supplierType;
-		}
+		String properCaseSupplierType = Strings.splitAndCapitalizeFirstLetters(supplierType);
+
 		s.setProducts("Hotel;" + properCaseSupplierType + " Hotel:" + property.getPropertyId());
 	}
 

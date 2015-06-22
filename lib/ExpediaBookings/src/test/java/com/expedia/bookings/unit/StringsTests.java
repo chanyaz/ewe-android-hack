@@ -195,6 +195,16 @@ public class StringsTests {
 	}
 
 	@Test
+	public void testStringsSplitAndCapitalizeFirstLetters() {
+		assertEquals("", Strings.splitAndCapitalizeFirstLetters(""));
+		assertEquals(null, Strings.splitAndCapitalizeFirstLetters(null));
+		assertEquals("AbcdEfgh", Strings.splitAndCapitalizeFirstLetters("aBCD_EFGH"));
+		assertEquals("BcdeDnas", Strings.splitAndCapitalizeFirstLetters("BCDE_dnAS"));
+		assertEquals("DirectAgency", Strings.splitAndCapitalizeFirstLetters("DIRECT_AGENCY"));
+		assertEquals("Merchant", Strings.splitAndCapitalizeFirstLetters("MERCHANT"));
+	}
+
+	@Test
 	public void testEscapeQuotes() {
 		String textWithQuotes = "Test &quot;One&quot;";
 		String expectedTextWithQuotes = "Test \"One\"";
