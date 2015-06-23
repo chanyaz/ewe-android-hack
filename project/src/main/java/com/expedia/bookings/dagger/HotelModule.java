@@ -4,6 +4,7 @@ import com.expedia.bookings.dagger.tags.HotelScope;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.services.SuggestionServices;
+import com.expedia.bookings.services.SuggestionV4Services;
 import com.squareup.okhttp.OkHttpClient;
 
 import dagger.Module;
@@ -27,6 +28,13 @@ public final class HotelModule {
 	SuggestionServices provideHotelSuggestionServices(EndpointProvider endpointProvider, OkHttpClient client, RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getEssEndpointUrl();
 		return new SuggestionServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+	}
+
+	@Provides
+	@HotelScope
+	SuggestionV4Services provideHotelSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client, RestAdapter.LogLevel logLevel) {
+		final String endpoint = endpointProvider.getEssEndpointUrl();
+		return new SuggestionV4Services(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 }
 

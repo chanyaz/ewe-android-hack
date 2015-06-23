@@ -13,7 +13,6 @@ import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
-import rx.functions.Func1
 import kotlin.properties.Delegates
 
 public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
@@ -46,15 +45,6 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
         val lob = null;
         return suggestV3(query, type, lob)
                 .map { list -> list.take(MAX_AIRPORTS_RETURNED).toArrayList() }
-                .subscribe(observer)
-    }
-
-    public fun getHotelSuggestions(query: String, observer: Observer<MutableList<Suggestion>>): Subscription {
-        val type = SuggestionResultType.REGION
-        return suggestApi.suggestV2(query, type)
-                .observeOn(observeOn)
-                .subscribeOn(subscribeOn)
-                .map { response -> response.suggestions.toArrayList() }
                 .subscribe(observer)
     }
 

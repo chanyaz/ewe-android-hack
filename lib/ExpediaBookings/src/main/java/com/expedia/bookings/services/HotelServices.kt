@@ -43,7 +43,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 	}
 
 	public fun suggestHotels(params: HotelSearchParams, observer: Observer<List<Hotel>>): Subscription {
-		return hotelApi.suggestionHotelSearch(params.city.shortName, params.checkIn.toString(), params.checkOut.toString(),
+		return hotelApi.suggestionHotelSearch(params.city.regionNames.shortName, params.checkIn.toString(), params.checkOut.toString(),
 				params.getGuestString())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)

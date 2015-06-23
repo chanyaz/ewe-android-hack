@@ -3,7 +3,7 @@ package com.expedia.bookings.data.hotels
 import com.expedia.bookings.data.cars.Suggestion
 import org.joda.time.LocalDate
 
-public class HotelSearchParams(val city: Suggestion, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
+public class HotelSearchParams(val city: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
 
     public fun getGuestString() : String {
         val sb = StringBuilder {
@@ -17,13 +17,13 @@ public class HotelSearchParams(val city: Suggestion, val checkIn: LocalDate, val
     }
 
     class Builder {
-        private var city: Suggestion? = null
+        private var city: SuggestionV4? = null
         private var checkIn: LocalDate? = null
         private var checkOut: LocalDate? = null
         private var adults: Int = 1
         private var children: List<Int> = emptyList()
 
-        fun city(city: Suggestion): Builder {
+        fun city(city: SuggestionV4): Builder {
             this.city = city
             return this
         }

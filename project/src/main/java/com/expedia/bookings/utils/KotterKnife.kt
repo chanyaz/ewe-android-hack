@@ -24,7 +24,7 @@ import android.view.ViewGroup
 import kotlin.properties.ReadOnlyProperty
 import android.support.v4.app.Fragment as SupportFragment
 
-public fun <T : View> ViewGroup.bindView(id: Int): ReadOnlyProperty<Any, T> = ViewBinding(id)
+public fun <T : View> ViewGroup.bindView(id: Int): ReadOnlyProperty<Any, T> = ViewBinding(this, id)
 public fun <T : View> ViewGroup.bindOptionalView(id: Int): ReadOnlyProperty<Any, T?> = OptionalViewBinding(id)
 public fun <T : View> ViewGroup.bindViews(vararg ids: Int): ReadOnlyProperty<Any, List<T>> = ViewListBinding(ids)
 public fun <T : View> ViewGroup.bindOptionalViews(vararg ids: Int): ReadOnlyProperty<Any, List<T>> = OptionalViewListBinding(ids)
@@ -41,11 +41,11 @@ private fun findView<T : View>(thisRef: Any, id: Int): T? {
 	} as T?
 }
 
-private class ViewBinding<T : View>(val id: Int) : ReadOnlyProperty<Any, T> {
+private class ViewBinding<T : View>(val source: View, val id: Int) : ReadOnlyProperty<Any, T> {
 	private val lazy = Lazy<T>()
 
 	override fun get(thisRef: Any, desc: PropertyMetadata): T = lazy.get {
-		findView<T>(thisRef, id)
+		findView<T>(source, id)
 			?: throw IllegalStateException("View ID $id for '${desc.name}' not found.")
 	}
 }
