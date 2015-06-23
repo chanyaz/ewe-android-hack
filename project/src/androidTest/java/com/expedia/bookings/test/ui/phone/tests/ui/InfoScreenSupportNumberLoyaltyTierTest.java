@@ -23,6 +23,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.InfoScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.mobiata.android.util.SettingUtils;
 
@@ -86,18 +87,17 @@ public class InfoScreenSupportNumberLoyaltyTierTest {
 		supportNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(testUser);
 		supportNumber = supportNumber.replaceAll("[^0-9]", "");
 		Db.setUser(testUser);
-		Db.saveTravelers(mRule.getActivity());
-		testUser.save(mRule.getActivity());
+		Db.saveTravelers(InstrumentationRegistry.getTargetContext());
+		testUser.save(InstrumentationRegistry.getTargetContext());
 		Common.enterLog(TAG, "LoyaltyMembership Tier Set to " + tier);
-	}
 
-	private void clickBookingSupport() {
-		InfoScreen.clickBookingSupport();
-		InfoScreen.clickContactPhone();
+		mRule.getActivity();
+		ScreenActions.delay(2);
 	}
 
 	private void clickAndVerifyNumber() {
-		clickBookingSupport();
+		InfoScreen.clickBookingSupport();
+		InfoScreen.clickContactPhone();
 		intended(allOf(
 			hasAction(Intent.ACTION_VIEW),
 			hasData(hasPhoneNumber(supportNumber))));
@@ -240,6 +240,90 @@ public class InfoScreenSupportNumberLoyaltyTierTest {
 	public void testHongKongSilver() {
 		setPOSUserTier(PointOfSaleId.HONG_KONG, Traveler.LoyaltyMembershipTier.SILVER);
 		Common.enterLog(TAG, "Hong Kong POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testBrazilGold() {
+		setPOSUserTier(PointOfSaleId.BRAZIL, Traveler.LoyaltyMembershipTier.GOLD);
+		Common.enterLog(TAG, "BRAZIL POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testBrazilSilver() {
+		setPOSUserTier(PointOfSaleId.BRAZIL, Traveler.LoyaltyMembershipTier.SILVER);
+		Common.enterLog(TAG, "BRAZIL POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testThailandGold() {
+		setPOSUserTier(PointOfSaleId.THAILAND, Traveler.LoyaltyMembershipTier.GOLD);
+		Common.enterLog(TAG, "THAILAND POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testThailandSilver() {
+		setPOSUserTier(PointOfSaleId.THAILAND, Traveler.LoyaltyMembershipTier.SILVER);
+		Common.enterLog(TAG, "THAILAND POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testIrelandGold() {
+		setPOSUserTier(PointOfSaleId.IRELAND, Traveler.LoyaltyMembershipTier.GOLD);
+		Common.enterLog(TAG, "IRELAND POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testIrelandSilver() {
+		setPOSUserTier(PointOfSaleId.IRELAND, Traveler.LoyaltyMembershipTier.SILVER);
+		Common.enterLog(TAG, "IRELAND POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testDenmarkGold() {
+		setPOSUserTier(PointOfSaleId.DENMARK, Traveler.LoyaltyMembershipTier.GOLD);
+		Common.enterLog(TAG, "DENMARK POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testDenmarkSilver() {
+		setPOSUserTier(PointOfSaleId.DENMARK, Traveler.LoyaltyMembershipTier.SILVER);
+		Common.enterLog(TAG, "DENMARK POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testBelgiumGold() {
+		setPOSUserTier(PointOfSaleId.BELGIUM, Traveler.LoyaltyMembershipTier.GOLD);
+		Common.enterLog(TAG, "BELGIUM POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testBelgiumSilver() {
+		setPOSUserTier(PointOfSaleId.BELGIUM, Traveler.LoyaltyMembershipTier.SILVER);
+		Common.enterLog(TAG, "BELGIUM POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testMalaysiaGold() {
+		setPOSUserTier(PointOfSaleId.MALAYSIA, Traveler.LoyaltyMembershipTier.GOLD);
+		Common.enterLog(TAG, "MALAYSIA POS Set");
+		clickAndVerifyNumber();
+	}
+
+	@Test
+	public void testMalaysiaSilver() {
+		setPOSUserTier(PointOfSaleId.MALAYSIA, Traveler.LoyaltyMembershipTier.SILVER);
+		Common.enterLog(TAG, "MALAYSIA POS Set");
 		clickAndVerifyNumber();
 	}
 }
