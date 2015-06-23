@@ -1983,7 +1983,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">Save Billing Info</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">Save this payment method under your Expedia account to speed up future purchases?</string>
+    <string name="save_billing_info_message_TEMPLATE">Save this payment method under your {brand} account to speed up future purchases?</string>
     <!-- save -->
     <string name="save">Save</string>
 

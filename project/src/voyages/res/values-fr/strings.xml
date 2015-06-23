@@ -171,8 +171,6 @@
     <string name="error_flight_no_longer_available_vsc">Désolés, votre vol n\&apos;est plus disponible sur L’Agence Voyages-sncf.com.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available_vsc">Désolés, un de vos vols n\&apos;est plus disponible sur L’Agence Voyages-sncf.com.</string>
-    <!-- save billing info message -->
-    <string name="save_billing_info_message_vsc">Enregistrer ce mode de paiement dans votre compte L’Agence Voyages-sncf.com pour réserver plus rapidement dans le futur ?</string>
     <!-- Save traveler name Template -->
     <string name="save_traveler_message_TEMPLATE_vsc">Enregistrer les informations sur %1$s dans votre compte L’Agence Voyages-sncf.com pour réserver plus rapidement dans le futur ?</string>
     <!-- Handling sold out hotels -->

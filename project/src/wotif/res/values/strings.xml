@@ -21,8 +21,6 @@
     <string name="wotif_booking_fee">Wotif Booking Fee</string>
 
 
-    <!-- save billing info message -->
-    <string name="save_billing_wotif_info_message">Save this payment method under your Wotif account to speed up future purchases?</string>
 
     <!-- Save traveler name Template -->
     <string name="save_traveler_wotif_message_TEMPLATE">Save %1$s\'s information under your Wotif account to speed up future purchases?</string>

@@ -21,8 +21,6 @@
     <string name="lm_booking_fee">lastminute.com.au Booking Fee</string>
 
 
-    <!-- save billing info message -->
-    <string name="save_billing_lm_info_message">Save this payment method under your lastminute.com.au account to speed up future purchases?</string>
 
     <!-- Save traveler name Template -->
     <string name="save_traveler_lm_message_TEMPLATE">Save %1$s\'s information under your lastminute.com.au account to speed up future purchases?</string>

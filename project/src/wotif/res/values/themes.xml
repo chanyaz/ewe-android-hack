@@ -59,7 +59,6 @@
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_wotif</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_flightLoadingMessagePosition">@id/search_progress_flight_wotif</item>
-        <item name="skin_savePaymentToAccountString">@string/save_billing_wotif_info_message</item>
         <item name="skin_saveTravelerToAccountString">@string/save_traveler_wotif_message_TEMPLATE</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_wotif_white_logo_small</item>
         <item name="skin_bgFindItineraryButton">@drawable/btn_find_wotif</item>

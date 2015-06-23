@@ -22,8 +22,6 @@
     <string name="logout_confirmation_travelocity">Are you sure you want to log out of your Travelocity account?</string>
 
 
-    <!-- save billing info message -->
-    <string name="save_billing_travelocity_info_message">Save this payment method under your Travelocity account to speed up future purchases?</string>
 
     <!-- Save traveler name Template -->
     <string name="save_traveler_travelocity_message_TEMPLATE">Save %1$s\'s information under your Travelocity account to speed up future purchases?</string>

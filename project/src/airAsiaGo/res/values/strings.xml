@@ -18,8 +18,6 @@
     <string name="logout_confirmation_aag">Are you sure you want to log out of your AirAsiaGo account?</string>
 
 
-    <!-- save billing info message -->
-    <string name="save_billing_aag_info_message">Save this payment method under your AirAsiaGo account to speed up future purchases?</string>
 
     <!-- Save traveler name Template -->
     <string name="save_traveler_aag_message_TEMPLATE">Save %1$s\'s information under your AirAsiaGo account to speed up future purchases?</string>
