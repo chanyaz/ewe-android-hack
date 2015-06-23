@@ -129,6 +129,7 @@ public class AdTracker {
 	}
 
 	public static void trackCarCheckoutStarted(CreateTripCarOffer carOffer) {
+		LeanPlumUtils.trackCarCheckoutStarted(carOffer);
 		KahunaUtils.trackCarCheckoutStarted(carOffer);
 	}
 
@@ -158,6 +159,7 @@ public class AdTracker {
 	}
 
 	public static void trackCarSearch(CarSearchParams params) {
+		LeanPlumUtils.trackCarSearch(params);
 		KahunaUtils.trackCarSearch(params);
 	}
 

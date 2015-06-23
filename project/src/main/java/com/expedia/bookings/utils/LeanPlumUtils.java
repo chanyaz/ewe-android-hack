@@ -23,12 +23,15 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarLocation;
+import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CreateTripCarFare;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
@@ -360,6 +363,60 @@ public class LeanPlumUtils {
 			Log.i("Show Share flight Notification " + LeanPlumFlags.mShowShareFlightNotification);
 		}
 	};
+
+	public static void trackCarSearch(CarSearchParams carSearchParams) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+			String eventName = "Search Car";
+			Log.i("LeanPlum car search destination=" + carSearchParams.origin);
+
+			/**
+			 * Common retargeting params i.e. city, state and country are not available for airport searches.
+			 * Add them once available.
+			 */
+			HashMap<String, Object> eventParams = new HashMap<String, Object>();
+			eventParams.put("Destination", carSearchParams.origin);
+			eventParams.put("PickupDate", DateUtils.convertDatetoInt(carSearchParams.startDateTime.toLocalDate()));
+			eventParams.put("PickupDatetime", carSearchParams.startDateTime.toString(DATE_PATTERN));
+			eventParams.put("DropoffDate", DateUtils.convertDatetoInt(carSearchParams.endDateTime.toLocalDate()));
+			eventParams.put("DropoffDatetime", carSearchParams.endDateTime.toString(DATE_PATTERN));
+			eventParams.put("b_win", "" + getBookingWindow(carSearchParams.startDateTime.toLocalDate()));
+			eventParams.put("p_type", "CAR");
+
+			tracking(eventName, eventParams);
+		}
+	}
+
+	public static void trackCarCheckoutStarted(CreateTripCarOffer carOffer) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+			String eventName = "Checkout Car Started";
+			Money total = carOffer.detailedFare.grandTotal;
+			Log.i("LeanPlum car checkout started currency=" + total.getCurrency() + " total=" + total.getAmount().doubleValue());
+
+			HashMap<String, Object> eventParams = new HashMap<String, Object>();
+
+			CarLocation pickUpLocation = carOffer.pickUpLocation;
+			addCommonProductRetargeting(eventParams, pickUpLocation.cityName, pickUpLocation.provinceStateName,
+				pickUpLocation.countryCode);
+
+			DateTime pickUpTime = carOffer.getPickupTime();
+			DateTime dropOfTime = carOffer.getDropOffTime();
+
+			eventParams.put("Destination", pickUpLocation.cityName);
+			eventParams.put("PickupDate", DateUtils.convertDatetoInt(pickUpTime.toLocalDate()));
+			eventParams.put("PickupDatetime", pickUpTime.toString(DATE_PATTERN));
+			eventParams.put("DropoffDate", DateUtils.convertDatetoInt(dropOfTime.toLocalDate()));
+			eventParams.put("DropoffDatetime", dropOfTime.toString(DATE_PATTERN));
+
+			CreateTripCarFare carFare = carOffer.detailedFare;
+			eventParams.put("TotalPrice", String.valueOf(carFare.grandTotal.getAmount().doubleValue()));
+			eventParams.put("currency", carFare.grandTotal.getCurrency());
+
+			eventParams.put("b_win", "" + getBookingWindow(pickUpTime.toLocalDate()));
+			eventParams.put("p_type", "CAR");
+
+			tracking(eventName, eventParams);
+		}
+	}
 
 	public static void trackCarBooked(CarCheckoutResponse response) {
 		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
