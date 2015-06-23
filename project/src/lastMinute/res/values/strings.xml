@@ -45,7 +45,6 @@
     <!-- Contact Expedia via email subject -->
     <string name="contact_lm_email_subject">lastminute.com.au Reservations Support</string>
 
-    <string name="error_flight_no_longer_available_lm">We\'re really sorry, your flight is no longer available from lastminute.com.au.</string>
 
     <string name="error_flights_no_longer_available_lm">We\'re really sorry, one of your flights is no longer available from lastminute.com.au.</string>
 

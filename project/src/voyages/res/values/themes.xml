@@ -54,7 +54,6 @@
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_vsc_purple_flat</item>
         <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure_vsc</item>
         <item name="skin_saveTravelerToAccountString">@string/save_traveler_message_TEMPLATE_vsc</item>
-        <item name="skin_singleFlightNotAvailableError">@string/error_flight_no_longer_available_vsc</item>
         <item name="skin_flightsNotAvailableError">@string/error_flights_no_longer_available_vsc</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_vsc</item>
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_vsc</item>

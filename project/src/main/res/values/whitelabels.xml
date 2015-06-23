@@ -192,8 +192,6 @@
     <!-- Room not Available Error Msg-->
     <attr name="skin_roomNotAvailableError" format="string"/>
 
-    <!-- Flight(s) not Available Error Msg-->
-    <attr name="skin_singleFlightNotAvailableError" format="string"/>
     <attr name="skin_flightsNotAvailableError" format="string"/>
 
     <!--CVV and CVV Error-->

@@ -40,7 +40,6 @@
     <!-- Contact Expedia via email subject -->
     <string name="contact_travelocity_email_subject">Travelocity Reservations Support</string>
 
-    <string name="error_flight_no_longer_available_tvly">We\'re really sorry, your flight is no longer available from Travelocity.</string>
 
     <string name="error_flights_no_longer_available_tvly">We\'re really sorry, one of your flights is no longer available from Travelocity.</string>
 

@@ -167,8 +167,6 @@
     <string name="cd_checkout_log_in_with_vsc">Appuyez pour vous connecter à votre compte L’Agence Voyages-sncf.com</string>
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_vsc">Êtes-vous sûr de vouloir vous déconnecter de votre compte L’Agence Voyages-sncf.com ?</string>
-    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_vsc">Désolés, votre vol n\&apos;est plus disponible sur L’Agence Voyages-sncf.com.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available_vsc">Désolés, un de vos vols n\&apos;est plus disponible sur L’Agence Voyages-sncf.com.</string>
     <!-- Save traveler name Template -->

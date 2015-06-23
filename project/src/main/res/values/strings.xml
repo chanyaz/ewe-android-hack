@@ -2217,7 +2217,7 @@
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call {brand} Customer Support and quote this itinerary number: {itinerary}</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_expedia">We\'re really sorry, your flight is no longer available from Expedia.</string>
+    <string name="error_flight_no_longer_available_TEMPLATE">We\'re really sorry, your flight is no longer available from {brand}.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available_expedia">We\'re really sorry, one of your flights is no longer available from Expedia.</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
