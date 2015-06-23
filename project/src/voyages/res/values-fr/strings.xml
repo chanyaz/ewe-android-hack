@@ -186,8 +186,6 @@
     <string name="tell_a_friend_subject_vsc">Hôtels L’Agence Voyages-sncf.com</string>
     <!-- Message body for "tell a friend" feature -->
     <string name="tell_a_friend_body_vsc">Bonjour,\n\nVenez découvrir L’Agence Voyages-sncf.com Hôtels pour iPhone et téléphones Android. Cette application est gratuite et vous permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec votre téléphone.</string>
-    <!-- A message stating this hotel is all sold out for the given dates searched -->
-    <string name="sorry_rooms_sold_out_vsc">Désolé, plus aucune chambre n\&apos;est libre sur L’Agence Voyages-sncf.com.</string>
     <!-- Contact VSC via email subject -->
     <string name="contact_vsc_email_subject">Assistance réservations L’Agence Voyages-sncf.com</string>
     <!-- Label for "VSC website" button in info page -->

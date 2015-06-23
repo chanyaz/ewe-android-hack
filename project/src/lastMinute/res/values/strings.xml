@@ -64,7 +64,6 @@
     <string name="e3_error_checkout_booking_succeeded_with_errors_lm">You successfully booked your hotel! If you need an itinerary immediately, please call lastminute.com.au Customer Support.</string>
     <string name="lm_password_hint">lastminute.com.au Password</string>
     <string name="dialog_message_launch_lm_mobile_site">Launch the lastminute.com.au mobile website?</string>
-    <string name="sorry_rooms_sold_out_lm">Sorry, all rooms are sold out on lastminute.com.au.</string>
     <!-- lastminute.com.au App download link -->
     <string name="share_template_long_ad_lm">Book hotels, flights and view &amp; share your itineraries. Download the free lastminute.com.au mobile app today.\n%s</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->

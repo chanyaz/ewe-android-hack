@@ -64,7 +64,6 @@
     <string name="e3_error_checkout_booking_succeeded_with_errors_tvly">You successfully booked your hotel! If you need an itinerary immediately, please call Travelocity Customer Support.</string>
     <string name="tvly_password_hint">Travelocity Password</string>
     <string name="dialog_message_launch_tvly_mobile_site">Launch the Travelocity mobile website?</string>
-    <string name="sorry_rooms_sold_out_tvly">Sorry, all rooms are sold out on Travelocity.</string>
     <!-- Travelocity App download link -->
     <string name="share_template_long_ad_tvly">Book hotels, flights and view &amp; share your itineraries. Download the free Travelocity mobile app today.\n%s</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->

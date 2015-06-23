@@ -28,6 +28,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.data.Db;
@@ -59,6 +60,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.TimingLogger;
+import com.squareup.phrase.Phrase;
 
 /**
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
@@ -115,6 +117,11 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mRoomsRatesContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
 		mSoldOutContainer = Ui.findView(mRootC, R.id.rooms_sold_out_container);
 		toggleLoadingState(true);
+
+		TextView soldOut = Ui.findView(mRootC, R.id.all_rooms_sold_out);
+		soldOut.setText(
+			Phrase.from(getActivity(), R.string.sorry_rooms_sold_out_TEMPLATE).put("brand", BuildConfig.brand)
+				.format());
 		return mRootC;
 	}
 

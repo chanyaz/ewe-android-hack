@@ -806,7 +806,7 @@
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% recommend</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
-    <string name="sorry_rooms_sold_out">Sorry, all rooms are sold out on Expedia.</string>
+    <string name="sorry_rooms_sold_out_TEMPLATE">Sorry, all rooms are sold out on {brand}.</string>
     <!-- A message stating this hotel is sold out on Expedia -->
     <string name="sold_out_on_expedia">Sold out on Expedia</string>
     <!-- Hotel gallery title -->

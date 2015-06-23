@@ -66,7 +66,6 @@
     <string name="not_currently_available_TEMPLATE_aag">Not available from AirAsiaGo %s</string>
     <string name="aag_password_hint">AirAsiaGo Password</string>
     <string name="dialog_message_launch_aag_mobile_site">Launch the AirAsiaGo mobile website?</string>
-    <string name="sorry_rooms_sold_out_aag">Sorry, all rooms are sold out on AirAsiaGo.</string>
     <string name="share_template_long_ad_aag">Book hotels, flights and view &amp; share your itineraries. Download the free AirAsiaGo mobile app today.</string>
     <!-- Label for Flight Search in task manager -->
     <string name="Expedia_Flights">AirAsiaGo Flights</string>
