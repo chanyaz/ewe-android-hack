@@ -88,6 +88,9 @@
                     "formattedWholePrice": "$32"
                 }
             },
+            "hasFreeCancellation": true,
+            "hasUnlimitedMileage": true,
+            "isInsuranceIncluded": true,
             "pickUpLocation": {
                 "airportInstructions": "Shuttle to counter and car",
                 "latitude": 37.61594,

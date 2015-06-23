@@ -3,12 +3,15 @@ package com.expedia.bookings.test.ui.phone.tests.cars;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.test.component.cars.CarViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.ui.utils.AbacusTestUtils;
 import com.expedia.bookings.test.ui.utils.CarTestCase;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static com.expedia.bookings.test.ui.utils.EspressoUtils.assertTextWithChildrenIsDisplayed;
 import static com.expedia.bookings.test.ui.utils.EspressoUtils.assertViewIsDisplayed;
 import static com.expedia.bookings.test.ui.utils.EspressoUtils.assertViewIsNotDisplayed;
 import static com.expedia.bookings.test.ui.utils.EspressoUtils.assertViewWithTextIsDisplayed;
@@ -17,17 +20,10 @@ public class CarCheckoutViewTests extends CarTestCase {
 
 	private final static String CATEGORY = "Standard";
 	private final static int CREDIT_CARD_NOT_REQUIRED = 0;
+	private final static int INSURANCE_INCLUDED = 1;
 
 	public void testCheckoutView() throws Throwable {
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		final DateTime endDateTime = startDateTime.plusDays(3);
-		CarViewModel.pickupLocation().perform(typeText("SFO"));
-		CarViewModel.selectPickupLocation(getInstrumentation(), "San Francisco, CA");
-		CarViewModel.selectDateButton().perform(click());
-		CarViewModel.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
-		CarViewModel.searchButton().perform(click());
-		CarViewModel.selectCarCategory(CATEGORY);
-		CarViewModel.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
+		gotoCheckout(CREDIT_CARD_NOT_REQUIRED);
 
 		// test summary
 		assertViewIsNotDisplayed(R.id.payment_info_card_view);
@@ -43,5 +39,23 @@ public class CarCheckoutViewTests extends CarTestCase {
 		CheckoutViewModel.enterTravelerInfo();
 		assertViewWithTextIsDisplayed(R.id.purchase_total_text_view, "Amount due today: $0.00");
 		assertViewIsDisplayed(R.id.slide_to_purchase_widget);
+	}
+
+	public void testInsuranceIncludedViewAbacusTest() throws Throwable {
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppCarInsuranceIncludedCKO, AbacusUtils.DefaultVariate.BUCKETED.ordinal());
+		gotoCheckout(INSURANCE_INCLUDED);
+		assertTextWithChildrenIsDisplayed(R.id.ticked_info_container, "Insurance included");
+	}
+
+	private void gotoCheckout(int carOfferIndex) throws Throwable {
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		final DateTime endDateTime = startDateTime.plusDays(3);
+		CarViewModel.pickupLocation().perform(typeText("SFO"));
+		CarViewModel.selectPickupLocation(getInstrumentation(), "San Francisco, CA");
+		CarViewModel.selectDateButton().perform(click());
+		CarViewModel.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		CarViewModel.searchButton().perform(click());
+		CarViewModel.selectCarCategory(CATEGORY);
+		CarViewModel.selectCarOffer(carOfferIndex);
 	}
 }
