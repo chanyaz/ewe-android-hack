@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.SectionTravelerInfo xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:gridlayout="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,33 +12,33 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" />
 
-    <com.gridlayout.GridLayout
+    <android.support.v7.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        gridlayout:alignmentMode="alignMargins"
-        gridlayout:columnCount="3"
-        gridlayout:columnOrderPreserved="false"
-        gridlayout:useDefaultMargins="false"
+        android:alignmentMode="alignMargins"
+        android:columnCount="3"
+        android:columnOrderPreserved="false"
+        android:useDefaultMargins="false"
         tools:ignore="RequiredSize" >
 
         <com.expedia.bookings.widget.TelephoneSpinner
             android:id="@+id/edit_phone_number_country_code_spinner"
             style="@style/Widget.Spinner.Phone.Dark"
             android:layout_width="100dp"
-            gridlayout:layout_columnSpan="1" />
+            android:layout_columnSpan="1" />
 
         <EditText
             android:id="@+id/edit_phone_number"
             android:layout_width="0dp"
             android:layout_gravity="center_vertical|fill_horizontal"
-            gridlayout:layout_columnSpan="2"
+            android:layout_columnSpan="2"
             android:hint="@string/phone_number_hint"
             android:inputType="phone"
             android:singleLine="true"
             tools:ignore="RequiredSize" />
-        
-    </com.gridlayout.GridLayout>
-            
+
+    </android.support.v7.widget.GridLayout>
+
     <EditText
         android:id="@+id/edit_email_address"
         android:layout_width="match_parent"
