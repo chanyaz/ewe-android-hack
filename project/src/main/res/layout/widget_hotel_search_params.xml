@@ -81,9 +81,10 @@
                     android:paddingLeft="20dp"
                     android:textAllCaps="false"
                     android:textColor="@drawable/cars_text_selector"
-                    android:textOff="@string/select_dates"
-                    android:textOn="@string/select_dates"
-                    android:textSize="15sp" />
+                    android:textOff="@string/select_dates_proper_case"
+                    android:textOn="@string/select_dates_proper_case"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
 
                 <ToggleButton
                     android:id="@+id/select_traveler"
@@ -97,9 +98,10 @@
                     android:paddingRight="16dp"
                     android:textAllCaps="false"
                     android:textColor="@drawable/cars_text_selector"
-                    android:textOff="1 Traveler"
-                    android:textOn="1 Traveler"
-                    android:textSize="15sp" />
+                    android:textOff="1 Adult"
+                    android:textOn="1 Adult"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
             </LinearLayout>
         </LinearLayout>
 
