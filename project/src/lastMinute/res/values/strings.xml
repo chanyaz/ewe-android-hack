@@ -44,8 +44,6 @@
     <!-- Shop travel label -->
     <string name="shop_travel">Shop travel</string>
 
-    <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_lm_via">Contact lastminute.com.au Via…</string>
     <!-- Contact Expedia via email subject -->
     <string name="contact_lm_email_subject">lastminute.com.au Reservations Support</string>
 

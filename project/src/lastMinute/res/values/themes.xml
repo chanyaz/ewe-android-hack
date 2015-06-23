@@ -70,7 +70,6 @@
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_lm</item>
         <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color_lm</item>
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_lm</item>
-        <item name="skin_infoContactUsString">@string/contact_lm_via</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_lm_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_lm_white_logo_small</item>
         <item name="skin_singleFlightNotAvailableError">@string/error_flight_no_longer_available_lm</item>

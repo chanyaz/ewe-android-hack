@@ -35,8 +35,6 @@
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure_aag">We\'re sorry, but we couldn\'t connect to AirAsiaGo. Please try again.</string>
 
-    <!-- Title for different ways to connect to AirAsiaGo -->
-    <string name="contact_aag_via">Contact AirAsiaGo Via…</string>
     <!-- Contact AirAsiaGo via email subject -->
     <string name="contact_aag_email_subject">AirAsiaGo Reservations Support</string>
 

@@ -183,7 +183,6 @@
     <attr name="skin_hotelConfirmationPlaceholderDrawable" format="reference" />
     <attr name="skin_couponSuccessMessageColor" fomrat="reference|color"/>
 
-    <attr name="skin_infoContactUsString" format="reference|string"/>
 
     <attr name="skin_loadingAirAsiaRoutesString" format="reference|string" />
     <attr name="skin_itinCardOverflowDrawable" format="reference"/>
