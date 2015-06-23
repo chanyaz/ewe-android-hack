@@ -90,6 +90,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	@Override
 	protected void onFinishInflate() {
+		super.onFinishInflate();
 		ButterKnife.inject(this);
 		setupToolbar();
 
