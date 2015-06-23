@@ -149,7 +149,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 				FlightStatsDbUtils.setUpgradeCutoff(DateUtils.DAY_IN_MILLIS); // 1 day cutoff for upgrading FS.db
 			}
 
-			FlightStatsDbUtils.createDatabaseIfNotExists(this);
+			FlightStatsDbUtils.createDatabaseIfNotExists(this, BuildConfig.RELEASE);
 		}
 		catch (IOException e) {
 			throw new RuntimeException(e);

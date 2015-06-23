@@ -1,8 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.DateTime;
 
 import android.annotation.SuppressLint;
@@ -31,7 +28,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
@@ -46,8 +42,6 @@ import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
-import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.utils.AddFlightsIntentUtils;
 
 // We can assume that if this fragment loaded we successfully booked, so most
 // data we need to grab is available.
@@ -220,19 +214,6 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 			Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
 		}
 
-		if (canTrackWithFlightTrack()) {
-			Ui.setOnClickListener(v, R.id.flighttrack_action_text_view, new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					startActivity(getFlightTrackIntent());
-				}
-			});
-		}
-		else {
-			Ui.findView(v, R.id.flighttrack_action_text_view).setVisibility(View.GONE);
-			Ui.findView(v, R.id.flighttrack_divider).setVisibility(View.GONE);
-		}
-
 		// Only display an insurance url if it exists. Currently only present for CA POS.
 		final String insuranceUrl = PointOfSale.getPointOfSale().getInsuranceUrl();
 		if (!TextUtils.isEmpty(insuranceUrl)) {
@@ -341,23 +322,5 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		PointOfSale pointOfSale = PointOfSale.getPointOfSale();
 		String itineraryNumber = Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber();
 		return AddToCalendarUtils.generateFlightAddToCalendarIntent(getActivity(), pointOfSale, itineraryNumber, leg);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// FlightTrack integration
-
-	public Intent getFlightTrackIntent() {
-		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-		List<Flight> flights = new ArrayList<Flight>();
-		for (int a = 0; a < trip.getLegCount(); a++) {
-			flights.addAll(trip.getLeg(a).getSegments());
-		}
-		return AddFlightsIntentUtils.getIntent(flights);
-	}
-
-	public boolean canTrackWithFlightTrack() {
-		//Track with Flight track only for expedia.
-		return ProductFlavorFeatureConfiguration.getInstance().isTrackingWithFlightTrackEnabled() ? NavUtils
-			.isIntentAvailable(getActivity(), getFlightTrackIntent()) : false;
 	}
 }

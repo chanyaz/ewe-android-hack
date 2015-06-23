@@ -33,7 +33,6 @@ import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -234,11 +233,6 @@ public class ShareUtils {
 	public String getFlightShareEmail(FlightTrip trip, List<Traveler> travelers) {
 		//This method is called only for sharing in flight confirmation screen. So the isShared & travelerName would not be relevant.
 		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers, null, false, null);
-	}
-
-	public String getFlightShareEmail(FlightTrip trip, List<Traveler> travelers, String sharableDetailsURL) {
-		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers,
-				sharableDetailsURL, false, null);
 	}
 
 	public String getFlightShareEmail(FlightLeg leg, List<Traveler> travelers, String sharableDetailsURL, boolean isShared, String travelerFirstName) {
@@ -795,16 +789,6 @@ public class ShareUtils {
 
 	// Helper methods
 
-	private void appendLabelValue(Context context, StringBuilder sb, int labelStrId, String value) {
-		appendLabelValue(sb, context.getString(labelStrId), value);
-	}
-
-	private void appendLabelValue(StringBuilder sb, String label, String value) {
-		sb.append(label);
-		sb.append(": ");
-		sb.append(value);
-	}
-
 	private void addShareLeg(StringBuilder sb, FlightLeg flightLeg) {
 		Resources res = mContext.getResources();
 		int segCount = flightLeg.getSegmentCount();
@@ -861,9 +845,6 @@ public class ShareUtils {
 	public Intent[] getShareIntents(ItinContentGenerator<? extends ItinCardData> generator) {
 		ArrayList<Intent> intents = new ArrayList<Intent>();
 
-		if (generator instanceof FlightItinContentGenerator) {
-			intents.add(((FlightItinContentGenerator) generator).getShareWithFlightTrackIntent());
-		}
 		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookShareIntegrationEnabled() && AndroidUtils
 			.isPackageInstalled(mContext, "com.facebook.katana")) {
 			intents.add(FacebookShareActivity.createIntent(mContext, generator));
