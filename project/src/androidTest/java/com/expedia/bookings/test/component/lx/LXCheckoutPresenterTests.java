@@ -28,10 +28,13 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
@@ -116,5 +119,23 @@ public class LXCheckoutPresenterTests {
 		CheckoutViewModel.clickDone();
 		ScreenActions.delay(1);
 		LXViewModel.checkoutSlideToPurchase().check(matches(isDisplayed()));
+	}
+
+	@Test
+	public void testRulesWidgetOnFreeCancellationInfoClick() {
+		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
+		LXViewModel.checkoutFreeCancellationText().check(matches(withText("Free Cancellation")));
+		LXViewModel.checkoutFreeCancellationText().perform(click());
+
+		LXViewModel.rulesWidget().check(matches(isDisplayed()));
+		LXViewModel.rulesWidgetCancellationPolicyHeader().check(matches(isDisplayed()));
+		String cancellationPolicyContent = LXDataUtils
+			.getCancelationPolicyDisplayText(playground.get(), "72 hours");
+		LXViewModel.rulesWidgetCancellationPolicyContent(cancellationPolicyContent).check(matches(isDisplayed()));
+		LXViewModel.rulesWidgetRulesRestrictions().check(matches(isDisplayed()));
+		LXViewModel.rulesWidgetTermsConditions().check(matches(isDisplayed()));
+		LXViewModel.rulesWidgetPrivacyPolicy().check(matches(isDisplayed()));
+		LXViewModel.rulesWidgetToolbar().check(matches(isDisplayed()));
+		LXViewModel.rulesWidgetToolbar().check(matches(hasDescendant(withText(R.string.legal_information))));
 	}
 }
