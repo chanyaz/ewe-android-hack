@@ -9,6 +9,7 @@ import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -31,6 +32,7 @@ import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import rx.Observer;
@@ -117,7 +119,9 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	private void showGenericCreateTripErrorDialog() {
 		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
 		b.setCancelable(false)
-			.setMessage(getResources().getString(R.string.error_server))
+			.setMessage(
+				Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format()
+					.toString())
 			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {

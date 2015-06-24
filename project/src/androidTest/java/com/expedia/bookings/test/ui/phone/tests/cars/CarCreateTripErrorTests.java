@@ -2,10 +2,12 @@ package com.expedia.bookings.test.ui.phone.tests.cars;
 
 import org.joda.time.DateTime;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.component.cars.CarViewModel;
 import com.expedia.bookings.test.ui.utils.CarTestCase;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
+import com.squareup.phrase.Phrase;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -47,7 +49,9 @@ public class CarCreateTripErrorTests extends CarTestCase {
 
 		screenshot("Car Create Trip Failure Dialog");
 		CarViewModel.alertDialog().check(matches(isDisplayed()));
-		CarViewModel.alertDialogMessage().check(matches(withText(R.string.error_server)));
+		CarViewModel.alertDialogMessage().check(matches(withText(
+			Phrase.from(getActivity(), R.string.error_server_TEMPLATE).put("brand",
+				BuildConfig.brand).format().toString())));
 		CarViewModel.alertDialogPositiveButton().perform(click());
 
 		screenshot("Car Search");

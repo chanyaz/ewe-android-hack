@@ -96,8 +96,6 @@
     <!-- Hotel Confirmation, Customer support option drawable -->
     <attr name="skin_hotelConfirmationCallActionDrawable" format="reference" />
 
-    <!-- Hotel Confirmation Customer support text-->
-    <attr name="skin_hotelConfirmationCallActionText" format="reference" />
 
     <!-- Hotel confirmation screen, login button text and icons -->
     <attr name="skin_hotelCheckoutLoginButtonText" format="reference|string" />
@@ -150,9 +148,6 @@
     <!-- Flight loading screen message position -->
     <attr name="skin_flightLoadingMessagePosition" format="reference" />
 
-    <attr name="skin_flightUnhandledErrorMessage" format="reference|string" />
-    <attr name="skin_serverErrorMessageString" format="reference|string" />
-    <attr name="skin_savePaymentToAccountString" format="reference|string" />
     <attr name="skin_saveTravelerToAccountString" format="reference|string" />
 
     <!-- for traveller_info_page logo-->
@@ -187,10 +182,8 @@
     <attr name="skin_hotelConfirmationPlaceholderDrawable" format="reference" />
     <attr name="skin_couponSuccessMessageColor" fomrat="reference|color"/>
 
-    <attr name="skin_infoContactUsString" format="reference|string"/>
 
     <attr name="skin_loadingAirAsiaRoutesString" format="reference|string" />
-    <attr name="skin_itineraryNumberString" format="reference|string" />
     <attr name="skin_itinCardOverflowDrawable" format="reference"/>
     <attr name="skin_itinCardActionBarCheckmark" format="reference"/>
     <attr name="skin_itinCardTitleTextColor" format="reference|color"/>
@@ -199,8 +192,6 @@
     <!-- Room not Available Error Msg-->
     <attr name="skin_roomNotAvailableError" format="string"/>
 
-    <!-- Flight(s) not Available Error Msg-->
-    <attr name="skin_singleFlightNotAvailableError" format="string"/>
     <attr name="skin_flightsNotAvailableError" format="string"/>
 
     <!--CVV and CVV Error-->
@@ -227,12 +218,9 @@
     <!--Hotel Offers Hotel Service Failure Error Message-->
     <attr name="skin_errorHotelOffersHotelServiceFailureString" format="string" />
 
-    <!--Add Calender POS Messages-->
-    <attr name="skin_addToCalenderMessage" format="reference|string" />
 
     <!--Missing string in AirAsiaGo and Travelocity-->
     <attr name="skin_sorryRoomsSoldOut" format="reference|string" />
-    <attr name="skin_restrictedProfileLoginMessage" format="reference|string" />
     <attr name="skin_sorryRoomsSoldOutErrorMessage" format="reference|string" />
 
     <!--Change the color of flight circles and lines -->

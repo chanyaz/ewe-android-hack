@@ -4,7 +4,6 @@
     <string name="travelocity_best_price_guarantee">Travelocity Price Guarantee</string>
 
     <string name="customer_support_text">Call Travelocity Customer Support</string>
-    <string name="call_travelocity_customer_support">Call Travelocity Customer Support</string>
 
     <!-- Log in with Travelocity -->
     <string name="Log_in_with_Travelocity">Log in with Travelocity</string>
@@ -22,11 +21,7 @@
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_travelocity">Are you sure you want to log out of your Travelocity account?</string>
 
-    <string name="error_flight_unhandled_travelocity_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call Travelocity Customer Support and quote this itinerary number: %s</string>
-    <string name="error_server_travelocity">Sorry, we could not connect to Travelocity\'s servers.  Please try again later.</string>
 
-    <!-- save billing info message -->
-    <string name="save_billing_travelocity_info_message">Save this payment method under your Travelocity account to speed up future purchases?</string>
 
     <!-- Save traveler name Template -->
     <string name="save_traveler_travelocity_message_TEMPLATE">Save %1$s\'s information under your Travelocity account to speed up future purchases?</string>
@@ -42,16 +37,9 @@
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure_tvly">We\'re sorry, but we couldn\'t connect to Travelocity. Please try again.</string>
 
-    <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_travelocity_via">Contact Travelocity Via…</string>
     <!-- Contact Expedia via email subject -->
     <string name="contact_travelocity_email_subject">Travelocity Reservations Support</string>
-    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template_tvly">If you have questions about your reservation, please call Travelocity at %s.</string>
-    <!-- Travelocity Itinerary -->
-    <string name="tvly_itinerary">Travelocity Itinerary #</string>
 
-    <string name="error_flight_no_longer_available_tvly">We\'re really sorry, your flight is no longer available from Travelocity.</string>
 
     <string name="error_flights_no_longer_available_tvly">We\'re really sorry, one of your flights is no longer available from Travelocity.</string>
 
@@ -70,7 +58,6 @@
     <string name="tell_a_friend_body_tvly">Hi there,\n\nCheck out Travelocity Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
     <string name="cd_log_in_email_edit_text_tvly">Enter Travelocity account email address</string>
     <string name="tell_a_friend_subject_tvly">Travelocity Hotels</string>
-    <string name="restricted_profile_login_message_tvly">To log in to Travelocity, you must use an unrestricted user profile on your device.</string>
     <string name="cd_log_in_password_edit_text_tvly">Enter Travelocity account password</string>
     <string name="cd_launch_open_eb_info_screen_tvly">Open Travelocity Bookings information screen</string>
     <string name="loading_tvly_account">Loading Travelocity Account</string>

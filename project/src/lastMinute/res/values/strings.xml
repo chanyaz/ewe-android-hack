@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="call_lm_customer_support">Call lastminute.com.au Customer Support</string>
 
     <!-- Log in with lastminute.com.au -->
     <string name="Log_in_with_lm">Log in with lastminute.com.au</string>
@@ -21,11 +20,7 @@
     <!-- Expedia booking fee -->
     <string name="lm_booking_fee">lastminute.com.au Booking Fee</string>
 
-    <string name="error_flight_unhandled_lm_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call lastminute.com.au Customer Support and quote this itinerary number: %s</string>
-    <string name="error_server_lm">Sorry, we could not connect to lastminute.com.au\'s servers.  Please try again later.</string>
 
-    <!-- save billing info message -->
-    <string name="save_billing_lm_info_message">Save this payment method under your lastminute.com.au account to speed up future purchases?</string>
 
     <!-- Save traveler name Template -->
     <string name="save_traveler_lm_message_TEMPLATE">Save %1$s\'s information under your lastminute.com.au account to speed up future purchases?</string>
@@ -47,16 +42,9 @@
     <!-- Shop travel label -->
     <string name="shop_travel">Shop travel</string>
 
-    <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_lm_via">Contact lastminute.com.au Via…</string>
     <!-- Contact Expedia via email subject -->
     <string name="contact_lm_email_subject">lastminute.com.au Reservations Support</string>
-    <!-- lastminute.com.au- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template_lm">If you have questions about your reservation, please call lastminute.com.au at %s.</string>
-    <!-- lastminute.com.au Itinerary -->
-    <string name="lm_itinerary">lastminute.com.au Itinerary #</string>
 
-    <string name="error_flight_no_longer_available_lm">We\'re really sorry, your flight is no longer available from lastminute.com.au.</string>
 
     <string name="error_flights_no_longer_available_lm">We\'re really sorry, one of your flights is no longer available from lastminute.com.au.</string>
 
@@ -72,7 +60,6 @@
     <!-- Missing strings for lastminute.com.au from Expedia-->
     <string name="tell_a_friend_body_lm">Hi there,\n\nCheck out lastminute.com.au Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
     <string name="tell_a_friend_subject_lm">lastminute.com.au Hotels</string>
-    <string name="restricted_profile_login_message_lm">To log in to lastminute.com.au, you must use an unrestricted user profile on your device.</string>
     <string name="loading_lm_account">Loading lastminute.com.au Account</string>
     <string name="e3_error_checkout_booking_succeeded_with_errors_lm">You successfully booked your hotel! If you need an itinerary immediately, please call lastminute.com.au Customer Support.</string>
     <string name="lm_password_hint">lastminute.com.au Password</string>

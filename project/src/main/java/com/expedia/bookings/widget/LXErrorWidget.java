@@ -14,12 +14,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -78,18 +80,19 @@ public class LXErrorWidget extends FrameLayout {
 		switch (error.errorCode) {
 
 		case INVALID_INPUT:
-			int resID = R.string.error_server;
+			String message = Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand)
+				.format().toString();
 			if (error.errorInfo.field.equals("lastName")) {
-				resID = R.string.reservation_invalid_name;
+				message = getResources().getString(R.string.reservation_invalid_name);
 			}
 			else if (error.errorInfo.field.equals("firstName")) {
-				resID = R.string.reservation_invalid_name;
+				message = getResources().getString(R.string.reservation_invalid_name);
 			}
 			else if (error.errorInfo.field.equals("phone")) {
-				resID = R.string.reservation_invalid_phone;
+				message = getResources().getString(R.string.reservation_invalid_phone);
 			}
 			bindText(R.drawable.error_default,
-				resID,
+				message,
 				R.string.lx_invalid_input_text,
 				R.string.edit_info);
 			errorButton.setOnClickListener(new OnClickListener() {
@@ -179,7 +182,7 @@ public class LXErrorWidget extends FrameLayout {
 
 	private void showDefaultError() {
 		bindText(R.drawable.error_default,
-			R.string.error_server,
+			R.string.error_server_TEMPLATE,
 			R.string.lx_error_text,
 			R.string.retry);
 		errorButton.setOnClickListener(new OnClickListener() {
@@ -204,8 +207,12 @@ public class LXErrorWidget extends FrameLayout {
 	}
 
 	private void bindText(int imageId, int textId, int toolbarTextId, int buttonTextId) {
+		bindText(imageId, getResources().getString(textId), toolbarTextId, buttonTextId);
+	}
+
+	private void bindText(int imageId, String text, int toolbarTextId, int buttonTextId) {
 		errorImage.setImageResource(imageId);
-		errorText.setText(textId);
+		errorText.setText(text);
 		toolbar.setTitle(toolbarTextId);
 		errorButton.setText(buttonTextId);
 	}

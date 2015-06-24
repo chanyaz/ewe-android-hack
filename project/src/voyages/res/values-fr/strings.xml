@@ -111,8 +111,6 @@
     <string name="error_booking_null">Impossible de se connecter aux serveurs de L’Agence Voyages-sncf.com. Veuillez vérifier votre connexion et réessayer plus tard.</string>
 
     <!-- Confirmation activity -->
-    <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template_vsc">Si vous avez des questions au sujet de votre réservation, veuillez contacter L’Agence Voyages-sncf.com au %s.</string>
 
     <!-- Rate template strings -->
     <!-- Label for total cost paid to expedia (not including "mandatory fees") -->
@@ -151,8 +149,6 @@
     <!-- VSC Copyright information -->
     <string name="VSC_copyright_TEMPLATE">© Copyright 2012-%1$s L’Agence Voyages-sncf.com.\nTous droits réservés.</string>
 
-    <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server_vsc">Désolé, la connexion aux serveurs L’Agence Voyages-sncf.com a échoué. Veuillez réessayer plus tard.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure_vsc">Désolés, nous n\&apos;avons pas pu vous connecter à L’Agence Voyages-sncf.com. Veuillez réessayer.</string>
 
@@ -166,21 +162,13 @@
     <string name="share_template_long_hotel_1_greeting">Merci d’avoir choisi l’application de L’Agence Voyages-sncf.com ! Votre réservation est confirmée : %1$s, pendant %2$s.</string>
     <!-- App download link -->
     <string name="share_template_long_ad_vsc">A bientôt sur notre application. Voyages-sncf vous souhaite un bon voyage.</string>
-    <!-- VSC Itinerary -->
-    <string name="vsc_itinerary">N° de voyage L’Agence Voyages-sncf.com</string>
 
     <!-- Content description for action: Press to log in with your VSC account -->
     <string name="cd_checkout_log_in_with_vsc">Appuyez pour vous connecter à votre compte L’Agence Voyages-sncf.com</string>
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_vsc">Êtes-vous sûr de vouloir vous déconnecter de votre compte L’Agence Voyages-sncf.com ?</string>
-    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_vsc">Désolés, votre vol n\&apos;est plus disponible sur L’Agence Voyages-sncf.com.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available_vsc">Désolés, un de vos vols n\&apos;est plus disponible sur L’Agence Voyages-sncf.com.</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE_vsc">Désolés, nous ne sommes pas en mesure de traiter votre demande pour le moment. Veuillez réessayer ou appeler l\&apos;assistance clientèle de L’Agence Voyages-sncf.com et communiquer le numéro de voyage suivant : %s</string>
-    <!-- save billing info message -->
-    <string name="save_billing_info_message_vsc">Enregistrer ce mode de paiement dans votre compte L’Agence Voyages-sncf.com pour réserver plus rapidement dans le futur ?</string>
     <!-- Save traveler name Template -->
     <string name="save_traveler_message_TEMPLATE_vsc">Enregistrer les informations sur %1$s dans votre compte L’Agence Voyages-sncf.com pour réserver plus rapidement dans le futur ?</string>
     <!-- Handling sold out hotels -->
@@ -200,16 +188,10 @@
     <string name="tell_a_friend_body_vsc">Bonjour,\n\nVenez découvrir L’Agence Voyages-sncf.com Hôtels pour iPhone et téléphones Android. Cette application est gratuite et vous permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec votre téléphone.</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
     <string name="sorry_rooms_sold_out_vsc">Désolé, plus aucune chambre n\&apos;est libre sur L’Agence Voyages-sncf.com.</string>
-    <!-- Restricted profile login message -->
-    <string name="restricted_profile_login_message_vsc">Pour vous connecter à L’Agence Voyages-sncf.com, vous devez utiliser un profil sans restrictions d\&apos;accès sur votre appareil mobile.</string>
-    <!-- Title for different ways to connect to VSC -->
-    <string name="contact_vsc_via">Contacter L’Agence Voyages-sncf.com par…</string>
     <!-- Contact VSC via email subject -->
     <string name="contact_vsc_email_subject">Assistance réservations L’Agence Voyages-sncf.com</string>
     <!-- Label for "VSC website" button in info page -->
     <string name="vsc_website">Site Internet L’Agence Voyages-sncf.com</string>
-    <!-- Button label for calling vsc customer support -->
-    <string name="call_vsc_customer_support">Appeler l\&apos;assistance clientèle L’Agence Voyages-sncf.com</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_logged_out_and_cleared_private_data_vsc">Vous vous êtes déconnecté de votre compte L’Agence Voyages-sncf.com. Toutes les coordonnées et les données de facturation sauvegardées ont été supprimées.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the vsc mobile site in an external browser -->

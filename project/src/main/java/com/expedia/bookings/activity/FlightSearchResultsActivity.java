@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
@@ -83,6 +84,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
+import com.squareup.phrase.Phrase;
 
 public class FlightSearchResultsActivity extends FragmentActivity implements FlightListFragmentListener,
 		OnBackStackChangedListener, RetryErrorDialogFragmentListener, NoFlightsFragmentListener,
@@ -870,7 +872,9 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 					error.setPresentationMessage(getString(R.string.error_no_internet));
 				}
 				else {
-					error.setPresentationMessage(getString(Ui.obtainThemeResID(mContext, R.attr.skin_serverErrorMessageString)));
+					error.setPresentationMessage(
+						Phrase.from(FlightSearchResultsActivity.this, R.string.error_server_TEMPLATE)
+							.put("brand", BuildConfig.brand).format().toString());
 				}
 				error.setCode(ERROR_CODE_SIMULATED);
 				response.addError(error);

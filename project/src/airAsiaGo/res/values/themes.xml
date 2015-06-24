@@ -14,7 +14,6 @@
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
-        <item name="skin_hotelConfirmationCallActionText">@string/call_aag_customer_support</item>
         <item name="skin_hotelCheckoutLoginButtonText">@string/Log_in_with_aag</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels_aag</item>
         <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_aag</item>
@@ -24,11 +23,7 @@
         <item name="skin_aboutAppSupportString">@string/aag_app_support</item>
         <item name="skin_aboutCopyrightString">@string/aag_copyright_TEMPLATE</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
-        <item name="skin_flightUnhandledErrorMessage">@string/error_flight_unhandled_aag_TEMPLATE</item>
-        <item name="skin_serverErrorMessageString">@string/error_server_aag</item>
-        <item name="skin_savePaymentToAccountString">@string/save_billing_aag_info_message</item>
         <item name="skin_saveTravelerToAccountString">@string/save_traveler_aag_message_TEMPLATE</item>
-        <item name="skin_infoContactUsString">@string/contact_aag_via</item>
         <item name="skin_loadingAirAsiaRoutesString">@string/loading_air_asia_routes_aag</item>
         <item name="skin_hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale_airasiago</item>
         <item name="skin_roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon_airasiago</item>
@@ -46,7 +41,6 @@
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_aag</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_aag_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_aag_traveler_logo_disabled</item>
-        <item name="skin_singleFlightNotAvailableError">@string/error_flight_no_longer_available_aag</item>
         <item name="skin_flightsNotAvailableError">@string/error_flights_no_longer_available_aag</item>
         <item name="skin_hotelListMapMarkerDrawable">@drawable/map_pin_normal_aag</item>
         <item name="skin_hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale_aag</item>
@@ -63,9 +57,7 @@
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_aag</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_aag</item>
         <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark_aag</item>
-        <item name="skin_addToCalenderMessage">@string/contact_phone_template_aag</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_aag</item>
-        <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_login_message_aag</item>
         <item name="skin_flightLineColor">@color/flight_trip_color_aag</item>
         <item name="skin_flightPriceTextColor">@color/flight_trip_price_aag</item>
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_aag</item>
@@ -155,10 +147,8 @@
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_aag</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_aag</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel_aag</item>
-        <item name="skin_addToCalenderMessage">@string/contact_phone_template_aag</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_aag</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_aag</item>
-        <item name="skin_itineraryNumberString">@string/aag_itinerary</item>
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>

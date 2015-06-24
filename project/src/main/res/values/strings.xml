@@ -901,7 +901,7 @@
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
-    <string name="restricted_profile_sign_in_message">To sign in to Expedia, you must use an unrestricted user profile on your device.</string>
+    <string name="restricted_profile_sign_in_message_TEMPLATE">To sign in to {brand}, you must use an unrestricted user profile on your device.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
@@ -1004,7 +1004,7 @@
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Find Itinerary #</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">Expedia Itinerary #</string>
+    <string name="itinerary_TEMPLATE">{brand} Itinerary #</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
     <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver Customer Support</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
@@ -1558,7 +1558,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Inbound Flights to %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">Sorry, we could not connect to Expedia\'s servers.  Please try again later.</string>
+    <string name="error_server_TEMPLATE">Sorry, we could not connect to {brand}\'s servers.  Please try again later.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Departs</string>
     <!-- Sort by arrival time label -->
@@ -1983,7 +1983,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">Save Billing Info</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">Save this payment method under your Expedia account to speed up future purchases?</string>
+    <string name="save_billing_info_message_TEMPLATE">Save this payment method under your {brand} account to speed up future purchases?</string>
     <!-- save -->
     <string name="save">Save</string>
 
@@ -2122,7 +2122,7 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">Track with FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">Call Expedia Customer Support</string>
+    <string name="call_customer_support_TEMPLATE">Call {brand} Customer Support</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Add Insurance</string>
     <!-- Insurance -->
@@ -2215,9 +2215,9 @@
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Sorry, we don\'t seem to be able to process your order right now. Please try again.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call Expedia Customer Support and quote this itinerary number: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call {brand} Customer Support and quote this itinerary number: {itinerary}</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_expedia">We\'re really sorry, your flight is no longer available from Expedia.</string>
+    <string name="error_flight_no_longer_available_TEMPLATE">We\'re really sorry, your flight is no longer available from {brand}.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available_expedia">We\'re really sorry, one of your flights is no longer available from Expedia.</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
@@ -2727,7 +2727,7 @@
     <!-- Itinerary number label -->
     <string name="itinerary_number">Itinerary #</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">If you have questions about your reservation, please call Expedia at %s.</string>
+    <string name="contact_phone_TEMPLATE">If you have questions about your reservation, please call {brand} at {phone}.</string>
 
 
     <!-- Rate template strings -->
@@ -2834,7 +2834,7 @@
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Booking Support</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">Contact Expedia Via…</string>
+    <string name="contact_via_TEMPLATE">Contact {brand} Via…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Phone</string>
     <!-- Contact Expedia via website -->

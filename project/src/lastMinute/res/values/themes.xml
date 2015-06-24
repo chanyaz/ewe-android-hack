@@ -39,7 +39,6 @@
         <item name="skin_actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_blue_lm</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_white_lm</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_lm</item>
-        <item name="skin_hotelConfirmationCallActionText">@string/call_lm_customer_support</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_lm</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_lm</item>
         <item name="skin_hotelCheckoutLoginButtonText">@string/Log_in_with_lm</item>
@@ -60,9 +59,6 @@
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_lm</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_flightLoadingMessagePosition">@id/search_progress_flight_lm</item>
-        <item name="skin_flightUnhandledErrorMessage">@string/error_flight_unhandled_lm_TEMPLATE</item>
-        <item name="skin_serverErrorMessageString">@string/error_server_lm</item>
-        <item name="skin_savePaymentToAccountString">@string/save_billing_lm_info_message</item>
         <item name="skin_saveTravelerToAccountString">@string/save_traveler_lm_message_TEMPLATE</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_lm_white_logo_small</item>
         <item name="skin_bgFindItineraryButton">@drawable/btn_find_lm</item>
@@ -73,10 +69,8 @@
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_lm</item>
         <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color_lm</item>
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_lm</item>
-        <item name="skin_infoContactUsString">@string/contact_lm_via</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_lm_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_lm_white_logo_small</item>
-        <item name="skin_singleFlightNotAvailableError">@string/error_flight_no_longer_available_lm</item>
         <item name="skin_flightsNotAvailableError">@string/error_flights_no_longer_available_lm</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_lm</item>
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_lm</item>
@@ -84,9 +78,7 @@
         <item name="skin_hotelSearchResultSoldOut">@string/sold_out_on_lm</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_lm</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext</item>
-        <item name="skin_addToCalenderMessage">@string/contact_phone_template_lm</item>
         <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_lm</item>
-        <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_login_message_lm</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_lm</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_lm</item>
         <item name="skin_sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_lm</item>
@@ -175,12 +167,10 @@
         <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_lm</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_lm</item>
-        <item name="skin_addToCalenderMessage">@string/contact_phone_template_lm</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_lm</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_lm</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
-        <item name="skin_itineraryNumberString">@string/lm_itinerary</item>
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_lm</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_lm</item>
@@ -216,7 +206,6 @@
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title_lm</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
-        <item name="skin_itineraryNumberString">@string/lm_itinerary</item>
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_lm</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_lm</item>

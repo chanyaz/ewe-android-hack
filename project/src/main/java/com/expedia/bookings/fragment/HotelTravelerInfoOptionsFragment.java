@@ -15,6 +15,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.Codes;
@@ -32,6 +33,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.util.ViewUtils;
+import com.squareup.phrase.Phrase;
 
 public class HotelTravelerInfoOptionsFragment extends Fragment {
 
@@ -242,7 +244,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 
 			if (results == null) {
 				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
-						getString(Ui.obtainThemeResID(getActivity(), R.attr.skin_serverErrorMessageString)));
+						Phrase.from(getActivity(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 				dialogFragment.show(getFragmentManager(), "errorFragment");
 			}
 			else if (results.hasErrors()) {
