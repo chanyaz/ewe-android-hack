@@ -166,8 +166,6 @@
     <string name="not_currently_available_vsc">Actuellement non disponible sur L’Agence Voyages-sncf.com</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
     <string name="not_currently_available_vsc_TEMPLATE">Actuellement non disponible sur L’Agence Voyages-sncf.com %s</string>
-    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "VSC Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE_vsc">N° de voyage L’Agence Voyages-sncf.com : %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "VSC Customer Support: 222-222-2222" -->
     <string name="calendar_flight_desc_support_TEMPLATE_vsc">Assistance clientèle L’Agence Voyages-sncf.com : %s</string>
     <!-- Subject line for "tell a friend" feature -->

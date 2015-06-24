@@ -215,8 +215,6 @@
     <!--Change the color of flight circles and lines -->
     <attr name="skin_flightLineColor" format="reference" />
 
-    <!-- calendar description for flight's itinerary and support-->
-    <attr name="skin_calendarFlightDescItinerary" format="reference|string" />
     <attr name="skin_calendarFlightDescSupport" format="reference|string" />
     <attr name="skin_flightPriceTextColor" format="reference|color" />
     <attr name="skin_icSuitCaseBaggage" format="reference" />

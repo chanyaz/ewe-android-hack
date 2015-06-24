@@ -73,7 +73,6 @@
         <item name="skin_clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_lm</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_lm</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext</item>
-        <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_lm</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_lm</item>
         <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure_lm</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_log_in_lm</item>
@@ -159,7 +158,6 @@
         <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_lm</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_lm</item>
-        <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_lm</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_lm</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>

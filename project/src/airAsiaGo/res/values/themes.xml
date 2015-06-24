@@ -55,7 +55,6 @@
         <item name="skin_flightLineColor">@color/flight_trip_color_aag</item>
         <item name="skin_flightPriceTextColor">@color/flight_trip_price_aag</item>
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_aag</item>
-        <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_aag</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_aag</item>
         <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure_aag</item>
         <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
@@ -139,7 +138,6 @@
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_aag</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_aag</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel_aag</item>
-        <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_aag</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_aag</item>
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>

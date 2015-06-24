@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.provider.CalendarContract;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -15,6 +16,7 @@ import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
+import com.squareup.phrase.Phrase;
 
 public class AddToCalendarUtils {
 
@@ -65,7 +67,9 @@ public class AddToCalendarUtils {
 
 		StringBuilder sb = new StringBuilder();
 		if (!TextUtils.isEmpty(itineraryNumber)) {
-			sb.append(context.getString(Ui.obtainThemeResID(context, R.attr.skin_calendarFlightDescItinerary), itineraryNumber));
+			sb.append(
+				Phrase.from(context, R.string.calendar_flight_desc_itinerary_TEMPLATE).put("brand", BuildConfig.brand)
+					.put("itinerary", itineraryNumber).format());
 			sb.append("\n\n");
 		}
 		sb.append(context.getString(R.string.calendar_flight_desc_directions_TEMPLATE,
