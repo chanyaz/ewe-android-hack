@@ -891,7 +891,7 @@
     <!-- Sign In -->
     <string name="Sign_In">Sign In</string>
     <!-- Sign in with Expedia -->
-    <string name="Sign_in_with_Expedia">Sign in with Expedia</string>
+    <string name="Sign_in_with_TEMPLATE">Sign in with {brand}</string>
     <!-- Sign in with the current brand -->
     <string name="sign_in_with_brand_TEMPLATE">Sign in with {brand}</string>
     <!-- or -->

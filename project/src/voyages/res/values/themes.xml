@@ -37,7 +37,6 @@
         <item name="skin_hotelConfirmationCallActionDrawable">@null</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_log_out_vsc</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_vsc</item>
-        <item name="skin_hotelCheckoutLoginButtonText">@string/hotel_checkout_logIn_button_text</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_vsc</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale_vsc</item>

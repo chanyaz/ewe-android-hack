@@ -96,8 +96,6 @@
     <attr name="skin_hotelConfirmationCallActionDrawable" format="reference" />
 
 
-    <!-- Hotel confirmation screen, login button text and icons -->
-    <attr name="skin_hotelCheckoutLoginButtonText" format="reference|string" />
     <attr name="skin_hotelCheckoutLogoutLogoDrawable" format="reference" />
     <attr name="skin_phoneCheckoutLoginLogoDrawable" format="reference" />
     <attr name="skin_phoneCheckoutLoginButtonDrawable" format="reference" />

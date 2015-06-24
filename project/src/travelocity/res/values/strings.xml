@@ -5,8 +5,6 @@
 
     <string name="customer_support_text">Call Travelocity Customer Support</string>
 
-    <!-- Log in with Travelocity -->
-    <string name="Log_in_with_Travelocity">Log in with Travelocity</string>
     <!-- Content description for action: Press to log in with your Travelocity account -->
     <string name="cd_checkout_log_in_with_travelocity">Press to log in to your Travelocity account</string>
 

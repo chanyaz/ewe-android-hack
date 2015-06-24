@@ -9,8 +9,6 @@
     <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;, nous avons trouvé votre compte L’Agence Voyages-sncf.com ! Veuillez saisir votre mot de passe L’Agence Voyages-sncf.com ci-dessous afin de lier vos comptes Facebook et L’Agence Voyages-sncf.com.</string>
     <!-- Log in with VSC -->
     <string name="Log_in_with_VSC">Se connecter</string>
-    <!-- Login button text in hotel Confirmation screen for VSC -->
-    <string name="hotel_checkout_logIn_button_text">Déjà membre ?</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Echec de connexion. Un compte spécifique pour la réservation est nécessaire.</string>
     <!-- Facebook connect expedia password hint -->
