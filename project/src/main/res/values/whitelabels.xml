@@ -219,7 +219,6 @@
     <attr name="skin_errorHotelOffersHotelServiceFailureString" format="string" />
 
 
-    <attr name="skin_sorryRoomsSoldOutErrorMessage" format="reference|string" />
 
     <!--Change the color of flight circles and lines -->
     <attr name="skin_flightLineColor" format="reference" />

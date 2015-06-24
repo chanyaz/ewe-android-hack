@@ -99,8 +99,6 @@
     <string name="sort_description_rating">Avis</string>
 
     <!-- Progress messages -->
-    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_vsc">Désolé, cet hôtel n\&apos;est plus disponible. Veuillez en sélectionner un autre.</string>
 
     <!-- Booking info -->
     <!-- Title for dialog confirming the clearing of private data -->

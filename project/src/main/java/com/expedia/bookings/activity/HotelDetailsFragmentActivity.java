@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -45,6 +46,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
+import com.squareup.phrase.Phrase;
 
 public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelDetailsMiniMapClickedListener,
 	RecyclerGallery.GalleryItemListener {
@@ -431,19 +433,20 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 				return;
 			}
 			else if (response.hasErrors()) {
-				int messageResId;
 				if (response.isHotelUnavailable()) {
-					messageResId = Ui.obtainThemeResID(mContext, R.attr.skin_sorryRoomsSoldOutErrorMessage);
+					String message = Phrase.from(mContext, R.string.error_hotel_is_now_sold_out_TEMPLATE)
+						.put("brand", BuildConfig.brand).format().toString();
+					showErrorDialog(message);
 				}
 				else {
-					messageResId = Ui.obtainThemeResID(mContext, R.attr.skin_errorHotelOffersHotelServiceFailureString);
+					int messageId = Ui.obtainThemeResID(mContext, R.attr.skin_errorHotelOffersHotelServiceFailureString);
+					showErrorDialog(messageId);
 				}
-				showErrorDialog(messageResId);
 			}
 			else if ((Db.getHotelSearch().getAvailability(selectedId) == null
 				|| Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0)
 				&& Db.getHotelSearch().getSearchParams().getSearchType() != SearchType.HOTEL) {
-				showErrorDialog(Ui.obtainThemeResID(mContext, R.attr.skin_sorryRoomsSoldOutErrorMessage));
+				showErrorDialog(Phrase.from(mContext, R.string.error_hotel_is_now_sold_out_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 			}
 			else {
 				Db.kickOffBackgroundHotelSearchSave(mContext);
@@ -470,8 +473,12 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	};
 
 	private void showErrorDialog(int messageResId) {
+		showErrorDialog(getResources().getString(messageResId));
+	}
+
+	private void showErrorDialog(String message) {
 		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-		dialog.setMessage(messageResId);
+		dialog.setMessage(message);
 		dialog.show(getSupportFragmentManager(), "errorDialog");
 	}
 

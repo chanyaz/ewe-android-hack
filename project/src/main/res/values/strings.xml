@@ -2453,7 +2453,7 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">No hotel rooms available</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_expedia">We\&apos;re sorry but this hotel is no longer available from Expedia.</string>
+    <string name="error_hotel_is_now_sold_out_TEMPLATE">We\&apos;re sorry but this hotel is no longer available from {brand}.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->

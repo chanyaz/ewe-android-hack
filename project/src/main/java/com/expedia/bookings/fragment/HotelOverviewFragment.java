@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
@@ -90,6 +91,7 @@ import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
 	LoginConfirmLogoutDialogFragment.DoLogoutListener,
@@ -1624,7 +1626,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 
 			mBookingUnavailableDialog = HotelErrorDialog.newInstance();
-			mBookingUnavailableDialog.setMessage(Ui.obtainThemeResID(getActivity(), R.attr.skin_sorryRoomsSoldOutErrorMessage));
+			mBookingUnavailableDialog.setMessage(
+				Phrase.from(getActivity(), R.string.error_hotel_is_now_sold_out_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 			mBookingUnavailableDialog.show(getFragmentManager(), HOTEL_SOLD_OUT_DIALOG);
 		}
 	}

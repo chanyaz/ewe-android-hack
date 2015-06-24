@@ -48,8 +48,6 @@
 
     <string name="error_flights_no_longer_available_lm">We\'re really sorry, one of your flights is no longer available from lastminute.com.au.</string>
 
-    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_lm">We\&apos;re sorry but this hotel is no longer available from lastminute.com.au.</string>
     <!--A message stating this hotel is Not currently available on lastminute.com.au -->
     <string name="not_currently_available_lm">Not currently available from lastminute.com.au</string>
     <!-- A message stating this hotel is sold out on lastminute.com.au -->

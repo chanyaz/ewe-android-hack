@@ -80,7 +80,6 @@
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_lm</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_lm</item>
-        <item name="skin_sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_lm</item>
         <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure_lm</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_log_in_lm</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_lm</item>
