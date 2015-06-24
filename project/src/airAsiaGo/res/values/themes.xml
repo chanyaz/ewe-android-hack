@@ -18,7 +18,6 @@
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels_aag</item>
         <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_aag</item>
         <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_aag</item>
-        <item name="skin_aboutWebsiteString">@string/aag_website</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
         <item name="skin_loadingAirAsiaRoutesString">@string/loading_air_asia_routes_aag</item>
         <item name="skin_hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale_airasiago</item>

@@ -117,7 +117,9 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 					.toString(), ROW_APP_SUPPORT);
 			}
 
-			builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
+			builder.addRow(
+				Phrase.from(this, R.string.website_TEMPLATE).put("brand", BuildConfig.brand).format().toString(),
+				ROW_EXPEDIA_WEBSITE);
 
 			if (ProductFlavorFeatureConfiguration.getInstance().isWeAreHiringInAboutEnabled()) {
 				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);

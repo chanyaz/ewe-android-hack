@@ -8,7 +8,6 @@
     <string name="cd_checkout_log_in_with_aag">Press to log in to your AirAsiaGo account</string>
 
     <string name="contact_aag">Contact AirAsiaGo</string>
-    <string name="aag_website">AirAsiaGo Website</string>
 
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_aag">Are you sure you want to log out of your AirAsiaGo account?</string>
