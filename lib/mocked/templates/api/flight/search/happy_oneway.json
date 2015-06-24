@@ -270,6 +270,99 @@
                     "stops": 0
                 }
             ]
+        },
+        {
+            "legId": "leg6",
+            "segments": [
+                {
+                    "airlineCode": "ITA",
+                    "airlineName": "Infant Traveler Airways",
+                    "arrivalAirportCode": "${arrivalAirport}",
+                    "arrivalAirportLocation": "${arrivalAirport}",
+                    "arrivalTime": "June 28, 2014 10:55:00 AM",
+                    "arrivalTimeEpochSeconds": 1403978100,
+                    "arrivalTimeRaw": "2014-06-28T10:55:00.000-07:00",
+                    "arrivalTimeZoneOffsetSeconds": -25200,
+                    "departureAirportCode": "${departureAirport}",
+                    "departureAirportLocation": "${departureAirport}",
+                    "departureTime": "June 28, 2014 9:45:00 AM",
+                    "departureTimeEpochSeconds": 1403973900,
+                    "departureTimeRaw": "2014-06-28T09:45:00.000-07:00",
+                    "departureTimeZoneOffsetSeconds": -25200,
+                    "distance": 2572,
+                    "distanceUnits": "miles",
+                    "duration": "PT1H10M",
+                    "equipmentCode": "320",
+                    "equipmentDescription": "Airbus A320",
+                    "flightNumber": "469",
+                    "meal": "Food For Purchase",
+                    "onTimePercentage": "90",
+                    "providerCode": "Amadeus",
+                    "stops": 0
+                }
+            ]
+        },
+        {
+            "legId": "leg7",
+            "segments": [
+                {
+                    "airlineCode": "CIA",
+                    "airlineName": "Child InfantInLap Airways",
+                    "arrivalAirportCode": "${arrivalAirport}",
+                    "arrivalAirportLocation": "${arrivalAirport}",
+                    "arrivalTime": "June 28, 2014 10:55:00 AM",
+                    "arrivalTimeEpochSeconds": 1403978100,
+                    "arrivalTimeRaw": "2014-06-28T10:55:00.000-07:00",
+                    "arrivalTimeZoneOffsetSeconds": -25200,
+                    "departureAirportCode": "${departureAirport}",
+                    "departureAirportLocation": "${departureAirport}",
+                    "departureTime": "June 28, 2014 9:45:00 AM",
+                    "departureTimeEpochSeconds": 1403973900,
+                    "departureTimeRaw": "2014-06-28T09:45:00.000-07:00",
+                    "departureTimeZoneOffsetSeconds": -25200,
+                    "distance": 2572,
+                    "distanceUnits": "miles",
+                    "duration": "PT1H10M",
+                    "equipmentCode": "320",
+                    "equipmentDescription": "Airbus A320",
+                    "flightNumber": "469",
+                    "meal": "Food For Purchase",
+                    "onTimePercentage": "90",
+                    "providerCode": "Amadeus",
+                    "stops": 0
+                }
+            ]
+        },
+        {
+            "legId": "leg8",
+            "segments": [
+                {
+                    "airlineCode": "ISTA",
+                    "airlineName": "InfantInSeat Traveler Airways",
+                    "arrivalAirportCode": "${arrivalAirport}",
+                    "arrivalAirportLocation": "${arrivalAirport}",
+                    "arrivalTime": "June 28, 2014 10:55:00 AM",
+                    "arrivalTimeEpochSeconds": 1403978100,
+                    "arrivalTimeRaw": "2014-06-28T10:55:00.000-07:00",
+                    "arrivalTimeZoneOffsetSeconds": -25200,
+                    "departureAirportCode": "${departureAirport}",
+                    "departureAirportLocation": "${departureAirport}",
+                    "departureTime": "June 28, 2014 9:45:00 AM",
+                    "departureTimeEpochSeconds": 1403973900,
+                    "departureTimeRaw": "2014-06-28T09:45:00.000-07:00",
+                    "departureTimeZoneOffsetSeconds": -25200,
+                    "distance": 2572,
+                    "distanceUnits": "miles",
+                    "duration": "PT1H10M",
+                    "equipmentCode": "320",
+                    "equipmentDescription": "Airbus A320",
+                    "flightNumber": "469",
+                    "meal": "Food For Purchase",
+                    "onTimePercentage": "90",
+                    "providerCode": "Amadeus",
+                    "stops": 0
+                }
+            ]
         }
     ],
     "obFeesDetails": "http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033",
@@ -940,6 +1033,315 @@
                 "amount": "9001.00",
                 "formattedPrice": "$9001.00",
                 "formattedWholePrice": "$9001"
+            }
+        },
+        {
+            "averageTotalPricePerTicket": {
+                "amount": "596.00",
+                "formattedPrice": "$596.00",
+                "formattedWholePrice": "$596"
+            },
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+            "baseFare": "520.46",
+            "baseFarePrice": {
+                "amount": "520.46",
+                "formattedPrice": "$520.46",
+                "formattedWholePrice": "$520"
+            },
+            "currency": "USD",
+            "fareType": "PUBLISHED",
+            "fees": "7.00",
+            "feesPrice": {
+                "amount": "7.00",
+                "formattedPrice": "$7.00",
+                "formattedWholePrice": "$7"
+            },
+            "hasBagFee": false,
+            "hasNoBagFee": false,
+            "isInternational": false,
+            "legIds": [
+                "leg6"
+            ],
+            "mayChargeOBFees": false,
+            "numberOfTickets": 1,
+            "pricePerPassengerCategory": [
+                {
+                    "basePrice": {
+                        "amount": "520.46",
+                        "formattedPrice": "$520.46",
+                        "formattedWholePrice": "$520"
+                    },
+                    "passengerCategory": "ADULT",
+                    "taxesPrice": {
+                        "amount": "68.54",
+                        "formattedPrice": "$68.54",
+                        "formattedWholePrice": "$69"
+                    },
+                    "totalPrice": {
+                        "amount": "589.00",
+                        "formattedPrice": "$589.00",
+                        "formattedWholePrice": "$589"
+                    }
+                },
+                {
+                    "passengerCategory": "INFANT_IN_LAP",
+                    "totalPrice": {
+                        "amount": "0.00",
+                        "formattedPrice": "$0.00",
+                        "formattedWholePrice": "$0"
+                    },
+                    "basePrice": {
+                        "amount": "0.00",
+                        "formattedPrice": "$0.00",
+                        "formattedWholePrice": "$0"
+                    },
+                    "taxesPrice": {
+                        "amount": "0.00",
+                        "formattedPrice": "$0.00",
+                        "formattedWholePrice": "$0"
+                    }
+                }
+            ],
+            "productKey": "oneway_infant_in_lap",
+            "seatsRemaining": 1,
+            "segmentAttributes": [
+                [
+                    {
+                        "bookingCode": "K",
+                        "cabinCode": "coach"
+                    }
+                ],
+                [
+                    {
+                        "bookingCode": "V",
+                        "cabinCode": "coach"
+                    }
+                ]
+            ],
+            "showFees": true,
+            "taxes": "68.54",
+            "taxesPrice": {
+                "amount": "68.54",
+                "formattedPrice": "$68.54",
+                "formattedWholePrice": "$69"
+            },
+            "totalFare": "596.00",
+            "totalFarePrice": {
+                "amount": "596.00",
+                "formattedPrice": "$596.00",
+                "formattedWholePrice": "$596"
+            }
+        },
+        {
+            "averageTotalPricePerTicket": {
+                "amount": "596.00",
+                "formattedPrice": "$596.00",
+                "formattedWholePrice": "$596"
+            },
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+            "baseFare": "520.46",
+            "baseFarePrice": {
+                "amount": "520.46",
+                "formattedPrice": "$520.46",
+                "formattedWholePrice": "$520"
+            },
+            "currency": "USD",
+            "fareType": "PUBLISHED",
+            "fees": "7.00",
+            "feesPrice": {
+                "amount": "7.00",
+                "formattedPrice": "$7.00",
+                "formattedWholePrice": "$7"
+            },
+            "hasBagFee": false,
+            "hasNoBagFee": false,
+            "isInternational": false,
+            "legIds": [
+                "leg7"
+            ],
+            "mayChargeOBFees": false,
+            "numberOfTickets": 2,
+            "pricePerPassengerCategory": [
+                {
+                    "basePrice": {
+                        "amount": "520.46",
+                        "formattedPrice": "$520.46",
+                        "formattedWholePrice": "$520"
+                    },
+                    "passengerCategory": "ADULT",
+                    "taxesPrice": {
+                        "amount": "68.54",
+                        "formattedPrice": "$68.54",
+                        "formattedWholePrice": "$69"
+                    },
+                    "totalPrice": {
+                        "amount": "589.00",
+                        "formattedPrice": "$589.00",
+                        "formattedWholePrice": "$589"
+                    }
+                },
+                {
+                    "basePrice": {
+                        "amount": "520.46",
+                        "formattedPrice": "$520.46",
+                        "formattedWholePrice": "$520"
+                    },
+                    "passengerCategory": "CHILD",
+                    "taxesPrice": {
+                        "amount": "68.54",
+                        "formattedPrice": "$68.54",
+                        "formattedWholePrice": "$69"
+                    },
+                    "totalPrice": {
+                        "amount": "589.00",
+                        "formattedPrice": "$589.00",
+                        "formattedWholePrice": "$589"
+                    }
+                },
+                {
+                    "passengerCategory": "INFANT_IN_LAP",
+                    "totalPrice": {
+                        "amount": "0.00",
+                        "formattedPrice": "$0.00",
+                        "formattedWholePrice": "$0"
+                    },
+                    "basePrice": {
+                        "amount": "0.00",
+                        "formattedPrice": "$0.00",
+                        "formattedWholePrice": "$0"
+                    },
+                    "taxesPrice": {
+                        "amount": "0.00",
+                        "formattedPrice": "$0.00",
+                        "formattedWholePrice": "$0"
+                    }
+                }
+            ],
+            "productKey": "oneway_child_infant_in_lap",
+            "seatsRemaining": 1,
+            "segmentAttributes": [
+                [
+                    {
+                        "bookingCode": "K",
+                        "cabinCode": "coach"
+                    }
+                ],
+                [
+                    {
+                        "bookingCode": "V",
+                        "cabinCode": "coach"
+                    }
+                ]
+            ],
+            "showFees": true,
+            "taxes": "68.54",
+            "taxesPrice": {
+                "amount": "68.54",
+                "formattedPrice": "$68.54",
+                "formattedWholePrice": "$69"
+            },
+            "totalFare": "596.00",
+            "totalFarePrice": {
+                "amount": "596.00",
+                "formattedPrice": "$596.00",
+                "formattedWholePrice": "$596"
+            }
+        },
+        {
+            "averageTotalPricePerTicket": {
+                "amount": "596.00",
+                "formattedPrice": "$596.00",
+                "formattedWholePrice": "$596"
+            },
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+            "baseFare": "520.46",
+            "baseFarePrice": {
+                "amount": "520.46",
+                "formattedPrice": "$520.46",
+                "formattedWholePrice": "$520"
+            },
+            "currency": "USD",
+            "fareType": "PUBLISHED",
+            "fees": "7.00",
+            "feesPrice": {
+                "amount": "7.00",
+                "formattedPrice": "$7.00",
+                "formattedWholePrice": "$7"
+            },
+            "hasBagFee": false,
+            "hasNoBagFee": false,
+            "isInternational": false,
+            "legIds": [
+                "leg8"
+            ],
+            "mayChargeOBFees": false,
+            "numberOfTickets": 2,
+            "pricePerPassengerCategory": [
+                {
+                    "basePrice": {
+                        "amount": "520.46",
+                        "formattedPrice": "$520.46",
+                        "formattedWholePrice": "$520"
+                    },
+                    "passengerCategory": "ADULT",
+                    "taxesPrice": {
+                        "amount": "68.54",
+                        "formattedPrice": "$68.54",
+                        "formattedWholePrice": "$69"
+                    },
+                    "totalPrice": {
+                        "amount": "589.00",
+                        "formattedPrice": "$589.00",
+                        "formattedWholePrice": "$589"
+                    }
+                },
+                {
+                    "basePrice": {
+                        "amount": "520.46",
+                        "formattedPrice": "$520.46",
+                        "formattedWholePrice": "$520"
+                    },
+                    "passengerCategory": "INFANT_IN_SEAT",
+                    "taxesPrice": {
+                        "amount": "68.54",
+                        "formattedPrice": "$68.54",
+                        "formattedWholePrice": "$69"
+                    },
+                    "totalPrice": {
+                        "amount": "589.00",
+                        "formattedPrice": "$589.00",
+                        "formattedWholePrice": "$589"
+                    }
+                }
+            ],
+            "productKey": "oneway_infant_in_seat",
+            "seatsRemaining": 1,
+            "segmentAttributes": [
+                [
+                    {
+                        "bookingCode": "K",
+                        "cabinCode": "coach"
+                    }
+                ],
+                [
+                    {
+                        "bookingCode": "V",
+                        "cabinCode": "coach"
+                    }
+                ]
+            ],
+            "showFees": true,
+            "taxes": "68.54",
+            "taxesPrice": {
+                "amount": "68.54",
+                "formattedPrice": "$68.54",
+                "formattedWholePrice": "$69"
+            },
+            "totalFare": "596.00",
+            "totalFarePrice": {
+                "amount": "596.00",
+                "formattedPrice": "$596.00",
+                "formattedWholePrice": "$596"
             }
         }
     ],
