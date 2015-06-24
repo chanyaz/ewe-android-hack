@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="HotelTravelerIcon">
+        <item name="android:layout_width">@dimen/hotel_traveler_plus_minus_size</item>
+        <item name="android:layout_height">@dimen/hotel_traveler_plus_minus_size</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:tint">@color/cars_actionbar_text_color</item>
+    </style>
+
+    <style name="HotelTravelerIcon.Plus">
+        <item name="android:src">@drawable/lx_plus_icon</item>
+    </style>
+
+    <style name="HotelTravelerIcon.Minus">
+        <item name="android:src">@drawable/lx_minus_icon</item>
+    </style>
+
+</resources>

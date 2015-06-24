@@ -7,91 +7,81 @@
             android:id="@+id/num_guests"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="28dp"
+            android:paddingBottom="@dimen/hotel_traveler_padding"
             android:textColor="@color/cars_actionbar_text_color"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="@dimen/hotel_traveler_table_margin"
+            android:orientation="horizontal"
+            android:textSize="15sp">
 
             <ImageButton
                 android:id="@+id/adults_minus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/lx_minus_icon"
-                android:tint="@color/cars_actionbar_text_color" />
+                style="@style/HotelTravelerIcon.Minus" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/adult"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/hotel_traveler_plus_minus_size"
                 android:layout_weight="5"
                 android:gravity="center"
                 android:textColor="@color/cars_actionbar_text_color" />
 
             <ImageButton
                 android:id="@+id/adults_plus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/lx_plus_icon"
-                android:tint="@color/cars_actionbar_text_color" />
+                style="@style/HotelTravelerIcon.Plus" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:textSize="15sp">
 
             <ImageButton
                 android:id="@+id/children_minus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/lx_minus_icon"
-                android:tint="@color/cars_actionbar_text_color" />
+                style="@style/HotelTravelerIcon.Minus" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/children"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/hotel_traveler_plus_minus_size"
                 android:layout_weight="5"
                 android:gravity="center"
                 android:textColor="@color/cars_actionbar_text_color" />
 
             <ImageButton
                 android:id="@+id/children_plus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/lx_plus_icon"
-                android:tint="@color/cars_actionbar_text_color" />
+                style="@style/HotelTravelerIcon.Plus" />
         </LinearLayout>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/child_age_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="28dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginBottom="@dimen/hotel_traveler_padding"
+            android:layout_marginTop="@dimen/hotel_traveler_padding"
             android:text="@string/child_age_label"
             android:textColor="@color/cars_actionbar_text_color"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <TableLayout
             android:id="@+id/children_ages"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:textSize="15sp">
 
             <TableRow
                 android:id="@+id/children_row1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/hotel_traveler_table_margin" />
 
             <TableRow
                 android:id="@+id/children_row2"
