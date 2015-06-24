@@ -145,7 +145,6 @@
     <!-- Flight loading screen message position -->
     <attr name="skin_flightLoadingMessagePosition" format="reference" />
 
-    <attr name="skin_saveTravelerToAccountString" format="reference|string" />
 
     <!-- for traveller_info_page logo-->
     <attr name="skin_travellerInfoPageLogo" format="reference"/>

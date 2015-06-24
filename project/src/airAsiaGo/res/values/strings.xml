@@ -17,8 +17,6 @@
 
 
 
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_aag_message_TEMPLATE">Save %1$s\'s information under your AirAsiaGo account to speed up future purchases?</string>
 
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "AirAsiaGo Itinerary #: 3532532" -->
     <string name="calendar_flight_desc_itinerary_TEMPLATE_aag">AirAsiaGo Itinerary #: %s</string>

@@ -1991,7 +1991,7 @@
     <!-- save traveler -->
     <string name="save_traveler">Save Traveler</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Save %1$s\'s information under your Expedia account to speed up future purchases?</string>
+    <string name="save_traveler_message_TEMPLATE">Save {name}\'s information under your {brand} account to speed up future purchases?</string>
     <!-- no thanks -->
     <string name="no_thanks">No Thanks</string>
 

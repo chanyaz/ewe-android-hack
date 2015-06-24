@@ -21,8 +21,6 @@
 
 
 
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_travelocity_message_TEMPLATE">Save %1$s\'s information under your Travelocity account to speed up future purchases?</string>
 
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
     <string name="calendar_flight_desc_itinerary_TEMPLATE_tvly">Travelocity Itinerary #: %s</string>

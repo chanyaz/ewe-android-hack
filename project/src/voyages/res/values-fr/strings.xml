@@ -165,8 +165,6 @@
     <string name="logout_confirmation_vsc">Êtes-vous sûr de vouloir vous déconnecter de votre compte L’Agence Voyages-sncf.com ?</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available_vsc">Désolés, un de vos vols n\&apos;est plus disponible sur L’Agence Voyages-sncf.com.</string>
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE_vsc">Enregistrer les informations sur %1$s dans votre compte L’Agence Voyages-sncf.com pour réserver plus rapidement dans le futur ?</string>
     <!-- Handling sold out hotels -->
     <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
     <string name="not_currently_available_vsc">Actuellement non disponible sur L’Agence Voyages-sncf.com</string>
