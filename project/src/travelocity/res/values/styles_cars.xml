@@ -31,7 +31,6 @@
         <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
         <item name="skin_loginBrandIconDrawable">@drawable/ic_travelocity_launch</item>
 
-        <item name="skin_loginWithExpediaTitleText">@string/travelocity_account</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_travelocity_logo</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>

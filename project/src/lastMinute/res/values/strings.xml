@@ -4,8 +4,6 @@
 
     <!-- Log in with lastminute.com.au -->
     <string name="Log_in_with_lm">Log in with lastminute.com.au</string>
-    <!-- Label for signin screen -->
-    <string name="lm_account">lastminute.com.au Account</string>
     <!-- Content description for action: Press to log in with your lastminute.com.au account -->
     <string name="cd_checkout_log_in_with_lm">Press to log in to your lastminute.com.au account</string>
 

@@ -88,7 +88,6 @@
     <!-- Log in with Expedia/VSC screen -->
     <!-- This drawable is used in hotel detail for Book Now button as well -->
     <attr name="skin_loginBookNowButtonDrawable" format="reference" />
-    <attr name="skin_loginWithExpediaTitleText" format="reference|string" />
     <attr name="skin_hotelDetailPlaceHolderDrawable" format="reference" />
     <attr name="skin_loginButtonColor" format="reference" />
     <attr name="skin_hotelBookButtonColor" format="reference" />

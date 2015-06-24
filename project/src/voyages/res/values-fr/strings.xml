@@ -114,8 +114,6 @@
     <!-- Label for total cost paid to expedia (not including "mandatory fees") -->
     <string name="PayToExpedia">Montant dû à L’Agence Voyages-sncf.com</string>
 
-    <!-- Label for signin screen -->
-    <string name="vsc_account">Compte dédié</string>
 
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_vsc_account">Chargement compte L’Agence Voyages-sncf.com…</string>

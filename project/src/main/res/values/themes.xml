@@ -132,7 +132,6 @@
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/border_horizontal_expedia_striped</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
         <item name="skin_loginButtonColor">@android:color/black</item>
         <item name="skin_hotelBookButtonColor">@android:color/black</item>
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
@@ -356,7 +355,7 @@
         <item name="skin_travelerLabelOnCheckout">@string/Add_Traveler</item>
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
-        <item name="skin_flightCheckoutAccountLabel">@string/expedia_account</item>
+        <item name="skin_flightCheckoutAccountLabel">@string/account_TEMPLATE</item>
         <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
     </style>
 

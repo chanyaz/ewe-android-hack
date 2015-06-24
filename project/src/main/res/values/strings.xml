@@ -2760,7 +2760,7 @@
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for signin screen -->
-    <string name="expedia_account">Expedia Account</string>
+    <string name="account_TEMPLATE">{brand} Account</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Loading {brand} Account</string>
     <!-- Label for password recovery -->

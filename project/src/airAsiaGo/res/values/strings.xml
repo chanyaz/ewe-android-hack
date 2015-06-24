@@ -4,8 +4,6 @@
 
     <!-- Log in with AirAsiaGo -->
     <string name="Log_in_with_aag">Log in with AirAsiaGo</string>
-    <!-- Label for signin screen -->
-    <string name="aag_account">AirAsiaGo Account</string>
     <!-- Content description for action: Press to log in with your AirAsiaGo account -->
     <string name="cd_checkout_log_in_with_aag">Press to log in to your AirAsiaGo account</string>
 
