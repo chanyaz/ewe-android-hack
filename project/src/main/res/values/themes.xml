@@ -190,7 +190,6 @@
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
-        <item name="skin_etp_pay_now_charges_text">@string/etp_pay_now_charges_text</item>
         <item name="skin_itinActionOverflowDrawable">@drawable/ic_itin_action_overflow_white</item>
         <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
         <item name="skin_tablet_legal_blurb_text_color">@color/tablet_legal_blurb_text_color</item>
