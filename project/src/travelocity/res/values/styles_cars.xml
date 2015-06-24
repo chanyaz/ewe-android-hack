@@ -22,13 +22,19 @@
         <item name="skin_carsSortButtonSelectorDrawable">@drawable/cars_sort_button_selector_tvly</item>
         <item name="skin_carsSortButtonTextSelectorDrawable">@drawable/cars_sort_button_text_selector_tvly</item>
         <item name="skin_carsFilterNumberBgDrawable">@drawable/filter_number_bg_tvly</item>
-        <item name="skin_carsToogleBackgroundSelectorDrawable">@drawable/cars_toogle_background_selector_tvly</item>
-        <item name="skin_carsLoginBrandLogoDrawable">@drawable/ic_travelocity_logo</item>
+        <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector_tvly</item>
+        <item name="skin_loginBrandLogoDrawable">@drawable/ic_travelocity_logo</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_tvly</item>
-        <item name="skin_carsLoginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
-        <item name="skin_carsLoginButtonColor">@android:color/white</item>
-        <item name="skin_carsLoginBrandIconDrawable">@drawable/ic_travelocity_launch</item>
+        <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
+        <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
+        <item name="skin_loginBrandIconDrawable">@drawable/ic_travelocity_launch</item>
+
+        <item name="skin_loginWithExpediaTitleText">@string/travelocity_account</item>
+        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_travelocity_logo</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_travelocity_logo</item>
     </style>
 </resources>

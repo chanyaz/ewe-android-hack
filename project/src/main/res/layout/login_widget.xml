@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:src="?attr/skin_carsLoginBrandIconDrawable" />
+                android:src="?attr/skin_loginBrandIconDrawable" />
 
             <!-- The fields for expedia login -->
 
@@ -125,8 +125,8 @@
                         android:id="@+id/log_in_btn"
                         style="@style/CarsLoginFormButton"
                         android:gravity="center"
-                        android:background="?attr/skin_carsLoginBookNowButtonDrawable"
-                        android:textColor="?attr/skin_carsLoginButtonColor"
+                        android:background="?attr/skin_checkoutLoginBookNowButtonDrawable"
+                        android:textColor="?attr/skin_checkoutLoginButtonColor"
                         android:textAllCaps="false" />
 
                     <TextView
@@ -257,7 +257,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:textSize="18sp"
-        android:drawableLeft="?attr/skin_carsLoginBrandLogoDrawable"
+        android:drawableLeft="?attr/skin_loginBrandLogoDrawable"
         android:gravity="center|left"
         android:drawablePadding="16dp" />
 </merge>

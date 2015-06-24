@@ -329,10 +329,10 @@
     <attr name="skin_carsSortButtonSelectorDrawable" format="reference" />
     <attr name="skin_carsSortButtonTextSelectorDrawable" format="reference" />
     <attr name="skin_carsFilterNumberBgDrawable" format="reference" />
-    <attr name="skin_carsToogleBackgroundSelectorDrawable" format="reference" />
-    <attr name="skin_carsLoginBrandLogoDrawable" format="reference" />
+    <attr name="skin_carsToggleBackgroundSelectorDrawable" format="reference" />
+    <attr name="skin_loginBrandLogoDrawable" format="reference" />
     <attr name="skin_costSummaryAlertDrawable" format="reference" />
-    <attr name="skin_carsLoginBookNowButtonDrawable" format="reference" />
-    <attr name="skin_carsLoginButtonColor" format="reference|color" />
-    <attr name="skin_carsLoginBrandIconDrawable" format="reference" />
+    <attr name="skin_checkoutLoginBookNowButtonDrawable" format="reference" />
+    <attr name="skin_checkoutLoginButtonColor" format="reference|color" />
+    <attr name="skin_loginBrandIconDrawable" format="reference" />
 </resources>

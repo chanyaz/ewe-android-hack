@@ -43,13 +43,13 @@
         <item name="skin_carsSortButtonSelectorDrawable">@drawable/cars_sort_button_selector</item>
         <item name="skin_carsSortButtonTextSelectorDrawable">@drawable/cars_sort_button_text_selector</item>
         <item name="skin_carsFilterNumberBgDrawable">@drawable/filter_number_bg</item>
-        <item name="skin_carsToogleBackgroundSelectorDrawable">@drawable/cars_toogle_background_selector</item>
-        <item name="skin_carsLoginBrandLogoDrawable">@drawable/expedia</item>
+        <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector</item>
+        <item name="skin_loginBrandLogoDrawable">@drawable/expedia</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/border_horizontal_expedia_striped</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
-        <item name="skin_carsLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
-        <item name="skin_carsLoginButtonColor">#836B11</item>
-        <item name="skin_carsLoginBrandIconDrawable">@drawable/expedia_login</item>
+        <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
+        <item name="skin_checkoutLoginButtonColor">#836B11</item>
+        <item name="skin_loginBrandIconDrawable">@drawable/expedia_login</item>
     </style>
 
     <style name="AppTheme.Base" parent="@style/Theme.AppCompat.Light">
@@ -144,7 +144,7 @@
     </style>
 
     <style name="CarButton" parent="android:Widget.Button">
-        <item name="android:background">@color/cars_primary_color</item>
+        <item name="android:background">?attr/skin_carsPrimaryColor</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:paddingLeft">20dp</item>
@@ -193,7 +193,7 @@
         <item name="android:textOff">@string/cars_view_details_text</item>
         <item name="android:textOn">@string/cars_reserve_text</item>
         <item name="android:textSize">17sp</item>
-        <item name="android:background">?attr/skin_carsToogleBackgroundSelectorDrawable</item>
+        <item name="android:background">?attr/skin_carsToggleBackgroundSelectorDrawable</item>
     </style>
 
     <style name="CarOfferText">
