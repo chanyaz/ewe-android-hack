@@ -29,6 +29,7 @@ public class ExpediaMockWebServerRule implements TestRule {
 				URL mockUrl = mockServer.getUrl("");
 				String server = mockUrl.getHost() + ":" + mockUrl.getPort();
 				Settings.setCustomServer(InstrumentationRegistry.getInstrumentation(), server);
+				Settings.clearPrivateData(InstrumentationRegistry.getInstrumentation());
 
 				base.evaluate();
 
