@@ -2842,7 +2842,7 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Expedia Website</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">App Support</string>
+    <string name="app_support_TEMPLATE">App Support</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Terms and Conditions</string>
     <!-- Label for link to privacy policy -->

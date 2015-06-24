@@ -136,7 +136,6 @@
     <attr name="skin_etpHotelSelectRoomString" format="reference|string" />
 
     <attr name="skin_aboutWebsiteString" format="reference|string" />
-    <attr name="skin_aboutAppSupportString" format="reference|string" />
     <attr name="skin_aboutCopyrightString" format="reference|string" />
     <attr name="skin_aboutInfoUrlString" format="reference|string" />
     <attr name="skin_aboutAppNameString" format="reference|string" />

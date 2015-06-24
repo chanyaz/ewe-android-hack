@@ -19,7 +19,6 @@
         <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_aag</item>
         <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_aag</item>
         <item name="skin_aboutWebsiteString">@string/aag_website</item>
-        <item name="skin_aboutAppSupportString">@string/aag_app_support</item>
         <item name="skin_aboutCopyrightString">@string/aag_copyright_TEMPLATE</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
         <item name="skin_loadingAirAsiaRoutesString">@string/loading_air_asia_routes_aag</item>

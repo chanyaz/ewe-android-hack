@@ -44,6 +44,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.MailChimpUtils;
 import com.mobiata.android.util.MailChimpUtils.MailChimpResult;
+import com.squareup.phrase.Phrase;
 
 public class AboutActivity extends FragmentActivity implements AboutSectionFragmentListener,
 		OnSubscribeEmailClickedListener {
@@ -112,7 +113,8 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 			builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT);
 
 			if (ProductFlavorFeatureConfiguration.getInstance().isAppSupportUrlEnabled()) {
-				builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutAppSupportString), ROW_APP_SUPPORT);
+				builder.addRow(Phrase.from(this, R.string.app_support_TEMPLATE).put("brand", BuildConfig.brand).format()
+					.toString(), ROW_APP_SUPPORT);
 			}
 
 			builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutWebsiteString), ROW_EXPEDIA_WEBSITE);

@@ -128,8 +128,6 @@
     <!-- Label for "contact Expedia" button in info page -->
     <string name="contact_expedia">Nous contacter</string>
 
-    <!-- Label for "app support" button in info page -->
-    <string name="app_support">Assistance pour l\&apos;app</string>
 
     <!-- Menu strings -->
     <!-- Label for "info about this app" menu item. -->
