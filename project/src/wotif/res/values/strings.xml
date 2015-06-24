@@ -47,8 +47,6 @@
 
     <!--A message stating this hotel is Not currently available on Wotif -->
     <string name="not_currently_available_wotif">Not currently available from Wotif</string>
-    <!-- A message stating this hotel is sold out on Wotif -->
-    <string name="sold_out_on_wotif">Sold out on Wotif</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Wotif Nov. 3-4" -->
     <string name="not_currently_available_wotif_TEMPLATE">Not available from Wotif %s</string>
 

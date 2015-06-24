@@ -75,7 +75,6 @@
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_lm</item>
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_lm</item>
         <item name="skin_clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_lm</item>
-        <item name="skin_hotelSearchResultSoldOut">@string/sold_out_on_lm</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_lm</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_lm</item>

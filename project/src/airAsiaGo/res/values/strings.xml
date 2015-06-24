@@ -46,8 +46,6 @@
 
     <!--A message stating this hotel is Not currently available on AirAsiaGo -->
     <string name="not_currently_available_aag">Not currently available from AirAsiaGo</string>
-    <!-- A message stating this hotel is sold out on AirAisaGO -->
-    <string name="sold_out_on_agg">Sold out on AirAsiaGo</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from AirAsiaGo Nov. 3-4" -->
     <string name="not_currently_available_aag_TEMPLATE">Not available from AirAsiaGo %s</string>
     <!--AirAsiaGo Search Text-->

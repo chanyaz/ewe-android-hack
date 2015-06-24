@@ -22,6 +22,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.PaletteCallback;
@@ -37,6 +38,7 @@ import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.squareup.phrase.Phrase;
 
 /**
  * Note: This is somewhat overloaded to be able to represent either an entire
@@ -469,7 +471,8 @@ public class HotelSummarySection extends RelativeLayout {
 		if (ExpediaBookingApp.useTabletInterface(getContext())) {
 			if (mSoldOutText != null) {
 				mSoldOutText.setVisibility(View.VISIBLE);
-				mSoldOutText.setText(Ui.obtainThemeResID(getContext(), R.attr.skin_hotelSearchResultSoldOut));
+				mSoldOutText.setText(
+					Phrase.from(getContext(), R.string.sold_out_on_TEMPLATE).put("brand", BuildConfig.brand).format());
 			}
 			if (mNotRatedText != null) {
 				mNotRatedText.setVisibility(View.GONE);
@@ -483,7 +486,7 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 		else {
 			mProximityText.setVisibility(View.VISIBLE);
-			mProximityText.setText(Ui.obtainThemeResID(getContext(), R.attr.skin_hotelSearchResultSoldOut));
+			mProximityText.setText(Phrase.from(getContext(), R.string.sold_out_on_TEMPLATE).put("brand", BuildConfig.brand).format());
 		}
 	}
 

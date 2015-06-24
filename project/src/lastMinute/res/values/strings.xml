@@ -50,8 +50,6 @@
 
     <!--A message stating this hotel is Not currently available on lastminute.com.au -->
     <string name="not_currently_available_lm">Not currently available from lastminute.com.au</string>
-    <!-- A message stating this hotel is sold out on lastminute.com.au -->
-    <string name="sold_out_on_lm">Sold out on lastminute.com.au</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from lastminute.com.au Nov. 3-4" -->
     <string name="not_currently_available_lm_TEMPLATE">Not available from lastminute.com.au %s</string>
 
