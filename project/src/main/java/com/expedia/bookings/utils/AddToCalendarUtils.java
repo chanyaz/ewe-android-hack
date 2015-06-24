@@ -75,8 +75,8 @@ public class AddToCalendarUtils {
 		sb.append(context.getString(R.string.calendar_flight_desc_directions_TEMPLATE,
 			"https://maps.google.com/maps?q=" + origin.mAirportCode));
 		sb.append("\n\n");
-		sb.append(context.getString(Ui.obtainThemeResID(context, R.attr.skin_calendarFlightDescSupport),
-			pointOfSale.getSupportPhoneNumberBestForUser(Db.getUser())));
+		sb.append(Phrase.from(context, R.string.calendar_flight_desc_support_TEMPLATE).put("brand", BuildConfig.brand)
+			.put("phone", pointOfSale.getSupportPhoneNumberBestForUser(Db.getUser())).format());
 		sb.append("\n\n");
 		intent.putExtra(CalendarContract.Events.DESCRIPTION, sb.toString());
 		return intent;
