@@ -43,7 +43,6 @@
     <style name="Theme.Tablet.Preferences" parent="@style/Theme.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:listSeparatorTextViewStyle">@style/TabletPreferenceSeparator</item>
-        <item name="skin_clearPrivateDataMsg">@string/dialog_message_signed_out_and_cleared_private_data</item>
     </style>
 
     <style name="TabletPreferenceSeparator">
@@ -169,7 +168,6 @@
         <item name="skin_flightsNotAvailableError">@string/error_flights_no_longer_available_expedia</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error</item>
-        <item name="skin_clearPrivateDataMsg">@string/dialog_message_signed_out_and_cleared_private_data</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
         <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>

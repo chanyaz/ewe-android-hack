@@ -46,7 +46,6 @@
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_aag</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/info_screen_aag_logo</item>
-        <item name="skin_clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_aag</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_aag_yellow_flat</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_aag</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_aag</item>

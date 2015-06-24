@@ -52,7 +52,6 @@
         <item name="skin_flightsNotAvailableError">@string/error_flights_no_longer_available_vsc</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_vsc</item>
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_vsc</item>
-        <item name="skin_clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_vsc</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_vsc</item>
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/rainbow_bar</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_vsc_traveler_logo</item>

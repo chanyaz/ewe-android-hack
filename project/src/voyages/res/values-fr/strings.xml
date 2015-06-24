@@ -174,8 +174,6 @@
     <string name="tell_a_friend_body_vsc">Bonjour,\n\nVenez découvrir L’Agence Voyages-sncf.com Hôtels pour iPhone et téléphones Android. Cette application est gratuite et vous permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec votre téléphone.</string>
     <!-- Contact VSC via email subject -->
     <string name="contact_vsc_email_subject">Assistance réservations L’Agence Voyages-sncf.com</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data_vsc">Vous vous êtes déconnecté de votre compte L’Agence Voyages-sncf.com. Toutes les coordonnées et les données de facturation sauvegardées ont été supprimées.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the vsc mobile site in an external browser -->
     <string name="dialog_message_launch_vsc_mobile_site">Ouvrir le site mobile de L’Agence Voyages-sncf.com ?</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->

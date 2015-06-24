@@ -18,8 +18,6 @@
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "AirAsiaGo Customer Support: 222-222-2222" -->
     <string name="calendar_flight_desc_support_TEMPLATE_aag">AirAsiaGo Customer Support: %s</string>
 
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data_aag">You are logged out of your AirAsiaGo account, and all saved billing and contact information has been removed.</string>
 
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure_aag">We\'re sorry, but we couldn\'t connect to AirAsiaGo. Please try again.</string>

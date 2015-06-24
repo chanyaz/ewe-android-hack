@@ -2852,7 +2852,7 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_signed_out_and_cleared_private_data">Signed out and data cleared</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data">You are signed out of your Expedia account, and all saved billing and contact information has been removed.</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">You are signed out of your {brand} account, and all saved billing and contact information has been removed.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Private data cleared</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
