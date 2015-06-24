@@ -113,7 +113,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		mFooterTextView.setVisibility(View.GONE);
 
 		// Hide the header if this is not the tablet
-		if (!AndroidUtils.isHoneycombTablet(getActivity())) {
+		if (!AndroidUtils.isTablet(getActivity())) {
 			Ui.findView(view, R.id.header_layout).setVisibility(View.GONE);
 		}
 
@@ -231,7 +231,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 			: View.GONE);
 
 		// Disable highlighting if we're on phone UI
-		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(getActivity()));
+		mAdapter.highlightSelectedPosition(AndroidUtils.isTablet(getActivity()));
 
 		CharSequence commonValueAdds = response.getCommonValueAddsString(getActivity());
 		if (commonValueAdds != null) {

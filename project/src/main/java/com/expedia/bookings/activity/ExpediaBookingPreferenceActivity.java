@@ -157,7 +157,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 		if (key.equals(getString(R.string.preference_force_fs_db_update))) {
 			try {
 				FlightStatsDbUtils.setUpgradeCutoff(0);
-				FlightStatsDbUtils.createDatabaseIfNotExists(this);
+				FlightStatsDbUtils.createDatabaseIfNotExists(this, BuildConfig.RELEASE);
 			}
 			catch (IOException e) {
 				Log.w("Could not force update FS.db", e);

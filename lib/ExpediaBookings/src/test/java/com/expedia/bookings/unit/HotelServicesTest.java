@@ -70,7 +70,7 @@ public class HotelServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<List<Hotel>> observer = new BlockingObserver<>(1);
+		BlockingObserver<List<Hotel>> observer = new BlockingObserver<>(2);
 		NearbyHotelParams params = new NearbyHotelParams("", "", "", "", "", "", "");
 
 		Subscription sub = service.nearbyHotels(params, observer);

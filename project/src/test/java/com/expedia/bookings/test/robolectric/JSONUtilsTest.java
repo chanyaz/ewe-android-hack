@@ -74,42 +74,13 @@ public class JSONUtilsTest {
 	// Tests
 
 	@Test
-	public void testJSONablesInIntents() {
-		Intent intent = new Intent();
-		MyJSONable orig = new MyJSONable();
-
-		// Test round trip of JSONable
-		JSONUtils.putJSONable(intent, KEY, orig);
-		MyJSONable back = JSONUtils.getJSONable(intent, KEY, MyJSONable.class);
-		Assert.assertEquals(orig, back);
-
-		// Test null insertion not inserting anything
-		JSONUtils.putJSONable(intent, KEY, null);
-		Assert.assertFalse(intent.hasExtra(KEY_NULL));
-
-		// Test null retrieval returning null
-		back = JSONUtils.getJSONable(intent, KEY_NULL, MyJSONable.class);
-
-		Assert.assertNull(back);
-	}
-
-	@Test
 	public void testJSONInIntents() {
 		Intent intent = new Intent();
 		JSONObject orig = new MyJSONable().toJson();
 
-		// Test round trip of JSONObject
-		JSONUtils.putJSONObject(intent, KEY, orig);
-		JSONObject back = JSONUtils.getJSONObject(intent, KEY);
-		Assert.assertEquals(orig.toString(), back.toString());
-
 		// Test null insertion not inserting anything
 		JSONUtils.putJSONObject(intent, KEY, null);
 		Assert.assertFalse(intent.hasExtra(KEY_NULL));
-
-		// Test null retrieval returning null
-		back = JSONUtils.getJSONObject(intent, KEY_NULL);
-		Assert.assertNull(back);
 	}
 
 	@Test
@@ -243,60 +214,6 @@ public class JSONUtilsTest {
 
 		// Test null retrieval returning null
 		back = JSONUtils.getJSONable(obj, KEY_NULL, MyJSONable.class);
-		Assert.assertNull(back);
-	}
-
-	@Test
-	public void testIntListInJSON() throws JSONException {
-		JSONObject obj = new JSONObject();
-
-		// Test round trip
-		List<Integer> list = new ArrayList<Integer>();
-		for (int a = 0; a < 10; a++) {
-			list.add(a);
-		}
-
-		JSONUtils.putIntList(obj, KEY, list);
-		List<Integer> back = JSONUtils.getIntList(obj, KEY);
-		Assert.assertNotNull(back);
-		Assert.assertEquals(list.size(), back.size());
-		for (int a = 0; a < list.size(); a++) {
-			Assert.assertEquals(list.get(a), back.get(a));
-		}
-
-		// Test null insertion not inserting anything
-		JSONUtils.putIntList(obj, KEY_NULL, null);
-		Assert.assertFalse(obj.has(KEY_NULL));
-
-		// Test null retrieval returning null
-		back = JSONUtils.getIntList(obj, KEY_NULL);
-		Assert.assertNull(back);
-	}
-
-	@Test
-	public void testStringListInJSON() throws JSONException {
-		JSONObject obj = new JSONObject();
-
-		// Test round trip
-		List<String> list = new ArrayList<String>();
-		for (int a = 0; a < 10; a++) {
-			list.add("String " + a);
-		}
-
-		JSONUtils.putStringList(obj, KEY, list);
-		List<String> back = JSONUtils.getStringList(obj, KEY);
-		Assert.assertNotNull(back);
-		Assert.assertEquals(list.size(), back.size());
-		for (int a = 0; a < list.size(); a++) {
-			Assert.assertEquals(list.get(a), back.get(a));
-		}
-
-		// Test null insertion not inserting anything
-		JSONUtils.putIntList(obj, KEY_NULL, null);
-		Assert.assertFalse(obj.has(KEY_NULL));
-
-		// Test null retrieval returning null
-		back = JSONUtils.getStringList(obj, KEY_NULL);
 		Assert.assertNull(back);
 	}
 
