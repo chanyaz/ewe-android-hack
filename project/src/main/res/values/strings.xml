@@ -2219,7 +2219,7 @@
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available_TEMPLATE">We\'re really sorry, your flight is no longer available from {brand}.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_expedia">We\'re really sorry, one of your flights is no longer available from Expedia.</string>
+    <string name="error_flights_no_longer_available_TEMPLATE">We\'re really sorry, one of your flights is no longer available from {brand}.</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
     <string name="error_flight_hold_expired">We\'re sorry, your hold on this flight has expired.</string>
     <!-- Error shown to user if one of multiple flights is no longer available or expired -->

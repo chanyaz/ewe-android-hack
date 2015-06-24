@@ -28,7 +28,6 @@
     <string name="loading_air_asia_routes_aag">Loading AirAsiaGo routes…</string>
 
 
-    <string name="error_flights_no_longer_available_aag">We\'re really sorry, one of your flights is no longer available from AirAsiaGo.</string>
 
     <!-- Message displayed when the hotel room is sold out -->
     <string name="error_room_is_now_sold_out_aag">We\&apos;re sorry but this room is no longer available from AirAsiaGo.</string>

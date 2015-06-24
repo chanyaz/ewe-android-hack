@@ -30,7 +30,6 @@
     <string name="contact_travelocity_email_subject">Travelocity Reservations Support</string>
 
 
-    <string name="error_flights_no_longer_available_tvly">We\'re really sorry, one of your flights is no longer available from Travelocity.</string>
 
     <!-- Message displayed when the hotel room is sold out -->
     <string name="error_room_is_now_sold_out_tvly">We\&apos;re sorry but this room is no longer available from Travelocity.</string>

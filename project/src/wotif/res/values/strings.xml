@@ -32,7 +32,6 @@
     <string name="contact_wotif_email_subject">Wotif Reservations Support</string>
 
 
-    <string name="error_flights_no_longer_available_wotif">We\'re really sorry, one of your flights is no longer available from Wotif.</string>
 
     <!--A message stating this hotel is Not currently available on Wotif -->
     <string name="not_currently_available_wotif">Not currently available from Wotif</string>

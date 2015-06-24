@@ -36,7 +36,6 @@
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_aag</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_aag_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_aag_traveler_logo_disabled</item>
-        <item name="skin_flightsNotAvailableError">@string/error_flights_no_longer_available_aag</item>
         <item name="skin_hotelListMapMarkerDrawable">@drawable/map_pin_normal_aag</item>
         <item name="skin_hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale_aag</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_aag</item>

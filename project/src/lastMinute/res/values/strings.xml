@@ -35,7 +35,6 @@
     <string name="contact_lm_email_subject">lastminute.com.au Reservations Support</string>
 
 
-    <string name="error_flights_no_longer_available_lm">We\'re really sorry, one of your flights is no longer available from lastminute.com.au.</string>
 
     <!--A message stating this hotel is Not currently available on lastminute.com.au -->
     <string name="not_currently_available_lm">Not currently available from lastminute.com.au</string>

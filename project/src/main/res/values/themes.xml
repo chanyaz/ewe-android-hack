@@ -165,7 +165,6 @@
         <item name="skin_loadingAirAsiaRoutesString">@string/loading_air_asia_routes</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
-        <item name="skin_flightsNotAvailableError">@string/error_flights_no_longer_available_expedia</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
