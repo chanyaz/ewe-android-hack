@@ -32,8 +32,8 @@
         <item name="skin_loginBrandIconDrawable">@drawable/ic_travelocity_launch</item>
 
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_travelocity_logo</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_travelocity_logo</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/tvly</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/tvly</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/tvly</item>
     </style>
 </resources>

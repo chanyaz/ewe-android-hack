@@ -4,13 +4,13 @@
     <item>
         <selector>
             <item
-                android:drawable="@drawable/lx_plus_icon_disabled"
+                android:drawable="@drawable/lx_plus_icon_disabled_tvly"
                 android:state_enabled="false" />
 
             <item
-                android:drawable="@drawable/lx_plus_icon"
+                android:drawable="@drawable/lx_plus_icon_tvly"
                 android:state_pressed="true" />
-            <item android:drawable="@drawable/lx_plus_icon" />
+            <item android:drawable="@drawable/lx_plus_icon_tvly" />
         </selector>
     </item>
 </ripple>

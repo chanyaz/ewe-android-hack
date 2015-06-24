@@ -20,9 +20,9 @@
         <item name="skin_loginWithExpediaTitleText">@string/travelocity_account</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
         <item name="skin_loginButtonColor">@android:color/black</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_travelocity_logo</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_travelocity_logo</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/tvly</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/tvly</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/tvly</item>
         <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
         <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
@@ -58,7 +58,6 @@
         <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
         <item name="skin_loginBrandIconDrawable">@drawable/ic_travelocity_launch</item>
         <item name="skin_lxPrimaryColor">@color/lx_primary_color_tvly</item>
-        <item name="skin_carsLoginBrandLogoDrawable">@drawable/ic_travelocity_logo</item>
 
         <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_book_now_button_selector_tvly</item>
         <item name="skin_lxOfferDateSelectorDrawable">@drawable/lx_offer_date_selector_tvly</item>
