@@ -187,8 +187,8 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	}
 
 	private String getCopyrightString() {
-		int templateId = Ui.obtainThemeResID(this, R.attr.skin_aboutCopyrightString);
-		return getString(templateId, AndroidUtils.getAppBuildDate(this).get(Calendar.YEAR));
+		return Phrase.from(this, R.string.copyright_TEMPLATE).put("brand", BuildConfig.brand)
+			.put("year", AndroidUtils.getAppBuildDate(this).get(Calendar.YEAR)).format().toString();
 	}
 
 	@Override

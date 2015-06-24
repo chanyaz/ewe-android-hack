@@ -44,7 +44,6 @@
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_vsc</item>
         <item name="skin_hotelWebViewActionBarLogo">@drawable/ic_logo_hotels</item>
 		<item name="skin_cvvEntryTitleText">@string/cvv_explanation_vsc</item>
-        <item name="skin_aboutCopyrightString">@string/VSC_copyright_TEMPLATE</item>
         <item name="skin_aboutInfoUrlString">@string/app_vsc_info_url</item>
         <item name="skin_aboutAppNameString">@string/vsc_full_app_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/ic_voyages_sncf</item>

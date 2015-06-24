@@ -140,8 +140,6 @@
     <string name="VSC_Voyages_SNF">Réservez un billet de train</string>
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Avec l’application de </string>
-    <!-- VSC Copyright information -->
-    <string name="VSC_copyright_TEMPLATE">© Copyright 2012-%1$s L’Agence Voyages-sncf.com.\nTous droits réservés.</string>
 
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure_vsc">Désolés, nous n\&apos;avons pas pu vous connecter à L’Agence Voyages-sncf.com. Veuillez réessayer.</string>

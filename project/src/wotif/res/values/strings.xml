@@ -8,7 +8,6 @@
     <string name="cd_checkout_log_in_with_wotif">Press to log in to your Wotif account</string>
 
     <string name="wotif_website">Wotif Website</string>
-    <string name="wotif_copyright_TEMPLATE">© Copyright 2012-%1$s Wotif\nAll rights reserved.</string>
     <string name="wotif_info_url">http://www.wotif.com/</string>
 
     <!-- Label for logout confirmation -->

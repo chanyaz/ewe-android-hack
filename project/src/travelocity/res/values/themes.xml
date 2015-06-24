@@ -26,7 +26,6 @@
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>
         <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_travelocity_logo_small</item>
         <item name="skin_aboutWebsiteString">@string/travelocity_website</item>
-        <item name="skin_aboutCopyrightString">@string/travelocity_copyright_TEMPLATE</item>
         <item name="skin_aboutInfoUrlString">@string/travelocity_info_url</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/ic_launcher</item>

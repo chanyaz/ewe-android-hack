@@ -49,7 +49,6 @@
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_wotif</item>
         <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_wotif_logo</item>
         <item name="skin_aboutWebsiteString">@string/wotif_website</item>
-        <item name="skin_aboutCopyrightString">@string/wotif_copyright_TEMPLATE</item>
         <item name="skin_aboutInfoUrlString">@string/wotif_info_url</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/ic_launcher</item>

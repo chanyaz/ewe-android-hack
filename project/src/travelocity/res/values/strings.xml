@@ -12,7 +12,6 @@
 
     <string name="contact_travelocity">Contact Travelocity</string>
     <string name="travelocity_website">Travelocity Website</string>
-    <string name="travelocity_copyright_TEMPLATE">© Copyright 2012-%1$s Travelocity\nAll rights reserved.</string>
     <string name="travelocity_info_url">http://www.travelocity.com/</string>
 
     <!-- Label for logout confirmation -->
