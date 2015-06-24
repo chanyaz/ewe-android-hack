@@ -487,4 +487,19 @@ public class StrUtils {
 			.put("brand", context.getString(R.string.brand_name))
 			.format();
 	}
+
+	/**
+	 * Fetch text of the child traveler in the spinner.
+	 */
+	public static String getChildTravelerAgeText(Resources res, int age) {
+		age = age + GuestsPickerUtils.MIN_CHILD_AGE;
+		String str = null;
+		if (age == 0) {
+			str = res.getString(R.string.child_age_less_than_one);
+		}
+		else {
+			str = res.getQuantityString(R.plurals.child_age, age, age);
+		}
+		return Html.fromHtml(str).toString();
+	}
 }

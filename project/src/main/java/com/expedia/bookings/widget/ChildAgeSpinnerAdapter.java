@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.expedia.bookings.utils.StrUtils;
 
 
 public class ChildAgeSpinnerAdapter extends BaseAdapter {
@@ -37,17 +37,6 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 		return v;
 	}
 
-	private String getAgeText(int position) {
-		int age = position + GuestsPickerUtils.MIN_CHILD_AGE;
-		String str = null;
-		if (age == 0) {
-			str = mResources.getString(R.string.child_age_less_than_one);
-		}
-		else {
-			str = mResources.getQuantityString(R.plurals.child_age, age, age);
-		}
-		return Html.fromHtml(str).toString();
-	}
 	protected View createViewFromResource(int position, View convertView, ViewGroup parent, int resource) {
 		View view;
 
@@ -59,7 +48,7 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 		}
 
 		TextView text = (TextView) view;
-		text.setText(getAgeText(position));// converts to Html, then strips out so no loc changes
+		text.setText(StrUtils.getChildTravelerAgeText(mResources, position));// converts to Html, then strips out so no loc changes
 
 		return view;
 	}
