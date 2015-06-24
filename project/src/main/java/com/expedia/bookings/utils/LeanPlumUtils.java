@@ -87,7 +87,7 @@ public class LeanPlumUtils {
 
 		Leanplum.setApplicationContext(mContext);
 		LeanplumActivityHelper.enableLifecycleCallbacks(app);
-		LeanPlumTemplate.register(mContext);
+		registerTemplates();
 		Leanplum.start(mContext, mUserAtrributes);
 		updateLoggedInStatus();
 		Parser.parseVariablesForClasses(LeanPlumFlags.class);
@@ -95,6 +95,10 @@ public class LeanPlumUtils {
 
 	}
 
+	public static void registerTemplates() {
+		LeanPlumTemplate.register(mContext);
+		GTLeanPlumTemplate.register(mContext);
+	}
 
 	public static void updatePOS() {
 		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
@@ -153,7 +157,8 @@ public class LeanPlumUtils {
 		}
 	}
 
-	public static void trackHotelBooked(HotelSearchParams params, Property property, String orderNumber, String currency, double totalPrice, double avgPrice) {
+	public static void trackHotelBooked(HotelSearchParams params, Property property, String orderNumber,
+		String currency, double totalPrice, double avgPrice) {
 		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			String eventName = "Sale Hotel";
 			Log.i("LeanPlum hotel booking event currency=" + currency + " total=" + totalPrice);
@@ -179,7 +184,8 @@ public class LeanPlumUtils {
 		}
 	}
 
-	public static void trackFlightBooked(TripBucketItemFlight tripBucketItemFlight, String orderId, String currency, double totalPrice) {
+	public static void trackFlightBooked(TripBucketItemFlight tripBucketItemFlight, String orderId, String currency,
+		double totalPrice) {
 		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			FlightSearchParams params = tripBucketItemFlight.getFlightSearch().getSearchParams();
 			List<FlightLeg> flightLegs = tripBucketItemFlight.getFlightTrip().getLegs();
@@ -390,7 +396,8 @@ public class LeanPlumUtils {
 		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			String eventName = "Checkout Car Started";
 			Money total = carOffer.detailedFare.grandTotal;
-			Log.i("LeanPlum car checkout started currency=" + total.getCurrency() + " total=" + total.getAmount().doubleValue());
+			Log.i("LeanPlum car checkout started currency=" + total.getCurrency() + " total=" + total.getAmount()
+				.doubleValue());
 
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
 
@@ -459,14 +466,17 @@ public class LeanPlumUtils {
 
 			eventParams.put("destination", lxState.activity.location);
 
-			eventParams.put("TotalPrice", String.valueOf(LXUtils.getTotalAmount(lxState.selectedTickets).getAmount().doubleValue()));
+			eventParams.put("TotalPrice",
+				String.valueOf(LXUtils.getTotalAmount(lxState.selectedTickets).getAmount().doubleValue()));
 			eventParams.put("currency", LXUtils.getTotalAmount(lxState.selectedTickets).getCurrency());
 
 			LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
 				lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 
 			eventParams.put("ActivityDate", "" + DateUtils.convertDatetoInt(offerSelectedDate));
-			eventParams.put("ActivityDatetime", "" + DateUtils.yyyyMMddHHmmssToDateTime(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate).toString(DATE_PATTERN));
+			eventParams.put("ActivityDatetime", "" + DateUtils
+				.yyyyMMddHHmmssToDateTime(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate)
+				.toString(DATE_PATTERN));
 			eventParams.put("ActivityCategory", "" + Strings.joinWithoutEmpties(",", lxState.activity.categories));
 			eventParams.put("b_win", "" + getBookingWindow(offerSelectedDate));
 			eventParams.put("p_type", "LX");

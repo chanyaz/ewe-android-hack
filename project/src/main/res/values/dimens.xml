@@ -292,6 +292,7 @@
     <!-- Dimensions for leanplum in app message templates -->
     <dimen name="leanplum_dialog_image_width">280dp</dimen>
     <dimen name="leanplum_dialog_image_height">157dp</dimen>
+    <dimen name="gt_leanplum_dialog_height">190dp</dimen>
 
     <!-- Dimensions for Hotel Traveler Table -->
     <dimen name="hotel_traveler_table_margin">24dp</dimen>
