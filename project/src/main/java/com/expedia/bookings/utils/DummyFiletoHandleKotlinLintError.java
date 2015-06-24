@@ -14,5 +14,11 @@ public class DummyFiletoHandleKotlinLintError {
 	private static final int HOTEL_SUGGEST = R.drawable.hotel_suggest;
 	private static final int AIRPORT_SUGGEST = R.drawable.airport_suggest;
 	private static final int V4_SUGGESTION = R.layout.hotel_dropdown_item;
-
+	private static final int CALENDAR_TEMPLATE = R.string.calendar_instructions_date_range_with_guests_TEMPLATE;
+	private static final int HOTEL_PRICE_TEMPLATE = R.string.per_nt_TEMPLATE;
+	private static final int HOTEL_RATING_TEMPLATE = R.string.customer_rating_percent_Template;
+	private static final int HOTEL_RESULTS_CELL = R.layout.hotel_cell;
+	private static final int HOTEL_RESULTS_WIDGET = R.layout.widget_hotel_results;
+	private static final int HOTEL_SEARCH_WIDGET = R.layout.widget_hotel_search_params;
+	private static final int HOTEL_ACTIVITY = R.layout.activity_hotel;
 }

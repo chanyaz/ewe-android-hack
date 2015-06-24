@@ -19,7 +19,11 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
-import com.expedia.bookings.utils.*
+import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
 import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.TravelerPicker
@@ -43,9 +47,6 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     val monthView: MonthView by bindView(R.id.month)
     val traveler: TravelerPicker by bindView(R.id.traveler_view)
     val dayOfWeek: DaysOfWeekView by bindView(R.id.days_of_week)
-
-    var hotelServices : HotelServices? = null
-    @Inject set
 
     var hotelSearchParamsBuilder : HotelSearchParams.Builder = HotelSearchParams.Builder()
 

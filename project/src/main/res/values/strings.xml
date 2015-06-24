@@ -1650,7 +1650,7 @@
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">Select Check-in Date</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">%1$s - %2$s, %3$s</string>
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests} Guests</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">One way for &lt;b&gt;%s&lt;/b&gt;</string>
@@ -2464,7 +2464,7 @@
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/nt</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt_TEMPLATE">%s/nt</string>
+    <string name="per_nt_TEMPLATE">{price}/nt</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Not Rated</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2517,7 +2517,7 @@
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% of guests recommend this hotel.</string>
     <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent">%d%%</string>
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="guest_recommend">of guests recommend</string>
 
