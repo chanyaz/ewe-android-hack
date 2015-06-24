@@ -30,6 +30,7 @@
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
         <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
         <item name="skin_loginBrandIconDrawable">@drawable/ic_travelocity_launch</item>
+        <item name="skin_carsUncheckedToggleTextColor">@color/cars_unchecked_toggle_text_color_tvly</item>
 
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/tvly</item>

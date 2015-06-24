@@ -50,6 +50,8 @@
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
         <item name="skin_checkoutLoginButtonColor">#836B11</item>
         <item name="skin_loginBrandIconDrawable">@drawable/expedia_login</item>
+        <item name="skin_carsUncheckedToggleTextColor">@color/cars_unchecked_toggle_text_color</item>
+
     </style>
 
     <style name="AppTheme.Base" parent="@style/Theme.AppCompat.Light">

@@ -314,6 +314,7 @@
     <attr name="skin_checkoutLoginBookNowButtonDrawable" format="reference" />
     <attr name="skin_checkoutLoginButtonColor" format="reference|color" />
     <attr name="skin_loginBrandIconDrawable" format="reference" />
+    <attr name="skin_carsUncheckedToggleTextColor" format="reference|color" />
 
     <!-- LX -->
     <attr name="skin_lxPrimaryColor" format="reference|color" />
