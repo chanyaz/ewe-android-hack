@@ -127,8 +127,6 @@
     <!-- for hotels and flights travel type -->
     <attr name="skin_travelerLabelOnCheckout" format="reference|string" />
 
-    <!-- for flight showing Expedia/ Tvly Account label-->
-    <attr name="skin_flightCheckoutAccountLabel" format="reference|string"/>
 
     <!-- for hotels best price guarantee type -->
     <attr name="skin_bestPriceGuaranteeString" format="reference|string" />

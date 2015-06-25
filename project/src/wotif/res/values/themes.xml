@@ -117,7 +117,6 @@
         <item name="skin_travelerLabelOnCheckout">@string/Add_Traveler</item>
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_wotif</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_wotif</item>
-        <item name="skin_flightCheckoutAccountLabel">@string/wotif_account</item>
         <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color_wotif</item>
     </style>
 
