@@ -181,7 +181,8 @@ public class CarFilterWidget extends LinearLayout {
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
-			int color = getContext().getResources().getColor(R.color.cars_status_bar_color);
+			int color = getContext().getResources()
+				.getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsStatusBarColor));
 			addView(Ui.setUpStatusBar(getContext(), null, null, color), 0);
 		}
 

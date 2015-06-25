@@ -209,7 +209,8 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 
 			Ui.setViewBackground(root, isChecked ? mContext.getResources().getDrawable(R.drawable.card_background) : null);
 
-			ratePrice.setTextColor(isChecked ? mContext.getResources().getColor(R.color.cars_primary_color)
+			ratePrice.setTextColor(isChecked ? mContext.getResources()
+				.getColor(Ui.obtainThemeResID(mContext, R.attr.skin_carsPrimaryColor))
 				: mContext.getResources().getColor(R.color.cars_checkout_text_color));
 
 			collapsedContainer.setPadding(isChecked ? sideExpanded : sideCollapsed,

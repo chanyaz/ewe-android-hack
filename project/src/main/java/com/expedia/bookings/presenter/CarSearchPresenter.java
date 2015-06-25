@@ -155,7 +155,8 @@ public class CarSearchPresenter extends Presenter
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
 		toolBarSearchText.setText(getResources().getString(R.string.toolbar_search_cars));
-		toolbar.setBackgroundColor(getResources().getColor(R.color.cars_primary_color));
+		toolbar.setBackgroundColor(
+			getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsPrimaryColor)));
 		toolbar.inflateMenu(R.menu.cars_search_menu);
 
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
@@ -189,7 +190,8 @@ public class CarSearchPresenter extends Presenter
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
-			int color = getContext().getResources().getColor(R.color.cars_primary_color);
+			int color = getContext().getResources()
+				.getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsPrimaryColor));
 			statusBar = Ui.setUpStatusBar(getContext(), toolbar, searchContainer, color);
 			addView(statusBar);
 		}
