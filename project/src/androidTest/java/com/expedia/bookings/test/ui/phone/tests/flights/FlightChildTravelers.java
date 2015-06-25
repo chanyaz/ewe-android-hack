@@ -92,9 +92,55 @@ public class FlightChildTravelers {
 	@Test
 	public void testChildTravelerMax() throws Throwable {
 		FlightsSearchScreen.clickPassengerSelectionButton();
+		// check decrement button is disabled
+		FlightsTravelerPicker.isChildDecrementButtonIsDisabled();
 		incrementChildCountBy(4);
+		FlightsTravelerPicker.isChildIncrementButtonIsDisabled();
 		ScreenActions.enterLog(TAG, "Flights supports max of 4 children");
-		//TODO check for +/- disabled status when max children/max travelers is reached. Tracked by #4733
+	}
+
+	@Test
+	public void testAdultTravelerMax() throws Throwable {
+		FlightsSearchScreen.clickPassengerSelectionButton();
+		// check decrement button is disabled
+		FlightsTravelerPicker.isAdultButtonDecrementDisabled();
+		incrementAdultCountBy(5);
+		FlightsTravelerPicker.isAdultButtonIncrementDisabled();
+		ScreenActions.enterLog(TAG, "Flights supports max of 6 adults");
+	}
+
+	@Test
+	public void testTravelersMax() throws Throwable {
+		FlightsSearchScreen.clickPassengerSelectionButton();
+		FlightsTravelerPicker.isAdultButtonDecrementDisabled();
+		FlightsTravelerPicker.isChildDecrementButtonIsDisabled();
+
+		// adults = 5, child = 1
+		incrementAdultCountBy(4);
+		incrementChildCountBy(1);
+		checkIncrementButtonDisabled();
+
+		// adults = 4, child = 2
+		decrementAdultCountBy(1);
+		incrementChildCountBy(1);
+		checkIncrementButtonDisabled();
+
+		// adults = 3, child = 3
+		decrementAdultCountBy(1);
+		incrementChildCountBy(1);
+		checkIncrementButtonDisabled();
+
+		// adults = 2, child = 4
+		decrementAdultCountBy(1);
+		incrementChildCountBy(1);
+		checkIncrementButtonDisabled();
+
+		ScreenActions.enterLog(TAG, "Flights supports max of 6 travelers");
+	}
+
+	private void checkIncrementButtonDisabled() {
+		FlightsTravelerPicker.isAdultButtonIncrementDisabled();
+		FlightsTravelerPicker.isChildIncrementButtonIsDisabled();
 	}
 
 	@Test

@@ -217,4 +217,21 @@ public class FlightsTravelerPicker {
 			infantAlertTextView().check(matches(not(isDisplayed())));
 		}
 	}
+
+	public static void isAdultButtonIncrementDisabled() {
+		adultIncrementButton().check(matches(not(isEnabled())));
+	}
+
+	public static void isChildIncrementButtonIsDisabled() {
+		childIncrementButton().check(matches(not(isEnabled())));
+	}
+
+	public static void isAdultButtonDecrementDisabled() {
+		adultDecrementButton().check(matches(not(isEnabled())));
+	}
+
+	public static void isChildDecrementButtonIsDisabled() {
+		childDecrementButton().check(matches(not(isEnabled())));
+	}
+
 }
