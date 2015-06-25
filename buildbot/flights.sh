@@ -20,6 +20,7 @@ fi
 add_test "com.expedia.bookings.test.ui.phone.tests.flights.FlightCheckoutUserInfoTests"
 add_test "com.expedia.bookings.test.ui.phone.tests.flights.FlightFieldValidationTest"
 add_test "com.expedia.bookings.test.ui.phone.tests.flights.FlightTravelerErrorHandling"
+add_test "com.expedia.bookings.test.ui.phone.tests.flights.FlightChildTravelers"
 
 java \
     -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \
