@@ -267,6 +267,36 @@ public class LXViewModel {
 		return onView(allOf(isDescendantOfA(withId(R.id.lx_checkout_error_widget)), withId(R.id.error_action_button)));
 	}
 
+	// LX Rules widget view models
+
+	public static ViewInteraction rulesWidget() {
+		return onView(withId(R.id.rules));
+	}
+
+	public static ViewInteraction rulesWidgetCancellationPolicyHeader() {
+		return onView(allOf(withId(R.id.cancellation_policy_header_text_view), withText(R.string.cancellation_policy)));
+	}
+
+	public static ViewInteraction rulesWidgetCancellationPolicyContent(String cancellationPolicyContent) {
+		return onView(allOf(withId(R.id.cancellation_policy_text_view), withText(cancellationPolicyContent)));
+	}
+
+	public static ViewInteraction rulesWidgetRulesRestrictions() {
+		return onView(allOf(withId(R.id.rules_and_restrictions), withText(R.string.rules_and_restrictions)));
+	}
+
+	public static ViewInteraction rulesWidgetTermsConditions() {
+		return onView(allOf(withId(R.id.terms_and_conditions), withText(R.string.terms_and_conditions)));
+	}
+
+	public static ViewInteraction rulesWidgetPrivacyPolicy() {
+		return onView(allOf(withId(R.id.privacy_policy), withText(R.string.privacy_policy)));
+	}
+
+	public static ViewInteraction rulesWidgetToolbar() {
+		return onView(withId(R.id.lx_rules_toolbar));
+	}
+
 	public static ViewInteraction searchErrorScreen() {
 		return onView(withId(R.id.lx_search_error_widget));
 	}
