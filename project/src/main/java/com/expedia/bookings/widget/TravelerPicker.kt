@@ -11,6 +11,7 @@ import android.widget.Spinner
 import android.widget.TableRow
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.StrUtils
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -25,6 +26,14 @@ public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayou
 
     val childText: TextView by Delegates.lazy {
         findViewById(R.id.children) as TextView
+    }
+
+    val childrenRow1 : TableRow by Delegates.lazy {
+        findViewById(R.id.children_row1) as TableRow
+    }
+
+    val childrenRow2 :TableRow by Delegates.lazy {
+        findViewById(R.id.children_row2) as TableRow
     }
 
     val MAX_GUESTS = 6
@@ -53,8 +62,6 @@ public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayou
 
         var adultPlus: ImageButton = findViewById(R.id.adults_plus) as ImageButton
         var adultMinus: ImageButton = findViewById(R.id.adults_minus) as ImageButton
-        var childrenRow1: TableRow = findViewById(R.id.children_row1) as TableRow
-        var childrenRow2: TableRow = findViewById(R.id.children_row2) as TableRow
         var childPlus: ImageButton = findViewById(R.id.children_plus) as ImageButton
         var childMinus: ImageButton = findViewById(R.id.children_minus) as ImageButton
 
@@ -131,5 +138,22 @@ public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayou
         travelerInfoText.setText(StrUtils.formatGuests(getContext(), numAdults, numChildren))
         childText.setText(getContext().getResources().getQuantityString(R.plurals.number_of_children, numChildren, numChildren))
         adultText.setText(getContext().getResources().getQuantityString(R.plurals.number_of_adults, numAdults, numAdults))
+        listener?.onTravelerUpdate(StrUtils.formatGuests(getContext(), numAdults, numChildren))
+    }
+
+    fun getChildAges() : MutableList<Int> {
+        var children : MutableList<Int> = ArrayList<Int>()
+        for (i in 0..childrenRow1.getChildCount() -1 ) {
+            children.add(getChildAge(i))
+        }
+        for (i in 0..childrenRow2.getChildCount() -1 ) {
+            children.add(getChildAge(i))
+        }
+        return children
+    }
+
+    private fun getChildAge(index: Int): Int {
+        var spinner: Spinner = childrenRow1.getChildAt(index) as Spinner
+        return spinner.getSelectedItem() as Int
     }
 }

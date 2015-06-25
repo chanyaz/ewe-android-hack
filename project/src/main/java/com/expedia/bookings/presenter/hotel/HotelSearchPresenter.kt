@@ -2,37 +2,36 @@ package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.v7.widget.Toolbar
 import android.text.Html
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.ToggleButton
 import android.widget.Button
-import android.graphics.PorterDuff
+import android.widget.ToggleButton
 import com.expedia.bookings.R
-import com.expedia.bookings.data.cars.CarSearch
-import com.expedia.bookings.presenter.CarSearchPresenter
+import com.expedia.bookings.data.cars.Suggestion
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
 import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.TravelerPicker
 import com.mobiata.android.time.widget.CalendarPicker
+import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 import org.joda.time.YearMonth
-import android.graphics.drawable.Drawable
-import android.os.Build
-import android.view.LayoutInflater
-import com.expedia.bookings.utils.FontCache
-import kotlin.properties.Delegates
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
-import com.mobiata.android.time.widget.DaysOfWeekView
+import rx.subjects.PublishSubject
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
+import kotlin.properties.Delegates
 
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CalendarPicker.DateSelectionChangedListener, TravelerPicker.TravelersUpdatedListener, CalendarPicker.YearMonthDisplayedChangedListener, DaysOfWeekView.DayOfWeekRenderer {
 
@@ -44,7 +43,16 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     val traveler: TravelerPicker by bindView(R.id.traveler_view)
     val dayOfWeek: DaysOfWeekView by bindView(R.id.days_of_week)
 
-    val hotelSuggestionAdapter = HotelSuggestionAdapter()
+    var hotelServices : HotelServices? = null
+    @Inject set
+
+    var hotelSearchParamsBuilder : HotelSearchParams.Builder = HotelSearchParams.Builder()
+
+    val hotelSuggestionAdapter: HotelSuggestionAdapter by Delegates.lazy {
+        HotelSuggestionAdapter()
+    }
+
+    val paramsSubject = PublishSubject.create<HotelSearchParams>()
 
     init {
         View.inflate(context, R.layout.widget_hotel_search_params, this)
@@ -52,11 +60,11 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     override fun onFinishInflate() {
         super<Presenter>.onFinishInflate()
-
         var toolbar: Toolbar = findViewById(R.id.toolbar) as Toolbar
 
         toolbar.inflateMenu(R.menu.cars_search_menu)
-        var menuItem: MenuItem = toolbar.getMenu().findItem(R.id.menu_check) as MenuItem
+
+        var menuItem: MenuItem = toolbar.getMenu().findItem(R.id.menu_check)
         var customButton: Button = setupToolBarCheckmark(menuItem)
         customButton.setTextColor(getResources().getColor(android.R.color.white))
 
@@ -90,7 +98,9 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         searchLocation.setAdapter(hotelSuggestionAdapter)
         searchLocation.setOnItemClickListener {
             adapterView, view, position, l ->
-            searchLocation.setText(Html.fromHtml(StrUtils.formatCityName(hotelSuggestionAdapter.getItem(position).displayName)).toString(), false)
+            var suggestion: Suggestion = hotelSuggestionAdapter.getItem(position)
+            searchLocation.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)).toString(), false)
+            hotelSearchParamsBuilder.city(suggestion)
         }
     }
 
@@ -103,9 +113,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         selectDate.setTextOff(displayText)
         selectDate.setTextOn(displayText)
 
-        calendar.setToolTipText(displayText, if (end == null) getResources().getString(R.string.calendar_tooltip_bottom_select_return_date)
-        else getResources().getString(R.string.calendar_tooltip_bottom_drag_to_modify))
-
+        var textResource = if (end == null) R.string.calendar_tooltip_bottom_select_return_date else R.string.calendar_tooltip_bottom_drag_to_modify
+        calendar.setToolTipText(displayText, getResources().getString(textResource))
+        hotelSearchParamsBuilder.checkIn(start)
+        hotelSearchParamsBuilder.checkOut(end)
     }
 
     override fun onTravelerUpdate(text: String) {
@@ -127,6 +138,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         val navIcon: Drawable = getResources().getDrawable(R.drawable.ic_check_white_24dp)!!.mutate() as Drawable
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         tv.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
+        tv.setOnClickListener { view -> doSearch() }
         menuItem.setActionView(tv)
         return tv
     }
@@ -139,6 +151,13 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             return dayOfWeek.getAsShortText().toUpperCase(Locale.getDefault()).substring(0, 1)
         }
         return DaysOfWeekView.DayOfWeekRenderer.DEFAULT.renderDayOfWeek(dayOfWeek)
+    }
+
+    fun doSearch() : Boolean {
+        hotelSearchParamsBuilder.children(traveler.getChildAges())
+        hotelSearchParamsBuilder.adults(traveler.numAdults)
+        paramsSubject.onNext(hotelSearchParamsBuilder.build())
+        return true
     }
 }
 

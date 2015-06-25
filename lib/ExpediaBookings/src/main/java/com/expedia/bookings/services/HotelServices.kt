@@ -41,4 +41,13 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			.map { response -> response.hotelList.take(25).toArrayList() }
 			.subscribe(observer)
 	}
+
+	public fun suggestHotels(params: HotelSearchParams, observer: Observer<List<Hotel>>): Subscription {
+		return hotelApi.suggestionHotelSearch(params.city.shortName, params.checkIn.toString(), params.checkOut.toString(),
+				params.getGuestString())
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+				.map { response -> response.hotelList }
+				.subscribe(observer)
+	}
 }
