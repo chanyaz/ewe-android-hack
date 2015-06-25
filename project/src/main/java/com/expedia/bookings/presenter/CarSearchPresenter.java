@@ -239,6 +239,7 @@ public class CarSearchPresenter extends Presenter
 
 	public Button setupToolBarCheckmark(final MenuItem menuItem) {
 		Button tv = Ui.inflate(getContext(), R.layout.toolbar_checkmark_item, null);
+		tv.setTextColor(Color.WHITE);
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

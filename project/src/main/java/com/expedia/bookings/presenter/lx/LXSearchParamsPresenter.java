@@ -337,6 +337,7 @@ public class LXSearchParamsPresenter extends Presenter
 
 	private void setupToolBarCheckmark(final MenuItem menuItem) {
 		searchButton = Ui.inflate(getContext(), R.layout.toolbar_checkmark_item, null);
+		searchButton.setTextColor(Color.WHITE);
 		searchButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
