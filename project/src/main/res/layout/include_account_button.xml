@@ -80,7 +80,6 @@
             android:layout_marginLeft="@dimen/account_button_padding"
             android:drawablePadding="@dimen/card_icon_padding"
             android:gravity="center_vertical"
-            android:text="?attr/skin_hotelCheckoutLoginButtonText"
             android:textSize="@dimen/login_button_text_size"
             app:textStyle="@integer/login_button_text_style" />
 

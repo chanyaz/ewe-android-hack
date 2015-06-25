@@ -169,7 +169,6 @@
                 android:drawablePadding="8dp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="?attr/skin_sorryRoomsSoldOut"
                 android:textColor="#5e6b7a"
                 android:textSize="16dp"
                 app:textStyle="light"

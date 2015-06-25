@@ -5,17 +5,10 @@
 
     <string name="customer_support_text">Call Travelocity Customer Support</string>
 
-    <!-- Log in with Travelocity -->
-    <string name="Log_in_with_Travelocity">Log in with Travelocity</string>
-    <!-- Label for signin screen -->
-    <string name="travelocity_account">Travelocity Account</string>
     <!-- Content description for action: Press to log in with your Travelocity account -->
     <string name="cd_checkout_log_in_with_travelocity">Press to log in to your Travelocity account</string>
 
     <string name="contact_travelocity">Contact Travelocity</string>
-    <string name="travelocity_website">Travelocity Website</string>
-    <string name="travelocity_app_support">Travelocity App Support</string>
-    <string name="travelocity_copyright_TEMPLATE">© Copyright 2012-%1$s Travelocity\nAll rights reserved.</string>
     <string name="travelocity_info_url">http://www.travelocity.com/</string>
 
     <!-- Label for logout confirmation -->
@@ -23,16 +16,8 @@
 
 
 
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_travelocity_message_TEMPLATE">Save %1$s\'s information under your Travelocity account to speed up future purchases?</string>
 
-    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE_tvly">Travelocity Itinerary #: %s</string>
-    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE_tvly">Travelocity Customer Support: %s</string>
 
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data_tvly">You are logged out of your Travelocity account, and all saved billing and contact information has been removed.</string>
 
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure_tvly">We\'re sorry, but we couldn\'t connect to Travelocity. Please try again.</string>
@@ -41,16 +26,11 @@
     <string name="contact_travelocity_email_subject">Travelocity Reservations Support</string>
 
 
-    <string name="error_flights_no_longer_available_tvly">We\'re really sorry, one of your flights is no longer available from Travelocity.</string>
 
     <!-- Message displayed when the hotel room is sold out -->
     <string name="error_room_is_now_sold_out_tvly">We\&apos;re sorry but this room is no longer available from Travelocity.</string>
-    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_tvly">We\&apos;re sorry but this hotel is no longer available from Travelocity.</string>
     <!--A message stating this hotel is Not currently available on Travelocity -->
     <string name="not_currently_available_tvly">Not currently available from Travelocity</string>
-    <!-- A message stating this hotel is sold out on Travelocity -->
-    <string name="sold_out_on_tvly">Sold out on Travelocity</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Travelocity Nov. 3-4" -->
     <string name="not_currently_available_tvly_TEMPLATE">Not available from Travelocity %s</string>
 
@@ -64,7 +44,6 @@
     <string name="e3_error_checkout_booking_succeeded_with_errors_tvly">You successfully booked your hotel! If you need an itinerary immediately, please call Travelocity Customer Support.</string>
     <string name="tvly_password_hint">Travelocity Password</string>
     <string name="dialog_message_launch_tvly_mobile_site">Launch the Travelocity mobile website?</string>
-    <string name="sorry_rooms_sold_out_tvly">Sorry, all rooms are sold out on Travelocity.</string>
     <!-- Travelocity App download link -->
     <string name="share_template_long_ad_tvly">Book hotels, flights and view &amp; share your itineraries. Download the free Travelocity mobile app today.\n%s</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
@@ -74,5 +53,4 @@
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Due to Travelocity Today</string>
-    <string name="etp_pay_now_charges_text">Travelocity will process your payment details.</string>
 </resources>

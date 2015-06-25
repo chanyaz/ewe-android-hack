@@ -11,7 +11,6 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.utils.NavUtils;
-import com.expedia.bookings.utils.Ui;
 import com.squareup.phrase.Phrase;
 
 public class BookingUnavailableDialogFragment extends DialogFragment implements OnClickListener {
@@ -47,7 +46,7 @@ public class BookingUnavailableDialogFragment extends DialogFragment implements 
 		if (mIsFlightLOB) {
 
 			if (isPlural) {
-				builder.setMessage(Ui.obtainThemeResID(getActivity(), R.attr.skin_flightsNotAvailableError));
+				builder.setMessage(Phrase.from(getActivity(), R.string.error_flights_no_longer_available_TEMPLATE).put("brand", BuildConfig.brand).format());
 			}
 			else {
 				builder.setMessage(Phrase.from(getActivity(), R.string.error_flight_no_longer_available_TEMPLATE)

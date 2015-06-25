@@ -806,9 +806,9 @@
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% recommend</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
-    <string name="sorry_rooms_sold_out">Sorry, all rooms are sold out on Expedia.</string>
+    <string name="sorry_rooms_sold_out_TEMPLATE">Sorry, all rooms are sold out on {brand}.</string>
     <!-- A message stating this hotel is sold out on Expedia -->
-    <string name="sold_out_on_expedia">Sold out on Expedia</string>
+    <string name="sold_out_on_TEMPLATE">Sold out on {brand}</string>
     <!-- Hotel gallery title -->
     <string name="photos_for_TEMPLATE">Photos for %s</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
@@ -891,7 +891,7 @@
     <!-- Sign In -->
     <string name="Sign_In">Sign In</string>
     <!-- Sign in with Expedia -->
-    <string name="Sign_in_with_Expedia">Sign in with Expedia</string>
+    <string name="Sign_in_with_TEMPLATE">Sign in with {brand}</string>
     <!-- Sign in with the current brand -->
     <string name="sign_in_with_brand_TEMPLATE">Sign in with {brand}</string>
     <!-- or -->
@@ -1991,7 +1991,7 @@
     <!-- save traveler -->
     <string name="save_traveler">Save Traveler</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Save %1$s\'s information under your Expedia account to speed up future purchases?</string>
+    <string name="save_traveler_message_TEMPLATE">Save {name}\'s information under your {brand} account to speed up future purchases?</string>
     <!-- no thanks -->
     <string name="no_thanks">No Thanks</string>
 
@@ -2157,11 +2157,11 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">Expedia Itinerary #: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">{brand} Itinerary #: {itinerary}</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">Directions to airport: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">Expedia Customer Support: %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">{brand} Customer Support: {phone}</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -2219,7 +2219,7 @@
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available_TEMPLATE">We\'re really sorry, your flight is no longer available from {brand}.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_expedia">We\'re really sorry, one of your flights is no longer available from Expedia.</string>
+    <string name="error_flights_no_longer_available_TEMPLATE">We\'re really sorry, one of your flights is no longer available from {brand}.</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
     <string name="error_flight_hold_expired">We\'re sorry, your hold on this flight has expired.</string>
     <!-- Error shown to user if one of multiple flights is no longer available or expired -->
@@ -2453,7 +2453,7 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">No hotel rooms available</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_expedia">We\&apos;re sorry but this hotel is no longer available from Expedia.</string>
+    <string name="error_hotel_is_now_sold_out_TEMPLATE">We\&apos;re sorry but this hotel is no longer available from {brand}.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -2636,7 +2636,7 @@
     <string name="etp_pay_later_payment_info_text">Payment information is only needed to hold your reservation.</string>
     <string name="etp_pay_later_cancellation_text">Cancellation is free, right up to the hotel\'s cancellation window.</string>
     <string name="etp_pay_now_option_text">Pay online now</string>
-    <string name="etp_pay_now_charges_text">Expedia will process your payment details.</string>
+    <string name="etp_pay_now_charges_text_TEMPLATE">{brand} will process your payment details.</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">You will pay in your local currency (%s).</string>
     <string name="etp_pay_now_cancellation_text">Cancellation is free, right up to the hotel\'s cancellation window.</string>
     <string name="etp_select_room">Select Room</string>
@@ -2760,7 +2760,7 @@
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for signin screen -->
-    <string name="expedia_account">Expedia Account</string>
+    <string name="account_TEMPLATE">{brand} Account</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Loading {brand} Account</string>
     <!-- Label for password recovery -->
@@ -2840,19 +2840,19 @@
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Website</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">Expedia Website</string>
+    <string name="website_TEMPLATE">{brand} Website</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">App Support</string>
+    <string name="app_support_TEMPLATE">App Support</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Terms and Conditions</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Privacy Policy</string>
     <!-- Copyright information -->
-    <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nAll rights reserved.</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_signed_out_and_cleared_private_data">Signed out and data cleared</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data">You are signed out of your Expedia account, and all saved billing and contact information has been removed.</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">You are signed out of your {brand} account, and all saved billing and contact information has been removed.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Private data cleared</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->

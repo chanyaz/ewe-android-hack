@@ -88,7 +88,6 @@
     <!-- Log in with Expedia/VSC screen -->
     <!-- This drawable is used in hotel detail for Book Now button as well -->
     <attr name="skin_loginBookNowButtonDrawable" format="reference" />
-    <attr name="skin_loginWithExpediaTitleText" format="reference|string" />
     <attr name="skin_hotelDetailPlaceHolderDrawable" format="reference" />
     <attr name="skin_loginButtonColor" format="reference" />
     <attr name="skin_hotelBookButtonColor" format="reference" />
@@ -97,8 +96,6 @@
     <attr name="skin_hotelConfirmationCallActionDrawable" format="reference" />
 
 
-    <!-- Hotel confirmation screen, login button text and icons -->
-    <attr name="skin_hotelCheckoutLoginButtonText" format="reference|string" />
     <attr name="skin_hotelCheckoutLogoutLogoDrawable" format="reference" />
     <attr name="skin_phoneCheckoutLoginLogoDrawable" format="reference" />
     <attr name="skin_phoneCheckoutLoginButtonDrawable" format="reference" />
@@ -128,8 +125,6 @@
     <!-- for hotels and flights travel type -->
     <attr name="skin_travelerLabelOnCheckout" format="reference|string" />
 
-    <!-- for flight showing Expedia/ Tvly Account label-->
-    <attr name="skin_flightCheckoutAccountLabel" format="reference|string"/>
 
     <!-- for hotels best price guarantee type -->
     <attr name="skin_bestPriceGuaranteeString" format="reference|string" />
@@ -138,9 +133,6 @@
     <!-- for hotels etp info book button -->
     <attr name="skin_etpHotelSelectRoomString" format="reference|string" />
 
-    <attr name="skin_aboutWebsiteString" format="reference|string" />
-    <attr name="skin_aboutAppSupportString" format="reference|string" />
-    <attr name="skin_aboutCopyrightString" format="reference|string" />
     <attr name="skin_aboutInfoUrlString" format="reference|string" />
     <attr name="skin_aboutAppNameString" format="reference|string" />
     <attr name="skin_aboutAppLogoDrawable" format="reference" />
@@ -148,7 +140,6 @@
     <!-- Flight loading screen message position -->
     <attr name="skin_flightLoadingMessagePosition" format="reference" />
 
-    <attr name="skin_saveTravelerToAccountString" format="reference|string" />
 
     <!-- for traveller_info_page logo-->
     <attr name="skin_travellerInfoPageLogo" format="reference"/>
@@ -192,17 +183,12 @@
     <!-- Room not Available Error Msg-->
     <attr name="skin_roomNotAvailableError" format="string"/>
 
-    <attr name="skin_flightsNotAvailableError" format="string"/>
 
     <!--CVV and CVV Error-->
     <attr name="skin_cvvDivDrawable" format="reference" />
     <attr name="skin_cvvDivErrorDrawable" format="reference" />
 
-    <!-- Clear Private Data Confirmation Msg-->
-    <attr name="skin_clearPrivateDataMsg" format="string"/>
 
-    <!--Hotel search result messages-->
-    <attr name="skin_hotelSearchResultSoldOut" format="reference|string" />
 
     <attr name="skin_candycaneProgressDrawable" format="reference" />
     <attr name="skin_userRatingBarDrawable" format="reference" />
@@ -219,16 +205,10 @@
     <attr name="skin_errorHotelOffersHotelServiceFailureString" format="string" />
 
 
-    <!--Missing string in AirAsiaGo and Travelocity-->
-    <attr name="skin_sorryRoomsSoldOut" format="reference|string" />
-    <attr name="skin_sorryRoomsSoldOutErrorMessage" format="reference|string" />
 
     <!--Change the color of flight circles and lines -->
     <attr name="skin_flightLineColor" format="reference" />
 
-    <!-- calendar description for flight's itinerary and support-->
-    <attr name="skin_calendarFlightDescItinerary" format="reference|string" />
-    <attr name="skin_calendarFlightDescSupport" format="reference|string" />
     <attr name="skin_flightPriceTextColor" format="reference|color" />
     <attr name="skin_icSuitCaseBaggage" format="reference" />
 
@@ -284,7 +264,6 @@
     <attr name="skin_flightLoginActionBarIcon" format="reference" />
 
     <attr name="skin_tablet_hotel_coupon_text_color" format="reference|color" />
-    <attr name="skin_etp_pay_now_charges_text" format="string" />
 
     <attr name="skin_terminalChooserTextColor" format="reference|color" />
     <attr name="skin_flightFreeCancellationTextColor" format="reference|color" />

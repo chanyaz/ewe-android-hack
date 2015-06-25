@@ -174,7 +174,8 @@ public class ErrorWidget extends FrameLayout {
 
 	private void showDefaultError() {
 		bindText(R.drawable.error_default,
-			getResources().getString(R.string.error_server_TEMPLATE),
+			Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format()
+				.toString(),
 			R.string.cars_error_text,
 			R.string.retry);
 		errorButton.setOnClickListener(new OnClickListener() {
@@ -187,7 +188,8 @@ public class ErrorWidget extends FrameLayout {
 
 	public void showDefaultSearchError() {
 		bindText(R.drawable.error_default,
-			getResources().getString(R.string.error_server_TEMPLATE),
+			Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format()
+				.toString(),
 			R.string.cars_error_text,
 			R.string.retry);
 		errorButton.setOnClickListener(new OnClickListener() {

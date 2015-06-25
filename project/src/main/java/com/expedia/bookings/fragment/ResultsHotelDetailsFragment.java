@@ -28,6 +28,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.data.Db;
@@ -59,6 +60,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.TimingLogger;
+import com.squareup.phrase.Phrase;
 
 /**
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
@@ -115,6 +117,11 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mRoomsRatesContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
 		mSoldOutContainer = Ui.findView(mRootC, R.id.rooms_sold_out_container);
 		toggleLoadingState(true);
+
+		TextView soldOut = Ui.findView(mRootC, R.id.all_rooms_sold_out);
+		soldOut.setText(
+			Phrase.from(getActivity(), R.string.sorry_rooms_sold_out_TEMPLATE).put("brand", BuildConfig.brand)
+				.format());
 		return mRootC;
 	}
 
@@ -857,21 +864,23 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				return;
 			}
 			else if (response.hasErrors()) {
-				int messageResId;
 				if (response.isHotelUnavailable()) {
-					messageResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_sorryRoomsSoldOutErrorMessage);
+					String message = Phrase.from(getActivity(), R.string.error_hotel_is_now_sold_out_TEMPLATE)
+						.put("brand", BuildConfig.brand).format().toString();
+					Log.w(message);
 				}
 				else {
-					messageResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_errorHotelOffersHotelServiceFailureString);
+					int messageResId = Ui
+						.obtainThemeResID(getActivity(), R.attr.skin_errorHotelOffersHotelServiceFailureString);
+					Log.w(getString(messageResId));
 				}
-				Log.w(getString(messageResId));
-				//showErrorDialog(messageResId);
 			}
 			else if (search.getAvailability(selectedId) != null && search.getSearchParams() != null
 				&& search.getAvailability(selectedId).getRateCount() == 0
 				&& search.getSearchParams().getSearchType() != SearchType.HOTEL) {
-				Log.w(getString(R.string.error_hotel_is_now_sold_out_expedia));
-				//showErrorDialog(R.string.error_hotel_is_now_sold_out_expedia);
+				Log.w(Phrase.from(getActivity(), R.string.error_hotel_is_now_sold_out_TEMPLATE)
+					.put("brand", BuildConfig.brand).format().toString());
+				//showErrorDialog(R.string.error_hotel_is_now_sold_out_TEMPLATE);
 			}
 			else {
 				Db.kickOffBackgroundHotelSearchSave(getActivity());

@@ -3,6 +3,7 @@ package com.expedia.bookings.test.ui.phone.tests.ui;
 import android.content.Context;
 import android.support.test.espresso.Espresso;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchActionBar;
@@ -15,6 +16,7 @@ import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 import com.mobiata.android.util.SettingUtils;
+import com.squareup.phrase.Phrase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -101,7 +103,9 @@ public class TripsLoginTest extends PhoneTestCase {
 		catch (Exception e) {
 			SettingsScreen.clickacceptString();
 		}
-		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.dialog_message_signed_out_and_cleared_private_data));
+		EspressoUtils.assertViewWithTextIsDisplayed(
+			Phrase.from(mContext, R.string.dialog_message_signed_out_and_cleared_private_data_TEMPLATE).put("brand",
+				BuildConfig.brand).format().toString());
 		try {
 			SettingsScreen.clickOkString();
 		}

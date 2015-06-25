@@ -94,6 +94,10 @@ public class AccountButton extends LinearLayout {
 		mLoadingTextView.setText(Phrase.from(this, R.string.loading_brand_account_TEMPLATE)
 			.put("brand", BuildConfig.brand)
 			.format());
+
+		mLoginTextView.setText(Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
 	}
 
 	@Override

@@ -246,11 +246,16 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			.put("brand", BuildConfig.brand)
 			.format());
 
-		mTryFacebookAgain.setContentDescription(Phrase.from(getActivity(), R.string.cd_sign_into_brand_with_your_facebook_account_TEMPLATE)
+		mTryFacebookAgain.setContentDescription(
+			Phrase.from(getActivity(), R.string.cd_sign_into_brand_with_your_facebook_account_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format());
+
+		mLogInWithFacebookBtn.setContentDescription(Phrase.from(getActivity(), R.string.cd_sign_into_brand_with_your_facebook_account_TEMPLATE)
 			.put("brand", BuildConfig.brand)
 			.format());
 
-		mLogInWithFacebookBtn.setContentDescription(Phrase.from(getActivity(), R.string.cd_sign_into_brand_with_your_facebook_account_TEMPLATE)
+		mStatusMessageTv.setText(Phrase.from(getActivity(), R.string.account_TEMPLATE)
 			.put("brand", BuildConfig.brand)
 			.format());
 
@@ -267,7 +272,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 		loadSavedState(savedInstanceState);
 
-		mStatusTextContent = getString(Ui.obtainThemeResID(getActivity(), R.attr.skin_loginWithExpediaTitleText));
+		mStatusTextContent = Phrase.from(getActivity(), R.string.account_TEMPLATE).put("brand", BuildConfig.brand).format().toString();
 		if (mStatusText == null
 				|| mStatusText.equalsIgnoreCase(mStatusTextContent)) {
 			setStatusText(mStatusTextContent, true);
