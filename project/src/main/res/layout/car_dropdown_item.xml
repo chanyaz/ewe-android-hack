@@ -21,14 +21,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/display_name_textView"
-        android:textColor="@color/cars_secondary_color"
+        android:textColor="?attr/skin_carsSecondaryColor"
         android:layout_toRightOf="@+id/cars_dropdown_imageView" />
 
     <com.expedia.bookings.widget.TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/airport_name_textView"
-        android:textColor="@color/cars_secondary_color"
+        android:textColor="?attr/skin_carsSecondaryColor"
         android:textSize="12sp"
         android:layout_alignLeft="@+id/display_name_textView"
         android:layout_below="@+id/display_name_textView" />

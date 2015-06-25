@@ -52,6 +52,14 @@
         <item name="checkout_unexpanded_space_height">@dimen/lx_unexpanded_space_height</item>
         <item name="toolbarNavigationButtonStyle">@style/LXNavigationButtonStyle</item>
         <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
+
+        <!-- Skins added for whitelabel -->
+        <item name="skin_loginBrandLogoDrawable">@drawable/expedia</item>
+        <item name="skin_costSummaryAlertDrawable">@drawable/border_horizontal_expedia_striped</item>
+        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
+        <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
+        <item name="skin_checkoutLoginButtonColor">#836B11</item>
+        <item name="skin_loginBrandIconDrawable">@drawable/expedia_login</item>
     </style>
 
     <style name="DateRadioButton" parent="V2.Theme.LX">

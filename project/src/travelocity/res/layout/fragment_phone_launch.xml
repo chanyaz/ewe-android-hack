@@ -79,17 +79,15 @@
             android:gravity="bottom|center"
             android:paddingBottom="50dp">
 
-
             <TextView
                 android:id="@+id/tvly_flights"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/btn_tvly_flights"
                 android:gravity="center"
-                android:paddingRight="50dp"
+                android:paddingRight="20dp"
                 android:text="@string/nav_flights"
                 android:textSize="15dp" />
-
 
             <TextView
                 android:id="@+id/tvly_hotels"
@@ -97,10 +95,28 @@
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/btn_tvly_hotels"
                 android:gravity="center"
+                android:paddingRight="20dp"
                 android:text="@string/nav_hotels"
                 android:textSize="15dp" />
 
+            <TextView
+                android:id="@+id/tvly_cars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/lob_car"
+                android:gravity="center"
+                android:paddingRight="20dp"
+                android:text="@string/nav_cars"
+                android:textSize="15dp" />
 
+            <TextView
+                android:id="@+id/tvly_activities"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_launch_activities"
+                android:gravity="center"
+                android:text="@string/nav_lx"
+                android:textSize="15dp" />
         </LinearLayout>
     </RelativeLayout>
 

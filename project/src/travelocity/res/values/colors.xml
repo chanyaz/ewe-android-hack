@@ -29,4 +29,7 @@
     <color name="destination_list_launch_card_title_text_color">#003E6F</color>
     <color name="destination_list_launch_card_country_text_color">#57A3CC</color>
     <color name="destination_list_detail_container_background">#ff070f24</color>
+
+    <!-- Cars -->
+    <color name="cars_primary_color_tvly">#032e4d</color>
 </resources>

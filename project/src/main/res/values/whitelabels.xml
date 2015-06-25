@@ -332,4 +332,19 @@
 
     <attr name="skin_launchTabIndicatorColor" format="reference|color" />
     <attr name="skin_launchActionBarBackgroundColor" format="reference|color" />
+
+    <!-- Cars -->
+    <attr name="skin_carsPrimaryColor" format="reference|color" />
+    <attr name="skin_carsSecondaryColor" format="reference|color" />
+    <attr name="skin_carsTooltipColor" format="reference|color" />
+    <attr name="skin_carsStatusBarColor" format="reference|color" />
+    <attr name="skin_carsSortButtonSelectorDrawable" format="reference" />
+    <attr name="skin_carsSortButtonTextSelectorDrawable" format="reference" />
+    <attr name="skin_carsFilterNumberBgDrawable" format="reference" />
+    <attr name="skin_carsToggleBackgroundSelectorDrawable" format="reference" />
+    <attr name="skin_loginBrandLogoDrawable" format="reference" />
+    <attr name="skin_costSummaryAlertDrawable" format="reference" />
+    <attr name="skin_checkoutLoginBookNowButtonDrawable" format="reference" />
+    <attr name="skin_checkoutLoginButtonColor" format="reference|color" />
+    <attr name="skin_loginBrandIconDrawable" format="reference" />
 </resources>

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
@@ -48,6 +49,8 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		final View view = inflater.inflate(R.layout.fragment_phone_launch, container, false);
 		Ui.findView(view, R.id.tvly_flights).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(view, R.id.tvly_hotels).setOnClickListener(mHeaderItemOnClickListener);
+		Ui.findView(view, R.id.tvly_cars).setOnClickListener(mHeaderItemOnClickListener);
+		Ui.findView(view, R.id.tvly_activities).setOnClickListener(mHeaderItemOnClickListener);
 		mSlidingImage = Ui.findView(view, R.id.tvly_home_bg_view);
 
 		//Randomly select an image to display
@@ -74,22 +77,38 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			Bundle animOptions = AnimUtils.createActivityScaleBundle(v);
 
 			switch (v.getId()) {
-			case R.id.tvly_hotels: {
-				if (!mLaunchingActivity) {
-					mLaunchingActivity = true;
-					NavUtils.goToHotels(getActivity(), animOptions);
-					OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
+				case R.id.tvly_hotels: {
+					if (!mLaunchingActivity) {
+						mLaunchingActivity = true;
+						OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
+						NavUtils.goToHotels(getActivity(), animOptions);
+					}
+					break;
 				}
-				break;
-			}
-			case R.id.tvly_flights: {
-				if (!mLaunchingActivity) {
-					mLaunchingActivity = true;
-					NavUtils.goToFlights(getActivity(), animOptions);
-					OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
+				case R.id.tvly_flights: {
+					if (!mLaunchingActivity) {
+						mLaunchingActivity = true;
+						OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
+						NavUtils.goToFlights(getActivity(), animOptions);
+					}
+					break;
 				}
-				break;
-			}
+				case R.id.tvly_cars: {
+					if (!mLaunchingActivity) {
+						mLaunchingActivity = true;
+						OmnitureTracking.trackNewLaunchScreenLobNavigation(getActivity(), LineOfBusiness.CARS);
+						NavUtils.goToCars(getActivity(), animOptions);
+					}
+					break;
+				}
+				case R.id.tvly_activities: {
+					if (!mLaunchingActivity) {
+						mLaunchingActivity = true;
+						OmnitureTracking.trackNewLaunchScreenLobNavigation(getActivity(), LineOfBusiness.LX);
+						NavUtils.goToActivities(getActivity(), animOptions);
+					}
+					break;
+				}
 			}
 		}
 	};
