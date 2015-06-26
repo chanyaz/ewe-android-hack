@@ -182,7 +182,8 @@ public class LXErrorWidget extends FrameLayout {
 
 	private void showDefaultError() {
 		bindText(R.drawable.error_default,
-			R.string.error_server_TEMPLATE,
+			Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format()
+				.toString(),
 			R.string.lx_error_text,
 			R.string.retry);
 		errorButton.setOnClickListener(new OnClickListener() {
