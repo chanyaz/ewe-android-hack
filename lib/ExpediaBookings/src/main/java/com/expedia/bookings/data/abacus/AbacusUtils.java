@@ -15,7 +15,6 @@ public class AbacusUtils {
 
 	public static final int EBAndroidAATest = 6714;
 	public static final int EBAndroidAppLaunchScreenTest = 7369;
-	public static final int EBAndroidAppAddORToForm = 7372;
 	public static final int EBAndroidAppSRPercentRecommend = 7373;
 	public static final int EBAndroidAppFlightConfCarsXsell = 7370;
 	public static final int EBAndroidAppHotelHSRSalePinTest = 7535;
@@ -54,7 +53,6 @@ public class AbacusUtils {
 		List<Integer> testIDs = new ArrayList<>();
 		testIDs.add(EBAndroidAATest);
 		testIDs.add(EBAndroidAppLaunchScreenTest);
-		testIDs.add(EBAndroidAppAddORToForm);
 		testIDs.add(EBAndroidAppSRPercentRecommend);
 		testIDs.add(EBAndroidAppFlightConfCarsXsell);
 		testIDs.add(EBAndroidAppHotelHSRSalePinTest);

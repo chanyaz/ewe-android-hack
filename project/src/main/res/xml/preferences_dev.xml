@@ -155,14 +155,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
-            android:key="7372"
-            android:summary="Select a test group"
-            android:title="Checkout OR Form Messaging" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
             android:key="7373"
             android:summary="Select a test group"
             android:title="Hotel Result Rating Test" />

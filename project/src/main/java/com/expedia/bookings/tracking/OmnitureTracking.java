@@ -494,7 +494,6 @@ public class OmnitureTracking {
 		s.setEvents("event70");
 
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelHCKOTraveler);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppAddORToForm);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelPayLaterCouponMessaging);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotel3xMessaging);
 
