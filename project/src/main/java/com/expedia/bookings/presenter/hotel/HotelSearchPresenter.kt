@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.AsyncTask
 import android.os.Build
 import android.support.v7.widget.Toolbar
 import android.text.Html
@@ -14,8 +15,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.ToggleButton
 import com.expedia.bookings.R
-import com.expedia.bookings.data.cars.Suggestion
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.*
@@ -98,8 +99,8 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         searchLocation.setAdapter(hotelSuggestionAdapter)
         searchLocation.setOnItemClickListener {
             adapterView, view, position, l ->
-            var suggestion: Suggestion = hotelSuggestionAdapter.getItem(position)
-            searchLocation.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)).toString(), false)
+            var suggestion: SuggestionV4 = hotelSuggestionAdapter.getItem(position)
+            searchLocation.setText(Html.fromHtml(StrUtils.formatCityName(hotelSuggestionAdapter.getItem(position).regionNames.displayName)).toString(), false)
             hotelSearchParamsBuilder.city(suggestion)
         }
     }
@@ -135,7 +136,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     public fun setupToolBarCheckmark(menuItem: MenuItem): Button {
         val tv: Button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_checkmark_item, null) as Button
-        val navIcon: Drawable = getResources().getDrawable(R.drawable.ic_check_white_24dp)!!.mutate() as Drawable
+        val navIcon: Drawable = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate()
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         tv.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
         tv.setOnClickListener { view -> doSearch() }
