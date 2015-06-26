@@ -128,7 +128,7 @@
             android:id="@+id/lx_book_now"
             android:layout_width="wrap_content"
             android:layout_height="34dp"
-            android:background="@drawable/lx_book_now_button_selector"
+            android:background="?attr/skin_lxBookNowButtonSelectorDrawable"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="15sp"

@@ -40,6 +40,8 @@ import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricRunner.class)
 public class LXTicketSelectionWidgetTest {
+	private LXTicketSelectionWidget widget;
+	private Activity activity;
 
 	// This test hits Omniture which in turn throws NPE because of unavailability of operator information.
 	@Before
@@ -48,13 +50,15 @@ public class LXTicketSelectionWidgetTest {
 			.getSystemService(Context.TELEPHONY_SERVICE);
 		ShadowTelephonyManager shadowTelephonyManager = shadowOf(telephonyManager);
 		shadowTelephonyManager.setNetworkOperatorName("Test Operator");
+
+		activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_LX);
+		widget = (LXTicketSelectionWidget) LayoutInflater.from(activity).inflate(R.layout.widget_lx_ticket_selection,
+			null);
 	}
 
 	@Test
 	public void testActivityTicketSelectionWidgetViews() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		LXTicketSelectionWidget widget = (LXTicketSelectionWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.widget_lx_ticket_selection, null);
 		assertNotNull(widget);
 		ButterKnife.inject(activity);
 
@@ -88,9 +92,6 @@ public class LXTicketSelectionWidgetTest {
 
 	@Test
 	public void testGTTicketSelectionWidgetViews() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		LXTicketSelectionWidget widget = (LXTicketSelectionWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.widget_lx_ticket_selection, null);
 		assertNotNull(widget);
 		ButterKnife.inject(activity);
 
@@ -112,10 +113,6 @@ public class LXTicketSelectionWidgetTest {
 
 	@Test
 	public void testSingleTicketTypeSelections() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		LXTicketSelectionWidget widget = (LXTicketSelectionWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.widget_lx_ticket_selection, null);
-
 		AvailabilityInfo availabilityInfo = singleTicketAvailability();
 
 		widget.bind(buildActivityOffer());
@@ -184,9 +181,6 @@ public class LXTicketSelectionWidgetTest {
 
 	@Test
 	public void testMultipleTicketTypeSelections() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		LXTicketSelectionWidget widget = (LXTicketSelectionWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.widget_lx_ticket_selection, null);
 		AvailabilityInfo availabilityInfo = multipleTicketAvailability();
 
 		widget.bind(buildActivityOffer());

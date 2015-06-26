@@ -314,7 +314,9 @@ public class CarSearchPresenter extends Presenter
 	@OnCheckedChanged(R.id.select_date)
 	public void onDateCheckedChanged(boolean isChecked) {
 		Drawable drawableEnabled = getResources().getDrawable(R.drawable.date).mutate();
-		drawableEnabled.setColorFilter(isChecked ? Color.WHITE : getResources().getColor(R.color.cars_unchecked_toggle_text_color), PorterDuff.Mode.SRC_IN);
+		drawableEnabled.setColorFilter(isChecked ? Color.WHITE
+			: getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsUncheckedToggleTextColor)),
+			PorterDuff.Mode.SRC_IN);
 		selectDateButton.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
 	}
 	/*

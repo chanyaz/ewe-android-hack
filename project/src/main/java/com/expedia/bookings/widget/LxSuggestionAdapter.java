@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.services.SuggestionServices;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -67,7 +68,8 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 				dropdownImage.setImageResource(R.drawable.search_type_icon);
 			}
 			dropdownImage
-				.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.lx_primary_color));
+				.setColorFilter(dropdownImage.getContext().getResources().getColor(
+					Ui.obtainThemeResID(dropdownImage.getContext(), R.attr.skin_lxPrimaryColor)));
 		}
 	}
 

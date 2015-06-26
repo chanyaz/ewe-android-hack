@@ -272,7 +272,8 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		public void addMarker(SearchCarOffer offer, GoogleMap googleMap) {
 			MarkerOptions marker = new MarkerOptions();
 			marker.position(new LatLng(offer.pickUpLocation.latitude, offer.pickUpLocation.longitude));
-			marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.cars_pin));
+			marker
+				.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(mContext, R.attr.skin_carsPinDrawable)));
 			googleMap.addMarker(marker);
 		}
 	}
