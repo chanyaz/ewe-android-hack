@@ -444,8 +444,8 @@ public class CarResultsPresenter extends Presenter {
 
 	private void setToolBarResultsText() {
 		if (searchedParams != null) {
-			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), searchedParams,
-				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
+			String dateTimeRange = DateFormatUtils.formatCarDateTimeRange(getContext(), searchedParams.startDateTime,
+				searchedParams.endDateTime);
 			toolBarDetailText.setText(searchedParams.originDescription);
 			toolBarSubtitleText.setText(dateTimeRange);
 		}

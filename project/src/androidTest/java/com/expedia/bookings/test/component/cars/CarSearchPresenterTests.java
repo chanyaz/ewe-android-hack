@@ -127,10 +127,9 @@ public final class CarSearchPresenterTests {
 		final DateTime tomorrowsTomorrow = tomorrow.plusDays(1);
 		CarViewModel.selectDates(tomorrow.toLocalDate(), tomorrowsTomorrow.toLocalDate());
 		int minutesToMillis = 30 * 60 * 1000;
-		String expected = DateFormatUtils.formatDateTimeRange(playground.get(),
-		tomorrow.withTimeAtStartOfDay().plusMillis(noonProgress * minutesToMillis),
-		tomorrowsTomorrow.withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis),
-		DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
+		String expected = DateFormatUtils.formatCarDateTimeRange(playground.get(),
+			tomorrow.withTimeAtStartOfDay().plusMillis(noonProgress * minutesToMillis),
+			tomorrowsTomorrow.withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis));
 		CarViewModel.selectDateButton().check(matches(withText(expected)));
 	}
 
@@ -226,10 +225,9 @@ public final class CarSearchPresenterTests {
 		final DateTime tomorrow = today.plusDays(1);
 		CarViewModel.selectDates(today.toLocalDate(), tomorrow.toLocalDate());
 		int minutesToMillis = 30 * 60 * 1000;
-		String expected =  DateFormatUtils.formatDateTimeRange(playground.get(),
+		String expected =  DateFormatUtils.formatCarDateTimeRange(playground.get(),
 			today.withTimeAtStartOfDay().plusMillis(currentTime * minutesToMillis),
-			tomorrow.withTimeAtStartOfDay().plusMillis(ninePmProgress * minutesToMillis),
-			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
+			tomorrow.withTimeAtStartOfDay().plusMillis(ninePmProgress * minutesToMillis));
 		CarViewModel.selectDateButton().check(matches(withText(expected)));
 	}
 
@@ -250,12 +248,10 @@ public final class CarSearchPresenterTests {
 		final DateTime date = DateTime.now().plusDays(1);
 		CarViewModel.selectDates(date.toLocalDate(), date.toLocalDate());
 		int minutesToMillis = 30 * 60 * 1000;
-		String expected = DateFormatUtils.formatDateTimeRange(playground.get(),
+		String expected = DateFormatUtils.formatCarDateTimeRange(playground.get(),
 			date.withTimeAtStartOfDay().plusMillis(ninePmProgress * minutesToMillis),
-			date.withTimeAtStartOfDay().plusMillis((ninePmProgress + 4) * minutesToMillis),
-			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
+			date.withTimeAtStartOfDay().plusMillis((ninePmProgress + 4) * minutesToMillis));
 		CarViewModel.selectDateButton().check(matches(withText(expected)));
-
 	}
 
 }
