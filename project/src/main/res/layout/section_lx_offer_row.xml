@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="34dp"
             android:layout_gravity="center"
-            android:background="@drawable/lx_select_ticket_button_selector"
+            android:background="?attr/skin_lxSelectTicketButtonSelectorDrawable"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/lx_select_ticket"

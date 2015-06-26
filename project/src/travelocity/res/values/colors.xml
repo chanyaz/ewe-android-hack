@@ -31,5 +31,11 @@
     <color name="destination_list_detail_container_background">#ff070f24</color>
 
     <!-- Cars -->
-    <color name="cars_primary_color_tvly">#032e4d</color>
+    <color name="cars_primary_color_tvly">#003E74</color>
+    <color name="cars_unchecked_toggle_text_color_tvly">#B3FFFFFF</color>
+    <color name="lx_primary_color_tvly">#003E74</color>
+    <color name="lx_ripple_color_tvly">#53a0d3</color>
+    <color name="lx_secondary_color_disabled_tvly">#032E4D</color>
+    <color name="lx_unchecked_toggle_text_color_tvly">@android:color/white</color>
+
 </resources>

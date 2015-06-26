@@ -115,11 +115,14 @@ public class LXTicketSelectionWidget extends LinearLayout {
 		}
 
 		Drawable freeCancellationDrawable = getResources().getDrawable(R.drawable.check).mutate();
-		freeCancellationDrawable.setColorFilter(getResources().getColor(R.color.lx_primary_color), PorterDuff.Mode.SRC_IN);
+		freeCancellationDrawable.setColorFilter(getResources().getColor(
+			Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)), PorterDuff.Mode.SRC_IN);
 		freeCancellationText.setCompoundDrawablesWithIntrinsicBounds(freeCancellationDrawable, null, null, null);
 
 		Drawable durationDrawable = getResources().getDrawable(R.drawable.time).mutate();
-		durationDrawable.setColorFilter(getResources().getColor(R.color.lx_primary_color), PorterDuff.Mode.SRC_IN);
+		durationDrawable
+			.setColorFilter(getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)),
+				PorterDuff.Mode.SRC_IN);
 		offerDuration.setCompoundDrawablesWithIntrinsicBounds(durationDrawable, null, null, null);
 	}
 

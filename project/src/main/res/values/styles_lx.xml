@@ -57,11 +57,23 @@
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
         <item name="skin_checkoutLoginButtonColor">#836B11</item>
         <item name="skin_loginBrandIconDrawable">@drawable/expedia_login</item>
+        <item name="skin_lxPrimaryColor">@color/lx_primary_color</item>
+        <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_book_now_button_selector</item>
+        <item name="skin_lxOfferDateSelectorDrawable">@drawable/lx_offer_date_selector</item>
+        <item name="skin_lxSelectTicketButtonSelectorDrawable">@drawable/lx_select_ticket_button_selector</item>
+        <item name="skin_lxShowMoreBackgroundDrawable">@drawable/lx_show_more_background</item>
+        <item name="skin_lxSortButtonSelectorDrawable">@drawable/lx_sort_button_selector</item>
+        <item name="skin_lxSortButtonTextSelectorDrawable">@drawable/lx_sort_button_text_selector</item>
+        <item name="skin_lxTextSelectorDrawable">@drawable/lx_text_selector</item>
+        <item name="skin_lxUncheckedToggleTextColor">@color/lx_unchecked_toggle_text_color</item>
+        <item name="skin_lxTicketPlusButtonSelectorDrawable">@drawable/lx_ticket_plus_button_selector</item>
+        <item name="skin_lxTicketMinusButtonSelectorDrawable">@drawable/lx_ticket_minus_button_selector</item>
+
     </style>
 
     <style name="DateRadioButton" parent="V2.Theme.LX">
         <item name="android:padding">10dp</item>
-        <item name="android:background">@drawable/lx_offer_date_selector</item>
+        <item name="android:background">?attr/skin_lxOfferDateSelectorDrawable</item>
         <item name="android:button">@android:color/transparent</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@drawable/lx_offer_date_text_selector</item>
@@ -126,7 +138,7 @@
     </style>
 
     <style name="LXButton" parent="android:Widget.Button" >
-        <item name="android:background">@color/lx_primary_color</item>
+        <item name="android:background">?attr/skin_lxPrimaryColor</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:paddingLeft">20dp</item>

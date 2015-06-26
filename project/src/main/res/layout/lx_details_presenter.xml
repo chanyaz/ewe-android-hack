@@ -130,7 +130,7 @@
         android:id="@+id/toolbar_background"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/lx_primary_color" />
+        android:background="?attr/skin_lxPrimaryColor" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
