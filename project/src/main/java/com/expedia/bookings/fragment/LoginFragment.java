@@ -141,6 +141,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	private EditText mExpediaPassword;
 	private EditText mLinkPassword;
 
+	private TextView mUserDeniedPermissionEmailMessage;
+
 	private AccountButton mAccountButton;
 
 	private ThrobberDialog mLoadingFragment;
@@ -224,6 +226,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
 		mTryFacebookAgain = Ui.findView(v, R.id.try_facebook_again);
 		mTryFacebookAgainCancel = Ui.findView(v, R.id.try_facebook_again_cancel);
+		mUserDeniedPermissionEmailMessage = Ui.findView(v, R.id.user_denied_permission_email_message);
 
 		FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(mLogInWithFacebookBtn, Font.ROBOTO_REGULAR);
@@ -258,6 +261,11 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		mStatusMessageTv.setText(Phrase.from(getActivity(), R.string.account_TEMPLATE)
 			.put("brand", BuildConfig.brand)
 			.format());
+
+		mUserDeniedPermissionEmailMessage.setText(
+			Phrase.from(getActivity(), R.string.user_denied_permission_email_message_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format());
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled()) {
 			setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
@@ -891,7 +899,9 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 	protected void setStatusTextExpediaAccountFound(String name) {
 		if (getActivity() != null && this.isAdded()) {
-			String str = String.format(getString(R.string.facebook_weve_found_your_account), name);
+			String str = String.format(
+				Phrase.from(getActivity(), R.string.facebook_weve_found_your_account_TEMPLATE).put("brand", BuildConfig.brand)
+					.put("name", name).format().toString());
 			setStatusText(str, false);
 		}
 	}
@@ -1200,7 +1210,9 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			if (response == null || response.hasErrors()) {
 				if (hasResetError(response)) {
 					mExpediaPassword.setText("");
-					setStatusText(R.string.sign_in_reset_password, false);
+					setStatusText(
+						Phrase.from(getActivity(), R.string.sign_in_reset_password_TEMPLATE).put("brand", BuildConfig.brand)
+							.toString(), false);
 					return;
 				}
 
