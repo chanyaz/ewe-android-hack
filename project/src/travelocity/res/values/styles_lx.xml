@@ -17,7 +17,6 @@
         <item name="android:actionMenuTextColor">#FFFFFF</item>
 
         <!-- Required white label attr for login widget -->
-        <item name="skin_loginWithExpediaTitleText">@string/travelocity_account</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
         <item name="skin_loginButtonColor">@android:color/black</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/tvly</item>
@@ -50,13 +49,13 @@
         <item name="colorAccent">@color/lx_primary_color_tvly</item>
 
         <!-- Skins added for whitelabel -->
-        <item name="skin_loginBrandLogoDrawable">@drawable/ic_travelocity_logo</item>
+        <item name="skin_loginBrandLogoDrawable">@drawable/tvly</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_tvly</item>
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
         <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
-        <item name="skin_loginBrandIconDrawable">@drawable/ic_travelocity_launch</item>
+        <item name="skin_loginBrandIconDrawable">@drawable/tvly_login</item>
         <item name="skin_lxPrimaryColor">@color/lx_primary_color_tvly</item>
 
         <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_book_now_button_selector_tvly</item>

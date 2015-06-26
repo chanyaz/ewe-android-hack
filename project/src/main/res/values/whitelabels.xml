@@ -315,6 +315,7 @@
     <attr name="skin_checkoutLoginButtonColor" format="reference|color" />
     <attr name="skin_loginBrandIconDrawable" format="reference" />
     <attr name="skin_carsUncheckedToggleTextColor" format="reference|color" />
+    <attr name="skin_carsPinDrawable" format="reference" />
 
     <!-- LX -->
     <attr name="skin_lxPrimaryColor" format="reference|color" />
