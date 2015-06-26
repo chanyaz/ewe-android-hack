@@ -147,33 +147,9 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
-            android:key="7005"
-            android:summary="Select a test group"
-            android:title="Flight Free Cancellation Messaging" />
-
-        <ListPreference
-            android:entries="@array/abacus_search_influence_choices"
-            android:entryValues="@array/abacus_search_influence_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7017"
-            android:summary="Select a test group"
-            android:title="Hotel Search Influence Messaging" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
             android:key="7369"
             android:summary="Select a test group"
             android:title="Launch Screen NearBy Deals vs Collections" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7372"
-            android:summary="Select a test group"
-            android:title="Checkout OR Form Messaging" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"

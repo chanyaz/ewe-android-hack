@@ -252,7 +252,6 @@ public class OmnitureTracking {
 		}
 
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAATest);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppSRPercentRecommend);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelETPSearchResults);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHSRMapIconTest);
@@ -495,7 +494,6 @@ public class OmnitureTracking {
 		s.setEvents("event70");
 
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelHCKOTraveler);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppAddORToForm);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelPayLaterCouponMessaging);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotel3xMessaging);
 
@@ -2924,7 +2922,6 @@ public class OmnitureTracking {
 			s.setProp(9, priceChange);
 		}
 
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppFlightCKOFreeCancelationTest);
 		return s;
 	}
 

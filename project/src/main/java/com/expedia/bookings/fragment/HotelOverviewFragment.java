@@ -359,9 +359,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	private void toggleOrMessaging(boolean isSignedIn) {
-		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAddORToForm);
-		mHintContainer.setVisibility(isUserBucketedForTest && !isSignedIn ? View.VISIBLE : View.GONE);
-		mCheckoutDivider.setVisibility(isUserBucketedForTest && !isSignedIn ? View.GONE : View.VISIBLE);
+		mHintContainer.setVisibility(!isSignedIn ? View.VISIBLE : View.GONE);
+		mCheckoutDivider.setVisibility(!isSignedIn ? View.GONE : View.VISIBLE);
 	}
 
 	@Override

@@ -31,7 +31,6 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.FlightBookingFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
@@ -399,11 +398,9 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	}
 
 	private void setUpFreeCancellationAbTest() {
-		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(
-			AbacusUtils.EBAndroidAppFlightCKOFreeCancelationTest);
 		FlightLeg leg =  Db.getTripBucket().getFlight().getFlightTrip().getLeg(0);
 		boolean showFreeCancellation = !leg.isSpirit() || leg.isLCC() || leg.isCharter();
-		mFreeCancellation.setVisibility(isUserBucketedForTest && showFreeCancellation ? View.VISIBLE : View.GONE);
+		mFreeCancellation.setVisibility(showFreeCancellation ? View.VISIBLE : View.GONE);
 	}
 
 	private void addSlideToCheckoutFragment() {
