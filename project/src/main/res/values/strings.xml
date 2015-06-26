@@ -2435,11 +2435,7 @@
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
     <string name="progress_finding_location">Finding Current Location…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">Searching for Hotels…</string>
-    <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_message">Searching!</string>
-    <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_working_hard">We\&apos;re working hard to find you the best hotel deals.</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">Searching hundreds of hotels for you!</string>
     <!-- Message displayed when app is searching for a particular hotel -->

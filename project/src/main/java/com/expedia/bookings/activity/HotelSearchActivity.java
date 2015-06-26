@@ -518,28 +518,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchEditText.setAdapter(mSearchSuggestionAdapter);
 
-		// AB test - Changing hotel search influence messaging text
-		// AbacusUtils.HSearchInfluenceMessagingVariate
-		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest);
-		int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest);
-		if (isUserBucketedForTest) {
-			if (testVariate == AbacusUtils.HSearchInfluenceMessagingVariate.WORKING_HARD.ordinal()) {
-				searchInfluenceTextResId = R.string.progress_searching_hotels_working_hard;
-				mProgressSearchingABText.setVisibility(View.VISIBLE);
-				mIsProgressSearchABTextVisible = true;
-			}
-			else if (testVariate == AbacusUtils.HSearchInfluenceMessagingVariate.SEARCHING_HUNDREDS.ordinal()) {
-				searchInfluenceTextResId = R.string.progress_searching_hotels_hundreds;
-			}
-			else if (testVariate == AbacusUtils.HSearchInfluenceMessagingVariate.NO_TEXT.ordinal()) {
-				searchInfluenceTextResId = 0;
-			}
-			mProgressText.setGravity(Gravity.TOP | Gravity.CENTER);
-		}
-		else {
-			searchInfluenceTextResId = R.string.progress_searching_hotels;
-			mProgressText.setGravity(Gravity.BOTTOM | Gravity.CENTER);
-		}
+		searchInfluenceTextResId = R.string.progress_searching_hotels_hundreds;
+		mProgressText.setGravity(Gravity.TOP | Gravity.CENTER);
 
 		boolean startNewSearch = getIntent().getBooleanExtra(EXTRA_NEW_SEARCH, false);
 		boolean hasExternalSearchParams = getIntent().hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
