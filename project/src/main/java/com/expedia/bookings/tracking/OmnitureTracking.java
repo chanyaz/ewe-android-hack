@@ -2923,7 +2923,6 @@ public class OmnitureTracking {
 			s.setProp(9, priceChange);
 		}
 
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppFlightCKOFreeCancelationTest);
 		return s;
 	}
 
