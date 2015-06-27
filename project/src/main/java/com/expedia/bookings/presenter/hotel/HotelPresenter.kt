@@ -7,18 +7,14 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.bindView
 import rx.Observer
 import kotlin.properties.Delegates
 
 public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
-    val searchPresenter: HotelSearchPresenter by Delegates.lazy {
-        findViewById(R.id.widget_hotel_params) as HotelSearchPresenter
-    }
-
-    val resultsPresenter: HotelResultsPresenter by Delegates.lazy {
-        findViewById(R.id.widget_hotel_results) as HotelResultsPresenter
-    }
+    val searchPresenter: HotelSearchPresenter by bindView(R.id.widget_hotel_params)
+    val resultsPresenter: HotelResultsPresenter by bindView(R.id.widget_hotel_results)
 
     override fun onFinishInflate() {
         super<Presenter>.onFinishInflate()
@@ -44,7 +40,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
 
         override fun onCompleted() {
-
         }
 
         override fun onError(e: Throwable?) {
