@@ -16,7 +16,6 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
 import com.expedia.bookings.data.trips.Trip;
-import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

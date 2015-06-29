@@ -1,4 +1,4 @@
-package com.expedia.bookings.maps;
+package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.graphics.Point;

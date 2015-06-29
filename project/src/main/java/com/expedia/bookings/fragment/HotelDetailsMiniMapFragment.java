@@ -10,7 +10,6 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
