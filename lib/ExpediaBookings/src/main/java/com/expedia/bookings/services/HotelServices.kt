@@ -1,6 +1,7 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.google.gson.GsonBuilder
@@ -50,4 +51,12 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 				.map { response -> response.hotelList }
 				.subscribe(observer)
 	}
+
+    public fun getHotelDetails(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
+        return hotelApi.getHotelDetails(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
+                hotelSearchParams.getGuestString(), hotelId)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribe(observer)
+    }
 }
