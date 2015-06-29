@@ -1532,7 +1532,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">Expedia Flights</string>
+    <string name="Flights_TEMPLATE">{brand} Flights</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Search Flights</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->

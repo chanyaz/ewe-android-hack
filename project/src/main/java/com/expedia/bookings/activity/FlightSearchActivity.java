@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -19,6 +20,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.squareup.phrase.Phrase;
 
 public class FlightSearchActivity extends FragmentActivity implements FlightSearchParamsFragmentListener {
 
@@ -60,6 +62,7 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 
 		setContentView(R.layout.activity_flight_search);
 		getWindow().setBackgroundDrawable(null);
+		setTitle(Phrase.from(this, R.string.Flights_TEMPLATE).put("brand", BuildConfig.brand).format());
 
 		if (savedInstanceState == null) {
 			mSearchParamsFragment = FlightSearchParamsFragment.newInstance(Db.getFlightSearch().getSearchParams(),
