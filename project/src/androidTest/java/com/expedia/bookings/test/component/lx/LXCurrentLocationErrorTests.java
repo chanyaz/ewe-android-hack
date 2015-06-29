@@ -85,7 +85,7 @@ public class LXCurrentLocationErrorTests extends LxTestCase {
 		LXViewModel.searchErrorText().check(matches(withText(R.string.lx_error_current_location_no_results)));
 		LXViewModel.srpErrorToolbar().check(matches(isDisplayed()));
 		LXViewModel.srpErrorToolbar().check(matches(
-			hasDescendant(withText("search_failure"))));
+			hasDescendant(withText("Jalandhar, India"))));
 
 		screenshot("No activities");
 		LXViewModel.searchErrorButton().perform(click());

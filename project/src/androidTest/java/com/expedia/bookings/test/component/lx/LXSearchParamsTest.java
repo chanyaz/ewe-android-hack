@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class LXSearchParamsTest {
 	@Rule
-	public final PlaygroundRule playground = new PlaygroundRule(R.layout.test_lx_search_presenter);
+	public final PlaygroundRule playground = new PlaygroundRule(R.layout.test_lx_search_presenter, R.style.V2_Theme_LX);
 
 	@Rule
 	public final ExpediaMockWebServerRule server = new ExpediaMockWebServerRule();
