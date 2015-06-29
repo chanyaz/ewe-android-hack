@@ -42,7 +42,6 @@
     <string name="wotif_password_hint">Wotif Password</string>
     <string name="dialog_message_launch_wotif_mobile_site">Launch the Wotif mobile website?</string>
     <!-- Wotif App download link -->
-    <string name="share_template_long_ad_wotif">Book hotels, flights and view &amp; share your itineraries. Download the free Wotif mobile app today.\n%s</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Total Due to Wotif Today:</string>
     <!-- User needs to reset password -->

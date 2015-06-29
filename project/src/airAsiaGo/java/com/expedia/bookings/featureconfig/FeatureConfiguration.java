@@ -38,10 +38,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return context.getString(R.string.app_support_url_aag);
 	}
 
-	public int getCrossSellStringResourceIdForShareEmail() {
-		return R.string.share_template_long_ad_aag;
-	}
-
 	public boolean isAppCrossSellInActivityShareContentEnabled() {
 		return false;
 	}

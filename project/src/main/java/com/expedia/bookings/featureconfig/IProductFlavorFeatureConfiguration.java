@@ -21,8 +21,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	String getAppSupportUrl(Context context);
 
-	int getCrossSellStringResourceIdForShareEmail();
-
 	boolean isAppCrossSellInActivityShareContentEnabled();
 
 	boolean isAppCrossSellInCarShareContentEnabled();

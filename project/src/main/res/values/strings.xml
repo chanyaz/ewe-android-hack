@@ -1436,7 +1436,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">Phone\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">Book hotels, flights and view &amp; share your itineraries. Download the free Expedia mobile app today.\n%s</string>
+    <string name="share_long_ad_TEMPLATE">Book hotels, flights and view &amp; share your itineraries. Download the free {brand} mobile app today.\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">I\&apos;m flying to %1$s on %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
