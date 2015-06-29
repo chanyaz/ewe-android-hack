@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -19,12 +20,19 @@ import static org.junit.Assert.assertEquals;
 @RunWith(RobolectricRunner.class)
 public class LXErrorWidgetTest {
 
+	LXErrorWidget errorWidget;
+	Activity activity;
+
+	@Before
+	public void before() {
+		activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_LX);
+		errorWidget = (LXErrorWidget) LayoutInflater.from(activity)
+			.inflate(R.layout.lx_error_widget_test, null);
+	}
+
 	@Test
 	public void testInvalidInput() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		LXErrorWidget errorWidget = (LXErrorWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.lx_error_widget_test, null);
-
 		ApiError lxApiError = new ApiError(ApiError.Code.INVALID_INPUT);
 
 		// Last name error
@@ -64,10 +72,6 @@ public class LXErrorWidgetTest {
 
 	@Test
 	public void testNoSearchResults() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		LXErrorWidget errorWidget = (LXErrorWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.lx_error_widget_test, null);
-
 		ApiError lxApiError = new ApiError(ApiError.Code.LX_SEARCH_NO_RESULTS);
 
 		errorWidget.bind(lxApiError);

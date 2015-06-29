@@ -173,7 +173,7 @@ public class ErrorWidget extends FrameLayout {
 	}
 
 	private void showDefaultError() {
-		bindText(R.drawable.error_default,
+		bindText(Ui.obtainThemeResID(getContext(), R.attr.skin_carsErrorDefaultDrawable),
 			Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format()
 				.toString(),
 			R.string.cars_error_text,
@@ -187,7 +187,7 @@ public class ErrorWidget extends FrameLayout {
 	}
 
 	public void showDefaultSearchError() {
-		bindText(R.drawable.error_default,
+		bindText(Ui.obtainThemeResID(getContext(), R.attr.skin_carsErrorDefaultDrawable),
 			Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format()
 				.toString(),
 			R.string.cars_error_text,
