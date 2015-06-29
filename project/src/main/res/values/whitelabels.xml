@@ -316,6 +316,7 @@
     <attr name="skin_loginBrandIconDrawable" format="reference" />
     <attr name="skin_carsUncheckedToggleTextColor" format="reference|color" />
     <attr name="skin_carsPinDrawable" format="reference" />
+    <attr name="skin_carsErrorDefaultDrawable" format="reference" />
 
     <!-- LX -->
     <attr name="skin_lxPrimaryColor" format="reference|color" />
@@ -329,5 +330,6 @@
     <attr name="skin_lxUncheckedToggleTextColor" format="reference|color" />
     <attr name="skin_lxTicketPlusButtonSelectorDrawable" format="reference" />
     <attr name="skin_lxTicketMinusButtonSelectorDrawable" format="reference" />
+    <attr name="skin_lxErrorDefaultDrawable" format="reference" />
 
 </resources>

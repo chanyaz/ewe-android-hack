@@ -1559,7 +1559,7 @@
     <string name="outbound_TEMPLATE">Outbound Flights to %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Inbound Flights to %s</string>
-    <!-- Error when we simple can't connect to E3 servers -->
+    <!-- Template string for error when we simple can't connect to E3 servers-->
     <string name="error_server_TEMPLATE">Sorry, we could not connect to {brand}\'s servers.  Please try again later.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Departs</string>
