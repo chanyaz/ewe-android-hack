@@ -42,7 +42,7 @@ import static org.hamcrest.Matchers.not;
 @RunWith(AndroidJUnit4.class)
 public class LXCheckoutPresenterTests {
 	@Rule
-	public final PlaygroundRule playground = new PlaygroundRule(R.layout.test_lx_checkout_presenter);
+	public final PlaygroundRule playground = new PlaygroundRule(R.layout.test_lx_checkout_presenter, R.style.V2_Theme_LX);
 
 	@Rule
 	public final ExpediaMockWebServerRule server = new ExpediaMockWebServerRule();

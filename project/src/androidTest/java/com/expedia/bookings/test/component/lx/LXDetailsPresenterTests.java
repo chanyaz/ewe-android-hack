@@ -38,7 +38,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class LXDetailsPresenterTests {
 	@Rule
-	public final PlaygroundRule playground = new PlaygroundRule(R.layout.lx_details_presenter);
+	public final PlaygroundRule playground = new PlaygroundRule(R.layout.lx_details_presenter, R.style.V2_Theme_LX);
 
 	@Rule
 	public final ExpediaMockWebServerRule server = new ExpediaMockWebServerRule();
