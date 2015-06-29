@@ -73,7 +73,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		// Warning should appear on opening traveler details
 		// and close when the user taps the screen.
 		ScreenActions.enterLog(TAG, "Start testing name must match id warning in user info");
-		ScreenActions.delay(1);
+		ScreenActions.delay(2);
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
@@ -83,7 +83,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 
 		// Warning should still be present on subsequent details entry
 		// and close when the user starts typing.
-		ScreenActions.delay(1);
+		ScreenActions.delay(2);
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
@@ -96,7 +96,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 	private void verifyNameMustMatchIdWarningWithInfoEntered() {
 		// Warning behavior should persist after traveler info has been entered and saved.
 		ScreenActions.enterLog(TAG, "Start testing name must match id warning with info already entered");
-		ScreenActions.delay(1);
+		ScreenActions.delay(2);
 		FlightsTravelerInfoScreen.clickPopulatedTravelerDetails(0);
 		FlightsTravelerInfoScreen.clickEditTravelerInfo();
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
@@ -110,7 +110,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 	private void verifyNameMustMatchIdWarningSecondTraveler() {
 		// Warning behavior should persist upon entry of additional travelers' info.
 		ScreenActions.enterLog(TAG, "Start testing name must match id warning for a second traveler's info");
-		ScreenActions.delay(1);
+		ScreenActions.delay(2);
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(2);
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
@@ -119,7 +119,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		Espresso.pressBack();
 
 		// Warning should disappear when user starts filling out traveler info.
-		ScreenActions.delay(1);
+		ScreenActions.delay(2);
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(2);
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
@@ -151,7 +151,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 	}
 
 	private void verifyRulesAndRestrictionsButton() {
-		ScreenActions.delay(1);
+		ScreenActions.delay(2);
 		CommonCheckoutScreen.flightsLegalTextView().perform(scrollTo());
 		CommonCheckoutScreen.flightsLegalTextView().perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Privacy Policy");
@@ -162,7 +162,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 
 	private void verifyMissingTravelerInformationAlerts() {
 		ScreenActions.enterLog(TAG, "Starting testing of traveler info screen response when fields are left empty");
-		ScreenActions.delay(1);
+		ScreenActions.delay(2);
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
 		FlightsTravelerInfoScreen.clickNextButton();
 		ScreenActions.enterLog(TAG, "Verifying all fields show error icon when empty and 'DONE' is pressed");
@@ -222,7 +222,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 	}
 
 	private void verifyMissingCardInfoAlerts() {
-		ScreenActions.delay(1);
+		ScreenActions.delay(2);
 		onView(withText("Payment details")).perform(click());
 		CardInfoScreen.clickNextButton();
 
@@ -388,9 +388,9 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();
 		clickCheckoutButton();
+		logOutButton().perform(scrollTo());
 		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
 		ScreenActions.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
-		logOutButton().perform(scrollTo());
 		clickLogOutButton();
 		onView(withText(mRes.getString(R.string.sign_out))).perform(click());
 		logInButton().check(matches(isDisplayed()));
