@@ -95,8 +95,7 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		airportText.setText(offer.pickUpLocation.locationDescription);
 		tripTotalText.setText(offer.detailedFare.grandTotal.formattedPrice);
 		dateTimeText.setText(DateFormatUtils
-			.formatDateTimeRange(getContext(), offer.getPickupTime(), offer.getDropOffTime(),
-				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
+			.formatCarDateTimeRange(getContext(), offer.getPickupTime(), offer.getDropOffTime()));
 
 		// Price change
 		final boolean hasPriceChange = Strings.isNotEmpty(originalFormattedPrice);

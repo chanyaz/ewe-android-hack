@@ -387,8 +387,8 @@ public class CarSearchPresenter extends Presenter
 	private void paramsChanged() {
 		carSearchParams = searchParamsBuilder.build();
 		if (carSearchParams.startDateTime != null) {
-			String dateTimeRange = DateFormatUtils.formatCarSearchDateRange(getContext(), carSearchParams,
-				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT);
+			String dateTimeRange = DateFormatUtils.formatCarDateTimeRange(getContext(), carSearchParams.startDateTime,
+				carSearchParams.endDateTime);
 			selectDateButton.setText(dateTimeRange);
 			selectDateButton.setTextOff(dateTimeRange);
 			selectDateButton.setTextOn(dateTimeRange);

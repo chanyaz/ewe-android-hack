@@ -98,6 +98,10 @@ public class DateUtils {
 		return date.toString("yyyy-MM-dd");
 	}
 
+	public static String dateTimeToMMMdhmma(DateTime date) {
+		return date.toString("MMM d, h:mm a");
+	}
+
 	public static LocalDate yyyyMMddToLocalDate(String dateyyyyMMdd) {
 		return LocalDate.parse(dateyyyyMMdd, DateTimeFormat.forPattern("yyyy-MM-dd"));
 	}

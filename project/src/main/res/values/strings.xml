@@ -96,6 +96,8 @@
     <string name="toolbar_search_cars">Search Cars</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Select pick-up and drop-off dates</string>
+    <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
+    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">%1$s – Select return date</string>
     <!-- Label for pick-up time picker -->
