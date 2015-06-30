@@ -92,6 +92,7 @@
                 android:background="#E2E2E2"/>
 
             <LinearLayout
+                android:id="@+id/ticked_info_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
