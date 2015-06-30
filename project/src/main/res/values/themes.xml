@@ -246,6 +246,24 @@
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 
+    <style name="MyThemeLeamPLum">
+        <item name="android:dialogTheme">@style/CustomDialogTheme</item>
+        <item name="android:alertDialogStyle">@style/CustomDialogTheme</item>
+    </style>
+
+    <style name="CustomDialogTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:bottomBright">#ffffff</item>
+        <item name="android:bottomDark">#ffffff</item>
+        <item name="android:bottomMedium">#ffffff</item>
+        <item name="android:centerBright">#ffffff</item>
+        <item name="android:centerDark">#ffffff</item>
+        <item name="android:centerMedium">#ffffff</item>
+        <item name="android:fullBright">#ffffff</item>
+        <item name="android:fullDark">#ffffff</item>
+        <item name="android:topBright">#ffffff</item>
+        <item name="android:topDark">#ffffff</item>
+    </style>
+
     <style name="LaunchTheme" parent="Theme.AppCompat">
 
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
