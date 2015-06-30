@@ -161,6 +161,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
+					show(new CheckoutFailed(), FLAG_CLEAR_BACKSTACK);
 				}
 			})
 			.show();
