@@ -57,8 +57,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	void contactUsViaWeb(Context context);
 
-	int getResIdForErrorHotelServiceFatalFailure();
-
 	int getResIdForErrorBookingSucceededWithErrors();
 
 	List<BasicNameValuePair> getAdditionalParamsForReviewsRequest();

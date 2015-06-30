@@ -139,8 +139,6 @@
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Avec l’application de </string>
 
-    <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure_vsc">Désolés, nous n\&apos;avons pas pu vous connecter à L’Agence Voyages-sncf.com. Veuillez réessayer.</string>
 
     <!-- Message displayed when the hotel room is sold out -->
     <string name="error_room_is_now_sold_out">Désolé, cette chambre n\&apos;est plus disponible sur notre app.</string>

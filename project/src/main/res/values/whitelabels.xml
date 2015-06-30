@@ -201,8 +201,6 @@
     <attr name="skin_icCheckoutCheckmarkDrawable" format="reference" />
     <attr name="skin_actionbarTextColor" format="reference|color" />
 
-    <!--Hotel Offers Hotel Service Failure Error Message-->
-    <attr name="skin_errorHotelOffersHotelServiceFailureString" format="string" />
 
 
 

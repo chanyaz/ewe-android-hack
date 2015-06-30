@@ -18,8 +18,6 @@
 
 
 
-    <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure_lm">We\'re sorry, but we couldn\'t connect to lastminute.com.au. Please try again.</string>
 
     <!-- Phone Fragment Header-->
     <string name="nav_accommodation">Accommodation</string>

@@ -3000,7 +3000,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">We\'re sorry! The promotion for this room ended, but there are other offers available.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">We\'re sorry, but the room you requested is no longer available.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">We\'re sorry, but we couldn\'t connect to Expedia. Please try again.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">We\'re sorry, but we couldn\'t connect to {brand}. Please try again.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">We\'re sorry! The promotion for this room ended, but there are other offers available.</string>
     <!-- There are no longer any rooms for the hotel offer -->

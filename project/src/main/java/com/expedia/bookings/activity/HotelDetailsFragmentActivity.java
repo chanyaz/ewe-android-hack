@@ -429,19 +429,23 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			}
 
 			if (response == null) {
-				showErrorDialog(Ui.obtainThemeResID(mContext, R.attr.skin_errorHotelOffersHotelServiceFailureString));
+				showErrorDialog(Phrase.from(mContext, R.string.e3_error_hotel_offers_hotel_service_failure_TEMPLATE)
+					.put("brand", BuildConfig.brand).format().toString());
 				return;
 			}
 			else if (response.hasErrors()) {
+				String message = "";
 				if (response.isHotelUnavailable()) {
-					String message = Phrase.from(mContext, R.string.error_hotel_is_now_sold_out_TEMPLATE)
+					message = Phrase.from(mContext, R.string.error_hotel_is_now_sold_out_TEMPLATE)
 						.put("brand", BuildConfig.brand).format().toString();
-					showErrorDialog(message);
+
 				}
 				else {
-					int messageId = Ui.obtainThemeResID(mContext, R.attr.skin_errorHotelOffersHotelServiceFailureString);
-					showErrorDialog(messageId);
+					message = Phrase.from(mContext, R.string.e3_error_hotel_offers_hotel_service_failure_TEMPLATE)
+						.put("brand", BuildConfig.brand).format().toString();
 				}
+
+				showErrorDialog(message);
 			}
 			else if ((Db.getHotelSearch().getAvailability(selectedId) == null
 				|| Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0)
