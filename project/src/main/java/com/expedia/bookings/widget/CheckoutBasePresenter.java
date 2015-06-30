@@ -96,6 +96,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		addTransition(defaultToExpanded);
 		addTransition(defaultToReady);
 		addTransition(widgetToCheckoutDefault);
+		addTransition(defaultToCheckoutFailed);
 		addDefaultTransition(defaultTransition);
 
 		slideWidget.addSlideToListener(this);
@@ -220,6 +221,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 	public static class WidgetExpanded {
 	}
+	public static class CheckoutFailed {
+	}
 
 	private DefaultTransition defaultTransition = new DefaultTransition(CheckoutDefault.class.getName()) {
 		@Override
@@ -257,6 +260,14 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			super.finalizeTransition(forward);
 			showProgress(!forward);
 			isCheckoutComplete();
+		}
+	};
+
+	private Transition defaultToCheckoutFailed = new Transition(CheckoutDefault.class, CheckoutFailed.class) {
+		@Override
+		public void finalizeTransition(boolean forward) {
+			super.finalizeTransition(forward);
+			showProgress(false);
 		}
 	};
 
