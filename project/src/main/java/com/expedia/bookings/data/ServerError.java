@@ -11,7 +11,6 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -96,10 +95,10 @@ public class ServerError implements JSONable {
 		}
 	};
 
-	public static final HashMap<ErrorCode, Integer> ERROR_MAP_CHECKOUT = new HashMap<ErrorCode, Integer>() {
+	private static final HashMap<ErrorCode, Integer> ERROR_MAP_CHECKOUT = new HashMap<ErrorCode, Integer>() {
 		{
 			put(ErrorCode.BOOKING_FAILED, R.string.e3_error_checkout_booking_failed);
-			put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, ProductFlavorFeatureConfiguration.getInstance().getResIdForErrorBookingSucceededWithErrors());
+			put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors_TEMPLATE);
 			put(ErrorCode.HOTEL_ROOM_UNAVAILABLE, R.string.e3_error_checkout_hotel_room_unavailable);
 			put(ErrorCode.INVALID_INPUT, R.string.e3_error_checkout_invalid_input);
 			put(ErrorCode.PAYMENT_FAILED, R.string.e3_error_checkout_payment_failed);
@@ -317,7 +316,8 @@ public class ServerError implements JSONable {
 			switch (mApiMethod) {
 			case CHECKOUT: {
 				if (ERROR_MAP_CHECKOUT.containsKey(mErrorCode)) {
-					message = context.getString(ERROR_MAP_CHECKOUT.get(mErrorCode));
+					message = Phrase.from(context, ERROR_MAP_CHECKOUT.get(mErrorCode))
+						.putOptional("brand", BuildConfig.brand).format().toString();
 				}
 				break;
 			}

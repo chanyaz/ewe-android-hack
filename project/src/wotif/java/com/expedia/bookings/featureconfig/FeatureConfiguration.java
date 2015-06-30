@@ -123,10 +123,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		AboutUtils.openWebsite(context, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
 	}
 
-	public int getResIdForErrorBookingSucceededWithErrors() {
-		return R.string.e3_error_checkout_booking_succeeded_with_errors_wotif;
-	}
-
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
 		List<BasicNameValuePair> additionalParamsForReviewsRequest = new ArrayList<BasicNameValuePair>();
 		additionalParamsForReviewsRequest.add(new BasicNameValuePair("caller", "Wotif"));

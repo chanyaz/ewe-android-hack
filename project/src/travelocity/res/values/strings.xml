@@ -39,7 +39,6 @@
     <string name="cd_log_in_password_edit_text_tvly">Enter Travelocity account password</string>
     <string name="cd_launch_open_eb_info_screen_tvly">Open Travelocity Bookings information screen</string>
     <string name="loading_tvly_account">Loading Travelocity Account</string>
-    <string name="e3_error_checkout_booking_succeeded_with_errors_tvly">You successfully booked your hotel! If you need an itinerary immediately, please call Travelocity Customer Support.</string>
     <string name="tvly_password_hint">Travelocity Password</string>
     <string name="dialog_message_launch_tvly_mobile_site">Launch the Travelocity mobile website?</string>
     <!-- Travelocity App download link -->

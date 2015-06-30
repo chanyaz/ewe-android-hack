@@ -2975,7 +2975,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">An error prevented us from completing your booking. Please try again.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">You successfully booked your hotel! If you need an itinerary immediately, please call Expedia Customer Support.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">You successfully booked your hotel! If you need an itinerary immediately, please call {brand} Customer Support.</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">We\'re sorry, but the room you requested is no longer available.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->

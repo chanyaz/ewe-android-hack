@@ -122,10 +122,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		AboutUtils.openWebsite(context, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html", false, false);
 	}
 
-	public int getResIdForErrorBookingSucceededWithErrors() {
-		return R.string.e3_error_checkout_booking_succeeded_with_errors_vsc;
-	}
-
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
 		List<BasicNameValuePair> additionalParamsForReviewsRequest = new ArrayList<BasicNameValuePair>();
 		additionalParamsForReviewsRequest.add(new BasicNameValuePair("origin", "VSC"));
