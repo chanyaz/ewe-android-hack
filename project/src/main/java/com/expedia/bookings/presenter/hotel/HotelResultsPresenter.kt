@@ -27,6 +27,7 @@ import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.Subscription
+import rx.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -44,6 +45,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val recyclerView: RecyclerView by bindView(R.id.list_view)
     val mapView: MapView by bindView(R.id.mapView)
     val toolbar: Toolbar by bindView(R.id.toolbar)
+
+    val hotelSubject = PublishSubject.create<Hotel>()
 
     val layoutManager : LinearLayoutManager by Delegates.lazy {
         LinearLayoutManager(getContext())
@@ -84,7 +87,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val downloadListener : Observer<List<Hotel>> = object : Observer<List<Hotel>> {
         override fun onNext(hotels: List<Hotel>) {
-            recyclerView.setAdapter(HotelListAdapter(hotels))
+            recyclerView.setAdapter(HotelListAdapter(hotels, hotelSubject))
             Log.d("Hotel Results Next")
         }
 

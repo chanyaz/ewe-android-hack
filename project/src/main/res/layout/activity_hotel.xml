@@ -18,4 +18,11 @@
         android:background="#EAEAEA"
         android:visibility="gone"/>
 
+    <com.expedia.bookings.presenter.hotel.HotelDetailPresenter
+        android:id="@+id/widget_hotel_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EAEAEA"
+        android:visibility="gone"/>
+
 </com.expedia.bookings.presenter.hotel.HotelPresenter>

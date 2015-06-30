@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.graphics.Paint
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
@@ -13,9 +14,10 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
 import com.squareup.phrase.Phrase
+import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-public  class HotelListAdapter(val hotels : List<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+public  class HotelListAdapter(val hotels : List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int {
        return hotels.size()
@@ -24,6 +26,7 @@ public  class HotelListAdapter(val hotels : List<Hotel>) : RecyclerView.Adapter<
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         val holder : HotelViewHolder = holder as HotelViewHolder
         holder.bind(hotels.get(position))
+        holder.itemView.setOnClickListener(holder)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
@@ -31,7 +34,8 @@ public  class HotelListAdapter(val hotels : List<Hotel>) : RecyclerView.Adapter<
         return HotelViewHolder(view as ViewGroup, parent.getWidth())
     }
 
-    public class HotelViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root),  HeaderBitmapDrawable.CallbackListener {
+    public inner class HotelViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root),  HeaderBitmapDrawable.CallbackListener, View.OnClickListener {
+
         val PICASSO_TAG = "HOTEL_RESULTS_LIST"
 
         val resources: Resources by Delegates.lazy {
@@ -57,6 +61,11 @@ public  class HotelListAdapter(val hotels : List<Hotel>) : RecyclerView.Adapter<
             topAmenityTitle.setText(if (hotel.hasFreeCancellation)  resources.getString(R.string.free_cancellation) else "")
             strikeThroughPricePerNight.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG)
             starRating.setRating(hotel.hotelStarRating)
+        }
+
+        override fun onClick(view: View) {
+            val hotel: Hotel = hotels.get(getPosition())
+            hotelSubject.onNext(hotel)
         }
 
         override fun onBitmapLoaded() {

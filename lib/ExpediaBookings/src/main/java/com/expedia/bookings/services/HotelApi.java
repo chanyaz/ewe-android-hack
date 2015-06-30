@@ -1,5 +1,6 @@
 package com.expedia.bookings.services;
 
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchResponse;
 
 import retrofit.http.GET;
@@ -24,4 +25,11 @@ public interface HotelApi {
 		@Query("checkInDate") String checkInDate,
 		@Query("checkOutDate") String checkOutDate,
 		@Query("room1") String travelers);
+
+	@GET("/m/api/hotel/offers")
+	public Observable<HotelOffersResponse> getHotelDetails(
+		@Query("checkInDate") String checkInDate,
+		@Query("checkOutDate") String checkOutDate,
+		@Query("room1") String travelers,
+		@Query("hotelId") String propertyId);
 }
