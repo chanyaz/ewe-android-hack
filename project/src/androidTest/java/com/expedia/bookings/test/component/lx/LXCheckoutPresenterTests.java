@@ -33,6 +33,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -124,9 +125,9 @@ public class LXCheckoutPresenterTests {
 	@Test
 	public void testRulesWidgetOnFreeCancellationInfoClick() {
 		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
+		LXViewModel.checkoutGrandTotalText().perform(scrollTo());
 		LXViewModel.checkoutFreeCancellationText().check(matches(withText("Free Cancellation")));
 		LXViewModel.checkoutFreeCancellationText().perform(click());
-
 		LXViewModel.rulesWidget().check(matches(isDisplayed()));
 		LXViewModel.rulesWidgetCancellationPolicyHeader().check(matches(isDisplayed()));
 		String cancellationPolicyContent = LXDataUtils
