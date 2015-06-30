@@ -41,6 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:gravity="center_vertical|left"
         android:layout_toRightOf="@+id/slider_image_holder"
         android:textColor="#FCFCFC"
         android:textSize="26sp" />
