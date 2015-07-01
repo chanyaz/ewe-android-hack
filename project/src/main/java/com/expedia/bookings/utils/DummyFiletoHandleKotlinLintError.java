@@ -25,4 +25,12 @@ public class DummyFiletoHandleKotlinLintError {
 	private static final int HOTEL_DETAIL_ROW = R.layout.hotel_room_row;
 	private static final int HOTEL_TEXT = R.string.hotel_ellipsize_text_template;
 	private static final int HOTEL_BUTTON_TEXT = R.string.view_room_button_text;
+	private static final int HOTEL_TOOLTIP = R.drawable.hotel_tooltip;
+	private static final int HOTEL_TOOLTIP_BLUE = R.drawable.hotel_tooltip_blue;
+	private static final int HOTEL_MARKER_PREVIEW_CELL = R.layout.hotel_marker_preview_cell;
+	private static final int HOTEL_MARKER_PREVIEW_BACKGROUND = R.drawable.hotel_marker_preview_background;
+	private static final int TOOLBAR_FILTER_ITEM = R.layout.toolbar_filter_item;
+	private static final int MENU_FILTER_ITEM = R.menu.menu_filter_item;
+	private static final int HOTEL_MARKER_PADDING_WIDTH = R.dimen.hotel_marker_padding_width;
+	private static final int HOTEL_MARKER_PADDING_HEIGHT = R.dimen.hotel_marker_padding_height;
 }

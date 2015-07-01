@@ -126,6 +126,10 @@ public class Images {
 		return getMediaHost() + offer.photos.get(index).url;
 	}
 
+	public static String getNearbyHotelImageThumbnail(Hotel offer) {
+		return getMediaHost() + offer.thumbnailUrl;
+	}
+
 	public static HeaderBitmapDrawable makeLaunchListBitmapDrawable(Context context) {
 		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
 		headerBitmapDrawable.setCornerMode(HeaderBitmapDrawable.CornerMode.ALL);

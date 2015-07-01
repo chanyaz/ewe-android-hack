@@ -17,14 +17,14 @@ import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-public  class HotelListAdapter(val hotels : List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+public class HotelListAdapter(val hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int {
-       return hotels.size()
+        return hotels.size()
     }
 
     override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
-        val holder : HotelViewHolder = given as HotelViewHolder
+        val holder: HotelViewHolder = given as HotelViewHolder
         holder.bind(hotels.get(position))
         holder.itemView.setOnClickListener(holder)
     }
@@ -34,7 +34,7 @@ public  class HotelListAdapter(val hotels : List<Hotel>, val hotelSubject: Publi
         return HotelViewHolder(view as ViewGroup, parent.getWidth())
     }
 
-    public inner class HotelViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root),  HeaderBitmapDrawable.CallbackListener, View.OnClickListener {
+    public inner class HotelViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root), HeaderBitmapDrawable.CallbackListener, View.OnClickListener {
 
         val PICASSO_TAG = "HOTEL_RESULTS_LIST"
 
@@ -50,7 +50,7 @@ public  class HotelListAdapter(val hotels : List<Hotel>, val hotelSubject: Publi
         val topAmenityTitle: TextView by root.bindView(R.id.top_amenity_title)
         val starRating: RatingBar by root.bindView(R.id.hotel_rating_bar)
 
-        public fun bind(hotel : Hotel) {
+        public fun bind(hotel: Hotel) {
             val url = Images.getNearbyHotelImage(hotel)
             val drawable = Images.makeHotelBitmapDrawable(itemView.getContext(), this, width, url, PICASSO_TAG)
             imageView.setImageDrawable(drawable)
@@ -58,7 +58,7 @@ public  class HotelListAdapter(val hotels : List<Hotel>, val hotelSubject: Publi
 
             pricePerNight.setText(Phrase.from(resources, R.string.per_nt_TEMPLATE).put("price", hotel.lowRateInfo.nightlyRateTotal.toString()).format())
             guestRatingPercentage.setText(Phrase.from(resources, R.string.customer_rating_percent_Template).put("rating", hotel.percentRecommended.toInt()).put("percent", "%").format())
-            topAmenityTitle.setText(if (hotel.hasFreeCancellation)  resources.getString(R.string.free_cancellation) else "")
+            topAmenityTitle.setText(if (hotel.hasFreeCancellation) resources.getString(R.string.free_cancellation) else "")
             strikeThroughPricePerNight.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG)
             starRating.setRating(hotel.hotelStarRating)
         }
