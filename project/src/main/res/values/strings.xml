@@ -2678,6 +2678,8 @@
     <string name="included_in_the_price">Included in the price</string>
     <!-- Not included in the price -->
     <string name="not_included_in_the_price">Not included in the price</string>
+    <!-- View Room button text -->
+    <string name="view_room_button_text">View Room</string>
 
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renovation Notice</string>

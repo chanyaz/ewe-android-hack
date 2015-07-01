@@ -22,4 +22,6 @@ public class DummyFiletoHandleKotlinLintError {
 	private static final int HOTEL_SEARCH_WIDGET = R.layout.widget_hotel_search_params;
 	private static final int HOTEL_ACTIVITY = R.layout.activity_hotel;
 	private static final int HOTEL_DETAILS = R.layout.widget_hotel_detail;
+	private static final int HOTEL_DETAIL_ROW = R.layout.hotel_room_row;
+	private static final int HOTEL_TEXT = R.string.hotel_ellipsize_text_template;
 }

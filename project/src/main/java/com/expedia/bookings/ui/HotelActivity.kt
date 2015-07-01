@@ -23,6 +23,7 @@ public class HotelActivity : AppCompatActivity() {
         super<AppCompatActivity>.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultHotelComponents()
         setContentView(R.layout.activity_hotel)
+        Ui.showTransparentStatusBar(this)
         mapView.onCreate(savedInstanceState)
     }
 
