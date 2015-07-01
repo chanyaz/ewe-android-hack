@@ -44,7 +44,9 @@ public class UserAccountRefresher {
 		public void onDownload(SignInResponse results) {
 			if (results == null || results.hasErrors()) {
 				//The refresh failed, so we just log them out. They can always try to login again.
-				doLogout();
+				if (User.isLoggedIn(context)) {
+					doLogout();
+				}
 			}
 			else {
 				// Update our existing saved data
@@ -59,11 +61,7 @@ public class UserAccountRefresher {
 
 	public void ensureAccountIsRefreshed() {
 		int userRefreshInterval = context.getResources().getInteger(R.integer.account_sync_interval_ms);
-		if (User.isLoggedIn(context) && mLastRefreshedUserTimeMillis + userRefreshInterval < System.currentTimeMillis()) {
-			if (Db.getUser() == null) {
-				Db.loadUser(context);
-			}
-
+		if (mLastRefreshedUserTimeMillis + userRefreshInterval < System.currentTimeMillis()) {
 			Log.d("Refreshing user profile...");
 			mLastRefreshedUserTimeMillis = System.currentTimeMillis();
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();

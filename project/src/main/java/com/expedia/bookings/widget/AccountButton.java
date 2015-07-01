@@ -49,15 +49,13 @@ public class AccountButton extends LinearLayout {
 	public AccountButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
-	}
-
-	public AccountButton(Context context) {
-		super(context);
-		mContext = context;
+		inflate(context, R.layout.account_v2_button, this);
 	}
 
 	@Override
 	protected void onFinishInflate() {
+		super.onFinishInflate();
+
 		mAccountLoadingContainer = findViewById(R.id.account_loading_container);
 		mLoginContainer = findViewById(R.id.account_login_container);
 		mLoginTextView = Ui.findView(mLoginContainer, R.id.login_text_view);
@@ -67,6 +65,10 @@ public class AccountButton extends LinearLayout {
 		mRewardsTextView = Ui.findView(mRewardsContainer, R.id.account_rewards_textview);
 		mExpediaLogo = Ui.findView(this, R.id.card_icon);
 		mLoadingTextView = Ui.findView(this, R.id.loading_textview);
+
+		if (!AndroidUtils.isTablet(getContext())) {
+			setBackgroundResource(R.drawable.card_background);
+		}
 
 		mLoginContainer.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -152,25 +154,11 @@ public class AccountButton extends LinearLayout {
 
 		if (isTablet) {
 			mLoginContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
-			Ui.findView(mLoginContainer, R.id.login_blurb).setVisibility(View.INVISIBLE);
+			Ui.findView(mLoginContainer, R.id.login_blurb).setVisibility(View.GONE);
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
 				Ui.obtainThemeResID(mContext, R.attr.skin_tabletCheckoutLoginLogoDrawable), 0, 0, 0);
 			mLoginTextView.setTextColor(
 				Ui.obtainThemeColor(mContext, R.attr.skin_tabletCheckoutLoginButtonTextColor));
-		}
-		else {
-			int bgResourceId = ProductFlavorFeatureConfiguration.getInstance().getLoginContainerBackgroundResId(mContext);
-			mLoginContainer.setBackgroundResource(bgResourceId);
-
-			boolean doesLoginTextViewHaveCompoundDrawables = ProductFlavorFeatureConfiguration.getInstance()
-				.doesLoginTextViewHaveCompoundDrawables();
-			if (doesLoginTextViewHaveCompoundDrawables) {
-				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
-					Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
-			}
-
-			mLoginTextView.setTextColor(
-				Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
 		}
 	}
 
@@ -315,20 +303,19 @@ public class AccountButton extends LinearLayout {
 	protected void setRewardsContainerBackground(View rewardsContainer, Traveler.LoyaltyMembershipTier membershipTier) {
 		int rewardsBgResId = 0;
 		switch (membershipTier) {
-			case BLUE:
-				rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_blue_normal;
-				break;
-			case SILVER:
-				rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_silver_normal;
-				break;
-			case GOLD:
-				rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_gold_normal;
-				break;
+		case BLUE:
+			rewardsBgResId = R.color.expedia_plus_blue;
+			break;
+		case SILVER:
+			rewardsBgResId = R.color.expedia_plus_silver;
+			break;
+		case GOLD:
+			rewardsBgResId = R.color.expedia_plus_gold;
+			break;
 		}
 
 		rewardsContainer.setBackgroundResource(rewardsBgResId);
 	}
-
 	private void clearCheckoutData() {
 		clearHotelCheckoutData();
 		clearFlightCheckoutData();
@@ -358,8 +345,7 @@ public class AccountButton extends LinearLayout {
 	}
 
 	public interface AccountButtonClickListener {
-		public void accountLoginClicked();
-
-		public void accountLogoutClicked();
+		void accountLoginClicked();
+		void accountLogoutClicked();
 	}
 }

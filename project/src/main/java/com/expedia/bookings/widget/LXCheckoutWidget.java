@@ -30,6 +30,7 @@ import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import rx.Observer;
@@ -86,7 +87,12 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		String rulesAndRestrictionsURL = LXDataUtils.getRulesRestrictionsUrl(e3EndpointUrl, createTripResponse.tripId);
 		legalInformationText.setText(StrUtils.generateLegalClickableLink(getContext(), rulesAndRestrictionsURL));
 		isCheckoutComplete();
-		loginWidget.updateView();
+		if (User.isLoggedIn(getContext())) {
+			loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness());
+		}
+		else {
+			loginWidget.bind(false, false, null,  getLineOfBusiness());
+		}
 		show(new CheckoutDefault());
 	}
 
@@ -219,5 +225,10 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 				}
 			})
 			.show();
+	}
+
+	@Subscribe
+	public void onLogin(Events.LoggedInSuccessful event) {
+		onLoginSuccessful();
 	}
 }

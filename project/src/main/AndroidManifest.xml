@@ -246,6 +246,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/FlightTheme" />
 
+        <activity
+            android:name="com.expedia.bookings.activity.AccountLibActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchTheme" />
+
         <!-- Cars activity -->
 
         <activity
@@ -285,12 +290,6 @@
         <activity android:name="com.expedia.bookings.activity.AboutWebViewActivity" />
 
         <!-- Login/Facebook activities -->
-        <activity
-            android:name="com.expedia.bookings.activity.LoginActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/LoginTheme"
-            android:windowSoftInputMode="adjustPan" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

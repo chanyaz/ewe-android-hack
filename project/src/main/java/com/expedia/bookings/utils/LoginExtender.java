@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.interfaces.LoginExtenderListener;
+import com.expedia.bookings.widget.CheckoutLoginExtender;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
 
@@ -18,6 +19,7 @@ public abstract class LoginExtender {
 	public static final String STATE_DATA = "STATE_DATA";
 
 	public enum LoginExtenderType {
+		CHECKOUT,
 		USER_TO_TRIP_ASSOC,
 		ITINERARY_LOADER
 	}
@@ -59,6 +61,8 @@ public abstract class LoginExtender {
 		case ITINERARY_LOADER: {
 			return new ItineraryLoaderLoginExtender(data);
 		}
+		case CHECKOUT:
+			return new CheckoutLoginExtender(data);
 		}
 		return null;
 	}

@@ -20,11 +20,11 @@ public class LogInScreen {
 	}
 
 	public static ViewInteraction facebookButton() {
-		return onView(withId(R.id.log_in_with_facebook_btn));
+		return onView(withId(R.id.sign_in_with_facebook_button));
 	}
 
 	public static ViewInteraction logInButton() {
-		return onView(withId(R.id.log_in_btn));
+		return onView(withId(R.id.sign_in_button));
 	}
 
 	// Object interaction

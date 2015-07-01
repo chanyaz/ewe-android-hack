@@ -89,7 +89,6 @@
     <color name="room_rate_refundable_cancellation_text_color">#008C5D</color>
 
     <!-- Login -->
-    <color name="login_shade_flights">#32000000</color>
     <color name="login_text_hotels">#FFFFFF</color>
     <color name="login_text_tablet">#363636</color>
     <color name="expedia_plus_blue">#0085c9</color>

@@ -17,10 +17,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity;
 import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
-import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -87,20 +87,18 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	private boolean mWasLoggedIn = false;
 
 	private CheckoutInformationListener mListener;
-	private LoginFragment.LogInListener mLogInListener;
+	private AccountLibActivity.LogInListener mLogInListener;
 
 	public static FlightCheckoutFragment newInstance() {
 		return new FlightCheckoutFragment();
 	}
-
-
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		if (activity instanceof CheckoutInformationListener) {
 			mListener = (CheckoutInformationListener) activity;
-			mLogInListener = (LoginFragment.LogInListener) activity;
+			mLogInListener = (AccountLibActivity.LogInListener) activity;
 		}
 		else {
 			throw new RuntimeException(
@@ -564,10 +562,9 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	@Override
 	public void accountLoginClicked() {
 		String tripId = Db.getTripBucket().getFlight().getItinerary().getTripId();
-		Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.FLIGHTS, new UserToTripAssocLoginExtender(
+		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.FLIGHTS, new UserToTripAssocLoginExtender(
 			tripId));
 		User.signIn(getActivity(), args);
-
 		OmnitureTracking.trackPageLoadFlightLogin(getActivity());
 	}
 
@@ -750,5 +747,4 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		public void onLogout();
 	}
-
 }

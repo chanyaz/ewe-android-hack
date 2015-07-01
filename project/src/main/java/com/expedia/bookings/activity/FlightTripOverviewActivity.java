@@ -39,7 +39,6 @@ import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutListener;
-import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.SlideToPurchaseFragment;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
@@ -60,7 +59,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
-public class FlightTripOverviewActivity extends FragmentActivity implements LogInListener,
+public class FlightTripOverviewActivity extends FragmentActivity implements AccountLibActivity.LogInListener,
 	CheckoutInformationListener, ISlideToListener, DoLogoutListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
@@ -721,18 +720,8 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	}
 
 	@Override
-	public void onLoginStarted() {
-		// Do nothing?
-	}
-
-	@Override
 	public void onLoginCompleted() {
 		startCreateTripDownload();
-	}
-
-	@Override
-	public void onLoginFailed() {
-		// TODO: Update UI to show that we're no longer logged in
 	}
 
 	//Checkout listener
@@ -840,9 +829,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 			// Show a loading dialog
 			ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.loading_flight_details));
-
 			df.show(getSupportFragmentManager(), DIALOG_LOADING_DETAILS);
-
 			mFlightBookingFragment.startDownload(FlightBookingFragment.FlightBookingState.CREATE_TRIP);
 		}
 	}

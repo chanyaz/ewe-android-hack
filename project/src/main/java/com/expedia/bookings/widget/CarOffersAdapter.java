@@ -194,7 +194,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 					}
 					else {
 						offer.isToggled = false;
-						onItemExpanded(getPosition());
+						onItemExpanded(getAdapterPosition());
 						OmnitureTracking.trackAppCarViewDetails(mContext);
 					}
 				}
@@ -243,7 +243,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 
 		@Override
 		public void onClick(View view) {
-			onItemExpanded(getPosition());
+			onItemExpanded(getAdapterPosition());
 		}
 
 		@Override

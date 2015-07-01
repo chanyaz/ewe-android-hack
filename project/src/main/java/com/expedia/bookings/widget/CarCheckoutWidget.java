@@ -177,7 +177,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	@Subscribe
 	public void onSignOut(Events.SignOut event) {
-		loginWidget.accountLogoutClicked();
+		accountLogoutClicked();
 	}
 
 	@Subscribe
@@ -207,7 +207,12 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 		legalInformationText.setText(
 			StrUtils.generateLegalClickableLink(getContext(), carProduct.rulesAndRestrictionsURL));
-		loginWidget.updateView();
+		if (User.isLoggedIn(getContext())) {
+			loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness());
+		}
+		else {
+			loginWidget.bind(false, false, null,  getLineOfBusiness());
+		}
 		// Resize spacer to accommodate price change display
 		if (Strings.isNotEmpty(originalOfferFormattedPrice)) {
 			ViewGroup.LayoutParams params = space.getLayoutParams();
@@ -298,6 +303,11 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	public void showProgress(boolean show) {
 		summaryWidget.setVisibility(show ? INVISIBLE : VISIBLE);
 		mSummaryProgressLayout.setVisibility(show ? VISIBLE : GONE);
+	}
+
+	@Subscribe
+	public void onLogin(Events.LoggedInSuccessful event) {
+		onLoginSuccessful();
 	}
 }
 

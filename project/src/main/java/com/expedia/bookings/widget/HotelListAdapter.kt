@@ -64,7 +64,7 @@ public  class HotelListAdapter(val hotels : List<Hotel>, val hotelSubject: Publi
         }
 
         override fun onClick(view: View) {
-            val hotel: Hotel = hotels.get(getPosition())
+            val hotel: Hotel = hotels.get(getAdapterPosition())
             hotelSubject.onNext(hotel)
         }
 
