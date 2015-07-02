@@ -870,9 +870,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 					Log.w(message);
 				}
 				else {
-					int messageResId = Ui
-						.obtainThemeResID(getActivity(), R.attr.skin_errorHotelOffersHotelServiceFailureString);
-					Log.w(getString(messageResId));
+					String message = Phrase
+						.from(getActivity(), R.string.e3_error_hotel_offers_hotel_service_failure_TEMPLATE)
+						.put("brand", BuildConfig.brand).format().toString();
+					Log.w(message);
 				}
 			}
 			else if (search.getAvailability(selectedId) != null && search.getSearchParams() != null

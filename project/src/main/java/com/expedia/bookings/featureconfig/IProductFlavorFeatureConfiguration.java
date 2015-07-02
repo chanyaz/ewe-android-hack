@@ -21,8 +21,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	String getAppSupportUrl(Context context);
 
-	int getCrossSellStringResourceIdForShareEmail();
-
 	boolean isAppCrossSellInActivityShareContentEnabled();
 
 	boolean isAppCrossSellInCarShareContentEnabled();
@@ -58,10 +56,6 @@ public interface IProductFlavorFeatureConfiguration {
 	String getOmnitureTrackingServer();
 
 	void contactUsViaWeb(Context context);
-
-	int getResIdForErrorHotelServiceFatalFailure();
-
-	int getResIdForErrorBookingSucceededWithErrors();
 
 	List<BasicNameValuePair> getAdditionalParamsForReviewsRequest();
 

@@ -97,12 +97,14 @@ public class AddToCalendarUtils {
 
 		StringBuilder sb = new StringBuilder();
 		if (!TextUtils.isEmpty(itineraryNumber)) {
-			sb.append(context.getString((R.string.calendar_car_desc_itinerary_TEMPLATE), itineraryNumber));
+			sb.append(
+				Phrase.from(context, R.string.calendar_desc_itinerary_TEMPLATE).put("brand", BuildConfig.brand)
+					.put("itinerary", itineraryNumber).format());
 			sb.append("\n\n");
 		}
 		sb.append("\n\n");
-		sb.append(context.getString((R.string.calendar_car_desc_support_TEMPLATE), offer.vendor.localPhoneNumber,
-			offer.vendor.phoneNumber));
+		sb.append(Phrase.from(context, R.string.calendar_desc_support_TEMPLATE).put("brand", BuildConfig.brand)
+			.put("localphone", offer.vendor.localPhoneNumber).put("phone", offer.vendor.phoneNumber).format());
 		sb.append("\n\n");
 		intent.putExtra(CalendarContract.Events.DESCRIPTION, sb.toString());
 		return intent;

@@ -45,10 +45,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return PointOfSale.getPointOfSale().getAppSupportUrl();
 	}
 
-	public int getCrossSellStringResourceIdForShareEmail() {
-		return R.string.share_template_long_ad_vsc;
-	}
-
 	public boolean isAppCrossSellInActivityShareContentEnabled() {
 		return false;
 	}
@@ -124,14 +120,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public void contactUsViaWeb(Context context) {
 		AboutUtils.openWebsite(context, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html", false, false);
-	}
-
-	public int getResIdForErrorBookingSucceededWithErrors() {
-		return R.string.e3_error_checkout_booking_succeeded_with_errors_vsc;
-	}
-
-	public int getResIdForErrorHotelServiceFatalFailure() {
-		return R.string.e3_error_hotel_offers_hotel_service_failure_vsc;
 	}
 
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {

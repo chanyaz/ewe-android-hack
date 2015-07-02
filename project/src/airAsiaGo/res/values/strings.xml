@@ -15,8 +15,6 @@
 
 
 
-    <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure_aag">We\'re sorry, but we couldn\'t connect to AirAsiaGo. Please try again.</string>
 
     <!-- Contact AirAsiaGo via email subject -->
     <string name="contact_aag_email_subject">AirAsiaGo Reservations Support</string>
@@ -42,11 +40,9 @@
     <string name="cd_log_in_password_edit_text_aag">Enter AirAsiaGo account password</string>
     <string name="cd_launch_open_eb_info_screen_aag">Open AirAsiaGo Bookings information screen</string>
     <string name="loading_aag_account">Loading AirAsiaGo Account</string>
-    <string name="e3_error_checkout_booking_succeeded_with_errors_aag">You successfully booked your hotel! If you need an itinerary immediately, please call AirAsiaGo Customer Support.</string>
     <string name="not_currently_available_TEMPLATE_aag">Not available from AirAsiaGo %s</string>
     <string name="aag_password_hint">AirAsiaGo Password</string>
     <string name="dialog_message_launch_aag_mobile_site">Launch the AirAsiaGo mobile website?</string>
-    <string name="share_template_long_ad_aag">Book hotels, flights and view &amp; share your itineraries. Download the free AirAsiaGo mobile app today.</string>
     <!-- Label for Flight Search in task manager -->
     <string name="Expedia_Flights">AirAsiaGo Flights</string>
 </resources>

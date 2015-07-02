@@ -175,11 +175,11 @@
                 android:visibility="gone">
 
                 <com.expedia.bookings.widget.TextView
+                    android:id="@+id/user_denied_permission_email_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:layout_weight="0"
-                    android:text="@string/user_denied_permission_email_message"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     app:textStyle="light" />

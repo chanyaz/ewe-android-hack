@@ -139,8 +139,6 @@
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Avec l’application de </string>
 
-    <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure_vsc">Désolés, nous n\&apos;avons pas pu vous connecter à L’Agence Voyages-sncf.com. Veuillez réessayer.</string>
 
     <!-- Message displayed when the hotel room is sold out -->
     <string name="error_room_is_now_sold_out">Désolé, cette chambre n\&apos;est plus disponible sur notre app.</string>
@@ -150,8 +148,6 @@
 
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Merci d’avoir choisi l’application de L’Agence Voyages-sncf.com ! Votre réservation est confirmée : %1$s, pendant %2$s.</string>
-    <!-- App download link -->
-    <string name="share_template_long_ad_vsc">A bientôt sur notre application. Voyages-sncf vous souhaite un bon voyage.</string>
 
     <!-- Content description for action: Press to log in with your VSC account -->
     <string name="cd_checkout_log_in_with_vsc">Appuyez pour vous connecter à votre compte L’Agence Voyages-sncf.com</string>
@@ -170,7 +166,5 @@
     <string name="contact_vsc_email_subject">Assistance réservations L’Agence Voyages-sncf.com</string>
     <!-- Dialog Message asking the user to confirm that they want to open the vsc mobile site in an external browser -->
     <string name="dialog_message_launch_vsc_mobile_site">Ouvrir le site mobile de L’Agence Voyages-sncf.com ?</string>
-    <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors_vsc">Votre hôtel a bien été réservé ! Veuillez contacter le service clients de L’Agence Voyages-sncf.com si vous avez besoin d\&apos;un voyage immédiatement.</string>
 
 </resources>

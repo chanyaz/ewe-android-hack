@@ -173,7 +173,6 @@
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
-        <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
         <item name="skin_actionMenuDoneButtonText">@string/button_confirmation_done</item>
         <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size</item>

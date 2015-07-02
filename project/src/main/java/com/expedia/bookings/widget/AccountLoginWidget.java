@@ -121,6 +121,8 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 	private EditText mExpediaPassword;
 	private EditText mLinkPassword;
 
+	private TextView mUserDeniedPermissionEmailMessage;
+
 	private AccountButtonV2 mAccountButton;
 
 	private ThrobberDialog mLoadingFragment;
@@ -199,6 +201,7 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
 		mTryFacebookAgain = Ui.findView(v, R.id.try_facebook_again);
 		mTryFacebookAgainCancel = Ui.findView(v, R.id.try_facebook_again_cancel);
+		mUserDeniedPermissionEmailMessage = Ui.findView(v, R.id.user_denied_permission_email_message);
 
 		mExpediaUserName.setOnFocusChangeListener(this);
 		mExpediaPassword.setOnFocusChangeListener(this);
@@ -228,13 +231,19 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			.put("brand", BuildConfig.brand)
 			.format());
 
-		mTryFacebookAgain.setContentDescription(Phrase.from(this, R.string.cd_sign_into_brand_with_your_facebook_account_TEMPLATE)
-			.put("brand", BuildConfig.brand)
-			.format());
+		mTryFacebookAgain.setContentDescription(
+			Phrase.from(this, R.string.cd_sign_into_brand_with_your_facebook_account_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format());
 
 		mLogInWithFacebookBtn.setContentDescription(Phrase.from(this, R.string.cd_sign_into_brand_with_your_facebook_account_TEMPLATE)
 			.put("brand", BuildConfig.brand)
 			.format());
+
+		mUserDeniedPermissionEmailMessage.setText(
+			Phrase.from(this, R.string.user_denied_permission_email_message_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format());
 
 		if (Session.getActiveSession() != null) {
 			Session.getActiveSession().addCallback(mFacebookStatusCallback);
@@ -743,7 +752,9 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 	}
 
 	protected void setStatusTextExpediaAccountFound(String name) {
-		String str = String.format(getContext().getString(R.string.facebook_weve_found_your_account), name);
+		String str = String.format(
+			Phrase.from(getContext(), R.string.facebook_weve_found_your_account_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("name", name).format().toString());
 		setStatusText(str, false);
 	}
 
@@ -1030,7 +1041,9 @@ public class AccountLoginWidget extends ExpandableCardView implements LoginExten
 			if (response == null || response.hasErrors()) {
 				if (hasResetError(response)) {
 					mExpediaPassword.setText("");
-					setStatusText(R.string.sign_in_reset_password, false);
+					setStatusText(
+						Phrase.from(getContext(), R.string.sign_in_reset_password_TEMPLATE).put("brand", BuildConfig.brand)
+							.toString(), false);
 					return;
 				}
 

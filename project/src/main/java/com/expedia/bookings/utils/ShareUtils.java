@@ -16,6 +16,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FacebookShareActivity;
 import com.expedia.bookings.data.CarVendor;
@@ -41,6 +42,7 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
+import com.squareup.phrase.Phrase;
 
 public class ShareUtils {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -421,9 +423,8 @@ public class ShareUtils {
 		body.append("\n");
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInFlightShareContentEnabled()) {
-			body.append(mContext.getString(
-				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-				PointOfSale.getPointOfSale().getAppInfoUrl()));
+			body.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
 
 		return body.toString();
@@ -537,9 +538,8 @@ public class ShareUtils {
 		}
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInHotelShareContentEnabled()) {
-			builder.append(mContext.getString(
-				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-				PointOfSale.getPointOfSale().getAppInfoUrl()));
+			builder.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
 
 		return builder.toString();
@@ -686,9 +686,8 @@ public class ShareUtils {
 		sb.append("\n");
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInCarShareContentEnabled()) {
-			sb.append(mContext.getString(
-				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-				PointOfSale.getPointOfSale().getAppInfoUrl()));
+			sb.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
 
 		return sb.toString();
@@ -779,9 +778,8 @@ public class ShareUtils {
 		sb.append("\n");
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInActivityShareContentEnabled()) {
-			sb.append(mContext.getString(
-				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-				PointOfSale.getPointOfSale().getAppInfoUrl()));
+			sb.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
 
 		return sb.toString();
