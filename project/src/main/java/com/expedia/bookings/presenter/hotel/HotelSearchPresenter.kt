@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
 import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.TravelerPicker
@@ -37,6 +38,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.properties.Delegates
+
 
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CalendarPicker.DateSelectionChangedListener, TravelerPicker.TravelersUpdatedListener, CalendarPicker.YearMonthDisplayedChangedListener, DaysOfWeekView.DayOfWeekRenderer {
 
@@ -136,12 +138,21 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         calendar.hideToolTip()
     }
 
-    public fun setupToolBarCheckmark(menuItem: MenuItem): Button {
+    fun setupToolBarCheckmark(menuItem: MenuItem): Button {
         val tv: Button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_checkmark_item, null) as Button
         val navIcon: Drawable = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate()
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         tv.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
-        tv.setOnClickListener { view -> doSearch() }
+        tv.setOnClickListener { item -> if (hotelSearchParamsBuilder.areRequiredParamsFilled()) {
+                                             doSearch()
+                                        } else {
+                                            if (!hotelSearchParamsBuilder.hasOrigin()) {
+                                                AnimUtils.doTheHarlemShake(searchLocation)
+                                            } else if (!hotelSearchParamsBuilder.hasStartAndEndDates()) {
+                                                AnimUtils.doTheHarlemShake(calendar)
+                                            }
+                                        }
+        }
         menuItem.setActionView(tv)
         return tv
     }
