@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import android.app.ActionBar;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -12,7 +11,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
@@ -34,11 +32,6 @@ import com.squareup.otto.Subscribe;
 public class HotelOverviewActivity extends FragmentActivity implements BookingOverviewFragmentListener,
 	LogInListener, ISlideToListener {
 
-	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
-
-	//We only want to load from disk once: when the activity is first started
-	private boolean mLoadedDbInfo = false;
-
 	private HotelOverviewFragment mBookingOverviewFragment;
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
@@ -48,27 +41,11 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-			// #1106: Don't continue to load onCreate() as
-			// we're just about to recreate the activity
-			if (!getResources().getBoolean(R.bool.portrait)) {
-				return;
-			}
-		}
-
 		if (Db.getTripBucket().getHotel() == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
 			return;
 		}
-
-		if (savedInstanceState != null) {
-			mLoadedDbInfo = savedInstanceState.getBoolean(STATE_TAG_LOADED_DB_INFO, false);
-		}
-
-		loadCachedData(false);
 
 		mKillReceiver = new ActivityKillReceiver(this);
 		mKillReceiver.onCreate();
@@ -95,12 +72,6 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 			clearCCNumber();
 			Db.getTripBucket().getHotel().clearCheckoutData();
 		}
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle out) {
-		super.onSaveInstanceState(out);
-		out.putBoolean(STATE_TAG_LOADED_DB_INFO, mLoadedDbInfo);
 	}
 
 	@Override
@@ -200,31 +171,6 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 		}
 
 		return super.onPrepareOptionsMenu(menu);
-	}
-
-	// Private methods
-
-	private void loadCachedData(boolean wait) {
-
-		if (!mLoadedDbInfo) {
-			CheckoutDataLoader.CheckoutDataLoadedListener listener = new CheckoutDataLoader.CheckoutDataLoadedListener() {
-				@Override
-				public void onCheckoutDataLoaded(boolean wasSuccessful) {
-					mLoadedDbInfo = wasSuccessful;
-					Runnable refreshDataRunner = new Runnable() {
-						@Override
-						public void run() {
-							if (mBookingOverviewFragment != null) {
-								mBookingOverviewFragment.refreshData();
-							}
-						}
-					};
-					runOnUiThread(refreshDataRunner);
-				}
-
-			};
-			CheckoutDataLoader.getInstance().loadCheckoutData(this, true, true, listener, wait);
-		}
 	}
 
 	//BookingOverviewFragmentListener implementation

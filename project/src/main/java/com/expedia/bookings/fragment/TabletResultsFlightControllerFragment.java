@@ -861,7 +861,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		FlightSearchResponse flightResponse = event.response;
 
 		if (flightResponse != null) {
-			Db.kickOffBackgroundFlightSearchSave(getActivity());
 			Db.addAirlineNames(flightResponse.getAirlineNames());
 		}
 		else {

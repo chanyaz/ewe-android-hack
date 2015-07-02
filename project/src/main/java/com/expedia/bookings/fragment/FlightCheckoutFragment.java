@@ -22,7 +22,6 @@ import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -136,10 +135,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mRefreshedUserTime = savedInstanceState.getLong(INSTANCE_REFRESHED_USER_TIME);
 		}
 
-		//The parent activity uses CheckoutDataLoader to load billingInfo, we wait for it to finish.
-		if (CheckoutDataLoader.getInstance().isLoading()) {
-			CheckoutDataLoader.getInstance().waitForCurrentThreadToFinish();
-		}
 		mBillingInfo = Db.getBillingInfo();
 
 		if (mBillingInfo.getLocation() == null) {
@@ -207,10 +202,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	@Override
 	public void onPause() {
 		super.onPause();
-
-		if (Db.getTravelersAreDirty()) {
-			Db.kickOffBackgroundTravelerSave(getActivity());
-		}
 
 		if (getActivity().isFinishing()) {
 			BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);

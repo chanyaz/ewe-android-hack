@@ -452,9 +452,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 				&& Db.getHotelSearch().getSearchParams().getSearchType() != SearchType.HOTEL) {
 				showErrorDialog(Phrase.from(mContext, R.string.error_hotel_is_now_sold_out_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 			}
-			else {
-				Db.kickOffBackgroundHotelSearchSave(mContext);
-			}
 
 			// Notify affected child fragments to refresh.
 

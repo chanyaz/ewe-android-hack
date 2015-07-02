@@ -42,7 +42,6 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
-import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView;
@@ -164,9 +163,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 			}
 			showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok);
 		}
-
-		// Debug code to notify QA to open ExpediaDebug app
-		ExpediaDebugUtil.showExpediaDebugToastIfNeeded(this);
 	}
 
 	@Override

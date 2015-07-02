@@ -883,9 +883,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 					.put("brand", BuildConfig.brand).format().toString());
 				//showErrorDialog(R.string.error_hotel_is_now_sold_out_TEMPLATE);
 			}
-			else {
-				Db.kickOffBackgroundHotelSearchSave(getActivity());
-			}
 
 			// Notify affected child fragments to refresh.
 

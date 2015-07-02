@@ -36,7 +36,6 @@ import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
@@ -295,11 +294,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mCheckoutLayout.setAlpha(0);
 		mCheckoutLayoutBlocker.setBlockNewEventsEnabled(true);
 
-		//We start loading the checkout data on the parent activity, but if it isn't finished we should wait
-		if (CheckoutDataLoader.getInstance().isLoading()) {
-			CheckoutDataLoader.getInstance().waitForCurrentThreadToFinish();
-		}
-
 		mBillingInfo = Db.getBillingInfo();
 		if (mBillingInfo.getLocation() == null) {
 			mBillingInfo.setLocation(new Location());
@@ -425,10 +419,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
-		}
-
-		if (Db.getTravelersAreDirty()) {
-			Db.kickOffBackgroundTravelerSave(getActivity());
 		}
 	}
 

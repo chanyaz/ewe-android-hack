@@ -87,7 +87,6 @@ public class InfoScreenSupportNumberLoyaltyTierTest {
 		supportNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(testUser);
 		supportNumber = supportNumber.replaceAll("[^0-9]", "");
 		Db.setUser(testUser);
-		Db.saveTravelers(InstrumentationRegistry.getTargetContext());
 		testUser.save(InstrumentationRegistry.getTargetContext());
 		Common.enterLog(TAG, "LoyaltyMembership Tier Set to " + tier);
 

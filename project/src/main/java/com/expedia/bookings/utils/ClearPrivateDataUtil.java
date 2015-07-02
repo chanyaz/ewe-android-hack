@@ -32,11 +32,6 @@ public class ClearPrivateDataUtil {
 
 		ItineraryManager.getInstance().clear();
 
-		Db.deleteCachedFlightData(context);
-		Db.deleteTravelers(context);
-
-		Db.deleteHotelSearchData(context);
-
 		Db.deleteTripBucket(context);
 
 		try {
