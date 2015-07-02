@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
@@ -95,10 +94,6 @@ public class FlightTripPriceFragment extends Fragment {
 	}
 
 	public void bind() {
-		//The parent activity uses CheckoutDataLoader to load billingInfo, we wait for it to finish.
-		if (CheckoutDataLoader.getInstance().isLoading()) {
-			CheckoutDataLoader.getInstance().waitForCurrentThreadToFinish();
-		}
 		mTrip = Db.getTripBucket().getFlight().getFlightTrip();
 		mTripSection.bind(mTrip, Db.getBillingInfo());
 	}

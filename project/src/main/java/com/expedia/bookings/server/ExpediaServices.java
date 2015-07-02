@@ -1075,7 +1075,7 @@ public class ExpediaServices implements DownloadListener {
 			User.signOut(mContext);
 		}
 
-		return doE3Request("api/user/sign-in", query, new SignInResponseHandler(mContext));
+		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
 	}
 
 	// Attempt to sign in again with the stored cookie
@@ -1089,7 +1089,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addProfileTypes(query, flags);
 
-		return doE3Request("api/user/sign-in", query, new SignInResponseHandler(mContext));
+		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
 	}
 
 	public AssociateUserToTripResponse associateUserToTrip(String tripId, int flags) {
@@ -1121,7 +1121,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addProfileTypes(query, flags | F_FLIGHTS | F_HOTELS);
 
-		return doE3Request("api/user/profile", query, new SignInResponseHandler(mContext));
+		return doE3Request("api/user/profile", query, new SignInResponseHandler());
 	}
 
 	/**

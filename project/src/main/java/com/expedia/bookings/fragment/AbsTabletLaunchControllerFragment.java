@@ -425,9 +425,6 @@ public abstract class AbsTabletLaunchControllerFragment extends MeasurableFragme
 		hotelSearch.setSearchResponse(null);
 		flightSearch.setSearchResponse(null);
 
-		Db.deleteCachedFlightData(getActivity());
-		Db.deleteHotelSearchData(getActivity());
-
 		startActivity(TabletResultsActivity.createIntent(getActivity()));
 	}
 

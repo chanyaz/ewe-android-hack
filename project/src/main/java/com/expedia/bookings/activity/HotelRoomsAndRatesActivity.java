@@ -212,11 +212,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 	}
 
 	private boolean checkFinishConditionsAndFinish() {
-
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
-			Db.loadHotelSearchFromDisk(this);
-		}
-
 		// #13365: If the Db expired, finish out of this activity
 		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
@@ -240,7 +235,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		@Override
 		public void onDownload(HotelOffersResponse response) {
 			Db.getHotelSearch().updateFrom(response);
-			Db.kickOffBackgroundHotelSearchSave(HotelRoomsAndRatesActivity.this);
 			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 		}
 	};

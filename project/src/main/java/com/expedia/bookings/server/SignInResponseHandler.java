@@ -8,9 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.text.TextUtils;
-
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.ServerError;
@@ -23,16 +20,11 @@ import com.expedia.bookings.data.Traveler.SeatPreference;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.UserPreference;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
-
-	private Context mContext;
-
-	public SignInResponseHandler(Context context) {
-		mContext = context;
-	}
 
 	@Override
 	public SignInResponse handleJson(JSONObject response) {
@@ -109,7 +101,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 					}
 
 					String dateOfBirth = tsaDetails.optString("dateOfBirth", null);
-					if (!TextUtils.isEmpty(dateOfBirth)) {
+					if (Strings.isNotEmpty(dateOfBirth)) {
 						traveler.setBirthDate(LocalDate.parse(dateOfBirth));
 					}
 
@@ -129,7 +121,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 						JSONObject sccJson = ccArr.optJSONObject(a);
 						StoredCreditCard scc = new StoredCreditCard();
 						String type = sccJson.optString("creditCardType", null);
-						if (!TextUtils.isEmpty(type)) {
+						if (Strings.isNotEmpty(type)) {
 							scc.setType(CurrencyUtils.parseCardType(type));
 						}
 						scc.setDescription(sccJson.optString("description", null));
@@ -180,11 +172,11 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		// storage and parsing and this method covers all the cases.
 		StringBuilder phoneNumberBuilder = new StringBuilder();
 		String areaCode = phoneJson.optString("areaCode", null);
-		if (!TextUtils.isEmpty(areaCode)) {
+		if (Strings.isNotEmpty(areaCode)) {
 			phoneNumberBuilder.append(areaCode);
 		}
 		String phoneNumber = phoneJson.optString("number", null);
-		if (!TextUtils.isEmpty(phoneNumber)) {
+		if (Strings.isNotEmpty(phoneNumber)) {
 			phoneNumberBuilder.append(phoneNumber);
 		}
 		phone.setNumber(phoneNumberBuilder.toString());

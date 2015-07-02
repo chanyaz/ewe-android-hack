@@ -458,10 +458,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			broadcastSearchCompleted();
 			hideLoading();
 
-			// Save the timestamp in memory and on disk
-			mLastSearchTime = DateTime.now();
-			Db.saveHotelSearchTimestamp(this);
-
 			// 1940: If we had a successful search, don't let past failures re-start a search next time
 			mStartSearchOnResume = false;
 		}
@@ -528,9 +524,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			Db.clear();
 			// Remove it so we don't keep doing this on rotation
 			getIntent().removeExtra(EXTRA_NEW_SEARCH);
-		}
-		else if (!hasExternalSearchParams) {
-			Db.loadHotelSearchFromDisk(this);
 		}
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -720,20 +713,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mIsActivityResumed = true;
 
 		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-
-		// If the configuration isn't changing but we are stopping this activity, save the search params
-		boolean configChange = isChangingConfigurations();
-		if (!configChange) {
-			// Save here to prevent saving to disk all the time. This will only save to disk when the user
-			// is leaving the screen. Moreover, waiting until now to save to disk will ensure HotelSearch
-			// contains a selected property.
-			Db.kickOffBackgroundHotelSearchSave(this);
-		}
 	}
 
 	@Override
@@ -1473,8 +1452,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		bd.cancelDownload(KEY_HOTEL_SEARCH);
 		bd.cancelDownload(KEY_HOTEL_INFO);
 		bd.cancelDownload(KEY_LOADING_PREVIOUS);
-
-		Db.deleteHotelSearchData(this);
 
 		buildFilter();
 		commitEditedSearchParams();

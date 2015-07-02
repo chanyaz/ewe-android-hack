@@ -223,10 +223,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			readyForListeners.acceptingListenersUpdated(this, false);
 		}
 
-		if (Db.getTravelersAreDirty()) {
-			Db.kickOffBackgroundTravelerSave(getActivity());
-		}
-
 		unRegisterStateListener(mPaymentOpenCloseListener);
 		unRegisterStateListener(mTravelerOpenCloseListener);
 		mBackManager.unregisterWithParent(this);

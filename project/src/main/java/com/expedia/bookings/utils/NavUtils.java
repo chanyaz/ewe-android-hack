@@ -212,10 +212,6 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToFlights(Context context) {
-		goToFlights(context, false, null);
-	}
-
 	public static void goToFlights(Context context, boolean usePresetSearchParams) {
 		goToFlights(context, usePresetSearchParams, null);
 	}
@@ -390,21 +386,6 @@ public class NavUtils {
 	}
 
 	/**
-	 * Sometimes we want to get out of flights (or anyplace) and want to go back to our start page.
-	 * @param context
-	 * @return true if we called startActivity on the way to EhTabletStart, false if not
-	 */
-	public static boolean goBackToEhTabletStart(Context context) {
-		Intent intent = generateStartEHTabletIntent(context);
-		if (intent != null) {
-			sendKillActivityBroadcast(context);
-			context.startActivity(intent);
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Builds the intent for starting EhTablet
 	 * @return Intent for going to EHTablet start screen, or null if not valid for this device
 	 */
@@ -486,19 +467,5 @@ public class NavUtils {
 		final PackageManager packageManager = context.getPackageManager();
 		List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 		return list.size() > 0;
-	}
-
-	// Takes care of the VSC flow. For now we only support for phone UI.
-	// TODO: How do we handle for tablets?
-	public static void goToVSC(Context context) {
-		sendKillActivityBroadcast(context);
-
-		Class<? extends Activity> routingTarget;
-
-		// Send user to hotelListing by default
-		routingTarget = HotelSearchActivity.class;
-
-		Intent intent = new Intent(context, routingTarget);
-		context.startActivity(intent);
 	}
 }

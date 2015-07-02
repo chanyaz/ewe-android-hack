@@ -633,9 +633,6 @@ public class DeepLinkRouterActivity extends Activity {
 				hotelSearch.setSearchResponse(null);
 				flightSearch.setSearchResponse(null);
 
-				Db.deleteCachedFlightData(this);
-				Db.deleteHotelSearchData(this);
-
 				NavUtils.goToTabletResults(this, Sp.getParams(), null);
 			}
 

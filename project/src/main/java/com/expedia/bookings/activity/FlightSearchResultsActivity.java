@@ -153,17 +153,11 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		mKillReceiver = new ActivityKillReceiver(this);
 		mKillReceiver.onCreate();
 
-		// Recover data if it was flushed from memory
+		// Bail if missing data
 		if (savedInstanceState != null && !BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)
 				&& Db.getFlightSearch().getSearchResponse() == null) {
-			if (!Db.loadCachedFlightData(this)) {
-				NavUtils.onDataMissing(this);
-				return;
-			}
-			else {
-				// If we did successfully reload the search, try to restore the state.
-				restoreSearchState();
-			}
+			NavUtils.onDataMissing(this);
+			return;
 		}
 
 		if (savedInstanceState != null) {
@@ -784,7 +778,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		// #445: Need to reset the search results before starting a new one
 		Db.getFlightSearch().setSearchResponse(null);
 		mLegPosition = 0;
-		Db.kickOffBackgroundFlightSearchSave(this);
 		deleteSearchState();
 
 		showLoadingFragment();
@@ -884,8 +877,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			search.setSearchResponse(response);
 			Db.addAirlineNames(response.getAirlineNames());
 
-			Db.kickOffBackgroundFlightSearchSave(mContext);
-
 			// We may need the bg fragment, depending on what we need to show next
 			if (mBgFragment == null) {
 				mBgFragment = new BlurredBackgroundFragment();
@@ -960,11 +951,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 
 	private static final String PREF_SEARCH_STATE = "com.expedia.bookings.flights.search.state";
 
-	private void saveSearchState() {
-		String searchState = Db.getFlightSearch().getSearchState().toJson().toString();
-		SettingUtils.save(this, PREF_SEARCH_STATE, searchState);
-	}
-
 	private void restoreSearchState() {
 		String searchState = SettingUtils.get(this, PREF_SEARCH_STATE, null);
 		if (!TextUtils.isEmpty(searchState)) {
@@ -1026,9 +1012,8 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			// Set the selected leg
 			FlightTripLeg ftl = mFlightDetailsFragment.getFlightTripLeg();
 			FlightSearch flightSearch = Db.getFlightSearch();
-			flightSearch.setSelectedLeg(mLegPosition, new FlightTripLeg(ftl.getFlightTrip(), ftl.getFlightLeg()));
-
-			saveSearchState();
+			flightSearch.setSelectedLeg(mLegPosition,
+				new FlightTripLeg(ftl.getFlightTrip(), ftl.getFlightLeg()));
 
 			if (flightSearch.getSelectedFlightTrip() == null) {
 				// Remove the flight details fragment, show new list results
@@ -1087,8 +1072,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
 			Db.getFlightSearch().clearQuery(mLegPosition); // #443: Clear cached query
 		}
-
-		saveSearchState();
 
 		mLegPosition = legPosition;
 	}
