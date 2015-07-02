@@ -255,8 +255,10 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 		if (traveler != null) {
 			return traveler.isSelectable();
 		}
-		else {
-			return false;
+		else if (position != 0) { // add new traveler button
+			return true;
 		}
+		// "Select Contact" button (list position:0)
+		return false;
 	}
 }
