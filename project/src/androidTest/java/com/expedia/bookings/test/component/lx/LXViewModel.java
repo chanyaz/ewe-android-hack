@@ -155,7 +155,7 @@ public class LXViewModel {
 	}
 
 	public static ViewInteraction searchButton() {
-		return onView(withId(R.id.menu_search));
+		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(hasSibling(withId(R.id.search_container)))));
 	}
 
 	public static ViewInteraction searchButtonInSRPToolbar() {

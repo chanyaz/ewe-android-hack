@@ -107,7 +107,7 @@ public final class CarViewModel {
 	}
 
 	public static ViewInteraction searchButton() {
-		return onView(withId(R.id.menu_check));
+		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(hasSibling(withId(R.id.search_container)))));
 	}
 
 	// Results
