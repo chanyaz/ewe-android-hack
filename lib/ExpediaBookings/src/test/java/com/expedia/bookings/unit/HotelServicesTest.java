@@ -18,11 +18,8 @@ import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import rx.Subscription;
+import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class HotelServicesTest {
 	@Rule
@@ -45,23 +42,19 @@ public class HotelServicesTest {
 			RestAdapter.LogLevel.FULL);
 	}
 
-	@Test(expected = RetrofitError.class)
+	@Test
 	public void testMockSearchBlowsUp() throws Throwable {
 		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));
 
-		BlockingObserver<List<Hotel>> observer = new BlockingObserver<>(1);
+		TestSubscriber<List<Hotel>> observer = new TestSubscriber<>();
 		NearbyHotelParams params = new NearbyHotelParams("", "", "", "", "", "", "");
 
-		Subscription sub = service.nearbyHotels(params, observer);
-		observer.await();
-		sub.unsubscribe();
+		service.nearbyHotels(params, observer);
+		observer.awaitTerminalEvent();
 
-		assertEquals(0, observer.getItems().size());
-		assertEquals(1, observer.getErrors().size());
-		for (Throwable error : observer.getErrors()) {
-			throw error;
-		}
+		observer.assertNoValues();
+		observer.assertError(RetrofitError.class);
 	}
 
 	@Test
@@ -70,17 +63,14 @@ public class HotelServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<List<Hotel>> observer = new BlockingObserver<>(2);
+		TestSubscriber<List<Hotel>> observer = new TestSubscriber<>();
 		NearbyHotelParams params = new NearbyHotelParams("", "", "", "", "", "", "");
 
-		Subscription sub = service.nearbyHotels(params, observer);
-		observer.await();
-		sub.unsubscribe();
+		service.nearbyHotels(params, observer);
+		observer.awaitTerminalEvent();
 
-		for (Throwable throwable : observer.getErrors()) {
-			throw throwable;
-		}
-		assertTrue(observer.completed());
-		assertEquals(1, observer.getItems().size());
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
 	}
 }

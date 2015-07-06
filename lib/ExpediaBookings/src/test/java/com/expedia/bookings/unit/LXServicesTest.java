@@ -3,6 +3,7 @@ package com.expedia.bookings.unit;
 import java.io.File;
 
 import org.joda.time.LocalDate;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -23,7 +24,7 @@ import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import rx.Subscription;
+import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
@@ -32,73 +33,100 @@ import static org.junit.Assert.assertNull;
 
 public class LXServicesTest {
 	@Rule
-	public MockWebServerRule mockServer = new MockWebServerRule();
+	public MockWebServerRule server = new MockWebServerRule();
 
-	// Search.
+	private LXServices service;
+	private LXCheckoutParams checkoutParams;
+
+	@Before
+	public void before() {
+		RequestInterceptor emptyInterceptor = new RequestInterceptor() {
+			@Override
+			public void intercept(RequestFacade request) {
+				// ignore
+			}
+		};
+
+		service = new LXServices("http://localhost:" + server.getPort(), new OkHttpClient(), emptyInterceptor, Schedulers.immediate(),
+			Schedulers.immediate(), RestAdapter.LogLevel.FULL);
+
+		checkoutParams = new LXCheckoutParams();
+		checkoutParams.firstName = "FirstName";
+		checkoutParams.lastName = "LastName";
+		checkoutParams.phone = "415-111-111";
+		checkoutParams.phoneCountryCode = "1";
+		checkoutParams.tripId = "happypath_trip_id";
+		checkoutParams.postalCode = "94123";
+		checkoutParams.expectedFareCurrencyCode = "USD";
+		checkoutParams.expectedTotalFare = "139.40";
+		checkoutParams.nameOnCard = "Test";
+		checkoutParams.creditCardNumber = "4111111111111111";
+		checkoutParams.expirationDateYear = "2020";
+		checkoutParams.cvv = "111";
+		checkoutParams.email = "test@gmail.com";
+	}
 
 	@Test
 	public void testLXSearchResponse() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<LXSearchResponse> blockingObserver = new BlockingObserver<>(1);
+		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
 		LXSearchParams searchParams = new LXSearchParams();
 		searchParams.location = "happy";
 		searchParams.startDate = LocalDate.now();
 		searchParams.endDate = LocalDate.now().plusDays(1);
-		Subscription subscription = getLXServices().lxSearch(searchParams, blockingObserver);
+		service.lxSearch(searchParams, observer);
 
-		blockingObserver.await();
-		subscription.unsubscribe();
+		observer.awaitTerminalEvent();
 
-		assertEquals(0, blockingObserver.getErrors().size());
-		assertEquals(1, blockingObserver.getItems().size());
-		assertEquals(114, blockingObserver.getItems().get(0).activities.size());
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		assertEquals(114, observer.getOnNextEvents().get(0).activities.size());
 
 	}
 
 	@Test
 	public void testEmptySearchResponse() throws Throwable {
-		mockServer.enqueue(new MockResponse().setBody("{regionId:1,\"activities\": []}"));
-		BlockingObserver<LXSearchResponse> blockingObserver = new BlockingObserver<>(1);
+		server.enqueue(new MockResponse().setBody("{regionId:1,\"activities\": []}"));
+		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
 		LXSearchParams searchParams = new LXSearchParams();
 
-		Subscription subscription = getLXServices().lxSearch(searchParams, blockingObserver);
-		blockingObserver.await();
-		subscription.unsubscribe();
-		assertEquals(0, blockingObserver.getErrors().size());
-		assertEquals(1, blockingObserver.getItems().size());
-		assertEquals(0, blockingObserver.getItems().get(0).activities.size());
+		service.lxSearch(searchParams, observer);
+		observer.awaitTerminalEvent();
+
+		observer.assertCompleted();
+		observer.assertNoErrors();
+		observer.assertValueCount(1);
+		assertEquals(0, observer.getOnNextEvents().get(0).activities.size());
 	}
 
-	@Test(expected = RetrofitError.class)
+	@Test
 	public void testUnexpectedSearchResponseThrowsError() throws Throwable {
-		mockServer.enqueue(new MockResponse().setBody("{Unexpected}"));
-		BlockingObserver<LXSearchResponse> blockingObserver = new BlockingObserver<>(1);
+		server.enqueue(new MockResponse().setBody("{Unexpected}"));
+		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
 		LXSearchParams searchParams = new LXSearchParams();
 
-		Subscription subscription = getLXServices().lxSearch(searchParams, blockingObserver);
-		blockingObserver.await();
-		subscription.unsubscribe();
-		assertEquals(1, blockingObserver.getErrors().size());
-		assertEquals(0, blockingObserver.getItems().size());
-		throw blockingObserver.getErrors().get(0);
+		service.lxSearch(searchParams, observer);
+		observer.awaitTerminalEvent();
+
+		observer.assertNoValues();
+		observer.assertError(RetrofitError.class);
 	}
 
-	@Test(expected = RuntimeException.class)
+	@Test
 	public void testSearchFailure() throws Throwable {
-		mockServer.enqueue(new MockResponse().setBody("{regionId:1, searchFailure: true}"));
-		BlockingObserver<LXSearchResponse> blockingObserver = new BlockingObserver<>(1);
+		server.enqueue(new MockResponse().setBody("{regionId:1, searchFailure: true}"));
+		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
 		LXSearchParams searchParams = new LXSearchParams();
 
-		Subscription subscription = getLXServices().lxSearch(searchParams, blockingObserver);
-		blockingObserver.await();
-		subscription.unsubscribe();
+		service.lxSearch(searchParams, observer);
+		observer.awaitTerminalEvent();
 
-		assertEquals(1, blockingObserver.getErrors().size());
-		assertEquals(0, blockingObserver.getItems().size());
-		throw blockingObserver.getErrors().get(0);
+		observer.assertNoValues();
+		observer.assertError(RuntimeException.class);
 	}
 
 	// Details.
@@ -107,110 +135,100 @@ public class LXServicesTest {
 	public void testDetailsResponse() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<ActivityDetailsResponse> blockingObserver = new BlockingObserver<>(1);
+		TestSubscriber<ActivityDetailsResponse> observer = new TestSubscriber<>();
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		Subscription subscription = getLXServices().lxDetails(lxActivity, null, LocalDate.now(), LocalDate.now().plusDays(1), blockingObserver);
-		blockingObserver.await();
-		subscription.unsubscribe();
-		assertEquals(0, blockingObserver.getErrors().size());
-		assertEquals(1, blockingObserver.getItems().size());
-		// Check the details object for required values.
-		ActivityDetailsResponse activityDetailsResponse = blockingObserver.getItems().get(0);
+		service.lxDetails(lxActivity, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
+		observer.awaitTerminalEvent();
+
+		observer.assertNoErrors();
+		observer.assertValueCount(1);
+		observer.assertCompleted();
+
+		ActivityDetailsResponse activityDetailsResponse = observer.getOnNextEvents().get(0);
 		assertEquals(5, activityDetailsResponse.images.size());
 		assertEquals(5, activityDetailsResponse.highlights.size());
 	}
 
 	@Test
 	public void testEmptyDetailsResponse() throws Throwable {
-		mockServer.enqueue(new MockResponse().setBody("{\"id\": \"183615\", \"offersDetail\": { \"offers\": [] }}"));
-		BlockingObserver<ActivityDetailsResponse> blockingObserver = new BlockingObserver<>(1);
+		server.enqueue(new MockResponse().setBody("{\"id\": \"183615\", \"offersDetail\": { \"offers\": [] }}"));
+		TestSubscriber<ActivityDetailsResponse> observer = new TestSubscriber<>();
 
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		Subscription subscription = getLXServices().lxDetails(lxActivity, null, LocalDate.now(), LocalDate.now().plusDays(1), blockingObserver);
+		service.lxDetails(lxActivity, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
+		observer.awaitTerminalEvent();
 
-		blockingObserver.await();
-		subscription.unsubscribe();
-		assertEquals(0, blockingObserver.getErrors().size());
-		assertEquals(1, blockingObserver.getItems().size());
-		assertNull(blockingObserver.getItems().get(0).images);
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		assertNull(observer.getOnNextEvents().get(0).images);
 	}
 
-	@Test(expected = RetrofitError.class)
+	@Test
 	public void testUnexpectedDetailsResponseThrowsError() throws Throwable {
-		mockServer.enqueue(new MockResponse().setBody("{Unexpected}"));
-		BlockingObserver<ActivityDetailsResponse> blockingObserver = new BlockingObserver<>(1);
+		server.enqueue(new MockResponse().setBody("{Unexpected}"));
+		TestSubscriber<ActivityDetailsResponse> observer = new TestSubscriber<>();
 
-		Subscription subscription = getLXServices().lxDetails(new LXActivity(), null, null, null, blockingObserver);
-		blockingObserver.await();
-		subscription.unsubscribe();
-		assertEquals(1, blockingObserver.getErrors().size());
-		assertEquals(0, blockingObserver.getItems().size());
-		throw blockingObserver.getErrors().get(0);
+		service.lxDetails(new LXActivity(), null, null, null, observer);
+		observer.awaitTerminalEvent();
+
+		observer.assertNoValues();
+		observer.assertError(RetrofitError.class);
 	}
 
-	// Checkout
 	@Test
 	public void testLXCheckoutResponse() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<LXCheckoutResponse> blockingObserver = new BlockingObserver<>(1);
+		TestSubscriber<LXCheckoutResponse> observer = new TestSubscriber<>();
 
-		LXCheckoutParams checkoutParams = checkoutParams();
-		Subscription subscription = getLXServices().lxCheckout(checkoutParams, blockingObserver);
+		service.lxCheckout(checkoutParams, observer);
+		observer.awaitTerminalEvent();
 
-		blockingObserver.await();
-		subscription.unsubscribe();
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
 
-		assertEquals(0, blockingObserver.getErrors().size());
-		assertEquals(1, blockingObserver.getItems().size());
-
-		LXCheckoutResponse checkoutResponse = blockingObserver.getItems().get(0);
+		LXCheckoutResponse checkoutResponse = observer.getOnNextEvents().get(0);
 		assertNotNull(checkoutResponse.newTrip);
 		assertNotNull(checkoutResponse.activityId);
-		assertEquals(checkoutParams.tripId, blockingObserver.getItems().get(0).newTrip.tripId);
+		assertEquals(checkoutParams.tripId, observer.getOnNextEvents().get(0).newTrip.tripId);
 	}
 
-	@Test(expected = RetrofitError.class)
+	@Test
 	public void testUnexpectedCheckoutResponseThrowsError() throws Throwable {
-		mockServer.enqueue(new MockResponse().setBody("{Unexpected}"));
-		BlockingObserver<LXCheckoutResponse> blockingObserver = new BlockingObserver<>(1);
+		server.enqueue(new MockResponse().setBody("{Unexpected}"));
+		TestSubscriber<LXCheckoutResponse> observer = new TestSubscriber<>();
 
+		service.lxCheckout(checkoutParams, observer);
+		observer.awaitTerminalEvent();
 
-		Subscription subscription = getLXServices().lxCheckout(checkoutParams(), blockingObserver);
-		blockingObserver.await();
-		subscription.unsubscribe();
-		assertEquals(1, blockingObserver.getErrors().size());
-		assertEquals(0, blockingObserver.getItems().size());
-		throw blockingObserver.getErrors().get(0);
+		observer.assertNoValues();
+		observer.assertError(RetrofitError.class);
 	}
 
 	@Test
 	public void testCheckoutWithInvalidInput() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<LXCheckoutResponse> blockingObserver = new BlockingObserver<>(1);
+		TestSubscriber<LXCheckoutResponse> observer = new TestSubscriber<>();
 
-		LXCheckoutParams checkoutParams = checkoutParams();
 		// Invalid credit card number
 		checkoutParams.tripId = "invalid_credit_card_number_trip_id";
-		Subscription subscription = getLXServices().lxCheckout(checkoutParams, blockingObserver);
+		service.lxCheckout(checkoutParams, observer);
+		observer.awaitTerminalEvent();
 
-		blockingObserver.await();
-		subscription.unsubscribe();
+		observer.assertNoValues();
+		observer.assertError(ApiError.class);
 
-		assertEquals(1, blockingObserver.getErrors().size());
-		assertEquals(0, blockingObserver.getItems().size());
-
-		ApiError apiError = (ApiError) blockingObserver.getErrors().get(0);
-
+		ApiError apiError = (ApiError) observer.getOnErrorEvents().get(0);
 		assertEquals(ApiError.Code.INVALID_INPUT, apiError.errorCode);
 		assertNotNull(apiError.errorInfo.field);
 		assertNotNull(apiError.errorInfo.summary);
@@ -220,53 +238,20 @@ public class LXServicesTest {
 	public void testCheckoutPaymentFailure() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		mockServer.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<LXCheckoutResponse> blockingObserver = new BlockingObserver<>(1);
+		TestSubscriber<LXCheckoutResponse> observer = new TestSubscriber<>();
 
-		LXCheckoutParams checkoutParams = checkoutParams();
 		checkoutParams.tripId = "payment_failed_trip_id";
-		Subscription subscription = getLXServices().lxCheckout(checkoutParams, blockingObserver);
+		service.lxCheckout(checkoutParams, observer);
+		observer.awaitTerminalEvent();
 
-		blockingObserver.await();
-		subscription.unsubscribe();
+		observer.assertNoValues();
+		observer.assertError(ApiError.class);
 
-		assertEquals(1, blockingObserver.getErrors().size());
-		assertEquals(0, blockingObserver.getItems().size());
-
-		ApiError apiError = (ApiError) blockingObserver.getErrors().get(0);
+		ApiError apiError = (ApiError) observer.getOnErrorEvents().get(0);
 		assertEquals(ApiError.Code.PAYMENT_FAILED, apiError.errorCode);
 		assertNotNull(apiError.errorInfo.field);
 		assertNotNull(apiError.errorInfo.summary);
 	}
-
-	private LXCheckoutParams checkoutParams() {
-		LXCheckoutParams params = new LXCheckoutParams();
-		params.firstName = "FirstName";
-		params.lastName = "LastName";
-		params.phone = "415-111-111";
-		params.phoneCountryCode = "1";
-		params.tripId = "happypath_trip_id";
-		params.postalCode = "94123";
-		params.expectedFareCurrencyCode = "USD";
-		params.expectedTotalFare = "139.40";
-		params.nameOnCard = "Test";
-		params.creditCardNumber = "4111111111111111";
-		params.expirationDateYear = "2020";
-		params.cvv = "111";
-		params.email = "test@gmail.com";
-		return params;
-	}
-
-	private LXServices getLXServices() {
-		return new LXServices("http://localhost:" + mockServer.getPort(), new OkHttpClient(), sEmptyInterceptor, Schedulers.immediate(),
-			Schedulers.immediate(), RestAdapter.LogLevel.FULL);
-	}
-
-	private static final RequestInterceptor sEmptyInterceptor = new RequestInterceptor() {
-		@Override
-		public void intercept(RequestFacade request) {
-			// ignore
-		}
-	};
 }
