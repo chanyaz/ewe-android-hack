@@ -96,6 +96,8 @@
     <string name="toolbar_search_cars">搜尋租車</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">選擇取車和還車日期</string>
+    <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
+    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">%1$s – 選擇回程日期</string>
     <!-- Label for pick-up time picker -->
@@ -137,7 +139,6 @@
     <string name="car_model_name_template">%1$s 或類似車款</string>
     <string name="car_model_unknown_template">找不到完全符合條件的車款</string>
 
-    <string name="preparing_checkout_message">正在準備付款…</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">航廈櫃台與車輛</string>
     <!-- Car checkout cost breakdown total due today -->
@@ -149,8 +150,6 @@
     <!-- Car checkout rental fare breakdown types -->
     <!--Cost breakdown type base -->
     <string name="car_rental_breakdown_base">租車</string>
-    <!--Cost breakdown type taxes and fees -->
-    <string name="car_rental_breakdown_taxes_and_fees">預計稅金和費用</string>
     <!--Cost breakdown type insurance -->
     <string name="car_rental_breakdown_insurance">保險</string>
     <!--Cost breakdown type drop off charge -->
@@ -194,7 +193,7 @@
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">姓名不能包含數字或特殊字元。</string>
     <!-- Show to user when their phone number is invalid -->
-    <string name="reservation_invalid_phone">電話號碼長度必須介於 1 至 20 碼數字之間。</string>
+    <string name="reservation_invalid_phone">電話號碼長度必須介於 4 至 20 個數字之間。</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">不好意思…您的付款並未成功。請再次檢查您的付款詳細資料，然後再試一次。</string>
@@ -565,8 +564,6 @@
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">滑動以預訂</string>
-    <!-- Total with tax -->
-    <string name="lx_total_with_tax">含稅總價</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">輸入聯絡資訊</string>
     <!-- LX search error -->
@@ -620,6 +617,8 @@
     <string name="lx_ground_transport_bags_text">%1$s 件行李</string>
     <!-- Ground Transport passengers text-->
     <string name="lx_ground_transport_passengers_text">%1$s 位乘客</string>
+    <!-- Incorrect date search for LX -->
+    <string name="lx_start_date_error">此日期已過，請選擇新的日期。</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -809,9 +808,9 @@
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% 的旅客推薦</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
-    <string name="sorry_rooms_sold_out">很抱歉，Expedia 已無客房。</string>
+    <string name="sorry_rooms_sold_out_TEMPLATE">很抱歉，{brand} 上的所有客房已訂滿。</string>
     <!-- A message stating this hotel is sold out on Expedia -->
-    <string name="sold_out_on_expedia">Expedia 已無客房</string>
+    <string name="sold_out_on_TEMPLATE">在 {brand} 上已訂滿</string>
     <!-- Hotel gallery title -->
     <string name="photos_for_TEMPLATE">%s相片</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
@@ -894,7 +893,7 @@
     <!-- Sign In -->
     <string name="Sign_In">登入</string>
     <!-- Sign in with Expedia -->
-    <string name="Sign_in_with_Expedia">使用 Expedia 帳號登入</string>
+    <string name="Sign_in_with_TEMPLATE">使用 {brand} 帳號登入</string>
     <!-- Sign in with the current brand -->
     <string name="sign_in_with_brand_TEMPLATE">使用 {brand} 帳號登入</string>
     <!-- or -->
@@ -904,7 +903,7 @@
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
-    <string name="restricted_profile_sign_in_message">若要登入 Expedia，您裝置上的使用者設定不得有任何限制。</string>
+    <string name="restricted_profile_sign_in_message_TEMPLATE">若要登入 {brand}，您裝置上的使用者設定不得有任何限制。</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
@@ -1007,7 +1006,7 @@
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">尋找行程編號</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">Expedia 行程編號</string>
+    <string name="itinerary_TEMPLATE">{brand} 行程編號</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
     <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver 客戶支援</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
@@ -1560,8 +1559,8 @@
     <string name="outbound_TEMPLATE">前往%s的班機</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">抵達%s的班機</string>
-    <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">很抱歉，我們無法連線到 Expedia 的伺服器。請稍後再試一次。</string>
+    <!-- Template string for error when we simple can't connect to E3 servers-->
+    <string name="error_server_TEMPLATE">很抱歉，我們無法連線至 {brand} 的伺服器。請稍後再試一次。</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">出發</string>
     <!-- Sort by arrival time label -->
@@ -1652,7 +1651,8 @@
     <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">選擇入住日期</string>
-
+    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}，{guests} 位旅客</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">單程 &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1811,10 +1811,14 @@
     <string name="menu_checkout">付款</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">最佳價格保證</string>
+    <!-- Expedia Rate - Non merchant default infosite messaging -->
+    <string name="non_merchant_rate_TEMPLATE">{brand} 優惠價</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;%s&lt;/b&gt; 前&lt;b&gt;免費取消&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">登出</string>
+    <!-- AB Test 3x messaging for hotel points -->
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">您將可獲得 %1$s 點 — App 內預訂可享點數 3 倍！</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">此次預訂您將可獲得 %1$s 點！</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1982,7 +1986,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">儲存帳單資訊</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">是否要將此付款方式儲存在您的 Expedia 帳戶中，以便在日後加快購買速度？</string>
+    <string name="save_billing_info_message_TEMPLATE">是否要將此付款方式儲存至您的 {brand} 帳戶中，以便在日後加快預訂速度？</string>
     <!-- save -->
     <string name="save">儲存</string>
 
@@ -1990,7 +1994,7 @@
     <!-- save traveler -->
     <string name="save_traveler">儲存旅客</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">是否要將%1$s的資訊儲存在您的 Expedia 帳戶中，以便在日後加快購買速度？</string>
+    <string name="save_traveler_message_TEMPLATE">是否要將 {name} 的資訊儲存在您的 {brand} 帳戶中，以便在日後加快預訂速度？</string>
     <!-- no thanks -->
     <string name="no_thanks">不用了，謝謝。</string>
 
@@ -2121,7 +2125,7 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">使用 FlightTrack 追蹤班機</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">聯絡 Expedia 客戶支援</string>
+    <string name="call_customer_support_TEMPLATE">來電 {brand} 客服中心</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">投保意外險</string>
     <!-- Insurance -->
@@ -2156,11 +2160,11 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s，%2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">Expedia 行程編號：%s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">{brand} 行程編號：{itinerary}</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">前往機場的路線：%s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">Expedia 客戶支援：%s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">{brand} 客服中心：{phone}</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -2214,11 +2218,11 @@
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">很抱歉，我們目前無法處理您的訂單。請再試一次。</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">很抱歉，我們目前無法處理您的訂單。請再試一次，或聯絡 Expedia 客戶服務並告知您的行程編號：%s</string>
+    <string name="error_flight_unhandled_TEMPLATE">很抱歉，我們目前無法處理您的訂單。請再試一次，或聯絡 {brand} 客服中心並告知您的行程編號：{itinerary}</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_expedia">很抱歉，您的班機在 Expedia 已售完。</string>
+    <string name="error_flight_no_longer_available_TEMPLATE">很抱歉，您的班機在 {brand} 已售完。</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_expedia">很抱歉，您的其中一個班機在 Expedia 已售完。</string>
+    <string name="error_flights_no_longer_available_TEMPLATE">很抱歉，您的其中一個班機在 {brand} 已售完。</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
     <string name="error_flight_hold_expired">很抱歉，此班機的保留期限已過。</string>
     <!-- Error shown to user if one of multiple flights is no longer available or expired -->
@@ -2434,11 +2438,7 @@
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
     <string name="progress_finding_location">正在尋找目前位置…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">正在搜尋飯店…</string>
-    <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_message">正在搜尋！</string>
-    <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_working_hard">我們致力於為您找到最好的飯店優惠。</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">正在為您搜尋上千家飯店！</string>
     <!-- Message displayed when app is searching for a particular hotel -->
@@ -2452,7 +2452,7 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">找不到可入住的飯店</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_expedia">很抱歉，此飯店在 Expedia 已訂滿。</string>
+    <string name="error_hotel_is_now_sold_out_TEMPLATE">很抱歉，此飯店在 {brand} 已訂滿。</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -2465,6 +2465,8 @@
     <string name="per_night">/晚</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/晚</string>
+    <!-- The label for abbreviated price per night - "$120/nt", for example -->
+    <string name="per_nt_TEMPLATE">{price}/晚</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">沒有評等</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2516,10 +2518,14 @@
     <string name="minus_x_percent">-%2.0f%%</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% 的旅客推薦此飯店。</string>
+    <!-- new material Hotel results cell guest rating -->
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
+    <!-- new material Hotel results cell guest recommend-->
+    <string name="guest_recommend">旅客推薦</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
-    <string name="AmenityNone">不提供飯店設施</string>
+    <string name="AmenityNone">不提供設施</string>
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">商務中心</string>
     <!-- Fitness center amenity -->
@@ -2635,7 +2641,7 @@
     <string name="etp_pay_later_payment_info_text">付款資訊只是用來保留您的預訂。</string>
     <string name="etp_pay_later_cancellation_text">在飯店的免費取消期限內，都可以免費取消預訂。</string>
     <string name="etp_pay_now_option_text">立即在線上付款</string>
-    <string name="etp_pay_now_charges_text">Expedia 會處理您的付款資料。</string>
+    <string name="etp_pay_now_charges_text_TEMPLATE">{brand} 會處理您的付款資料。</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">您將以您當地的貨幣 (%s) 付款。</string>
     <string name="etp_pay_now_cancellation_text">在飯店的免費取消期限內，都可以免費取消預訂。</string>
     <string name="etp_select_room">選擇客房</string>
@@ -2726,7 +2732,7 @@
     <!-- Itinerary number label -->
     <string name="itinerary_number">行程編號</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">如果您對預訂有任何疑問，請聯絡 Expedia，電話是 %s。</string>
+    <string name="contact_phone_TEMPLATE">如果您對預訂有任何疑問，請聯絡 {brand}，電話：。{phone}</string>
 
 
     <!-- Rate template strings -->
@@ -2759,7 +2765,7 @@
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for signin screen -->
-    <string name="expedia_account">Expedia 帳戶</string>
+    <string name="account_TEMPLATE">{brand} 帳戶</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">正在載入 {brand} 帳戶</string>
     <!-- Label for password recovery -->
@@ -2833,25 +2839,25 @@
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">預訂支援</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">聯絡 Expedia 的方式：</string>
+    <string name="contact_via_TEMPLATE">聯絡 {brand}…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">電話</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">網站</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">Expedia 網站</string>
+    <string name="website_TEMPLATE">{brand} 網站</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">App 技術支援</string>
+    <string name="app_support_TEMPLATE">App 技術支援</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">條款和條件</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">隱私權政策</string>
     <!-- Copyright information -->
-    <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\n 著作權所有，並保留一切權利。</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\n著作權所有，並保留一切權利。</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_signed_out_and_cleared_private_data">已登出，資料已清除</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data">您已登出您的 Expedia 帳戶，所有儲存的帳單及聯絡資訊均已清除。</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">您已登出您的 {brand} 帳戶，所有儲存的帳單及聯絡資訊均已清除。</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">已清除個人資料</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3570,5 +3576,7 @@
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">請選擇每位兒童的年齡</string>
+
+    <string name="lob_not_supported_error_message">很抱歉，您的所在地點尚未提供{lob}預訂。</string>
 
 </resources>

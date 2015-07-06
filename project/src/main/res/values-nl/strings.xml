@@ -96,6 +96,8 @@
     <string name="toolbar_search_cars">Auto\&apos;s zoeken</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Selecteer ophaal- en inleverdatums</string>
+    <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
+    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">%1$s - Selecteer retourdatum</string>
     <!-- Label for pick-up time picker -->
@@ -137,7 +139,6 @@
     <string name="car_model_name_template">%1$s of soortgelijk</string>
     <string name="car_model_unknown_template">Exact model n.v.t.</string>
 
-    <string name="preparing_checkout_message">Boeking aan het samenstellen …</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">Balie &amp; voertuig bij terminal</string>
     <!-- Car checkout cost breakdown total due today -->
@@ -149,8 +150,6 @@
     <!-- Car checkout rental fare breakdown types -->
     <!--Cost breakdown type base -->
     <string name="car_rental_breakdown_base">Autoverhuur</string>
-    <!--Cost breakdown type taxes and fees -->
-    <string name="car_rental_breakdown_taxes_and_fees">Geschatte belastingen en toeslagen</string>
     <!--Cost breakdown type insurance -->
     <string name="car_rental_breakdown_insurance">Verzekering</string>
     <!--Cost breakdown type drop off charge -->
@@ -194,7 +193,7 @@
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">Namen mogen geen nummers of speciale tekens bevatten.</string>
     <!-- Show to user when their phone number is invalid -->
-    <string name="reservation_invalid_phone">Het telefoonnummer dient tussen 1 en 20 tekens te bevatten.</string>
+    <string name="reservation_invalid_phone">Telefoonnummer dient tussen 4 en 20 tekens te bevatten.</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Sorry, de betaling was niet succesvol. Controleer even je betalingsinfo en probeer opnieuw.</string>
@@ -565,8 +564,6 @@
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">Swipe om te boeken</string>
-    <!-- Total with tax -->
-    <string name="lx_total_with_tax">Totaal incl. belastingen</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Contactinfo invoeren</string>
     <!-- LX search error -->
@@ -620,6 +617,8 @@
     <string name="lx_ground_transport_bags_text">%1$sStuks bagage</string>
     <!-- Ground Transport passengers text-->
     <string name="lx_ground_transport_passengers_text">%1$sPassagiers</string>
+    <!-- Incorrect date search for LX -->
+    <string name="lx_start_date_error">Deze datum ligt in het verleden, kies een nieuwe datum.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -809,9 +808,9 @@
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">Aanbevolen door %s%%</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
-    <string name="sorry_rooms_sold_out">Sorry, alle kamers zijn uitverkocht bij Expedia.</string>
+    <string name="sorry_rooms_sold_out_TEMPLATE">Sorry, alle kamers zijn uitverkocht bij {brand}.</string>
     <!-- A message stating this hotel is sold out on Expedia -->
-    <string name="sold_out_on_expedia">Uitverkocht op Expedia</string>
+    <string name="sold_out_on_TEMPLATE">Uitverkocht bij {brand}</string>
     <!-- Hotel gallery title -->
     <string name="photos_for_TEMPLATE">Foto\&apos;s voor %s</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
@@ -894,7 +893,7 @@
     <!-- Sign In -->
     <string name="Sign_In">Aanmelden</string>
     <!-- Sign in with Expedia -->
-    <string name="Sign_in_with_Expedia">Aanmelden via Expedia</string>
+    <string name="Sign_in_with_TEMPLATE">Aanmelden via {brand}</string>
     <!-- Sign in with the current brand -->
     <string name="sign_in_with_brand_TEMPLATE">Aanmelden via {brand}</string>
     <!-- or -->
@@ -904,7 +903,7 @@
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
-    <string name="restricted_profile_sign_in_message">Om aan te melden dien je te beschikken over een onbeperkt gebruikersprofiel op je apparaat.</string>
+    <string name="restricted_profile_sign_in_message_TEMPLATE">Om aan te melden bij {brand} dien je een onbeperkt gebruikersprofiel te hebben op je toestel.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
@@ -1007,7 +1006,7 @@
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Reisplannr. zoeken</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">Expedia reisplannr.</string>
+    <string name="itinerary_TEMPLATE">{brand}-reisplannr.</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
     <string name="Expedia_plus_Silver_Customer_Support">Klantenservice Expedia +silver</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
@@ -1560,8 +1559,8 @@
     <string name="outbound_TEMPLATE">Heenvluchten naar %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Terugvluchten naar %s</string>
-    <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">We konden geen verbinding maken met de servers van Expedia.  Probeer het later opnieuw.</string>
+    <!-- Template string for error when we simple can't connect to E3 servers-->
+    <string name="error_server_TEMPLATE">We konden geen verbinding maken met de servers van {brand}. Probeer het later opnieuw.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Vertrektijd</string>
     <!-- Sort by arrival time label -->
@@ -1652,7 +1651,8 @@
     <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">Kies de incheckdatum</string>
-
+    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests} gasten</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">Enkele reis voor &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1811,10 +1811,14 @@
     <string name="menu_checkout">Betaling</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Prijsgarantie</string>
+    <!-- Expedia Rate - Non merchant default infosite messaging -->
+    <string name="non_merchant_rate_TEMPLATE">{brand}-tarief</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis annulering&lt;/b&gt; tot &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">Afmelden</string>
+    <!-- AB Test 3x messaging for hotel points -->
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Je verzamelt %1$s punten — 3x zo veel punten omdat je boekt met de app!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Je verdient %1$s bonuspunten voor deze boeking!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1982,7 +1986,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">Betaalinfo opslaan</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">Wil je deze betaalmethode in je Expedia-account opslaan om in de toekomst sneller te kunnen boeken?</string>
+    <string name="save_billing_info_message_TEMPLATE">Wil je deze betaalmethode in je {brand}-account opslaan om later sneller te kunnen boeken?</string>
     <!-- save -->
     <string name="save">Opslaan</string>
 
@@ -1990,7 +1994,7 @@
     <!-- save traveler -->
     <string name="save_traveler">Reiziger opslaan</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Wil je de gegevens van %1$s in je Expedia-account opslaan om in de toekomst sneller te kunnen boeken?</string>
+    <string name="save_traveler_message_TEMPLATE">Wil je de gegevens van {name} in je {brand}-account opslaan om in de toekomst sneller te kunnen boeken?</string>
     <!-- no thanks -->
     <string name="no_thanks">Nee, bedankt</string>
 
@@ -2121,7 +2125,7 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">Volg met FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">Bel de Expedia klantenservice</string>
+    <string name="call_customer_support_TEMPLATE">Bel de {brand}-klantenservice</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Verzekering toevoegen</string>
     <!-- Insurance -->
@@ -2156,11 +2160,11 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">Expedia reisplannummer: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">{brand}-reisplannr.: {itinerary}</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">Routebeschrijving naar luchthaven: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">Expedia klantenservice: %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">{brand}-klantenservice: {phone}</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -2214,11 +2218,11 @@
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Het spijt ons, we kunnen je boeking momenteel niet verwerken. Probeer het opnieuw.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Het spijt ons, we kunnen je boeking momenteel niet verwerken. Probeer het opnieuw of bel de Expedia klantenservice en geef het volgende reisplannummer op: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">Het spijt ons, we kunnen je boeking momenteel niet verwerken. Probeer het opnieuw of bel de {brand}-klantenservice en geef dit reisplannummer: {itinerary}</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_expedia">Helaas, je vlucht is niet meer beschikbaar bij Expedia.</string>
+    <string name="error_flight_no_longer_available_TEMPLATE">Sorry, je vlucht is niet meer beschikbaar bij {brand}.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_expedia">Helaas, een van je vluchten is niet meer beschikbaar bij Expedia.</string>
+    <string name="error_flights_no_longer_available_TEMPLATE">Sorry, één van je vluchten is niet meer beschikbaar bij {brand}.</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
     <string name="error_flight_hold_expired">Sorry, maar je reservering voor deze vlucht is vervallen.</string>
     <!-- Error shown to user if one of multiple flights is no longer available or expired -->
@@ -2434,11 +2438,7 @@
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
     <string name="progress_finding_location">Huidige locatie zoeken…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">Zoeken naar hotels…</string>
-    <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_message">Aan het zoeken …</string>
-    <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_working_hard">We proberen je de beste hoteldeals te vinden.</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">We zoeken nu door honderden hotels voor jou!</string>
     <!-- Message displayed when app is searching for a particular hotel -->
@@ -2452,7 +2452,7 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Geen kamers beschikbaar</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_expedia">Helaas, dit hotel is niet meer beschikbaar bij Expedia.</string>
+    <string name="error_hotel_is_now_sold_out_TEMPLATE">Sorry, dit hotel is niet meer beschikbaar bij {brand}.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -2465,6 +2465,8 @@
     <string name="per_night">/nacht</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/nacht</string>
+    <!-- The label for abbreviated price per night - "$120/nt", for example -->
+    <string name="per_nt_TEMPLATE">{price}/nacht</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Niet beoordeeld</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2516,10 +2518,14 @@
     <string name="minus_x_percent">-%2.0f%%</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% gasten bevelen dit hotel aan.</string>
+    <!-- new material Hotel results cell guest rating -->
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
+    <!-- new material Hotel results cell guest recommend-->
+    <string name="guest_recommend">van gasten bevelen dit aan</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
-    <string name="AmenityNone">Geen aangeboden voorzieningen</string>
+    <string name="AmenityNone">Geen voorzieningen aangeboden</string>
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">Businesscentrum</string>
     <!-- Fitness center amenity -->
@@ -2635,7 +2641,7 @@
     <string name="etp_pay_later_payment_info_text">De betaalgegevens zijn alleen nodig om je reservering te garanderen.</string>
     <string name="etp_pay_later_cancellation_text">Annuleren is gratis, tot op de annuleringsdeadline van het hotel.</string>
     <string name="etp_pay_now_option_text">Betaal nu online</string>
-    <string name="etp_pay_now_charges_text">Expedia verwerkt je betaalgegevens.</string>
+    <string name="etp_pay_now_charges_text_TEMPLATE">{brand} verwerkt je betaalgegevens.</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">Je betaalt in je lokale valuta (%s).</string>
     <string name="etp_pay_now_cancellation_text">Annuleren is gratis, tot op de annuleringsdeadline van het hotel.</string>
     <string name="etp_select_room">Kamer selecteren</string>
@@ -2726,7 +2732,7 @@
     <!-- Itinerary number label -->
     <string name="itinerary_number">Reisplannr.</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">Als je vragen hebt over je boeking, bel Expedia op %s.</string>
+    <string name="contact_phone_TEMPLATE">Als je vragen hebt over je boeking, bel dan {brand} op {phone}.</string>
 
 
     <!-- Rate template strings -->
@@ -2759,7 +2765,7 @@
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for signin screen -->
-    <string name="expedia_account">Expedia account</string>
+    <string name="account_TEMPLATE">{brand}-account</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Bezig met laden van {brand}-account</string>
     <!-- Label for password recovery -->
@@ -2833,25 +2839,25 @@
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Hulp bij het boeken</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">Neem contact op met Expedia via…</string>
+    <string name="contact_via_TEMPLATE">Neem contact op met {brand} via …</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Telefoon</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Website</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">Expedia-website</string>
+    <string name="website_TEMPLATE">{brand}-website</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">App-support</string>
+    <string name="app_support_TEMPLATE">App-support</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Algemene Voorwaarden</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Privacybeleid</string>
     <!-- Copyright information -->
-    <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nAlle rechten voorbehouden.</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAlle rechten voorbehouden.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_signed_out_and_cleared_private_data">Afgemeld en gegevens gewist</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data">Je bent nu afgemeld bij je Expedia-account en alle betaal- en contactgegevens werden gewist.</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">Je bent nu afgemeld bij je {brand}-account en alle betaal- en contactgegevens werden gewist.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Privégegevens gewist</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3570,5 +3576,7 @@
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Selecteer de leeftijd van elk kind</string>
+
+    <string name="lob_not_supported_error_message">Sorry, boekingen van {lob} zijn nog niet beschikbaar voor jouw regio.</string>
 
 </resources>
