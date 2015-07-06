@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.lx;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,4 +12,7 @@ public class LXSearchResponse {
 	public Map<String, LXCategoryMetadata> filterCategories;
 	public boolean searchFailure;
 	public String currencyCode;
+
+	// Utility Members - Required for Filtering
+	public transient List<LXActivity> unFilteredActivities = new ArrayList<>();
 }

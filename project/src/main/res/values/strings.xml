@@ -712,8 +712,6 @@
         <item quantity="other">Items in Trip</item>
     </plurals>
 
-    <!-- LX Sort & Filter "Apply" header -->
-    <string name="lx_apply_sort_filter">Apply</string>
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Sort By</string>
     <!-- LX Sort & Filter "Categories" header -->

@@ -14,6 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -93,6 +94,13 @@ public class LXSearchResultsWidget extends FrameLayout {
 		errorScreen.setVisibility(View.GONE);
 		List<LXActivity> elements = createDummyListForAnimation();
 		adapter.setDummyActivities(elements);
+	}
+
+	@Subscribe
+	public void onLXSearchFilterResultsReady(Events.LXSearchFilterResultsReady event) {
+		if (CollectionUtils.isNotEmpty(event.filteredActivities)) {
+			adapter.setActivities(event.filteredActivities);
+		}
 	}
 
 	// Create list to show cards for loading animation

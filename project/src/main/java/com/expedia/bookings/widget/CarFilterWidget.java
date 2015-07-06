@@ -9,16 +9,13 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
-import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCategory;
@@ -29,11 +26,8 @@ import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.cars.Transmission;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
-import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -43,7 +37,7 @@ import butterknife.OnClick;
 public class CarFilterWidget extends LinearLayout {
 
 	private CarFilter filter = new CarFilter();
-	private boolean isZero = false;
+	private boolean isFilteredToZeroResults = false;
 
 	public CarFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -91,10 +85,7 @@ public class CarFilterWidget extends LinearLayout {
 	Toolbar toolbar;
 
 	@InjectView(R.id.dynamic_feedback_container)
-	ViewGroup dynamicFeedbackContainer;
-
-	@InjectView(R.id.dynamic_feedback_counter)
-	TextView dynamicFeedbackCounter;
+	DynamicFeedbackWidget dynamicFeedbackWidget;
 
 	private Button doneButton;
 
@@ -160,12 +151,6 @@ public class CarFilterWidget extends LinearLayout {
 		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Unlimited");
 	}
 
-	@OnClick(R.id.dynamic_feedback_clear_button)
-	public void onClearFiltersClick() {
-		reset();
-		Events.post(new Events.CarsFilterDone(filter));
-	}
-
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -213,11 +198,12 @@ public class CarFilterWidget extends LinearLayout {
 		doneButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (isNonZeroResults()) {
+				if (!isFilteredToZeroResults) {
 					((Activity) getContext()).onBackPressed();
 				}
 				else {
-					showDynamicFeedback();
+					dynamicFeedbackWidget.showDynamicFeedback();
+					dynamicFeedbackWidget.animateDynamicFeedbackWidget();
 				}
 			}
 		});
@@ -241,7 +227,7 @@ public class CarFilterWidget extends LinearLayout {
 	}
 
 	private void reset() {
-		hideDynamicFeedback();
+		dynamicFeedbackWidget.hideDynamicFeedback();
 
 		allClicked();
 		airConditioningCheckbox.setChecked(false);
@@ -353,13 +339,13 @@ public class CarFilterWidget extends LinearLayout {
 	@Subscribe
 	public void onCarsIsFiltered(Events.CarsIsFiltered event) {
 		if (!filter.altered()) {
-			isZero = false;
+			isFilteredToZeroResults = false;
 			updateDoneButton();
-			hideDynamicFeedback();
+			dynamicFeedbackWidget.hideDynamicFeedback();
 			return;
 		}
 		else {
-			showDynamicFeedback();
+			dynamicFeedbackWidget.showDynamicFeedback();
 		}
 
 		int count = 0;
@@ -372,43 +358,24 @@ public class CarFilterWidget extends LinearLayout {
 			count += event.filteredCarOffers.offers.size();
 		}
 
-		CharSequence text = Phrase.from(getContext().getResources().getQuantityString(R.plurals.number_results_template, count))
-			.put("number", count)
-			.format();
-
 		if (count == 0) {
-			SpannableBuilder sb = new SpannableBuilder();
-			sb.append(text, new ForegroundColorSpan(0xFFE6492C));
-			text = sb.build();
-			isZero = true;
+			isFilteredToZeroResults = true;
 		}
 		else {
-			isZero = false;
+			isFilteredToZeroResults = false;
 		}
 		updateDoneButton();
-		dynamicFeedbackCounter.setText(text);
+		dynamicFeedbackWidget.setDynamicCounterText(count);
 	}
 
-	private boolean isNonZeroResults() {
-		if (isZero) {
-			AnimUtils.doTheHarlemShake(dynamicFeedbackContainer);
-		}
-
-		return !isZero;
-	}
-
-	private void hideDynamicFeedback() {
-		dynamicFeedbackContainer.setTranslationY(0.0f);
-		dynamicFeedbackContainer.animate().alpha(0.0f);
-	}
-
-	private void showDynamicFeedback() {
-		dynamicFeedbackContainer.setTranslationY(0.0f);
-		dynamicFeedbackContainer.animate().alpha(1.0f);
+	@Subscribe
+	public void onDynamicFeedbackClearButtonClicked(Events.DynamicFeedbackClearButtonClicked event) {
+		reset();
+		Events.post(new Events.CarsFilterDone(filter));
 	}
 
 	private void updateDoneButton() {
-		if (isZero) {
+		if (isFilteredToZeroResults) {
 			doneButton.setAlpha(0.15f);
 		}
 		else {

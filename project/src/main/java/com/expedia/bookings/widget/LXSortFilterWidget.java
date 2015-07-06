@@ -3,6 +3,8 @@ package com.expedia.bookings.widget;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jetbrains.annotations.NotNull;
+
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -15,23 +17,21 @@ import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.android.view.OnClickEvent;
-import rx.android.view.ViewObservable;
 import rx.functions.Func1;
 
-public class LXSortFilterWidget extends LinearLayout {
+public class LXSortFilterWidget extends FrameLayout {
 
 	public static final String DEEPLINK_FILTER_DILIMITER = "\\|";
 	private Map<String, LXCategoryMetadata> selectedFilterCategories = new HashMap<>();
+	private boolean isFilteredToZeroResults = false;
 
 	public LXSortFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -49,6 +49,20 @@ public class LXSortFilterWidget extends LinearLayout {
 	@InjectView(R.id.filter_categories)
 	LinearLayout filterCategoriesContainer;
 
+	@InjectView(R.id.dynamic_feedback_container)
+	DynamicFeedbackWidget dynamicFeedbackWidget;
+
+	@OnClick(R.id.sort_filter_done_button)
+	public void onDoneButtonClicked() {
+		if (isFilteredToZeroResults) {
+			dynamicFeedbackWidget.showDynamicFeedback();
+			dynamicFeedbackWidget.animateDynamicFeedbackWidget();
+		}
+		else {
+			Events.post(new Events.LXFilterDoneClicked());
+		}
+	}
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -57,6 +71,9 @@ public class LXSortFilterWidget extends LinearLayout {
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
 		navIcon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN);
 		doneButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
+		// Reset Popularity sort as default.
+		popularitySortButton.setSelected(true);
+		priceSortButton.setSelected(false);
 	}
 
 	@Override
@@ -75,21 +92,14 @@ public class LXSortFilterWidget extends LinearLayout {
 	public void onPriceSortClicked() {
 		popularitySortButton.setSelected(false);
 		priceSortButton.setSelected(true);
+		postLXFilterChangedEvent();
 	}
 
 	@OnClick(R.id.popularity_sort_button)
 	public void onPopularitySortClicked() {
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);
-	}
-
-	public Observable<LXSortFilterMetadata> filterSortEventStream() {
-		Scheduler scheduler = AndroidSchedulers.mainThread();
-
-		return ViewObservable.clicks(doneButton, true)
-			.map(filterSortMetadata)
-			.subscribeOn(scheduler)
-			.observeOn(scheduler);
+		postLXFilterChangedEvent();
 	}
 
 	private Func1<OnClickEvent, LXSortFilterMetadata> filterSortMetadata = new Func1<OnClickEvent, LXSortFilterMetadata>() {
@@ -103,9 +113,6 @@ public class LXSortFilterWidget extends LinearLayout {
 	};
 
 	public void bind(Map<String, LXCategoryMetadata> filterCategories) {
-		// Reset Popularity sort as default.
-		popularitySortButton.setSelected(true);
-		priceSortButton.setSelected(false);
 		filterCategoriesContainer.removeAllViews();
 		if (filterCategories != null) {
 			for (Map.Entry<String, LXCategoryMetadata> filterCategory : filterCategories.entrySet()) {
@@ -122,6 +129,12 @@ public class LXSortFilterWidget extends LinearLayout {
 		else {
 			selectedFilterCategories.clear();
 		}
+
+		// Hide the dynamic feedback & update done button in case we have zero filters applied.
+		if (selectedFilterCategories.size() == 0) {
+			updateDoneButton();
+			dynamicFeedbackWidget.hideDynamicFeedback();
+		}
 	}
 
 	@Subscribe
@@ -133,6 +146,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		else {
 			selectedFilterCategories.remove(event.categoryKey);
 		}
+		postLXFilterChangedEvent();
 	}
 
 	public void setDeepLinkFilters(String filters) {
@@ -144,5 +158,57 @@ public class LXSortFilterWidget extends LinearLayout {
 			lxCategoryMetadata.displayValue = filterDisplayValue;
 			selectedFilterCategories.put(filterDisplayValue, lxCategoryMetadata);
 		}
+	}
+
+	private void postLXFilterChangedEvent() {
+		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata();
+		lxSortFilterMetadata.lxCategoryMetadataMap = selectedFilterCategories;
+		lxSortFilterMetadata.sort = priceSortButton.isSelected() ? LXSortType.PRICE : LXSortType.POPULARITY;
+		Events.post(new Events.LXFilterChanged(lxSortFilterMetadata));
+	}
+
+	@Subscribe
+	public void onLXSearchFilterResultsReady(Events.LXSearchFilterResultsReady event) {
+		if (selectedFilterCategories.size() == 0) {
+			isFilteredToZeroResults = false;
+			updateDoneButton();
+			dynamicFeedbackWidget.hideDynamicFeedback();
+			bind(event.filterCategories);
+			return;
+		}
+		else {
+			dynamicFeedbackWidget.showDynamicFeedback();
+		}
+
+		int filteredActivitiesCount = 0;
+		if (CollectionUtils.isNotEmpty(event.filteredActivities)) {
+			filteredActivitiesCount += event.filteredActivities.size();
+		}
+
+		isFilteredToZeroResults = filteredActivitiesCount == 0;
+		updateDoneButton();
+		dynamicFeedbackWidget.setDynamicCounterText(filteredActivitiesCount);
+	}
+
+	private void updateDoneButton() {
+		doneButton.setAlpha(isFilteredToZeroResults ? 0.15f : 1.0f);
+	}
+
+	@Subscribe
+	public void onDynamicFeedbackClearButtonClicked(Events.DynamicFeedbackClearButtonClicked event) {
+		LXSortFilterMetadata lxSortFilterMetadata = defaultFilterMetadata();
+		Events.post(new Events.LXFilterChanged(lxSortFilterMetadata));
+	}
+
+	@NotNull
+	private LXSortFilterMetadata defaultFilterMetadata() {
+		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata();
+		lxSortFilterMetadata.sort = LXSortType.POPULARITY;
+		selectedFilterCategories.clear();
+		return lxSortFilterMetadata;
+	}
+
+	public int getNumberOfSelectedFilters() {
+		return selectedFilterCategories.size();
 	}
 }
