@@ -96,6 +96,8 @@
     <string name="toolbar_search_cars">ค้นหารถ</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">เลือกวันที่รับรถและส่งคืนรถ</string>
+    <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
+    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">%1$s – เลือกวันส่งคืนรถ</string>
     <!-- Label for pick-up time picker -->
@@ -137,7 +139,6 @@
     <string name="car_model_name_template">%1$s หรือใกล้เคียง</string>
     <string name="car_model_unknown_template">ไม่ระบุรุ่นรถชัดเจน</string>
 
-    <string name="preparing_checkout_message">กำลังเตรียมการชำระเงิน…</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">เคาน์เตอร์และรถอยู่ที่อาคารผู้โดยสาร</string>
     <!-- Car checkout cost breakdown total due today -->
@@ -149,8 +150,6 @@
     <!-- Car checkout rental fare breakdown types -->
     <!--Cost breakdown type base -->
     <string name="car_rental_breakdown_base">รถเช่า</string>
-    <!--Cost breakdown type taxes and fees -->
-    <string name="car_rental_breakdown_taxes_and_fees">ภาษีและค่าธรรมเนียมโดยประมาณ</string>
     <!--Cost breakdown type insurance -->
     <string name="car_rental_breakdown_insurance">ประกันภัย</string>
     <!--Cost breakdown type drop off charge -->
@@ -194,7 +193,7 @@
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">ชื่อต้องไม่มีตัวเลขหรืออักขระพิเศษ</string>
     <!-- Show to user when their phone number is invalid -->
-    <string name="reservation_invalid_phone">หมายเลขโทรศัพท์ต้องอยู่ระหว่าง 1-20 หลัก</string>
+    <string name="reservation_invalid_phone">หมายเลขโทรศัพท์ต้องมี 4-20 หลัก</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">การชำระเงินของคุณดำเนินการไม่ผ่าน โปรดตรวจสอบรายละเอียดการชำระเงินของคุณและลองอีกครั้ง</string>
@@ -565,8 +564,6 @@
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">เลื่อนเพื่อจอง</string>
-    <!-- Total with tax -->
-    <string name="lx_total_with_tax">ราคารวมภาษี</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">ป้อนรายละเอียดการติดต่อ</string>
     <!-- LX search error -->
@@ -620,6 +617,8 @@
     <string name="lx_ground_transport_bags_text">กระเป๋า %1$s ใบ</string>
     <!-- Ground Transport passengers text-->
     <string name="lx_ground_transport_passengers_text">ผู้โดยสาร %1$s คน</string>
+    <!-- Incorrect date search for LX -->
+    <string name="lx_start_date_error">วันที่คุณเลือกเป็นวันในอดีต โปรดเลือกวันที่ใหม่</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -811,9 +810,9 @@
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% แนะนำ</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
-    <string name="sorry_rooms_sold_out">ขออภัย ห้องพักทั้งหมดขายหมดแล้วบนเอ็กซ์พีเดีย</string>
+    <string name="sorry_rooms_sold_out_TEMPLATE">ขออภัย ห้องพักทั้งหมดขายหมดแล้วบน {brand}</string>
     <!-- A message stating this hotel is sold out on Expedia -->
-    <string name="sold_out_on_expedia">ขายหมดแล้วบนเอ็กซ์พีเดีย</string>
+    <string name="sold_out_on_TEMPLATE">ขายหมดแล้วบน {brand}</string>
     <!-- Hotel gallery title -->
     <string name="photos_for_TEMPLATE">ภาพถ่ายสำหรับ %s</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
@@ -896,7 +895,7 @@
     <!-- Sign In -->
     <string name="Sign_In">เข้าสู่ระบบ</string>
     <!-- Sign in with Expedia -->
-    <string name="Sign_in_with_Expedia">เข้าสู่ระบบด้วยเอ็กซ์พีเดีย</string>
+    <string name="Sign_in_with_TEMPLATE">เข้าสู่ระบบด้วย {brand}</string>
     <!-- Sign in with the current brand -->
     <string name="sign_in_with_brand_TEMPLATE">เข้าสู่ระบบด้วย {brand}</string>
     <!-- or -->
@@ -906,7 +905,7 @@
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
-    <string name="restricted_profile_sign_in_message">เพื่อเข้าสู่ระบบเอ็กซ์พีเดีย คุณต้องตั้งโปรไฟล์ผู้ใช้บนอุปกรณ์ของคุณเป็นแบบไม่จำกัดการใช้งาน</string>
+    <string name="restricted_profile_sign_in_message_TEMPLATE">เพื่อเข้าสู่ระบบ {brand} คุณต้องใช้โปรไฟล์ที่ไม่จำกัดการใช้งานบนอุปกรณ์ของคุณ</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
@@ -1009,7 +1008,7 @@
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">ค้นหาหมายเลขแผนการเดินทาง</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">หมายเลขแผนการเดินทางเอ็กซ์พีเดีย</string>
+    <string name="itinerary_TEMPLATE">หมายเลขแผนการเดินทาง {brand}</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
     <string name="Expedia_plus_Silver_Customer_Support">ฝ่ายบริการลูกค้า Expedia +silver</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
@@ -1562,8 +1561,8 @@
     <string name="outbound_TEMPLATE">เที่ยวบินขาออกไปยัง %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">เที่ยวบินขาเข้าไปยัง %s</string>
-    <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">ขออภัย เราไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์เอ็กซ์พีเดีย โปรดลองอีกครั้ง</string>
+    <!-- Template string for error when we simple can't connect to E3 servers-->
+    <string name="error_server_TEMPLATE">ขออภัย เราไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ {brand} โปรดลองอีกครั้งภายหลัง</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">ออกเดินทาง</string>
     <!-- Sort by arrival time label -->
@@ -1654,7 +1653,8 @@
     <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">เลือกวันเช็คอิน</string>
-
+    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests} คน</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">ตั๋วเที่ยวเดียวในราคา &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1813,10 +1813,14 @@
     <string name="menu_checkout">จอง</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">รับประกันราคาที่ดีที่สุด</string>
+    <!-- Expedia Rate - Non merchant default infosite messaging -->
+    <string name="non_merchant_rate_TEMPLATE">ราคา {brand}</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;ยกเลิกฟรี&lt;/b&gt; ภายใน &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">ออกจากระบบ</string>
+    <!-- AB Test 3x messaging for hotel points -->
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">คุณจะได้รับ %1$s คะแนน — 3 เท่าของคะแนนปกติเพราะคุณจองผ่านแอพ!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ %1$s คะแนนจากการจองนี้!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1984,7 +1988,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">บันทึกที่อยู่สำหรับใบแจ้งหนี้</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">บันทึกวิธีการชำระเงินนี้ไว้ในบัญชีเอ็กซ์พีเดียของคุณเพื่อชำระเงินครั้งถัดไปได้รวดเร็วขึ้นหรือไม่</string>
+    <string name="save_billing_info_message_TEMPLATE">บันทึกวิธีการชำระเงินนี้ไว้ในบัญชี {brand} ของคุณ เพื่อให้จองได้รวดเร็วขึ้นในครั้งถัดไป?</string>
     <!-- save -->
     <string name="save">บันทึก</string>
 
@@ -1992,7 +1996,7 @@
     <!-- save traveler -->
     <string name="save_traveler">บันทึกผู้เดินทาง</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">บันทึกข้อมูลของ %1$s ไว้ในบัญชีเอ็กซ์พีเดียของคุณเพื่อชำระเงินครั้งถัดไปได้รวดเร็วขึ้นหรือไม่</string>
+    <string name="save_traveler_message_TEMPLATE">บันทึกข้อมูลของ {name} ไว้ในบัญชี {brand} ของคุณเพื่อให้จองได้รวดเร็วขึ้นในครั้งถัดไป?</string>
     <!-- no thanks -->
     <string name="no_thanks">ไม่ ขอบคุณ</string>
 
@@ -2123,7 +2127,7 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">ติดตามด้วย FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">โทรติดต่อฝ่ายสนับสนุนลูกค้าเอ็กซ์พีเดีย</string>
+    <string name="call_customer_support_TEMPLATE">โทรติดต่อฝ่ายบริการลูกค้า {brand}</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">เพิ่มประกันภัย</string>
     <!-- Insurance -->
@@ -2158,11 +2162,11 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">หมายเลขแผนการเดินทางเอ็กซ์พีเดีย: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">หมายเลขแผนการเดินทาง {brand}: {itinerary}</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">เส้นทางไปสนามบิน: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">ฝ่ายบริการลูกค้าเอ็กซ์พีเดีย: %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">ฝ่ายบริการลูกค้า {brand}: {phone}</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -2216,11 +2220,11 @@
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองใหม่อีกครั้ง</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองใหม่อีกครั้ง หรือโทรไปที่ฝ่ายบริการลูกค้าของเอ็กซ์พีเดีย และแจ้งหมายเลขแผนการเดินทางนี้: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองอีกครั้งหรือโทรติดต่อฝ่ายบริการลูกค้า {brand} และแจ้งหมายเลขแผนเดินทางนี้: {itinerary}</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_expedia">ขออภัย เที่ยวบินของคุณไม่มีแล้วบนเอ็กซ์พีเดีย</string>
+    <string name="error_flight_no_longer_available_TEMPLATE">ขออภัย เที่ยวบินของคุณไม่มีแล้วบน {brand}</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_expedia">ขออภัย หนึ่งในเที่ยวบินของคุณไม่มีแล้วบนเอ็กซ์พีเดีย</string>
+    <string name="error_flights_no_longer_available_TEMPLATE">ขออภัย หนึ่งในเที่ยวบินของคุณไม่มีแล้วบน {brand}</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
     <string name="error_flight_hold_expired">ขออภัย เที่ยวบินที่คุณเลือกไว้หมดเวลาแล้ว</string>
     <!-- Error shown to user if one of multiple flights is no longer available or expired -->
@@ -2436,11 +2440,7 @@
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
     <string name="progress_finding_location">กำลังระบุตำแหน่งปัจจุบัน…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">กำลังค้นหาโรงแรม…</string>
-    <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_message">กำลังค้นหา</string>
-    <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_working_hard">เรากำลังหาดีลโรงแรมที่ดีที่สุดให้คุณ</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">กำลังค้นหาโรงแรมให้คุณ!</string>
     <!-- Message displayed when app is searching for a particular hotel -->
@@ -2454,7 +2454,7 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">ไม่มีห้องพักพร้อมให้บริการ</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_expedia">ขออภัย โรงแรมนี้ขายหมดแล้วบนเอ็กซ์พีเดีย</string>
+    <string name="error_hotel_is_now_sold_out_TEMPLATE">ขออภัย โรงแรมนี้ขายหมดแล้วบน {brand}</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -2467,6 +2467,8 @@
     <string name="per_night">/คืน</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/คืน</string>
+    <!-- The label for abbreviated price per night - "$120/nt", for example -->
+    <string name="per_nt_TEMPLATE">{price}/คืน</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">ยังไม่มีคะแนน</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2518,6 +2520,10 @@
     <string name="minus_x_percent">-%2.0f%%</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">ผู้เข้าพัก %2.0f%% แนะนำโรงแรมนี้</string>
+    <!-- new material Hotel results cell guest rating -->
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
+    <!-- new material Hotel results cell guest recommend-->
+    <string name="guest_recommend">ของผู้เข้าพักแนะนำ</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
@@ -2637,7 +2643,7 @@
     <string name="etp_pay_later_payment_info_text">จำเป็นต้องใช้ข้อมูลการชำระเงินเพื่อคงการจองไว้เท่านั้น</string>
     <string name="etp_pay_later_cancellation_text">ยกเลิกได้ฟรี ภายในช่วงเวลาการยกเลิกที่โรงแรมกำหนด</string>
     <string name="etp_pay_now_option_text">จ่ายออนไลน์ตอนนี้</string>
-    <string name="etp_pay_now_charges_text">เอ็กซ์พีเดียจะดำเนินการรายละเอียดการชำระเงินของคุณ</string>
+    <string name="etp_pay_now_charges_text_TEMPLATE">{brand} จะดำเนินการเก็บเงินจากคุณ</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">คุณจะชำระเงินในสกุลเงินท้องถิ่นของคุณ (%s)</string>
     <string name="etp_pay_now_cancellation_text">ยกเลิกได้ฟรี ภายในช่วงเวลาการยกเลิกที่โรงแรมกำหนด</string>
     <string name="etp_select_room">เลือกห้อง</string>
@@ -2728,7 +2734,7 @@
     <!-- Itinerary number label -->
     <string name="itinerary_number">หมายเลขแผนการเดินทาง</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">หากคุณมีคำถามเกี่ยวกับการจอง โปรดโทรติดต่อเอ็กซ์พีเดียที่ %s</string>
+    <string name="contact_phone_TEMPLATE">หากคุณมีคำถามเกี่ยวกับการจอง โปรดโทรติดต่อ {brand} ที่ {phone}</string>
 
 
     <!-- Rate template strings -->
@@ -2761,7 +2767,7 @@
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for signin screen -->
-    <string name="expedia_account">บัญชีเอ็กซ์พีเดีย</string>
+    <string name="account_TEMPLATE">บัญชี {brand}</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">กำลังโหลดบัญชี {brand}</string>
     <!-- Label for password recovery -->
@@ -2835,25 +2841,25 @@
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">ฝ่ายช่วยเหลือการจอง</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">ติดต่อเอ็กซ์พีเดียผ่าน</string>
+    <string name="contact_via_TEMPLATE">ติดต่อ {brand} ผ่าน…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">โทรศัพท์</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">เว็บไซต์</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">เว็บไซต์เอ็กซ์พีเดีย</string>
+    <string name="website_TEMPLATE">เว็บไซต์ {brand}</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">ฝ่ายสนับสนุนแอพ</string>
+    <string name="app_support_TEMPLATE">ฝ่ายสนับสนุนแอพ</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">ข้อตกลงและเงื่อนไข</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">นโยบายความเป็นส่วนตัว</string>
     <!-- Copyright information -->
-    <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nสงวนลิขสิทธิ์</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nสงวนลิขสิทธิ์</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_signed_out_and_cleared_private_data">ออกจากระบบและล้างข้อมูลแล้ว</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data">คุณออกจากระบบบัญชีเอ็กซ์พีเดียของคุณ และล้างข้อมูลบัตรเครดิตและข้อมูลติดต่อทั้งหมดที่บันทึกไว้แล้ว</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">คุณออกจากระบบบัญชี {brand} และล้างข้อมูลการเงินและข้อมูลติดต่อทั้งหมดแล้ว</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">ล้างข้อมูลส่วนตัวแล้ว</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3572,5 +3578,7 @@
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">โปรดระบุอายุเด็ก</string>
+
+    <string name="lob_not_supported_error_message">ขออภัย การจอง{lob}ยังไม่มีให้บริการในตำแหน่งของคุณ</string>
 
 </resources>
