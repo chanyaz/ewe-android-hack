@@ -325,6 +325,14 @@ public class Db {
 
 		sDb.mFlightSearch.reset();
 		sDb.mTravelers.clear();
+
+		if (Db.getWorkingBillingInfoManager() != null) {
+			Db.getWorkingBillingInfoManager().clearWorkingBillingInfo();
+		}
+
+		if (Db.getWorkingTravelerManager() != null) {
+			Db.getWorkingTravelerManager().clearWorkingTraveler();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -494,6 +502,10 @@ public class Db {
 				Log.w("Could not restore flight search params from disk", e);
 			}
 		}
+	}
+
+	public static void clearFlightSearchParamsFromDisk(Context context) {
+		SettingUtils.remove(context, FLIGHT_SEARCH_PARAMS_SETTING);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
