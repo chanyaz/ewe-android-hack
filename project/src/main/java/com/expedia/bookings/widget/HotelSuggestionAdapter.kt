@@ -20,20 +20,13 @@ import com.mobiata.android.time.widget.CalendarPicker
 import rx.Observer
 import rx.Subscription
 import java.util.ArrayList
-import javax.inject.Inject
 import kotlin.properties.Delegates
 
-/**
- * Created by mohsharma on 6/24/15.
- */
-public class HotelSuggestionAdapter : BaseAdapter(), Filterable {
+public class HotelSuggestionAdapter(val suggestionServices: SuggestionV4Services) : BaseAdapter(), Filterable {
 
     private var suggestions = ArrayList<SuggestionV4>()
     private val filter = SuggestFilter()
     private var suggestSubscription: Subscription? = null
-
-    var suggestionServices: SuggestionV4Services? = null
-    @Inject set
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         var view = convertView
@@ -109,11 +102,13 @@ public class HotelSuggestionAdapter : BaseAdapter(), Filterable {
             notifyDataSetChanged()
         }
 
-        override fun performFiltering(query: CharSequence?): Filter.FilterResults {
+        override fun performFiltering(input: CharSequence?): Filter.FilterResults {
+            val query = input?.toString() ?: ""
+
             val results = Filter.FilterResults()
-            if (Strings.isNotEmpty(query) && query!!.length() >= 3) {
+            if (query.isNotBlank() && query.length() >= 3) {
                 cleanup()
-                suggestSubscription = suggest(suggestionServices!!, query!!)
+                suggestSubscription = suggest(suggestionServices, query)
             } else {
                 suggestions.clear()
             }

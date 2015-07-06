@@ -16,11 +16,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import kotlin.properties.Delegates
 
-
-/**
- * Created by tharman on 6/22/15.
- */
 @RunWith(RobolectricRunner::class)
 public class MaterialHotelSearchTest() {
 
@@ -29,6 +26,12 @@ public class MaterialHotelSearchTest() {
     val hotelSearchPresenter : HotelSearchPresenter = activity.findViewById(R.id.widget_hotel_params) as HotelSearchPresenter
     val checkInDate = LocalDate.now().plusDays(2)
     val checkOutDate = checkInDate.plusDays(3)
+    val city by Delegates.lazy() {
+        val suggestion = SuggestionV4()
+        suggestion.regionNames = SuggestionV4.RegionNames()
+        suggestion.regionNames.shortName = "San Francisco"
+        suggestion
+    }
 
     @Test
     public fun searchWithInvalidParams() {
@@ -39,9 +42,6 @@ public class MaterialHotelSearchTest() {
     @Test
     public fun searchWithNoDates() {
         val searchBtn : Button = hotelSearchPresenter.findViewById(R.id.search_btn) as Button
-        val city = SuggestionV4()
-        city.regionNames = SuggestionV4.RegionNames()
-        city.regionNames.shortName = "San Francisco"
 
         hotelSearchPresenter.hotelSearchParamsBuilder
                 .city(city)
@@ -53,9 +53,6 @@ public class MaterialHotelSearchTest() {
     @Test
     public fun searchWithValidParams() {
         val searchBtn : Button = hotelSearchPresenter.findViewById(R.id.search_btn) as Button
-        val city = SuggestionV4()
-        city.regionNames = SuggestionV4.RegionNames()
-        city.regionNames.shortName = "San Francisco"
 
         hotelSearchPresenter.hotelSearchParamsBuilder
                 .city(city)

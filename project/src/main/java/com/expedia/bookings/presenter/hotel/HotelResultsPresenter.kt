@@ -35,7 +35,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
 
-    var hotelServices : HotelServices? = null
+    var hotelServices : HotelServices by Delegates.notNull()
     @Inject set
 
     var downloadSubscription: Subscription? = null
@@ -43,27 +43,26 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var mapTransitionRunning : Boolean = false
 
     val recyclerView: RecyclerView by bindView(R.id.list_view)
-    val mapView: MapView by bindView(R.id.mapView)
+    val mapView: MapView by bindView(R.id.map_view)
     val toolbar: Toolbar by bindView(R.id.toolbar)
 
     val hotelSubject = PublishSubject.create<Hotel>()
-
-    val layoutManager : LinearLayoutManager by Delegates.lazy {
-        LinearLayoutManager(getContext())
-    }
+    val layoutManager = LinearLayoutManager(context)
 
     init {
-        View.inflate(context, R.layout.widget_hotel_results, this)
+        Ui.getApplication(getContext()).hotelComponent().inject(this)
+        View.inflate(getContext(), R.layout.widget_hotel_results, this)
     }
 
     override fun onFinishInflate() {
-        Ui.getApplication(getContext()).hotelComponent().inject(this)
         addDefaultTransition(defaultTransition)
         addTransition(mapTransition)
+
         recyclerView.setLayoutManager(layoutManager)
         recyclerView.setOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
         recyclerView.setOnScrollListener(scrollListener)
         recyclerView.addOnItemTouchListener(touchListener)
+
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
         toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
         toolbar.setNavigationOnClickListener { view -> back() }
@@ -73,13 +72,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super<Presenter>.onVisibilityChanged(changedView, visibility)
-        if (visibility == View.VISIBLE) {
+        if (changedView == this && visibility == View.VISIBLE) {
             getViewTreeObserver().addOnGlobalLayoutListener(layoutListener)
         }
     }
 
     fun doSearch(params : HotelSearchParams) {
-        downloadSubscription = hotelServices?.suggestHotels(params, downloadListener)
+        downloadSubscription = hotelServices.suggestHotels(params, downloadListener)
         toolbar.setTitle(params.city.regionNames.shortName)
         var text = Phrase.from(getContext(), R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(params.checkIn)).put("enddate", DateUtils.localDateToMMMd(params.checkOut)).put("guests", params.children.size() + 1).format()
         toolbar.setSubtitle(text)
@@ -197,9 +196,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
 
+    // Classes for state
     public class ResultsList
-
-
     public class ResultsMap
 
 }

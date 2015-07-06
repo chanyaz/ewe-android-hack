@@ -36,24 +36,22 @@ import org.joda.time.YearMonth
 import rx.subjects.PublishSubject
 import java.text.SimpleDateFormat
 import java.util.Locale
-import javax.inject.Inject
 import kotlin.properties.Delegates
 
+public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
-public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CalendarPicker.DateSelectionChangedListener, TravelerPicker.TravelersUpdatedListener, CalendarPicker.YearMonthDisplayedChangedListener, DaysOfWeekView.DayOfWeekRenderer {
+    private val searchLocation: AlwaysFilterAutoCompleteTextView by bindView(R.id.hotel_location)
+    private val selectDate: ToggleButton by bindView(R.id.select_date)
+    private val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
+    private val calendar: CalendarPicker by bindView(R.id.calendar)
+    private val monthView: MonthView by bindView(R.id.month)
+    private val traveler: TravelerPicker by bindView(R.id.traveler_view)
+    private val dayOfWeek: DaysOfWeekView by bindView(R.id.days_of_week)
 
-    val searchLocation: AlwaysFilterAutoCompleteTextView by bindView(R.id.hotel_location)
-    val selectDate: ToggleButton by bindView(R.id.select_date)
-    val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
-    val calendar: CalendarPicker by bindView(R.id.calendar)
-    val monthView: MonthView by bindView(R.id.month)
-    val traveler: TravelerPicker by bindView(R.id.traveler_view)
-    val dayOfWeek: DaysOfWeekView by bindView(R.id.days_of_week)
-
-    var hotelSearchParamsBuilder : HotelSearchParams.Builder = HotelSearchParams.Builder()
-
-    val hotelSuggestionAdapter: HotelSuggestionAdapter by Delegates.lazy {
-        HotelSuggestionAdapter()
+    var hotelSearchParamsBuilder: HotelSearchParams.Builder = HotelSearchParams.Builder()
+    private val hotelSuggestionAdapter by Delegates.lazy {
+        val service = Ui.getApplication(getContext()).hotelComponent().suggestionsService()
+        HotelSuggestionAdapter(service)
     }
 
     val paramsSubject = PublishSubject.create<HotelSearchParams>()
@@ -68,37 +66,75 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         toolbar.inflateMenu(R.menu.cars_search_menu)
 
-        var menuItem: MenuItem = toolbar.getMenu().findItem(R.id.menu_check)
-        var customButton: Button = setupToolBarCheckmark(menuItem)
+        val menuItem: MenuItem = toolbar.getMenu().findItem(R.id.menu_check)
+        val customButton: Button = setupToolBarCheckmark(menuItem)
         customButton.setTextColor(getResources().getColor(android.R.color.white))
 
-        traveler.setTravelerUpdatedListener(this)
+        traveler.onUpdate { text ->
+            selectTraveler.setTextOn(text)
+            selectTraveler.setTextOff(text)
+            selectTraveler.setText(text)
+
+            hotelSearchParamsBuilder.children(traveler.getChildAges())
+            hotelSearchParamsBuilder.adults(traveler.numAdults)
+        }
+
         calendar.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)))
         calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_hotel_stay))
-        calendar.setDateChangedListener(this)
+        calendar.setDateChangedListener { start, end ->
+            val displayText: String =
+                    if (start == null && end == null) {
+                        getResources().getString(R.string.select_dates_proper_case)
+                    } else if (end == null) {
+                        DateUtils.localDateToMMMd(start)
+                    } else {
+                        getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+                    }
+
+            selectDate.setText(displayText)
+            selectDate.setTextOff(displayText)
+            selectDate.setTextOn(displayText)
+
+            val textResource =
+                    if (end == null) R.string.calendar_tooltip_bottom_select_return_date
+                    else R.string.calendar_tooltip_bottom_drag_to_modify
+            calendar.setToolTipText(displayText, getResources().getString(textResource))
+            hotelSearchParamsBuilder.checkIn(start)
+            hotelSearchParamsBuilder.checkOut(end)
+        }
+
         monthView.setTextEqualDatesColor(Color.WHITE)
         monthView.setMaxTextSize(getResources().getDimension(R.dimen.car_calendar_month_view_max_text_size))
-        dayOfWeek.setDayOfWeekRenderer(this)
+
+        dayOfWeek.setDayOfWeekRenderer { dayOfWeek: LocalDate.Property ->
+            if (Build.VERSION.SDK_INT >= 18) {
+                val sdf = SimpleDateFormat("EEEEE", Locale.getDefault())
+                sdf.format(dayOfWeek.getLocalDate().toDate())
+            } else if (Locale.getDefault().getLanguage() == "en") {
+                dayOfWeek.getAsShortText().toUpperCase(Locale.getDefault()).substring(0, 1)
+            } else {
+                DaysOfWeekView.DayOfWeekRenderer.DEFAULT.renderDayOfWeek(dayOfWeek)
+            }
+        }
+
         selectDate.setOnClickListener {
             calendar.setVisibility(View.VISIBLE)
             traveler.setVisibility(View.GONE)
         }
 
-        selectDate.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
-        selectTraveler.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
-
         selectTraveler.setOnClickListener {
             calendar.setVisibility(View.GONE)
-            hideToolTip()
             traveler.setVisibility(View.VISIBLE)
+            calendar.hideToolTip()
         }
 
+        selectDate.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
+        selectTraveler.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
         calendar.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
         dayOfWeek.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
         monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT))
         monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM))
 
-        Ui.getApplication(getContext()).hotelComponent().inject(hotelSuggestionAdapter)
         searchLocation.setAdapter(hotelSuggestionAdapter)
         searchLocation.setOnItemClickListener {
             adapterView, view, position, l ->
@@ -109,70 +145,24 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         }
     }
 
-    override fun onDateSelectionChanged(start: LocalDate?, end: LocalDate?) {
-        var displayText: String = if (start == null && end == null) getResources().getString(R.string.select_dates_proper_case)
-        else if (end == null) DateUtils.localDateToMMMd(start)
-        else getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
-
-        selectDate.setText(displayText)
-        selectDate.setTextOff(displayText)
-        selectDate.setTextOn(displayText)
-
-        var textResource = if (end == null) R.string.calendar_tooltip_bottom_select_return_date else R.string.calendar_tooltip_bottom_drag_to_modify
-        calendar.setToolTipText(displayText, getResources().getString(textResource))
-        hotelSearchParamsBuilder.checkIn(start)
-        hotelSearchParamsBuilder.checkOut(end)
-    }
-
-    override fun onTravelerUpdate(text: String) {
-        selectTraveler.setTextOn(text)
-        selectTraveler.setTextOff(text)
-        selectTraveler.setText(text)
-    }
-
-    override fun onYearMonthDisplayed(yearMonth: YearMonth?) {
-        hideToolTip()
-    }
-
-    fun hideToolTip() {
-        calendar.hideToolTip()
-    }
-
     fun setupToolBarCheckmark(menuItem: MenuItem): Button {
         val tv: Button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_checkmark_item, null) as Button
         val navIcon: Drawable = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate()
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         tv.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
-        tv.setOnClickListener { item -> if (hotelSearchParamsBuilder.areRequiredParamsFilled()) {
-                                             doSearch()
-                                        } else {
-                                            if (!hotelSearchParamsBuilder.hasOrigin()) {
-                                                AnimUtils.doTheHarlemShake(searchLocation)
-                                            } else if (!hotelSearchParamsBuilder.hasStartAndEndDates()) {
-                                                AnimUtils.doTheHarlemShake(calendar)
-                                            }
-                                        }
+        tv.setOnClickListener { view ->
+            if (hotelSearchParamsBuilder.areRequiredParamsFilled()) {
+                calendar.hideToolTip()
+                paramsSubject.onNext(hotelSearchParamsBuilder.build())
+            } else {
+                if (!hotelSearchParamsBuilder.hasOrigin()) {
+                    AnimUtils.doTheHarlemShake(searchLocation)
+                } else if (!hotelSearchParamsBuilder.hasStartAndEndDates()) {
+                    AnimUtils.doTheHarlemShake(calendar)
+                }
+            }
         }
         menuItem.setActionView(tv)
         return tv
     }
-
-    override fun renderDayOfWeek(dayOfWeek: LocalDate.Property): String? {
-        if (Build.VERSION.SDK_INT >= 18) {
-            val sdf = SimpleDateFormat("EEEEE", Locale.getDefault())
-            return sdf.format(dayOfWeek.getLocalDate().toDate())
-        } else if (Locale.getDefault().getLanguage() == "en") {
-            return dayOfWeek.getAsShortText().toUpperCase(Locale.getDefault()).substring(0, 1)
-        }
-        return DaysOfWeekView.DayOfWeekRenderer.DEFAULT.renderDayOfWeek(dayOfWeek)
-    }
-
-    fun doSearch() : Boolean {
-        hideToolTip()
-        hotelSearchParamsBuilder.children(traveler.getChildAges())
-        hotelSearchParamsBuilder.adults(traveler.numAdults)
-        paramsSubject.onNext(hotelSearchParamsBuilder.build())
-        return true
-    }
 }
-

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.google.android.gms.maps.MapView
 import kotlin.properties.Delegates
 
@@ -16,7 +17,7 @@ public class HotelActivity : AppCompatActivity() {
     }
 
     val mapView: MapView by Delegates.lazy {
-        hotelPresenter.findViewById(R.id.widget_hotel_results).findViewById(R.id.mapView) as MapView
+        hotelPresenter.findViewById(R.id.widget_hotel_results).findViewById(R.id.map_view) as MapView
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
