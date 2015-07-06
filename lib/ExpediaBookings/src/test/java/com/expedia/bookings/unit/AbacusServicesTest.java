@@ -19,7 +19,7 @@ import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import rx.Subscription;
+import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
 import static junit.framework.Assert.assertEquals;
@@ -29,74 +29,66 @@ import static junit.framework.Assert.assertTrue;
 
 public class AbacusServicesTest {
 	@Rule
-	public MockWebServerRule mServer = new MockWebServerRule();
+	public MockWebServerRule server = new MockWebServerRule();
 
 	public AbacusServices service;
 
 	@Before
 	public void before() {
 		service = new AbacusServices(new OkHttpClient(),
-			"http://localhost:" + mServer.getPort(),
+			"http://localhost:" + server.getPort(),
 			Schedulers.immediate(),
 			Schedulers.immediate(),
 			RestAdapter.LogLevel.FULL);
 	}
 
-	@Test(expected = RetrofitError.class)
+	@Test
 	public void testMockDownloadBlowsUp() throws Throwable {
-		mServer.enqueue(new MockResponse()
+		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));
 
-		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
+		TestSubscriber<AbacusResponse> observer = new TestSubscriber<>();
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);
-		Subscription sub = service.downloadBucket(query, observer);
-		observer.await();
-		sub.unsubscribe();
+		service.downloadBucket(query, observer);
+		observer.awaitTerminalEvent();
 
-		assertEquals(0, observer.getItems().size());
-		assertEquals(1, observer.getErrors().size());
-		for (Throwable error : observer.getErrors()) {
-			throw error;
-		}
+		observer.assertNoValues();
+		observer.assertError(RetrofitError.class);
 	}
 
 	@Test
 	public void testEmptyMockDownloadWorks() throws Throwable {
-		mServer.enqueue(new MockResponse()
+		server.enqueue(new MockResponse()
 			.setBody("{\"evaluatedExperiments\" = []}"));
 
-		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
+		TestSubscriber<AbacusResponse> observer = new TestSubscriber<>();
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);
-		Subscription sub = service.downloadBucket(query, observer);
-		observer.await();
-		sub.unsubscribe();
+		service.downloadBucket(query, observer);
+		observer.awaitTerminalEvent();
 
-		for (AbacusResponse abacus : observer.getItems()) {
+		for (AbacusResponse abacus : observer.getOnNextEvents()) {
 			assertEquals(0, abacus.numberOfTests());
 		}
-		assertEquals(0, observer.getErrors().size());
+		observer.assertCompleted();
 	}
 
 	@Test
 	public void testMockDownloadWorks() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
+		TestSubscriber<AbacusResponse> observer = new TestSubscriber<>();
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);
-		Subscription sub = service.downloadBucket(query, observer);
-		observer.await();
-		sub.unsubscribe();
+		service.downloadBucket(query, observer);
+		observer.awaitTerminalEvent();
 
-		assertEquals(1, observer.getItems().size());
-		assertEquals(0, observer.getErrors().size());
+		observer.assertValueCount(1);
+		observer.assertNoErrors();
+		observer.assertCompleted();
 
-		for (AbacusResponse abacus : observer.getItems()) {
-			assertEquals(4, abacus.numberOfTests());
-		}
-
-		AbacusResponse responseV2 = observer.getItems().get(0);
+		AbacusResponse responseV2 = observer.getOnNextEvents().get(0);
+		assertEquals(4, responseV2.numberOfTests());
 		assertFalse(responseV2.isUserBucketedForTest(9000));
 		assertTrue(responseV2.isUserBucketedForTest(3243));
 		assertEquals("3243.17887.1", responseV2.getAnalyticsString(3243));
@@ -110,15 +102,9 @@ public class AbacusServicesTest {
 	public void testMockEmptyLogWorks() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<AbacusResponse> observer = new BlockingObserver<>(1);
 		AbacusLogQuery query = new AbacusLogQuery("TEST-TEST-TEST-TEST", 1, 0);
-		Subscription sub = service.logExperiment(query);
-		observer.await();
-		sub.unsubscribe();
-
-		assertEquals(0, observer.getItems().size());
-		assertEquals(0, observer.getErrors().size());
+		service.logExperiment(query);
 	}
 }

@@ -28,7 +28,6 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.location.CurrentLocationObservable;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -192,10 +191,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			query.addExperiment(AbacusUtils.EBAndroidAppLaunchScreenTest);
 			abacusSubscription = Ui.getApplication(getActivity()).appComponent()
 				.abacus()
-				.downloadBucket(query,
-					abacusSubscriber,
-					AbacusServices.TIMEOUT_5_SECONDS,
-					TimeUnit.SECONDS);
+				.downloadBucket(query, abacusObserver, 5, TimeUnit.SECONDS);
 		}
 		else {
 			// onResume, could be returning from dev settings so we should update the test
@@ -204,7 +200,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		}
 	}
 
-	private Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
+	private Observer<AbacusResponse> abacusObserver = new Observer<AbacusResponse>() {
 		@Override
 		public void onCompleted() {
 			Log.d("AbacusResponse - onCompleted");

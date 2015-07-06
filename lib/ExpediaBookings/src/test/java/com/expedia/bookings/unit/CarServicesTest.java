@@ -3,6 +3,7 @@ package com.expedia.bookings.unit;
 import java.io.File;
 import java.util.LinkedHashSet;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -20,73 +21,76 @@ import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import rx.Subscription;
+import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 
 public class CarServicesTest {
 	@Rule
-	public MockWebServerRule mServer = new MockWebServerRule();
+	public MockWebServerRule server = new MockWebServerRule();
 
-	@Test(expected = RetrofitError.class)
+	private CarServices service;
+
+	@Before
+	public void before() {
+		RequestInterceptor emptyInterceptor = new RequestInterceptor() {
+			@Override
+			public void intercept(RequestFacade request) {
+				// ignore
+			}
+		};
+
+		service = new CarServices("http://localhost:" + server.getPort(), new OkHttpClient(),
+			emptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL);
+	}
+
+	@Test
 	public void testMockSearchBlowsUp() throws Throwable {
-		mServer.enqueue(new MockResponse()
+		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));
 
-		BlockingObserver<CarSearch> observer = new BlockingObserver<>(1);
+		TestSubscriber<CarSearch> observer = new TestSubscriber<>();
 		CarSearchParams params = new CarSearchParams();
-		CarServices service = getTestCarServices();
 
-		Subscription sub = service.carSearch(params, observer);
-		observer.await();
-		sub.unsubscribe();
+		service.carSearch(params, observer);
+		observer.awaitTerminalEvent();
 
-		assertEquals(0, observer.getItems().size());
-		assertEquals(1, observer.getErrors().size());
-		for (Throwable error : observer.getErrors()) {
-			throw error;
-		}
+		observer.assertNoValues();
+		observer.assertError(RetrofitError.class);
 	}
 
 	@Test
 	public void testEmptyMockSearchWorks() throws Throwable {
-		mServer.enqueue(new MockResponse()
+		server.enqueue(new MockResponse()
 			.setBody("{\"offers\" = []}"));
 
-		BlockingObserver<CarSearch> observer = new BlockingObserver<>(1);
+		TestSubscriber<CarSearch> observer = new TestSubscriber<>();
 		CarSearchParams params = new CarSearchParams();
-		CarServices service = getTestCarServices();
 
-		Subscription sub = service.carSearch(params, observer);
-		observer.await();
-		sub.unsubscribe();
+		service.carSearch(params, observer);
+		observer.awaitTerminalEvent();
 
-		assertEquals(1, observer.getItems().size());
-		assertEquals(0, observer.getErrors().size());
+		observer.assertValueCount(1);
+		observer.assertNoErrors();
+		observer.assertCompleted();
 	}
 
 	@Test
 	public void testMockSearchWorks() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<CarSearch> observer = new BlockingObserver<>(2);
-		CarServices service = getTestCarServices();
+		TestSubscriber<CarSearch> observer = new TestSubscriber<>();
 
-		Subscription sub = service.carSearch(new CarSearchParams(), observer);
-		observer.await();
-		sub.unsubscribe();
+		service.carSearch(new CarSearchParams(), observer);
+		observer.awaitTerminalEvent();
 
-		for (Throwable throwable : observer.getErrors()) {
-			throw throwable;
-		}
-		assertTrue(observer.completed());
-		assertEquals(1, observer.getItems().size());
-
-		for (CarSearch search : observer.getItems()) {
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		for (CarSearch search : observer.getOnNextEvents()) {
 			assertEquals(4, search.categories.size());
 		}
 	}
@@ -102,34 +106,26 @@ public class CarServicesTest {
 
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<CarSearch> observer = new BlockingObserver<>(2);
-		CarServices service = getTestCarServices();
+		TestSubscriber<CarSearch> observer = new TestSubscriber<>();
 
-		Subscription sub = service.carSearch(new CarSearchParams(), observer);
-		observer.await();
-		sub.unsubscribe();
+		service.carSearch(new CarSearchParams(), observer);
+		observer.awaitTerminalEvent();
 
-		for (Throwable throwable : observer.getErrors()) {
-			throw throwable;
-		}
-		assertTrue(observer.completed());
-		assertEquals(1, observer.getItems().size());
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
 
-		BlockingObserver<CarSearch> filterObserver = new BlockingObserver<>(2);
-		CarServices filterService = getTestCarServices();
-		Subscription filterSub = filterService.carFilterSearch(filterObserver, carFilter);
-		filterObserver.await();
-		filterSub.unsubscribe();
+		TestSubscriber<CarSearch> filterObserver = new TestSubscriber<>();
+		service.carFilterSearch(filterObserver, carFilter);
+		filterObserver.awaitTerminalEvent();
 
-		for (Throwable throwable : filterObserver.getErrors()) {
-			throw throwable;
-		}
-		assertTrue(filterObserver.completed());
-		assertEquals(1, filterObserver.getItems().size());
+		filterObserver.assertNoErrors();
+		filterObserver.assertCompleted();
+		filterObserver.assertValueCount(1);
 
-		for (CarSearch search : filterObserver.getItems()) {
+		for (CarSearch search : filterObserver.getOnNextEvents()) {
 			assertEquals(1, search.categories.size());
 			assertEquals("Standard", search.categories.get(0).carCategoryDisplayLabel);
 
@@ -138,17 +134,4 @@ public class CarServicesTest {
 		}
 
 	}
-
-	private CarServices getTestCarServices() throws Throwable {
-		return new CarServices("http://localhost:" + mServer.getPort(), new OkHttpClient(),
-			sEmptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL);
-	}
-
-	private static final RequestInterceptor sEmptyInterceptor = new RequestInterceptor() {
-		@Override
-		public void intercept(RequestFacade request) {
-
-		}
-	};
-
 }
