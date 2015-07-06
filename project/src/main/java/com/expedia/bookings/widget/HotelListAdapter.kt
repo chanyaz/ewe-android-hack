@@ -23,8 +23,8 @@ public  class HotelListAdapter(val hotels : List<Hotel>, val hotelSubject: Publi
        return hotels.size()
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        val holder : HotelViewHolder = holder as HotelViewHolder
+    override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
+        val holder : HotelViewHolder = given as HotelViewHolder
         holder.bind(hotels.get(position))
         holder.itemView.setOnClickListener(holder)
     }

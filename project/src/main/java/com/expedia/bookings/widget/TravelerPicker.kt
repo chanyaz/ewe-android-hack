@@ -44,17 +44,14 @@ public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayou
 
     var numChildren: Int = 0
     var numAdults: Int = 1
-    var listener: TravelersUpdatedListener? = null;
+    var listener: (String) -> Unit = { _ -> Unit };
+
     init {
         View.inflate(context, R.layout.widget_traveler_picker, this)
     }
 
-    public interface TravelersUpdatedListener {
-        fun onTravelerUpdate(text: String)
-    }
-
-    public fun setTravelerUpdatedListener(travelersUpdatedListener : TravelersUpdatedListener) {
-        listener = travelersUpdatedListener
+    public fun onUpdate(listener : (String) -> Unit) {
+        this.listener = listener
     }
 
     override fun onFinishInflate() {
@@ -138,7 +135,7 @@ public class TravelerPicker(context: Context, attrs: AttributeSet) : LinearLayou
         travelerInfoText.setText(StrUtils.formatGuests(getContext(), numAdults, numChildren))
         childText.setText(getContext().getResources().getQuantityString(R.plurals.number_of_children, numChildren, numChildren))
         adultText.setText(getContext().getResources().getQuantityString(R.plurals.number_of_adults, numAdults, numAdults))
-        listener?.onTravelerUpdate(StrUtils.formatGuests(getContext(), numAdults, numChildren))
+        listener(StrUtils.formatGuests(getContext(), numAdults, numChildren))
     }
 
     fun getChildAges() : MutableList<Int> {
