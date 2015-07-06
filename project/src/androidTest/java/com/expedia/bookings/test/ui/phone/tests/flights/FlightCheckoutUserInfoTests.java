@@ -369,12 +369,8 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		Common.pressBack();
 		clickCheckoutButton();
 		logInButton().perform(scrollTo(), click());
-		try {
-			Thread.sleep(1000);
-		}
-		catch (Exception e) {
-			// ignore
-		}
+		ScreenActions.delay(2);
+
 		LogInScreen.facebookButton().check(matches(isDisplayed()));
 		LogInScreen.logInButton().check(matches(not(isDisplayed())));
 		ScreenActions.enterLog(TAG, "Log in button isn't shown until an email address is entered");
@@ -388,6 +384,8 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();
 		clickCheckoutButton();
+		ScreenActions.delay(2);
+
 		logOutButton().perform(scrollTo());
 		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
 		ScreenActions.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
