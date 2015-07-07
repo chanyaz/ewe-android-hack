@@ -34,7 +34,7 @@ public class CategorizedCarOffers {
 		}
 		offers.add(offer);
 		passengerSet.addIgnoreZero(offer.vehicleInfo.adultCapacity);
-		luggageSet.addIgnoreZero(offer.vehicleInfo.largeLuggageCapacity + offer.vehicleInfo.smallLuggageCapacity);
+		luggageSet.addIgnoreZero(offer.vehicleInfo.largeLuggageCapacity);
 		doorSet.addIgnoreZero(offer.vehicleInfo.maxDoors);
 		doorSet.addIgnoreZero(offer.vehicleInfo.minDoors);
 	}
