@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="V2.Theme.LX" parent="LXTheme.Base.Whitelabel"/>
+    <style name="V2.Theme.LX" parent="Whitelabel.LXTheme.Base"/>
 
-    <style name="LXTheme.Base.Whitelabel" parent="AppTheme.BaseLX">
+    <!--
+        Override this theme in whitelabels to provide whitelabel specific theme values.
+
+        Note: If any attr which is in AppTheme.Base.LX and need to be customized per whitelabel,
+        that attr should be removed from AppTheme.Base.LX and
+        must be added in all Whitelabel.LXTheme.Base for all whitelabels
+    -->
+    <style name="Whitelabel.LXTheme.Base" parent="AppTheme.Base.LX">
         <!-- Required white label attr for login widget -->
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
@@ -39,29 +46,19 @@
 
     </style>
 
-    <style name="AppTheme.BaseLX" parent="@style/Theme.AppCompat.Light">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
+    <!--
+        Base app theme for LX, all the properties of LX which are common for all whitelabels should be added here
+    -->
+    <style name="AppTheme.Base.LX">
         <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
         <item name="checkout_card_view_style">@style/LXCardView</item>
         <item name="checkout_slider_text">@string/lx_slider_text</item>
         <item name="toolbar_title_style">@style/LXToolbarTitleTextAppearance</item>
         <item name="android:textColorSecondary">@color/lx_actionbar_text_color</item>
-        <item name="colorControlNormal">#C3C3C3</item>
-        <item name="actionMenuTextColor">#FFFFFF</item>
-        <item name="android:actionMenuTextColor">#FFFFFF</item>
 
-        <item name="skin_loginButtonColor">@android:color/black</item>
-        <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
-        <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
-        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
         <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
 
         <!-- CVV attrs -->
-        <item name="skin_cvvBookButtonTextColor">@android:color/black</item>
-
         <item name="traveler_toolbar_text">@string/lx_traveler_details_text</item>
         <item name="traveler_details_text">@string/lx_traveler_enter_details_text</item>
 
@@ -73,7 +70,6 @@
 
         <item name="checkout_unexpanded_space_height">@dimen/lx_unexpanded_space_height</item>
         <item name="toolbarNavigationButtonStyle">@style/LXNavigationButtonStyle</item>
-        <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
     </style>
 
     <style name="DateRadioButton" parent="V2.Theme.LX">
