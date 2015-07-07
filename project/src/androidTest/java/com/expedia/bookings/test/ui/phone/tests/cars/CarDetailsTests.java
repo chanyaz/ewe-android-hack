@@ -91,7 +91,7 @@ public class CarDetailsTests extends PhoneTestCase {
 		CarViewModel.clickFilterButton();
 
 		CarViewModel.selectCategoryForFilter("Economy");
-		CarViewModel.clickDoneButton();
+		CarViewModel.clickFilterDone();
 
 		assertTextAppearsInFirstCategory("4-5");
 		assertTextAppearsInFirstCategory("2-5");
