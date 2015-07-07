@@ -233,26 +233,39 @@ public class LXActivityDetailsWidget extends ScrollView {
 	}
 
 	private void selectFirstDateWithAvailabilities(LocalDate startDate) {
-		int numOfDaysToDisplay = getResources().getInteger(R.integer.lx_default_search_range);
+		final int numOfDaysToDisplay = getResources().getInteger(R.integer.lx_default_search_range);
 		dateButtonWidth = (int) getResources().getDimension(R.dimen.lx_offer_dates_container_width);
+		int selectedDateX = 0;
 
 		for (int iDay = 0; iDay <= numOfDaysToDisplay; iDay++) {
 			if (offerDatesContainer.getChildAt(iDay).isEnabled()) {
 				RadioButton child = (RadioButton) offerDatesContainer.getChildAt(iDay);
 				child.setChecked(true);
 				buildOffersSection(startDate.plusDays(iDay));
-				dateButtonWidth = dateButtonWidth * iDay;
-				offerDatesScrollView.getViewTreeObserver().addOnGlobalLayoutListener(
-					new ViewTreeObserver.OnGlobalLayoutListener() {
-						@Override
-						public void onGlobalLayout() {
-							offerDatesScrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-							offerDatesScrollView.scrollTo(dateButtonWidth, 0);
-						}
-					});
+				selectedDateX = dateButtonWidth * iDay;
 				break;
 			}
 		}
+
+		// Scroll to end.
+		offerDatesScrollView.scrollTo((dateButtonWidth * numOfDaysToDisplay), 0);
+		offerDatesScrollView.getViewTreeObserver().addOnGlobalLayoutListener(
+			new ViewTreeObserver.OnGlobalLayoutListener() {
+				@Override
+				public void onGlobalLayout() {
+					offerDatesScrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					offerDatesScrollView.scrollTo(dateButtonWidth * numOfDaysToDisplay, 0);
+				}
+			});
+
+		final int finalSelectedDateX = selectedDateX;
+		// Scroll from end to the selected date.
+		postDelayed(new Runnable() {
+			public void run() {
+				offerDatesScrollView.smoothScrollTo(finalSelectedDateX, 0);
+			}
+		}, 1000);
+
 	}
 
 	public float parallaxScrollHeader(int scrollY) {
