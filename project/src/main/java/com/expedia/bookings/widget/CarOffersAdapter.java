@@ -157,7 +157,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 				String.valueOf(offer.vehicleInfo.adultCapacity),
 				mContext.getString(R.string.passengers_label)));
 			bags.setText(mContext.getString(R.string.car_details_TEMPLATE,
-				String.valueOf(vehicleInfo.largeLuggageCapacity + vehicleInfo.smallLuggageCapacity),
+				String.valueOf(vehicleInfo.largeLuggageCapacity),
 				mContext.getString(R.string.car_bags_text)));
 			doors.setText(
 				mContext.getString(R.string.car_details_TEMPLATE,
@@ -222,7 +222,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 				isChecked ? reserveExpanded : toggleCollapsed, 0);
 
 			boolean passengerVisibility = isChecked && offer.vehicleInfo.adultCapacity > 0;
-			boolean bagsVisibility = isChecked && offer.vehicleInfo.largeLuggageCapacity + offer.vehicleInfo.smallLuggageCapacity > 0;
+			boolean bagsVisibility = isChecked && offer.vehicleInfo.largeLuggageCapacity > 0;
 			boolean doorsVisibility = isChecked && offer.vehicleInfo.maxDoors > 0;
 
 			passengers.setVisibility(passengerVisibility ? View.VISIBLE : View.GONE);
