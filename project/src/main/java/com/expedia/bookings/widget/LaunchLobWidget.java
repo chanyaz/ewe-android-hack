@@ -111,6 +111,7 @@ public class LaunchLobWidget extends RelativeLayout {
 		hotelsBtn.transformToNoDataState();
 		flightsBtn.transformToNoDataState();
 		carsBtn.transformToNoDataState();
+		lxBtn.transformToNoDataState();
 		bg.setScaleY(1.0f);
 		shadow.setTranslationY(0.0f);
 	}
