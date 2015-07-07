@@ -239,6 +239,9 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	protected void onResume() {
 		super.onResume();
 		OmnitureTracking.onResume(this);
+		if (mMenu != null) {
+			setMenusEnabled(true);
+		}
 	}
 
 	@Override

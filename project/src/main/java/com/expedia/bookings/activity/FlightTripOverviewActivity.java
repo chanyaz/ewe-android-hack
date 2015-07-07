@@ -869,6 +869,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		if (!TextUtils.isEmpty(changeString)) {
 			mPriceChangeString = changeString;
 			mPriceBottomFragment.showPriceChange(mPriceChangeString);
+			mPriceBottomFragment.bind();
 		}
 		else {
 			mPriceBottomFragment.hidePriceChange();

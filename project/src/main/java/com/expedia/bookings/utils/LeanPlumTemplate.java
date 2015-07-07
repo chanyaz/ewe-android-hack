@@ -3,7 +3,6 @@ package com.expedia.bookings.utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -75,11 +74,13 @@ public class LeanPlumTemplate extends BaseMessageDialog {
 							TextView message = (TextView) view.findViewById(R.id.leanplumtemplate_message);
 							message.setText(actionContext.stringNamed(MESSAGE));
 							ImageView background = (ImageView) view.findViewById(R.id.leanplumtemplate_background);
+							Button b = (Button) view.findViewById(R.id.positive_button);
 
 							String originalImageUrl = actionContext.stringNamed(BACKGROUND);
 							int width = activity.getResources().getDimensionPixelSize(
 								R.dimen.leanplum_dialog_image_width);
-							int height = activity.getResources().getDimensionPixelSize(R.dimen.leanplum_dialog_image_height);
+							int height = activity.getResources().getDimensionPixelSize(
+								R.dimen.leanplum_dialog_image_height);
 							String imageUrl = new Akeakamai(originalImageUrl)
 								.resizeExactly(width, height)
 								.build();
@@ -92,23 +93,17 @@ public class LeanPlumTemplate extends BaseMessageDialog {
 
 							//set the image for background
 							alertDialogBuilder
-								.setCancelable(false)
-								.setPositiveButton(actionContext.stringNamed(DISMISS_TEXT),
-									new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dialog, int id) {
-											actionContext.runActionNamed(DISMISS_ACTION);
-										}
-									});
-							AlertDialog alertDialog = alertDialogBuilder.create();
+								.setCancelable(false);
+							final AlertDialog alertDialog = alertDialogBuilder.create();
 							alertDialog.show();
 
-							Button b = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-							if (b != null) {
-								b.setBackgroundColor(activity.getResources().getColor(android.R.color.white));
-								b.setTextColor(activity.getResources().getColor(R.color.leanplum_dialog_button_color));
-							}
-							alertDialog.getWindow()
-								.setBackgroundDrawableResource(R.drawable.leanplum_dialog_background);
+							b.setOnClickListener(new View.OnClickListener() {
+								@Override
+								public void onClick(View view) {
+									actionContext.runActionNamed(DISMISS_ACTION);
+									alertDialog.dismiss();
+								}
+							});
 						}
 					});
 					return true;
