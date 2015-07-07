@@ -57,7 +57,7 @@ public final class CarViewModel {
 	}
 
 	public static void clickFilterDone() {
-		onView(withId(R.id.apply_check)).perform(click());
+		onView(allOf(withId(R.id.search_btn), withText(R.string.done))).perform(click());
 	}
 
 	public static void selectPickupLocation(Instrumentation instrumentation, String airportCode) throws Throwable {
@@ -140,10 +140,6 @@ public final class CarViewModel {
 
 	public static void selectCategoryForFilter(String categoryName) {
 		onView(allOf(withId(R.id.category_check_box), hasSibling(withText(categoryName)))).perform(click());
-	}
-
-	public static void clickDoneButton() {
-		onView(withId(R.id.apply_check)).perform(click());
 	}
 
 	public static void hideFilterButton() {
