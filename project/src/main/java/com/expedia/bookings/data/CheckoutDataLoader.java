@@ -160,7 +160,6 @@ public class CheckoutDataLoader {
 				timer.addSplit("Semeaphore aquired");
 
 				if (loadBillingInfo) {
-					Db.loadBillingInfo(context);
 					BillingInfo billingInfo = Db.getBillingInfo();
 
 					//Ensure stored card is valid

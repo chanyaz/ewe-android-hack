@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
@@ -27,6 +28,7 @@ import com.expedia.bookings.section.HotelReceiptExtraSection;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
@@ -164,8 +166,11 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		String feesPaidAtHotel = getResources().getString(R.string.fees_paid_at_hotel);
 		addExtraRow(feesPaidAtHotel, rate.getTotalMandatoryFees().getFormattedMoney(), false);
 
-		String totalDueToExpediaToday = getResources().getString(R.string.total_due_to_expedia_today);
-		addExtraRow(totalDueToExpediaToday, rate.getTotalAmountAfterTax().getFormattedMoney(), false);
+		String totalDueToOurBrandToday = Phrase.from(getActivity(), R.string.due_to_brand_today_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format()
+			.toString();
+		addExtraRow(totalDueToOurBrandToday, rate.getTotalAmountAfterTax().getFormattedMoney(), false);
 	}
 
 	private static final int LANDSCAPE_EXTRAS_LIMIT = 3;
@@ -179,7 +184,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			addExtraRow(HotelUtils.getRoomCancellationText(getActivity(), rate).toString(), null, true);
 		}
 		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee() && mExtrasContainer.getChildCount() < extrasSizeLimit) {
-			addExtraRow(getResources().getString(R.string.best_price_guarantee), null, true);
+			addExtraRow(getResources().getString(Ui.obtainThemeResID(getActivity(),R.attr.skin_bestPriceGuaranteeString)), null, true);
 		}
 	}
 

@@ -13,7 +13,9 @@ build() {
         "assembleExpediaDebug" "assembleExpediaDebugAndroidTest" \
         "assembleTravelocityDebug" \
         "assembleAirAsiaGoDebug" \
-        "assembleVoyagesDebug"
+        "assembleVoyagesDebug" \
+        "assembleWotifDebug" \
+        "assembleLastMinuteDebug"
 }
 
 # Retry once because of current kotlin compilation issue. The 2nd time should work

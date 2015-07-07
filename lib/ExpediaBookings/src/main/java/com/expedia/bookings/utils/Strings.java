@@ -177,6 +177,18 @@ public class Strings {
 		return upper + lower;
 	}
 
+	public static String splitAndCapitalizeFirstLetters(String s) {
+		if (Strings.isEmpty(s)) {
+			return s;
+		}
+		String[] strArr = s.split("_");
+		final StringBuilder result = new StringBuilder(s.length());
+		for (String str : strArr) {
+			result.append(capitalizeFirstLetter(str));
+		}
+		return result.toString();
+	}
+
 	public static String escapeQuotes(String content) {
 		if (isEmpty(content)) {
 			return content;

@@ -159,7 +159,6 @@ public class CollectionStack extends FrameLayout {
 		new PicassoHelper.Builder(getContext()).setPlaceholder(Ui.obtainThemeResID(getContext(),
 			R.attr.skin_collection_placeholder)).setTarget(callback).build().load(urls);
 
-
 		headerBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.TOP_CROP);
 
 		return headerBitmapDrawable;
@@ -179,17 +178,13 @@ public class CollectionStack extends FrameLayout {
 			Palette palette = Palette.generate(bitmap);
 			int color = palette.getVibrantColor(R.color.transparent_dark);
 			mHeaderBitmapDrawable.setBitmap(bitmap);
-			int textColor = new ColorBuilder(color)
-				.darkenBy(0.4f)
-				.setAlpha(224)
-				.build();
 
 			ColorBuilder fullColorBuilder = new ColorBuilder(color).darkenBy(0.3f);
 			int fullColor = fullColorBuilder.setAlpha(217).build();
 
 			GradientDrawable textViewBackground = (GradientDrawable) getResources()
 				.getDrawable(R.drawable.bg_collection_title);
-			textViewBackground.setColor(textColor);
+			textViewBackground.setColor(fullColor);
 			GradientDrawable checkMarkViewBackground = (GradientDrawable) getResources()
 				.getDrawable(R.drawable.selected_tile_overlay);
 			checkMarkViewBackground.setColor(fullColor);

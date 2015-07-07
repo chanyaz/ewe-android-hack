@@ -31,12 +31,17 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
@@ -104,8 +109,13 @@ public class DeepLinkRouterActivity extends Activity {
 			finish();
 			return;
 		}
-		else if (dataString.contains("localexpert")) {
-			handleLocalExpert(data, queryData);
+		else if (dataString.contains("activitySearch")) {
+			handleActivitySearch(data, queryData);
+			finish();
+			return;
+		}
+		else if (dataString.contains("carSearch")) {
+			handleCarsSearch(data, queryData);
 			finish();
 			return;
 		}
@@ -145,8 +155,8 @@ public class DeepLinkRouterActivity extends Activity {
 			handleFlightSearch(data, queryData);
 			finish = true;
 			break;
-		case "localexpert":
-			handleLocalExpert(data, queryData);
+		case "activitySearch":
+			handleActivitySearch(data, queryData);
 			finish = true;
 			break;
 		case "destination":
@@ -165,25 +175,67 @@ public class DeepLinkRouterActivity extends Activity {
 		}
 	}
 
-	private boolean handleLocalExpert(Uri data, Set<String> queryData) {
+	/**
+	 * We'll parse any deep link whose url matches: expda://carSearch/*
+	 * <p/>
+	 * Example: Car search results.
+	 * This will show results for a car with pickup location, pickup time & drop off time.
+	 * expda://carSearch?pickupLocation=SFO&pickupDateTime=2015-06-25T09:00:00&dropoffDateTime=2015-06-25T09:00:00&originDescription=SFO-San Francisco International Airport
+	 *
+	 * Example: Car Details.
+	 * This will show the details for a car with pickup location, pickup time & drop off time & productKey.
+	 * expda://carSearch?pickupLocation=SFO&pickupDateTime=2015-06-26T09:00:00&dropoffDateTime=2015-06-27T09:00:00&originDescription=SFO-San Francisco International Airport
+	 * &productKey= AQAQAQLRg2IAAoADCS_0847plQQANQ8AKQAdYumAHhoASgAdsBqAHbAQ
+	 *
+	 * <p/>
+	 */
+	private boolean handleCarsSearch(Uri data, Set<String> queryData) {
 
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
-			String startDateStr = null;
-			// Add date (if supplied)
-			if (queryData.contains("startDate")) {
-				startDateStr = data.getQueryParameter("startDate");
-			}
-			String location = null;
-			// Determine the search location.  Defaults to "current location" if none supplied
-			// or the supplied variables could not be parsed.
-			if (queryData.contains("location")) {
-				location = (data.getQueryParameter("location"));
-				Log.d(TAG, "Setting activity search location: " + location);
+		if (PointOfSale.getPointOfSale().supportsCars()) {
+			String productKey = null;
+
+			if (queryData.contains("productKey")) {
+				productKey = data.getQueryParameter("productKey");
 			}
 
-			// Launch activity search
-			Log.i(TAG, "Launching activity search from deep link!");
-			NavUtils.goToLocalExpert(this, location, startDateStr, null, NavUtils.FLAG_DEEPLINK);
+			CarSearchParams carSearchParams = CarDataUtils.fromDeepLink(data, queryData);
+			NavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
+		}
+		else {
+			NavUtils.goToLaunchScreen(this, false, LineOfBusiness.CARS);
+		}
+		return true;
+	}
+
+	/**
+	 * We'll parse any deep link whose url matches: expda://activitySearch/*
+	 *
+	 * <p/>
+	 * Example: Activity search.
+	 * This will search for an activity with location & start date.
+	 * expda://activitySearch?startDate=2015-08-08&location=San+Francisco.
+	 * <p/>
+
+	 * <p/>
+	 * Example: Activity search with GT Filters.
+	 * This will search for an activity with location, start date & GT filters, i.e. Private Transfers & Shared Trasfers.
+	 * expda://activitySearch?startDate=2015-08-08&location=San+Francisco&filters=Private Transfers|Shared Transfers
+	 * <p/>
+	 *
+	 * <p/>
+	 * Example: Activity search with Activity Filters.
+	 * This will search for an activity with location, start date & Activity filters applied, i.e. Adventures & Attractions.
+	 * expda://activitySearch?startDate=2015-08-08&location=San+Francisco&filters=Adventures|Attractions
+	 * <p/>
+	 */
+	private boolean handleActivitySearch(Uri data, Set<String> queryData) {
+
+		if (PointOfSale.getPointOfSale().supportsLx()) {
+			LXSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
+			NavUtils.goToActivities(this, null, searchParams, NavUtils.FLAG_DEEPLINK);
+		}
+		else {
+			NavUtils.goToLaunchScreen(this, false, LineOfBusiness.LX);
 		}
 		return true;
 	}
@@ -321,7 +373,7 @@ public class DeepLinkRouterActivity extends Activity {
 					@Override
 					public SuggestionResponse doDownload() {
 						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-						return services.suggestions(query, 0);
+						return services.suggestions(query);
 					}
 				}, mSuggestCallback);
 				return false;
@@ -490,7 +542,7 @@ public class DeepLinkRouterActivity extends Activity {
 					@Override
 					public SuggestionResponse doDownload() {
 						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-						return services.suggestions(destAirportCode, 0);
+						return services.suggestions(destAirportCode);
 					}
 				}, mSuggestCallback);
 		}

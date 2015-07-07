@@ -26,7 +26,7 @@ public class TravelerCommitResponseHandler extends JsonResponseHandler<TravelerC
 		ParserUtils.logActivityId(response);
 		try {
 			travUpdateResponse.fromJson(response);
-			travUpdateResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.COMMIT_TRAVELER, response));
+			travUpdateResponse.addErrors(ParserUtils.parseErrors(ApiMethod.COMMIT_TRAVELER, response));
 			if (!mTraveler.hasTuid() && travUpdateResponse.isSucceeded()
 					&& !TextUtils.isEmpty(travUpdateResponse.getTuid())) {
 				mTraveler.setTuid(Long.valueOf(travUpdateResponse.getTuid()));

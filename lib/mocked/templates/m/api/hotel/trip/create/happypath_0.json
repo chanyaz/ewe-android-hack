@@ -113,9 +113,9 @@
                             "type": "FEE_MISC"
                         }
                     ],
-                    "total": "115.81",
+                    "total": "135.81",
                     "totalMandatoryFees": "0.00",
-                    "totalPriceWithMandatoryFees": "115.81",
+                    "totalPriceWithMandatoryFees": "135.81",
                     "userPriceType": "PerNightRateNoTaxes"
                 },
                 "priceBreakdown": true,

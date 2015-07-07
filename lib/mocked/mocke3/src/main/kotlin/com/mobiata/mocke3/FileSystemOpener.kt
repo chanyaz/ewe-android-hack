@@ -4,9 +4,9 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStream
 
-public class FileSystemOpener(private val mRoot: String) : FileOpener {
-	throws(javaClass<IOException>())
+public class FileSystemOpener(private val root: String) : FileOpener {
+	@throws(IOException::class)
 	override fun openFile(filename: String): InputStream {
-		return FileInputStream(mRoot + "/" + filename)
+		return FileInputStream(root + "/" + filename)
 	}
 }

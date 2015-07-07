@@ -67,8 +67,6 @@
     <string name="car_auto_tran_text">Automaat</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">Handgeschakeld</string>
-    <!-- Sign in Text-->
-    <string name="cars_sign_in_text">Aanmelden via Expedia</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -159,6 +157,8 @@
     <string name="car_rental_breakdown_drop_off_charges">Inleverkosten</string>
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">Onbeperkt aantal km</string>
+    <!-- Insurance included -->
+    <string name="insurance_included">Verzekering inbegrepen</string>
     <!-- Checkout confirmation message (temporary) -->
     <string name="successful_checkout_TEMPLATE">Reisplannr. %1$s</string>
     <!-- Error message for some missing checkout params -->
@@ -877,8 +877,8 @@
     <string name="sign_in_failed_try_again">Aanmelden mislukt. Bevestig of de Landinstellingen van je app kloppen als je e-mail en wachtwoord correct zijn.</string>
     <!-- User needs to reset password -->
     <string name="sign_in_reset_password">We hebben jouw hulp nodig om nieuwe, universele aanmeldingsinfo voor alle Expedia-sites te creëren.&lt;br&gt;Stel je wachtwoord opnieuw in via de onderstaande link \&apos;Je wachtwoord vergeten?\&apos;.</string>
-    <!-- Facebook connect expedia password hint -->
-    <string name="expedia_password_hint">Expedia-wachtwoord</string>
+    <!-- Facebook connect password hint -->
+    <string name="brand_password_hint_TEMPLATE">{brand}-wachtwoord</string>
     <!-- Link accounts -->
     <string name="link_accounts">Accounts koppelen</string>
     <!-- Failure to update the user -->
@@ -895,6 +895,8 @@
     <string name="Sign_In">Aanmelden</string>
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_Expedia">Aanmelden via Expedia</string>
+    <!-- Sign in with the current brand -->
+    <string name="sign_in_with_brand_TEMPLATE">Aanmelden via {brand}</string>
     <!-- or -->
     <string name="or">of</string>
     <!-- Already signed in -->
@@ -1825,16 +1827,14 @@
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">Goed nieuws! De prijs voor je verblijf is net verlaagd van %1$s naar %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Gereed</string>
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Vandaag te betalen aan Expedia</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Gebruik alleen latijnse tekens</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Voer een geldig e-mailadres in</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Toeslagen verrekend in hotel:</string>
-    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">Vandaag te betalen aan Expedia:</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
+    <string name="due_to_brand_today_TEMPLATE">Nu te betalen aan {brand}:</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">De resortkosten van &lt;b&gt;%1$s&lt;/b&gt; worden in het hotel verrekend. De totaalprijs voor je verblijf is &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -2359,6 +2359,10 @@
     <string name="DONE">KLAAR</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Op kaart zoeken</string>
+    <!-- Button label for toggling to the map -->
+    <string name="map_text">Kaart</string>
+    <!-- Button label for toggling to the hotel list -->
+    <string name="list_text">Lijst</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="sort">Sorteren</string>
     <!-- Label to swtich between map and list search results -->
@@ -2735,20 +2739,6 @@
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
     <string name="unknown">Onbekend</string>
 
-    <!-- Expedia policy strings -->
-    <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">Het volledige bedrag wordt onmiddellijk bij het boeken op je creditcard in rekening gebracht.</string>
-    <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">We bieden een uitzonderlijk laag tarief op deze accommodatie. Om dit aan te kunnen bieden is het tarief niet restitueerbaar. Als je ervoor kiest om later te annuleren, ontvang je geen restitutie.</string>
-    <!-- Policy displayed to user when a deposit is required -->
-    <string name="PolicyDepositRequired">Er wordt een aanbetaling op je creditcard in rekening gebracht. Het hotel brengt het bedrag rechtstreeks op je creditcard in rekening nadat je de reservering geplaatst hebt.</string>
-    <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">De creditcardgegevens zijn verplicht om je reservering te kunnen garanderen. Er wordt niets op je creditcard in rekening gebracht totdat je bij het hotel aankomt of voordat de annuleringsdeadline voorbij is.</string>
-    <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">Door deze boeking te voltooien bevestig je alle Algemene Voorwaarden, inclusief het Privacybeleid en alle gebruiksvoorwaarden, gelezen en goedgekeurd te hebben.\n\nJe gaat akkoord de kosten van je boeking te betalen. Als je deze kosten niet betaalt zodat deze via een incassobureau, een deurwaarder of andere wettelijke procedures moeten worden gevorderd, ga je akkoord met alle daaruit voortvloeiende kosten, inclusief deurwaarders- en procedurekosten, die verband houden met deze invorderingspogingen.</string>
-    <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">Je boekt een accommodatie zonder korting. Alle getoonde tarieven zijn per nacht, en zijn op basis van twee personen per kamer, tenzij anders aangegeven. Lees de kamerbeschrijvingen en de tariefregels goed na om te verzekeren dat de gekozen kamer groot genoeg is. Voor sommige tarieven kan speciale identificatie worden vereist. Onze boekingstoeslag, belastingen en andere kosten die worden berekend door het hotel zijn niet inbegrepen. De accommodatie rekent mogelijk een toeslag aan wanneer extra volwassenen of kinderen aan de kamer worden toegevoegd.\n\nVerzoeken voor meer dan 2 personen of voor meer gasten dan het geselecteerde tarief opgeeft worden naar het hotel gestuurd maar zijn niet gegarandeerd. Als de accommodatie het verzoek aanvaardt, kan het naar eigen goeddunken extra kosten in rekening brengen.</string>
-
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Aanmelden</string>
@@ -2761,7 +2751,7 @@
     <!-- Message that tells user they failed to sign in -->
     <string name="sign_in_failed">Meld je opnieuw aan</string>
     <!-- Label for sign out confirmation -->
-    <string name="sign_out_confirmation">Ben je zeker dat je je wilt afmelden bij je account?</string>
+    <string name="sign_out_confirmation_TEMPLATE">Ben je zeker dat je je wilt afmelden bij je {brand}-account?</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +silver rewards program name -->
@@ -2770,8 +2760,8 @@
     <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia account</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Bezig met laden van Expedia-account</string>
+    <!-- Label for loading user profile from Expedia -->
+    <string name="loading_brand_account_TEMPLATE">Bezig met laden van {brand}-account</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Je wachtwoord vergeten?</string>
     <!-- Webview title for password recovery -->
@@ -2832,6 +2822,8 @@
     <string name="coupon_error_exceeded_earn_limit">Sorry, maar deze coupon werd al te vaak gebruikt en kan niet meer toegepast worden.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
     <string name="coupon_error_invalid_average_price">Sorry, maar de gemiddelde prijs per nacht voldoet niet aan de minimumvoorwaarden van deze coupon.</string>
+    <!-- Error when applying coupon - Pay Later Hotel -->
+    <string name="coupon_error_pay_later_hotel">Coupons kunnen niet gebruikt worden als je in het hotel betaalt. Kies een kamer die je betaalt bij het boeken.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2844,18 +2836,12 @@
     <string name="contact_expedia_via">Neem contact op met Expedia via…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Telefoon</string>
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">Expedia klantenservice</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Website</string>
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Expedia-website</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App-support</string>
-    <!-- Subject line for "tell a friend" feature -->
-    <string name="tell_a_friend_subject">Expedia Hotels</string>
-    <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Hallo,\n\ndownload Expedia Hotels voor de iPhone en Android-telefoons. Het is GRATIS en je kunt heel eenvoudig kamers zoeken en boeken bij meer dan 140.000 hotels over de hele wereld. Het is de eenvoudigste manier om met je mobieltje hotelkamers te boeken.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Algemene Voorwaarden</string>
     <!-- Label for link to privacy policy -->
@@ -2870,8 +2856,6 @@
     <string name="dialog_title_cleared_private_data">Privégegevens gewist</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">Alle opgeslagen betaal- en contactgegevens zijn verwijderd.</string>
-    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">Wil je Expedia\&apos;s mobiele website opstarten?</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">Abonneren</string>
     <!-- Action button label to follow on twitter -->
@@ -3270,8 +3254,6 @@
     <string name="country_ax">Ålandseilanden</string>
 
     <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Expedia, Inc.</string>
     <!-- Loading message -->
     <string name="loading">Laden…</string>
     <!-- Google Wallet label -->
@@ -3321,9 +3303,9 @@
 
     <!-- Handling sold out hotels -->
     <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available">Voorlopig niet beschikbaar bij Expedia</string>
+    <string name="not_currently_available_from_brand_TEMPLATE">Voorlopig niet beschikbaar bij {brand}</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_TEMPLATE">Niet beschikbaar bij Expedia op %s</string>
+    <string name="not_currently_available_from_brand_dates_TEMPLATE">Niet beschikbaar bij {brand} voor {dates}</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -3487,8 +3469,6 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">Tik voor betaalpagina</string>
-    <!-- Content description for action: Press to sign in with your Expedia account -->
-    <string name="cd_checkout_sign_in_with_expedia">Tik om je aan te melden bij je account</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">Tik om een reiziger aan de boeking toe te voegen</string>
     <!-- Content description for action: Press to select payment for this booking -->
@@ -3496,8 +3476,8 @@
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Tik om een coupon- of promocode in te voeren</string>
     <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign into Expedia with your Facebook account -->
-    <string name="cd_sign_in_with_facebook">Tik om aan te melden via je Facebook-account</string>
+    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
+    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">Meld je aan bij {brand} via je Facebook-account</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Tik om nieuwe reiziger in te voeren</string>

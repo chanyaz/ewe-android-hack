@@ -1,5 +1,6 @@
 package com.expedia.bookings.featureconfig;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.message.BasicNameValuePair;
@@ -131,7 +132,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
-		return null;
+		List<BasicNameValuePair> additionalParamsForReviewsRequest = new ArrayList<BasicNameValuePair>();
+		additionalParamsForReviewsRequest.add(new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
+		return additionalParamsForReviewsRequest;
 	}
 
 	public boolean shouldUseDotlessDomain(EndPoint endpoint) {
@@ -233,5 +236,25 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public String getClientShortName() {
 		return "expedia";
+	}
+
+	public String getAdXKey() {
+		return "f2d75b7e-ed66-4f96-cf66-870f4c6b723e";
+	}
+
+	public boolean isAppSupportUrlEnabled() {
+		return true;
+	}
+
+	public boolean isSigninEnabled() {
+		return true;
+	}
+
+	public boolean isAppCrossSellInHotelShareContentEnabled() {
+		return true;
+	}
+
+	public boolean isAppCrossSellInFlightShareContentEnabled() {
+		return true;
 	}
 }

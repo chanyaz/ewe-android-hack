@@ -25,7 +25,6 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.fragment.HotelDetailsDescriptionFragment;
@@ -313,9 +312,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		setContentView(R.layout.hotel_details_main);
 		getWindow().setBackgroundDrawable(null);
 
-		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHISBookAboveFoldTest);
-		int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHISBookAboveFoldTest);
-
 		mGalleryFragment = (HotelDetailsMiniGalleryFragment) getSupportFragmentManager().findFragmentByTag(
 			FRAGMENT_MINI_GALLERY_TAG);
 		if (mGalleryFragment == null) {
@@ -340,21 +336,9 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		mDescriptionFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_description_fragment_container,
 			HotelDetailsDescriptionFragment.class, FRAGMENT_DESCRIPTION_TAG);
 
-		// 3840. Abacus AB Testing. Let's move hotel Book Now button around.
-		int bookNowButtonId = 0;
-		if (isUserBucketedForTest) {
-			bookNowButtonId = R.id.book_now_button_ABTest;
-			Ui.findView(this, R.id.book_now_button).setVisibility(View.GONE);
-			if (testVariate == AbacusUtils.HISBookAboveFoldVariate.SELECT_ROOM_ABOVE_FOLD.ordinal()) {
-				mBookNowButton = Ui.findView(this, bookNowButtonId);
-				mBookNowButton.setText(R.string.book_now_ab_test);
-			}
-		}
-		else {
-			bookNowButtonId = R.id.book_now_button;
-			Ui.findView(this, R.id.book_now_button_ABTest).setVisibility(View.GONE);
-		}
-		mBookNowButton = Ui.findView(this, bookNowButtonId);
+		// 3840. Abacus AB Winner. Book now -> Select Room above fold
+		mBookNowButton = Ui.findView(this, R.id.book_now_button);
+
 		if (Db.getHotelSearch().getSelectedProperty().isAvailable()) {
 			mBookNowButton.setVisibility(View.VISIBLE);
 			mBookNowButton.setOnClickListener(new View.OnClickListener() {
@@ -516,10 +500,5 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			scrollView.toggleFullScreenGallery();
 			return;
 		}
-	}
-
-	@Override
-	public void onGallerySwiped(int position) {
-		mGalleryFragment.toggleSwipeIndicators(position);
 	}
 }

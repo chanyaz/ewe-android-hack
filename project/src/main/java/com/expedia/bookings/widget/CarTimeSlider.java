@@ -156,7 +156,8 @@ public class CarTimeSlider extends com.expedia.bookings.widget.SeekBar {
 	}
 
 	public void setProgress(DateTime time) {
-		int progress = (time.getHourOfDay() * 2) + (time.getMinuteOfHour() > 30 ? 1 : 0);
+		// DateTime from external search will be in this format 2015-06-25T11:30:00.
+		int progress = (time.getHourOfDay() * 2) + (time.getMinuteOfHour() > 29 ? 1 : 0);
 		setProgress(progress);
 	}
 }

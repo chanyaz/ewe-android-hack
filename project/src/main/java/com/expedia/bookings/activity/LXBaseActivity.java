@@ -16,6 +16,7 @@ import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.location.LXCurrentLocationSuggestionObserver;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.lx.LXPresenter;
+import com.expedia.bookings.utils.AlertDialogUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Ui;
 import com.facebook.Session;
@@ -61,21 +62,32 @@ public class LXBaseActivity extends ActionBarActivity {
 		Intent intent = getIntent();
 		final boolean navigateToResults = (intent != null) && intent.getBooleanExtra(Codes.EXTRA_OPEN_RESULTS, false);
 		final boolean navigateToSearch = (intent != null) && intent.getBooleanExtra(Codes.EXTRA_OPEN_SEARCH, false);
+		final boolean navigateToResultsFromDeepLink = (intent != null) && intent.getBooleanExtra(Codes.FROM_DEEPLINK, false);
 
 		final String location = intent.getStringExtra("location");
 		final LocalDate startDate = DateUtils.yyyyMMddToLocalDateSafe(intent.getStringExtra("startDateStr"), LocalDate.now());
 		final LocalDate endDate = startDate.plusDays(getResources().getInteger(R.integer.lx_default_search_range));
+		final String filters = intent.getStringExtra("filters");
 
 		lxPresenter.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
 				lxPresenter.getViewTreeObserver().removeOnPreDrawListener(this);
+				if (startDate.isBefore(LocalDate.now())) {
+					AlertDialogUtils.showDialog(LXBaseActivity.this, getResources().getString(R.string.lx_start_date_error),
+						new Events.LXShowSearchWidget(), getResources().getString(R.string.ok), null, null);
+					return true;
+				}
 				if (navigateToSearch) {
 					Events.post(new Events.LXNewSearch(location, startDate, endDate));
 					return true;
 				}
 				else if (navigateToResults) {
 					Events.post(new Events.LXNewSearchParamsAvailable(location, startDate, endDate));
+					return true;
+				}
+				else if (navigateToResultsFromDeepLink) {
+					Events.post(new Events.LXNewSearchParamsAvailable(location, startDate, endDate, filters));
 					return true;
 				}
 				triggerCurrentLocationSuggestions();

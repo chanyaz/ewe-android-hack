@@ -7,11 +7,6 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <com.expedia.bookings.widget.LXErrorWidget
-        android:id="@+id/lx_details_error_widget"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <com.expedia.bookings.widget.LXActivityDetailsWidget
         android:id="@+id/activity_details"
         android:layout_width="match_parent"

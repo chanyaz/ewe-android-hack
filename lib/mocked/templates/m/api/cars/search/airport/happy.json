@@ -10,10 +10,10 @@
     "offers": [
         {
             "dropOffLocation": {
+                "latitude": 37.61594,
                 "locationCode": "SFO",
                 "locationDescription": "San Francisco (SFO)",
                 "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
-                "latitude": 37.61594,
                 "longitude": -122.387996
             },
             "fare": {
@@ -33,16 +33,17 @@
             },
             "pickUpLocation": {
                 "airportInstructions": "Shuttle to counter and car",
+                "latitude": 37.61594,
                 "locationCode": "SFO",
                 "locationDescription": "San Francisco (SFO)",
                 "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
-                "latitude": 37.61594,
                 "longitude": -122.387996
             },
             "productKey": "happy",
             "reservationGuaranteeRequired": true,
             "vehicleInfo": {
                 "adultCapacity": 4,
+                "carCategoryDisplayLabel": "Standard",
                 "category": "STANDARD",
                 "childCapacity": 0,
                 "drive": "TWO_WHEEL_DRIVE",
@@ -55,7 +56,6 @@
                 "maxDoors": 4,
                 "minDoors": 4,
                 "smallLuggageCapacity": 0,
-                "carCategoryDisplayLabel":"Standard",
                 "transmission": "MANUAL_TRANSMISSION",
                 "type": "TWO_DOOR_CAR"
             },
@@ -67,10 +67,10 @@
         },
         {
             "dropOffLocation": {
+                "latitude": 37.61594,
                 "locationCode": "SFO",
                 "locationDescription": "San Francisco (SFO)",
                 "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
-                "latitude": 37.61594,
                 "longitude": -122.387996
             },
             "fare": {
@@ -90,16 +90,17 @@
             },
             "pickUpLocation": {
                 "airportInstructions": "Shuttle to counter and car",
+                "latitude": 37.61594,
                 "locationCode": "SFO",
                 "locationDescription": "San Francisco (SFO)",
                 "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
-                "latitude": 37.61594,
                 "longitude": -122.387996
             },
             "productKey": "happy_cc_required",
             "reservationGuaranteeRequired": true,
             "vehicleInfo": {
                 "adultCapacity": 4,
+                "carCategoryDisplayLabel": "Standard",
                 "category": "STANDARD",
                 "childCapacity": 0,
                 "drive": "TWO_WHEEL_DRIVE",
@@ -112,7 +113,6 @@
                 "maxDoors": 4,
                 "minDoors": 4,
                 "smallLuggageCapacity": 0,
-                "carCategoryDisplayLabel":"Standard",
                 "transmission": "AUTOMATIC_TRANSMISSION",
                 "type": "TWO_DOOR_CAR"
             },
@@ -124,10 +124,10 @@
         },
         {
             "dropOffLocation": {
+                "latitude": 37.61594,
                 "locationCode": "SFO",
                 "locationDescription": "San Francisco (SFO)",
                 "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
-                "latitude": 37.61594,
                 "longitude": -122.387996
             },
             "fare": {
@@ -147,16 +147,17 @@
             },
             "pickUpLocation": {
                 "airportInstructions": "Shuttle to counter and car",
+                "latitude": 37.61594,
                 "locationCode": "SFO",
                 "locationDescription": "San Francisco (SFO)",
                 "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
-                "latitude": 37.61594,
                 "longitude": -122.387996
             },
             "productKey": "price_change",
             "reservationGuaranteeRequired": false,
             "vehicleInfo": {
                 "adultCapacity": 4,
+                "carCategoryDisplayLabel": "Economy",
                 "category": "ECONOMY",
                 "childCapacity": 0,
                 "drive": "TWO_WHEEL_DRIVE",
@@ -169,7 +170,6 @@
                 "maxDoors": 4,
                 "minDoors": 4,
                 "smallLuggageCapacity": 0,
-                "carCategoryDisplayLabel":"Economy",
                 "transmission": "AUTOMATIC_TRANSMISSION",
                 "type": "TWO_DOOR_CAR"
             },
@@ -181,10 +181,10 @@
         },
         {
             "dropOffLocation": {
+                "latitude": 37.61594,
                 "locationCode": "SFO",
                 "locationDescription": "San Francisco (SFO)",
                 "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
-                "latitude": 37.61594,
                 "longitude": -122.387996
             },
             "fare": {
@@ -204,16 +204,17 @@
             },
             "pickUpLocation": {
                 "airportInstructions": "Shuttle to counter and car",
+                "latitude": 37.61594,
                 "locationCode": "SFO",
                 "locationDescription": "San Francisco (SFO)",
                 "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
-                "latitude": 37.61594,
                 "longitude": -122.387996
             },
             "productKey": "failure",
             "reservationGuaranteeRequired": false,
             "vehicleInfo": {
                 "adultCapacity": 4,
+                "carCategoryDisplayLabel": "Economy",
                 "category": "ECONOMY",
                 "childCapacity": 0,
                 "drive": "TWO_WHEEL_DRIVE",
@@ -226,7 +227,6 @@
                 "maxDoors": 4,
                 "minDoors": 4,
                 "smallLuggageCapacity": 0,
-                "carCategoryDisplayLabel":"Economy",
                 "transmission": "AUTOMATIC_TRANSMISSION",
                 "type": "TWO_DOOR_CAR"
             },
@@ -238,10 +238,10 @@
         },
         {
             "dropOffLocation": {
+                "latitude": 37.61594,
                 "locationCode": "SFO",
                 "locationDescription": "San Francisco (SFO)",
                 "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
-                "latitude": 37.61594,
                 "longitude": -122.387996
             },
             "fare": {
@@ -261,16 +261,17 @@
             },
             "pickUpLocation": {
                 "airportInstructions": "Shuttle to counter and car",
+                "latitude": 37.61594,
                 "locationCode": "SFO",
                 "locationDescription": "San Francisco (SFO)",
                 "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
-                "latitude": 37.61594,
                 "longitude": -122.387996
             },
             "productKey": "happy",
             "reservationGuaranteeRequired": false,
             "vehicleInfo": {
                 "adultCapacity": 4,
+                "carCategoryDisplayLabel": "Economy",
                 "category": "ECONOMY",
                 "childCapacity": 0,
                 "drive": "TWO_WHEEL_DRIVE",
@@ -283,7 +284,6 @@
                 "maxDoors": 4,
                 "minDoors": 4,
                 "smallLuggageCapacity": 0,
-                "carCategoryDisplayLabel":"Economy",
                 "transmission": "AUTOMATIC_TRANSMISSION",
                 "type": "FOUR_DOOR_CAR"
             },
@@ -291,6 +291,120 @@
                 "code": "Failure",
                 "id": 71,
                 "name": "Failure"
+            }
+        },
+        {
+            "dropOffLocation": {
+                "latitude": 37.61594,
+                "locationCode": "SFO",
+                "locationDescription": "San Francisco (SFO)",
+                "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+                "longitude": -122.387996
+            },
+            "fare": {
+                "rate": {
+                    "amount": "37.50",
+                    "currencyCode": "USD",
+                    "formattedPrice": "$37.50",
+                    "formattedWholePrice": "$37"
+                },
+                "rateTerm": "WEEKEND",
+                "total": {
+                    "amount": "36.50",
+                    "currencyCode": "USD",
+                    "formattedPrice": "$37.50",
+                    "formattedWholePrice": "$37"
+                }
+            },
+            "pickUpLocation": {
+                "airportInstructions": "Shuttle to counter and car",
+                "latitude": 37.61594,
+                "locationCode": "SFO",
+                "locationDescription": "San Francisco (SFO)",
+                "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+                "longitude": -122.387996
+            },
+            "productKey": "happy",
+            "reservationGuaranteeRequired": false,
+            "vehicleInfo": {
+                "adultCapacity": 4,
+                "carCategoryDisplayLabel": "Economy SUV",
+                "category": "ECONOMY",
+                "childCapacity": 0,
+                "drive": "TWO_WHEEL_DRIVE",
+                "fuel": "UNKNOWN",
+                "hasAirConditioning": true,
+                "largeLuggageCapacity": 2,
+                "makes": [
+                    "Economy_suv"
+                ],
+                "maxDoors": 4,
+                "minDoors": 4,
+                "smallLuggageCapacity": 0,
+                "transmission": "AUTOMATIC_TRANSMISSION",
+                "type": "SUV"
+            },
+            "vendor": {
+                "code": "Failure",
+                "id": 71,
+                "name": "Failure"
+            }
+        },
+        {
+            "dropOffLocation": {
+                "latitude": 37.61594,
+                "locationCode": "SFO",
+                "locationDescription": "San Francisco (SFO)",
+                "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+                "longitude": -122.387996
+            },
+            "fare": {
+                "rate": {
+                    "amount": "35.50",
+                    "currencyCode": "USD",
+                    "formattedPrice": "$35.50",
+                    "formattedWholePrice": "$35"
+                },
+                "rateTerm": "WEEKEND",
+                "total": {
+                    "amount": "35.50",
+                    "currencyCode": "USD",
+                    "formattedPrice": "$35.50",
+                    "formattedWholePrice": "$35"
+                }
+            },
+            "pickUpLocation": {
+                "airportInstructions": "Shuttle to counter and car",
+                "latitude": 37.61594,
+                "locationCode": "SFO",
+                "locationDescription": "San Francisco (SFO)",
+                "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+                "longitude": -122.387996
+            },
+            "productKey": "invalid_car_product",
+            "reservationGuaranteeRequired": false,
+            "vehicleInfo": {
+                "adultCapacity": 4,
+                "carCategoryDisplayLabel": "Economy",
+                "category": "ECONOMY",
+                "childCapacity": 0,
+                "drive": "TWO_WHEEL_DRIVE",
+                "fuel": "UNKNOWN",
+                "hasAirConditioning": true,
+                "largeLuggageCapacity": 2,
+                "makes": [
+                    "Toyota Yaris"
+                ],
+                "maxDoors": 4,
+                "minDoors": 4,
+                "smallLuggageCapacity": 0,
+                "transmission": "AUTOMATIC_TRANSMISSION",
+                "type": "TWO_DOOR_CAR"
+            },
+            "vendor": {
+                "code": "invalid_car_product",
+                "id": 71,
+                "name": "invalid_car_product"
             }
         },
         {
@@ -318,93 +432,152 @@
             },
             "pickUpLocation": {
                 "airportInstructions": "Shuttle to counter and car",
+                "latitude": 37.61594,
                 "locationCode": "SFO",
                 "locationDescription": "San Francisco (SFO)",
                 "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
-                "latitude": 37.61594,
                 "longitude": -122.387996
             },
-            "productKey": "happy",
+            "productKey": "rangeOfPassengerDoorsBags",
             "reservationGuaranteeRequired": false,
             "vehicleInfo": {
-                "adultCapacity": 4,
+                "adultCapacity": 5,
+                "carCategoryDisplayLabel": "Economy",
                 "category": "ECONOMY",
                 "childCapacity": 0,
                 "drive": "TWO_WHEEL_DRIVE",
                 "fuel": "UNKNOWN",
                 "hasAirConditioning": true,
-                "largeLuggageCapacity": 2,
+                "largeLuggageCapacity": 5,
                 "makes": [
-                    "Economy_suv"
+                    "Economy"
                 ],
-                "maxDoors": 4,
-                "minDoors": 4,
+                "maxDoors": 6,
+                "minDoors": 6,
                 "smallLuggageCapacity": 0,
-                "carCategoryDisplayLabel":"Economy SUV",
                 "transmission": "AUTOMATIC_TRANSMISSION",
                 "type": "SUV"
             },
             "vendor": {
-                "code": "Failure",
+                "code": "DetailsInRange",
                 "id": 71,
-                "name": "Failure"
+                "name": "DetailsInRange"
             }
         },
         {
+            "creditCardRequiredToGuaranteeReservation": true,
             "dropOffLocation": {
+                "latitude": 37.61594,
                 "locationCode": "SFO",
                 "locationDescription": "San Francisco (SFO)",
                 "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
-                "latitude": 37.61594,
                 "longitude": -122.387996
             },
             "fare": {
                 "rate": {
-                    "amount": "35.50",
+                    "amount": "34.75",
                     "currencyCode": "USD",
-                    "formattedPrice": "$35.50",
+                    "formattedPrice": "$34.75",
                     "formattedWholePrice": "$35"
                 },
-                "rateTerm": "WEEKEND",
+                "rateTerm": "DAILY",
                 "total": {
-                    "amount": "35.50",
+                    "amount": "151.86",
                     "currencyCode": "USD",
-                    "formattedPrice": "$35.50",
-                    "formattedWholePrice": "$35"
+                    "formattedPrice": "$151.86",
+                    "formattedWholePrice": "$152"
                 }
             },
+            "hasFreeCancellation": true,
+            "hasUnlimitedMileage": true,
+            "isInsuranceIncluded": false,
             "pickUpLocation": {
                 "airportInstructions": "Shuttle to counter and car",
+                "latitude": 37.61594,
                 "locationCode": "SFO",
                 "locationDescription": "San Francisco (SFO)",
                 "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
-                "latitude": 37.61594,
                 "longitude": -122.387996
             },
-            "productKey": "invalid_car_product",
-            "reservationGuaranteeRequired": false,
+            "productKey": "ZeroBagsCarsPassengers",
             "vehicleInfo": {
-                "adultCapacity": 4,
-                "category": "ECONOMY",
+                "adultCapacity": 0,
+                "carCategoryDisplayFullLabel": "Special",
+                "carCategoryDisplayLabel": "Special",
+                "category": "SPECIAL",
                 "childCapacity": 0,
                 "drive": "TWO_WHEEL_DRIVE",
                 "fuel": "UNKNOWN",
                 "hasAirConditioning": true,
-                "largeLuggageCapacity": 2,
-                "makes": [
-                    "Toyota Yaris"
-                ],
-                "maxDoors": 4,
-                "minDoors": 4,
+                "largeLuggageCapacity": 0,
+                "maxDoors": 0,
+                "minDoors": 0,
                 "smallLuggageCapacity": 0,
-                "carCategoryDisplayLabel":"Economy",
                 "transmission": "AUTOMATIC_TRANSMISSION",
-                "type": "TWO_DOOR_CAR"
+                "type": "SPECIAL"
             },
             "vendor": {
-                "code": "invalid_car_product",
-                "id": 71,
-                "name": "invalid_car_product"
+                "code": "AD",
+                "id": 3,
+                "name": "Advantage Plus"
+            }
+        },
+        {
+            "creditCardRequiredToGuaranteeReservation": true,
+            "dropOffLocation": {
+                "latitude": 37.61594,
+                "locationCode": "SFO",
+                "locationDescription": "San Francisco (SFO)",
+                "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+                "longitude": -122.387996
+            },
+            "fare": {
+                "rate": {
+                    "amount": "34.75",
+                    "currencyCode": "USD",
+                    "formattedPrice": "$34.75",
+                    "formattedWholePrice": "$35"
+                },
+                "rateTerm": "DAILY",
+                "total": {
+                    "amount": "151.86",
+                    "currencyCode": "USD",
+                    "formattedPrice": "$151.86",
+                    "formattedWholePrice": "$152"
+                }
+            },
+            "hasFreeCancellation": true,
+            "hasUnlimitedMileage": true,
+            "isInsuranceIncluded": false,
+            "pickUpLocation": {
+                "airportInstructions": "Shuttle to counter and car",
+                "latitude": 37.61594,
+                "locationCode": "SFO",
+                "locationDescription": "San Francisco (SFO)",
+                "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+                "longitude": -122.387996
+            },
+            "productKey": "NoPassengersBagsDoors",
+            "vehicleInfo": {
+                "adultCapacity": 0,
+                "carCategoryDisplayFullLabel": "Special",
+                "carCategoryDisplayLabel": "Special",
+                "category": "SPECIAL",
+                "childCapacity": 0,
+                "drive": "TWO_WHEEL_DRIVE",
+                "fuel": "UNKNOWN",
+                "hasAirConditioning": true,
+                "largeLuggageCapacity": 0,
+                "maxDoors": 0,
+                "minDoors": 0,
+                "smallLuggageCapacity": 0,
+                "transmission": "AUTOMATIC_TRANSMISSION",
+                "type": "SPECIAL"
+            },
+            "vendor": {
+                "code": "AD",
+                "id": 3,
+                "name": "Advantage"
             }
         }
     ],

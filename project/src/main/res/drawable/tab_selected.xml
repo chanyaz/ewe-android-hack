@@ -4,10 +4,10 @@
         android:top="-15dp"
         android:left="-15dp"
         android:right="-15dp"
-        android:bottom="1dp">
+        android:bottom="@dimen/action_bar_selected_tab_underline_height">
         <shape android:shape="rectangle">
             <stroke
-                android:color="#FFED18"
+                android:color="@color/action_bar_selected_tab_underline_color"
                 android:width="5dp" />
             <solid android:color="@android:color/transparent" />
         </shape>

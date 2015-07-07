@@ -11,5 +11,6 @@
     <color name="login_text_vsc">#333333</color>
     <color name="flight_trip_color_vsc">#F8A424</color>
     <color name="flight_trip_price_vsc">#E21E25</color>
+    <color name="coupon_success_message_color">#7abb00</color>
 
 </resources>

@@ -21,6 +21,7 @@ public class LXCheckoutParams {
 	public String cvv;
 	public String email;
 	public String storedCreditCardId;
+	public String guid;
 	public boolean suppressFinalBooking;
 
 	public LXCheckoutParams firstName(String firstName) {
@@ -103,6 +104,11 @@ public class LXCheckoutParams {
 		return this;
 	}
 
+	public LXCheckoutParams guid(String guid) {
+		this.guid = guid;
+		return this;
+	}
+
 	public boolean areRequiredParamsFilled() {
 		boolean paramsFilled =
 			Strings.isNotEmpty(firstName) && Strings.isNotEmpty(lastName) && Strings.isNotEmpty(phoneCountryCode)
@@ -135,6 +141,7 @@ public class LXCheckoutParams {
 		params.put("email", email);
 		params.put("storedCreditCardId", storedCreditCardId);
 		params.put("suppressFinalBooking", suppressFinalBooking);
+		params.put("abacusUserGuid", guid);
 		return params;
 	}
 }

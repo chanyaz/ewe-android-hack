@@ -58,6 +58,7 @@ public class ApiError extends RuntimeException {
 	public DetailCode errorDetailCode;
 	public int diagnosticId;
 	public ErrorInfo errorInfo;
+	public String regionId;
 
 	public ApiError(Code code) {
 		super(code.name());

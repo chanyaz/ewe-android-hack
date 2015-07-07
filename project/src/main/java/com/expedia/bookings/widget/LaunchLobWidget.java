@@ -26,6 +26,9 @@ public class LaunchLobWidget extends RelativeLayout {
 	@InjectView(R.id.cars_button)
 	PhoneLaunchButton carsBtn;
 
+	@InjectView(R.id.lx_button)
+	PhoneLaunchButton lxBtn;
+
 	@InjectView(R.id.lob_btn_container)
 	LinearLayout btnContainer;
 
@@ -48,6 +51,7 @@ public class LaunchLobWidget extends RelativeLayout {
 		hotelsBtn.scaleTo(f);
 		flightsBtn.scaleTo(f);
 		carsBtn.scaleTo(f);
+		lxBtn.scaleTo(f);
 		bg.setScaleY(f);
 		shadow.setTranslationY((f * origHeight) - origHeight);
 	}
@@ -58,6 +62,13 @@ public class LaunchLobWidget extends RelativeLayout {
 		}
 		else {
 			carsBtn.setVisibility(View.GONE);
+		}
+
+		if (PointOfSale.getPointOfSale().supportsLx()) {
+			lxBtn.setVisibility(View.VISIBLE);
+		}
+		else {
+			lxBtn.setVisibility(View.GONE);
 		}
 	}
 

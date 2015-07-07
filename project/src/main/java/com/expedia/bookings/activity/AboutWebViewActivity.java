@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -10,6 +9,7 @@ import android.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.DebugInfoUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
 
 public class AboutWebViewActivity extends WebViewActivity {
@@ -52,11 +52,12 @@ public class AboutWebViewActivity extends WebViewActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_webview, menu);
+		getMenuInflater().inflate(Ui.obtainThemeResID(this, R.attr.skin_menuAboutWebViewActivity), menu);
 
 		mEmailMenuItem = menu.findItem(R.id.menu_email);
-		mEmailMenuItem.setVisible(mShowEmailButton && !mLoading);
-
+		if (mEmailMenuItem != null) {
+			mEmailMenuItem.setVisible(mShowEmailButton && !mLoading);
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 

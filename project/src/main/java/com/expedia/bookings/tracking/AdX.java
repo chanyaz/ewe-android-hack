@@ -23,6 +23,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 
 public class AdX {
@@ -47,7 +48,11 @@ public class AdX {
 
 	private static void connect(String pos, boolean launchedAgain) {
 		if (!sConnected) {
-			AdXConnect.setKey("f2d75b7e-ed66-4f96-cf66-870f4c6b723e");
+			String adXKey = ProductFlavorFeatureConfiguration.getInstance().getAdXKey();
+			if (Strings.isNotEmpty(adXKey)) {
+				AdXConnect.setKey(adXKey);
+			}
+
 			AdXConnect.getAdXConnectInstance(sAppContext, launchedAgain, sLogLevel);
 			sConnected = true;
 		}

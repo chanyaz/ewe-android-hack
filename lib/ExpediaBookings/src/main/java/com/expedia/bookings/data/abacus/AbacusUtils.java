@@ -14,10 +14,6 @@ public class AbacusUtils {
 	 */
 
 	public static final int EBAndroidAATest = 6714;
-	public static final int EBAndroidETPTest = 6800;
-	public static final int EBAndroidAppHISBookAboveFoldTest = 6815;
-	public static final int EBAndroidAppHISFreeCancellationTest = 6801;
-	public static final int EBAndroidAppHISSwipablePhotosTest = 7021;
 	public static final int EBAndroidAppFlightCKOFreeCancelationTest = 7005;
 	public static final int EBAndroidAppHSearchInfluenceMessagingTest = 7017;
 	public static final int EBAndroidAppLaunchScreenTest = 7369;
@@ -28,18 +24,18 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightConfLXXsell = 7533;
 	public static final int EBAndroidAppHotelETPSearchResults = 7532;
 	public static final int EBAndroidAppHotelItinLXXsell = 7612;
+	public static final int EBAndroidAppHSRMapIconTest = 7772;
+	public static final int EBAndroidAppCarRatesCollapseTopListing = 7769;
+	public static final int EBAndroidAppCarInsuranceIncludedCKO = 7774;
+	public static final int EBAndroidAppHotelHCKOTraveler = 7775;
+	public static final int EBAndroidAppHotelPayLaterCouponMessaging = 7777;
+	public static final int EBAndroidAppHotel3xMessaging = 7973;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public static enum DefaultVariate {
 		CONTROL,
 		BUCKETED
-	}
-
-	public static enum HISBookAboveFoldVariate {
-		CONTROL,
-		BOOK_ABOVE_FOLD,
-		SELECT_ROOM_ABOVE_FOLD
 	}
 
 	public static enum HSearchInfluenceMessagingVariate {
@@ -49,14 +45,16 @@ public class AbacusUtils {
 		NO_TEXT
 	}
 
+	public static enum HISMapIconVariate {
+		CONTROL,
+		MAP_PIN,
+		TEXT_ONLY
+	}
+
 	// Test ID's that we are bucketing the user for.
 	public static List<Integer> getActiveTests() {
 		List<Integer> testIDs = new ArrayList<>();
 		testIDs.add(EBAndroidAATest);
-		testIDs.add(EBAndroidETPTest);
-		testIDs.add(EBAndroidAppHISBookAboveFoldTest);
-		testIDs.add(EBAndroidAppHISFreeCancellationTest);
-		testIDs.add(EBAndroidAppHISSwipablePhotosTest);
 		testIDs.add(EBAndroidAppFlightCKOFreeCancelationTest);
 		testIDs.add(EBAndroidAppHSearchInfluenceMessagingTest);
 		testIDs.add(EBAndroidAppLaunchScreenTest);
@@ -67,6 +65,12 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightConfLXXsell);
 		testIDs.add(EBAndroidAppHotelETPSearchResults);
 		testIDs.add(EBAndroidAppHotelItinLXXsell);
+		testIDs.add(EBAndroidAppHSRMapIconTest);
+		testIDs.add(EBAndroidAppCarRatesCollapseTopListing);
+		testIDs.add(EBAndroidAppCarInsuranceIncludedCKO);
+		testIDs.add(EBAndroidAppHotelHCKOTraveler);
+		testIDs.add(EBAndroidAppHotelPayLaterCouponMessaging);
+		testIDs.add(EBAndroidAppHotel3xMessaging);
 		return testIDs;
 	}
 

@@ -185,7 +185,7 @@ public class SuggestionProvider extends ContentProvider {
 		else {
 			// Try getting suggestions from server
 			ExpediaServices services = new ExpediaServices(getContext());
-			SuggestionResponse response = services.suggestions(query, 0);
+			SuggestionResponse response = services.suggestions(query);
 			if (response != null) {
 
 				// #3200 special-case sorting for 3 char queries. We suspect the user may be entering

@@ -22,6 +22,7 @@ public class Codes {
 	public static final String DISPLAY_MODAL_VIEW = "DISPLAY_MODAL_VIEW";
 	public static final String DISCOUNT_RATE = "DISCOUNT_RATE";
 	public static final String CONTENT_STRING = "CONTENT_STRING";
+	public static final String LOB_NOT_SUPPORTED = "LOB_NOT_SUPPORTED";
 
 	//If the calling activity has already set the search params, we don't need to clear/reset them
 	public static final String TAG_EXTERNAL_SEARCH_PARAMS = "TAG_EXTERNAL_SEARCH_PARAMS";
@@ -35,4 +36,5 @@ public class Codes {
 
 	// For EF
 	public final static String TRAVELER_INDEX = "TRAVELER_INDEX";
+	public final static String CARS_PRODUCT_KEY = "CARS_PRODUCT_KEY";
 }

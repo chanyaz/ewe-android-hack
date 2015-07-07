@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Action Bar colors -->
+    <color name="action_bar_selected_tab_underline_color">#FFED18</color>
+    <color name="actionbar_suggestion_text_color">@color/actionbar_text</color>
+    <color name="action_bar_flight_cancel_text_color">#E9E9E9</color>
+    <color name="action_bar_flight_result_separator_color">#5FFF</color>
+
     <!-- Tablet colors -->
     <color name="results_cal_trav_bg">#eaeaea</color>
     <color name="launch_tile_pressed_overlay">#40000000</color>
+    <color name="tablet_legal_blurb_text_color">#A7DAFF</color>
+    <color name="tablet_confirmation_color">#374F6E</color>
+    <color name="tablet_confirmation_action_color">#2970CC</color>
 
     <!-- Launch screen colors -->
     <color name="launch_primary">#f3f3f3</color>
@@ -61,7 +70,9 @@
     <color name="flight_results_row_return_leg_bg_pressed">#408CA1</color>
     <color name="spinner_airport">#FFFFFF</color>
     <color name="spinner_airport_details">#777777</color>
+    <color name="flight_free_cancellation_text_color">#FFE980</color>
     <color name="flight_departure_date_color">#343434</color>
+    <color name="section_flight_edit_traveler_link_color">#2A4367</color>
 
     <!-- Hotels colors -->
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
@@ -75,6 +86,7 @@
     <color name="hotel_filter_spinner_color_selected">#CDCED0</color>
     <color name="hotel_filter_spinner_text_color">#393E43</color>
     <color name="etp_text_color">#29a653</color>
+    <color name="room_rate_refundable_cancellation_text_color">#008C5D</color>
 
     <!-- Login -->
     <color name="login_shade_flights">#32000000</color>
@@ -274,4 +286,5 @@
     <color name="lx_sort_filter_top_bar_text_color">#5C5C5C</color>
     <color name="lx_sort_filter_pressed_row_color">#D8D8D8</color>
 
+    <color name="leanplum_dialog_button_color">#fc2176</color>
 </resources>

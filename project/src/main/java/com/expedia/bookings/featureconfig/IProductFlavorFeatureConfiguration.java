@@ -110,4 +110,14 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isETPEnabled();
 
 	String getClientShortName();
+
+	String getAdXKey();
+
+	boolean isAppSupportUrlEnabled();
+
+	boolean isSigninEnabled();
+
+	boolean isAppCrossSellInHotelShareContentEnabled();
+
+	boolean isAppCrossSellInFlightShareContentEnabled();
 }

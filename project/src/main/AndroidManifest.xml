@@ -145,7 +145,7 @@
         <activity
             android:name="com.expedia.bookings.activity.HotelSearchActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone"
+            android:theme="@style/Theme.Phone.HotelSearchActivity"
             android:uiOptions="splitActionBarWhenNarrow"
             android:windowSoftInputMode="adjustResize" />
         <activity

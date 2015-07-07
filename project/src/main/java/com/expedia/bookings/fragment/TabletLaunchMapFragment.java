@@ -21,8 +21,8 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.enums.LaunchState;
@@ -31,6 +31,7 @@ import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LaunchPin;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -340,8 +341,9 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 			// Immediately inflate a pin with whatever we have cached (might be null)
 			PinCallback target = new PinCallback(launchLocation);
 			targetList.add(target);
-			new PicassoHelper.Builder(getActivity()).setPlaceholder(R.drawable.launch_circle_placeholder).setTarget(
-				target).build().load(imageUrl);
+			new PicassoHelper.Builder(getActivity())
+				.setPlaceholder(Ui.obtainThemeResID(getActivity(), R.attr.skin_launchCirclePlaceholderDrawable))
+				.setTarget(target).build().load(imageUrl);
 
 		}
 	}

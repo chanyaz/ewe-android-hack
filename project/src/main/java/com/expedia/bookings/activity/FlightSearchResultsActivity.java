@@ -243,6 +243,9 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	protected void onResume() {
 		super.onResume();
 		OmnitureTracking.onResume(this);
+		if (mMenu != null) {
+			setMenusEnabled(true);
+		}
 	}
 
 	@Override
@@ -1015,6 +1018,9 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		@Override
 		public void onClick(View v) {
 			Log.d("Selected flight leg!");
+
+			// disable buttons to prevent duplicate events firing
+			setMenusEnabled(false);
 
 			// Set the selected leg
 			FlightTripLeg ftl = mFlightDetailsFragment.getFlightTripLeg();

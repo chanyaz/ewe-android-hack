@@ -88,10 +88,8 @@
     <!-- Log in with Expedia/VSC screen -->
     <!-- This drawable is used in hotel detail for Book Now button as well -->
     <attr name="skin_loginBookNowButtonDrawable" format="reference" />
-    <attr name="skin_loginWithExpediaButtonText" format="reference|string" />
     <attr name="skin_loginWithExpediaTitleText" format="reference|string" />
     <attr name="skin_hotelDetailPlaceHolderDrawable" format="reference" />
-    <attr name="skin_loginWithExpediaContentDescription" format="reference|string" />
     <attr name="skin_loginButtonColor" format="reference" />
     <attr name="skin_hotelBookButtonColor" format="reference" />
 
@@ -149,9 +147,6 @@
     <attr name="skin_aboutAppNameString" format="reference|string" />
     <attr name="skin_aboutAppLogoDrawable" format="reference" />
 
-    <!-- for logout confirmation -->
-    <attr name="skin_logoutConfirmationString" format="reference|string" />
-
     <!-- Flight loading screen message position -->
     <attr name="skin_flightLoadingMessagePosition" format="reference" />
 
@@ -193,11 +188,13 @@
     <attr name="skin_couponSuccessMessageColor" fomrat="reference|color"/>
 
     <attr name="skin_infoContactUsString" format="reference|string"/>
-    <attr name="skin_infoContactEmailSubjectString" format="reference|string"/>
 
     <attr name="skin_loadingAirAsiaRoutesString" format="reference|string" />
-    <attr name="skin_emailUserNameString" format="reference|string" />
     <attr name="skin_itineraryNumberString" format="reference|string" />
+    <attr name="skin_itinCardOverflowDrawable" format="reference"/>
+    <attr name="skin_itinCardActionBarCheckmark" format="reference"/>
+    <attr name="skin_itinCardTitleTextColor" format="reference|color"/>
+    <attr name="skin_itinActionOverflowDrawable" format="reference"/>
 
     <!-- Room not Available Error Msg-->
     <attr name="skin_roomNotAvailableError" format="string"/>
@@ -214,9 +211,7 @@
     <attr name="skin_clearPrivateDataMsg" format="string"/>
 
     <!--Hotel search result messages-->
-    <attr name="skin_hotelSearchResultNotAvailale" format="reference|string" />
     <attr name="skin_hotelSearchResultSoldOut" format="reference|string" />
-    <attr name="skin_hotelSearchResultTEMPLATE" format="reference|string" />
 
     <attr name="skin_candycaneProgressDrawable" format="reference" />
     <attr name="skin_userRatingBarDrawable" format="reference" />
@@ -236,13 +231,8 @@
     <attr name="skin_addToCalenderMessage" format="reference|string" />
 
     <!--Missing string in AirAsiaGo and Travelocity-->
-    <attr name="skin_tellAFriendBody" format="reference|string" />
-    <attr name="skin_tellAFriendSubject" format="reference|string" />
     <attr name="skin_sorryRoomsSoldOut" format="reference|string" />
-    <attr name="skin_passwordHint" format="reference|string" />
-    <attr name="skin_loadingAccount" format="reference|string" />
     <attr name="skin_restrictedProfileLoginMessage" format="reference|string" />
-    <attr name="skin_dialogMessageLaunchMobileSite" format="reference|string" />
     <attr name="skin_sorryRoomsSoldOutErrorMessage" format="reference|string" />
 
     <!--Change the color of flight circles and lines -->
@@ -280,6 +270,18 @@
     <attr name="skin_tabletHotelDetailsStarRatingStyle" format="reference" />
     <attr name="skin_tabletHotelDetailsCircleRatingStyle" format="reference" />
 
+    <attr name="skin_tablet_hotel_confirmation_placeholder" format="reference" />
+    <attr name="skin_tablet_flight_confirmation_placeholder" format="reference" />
+
+    <attr name="skin_tablet_pin_detail_image_size" format="reference" />
+    <attr name="skin_tablet_pin_detail_button_background" format="reference" />
+    <attr name="skin_tablet_pin_detail_button_text_color" format="reference|color" />
+    <attr name="skin_tablet_ab_launch_text1_base" format="reference" />
+    <attr name="skin_tablet_ab_launch_text2_pin_detail" format="reference" />
+
+    <!-- Menu for AboutWebViewActivity-->
+    <attr name="skin_menuAboutWebViewActivity" format="reference" />
+   
     <!-- Hotel Checkout Credit Card Edit Text, Postal Code Section & Coupon Edit Text Style -->
     <attr name="skin_HotelCheckout_CreditCardEditTextStyle" format="reference" />
     <attr name="skin_HotelCheckout_PostalCodeSectionStyle" format="reference" />
@@ -293,4 +295,41 @@
     <attr name="skin_hotelLoginActionBarIcon" format="reference" />
     <attr name="skin_flightLoginActionBarIcon" format="reference" />
 
+    <attr name="skin_tablet_hotel_coupon_text_color" format="reference|color" />
+    <attr name="skin_etp_pay_now_charges_text" format="string" />
+
+    <attr name="skin_terminalChooserTextColor" format="reference|color" />
+    <attr name="skin_flightFreeCancellationTextColor" format="reference|color" />
+
+    <attr name="skin_hotelSearchPopupFilterTextColor" format="reference|color" />
+
+    <attr name="skin_bgSaleTextViewDrawable" format="reference" />
+
+    <attr name="skin_bgFlightSummaryRowTablet" format="reference" />
+    <attr name="skin_bgSelectedFlightCard" format="reference" />
+    <attr name="skin_bgFlightSummaryRowReturnLegTabletDrawable" format="reference" />
+    <attr name="skin_launchCirclePlaceholderDrawable" format="reference" />
+    <attr name="skin_icActionBarTripsDrawable" format="reference" />
+    <attr name="skin_tablet_legal_blurb_text_color" format="reference|color" />
+    <attr name="skin_tablet_confirmation_book_next_arrow_icon" format="reference" />
+    <attr name="skin_tablet_confirmation_book_next_arrow_color" format="reference|color" />
+    <attr name="skin_tablet_confirmation_done_booking_icon" format="reference" />
+    <attr name="skin_tablet_confirmation_done_booking_color" format="reference|color" />
+    <attr name="skin_tablet_confirmation_calendar_icon" format="reference" />
+    <attr name="skin_tablet_confirmation_share_icon" format="reference" />
+    <attr name="skin_tablet_confirmation_phone_icon" format="reference" />
+    <attr name="skin_tablet_confirmation_action_color" format="reference|color" />
+    <attr name="skin_tablet_price_expanded_bucket_text_color" format="reference|color" />
+    <attr name="skin_tablet_checkout_price_breakdown_icon" format="reference" />
+    <attr name="skin_tabletCalenderResultsSearchBlue" format="reference|color" />
+
+    <attr name="skin_sectionFlightEditTravelerLinkColor" format="reference|color" />
+    <attr name="skin_roomRateRefundableCancellationTextColor" format="reference|color" />
+    <attr name="skin_actionBarShopText" format="reference|string" />
+    <attr name="skin_confirmationHeaderHotelDividerLineColor" format="reference|color" />
+    <attr name="skin_confirmationHeaderFlightDividerLineColor" format="reference|color" />
+    <attr name="skin_checkmarkFlightDrawable" format="reference" />
+
+    <attr name="skin_launchTabIndicatorColor" format="reference|color" />
+    <attr name="skin_launchActionBarBackgroundColor" format="reference|color" />
 </resources>

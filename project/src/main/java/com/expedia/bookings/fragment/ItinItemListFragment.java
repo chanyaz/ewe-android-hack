@@ -29,12 +29,12 @@ import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.User.SignOutCompleteListener;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
@@ -74,6 +74,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private ViewGroup mErrorContainer;
 	private TextView mErrorTv;
 	private View mErrorMask;
+	private Button mFindItineraryButton;
 
 	private String mErrorMessage;
 	private boolean mShowError = false;
@@ -139,6 +140,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mErrorTv = Ui.findView(view, R.id.no_trips_error_message);
 		mErrorMask = Ui.findView(view, R.id.empty_list_error_mask);
 		mErrorContainer = Ui.findView(view, R.id.error_container);
+		mFindItineraryButton = Ui.findView(view, R.id.find_itinerary_button);
 
 		mItinListView.setEmptyView(mEmptyView);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
@@ -152,6 +154,12 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		});
 
 		mOrEnterNumberTv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startAddGuestItinActivity();
+			}
+		});
+		mFindItineraryButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				startAddGuestItinActivity();
@@ -179,6 +187,11 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		else if (getArguments() != null) {
 			mJumpToItinId = getArguments().getString(ARG_JUMP_TO_UNIQUE_ID);
 		}
+
+		boolean isSignInEnabled = ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled();
+		mLoginButton.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
+		mOrEnterNumberTv.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
+		mFindItineraryButton.setVisibility(isSignInEnabled ? View.GONE : View.VISIBLE);
 
 		return view;
 	}
@@ -364,7 +377,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public void doLogout() {
-
 		setErrorMessage(null, false);
 
 		// Note: On 2.x, the user can logout from the expanded details view, be sure to collapse the view so when we
@@ -377,23 +389,12 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		}
 
 		// Sign out user
-		User.signOutAsync(getActivity(), new SignOutCompleteListener() {
-			@Override
-			public void onSignOutComplete() {
-				syncItinManager(true, false);
-				AdTracker.trackLogout();
-			}
-		});
-
-		updateLoginState();
-
-		invalidateOptionsMenu();
-	}
-
-	public void onLoginCompleted() {
-		updateLoginState();
+		User.signOut(getActivity());
 
 		syncItinManager(true, false);
+		AdTracker.trackLogout();
+
+		updateLoginState();
 
 		invalidateOptionsMenu();
 	}

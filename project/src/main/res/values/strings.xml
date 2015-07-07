@@ -67,8 +67,6 @@
     <string name="car_auto_tran_text">Automatic Transmission</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">Manual Transmission</string>
-    <!-- Sign in Text-->
-    <string name="cars_sign_in_text">Sign in with Expedia</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -138,8 +136,7 @@
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s or similar</string>
     <string name="car_model_unknown_template">Exact model N/A</string>
-
-    <string name="preparing_checkout_message">Preparing checkout&#8230;</string>
+    
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">Desk &amp; vehicle at terminal</string>
     <!-- Car checkout cost breakdown total due today -->
@@ -151,14 +148,14 @@
     <!-- Car checkout rental fare breakdown types -->
     <!--Cost breakdown type base -->
     <string name="car_rental_breakdown_base">Car rental</string>
-    <!--Cost breakdown type taxes and fees -->
-    <string name="car_rental_breakdown_taxes_and_fees">Estimated taxes and fees</string>
     <!--Cost breakdown type insurance -->
     <string name="car_rental_breakdown_insurance">Insurance</string>
     <!--Cost breakdown type drop off charge -->
     <string name="car_rental_breakdown_drop_off_charges">Drop off charge</string>
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">Unlimited mileage</string>
+    <!-- Insurance included -->
+    <string name="insurance_included">Insurance included</string>
     <!-- Checkout confirmation message (temporary) -->
     <string name="successful_checkout_TEMPLATE">Itinerary #%1$s</string>
     <!-- Error message for some missing checkout params -->
@@ -194,7 +191,7 @@
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">Names must not contain numbers or special characters.</string>
     <!-- Show to user when their phone number is invalid -->
-    <string name="reservation_invalid_phone">Phone number length must be between 1 and 20.</string>
+    <string name="reservation_invalid_phone">Phone number length must be between 4 and 20.</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hmm&#8230;Your payment didn\'t go through. Please double check your payment details and try again.</string>
@@ -565,8 +562,6 @@
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">Slide to book</string>
-    <!-- Total with tax -->
-    <string name="lx_total_with_tax">Total with Tax</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Enter contact details</string>
     <!-- LX search error -->
@@ -620,6 +615,8 @@
     <string name="lx_ground_transport_bags_text">%1$s Bags</string>
     <!-- Ground Transport passengers text-->
     <string name="lx_ground_transport_passengers_text">%1$s Passengers</string>
+    <!-- Incorrect date search for LX -->
+    <string name="lx_start_date_error">This date is in the past, please choose a new date.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -877,8 +874,8 @@
     <string name="sign_in_failed_try_again">Sign in failed. If your email and password are correct, confirm that your app\'s Country setting is correct.</string>
     <!-- User needs to reset password -->
     <string name="sign_in_reset_password">We need you to create a new, international sign in for all Expedia sites.&lt;br>Please reset your password using the ‘Forgot your password?\&apos; link below.</string>
-    <!-- Facebook connect expedia password hint -->
-    <string name="expedia_password_hint">Expedia Password</string>
+    <!-- Facebook connect password hint -->
+    <string name="brand_password_hint_TEMPLATE">{brand} Password</string>
     <!-- Link accounts -->
     <string name="link_accounts">Link Accounts</string>
     <!-- Failure to update the user -->
@@ -895,6 +892,8 @@
     <string name="Sign_In">Sign In</string>
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_Expedia">Sign in with Expedia</string>
+    <!-- Sign in with the current brand -->
+    <string name="sign_in_with_brand_TEMPLATE">Sign in with {brand}</string>
     <!-- or -->
     <string name="or">or</string>
     <!-- Already signed in -->
@@ -1809,10 +1808,14 @@
     <string name="menu_checkout">Checkout</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Best Price Guarantee</string>
+    <!-- Expedia Rate - Non merchant default infosite messaging -->
+    <string name="non_merchant_rate_TEMPLATE">{brand} Rate</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Free Cancellation&lt;/b&gt; by &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">Sign Out</string>
+    <!-- AB Test 3x messaging for hotel points -->
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">You\'ll earn %1$s points &#x2014; 3x points for booking on the app!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">You\'ll earn %1$s points for this booking!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1825,16 +1828,14 @@
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">We\&apos;ve got great news! The cost of your stay just decreased from %1$s to %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Done</string>
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Due to Expedia Today</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Please use the Roman alphabet</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Please enter a valid email address</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Fees Paid at Hotel:</string>
-    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">Due to Expedia Today:</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
+    <string name="due_to_brand_today_TEMPLATE">Due to {brand} Today:</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">The &lt;b&gt;%1$s&lt;/b&gt; resort fee will be collected at the hotel. The total price for your stay will be &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -2359,6 +2360,10 @@
     <string name="DONE">DONE</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Search Map</string>
+    <!-- Button label for toggling to the map -->
+    <string name="map_text">Map</string>
+    <!-- Button label for toggling to the hotel list -->
+    <string name="list_text">List</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="sort">Sort</string>
     <!-- Label to swtich between map and list search results -->
@@ -2735,20 +2740,6 @@
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
     <string name="unknown">Unknown</string>
 
-    <!-- Expedia policy strings -->
-    <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">Your credit card will be charged immediately for the full amount of the reservation upon booking.</string>
-    <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">We are offering an exceptionally low rate on this property. In order to do so, we must make this a non-refundable rate. If you choose to cancel this reservation, you will not be refunded any of the payment.</string>
-    <!-- Policy displayed to user when a deposit is required -->
-    <string name="PolicyDepositRequired">Your credit card will be charged a deposit for your reservation. Your credit card will be charged directly by the hotel when your reservation is placed.</string>
-    <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">Credit card information is required in order for us to guarantee your reservation. Your credit card will not be charged until your arrival at the hotel or the cancellation deadline has passed.</string>
-    <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">By proceeding with this reservation, you agree to all terms and conditions, which include the Cancellation Policy and all terms and conditions contained in the User Agreement.\n\nYou agree to pay the cost of your reservation. If you do not pay this debt and it is collected through the use of a collection agency, an attorney, or through other legal proceedings, you agree to pay all reasonable costs or fees, including attorney fees and court costs, incurred in connection with such collection effort.</string>
-    <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">You are booking a non-discounted property. All rates displayed are nightly, and based on double occupancy per room unless otherwise specified. Carefully review the room descriptions and rate rules to ensure the room you select can accommodate your entire party. Some rates may require special identification. Our booking fee, taxes, and other surcharges imposed by the hotel are not included. Any extra adults or children above the room\'s listed occupancy may be subject to additional charges at the property\'s discretion.\n\nRequests for more than 2 people, or for more occupants than your selected rate indicates, will be sent to the hotel but are not guaranteed. If accepted, they will be subject to additional charges at the property\'s discretion.</string>
-
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Sign In</string>
@@ -2761,7 +2752,7 @@
     <!-- Message that tells user they failed to sign in -->
     <string name="sign_in_failed">Please sign in again</string>
     <!-- Label for sign out confirmation -->
-    <string name="sign_out_confirmation">Are you sure you want to sign out of your Expedia account?</string>
+    <string name="sign_out_confirmation_TEMPLATE">Are you sure you want to sign out of your {brand} account?</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +silver rewards program name -->
@@ -2770,8 +2761,8 @@
     <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia Account</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Loading Expedia Account</string>
+    <!-- Label for loading user profile from Expedia -->
+    <string name="loading_brand_account_TEMPLATE">Loading {brand} Account</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Forgot your password?</string>
     <!-- Webview title for password recovery -->
@@ -2832,6 +2823,8 @@
     <string name="coupon_error_exceeded_earn_limit">Sorry, this coupon has been used too many times and can no longer be applied.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
     <string name="coupon_error_invalid_average_price">Sorry, but the average price per night doesn\&apos;t meet the minimum for this coupon.</string>
+    <!-- Error when applying coupon - Pay Later Hotel -->
+    <string name="coupon_error_pay_later_hotel">Coupons cannot be applied to Pay Later rooms, please select a Pay Now room.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2844,18 +2837,12 @@
     <string name="contact_expedia_via">Contact Expedia Via…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Phone</string>
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">Expedia Reservations Support</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Website</string>
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Expedia Website</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App Support</string>
-    <!-- Subject line for "tell a friend" feature -->
-    <string name="tell_a_friend_subject">Expedia Hotels</string>
-    <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Hi there,\n\nCheck out Expedia Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Terms and Conditions</string>
     <!-- Label for link to privacy policy -->
@@ -2870,8 +2857,6 @@
     <string name="dialog_title_cleared_private_data">Private data cleared</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">All saved billing and contact information has been removed.</string>
-    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">Launch the Expedia mobile website?</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">Subscribe</string>
     <!-- Action button label to follow on twitter -->
@@ -3270,8 +3255,6 @@
     <string name="country_ax">Åland Islands</string>
 
     <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Expedia, Inc.</string>
     <!-- Loading message -->
     <string name="loading">Loading</string>
     <!-- Google Wallet label -->
@@ -3321,9 +3304,9 @@
 
     <!-- Handling sold out hotels -->
     <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available">Not currently available from Expedia</string>
+    <string name="not_currently_available_from_brand_TEMPLATE">Not currently available from {brand}</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_TEMPLATE">Not available from Expedia %s</string>
+    <string name="not_currently_available_from_brand_dates_TEMPLATE">Not available from {brand} {dates}</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -3487,8 +3470,6 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">Press to begin checkout</string>
-    <!-- Content description for action: Press to sign in with your Expedia account -->
-    <string name="cd_checkout_sign_in_with_expedia">Press to sign in to your Expedia account</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">Press to add a traveler to this booking</string>
     <!-- Content description for action: Press to select payment for this booking -->
@@ -3496,8 +3477,8 @@
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Press to enter a coupon or promotional code</string>
     <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign into Expedia with your Facebook account -->
-    <string name="cd_sign_in_with_facebook">Press to sign into Expedia with your Facebook account</string>
+    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
+    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">Press to sign into {brand} with your Facebook account</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Press to enter a new traveler</string>
@@ -3590,5 +3571,7 @@
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Select each child\'s age</string>
+
+    <string name="lob_not_supported_error_message">Sorry, but {lob} booking is not yet available in your location.</string>
 
 </resources>

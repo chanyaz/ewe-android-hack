@@ -1,0 +1,81 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+
+        <!-- AD-X -->
+        <meta-data
+            android:name="ADX_CLIENT_ID"
+            android:value="exp3dia050615dw" />
+
+        <meta-data
+            android:name="APP_NAME"
+            android:value="com.lastminute.android" />
+
+        <!-- Deep link routing activity -->
+        <activity
+            android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:host="l.ast.mn" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="ltmn" />
+                <data android:host="home" />
+                <data android:host="trips" />
+                <data android:host="showTrips" />
+                <data android:host="hotelSearch" />
+                <data android:host="flightSearch" />
+
+                <!-- We will handle iOS implementation of ItinSharing as well, just cause we can -->
+                <data android:host="addSharedItinerary" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:pathPrefix="/m/trips/shared"
+                    android:scheme="https" />
+                <data android:host="www.lastminute.com.au" />
+                <data android:host="www.lastminute.co.nz" />
+
+                <!-- Integration Server -->
+                <data android:host="wwwlastminutecomau.integration.sb.karmalab.net" />
+
+                <!-- Trunk Server -->
+                <data android:host="wwwlastminutecomau.trunk.sb.karmalab.net" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="com.expedia.bookings.activity.LastMinuteLocaleChangeReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.expedia.bookings.action.lastminute_locale_changed" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.AdX.tag.AdXAppTracker"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

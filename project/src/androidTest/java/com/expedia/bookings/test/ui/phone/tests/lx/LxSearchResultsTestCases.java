@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.ui.phone.tests.lx;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.hamcrest.Matchers;
@@ -66,6 +67,12 @@ public class LxSearchResultsTestCases extends LxTestCase {
 			}
 			LXSearchResultsPageModel.getTile(expectedTitle).check(matches(
 				hasDescendant(withText(containsString(activity.price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))))));
+
+			// Check strikethrough price
+			if (!activity.originalPrice.getAmount().equals(BigDecimal.ZERO)) {
+				LXSearchResultsPageModel.getTile(expectedTitle).check(matches(
+						hasDescendant(withText(containsString(activity.fromOriginalPriceValue.toString().toLowerCase())))));
+			}
 			LXSearchResultsPageModel.getTile(expectedTitle).check(matches(
 				hasDescendant(withText(containsString(activity.fromPriceTicketCode.toString().toLowerCase())))));
 			currentCounter++;

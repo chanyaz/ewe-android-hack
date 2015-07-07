@@ -23,6 +23,7 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.LeanPlumUtils;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -169,9 +170,8 @@ public class Db {
 		return sDb.mFilter;
 	}
 
-	public static BillingInfo resetBillingInfo() {
+	public static void resetBillingInfo() {
 		sDb.mBillingInfo = new BillingInfo();
-		return sDb.mBillingInfo;
 	}
 
 	public static void setBillingInfo(BillingInfo billingInfo) {
@@ -180,7 +180,7 @@ public class Db {
 
 	public static BillingInfo getBillingInfo() {
 		if (sDb.mBillingInfo == null) {
-			throw new RuntimeException("Need to call Database.loadBillingInfo() before attempting to use BillingInfo.");
+			sDb.mBillingInfo = new BillingInfo();
 		}
 
 		return sDb.mBillingInfo;
@@ -492,7 +492,7 @@ public class Db {
 	}
 
 	public static boolean loadTripBucket(Context context) {
-		return loadFromDisk(context, new IDiskLoad() {
+		boolean hasTrip = loadFromDisk(context, new IDiskLoad() {
 			@Override
 			public boolean doLoad(JSONObject json) throws Exception, OutOfMemoryError {
 				if (json.has("tripBucket")) {
@@ -501,6 +501,9 @@ public class Db {
 				return true;
 			}
 		}, SAVED_TRIP_BUCKET_FILE_NAME, "TripBucket");
+		boolean isAirAttachQualified = hasTrip ? sDb.mTripBucket.isUserAirAttachQualified() : false;
+		LeanPlumUtils.updateAirAttachState(isAirAttachQualified);
+		return hasTrip;
 	}
 
 	public static boolean deleteTripBucket(Context context) {
@@ -945,38 +948,6 @@ public class Db {
 		}
 		else {
 			return file.delete();
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Saving/loading the BillingInfo object
-
-	public static void kickOffBackgroundBillingInfoSave(final Context context) {
-		(new Thread(new Runnable() {
-			@Override
-			public void run() {
-				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
-				if (Db.getBillingInfo() != null && context != null) {
-					BillingInfo tempBi = new BillingInfo(Db.getBillingInfo());
-					tempBi.save(context);
-				}
-			}
-		})).start();
-	}
-
-	public static boolean loadBillingInfo(Context context) {
-		if (sDb.mBillingInfo == null) {
-			sDb.mBillingInfo = new BillingInfo();
-			return sDb.mBillingInfo.load(context);
-		}
-		else {
-			return true;
-		}
-	}
-
-	public static void deleteBillingInfo(Context context) {
-		if (sDb.mBillingInfo != null) {
-			sDb.mBillingInfo.delete(context);
 		}
 	}
 

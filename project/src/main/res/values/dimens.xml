@@ -8,6 +8,9 @@
     <dimen name="match_parent">-1px</dimen>
     <!--<dimen name="wrap_content">-2px</dimen>-->
 
+    <!-- Action Bar selected tab underline height -->
+    <dimen name="action_bar_selected_tab_underline_height">1dp</dimen>
+
     <!-- Values that L2ImageCache will use for Stack Blur -->
     <fraction name="stack_blur_darken_multiplier">65%</fraction>
     <dimen name="stack_blur_radius">25dp</dimen>
@@ -163,7 +166,7 @@
     <!-- Account support dimensions -->
     <dimen name="login_button_icon_padding_left">-3dp</dimen>
     <dimen name="login_button_icon_padding_right">1dp</dimen>
-    <dimen name="account_button_points_text_size">13sp</dimen>
+    <dimen name="account_button_points_text_size">11.5sp</dimen>
     <dimen name="account_rewards_container_height">20dp</dimen>
     <dimen name="account_rewards_container_height_for_empty_message">8dp</dimen>
     <dimen name="card_icon_padding">5dp</dimen>
@@ -281,7 +284,12 @@
     <dimen name="car_slide_to_purchase_price_text_size">13dp</dimen>
     <dimen name="car_slide_to_purchase_padding">50dp</dimen>
     <dimen name="car_image_width">300dp</dimen>
-    <dimen name="car_unexpanded_space_height">125dp</dimen>
+    <dimen name="car_unexpanded_space_height">165dp</dimen>
+    <dimen name="car_unexpanded_with_price_change_space_height">170dp</dimen>
     <dimen name="car_expanded_space_height">350dp</dimen>
     <dimen name="hotel_spinner_height">50dp</dimen>
+
+    <!-- Dimensions for leanplum in app message templates -->
+    <dimen name="leanplum_dialog_image_width">280dp</dimen>
+    <dimen name="leanplum_dialog_image_height">157dp</dimen>
 </resources>

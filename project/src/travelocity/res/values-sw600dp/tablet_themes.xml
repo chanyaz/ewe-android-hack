@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.Travelocity.Tablet" parent="Theme.Travelocity">
-        <item name="skin_action_bar_logo_tablet">@drawable/ic_travelocity_action_bar_logo_dark</item>
+        <item name="skin_action_bar_logo_tablet">@drawable/ic_travelocity_logo</item>
         <item name="skin_collection_overlay_static_color">@color/collection_overlay_color</item>
         <item name="skin_tablet_book_button_text_color">@color/tablet_book_button_text_color_travelocity</item>
         <item name="skin_tablet_trip_bucket_arrow">@drawable/ic_book_bucket_arrow_travelocity</item>
@@ -33,8 +33,27 @@
         <item name="skin_tablet_hotel_details_background_drawable">@drawable/ic_hotel_details_background_layer_list_tvly</item>
         <item name="skin_tabletHotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails.Travelocity</item>
         <item name="skin_tabletHotelDetailsCircleRatingStyle">@style/RatingBar.Star.HotelDetails.Travelocity</item>
+
+        <item name="skin_tablet_flight_confirmation_placeholder">@drawable/bg_itin_placeholder_travelocity</item>
+        <item name="skin_tablet_hotel_confirmation_placeholder">@drawable/bg_itin_placeholder_travelocity</item>
+
+        <item name="skin_bgSaleTextViewDrawable">@drawable/bg_sale_text_view</item>
+        <item name="skin_bgFlightSummaryRowTablet">@drawable/bg_flight_summary_row_tablet</item>
+        <item name="skin_bgSelectedFlightCard">@drawable/bg_selected_flight_card</item>
+        <item name="skin_bgFlightSummaryRowReturnLegTabletDrawable">@drawable/bg_flight_summary_row_return_leg_tablet</item>
+        <item name="skin_icActionBarTripsDrawable">@drawable/ic_action_bar_trips</item>
+
+        <item name="skin_tabletCalenderResultsSearchBlue">@color/tablet_results_search_blue</item>
+        <item name="skin_sectionFlightEditTravelerLinkColor">@color/section_flight_edit_traveler_link_color</item>
+
+        <item name="skin_roomRateRefundableCancellationTextColor">@color/room_rate_refundable_cancellation_text_color</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Travelocity.Tablet" />
+
+    <style name="V2.Widget.ActionBar.TabletLaunch">
+        <item name="android:displayOptions">showHome|useLogo|showCustom</item>
+        <item name="android:background">@drawable/bg_action_bar_travelocity</item>
+    </style>
 
 </resources>

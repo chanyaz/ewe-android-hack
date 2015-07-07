@@ -70,11 +70,15 @@ public class GuestsPickerUtils {
 		int numChildren = children == null ? 0 : children.size();
 
 		if (numChildren == 0) {
+			container.setVisibility(View.GONE);
 			return;
+		}
+		else {
+			container.setVisibility(View.VISIBLE);
 		}
 
 		for (int i = 0; i < MAX_CHILDREN; i++) {
-			View row = GuestsPickerUtils.getChildAgeLayout(container, i);
+			View row = getChildAgeLayout(container, i);
 			int visibility = i < numChildren ? View.VISIBLE : hiddenState;
 			row.setVisibility(visibility);
 

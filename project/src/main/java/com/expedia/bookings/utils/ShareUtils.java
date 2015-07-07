@@ -426,9 +426,11 @@ public class ShareUtils {
 
 		body.append("\n");
 
-		body.append(mContext.getString(
-			ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-			PointOfSale.getPointOfSale().getAppInfoUrl()));
+		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInFlightShareContentEnabled()) {
+			body.append(mContext.getString(
+				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
+				PointOfSale.getPointOfSale().getAppInfoUrl()));
+		}
 
 		return body.toString();
 	}
@@ -540,9 +542,11 @@ public class ShareUtils {
 			builder.append("\n\n");
 		}
 
-		builder.append(mContext.getString(
-			ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-			PointOfSale.getPointOfSale().getAppInfoUrl()));
+		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInHotelShareContentEnabled()) {
+			builder.append(mContext.getString(
+				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
+				PointOfSale.getPointOfSale().getAppInfoUrl()));
+		}
 
 		return builder.toString();
 	}

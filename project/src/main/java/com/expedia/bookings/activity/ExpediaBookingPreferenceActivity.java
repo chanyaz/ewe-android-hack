@@ -23,6 +23,7 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
@@ -73,52 +74,11 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 				}
 			});
 
-
-			ListPreference aaPreference = (ListPreference) findPreference(
-				getString(R.string.preference_aa_test));
-			aaPreference.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference etpPreference = (ListPreference) findPreference(
-				getString(R.string.preference_etp_test));
-			etpPreference.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference bookPreference = (ListPreference) findPreference(
-				getString(R.string.preference_book_above_fold));
-			bookPreference.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference hotelFreeCancellationPreference = (ListPreference) findPreference(
-				getString(R.string.preference_hotel_free_cancellation));
-			hotelFreeCancellationPreference.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference photoPreference = (ListPreference) findPreference(
-				getString(R.string.preference_hotel_photo_treatment));
-			photoPreference.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference flightFreeCancellationPreference = (ListPreference) findPreference(
-				getString(R.string.preference_flight_free_cancellation));
-			flightFreeCancellationPreference.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference searchInfluencePreference = (ListPreference) findPreference(
-				getString(R.string.preference_hotel_search_influence_messaging));
-			searchInfluencePreference.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference launchScreenPreference = (ListPreference) findPreference(
-				getString(R.string.preference_launch_screen));
-			launchScreenPreference.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference checkoutORPreference = (ListPreference) findPreference(
-				getString(R.string.preference_checkout_or_messaging));
-			checkoutORPreference.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference resultRatingPreference = (ListPreference) findPreference(
-				getString(R.string.preference_hotel_result_rating));
-			resultRatingPreference.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference confirmationCrossSell = (ListPreference) findPreference(
-				getString(R.string.preference_flight_confirmation_car_cross_sell));
-			confirmationCrossSell.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference hotelSearchSalePin = (ListPreference) findPreference(
-				getString(R.string.preference_hotel_search_sale_pin));
-			hotelSearchSalePin.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference confirmationLxCrossSell = (ListPreference) findPreference(
-				getString(R.string.preference_flight_confirmation_lx_cross_sell));
-			confirmationLxCrossSell.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference hotelEtpSearchResults = (ListPreference) findPreference(
-					getString(R.string.preference_hotel_etp_search_results));
-			hotelEtpSearchResults.setOnPreferenceChangeListener(abacusPrefListener);
-			ListPreference hotelItinLXCrossSell = (ListPreference) findPreference(
-				getString(R.string.preference_hotel_itin_lx_cross_sell));
-			hotelItinLXCrossSell.setOnPreferenceChangeListener(abacusPrefListener);
+			for (int key : AbacusUtils.getActiveTests()) {
+				ListPreference preference = (ListPreference) findPreference(
+					String.valueOf(key));
+				preference.setOnPreferenceChangeListener(abacusPrefListener);
+			}
 		}
 
 		String clearPrivateDateKey = getString(R.string.preference_clear_private_data_key);

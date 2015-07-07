@@ -84,4 +84,24 @@ public class DateUtilsTests {
 
 		assertEquals(obtained, localDateExpected);
 	}
+
+	@Test
+	public void testyyyyMMddTHHmmssToLocalDate() {
+		DateTime dateTimeExpected = DateTime.now()
+			.withYear(2015)
+			.withMonthOfYear(1)
+			.withDayOfMonth(31)
+			.withHourOfDay(10)
+			.withMinuteOfHour(0)
+			.withSecondOfMinute(0)
+			.withMillisOfSecond(0);
+
+		String localDateStringRepresentation = "2015-01-31T10:00:00";
+
+		DateTime dateTimeObtained = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(localDateStringRepresentation,
+			DateTime.now());
+
+		assertEquals(dateTimeObtained, dateTimeExpected);
+	}
+
 }

@@ -67,8 +67,6 @@
     <string name="car_auto_tran_text">Automatisk växellåda</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">Manuell växellåda</string>
-    <!-- Sign in Text-->
-    <string name="cars_sign_in_text">Logga in med Expedia</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -159,6 +157,8 @@
     <string name="car_rental_breakdown_drop_off_charges">Kostnad för avlämning</string>
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">Obegränsad körsträcka</string>
+    <!-- Insurance included -->
+    <string name="insurance_included">Försäkring inkluderas</string>
     <!-- Checkout confirmation message (temporary) -->
     <string name="successful_checkout_TEMPLATE">Resplansnummer %1$s</string>
     <!-- Error message for some missing checkout params -->
@@ -877,8 +877,8 @@
     <string name="sign_in_failed_try_again">Inloggningen misslyckades. Om din e-postadress och ditt lösenord stämmer ber vi dig bekräfta att din app är inställd på rätt land.</string>
     <!-- User needs to reset password -->
     <string name="sign_in_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga Expediasidor.&lt;br&gt;Återställ ditt lösenord genom att klicka på länken \&apos;Har du glömt ditt lösenord?\&apos; nedan.</string>
-    <!-- Facebook connect expedia password hint -->
-    <string name="expedia_password_hint">Lösenord för Expedia</string>
+    <!-- Facebook connect password hint -->
+    <string name="brand_password_hint_TEMPLATE">Lösenord på {brand}</string>
     <!-- Link accounts -->
     <string name="link_accounts">Länka konton</string>
     <!-- Failure to update the user -->
@@ -895,6 +895,8 @@
     <string name="Sign_In">Logga in</string>
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_Expedia">Logga in med Expedia</string>
+    <!-- Sign in with the current brand -->
+    <string name="sign_in_with_brand_TEMPLATE">Logga in med {brand}</string>
     <!-- or -->
     <string name="or">eller</string>
     <!-- Already signed in -->
@@ -1825,16 +1827,14 @@
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">Vi har goda nyheter! Priset för din vistelse sjönk precis från %1$s till %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Klar</string>
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Att betala Expedia idag</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Använd det latinska alfabetet</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Ange en giltig e-postadress</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Avgifter som betalas på hotellet:</string>
-    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">Att betala Expedia idag:</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
+    <string name="due_to_brand_today_TEMPLATE">Att betala {brand} idag:</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">Resortavgiften på &lt;b&gt;%1$s&lt;/b&gt; kommer att debiteras på hotellet. Det totala priset för din vistelse blir &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -2359,6 +2359,10 @@
     <string name="DONE">KLAR</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Sök karta</string>
+    <!-- Button label for toggling to the map -->
+    <string name="map_text">Karta</string>
+    <!-- Button label for toggling to the hotel list -->
+    <string name="list_text">Lista</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="sort">Sortera</string>
     <!-- Label to swtich between map and list search results -->
@@ -2735,20 +2739,6 @@
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
     <string name="unknown">Okänt</string>
 
-    <!-- Expedia policy strings -->
-    <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">Totalbeloppet för bokningen dras från ditt kreditkort omedelbart.</string>
-    <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">Vi erbjuder ett ovanligt lågt pris på det här hotellet. För att kunna göra det, kan återbetalningar inte göras för det här rummet. Om du väljer att avboka, kommer du inte att få några pengar tillbaka.</string>
-    <!-- Policy displayed to user when a deposit is required -->
-    <string name="PolicyDepositRequired">Ditt kreditkort kommer att debiteras en depositionsavgift för din bokning. Ditt kreditkort kommer att debiteras direkt av hotellet när din bokning är gjord.</string>
-    <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">Vi behöver dina kreditkortsuppgifter för att kunna säkra din bokning. Ditt kreditkort kommer inte att debiteras förrän du anländer till hotellet eller avbokningsfristen löpt ut.</string>
-    <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">Genom att gå vidare med bokningen, accepterar du alla regler och villkor, däribland vår avbokningspolicy och alla regler och villkor i användaravtalet. \n\nDu accepterar härmed att betala kostnaden av din bokning. Om du inte betalar den här skulden och den drivs in av en indrivningsbyrå, ett juridiskt ombud, advokat eller via andra rättsliga processer, godkänner du att betala alla skäliga kostnader och avgifter, inklusive advokatkostnader och domstolskostnader, som uppkommit i samband med indrivningen.</string>
-    <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">Du bokar nu ett hotell utan rabatt. Alla priser som visas är beräknade per natt och är baserade på dubbelrum om inte annat anges. Granska noga rumsbeskrivningarna och prisreglerna för att försäkra dig om att rummet du valt kan inhysa hela resesällskapet. Vissa rumspriser kan behöva särskild legitimation. Vår bokningsavgift, skatt och andra tilläggsavgifter som hotellet lägger på är inte inkluderade. Om antalet gäster, barn eller vuxna, överstiger rummets listade kapacitet, kan du tvingas betala tilläggsavgifter på hotellets begäran. \n\nBokningsförfrågningar för fler än två personer, eller för fler gäster än den angivna rumsbeläggningen, kommer att skickas till hotellet men vi garanterar inte att de uppfylls. Om de accepteras, kan hotellet ta ut en tilläggsavgift.</string>
-
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Logga in</string>
@@ -2761,7 +2751,7 @@
     <!-- Message that tells user they failed to sign in -->
     <string name="sign_in_failed">Logga in igen</string>
     <!-- Label for sign out confirmation -->
-    <string name="sign_out_confirmation">Är du säker på att du vill logga ut från ditt Expediakonto?</string>
+    <string name="sign_out_confirmation_TEMPLATE">Är du säker på att du vill logga ut från ditt {brand}-konto?</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +silver rewards program name -->
@@ -2770,8 +2760,8 @@
     <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expediakonto</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Laddar Expediakonto</string>
+    <!-- Label for loading user profile from Expedia -->
+    <string name="loading_brand_account_TEMPLATE">Laddar {brand}-konto</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Har du glömt ditt lösenord?</string>
     <!-- Webview title for password recovery -->
@@ -2823,7 +2813,7 @@
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">Tyvärr kan inte kupongen tillämpas på det här hotellet.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Vi kan tyvärr inte tillämpa kuponger just nu. Försök igen.</string>
+    <string name="coupon_error_service_down">Vi kan tyvärr inte processa kuponger just nu. Försök igen.</string>
     <!-- Error when applying coupon - session timeout -->
     <string name="coupon_error_service_timeout">Tyvärr tog det för lång tid att tillämpa koden. Försök igen.</string>
     <!-- Error when applying coupon - Invalid Stay Dates -->
@@ -2832,6 +2822,8 @@
     <string name="coupon_error_exceeded_earn_limit">Tyvärr har den här kupongen använts för många gånger och den kan inte längre tillämpas.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
     <string name="coupon_error_invalid_average_price">Tyvärr uppfyller inte snittpriset per natt minimumkravet för den här kupongen.</string>
+    <!-- Error when applying coupon - Pay Later Hotel -->
+    <string name="coupon_error_pay_later_hotel">Kuponger kan inte tillämpas på hotellrum som betalas senare. Du måste välja betalningsalternativet \&apos;Betala nu\&apos;.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2844,18 +2836,12 @@
     <string name="contact_expedia_via">Kontakta Expedia via…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Telefon</string>
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">Expedias bokningssupport</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Webbplats</string>
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Expedias webbplats</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Support för appen</string>
-    <!-- Subject line for "tell a friend" feature -->
-    <string name="tell_a_friend_subject">Expedia Hotels</string>
-    <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Hej,\n\nTa gärna en titt på vår hotellapp Expedia Hotels för iPhone och Android. Det är gratis och du kan enkelt söka och boka rum på fler än 140 000 hotell över hela världen. Det är det enklaste sättet att boka hotell med din mobiltelefon. \n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Regler och villkor</string>
     <!-- Label for link to privacy policy -->
@@ -2870,8 +2856,6 @@
     <string name="dialog_title_cleared_private_data">Personliga uppgifter raderade</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">Alla fakturerings- och kontaktuppgifter har raderats.</string>
-    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">Gå till Expedias mobilsida?</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">Prenumerera</string>
     <!-- Action button label to follow on twitter -->
@@ -3270,8 +3254,6 @@
     <string name="country_ax">Åland</string>
 
     <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Expedia, Inc.</string>
     <!-- Loading message -->
     <string name="loading">Hämtar</string>
     <!-- Google Wallet label -->
@@ -3321,9 +3303,9 @@
 
     <!-- Handling sold out hotels -->
     <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available">Inte tillgängligt på Expedia för tillfället</string>
+    <string name="not_currently_available_from_brand_TEMPLATE">Inte tillgängligt just nu på {brand}</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_TEMPLATE">Inte tillgängligt på Expedia %s</string>
+    <string name="not_currently_available_from_brand_dates_TEMPLATE">Ej tillgängligt på {brand} {dates}</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -3487,8 +3469,6 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">Tryck för att påbörja betalning</string>
-    <!-- Content description for action: Press to sign in with your Expedia account -->
-    <string name="cd_checkout_sign_in_with_expedia">Tryck för att logga in på ditt Expediakonto</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">Tryck för att lägga till en resenär till bokningen</string>
     <!-- Content description for action: Press to select payment for this booking -->
@@ -3496,8 +3476,8 @@
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Tryck för att ange en kupong- eller kampanjkod</string>
     <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign into Expedia with your Facebook account -->
-    <string name="cd_sign_in_with_facebook">Tryck för att logga in på Expedia med ditt Facebookkonto</string>
+    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
+    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">Tryck för att logga in på {brand} med ditt Facebookkonto</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Tryck för att ange en ny resenär</string>

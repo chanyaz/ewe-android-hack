@@ -64,21 +64,21 @@
                         android:paddingTop="2dp" />
 
                     <TextView
-                        android:id="@+id/bags"
-                        style="@style/CarOfferText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/bag_details"
-                        android:drawablePadding="6dp"
-                        android:paddingBottom="2dp"
-                        android:paddingTop="2dp" />
-
-                    <TextView
                         android:id="@+id/doors"
                         style="@style/CarOfferText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/door_details"
+                        android:drawablePadding="6dp"
+                        android:paddingBottom="2dp"
+                        android:paddingTop="2dp" />
+
+                    <TextView
+                        android:id="@+id/bags"
+                        style="@style/CarOfferText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/bag_details"
                         android:drawablePadding="6dp"
                         android:paddingBottom="2dp"
                         android:paddingTop="2dp" />

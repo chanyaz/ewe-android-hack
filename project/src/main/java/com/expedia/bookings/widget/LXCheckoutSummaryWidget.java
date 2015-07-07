@@ -19,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXUtils;
@@ -71,10 +72,15 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		lxOfferDate.setText(DateUtils.localDateToEEEMMMd(offerSelectedDate));
 		lxOfferLocation.setText(lxState.activity.location);
 
-		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
+		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney();
 		tripTotalText.setText(totalMoney);
 
 		freeCancellationText.setVisibility(lxState.offer.freeCancellation ? VISIBLE : GONE);
+	}
+
+	@OnClick(R.id.free_cancellation_text)
+	public void showLxRules() {
+		Events.post(new Events.LXShowRulesOnCheckout());
 	}
 
 	@OnClick(R.id.price_text)
@@ -88,7 +94,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.lx_cost_breakdown_due_today),
-			LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)));
+			LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney()));
 
 		for (Ticket ticketSelected : tickets) {
 			if (ticketSelected.count > 0) {
@@ -99,7 +105,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 				ll.addView(
 					CheckoutSummaryWidgetUtils.addRow(context,
 						LXDataUtils.ticketCountSummary(getContext(), ticketSelected.code, ticketSelected.count),
-						totalMoneyForTicketType.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)));
+						totalMoneyForTicketType.getFormattedMoney()));
 			}
 		}
 
@@ -108,7 +114,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		ll.addView(addDisclaimerRow(context, tickets.get(0).money.getCurrency()));
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.checkout_breakdown_total_price),
-			LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)));
+			LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney()));
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);

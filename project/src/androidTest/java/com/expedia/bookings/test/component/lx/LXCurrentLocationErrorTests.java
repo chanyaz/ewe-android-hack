@@ -22,9 +22,13 @@ public class LXCurrentLocationErrorTests extends LxTestCase {
 	public void runTest() throws Throwable {
 		String testMethodName = getClass().getMethod(getName(), (Class[]) null).toString();
 		LXFakeCurrentLocationSuggestionModule module;
-
+		ApiError apiError;
 		if (testMethodName.contains("testCurrentLocationNoSuggestionsError")) {
-			module = new LXFakeCurrentLocationSuggestionModule(new ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS));
+			apiError = new ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS);
+			ApiError.ErrorInfo errorInfo = new ApiError.ErrorInfo();
+			errorInfo.cause = "No results from api.";
+			apiError.errorInfo = errorInfo;
+			module = new LXFakeCurrentLocationSuggestionModule(apiError);
 		}
 		else if (testMethodName.contains("testCurrentLocationSuggestionWithNoActivitiesError")) {
 			// This fake location returns a suggestion that causes an lxSearch failure
@@ -35,7 +39,11 @@ public class LXCurrentLocationErrorTests extends LxTestCase {
 		}
 		else {
 			// testNoCurrentLocationError
-			module = new LXFakeCurrentLocationSuggestionModule(new ApiError(ApiError.Code.CURRENT_LOCATION_ERROR));
+			apiError = new ApiError(ApiError.Code.CURRENT_LOCATION_ERROR);
+			ApiError.ErrorInfo errorInfo = new ApiError.ErrorInfo();
+			errorInfo.cause = "Could not determine users current location.";
+			apiError.errorInfo = errorInfo;
+			module = new LXFakeCurrentLocationSuggestionModule(apiError);
 		}
 
 		//Setup Lx Test Component

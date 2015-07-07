@@ -301,12 +301,7 @@ public class HotelSummarySection extends RelativeLayout {
 			boolean isEtpSearchResultsBucket = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelETPSearchResults);
 			int roomsLeft = property.getRoomsLeftAtThisRate();
 			mUrgencyText.setTextSize(14f);
-			if (isEtpSearchResultsBucket && property.isETPHotel()) {
-				mUrgencyText.setText(context.getString(R.string.book_now_pay_later));
-				mUrgencyText.setVisibility(View.VISIBLE);
-				mUrgencyText.setTextSize(12f);
-			}
-			else if (property.isSponsored()) {
+			if (property.isSponsored()) {
 				if (!property.hasShownImpression()) {
 					//Ad is being inflated for the first time, fire impression tracking
 					property.setHasShownImpression(true);
@@ -315,6 +310,11 @@ public class HotelSummarySection extends RelativeLayout {
 				}
 				mUrgencyText.setText(context.getString(R.string.sponsored));
 				mUrgencyText.setVisibility(View.VISIBLE);
+			}
+			else if (isEtpSearchResultsBucket && property.isETPHotel()) {
+				mUrgencyText.setText(context.getString(R.string.book_now_pay_later));
+				mUrgencyText.setVisibility(View.VISIBLE);
+				mUrgencyText.setTextSize(12f);
 			}
 			else if (property.isLowestRateTonightOnly()) {
 				mUrgencyText.setText(context.getString(R.string.tonight_only));
@@ -469,6 +469,7 @@ public class HotelSummarySection extends RelativeLayout {
 		if (ExpediaBookingApp.useTabletInterface(getContext())) {
 			if (mSoldOutText != null) {
 				mSoldOutText.setVisibility(View.VISIBLE);
+				mSoldOutText.setText(Ui.obtainThemeResID(getContext(), R.attr.skin_hotelSearchResultSoldOut));
 			}
 			if (mNotRatedText != null) {
 				mNotRatedText.setVisibility(View.GONE);

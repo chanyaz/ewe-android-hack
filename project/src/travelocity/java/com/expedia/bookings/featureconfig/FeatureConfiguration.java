@@ -81,7 +81,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean shouldShowBrandLogoOnAccountButton() {
-		return false;
+		return true;
 	}
 
 	public int getLoginContainerBackgroundResId(Context context) {
@@ -113,10 +113,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public String getOmnitureReportSuiteIds() {
 		if (BuildConfig.RELEASE) {
-			return "tvlglobalapp";
+			return "expediaglobalapp,tvlglobalapp";
 		}
 		else {
-			return "tvlglobalappdev";
+			return "expediaglobalappdev";
 		}
 	}
 
@@ -139,11 +139,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
 		List<BasicNameValuePair> additionalParamsForReviewsRequest = new ArrayList<BasicNameValuePair>();
 		additionalParamsForReviewsRequest.add(new BasicNameValuePair("origin", "TRAVELOCITY"));
+		additionalParamsForReviewsRequest.add(new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
 		return additionalParamsForReviewsRequest;
 	}
 
 	public boolean shouldUseDotlessDomain(EndPoint endpoint) {
-		return endpoint != EndPoint.PRODUCTION && endpoint != EndPoint.INTEGRATION;
+		return endpoint != EndPoint.PRODUCTION;
 	}
 
 	public String touchupE3EndpointUrlIfRequired(String e3EndpointUrl) {
@@ -233,10 +234,30 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isETPEnabled() {
-		return false;
+		return true;
 	}
 
 	public String getClientShortName() {
 		return "tvly";
+	}
+
+	public String getAdXKey() {
+		return "65bcdbdb-8841-4d72-b792-4123773d5725";
+	}
+
+	public boolean isAppSupportUrlEnabled() {
+		return true;
+	}
+
+	public boolean isSigninEnabled() {
+		return true;
+	}
+
+	public boolean isAppCrossSellInHotelShareContentEnabled() {
+		return true;
+	}
+
+	public boolean isAppCrossSellInFlightShareContentEnabled() {
+		return true;
 	}
 }

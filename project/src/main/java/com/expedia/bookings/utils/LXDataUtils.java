@@ -5,10 +5,12 @@ import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.joda.time.LocalDate;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
@@ -22,6 +24,7 @@ import com.expedia.bookings.data.trips.TripHotel;
 import com.mobiata.flightlib.data.Airport;
 
 public class LXDataUtils {
+	private static final String RULES_RESTRICTIONS_URL_PATH = "Checkout/LXRulesAndRestrictions?tripid=";
 
 	private static final Map<LXTicketType, Integer> LX_PER_TICKET_TYPE_MAP = new EnumMap<LXTicketType, Integer>(LXTicketType.class) {
 		{
@@ -261,7 +264,34 @@ public class LXDataUtils {
 		return searchParams;
 	}
 
+	public static String getRulesRestrictionsUrl(String e3EndpointUrl, String tripId) {
+		return e3EndpointUrl + RULES_RESTRICTIONS_URL_PATH + tripId;
+	}
+
+	public static String getCancelationPolicyDisplayText(Context context, String cancellationPolicyTextFromAPIResponse) {
+		if (Strings.isNotEmpty(cancellationPolicyTextFromAPIResponse)) {
+			return String.format(context.getString(R.string.cancellation_policy_TEMPLATE), StrUtils.stripHTMLTags(cancellationPolicyTextFromAPIResponse));
+		}
+		else {
+			return context.getString(R.string.lx_policy_non_cancellable);
+		}
+	}
+
 	private static String formatLocation(Context c, Location location) {
 		return c.getResources().getString(R.string.lx_destination_TEMPLATE, location.getCity(), Strings.isEmpty(location.getStateCode()) ? location.getCountryCode() : location.getStateCode());
+	}
+
+	public static LXSearchParams buildLXSearchParamsFromDeeplink(Uri data, Set<String> queryData) {
+		LXSearchParams searchParams = new LXSearchParams();
+		if (queryData.contains("startDate")) {
+			searchParams.startDate(DateUtils.yyyyMMddToLocalDate(data.getQueryParameter("startDate")));
+		}
+		if (queryData.contains("location")) {
+			searchParams.location(data.getQueryParameter("location"));
+		}
+		if (queryData.contains("filters")) {
+			searchParams.filters(data.getQueryParameter("filters"));
+		}
+		return searchParams;
 	}
 }

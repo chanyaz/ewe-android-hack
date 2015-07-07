@@ -19,6 +19,7 @@ public class CreateTripResponse extends Response implements JSONable {
 	private Rate mAirAttachRate;
 	private String mTealeafId;
 	private String mRewardsPoints;
+	private String mSupplierType;
 	private List<ValidPayment> mValidPayments;
 
 	@Override
@@ -84,6 +85,14 @@ public class CreateTripResponse extends Response implements JSONable {
 
 	public String getRewardsPoints() {
 		return mRewardsPoints;
+	}
+
+	public void setSupplierType(String supplierType) {
+		mSupplierType = supplierType;
+	}
+
+	public String getSupplierType() {
+		return mSupplierType;
 	}
 
 	public List<ValidPayment> getValidPayments() {

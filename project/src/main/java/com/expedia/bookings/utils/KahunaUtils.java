@@ -110,10 +110,8 @@ public class KahunaUtils {
 				}
 
 				if (Db.getUser().getPrimaryTraveler() != null) {
-					KahunaAnalytics.setUsernameAndEmail(Db.getUser().getExpediaUserId(),
-						Db.getUser().getPrimaryTraveler().getEmail());
+					KahunaAnalytics.setUserCredential("username", Db.getUser().getExpediaUserId());
 					mUserAttributes.put("first_name", Db.getUser().getPrimaryTraveler().getFirstName());
-					mUserAttributes.put("last_name", Db.getUser().getPrimaryTraveler().getLastName());
 				}
 
 				mUserAttributes.put("rewards_member", User.getLoggedInLoyaltyMembershipTier(mContext).toString());

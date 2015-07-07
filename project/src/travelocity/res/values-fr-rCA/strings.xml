@@ -16,7 +16,7 @@
     <string name="contact_travelocity">Communiquer avec Travelocity</string>
     <string name="travelocity_website">Site Web de Travelocity</string>
     <string name="travelocity_app_support">Soutien de l\&apos;appli Travelocity</string>
-    <string name="travelocity_copyright">© Copyright 2012-2014 Travelocity\nTous droits réservés.</string>
+    <string name="travelocity_copyright_TEMPLATE">© Copyright 2012-%1$s Travelocity\nTous droits réservés.</string>
     <string name="travelocity_info_url">http://www.travelocity.com/</string>
 
     <!-- Label for logout confirmation -->
@@ -92,5 +92,10 @@
     <string name="sold_out_on_tvly">Aucune disponibilité sur Travelocity</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Travelocity Nov. 3-4" -->
     <string name="not_currently_available_tvly_TEMPLATE">Non disponible sur Travelocity %s</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Vous devez créer un nouveau code d\&apos;ouverture de session international vous donnant accès à tous les sites d\&apos;Travelocity.\nVeuillez réinitialiser votre mot de passe à l\&apos;aide du lien « Oublié votre mot de passe? » ci-dessous.</string>
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">Payable aujourd\&apos;hui à Travelocity</string>
+    <string name="etp_pay_now_charges_text">Travelocity traitera les détails de vos paiements.</string>
 
 </resources>

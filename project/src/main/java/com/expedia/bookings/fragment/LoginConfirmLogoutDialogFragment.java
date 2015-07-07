@@ -7,8 +7,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 public class LoginConfirmLogoutDialogFragment extends DialogFragment {
 
@@ -43,7 +45,9 @@ public class LoginConfirmLogoutDialogFragment extends DialogFragment {
 		Builder builder = new Builder(getActivity());
 
 		// Defaults
-		String messageText = getResources().getString(Ui.obtainThemeResID(getActivity(), R.attr.skin_logoutConfirmationString));
+		CharSequence messageText = Phrase.from(getActivity(), R.string.sign_out_confirmation_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format();
 
 		// Args
 		Bundle args = getArguments();

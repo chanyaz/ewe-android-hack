@@ -35,8 +35,8 @@ import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ShareUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.Ui;
 
 public class TabletFlightConfirmationFragment extends TabletConfirmationFragment {
 
@@ -141,7 +141,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 		mHeaderBitmapDrawable.setOverlayDrawable(getResources().getDrawable(R.drawable.card_top_lighting));
 		mDestinationImageView.setImageDrawable(mHeaderBitmapDrawable);
 
-		mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
+		mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_flight_confirmation_placeholder)));
 
 		final String code = Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId();
 		int imageWidth = getResources().getDimensionPixelSize(R.dimen.confirmation_width);
@@ -151,7 +151,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 			.resizeExactly(imageWidth, imageHeight) //
 			.build();
 
-		new PicassoHelper.Builder(getActivity()).setPlaceholder(R.drawable.bg_itin_placeholder)
+		new PicassoHelper.Builder(getActivity()).setPlaceholder(Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_flight_confirmation_placeholder))
 			.setTarget(mHeaderBitmapDrawable.getCallBack()).build().load(url);
 		setLob(LineOfBusiness.FLIGHTS);
 

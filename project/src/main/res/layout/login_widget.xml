@@ -106,7 +106,6 @@
                         style="@style/CarsLoginFormButton"
                         android:layout_marginTop="12dp"
                         android:background="@drawable/btn_facebook_signin_cars"
-                        android:contentDescription="@string/cd_sign_in_with_facebook"
                         android:gravity="center"
                         android:textAllCaps="false"
                         android:text="@string/Sign_in_with_Facebook" />
@@ -123,15 +122,12 @@
                     android:visibility="gone">
 
                     <Button
-                        android:id="@+id/log_in_with_expedia_btn"
+                        android:id="@+id/log_in_btn"
                         style="@style/CarsLoginFormButton"
-                        android:contentDescription="?attr/skin_loginWithExpediaContentDescription"
                         android:gravity="center"
                         android:background="@drawable/btn_signin_cars"
                         android:textColor="#836B11"
-                        android:textAllCaps="false"
-                        android:text="?attr/skin_loginWithExpediaButtonText"
-                      />
+                        android:textAllCaps="false" />
 
                     <TextView
                         android:id="@+id/forgot_your_password_link"
@@ -162,7 +158,6 @@
                     android:layout_marginBottom="@dimen/login_bottom_room_spacing"
                     android:layout_marginLeft="@dimen/login_side_margin_medium"
                     android:layout_marginRight="@dimen/login_side_margin_medium"
-                    android:hint="?attr/skin_passwordHint"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword" />
             </LinearLayout>
@@ -194,7 +189,6 @@
                     style="@style/CarsLoginFormButton"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/btn_facebook_signin"
-                    android:contentDescription="@string/cd_sign_in_with_facebook"
                     android:gravity="center"
                     android:text="@string/authorize_email_facebook_button" />
 
@@ -258,13 +252,12 @@
         android:visibility="gone" />
 
     <com.expedia.bookings.widget.TextView
+        android:id="@+id/login_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:textSize="18sp"
-        android:id="@+id/login_text"
         android:drawableLeft="@drawable/expedia"
         android:gravity="center|left"
-        android:drawablePadding="16dp"
-        android:text="@string/cars_sign_in_text" />
+        android:drawablePadding="16dp" />
 </merge>

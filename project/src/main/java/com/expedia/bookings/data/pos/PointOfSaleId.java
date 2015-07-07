@@ -44,6 +44,12 @@ public enum PointOfSaleId {
 
 	TRAVELOCITY(80001),
 	TRAVELOCITY_CA(80004),
+
+	WOTIF(70125),
+	WOTIF_NZ(70129),
+
+	LASTMINUTE(70150),
+	LASTMINUTE_NZ(70151),
 	;
 
 	private int mId;

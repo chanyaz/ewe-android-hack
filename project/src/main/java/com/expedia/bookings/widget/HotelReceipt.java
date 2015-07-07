@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -37,6 +38,7 @@ import com.expedia.bookings.section.HotelReceiptExtraSection;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 public class HotelReceipt extends LinearLayout {
 	public interface OnSizeChangedListener {
@@ -309,8 +311,12 @@ public class HotelReceipt extends LinearLayout {
 		else {
 			HotelReceiptExtraSection dueToExpediaRow = Ui
 				.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
-			String totalDueToExpediaToday = getResources().getString(R.string.total_due_to_expedia_today);
-			dueToExpediaRow.bind(totalDueToExpediaToday, rate.getTotalAmountAfterTax().getFormattedMoney());
+
+			String totalDueToOurBrandToday = Phrase.from(this, R.string.due_to_brand_today_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format()
+				.toString();
+			dueToExpediaRow.bind(totalDueToOurBrandToday, rate.getTotalAmountAfterTax().getFormattedMoney());
 			mExtrasLayout.addView(dueToExpediaRow);
 		}
 	}
@@ -319,18 +325,21 @@ public class HotelReceipt extends LinearLayout {
 		mExtrasLayout.setVisibility(View.VISIBLE);
 		mExtrasDivider.setVisibility(View.VISIBLE);
 
-		HotelReceiptExtraSection dueToExpediaRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
-		String totalDueToExpediaToday = getResources().getString(R.string.total_due_to_expedia_today);
-		dueToExpediaRow.bind(totalDueToExpediaToday, rate.getDepositAmount().getFormattedMoney());
+		HotelReceiptExtraSection dueToOurBrandRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
+		String totalDueToOurBrandToday = Phrase.from(this, R.string.due_to_brand_today_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format()
+			.toString();
+		dueToOurBrandRow.bind(totalDueToOurBrandToday, rate.getDepositAmount().getFormattedMoney());
 
 		if (rate.getDepositAmount().isZero()) {
-			TextView labelView = (TextView) dueToExpediaRow.findViewById(R.id.price_title);
-			TextView rateView = (TextView) dueToExpediaRow.findViewById(R.id.price_text_view);
+			TextView labelView = (TextView) dueToOurBrandRow.findViewById(R.id.price_title);
+			TextView rateView = (TextView) dueToOurBrandRow.findViewById(R.id.price_text_view);
 			labelView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_etp_overview_checkmark, 0, 0, 0);
 			labelView.setTextColor(getResources().getColor(R.color.etp_text_color));
 			rateView.setTextColor(getResources().getColor(R.color.etp_text_color));
 		}
-		mExtrasLayout.addView(dueToExpediaRow);
+		mExtrasLayout.addView(dueToOurBrandRow);
 	}
 
 	private static final int MAX_AMENITY_ROWS = 3;

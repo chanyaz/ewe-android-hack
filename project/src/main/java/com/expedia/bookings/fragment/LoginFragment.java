@@ -33,6 +33,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
@@ -65,6 +66,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.squareup.phrase.Phrase;
 
 /**
  * This fragment is for logging into expedia accounts via the standard method AND facebook connect.
@@ -127,7 +129,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 	private TextView mStatusMessageTv;
 	private Button mLogInWithFacebookBtn;
-	private Button mSignInWithExpediaBtn;
+	private Button mSignInBtn;
 	private TextView mForgotYourPasswordTv;
 	private Button mLinkAccountsBtn;
 	private Button mCancelLinkAccountsBtn;
@@ -212,7 +214,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		mStatusMessageTv = Ui.findView(v, R.id.login_status_textview);
 		mLoginStatusDivider = Ui.findView(v, R.id.login_status_divider);
 		mLogInWithFacebookBtn = Ui.findView(v, R.id.log_in_with_facebook_btn);
-		mSignInWithExpediaBtn = Ui.findView(v, R.id.log_in_with_expedia_btn);
+		mSignInBtn = Ui.findView(v, R.id.log_in_btn);
 		mForgotYourPasswordTv = Ui.findView(v, R.id.forgot_your_password_link);
 		mLinkAccountsBtn = Ui.findView(v, R.id.link_accounts_button);
 		mCancelLinkAccountsBtn = Ui.findView(v, R.id.cancel_link_accounts_button);
@@ -225,7 +227,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 		FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(mLogInWithFacebookBtn, Font.ROBOTO_REGULAR);
-		FontCache.setTypeface(mSignInWithExpediaBtn, Font.ROBOTO_REGULAR);
+		FontCache.setTypeface(mSignInBtn, Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(mForgotYourPasswordTv, Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(mTryFacebookAgain, Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(mTryFacebookAgainCancel, Font.ROBOTO_REGULAR);
@@ -236,9 +238,25 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		FontCache.setTypeface(mLinkPassword, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.or_tv, Font.ROBOTO_LIGHT);
 
+		mSignInBtn.setText(Phrase.from(getActivity(), R.string.sign_in_with_brand_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
+
+		mLinkPassword.setHint(Phrase.from(getActivity(), R.string.brand_password_hint_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
+
+		mTryFacebookAgain.setContentDescription(Phrase.from(getActivity(), R.string.cd_sign_into_brand_with_your_facebook_account_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
+
+		mLogInWithFacebookBtn.setContentDescription(Phrase.from(getActivity(), R.string.cd_sign_into_brand_with_your_facebook_account_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
+
 		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled()) {
 			setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
-			mSignInWithExpediaBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
+			mSignInBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
 		}
 		return v;
 	}
@@ -489,7 +507,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 	private void initOnClicks() {
 
-		mSignInWithExpediaBtn.setOnClickListener(new OnClickListener() {
+		mSignInBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				initiateLoginWithExpedia();
@@ -535,7 +553,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			@Override
 			public void afterTextChanged(Editable s) {
 				mEmptyUsername = TextUtils.isEmpty(s);
-				mSignInWithExpediaBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
+				mSignInBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
 
 				if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled()) {
 					if (mEmptyUsername && !mVisibilityState.equals(VisibilityState.EXPEDIA_WTIH_FB_BUTTON)) {
@@ -663,7 +681,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			@Override
 			public void afterTextChanged(Editable s) {
 				mEmptyPassword = TextUtils.isEmpty(s);
-				mSignInWithExpediaBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
+				mSignInBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
 			}
 		};
 
@@ -1186,7 +1204,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			}
 			else {
 				User user = response.getUser();
-				user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
 				user.save(getActivity());
 
@@ -1373,7 +1390,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			}
 			else {
 				User user = response.getUser();
-				user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
 				user.save(getActivity());
 				Log.d("User saved!");

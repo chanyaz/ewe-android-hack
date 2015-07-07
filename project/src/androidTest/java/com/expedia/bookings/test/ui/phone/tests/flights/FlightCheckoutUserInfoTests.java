@@ -129,7 +129,12 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		FlightsTravelerInfoScreen.enterLastName("Bookings");
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.lastNameEditText());
 		FlightsTravelerInfoScreen.clickBirthDateButton();
-		FlightsTravelerInfoScreen.clickDoneString();
+		try {
+			FlightsTravelerInfoScreen.clickDoneString();
+		}
+		catch (Exception e) {
+			FlightsTravelerInfoScreen.clickSetButton();
+		}
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
 		FlightsTravelerInfoScreen.clickNextButton();
 		FlightsTravelerInfoScreen.clickDoneButton();

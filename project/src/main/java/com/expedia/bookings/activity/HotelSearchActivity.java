@@ -940,6 +940,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		menu.findItem(R.id.menu_select_filter).setEnabled(shouldEnableMenuItems);
 		menu.findItem(R.id.menu_select_search_map).setEnabled(shouldEnableMenuItems);
 		menu.findItem(R.id.menu_select_change_view).setEnabled(shouldEnableMenuItems);
+		MenuItem map = menu.findItem(R.id.menu_select_change_view);
 
 		// Disable distance sort
 		menu.findItem(R.id.menu_select_sort_distance).setVisible(mShowDistance);
@@ -950,11 +951,27 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			mTag = prefs.getString("tag", getString(R.string.tag_hotel_list));
 		}
 		boolean isListShowing = mTag.equals(getString(R.string.tag_hotel_list));
+		int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHSRMapIconTest);
 		if (isListShowing) {
-			menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_map);
+			if (testVariate == AbacusUtils.HISMapIconVariate.MAP_PIN.ordinal()) {
+				map.setIcon(R.drawable.ab_map);
+			}
+			else if (testVariate == AbacusUtils.HISMapIconVariate.TEXT_ONLY.ordinal()) {
+				map.setIcon(null);
+				map.setTitle(R.string.map_text);
+			}
+			else {
+				map.setIcon(R.drawable.ic_menu_map);
+			}
 		}
 		else {
-			menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_list);
+			if (testVariate == AbacusUtils.HISMapIconVariate.TEXT_ONLY.ordinal()) {
+				map.setIcon(null);
+				map.setTitle(R.string.list_text);
+			}
+			else {
+				map.setIcon(R.drawable.ic_menu_list);
+			}
 		}
 		menu.findItem(R.id.menu_select_sort).setVisible(isListShowing);
 		menu.findItem(R.id.menu_select_search_map).setVisible(!isListShowing);
@@ -2147,7 +2164,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		int searchProgressImageResId = ProductFlavorFeatureConfiguration.getInstance().getSearchProgressImageResId();
 		if (searchProgressImageResId != 0) {
-			findViewById(searchProgressImageResId).bringToFront();
+			View searchProgressImage = findViewById(searchProgressImageResId);
+			searchProgressImage.bringToFront();
+			searchProgressImage.setClickable(true);
 		}
 
 		if (mContentViewPager.getCurrentItem() == VIEWPAGER_PAGE_HOTEL) {

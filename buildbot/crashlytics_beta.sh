@@ -10,6 +10,9 @@ if [ -e "$PROPERTIES_FILE" ] ; then
 
     echo "Build: $BUILD_NUMBER" > "$CHANGE_LOG_FILE"
     ./buildbot/CreateChangelog.py "$PROPERTIES_FILE" | head -c 14000 >> "$CHANGE_LOG_FILE"
+else
+    echo "Build: $BUILD_NUMBER" > "$CHANGE_LOG_FILE"
+    git log "HEAD~1..HEAD" >> "$CHANGE_LOG_FILE"
 fi
 
 if [ -e "$CHANGE_LOG_FILE" ] ; then

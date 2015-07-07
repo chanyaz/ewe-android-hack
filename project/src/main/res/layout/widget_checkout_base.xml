@@ -15,8 +15,8 @@
             android:animateLayoutChanges="true"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/summary_container"
+            <android.support.v7.widget.CardView android:id="@+id/summary_container"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9dp"
@@ -25,7 +25,16 @@
                 android:animateLayoutChanges="true"
                 android:background="#FFF"
                 card_view:cardCornerRadius="3dp"
-                card_view:cardElevation="1dp" />
+                card_view:cardElevation="1dp">
+
+                <ProgressBar
+                    android:id="@+id/summary_progress_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminate="true" />
+
+            </android.support.v7.widget.CardView>
 
             <com.expedia.bookings.widget.AccountLoginWidget
                 android:id="@+id/login_widget"
