@@ -705,19 +705,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			if (mDisplayMode == DisplayMode.CHECKOUT) {
-				onBackPressed();
-			}
-			else {
-				clearCCNumber();
-
-				Intent intent = new Intent(this, FlightSearchResultsActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-				intent.putExtra(FlightSearchResultsActivity.EXTRA_DESELECT_LEG_ID, trip.getLeg(trip.getLegCount() - 1)
-					.getLegId());
-				startActivity(intent);
-			}
+			onBackPressed();
 			return true;
 		case R.id.menu_checkout:
 			if (mOverviewFragment != null && mDisplayMode == DisplayMode.OVERVIEW) {
