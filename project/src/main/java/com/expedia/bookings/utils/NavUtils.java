@@ -229,7 +229,7 @@ public class NavUtils {
 	}
 
 	public static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions, int flags) {
-		if (!PointOfSale.getPointOfSale().supportsFlights()) {
+		if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
 			// Because the user can't actually navigate forward from here, perhaps it makes sense to preserve the
 			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
 			Intent intent = new Intent(context, FlightUnsupportedPOSActivity.class);

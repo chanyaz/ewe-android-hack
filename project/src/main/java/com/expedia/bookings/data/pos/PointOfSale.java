@@ -31,6 +31,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -48,7 +49,6 @@ import com.mobiata.android.util.SettingUtils;
  * You MUST call init() before using this (suggested usage: call in Application)
  */
 public class PointOfSale {
-
 	/**
 	 * This enum defines the different types of fields required for hotels checkout.
 	 */
@@ -574,20 +574,25 @@ public class PointOfSale {
 		return mHideMiddleName;
 	}
 
-	public boolean supportsFlights() {
-		return mSupportsFlights;
-	}
 
 	public boolean supportsGDE() {
 		return mSupportsGDE;
 	}
 
-	public boolean supportsCars() {
-		return mSupportsCars && !mIsTablet;
-	}
+	public boolean supports(LineOfBusiness lob) {
+		switch (lob) {
+		case CARS:
+			return mSupportsCars && !mIsTablet;
+		case LX:
+			return mSupportsLx && !mIsTablet;
+		case FLIGHTS:
+			return mSupportsFlights;
+		case HOTELS:
+			return true;
 
-	public boolean supportsLx() {
-		return mSupportsLx && !mIsTablet;
+		}
+
+		return false;
 	}
 
 	public boolean supportsStrikethroughPrice() {
