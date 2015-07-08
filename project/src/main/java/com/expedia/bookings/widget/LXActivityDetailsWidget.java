@@ -7,10 +7,12 @@ import javax.inject.Inject;
 
 import org.joda.time.LocalDate;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -37,6 +39,7 @@ import butterknife.InjectView;
 
 public class LXActivityDetailsWidget extends ScrollView {
 
+	public static final int DURATION = 500;
 	@InjectView(R.id.activity_details_container)
 	LinearLayout activityContainer;
 
@@ -262,10 +265,12 @@ public class LXActivityDetailsWidget extends ScrollView {
 		// Scroll from end to the selected date.
 		postDelayed(new Runnable() {
 			public void run() {
-				offerDatesScrollView.smoothScrollTo(finalSelectedDateX, 0);
+				ObjectAnimator scrollAnimation = ObjectAnimator.ofInt(offerDatesScrollView, "scrollX", finalSelectedDateX);
+				scrollAnimation.setDuration(DURATION);
+				scrollAnimation.setInterpolator(new DecelerateInterpolator());
+				scrollAnimation.start();
 			}
-		}, 1000);
-
+		}, DURATION);
 	}
 
 	public float parallaxScrollHeader(int scrollY) {
