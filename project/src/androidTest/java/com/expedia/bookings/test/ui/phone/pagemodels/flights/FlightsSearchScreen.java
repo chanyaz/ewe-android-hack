@@ -5,13 +5,13 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.espresso.ViewActions;
+import com.expedia.bookings.test.espresso.ViewActions;
 
 import android.support.test.espresso.ViewInteraction;
 
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withHint;
-import static com.expedia.bookings.test.ui.espresso.ViewActions.clickDates;
-import static com.expedia.bookings.test.ui.espresso.ViewActions.getString;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withHint;
+import static com.expedia.bookings.test.espresso.ViewActions.clickDates;
+import static com.expedia.bookings.test.espresso.ViewActions.getString;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;

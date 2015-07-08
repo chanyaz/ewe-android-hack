@@ -4,9 +4,9 @@ import android.app.Instrumentation;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.espresso.ViewActions;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
+import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -92,7 +92,7 @@ public class CheckoutViewModel {
 	public static void selectStoredTraveler(Instrumentation instrumentation, String travelername) throws Throwable {
 		onView(withText(travelername))
 			.inRoot(withDecorView(
-				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
+				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
 			.perform(click());
 	}
 
@@ -103,7 +103,7 @@ public class CheckoutViewModel {
 	public static void selectStoredCard(Instrumentation instrumentation, String cardname) throws Throwable {
 		onView(withText(cardname))
 			.inRoot(withDecorView(
-				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
+				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
 			.perform(click());
 	}
 

@@ -16,9 +16,9 @@ import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResult
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsTravelerInfoScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.HotelsUserData;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.HotelsUserData;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
@@ -28,7 +28,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickCheckoutButton;
 import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickLogOutButton;
 import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.logInButton;
@@ -42,7 +42,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 
 	public void testCheckFlights() throws Exception {
 		// Setup
-		mUser = new HotelsUserData(getInstrumentation());
+		mUser = new HotelsUserData();
 		ScreenActions.enterLog(TAG, "Launching flights application");
 		LaunchScreen.launchFlights();
 		FlightsSearchScreen.enterDepartureAirport("SFO");
@@ -232,28 +232,28 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		BillingAddressScreen.stateEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		BillingAddressScreen.postalCodeEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		BillingAddressScreen.typeTextAddressLineOne(mUser.getAddressLine1());
+		BillingAddressScreen.typeTextAddressLineOne(mUser.address);
 		BillingAddressScreen.addressLineOneEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.addressLineTwoEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.cityEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		BillingAddressScreen.stateEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		BillingAddressScreen.postalCodeEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		BillingAddressScreen.typeTextState(mUser.getAddressStateCode());
+		BillingAddressScreen.typeTextState(mUser.state);
 		BillingAddressScreen.addressLineOneEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.addressLineTwoEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.cityEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		BillingAddressScreen.stateEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.postalCodeEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		BillingAddressScreen.typeTextCity(mUser.getAddressCity());
+		BillingAddressScreen.typeTextCity(mUser.city);
 		BillingAddressScreen.addressLineOneEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.addressLineTwoEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.cityEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.stateEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.postalCodeEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		BillingAddressScreen.typeTextPostalCode(mUser.getAddressPostalCode());
+		BillingAddressScreen.typeTextPostalCode(mUser.zipcode);
 		BillingAddressScreen.addressLineOneEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.addressLineTwoEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.cityEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
@@ -269,7 +269,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		ScreenActions.enterLog(TAG, "CC, name on card, expiration date, email address views all have error icon");
 
-		CardInfoScreen.typeTextCreditCardEditText(mUser.getCreditCardNumber().substring(0, 12));
+		CardInfoScreen.typeTextCreditCardEditText(mUser.creditCardNumber.substring(0, 12));
 		CardInfoScreen.clickOnDoneButton();
 		CardInfoScreen.expirationDateButton().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.creditCardNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
@@ -285,7 +285,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "Successfully asserted that the CC edittext has a max capacity of 19 chars");
 		CardInfoScreen.creditCardNumberEditText().perform(clearText());
 
-		CardInfoScreen.typeTextCreditCardEditText(mUser.getCreditCardNumber());
+		CardInfoScreen.typeTextCreditCardEditText(mUser.creditCardNumber);
 		CardInfoScreen.expirationDateButton().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.creditCardNumberEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
@@ -318,7 +318,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		ScreenActions.enterLog(TAG, "After entering expiration date, that field no longer has error icon");
 
-		CardInfoScreen.typeTextNameOnCardEditText(mUser.getFirstName() + " " + mUser.getLastName());
+		CardInfoScreen.typeTextNameOnCardEditText(mUser.firstName + " " + mUser.lastName);
 		CardInfoScreen.expirationDateButton().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.creditCardNumberEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.nameOnCardEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
@@ -352,7 +352,7 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "Successfully asserted that an email address with no TLD is found invalid");
 		CardInfoScreen.emailEditText().perform(clearText());
 
-		CardInfoScreen.typeTextEmailEditText(mUser.getLoginEmail());
+		CardInfoScreen.typeTextEmailEditText(mUser.email);
 		CardInfoScreen.expirationDateButton().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.creditCardNumberEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.nameOnCardEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
@@ -374,20 +374,20 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		LogInScreen.facebookButton().check(matches(isDisplayed()));
 		LogInScreen.logInButton().check(matches(not(isDisplayed())));
 		ScreenActions.enterLog(TAG, "Log in button isn't shown until an email address is entered");
-		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
+		LogInScreen.typeTextEmailEditText(mUser.email);
 		LogInScreen.facebookButton().check(matches(not(isDisplayed())));
 		ScreenActions.enterLog(TAG, "Facebook button is no longer shown after email address is entered");
 		LogInScreen.clickOnLoginButton();
 		LogInScreen.logInButton().check(matches(isDisplayed()));
 		ScreenActions.enterLog(TAG, "Log in button is shown after email address is entered");
-		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
+		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();
 		clickCheckoutButton();
 		ScreenActions.delay(2);
 
 		logOutButton().perform(scrollTo());
-		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
+		EspressoUtils.assertViewWithTextIsDisplayed(mUser.email);
 		ScreenActions.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
 		clickLogOutButton();
 		onView(withText(mRes.getString(R.string.sign_out))).perform(click());

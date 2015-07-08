@@ -12,9 +12,9 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.SettingsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.TripsScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Itin;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.HotelsUserData;
-import com.expedia.bookings.test.ui.utils.TabletTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.HotelsUserData;
+import com.expedia.bookings.test.espresso.TabletTestCase;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
@@ -36,8 +36,8 @@ public class TripsLoginTest extends TabletTestCase {
 	public void verifyUserLogsOutCorrectly(int stringId) {
 
 		TripsScreen.clickOnLogInButton();
-		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
-		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
+		LogInScreen.typeTextEmailEditText(mUser.email);
+		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
 		assertTrue(User.isLoggedIn(mContext));
 		Common.pressBack();
@@ -81,8 +81,8 @@ public class TripsLoginTest extends TabletTestCase {
 
 	public void verifyClearDataWorksCorrectly() {
 		TripsScreen.clickOnLogInButton();
-		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
-		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
+		LogInScreen.typeTextEmailEditText(mUser.email);
+		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
 		assertTrue(User.isLoggedIn(mContext));
 		Common.pressBack();
@@ -131,7 +131,7 @@ public class TripsLoginTest extends TabletTestCase {
 	}
 
 	public void testChangingPOSLogsUserOut() throws Exception {
-		mUser = new HotelsUserData(getInstrumentation());
+		mUser = new HotelsUserData();
 		mContext = getInstrumentation().getTargetContext();
 		Itin.clickTripsMenuButton();
 
