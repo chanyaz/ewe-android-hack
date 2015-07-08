@@ -30,6 +30,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.FlightBookingFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
@@ -350,7 +351,9 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 	private void setUpFreeCancellationAbTest() {
 		FlightLeg leg =  Db.getTripBucket().getFlight().getFlightTrip().getLeg(0);
-		boolean showFreeCancellation = !leg.isSpirit() || leg.isLCC() || leg.isCharter();
+		boolean showFreeCancellation =
+			PointOfSale.getPointOfSale().supportsFlightsFreeCancellation() && !leg.isSpirit() ||
+				leg.isLCC() || leg.isCharter();
 		mFreeCancellation.setVisibility(showFreeCancellation ? View.VISIBLE : View.GONE);
 	}
 

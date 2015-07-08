@@ -157,6 +157,9 @@ public class PointOfSale {
 	// Should we show strikethrough prices on half-width launch tiles for this POS?
 	private boolean mShowHalfTileStrikethroughPrice;
 
+	// Should we show free cancellation of flights for this POS?
+	private boolean mShowFlightsFreeCancellation;
+
 	private static boolean mIsTablet;
 
 	private static Map<String, Integer> sCountryCodeMap;
@@ -590,6 +593,11 @@ public class PointOfSale {
 	public boolean supportsStrikethroughPrice() {
 		return mShowHalfTileStrikethroughPrice;
 	}
+
+	public boolean supportsFlightsFreeCancellation() {
+		return mShowFlightsFreeCancellation;
+	}
+
 	/**
 	 * Helper method to determine if flights are enabled and if we need to even
 	 * kick off a flight search - TABLETS ONLY.
@@ -1051,6 +1059,7 @@ public class PointOfSale {
 		pos.mShouldShowFTCResortRegulations = data.optBoolean("shouldShowFTCResortRegulations", false);
 		pos.mDisableForProduction = data.optBoolean("disableForProduction", false);
 		pos.mShowHalfTileStrikethroughPrice = data.optBoolean("launchScreenStrikethroughEnabled", false);
+		pos.mShowFlightsFreeCancellation = data.optBoolean("shouldShowFlightsFreeCancellation", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
