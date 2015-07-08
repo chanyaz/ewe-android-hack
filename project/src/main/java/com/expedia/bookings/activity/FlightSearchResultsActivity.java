@@ -90,8 +90,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		OnBackStackChangedListener, RetryErrorDialogFragmentListener, NoFlightsFragmentListener,
 		FlightDetailsFragmentListener {
 
-	public static final String EXTRA_DESELECT_LEG_ID = "EXTRA_DESELECT_LEG_ID";
-
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flights";
 
 	private static final String ERROR_CODE_SIMULATED = "SIMULATED";
@@ -125,10 +123,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	// If you want to indicate to the app to start a new search, but
 	// you may not have resumed yet, use this variable.
 	private boolean mStartSearchOnPostResume;
-
-	// Sets up a leg to be deselected in post resume (for fragment state
-	// reasons, this must be done later).
-	private int mDeselectLegPos = -1;
 
 	// Action bar views
 	private ViewGroup mFlightSummaryContainer;
@@ -211,24 +205,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	}
 
 	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-
-		if (intent.hasExtra(EXTRA_DESELECT_LEG_ID)) {
-			String legId = intent.getStringExtra(EXTRA_DESELECT_LEG_ID);
-
-			Log.i("Got new intent, deselecting leg id=" + legId);
-
-			FlightTripLeg[] selectedLegs = Db.getFlightSearch().getSelectedLegs();
-			for (mDeselectLegPos = 0; mDeselectLegPos < selectedLegs.length; mDeselectLegPos++) {
-				if (selectedLegs[mDeselectLegPos].getFlightLeg().getLegId().equals(legId)) {
-					break;
-				}
-			}
-		}
-	}
-
-	@Override
 	protected void onStart() {
 		super.onStart();
 
@@ -251,10 +227,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		if (mStartSearchOnPostResume) {
 			mStartSearchOnPostResume = false;
 			startSearch();
-		}
-		else if (mDeselectLegPos != -1) {
-			deselectBackToLegPosition(mDeselectLegPos);
-			mDeselectLegPos = -1;
 		}
 		else {
 			BackgroundDownloader.getInstance().registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
