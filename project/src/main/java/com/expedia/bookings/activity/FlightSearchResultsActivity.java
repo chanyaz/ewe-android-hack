@@ -339,14 +339,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		}
 	}
 
-	private void popBackStack(String name) {
-		if (!mCurrentlyPoppingBackStack) {
-			mCurrentlyPoppingBackStack = true;
-			getSupportFragmentManager().popBackStack(name, 0);
-			mSkipAnimation = true;
-		}
-	}
-
 	private void showLoadingFragment() {
 		if (mStatusFragment == null) {
 			mStatusFragment = new FlightSearchLoadingFragment();
@@ -408,21 +400,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		}
 
 		mAnimForward = true;
-	}
-
-	private void deselectBackToLegPosition(int newLegPosition) {
-		Log.d("deselectBackToLegPosition(" + newLegPosition + ")");
-
-		if (!mCurrentlyPoppingBackStack) {
-
-			// Clear the selected flight legs
-			setNewLegPosition(newLegPosition);
-
-			// Pop back stack to proper location
-			popBackStack(getFlightListBackStackName(newLegPosition));
-
-			OmnitureTracking.trackLinkFlightRemoveOutboundSelection(mContext);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -678,13 +655,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home: {
-			// Either go back one leg, or go back to the search page
-			if (mLegPosition != 0) {
-				deselectBackToLegPosition(mLegPosition - 1);
-			}
-			else {
-				onBackPressed();
-			}
+			onBackPressed();
 			return true;
 		}
 		case R.id.menu_select_sort_price:
