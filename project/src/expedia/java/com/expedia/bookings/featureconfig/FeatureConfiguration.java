@@ -257,4 +257,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isAppCrossSellInFlightShareContentEnabled() {
 		return true;
 	}
+
+	public boolean isAppIntroEnabled() {
+		return false;
+	}
+
+	public void launchAppIntroScreen(Context context) {
+		throw new UnsupportedOperationException("App intro not supported.");
+	}
 }
