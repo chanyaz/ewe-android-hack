@@ -12,7 +12,7 @@
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/background_image"
         android:layout_width="match_parent"
-        android:layout_height="144dp"
+        android:layout_height="160dp"
         android:scaleType="centerCrop" />
 
     <View

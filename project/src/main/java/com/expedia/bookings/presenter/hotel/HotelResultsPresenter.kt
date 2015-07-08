@@ -59,8 +59,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         addTransition(mapTransition)
 
         recyclerView.setLayoutManager(layoutManager)
-        recyclerView.setOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
-        recyclerView.setOnScrollListener(scrollListener)
+        recyclerView.addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
+        recyclerView.addOnScrollListener(scrollListener)
         recyclerView.addOnItemTouchListener(touchListener)
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
@@ -183,6 +183,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val touchListener = object : RecyclerView.OnItemTouchListener {
+        override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+
+        }
+
         override fun onInterceptTouchEvent(rv: RecyclerView?, e: MotionEvent?): Boolean {
             if (mapTransitionRunning) {
                 return true

@@ -70,7 +70,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		if (viewType == HEADER_VIEW) {
-			return new HeaderViewHolder(headerView);
+			View view = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.launch_header_root, parent, false);
+			FrameLayout layout = (FrameLayout) view.findViewById(R.id.parent_layout);
+			layout.addView(headerView);
+			return new HeaderViewHolder(view);
 		}
 		parentView = parent;
 
@@ -96,10 +100,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		boolean fullWidthTile;
 
 		if (holder.getItemViewType() == HEADER_VIEW) {
-			StaggeredGridLayoutManager.LayoutParams headerParams = new StaggeredGridLayoutManager.LayoutParams(
-				headerView.getWidth(), headerView.getHeight());
-			headerParams.setFullSpan(true);
-			headerView.setLayoutParams(headerParams);
+			StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+			layoutParams.setFullSpan(true);
 			return;
 		}
 
@@ -551,7 +553,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 		 **/
 		public void bind() {
-			switch (getPosition() % 10) {
+			switch (getAdapterPosition() % 10) {
 			case 0:
 			case 3:
 			case 4:
