@@ -53,7 +53,9 @@ public class FlightTravelerFlowState {
 	}
 
 	private boolean hasPassport(Traveler travelerInfo) {
-		return travelerInfo.getPassportCountries() != null && travelerInfo.getPassportCountries().size() > 0;
+		return travelerInfo.getPassportCountries() != null &&
+			travelerInfo.getPassportCountries().size() > 0 &&
+			travelerInfo.getPrimaryPassportCountry() != null;
 	}
 
 	public boolean allTravelerInfoIsValidForDomesticFlight(Traveler travelerInfo) {

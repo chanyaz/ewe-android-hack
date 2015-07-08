@@ -1,6 +1,8 @@
 package com.expedia.bookings.section;
 
 import android.content.Context;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +23,18 @@ public class PassportCountrySpinnerAdapter extends CountrySpinnerAdapter {
 		span.append(parent.getContext().getResources().getString(R.string.passport_country), new ForegroundColorSpan(0xFF808080));
 		span.append(" ");
 		span.append(getItem(position));
-		return getViewImpl(span.build(), convertView, parent, RES_ID);
+		View viewImpl = getViewImpl(span.build(), convertView, parent, RES_ID);
+
+		boolean noCountrySelected = (position == 0);
+		if (noCountrySelected) { // draw error warning icon
+			android.widget.TextView textView = ((CountrySpinnerAdapter.ViewHolder) viewImpl.getTag()).text;
+			Drawable errorIcon = textView.getContext().getResources().getDrawable(R.drawable.ic_error_blue);
+			errorIcon.setBounds(new Rect(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight()));
+			Drawable[] compounds = textView.getCompoundDrawables();
+			textView.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], errorIcon, compounds[3]);
+		}
+
+		return viewImpl;
 	}
 
 	@Override
