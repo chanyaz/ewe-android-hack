@@ -26,7 +26,6 @@ public class LXSearchResultsWidget extends FrameLayout {
 	}
 
 	private static final int LIST_DIVIDER_HEIGHT = 12;
-
 	private static final int CARDS_FOR_LOADING_ANIMATION = 3;
 
 	@InjectView(R.id.lx_search_results_list)
@@ -47,9 +46,12 @@ public class LXSearchResultsWidget extends FrameLayout {
 		layoutManager.scrollToPosition(0);
 		recyclerView.setLayoutManager(layoutManager);
 
+		//  Footer : Height of filter view container to make the view scrollable.
+		int filterViewHeight = (int) getResources().getDimension(R.dimen.lx_sort_filter_container_height);
+
 		recyclerView.addItemDecoration(
 			new RecyclerDividerDecoration(getContext(), 0, LIST_DIVIDER_HEIGHT, 0, LIST_DIVIDER_HEIGHT,
-				0, 0, false));
+				0, filterViewHeight, false));
 		recyclerView.setHasFixedSize(true);
 
 		adapter = new LXResultsListAdapter();
