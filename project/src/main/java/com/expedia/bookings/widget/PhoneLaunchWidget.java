@@ -30,7 +30,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.collections.Collection;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
@@ -301,23 +300,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Intent intent = new Intent(getContext(), HotelDetailsFragmentActivity.class);
 		intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
 		NavUtils.startActivity(getContext(), intent, null);
-	}
-
-	// Hotel search in collection location
-	@Subscribe
-	public void onCollectionLocationSelected(Events.LaunchCollectionItemSelected event) throws JSONException {
-		Suggestion location = event.collectionLocation.location;
-		HotelSearchParams params = new HotelSearchParams();
-		params.setQuery(location.shortName);
-		params.setSearchType(HotelSearchParams.SearchType.valueOf(location.type));
-		params.setRegionId(location.id);
-		params.setSearchLatLon(location.latLong.lat, location.latLong.lng);
-		LocalDate now = LocalDate.now();
-		params.setCheckInDate(now.plusDays(1));
-		params.setCheckOutDate(now.plusDays(2));
-		params.setNumAdults(2);
-		params.setChildren(null);
-		NavUtils.goToHotels(getContext(), params, event.animOptions, 0);
 	}
 
 	// Hotel Search

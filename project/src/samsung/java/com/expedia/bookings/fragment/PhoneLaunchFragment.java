@@ -20,6 +20,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
+import com.squareup.otto.Subscribe;
 
 import rx.Observer;
 import rx.Subscription;
@@ -29,9 +30,15 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	private Subscription locSubscription;
 	private boolean wasOffline;
 
+	private View collectionDetailsView;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.widget_phone_launch, container, false);
+		View rootView = inflater.inflate(R.layout.widget_phone_launch, container, false);
+		collectionDetailsView = LayoutInflater.from(getActivity()).inflate(R.layout.widget_collection_launch,
+			(ViewGroup) rootView, false);
+		((ViewGroup) rootView).addView(collectionDetailsView);
+		return rootView;
 	}
 
 	@Override
@@ -129,6 +136,12 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	@Override
 	public void reset() {
 		// ignore
+	}
+
+	// Hotel search in collection location
+	@Subscribe
+	public void onCollectionLocationSelected(Events.LaunchCollectionItemSelected event) {
+		collectionDetailsView.setVisibility(View.VISIBLE);
 	}
 
 }

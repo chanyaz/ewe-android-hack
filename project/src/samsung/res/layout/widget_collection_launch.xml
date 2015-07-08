@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.CollectionLaunchWidget xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_launch_samsung"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp"
+    android:paddingTop="?android:attr/actionBarSize"
+    android:visibility="gone">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textColor="@color/itin_white_text"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/button_search_hotels"
+        style="@style/CollectionLOBButton"
+        android:drawableLeft="@drawable/btn_samsung_hotels"
+        android:text="@string/search_hotels" />
+
+    <Button
+        android:id="@+id/button_search_flights"
+        style="@style/CollectionLOBButton"
+        android:drawableLeft="@drawable/btn_samsung_flights"
+        android:text="@string/search_flights" />
+
+    <Button
+        android:id="@+id/button_search_activities"
+        style="@style/CollectionLOBButton"
+        android:drawableLeft="@drawable/btn_samsung_activities"
+        android:text="@string/search_activities" />
+</com.expedia.bookings.widget.CollectionLaunchWidget>

@@ -2,6 +2,8 @@ package com.expedia.bookings.fragment;
 
 import java.util.concurrent.TimeUnit;
 
+import org.joda.time.LocalDate;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +25,7 @@ import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusTest;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
@@ -30,10 +33,12 @@ import com.expedia.bookings.location.CurrentLocationObservable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
+import com.squareup.otto.Subscribe;
 
 import rx.Observer;
 import rx.Subscription;
@@ -239,6 +244,23 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 					String.valueOf(AbacusUtils.EBAndroidAppLaunchScreenTest),
 					AbacusUtils.ABTEST_IGNORE_DEBUG));
 		}
+	}
+
+	// Hotel search in collection location
+	@Subscribe
+	public void onCollectionLocationSelected(Events.LaunchCollectionItemSelected event) {
+		Suggestion location = event.collectionLocation.location;
+		HotelSearchParams params = new HotelSearchParams();
+		params.setQuery(location.shortName);
+		params.setSearchType(HotelSearchParams.SearchType.valueOf(location.type));
+		params.setRegionId(location.id);
+		params.setSearchLatLon(location.latLong.lat, location.latLong.lng);
+		LocalDate now = LocalDate.now();
+		params.setCheckInDate(now.plusDays(1));
+		params.setCheckOutDate(now.plusDays(2));
+		params.setNumAdults(2);
+		params.setChildren(null);
+		NavUtils.goToHotels(getActivity(), params, event.animOptions, 0);
 	}
 
 }
