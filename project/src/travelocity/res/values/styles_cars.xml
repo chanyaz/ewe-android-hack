@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="CarsTheme.Base" parent="AppTheme.Base">
-        <item name="android:textColorSecondary">@color/cars_actionbar_text_color</item>
+    <style name="Whitelabel.CarsTheme.Base" parent="AppTheme.Base.Cars">
         <item name="android:colorPrimaryDark">@color/cars_primary_color_tvly</item>
         <item name="android:colorButtonNormal">@color/cars_primary_color_tvly</item>
-        <item name="colorControlNormal">#C3C3C3</item>
-        <item name="android:actionMenuTextColor">#FFFFFF</item>
-        <item name="actionMenuTextColor">#FFFFFF</item>
-        <item name="windowActionModeOverlay">true</item>
         <item name="colorAccent">@color/cars_primary_color_tvly</item>
         <item name="android:colorEdgeEffect">@color/cars_primary_color_tvly</item>
-        <item name="toolbarNavigationButtonStyle">@style/CarNavigationButtonStyle</item>
-        <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
 
         <!-- Skins added for whitelabel -->
         <item name="skin_carsPrimaryColor">@color/cars_primary_color_tvly</item>
