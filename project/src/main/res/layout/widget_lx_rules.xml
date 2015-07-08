@@ -3,24 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/lx_rules_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="?attr/actionBarSize"
-        android:orientation="vertical"
-        android:id="@+id/main_container">
+        android:layout_gravity="top"
+        android:minHeight="?attr/actionBarSize" />
 
-        <!-- Cancellation Policy -->
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/cancellation_policy_header_text_view"
-            style="@style/LegalInformationTextView.Blue"
-            android:text="@string/cancellation_policy" />
-        <View
-            android:id="@+id/cancellation_policy_divider"
-            style="@style/LegalInformationDivider.Blue" />
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/cancellation_policy_text_view"
-            style="@style/LegalInformationTextView" />
+    <LinearLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lx_rules_toolbar"
+        android:orientation="vertical">
 
         <!-- Rules & Restrictions -->
         <com.expedia.bookings.widget.TextView
@@ -43,12 +38,21 @@
             android:text="@string/privacy_policy" />
         <View style="@style/LegalInformationDivider.Grey" />
 
+        <!-- Cancellation Policy -->
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/cancellation_policy_header_text_view"
+            style="@style/LegalInformationTextView.Blue"
+            android:text="@string/cancellation_policy"
+            android:textAllCaps="true"
+            />
+        <View
+            android:id="@+id/cancellation_policy_divider"
+            style="@style/LegalInformationDivider.Blue" />
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/cancellation_policy_text_view"
+            style="@style/LegalInformationTextView" />
+
     </LinearLayout>
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/lx_rules_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:minHeight="?attr/actionBarSize" />
+
 </merge>
