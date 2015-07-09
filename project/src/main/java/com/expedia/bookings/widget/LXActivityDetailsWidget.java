@@ -32,6 +32,7 @@ import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -148,8 +149,9 @@ public class LXActivityDetailsWidget extends ScrollView {
 	private void buildGallery(ActivityDetailsResponse activityDetails) {
 		final List<LXMedia> mediaList = new ArrayList<LXMedia>();
 		for (int i = 0; i < activityDetails.images.size(); i++) {
-			String url = Images.getLXImageURL(activityDetails.images.get(i).url);
-			LXMedia media = new LXMedia(url);
+			List<String> imageURLs = Images
+				.getLXImageURLBasedOnWidth(activityDetails.images.get(i).getImages(), AndroidUtils.getDisplaySize(getContext()).x);
+			LXMedia media = new LXMedia(imageURLs);
 			mediaList.add(media);
 		}
 
