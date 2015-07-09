@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -23,6 +25,8 @@ import com.mobiata.android.Log;
 
 public class HotelMapActivity extends FragmentActivity implements HotelMapFragmentListener {
 
+	public static final String INSTANCE_IS_HOTEL_RECEIPT = "INSTANCE_IS_HOTEL_RECEIPT";
+
 	private HotelMapFragment mHotelMapFragment;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
@@ -30,6 +34,9 @@ public class HotelMapActivity extends FragmentActivity implements HotelMapFragme
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
+
+	// To check if the activity has been started from the HotelOverviewScreen. AB Test #4764
+	private boolean mIsFromHotelReceiptScreen;
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Static Methods
@@ -84,6 +91,7 @@ public class HotelMapActivity extends FragmentActivity implements HotelMapFragme
 		if (savedInstanceState == null) {
 			OmnitureTracking.trackPageLoadHotelsInfositeMap(getApplicationContext());
 		}
+		mIsFromHotelReceiptScreen = getIntent().getBooleanExtra(INSTANCE_IS_HOTEL_RECEIPT, false);
 	}
 
 	@Override
@@ -118,7 +126,20 @@ public class HotelMapActivity extends FragmentActivity implements HotelMapFragme
 		HotelUtils.setupActionBarHotelNameAndRating(this, property);
 
 		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
-		HotelUtils.setupActionBarCheckmark(this, select, property.isAvailable());
+		if (mIsFromHotelReceiptScreen) {
+			Button tv = Ui.inflate(HotelMapActivity.this, R.layout.actionbar_checkmark_item, null);
+			tv.setText(getString(R.string.menu_done));
+			tv.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					HotelMapActivity.this.onOptionsItemSelected(select);
+				}
+			});
+			select.setActionView(tv);
+		}
+		else {
+			HotelUtils.setupActionBarCheckmark(this, select, property.isAvailable());
+		}
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -131,9 +152,14 @@ public class HotelMapActivity extends FragmentActivity implements HotelMapFragme
 			onBackPressed();
 			return true;
 		case R.id.menu_select_hotel:
-			startActivity(HotelRoomsAndRatesActivity.createIntent(this));
-			finish();
-			return true;
+			if (mIsFromHotelReceiptScreen) {
+				onBackPressed();
+			}
+			else {
+				startActivity(HotelRoomsAndRatesActivity.createIntent(this));
+				finish();
+				return true;
+			}
 		default:
 			return super.onOptionsItemSelected(item);
 		}

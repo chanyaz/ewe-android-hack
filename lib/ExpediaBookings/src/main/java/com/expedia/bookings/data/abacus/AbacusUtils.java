@@ -28,6 +28,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelPayLaterCouponMessaging = 7777;
 	public static final int EBAndroidAppHotel3xMessaging = 7973;
 	public static final int EBAndroidAppHotelCollapseAmenities = 8126;
+	public static final int EBAndroidAppHotelShowAddressMapInReceipt = 8129;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -67,6 +68,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelPayLaterCouponMessaging);
 		testIDs.add(EBAndroidAppHotel3xMessaging);
 		testIDs.add(EBAndroidAppHotelCollapseAmenities);
+		testIDs.add(EBAndroidAppHotelShowAddressMapInReceipt);
 		return testIDs;
 	}
 
