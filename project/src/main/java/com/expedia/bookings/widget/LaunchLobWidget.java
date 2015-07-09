@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.squareup.otto.Subscribe;
@@ -40,36 +41,33 @@ public class LaunchLobWidget extends RelativeLayout {
 
 	float origHeight;
 	boolean wasNetworkUnavailable = false;
+	PhoneLaunchButton[] lobButtons = new PhoneLaunchButton[4];
 
 	public LaunchLobWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		LayoutInflater.from(getContext()).inflate(R.layout.section_phone_launch_lob, this);
 		ButterKnife.inject(this);
+		initializeLobBtnsArray();
+	}
+
+	private void initializeLobBtnsArray() {
+		lobButtons[0] = hotelsBtn;
+		lobButtons[1] = carsBtn;
+		lobButtons[2] = flightsBtn;
+		lobButtons[3] = lxBtn;
 	}
 
 	public void transformButtons(float f) {
-		hotelsBtn.scaleTo(f);
-		flightsBtn.scaleTo(f);
-		carsBtn.scaleTo(f);
-		lxBtn.scaleTo(f);
+		for (int i = 0; i < lobButtons.length; i++) {
+			lobButtons[i].scaleTo(f);
+		}
 		bg.setScaleY(f);
 		shadow.setTranslationY((f * origHeight) - origHeight);
 	}
 
 	public void updateVisibilities() {
-		if (PointOfSale.getPointOfSale().supportsCars()) {
-			carsBtn.setVisibility(View.VISIBLE);
-		}
-		else {
-			carsBtn.setVisibility(View.GONE);
-		}
-
-		if (PointOfSale.getPointOfSale().supportsLx()) {
-			lxBtn.setVisibility(View.VISIBLE);
-		}
-		else {
-			lxBtn.setVisibility(View.GONE);
-		}
+		lxBtn.setVisibility(PointOfSale.getPointOfSale().supports(LineOfBusiness.LX) ? VISIBLE : GONE);
+		carsBtn.setVisibility(PointOfSale.getPointOfSale().supports(LineOfBusiness.CARS) ? VISIBLE : GONE);
 	}
 
 	@Override
@@ -96,22 +94,24 @@ public class LaunchLobWidget extends RelativeLayout {
 	@Subscribe
 	public void onNetworkAvailable(Events.LaunchOnlineState event) {
 		if (wasNetworkUnavailable) {
-			hotelsBtn.transformToDefaultState();
-			flightsBtn.transformToDefaultState();
-			carsBtn.transformToDefaultState();
+
+			for (int i = 0; i < lobButtons.length; i++) {
+				lobButtons[i].transformToDefaultState();
+			}
 			bg.setScaleY(1.0f);
 			shadow.setTranslationY(0.0f);
 		}
+
 		wasNetworkUnavailable = false;
 	}
 
 	@Subscribe
 	public void onNetworkUnavailable(Events.LaunchOfflineState event) {
 		wasNetworkUnavailable = true;
-		hotelsBtn.transformToNoDataState();
-		flightsBtn.transformToNoDataState();
-		carsBtn.transformToNoDataState();
-		lxBtn.transformToNoDataState();
+
+		for (int i = 0; i < lobButtons.length; i++) {
+			lobButtons[i].transformToNoDataState();
+		}
 		bg.setScaleY(1.0f);
 		shadow.setTranslationY(0.0f);
 	}

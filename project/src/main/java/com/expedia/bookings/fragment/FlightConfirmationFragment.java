@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParams;
@@ -164,7 +165,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 		boolean isUserBucketedForTest = Db.getAbacusResponse()
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightConfCarsXsell);
-		if (PointOfSale.getPointOfSale().supportsCars() && isUserBucketedForTest) {
+		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.CARS) && isUserBucketedForTest) {
 			Ui.setText(v, R.id.get_a_room_text_view, getString(R.string.add_to_your_trip));
 			Ui.findView(v, R.id.car_divider).setVisibility(View.VISIBLE);
 			Ui.findView(v, R.id.cars_action_text_view).setVisibility(View.VISIBLE);
@@ -180,7 +181,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 		isUserBucketedForTest = Db.getAbacusResponse()
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightConfLXXsell);
-		if (PointOfSale.getPointOfSale().supportsLx() && isUserBucketedForTest) {
+		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.LX) && isUserBucketedForTest) {
 			Ui.setText(v, R.id.get_a_room_text_view, getString(R.string.add_to_your_trip));
 			Ui.findView(v, R.id.lx_divider).setVisibility(View.VISIBLE);
 			Ui.findView(v, R.id.lx_action_text_view).setVisibility(View.VISIBLE);

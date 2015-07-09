@@ -191,7 +191,7 @@ public class DeepLinkRouterActivity extends Activity {
 	 */
 	private boolean handleCarsSearch(Uri data, Set<String> queryData) {
 
-		if (PointOfSale.getPointOfSale().supportsCars()) {
+		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.CARS)) {
 			String productKey = null;
 
 			if (queryData.contains("productKey")) {
@@ -230,7 +230,9 @@ public class DeepLinkRouterActivity extends Activity {
 	 */
 	private boolean handleActivitySearch(Uri data, Set<String> queryData) {
 
-		if (PointOfSale.getPointOfSale().supportsLx()) {
+
+
+		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
 			LXSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
 			NavUtils.goToActivities(this, null, searchParams, NavUtils.FLAG_DEEPLINK);
 		}

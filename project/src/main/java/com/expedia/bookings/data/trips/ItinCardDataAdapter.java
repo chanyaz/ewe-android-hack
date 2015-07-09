@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -599,7 +600,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	private void addLXAttachData(List<ItinCardData> itinCardDatas) {
 		boolean isUserBucketedForTest = Db.getAbacusResponse()
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelItinLXXsell);
-		if (!PointOfSale.getPointOfSale().supportsLx() || !isUserBucketedForTest) {
+		if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.LX) || !isUserBucketedForTest) {
 			return;
 		}
 		// Nothing to do if there are no itineraries

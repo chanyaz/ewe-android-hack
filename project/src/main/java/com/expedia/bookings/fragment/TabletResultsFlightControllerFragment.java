@@ -199,7 +199,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {
 			return ResultsFlightsState.NO_FLIGHTS_DROPDOWN_POS;
 		}
-		else if (!PointOfSale.getPointOfSale().supportsFlights()) {
+		else if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
 			return ResultsFlightsState.NO_FLIGHTS_POS;
 		}
 		else if (TextUtils.isEmpty(Sp.getParams().getOriginAirportCode()) || isOriginDestinationSame()) {

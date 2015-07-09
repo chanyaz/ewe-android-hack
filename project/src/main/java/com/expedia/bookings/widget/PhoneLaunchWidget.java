@@ -29,6 +29,7 @@ import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.collections.Collection;
@@ -450,7 +451,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	public void bindLobWidget() {
 		int listHeaderPaddingTop;
-		if (PointOfSale.getPointOfSale().supportsCars() && PointOfSale.getPointOfSale().supportsLx()) {
+		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.CARS) && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
 			doubleRowLob = true;
 			lobHeight = getResources().getDimension(R.dimen.launch_lob_double_row_container_height);
 			lobSelectorWidget.setVisibility(View.GONE);
