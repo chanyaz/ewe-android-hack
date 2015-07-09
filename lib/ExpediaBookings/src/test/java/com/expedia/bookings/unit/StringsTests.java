@@ -213,4 +213,35 @@ public class StringsTests {
 		assertEquals(expectedTextWithQuotes, Strings.escapeQuotes(textWithQuotes));
 		assertEquals(textWithoutQuotes, Strings.escapeQuotes(textWithoutQuotes));
 	}
+
+	@Test
+	public void testcharacterCutOffWithMinBulletsShown() {
+		String content = null;
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 1));
+
+		content = "";
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 1));
+
+		content = "<p>abcdefghijklmnopqrstuvwxyz</p>";
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 1));
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 2));
+
+		content = "<p>abcdefghijklmnopqrstuvwxyz</p><ul><li>123</li><li>12345</li><li>1234567890</li>";
+		assertEquals(49, Strings.characterCutOffWithMinBulletsShown(content, 1));
+		assertEquals(63, Strings.characterCutOffWithMinBulletsShown(content, 2));
+
+		content = "<p>abcdefghijklmnopqrstuvwxyz</p><ul><li>123</li>";
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 1));
+		assertEquals(37, Strings.characterCutOffWithMinBulletsShown(content, 0));
+
+		content = "abcdefghijklmnopqrstuvwxyz";
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 1));
+
+		content = "abcdefghijklmnopqrstuvwxyz<ul><li>123</li><li>12345</li><li>1234567890</li>";
+		assertEquals(30, Strings.characterCutOffWithMinBulletsShown(content, 0));
+		assertEquals(42, Strings.characterCutOffWithMinBulletsShown(content, 1));
+		assertEquals(56, Strings.characterCutOffWithMinBulletsShown(content, 2));
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 3));
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 4));
+	}
 }

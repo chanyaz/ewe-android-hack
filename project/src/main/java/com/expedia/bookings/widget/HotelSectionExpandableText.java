@@ -70,13 +70,9 @@ public class HotelSectionExpandableText extends RelativeLayout {
 	public void showMinBulletPoints(int minBulletPoints) {
 		if (mHotelSection != null) {
 			String content = mHotelSection.getContent();
-			String[] contentSplit = content.split("<li>");
-			if (contentSplit.length > (minBulletPoints + 1)) {
+			mParagraphCutOff = Strings.characterCutOffWithMinBulletsShown(content, minBulletPoints);
+			if (mParagraphCutOff > 0) {
 				mShouldCut = true;
-				mParagraphCutOff = 0;
-				for (int i = 0; i < (minBulletPoints + 1); i++) {
-					mParagraphCutOff += contentSplit[i].length();
-				}
 			}
 			else {
 				mShouldCut = false;
