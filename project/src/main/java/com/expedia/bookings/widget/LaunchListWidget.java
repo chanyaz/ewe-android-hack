@@ -111,10 +111,6 @@ public class LaunchListWidget extends RecyclerView {
 		return elements;
 	}
 
-	public View getHeader() {
-		return header;
-	}
-
 	/**
 	 An ItemDecoration that accomplishes this pattern:
 	 | |____0____| |

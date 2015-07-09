@@ -100,6 +100,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	@Override
 	public void onFinishInflate() {
+		super.onFinishInflate();
 		ButterKnife.inject(this);
 		Ui.getApplication(getContext()).launchComponent().inject(this);
 		launchListWidget.setOnScrollListener(scrollListener);
@@ -230,10 +231,11 @@ public class PhoneLaunchWidget extends FrameLayout {
 	RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
 
 		private float airAttachTranslation;
-
+		private int distanceY;
 		@Override
 		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-			float currentPos = Math.abs(launchListWidget.getHeader().getTop());
+			distanceY += dy;
+			float currentPos = distanceY;
 			if (airAttachTranslation >= 0 && airAttachTranslation <= airAttachBanner.getHeight()) {
 				airAttachTranslation += dy;
 				airAttachTranslation = Math.min(airAttachTranslation, airAttachBanner.getHeight());
