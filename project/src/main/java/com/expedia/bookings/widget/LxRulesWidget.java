@@ -61,7 +61,7 @@ public class LxRulesWidget extends LinearLayout {
 	@Subscribe
 	public void onCreateTripSucceeded(Events.LXCreateTripSucceeded event) {
 		this.tripId = event.createTripResponse.tripId;
-		updateCancellationPolicyDisplayText(event.activity.cancellationPolicyText);
+		updateCancellationPolicyDisplayText(event.activity.freeCancellationMinHours);
 	}
 
 	@OnClick(R.id.rules_and_restrictions)
@@ -111,8 +111,8 @@ public class LxRulesWidget extends LinearLayout {
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 	}
 
-	private void updateCancellationPolicyDisplayText(String cancellationPolicyTextFromAPIResponse) {
+	private void updateCancellationPolicyDisplayText(int freeCancellationMinHours) {
 		cancellationPolicy.setText(
-			LXDataUtils.getCancelationPolicyDisplayText(getContext(), cancellationPolicyTextFromAPIResponse));
+			LXDataUtils.getCancelationPolicyDisplayText(getContext(), freeCancellationMinHours));
 	}
 }
