@@ -247,6 +247,14 @@
             android:summary="Select a test group"
             android:title="Hotel 3x points messaging" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:key="8126"
+            android:summary="Select a test group"
+            android:title="Hotel collapse amenities, policies, fees" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >

@@ -367,6 +367,9 @@ public class OmnitureTracking {
 		String drrString = internalGenerateDRRString(context, property);
 		s.setEvar(9, drrString);
 
+		// 4761 - AB Test: Collapse Amenities, Policies, and fees on Infosite
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelCollapseAmenities);
+
 		// Send the tracking data
 		s.track();
 	}
