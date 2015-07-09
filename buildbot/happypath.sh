@@ -17,10 +17,11 @@ else
 fi
 
 # Happypath
-add_test "com.expedia.bookings.test.ui.happy.TabletHappyPath"
-add_test "com.expedia.bookings.test.ui.happy.PhoneHappyPath"
-add_test "com.expedia.bookings.test.ui.happy.CarPhoneHappyPath"
-add_test "com.expedia.bookings.test.ui.happy.LxPhoneHappyPath"
+add_test "com.expedia.bookings.test.happy.HotelPhoneHappyPath"
+add_test "com.expedia.bookings.test.happy.FlightPhoneHappyPath"
+add_test "com.expedia.bookings.test.happy.ItinPhoneHappyPath"
+add_test "com.expedia.bookings.test.happy.CarPhoneHappyPath"
+add_test "com.expedia.bookings.test.happy.LxPhoneHappyPath"
 
 java \
     -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \

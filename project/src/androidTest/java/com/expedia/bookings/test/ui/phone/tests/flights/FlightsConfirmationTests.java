@@ -20,15 +20,15 @@ import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResult
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.HotelsUserData;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.HotelsUserData;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.expedia.bookings.test.ui.utils.EspressoUtils.assertViewWithTextIsDisplayed;
-import static com.expedia.bookings.test.ui.utils.EspressoUtils.getText;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
+import static com.expedia.bookings.test.espresso.EspressoUtils.getText;
 import static org.hamcrest.core.AllOf.allOf;
 
 /**
@@ -41,7 +41,7 @@ public class FlightsConfirmationTests extends PhoneTestCase {
 	private HotelsUserData mUser;
 
 	public void testMethod() throws Exception {
-		mUser = new HotelsUserData(getInstrumentation());
+		mUser = new HotelsUserData();
 		ScreenActions.enterLog(TAG, "START TEST: Testing confirmation screen for guest flight booking");
 		getToCheckout();
 		ScreenActions.enterLog(TAG, "START TEST: Testing confirmation screen for air attach messaging");
@@ -97,8 +97,8 @@ public class FlightsConfirmationTests extends PhoneTestCase {
 
 		// Log in
 		HotelsCheckoutScreen.clickLogInButton();
-		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
-		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
+		LogInScreen.typeTextEmailEditText(mUser.email);
+		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();
 		CommonCheckoutScreen.clickCheckoutButton();
@@ -114,17 +114,17 @@ public class FlightsConfirmationTests extends PhoneTestCase {
 		}
 
 		if (PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
-			ScreenActions.enterLog(TAG, "Entering address line 1: " + mUser.getAddressLine1());
-			BillingAddressScreen.typeTextAddressLineOne(mUser.getAddressLine1());
-			ScreenActions.enterLog(TAG, "Entering address city: " + mUser.getAddressCity());
-			BillingAddressScreen.typeTextCity(mUser.getAddressCity());
-			ScreenActions.enterLog(TAG, "Entering postal code: " + mUser.getAddressPostalCode());
-			BillingAddressScreen.typeTextPostalCode(mUser.getAddressPostalCode());
+			ScreenActions.enterLog(TAG, "Entering address line 1: " + mUser.address);
+			BillingAddressScreen.typeTextAddressLineOne(mUser.address);
+			ScreenActions.enterLog(TAG, "Entering address city: " + mUser.city);
+			BillingAddressScreen.typeTextCity(mUser.city);
+			ScreenActions.enterLog(TAG, "Entering postal code: " + mUser.zipcode);
+			BillingAddressScreen.typeTextPostalCode(mUser.zipcode);
 			BillingAddressScreen.clickNextButton();
 		}
 		ScreenActions.enterLog(TAG, "Using new credit card");
-		ScreenActions.enterLog(TAG, "Entering credit card with number: " + mUser.getCreditCardNumber());
-		CardInfoScreen.typeTextCreditCardEditText(mUser.getCreditCardNumber());
+		ScreenActions.enterLog(TAG, "Entering credit card with number: " + mUser.creditCardNumber);
+		CardInfoScreen.typeTextCreditCardEditText(mUser.creditCardNumber);
 		CardInfoScreen.clickOnExpirationDateButton();
 		ScreenActions.enterLog(TAG, "Incrementing credit card exp. month and year by 1");
 		CardInfoScreen.clickMonthUpButton();
@@ -138,8 +138,8 @@ public class FlightsConfirmationTests extends PhoneTestCase {
 		CommonCheckoutScreen.slideToCheckout();
 
 		// CVV Entry
-		ScreenActions.enterLog(TAG, "Entering CCV: " + mUser.getCCV());
-		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
+		ScreenActions.enterLog(TAG, "Entering CCV: " + mUser.cvv);
+		CVVEntryScreen.parseAndEnterCVV(mUser.cvv);
 		CVVEntryScreen.clickBookButton();
 		assertViewWithTextIsDisplayed(airlineName);
 		assertViewWithTextIsDisplayed(departureTime);

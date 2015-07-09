@@ -7,12 +7,12 @@ import android.support.test.espresso.action.ViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
+import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.mobiata.android.Log;
 
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.CoreMatchers.not;
 
 public class Common {
@@ -59,7 +59,7 @@ public class Common {
 
 	public static void pressBackOutOfApp(Instrumentation inst) {
 		try {
-			if (!SpoonScreenshotUtils.hasActiveActivity(inst)) {
+			if (!SpoonScreenshotUtils.hasActiveActivity()) {
 				Log.v("No activity to back out of");
 				return;
 			}

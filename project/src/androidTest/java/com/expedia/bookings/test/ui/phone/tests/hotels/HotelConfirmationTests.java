@@ -25,9 +25,9 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.HotelsUserData;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.HotelsUserData;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.utils.DateFormatUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -79,14 +79,14 @@ public class HotelConfirmationTests extends PhoneTestCase {
 	}
 
 	public void testLoggedInBookingConfirmation() throws Exception {
-		mUser = new HotelsUserData(getInstrumentation());
+		mUser = new HotelsUserData();
 
 		ScreenActions.enterLog(TAG, "START: Testing confirmation screen after logged-in booking");
 		getToCheckout();
 		HotelsCheckoutScreen.clickCheckoutButton();
 		HotelsCheckoutScreen.clickLogInButton();
-		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
-		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
+		LogInScreen.typeTextEmailEditText(mUser.email);
+		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
 
 		HotelsCheckoutScreen.clickSelectPaymentButton();
@@ -97,9 +97,9 @@ public class HotelConfirmationTests extends PhoneTestCase {
 		catch (Exception e) {
 			ScreenActions.enterLog(TAG, "No Add New Card button. Proceeding anyway.");
 		}
-		CardInfoScreen.typeTextCreditCardEditText(mUser.getCreditCardNumber());
-		BillingAddressScreen.typeTextPostalCode(mUser.getAddressPostalCode());
-		CardInfoScreen.typeTextNameOnCardEditText(mUser.getFirstName() + " " + mUser.getLastName());
+		CardInfoScreen.typeTextCreditCardEditText(mUser.creditCardNumber);
+		BillingAddressScreen.typeTextPostalCode(mUser.zipcode);
+		CardInfoScreen.typeTextNameOnCardEditText(mUser.firstName + " " + mUser.lastName);
 		CardInfoScreen.clickOnExpirationDateButton();
 		ScreenActions.enterLog(TAG, "Incrementing credit card exp. month and year by 1");
 		CardInfoScreen.clickMonthUpButton();
@@ -110,7 +110,7 @@ public class HotelConfirmationTests extends PhoneTestCase {
 
 		mHotelName = EspressoUtils.getText(R.id.title);
 		HotelsCheckoutScreen.slideToCheckout();
-		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
+		CVVEntryScreen.parseAndEnterCVV(mUser.cvv);
 		CVVEntryScreen.clickBookButton();
 		verifyConfirmationTexts();
 		verifyTravelAdTracking();
@@ -175,7 +175,7 @@ public class HotelConfirmationTests extends PhoneTestCase {
 		HotelsConfirmationScreen.itineraryTextView().check(matches(withText(expectedItineraryConfirmationText)));
 
 		// Email address
-		String expectedEmailAddString = mUser.getLoginEmail();
+		String expectedEmailAddString = mUser.email;
 		HotelsConfirmationScreen.emailTextView().check(matches(withText(expectedEmailAddString)));
 
 		// Actions are displayed (share, add to calendar, call expedia)

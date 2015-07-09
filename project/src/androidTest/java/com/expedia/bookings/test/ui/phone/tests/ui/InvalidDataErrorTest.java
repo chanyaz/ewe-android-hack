@@ -14,8 +14,10 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
+
+import static android.support.test.espresso.action.ViewActions.clearText;
 
 /**
  * Created by dmadan on 8/20/14.
@@ -84,7 +86,7 @@ public class InvalidDataErrorTest extends PhoneTestCase {
 
 		//checkout using invalid CC
 		for (int i = 0; i < BAD_CREDIT_CARDS.length; i++) {
-			EspressoUtils.clear(CardInfoScreen.creditCardNumberEditText());
+			CardInfoScreen.creditCardNumberEditText().perform(clearText());
 			CardInfoScreen.typeTextCreditCardEditText(BAD_CREDIT_CARDS[i]);
 			Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 			CardInfoScreen.clickOnDoneButton();
@@ -98,7 +100,7 @@ public class InvalidDataErrorTest extends PhoneTestCase {
 		}
 
 		//complete checkout using valid CC after error popup
-		EspressoUtils.clear(CardInfoScreen.creditCardNumberEditText());
+		CardInfoScreen.creditCardNumberEditText().perform(clearText());
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		CardInfoScreen.clickOnDoneButton();
@@ -130,7 +132,7 @@ public class InvalidDataErrorTest extends PhoneTestCase {
 
 		//checkout using invalid phone number
 		for (int i = 0; i < BAD_PHONE_NUMBERS.length; i++) {
-			EspressoUtils.clear(CommonTravelerInformationScreen.phoneNumberEditText());
+			CommonTravelerInformationScreen.phoneNumberEditText().perform(clearText());
 			CommonTravelerInformationScreen.enterPhoneNumber(BAD_PHONE_NUMBERS[i]);
 			CommonTravelerInformationScreen.clickDoneButton();
 			HotelsCheckoutScreen.slideToCheckout();
@@ -143,7 +145,7 @@ public class InvalidDataErrorTest extends PhoneTestCase {
 		}
 
 		//complete checkout using valid phone after error popup
-		EspressoUtils.clear(CommonTravelerInformationScreen.phoneNumberEditText());
+		CommonTravelerInformationScreen.phoneNumberEditText().perform(clearText());
 		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");
 		CommonTravelerInformationScreen.clickDoneButton();
 		HotelsCheckoutScreen.slideToCheckout();
@@ -181,7 +183,7 @@ public class InvalidDataErrorTest extends PhoneTestCase {
 		CVVEntryScreen.clickOkButton();
 
 		//back to payment details
-		EspressoUtils.clear(CardInfoScreen.nameOnCardEditText());
+		CardInfoScreen.nameOnCardEditText().perform(clearText());
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
 		CardInfoScreen.clickOnDoneButton();
 

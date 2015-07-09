@@ -2,12 +2,12 @@ package com.expedia.bookings.test.ui.phone.tests.ui;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.test.component.lx.LXViewModel;
+import com.expedia.bookings.test.phone.lx.LXScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -86,7 +86,7 @@ public class LaunchScreenTest extends PhoneTestCase {
 		EspressoUtils.assertTextWithChildrenIsDisplayed(R.id.activities_button, mRes.getString(R.string.nav_lx));
 		LaunchScreen.launchActivities();
 		screenshot("POS_US_Activities_Launch");
-		LXViewModel.searchButtonInSRPToolbar().perform(click());
+		LXScreen.searchButtonInSRPToolbar().perform(click());
 		screenshot("POS_US_Activities_Launch_Edit_Search");
 		EspressoUtils.assertViewIsDisplayed(R.id.search_location);
 		Common.closeSoftKeyboard(onView(withId(R.id.search_location)));

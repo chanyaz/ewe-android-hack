@@ -15,10 +15,10 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 
 public class CheckoutExpiredCCTest extends PhoneTestCase {
 

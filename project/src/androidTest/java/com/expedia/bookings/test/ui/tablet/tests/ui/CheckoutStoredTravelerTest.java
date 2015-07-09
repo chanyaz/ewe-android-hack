@@ -10,9 +10,9 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Launch;
 import com.expedia.bookings.test.ui.tablet.pagemodels.LogIn;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Results;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Search;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.HotelsUserData;
-import com.expedia.bookings.test.ui.utils.TabletTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.HotelsUserData;
+import com.expedia.bookings.test.espresso.TabletTestCase;
 
 public class CheckoutStoredTravelerTest extends TabletTestCase {
 
@@ -26,7 +26,7 @@ public class CheckoutStoredTravelerTest extends TabletTestCase {
 	private String travelerSex = "Male";
 
 	private void doSearch() {
-		mUser = new HotelsUserData(getInstrumentation());
+		mUser = new HotelsUserData();
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");
@@ -69,11 +69,11 @@ public class CheckoutStoredTravelerTest extends TabletTestCase {
 
 	private void doLogin() throws Throwable {
 		Checkout.clickLoginButton();
-		LogIn.enterUserName(mUser.getLoginEmail());
-		LogIn.enterPassword(mUser.getLoginPassword());
+		LogIn.enterUserName(mUser.email);
+		LogIn.enterPassword(mUser.password);
 		screenshot("Login_Info_Entered");
 		LogIn.clickLoginExpediaButton();
-		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
+		EspressoUtils.assertViewWithTextIsDisplayed(mUser.email);
 		screenshot("Login_Successful");
 	}
 
