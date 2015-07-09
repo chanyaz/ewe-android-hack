@@ -32,6 +32,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.phrase.Phrase;
 
@@ -94,6 +95,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		Sp.loadSearchParamsFromDisk(this);
 		LaunchDb.getCollections(this);
 		OmnitureTracking.onResume(this);
+		TuneUtils.startTune(this);
 	}
 
 	@Override

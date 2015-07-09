@@ -54,6 +54,7 @@ import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
@@ -223,6 +224,11 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			KahunaUtils.init(this);
 			registerActivityLifecycleCallbacks(new ExpediaActivityLifeCycleCallBack());
 			startupTimer.addSplit("Kahuna started.");
+		}
+
+		if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled()) {
+			TuneUtils.init(this);
+			startupTimer.addSplit("Tune started.");
 		}
 
 		// 2249: We were not sending push registrations to the prod push server

@@ -69,6 +69,8 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isKahunaEnabled();
 
+	boolean isTuneEnabled();
+
 	boolean isWeAreHiringInAboutEnabled();
 
 	boolean isClearPrivateDataInAboutEnabled();

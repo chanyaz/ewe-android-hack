@@ -42,6 +42,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView;
@@ -177,6 +178,8 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		OmnitureTracking.onResume(this);
 
 		AdTracker.trackViewHomepage();
+
+		TuneUtils.startTune(this);
 	}
 
 	@Override
