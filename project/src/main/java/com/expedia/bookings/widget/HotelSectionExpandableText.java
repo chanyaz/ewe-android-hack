@@ -22,7 +22,7 @@ import com.mobiata.android.util.Ui;
  */
 public class HotelSectionExpandableText extends RelativeLayout {
 
-	private static final int DEFAULT_PARAGRAPH_CUTOFF = 120;
+	private static final int DEFAULT_PARAGRAPH_CUTOFF = 360;
 
 	private int mParagraphCutOff = DEFAULT_PARAGRAPH_CUTOFF;
 
@@ -32,6 +32,8 @@ public class HotelSectionExpandableText extends RelativeLayout {
 	private View mFadeOverlay;
 	private HotelTextSection mHotelSection;
 	private boolean mShouldCut;
+	private boolean mIsExpanded;
+	private CharSequence mSectionBody;
 
 	public HotelSectionExpandableText(Context context) {
 		super(context);
@@ -85,27 +87,36 @@ public class HotelSectionExpandableText extends RelativeLayout {
 		mTitleText.setVisibility(View.VISIBLE);
 		mTitleText.setText(mHotelSection.getNameWithoutHtml());
 
-		CharSequence sectionBody = Html.fromHtml(mHotelSection.getContentFormatted(getContext()));
+		mSectionBody = Html.fromHtml(mHotelSection.getContentFormatted(getContext()));
 
 		// Add "read more" button if the paragraph is longer than mParagraphCutOff
 		if (mShouldCut) {
-			final CharSequence untruncated = sectionBody;
+			final CharSequence untruncated = mSectionBody;
 			mReadMoreView.setVisibility(View.VISIBLE);
 			mFadeOverlay.setVisibility(View.VISIBLE);
 			View.OnClickListener clickListener = new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					mBodyText.setText(untruncated);
-					mReadMoreView.setVisibility(View.GONE);
-					mFadeOverlay.setVisibility(View.GONE);
+					if (!mIsExpanded) {
+						mBodyText.setText(untruncated);
+						mReadMoreView.setVisibility(View.GONE);
+						mFadeOverlay.setVisibility(View.GONE);
+						mIsExpanded = true;
+					}
+					else {
+						mBodyText.setText(mSectionBody);
+						mReadMoreView.setVisibility(View.VISIBLE);
+						mFadeOverlay.setVisibility(View.VISIBLE);
+						mIsExpanded = false;
+					}
 				}
 			};
 			mBodyText.setOnClickListener(clickListener);
 			mReadMoreView.setOnClickListener(clickListener);
 
-			sectionBody = String.format(getContext().getString(R.string.ellipsize_text_template),
-				sectionBody.subSequence(0, Strings.cutAtWordBarrier(sectionBody, mParagraphCutOff)));
+			mSectionBody = String.format(getContext().getString(R.string.ellipsize_text_template),
+				mSectionBody.subSequence(0, Strings.cutAtWordBarrier(mSectionBody, mParagraphCutOff)));
 		}
-		mBodyText.setText(sectionBody);
+		mBodyText.setText(mSectionBody);
 	}
 }

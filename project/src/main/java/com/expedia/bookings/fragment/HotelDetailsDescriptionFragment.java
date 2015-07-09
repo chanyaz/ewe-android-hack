@@ -166,7 +166,7 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 		if (property.getPoliciesText() != null) {
 			hotelExpandableText = new HotelSectionExpandableText(getActivity());
 			hotelExpandableText.setHotelSection(property.getPoliciesText());
-			hotelExpandableText.showMinBulletPoints(3);
+			hotelExpandableText.showMinBulletPoints(2);
 			allSectionsContainer.addView(hotelExpandableText);
 		}
 
