@@ -43,8 +43,10 @@ import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.VipBadgeClickListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
+import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsHotelGalleryClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
+import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.CrossContextHelper;
@@ -66,7 +68,7 @@ import com.squareup.phrase.Phrase;
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
  * fragment designed for tablet results 2013
  */
-public class ResultsHotelDetailsFragment extends Fragment {
+public class ResultsHotelDetailsFragment extends Fragment implements IBackManageable {
 
 	public static ResultsHotelDetailsFragment newInstance() {
 		ResultsHotelDetailsFragment frag = new ResultsHotelDetailsFragment();
@@ -94,6 +96,20 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private GridManager mGrid = new GridManager();
 	private Property mCurrentProperty;
 	private int mSavedScrollPosition;
+
+	private BackManager mBackManager = new BackManager(this) {
+
+		@Override
+		public boolean handleBackPressed() {
+			BackgroundDownloader.getInstance().cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
+			return false;
+		}
+	};
+
+	@Override
+	public BackManager getBackManager() {
+		return mBackManager;
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -145,6 +161,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		mBackManager.registerWithParent(this);
 		mMeasurementHelper.registerWithProvider(this);
 		Events.register(this);
 		if (mSavedScrollPosition != 0) {
@@ -155,6 +172,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
+		mBackManager.unregisterWithParent(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		Events.unregister(this);
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
