@@ -152,14 +152,7 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 	private void verifyLoginButtonNotAppearing() throws Exception {
 		HotelsCheckoutScreen.clickLogInButton();
 		ScreenActions.delay(1);
-		LogInScreen.facebookButton().check(matches(isDisplayed()));
-		LogInScreen.logInButton().check(matches(not(isDisplayed())));
-		ScreenActions.enterLog(TAG, "Log in button isn't shown until an email address is entered");
 		LogInScreen.typeTextEmailEditText(mUser.email);
-		LogInScreen.facebookButton().check(matches(not(isDisplayed())));
-		ScreenActions.enterLog(TAG, "Facebook button is no longer shown after email address is entered");
-		LogInScreen.logInButton().check(matches(isDisplayed()));
-		ScreenActions.enterLog(TAG, "Log in button is shown after email address is entered");
 		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();

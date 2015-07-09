@@ -169,16 +169,9 @@
     <dimen name="login_field_padding">12dp</dimen>
     <dimen name="login_field_width">508dp</dimen>
     <dimen name="login_button_width">328dp</dimen>
-    <dimen name="login_side_margin_medium">20dp</dimen>
-    <dimen name="login_side_margin_small">16dp</dimen>
-    <dimen name="login_or_spacing">24dp</dimen>
     <dimen name="login_header_text_size">33sp</dimen>
-    <dimen name="login_header_text_small_size">22sp</dimen>
     <dimen name="login_divider_height">3dp</dimen>
-    <dimen name="login_button_spacing">24dp</dimen>
-    <dimen name="login_fb_buttons_top_spacing">30dp</dimen>
     <dimen name="login_field_spacing">28dp</dimen>
-    <dimen name="login_bottom_room_spacing">6dp</dimen>
 
     <dimen name="hotel_row_thumbnail_width">115dp</dimen>
     <dimen name="hotel_row_thumbnail_height">105dp</dimen>
