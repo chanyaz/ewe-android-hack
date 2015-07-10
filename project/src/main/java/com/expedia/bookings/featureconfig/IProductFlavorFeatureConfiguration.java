@@ -120,4 +120,8 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isAppCrossSellInHotelShareContentEnabled();
 
 	boolean isAppCrossSellInFlightShareContentEnabled();
+
+	boolean isAppIntroEnabled();
+
+	void launchAppIntroScreen(Context context);
 }

@@ -7,13 +7,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.NavUtils;
 import com.facebook.AppEventsLogger;
+import com.mobiata.android.util.SettingUtils;
 
 /**
  * This is a routing Activity that points users towards either the phone or
@@ -59,6 +62,11 @@ public class RouterActivity extends Activity {
 
 		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
 			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
+		}
+		// Show app introduction if available and not already shown.
+		else if (ProductFlavorFeatureConfiguration.getInstance().isAppIntroEnabled() && !SettingUtils
+			.get(this, R.string.preference_app_intro_shown_once, false)) {
+			ProductFlavorFeatureConfiguration.getInstance().launchAppIntroScreen(this);
 		}
 		else {
 			boolean forceShowWaterfall = false;

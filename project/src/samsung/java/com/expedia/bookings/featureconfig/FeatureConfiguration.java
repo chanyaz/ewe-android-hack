@@ -6,12 +6,15 @@ import java.util.List;
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 
+import android.content.Intent;
+
 import android.content.Context;
 import android.text.format.DateUtils;
 import android.view.View;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AppIntroActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -256,5 +259,15 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public boolean isAppCrossSellInFlightShareContentEnabled() {
 		return true;
+	}
+
+	public boolean isAppIntroEnabled() {
+		return true;
+	}
+
+	public void launchAppIntroScreen(Context context) {
+		Intent intent = new Intent(context, AppIntroActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
 	}
 }

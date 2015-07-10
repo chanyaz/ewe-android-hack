@@ -70,6 +70,11 @@
 
         </activity>
 
+        <activity
+            android:name="com.expedia.bookings.activity.AppIntroActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Phone" />
+
         <receiver
             android:name="com.AdX.tag.AdXAppTracker"
             android:exported="true" >

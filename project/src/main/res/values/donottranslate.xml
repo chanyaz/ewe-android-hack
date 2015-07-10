@@ -89,6 +89,7 @@
     <string name="preference_force_custom_server_http_only">preference_force_custom_server_http_only</string>
     <string name="preference_enable_picasso_logging">preference_enable_picasso_logging</string>
     <string name="preference_force_passenger_category_error">preference_force_passenger_category_error</string>
+    <string name="preference_app_intro_shown_once">preference_app_intro_shown_once</string>
     <string name="preference_aa_test">6714</string>
     <string name="preference_etp_test">6800</string>
     <string name="preference_book_above_fold">6815</string>
