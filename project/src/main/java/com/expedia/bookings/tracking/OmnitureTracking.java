@@ -926,6 +926,9 @@ public class OmnitureTracking {
 
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppPaySuppressGoogleWallet);
 
+		// AB Test: FCKO - More prominent callout for missing traveler details
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+
 		s.track();
 	}
 

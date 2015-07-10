@@ -30,6 +30,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelCollapseAmenities = 8126;
 	public static final int EBAndroidAppHotelShowAddressMapInReceipt = 8129;
 	public static final int EBAndroidAppPaySuppressGoogleWallet = 8148;
+	public static final int EBAndroidAppFlightMissingTravelerInfoCallout = 8128;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -49,6 +50,12 @@ public class AbacusUtils {
 		CONTROL,
 		MAP_PIN,
 		TEXT_ONLY
+	}
+
+	public static enum FMissingTravelerCalloutVariate {
+		CONTROL,
+		SINGLE_LINE_CALLOUT,
+		SECOND_LINE_CALLOUT
 	}
 
 	// Test ID's that we are bucketing the user for.
@@ -71,6 +78,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelCollapseAmenities);
 		testIDs.add(EBAndroidAppHotelShowAddressMapInReceipt);
 		testIDs.add(EBAndroidAppPaySuppressGoogleWallet);
+		testIDs.add(EBAndroidAppFlightMissingTravelerInfoCallout);
 		return testIDs;
 	}
 

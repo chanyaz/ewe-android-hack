@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:visibility="visible" >
+            android:visibility="visible">
 
             <ImageView
                 android:layout_width="32dp"
@@ -78,12 +78,30 @@
                 android:layout_weight="0"
                 android:src="@drawable/ic_credit_card" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/select_payment_sentence_case"
-                android:textSize="16sp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/select_payment_sentence_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_payment_sentence_case"
+                    android:textSize="16sp" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/select_payment_callout_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_payment_callout"
+                    android:textColor="@color/flight_checkout_missing_info_callout"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    android:paddingBottom="5dp"
+                    app:textStyle="light" />
+            </LinearLayout>
         </LinearLayout>
 
         <include
