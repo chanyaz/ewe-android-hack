@@ -20,6 +20,7 @@ import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.LXServices;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -171,6 +172,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 			Db.getTripBucket().add(new TripBucketItemLX(response));
 			showProgress(false);
 			OmnitureTracking.trackAppLXCheckoutPayment(getContext(), lxState);
+			AdTracker.trackLXCheckoutStarted(lxState);
 			bind(response);
 			show(new Ready(), FLAG_CLEAR_BACKSTACK);
 			Events.post(new Events.LXCreateTripSucceeded(response, lxState.activity));

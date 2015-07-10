@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.KahunaUtils;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -115,8 +116,10 @@ public class AdTracker {
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		Property property = Db.getTripBucket().getHotel().getProperty();
 		AdX.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
-		LeanPlumUtils.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
-		KahunaUtils.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+		LeanPlumUtils.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(),
+			totalPrice.getAmount().doubleValue());
+		KahunaUtils.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(),
+			totalPrice.getAmount().doubleValue());
 	}
 
 	public static void trackFlightCheckoutStarted() {
@@ -126,6 +129,14 @@ public class AdTracker {
 			LeanPlumUtils.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 			KahunaUtils.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 		}
+	}
+
+	public static void trackLXSearch(LXSearchParams lxSearchParams) {
+		LeanPlumUtils.trackLxSearch(lxSearchParams);
+	}
+
+	public static void trackLXCheckoutStarted(LXState lxState) {
+		LeanPlumUtils.trackLXCheckoutStarted(lxState);
 	}
 
 	public static void trackCarCheckoutStarted(CreateTripCarOffer carOffer) {
