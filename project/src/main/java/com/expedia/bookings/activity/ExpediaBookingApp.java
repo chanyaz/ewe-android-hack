@@ -226,7 +226,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			startupTimer.addSplit("Kahuna started.");
 		}
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled() && !ExpediaBookingApp.isAutomation()) {
 			TuneUtils.init(this);
 			startupTimer.addSplit("Tune started.");
 		}
