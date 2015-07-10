@@ -85,7 +85,8 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
-
+	// For tracking - if you get there directly from Launchscreen, clear SearchResponse
+	private boolean fromLaunch;
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
@@ -235,6 +236,9 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		if (fromLaunch) {
+			Db.getHotelSearch().setSearchResponse(null);
+		}
 
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
@@ -317,7 +321,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		mGalleryFragment = (HotelDetailsMiniGalleryFragment) getSupportFragmentManager().findFragmentByTag(
 			FRAGMENT_MINI_GALLERY_TAG);
 		if (mGalleryFragment == null) {
-			boolean fromLaunch = getIntent().getBooleanExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, false);
+			fromLaunch = getIntent().getBooleanExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, false);
 			mGalleryFragment = HotelDetailsMiniGalleryFragment.newInstance(fromLaunch);
 		}
 		if (!mGalleryFragment.isAdded()) {
