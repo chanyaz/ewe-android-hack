@@ -159,6 +159,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
+	public boolean isTuneEnabled() {
+		return false;
+	}
+
 	public boolean isWeAreHiringInAboutEnabled() {
 		return false;
 	}
