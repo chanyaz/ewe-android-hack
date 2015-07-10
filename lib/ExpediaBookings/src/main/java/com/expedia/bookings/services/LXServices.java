@@ -1,6 +1,5 @@
 package com.expedia.bookings.services;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -40,11 +39,11 @@ import rx.Observer;
 import rx.Scheduler;
 import rx.Subscription;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.functions.Func2;
 
 public class LXServices {
 
+	private static LXSearchResponse cachedLXSearchResponse = new LXSearchResponse();
 	LXApi lxApi;
 
 	private OkHttpClient client;
@@ -77,7 +76,8 @@ public class LXServices {
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)
 			.doOnNext(HANDLE_SEARCH_ERROR)
-			.map(ACTIVITIES_MONEY_TITLE);
+			.doOnNext(ACTIVITIES_MONEY_TITLE)
+			.doOnNext(CACHE_SEARCH_RESPONSE);
 	}
 
 	private static final Action1<LXSearchResponse> HANDLE_SEARCH_ERROR = new Action1<LXSearchResponse>() {
@@ -202,48 +202,48 @@ public class LXServices {
 	};
 
 	// Add money in tickets for easier handling and remove &quot; from activity title.
-	private static final Func1<LXSearchResponse, LXSearchResponse> ACTIVITIES_MONEY_TITLE = new Func1<LXSearchResponse, LXSearchResponse>() {
+	private static final Action1<LXSearchResponse> ACTIVITIES_MONEY_TITLE = new Action1<LXSearchResponse>() {
 		@Override
-		public LXSearchResponse call(LXSearchResponse response) {
+		public void call(LXSearchResponse response) {
 			String currencyCode = response.currencyCode;
 			for (LXActivity activity : response.activities) {
 				activity.price = new Money(activity.fromPriceValue, currencyCode);
 				activity.originalPrice = new Money(activity.fromOriginalPriceValue, currencyCode);
 				activity.title = Strings.escapeQuotes(activity.title);
 			}
-			return response;
 		}
 	};
 
 	private class CombineSearchResponseAndSortFilterStreams implements Func2<LXSearchResponse, LXSortFilterMetadata, LXSearchResponse> {
 
-		private List<LXActivity> unfilteredActivities = new ArrayList<>();
-
 		@Override
 		public LXSearchResponse call(LXSearchResponse lxSearchResponse, LXSortFilterMetadata lxSortFilterMetadata) {
 
-			if (unfilteredActivities.size() == 0) {
-				unfilteredActivities.addAll(lxSearchResponse.activities);
-			}
 			if (lxSortFilterMetadata.lxCategoryMetadataMap == null) {
-				return lxSearchResponse;
+				lxSearchResponse.activities.clear();
+				lxSearchResponse.activities.addAll(lxSearchResponse.unFilteredActivities);
+				for (Map.Entry<String, LXCategoryMetadata> filterCategory : lxSearchResponse.filterCategories
+					.entrySet()) {
+					LXCategoryMetadata lxCategoryMetadata = filterCategory.getValue();
+					lxCategoryMetadata.checked = false;
+				}
 			}
 			else {
-				lxSearchResponse.activities = applySortFilter(unfilteredActivities, lxSearchResponse, lxSortFilterMetadata);
-				return lxSearchResponse;
+				lxSearchResponse.activities = applySortFilter(lxSearchResponse.unFilteredActivities, lxSearchResponse,
+					lxSortFilterMetadata);
 			}
+			return lxSearchResponse;
 		}
 	}
 
-	public Subscription lxSearchSortFilter(LXSearchParams lxSearchParams, Observable<LXSortFilterMetadata> lxSortFilterMetadataObservable,
-										   Observer<LXSearchResponse> searchResultObserver) {
+	public Subscription lxSearchSortFilter(LXSortFilterMetadata lxSortFilterMetadata,
+		Observer<LXSearchResponse> searchResultFilterObserver) {
 
-		Observable<LXSearchResponse> lxSearchResponseObservable = lxSearch(lxSearchParams);
-
-		return Observable.combineLatest(lxSearchResponseObservable, lxSortFilterMetadataObservable, new CombineSearchResponseAndSortFilterStreams())
+		return Observable.combineLatest(Observable.just(cachedLXSearchResponse), Observable.just(lxSortFilterMetadata),
+			new CombineSearchResponseAndSortFilterStreams())
 			.subscribeOn(this.subscribeOn)
 			.observeOn(this.observeOn)
-			.subscribe(searchResultObserver);
+			.subscribe(searchResultFilterObserver);
 	}
 
 	public List<LXActivity> applySortFilter(List<LXActivity> unfilteredActivities, LXSearchResponse lxSearchResponse, LXSortFilterMetadata lxSortFilterMetadata) {
@@ -252,8 +252,9 @@ public class LXServices {
 		for (int i = 0; i < unfilteredActivities.size(); i++) {
 			for (Map.Entry<String, LXCategoryMetadata> filterCategory : lxSortFilterMetadata.lxCategoryMetadataMap.entrySet()) {
 				LXCategoryMetadata lxCategoryMetadata = filterCategory.getValue();
+				String lxCategoryMetadataKey = filterCategory.getKey();
 				if (lxCategoryMetadata.checked) {
-					if (unfilteredActivities.get(i).categories.contains(lxCategoryMetadata.displayValue)) {
+					if (unfilteredActivities.get(i).categories.contains(lxCategoryMetadataKey)) {
 						filteredSet.add(unfilteredActivities.get(i));
 					}
 				}
@@ -283,4 +284,13 @@ public class LXServices {
 		}
 		return lxSearchResponse.activities;
 	}
+
+	private static final Action1<LXSearchResponse> CACHE_SEARCH_RESPONSE = new Action1<LXSearchResponse>() {
+		@Override
+		public void call(LXSearchResponse response) {
+			cachedLXSearchResponse = response;
+			cachedLXSearchResponse.unFilteredActivities.clear();
+			cachedLXSearchResponse.unFilteredActivities.addAll(response.activities);
+		}
+	};
 }

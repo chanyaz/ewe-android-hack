@@ -14,7 +14,6 @@
         <item name="skin_carsStatusBarColor">@color/cars_primary_color_tvly</item>
         <item name="skin_carsSortButtonSelectorDrawable">@drawable/cars_sort_button_selector_tvly</item>
         <item name="skin_carsSortButtonTextSelectorDrawable">@drawable/cars_sort_button_text_selector_tvly</item>
-        <item name="skin_carsFilterNumberBgDrawable">@drawable/filter_number_bg_tvly</item>
         <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector_tvly</item>
         <item name="skin_loginBrandLogoDrawable">@drawable/tvly</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>

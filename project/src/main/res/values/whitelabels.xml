@@ -305,7 +305,6 @@
     <attr name="skin_carsStatusBarColor" format="reference|color" />
     <attr name="skin_carsSortButtonSelectorDrawable" format="reference" />
     <attr name="skin_carsSortButtonTextSelectorDrawable" format="reference" />
-    <attr name="skin_carsFilterNumberBgDrawable" format="reference" />
     <attr name="skin_carsToggleBackgroundSelectorDrawable" format="reference" />
     <attr name="skin_loginBrandLogoDrawable" format="reference" />
     <attr name="skin_costSummaryAlertDrawable" format="reference" />

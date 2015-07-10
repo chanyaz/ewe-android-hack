@@ -30,7 +30,6 @@
         <item name="skin_carsStatusBarColor">@color/cars_status_bar_color</item>
         <item name="skin_carsSortButtonSelectorDrawable">@drawable/cars_sort_button_selector</item>
         <item name="skin_carsSortButtonTextSelectorDrawable">@drawable/cars_sort_button_text_selector</item>
-        <item name="skin_carsFilterNumberBgDrawable">@drawable/filter_number_bg</item>
         <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector</item>
         <item name="skin_loginBrandLogoDrawable">@drawable/expedia</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/border_horizontal_expedia_striped</item>

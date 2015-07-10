@@ -281,7 +281,6 @@
     <color name="lx_unchecked_toggle_text_color">#FFC48E</color>
 
     <color name="search_dropdown_disabled_stroke">#C3C3C3</color>
-    <color name="lx_sort_filter_text_color">#404040</color>
     <color name="lx_sort_filter_pressed">#D9D9D9</color>
     <color name="lx_sort_filter_top_bar_text_color">#5C5C5C</color>
     <color name="lx_sort_filter_pressed_row_color">#D8D8D8</color>

@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
@@ -38,7 +37,7 @@ import com.expedia.bookings.widget.CarCategoryDetailsWidget;
 import com.expedia.bookings.widget.CarCategoryListWidget;
 import com.expedia.bookings.widget.CarFilterWidget;
 import com.expedia.bookings.widget.ErrorWidget;
-import com.expedia.bookings.widget.TextView;
+import com.expedia.bookings.widget.FilterButtonWithCountWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
@@ -72,16 +71,10 @@ public class CarResultsPresenter extends Presenter {
 	Toolbar toolbar;
 
 	@InjectView(R.id.sort_toolbar)
-	ViewGroup filterToolbar;
+	FilterButtonWithCountWidget filterToolbar;
 
 	@InjectView(R.id.filter)
 	CarFilterWidget filter;
-
-	@InjectView(R.id.filter_number_text)
-	TextView filterNumber;
-
-	@InjectView(R.id.filter_icon)
-	View filterIcon;
 
 	@InjectView(R.id.search_error_widget)
 	ErrorWidget errorScreen;
@@ -149,9 +142,7 @@ public class CarResultsPresenter extends Presenter {
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		toolbarBackground.getLayoutParams().height += statusBarHeight;
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
-
-
-		filterNumber.setVisibility(GONE);
+		filterToolbar.setFilterText(getResources().getString(R.string.filter));
 	}
 
 	@Override
@@ -254,7 +245,7 @@ public class CarResultsPresenter extends Presenter {
 	private void handleCarSearchResults(CarSearch carSearch) {
 		unfilteredSearch = carSearch;
 		filterToolbar.setVisibility(View.VISIBLE);
-		showNumberOfFilters(0);
+		filterToolbar.showNumberOfFilters(0);
 		show(categories, FLAG_CLEAR_TOP);
 		bindFilter(carSearch);
 		OmnitureTracking.trackAppCarSearch(getContext(), searchedParams, unfilteredSearch.categories.size());
@@ -395,7 +386,7 @@ public class CarResultsPresenter extends Presenter {
 			toolbarBackground.setAlpha(1f);
 
 			filterToolbar.setTranslationY(0);
-			showNumberOfFilters(filter.getNumCheckedFilters(forward));
+			filterToolbar.showNumberOfFilters(filter.getNumCheckedFilters(forward));
 		}
 
 		@Override
@@ -471,7 +462,7 @@ public class CarResultsPresenter extends Presenter {
 		public void startTransition(boolean forward) {
 			filter.setVisibility(View.VISIBLE);
 			if (!forward) {
-				showNumberOfFilters(filter.getNumCheckedFilters(false /*isDetails*/));
+				filterToolbar.showNumberOfFilters(filter.getNumCheckedFilters(false /*isDetails*/));
 			}
 		}
 
@@ -499,19 +490,12 @@ public class CarResultsPresenter extends Presenter {
 		}
 	};
 
-	private void showNumberOfFilters(int number) {
-		filterNumber.setText(String.valueOf(number));
-		boolean hasCheckedFilters = number > 0;
-		filterNumber.setVisibility(hasCheckedFilters ? VISIBLE : GONE);
-		filterIcon.setVisibility(hasCheckedFilters ? GONE : VISIBLE);
-	}
-
 	Transition detailsToFilter = new Transition(CarCategoryDetailsWidget.class, CarFilterWidget.class, new DecelerateInterpolator(2f), 500) {
 		@Override
 		public void startTransition(boolean forward) {
 			filter.setVisibility(View.VISIBLE);
 			if (!forward) {
-				showNumberOfFilters(filter.getNumCheckedFilters(true /*isDetails*/));
+				filterToolbar.showNumberOfFilters(filter.getNumCheckedFilters(true /*isDetails*/));
 			}
 		}
 

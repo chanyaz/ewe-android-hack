@@ -1,6 +1,7 @@
 package com.expedia.bookings.otto;
 
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.LocalDate;
 
@@ -45,6 +46,7 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
@@ -594,6 +596,7 @@ public class Events {
 		public CarsNewSearchParams(CarSearchParams params) {
 			carSearchParams = params;
 		}
+
 		public CarsNewSearchParams(CarSearchParams params, String productKey) {
 			carSearchParams = params;
 			this.productKey = productKey;
@@ -753,6 +756,14 @@ public class Events {
 		// ignore
 	}
 
+	public static class DynamicFeedbackClearButtonClicked {
+		//ignore
+	}
+
+	public static class LXFilterDoneClicked {
+		//ignore
+	}
+
 	public static class LXNewSearch {
 		public String locationName;
 		public LocalDate startDate;
@@ -800,6 +811,24 @@ public class Events {
 		public LXFilterCategoryCheckedChanged(LXCategoryMetadata lxCategoryMetadata, String categoryKey) {
 			this.lxCategoryMetadata = lxCategoryMetadata;
 			this.categoryKey = categoryKey;
+		}
+	}
+
+	public static class LXFilterChanged {
+		public LXSortFilterMetadata lxSortFilterMetadata;
+
+		public LXFilterChanged(LXSortFilterMetadata lxSortFilterMetadata) {
+			this.lxSortFilterMetadata = lxSortFilterMetadata;
+		}
+	}
+
+	public static class LXSearchFilterResultsReady {
+		public List<LXActivity> filteredActivities;
+		public Map<String, LXCategoryMetadata> filterCategories;
+
+		public LXSearchFilterResultsReady(List<LXActivity> filteredActivities,  Map<String, LXCategoryMetadata> filterCategories) {
+			this.filteredActivities = filteredActivities;
+			this.filterCategories = filterCategories;
 		}
 	}
 

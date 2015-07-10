@@ -30,6 +30,7 @@ import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.FilterButtonWithCountWidget;
 import com.expedia.bookings.widget.LXSearchResultsWidget;
 import com.expedia.bookings.widget.LXSortFilterWidget;
 import com.mobiata.android.Log;
@@ -61,7 +62,7 @@ public class LXResultsPresenter extends Presenter {
 	LXSortFilterWidget sortFilterWidget;
 
 	@InjectView(R.id.sort_filter_button_container)
-	LinearLayout sortFilterButton;
+	FilterButtonWithCountWidget sortFilterButton;
 
 	// This is here just for an animation
 	@InjectView(R.id.toolbar_background)
@@ -82,6 +83,8 @@ public class LXResultsPresenter extends Presenter {
 	private int searchTop;
 
 	private SearchResultObserver searchResultObserver = new SearchResultObserver();
+
+	private SearchResultFilterObserver searchResultFilterObserver = new SearchResultFilterObserver();
 
 	@OnClick(R.id.sort_filter_button)
 	public void onSortFilterClicked() {
@@ -104,6 +107,7 @@ public class LXResultsPresenter extends Presenter {
 			sortFilterWidget.setVisibility(View.VISIBLE);
 			float pos = forward ? parentHeight + sortFilterWidgetHeight : sortFilterWidgetHeight;
 			sortFilterWidget.setTranslationY(pos);
+			sortFilterButton.showNumberOfFilters(sortFilterWidget.getNumberOfSelectedFilters());
 		}
 
 		@Override
@@ -137,6 +141,7 @@ public class LXResultsPresenter extends Presenter {
 		}
 		sortFilterWidget.setPadding(0, toolbarSize, 0, 0);
 		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
+		sortFilterButton.setFilterText(getResources().getString(R.string.lx_sort_filter));
 	}
 
 	@Override
@@ -152,11 +157,7 @@ public class LXResultsPresenter extends Presenter {
 	}
 
 	private class SearchResultObserver implements Observer<LXSearchResponse> {
-
-		private SearchType searchType;
-		public void setSearchType(SearchType searchType) {
-			this.searchType = searchType;
-		}
+		public SearchType searchType;
 
 		@Override
 		public void onCompleted() {
@@ -192,6 +193,37 @@ public class LXResultsPresenter extends Presenter {
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 			sortFilterWidget.bind(lxSearchResponse.filterCategories);
 			sortFilterButton.setVisibility(View.VISIBLE);
+			sortFilterButton.showNumberOfFilters(0);
+		}
+	};
+
+	private class SearchResultFilterObserver implements Observer<LXSearchResponse> {
+		SearchType searchType;
+
+		@Override
+		public void onCompleted() {
+			cleanup();
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			Log.e("LXSearch - onError", e);
+			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
+
+			if (e instanceof ApiError) {
+				Events.post(new Events.LXShowSearchError((ApiError) e, searchType));
+				return;
+			}
+
+			//Bucket all other errors as Unknown to give some feedback to the user
+			ApiError error = new ApiError(ApiError.Code.UNKNOWN_ERROR);
+			Events.post(new Events.LXShowSearchError(error, searchType));
+			sortFilterButton.setVisibility(View.GONE);
+		}
+
+		@Override
+		public void onNext(LXSearchResponse lxSearchResponse) {
+			Events.post(new Events.LXSearchFilterResultsReady(lxSearchResponse.activities, lxSearchResponse.filterCategories));
 		}
 	};
 
@@ -227,11 +259,12 @@ public class LXResultsPresenter extends Presenter {
 		show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 		sortFilterWidget.bind(null);
 		sortFilterButton.setVisibility(View.GONE);
-		searchResultObserver.setSearchType(event.lxSearchParams.searchType);
+		searchResultObserver.searchType = event.lxSearchParams.searchType;
+		searchResultFilterObserver.searchType = event.lxSearchParams.searchType;
 		if (Strings.isNotEmpty(event.lxSearchParams.filters)) {
 			sortFilterWidget.setDeepLinkFilters(event.lxSearchParams.filters);
 		}
-		searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams, sortFilterWidget.filterSortEventStream(), searchResultObserver);
+		searchSubscription = lxServices.lxSearch(event.lxSearchParams, searchResultObserver);
 	}
 
 	@Subscribe
@@ -240,6 +273,16 @@ public class LXResultsPresenter extends Presenter {
 			&& event.error.errorCode != ApiError.Code.LX_SEARCH_NO_RESULTS) {
 			toolBarDetailText.setText(getResources().getString(R.string.lx_error_current_location_toolbar_text));
 		}
+	}
+
+	@Subscribe
+	public void onLXFilterChanged(Events.LXFilterChanged event) {
+		searchSubscription = lxServices.lxSearchSortFilter(event.lxSortFilterMetadata, searchResultFilterObserver);
+	}
+
+	@Subscribe
+	public void onLXFilterDoneClicked(Events.LXFilterDoneClicked event) {
+		show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 	}
 
 	private void setupToolbar() {
