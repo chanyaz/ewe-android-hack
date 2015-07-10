@@ -895,7 +895,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		@Override
 		public void onStateFinalized(ResultsHotelsListState state) {
 			if (shouldWeListenToScroll()) {
-				setHotelsState(getHotelsStateFromListState(state), false);
+				ResultsHotelsState hotelsStateFromListState = getHotelsStateFromListState(state);
+				if (hotelsStateFromListState != mHotelsStateManager.getState()) {
+					setHotelsState(hotelsStateFromListState, false);
+				}
 			}
 		}
 
