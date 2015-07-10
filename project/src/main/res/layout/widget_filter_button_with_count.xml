@@ -23,7 +23,7 @@
             app:textStyle="medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/filter_number_bg"
+            android:background="?attr/skin_filterNumberBgDrawable"
             android:paddingBottom="1dp"
             android:paddingLeft="5.5dp"
             android:paddingRight="5.5dp"
