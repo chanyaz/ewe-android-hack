@@ -192,6 +192,14 @@ public class BookingInfoUtils {
 			if (useNewTraveler) {
 				Db.getTravelers().set(0, traveler);
 			}
+
+			Traveler travelerInUse = Db.getTravelers().get(0);
+			boolean travelerHasMultiplePassports = (travelerInUse.getPassportCountries().size() > 1);
+			if (travelerHasMultiplePassports && !travelerInUse.isChangedPrimaryPassportCountry()) {
+				// set primary passport country to null.
+				// Forces customer to select passport
+				travelerInUse.setPrimaryPassportCountry(null);
+			}
 		}
 	}
 

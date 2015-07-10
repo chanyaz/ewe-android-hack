@@ -60,9 +60,11 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 			threeLetterCountryCodes[i] = LocaleUtils.convertCountryCode(twoLetterCountryCodes[i]);
 		}
 
-		mCountries = new CountryNameData[countryNames.length];
-		for (int i = 0; i < countryNames.length; i++) {
-			mCountries[i] = new CountryNameData(countryNames[i], twoLetterCountryCodes[i], threeLetterCountryCodes[i]);
+		int countriesLength = countryNames.length + 1;
+		mCountries = new CountryNameData[countriesLength];
+		mCountries[0] = new CountryNameData("", "", "");
+		for (int i = 1; i < countriesLength; i++) {
+			mCountries[i] = new CountryNameData(countryNames[i - 1], twoLetterCountryCodes[i - 1], threeLetterCountryCodes[i - 1]);
 		}
 
 		CountryNameDataComparator comparator = new CountryNameDataComparator(displayType);
@@ -113,7 +115,7 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	private static class ViewHolder {
+	public static class ViewHolder {
 		public TextView text;
 
 		public ViewHolder(View view) {
