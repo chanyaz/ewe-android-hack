@@ -25,7 +25,7 @@ public class TuneUtils {
 	}
 
 	public static void startTune(Activity activity) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled() && !ExpediaBookingApp.isAutomation()) {
 			// Get source of open for app re-engagement
 			mobileAppTracker.setReferralSources(activity);
 			// MAT will not function unless the measureSession call is included
