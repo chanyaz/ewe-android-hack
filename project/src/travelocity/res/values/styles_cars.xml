@@ -30,5 +30,6 @@
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/tvly</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/tvly</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/tvly</item>
+        <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_cars_tvly</item>
     </style>
 </resources>
