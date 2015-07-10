@@ -266,7 +266,7 @@
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
-    <string name="cancellation_policy_TEMPLATE">You can cancel free of charge until %1$s before your reservation starts. After that time, no cancellations, changes or refunds will be made.</string>
+    <string name="lx_cancellation_policy_TEMPLATE">You can cancel free of charge until {hours} hours before your reservation starts. After that time, no cancellations, changes or refunds will be made.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
     <string name="lx_policy_non_cancellable">This reservation is non-refundable and cannot be changed or cancelled after booking.</string>
     <!-- LX checkout cost breakdown total due today -->

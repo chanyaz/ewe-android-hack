@@ -63,7 +63,7 @@
   "exclusions": [
     "<p>Transportation to and from attractions</p>"
   ],
-  "cancellationPolicyText": "72 hours",
+  "freeCancellationMinHours": 72,
   "knowBeforeYouBook": [
     "<p>Children 3 and younger are complimentary at most attractions.</p>",
     "<p>Pass is valid for the number of consecutive calendar days you purchase, beginning on the first day of use.</p>",
