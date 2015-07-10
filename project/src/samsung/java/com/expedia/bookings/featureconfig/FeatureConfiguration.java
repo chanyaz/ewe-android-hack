@@ -270,4 +270,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
 	}
+
+	public boolean shouldSendSiteIdInRequests() {
+		return true;
+	}
 }

@@ -124,4 +124,7 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isAppIntroEnabled();
 
 	void launchAppIntroScreen(Context context);
+
+	boolean shouldSendSiteIdInRequests();
+
 }

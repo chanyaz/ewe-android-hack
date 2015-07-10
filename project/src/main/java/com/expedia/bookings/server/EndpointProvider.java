@@ -164,7 +164,10 @@ public class EndpointProvider {
 	}
 
 	public boolean requestRequiresSiteId() {
-		return BuildConfig.DEBUG && getEndPoint() == EndPoint.PUBLIC_INTEGRATION;
+		boolean isSiteIdRequired =
+			ProductFlavorFeatureConfiguration.getInstance().shouldSendSiteIdInRequests() || (BuildConfig.DEBUG
+				&& getEndPoint() == EndPoint.PUBLIC_INTEGRATION);
+		return isSiteIdRequired;
 	}
 
 }
