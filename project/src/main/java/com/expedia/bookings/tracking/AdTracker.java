@@ -16,6 +16,7 @@ import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.utils.KahunaUtils;
 import com.expedia.bookings.utils.LeanPlumUtils;
+import com.expedia.bookings.utils.TuneUtils;
 import com.mobiata.android.Log;
 
 public class AdTracker {
@@ -37,6 +38,7 @@ public class AdTracker {
 		AdX.trackLogin();
 		LeanPlumUtils.tracking("Login");
 		KahunaUtils.tracking("Login");
+		TuneUtils.trackLogin();
 	}
 
 	public static void trackLogout() {
