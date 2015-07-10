@@ -40,22 +40,22 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
     private val MAX_AIRPORTS_RETURNED = 3
     private val MAX_LX_SUGGESTIONS_RETURNED = 3
 
-    public fun getAirportSuggestions(query: String, observer: Observer<MutableList<Suggestion>>): Subscription {
+    public fun getAirportSuggestions(query: String, locale: String, observer: Observer<MutableList<Suggestion>>): Subscription {
         val type = SuggestionResultType.AIRPORT
         val lob = null;
-        return suggestV3(query, type, lob)
+        return suggestV3(query, type, locale, lob)
                 .map { list -> list.take(MAX_AIRPORTS_RETURNED).toArrayList() }
                 .subscribe(observer)
     }
 
-    public fun getLxSuggestions(query: String, observer: Observer<MutableList<Suggestion>>): Subscription {
+    public fun getLxSuggestions(query: String, locale: String, observer: Observer<MutableList<Suggestion>>): Subscription {
         val type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD
         val lob = "ACTIVITIES"
-        return suggestV3(query, type, lob).subscribe(observer)
+        return suggestV3(query, type, locale, lob).subscribe(observer)
     }
 
-    private fun suggestV3(query: String, type: Int, lob: String?): Observable<MutableList<Suggestion>> {
-        return suggestApi.suggestV3(query, type, lob)
+    private fun suggestV3(query: String, type: Int, locale: String, lob: String?): Observable<MutableList<Suggestion>> {
+        return suggestApi.suggestV3(query, type, locale, lob)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions.toArrayList() }

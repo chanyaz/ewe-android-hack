@@ -10,10 +10,9 @@ import rx.Observable;
 
 public interface SuggestApi {
 
-	//TODO support other POS
-	@GET("/hint/es/v3/ac/en_US/{query}")
+	@GET("/hint/es/v3/ac/{locale}/{query}")
 	public Observable<SuggestionResponse> suggestV3(@Path("query") String query,
-		@Query("type") int suggestionResultType, @Query("lob") String lineOfBusiness);
+		@Query("type") int suggestionResultType, @Path("locale") String locale, @Query("lob") String lineOfBusiness);
 
 	@GET("/hint/es/v2/ac/en_US/{query}")
 	public Observable<SuggestionResponse> suggestV2(
