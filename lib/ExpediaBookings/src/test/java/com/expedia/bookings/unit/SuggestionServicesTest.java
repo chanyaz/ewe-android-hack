@@ -44,7 +44,7 @@ public class SuggestionServicesTest {
 		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<List<Suggestion>> observerV3 = new TestSubscriber<>();
-		service.getAirportSuggestions("seattle", observerV3);
+		service.getAirportSuggestions("seattle", "en_US", observerV3);
 		observerV3.awaitTerminalEvent();
 		assertEquals(NUM_SUGGESTIONS_IN_V3_MOCK_TEMPLATES, observerV3.getOnNextEvents().get(0).size());
 
@@ -62,7 +62,7 @@ public class SuggestionServicesTest {
 		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<List<Suggestion>> observerV3 = new TestSubscriber<>();
-		service.getLxSuggestions("seattle", observerV3);
+		service.getLxSuggestions("seattle", "en_US", observerV3);
 		observerV3.awaitTerminalEvent();
 		assertEquals(observerV3.getOnNextEvents().get(0).size(), NUM_SUGGESTIONS_IN_V3_MOCK_TEMPLATES);
 

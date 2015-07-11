@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.SuggestionServices;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -75,6 +76,6 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 
 	@Override
 	protected Subscription suggest(SuggestionServices service, Observer<List<Suggestion>> observer, CharSequence query) {
-		return service.getLxSuggestions(query.toString(), observer);
+		return service.getLxSuggestions(query.toString(), PointOfSale.getSuggestLocaleIdentifier(), observer);
 	}
 }
