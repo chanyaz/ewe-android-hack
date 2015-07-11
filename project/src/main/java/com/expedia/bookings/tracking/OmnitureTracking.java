@@ -487,6 +487,7 @@ public class OmnitureTracking {
 	public static void trackPageLoadHotelsRateDetails(Context context) {
 		Log.d(TAG, "Tracking \"" + HOTELS_RATE_DETAILS + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, HOTELS_RATE_DETAILS);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelShowAddressMapInReceipt);
 		s.track();
 	}
 

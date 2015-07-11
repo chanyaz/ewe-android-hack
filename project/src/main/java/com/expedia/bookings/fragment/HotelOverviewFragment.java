@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.activity.HotelMapActivity;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
@@ -337,6 +338,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mCouponRemoveView.setOnClickListener(mOnClickListener);
 		mLegalInformationTextView.setOnClickListener(mOnClickListener);
 		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
+		mHotelReceipt.setOnViewMapClickListener(mViewMapClickListener);
 
 		mWalletButton.setPromoVisible(ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled());
 		// Touch events to constituent parts are handled in WalletButton.onInterceptTouchEvent(...)
@@ -1150,6 +1152,19 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			BreakdownDialogFragment dialogFrag = BreakdownDialogFragment.buildHotelRateBreakdownDialog(getActivity(),
 					Db.getTripBucket().getHotel());
 			dialogFrag.show(getFragmentManager(), BreakdownDialogFragment.TAG);
+		}
+	};
+
+	private HotelReceipt.OnViewMapClickListener mViewMapClickListener = new HotelReceipt.OnViewMapClickListener() {
+
+		@Override
+		public void onViewMapClicked() {
+			Intent intent = HotelMapActivity.createIntent(getActivity());
+			intent.putExtra(HotelMapActivity.INSTANCE_IS_HOTEL_RECEIPT, true);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+			startActivity(intent);
+			getActivity().overridePendingTransition(R.anim.fade_in, R.anim.explode);
 		}
 	};
 

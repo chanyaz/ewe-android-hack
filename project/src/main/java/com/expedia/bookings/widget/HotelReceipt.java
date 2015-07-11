@@ -27,10 +27,13 @@ import android.widget.TextView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelMedia;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
@@ -45,6 +48,10 @@ public class HotelReceipt extends LinearLayout {
 		public void onReceiptSizeChanged(int w, int h, int oldw, int oldh);
 
 		public void onMiniReceiptSizeChanged(int w, int h, int oldw, int oldh);
+	}
+
+	public interface OnViewMapClickListener {
+		public void onViewMapClicked();
 	}
 
 	public HotelReceipt(Context context) {
@@ -69,12 +76,15 @@ public class HotelReceipt extends LinearLayout {
 
 	private OnSizeChangedListener mOnSizeChangedListener;
 	private OnClickListener mRateBreakdownClickListener;
+	private OnViewMapClickListener mMapClickListener;
 
 	private ImageView mHeaderImageView;
 	private TextView mRoomTypeDesciptionTextView;
 	private TextView mBedTypeNameTextView;
+	private ViewGroup mRoomAddressLayout;
 	private View mRoomLongDescriptionDivider;
 	private TextView mRoomLongDescriptionTextView;
+	private TextView mRoomAddressTextView;
 	private ViewGroup mExtrasLayout;
 	private View mExtrasDivider;
 
@@ -86,6 +96,7 @@ public class HotelReceipt extends LinearLayout {
 	private TextView mGuestsTextView;
 	private TextView mPriceTextView;
 	private TextView mGrandTotalTextView;
+	private TextView mViewMapTextButton;
 
 	@Override
 	public void onFinishInflate() {
@@ -96,6 +107,9 @@ public class HotelReceipt extends LinearLayout {
 		mBedTypeNameTextView = Ui.findView(this, R.id.bed_type_name_text_view);
 		mRoomLongDescriptionDivider = Ui.findView(this, R.id.room_long_description_divider);
 		mRoomLongDescriptionTextView = Ui.findView(this, R.id.room_long_description_text_view);
+		mRoomAddressTextView = Ui.findView(this, R.id.room_address_text_view);
+		mRoomAddressLayout = Ui.findView(this, R.id.room_address_layout);
+		mViewMapTextButton = Ui.findView(this, R.id.hotel_receipt_view_map_textbutton);
 
 		mExtrasLayout = Ui.findView(this, R.id.extras_layout);
 		mExtrasDivider = Ui.findView(this, R.id.extras_divider);
@@ -111,6 +125,15 @@ public class HotelReceipt extends LinearLayout {
 		mGuestsTextView = Ui.findView(this, R.id.guests_text);
 		mPriceTextView = Ui.findView(this, R.id.price_text);
 		mGrandTotalTextView = Ui.findView(this, R.id.grand_total_text);
+
+		mViewMapTextButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (mMapClickListener != null) {
+					mMapClickListener.onViewMapClicked();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -164,6 +187,15 @@ public class HotelReceipt extends LinearLayout {
 		mRoomTypeDesciptionTextView.setText(rate.getRoomDescription());
 		mBedTypeNameTextView.setText(rate.getFormattedBedNames());
 		String roomLongDesc = getAvailableLongDesc(hotel);
+
+		// 4764 - AB Test: Add address/link to map overlay on Hotel CKO
+		boolean isUserBucketedInTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelShowAddressMapInReceipt);
+
+		if (isUserBucketedInTest) {
+			mRoomAddressLayout.setVisibility(VISIBLE);
+			Location hotelLocation = hotel.getProperty().getLocation();
+			mRoomAddressTextView.setText(hotelLocation.getStreetAddressString() + "\n" + hotelLocation.toShortFormattedString());
+		}
 
 		if (TextUtils.isEmpty(roomLongDesc)) {
 			mRoomLongDescriptionDivider.setVisibility(View.GONE);
@@ -367,5 +399,9 @@ public class HotelReceipt extends LinearLayout {
 
 	public void setRateBreakdownClickListener(OnClickListener listener) {
 		mRateBreakdownClickListener = listener;
+	}
+
+	public void setOnViewMapClickListener(OnViewMapClickListener listener) {
+		mMapClickListener = listener;
 	}
 }

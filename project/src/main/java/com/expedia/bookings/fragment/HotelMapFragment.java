@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.activity.HotelMapActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
@@ -101,6 +102,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	private int mPricePinSidePadding;
 	private int mPricePinTopPadding;
 
+	private boolean mIsFromHotelReceipt;
+
 	private WeakHashMap<Marker, Boolean> markerMap = new WeakHashMap<Marker, Boolean>();
 
 	public static HotelMapFragment newInstance() {
@@ -135,6 +138,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		mListener.onHotelMapFragmentAttached(this);
 		Db.getFilter().addOnFilterChangedListener(this);
 		runReadyActions();
+		onRestoreSavedInstanceState(activity.getIntent().getExtras());
 	}
 
 	@Override
@@ -340,6 +344,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 				}
 			}
 		}
+		bundle.putBoolean(HotelMapActivity.INSTANCE_IS_HOTEL_RECEIPT, mIsFromHotelReceipt);
 	}
 
 	public void onRestoreSavedInstanceState(Bundle bundle) {
@@ -349,6 +354,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		}
 
 		mInstanceInfoWindowShowing = bundle.getString(INSTANCE_INFO_WINDOW_SHOWING);
+		mIsFromHotelReceipt = bundle.getBoolean(HotelMapActivity.INSTANCE_IS_HOTEL_RECEIPT, false);
 	}
 
 	public boolean isReady() {
@@ -492,7 +498,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 				snippet = getString(R.string.map_snippet_template, snippet, secondSnippet);
 			}
 
-			if (!TextUtils.isEmpty(snippet)) {
+			if (!TextUtils.isEmpty(snippet) && !mIsFromHotelReceipt) {
 				marker.snippet(snippet);
 			}
 			if (isOnSale) {
