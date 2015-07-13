@@ -1,7 +1,9 @@
 package com.expedia.bookings.test.ui.tablet.pagemodels;
 
-import com.expedia.bookings.R;
 import android.support.test.espresso.ViewInteraction;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -26,6 +28,8 @@ public class LogIn {
 	}
 
 	public static void clickLoginExpediaButton() {
+		Common.closeSoftKeyboard(onView(allOf(withId(R.id.password_edit_text), withParent(withId(R.id.password)))));
+		ScreenActions.delay(1);
 		loginExpediaButton().perform(click());
 	}
 
