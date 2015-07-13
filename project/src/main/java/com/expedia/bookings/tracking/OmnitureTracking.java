@@ -924,6 +924,8 @@ public class OmnitureTracking {
 		internalSetFlightDateProps(s, params);
 		addStandardFlightFields(s);
 
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppPaySuppressGoogleWallet);
+
 		s.track();
 	}
 

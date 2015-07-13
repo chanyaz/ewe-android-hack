@@ -31,6 +31,7 @@ import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.model.FlightPaymentFlowState;
@@ -714,7 +715,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	// We may want to update these more often than the rest of the Views
 	protected void updateWalletViewVisibilities() {
-		boolean showWalletButton = showWalletButton();
+		boolean isUserBucketedForTest = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppPaySuppressGoogleWallet);
+
+		boolean showWalletButton = showWalletButton() && !isUserBucketedForTest;
 		boolean isWalletLoading = isWalletLoading();
 
 		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);

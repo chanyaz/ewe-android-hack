@@ -263,6 +263,14 @@
             android:summary="Select a test group"
             android:title="Show hotel address and map in receipt" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:key="8148"
+            android:summary="Select a test group"
+            android:title="Payment collapse Google Wallet" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >
