@@ -47,6 +47,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.PhoneLaunchToolbar;
+import com.facebook.AppEventsLogger;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
@@ -169,7 +170,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		AppEventsLogger.activateApp(this);
 		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
 		gpsd.startChecking();
 
@@ -185,7 +186,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	@Override
 	protected void onPause() {
 		super.onPause();
-
+		AppEventsLogger.deactivateApp(this);
 		if (isFinishing() && mLaunchFragment != null) {
 			mLaunchFragment.cleanUp();
 		}
