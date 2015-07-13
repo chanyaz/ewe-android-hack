@@ -166,7 +166,7 @@ public class AccountLibActivity extends AppCompatActivity
 		}
 
 		accountView.configure(Config.build()
-				.setApi(Ui.getApplication(this).appComponent().accountApi())
+				.setEndpoint(Ui.getApplication(this).appComponent().okHttpClient(), Ui.getApplication(this).appComponent().endpointProvider().getE3EndpointUrl())
 				.setSiteId(PointOfSale.getPointOfSale().getSiteId())
 				.setLangId(PointOfSale.getPointOfSale().getDualLanguageId())
 				.setBackgroundImageView(background)

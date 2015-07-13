@@ -1,10 +1,13 @@
 package com.expedia.bookings.test.ui.phone.pagemodels.common;
 
-import com.expedia.bookings.R;
 import android.support.test.espresso.ViewInteraction;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.action.ViewActions.click;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
+
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
@@ -18,7 +21,7 @@ public class LogInScreen {
 	}
 
 	public static ViewInteraction passwordEditText() {
-		return onView(allOf(withId(R.id.password_edit_text), withParent(withId(R.id.password))));
+		return onView(allOf(withId(R.id.input_text), withParent(withId(R.id.password))));
 	}
 
 	public static ViewInteraction facebookButton() {
@@ -32,6 +35,8 @@ public class LogInScreen {
 	// Object interaction
 
 	public static void clickOnLoginButton() {
+		Common.closeSoftKeyboard(LogInScreen.passwordEditText());
+		ScreenActions.delay(1);
 		logInButton().perform(click());
 	}
 

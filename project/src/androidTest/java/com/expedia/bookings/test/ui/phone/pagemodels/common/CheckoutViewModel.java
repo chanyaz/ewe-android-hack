@@ -40,15 +40,15 @@ public class CheckoutViewModel {
 	}
 
 	public static void enterUsername(String name) {
-		userName().perform(scrollTo(), typeText(name));
+		userName().perform(typeText(name));
 	}
 
 	public static ViewInteraction password() {
-		return onView(allOf(withId(R.id.password_edit_text), withParent(withId(R.id.password))));
+		return onView(allOf(withId(R.id.input_text), withParent(withId(R.id.password))));
 	}
 
 	public static void enterPassword(String name) {
-		password().perform(scrollTo(), typeText(name));
+		password().perform(typeText(name));
 	}
 
 	public static ViewInteraction firstName() {
@@ -114,6 +114,8 @@ public class CheckoutViewModel {
 	}
 
 	public static void pressDoLogin() {
+		Common.closeSoftKeyboard(CheckoutViewModel.password());
+		ScreenActions.delay(1);
 		onView(withId(R.id.sign_in_button)).perform(click());
 	}
 
@@ -127,7 +129,7 @@ public class CheckoutViewModel {
 
 	public static void enterLoginDetails() {
 		clickLogin();
-		enterUsername("username");
+		enterUsername("username@gmail.com");
 		enterPassword("password");
 	}
 
