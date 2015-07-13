@@ -372,8 +372,6 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		ScreenActions.delay(2);
 
 		LogInScreen.typeTextEmailEditText(mUser.email);
-		LogInScreen.clickOnLoginButton();
-		ScreenActions.enterLog(TAG, "Log in button is shown after email address is entered");
 		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();
