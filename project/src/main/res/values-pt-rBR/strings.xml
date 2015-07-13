@@ -80,9 +80,9 @@
     <!-- Location for calendar event.  %1$s is the name of the pick up location -->
     <string name="calendar_car_location_TEMPLATE">%1$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_car_desc_itinerary_TEMPLATE">Nº do itinerário da Expedia: %s</string>
+    <string name="calendar_desc_itinerary_TEMPLATE">No. do itinerário da {brand}: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_car_desc_support_TEMPLATE">Suporte ao cliente da Expedia: %1$s e %2$s</string>
+    <string name="calendar_desc_support_TEMPLATE">Suporte ao cliente da {brand}: {localphone} e {phone}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Buscar hotéis</string>
@@ -859,7 +859,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Olá &lt;b&gt;%1$s&lt;/b&gt;, parece que encontramos sua conta da Expedia! Digite sua senha da Expedia a seguir para vincular sua conta do Facebook à da Expedia.</string>
+    <string name="facebook_weve_found_your_account_TEMPLATE">Olá &lt;b&gt;{name}&lt;/b&gt;, parece que encontramos sua conta da {brand} Digite sua senha da {brand} a seguir para vincular sua conta do Facebook à da {brand}.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Olá &lt;b&gt;%1$s&lt;/b&gt;, carregamos suas informações do Facebook!</string>
     <!-- Sign in with facebook (button text) -->
@@ -875,7 +875,7 @@
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">Falha na conexão. Se sua senha e e-mail estiverem corretos, certifique-se de que a configuração do país de seu app também esteja correta.</string>
     <!-- User needs to reset password -->
-    <string name="sign_in_reset_password">Você precisa criar uma única conta global para todos os sites da Expedia.&lt;br&gt;Redefina sua senha usando o link "Esqueceu sua senha?" a seguir.</string>
+    <string name="sign_in_reset_password_TEMPLATE">Você precisa criar uma única conta global para todos os sites da {brand}&lt;br&gt;Redefina sua senha usando o link "Esqueceu sua senha?" a seguir.</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">Senha da {brand}</string>
     <!-- Link accounts -->
@@ -887,7 +887,7 @@
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">Permissão para e-mail</string>
     <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">Para se conectar com o Facebook, precisamos de permissão para verificar seu endereço de e-mail. \n\nToque no botão do Facebook abaixo para conceder à Expedia a permissão para verificar seu endereço de e-mail. Obrigado!</string>
+    <string name="user_denied_permission_email_message_TEMPLATE">Para se conectar com o Facebook, precisamos de permissão para verificar seu endereço de e-mail. \n\nToque no botão do Facebook abaixo para conceder à {brand} a permissão para verificar seu endereço de e-mail. Obrigado!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Vinculando contas…</string>
     <!-- Sign In -->
@@ -1436,7 +1436,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">Telefone\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">Reserve hotéis, voos, veja e compartilhe itinerários. Baixe o app móvel da Expedia grátis ainda hoje.\n%s</string>
+    <string name="share_long_ad_TEMPLATE">Reserve hotéis e voos, veja e compartilhe itinerários. Baixe hoje o app grátis da {brand}\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Estou voando para %1$s em %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1532,7 +1532,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">Expedia Flights</string>
+    <string name="Flights_TEMPLATE">Voos da {brand}</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Procurar voos</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -2847,7 +2847,7 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="website_TEMPLATE">Site da {brand}</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support_TEMPLATE">Assistência para o app</string>
+    <string name="app_support">Assistência para o app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Termos e condições</string>
     <!-- Label for link to privacy policy -->
@@ -2975,7 +2975,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">Ocorreu um erro que impediu a conclusão de sua reserva. Tente novamente.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">Você concluiu a reserva do hotel! Se precisar de um itinerário imediatamente, entre em contato com o Serviço de atendimento ao cliente da Expedia.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">Você concluiu a reserva do hotel! Se precisar de um itinerário imediatamente, entre em contato com o suporte ao cliente da {brand}</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">O quarto solicitado não está mais disponível em nosso site.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -3000,7 +3000,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Desculpe! As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">O quarto solicitado não está mais disponível em nosso site.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Não foi possível estabelecer conexão com a Expedia. Tente novamente.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Não foi possível estabelecer conexão com a {brand} Tente novamente.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">Desculpe! As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
     <!-- There are no longer any rooms for the hotel offer -->

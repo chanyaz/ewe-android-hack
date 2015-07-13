@@ -80,9 +80,9 @@
     <!-- Location for calendar event.  %1$s is the name of the pick up location -->
     <string name="calendar_car_location_TEMPLATE">%1$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_car_desc_itinerary_TEMPLATE">Expedias resplansnummer: %s</string>
+    <string name="calendar_desc_itinerary_TEMPLATE">{brand} resplan #: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_car_desc_support_TEMPLATE">Expedias kundtjänst: %1$s och %2$s</string>
+    <string name="calendar_desc_support_TEMPLATE">{brand}s kundstjänst: {localphone} och {phone}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Sök hotell</string>
@@ -859,7 +859,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Hej &lt;b&gt;%1$s&lt;/b&gt;! Vi verkar ha hittat ditt Expediakonto. Ange ditt lösenord för Expedia nedan för att länka ditt facebookkonto till ditt Expediakonto.</string>
+    <string name="facebook_weve_found_your_account_TEMPLATE">Hej &lt;b&gt;{name}&lt;/b&gt;! Vi verkar ha hittat ditt {brand}konto. Ange ditt lösenord för {brand} nedan för att länka ditt Facebookkonto till ditt {brand}konto.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hej &lt;b&gt;%1$s&lt;/b&gt;! Vi har hämtat dina facebookuppgifter.</string>
     <!-- Sign in with facebook (button text) -->
@@ -871,11 +871,11 @@
     <!-- We have encountered an error -->
     <string name="unspecified_error">Vi har stött på ett ospecificerat fel. Försök igen senare.</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Inloggningen på facebook misslyckades.</string>
+    <string name="unable_to_sign_into_facebook">Inloggningen på Facebook misslyckades.</string>
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">Inloggningen misslyckades. Om din e-postadress och ditt lösenord stämmer ber vi dig bekräfta att din app är inställd på rätt land.</string>
     <!-- User needs to reset password -->
-    <string name="sign_in_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga Expediasidor.&lt;br&gt;Återställ ditt lösenord genom att klicka på länken \&apos;Har du glömt ditt lösenord?\&apos; nedan.</string>
+    <string name="sign_in_reset_password_TEMPLATE">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga {brand}-sidor.&lt;br&gt;Återställ ditt lösenord genom att klicka på länken "Har du glömt ditt lösenord?" nedan.</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">Lösenord på {brand}</string>
     <!-- Link accounts -->
@@ -887,7 +887,7 @@
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">E-posttillåtelse</string>
     <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">För att logga in med Facebook behöver vi din tillåtelse att verifiera dina e-postadress. \n\nTryck på Facebook-nedan för att ge Expedia tillåtelse att verifiera din e-postadress. Tack!</string>
+    <string name="user_denied_permission_email_message_TEMPLATE">För att logga in med Facebook behöver vi din tillåtelse att verifiera din e-postadress. \n\nTryck på Facebook-nedan för att ge {brand} tillåtelse att verifiera din e-postadress. Tack!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Länkar dina konton…</string>
     <!-- Sign In -->
@@ -1436,7 +1436,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">Telefon\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">Boka hotell och flyg samt se och dela dina resplaner Hämta Expedias gratisapp idag.\n%s</string>
+    <string name="share_long_ad_TEMPLATE">Boka flyg och hotell och se och dela dina resplaner. Hämta {brand}s gratisapp idag.\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Jag flyger till %1$s %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1532,7 +1532,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">Expedia flyg</string>
+    <string name="Flights_TEMPLATE">{brand}s flyg</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Sök flyg</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -2847,7 +2847,7 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="website_TEMPLATE">{brand}s hemsida</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support_TEMPLATE">Support för appen</string>
+    <string name="app_support">Support för appen</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Regler och villkor</string>
     <!-- Label for link to privacy policy -->
@@ -2975,7 +2975,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">Ett fel uppstod. Vi kunde inte slutföra din bokning. Försök igen.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">Ditt hotell är bokat! Ring Expedias kundtjänst om du behöver din resplan omedelbart.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">Ditt hotell är bokat! Ring {brand}s kundtjänst om du behöver din resplan omedelbart.</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">Tyvärr är rummet inte längre tillgängligt.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -3000,7 +3000,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Vi beklagar! Tyvärr gäller inte det här rumserbjudandet längre, men andra erbjudanden är tillgängliga.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">Tyvärr är rummet inte längre tillgängligt.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Vi kunde inte tyvärr inte ansluta till Expedia. Försök igen.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Vi kunde inte tyvärr inte ansluta till {brand}. Försök igen.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">Vi beklagar! Tyvärr gäller inte det här rumserbjudandet längre, men andra erbjudanden är tillgängliga.</string>
     <!-- There are no longer any rooms for the hotel offer -->

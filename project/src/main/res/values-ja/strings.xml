@@ -80,9 +80,9 @@
     <!-- Location for calendar event.  %1$s is the name of the pick up location -->
     <string name="calendar_car_location_TEMPLATE">%1$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_car_desc_itinerary_TEMPLATE">エクスペディア旅程番号 : %s</string>
+    <string name="calendar_desc_itinerary_TEMPLATE">{brand} 旅程番号 : {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_car_desc_support_TEMPLATE">エクスペディア カスタマー サポート : %1$s および %2$s</string>
+    <string name="calendar_desc_support_TEMPLATE">{brand} カスタマー サポート : {localphone} および {phone}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">ホテルを検索</string>
@@ -859,7 +859,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;さん、すでにエクスペディアのアカウントをお持ちのようです。以下にエクスペディアのパスワードを入力して、Facebook とエクスペディアのアカウントをリンクしてください。</string>
+    <string name="facebook_weve_found_your_account_TEMPLATE">&lt;b&gt;{name}&lt;/b&gt;さん、すでに{brand}のアカウントをお持ちのようです。以下に{brand}のパスワードを入力して、Facebook と{brand}のアカウントをリンクしてください。</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;さん、Facebook のアカウントを読み込みました !</string>
     <!-- Sign in with facebook (button text) -->
@@ -875,7 +875,7 @@
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">サインインに失敗しました。メールアドレスとパスワードに間違いがない場合は、アプリの国の設定が正しいことを確認してください。</string>
     <!-- User needs to reset password -->
-    <string name="sign_in_reset_password">すべてのエクスペディアのサイト共通のグローバル アカウントの作成が必要です。&lt;br&gt;以下の「パスワードをお忘れですか ?」リンクをクリックして、パスワードをリセットしてください。</string>
+    <string name="sign_in_reset_password_TEMPLATE">{brand}の全サイト共通のグローバル アカウントの作成が必要です。&lt;br&gt;以下の「パスワードをお忘れですか ?」リンクをクリックして、パスワードをリセットしてください。</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">{brand} のパスワード</string>
     <!-- Link accounts -->
@@ -887,7 +887,7 @@
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">電子メールアドレスの認証</string>
     <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">Facebook アカウントでサインインするには、電子メールアドレスの認証を許可してください。\n\n下記の Facebook ボタンをタップして許可すると、エクスペディアが電子メールアドレスを認証します。ありがとうございます !</string>
+    <string name="user_denied_permission_email_message_TEMPLATE">Facebook アカウントでサインインするには、電子メールアドレスの認証を許可してください。\n\n下記の Facebook ボタンをタップして許可すると、{brand}が電子メールアドレスを認証します。ありがとうございます !</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">アカウントをリンク中…</string>
     <!-- Sign In -->
@@ -1436,7 +1436,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">電話\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">ホテルとフライトを予約して、旅程を表示 &amp; シェアできます。無料のエクスペディア モバイル アプリを今すぐダウンロードしてください。\n%s</string>
+    <string name="share_long_ad_TEMPLATE">ホテルとフライトを予約して、旅程を表示 &amp; シェアできます。無料の{brand}モバイル アプリを今すぐダウンロードしてください。\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">%2$sに%1$sへ行きます</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1532,7 +1532,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">エクスペディア フライト予約</string>
+    <string name="Flights_TEMPLATE">{brand} 件のフライト</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">フライト検索</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -2847,7 +2847,7 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="website_TEMPLATE">{brand} Web サイト</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support_TEMPLATE">アプリ サポート</string>
+    <string name="app_support">アプリ サポート</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">利用規約</string>
     <!-- Label for link to privacy policy -->
@@ -2975,7 +2975,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">エラーが発生したため、お客様のご予約を完了することができませんでした。もう一度お試しください。</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">ホテルのご予約が完了しました。すぐに旅程が必要な場合は、エクスペディア カスタマー サポートまでお電話ください。</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">ホテルのご予約が完了しました。すぐに旅程が必要な場合は、 {brand}のカスタマーサポートまでお電話ください。</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">申し訳ありません。ご希望の客室はご利用いただけません。</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -3000,7 +3000,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">申し訳ありません。この客室のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">申し訳ありません。ご希望の客室はご利用いただけません。</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">申し訳ありません。エクスペディアに接続することができませんでした。もう一度お試しください。</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">申し訳ありません。 {brand}に接続することができませんでした。もう一度お試しください。</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">申し訳ありません。この客室のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
     <!-- There are no longer any rooms for the hotel offer -->

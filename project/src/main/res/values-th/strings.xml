@@ -80,9 +80,9 @@
     <!-- Location for calendar event.  %1$s is the name of the pick up location -->
     <string name="calendar_car_location_TEMPLATE">%1$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_car_desc_itinerary_TEMPLATE">หมายเลขแผนการเดินทางเอ็กซ์พีเดีย: %s</string>
+    <string name="calendar_desc_itinerary_TEMPLATE">หมายเลขแผนการเดินทาง {brand}: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_car_desc_support_TEMPLATE">ฝ่ายบริการลูกค้าเอ็กซ์พีเดีย: %1$s และ %2$s</string>
+    <string name="calendar_desc_support_TEMPLATE">ฝ่ายบริการลูกค้า {brand}: {localphone} และ {phone}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">ค้นหาโรงแรม</string>
@@ -861,7 +861,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราพบบัญชีเอ็กซ์พีเดียของคุณ! โปรดป้อนรหัสผ่านเอ็กซ์พีเดียของคุณด้านล่างเพื่อลิงก์บัญชี Facebook และเอ็กซ์พีเดียของคุณ</string>
+    <string name="facebook_weve_found_your_account_TEMPLATE">สวัสดี คุณ &lt;b&gt;{name}&lt;/b&gt; ดูเหมือนว่าเราจะพบบัญชี {brand} ของคุณ! โปรดป้อนรหัสผ่าน {brand} ของคุณด้านล่างเพื่อลิงก์บัญชี Facebook กับบัญชี {brand} ของคุณ</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราโหลดข้อมูล Facebook ของคุณแล้ว</string>
     <!-- Sign in with facebook (button text) -->
@@ -877,7 +877,7 @@
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">ไม่สามารถเข้าสู่ระบบ หากอีเมลและรหัสผ่านของคุณถูกต้อง โปรดตรวจสอบให้แน่ใจว่าการตั้งค่าประเทศในแอพของคุณถูกต้อง</string>
     <!-- User needs to reset password -->
-    <string name="sign_in_reset_password">เราต้องการให้คุณสร้างบัญชีใหม่เพื่อใช้เข้าสู่ระบบเว็บไซต์เอ็กซ์พีเดียทั่วโลก&lt;br&gt;โปรดตั้งรหัสผ่านใหม่โดยใช้ลิงก์ \&apos;ลืมรหัสผ่าน\&apos; ด้านล่าง</string>
+    <string name="sign_in_reset_password_TEMPLATE">เราต้องการให้คุณสร้างบัญชีใหม่เพื่อใช้เข้าสู่ระบบเว็บไซต์ {brand} ทั่วโลก &lt;br&gt;โปรดตั้งรหัสผ่านใหม่โดยใช้ลิงก์ \&apos;ลืมรหัสผ่าน\&apos; ด้านล่าง</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">รหัสผ่าน {brand}</string>
     <!-- Link accounts -->
@@ -889,7 +889,7 @@
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">การอนุญาตอีเมล</string>
     <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">ในการเข้าสู่ระบบด้วย Facebook เราต้องขออนุญาตตรวจสอบที่อยู่อีเมลของคุณ \n\nโปรดแตะที่ปุ่ม Facebook ด้านล่างเพื่ออนุญาตให้เอ็กซ์พีเดียตรวจสอบอีเมลของคุณ ขอบคุณ</string>
+    <string name="user_denied_permission_email_message_TEMPLATE">ในการเข้าสู่ระบบด้วย Facebook เราต้องขออนุญาตตรวจสอบที่อยู่อีเมลของคุณ \n\nโปรดแตะที่ปุ่ม Facebook ด้านล่างเพื่ออนุญาตให้ {brand} ตรวจสอบอีเมลของคุณ ขอบคุณ</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">กำลังเชื่อมต่อบัญชีของคุณ…</string>
     <!-- Sign In -->
@@ -1438,7 +1438,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">โทรศัพท์\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนการเดินทางของคุณ ดาวน์โหลดแอพฟรีจากเอ็กซ์พีเดียวันนี้\n%s</string>
+    <string name="share_long_ad_TEMPLATE">จองโรงแรม เที่ยวบิน ดูและแชร์แผนการเดินทางของคุณ ดาวน์โหลดแอพฟรีจาก {brand} เลยวันนี้\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">ฉันกำลังจะบินไป %1$s ในวันที่ %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1534,7 +1534,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">เที่ยวบินเอ็กซ์พีเดีย</string>
+    <string name="Flights_TEMPLATE">เที่ยวบิน {brand}</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">ค้นหาเที่ยวบิน</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -2849,7 +2849,7 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="website_TEMPLATE">เว็บไซต์ {brand}</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support_TEMPLATE">ฝ่ายสนับสนุนแอพ</string>
+    <string name="app_support">ฝ่ายสนับสนุนแอพ</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">ข้อตกลงและเงื่อนไข</string>
     <!-- Label for link to privacy policy -->
@@ -2977,7 +2977,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">ขออภัย ระบบไม่สามารถดำเนินการจองได้ โปรดลองใหม่อีกครั้ง</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">คุณจองโรงแรมเรียบร้อยแล้ว หากคุณต้องการหมายเลขแผนการเดินทางทันที โปรดติดต่อฝ่ายบริการลูกค้าของเอ็กซ์พีเดีย</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">คุณจองโรงแรมเรียบร้อยแล้ว! หากคุณต้องการหมายเลขแผนการเดินทางทันที โปรดติดต่อฝ่ายบริการลูกค้าของ {brand}</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">ขออภัย ห้องพักที่คุณเลือกเต็มแล้ว</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -3002,7 +3002,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">ขออภัย โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">ขออภัย ห้องพักที่คุณเลือกเต็มแล้ว</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">ขออภัย ระบบไม่สามารถไปที่เอ็กซ์พีเดียได้ โปรดลองใหม่อีกครั้ง</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">ขออภัย ระบบไม่สามารถเชื่อมต่อกับ {brand} ได้ โปรดลองอีกครั้ง</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">ขออภัย โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
     <!-- There are no longer any rooms for the hotel offer -->
