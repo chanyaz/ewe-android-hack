@@ -877,8 +877,10 @@ public class ResultsHotelDetailsFragment extends Fragment implements IBackManage
 			}
 
 			if (response == null) {
-				Log.w(getString(R.string.e3_error_hotel_offers_hotel_service_failure));
-				//showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure);
+				String message = Phrase
+					.from(getActivity(), R.string.e3_error_hotel_offers_hotel_service_failure_TEMPLATE)
+					.put("brand", BuildConfig.brand).format().toString();
+				Log.w(message);
 				return;
 			}
 			else if (response.hasErrors()) {
@@ -899,7 +901,6 @@ public class ResultsHotelDetailsFragment extends Fragment implements IBackManage
 				&& search.getSearchParams().getSearchType() != SearchType.HOTEL) {
 				Log.w(Phrase.from(getActivity(), R.string.error_hotel_is_now_sold_out_TEMPLATE)
 					.put("brand", BuildConfig.brand).format().toString());
-				//showErrorDialog(R.string.error_hotel_is_now_sold_out_TEMPLATE);
 			}
 
 			// Notify affected child fragments to refresh.

@@ -201,7 +201,6 @@
 
         <activity
             android:name="com.expedia.bookings.activity.FlightSearchActivity"
-            android:label="@string/Expedia_Flights"
             android:screenOrientation="portrait"
             android:theme="@style/FlightTheme"
             android:windowSoftInputMode="stateUnchanged" />
