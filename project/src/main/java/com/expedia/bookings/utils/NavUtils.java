@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ActivityKillReceiver;
-import com.expedia.bookings.activity.CarActivity;
+import com.expedia.ui.CarActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightSearchResultsActivity;
@@ -22,7 +22,7 @@ import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.HotelSearchActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
-import com.expedia.bookings.activity.LXBaseActivity;
+import com.expedia.ui.LXBaseActivity;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletLaunchActivity;

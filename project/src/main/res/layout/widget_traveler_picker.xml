@@ -70,23 +70,44 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <TableLayout
+        <LinearLayout
             android:id="@+id/children_ages"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:textSize="15sp">
+            android:textSize="15sp" >
 
-            <TableRow
-                android:id="@+id/children_row1"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/hotel_traveler_table_margin" />
+                android:layout_marginBottom="@dimen/hotel_traveler_table_margin"
+                android:orientation="horizontal" >
 
-            <TableRow
-                android:id="@+id/children_row2"
+                <Spinner
+                    android:id="@+id/child_spinner_1"
+                    style="@style/HotelSpinner" />
+
+                <Spinner
+                    android:id="@+id/child_spinner_2"
+                    style="@style/HotelSpinner" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </TableLayout>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Spinner
+                    android:id="@+id/child_spinner_3"
+                    style="@style/HotelSpinner" />
+
+                <Spinner
+                    android:id="@+id/child_spinner_4"
+                    style="@style/HotelSpinner" />
+
+            </LinearLayout>
+        </LinearLayout>
 
 </merge>

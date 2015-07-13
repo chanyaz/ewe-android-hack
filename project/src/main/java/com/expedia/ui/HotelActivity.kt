@@ -1,4 +1,4 @@
-package com.expedia.bookings.ui
+package com.expedia.ui
 
 import android.os.Bundle
 import android.os.PersistableBundle

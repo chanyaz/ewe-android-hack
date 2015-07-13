@@ -11,7 +11,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
-import com.expedia.bookings.presenter.CarSearchPresenter;
+import com.expedia.bookings.presenter.car.CarSearchPresenter;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.test.espresso.ViewActions;

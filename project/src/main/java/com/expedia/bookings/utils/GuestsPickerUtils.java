@@ -97,7 +97,7 @@ public class GuestsPickerUtils {
 					row.setTag(i);
 					spinner.setPrompt(context.getString(R.string.prompt_select_child_age,
 						GuestsPickerUtils.MIN_CHILD_AGE, GuestsPickerUtils.MAX_CHILD_AGE));
-					spinner.setAdapter(new ChildAgeSpinnerAdapter(context));
+					spinner.setAdapter(new ChildAgeSpinnerAdapter());
 					spinner.setSelection(children.get(i).getAge() - MIN_CHILD_AGE);
 					spinner.setOnItemSelectedListener(listener);
 				}
@@ -118,15 +118,6 @@ public class GuestsPickerUtils {
 		int defaultAge = SettingUtils.get(context, "default_child_age_" + index, DEFAULT_CHILD_AGE);
 		boolean defaultSeatUse = SettingUtils.get(context, "default_child_seat_use_" + index, false);
 		return new ChildTraveler(defaultAge, defaultSeatUse);
-	}
-
-	public static void updateDefaultChildAges(Context context, List<ChildTraveler> children) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		SharedPreferences.Editor editor = prefs.edit();
-		for (int i = 0; i < children.size(); i++) {
-			editor.putInt("default_child_age_" + i, children.get(i).getAge());
-		}
-		editor.apply();
 	}
 
 	public static void updateDefaultChildTravelers(Context context, List<ChildTraveler> children) {

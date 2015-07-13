@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter;
+package com.expedia.bookings.presenter.car;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,6 +7,9 @@ import android.view.animation.DecelerateInterpolator;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.presenter.LeftToRightTransition;
+import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.CarConfirmationWidget;
 import com.squareup.otto.Subscribe;

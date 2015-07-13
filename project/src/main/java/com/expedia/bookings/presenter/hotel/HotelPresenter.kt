@@ -9,6 +9,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
+import com.expedia.vm.HotelSearchViewModel
 import rx.Observer
 
 public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -19,11 +20,14 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     override fun onFinishInflate() {
         super<Presenter>.onFinishInflate()
+
+        searchPresenter.viewmodel = HotelSearchViewModel(getContext())
+
         addTransition(searchToResults)
         addTransition(resultsToDetail)
         addDefaultTransition(defaultTransition)
         show(searchPresenter)
-        searchPresenter.paramsSubject.subscribe(searchObserver)
+        searchPresenter.viewmodel.searchParamsObservable.subscribe(searchObserver)
         resultsPresenter.hotelSubject.subscribe(detailObserver)
     }
 

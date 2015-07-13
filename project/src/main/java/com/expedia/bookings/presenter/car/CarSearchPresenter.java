@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter;
+package com.expedia.bookings.presenter.car;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -36,6 +36,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;

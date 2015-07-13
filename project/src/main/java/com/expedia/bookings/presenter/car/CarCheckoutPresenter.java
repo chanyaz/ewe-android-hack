@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter;
+package com.expedia.bookings.presenter.car;
 
 import javax.inject.Inject;
 
@@ -19,6 +19,8 @@ import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.RetrofitUtils;

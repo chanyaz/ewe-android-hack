@@ -1,6 +1,6 @@
 package com.expedia.bookings.test.espresso;
 
-import com.expedia.bookings.activity.LXBaseActivity;
+import com.expedia.ui.LXBaseActivity;
 import com.expedia.bookings.test.espresso.IdlingResources.LxIdlingResource;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 
