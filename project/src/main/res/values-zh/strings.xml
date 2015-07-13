@@ -80,9 +80,9 @@
     <!-- Location for calendar event.  %1$s is the name of the pick up location -->
     <string name="calendar_car_location_TEMPLATE">%1$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_car_desc_itinerary_TEMPLATE">Expedia 行程编号：%s</string>
+    <string name="calendar_desc_itinerary_TEMPLATE">{brand} 行程编号：{itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_car_desc_support_TEMPLATE">Expedia 客服电话：%1$s 和 %2$s</string>
+    <string name="calendar_desc_support_TEMPLATE">{brand} 客服电话：{localphone} 和 {phone}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">搜索酒店</string>
@@ -859,7 +859,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">嗨！&lt;b&gt;%1$s&lt;/b&gt;我们好像找到了您的 Expedia 帐户！请在下面输入 Expedia 密码，关联您的 Facebook 帐户和 Expedia 帐户。</string>
+    <string name="facebook_weve_found_your_account_TEMPLATE">嗨 &lt;b&gt;{name}&lt;/b&gt;！我们似乎找到了您的 {brand} 帐户！请在下面输入 {brand} 密码，将您的 Facebook 帐户和 {brand} 帐户关联起来。</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">嗨！&lt;b&gt;%1$s&lt;/b&gt;我们已经加载了您的 Facebook 信息！</string>
     <!-- Sign in with facebook (button text) -->
@@ -875,7 +875,7 @@
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">登录失败。如果您的电子邮件和密码是正确的，请确认应用的国家/地区设置是否正确。</string>
     <!-- User needs to reset password -->
-    <string name="sign_in_reset_password">我们需要您为所有 Expedia 网站创建新的国际通用登录信息。&lt;br&gt;请使用下面的“忘记密码？”链接，重置密码。</string>
+    <string name="sign_in_reset_password_TEMPLATE">我们需要您为所有 {brand} 网站创建新的国际通用登录信息。&lt;br&gt;请使用下面的“忘记密码？”链接，重置密码。</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">{brand} 密码</string>
     <!-- Link accounts -->
@@ -887,7 +887,7 @@
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">电子邮件权限</string>
     <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">如要使用 Facebook 登录，我们需要相关权限来验证您的电子邮件地址。\n\n请按下面的 Facebook 按钮来授予 Expedia 权限，以便我们可以验证您的电子邮件地址。谢谢！</string>
+    <string name="user_denied_permission_email_message_TEMPLATE">如要使用 Facebook 登录，我们需要相关权限来验证您的电子邮件地址。\n\n请按下面的 Facebook 按钮来赋予 {brand} 权限，以便我们可以验证您的电子邮件地址。谢谢！</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">正在关联您的帐户…</string>
     <!-- Sign In -->
@@ -1436,7 +1436,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">电话\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">预订酒店、机票，查看并分享您的行程。马上下载免费的 Expedia 移动应用。\n%s</string>
+    <string name="share_long_ad_TEMPLATE">预订酒店、机票，查看并分享您的行程。马上下载免费的 {brand} App。\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">我 %2$s飞往%1$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1532,7 +1532,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">Expedia 航班</string>
+    <string name="Flights_TEMPLATE">{brand} 机票</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">搜索航班</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -2847,7 +2847,7 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="website_TEMPLATE">{brand} 网站</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support_TEMPLATE">App 支持</string>
+    <string name="app_support">应用程序支持</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">条款和条件</string>
     <!-- Label for link to privacy policy -->
@@ -2975,7 +2975,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">遇到错误，无法完成您的预订。请再试一次。</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">您已成功预订酒店！如果您需要立即处理行程，请致电 Expedia 客户支持部门。</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">您已成功预订酒店！如果您需要马上使用行程单，请致电 {brand} 客服。</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">很抱歉，您要求的客房不再可供预订。</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -3000,7 +3000,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">我们非常抱歉！此客房的促销活动已结束，但是还有其他优惠项目。</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">很抱歉，您要求的客房不再可供预订。</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">很抱歉，我们无法连接至 Expedia。请再试一次。</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">很抱歉，我们无法连接至 {brand}。请再试一次。</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">我们非常抱歉！此客房的促销活动已结束，但是还有其他优惠项目。</string>
     <!-- There are no longer any rooms for the hotel offer -->

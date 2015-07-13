@@ -80,9 +80,9 @@
     <!-- Location for calendar event.  %1$s is the name of the pick up location -->
     <string name="calendar_car_location_TEMPLATE">%1$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_car_desc_itinerary_TEMPLATE">No. Itinerary Expedia: %s</string>
+    <string name="calendar_desc_itinerary_TEMPLATE">Nomor Itinerary {brand}: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_car_desc_support_TEMPLATE">Layanan Pelanggan Expedia: %1$s dan %2$s</string>
+    <string name="calendar_desc_support_TEMPLATE">Layanan Pelanggan {brand}: {localphone} dan {phone}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Cari Hotel</string>
@@ -859,7 +859,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Halo &lt;b&gt;%1$s&lt;/b&gt;, kami menemukan akun Expedia Anda! Masukkan kata sandi Expedia di bawah untuk menghubungkan akun Facebook dan Expedia Anda.</string>
+    <string name="facebook_weve_found_your_account_TEMPLATE">Halo &lt;b&gt;{name}&lt;/b&gt;, kami menemukan akun {brand} Anda! Silakan masukkan kata sandi {brand} Anda di bawah ini untuk menghubungkan akun Facebook dan {brand} Anda.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Halo &lt;b&gt;%1$s&lt;/b&gt;, kami sudah memuat informasi Facebook Anda!</string>
     <!-- Sign in with facebook (button text) -->
@@ -875,7 +875,7 @@
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">Login gagal. Jika email dan kata sandi Anda sudah benar, periksa apakah pengaturan Negara pada aplikasi Anda juga sudah benar.</string>
     <!-- User needs to reset password -->
-    <string name="sign_in_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs Expedia.&lt;br&gt;Harap reset kata sandi Anda menggunakan link \&apos;Lupa kata sandi Anda?\&apos; di bawah ini.</string>
+    <string name="sign_in_reset_password_TEMPLATE">Kami perlu Anda untuk membuat satu data login baru untuk mengakses semua situs {brand}.&lt;br&gt;Harap reset kata sandi Anda menggunakan link \&apos;Lupa kata sandi Anda?\&apos; di bawah ini.</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">Kata Sandi {brand}</string>
     <!-- Link accounts -->
@@ -887,7 +887,7 @@
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">Izin Email</string>
     <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">Untuk login dengan Facebook, kami memerlukan izin verifikasi alamat email Anda. \n\nSilakan ketuk tombol Facebook di bawah ini untuk memberi izin pada Expedia untuk memverifikasi alamat email Anda. Terima kasih!</string>
+    <string name="user_denied_permission_email_message_TEMPLATE">Untuk login dengan Facebook, kami memerlukan izin verifikasi alamat email Anda. \n\nHarap ketuk tombol Facebook di bawah ini untuk memberi izin bagi {brand} untuk memverifikasi alamat email Anda. Terima kasih!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Menghubungkan akun Anda…</string>
     <!-- Sign In -->
@@ -1436,7 +1436,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">Telepon\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">Pesan hotel, penerbangan, dan lihat atau bagikan itinerary Anda. Download aplikasi mobile Expedia gratis sekarang juga.\n%s</string>
+    <string name="share_long_ad_TEMPLATE">Pesan hotel dan penerbangan, lihat dan kirim itinerary. Download aplikasi mobile {brand} hari ini.\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Saya terbang ke %1$s tanggal %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1532,7 +1532,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">Penerbangan Expedia</string>
+    <string name="Flights_TEMPLATE">Penerbangan {brand}</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Cari Penerbangan</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -2847,7 +2847,7 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="website_TEMPLATE">Website {brand}</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support_TEMPLATE">Bantuan Aplikasi</string>
+    <string name="app_support">Dukungan Aplikasi</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Syarat dan Ketentuan</string>
     <!-- Label for link to privacy policy -->
@@ -2975,7 +2975,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">Terjadi kesalahan yang menghambat kami menyelesaikan pemesanan Anda. Harap coba lagi.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">Anda berhasil memesan hotel Anda! Jika Anda memerlukan itinerary segera, silakan hubungi Layanan Pelanggan Expedia.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">Hotel Anda telah berhasil dipesan! Jika Anda membutuhkan itinerary secepatnya, silakan hubungi Layanan Pelanggan {brand}.</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">Maaf, kamar yang Anda minta sudah tidak tersedia.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -3000,7 +3000,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Maaf. Promosi untuk kamar ini sudah berakhir, tapi ada tawaran lain yang tersedia.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">Maaf, kamar yang Anda minta sudah tidak tersedia.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Maaf, kami tidak bisa menghubungkan ke Expedia. Harap coba lagi.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Maaf, namun saat ini kami tidak bisa terhubung ke {brand}. Silakan coba lagi.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">Maaf. Promosi untuk kamar ini sudah berakhir, tapi ada tawaran lain yang tersedia.</string>
     <!-- There are no longer any rooms for the hotel offer -->

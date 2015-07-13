@@ -80,9 +80,9 @@
     <!-- Location for calendar event.  %1$s is the name of the pick up location -->
     <string name="calendar_car_location_TEMPLATE">%1$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_car_desc_itinerary_TEMPLATE">Số lịch trình Expedia: %s</string>
+    <string name="calendar_desc_itinerary_TEMPLATE">Số lịch trình {brand}: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_car_desc_support_TEMPLATE">Hỗ trợ khách hàng Expedia: %1$s &amp; %2$s</string>
+    <string name="calendar_desc_support_TEMPLATE">Hỗ trợ Khách hàng {brand}: {localphone} và {phone}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Tìm khách sạn</string>
@@ -859,7 +859,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Chào &lt;b&gt;%1$s&lt;/b&gt;, có vẻ chúng tôi đã tìm được tài khoản Expedia của quý vị! Vui lòng nhập mật khẩu Expedia vào dưới đây để kết nối tài khoản Facebook và Expedia của mình.</string>
+    <string name="facebook_weve_found_your_account_TEMPLATE">Chào &lt;b&gt;{name}&lt;/b&gt;, có vẻ chúng tôi đã tìm được tài khoản {brand} của quý vị! Vui lòng nhập mật khẩu {brand} để liên kết tài khoản Facebook và {brand}.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Chào &lt;b&gt;%1$s&lt;/b&gt;, chúng tôi vừa tải xong thông tin tài khoản Facebook của quý vị!</string>
     <!-- Sign in with facebook (button text) -->
@@ -875,7 +875,7 @@
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">Không đăng nhập được. Nếu đã nhập đúng địa chỉ email và mật khẩu, vui lòng kiểm tra xác nhận cài đặt quốc gia trên app của quý vị chính xác.</string>
     <!-- User needs to reset password -->
-    <string name="sign_in_reset_password">Vui lòng tạo một tài khoản mới dùng chung cho tất cả các trang web Expedia.&lt;br&gt;Vui lòng thiết lập lại mật khẩu, sử dụng link \&apos;Quên mật khẩu?\&apos; dưới đây.</string>
+    <string name="sign_in_reset_password_TEMPLATE">Vui lòng tạo một tài khoản mới, dùng chung cho tất cả các trang {brand}.&lt;br&gt;Vui lòng thiết lập lại mật khẩu, sử dụng link \&apos;Quên mật khẩu?\&apos; dưới đây.</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">Mật khẩu {brand}</string>
     <!-- Link accounts -->
@@ -887,7 +887,7 @@
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">Quyền truy xuất email</string>
     <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">Để đăng nhập bằng tài khoản Facebook, quý vị cần cho phép chúng tôi xác thực địa chỉ email. \n\nVui lòng chạm nút Facebook bên dưới để mở quyền cho Expedia xác thực địa chỉ email của quý vị. Cám ơn!</string>
+    <string name="user_denied_permission_email_message_TEMPLATE">Để đăng nhập bằng tài khoản Facebook, quý vị cần cho phép chúng tôi xác thực địa chỉ email. \n\nVui lòng chạm vào nút Facebook dưới đây để cho phép {brand} xác thực địa chỉ email của quý vị. Cám ơn!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Đang kết nối tài khoản của quý vị…</string>
     <!-- Sign In -->
@@ -1436,7 +1436,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">Điện thoại\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">Đặt phòng khách sạn, chuyến bay; xem và chia sẻ lịch trình của quý vị. Tải ứng dụng di động Expedia miễn phí ngay hôm nay.\n%s</string>
+    <string name="share_long_ad_TEMPLATE">Đặt phòng khách sạn, chuyến bay; xem &amp; chia sẻ lịch trình của quý vị. Tải app di động {brand} miễn phí ngay.\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Tôi bay đến %1$s vào %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1532,7 +1532,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">Chuyến bay Expedia</string>
+    <string name="Flights_TEMPLATE">Chuyến\nbay {brand}</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Tìm chuyến bay</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -2847,7 +2847,7 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="website_TEMPLATE">Trang web {brand}</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support_TEMPLATE">Hỗ trợ ứng dụng</string>
+    <string name="app_support">Hỗ trợ ứng dụng</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Điều khoản và Điều kiện</string>
     <!-- Label for link to privacy policy -->
@@ -2975,9 +2975,9 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">Lỗi đã ngăn chúng tôi hoàn tất đặt phòng cho quý vị. Vui lòng thử lại.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">Quý vị đã đặt phòng khách sạn thành công! Nếu cần lịch trình ngay lúc này, vui lòng gọi Bộ phận hỗ trợ khách hàng của Expedia.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">Quý vị đã đặt phòng khách sạn thành công! Nếu cần được hỗ trợ ngay về vấn đề lịch trình, vui lòng gọi bộ phận Hỗ trợ Khách hàng {brand}.</string>
     <!-- The hotel room is no longer available -->
-    <string name="e3_error_checkout_hotel_room_unavailable">Rất tiếc, nhưng phòng quý vị yêu cầu không còn.</string>
+    <string name="e3_error_checkout_hotel_room_unavailable">Rất tiếc, phòng quý vị yêu cầu không còn.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
     <string name="e3_error_checkout_invalid_input">Vui lòng sửa thông tin không hợp lệ.</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
@@ -3000,7 +3000,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Rất tiếc! Chương trình khuyến mãi cho phòng này đã kết thúc, nhưng vẫn còn nhiều ưu đãi khác.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">Rất tiếc, phòng quý vị yêu cầu không còn.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Rất tiếc, chúng tôi không thể kết nối với Expedia. Vui lòng thử lại.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Rất tiếc, chúng tôi không kết nối được với {brand}. Vui lòng thử lại.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">Rất tiếc! Chương trình khuyến mãi cho phòng này đã kết thúc, nhưng vẫn còn nhiều ưu đãi khác.</string>
     <!-- There are no longer any rooms for the hotel offer -->

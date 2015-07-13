@@ -80,9 +80,9 @@
     <!-- Location for calendar event.  %1$s is the name of the pick up location -->
     <string name="calendar_car_location_TEMPLATE">%1$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_car_desc_itinerary_TEMPLATE">Expedia-Reiseplannr.: %s</string>
+    <string name="calendar_desc_itinerary_TEMPLATE">{brand}-Reiseplannr.: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_car_desc_support_TEMPLATE">Expedia-Kundenservice: %1$s und %2$s</string>
+    <string name="calendar_desc_support_TEMPLATE">{brand}-Kundenservice: {localphone} und {phone}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Hotels suchen</string>
@@ -859,7 +859,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Hallo &lt;b&gt;%1$s&lt;/b&gt;, wir haben Ihr Expedia-Konto gefunden! Bitte geben Sie unten Ihr Expedia-Passwort ein, um Ihre Facebook- und Expedia-Konten zu verknüpfen.</string>
+    <string name="facebook_weve_found_your_account_TEMPLATE">Hallo &lt;b&gt;{name}&lt;/b&gt;, wir haben Ihr {brand}-Konto gefunden! Bitte geben Sie unten Ihr {brand}-Passwort ein, um Ihre Facebook- und {brand}-Konten zu verknüpfen.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hallo &lt;b&gt;%1$s&lt;/b&gt;, wir haben Ihre Facebook-Informationen geladen!</string>
     <!-- Sign in with facebook (button text) -->
@@ -875,7 +875,7 @@
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">Anmeldung fehlgeschlagen. Wenn Ihre E-Mail-Adresse und Ihr Passwort korrekt sind, überprüfen Sie bitte die Ländereinstellungen der App.</string>
     <!-- User needs to reset password -->
-    <string name="sign_in_reset_password">Bitte erstellen Sie ein neues, globales Benutzerkonto für alle Expedia-Websites.&lt;br&gt;Bitte setzen Sie über den Link \&apos;Passwort vergessen?\&apos; weiter unten Ihr Passwort zurück.</string>
+    <string name="sign_in_reset_password_TEMPLATE">Bitte erstellen Sie ein neues, globales Benutzerkonto für alle {brand}-Websites.&lt;br&gt;Bitte setzen Sie über den Link \&apos;Passwort vergessen?\&apos; weiter unten Ihr Passwort zurück.</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">{brand}-Passwort</string>
     <!-- Link accounts -->
@@ -887,7 +887,7 @@
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">E-Mail-Genehmigung</string>
     <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">Für eine Anmeldung über Facebook brauchen wir Ihre Erlaubnis, um Ihre E-Mail-Adresse zu verifizieren. \n\nBitte tippen Sie unten auf die Facebook-Schaltfläche, um Expedia die Genehmigung zu erteilen, Ihre E-Mail-Adresse zu verifizieren. Vielen Dank!</string>
+    <string name="user_denied_permission_email_message_TEMPLATE">Für eine Anmeldung über Facebook brauchen wir Ihre Erlaubnis, um Ihre E-Mail-Adresse zu verifizieren. \n\nBitte tippen Sie unten auf die Facebook-Schaltfläche, um {brand} die Genehmigung zu erteilen, Ihre E-Mail-Adresse zu verifizieren. Vielen Dank!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Ihre Konten werden verknüpft…</string>
     <!-- Sign In -->
@@ -1436,7 +1436,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">Telefon\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">Sie möchten Hotels und Flüge buchen und Ihre Reisepläne einsehen und teilen? Dann laden Sie noch heute die kostenlose Expedia-App herunter.\n%s</string>
+    <string name="share_long_ad_TEMPLATE">Sie möchten Hotels und Flüge buchen und Ihre Reisepläne einsehen und teilen? Dann laden Sie noch heute die kostenlose {brand}-App herunter.\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Ich fliege am %2$s nach %1$s!</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1532,7 +1532,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">Expedia-Flüge</string>
+    <string name="Flights_TEMPLATE">{brand} Flüge</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Flüge suchen</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -2848,7 +2848,7 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="website_TEMPLATE">{brand}-Website</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support_TEMPLATE">App-Support</string>
+    <string name="app_support">App-Support</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Allgemeine Geschäftsbedingungen</string>
     <!-- Label for link to privacy policy -->
@@ -2976,7 +2976,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">Während Ihrer Buchung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">Die Buchung des Hotels war erfolgreich! Wenn Sie sofort einen Reiseplan benötigen, wenden Sie sich bitte an den Expedia-Kundensupport.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">Die Hotelbuchung war erfolgreich! Wenn Sie sofort einen Reiseplan benötigen, wenden Sie sich bitte an den {brand}-Kundenservice.</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">Leider ist das gewünschte Zimmer nicht mehr verfügbar.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -3001,7 +3001,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Tut uns leid! Die Werbeaktion für dieses Zimmer ist schon vorbei, aber wir haben noch andere Angebote für Sie.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">Leider ist das gewünschte Zimmer nicht mehr verfügbar.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Leider konnte keine Verbindung zu Expedia hergestellt werden. Bitte versuchen Sie es erneut.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Leider konnte keine Verbindung zu {brand} hergestellt werden. Bitte versuchen Sie es erneut.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">Tut uns leid! Die Werbeaktion für dieses Zimmer ist schon vorbei, aber wir haben noch andere Angebote für Sie.</string>
     <!-- There are no longer any rooms for the hotel offer -->
