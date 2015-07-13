@@ -176,8 +176,9 @@ public class AccountLibActivity extends AppCompatActivity
 		if (!ExpediaBookingApp.useTabletInterface(this)) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
-
+		overridePendingTransition(R.anim.expand, R.anim.unexpand);
 		setContentView(R.layout.account_lib_activity);
+		Ui.showTransparentStatusBar(this);
 		ButterKnife.inject(this);
 
 		Intent intent = getIntent();

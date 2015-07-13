@@ -298,6 +298,14 @@
         <item name="skin_launchActionBarBackgroundColor">@color/cars_launch_actionbar_color</item>
     </style>
 
+    <style name="AccountLibTheme" parent="Theme.AppCompat">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
     <style name="LaunchOverflowStyle" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_overflow_white</item>
     </style>
