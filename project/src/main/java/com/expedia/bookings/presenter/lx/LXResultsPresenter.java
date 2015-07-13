@@ -181,6 +181,9 @@ public class LXResultsPresenter extends Presenter {
 
 			//Bucket all other errors as Unknown to give some feedback to the user
 			ApiError error = new ApiError(ApiError.Code.UNKNOWN_ERROR);
+			error.errorInfo = new ApiError.ErrorInfo();
+			error.errorInfo.summary = "Unknown";
+			error.errorInfo.cause = "Unknown";
 			Events.post(new Events.LXShowSearchError(error, searchType));
 			sortFilterButton.setVisibility(View.GONE);
 		}

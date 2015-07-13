@@ -1284,13 +1284,17 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = internalTrackAppLX(context, LX_NO_SEARCH_RESULTS);
 
-		// Destination
-		if (Strings.isNotEmpty(apiError.regionId)) {
-			s.setProp(4, apiError.regionId);
-			s.setEvar(4, "D=c4");
-		}
+		if (apiError != null) {
+			// Destination
+			if (Strings.isNotEmpty(apiError.regionId)) {
+				s.setProp(4, apiError.regionId);
+				s.setEvar(4, "D=c4");
+			}
 
-		s.setProp(36, apiError.errorInfo.cause);
+			if (apiError.errorInfo != null && Strings.isNotEmpty(apiError.errorInfo.cause)) {
+				s.setProp(36, apiError.errorInfo.cause);
+			}
+		}
 
 		// Send the tracking data
 		s.track();
