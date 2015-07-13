@@ -20,9 +20,7 @@
         <!-- Rules & Restrictions -->
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rules_and_restrictions"
-            style="@style/LegalInformationHeader"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            style="@style/LxLegalInformationHeader"
             android:text="@string/rules_and_restrictions" />
 
         <View style="@style/LegalInformationDivider.Grey" />
@@ -30,9 +28,7 @@
         <!-- Terms & Conditions -->
         <com.expedia.bookings.widget.TextView
             android:id="@+id/terms_and_conditions"
-            style="@style/LegalInformationHeader"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            style="@style/LxLegalInformationHeader"
             android:text="@string/terms_and_conditions" />
 
         <View style="@style/LegalInformationDivider.Grey" />
@@ -40,19 +36,15 @@
         <!-- Privacy Policy -->
         <com.expedia.bookings.widget.TextView
             android:id="@+id/privacy_policy"
-            style="@style/LegalInformationHeader"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            style="@style/LxLegalInformationHeader"
             android:text="@string/privacy_policy" />
 
         <View style="@style/LegalInformationDivider.Grey" />
 
         <!-- Cancellation Policy -->
-        <com.expedia.bookings.widget.TextView
+          <com.expedia.bookings.widget.TextView
             android:id="@+id/cancellation_policy_header_text_view"
-            style="@style/LegalInformationTextView.Blue"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            style="@style/LegalInformationTextView.Blue.LX"
             android:text="@string/cancellation_policy"
             android:textAllCaps="true" />
 
