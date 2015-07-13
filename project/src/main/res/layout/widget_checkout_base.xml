@@ -36,11 +36,13 @@
 
             </android.support.v7.widget.CardView>
 
-            <com.expedia.bookings.widget.AccountLoginWidget
+            <com.expedia.bookings.widget.AccountButton
                 android:id="@+id/login_widget"
                 style="?attr/checkout_card_view_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
                 android:layout_marginLeft="9dp"
                 android:layout_marginRight="9dp"
                 android:layout_marginTop="12dp" />

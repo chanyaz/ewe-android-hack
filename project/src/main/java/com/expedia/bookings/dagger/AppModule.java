@@ -12,6 +12,7 @@ import javax.net.ssl.X509TrustManager;
 
 import android.content.Context;
 
+import com.expedia.account.server.ExpediaAccountApi;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndpointProvider;
@@ -24,10 +25,12 @@ import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.DebugUtils;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
+
 import dagger.Module;
 import dagger.Provides;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.client.OkClient;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -168,5 +171,16 @@ public class AppModule {
 	AbacusServices provideAbacus(OkHttpClient client, EndpointProvider endpointProvider, RestAdapter.LogLevel loglevel) {
 		final String endpoint = endpointProvider.getAbacusEndpointUrl();
 		return new AbacusServices(client, endpoint, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
+	}
+
+	@Provides
+	@Singleton
+	ExpediaAccountApi provideExpediaAccountApi(OkHttpClient client, EndpointProvider endpointProvider, RestAdapter.LogLevel loglevel) {
+		final String endpoint = endpointProvider.getE3EndpointUrl();
+		return new RestAdapter.Builder()
+			.setEndpoint(endpoint)
+			.setLogLevel(loglevel)
+			.setClient(new OkClient(client))
+			.build().create(ExpediaAccountApi.class);
 	}
 }

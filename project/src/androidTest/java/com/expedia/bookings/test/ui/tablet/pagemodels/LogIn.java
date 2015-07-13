@@ -9,6 +9,8 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static org.hamcrest.Matchers.allOf;
 
 /**
  * Created by dmadan on 5/30/14.
@@ -16,11 +18,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class LogIn {
 
 	public static ViewInteraction loginExpediaButton() {
-		return onView(withId(R.id.log_in_btn));
+		return onView(withId(R.id.sign_in_button));
 	}
 
 	public static ViewInteraction loginFacebookButton() {
-		return onView(withId(R.id.log_in_with_facebook_btn));
+		return onView(withId(R.id.sign_in_with_facebook_button));
 	}
 
 	public static void clickLoginExpediaButton() {
@@ -28,11 +30,13 @@ public class LogIn {
 	}
 
 	public static void enterUserName(String text) {
-		onView(withId(R.id.username_edit_text)).check(matches(isDisplayed()));
-		onView(withId(R.id.username_edit_text)).perform(click(), typeText(text));
+		onView(allOf(withId(R.id.input_text), withParent(withId(R.id.email_address_sign_in)))).check(
+			matches(isDisplayed()));
+		onView(allOf(withId(R.id.input_text), withParent(withId(R.id.email_address_sign_in)))).perform(click(),
+			typeText(text));
 	}
 
 	public static void enterPassword(String text) {
-		onView(withId(R.id.password_edit_text)).perform(typeText(text));
+		onView(allOf(withId(R.id.password_edit_text), withParent(withId(R.id.password)))).perform(typeText(text));
 	}
 }

@@ -8,13 +8,14 @@
     android:paddingRight="14dp"
     android:paddingTop="4.5dp">
 
-    <include
+    <com.expedia.bookings.widget.AccountButton
         android:id="@+id/account_button_root"
-        android:layout_width="fill_parent"
+        style="@style/CarsCardView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="5dp"
-        layout="@layout/include_account_button" />
+        android:orientation="vertical" />
 
     <include
         android:id="@+id/wallet_button_layout"

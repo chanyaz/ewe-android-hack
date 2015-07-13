@@ -24,8 +24,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
-import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
@@ -330,7 +330,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	public synchronized void startLoginActivity() {
-		Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItineraryLoaderLoginExtender());
+		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItineraryLoaderLoginExtender());
 		OmnitureTracking.trackTabletLoginPageLoad(getActivity());
 		User.signIn(getActivity(), args);
 	}

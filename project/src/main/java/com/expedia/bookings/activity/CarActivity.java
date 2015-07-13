@@ -14,7 +14,6 @@ import com.expedia.bookings.presenter.CarPresenter;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.facebook.Session;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -59,12 +58,6 @@ public class CarActivity extends ActionBarActivity {
 		if (isFinishing()) {
 			clearCCNumber();
 		}
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		Session.getActiveSession().onActivityResult(CarActivity.this, requestCode, resultCode, data);
 	}
 
 	@Subscribe

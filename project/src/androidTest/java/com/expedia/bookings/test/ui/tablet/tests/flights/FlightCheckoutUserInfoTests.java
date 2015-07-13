@@ -277,21 +277,10 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 
 	private void verifyLoginButtonNotAppearing() throws Exception {
 		Checkout.clickLoginButton();
-		Common.checkDisplayed(LogIn.loginFacebookButton());
-
-		Common.checkNotDisplayed(LogIn.loginExpediaButton());
-		LogIn.enterUserName(mUser.email);
-		Common.enterLog(TAG, "Log in button isn't shown until an email address is entered");
-
-		Common.checkNotDisplayed(LogIn.loginFacebookButton());
-		Common.enterLog(TAG, "Facebook button is no longer shown after email address is entered");
-
-		Common.checkDisplayed(LogIn.loginExpediaButton());
 		LogIn.enterPassword(mUser.password);
 		LogIn.clickLoginExpediaButton();
 		Common.pressBack();
 		Results.clickBookFlight();
-		Common.enterLog(TAG, "Log in button is shown after email address is entered");
 
 		EspressoUtils.assertViewWithTextIsDisplayed(mUser.email);
 		Checkout.clickLogOutButton();

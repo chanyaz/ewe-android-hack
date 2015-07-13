@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.expedia.bookings.activity.LoginActivity;
+import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
@@ -47,7 +47,7 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 							 String[] requiredFeatures, Bundle options)
 		throws NetworkErrorException {
 
-		final Intent intent = LoginActivity.createIntent(mContext, options);
+		final Intent intent = AccountLibActivity.createIntent(mContext, options);
 		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
 		final Bundle bundle = new Bundle();
 		bundle.putParcelable(AccountManager.KEY_INTENT, intent);
@@ -99,7 +99,7 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 		}
 		else {
 			//Send the user to the login activity
-			final Intent intent = LoginActivity.createIntent(mContext, options);
+			final Intent intent = AccountLibActivity.createIntent(mContext, options);
 			intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
 			final Bundle bundle = new Bundle();
 			bundle.putParcelable(AccountManager.KEY_INTENT, intent);

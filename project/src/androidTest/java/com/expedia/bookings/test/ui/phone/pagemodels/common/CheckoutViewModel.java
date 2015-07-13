@@ -15,6 +15,8 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -34,7 +36,7 @@ public class CheckoutViewModel {
 	}
 
 	public static ViewInteraction userName() {
-		return onView(withId(R.id.username_edit_text));
+		return onView(allOf(withId(R.id.input_text), withParent(withId(R.id.email_address_sign_in))));
 	}
 
 	public static void enterUsername(String name) {
@@ -42,7 +44,7 @@ public class CheckoutViewModel {
 	}
 
 	public static ViewInteraction password() {
-		return onView(withId(R.id.password_edit_text));
+		return onView(allOf(withId(R.id.password_edit_text), withParent(withId(R.id.password))));
 	}
 
 	public static void enterPassword(String name) {
@@ -112,7 +114,7 @@ public class CheckoutViewModel {
 	}
 
 	public static void pressDoLogin() {
-		onView(withId(R.id.log_in_btn)).perform(click());
+		onView(withId(R.id.sign_in_button)).perform(click());
 	}
 
 	public static void clickLogin() {

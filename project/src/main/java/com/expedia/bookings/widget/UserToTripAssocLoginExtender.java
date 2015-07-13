@@ -43,7 +43,6 @@ public class UserToTripAssocLoginExtender extends LoginExtender {
 		mContext = context;
 
 		extenderContainer.removeAllViews();
-
 		LayoutInflater inflater = LayoutInflater.from(mContext);
 		mView = inflater.inflate(R.layout.snippet_assoc_user_to_trip_loading, null);
 		extenderContainer.addView(mView);
@@ -51,7 +50,7 @@ public class UserToTripAssocLoginExtender extends LoginExtender {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (!bd.isDownloading(NET_ASSOCIATE_USER_TO_TRIP)) {
 			bd.startDownload(NET_ASSOCIATE_USER_TO_TRIP, mAssociateUserAndTripDownload,
-					mAssociateUserAndTripCompleteHandler);
+				mAssociateUserAndTripCompleteHandler);
 		}
 		else {
 			bd.registerDownloadCallback(NET_ASSOCIATE_USER_TO_TRIP, mAssociateUserAndTripCompleteHandler);

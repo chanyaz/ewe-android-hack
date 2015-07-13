@@ -24,10 +24,6 @@
     <!-- The maximum days range for a car search -->
     <integer name="calendar_max_days_car_search">330</integer>
 
-    <!-- weights -->
-    <integer name="login_or_lines_weight">1</integer>
-    <integer name="login_or_spacers_weight">1</integer>
-
     <!-- login button font style: 0 = normal, 32 = light -->
     <integer name="login_button_text_style">0</integer>
 

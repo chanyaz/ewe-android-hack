@@ -170,7 +170,6 @@
     <style name="HotelSpinner" parent="@style/Base.Widget.AppCompat.Spinner.Underlined" />
 
     <style name="CarsCardView" parent="V2.Theme.Cars">
-        <item name="android:background">#FFF</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:animateLayoutChanges">true</item>
         <item name="android:textColor">@color/cars_actionbar_text_color</item>

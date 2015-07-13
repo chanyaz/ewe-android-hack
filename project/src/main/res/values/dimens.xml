@@ -164,8 +164,6 @@
     <dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
 
     <!-- Account support dimensions -->
-    <dimen name="login_button_icon_padding_left">-3dp</dimen>
-    <dimen name="login_button_icon_padding_right">1dp</dimen>
     <dimen name="account_button_points_text_size">11.5sp</dimen>
     <dimen name="account_rewards_container_height">20dp</dimen>
     <dimen name="account_rewards_container_height_for_empty_message">8dp</dimen>
@@ -186,20 +184,11 @@
     <dimen name="login_field_width">400dp</dimen>
     <dimen name="login_button_width">328dp</dimen>
     <dimen name="login_button_text_size">16sp</dimen>
-    <dimen name="login_side_margin_medium">20dp</dimen>
-    <dimen name="login_side_margin_small">16dp</dimen>
-    <dimen name="login_or_spacing">12dp</dimen>
     <dimen name="login_header_text_size">25sp</dimen>
-    <dimen name="login_header_text_small_size">18sp</dimen>
     <dimen name="login_divider_height">3dp</dimen>
-    <dimen name="login_button_spacing">20dp</dimen>
-    <dimen name="login_fb_buttons_top_spacing">10dp</dimen>
     <dimen name="login_field_spacing">2dp</dimen>
-    <dimen name="login_bottom_room_spacing">6dp</dimen>
 
     <!-- Account / Login button -->
-    <dimen name="account_button_height">40dp</dimen>
-    <dimen name="account_button_margin_top">12dp</dimen>
     <dimen name="account_button_padding">0dp</dimen>
     <dimen name="wallet_button_bottom_margin">8dp</dimen>
     <dimen name="wallet_button_left_padding">0dp</dimen>

@@ -1047,4 +1047,8 @@ public class Events {
 			this.viewId = viewId;
 		}
 	}
+
+	public static class LoggedInSuccessful {
+
+	}
 }

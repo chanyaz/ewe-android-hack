@@ -872,32 +872,21 @@
     <string name="unable_to_sign_into_facebook">Unable to sign in to Facebook.</string>
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">Sign in failed. If your email and password are correct, confirm that your app\'s Country setting is correct.</string>
-    <!-- User needs to reset password -->
-    <string name="sign_in_reset_password_TEMPLATE">We need you to create a new, international sign in for all {brand} sites.&lt;br>Please reset your password using the ‘Forgot your password?\&apos; link below.</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">{brand} Password</string>
     <!-- Link accounts -->
     <string name="link_accounts">Link Accounts</string>
-    <!-- Failure to update the user -->
-    <string name="failure_to_update_user">Failure to fetch updated user information.</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">Grant Email Permission</string>
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">Email Permission</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">To sign in with Facebook, we require permission to verify your email address. \n\nPlease tap the Facebook button below to grant {brand} permission to verify your email address. Thank you!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Linking your accounts…</string>
+
     <!-- Sign In -->
     <string name="Sign_In">Sign In</string>
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Sign in with {brand}</string>
-    <!-- Sign in with the current brand -->
-    <string name="sign_in_with_brand_TEMPLATE">Sign in with {brand}</string>
     <!-- or -->
     <string name="or">or</string>
-    <!-- Already signed in -->
-    <string name="already_signed_in">Already signed in</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -2752,8 +2741,6 @@
     <string name="sign_in">Sign In</string>
     <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
     <string name="Earn_points_and_book_fast">Earn points and book fast.</string>
-    <!-- Hint for user to enter password into a field -->
-    <string name="hint_password">Password</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Signing in…</string>
     <!-- Message that tells user they failed to sign in -->
@@ -2766,14 +2753,8 @@
     <string name="Expedia_plus_silver">Expedia +silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
-    <!-- Label for signin screen -->
-    <string name="account_TEMPLATE">{brand} Account</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Loading {brand} Account</string>
-    <!-- Label for password recovery -->
-    <string name="forgot_your_password">Forgot your password?</string>
-    <!-- Webview title for password recovery -->
-    <string name="title_forgot_password">Forgot Password</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">Enter a coupon or promotion code</string>
     <!-- Label for coupon code hint -->
@@ -3483,9 +3464,6 @@
     <string name="cd_checkout_select_payment">Press to select payment for this booking</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Press to enter a coupon or promotional code</string>
-    <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
-    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">Press to sign into {brand} with your Facebook account</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Press to enter a new traveler</string>

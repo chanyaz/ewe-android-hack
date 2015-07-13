@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
 import com.google.android.gms.maps.MapView
 import kotlin.properties.Delegates
 

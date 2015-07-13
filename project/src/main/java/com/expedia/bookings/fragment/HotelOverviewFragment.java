@@ -30,12 +30,12 @@ import android.widget.TextView;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelMapActivity;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
-import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.CreditCardType;
@@ -243,7 +243,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mCheckoutLayout = Ui.findView(view, R.id.checkout_layout);
 		mCheckoutLayoutBlocker = Ui.findView(view, R.id.checkout_layout_touch_blocker);
 
-		mAccountButton = Ui.findView(view, R.id.account_button_layout);
+		mAccountButton = Ui.findView(view, R.id.account_button_root);
 		mWalletButton = Ui.findView(view, R.id.wallet_button_layout);
 		mHintContainer = Ui.findView(view, R.id.hint_container);
 		mCheckoutDivider = Ui.findView(view, R.id.checkout_divider);
@@ -994,8 +994,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Override
 	public void accountLoginClicked() {
 		if (mAccountButton.isEnabled()) {
-			mAccountButton.setEnabled(false);//We open a new activity and reenable accountButton in onResume
-			Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
+			mAccountButton.setEnabled(false);//We open a new activity and reenable accountButton in onResume;
+			Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
 			User.signIn(getActivity(), args);
 			OmnitureTracking.trackPageLoadHotelsLogin(getActivity());
 		}

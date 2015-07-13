@@ -371,14 +371,8 @@ public class FlightCheckoutUserInfoTests extends PhoneTestCase {
 		logInButton().perform(scrollTo(), click());
 		ScreenActions.delay(2);
 
-		LogInScreen.facebookButton().check(matches(isDisplayed()));
-		LogInScreen.logInButton().check(matches(not(isDisplayed())));
-		ScreenActions.enterLog(TAG, "Log in button isn't shown until an email address is entered");
 		LogInScreen.typeTextEmailEditText(mUser.email);
-		LogInScreen.facebookButton().check(matches(not(isDisplayed())));
-		ScreenActions.enterLog(TAG, "Facebook button is no longer shown after email address is entered");
 		LogInScreen.clickOnLoginButton();
-		LogInScreen.logInButton().check(matches(isDisplayed()));
 		ScreenActions.enterLog(TAG, "Log in button is shown after email address is entered");
 		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();

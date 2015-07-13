@@ -17,7 +17,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.fragment.HotelOverviewFragment;
 import com.expedia.bookings.fragment.HotelOverviewFragment.BookingOverviewFragmentListener;
-import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -29,8 +28,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 import com.squareup.otto.Subscribe;
 
-public class HotelOverviewActivity extends FragmentActivity implements BookingOverviewFragmentListener,
-	LogInListener, ISlideToListener {
+public class HotelOverviewActivity extends FragmentActivity implements BookingOverviewFragmentListener, ISlideToListener {
 
 	private HotelOverviewFragment mBookingOverviewFragment;
 
@@ -183,21 +181,6 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 	@Override
 	public void checkoutEnded() {
 		supportInvalidateOptionsMenu();
-	}
-
-	// LogInListener implementation
-
-	@Override
-	public void onLoginStarted() {
-	}
-
-	@Override
-	public void onLoginCompleted() {
-		mBookingOverviewFragment.onLoginCompleted();
-	}
-
-	@Override
-	public void onLoginFailed() {
 	}
 
 	// ISlideToListener implementation
