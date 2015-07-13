@@ -3349,6 +3349,7 @@ public class OmnitureTracking {
 		addStandardFields(context, s);
 
 		s.setEvar(28, CAR_FILTERS + "." + filter);
+		s.setProp(16, CAR_FILTERS + "." + filter);
 
 		s.trackLink(null, "o", "Car Search", null, null);
 	}
