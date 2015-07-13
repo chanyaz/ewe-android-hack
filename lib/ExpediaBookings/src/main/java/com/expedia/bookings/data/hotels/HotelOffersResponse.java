@@ -17,7 +17,7 @@ public class HotelOffersResponse {
 	public Double hotelGuestRating;
 	public String hotelId;
 	public String hotelName;
-	private List<HotelRoomResponse> hotelRoomResponse;
+	public List<HotelRoomResponse> hotelRoomResponse;
 
 	public Double hotelStarRating;
 	public String longDescription;
@@ -27,50 +27,58 @@ public class HotelOffersResponse {
 	public String telesalesNumber;
 	public Boolean isVipAccess;
 
+	public List<Photos> photos;
+
 	public static class HotelAmenities {
-		String id;
-		String description;
+		public String id;
+		public String description;
 	}
 
 	public static class HotelAmenitiesText {
-		String content;
-		String name;
+		public String content;
+		public String name;
 	}
 
 	public static class HotelRoomResponse {
-		List<BedTypes> bedTypes;
-		String cancellationPolicy;
-		Boolean hasFreeCancellation;
-		Boolean isPayLater;
-		PayLaterOffer payLaterOffer;
-		String productKey;
-		Boolean rateChange;
-		String rateDescription;
-		RateInfo rateInfo;
+		public List<BedTypes> bedTypes;
+		public String cancellationPolicy;
+		public Boolean hasFreeCancellation;
+		public Boolean isPayLater;
+		public PayLaterOffer payLaterOffer;
+		public String productKey;
+		public Boolean rateChange;
+		public String rateDescription;
+		public RateInfo rateInfo;
+		public String roomTypeDescription;
 	}
 
 	public static class BedTypes {
-		String id;
-		String description;
+		public String id;
+		public String description;
 	}
 
 	public static class PayLaterOffer {
-		List<BedTypes> bedTypes;
-		String cancellationPolicy;
-		Boolean hasFreeCancellation;
-		String freeCancellationWindowDate;
-		Boolean immediateChargeRequired;
-		Boolean isPayLater;
-		Boolean nonRefundable;
-		String productKey;
-		Boolean rateChange;
-		String rateDescription;
-		RateInfo rateInfo;
-		String supplierType;
+		public List<BedTypes> bedTypes;
+		public String cancellationPolicy;
+		public Boolean hasFreeCancellation;
+		public String freeCancellationWindowDate;
+		public Boolean immediateChargeRequired;
+		public Boolean isPayLater;
+		public Boolean nonRefundable;
+		public String productKey;
+		public Boolean rateChange;
+		public String rateDescription;
+		public RateInfo rateInfo;
+		public String supplierType;
 	}
 
 	public static class RateInfo {
-		HotelRate chargeableRateInfo;
-		String description;
+		public HotelRate chargeableRateInfo;
+		public String description;
+	}
+
+	public static class Photos {
+		public String displayText;
+		public String url;
 	}
 }

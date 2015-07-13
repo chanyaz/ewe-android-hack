@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
-import android.os.AsyncTask
 import android.os.Build
 import android.support.v7.widget.Toolbar
 import android.text.Html
@@ -12,6 +11,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ToggleButton
 import com.expedia.bookings.R
@@ -54,7 +54,9 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         HotelSuggestionAdapter(service)
     }
 
+    val searchContainer: ViewGroup by bindView(R.id.search_container)
     val paramsSubject = PublishSubject.create<HotelSearchParams>()
+    var statusBar: View? = null
 
     init {
         View.inflate(context, R.layout.widget_hotel_search_params, this)
@@ -63,6 +65,14 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     override fun onFinishInflate() {
         super<Presenter>.onFinishInflate()
         var toolbar: Toolbar = findViewById(R.id.toolbar) as Toolbar
+
+        // add the view of same height as of status bar
+        val statusBarHeight = Ui.getStatusBarHeight(getContext())
+        if (statusBarHeight > 0) {
+            val color = getContext().getResources().getColor(R.color.hotels_primary_color)
+            statusBar = Ui.setUpStatusBar(getContext(), toolbar, searchContainer, color)
+            addView(statusBar)
+        }
 
         toolbar.inflateMenu(R.menu.cars_search_menu)
 

@@ -13,6 +13,7 @@ import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 
 public class Images {
@@ -73,6 +74,10 @@ public class Images {
 
 	public static String getNearbyHotelImage(Hotel offer) {
 		return getMediaHost() + offer.largeThumbnailUrl;
+	}
+
+	public static String getHotelImage(HotelOffersResponse offer, int index) {
+		return getMediaHost() + offer.photos.get(index).url;
 	}
 
 	public static HeaderBitmapDrawable makeLaunchListBitmapDrawable(Context context) {

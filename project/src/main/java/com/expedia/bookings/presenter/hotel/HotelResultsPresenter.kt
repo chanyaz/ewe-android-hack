@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
@@ -49,12 +50,20 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val hotelSubject = PublishSubject.create<Hotel>()
     val layoutManager = LinearLayoutManager(context)
 
+    var statusBar :View? = null
+
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
         View.inflate(getContext(), R.layout.widget_hotel_results, this)
     }
 
     override fun onFinishInflate() {
+        // add the view of same height as of status bar
+        val statusBarHeight = Ui.getStatusBarHeight(getContext())
+        if (statusBarHeight > 0) {
+            toolbar.setPadding(0,statusBarHeight,0,0)
+        }
+
         addDefaultTransition(defaultTransition)
         addTransition(mapTransition)
 
