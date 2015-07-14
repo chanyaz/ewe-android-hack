@@ -446,7 +446,7 @@ public class OmnitureTracking {
 		}
 		String properCaseSupplierType = Strings.splitAndCapitalizeFirstLetters(supplierType);
 
-		s.setProducts("Hotel;Hotel;" + properCaseSupplierType + " Hotel:" + property.getPropertyId());
+		s.setProducts("Hotel;" + properCaseSupplierType + " Hotel:" + property.getPropertyId());
 
 		DecimalFormat df = new DecimalFormat("#.##");
 		String products = s.getProducts();
