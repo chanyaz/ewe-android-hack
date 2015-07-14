@@ -880,6 +880,10 @@
     <string name="user_denied_permission_email_heading">Email Permission</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Linking your accounts…</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">Grant Email Permission</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message_TEMPLATE">To sign in with Facebook, we require permission to verify your email address. \n\nPlease tap the Facebook button below to grant {brand} permission to verify your email address. Thank you!</string>
 
     <!-- Sign In -->
     <string name="Sign_In">Sign In</string>

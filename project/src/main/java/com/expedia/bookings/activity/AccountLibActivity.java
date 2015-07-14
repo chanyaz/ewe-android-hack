@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.expedia.account.AccountView;
+import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
 import com.expedia.account.PanningImageView;
 import com.expedia.bookings.BuildConfig;
@@ -29,6 +30,7 @@ import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.utils.Ui;
@@ -73,6 +75,7 @@ public class AccountLibActivity extends AppCompatActivity
 	private LineOfBusiness lob = LineOfBusiness.HOTELS;
 	private LoginExtender loginExtender;
 	private UserAccountRefresher userAccountRefresher;
+	private boolean loginWithFacebook = false;
 
 	/** Facebook garbage **/
 
@@ -83,7 +86,13 @@ public class AccountLibActivity extends AppCompatActivity
 	public LinearLayout faceBookLinkContainer;
 
 	@InjectView(R.id.link_password_edit_text)
-	public EditText mLinkPassword;
+	public EditText linkPassword;
+
+	@InjectView(R.id.user_denied_permission_email_message)
+	public TextView userDeniedPermissionEmailMessage;
+
+	@InjectView(R.id.facebook_email_denied_container)
+	public LinearLayout facebookEmailDeniedContainer;
 
 	@OnClick(R.id.link_accounts_button)
 	public void onLinkFacebook() {
@@ -105,6 +114,22 @@ public class AccountLibActivity extends AppCompatActivity
 
 		//goto previous state...
 		showLinkFacebook(false);
+	}
+
+	@OnClick(R.id.try_facebook_again)
+	public void onTryFacebookAgain() {
+		// Do facebook things!!!
+		Session currentSession = Session.getActiveSession();
+		List<String> permissions = new ArrayList<String>();
+		permissions.add("email");
+		Session.NewPermissionsRequest request = new Session.NewPermissionsRequest(this, permissions);
+		currentSession.requestNewReadPermissions(request);
+	}
+
+	@OnClick(R.id.try_facebook_again_cancel)
+	public void onTryFacebookAgainCancel() {
+		Session.setActiveSession(null);
+		showEmailDenied(false);
 	}
 
 	private String mFbUserId;
@@ -166,6 +191,11 @@ public class AccountLibActivity extends AppCompatActivity
 			}
 		}
 
+		int statusBarHeight = Ui.getStatusBarHeight(this);
+		accountView.setPadding(accountView.getPaddingLeft(), statusBarHeight, accountView.getPaddingRight(), accountView.getPaddingBottom());
+		facebookEmailDeniedContainer.setPadding(facebookEmailDeniedContainer.getPaddingLeft(), statusBarHeight, facebookEmailDeniedContainer.getPaddingRight(), facebookEmailDeniedContainer.getPaddingBottom());
+		faceBookLinkContainer.setPadding(faceBookLinkContainer.getPaddingLeft(), statusBarHeight, faceBookLinkContainer.getPaddingRight(), faceBookLinkContainer.getPaddingBottom());
+
 		accountView.configure(Config.build()
 				.setEndpoint(Ui.getApplication(this).appComponent().okHttpClient(), Ui.getApplication(this).appComponent().endpointProvider().getE3EndpointUrl())
 				.setSiteId(PointOfSale.getPointOfSale().getSiteId())
@@ -175,14 +205,19 @@ public class AccountLibActivity extends AppCompatActivity
 				.setPOSShowSpamOptIn(true)
 				.setClientId("accountstest.phone.android")
 				.setListener(new Listener())
-				.setAnalyticsListener(null)
+				.setAnalyticsListener(analyticsListener)
 		);
 
 		userAccountRefresher = new UserAccountRefresher(this, lob, this);
 
-		mLinkPassword.setHint(Phrase.from(this, R.string.brand_password_hint_TEMPLATE)
+		linkPassword.setHint(Phrase.from(this, R.string.brand_password_hint_TEMPLATE)
 			.put("brand", BuildConfig.brand)
 			.format());
+
+		userDeniedPermissionEmailMessage.setText(
+			Phrase.from(this, R.string.user_denied_permission_email_message_TEMPLATE)
+								.put("brand", BuildConfig.brand)
+							.format());
 
 		FontCache.setTypeface(statusText, FontCache.Font.ROBOTO_REGULAR);
 	}
@@ -190,10 +225,13 @@ public class AccountLibActivity extends AppCompatActivity
 	@Override
 	public void onUserAccountRefreshed() {
 		User.addUserToAccountManager(this, Db.getUser());
-		if (User.isLoggedIn(this) && loginExtender != null) {
-			loginExtenderContainer.setVisibility(View.VISIBLE);
-			loginExtender.onLoginComplete(this, this, loginExtenderContainer);
+		if (User.isLoggedIn(this)) {
+			OmnitureTracking.trackLoginSuccess(this, lob, loginWithFacebook, Db.getUser().isRewardsUser());
 			AdTracker.trackLogin();
+			if (loginExtender != null) {
+				loginExtenderContainer.setVisibility(View.VISIBLE);
+				loginExtender.onLoginComplete(this, this, loginExtenderContainer);
+			}
 		}
 		else {
 			finish();
@@ -210,10 +248,73 @@ public class AccountLibActivity extends AppCompatActivity
 		extenderStatus.setText(status);
 	}
 
+	private AnalyticsListener analyticsListener = new AnalyticsListener() {
+		@Override
+		public void signInSucceeded() {
+
+		}
+
+		@Override
+		public void contactsAccessRequested() {
+
+		}
+
+		@Override
+		public void contactsAccessResponse(boolean b) {
+
+		}
+
+		@Override
+		public void emailsQueried() {
+
+		}
+
+		@Override
+		public void accountCreationAttemptWithPreexistingEmail(boolean b, boolean b1) {
+
+		}
+
+		@Override
+		public void userViewedNameEntering() {
+
+		}
+
+		@Override
+		public void userViewedPasswordEntering() {
+
+		}
+
+		@Override
+		public void userViewedTosPage() {
+
+		}
+
+		@Override
+		public void userExplicitlyModifiedMarketingOptIn(boolean b) {
+
+		}
+
+		@Override
+		public void userSucceededInCreatingAccount() {
+
+		}
+
+		@Override
+		public void userReceivedErrorOnSignInAttempt(String s) {
+
+		}
+
+		@Override
+		public void userTriedReallyHardToNotEnterValidPassword(String s) {
+
+		}
+	};
+
 	public class Listener extends AccountView.Listener {
 
 		@Override
 		public void onSignInSuccessful() {
+			loginWithFacebook = false;
 			// Do stuff with User
 			userAccountRefresher.ensureAccountIsRefreshed();
 		}
@@ -226,6 +327,7 @@ public class AccountLibActivity extends AppCompatActivity
 
 		@Override
 		public void onFacebookRequested() {
+			loginWithFacebook = true;
 			doFacebookLogin();
 		}
 
@@ -257,7 +359,6 @@ public class AccountLibActivity extends AppCompatActivity
 	 */
 	protected void doFacebookLogin() {
 		Log.d("FB: doFacebookLogin");
-
 		setIsLoading(true);
 		setLoadingText(getString(R.string.fetching_facebook_info));
 		setStatusText(R.string.Sign_in_with_Facebook, true);
@@ -272,9 +373,7 @@ public class AccountLibActivity extends AppCompatActivity
 		}
 		if (!currentSession.isOpened()) {
 			Log.d("FB: doFacebookLogin - !currentSession.isOpened()");
-			Session.OpenRequest openRequest = null;
-
-			openRequest = new Session.OpenRequest(this);
+			Session.OpenRequest openRequest = new Session.OpenRequest(this);
 
 			//We need an email address to do any sort of Expedia account creation/linking
 			List<String> permissions = new ArrayList<String>();
@@ -301,6 +400,7 @@ public class AccountLibActivity extends AppCompatActivity
 	private void setFBEmailDeniedState() {
 		setIsLoading(false);
 		setStatusText(R.string.user_denied_permission_email_heading, true);
+		showEmailDenied(true);
 	}
 
 	private boolean hasRequiredInfoFromFB(Session session) {
@@ -372,7 +472,6 @@ public class AccountLibActivity extends AppCompatActivity
 	 * When the facebook login status changes, this gets called
 	 */
 	Session.StatusCallback mFacebookStatusCallback = new Session.StatusCallback() {
-
 		// callback when session changes state
 		@Override
 		public void call(Session session, SessionState state, Exception exception) {
@@ -536,7 +635,7 @@ public class AccountLibActivity extends AppCompatActivity
 			}
 
 			setLoadingText(getString(R.string.linking_your_accounts));
-			String expediaPw = mLinkPassword.getText().toString();
+			String expediaPw = linkPassword.getText().toString();
 			ExpediaServices services = new ExpediaServices(AccountLibActivity.this);
 			return services.facebookLinkExistingUser(mFbUserId, fbSession.getAccessToken(), mFbUserEmail, expediaPw);
 		}
@@ -625,5 +724,10 @@ public class AccountLibActivity extends AppCompatActivity
 	private void showLinkFacebook(boolean visible) {
 		accountView.setVisibility(visible ? View.GONE : View.VISIBLE);
 		faceBookLinkContainer.setVisibility(visible ? View.VISIBLE : View.GONE);
+	}
+
+	private void showEmailDenied(boolean visible) {
+		accountView.setVisibility(visible ? View.GONE : View.VISIBLE);
+		facebookEmailDeniedContainer.setVisibility(visible ? View.VISIBLE : View.GONE);
 	}
 }

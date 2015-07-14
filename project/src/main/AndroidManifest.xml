@@ -247,8 +247,10 @@
 
         <activity
             android:name="com.expedia.bookings.activity.AccountLibActivity"
+            android:configChanges="screenSize"
             android:launchMode="singleTop"
-            android:theme="@style/LaunchTheme" />
+            android:theme="@style/LaunchTheme"
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- Cars activity -->
 
