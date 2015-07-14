@@ -30,7 +30,6 @@ dependencies {
             'activeandroid-20131111.jar',
             'admsAppLibrary-3.0.5.jar',
             'adxtag3.2.6.jar',
-            'Kahuna.jar',
             'MobileAppTracker-3.9.1.jar',
     ])
     compile project(':lib:FlightLib')

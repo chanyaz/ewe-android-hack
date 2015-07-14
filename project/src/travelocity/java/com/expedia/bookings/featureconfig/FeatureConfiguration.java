@@ -154,10 +154,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
-	public boolean isKahunaEnabled() {
-		return false;
-	}
-
 	public boolean isTuneEnabled() {
 		return false;
 	}
