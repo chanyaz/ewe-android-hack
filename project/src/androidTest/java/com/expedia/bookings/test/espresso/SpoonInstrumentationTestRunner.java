@@ -19,7 +19,7 @@ public class SpoonInstrumentationTestRunner extends AndroidJUnitRunner {
 
 	@Override
 	public void onCreate(Bundle args) {
-		ExpediaBookingApp.setAutomation(true);
+		ExpediaBookingApp.setIsInstrumentation(true);
 		super.onCreate(args);
 	}
 

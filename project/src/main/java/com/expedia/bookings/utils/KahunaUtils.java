@@ -21,24 +21,22 @@ import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.kahuna.sdk.KahunaAnalytics;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
-/**
- * Created by mohsharma on 4/10/15.
- */
 public class KahunaUtils {
 
-	public static Map<String, String> mUserAttributes = new HashMap<String, String>();
+	public static Map<String, String> userAttributes = new HashMap<String, String>();
 	public static final String PROD_APP_KEY = "46adc9b9151f47d888be8bbf43d99af5";
 	public static final String QA_APP_KEY = "f97ca9992ee14ba596695c6bd42892f3";
-	public static Context mContext;
+	public static Context context;
+	private static boolean initialized = false;
 
 	public static void init(ExpediaBookingApp app) {
-		mContext = app;
+		initialized = true;
+		context = app;
 		if (BuildConfig.DEBUG) {
 			KahunaAnalytics.onAppCreate(app, QA_APP_KEY, PushNotificationUtils.SENDER_ID);
 			KahunaAnalytics.setDebugMode(true);
@@ -47,22 +45,22 @@ public class KahunaUtils {
 			KahunaAnalytics.onAppCreate(app, PROD_APP_KEY, PushNotificationUtils.SENDER_ID);
 		}
 
-		mUserAttributes.put("point_of_sale", getPointOfSale());
+		userAttributes.put("point_of_sale", getPointOfSale());
 
 		String deviceLocale = Locale.getDefault().toString();
-		mUserAttributes.put("device_locale", deviceLocale);
+		userAttributes.put("device_locale", deviceLocale);
 
 		String countryCode = PointOfSale.getPointOfSale().getTwoLetterCountryCode();
-		mUserAttributes.put("country_code", countryCode);
+		userAttributes.put("country_code", countryCode);
 
-		String deviceType = ExpediaBookingApp.useTabletInterface(mContext) ? "Tablet" : "Phone";
-		mUserAttributes.put("device_type", deviceType);
+		String deviceType = ExpediaBookingApp.useTabletInterface(context) ? "Tablet" : "Phone";
+		userAttributes.put("device_type", deviceType);
 
-		String appVersion = AndroidUtils.getAppVersion(mContext);
-		mUserAttributes.put("app_short_version", appVersion);
+		String appVersion = AndroidUtils.getAppVersion(context);
+		userAttributes.put("app_short_version", appVersion);
 
 		String osVersion = Build.VERSION.RELEASE;
-		mUserAttributes.put("os_version", osVersion);
+		userAttributes.put("os_version", osVersion);
 
 		updateLoggedInStatus();
 
@@ -71,60 +69,62 @@ public class KahunaUtils {
 
 		KahunaAnalytics.enablePush();
 
-		KahunaAnalytics.setUserAttributes(mUserAttributes);
+		KahunaAnalytics.setUserAttributes(userAttributes);
 	}
 
 	public static void startKahunaTracking() {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+		if (initialized) {
 			KahunaAnalytics.start();
 		}
 	}
 
 	public static void stopKahunaTracking() {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+		if (initialized) {
 			KahunaAnalytics.stop();
 		}
 	}
 
 	public static void updatePOS() {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
-			mUserAttributes.put("point_of_sale", getPointOfSale());
-			mUserAttributes.put("country_code", PointOfSale.getPointOfSale().getTwoLetterCountryCode());
+		if (initialized) {
+			userAttributes.put("point_of_sale", getPointOfSale());
+			userAttributes.put("country_code", PointOfSale.getPointOfSale().getTwoLetterCountryCode());
 
 			String deviceLocale = Locale.getDefault().toString();
-			mUserAttributes.put("device_locale", deviceLocale);
+			userAttributes.put("device_locale", deviceLocale);
 
-			KahunaAnalytics.setUserAttributes(mUserAttributes);
+			KahunaAnalytics.setUserAttributes(userAttributes);
 		}
 	}
 
 	public static void updateLoggedInStatus() {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
-			boolean isUserLoggedIn = User.isLoggedIn(mContext);
-			mUserAttributes.put("logged_in", Boolean.toString(isUserLoggedIn));
+		if (initialized) {
+			boolean isUserLoggedIn = User.isLoggedIn(context);
+			userAttributes.put("logged_in", Boolean.toString(isUserLoggedIn));
 
 			if (isUserLoggedIn) {
 
 				if (Db.getUser() == null) {
-					Db.loadUser(mContext);
+					Db.loadUser(context);
 				}
 
 				if (Db.getUser().getPrimaryTraveler() != null) {
 					KahunaAnalytics.setUserCredential("username", Db.getUser().getExpediaUserId());
-					mUserAttributes.put("first_name", Db.getUser().getPrimaryTraveler().getFirstName());
+					userAttributes.put("first_name",
+						Db.getUser().getPrimaryTraveler().getFirstName());
 				}
 
-				mUserAttributes.put("rewards_member", User.getLoggedInLoyaltyMembershipTier(mContext).toString());
-				mUserAttributes.put("exp_user_id", Db.getUser().getExpediaUserId());
-				mUserAttributes.put("tuid", Db.getUser().getTuidString());
+				userAttributes.put("rewards_member",
+					User.getLoggedInLoyaltyMembershipTier(context).toString());
+				userAttributes.put("exp_user_id", Db.getUser().getExpediaUserId());
+				userAttributes.put("tuid", Db.getUser().getTuidString());
 
 			}
-			KahunaAnalytics.setUserAttributes(mUserAttributes);
+			KahunaAnalytics.setUserAttributes(userAttributes);
 		}
 	}
 
 	public static void tracking(String eventName) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+		if (initialized) {
 			KahunaAnalytics.trackEvent(eventName);
 			if (eventName.equalsIgnoreCase("Login")) {
 				updateLoggedInStatus();
@@ -136,9 +136,9 @@ public class KahunaUtils {
 	}
 
 	public static void trackSignOutUser() {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
-			mUserAttributes.put("logged_in", "false");
-			KahunaAnalytics.setUserAttributes(mUserAttributes);
+		if (initialized) {
+			userAttributes.put("logged_in", "false");
+			KahunaAnalytics.setUserAttributes(userAttributes);
 			KahunaAnalytics.logout();
 		}
 	}
@@ -152,7 +152,7 @@ public class KahunaUtils {
 	}
 
 	public static void trackHotelSearch() {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+		if (initialized) {
 			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 			String eventName = "hotel_search";
 			tracking(eventName);
@@ -182,7 +182,7 @@ public class KahunaUtils {
 	}
 
 	public static void trackFlightSearch() {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+		if (initialized) {
 			String eventName = "flight_search";
 			tracking(eventName);
 			Log.i("kahuna flight search");
@@ -204,7 +204,7 @@ public class KahunaUtils {
 	}
 
 	public static void trackHotelInfoSite() {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+		if (initialized) {
 			String eventName = "hotel_info_site";
 			tracking(eventName);
 			Log.i("kahuna hotel info site");
@@ -228,7 +228,7 @@ public class KahunaUtils {
 
 	public static void trackHotelCheckoutStarted(HotelSearchParams params, Property property, String currency,
 		double totalPrice) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+		if (initialized) {
 			String eventName = "hotel_checkout";
 			tracking(eventName);
 
@@ -256,7 +256,7 @@ public class KahunaUtils {
 	}
 
 	public static void trackFlightCheckoutStarted(FlightSearch search, String currency, double totalPrice) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+		if (initialized) {
 			String eventName = "flight_checkout";
 			tracking(eventName);
 
@@ -281,7 +281,7 @@ public class KahunaUtils {
 
 	public static void trackHotelBooked(HotelSearchParams params, Property property, String orderNumber,
 		String currency, double totalPrice, double avgPrice) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+		if (initialized) {
 			String eventName = "hotel_confirmation";
 			tracking(eventName);
 
@@ -312,7 +312,7 @@ public class KahunaUtils {
 	}
 
 	public static void trackFlightBooked(FlightSearch search, String orderId, String currency, double totalPrice) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+		if (initialized) {
 			String eventName = "flight_confirmation";
 			tracking(eventName);
 
@@ -338,7 +338,7 @@ public class KahunaUtils {
 	}
 
 	public static void trackCarSearch(CarSearchParams params) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+		if (initialized) {
 			String eventName = "car_search";
 			tracking(eventName);
 
@@ -351,7 +351,7 @@ public class KahunaUtils {
 	}
 
 	public static void trackCarCheckoutStarted(CreateTripCarOffer carOffer) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+		if (initialized) {
 			String eventName = "car_checkout";
 			tracking(eventName);
 
@@ -366,7 +366,7 @@ public class KahunaUtils {
 	}
 
 	public static void trackCarBooked(CarCheckoutResponse carCheckoutResponse) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+		if (initialized) {
 			String eventName = "car_confirmation";
 			tracking(eventName);
 

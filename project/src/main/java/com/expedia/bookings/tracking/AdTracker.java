@@ -2,7 +2,6 @@ package com.expedia.bookings.tracking;
 
 import android.content.Context;
 
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelBookingResponse;
@@ -15,17 +14,11 @@ import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.lx.LXSearchParams;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.KahunaUtils;
 import com.expedia.bookings.utils.LeanPlumUtils;
 import com.mobiata.android.Log;
 
 public class AdTracker {
-
-	public static void initialize(Context context) {
-		boolean adxEnabled = !ExpediaBookingApp.isAutomation() && ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled();
-		AdX.initialize(context, adxEnabled);
-	}
 
 	public static void trackFirstLaunch() {
 		// Other

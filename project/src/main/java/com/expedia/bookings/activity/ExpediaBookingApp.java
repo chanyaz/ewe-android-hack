@@ -44,6 +44,7 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
@@ -89,14 +90,19 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	// Debug / test settings
 
-	private static boolean sIsAutomation = false;
+	private static boolean sIsRobolectric = false;
+	private static boolean sIsInstrumentation = false;
 
 	public static boolean isAutomation() {
-		return sIsAutomation;
+		return sIsRobolectric || sIsInstrumentation;
 	}
 
-	public static void setAutomation(boolean isAutomation) {
-		sIsAutomation = isAutomation;
+	public static void setIsInstrumentation(boolean isInstrumentation) {
+		sIsInstrumentation = isInstrumentation;
+	}
+
+	public static void setIsRobolectric(boolean isRobolectric) {
+		sIsRobolectric = isRobolectric;
 	}
 
 	@Override
@@ -105,7 +111,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		super.onCreate();
 		startupTimer.addSplit("super.onCreate()");
 
-		if (!isRobolectric() && !isAutomation()) {
+		if (!isAutomation()) {
 			Fabric.with(this, new Crashlytics());
 			startupTimer.addSplit("Crashlytics started.");
 
@@ -166,7 +172,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		// Init required for Omniture tracking
 		OmnitureTracking.init(this);
-		if (!isRobolectric() && !isAutomation()) {
+		if (!isAutomation()) {
 			// Setup Omniture for tracking crashes
 			mOriginalUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 			Thread.setDefaultUncaughtExceptionHandler(this);
@@ -193,9 +199,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		FontCache.initialize(this);
 		startupTimer.addSplit("FontCache Init");
 
-		AdTracker.initialize(this);
-		startupTimer.addSplit("AdTracker Init");
-
 		ItineraryManager.getInstance().init(this);
 		// Load data from Disk
 		ItineraryManager.getInstance().startSync(false, true, false);
@@ -215,20 +218,27 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
-			LeanPlumUtils.init(this);
-			startupTimer.addSplit("LeanPlum started.");
-		}
+		if (!isAutomation()) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled()) {
+				AdX.initialize(this);
+				startupTimer.addSplit("AdX started.");
+			}
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
-			KahunaUtils.init(this);
-			registerActivityLifecycleCallbacks(new ExpediaActivityLifeCycleCallBack());
-			startupTimer.addSplit("Kahuna started.");
-		}
+			if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+				LeanPlumUtils.init(this);
+				startupTimer.addSplit("LeanPlum started.");
+			}
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled() && !ExpediaBookingApp.isAutomation()) {
-			TuneUtils.init(this);
-			startupTimer.addSplit("Tune started.");
+			if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
+				KahunaUtils.init(this);
+				registerActivityLifecycleCallbacks(new ExpediaActivityLifeCycleCallBack());
+				startupTimer.addSplit("Kahuna started.");
+			}
+
+			if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled()) {
+				TuneUtils.init(this);
+				startupTimer.addSplit("Tune started.");
+			}
 		}
 
 		// 2249: We were not sending push registrations to the prod push server
@@ -479,16 +489,12 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onIDFALoaded(String idfa) {
-
+		// ignore
 	}
 
 	@Override
 	public void onIDFAFailed() {
 		// ignore
-	}
-
-	public boolean isRobolectric() {
-		return false;
 	}
 
 	private Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
