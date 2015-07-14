@@ -161,15 +161,14 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 				mContext.getString(R.string.car_bags_text)));
 			doors.setText(
 				mContext.getString(R.string.car_details_TEMPLATE,
-					vehicleInfo.minDoors != vehicleInfo.maxDoors ? mContext
+					vehicleInfo.minDoors != vehicleInfo.maxDoors && vehicleInfo.minDoors > 0 ? mContext
 						.getString(R.string.car_door_range_TEMPLATE, vehicleInfo.minDoors, vehicleInfo.maxDoors)
-						: String.valueOf(vehicleInfo.maxDoors),
-					mContext.getString(R.string.car_doors_text)));
+						: String.valueOf(vehicleInfo.maxDoors), mContext.getString(R.string.car_doors_text)));
 			transmission.setText(CarDataUtils.getStringForTransmission(mContext, vehicleInfo.transmission));
 
 			if (offer.fare.rateTerm.equals(RateTerm.UNKNOWN)) {
 				ratePrice.setText("");
-				ratePrice.setVisibility(View.GONE);
+ 				ratePrice.setVisibility(View.GONE);
 			}
 			else {
 				ratePrice.setText(
