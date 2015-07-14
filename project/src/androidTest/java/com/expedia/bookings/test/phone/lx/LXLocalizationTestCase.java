@@ -5,8 +5,8 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.LXBaseActivity;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.expedia.ui.LXBaseActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

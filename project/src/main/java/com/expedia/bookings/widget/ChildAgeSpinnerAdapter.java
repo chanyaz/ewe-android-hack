@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -16,46 +14,27 @@ import com.expedia.bookings.utils.StrUtils;
 
 
 public class ChildAgeSpinnerAdapter extends BaseAdapter {
-	protected LayoutInflater mInflater;
-	protected Resources mResources;
-
-	public ChildAgeSpinnerAdapter(Context context) {
-		mInflater = LayoutInflater.from(context);
-		mResources = context.getResources();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = createViewFromResource(position, convertView, parent, R.layout.child_spinner_item);
 		TextView textView = (TextView) v;
-		Drawable icon = mResources.getDrawable(R.drawable.traveler).mutate();
-		icon.setColorFilter(mResources.getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		Drawable icon = parent.getContext().getDrawable(R.drawable.traveler).mutate();
+		icon.setColorFilter(parent.getContext().getResources().getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
 		textView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null);
 		return v;
 	}
 
 	protected View createViewFromResource(int position, View convertView, ViewGroup parent, int resource) {
-		View view;
-
 		if (convertView == null) {
-			view = mInflater.inflate(resource, parent, false);
-		}
-		else {
-			view = convertView;
+			convertView = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
 		}
 
-		TextView text = (TextView) view;
-		text.setText(StrUtils.getChildTravelerAgeText(mResources, position));// converts to Html, then strips out so no loc changes
+		TextView text = (TextView) convertView;
+		text.setText(StrUtils.getChildTravelerAgeText(parent.getContext().getResources(), position));
 
-		return view;
+		return convertView;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
 		return createViewFromResource(position, convertView, parent, android.R.layout.simple_spinner_dropdown_item);
@@ -68,7 +47,7 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
-		return Integer.valueOf(position + GuestsPickerUtils.MIN_CHILD_AGE);
+		return position + GuestsPickerUtils.MIN_CHILD_AGE;
 	}
 
 	@Override

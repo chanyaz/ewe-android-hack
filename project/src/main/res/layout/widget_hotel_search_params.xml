@@ -110,7 +110,7 @@
             android:layout_height="8dp"
             android:background="@drawable/revers_drop_shadow" />
 
-        <com.expedia.bookings.widget.TravelerPicker
+        <com.expedia.bookings.widget.HotelTravelerPickerView
             android:id="@+id/traveler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"

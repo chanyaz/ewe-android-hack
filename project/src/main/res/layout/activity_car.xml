@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.presenter.CarPresenter xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.presenter.car.CarPresenter xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/car_presenter"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.expedia.bookings.presenter.CarCheckoutPresenter
+    <com.expedia.bookings.presenter.car.CarCheckoutPresenter
         android:id="@+id/car_checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,4 +31,4 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-</com.expedia.bookings.presenter.CarPresenter>
+</com.expedia.bookings.presenter.car.CarPresenter>

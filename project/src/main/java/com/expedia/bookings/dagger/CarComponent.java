@@ -1,8 +1,8 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.CarScope;
-import com.expedia.bookings.presenter.CarCheckoutPresenter;
-import com.expedia.bookings.presenter.CarResultsPresenter;
+import com.expedia.bookings.presenter.car.CarCheckoutPresenter;
+import com.expedia.bookings.presenter.car.CarResultsPresenter;
 import com.expedia.bookings.widget.CarCheckoutWidget;
 import com.expedia.bookings.widget.CarSuggestionAdapter;
 import dagger.Component;

@@ -1,4 +1,4 @@
-package com.expedia.bookings.activity;
+package com.expedia.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.presenter.CarPresenter;
+import com.expedia.bookings.presenter.car.CarPresenter;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
