@@ -14,7 +14,7 @@ import com.expedia.bookings.test.espresso.PhoneTestCase;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 
-public class CarPhoneHappyPath extends PhoneTestCase {
+public class CarPhoneHappyPathTest extends PhoneTestCase {
 
 	private final static String CATEGORY = "Standard";
 	private final static int CREDIT_CARD_NOT_REQUIRED = 0;

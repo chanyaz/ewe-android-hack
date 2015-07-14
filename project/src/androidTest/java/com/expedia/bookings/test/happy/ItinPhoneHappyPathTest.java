@@ -17,7 +17,7 @@ import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTex
 import static com.expedia.bookings.test.espresso.EspressoUtils.getListItemValues;
 import static org.hamcrest.Matchers.containsString;
 
-public class ItinPhoneHappyPath extends PhoneTestCase {
+public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testViewItineraries() throws Throwable {
 		screenshot("Launch");

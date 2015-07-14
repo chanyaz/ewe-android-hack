@@ -25,7 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 
-public class LxPhoneHappyPath extends PhoneTestCase {
+public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	private LxIdlingResource mLxIdlingResource;
 

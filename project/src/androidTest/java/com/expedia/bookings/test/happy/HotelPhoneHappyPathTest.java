@@ -14,7 +14,7 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScre
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 
-public class HotelPhoneHappyPath extends PhoneTestCase {
+public class HotelPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testBookHotel() throws Throwable {
 		screenshot("Launch");
