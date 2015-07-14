@@ -15,6 +15,7 @@ import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsTravelerInfoScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsTravelerPicker;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
@@ -30,7 +31,7 @@ public class FlightTravelerErrorHandling extends PhoneTestCase {
  	* #512 eb_tp test plan
  	*/
 
-	public void testTravelerAge() throws Throwable {
+	public void testAdultTravelerAge() throws Throwable {
 		LaunchScreen.launchFlights();
 		FlightsSearchScreen.enterDepartureAirport("LAX");
 		FlightsSearchScreen.enterArrivalAirport("SFO");
@@ -119,6 +120,120 @@ public class FlightTravelerErrorHandling extends PhoneTestCase {
 			CommonTravelerInformationScreen.clickDoneString();
 		}
 
+		completeCheckout();
+	}
+
+	public void testInfantTravelerAge() throws Throwable {
+		LaunchScreen.launchFlights();
+		FlightsSearchScreen.enterDepartureAirport("LAX");
+		FlightsSearchScreen.enterArrivalAirport("SFO");
+		FlightsSearchScreen.clickSelectDepartureButton();
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		FlightsSearchScreen.clickDate(startDate, null);
+		FlightsSearchScreen.clickPassengerSelectionButton();
+		FlightsSearchScreen.incrementChildrenButton();
+		FlightsTravelerPicker.selectChildAge(getActivity(), 1, 0);
+
+		FlightsSearchScreen.clickSearchButton();
+		FlightsSearchResultsScreen.clickListItem(4);
+		FlightLegScreen.clickSelectFlightButton();
+		CommonCheckoutScreen.clickCheckoutButton();
+
+		/*
+		 Test case 1: Enter incorrect DOB for adult traveler
+		 and verify the error dialog
+		 */
+
+		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
+		FlightsTravelerInfoScreen.enterFirstName("Mobiata");
+		FlightsTravelerInfoScreen.enterLastName("Auto");
+		FlightsTravelerInfoScreen.enterPhoneNumber("1112223333");
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.phoneNumberEditText());
+		FlightsTravelerInfoScreen.clickBirthDateButton();
+
+		//incorrect dob
+		onView(withParent(withId(android.R.id.custom))).perform(setDate(2014, 10, 11));
+		try {
+			FlightsTravelerInfoScreen.clickSetButton();
+		}
+		catch (Exception e) {
+			CommonTravelerInformationScreen.clickDoneString();
+		}
+		BillingAddressScreen.clickNextButton();
+
+		screenshot("Adult_Traveler_Age_Error");
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.invalid_birthdate_message));
+		SettingsScreen.clickOkString();
+
+		//enter the correct date of birth and complete the checkout
+		FlightsTravelerInfoScreen.clickBirthDateButton();
+		onView(withParent(withId(android.R.id.custom))).perform(setDate(1990, 10, 11));
+		try {
+			FlightsTravelerInfoScreen.clickSetButton();
+		}
+		catch (Exception e) {
+			CommonTravelerInformationScreen.clickDoneString();
+		}
+
+		BillingAddressScreen.clickNextButton();
+		FlightsTravelerInfoScreen.clickDoneButton();
+		Common.pressBack();
+		CommonCheckoutScreen.clickCheckoutButton();
+
+		/*
+		 Test case 2: Enter incorrect DOB for infant traveler
+		 and verify the error dialog
+		 */
+
+		CommonCheckoutScreen.clickTravelerDetails();
+		FlightsTravelerInfoScreen.enterFirstName("Infant");
+		FlightsTravelerInfoScreen.enterLastName("Auto");
+		FlightsTravelerInfoScreen.clickBirthDateButton();
+
+		//incorrect dob - enter adult age for an infant
+		onView(withParent(withId(android.R.id.custom))).perform(setDate(1990, 10, 11));
+		try {
+			FlightsTravelerInfoScreen.clickSetButton();
+		}
+		catch (Exception e) {
+			CommonTravelerInformationScreen.clickDoneString();
+		}
+
+		BillingAddressScreen.clickNextButton();
+
+		screenshot("Infant_Traveler_Age_Error");
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.invalid_birthdate_message));
+		SettingsScreen.clickOkString();
+
+		//incorrect dob - enter child age for an infant
+		FlightsTravelerInfoScreen.clickBirthDateButton();
+		onView(withParent(withId(android.R.id.custom))).perform(setDate(2010, 10, 11));
+		try {
+			FlightsTravelerInfoScreen.clickSetButton();
+		}
+		catch (Exception e) {
+			CommonTravelerInformationScreen.clickDoneString();
+		}
+		BillingAddressScreen.clickNextButton();
+
+		screenshot("Infant1_Traveler_Age_Error");
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.invalid_birthdate_message));
+		SettingsScreen.clickOkString();
+
+		//enter the correct date of birth and complete the checkout
+		FlightsTravelerInfoScreen.clickBirthDateButton();
+		onView(withParent(withId(android.R.id.custom))).perform(setDate(2015, 06, 11));
+		try {
+			FlightsTravelerInfoScreen.clickSetButton();
+		}
+		catch (Exception e) {
+			CommonTravelerInformationScreen.clickDoneString();
+		}
+
+		completeCheckout();
+	}
+
+	private void completeCheckout() {
 		BillingAddressScreen.clickNextButton();
 		FlightsTravelerInfoScreen.clickDoneButton();
 
@@ -145,4 +260,5 @@ public class FlightTravelerErrorHandling extends PhoneTestCase {
 		CVVEntryScreen.clickBookButton();
 		ConfirmationScreen.clickDoneButton();
 	}
+
 }
