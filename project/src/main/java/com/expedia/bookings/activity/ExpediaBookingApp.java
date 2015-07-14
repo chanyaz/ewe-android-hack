@@ -50,7 +50,6 @@ import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.KahunaUtils;
 import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
@@ -234,12 +233,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			if (ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled()) {
 				AdX.initialize(this);
 				startupTimer.addSplit("AdX started.");
-			}
-
-			if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
-				KahunaUtils.init(this);
-				registerActivityLifecycleCallbacks(new ExpediaActivityLifeCycleCallBack());
-				startupTimer.addSplit("Kahuna started.");
 			}
 
 			if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled()) {
