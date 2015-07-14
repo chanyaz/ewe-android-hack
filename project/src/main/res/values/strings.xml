@@ -885,8 +885,6 @@
     <!-- User Denied email permission re-request message -->
     <string name="user_denied_permission_email_message_TEMPLATE">To sign in with Facebook, we require permission to verify your email address. \n\nPlease tap the Facebook button below to grant {brand} permission to verify your email address. Thank you!</string>
 
-    <!-- Sign In -->
-    <string name="Sign_In">Sign In</string>
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Sign in with {brand}</string>
     <!-- or -->

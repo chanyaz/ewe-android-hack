@@ -21,6 +21,7 @@ import com.expedia.account.Config;
 import com.expedia.account.PanningImageView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -176,8 +177,9 @@ public class AccountLibActivity extends AppCompatActivity
 		if (!ExpediaBookingApp.useTabletInterface(this)) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
-
+		overridePendingTransition(R.anim.expand, R.anim.unexpand);
 		setContentView(R.layout.account_lib_activity);
+		Ui.showTransparentStatusBar(this);
 		ButterKnife.inject(this);
 
 		Intent intent = getIntent();
@@ -195,6 +197,8 @@ public class AccountLibActivity extends AppCompatActivity
 		accountView.setPadding(accountView.getPaddingLeft(), statusBarHeight, accountView.getPaddingRight(), accountView.getPaddingBottom());
 		facebookEmailDeniedContainer.setPadding(facebookEmailDeniedContainer.getPaddingLeft(), statusBarHeight, facebookEmailDeniedContainer.getPaddingRight(), facebookEmailDeniedContainer.getPaddingBottom());
 		faceBookLinkContainer.setPadding(faceBookLinkContainer.getPaddingLeft(), statusBarHeight, faceBookLinkContainer.getPaddingRight(), faceBookLinkContainer.getPaddingBottom());
+
+		new PicassoHelper.Builder(background).build().load(R.drawable.bg_mtfuji_crop);
 
 		accountView.configure(Config.build()
 				.setEndpoint(Ui.getApplication(this).appComponent().okHttpClient(), Ui.getApplication(this).appComponent().endpointProvider().getE3EndpointUrl())

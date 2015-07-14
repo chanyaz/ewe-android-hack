@@ -8,8 +8,7 @@
         android:id="@+id/parallax_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_mtfuji_crop" />
+        android:scaleType="centerCrop" />
 
     <com.expedia.account.AccountView
         android:id="@+id/account_view"
