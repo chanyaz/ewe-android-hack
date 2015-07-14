@@ -166,11 +166,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	@Override
 	protected void onPause() {
 		super.onPause();
-
-		if (isFinishing() && mLaunchFragment != null) {
-			mLaunchFragment.cleanUp();
-		}
-
 		OmnitureTracking.onPause();
 	}
 
@@ -182,6 +177,11 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 
 	@Override
 	public void onBackPressed() {
+		if(mLaunchFragment != null && mLaunchFragment.onBackPressed())
+		{
+			return;
+		}
+
 		if (mViewPager.getCurrentItem() == PAGER_POS_ITIN) {
 			if (mItinListFragment != null && mItinListFragment.isInDetailMode()) {
 				mItinListFragment.hideDetails();
@@ -214,12 +214,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		if (mLaunchFragment != null && requestCode == REQUEST_SETTINGS
-			&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
-			mLaunchFragment.reset();
-			Db.getHotelSearch().resetSearchData();
-		}
 	}
 
 	@Override
@@ -288,10 +282,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		case R.id.settings: {
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_SETTINGS);
-
-			if (mLaunchFragment != null && ((Fragment) mLaunchFragment).isAdded()) {
-				mLaunchFragment.cleanUp();
-			}
 			return true;
 		}
 		case R.id.about: {
@@ -364,10 +354,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		@Override
 		public void onPageScrollStateChanged(int state) {
 			super.onPageScrollStateChanged(state);
-			if (mLaunchFragment != null
-				&& (state == ViewPager.SCROLL_STATE_IDLE || state == ViewPager.SCROLL_STATE_SETTLING)) {
-				mLaunchFragment.startMarquee();
-			}
 		}
 
 		@Override
@@ -390,10 +376,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 
 			if (mItinListFragment != null && mItinListFragment.isInDetailMode()) {
 				mItinListFragment.hideDetails();
-			}
-
-			if (mLaunchFragment != null) {
-				mLaunchFragment.startMarquee();
 			}
 
 			if (mHasMenu) {

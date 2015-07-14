@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
+import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.location.CurrentLocationObservable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -80,9 +82,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			if (isOffline != wasOffline) {
 				Log.i("Connectivity changed from " + wasOffline + " to " + isOffline);
 			}
-			if (isOffline) {
-				cleanUp();
-			}
 		}
 	};
 
@@ -121,27 +120,24 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		});
 	}
 
-	// Listeners
-
-	@Override
-	public void startMarquee() {
-		// ignore
-	}
-
-	@Override
-	public void cleanUp() {
-		// ignore
-	}
-
-	@Override
-	public void reset() {
-		// ignore
-	}
-
 	// Hotel search in collection location
 	@Subscribe
 	public void onCollectionLocationSelected(Events.LaunchCollectionItemSelected event) {
 		collectionDetailsView.setVisibility(View.VISIBLE);
 	}
 
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((IPhoneLaunchFragmentListener) activity).onLaunchFragmentAttached(this);
+	}
+
+	@Override
+	public boolean onBackPressed() {
+		if (collectionDetailsView.getVisibility() == View.VISIBLE) {
+			collectionDetailsView.setVisibility(View.GONE);
+			return true;
+		}
+		return false;
+	}
 }
