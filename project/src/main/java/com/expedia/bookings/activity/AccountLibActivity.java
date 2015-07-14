@@ -28,6 +28,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.utils.Ui;
@@ -192,6 +193,7 @@ public class AccountLibActivity extends AppCompatActivity
 		if (User.isLoggedIn(this) && loginExtender != null) {
 			loginExtenderContainer.setVisibility(View.VISIBLE);
 			loginExtender.onLoginComplete(this, this, loginExtenderContainer);
+			AdTracker.trackLogin();
 		}
 		else {
 			finish();
