@@ -34,7 +34,6 @@ public class LXState {
 
 	@Subscribe
 	public void onShowActivityDetails(Events.LXShowDetails event) {
-		activity.detailsCategory = event.activityDetails.category;
 		activity.destination = event.activityDetails.destination;
 		activity.location = event.activityDetails.location;
 		activity.regionId = event.activityDetails.regionId;

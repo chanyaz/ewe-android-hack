@@ -296,4 +296,12 @@ public class LXDataUtils {
 		}
 		return searchParams;
 	}
+
+	public static boolean isActivityGT(List<String> activityCategories) {
+		if (CollectionUtils.isNotEmpty(activityCategories)) {
+			return activityCategories.contains("Private Transfers") || activityCategories.contains("Shared Transfers");
+		}
+
+		return false;
+	}
 }

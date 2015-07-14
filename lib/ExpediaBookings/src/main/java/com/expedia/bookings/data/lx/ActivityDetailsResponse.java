@@ -25,5 +25,4 @@ public class ActivityDetailsResponse {
 	public String passengers;
 	public String bags;
 	public String destination;
-	public String category;
 }
