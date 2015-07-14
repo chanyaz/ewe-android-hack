@@ -271,6 +271,14 @@
             android:summary="Select a test group"
             android:title="Payment collapse Google Wallet" />
 
+        <ListPreference
+            android:entries="@array/abacus_flight_missing_callout_choices"
+            android:entryValues="@array/abacus_flight_missing_callout_values"
+            android:defaultValue="-1"
+            android:key="8128"
+            android:summary="Select a test group"
+            android:title="Flight Checkout Missing Traveler details Callout" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >

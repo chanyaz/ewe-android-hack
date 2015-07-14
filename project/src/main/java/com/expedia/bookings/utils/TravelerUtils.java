@@ -11,6 +11,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.enums.PassengerCategory;
 
 public class TravelerUtils {
@@ -25,7 +26,7 @@ public class TravelerUtils {
 			int numChildrenAdded = 0, numChildren = 0;
 			int numInfantsInSeat = 0, numInfantsSeat = 0;
 			int numInfantsInLap = 0, numInfantsLap = 0;
-			int sectionLabelId;
+			int sectionLabelId = 0;
 			int displayNumber = 0;
 
 			// This the only way to get count of each passenger category, before we can accordingly assign labels numbered or not.
@@ -52,6 +53,9 @@ public class TravelerUtils {
 				}
 			}
 
+			boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+			int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+
 			for (int index = 0; index < travelers.size(); index++) {
 				Traveler traveler = travelers.get(index);
 				PassengerCategory travelerPassengerCategory = traveler.getPassengerCategory();
@@ -60,39 +64,95 @@ public class TravelerUtils {
 				case ADULT:
 				case SENIOR:
 					if (numAdults > 1) {
-						sectionLabelId = R.string.add_adult_number_TEMPLATE;
+						if (!isUserBucketedForTest) {
+							sectionLabelId = R.string.add_adult_number_TEMPLATE;
+						}
+						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
+							sectionLabelId = R.string.add_adult_number_variate1_TEMPLATE;
+						}
+						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
+							sectionLabelId = R.string.add_adult_number_variate2_TEMPLATE;
+						}
 						displayNumber = ++numAdultsAdded;
 						useTemplate = true;
 					}
 					else {
-						sectionLabelId = R.string.add_adult;
+						if (!isUserBucketedForTest) {
+							sectionLabelId = R.string.add_adult;
+						}
+						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
+							sectionLabelId = R.string.add_adult_variate1;
+						}
+						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
+							sectionLabelId = R.string.add_adult_variate2;
+						}
 					}
 					break;
 				case CHILD:
 				case ADULT_CHILD:
-					sectionLabelId = R.string.add_child_with_age_TEMPLATE;
+					if (!isUserBucketedForTest) {
+						sectionLabelId = R.string.add_child_with_age_TEMPLATE;
+					}
+					else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
+						sectionLabelId = R.string.add_child_with_age_variate1_TEMPLATE;
+					}
+					else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
+						sectionLabelId = R.string.add_child_with_age_variate2_TEMPLATE;
+					}
 					displayNumber = traveler.getSearchedAge();
 					++numChildrenAdded;
 					useTemplate = true;
 					break;
 				case INFANT_IN_LAP:
 					if (numInfantsLap > 1) {
-						sectionLabelId = R.string.add_infant_in_lap_number_TEMPLATE;
+						if (!isUserBucketedForTest) {
+							sectionLabelId = R.string.add_infant_in_lap_number_TEMPLATE;
+						}
+						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
+							sectionLabelId = R.string.add_infant_in_lap_number_variate1_TEMPLATE;
+						}
+						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
+							sectionLabelId = R.string.add_infant_in_lap_number_variate2_TEMPLATE;
+						}
 						displayNumber = ++numInfantsInLap;
 						useTemplate = true;
 					}
 					else {
-						sectionLabelId = R.string.add_infant_in_lap;
+						if (!isUserBucketedForTest) {
+							sectionLabelId = R.string.add_infant_in_lap;
+						}
+						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
+							sectionLabelId = R.string.add_infant_in_lap_variate1;
+						}
+						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
+							sectionLabelId = R.string.add_infant_in_lap_variate2;
+						}
 					}
 					break;
 				case INFANT_IN_SEAT:
 					if (numInfantsSeat > 1) {
-						sectionLabelId = R.string.add_infant_in_seat_number_TEMPLATE;
+						if (!isUserBucketedForTest) {
+							sectionLabelId = R.string.add_infant_in_seat_number_TEMPLATE;
+						}
+						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
+							sectionLabelId = R.string.add_infant_in_seat_number_variate1_TEMPLATE;
+						}
+						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
+							sectionLabelId = R.string.add_infant_in_seat_number_variate2_TEMPLATE;
+						}
 						displayNumber = ++numInfantsInSeat;
 						useTemplate = true;
 					}
 					else {
-						sectionLabelId = R.string.add_infant_in_seat;
+						if (!isUserBucketedForTest) {
+							sectionLabelId = R.string.add_infant_in_seat;
+						}
+						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
+							sectionLabelId = R.string.add_infant_in_seat_variate1;
+						}
+						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
+							sectionLabelId = R.string.add_infant_in_seat_variate2;
+						}
 					}
 					break;
 				default:
@@ -141,6 +201,7 @@ public class TravelerUtils {
 	/**
 	 * If the current traveler is replaced by another traveler from the list, let's reset {@link Traveler#isSelectable()} state.
 	 * We need to do this so that the traveler available to be selected again.
+	 *
 	 * @param traveler
 	 */
 	public static void resetPreviousTravelerSelectState(Traveler traveler) {
