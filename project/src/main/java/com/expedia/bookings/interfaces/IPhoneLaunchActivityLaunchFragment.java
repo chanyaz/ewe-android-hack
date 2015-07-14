@@ -7,9 +7,11 @@ package com.expedia.bookings.interfaces;
  * instance that implements this interface.
  */
 public interface IPhoneLaunchActivityLaunchFragment {
-	void startMarquee();
 
-	void cleanUp();
-
-	void reset();
+	/**
+	 * Called when back is pressed on activity
+	 * @return
+	 * true: if event is handled
+	 */
+	boolean onBackPressed();
 }

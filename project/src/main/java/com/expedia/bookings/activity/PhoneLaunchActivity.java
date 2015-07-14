@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -76,6 +75,10 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	private boolean mHasMenu = false;
 
 	private String mJumpToItinId = null;
+
+	public PhoneLaunchToolbar getToolbar() {
+		return mToolbar;
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Static Methods
@@ -166,11 +169,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	@Override
 	protected void onPause() {
 		super.onPause();
-
-		if (isFinishing() && mLaunchFragment != null) {
-			mLaunchFragment.cleanUp();
-		}
-
 		OmnitureTracking.onPause();
 	}
 
@@ -182,6 +180,10 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 
 	@Override
 	public void onBackPressed() {
+		if (mLaunchFragment != null && mLaunchFragment.onBackPressed()) {
+			return;
+		}
+
 		if (mViewPager.getCurrentItem() == PAGER_POS_ITIN) {
 			if (mItinListFragment != null && mItinListFragment.isInDetailMode()) {
 				mItinListFragment.hideDetails();
@@ -214,12 +216,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		if (mLaunchFragment != null && requestCode == REQUEST_SETTINGS
-			&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
-			mLaunchFragment.reset();
-			Db.getHotelSearch().resetSearchData();
-		}
 	}
 
 	@Override
@@ -288,10 +284,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		case R.id.settings: {
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_SETTINGS);
-
-			if (mLaunchFragment != null && ((Fragment) mLaunchFragment).isAdded()) {
-				mLaunchFragment.cleanUp();
-			}
 			return true;
 		}
 		case R.id.about: {
@@ -364,10 +356,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		@Override
 		public void onPageScrollStateChanged(int state) {
 			super.onPageScrollStateChanged(state);
-			if (mLaunchFragment != null
-				&& (state == ViewPager.SCROLL_STATE_IDLE || state == ViewPager.SCROLL_STATE_SETTLING)) {
-				mLaunchFragment.startMarquee();
-			}
 		}
 
 		@Override
@@ -384,16 +372,15 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	};
 
 	private synchronized void gotoWaterfall() {
+		if (mLaunchFragment != null && mLaunchFragment.onBackPressed()) {
+			return;
+		}
 		if (mPagerPosition != PAGER_POS_WATERFALL) {
 			mPagerPosition = PAGER_POS_WATERFALL;
 			mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
 
 			if (mItinListFragment != null && mItinListFragment.isInDetailMode()) {
 				mItinListFragment.hideDetails();
-			}
-
-			if (mLaunchFragment != null) {
-				mLaunchFragment.startMarquee();
 			}
 
 			if (mHasMenu) {

@@ -1,20 +1,29 @@
 package com.expedia.bookings.fragment;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.activity.PhoneLaunchActivity;
+import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
+import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.location.CurrentLocationObservable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -80,9 +89,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			if (isOffline != wasOffline) {
 				Log.i("Connectivity changed from " + wasOffline + " to " + isOffline);
 			}
-			if (isOffline) {
-				cleanUp();
-			}
 		}
 	};
 
@@ -121,27 +127,47 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		});
 	}
 
-	// Listeners
-
 	@Override
-	public void startMarquee() {
-		// ignore
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((IPhoneLaunchFragmentListener) activity).onLaunchFragmentAttached(this);
 	}
 
 	@Override
-	public void cleanUp() {
-		// ignore
-	}
-
-	@Override
-	public void reset() {
-		// ignore
+	public boolean onBackPressed() {
+		if (collectionDetailsView.getVisibility() == View.VISIBLE) {
+			switchView(true);
+			return true;
+		}
+		return false;
 	}
 
 	// Hotel search in collection location
 	@Subscribe
 	public void onCollectionLocationSelected(Events.LaunchCollectionItemSelected event) {
-		collectionDetailsView.setVisibility(View.VISIBLE);
+		updateDetailsViewText(event.collectionLocation);
+		switchView(false);
 	}
 
+	private void switchView(boolean isCollectionClicked) {
+		ActionBar actionBar = ((PhoneLaunchActivity) getActivity()).getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(!isCollectionClicked);
+		actionBar.setHomeButtonEnabled(!isCollectionClicked);
+		actionBar.setBackgroundDrawable(new ColorDrawable(
+			isCollectionClicked ? getResources().getColor(R.color.cars_launch_actionbar_color) : Color.TRANSPARENT));
+
+		collectionDetailsView.setVisibility(isCollectionClicked ? View.GONE : View.VISIBLE);
+
+		Toolbar toolBar = ((PhoneLaunchActivity) getActivity()).getToolbar();
+		toolBar.findViewById(R.id.collection_layout).setVisibility(isCollectionClicked ? View.GONE : View.VISIBLE);
+		toolBar.findViewById(R.id.tab_layout).setVisibility(isCollectionClicked ? View.VISIBLE : View.GONE);
+	}
+
+	private void updateDetailsViewText(CollectionLocation collectionLocation) {
+		Toolbar toolBar = ((PhoneLaunchActivity) getActivity()).getToolbar();
+		((TextView) toolBar.findViewById(R.id.locationName)).setText(collectionLocation.title);
+		((TextView) toolBar.findViewById(R.id.locationCountryName)).setText(collectionLocation.subtitle);
+		(((TextView) collectionDetailsView.findViewById(R.id.collection_description)))
+			.setText(collectionLocation.description);
+	}
 }
