@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -76,6 +75,10 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	private boolean mHasMenu = false;
 
 	private String mJumpToItinId = null;
+
+	public PhoneLaunchToolbar getToolbar() {
+		return mToolbar;
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Static Methods
@@ -177,8 +180,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 
 	@Override
 	public void onBackPressed() {
-		if(mLaunchFragment != null && mLaunchFragment.onBackPressed())
-		{
+		if (mLaunchFragment != null && mLaunchFragment.onBackPressed()) {
 			return;
 		}
 
@@ -370,6 +372,9 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	};
 
 	private synchronized void gotoWaterfall() {
+		if (mLaunchFragment != null && mLaunchFragment.onBackPressed()) {
+			return;
+		}
 		if (mPagerPosition != PAGER_POS_WATERFALL) {
 			mPagerPosition = PAGER_POS_WATERFALL;
 			mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
