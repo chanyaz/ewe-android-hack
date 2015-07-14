@@ -34,7 +34,6 @@ import com.expedia.bookings.data.cars.CreateTripCarFare;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.leanplum.Leanplum;
@@ -46,50 +45,52 @@ import com.leanplum.callbacks.VariablesChangedCallback;
 import com.mobiata.android.Log;
 
 public class LeanPlumUtils {
-	public static Map<String, Object> mUserAtrributes = new HashMap<String, Object>();
-	public static Context mContext;
+	public static Map<String, Object> userAtrributes = new HashMap<String, Object>();
 	public static final String CAMPAIGN_TEXT_KEY = "campaignText";
 	public static final String DEFAULT_CAMPAIGN_TEXT = "leanplum.notification";
 	public static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ssZZ";
+	private static Context context;
+	private static boolean initialized = false;
 
 	public static void init(ExpediaBookingApp app) {
-		mContext = app.getApplicationContext();
+		initialized = true;
+		context = app.getApplicationContext();
 		if (BuildConfig.DEBUG) {
-			String appId = mContext.getString(R.string.lean_plum_sdk_dev_appid);
-			String key = mContext.getString(R.string.lean_plum_sdk_dev_key);
+			String appId = context.getString(R.string.lean_plum_sdk_dev_appid);
+			String key = context.getString(R.string.lean_plum_sdk_dev_key);
 			Leanplum.setAppIdForDevelopmentMode(appId, key);
 		}
 		else {
-			String appId = mContext.getString(R.string.lean_plum_sdk_prod_appid);
-			String key = mContext.getString(R.string.lean_plum_sdk_prod_key);
+			String appId = context.getString(R.string.lean_plum_sdk_prod_appid);
+			String key = context.getString(R.string.lean_plum_sdk_prod_key);
 			Leanplum.setAppIdForProductionMode(appId, key);
 		}
 		String localeIdentifier = PointOfSale.getPointOfSale().getLocaleIdentifier();
-		mUserAtrributes.put("PosLocale", localeIdentifier);
+		userAtrributes.put("PosLocale", localeIdentifier);
 
 		String deviceLocale = Locale.getDefault().toString();
-		mUserAtrributes.put("DeviceLocale", deviceLocale);
+		userAtrributes.put("DeviceLocale", deviceLocale);
 
 		String countryCode = PointOfSale.getPointOfSale().getTwoLetterCountryCode();
-		mUserAtrributes.put("CountryCode", countryCode);
+		userAtrributes.put("CountryCode", countryCode);
 
-		String deviceType = ExpediaBookingApp.useTabletInterface(mContext) ? "Tablet" : "Phone";
-		mUserAtrributes.put("DeviceType", deviceType);
+		String deviceType = ExpediaBookingApp.useTabletInterface(context) ? "Tablet" : "Phone";
+		userAtrributes.put("DeviceType", deviceType);
 
 		LeanplumPushService.setGcmSenderId(PushNotificationUtils.SENDER_ID);
 		LeanplumPushService.setCustomizer(new LeanplumPushNotificationCustomizer() {
 			@Override
 			public void customize(NotificationCompat.Builder builder, Bundle bundle) {
 				String campaignText = bundle.getString(CAMPAIGN_TEXT_KEY, DEFAULT_CAMPAIGN_TEXT);
-				OmnitureTracking.trackLeanPlumNotification(mContext, campaignText);
+				OmnitureTracking.trackLeanPlumNotification(context, campaignText);
 				builder.setSmallIcon(R.drawable.ic_stat_expedia);
 			}
 		});
 
-		Leanplum.setApplicationContext(mContext);
+		Leanplum.setApplicationContext(context);
 		LeanplumActivityHelper.enableLifecycleCallbacks(app);
 		registerTemplates();
-		Leanplum.start(mContext, mUserAtrributes);
+		Leanplum.start(context, userAtrributes);
 		updateLoggedInStatus();
 		Parser.parseVariablesForClasses(LeanPlumFlags.class);
 		Leanplum.addVariablesChangedHandler(flightShareCallback);
@@ -97,18 +98,18 @@ public class LeanPlumUtils {
 	}
 
 	public static void registerTemplates() {
-		LeanPlumTemplate.register(mContext);
-		GTLeanPlumTemplate.register(mContext);
+		LeanPlumTemplate.register(context);
+		GTLeanPlumTemplate.register(context);
 	}
 
 	public static void updatePOS() {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			PointOfSale pos = PointOfSale.getPointOfSale();
-			mUserAtrributes.put("PosLocale", pos.getLocaleIdentifier());
-			mUserAtrributes.put("CountryCode", pos.getTwoLetterCountryCode());
+			userAtrributes.put("PosLocale", pos.getLocaleIdentifier());
+			userAtrributes.put("CountryCode", pos.getTwoLetterCountryCode());
 
 			String deviceLocale = Locale.getDefault().toString();
-			mUserAtrributes.put("DeviceLocale", deviceLocale);
+			userAtrributes.put("DeviceLocale", deviceLocale);
 
 			boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
 				Db.getTripBucket().isUserAirAttachQualified();
@@ -117,25 +118,27 @@ public class LeanPlumUtils {
 	}
 
 	public static void updateAirAttachState(boolean userIsAttachEligible) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			// Air attach state
-			mUserAtrributes.put("airattach_eligible", userIsAttachEligible);
-			Leanplum.setUserAttributes(mUserAtrributes);
+			userAtrributes.put("airattach_eligible", userIsAttachEligible);
+			Leanplum.setUserAttributes(userAtrributes);
 		}
 	}
 
 	public static void updateLoggedInStatus() {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
-			boolean isUserLoggedIn = User.isLoggedIn(mContext);
-			mUserAtrributes.put("isUserLoggedIn", isUserLoggedIn);
+		if (initialized) {
+			boolean isUserLoggedIn = User.isLoggedIn(context);
+			userAtrributes.put("isUserLoggedIn", isUserLoggedIn);
 			if (isUserLoggedIn) {
 				if (Db.getUser() == null) {
-					Db.loadUser(mContext);
+					Db.loadUser(context);
 				}
 				if (Db.getUser().getPrimaryTraveler() != null) {
-					mUserAtrributes.put("first_name", Db.getUser().getPrimaryTraveler().getFirstName());
+					userAtrributes.put("first_name",
+						Db.getUser().getPrimaryTraveler().getFirstName());
 				}
-				mUserAtrributes.put("membershipTier", User.getLoggedInLoyaltyMembershipTier(mContext).toString());
+				userAtrributes.put("membershipTier",
+					User.getLoggedInLoyaltyMembershipTier(context).toString());
 			}
 			boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
 				Db.getTripBucket().isUserAirAttachQualified();
@@ -144,7 +147,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void tracking(String eventName) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			Leanplum.track(eventName);
 			if (eventName.equalsIgnoreCase("Login")) {
 				updateLoggedInStatus();
@@ -153,14 +156,14 @@ public class LeanPlumUtils {
 	}
 
 	private static void tracking(String eventName, HashMap eventParams) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			Leanplum.track(eventName, eventParams);
 		}
 	}
 
 	public static void trackHotelBooked(HotelSearchParams params, Property property, String orderNumber,
 		String currency, double totalPrice, double avgPrice) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			String eventName = "Sale Hotel";
 			Log.i("LeanPlum hotel booking event currency=" + currency + " total=" + totalPrice);
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
@@ -187,7 +190,7 @@ public class LeanPlumUtils {
 
 	public static void trackFlightBooked(TripBucketItemFlight tripBucketItemFlight, String orderId, String currency,
 		double totalPrice) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			FlightSearchParams params = tripBucketItemFlight.getFlightSearch().getSearchParams();
 			List<FlightLeg> flightLegs = tripBucketItemFlight.getFlightTrip().getLegs();
 			String eventName = "Sale Flight";
@@ -232,7 +235,7 @@ public class LeanPlumUtils {
 
 	public static void trackHotelCheckoutStarted(HotelSearchParams params, Property property, String currency,
 		double totalPrice) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			String eventName = "Checkout Hotel Started";
 			Log.i("LeanPlum hotel checkout started currency=" + currency + " total=" + totalPrice);
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
@@ -255,7 +258,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void trackFlightCheckoutStarted(FlightSearch search, String currency, double totalPrice) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 
 			String eventName = "Checkout Flight Started";
 			Log.i("LeanPlum flight checkout started currency=" + currency + " total=" + totalPrice);
@@ -288,7 +291,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void trackHotelSearch() {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 			String eventName = "Search Hotel";
 			Log.i("LeanPlum hotel search");
@@ -316,7 +319,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void trackFlightSearch() {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 			String destinationAirport = params.getArrivalLocation().getDestinationId();
 			String eventName = "Search Flight";
@@ -372,7 +375,7 @@ public class LeanPlumUtils {
 	};
 
 	public static void trackCarSearch(CarSearchParams carSearchParams) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			String eventName = "Search Car";
 			Log.i("LeanPlum car search destination=" + carSearchParams.origin);
 
@@ -394,7 +397,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void trackCarCheckoutStarted(CreateTripCarOffer carOffer) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			String eventName = "Checkout Car Started";
 			Money total = carOffer.detailedFare.grandTotal;
 			Log.i("LeanPlum car checkout started currency=" + total.getCurrency() + " total=" + total.getAmount()
@@ -427,7 +430,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void trackCarBooked(CarCheckoutResponse response) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			String eventName = "Sale Car";
 			CarLocation pickUplocation = response.newCarProduct.pickUpLocation;
 			Log.i("LeanPlum car booking event origin = " + pickUplocation.cityName);
@@ -459,7 +462,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void trackLxSearch(LXSearchParams lxSearchParams) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			String eventName = "Search LX";
 			Log.i("LeanPlum LX search ActivityDatetime=" + lxSearchParams.startDate.toDateTimeAtStartOfDay().toString(DATE_PATTERN));
 
@@ -480,7 +483,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void trackLXCheckoutStarted(LXState lxState) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			String eventName = "Checkout LX Started";
 			Log.i("LeanPlum LX checkout started event origin = " + lxState.activity.destination);
 
@@ -489,7 +492,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void trackLXBooked(LXState lxState) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+		if (initialized) {
 			String eventName = "Sale LX";
 			Log.i("LeanPlum LX booking event origin = " + lxState.activity.destination);
 

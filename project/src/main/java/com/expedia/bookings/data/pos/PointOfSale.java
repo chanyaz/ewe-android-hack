@@ -17,7 +17,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -57,8 +56,6 @@ public class PointOfSale {
 		POSTAL_CODE,
 		ALL,
 	}
-
-	public static final String ACTION_POS_CHANGED = "com.expedia.bookings.action.pos_changed";
 
 	private static final int INVALID_SITE_ID = -1;
 
@@ -936,10 +933,6 @@ public class PointOfSale {
 		else {
 			Db.deleteCachedFlightRoutes(context);
 		}
-
-		// Notify app of POS change
-		Intent intent = new Intent(ACTION_POS_CHANGED);
-		context.sendBroadcast(intent);
 
 		Log.d("New POS id: " + sCachedPOS);
 	}
