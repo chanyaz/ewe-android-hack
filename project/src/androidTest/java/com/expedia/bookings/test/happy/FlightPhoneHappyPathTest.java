@@ -16,7 +16,7 @@ import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsTravelerInfoScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 
-public class FlightPhoneHappyPath extends PhoneTestCase {
+public class FlightPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testBookFlight() throws Throwable {
 		screenshot("Launch");

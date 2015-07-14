@@ -10,7 +10,7 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Results;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Search;
 import com.expedia.bookings.test.espresso.TabletTestCase;
 
-public class TabletHappyPath extends TabletTestCase {
+public class TabletHappyPathTest extends TabletTestCase {
 
 	public void testBookHotel() throws Throwable {
 		screenshot("Launch");
