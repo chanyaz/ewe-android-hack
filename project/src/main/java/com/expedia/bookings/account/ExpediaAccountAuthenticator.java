@@ -15,7 +15,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.AdTracker;
 
 /**
  * ExpediaAccountAuthenticator - for using the AccountManager with expedia accounts.
@@ -94,7 +93,6 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 				Db.setUser(user);
 				user.save(mContext);
 				tuidStr = user.getTuidString();
-				AdTracker.trackLogin();
 			}
 		}
 		else {
