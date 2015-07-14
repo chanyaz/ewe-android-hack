@@ -97,6 +97,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		return sIsRobolectric || sIsInstrumentation;
 	}
 
+	public static boolean isRobolectric() {
+		return sIsRobolectric;
+	}
+
 	public static void setIsInstrumentation(boolean isInstrumentation) {
 		sIsInstrumentation = isInstrumentation;
 	}
@@ -218,15 +222,18 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
 
+		// We need to run this for automation right now until leanplum fixes a crash
+		if (!isRobolectric()) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+				LeanPlumUtils.init(this);
+				startupTimer.addSplit("LeanPlum started.");
+			}
+		}
+
 		if (!isAutomation()) {
 			if (ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled()) {
 				AdX.initialize(this);
 				startupTimer.addSplit("AdX started.");
-			}
-
-			if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
-				LeanPlumUtils.init(this);
-				startupTimer.addSplit("LeanPlum started.");
 			}
 
 			if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
