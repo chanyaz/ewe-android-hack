@@ -41,10 +41,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean shouldShowBrandLogoOnAccountButton();
 
-	int getLoginContainerBackgroundResId(Context context);
-
-	boolean doesLoginTextViewHaveCompoundDrawables();
-
 	PointOfSaleId getDefaultPOS();
 
 	boolean isAdXEnabled();
@@ -79,15 +75,11 @@ public interface IProductFlavorFeatureConfiguration {
 
 	AboutSectionFragment getAboutSectionFragment(Context context);
 
-	boolean isLocalExpertEnabled();
-
 	boolean isFacebookLoginIntegrationEnabled();
 
 	boolean isFacebookShareIntegrationEnabled();
 
 	boolean isGoogleWalletPromoEnabled();
-
-	boolean isTrackingWithFlightTrackEnabled();
 
 	boolean isHangTagProgressBarEnabled();
 
