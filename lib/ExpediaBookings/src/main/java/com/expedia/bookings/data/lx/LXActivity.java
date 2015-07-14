@@ -20,7 +20,6 @@ public class LXActivity {
 	//Utility Members
 	public String location;
 	public String destination;
-	public String detailsCategory;
 	public String regionId;
 	public int freeCancellationMinHours;
 	public Money price;

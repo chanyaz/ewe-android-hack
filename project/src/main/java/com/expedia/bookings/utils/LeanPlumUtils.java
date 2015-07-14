@@ -520,7 +520,7 @@ public class LeanPlumUtils {
 		eventParams.put("ActivityDatetime", "" + DateUtils
 			.yyyyMMddHHmmssToDateTime(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate)
 			.toString(DATE_PATTERN));
-		eventParams.put("ActivityCategory", lxState.activity.detailsCategory);
+		eventParams.put("isGT", LXDataUtils.isActivityGT(lxState.activity.categories));
 		eventParams.put("b_win", "" + getBookingWindow(offerSelectedDate));
 		eventParams.put("p_type", "LX");
 
