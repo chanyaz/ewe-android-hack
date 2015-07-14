@@ -284,4 +284,17 @@
     <color name="lx_sort_filter_pressed_row_color">#D8D8D8</color>
 
     <color name="leanplum_dialog_button_color">#fc2176</color>
+
+    <!--Account Lib Colors -->
+    <color name="btn_sign_in_normal">#f9e06e</color>
+    <color name="btn_sign_in_pressed">#fae58b</color>
+    <color name="btn_sign_in_focused">#f9e179</color>
+    <color name="btn_sign_in_disabled">#80f9e06e</color>
+    <color name="acct__btn_sign_in_text">#cc000000</color>
+    <color name="acct__bg_input_text_default">#80ffffff</color>
+    <color name="acct__bg_input_text_error">#db4437</color>
+    <color name="acct__bg_input_text_good">#4a90e2</color>
+    <color name="acct__flavor_text">#ffffff</color>
+    <color name="acct__user_info_text_color">#ffffff</color>
+    <color name="toolbar_icon">#ffffff</color>
 </resources>

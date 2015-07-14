@@ -304,6 +304,20 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="acct__flavor_text_color">@color/acct__flavor_text</item>
+        <item name="acct__input_text_error_color">@color/acct__bg_input_text_error</item>
+        <item name="acct__input_text_good_color">@color/acct__bg_input_text_good</item>
+        <item name="acct__input_text_default_color">@color/acct__bg_input_text_default</item>
+        <item name="acct__sign_in_button_background_drawable">@drawable/acct__bg_btn_sign_in</item>
+        <item name="acct__sign_in_button_text_color">@color/acct__btn_sign_in_text</item>
+        <item name="acct__toolbar_icon_color">@color/toolbar_icon</item>
+        <item name="acct__user_info_text_color">@color/acct__user_info_text_color</item>
+        <item name="acct__create_account_prompt_string">@string/acct__Create_an_Expedia_account</item>
+        <item name="acct__logo_small_drawable">@drawable/acct__logo_small</item>
+        <item name="acct__logo_large_drawable">@drawable/acct__logo_large</item>
+        <item name="acct__logo_text_drawable">@drawable/acct__logo_text</item>
+        <item name="acct__checkmark_good_drawable">@drawable/acct__ic_checkmark</item>
+        <item name="acct__checkmark_warning_drawable">@drawable/acct__ic_warning</item>
     </style>
 
     <style name="LaunchOverflowStyle" parent="Widget.AppCompat.ActionButton.Overflow">
