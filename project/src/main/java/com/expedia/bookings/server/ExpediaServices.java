@@ -829,12 +829,15 @@ public class ExpediaServices implements DownloadListener {
 
 	public HotelBookingResponse reservation(HotelSearchParams params, Rate rate,
 		BillingInfo billingInfo,
-		String tripId, String userId, Long tuid, String tealeafId) {
+		String tripId, String userId, Long tuid, String tealeafId, boolean isMerEmailOptIn) {
 		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId, userId,
 			tuid);
 
 		Log.v("tealeafTransactionId for hotel: " + tealeafId);
 		addTealeafId(query, tealeafId);
+
+		// #4762. Adding MER email opt in choice
+		query.add(new BasicNameValuePair("emailOptIn", String.valueOf(isMerEmailOptIn)));
 
 		return doE3Request("m/api/hotel/trip/checkout", query, new BookingResponseHandler(mContext));
 	}

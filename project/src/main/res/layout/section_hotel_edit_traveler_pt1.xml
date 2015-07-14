@@ -52,6 +52,6 @@
         android:layout_marginRight="8dp"
         android:text="@string/email_disclaimer"
         android:textColor="@color/data_review_grey"
-        android:textSize="12sp" />
+        android:textSize="@dimen/hotel_traveler_edit_email_disclaimer_text_size" />
 
 </com.expedia.bookings.section.SectionTravelerInfo>

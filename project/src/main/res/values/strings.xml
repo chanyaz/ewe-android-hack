@@ -1979,6 +1979,10 @@
     <string name="email_disclaimer">Your confirmation email will be sent here</string>
     <!-- Expires on colored template -->
     <string name="expires_colored_TEMPLATE">Expires %1$s</string>
+    <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">I do not want to receive emails from {brand} with travel deals, special offers, and other information.</string>
+    <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">I want to receive emails from {brand} with travel deals, special offers, and other information.</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->

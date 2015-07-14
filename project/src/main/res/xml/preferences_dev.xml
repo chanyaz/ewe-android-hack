@@ -279,6 +279,14 @@
             android:summary="Select a test group"
             android:title="Flight Checkout Missing Traveler details Callout" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:key="8127"
+            android:summary="Select a test group"
+            android:title="Hotel CKO MER Email Guest opt/in/out" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >
