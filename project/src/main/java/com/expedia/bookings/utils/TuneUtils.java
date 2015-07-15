@@ -39,9 +39,9 @@ public class TuneUtils {
 		mobileAppTracker.setAllowDuplicates(BuildConfig.DEBUG);
 
 		MATEvent launchEvent = new MATEvent("launch")
-									.withAttribute1(getTuid())
-									.withAttribute3(getMembershipTier())
-									.withAttribute2(Boolean.toString(User.isLoggedIn(context)));
+			.withAttribute1(getTuid())
+			.withAttribute3(getMembershipTier())
+			.withAttribute2(Boolean.toString(User.isLoggedIn(context)));
 		trackEvent(launchEvent);
 	}
 
@@ -66,11 +66,6 @@ public class TuneUtils {
 		}
 	}
 
-	private static MATEvent withTuidAndMembership(MATEvent event) {
-		return event.withAttribute1(getTuid())
-			 		.withAttribute3(getMembershipTier());
-	}
-
 	public static void trackHotelInfoSite() {
 		if (initialized) {
 			MATEvent event = new MATEvent("hotel_infosite");
@@ -83,96 +78,100 @@ public class TuneUtils {
 	}
 
 	public static void trackHotelRateDetails(Property selectedProperty) {
-		MATEvent event = new MATEvent("hotel_rate_details");
-		MATEventItem eventItem = new MATEventItem("hotel_rate_details_item");
-		eventItem.withAttribute1(selectedProperty.getLocation().getCity());
+		if (initialized) {
+			MATEvent event = new MATEvent("hotel_rate_details");
+			MATEventItem eventItem = new MATEventItem("hotel_rate_details_item");
+			eventItem.withAttribute1(selectedProperty.getLocation().getCity());
 
-		Date checkInDate = getHotelSearchParams().getCheckInDate().toDate();
-		Date checkOutDate = getHotelSearchParams().getCheckOutDate().toDate();
+			Date checkInDate = getHotelSearchParams().getCheckInDate().toDate();
+			Date checkOutDate = getHotelSearchParams().getCheckOutDate().toDate();
 
-		withTuidAndMembership(event)
-			.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
-			.withAttribute4("ola.us.display.criteo.appremarketing.hotel")
-			.withContentType(selectedProperty.getName())
-			.withContentId(selectedProperty.getPropertyId())
-			.withDate1(checkInDate)
-			.withDate2(checkOutDate);
+			withTuidAndMembership(event)
+				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute4("ola.us.display.criteo.appremarketing.hotel")
+				.withContentType(selectedProperty.getName())
+				.withContentId(selectedProperty.getPropertyId())
+				.withDate1(checkInDate)
+				.withDate2(checkOutDate);
 
-		trackEvent(event);
-	}
-
-	private static HotelSearchParams getHotelSearchParams() {
-		return Db.getHotelSearch().getSearchParams();
+			trackEvent(event);
+		}
 	}
 
 	public static void trackHotelSearchResults() {
-		MATEvent event = new MATEvent("hotel_search_results");
-		MATEventItem eventItem = new MATEventItem("hotel_rate_details_item");
+		if (initialized) {
+			MATEvent event = new MATEvent("hotel_search_results");
+			MATEventItem eventItem = new MATEventItem("hotel_rate_details_item");
 
-		Date checkInDate = getHotelSearchParams().getCheckInDate().toDate();
-		Date checkOutDate = getHotelSearchParams().getCheckOutDate().toDate();
+			Date checkInDate = getHotelSearchParams().getCheckInDate().toDate();
+			Date checkOutDate = getHotelSearchParams().getCheckOutDate().toDate();
 
-		eventItem.withAttribute1(getHotelSearchParams().getCorrespondingAirportCode());
-		StringBuilder topFiveHotelIdsBuilder = new StringBuilder();
-		StringBuilder sb = new StringBuilder();
-		int propertiesCount = Db.getHotelSearch().getSearchResponse().getPropertiesCount();
-		if (Db.getHotelSearch().getSearchResponse() != null && propertiesCount >= 0) {
-			for (int i = 0; (i < 5 && i < propertiesCount); i++) {
-				Property property = Db.getHotelSearch().getSearchResponse().getProperty(i);
-				topFiveHotelIdsBuilder.append(property.getPropertyId());
-				String hotelId = property.getPropertyId();
-				String hotelName = property.getName();
-				String price = property.getLowestRate().getDisplayPrice().formattedPrice;
-				String currency = property.getLowestRate().getDisplayBasePrice().getCurrency();
-				String starRating = Double.toString(property.getHotelRating());
-				String miles = Double.toString(property.getDistanceFromUser().getDistance());
+			eventItem.withAttribute1(getHotelSearchParams().getCorrespondingAirportCode());
+			StringBuilder topFiveHotelIdsBuilder = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
+			int propertiesCount = Db.getHotelSearch().getSearchResponse().getPropertiesCount();
+			if (Db.getHotelSearch().getSearchResponse() != null && propertiesCount >= 0) {
+				for (int i = 0; (i < 5 && i < propertiesCount); i++) {
+					Property property = Db.getHotelSearch().getSearchResponse().getProperty(i);
+					topFiveHotelIdsBuilder.append(property.getPropertyId());
+					String hotelId = property.getPropertyId();
+					String hotelName = property.getName();
+					String price = property.getLowestRate().getDisplayPrice().formattedPrice;
+					String currency = property.getLowestRate().getDisplayBasePrice().getCurrency();
+					String starRating = Double.toString(property.getHotelRating());
+					String miles = Double.toString(property.getDistanceFromUser().getDistance());
 
-				sb.append(String.format("%s|%s|%s|%s|%s|%s", hotelId, hotelName, price, currency, starRating, miles));
-				if (i != 4) {
-					sb.append(":");
-					topFiveHotelIdsBuilder.append(",");
+					sb.append(
+						String.format("%s|%s|%s|%s|%s|%s", hotelId, hotelName, price, currency,
+							starRating, miles));
+					if (i != 4) {
+						sb.append(":");
+						topFiveHotelIdsBuilder.append(",");
+					}
 				}
 			}
+			eventItem.withAttribute4(topFiveHotelIdsBuilder.toString());
+			eventItem.withAttribute5(sb.toString());
+
+			withTuidAndMembership(event)
+				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute4("ola.us.display.criteo.appretargetting.hotel")
+				.withDate1(checkInDate)
+				.withDate2(checkOutDate)
+				.withEventItems(Arrays.asList(eventItem))
+				.withSearchString("Hotel")
+				.withLevel(1);
+
+			trackEvent(event);
 		}
-		eventItem.withAttribute4(topFiveHotelIdsBuilder.toString());
-		eventItem.withAttribute5(sb.toString());
-
-		withTuidAndMembership(event)
-			.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
-			.withAttribute4("ola.us.display.criteo.appretargetting.hotel")
-			.withDate1(checkInDate)
-			.withDate2(checkOutDate)
-		.withEventItems(Arrays.asList(eventItem))
-			.withSearchString("Hotel")
-			.withLevel(1);
-
-		trackEvent(event);
 	}
 
 	public static void trackHotelConfirmation(double revenue, String transactionId, int numberRooms, TripBucketItemHotel hotel) {
-		MATEvent event = new MATEvent("hotel_confirmation");
-		MATEventItem eventItem = new MATEventItem("hotel_confirmation_item");
+		if (initialized) {
+			MATEvent event = new MATEvent("hotel_confirmation");
+			MATEventItem eventItem = new MATEventItem("hotel_confirmation_item");
 
-		eventItem.withQuantity(hotel.getHotelSearchParams().getStayDuration())
+			eventItem.withQuantity(hotel.getHotelSearchParams().getStayDuration())
 				.withAttribute1(hotel.getProperty().getLocation().getCity())
 				.withRevenue(revenue);
 
-		Date checkInDate = hotel.getHotelSearchParams().getCheckInDate().toDate();
-		Date checkOutDate = hotel.getHotelSearchParams().getCheckOutDate().toDate();
+			Date checkInDate = hotel.getHotelSearchParams().getCheckInDate().toDate();
+			Date checkOutDate = hotel.getHotelSearchParams().getCheckOutDate().toDate();
 
-		withTuidAndMembership(event)
-			.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
-			.withAttribute4("ola.us.display.criteo.appretargetting.hotel")
-			.withRevenue(revenue)
-			.withAdvertiserRefId(transactionId)
-			.withQuantity(numberRooms)
-			.withContentType(hotel.getProperty().getName())
-			.withContentId(hotel.getProperty().getPropertyId())
-			.withEventItems(Arrays.asList(eventItem))
-			.withDate1(checkInDate)
-			.withDate2(checkOutDate);
+			withTuidAndMembership(event)
+				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute4("ola.us.display.criteo.appretargetting.hotel")
+				.withRevenue(revenue)
+				.withAdvertiserRefId(transactionId)
+				.withQuantity(numberRooms)
+				.withContentType(hotel.getProperty().getName())
+				.withContentId(hotel.getProperty().getPropertyId())
+				.withEventItems(Arrays.asList(eventItem))
+				.withDate1(checkInDate)
+				.withDate2(checkOutDate);
 
-		trackEvent(event);
+			trackEvent(event);
+		}
 	}
 
 	private static void trackEvent(MATEvent eventName) {
@@ -189,6 +188,9 @@ public class TuneUtils {
 			trackEvent(loginEvent);
 		}
 	}
+
+	//////////
+	// Helpers
 
 	private static String getMembershipTier() {
 		if (User.isLoggedIn(context)) {
@@ -210,5 +212,14 @@ public class TuneUtils {
 		if (Db.getUser() == null && User.isLoggedIn(context)) {
 			Db.loadUser(context);
 		}
+	}
+
+	private static HotelSearchParams getHotelSearchParams() {
+		return Db.getHotelSearch().getSearchParams();
+	}
+
+	private static MATEvent withTuidAndMembership(MATEvent event) {
+		return event.withAttribute1(getTuid())
+			.withAttribute3(getMembershipTier());
 	}
 }
