@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="bg_collection_detail">#88626876</color>
+
+    <!-- Home screen LOB icons -->
+    <color name="samsung_launch_lob_bg">#525252</color>
+    <color name="samsung_hotel_lob_bg">#00B140</color>
+    <color name="samsung_flight_lob_bg">#00A9E0</color>
+    <color name="samsung_car_lob_bg">#BA0A98</color>
+    <color name="samsung_lx_lob_bg">#EFBA00</color>
 </resources>
