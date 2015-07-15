@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
@@ -71,7 +72,11 @@ public class CollectionLaunchWidget extends LinearLayout {
 
 	@OnClick(R.id.button_search_activities)
 	void activitiesClicked() {
-
+		LXSearchParams params = new LXSearchParams();
+		params.location(location.shortName);
+		LocalDate now = LocalDate.now();
+		params.startDate(now.plusDays(1));
+		NavUtils.goToLx(getContext(), animOptions, params, false);
 	}
 
 	// Hotel search in collection location
