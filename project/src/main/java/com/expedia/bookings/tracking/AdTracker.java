@@ -45,6 +45,7 @@ public class AdTracker {
 
 	public static void trackViewHomepage() {
 		AdX.trackViewHomepage();
+		TuneUtils.trackHomePageView();
 	}
 
 	public static void trackViewItinList() {
@@ -64,6 +65,8 @@ public class AdTracker {
 		final Double avgPrice = rate.getAverageRate().getAmount().doubleValue();
 		final Double totalPrice = rate.getTotalAmountAfterTax().getAmount().doubleValue();
 
+		int numberRooms = 1; // we only offer 1 room bookings as of now
+
 		// Other
 		HotelBookingResponse response = Db.getTripBucket().getHotel().getBookingResponse();
 		String orderNumber = response != null ? response.getOrderNumber() : "";
@@ -71,6 +74,7 @@ public class AdTracker {
 		Property property = Db.getTripBucket().getHotel().getProperty();
 		AdX.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
 		LeanPlumUtils.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
+		TuneUtils.trackHotelConfirmation(totalPrice, orderNumber, numberRooms, Db.getTripBucket().getHotel());
 	}
 
 	public static void trackFlightBooked() {
@@ -131,11 +135,16 @@ public class AdTracker {
 		if (Db.getHotelSearch() != null) {
 			AdX.trackHotelSearch(Db.getHotelSearch());
 			LeanPlumUtils.trackHotelSearch();
+			TuneUtils.trackHotelSearchResults();
 		}
 	}
 
 	public static void trackHotelInfoSite() {
-		// ignore
+		TuneUtils.trackHotelInfoSite();
+	}
+
+	public static void trackHotelRoomAndRates() {
+		TuneUtils.trackHotelRateDetails(Db.getHotelSearch().getSelectedProperty());
 	}
 
 	public static void trackFlightSearch() {
