@@ -52,9 +52,10 @@ public class LeanPlumUtils {
 	private static Context context;
 	private static boolean initialized = false;
 
-	public static void init(ExpediaBookingApp app) {
+	public static void init(ExpediaBookingApp app, boolean isTest) {
 		initialized = true;
 		context = app.getApplicationContext();
+		Leanplum.setIsTestModeEnabled(isTest);
 		if (BuildConfig.DEBUG) {
 			String appId = context.getString(R.string.lean_plum_sdk_dev_appid);
 			String key = context.getString(R.string.lean_plum_sdk_dev_key);
