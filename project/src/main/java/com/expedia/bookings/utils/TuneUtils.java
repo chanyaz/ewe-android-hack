@@ -116,8 +116,8 @@ public class TuneUtils {
 		StringBuilder topFiveHotelIdsBuilder = new StringBuilder();
 		StringBuilder sb = new StringBuilder();
 		int propertiesCount = Db.getHotelSearch().getSearchResponse().getPropertiesCount();
-		if(Db.getHotelSearch().getSearchResponse() != null && propertiesCount >= 0) {
-			for(int i = 0; (i < 5 && i < propertiesCount); i++) {
+		if (Db.getHotelSearch().getSearchResponse() != null && propertiesCount >= 0) {
+			for (int i = 0; (i < 5 && i < propertiesCount); i++) {
 				Property property = Db.getHotelSearch().getSearchResponse().getProperty(i);
 				topFiveHotelIdsBuilder.append(property.getPropertyId());
 				String hotelId = property.getPropertyId();
