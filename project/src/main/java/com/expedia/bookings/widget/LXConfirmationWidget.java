@@ -114,7 +114,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 	@Subscribe
 	public void onCheckoutSuccess(Events.LXCheckoutSucceeded event) {
 		OmnitureTracking.trackAppLXCheckoutConfirmation(getContext(), event.checkoutResponse, lxState);
-		AdTracker.trackLXBooked(lxState);
+		AdTracker.trackLXBooked(lxState, event.checkoutResponse.orderId);
 
 		final Resources res = getResources();
 		String url = Images.getLXImageURL(lxState.activity.imageUrl);

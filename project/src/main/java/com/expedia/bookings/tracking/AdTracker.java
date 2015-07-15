@@ -11,9 +11,11 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
+import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.TuneUtils;
 import com.mobiata.android.Log;
@@ -89,6 +91,8 @@ public class AdTracker {
 						money.getCurrency(), money.getAmount().doubleValue());
 					LeanPlumUtils.trackFlightBooked(Db.getTripBucket().getFlight(), orderNumber,
 						money.getCurrency(), money.getAmount().doubleValue());
+					TuneUtils.trackFlightBooked(Db.getTripBucket().getFlight(), orderNumber,
+						money.getCurrency(), money.getAmount().doubleValue());
 				}
 			}
 		}
@@ -99,6 +103,7 @@ public class AdTracker {
 
 	public static void trackCarBooked(CarCheckoutResponse carCheckoutResponse) {
 		LeanPlumUtils.trackCarBooked(carCheckoutResponse);
+		TuneUtils.trackCarConfirmation(carCheckoutResponse);
 	}
 
 	public static void trackHotelCheckoutStarted() {
@@ -109,6 +114,7 @@ public class AdTracker {
 		AdX.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 		LeanPlumUtils.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(),
 			totalPrice.getAmount().doubleValue());
+		TuneUtils.trackHotelCheckoutStarted(property, totalPrice.getAmount().doubleValue());
 	}
 
 	public static void trackFlightCheckoutStarted() {
@@ -123,12 +129,18 @@ public class AdTracker {
 		LeanPlumUtils.trackLxSearch(lxSearchParams);
 	}
 
+	public static void trackLXSearchResults(LXSearchParams searchParams, LXSearchResponse searchResponse) {
+		TuneUtils.trackLXSearch(searchParams, searchResponse);
+	}
+
 	public static void trackLXCheckoutStarted(LXState lxState) {
 		LeanPlumUtils.trackLXCheckoutStarted(lxState);
+		TuneUtils.trackLXDetails(lxState);
 	}
 
 	public static void trackCarCheckoutStarted(CreateTripCarOffer carOffer) {
 		LeanPlumUtils.trackCarCheckoutStarted(carOffer);
+		TuneUtils.trackCarRateDetails(carOffer);
 	}
 
 	public static void trackHotelSearch() {
@@ -140,11 +152,7 @@ public class AdTracker {
 	}
 
 	public static void trackHotelInfoSite() {
-		TuneUtils.trackHotelInfoSite();
-	}
-
-	public static void trackHotelRoomAndRates() {
-		TuneUtils.trackHotelRateDetails(Db.getHotelSearch().getSelectedProperty());
+		TuneUtils.trackHotelInfoSite(Db.getHotelSearch().getSelectedProperty());
 	}
 
 	public static void trackFlightSearch() {
@@ -152,6 +160,14 @@ public class AdTracker {
 			AdX.trackFlightSearch(Db.getFlightSearch());
 			LeanPlumUtils.trackFlightSearch();
 		}
+	}
+
+	public static void trackPageLoadFlightSearchResults(int legPosition) {
+		TuneUtils.trackPageLoadFlightSearchResults(legPosition);
+	}
+
+	public static void trackFlightRateDetailOverview() {
+		TuneUtils.trackFlightRateDetailOverview();
 	}
 
 	public static void updatePOS() {
@@ -162,8 +178,13 @@ public class AdTracker {
 		LeanPlumUtils.trackCarSearch(params);
 	}
 
-	public static void trackLXBooked(LXState lxState) {
+	public static void trackCarResult(CarSearch search, CarSearchParams params) {
+		TuneUtils.trackCarSearch(search, params);
+	}
+
+	public static void trackLXBooked(LXState lxState, String orderId) {
 		LeanPlumUtils.trackLXBooked(lxState);
+		TuneUtils.trackLXConfirmation(lxState, orderId);
 	}
 
 }
