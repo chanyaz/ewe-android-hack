@@ -157,6 +157,9 @@ public class PointOfSale {
 	// Should we show free cancellation of flights for this POS?
 	private boolean mShowFlightsFreeCancellation;
 
+	// Should we show the marketing opt in checkbox
+	private MarketingOptIn mMarketingOptIn;
+
 	private static boolean mIsTablet;
 
 	private static Map<String, Integer> sCountryCodeMap;
@@ -695,6 +698,14 @@ public class PointOfSale {
 		return mDisableForProduction;
 	}
 
+	public boolean shouldShowMarketingOptIn() {
+		return mMarketingOptIn != MarketingOptIn.DO_NOT_SHOW && mMarketingOptIn != MarketingOptIn.DO_NOT_SHOW_AUTO_ENROLL;
+	}
+
+	public boolean shouldEnableMarketingOptIn() {
+		return mMarketingOptIn == MarketingOptIn.SHOW_CHECKED || mMarketingOptIn == MarketingOptIn.DO_NOT_SHOW_AUTO_ENROLL;
+	}
+
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1058,6 +1069,7 @@ public class PointOfSale {
 		pos.mDisableForProduction = data.optBoolean("disableForProduction", false);
 		pos.mShowHalfTileStrikethroughPrice = data.optBoolean("launchScreenStrikethroughEnabled", false);
 		pos.mShowFlightsFreeCancellation = data.optBoolean("shouldShowFlightsFreeCancellation", false);
+		pos.mMarketingOptIn = MarketingOptIn.valueOf(data.optString("marketingOptIn"));
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
@@ -1199,5 +1211,12 @@ public class PointOfSale {
 
 	public static boolean countryPaymentRequiresPostalCode(String localeIdentifier) {
 		return !sExpediaPaymentPostalCodeOptionalCountries.contains(localeIdentifier);
+	}
+
+	public enum MarketingOptIn {
+		DO_NOT_SHOW_AUTO_ENROLL,
+		SHOW_CHECKED,
+		SHOW_UNCHECKED,
+		DO_NOT_SHOW
 	}
 }
