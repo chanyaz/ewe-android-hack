@@ -22,6 +22,11 @@ import com.expedia.bookings.utils.TuneUtils;
 import com.mobiata.android.Log;
 
 public class AdTracker {
+	private static Context context;
+
+	public static void init(Context c) {
+		context = c;
+	}
 
 	public static void trackFirstLaunch() {
 		// Other
@@ -78,6 +83,7 @@ public class AdTracker {
 		AdX.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
 		LeanPlumUtils.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
 		TuneUtils.trackHotelConfirmation(totalPrice, orderNumber, currency, numberRooms, Db.getTripBucket().getHotel());
+		new FacebookEvents(context).trackHotelConfirmation(Db.getTripBucket().getHotel(), rate);
 	}
 
 	public static void trackFlightBooked() {
@@ -116,6 +122,7 @@ public class AdTracker {
 		LeanPlumUtils.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(),
 			totalPrice.getAmount().doubleValue());
 		TuneUtils.trackHotelCheckoutStarted(property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+		new FacebookEvents(context).trackHotelCheckout(Db.getTripBucket().getHotel(), rate);
 	}
 
 	public static void trackFlightCheckoutStarted() {
@@ -147,6 +154,7 @@ public class AdTracker {
 
 	public static void trackHotelSearch() {
 		if (Db.getHotelSearch() != null) {
+			new FacebookEvents(context).trackHotelSearch(Db.getHotelSearch());
 			AdX.trackHotelSearch(Db.getHotelSearch());
 			LeanPlumUtils.trackHotelSearch();
 			TuneUtils.trackHotelSearchResults();
@@ -154,7 +162,8 @@ public class AdTracker {
 	}
 
 	public static void trackHotelInfoSite() {
-		TuneUtils.trackHotelInfoSite(Db.getHotelSearch().getSelectedProperty());
+			TuneUtils.trackHotelInfoSite(Db.getHotelSearch().getSelectedProperty());
+		new FacebookEvents(context).trackHotelInfosite(Db.getHotelSearch());
 	}
 
 	public static void trackFlightSearch() {
