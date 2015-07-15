@@ -4,10 +4,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
@@ -19,7 +20,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
-import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -29,15 +29,15 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 
 	private String text;
 	private Drawable icon;
-	private Drawable bg;
-	private Drawable disabledBg;
+	private int disabledBg;
+	private int bgColor;
 
 	private static final float MAX_ICON_SCALE = 1.0f;
 	private float minIconSize;
 	private float squashedRatio;
 
 	@InjectView(R.id.lob_btn_bg)
-	public ViewGroup bgView;
+	public CardView bgView;
 
 	@InjectView(R.id.icon)
 	public ImageView iconView;
@@ -56,16 +56,18 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.PhoneLaunchButton);
 			text = ta.getString(R.styleable.PhoneLaunchButton_btn_text);
 			icon = ta.getDrawable(R.styleable.PhoneLaunchButton_btn_icon);
-			bg = ta.getDrawable(R.styleable.PhoneLaunchButton_btn_bg);
+			bgColor = ta.getColor(R.styleable.PhoneLaunchButton_btn_bg, -1);
 			minIconSize = ta.getFloat(R.styleable.PhoneLaunchButton_icon_min_scale, 0.75f);
-			disabledBg = getResources().getDrawable(R.drawable.bg_lob_disabled);
+			disabledBg = getResources().getColor(R.color.disabled_lob_btn);
 			ta.recycle();
 		}
 	}
 
 	@Override
 	public void onFinishInflate() {
-		Ui.setViewBackground(bgView, bg);
+		ViewCompat.setElevation(textView, 2 * bgView.getCardElevation());
+		ViewCompat.setElevation(iconView, 2 * bgView.getCardElevation());
+		bgView.setCardBackgroundColor(bgColor);
 		textView.setText(text);
 		FontCache.setTypeface(textView, FontCache.Font.ROBOTO_LIGHT);
 		iconView.setImageDrawable(icon);
@@ -140,12 +142,12 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		if (enabled) {
-			Ui.setViewBackground(bgView, bg);
+			bgView.setCardBackgroundColor(bgColor);
 			textView.setAlpha(1.0f);
 		}
 		else {
 			scaleTo(1.0f);
-			Ui.setViewBackground(bgView, disabledBg);
+			bgView.setCardBackgroundColor(disabledBg);
 			textView.setAlpha(0.5f);
 		}
 	}
@@ -164,6 +166,5 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 		textView.setTranslationY((f * fullHeight) - fullHeight);
 		bgView.setScaleY(f);
 	}
-
 }
 

@@ -464,7 +464,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 			lobSelectorWidget.setVisibility(View.VISIBLE);
 			doubleRowLobSelectorWidget.setVisibility(View.GONE);
 			listHeaderPaddingTop = R.dimen.launch_header_top_space;
-			lobSelectorWidget.updateVisibilities();
+			lobSelectorWidget.updateView();
 		}
 		launchListWidget.setHeaderPaddingTop(getResources().getDimension(listHeaderPaddingTop));
 		squashedHeaderHeight = getResources().getDimension(R.dimen.launch_lob_squashed_height);
