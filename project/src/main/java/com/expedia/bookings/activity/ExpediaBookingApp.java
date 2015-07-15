@@ -224,7 +224,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		// We need to run this for automation right now until leanplum fixes a crash
 		if (!isRobolectric()) {
 			if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
-				LeanPlumUtils.init(this);
+				LeanPlumUtils.init(this, isAutomation());
 				startupTimer.addSplit("LeanPlum started.");
 			}
 		}
