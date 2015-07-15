@@ -32,7 +32,7 @@
             android:id="@+id/locationCountryName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#AAAAAA"
+            android:textColor="@android:color/white"
             android:textSize="12sp" />
     </LinearLayout>
 </android.support.v7.widget.Toolbar>

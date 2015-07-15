@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg_collection_detail">#88626876</color>
 
     <!-- Home screen LOB icons -->
     <color name="samsung_launch_lob_bg">#525252</color>
@@ -8,4 +7,13 @@
     <color name="samsung_flight_lob_bg">#00A9E0</color>
     <color name="samsung_car_lob_bg">#BA0A98</color>
     <color name="samsung_lx_lob_bg">#EFBA00</color>
+
+    <!-- Collection screen LOB background -->
+    <color name="bg_collection_hotel">#CC00b140</color>
+    <color name="bg_collection_flight">#CC00A8E0</color>
+    <color name="bg_collection_lx">#CCFFC600</color>
+
+    <!-- Lob box shadow gradient -->
+    <color name="collection_screen_gradient_start_color">#BE2B2E33</color>
+    <color name="collection_screen_gradient_end_color">#00808B9F</color>
 </resources>
