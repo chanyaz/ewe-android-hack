@@ -235,11 +235,11 @@ public class AccountLibActivity extends AppCompatActivity
 			if (loginExtender != null) {
 				loginExtenderContainer.setVisibility(View.VISIBLE);
 				loginExtender.onLoginComplete(this, this, loginExtenderContainer);
+				return;
 			}
 		}
-		else {
-			finish();
-		}
+
+		finish();
 	}
 
 	@Override
