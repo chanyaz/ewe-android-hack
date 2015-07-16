@@ -178,15 +178,23 @@ public class DeepLinkRouterActivity extends Activity {
 	/**
 	 * We'll parse any deep link whose url matches: expda://carSearch/*
 	 * <p/>
-	 * Example: Car search results.
+	 * Example: Car search results with Airport as Pickup Location
 	 * This will show results for a car with pickup location, pickup time & drop off time.
 	 * expda://carSearch?pickupLocation=SFO&pickupDateTime=2015-06-25T09:00:00&dropoffDateTime=2015-06-25T09:00:00&originDescription=SFO-San Francisco International Airport
 	 *
-	 * Example: Car Details.
+	 * Example: Car Details with Airport as Pickup Location
 	 * This will show the details for a car with pickup location, pickup time & drop off time & productKey.
 	 * expda://carSearch?pickupLocation=SFO&pickupDateTime=2015-06-26T09:00:00&dropoffDateTime=2015-06-27T09:00:00&originDescription=SFO-San Francisco International Airport
 	 * &productKey= AQAQAQLRg2IAAoADCS_0847plQQANQ8AKQAdYumAHhoASgAdsBqAHbAQ
 	 *
+	 * Example: Car search results with LatLong based Pickup Location & Dropoff Location
+	 * This will show results for a car with pickup location, pickup time & drop off time.
+	 * expda://carSearch?pickupLocationLat=32.1234&pickupLocationLng=32.1234&pickupDateTime=2015-06-25T09:00:00&dropoffDateTime=2015-06-25T09:00:00&originDescription=SFO-San Francisco International Airport
+	 *
+	 * Example: Car Details with LatLong based Pickup Location & Dropoff Location
+	 * This will show the details for a car with pickup location, pickup time & drop off time & productKey.
+	 * expda://carSearch?pickupLocationLat=32.1234&pickupLocationLng=32.1234&pickupDateTime=2015-06-26T09:00:00&dropoffDateTime=2015-06-27T09:00:00&originDescription=SFO-San Francisco International Airport
+	 * &productKey= AQAQAQLRg2IAAoADCS_0847plQQANQ8AKQAdYumAHhoASgAdsBqAHbAQ
 	 * <p/>
 	 */
 	private boolean handleCarsSearch(Uri data, Set<String> queryData) {
@@ -199,7 +207,9 @@ public class DeepLinkRouterActivity extends Activity {
 			}
 
 			CarSearchParams carSearchParams = CarDataUtils.fromDeepLink(data, queryData);
-			NavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
+			if (carSearchParams != null) {
+				NavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
+			}
 		}
 		else {
 			NavUtils.goToLaunchScreen(this, false, LineOfBusiness.CARS);
