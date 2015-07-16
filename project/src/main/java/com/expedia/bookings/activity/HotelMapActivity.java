@@ -109,7 +109,14 @@ public class HotelMapActivity extends FragmentActivity implements HotelMapFragme
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		overridePendingTransition(R.anim.fade_in, R.anim.implode);
+		int exitAnimRes;
+		if (mIsFromHotelReceiptScreen) {
+			exitAnimRes = R.anim.fade_out;
+		}
+		else {
+			exitAnimRes = R.anim.implode;
+		}
+		overridePendingTransition(R.anim.fade_in, exitAnimRes);
 	}
 
 	@TargetApi(11)
