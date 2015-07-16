@@ -311,10 +311,9 @@ public final class ViewActions {
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				View upperChildView = ((LinearLayout) view).getChildAt(index);
-				View lowerChildView = ((LinearLayout) upperChildView).getChildAt(1);
-				View textView = ((LinearLayout) lowerChildView).getChildAt(0);
-				value.set(((TextView) textView).getText().toString());
+				View travlerAtIndexView = ((ViewGroup) view).getChildAt(index);
+				TextView textView = (TextView) travlerAtIndexView.findViewById(R.id.display_full_name);
+				value.set(textView.getText().toString());
 			}
 
 			@Override

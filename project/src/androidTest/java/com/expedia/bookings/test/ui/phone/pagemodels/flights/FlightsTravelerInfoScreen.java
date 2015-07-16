@@ -6,6 +6,7 @@ import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonTravelerInformationScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -45,6 +46,7 @@ public class FlightsTravelerInfoScreen extends CommonTravelerInformationScreen {
 		onView(withId(R.id.traveler_container)).perform(getPopulatedTravelerViewLayout(index, value));
 		String filterValue = value.get();
 		onView(withText(filterValue)).perform(click());
+		ScreenActions.delay(1);
 	}
 
 	public static void clickEditTravelerInfo() {

@@ -715,6 +715,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	 * blow away whatever was here before - so only call this when
 	 * we want to override the current data with Google Wallet!
 	 */
+	@Override
 	protected void onMaskedWalletFullyLoaded(boolean fromPreauth) {
 		populateTravelerData();
 
@@ -738,6 +739,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	}
 
 	// We may want to update these more often than the rest of the Views
+	@Override
 	protected void updateWalletViewVisibilities() {
 		boolean isUserBucketedForTest = Db.getAbacusResponse()
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppPaySuppressGoogleWallet);
