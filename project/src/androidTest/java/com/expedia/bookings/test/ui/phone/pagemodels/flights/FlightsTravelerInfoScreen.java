@@ -35,18 +35,21 @@ public class FlightsTravelerInfoScreen extends CommonTravelerInformationScreen {
 	}
 
 	public static void clickEmptyTravelerDetails(int index) {
+		ScreenActions.delay(2);
 		final AtomicReference<String> value = new AtomicReference<String>();
 		onView(withId(R.id.traveler_container)).perform(getEmptyTravelerViewLayout(index, value));
 		String filterValue = value.get();
 		onView(withText(filterValue)).perform(click());
+		ScreenActions.delay(2);
 	}
 
 	public static void clickPopulatedTravelerDetails(int index) {
+		ScreenActions.delay(2);
 		final AtomicReference<String> value = new AtomicReference<String>();
 		onView(withId(R.id.traveler_container)).perform(getPopulatedTravelerViewLayout(index, value));
 		String filterValue = value.get();
 		onView(withText(filterValue)).perform(click());
-		ScreenActions.delay(1);
+		ScreenActions.delay(2);
 	}
 
 	public static void clickEditTravelerInfo() {
