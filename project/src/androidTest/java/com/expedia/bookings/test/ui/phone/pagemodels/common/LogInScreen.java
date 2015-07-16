@@ -38,6 +38,7 @@ public class LogInScreen {
 		Common.closeSoftKeyboard(LogInScreen.passwordEditText());
 		ScreenActions.delay(1);
 		logInButton().perform(click());
+		ScreenActions.delay(2);
 	}
 
 	public static void typeTextEmailEditText(String text) {

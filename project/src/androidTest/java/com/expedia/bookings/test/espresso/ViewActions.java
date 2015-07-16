@@ -262,12 +262,10 @@ public final class ViewActions {
 
 	public final static class NestedTextView implements ViewAction {
 		private final int mUpperLayoutIndex;
-		private final int mLowerLayoutIndex;
 		private final AtomicReference<String> mValue;
 
-		public NestedTextView(final int upperIndex, final int lowerIndex, final AtomicReference<String> value) {
+		public NestedTextView(final int upperIndex, final AtomicReference<String> value) {
 			mUpperLayoutIndex = upperIndex;
-			mLowerLayoutIndex = lowerIndex;
 			mValue = value;
 		}
 		@SuppressWarnings("unchecked")
@@ -278,27 +276,27 @@ public final class ViewActions {
 
 		@Override
 		public void perform(UiController uiController, View view) {
-			View childView = ((LinearLayout) view).getChildAt(mUpperLayoutIndex);
-			View textView = ((LinearLayout) childView).getChildAt(mLowerLayoutIndex);
-			mValue.set(((TextView) textView).getText().toString());
+			View childView = ((ViewGroup) view).getChildAt(mUpperLayoutIndex);
+			TextView textView = (TextView) childView.findViewById(R.id.traveler_empty_text_view);
+			mValue.set(textView.getText().toString());
 		}
 
 		@Override
 		public String getDescription() {
-			return "Get the empty travelers container text on checkout";
+			return "Get the empty travelers container text on checkout upperIndex=" + mUpperLayoutIndex;
 		}
 	}
 
 	// View action to get the name match warning's sibling text view
 
 	public static ViewAction getNameMatchWarningView(final AtomicReference<String> value) {
-		return new NestedTextView(2, 0, value);
+		return new NestedTextView(2, value);
 	}
 
 	// View action to get empty traveler container on checkout
 
 	public static ViewAction getEmptyTravelerViewLayout(final int index, final AtomicReference<String> value) {
-		return new NestedTextView(index, 1, value);
+		return new NestedTextView(index, value);
 	}
 
 	// View action to get traveler container with info entered on checkout
