@@ -57,6 +57,7 @@
             android:paddingTop="8dp"
             android:layout_marginRight="12dp"
             android:drawableLeft="@drawable/check"
+            android:drawableRight="@drawable/info"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:text="@string/free_cancellation"
@@ -78,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_gravity="right"
-            android:text="@string/lx_total_with_tax"
+            android:text="@string/total_with_tax"
             android:textSize="11sp" />
 
         <com.expedia.bookings.widget.TextView

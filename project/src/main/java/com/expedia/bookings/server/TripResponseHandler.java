@@ -27,7 +27,7 @@ public class TripResponseHandler extends JsonResponseHandler<TripResponse> {
 
 		try {
 			// Check for errors, return if found
-			tripResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.TRIPS, response));
+			tripResponse.addErrors(ParserUtils.parseErrors(ApiMethod.TRIPS, response));
 			if (!tripResponse.isSuccess()) {
 				return tripResponse;
 			}

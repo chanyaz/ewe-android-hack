@@ -13,11 +13,14 @@ public class LXActivity {
 	public LXTicketType fromPriceTicketCode;
 	public List<String> categories;
 	public String duration;
+	public String fromOriginalPriceValue;
 	// True if the offers have different durations.
 	public boolean isMultiDuration;
 
 	//Utility Members
 	public String location;
 	public String regionId;
+	public String cancellationPolicyText;
 	public Money price;
+	public Money originalPrice;
 }

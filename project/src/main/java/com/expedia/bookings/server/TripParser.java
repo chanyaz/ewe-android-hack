@@ -535,8 +535,6 @@ public class TripParser {
 			traveler.setPhoneNumber(firstPhoneJson.optString("phone"));
 		}
 
-		traveler.setIsRedeemer(obj.optBoolean("isRedeemer"));
-
 		return traveler;
 	}
 

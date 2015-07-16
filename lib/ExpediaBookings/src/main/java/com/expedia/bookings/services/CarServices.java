@@ -8,6 +8,7 @@ import java.util.Map;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParams;
@@ -19,6 +20,8 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchResponse;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.cars.RateTerm;
+import com.expedia.bookings.data.cars.RateTermDeserializer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
@@ -77,6 +80,18 @@ public class CarServices {
 			.subscribe(observer);
 	}
 
+	public Subscription carSearchWithProductKey(CarSearchParams params, String productKey, Observer<CarSearch> observer) {
+		return Observable.combineLatest(mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate()), Observable.just(productKey), FIND_PRODUCT_KEY)
+			.doOnNext(HANDLE_ERRORS)
+			.doOnNext(CACHE_SEARCH_RESPONSE)
+			.flatMap(BUCKET_OFFERS)
+			.toSortedList(SORT_BY_LOWEST_TOTAL)
+			.map(PUT_IN_CAR_SEARCH)
+			.subscribeOn(mSubscribeOn)
+			.observeOn(mObserveOn)
+			.subscribe(observer);
+	}
+
 	public Subscription carFilterSearch(Observer<CarSearch> observer, CarFilter carFilter) {
 		return Observable.combineLatest(Observable.just(cachedCarSearchResponse), Observable.just(carFilter), FILTER_RESULTS)
 			.flatMap(BUCKET_OFFERS)
@@ -87,10 +102,10 @@ public class CarServices {
 			.subscribe(observer);
 	}
 
-	public Subscription createTrip(SearchCarOffer offer, Observer<CarCreateTripResponse> observer) {
-		return mApi.createTrip(offer.productKey, offer.fare.total.amount.toString())
+	public Subscription createTrip(String productKey, Money fare, boolean isInsuranceIncluded, Observer<CarCreateTripResponse> observer) {
+		return mApi.createTrip(productKey, fare.amount.toString())
 			.doOnNext(HANDLE_ERRORS)
-			.map(new SearchOfferInjector(offer))
+			.map(new SearchOfferInjector(isInsuranceIncluded, fare.formattedPrice))
 			.subscribeOn(mSubscribeOn)
 			.observeOn(mObserveOn)
 			.subscribe(observer);
@@ -109,6 +124,7 @@ public class CarServices {
 	public static Gson generateGson() {
 		return new GsonBuilder()
 			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+			.registerTypeAdapter(RateTerm.class, new RateTermDeserializer())
 			.create();
 	}
 
@@ -130,6 +146,27 @@ public class CarServices {
 		}
 	};
 
+	private class SearchOfferInjector implements Func1<CarCreateTripResponse, CarCreateTripResponse> {
+		private boolean isInsuranceIncluded;
+		private String originalPrice;
+
+		public SearchOfferInjector(boolean isInsuranceIncluded, String originalPrice) {
+			this.isInsuranceIncluded = isInsuranceIncluded;
+			this.originalPrice = originalPrice;
+		}
+
+		@Override
+		public CarCreateTripResponse call(CarCreateTripResponse carCreateTripResponse) {
+			//Propagate "isInsuranceIncluded" from Search Offer to Create Trip Offer
+			carCreateTripResponse.carProduct.isInsuranceIncluded = isInsuranceIncluded;
+
+			//Set Original Search Car Offer in case there was a Price Change
+			if (carCreateTripResponse.hasPriceChange()) {
+				carCreateTripResponse.originalPrice = originalPrice;
+			}
+			return carCreateTripResponse;
+		}
+	}
 
 	private static final Func1<CarSearchResponse, Observable<CategorizedCarOffers>> BUCKET_OFFERS = new Func1<CarSearchResponse, Observable<CategorizedCarOffers>>() {
 		@Override
@@ -174,6 +211,20 @@ public class CarServices {
 		}
 	};
 
+	private static final Func2<CarSearchResponse, String, CarSearchResponse> FIND_PRODUCT_KEY = new Func2<CarSearchResponse, String, CarSearchResponse>() {
+		@Override
+		public CarSearchResponse call(CarSearchResponse response, String productKey) {
+			CarSearchResponse productKeyCarSearchResponse = new CarSearchResponse();
+			if (response.hasProductKey(productKey)) {
+				productKeyCarSearchResponse.offers.add(response.getProductKeyResponse(productKey));
+			}
+			else {
+				throw new ApiError(ApiError.Code.CAR_PRODUCT_NOT_AVAILABLE);
+			}
+			return productKeyCarSearchResponse;
+		}
+	};
+
 	private static final Func2<CarSearchResponse, CarFilter, CarSearchResponse> FILTER_RESULTS = new Func2<CarSearchResponse, CarFilter, CarSearchResponse>() {
 		@Override
 		public CarSearchResponse call(CarSearchResponse response, CarFilter filter) {
@@ -182,22 +233,6 @@ public class CarServices {
 			return filteredResponse;
 		}
 	};
-
-	private class SearchOfferInjector implements Func1<CarCreateTripResponse, CarCreateTripResponse> {
-		SearchCarOffer searchCarOffer;
-
-		public SearchOfferInjector(SearchCarOffer offer) {
-			searchCarOffer = offer;
-		}
-
-		@Override
-		public CarCreateTripResponse call(CarCreateTripResponse carCreateTripResponse) {
-			if (carCreateTripResponse.hasPriceChange()) {
-				carCreateTripResponse.searchCarOffer = searchCarOffer;
-			}
-			return carCreateTripResponse;
-		}
-	}
 
 	private class CreateTripOfferInjector implements Func1<CarCheckoutResponse, CarCheckoutResponse> {
 		CreateTripCarOffer createTripCarOffer;

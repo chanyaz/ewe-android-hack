@@ -68,7 +68,7 @@ public class GuestPicker extends LinearLayout {
 		mChildPlus = Ui.findView(this, R.id.children_plus);
 
 		mChildAgesLayout = Ui.findView(this, R.id.child_ages_layout);
-		mChildAgesLayout.setVisibility(getChildAgesVisibility());
+		GuestsPickerUtils.showOrHideChildAgeSpinners(getContext(), mChildren, mChildAgesLayout, mChildAgeSelectedListener);
 
 		boolean isTablet = getContext().getResources().getBoolean(R.bool.tablet);
 		final String trackingBase = isTablet ? OmnitureTracking.PICKER_TRACKING_BASE_TABLET :
@@ -173,12 +173,7 @@ public class GuestPicker extends LinearLayout {
 		mAdultText.setText(getResources().getQuantityString(R.plurals.number_of_adults, mAdultCount, mAdultCount));
 		mChildText.setText(getResources().getQuantityString(R.plurals.number_of_children, mChildren.size(), mChildren.size()));
 		GuestsPickerUtils.setChildSpinnerPositions(this, mChildren);
-		GuestsPickerUtils.showOrHideChildAgeSpinners(getContext(), mChildren, this, mChildAgeSelectedListener);
-		mChildAgesLayout.setVisibility(getChildAgesVisibility());
-	}
-
-	private int getChildAgesVisibility() {
-		return mChildren.size() > 0 ? View.VISIBLE : View.INVISIBLE;
+		GuestsPickerUtils.showOrHideChildAgeSpinners(getContext(), mChildren, mChildAgesLayout, mChildAgeSelectedListener);
 	}
 
 	private final android.widget.AdapterView.OnItemSelectedListener mChildAgeSelectedListener = new android.widget.AdapterView.OnItemSelectedListener() {

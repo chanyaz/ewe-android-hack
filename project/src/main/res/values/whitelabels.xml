@@ -88,10 +88,8 @@
     <!-- Log in with Expedia/VSC screen -->
     <!-- This drawable is used in hotel detail for Book Now button as well -->
     <attr name="skin_loginBookNowButtonDrawable" format="reference" />
-    <attr name="skin_loginWithExpediaButtonText" format="reference|string" />
     <attr name="skin_loginWithExpediaTitleText" format="reference|string" />
     <attr name="skin_hotelDetailPlaceHolderDrawable" format="reference" />
-    <attr name="skin_loginWithExpediaContentDescription" format="reference|string" />
     <attr name="skin_loginButtonColor" format="reference" />
     <attr name="skin_hotelBookButtonColor" format="reference" />
 
@@ -149,9 +147,6 @@
     <attr name="skin_aboutAppNameString" format="reference|string" />
     <attr name="skin_aboutAppLogoDrawable" format="reference" />
 
-    <!-- for logout confirmation -->
-    <attr name="skin_logoutConfirmationString" format="reference|string" />
-
     <!-- Flight loading screen message position -->
     <attr name="skin_flightLoadingMessagePosition" format="reference" />
 
@@ -193,10 +188,8 @@
     <attr name="skin_couponSuccessMessageColor" fomrat="reference|color"/>
 
     <attr name="skin_infoContactUsString" format="reference|string"/>
-    <attr name="skin_infoContactEmailSubjectString" format="reference|string"/>
 
     <attr name="skin_loadingAirAsiaRoutesString" format="reference|string" />
-    <attr name="skin_emailUserNameString" format="reference|string" />
     <attr name="skin_itineraryNumberString" format="reference|string" />
     <attr name="skin_itinCardOverflowDrawable" format="reference"/>
     <attr name="skin_itinCardActionBarCheckmark" format="reference"/>
@@ -218,9 +211,7 @@
     <attr name="skin_clearPrivateDataMsg" format="string"/>
 
     <!--Hotel search result messages-->
-    <attr name="skin_hotelSearchResultNotAvailale" format="reference|string" />
     <attr name="skin_hotelSearchResultSoldOut" format="reference|string" />
-    <attr name="skin_hotelSearchResultTEMPLATE" format="reference|string" />
 
     <attr name="skin_candycaneProgressDrawable" format="reference" />
     <attr name="skin_userRatingBarDrawable" format="reference" />
@@ -240,13 +231,8 @@
     <attr name="skin_addToCalenderMessage" format="reference|string" />
 
     <!--Missing string in AirAsiaGo and Travelocity-->
-    <attr name="skin_tellAFriendBody" format="reference|string" />
-    <attr name="skin_tellAFriendSubject" format="reference|string" />
     <attr name="skin_sorryRoomsSoldOut" format="reference|string" />
-    <attr name="skin_passwordHint" format="reference|string" />
-    <attr name="skin_loadingAccount" format="reference|string" />
     <attr name="skin_restrictedProfileLoginMessage" format="reference|string" />
-    <attr name="skin_dialogMessageLaunchMobileSite" format="reference|string" />
     <attr name="skin_sorryRoomsSoldOutErrorMessage" format="reference|string" />
 
     <!--Change the color of flight circles and lines -->
@@ -317,7 +303,6 @@
 
     <attr name="skin_hotelSearchPopupFilterTextColor" format="reference|color" />
 
-    <attr name="skin_totalDueToday" format="reference|string" />
     <attr name="skin_bgSaleTextViewDrawable" format="reference" />
 
     <attr name="skin_bgFlightSummaryRowTablet" format="reference" />
@@ -344,4 +329,7 @@
     <attr name="skin_confirmationHeaderHotelDividerLineColor" format="reference|color" />
     <attr name="skin_confirmationHeaderFlightDividerLineColor" format="reference|color" />
     <attr name="skin_checkmarkFlightDrawable" format="reference" />
+
+    <attr name="skin_launchTabIndicatorColor" format="reference|color" />
+    <attr name="skin_launchActionBarBackgroundColor" format="reference|color" />
 </resources>

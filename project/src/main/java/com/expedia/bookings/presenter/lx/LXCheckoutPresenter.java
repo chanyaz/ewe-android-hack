@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.LXCheckoutWidget;
 import com.expedia.bookings.widget.LXErrorWidget;
+import com.expedia.bookings.widget.LxRulesWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -48,6 +49,9 @@ public class LXCheckoutPresenter extends Presenter {
 	@InjectView(R.id.checkout)
 	LXCheckoutWidget checkout;
 
+	@InjectView(R.id.rules)
+	LxRulesWidget rules;
+
 	@InjectView(R.id.cvv)
 	CVVEntryWidget cvv;
 
@@ -65,6 +69,7 @@ public class LXCheckoutPresenter extends Presenter {
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
 		addDefaultTransition(defaultCheckoutTransition);
+		addTransition(checkoutToRules);
 		addTransition(checkoutToCvv);
 		addTransition(cvvToError);
 		addTransition(checkoutToError);
@@ -87,6 +92,7 @@ public class LXCheckoutPresenter extends Presenter {
 			checkoutSubscription.unsubscribe();
 			checkoutSubscription = null;
 		}
+
 	}
 
 	private void showAlertMessage(String message, String confirmButton) {
@@ -145,6 +151,9 @@ public class LXCheckoutPresenter extends Presenter {
 			errorScreen.setVisibility(View.GONE);
 		}
 	};
+
+	private Transition checkoutToRules = new VisibilityTransition(this, LXCheckoutWidget.class, LxRulesWidget.class);
+
 	private Transition checkoutToCvv = new VisibilityTransition(this, CVVEntryWidget.class, LXCheckoutWidget.class);
 
 	private Transition cvvToError = new VisibilityTransition(this, CVVEntryWidget.class, LXErrorWidget.class);
@@ -162,10 +171,6 @@ public class LXCheckoutPresenter extends Presenter {
 	 * Events
 	 */
 
-	@Subscribe
-	public void onShowCheckout(Events.LXCreateTripSucceeded event) {
-		show(checkout);
-	}
 
 	@Subscribe
 	public void onShowCVV(Events.ShowCVV event) {
@@ -173,6 +178,11 @@ public class LXCheckoutPresenter extends Presenter {
 		BillingInfo billingInfo = event.billingInfo;
 		cvv.bind(billingInfo);
 		OmnitureTracking.trackAppLXCheckoutCvvScreen(getContext());
+	}
+
+	@Subscribe
+	public void showLxRulesOnCheckout(Events.LXShowRulesOnCheckout event) {
+		show(rules);
 	}
 
 	@Subscribe
@@ -242,5 +252,17 @@ public class LXCheckoutPresenter extends Presenter {
 			String itineraryNumber = checkoutResponse.newTrip.itineraryNumber;
 			ItineraryManager.getInstance().addGuestTrip(email, itineraryNumber);
 		}
+	}
+
+	@Subscribe
+	public void onOfferBooked(Events.LXOfferBooked event) {
+		checkout.showCheckout();
+		show(checkout);
+	}
+
+	@Subscribe
+	public void onShowErrorScreen(Events.LXError event) {
+		errorScreen.bind(event.apiError);
+		show(errorScreen, FLAG_CLEAR_BACKSTACK);
 	}
 }

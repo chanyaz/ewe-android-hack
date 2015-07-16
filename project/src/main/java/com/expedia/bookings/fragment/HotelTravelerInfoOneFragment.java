@@ -52,8 +52,6 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
 					mSectionTravelerInfo.performValidation();
 				}
-				//We attempt a save on change
-				Db.getWorkingTravelerManager().attemptWorkingTravelerSave(getActivity(), false);
 			}
 		});
 

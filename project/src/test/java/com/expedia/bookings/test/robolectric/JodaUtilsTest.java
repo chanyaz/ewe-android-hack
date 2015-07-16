@@ -246,17 +246,17 @@ public class JodaUtilsTest {
 
 		LocalDate tomorrow = today.plusDays(1);
 		mBillingInfo.setExpirationDate(tomorrow);
-		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers, 0);
+		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers);
 		verifyExpirationDates(query, tomorrow);
 
 		LocalDate nextMonth = today.plusMonths(1);
 		mBillingInfo.setExpirationDate(nextMonth);
-		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers, 0);
+		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers);
 		verifyExpirationDates(query, nextMonth);
 
 		LocalDate nextYear = today.plusYears(1);
 		mBillingInfo.setExpirationDate(nextYear);
-		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers, 0);
+		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers);
 		verifyExpirationDates(query, nextYear);
 	}
 

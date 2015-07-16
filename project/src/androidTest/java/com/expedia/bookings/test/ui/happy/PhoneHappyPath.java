@@ -178,6 +178,7 @@ public class PhoneHappyPath extends PhoneTestCase {
 		final String expectedHotelTitle = "Orchard Hotel";
 		assertEquals(expectedHotelTitle, hotelTitle);
 		hotelRow.onChildView(withText(containsString("Check in"))).atPosition(0).perform(click());
+		screenshot("Hotel Itin");
 		onView(withId(R.id.bed_type_text_view)).perform(scrollTo());
 		assertViewWithTextIsDisplayed(R.id.local_phone_number_header_text_view, "Local Phone");
 		assertViewWithTextIsDisplayed(R.id.local_phone_number_text_view, "1-415-362-8878");
@@ -187,11 +188,12 @@ public class PhoneHappyPath extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.bed_type_text_view, "1 king bed");
 		hotelRow.onChildView(withText(containsString("Check in"))).perform(scrollTo(), click());
 
-		// Flight assertions
+		// Outbound flight assertions
 		DataInteraction outboundFlightRow = TripsScreen.tripsListItem().atPosition(1);
 		String outboundFlightAirportTimeStr = getListItemValues(outboundFlightRow, R.id.flight_status_bottom_line);
 		assertEquals("From SFO at 11:32 AM", outboundFlightAirportTimeStr);
 		outboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
+		screenshot("Outbound Flight Itin");
 		assertViewWithTextIsDisplayed(R.id.departure_time, "11:32 AM");
 		assertViewWithTextIsDisplayed(R.id.departure_time_tz, "Depart (PDT)");
 		assertViewWithTextIsDisplayed(R.id.arrival_time, "9:04 PM");
@@ -213,22 +215,37 @@ public class PhoneHappyPath extends PhoneTestCase {
 		// Air attach assertions
 		DataInteraction airAttachRow = TripsScreen.tripsListItem().atPosition(2);
 		String airAttachMessage = getListItemValues(airAttachRow, R.id.itin_air_attach_text_view);
+		screenshot("Air Attach");
 		assertEquals("Because you booked a flight", airAttachMessage);
 		assertViewWithTextIsDisplayed(R.id.itin_air_attach_expiration_date_text_view, "1 day");
 
 		// Car assertions
 		DataInteraction carRow = TripsScreen.tripsListItem().atPosition(3);
 		String carTitle = getListItemValues(carRow, R.id.header_text_view);
+		carRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
+		screenshot("Car Itin");
 		assertEquals("Budget", carTitle);
+		carRow.onChildView(withId(R.id.header_text_date_view)).perform(scrollTo(), click());
+
+		// Return flight assertions
+		DataInteraction returnFlightRow = TripsScreen.tripsListItem().atPosition(4);
+		String returnFlightAirportTimeStr = getListItemValues(returnFlightRow, R.id.flight_status_bottom_line);
+		assertEquals("From DTW at 9:59 PM", returnFlightAirportTimeStr);
+		returnFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
+		screenshot("Return Flight Itin");
 
 		// Lx assertions
 		DataInteraction lxRow = TripsScreen.tripsListItem().atPosition(5);
 		String lxTitle = getListItemValues(lxRow, R.id.header_text_view);
+		screenshot("LX Itin");
 		final String expectedLxTitle = "Explorer Pass: Choose 4 Museums, Attractions, & Tours: Explorer Pass - Chose 4 Attractions & Tours";
 		assertEquals(expectedLxTitle, lxTitle);
 
-		// TODO more assertions for flight, air attach car (e.g. details?)
-		// TODO more LOB
+		// Cruise
+		DataInteraction cruiseRow = TripsScreen.tripsListItem().atPosition(6);
+		String cruiseTitle = getListItemValues(cruiseRow, R.id.header_text_view);
+		screenshot("Cruise");
+		final String expectedCruiseTitle = "Cruise Card";
+		assertEquals(expectedCruiseTitle, cruiseTitle);
 	}
-
 }

@@ -56,10 +56,6 @@
     <!-- lastminute.com.au Itinerary -->
     <string name="lm_itinerary">lastminute.com.au Itinerary #</string>
 
-    <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">lastminute.com.au</string>
-
     <string name="error_flight_no_longer_available_lm">We\'re really sorry, your flight is no longer available from lastminute.com.au.</string>
 
     <string name="error_flights_no_longer_available_lm">We\'re really sorry, one of your flights is no longer available from lastminute.com.au.</string>

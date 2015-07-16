@@ -61,6 +61,16 @@
                 app:btn_bg="@drawable/bg_lob_cars"
                 app:btn_icon="@drawable/lob_car"
                 app:btn_text="@string/nav_cars" />
+
+            <com.expedia.bookings.widget.PhoneLaunchButton
+                android:id="@+id/lx_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/launch_lob_margin"
+                app:btn_bg="@drawable/bg_lob_activities"
+                app:btn_icon="@drawable/ic_launch_activities"
+                app:btn_text="@string/nav_lx" />
         </LinearLayout>
     </FrameLayout>
 

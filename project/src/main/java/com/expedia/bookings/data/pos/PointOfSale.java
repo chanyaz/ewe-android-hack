@@ -38,6 +38,7 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 
@@ -86,9 +87,6 @@ public class PointOfSale {
 
 	// The POS's gold rewards member phone number
 	private String mSupportPhoneNumberGold;
-
-	// The POS's support email address
-	private String mSupportEmail;
 
 	// The two-letter country code associated with this locale (e.g. "US")
 	private String mTwoLetterCountryCode;
@@ -158,6 +156,8 @@ public class PointOfSale {
 
 	// Should we show strikethrough prices on half-width launch tiles for this POS?
 	private boolean mShowHalfTileStrikethroughPrice;
+
+	private static boolean mIsTablet;
 
 	private static Map<String, Integer> sCountryCodeMap;
 
@@ -536,15 +536,6 @@ public class PointOfSale {
 		return !TextUtils.isEmpty(number) ? number : getSupportPhoneNumber();
 	}
 
-	public String getSupportEmail() {
-		if (!TextUtils.isEmpty(mSupportEmail)) {
-			return mSupportEmail;
-		}
-		else {
-			return "support@expedia.com";
-		}
-	}
-
 	public String getTwoLetterCountryCode() {
 		return mTwoLetterCountryCode;
 	}
@@ -589,11 +580,11 @@ public class PointOfSale {
 	}
 
 	public boolean supportsCars() {
-		return mSupportsCars;
+		return mSupportsCars && !mIsTablet;
 	}
 
 	public boolean supportsLx() {
-		return mSupportsLx;
+		return mSupportsLx && !mIsTablet;
 	}
 
 	public boolean supportsStrikethroughPrice() {
@@ -669,10 +660,6 @@ public class PointOfSale {
 	}
 
 	// TODO: As more complicated payment combinations arise, think about a refactor
-
-	public RequiredPaymentFields getRequiredPaymentFieldsFlights() {
-		return mRequiredPaymentFieldsFlights;
-	}
 
 	public boolean requiresBillingAddressFlights() {
 		return mRequiredPaymentFieldsFlights == RequiredPaymentFields.ALL;
@@ -824,6 +811,7 @@ public class PointOfSale {
 
 		// Init the cache
 		getPointOfSale(context);
+		mIsTablet = AndroidUtils.isTablet(context);
 	}
 
 	/**
@@ -1042,7 +1030,6 @@ public class PointOfSale {
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
 		pos.mSupportPhoneNumberSilver = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberSilver");
 		pos.mSupportPhoneNumberGold = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
-		pos.mSupportEmail = data.optString("supportEmail");
 
 		// POS config
 		pos.mDistanceUnit = data.optString("distanceUnit", "").equals("miles") ? DistanceUnit.MILES

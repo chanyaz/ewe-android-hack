@@ -287,12 +287,12 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 	private void searchForCars() {
 		CarSearchParams sp = CarDataUtils.fromFlightParams(Db.getTripBucket().getFlight().getFlightTrip());
-		NavUtils.goToCars(getActivity(), null, sp);
+		NavUtils.goToCars(getActivity(), null, sp, NavUtils.FLAG_OPEN_SEARCH);
 	}
 
 	private void searchForActivities() {
 		LXSearchParams sp = LXDataUtils.fromFlightParams(getActivity(), Db.getTripBucket().getFlight().getFlightTrip());
-		NavUtils.goToLx(getActivity(), null, sp, false);
+		NavUtils.goToActivities(getActivity(), null, sp, NavUtils.FLAG_OPEN_SEARCH);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

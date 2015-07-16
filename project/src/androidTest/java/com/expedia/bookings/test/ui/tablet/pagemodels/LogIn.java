@@ -16,7 +16,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class LogIn {
 
 	public static ViewInteraction loginExpediaButton() {
-		return onView(withId(R.id.log_in_with_expedia_btn));
+		return onView(withId(R.id.log_in_btn));
 	}
 
 	public static ViewInteraction loginFacebookButton() {

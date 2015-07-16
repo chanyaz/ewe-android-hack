@@ -1,17 +1,19 @@
 package com.expedia.bookings.test.ui.phone.tests.cars;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CarCreateTripResponse;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.CarTestCase;
 import com.expedia.bookings.test.ui.utils.EspressoUtils;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.mobiata.android.util.IoUtils;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
+
 import static android.support.test.espresso.action.ViewActions.clearText;
 
 public class CarCreditCardTests extends CarTestCase {
@@ -55,13 +57,13 @@ public class CarCreditCardTests extends CarTestCase {
 	}
 
 	private void goToCheckout() throws Throwable {
-		String createFileName = "CarCreateTripResponse_CCRequired.json";
-		CarCreateTripResponse carCreateTripResponse;
+		String createFileName = "SearchCarOffer_CCRequired.json";
+		SearchCarOffer searchCarOffer;
 		Gson gson = CarServices.generateGson();
-		String createStr = IoUtils.convertStreamToString(
+		String offerStr = IoUtils.convertStreamToString(
 			getInstrumentation().getContext().getAssets().open(createFileName));
-		carCreateTripResponse = gson.fromJson(createStr, CarCreateTripResponse.class);
-		Events.post(new Events.CarsShowCheckout(carCreateTripResponse));
+		searchCarOffer = gson.fromJson(offerStr, SearchCarOffer.class);
+		Events.post(new Events.CarsShowCheckout(searchCarOffer.productKey, searchCarOffer.fare.total, searchCarOffer.isInsuranceIncluded, new LatLng(searchCarOffer.pickUpLocation.latitude, searchCarOffer.pickUpLocation.longitude)));
 	}
 
 }

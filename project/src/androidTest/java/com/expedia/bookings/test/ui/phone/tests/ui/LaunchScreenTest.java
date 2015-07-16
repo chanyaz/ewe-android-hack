@@ -12,10 +12,9 @@ import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Created by dmadan on 11/17/14.
@@ -48,6 +47,12 @@ public class LaunchScreenTest extends PhoneTestCase {
 		}
 		else if (testMethodName.contains("USA")) {
 			setPOS(PointOfSaleId.UNITED_STATES);
+		}
+		else if (testMethodName.contains("NewZealand")) {
+			setPOS(PointOfSaleId.NEW_ZEALND);
+		}
+		else if (testMethodName.contains("Australia")) {
+			setPOS(PointOfSaleId.AUSTRALIA);
 		}
 		super.runTest();
 	}
@@ -134,35 +139,53 @@ public class LaunchScreenTest extends PhoneTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.departure_airport_spinner);
 	}
 
-	public void testNoCarLXSupportUnitedKingdomPOS() throws Throwable {
-		LaunchScreen.checkCarsButtonNotDisplayed();
-		LaunchScreen.checkLXButtonNotDisplayed();
+	public void testCarLXSupportUnitedKingdomPOS() throws Throwable {
+		checkForCarLXButtons();
 	}
 
 	public void testNoCarLXSupportGermanyPOS() throws Throwable {
-		LaunchScreen.checkCarsButtonNotDisplayed();
-		LaunchScreen.checkLXButtonNotDisplayed();
+		LaunchScreen.lobSingleRowWidget().check(matches(isDisplayed()));
+		LaunchScreen.lobDoubleRowWidget().check(matches(not(isDisplayed())));
+		LaunchScreen.carLaunchButtonInSingleRow().check(matches(not(isDisplayed())));
+		LaunchScreen.lxLaunchButtonInSingleRow().check(matches(not(isDisplayed())));
 	}
 
-	public void testNoCarLXSupportCanadaPOS() throws Throwable {
-		LaunchScreen.checkCarsButtonNotDisplayed();
-		LaunchScreen.checkLXButtonNotDisplayed();
+	public void testCarLXSupportCanadaPOS() throws Throwable {
+		checkForCarLXButtons();
+	}
+
+	public void testCarLXSupportNewZealandPOS() throws Throwable {
+		checkForCarLXButtons();
+	}
+
+	public void testCarLXSupportAustraliaPOS() {
+		checkForCarLXButtons();
 	}
 
 	public void testNoCarLXSupportJapanPOS() throws Throwable {
-		LaunchScreen.checkCarsButtonNotDisplayed();
-		LaunchScreen.checkLXButtonNotDisplayed();
+		LaunchScreen.lobSingleRowWidget().check(matches(isDisplayed()));
+		LaunchScreen.lobDoubleRowWidget().check(matches(not(isDisplayed())));
+		LaunchScreen.carLaunchButtonInSingleRow().check(matches(not(isDisplayed())));
+		LaunchScreen.lxLaunchButtonInSingleRow().check(matches(not(isDisplayed())));
 	}
 
 	public void testNoCarLXSupportFrancePOS() throws Throwable {
-		LaunchScreen.checkCarsButtonNotDisplayed();
-		LaunchScreen.checkLXButtonNotDisplayed();
+		LaunchScreen.lobSingleRowWidget().check(matches(isDisplayed()));
+		LaunchScreen.lobDoubleRowWidget().check(matches(not(isDisplayed())));
+		LaunchScreen.carLaunchButtonInSingleRow().check(matches(not(isDisplayed())));
+		LaunchScreen.lxLaunchButtonInSingleRow().check(matches(not(isDisplayed())));
 	}
 
 	public void testCarLXSupportUSAPOS() throws Throwable {
 		// Let's recheck cars for US POS
-		onView(allOf(withId(R.id.cars_button), isDescendantOfA(withId(R.id.double_row_lob_selector)))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.activities_button), isDescendantOfA(withId(R.id.double_row_lob_selector)))).check(matches(isDisplayed()));
+		checkForCarLXButtons();
+	}
+
+	private void checkForCarLXButtons() {
+		LaunchScreen.lobSingleRowWidget().check(matches(not(isDisplayed())));
+		LaunchScreen.lobDoubleRowWidget().check(matches(isDisplayed()));
+		LaunchScreen.carLaunchButtonInDoubleRow().check(matches(isDisplayed()));
+		LaunchScreen.lxLaunchButtonInDoubleRow().check(matches(isDisplayed()));
 	}
 
 	@Override

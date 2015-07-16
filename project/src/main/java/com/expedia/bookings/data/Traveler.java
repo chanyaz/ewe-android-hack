@@ -28,7 +28,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	// Expedia
 	private Long mTuid = 0L;
-	private String mLoyaltyMembershipNumber;
 	private String mLoyaltyMembershipName;
 	private boolean mIsLoyaltyMembershipActive = false;
 	private LoyaltyMembershipTier mLoyaltyMembershipTier = LoyaltyMembershipTier.NONE;
@@ -61,9 +60,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private static final int MIN_CHILD_AGE = 2;
 	private static final int MIN_ADULT_CHILD_AGE = 12;
 	private static final int MIN_ADULT_AGE = 18;
-
-	// Activities
-	private boolean mIsRedeemer;
 
 	// Utility - not actually coming from the Expedia
 	private boolean mSaveTravelerToExpediaAccount = false;
@@ -128,19 +124,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mTuid = 0L;
 	}
 
-	public String getLoyaltyMembershipNumber() {
-		if (!mIsLoyaltyMembershipActive || TextUtils.isEmpty(mLoyaltyMembershipNumber)) {
-			return null;
-		}
-		return mLoyaltyMembershipNumber;
-	}
-
 	public boolean getIsLoyaltyMembershipActive() {
 		return mIsLoyaltyMembershipActive;
-	}
-
-	public String getLoyaltyMembershipName() {
-		return mLoyaltyMembershipName;
 	}
 
 	public LoyaltyMembershipTier getLoyaltyMembershipTier() {
@@ -215,10 +200,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			mPhoneNumbers.add(phone);
 		}
 		return phone;
-	}
-
-	public List<Phone> getPhoneNumbers() {
-		return mPhoneNumbers;
 	}
 
 	public String getEmail() {
@@ -376,20 +357,12 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return !TextUtils.isEmpty(getFirstName()) && !TextUtils.isEmpty(getLastName());
 	}
 
-	public boolean hasEmail() {
-		return !TextUtils.isEmpty(getEmail());
-	}
-
 	public boolean getSaveTravelerToExpediaAccount() {
 		if (mFromGoogleWallet) {
 			return false;
 		}
 
 		return mSaveTravelerToExpediaAccount;
-	}
-
-	public boolean getIsRedeemer() {
-		return mIsRedeemer;
 	}
 
 	public int getSearchedAge() {
@@ -405,10 +378,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public void setExpediaUserId(Long expediaUserId) {
 		mExpediaUserId = expediaUserId;
-	}
-
-	public void setLoyaltyMembershipNumber(String loyaltyMembershipNumber) {
-		mLoyaltyMembershipNumber = loyaltyMembershipNumber;
 	}
 
 	public void setLoyaltyMembershipActive(boolean active) {
@@ -536,10 +505,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mSaveTravelerToExpediaAccount = save;
 	}
 
-	public void setIsRedeemer(boolean isRedeemer) {
-		mIsRedeemer = isRedeemer;
-	}
-
 	public void setFromGoogleWallet(boolean fromGoogleWallet) {
 		mFromGoogleWallet = fromGoogleWallet;
 	}
@@ -607,7 +572,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		try {
 			obj.putOpt("tuid", mTuid);
 			obj.putOpt("expUserId", mExpediaUserId);
-			obj.putOpt("loyaltyMembershipNumber", mLoyaltyMembershipNumber);
 			obj.putOpt("loyaltyMemebershipActive", mIsLoyaltyMembershipActive);
 			obj.putOpt("loyaltyMemebershipName", mLoyaltyMembershipName);
 			obj.putOpt("membershipTier", mLoyaltyMembershipTier.name());
@@ -639,8 +603,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 			obj.putOpt("searchedAge", mSearchedAge);
 
-			obj.putOpt("isRedeemer", mIsRedeemer);
-
 			obj.putOpt("saveToExpediaAccount", mSaveTravelerToExpediaAccount);
 
 			obj.putOpt("fromGoogleWallet", mFromGoogleWallet);
@@ -662,7 +624,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	public boolean fromJson(JSONObject obj) {
 		mTuid = obj.optLong("tuid");
 		mExpediaUserId = obj.optLong("expUserId");
-		mLoyaltyMembershipNumber = obj.optString("loyaltyMembershipNumber", null);
 		mIsLoyaltyMembershipActive = obj.optBoolean("loyaltyMemebershipActive", false);
 		mLoyaltyMembershipName = obj.optString("loyaltyMemebershipName", null);
 		setLoyaltyMembershipTier(obj.optString("membershipTier", null));
@@ -691,8 +652,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mPassengerCategory = JSONUtils.getEnum(obj, "passengerCategory", PassengerCategory.class);
 
 		mSearchedAge = obj.optInt("searchedAge");
-
-		mIsRedeemer = obj.optBoolean("isRedeemer");
 
 		mSaveTravelerToExpediaAccount = obj.optBoolean("saveToExpediaAccount");
 

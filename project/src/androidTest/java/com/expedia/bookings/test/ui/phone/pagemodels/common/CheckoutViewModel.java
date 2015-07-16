@@ -112,7 +112,7 @@ public class CheckoutViewModel {
 	}
 
 	public static void pressDoLogin() {
-		onView(withId(R.id.log_in_with_expedia_btn)).perform(click());
+		onView(withId(R.id.log_in_btn)).perform(click());
 	}
 
 	public static void clickLogin() {

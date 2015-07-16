@@ -51,10 +51,6 @@
     <!-- Travelocity Itinerary -->
     <string name="tvly_itinerary">Travelocity Itinerary #</string>
 
-    <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Travelocity</string>
-
     <string name="error_flight_no_longer_available_tvly">We\'re really sorry, your flight is no longer available from Travelocity.</string>
 
     <string name="error_flights_no_longer_available_tvly">We\'re really sorry, one of your flights is no longer available from Travelocity.</string>

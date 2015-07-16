@@ -3,26 +3,25 @@ package com.expedia.bookings.test.ui.phone.pagemodels.hotels;
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
-
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withHotelName;
-import static com.expedia.bookings.test.ui.espresso.ViewActions.clickDates;
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.not;
+import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.espresso.ViewActions;
 
-import android.support.test.espresso.DataInteraction;
-import android.support.test.espresso.ViewInteraction;
+import static android.support.test.espresso.Espresso.onData;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withHotelName;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.clickDates;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.not;
 
 public class HotelsSearchScreen {
 	// Top action bar
@@ -155,7 +154,8 @@ public class HotelsSearchScreen {
 	}
 
 	public static void clickSuggestionAtIndex(Activity activity, int index) {
-		onData(anything()).inRoot(withDecorView(not(is(activity.getWindow().getDecorView())))).atPosition(index).perform(click());
+		onData(anything()).inRoot(withDecorView(not(is(activity.getWindow().getDecorView())))).atPosition(
+			index).perform(click());
 	}
 
 	public static void clickSuggestionWithName(Activity activity, String city) {

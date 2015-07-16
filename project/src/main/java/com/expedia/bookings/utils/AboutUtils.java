@@ -91,69 +91,17 @@ public class AboutUtils {
 		return builder.create();
 	}
 
-	@SuppressLint("NewApi")
-	public Dialog createExpediaWebsiteDialog(final Runnable onDismiss) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(mActivity, R.style.LightDialog);
-
-		builder.setMessage(Ui.obtainThemeResID(mActivity, R.attr.skin_dialogMessageLaunchMobileSite));
-		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				if (onDismiss != null) {
-					onDismiss.run();
-				}
-			}
-		});
-		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				openExpediaWebsite();
-
-				if (onDismiss != null) {
-					onDismiss.run();
-				}
-			}
-		});
-		if (onDismiss != null) {
-			builder.setOnCancelListener(new OnCancelListener() {
-				@Override
-				public void onCancel(DialogInterface dialog) {
-					onDismiss.run();
-				}
-			});
-		}
-
-		return builder.create();
-	}
-
 	public void contactViaPhone() {
 		trackCallSupport();
 		SocialUtils.call(mActivity, PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
-	}
-
-	public void contactViaEmail() {
-		trackEmailSupport();
-		SocialUtils.email(mActivity, PointOfSale.getPointOfSale().getSupportEmail(),
-			mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.skin_infoContactEmailSubjectString)), null);
 	}
 
 	public void openExpediaWebsite() {
 		openWebsite(mActivity, PointOfSale.getPointOfSale().getWebsiteUrl(), true);
 	}
 
-	public void openContactUsVSC() {
-		openWebsite(mActivity, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html", false, false);
-	}
-
 	public void openAppSupport() {
 		openWebsite(mActivity, ProductFlavorFeatureConfiguration.getInstance().getAppSupportUrl(mActivity), false, true);
-	}
-
-	public void tellAFriend() {
-		trackTellAFriend();
-
-		SocialUtils.email(mActivity, mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.skin_tellAFriendSubject)),
-			mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.skin_tellAFriendBody)));
 	}
 
 	public void openCareers() {
@@ -200,21 +148,6 @@ public class AboutUtils {
 		OmnitureTracking.trackSimpleEvent(mActivity, null, "event35", "App.Info.CallSupport");
 	}
 
-	public void trackEmailSupport() {
-		Log.d("Tracking \"email support\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, "event36", "App.Info.EmailSupport");
-	}
-
-	public void trackTellAFriend() {
-		Log.d("Tracking \"tell a friend\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Info.TellAFriend");
-	}
-
-	public void trackFlightTrackFreeLink() {
-		Log.d("Tracking \"flighttrackfree\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Link.FlightTrackFree");
-	}
-
 	public void trackFlightTrackLink() {
 		Log.d("Tracking \"flighttrack\" onClick");
 		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Link.FlightTrack");
@@ -228,11 +161,6 @@ public class AboutUtils {
 	public void trackHiringLink() {
 		Log.d("Tracking \"hiring\" onClick");
 		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Link.Mobiata.Jobs");
-	}
-
-	public void trackFeedbackPageLoad() {
-		Log.d("Tracking \"App.Feedback\" pageLoad");
-		OmnitureTracking.trackSimpleEvent(mActivity, "App.Feedback", null, null);
 	}
 
 	public void trackFeedbackSubmitted() {

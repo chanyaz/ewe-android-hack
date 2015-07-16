@@ -42,7 +42,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 
 		try {
 			// Check for errors
-			signInResponse.addErrors(ParserUtils.parseErrors(mContext, ServerError.ApiMethod.SIGN_IN, response));
+			signInResponse.addErrors(ParserUtils.parseErrors(ServerError.ApiMethod.SIGN_IN, response));
 			signInResponse.setSuccess(response.optBoolean("success", true));
 
 			if (signInResponse.isSuccess()) {
@@ -165,7 +165,6 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		traveler.setFirstName(obj.optString("firstName", null));
 		traveler.setMiddleName(obj.optString("middleName", null));
 		traveler.setLastName(obj.optString("lastName", null));
-		traveler.setLoyaltyMembershipNumber(obj.optString("loyaltyMembershipNumber", null));
 		traveler.setLoyaltyMembershipActive(obj.optBoolean("loyaltyMemebershipActive", false));
 		traveler.setLoyaltyMembershipName(obj.optString("loyaltyMemebershipName", null));
 		traveler.setLoyaltyMembershipTier(obj.optString("membershipTierName", null));

@@ -16,7 +16,7 @@ fun unUrlEscape(str: String): String {
 }
 
 fun parseYearMonthDay(ymd: String?, hour: Int, minute: Int): Calendar {
-	val parts = ymd!!.split("-")
+	val parts = ymd!!.splitBy("-")
 	val year = Integer.parseInt(parts[0])
 	val month = Integer.parseInt(parts[1]) - 1
 	val day = Integer.parseInt(parts[2])
@@ -27,7 +27,7 @@ fun parseYearMonthDay(ymd: String?, hour: Int, minute: Int): Calendar {
 
 fun parseRequest(request: RecordedRequest): MutableMap<String, String> {
 	if ("GET" == request.getMethod() && request.getRequestLine().contains("?")) {
-		var requestLine = request.getRequestLine().split("\\?")[1]
+		var requestLine = request.getRequestLine().splitBy("?")[1]
 		// Replace "HTTP version" from request line.
 		requestLine = requestLine.substring(0, requestLine.lastIndexOf(" "))
 		return constructParamsFromVarArray(requestLine)
@@ -39,9 +39,13 @@ fun parseRequest(request: RecordedRequest): MutableMap<String, String> {
 }
 
 fun constructParamsFromVarArray(requestStr: String): MutableMap<String, String> {
-	val requestVariablePairs = requestStr.split("&")
+	val requestVariablePairs = requestStr.splitBy("&")
 	val params = LinkedHashMap<String, String>()
 	for (pair in requestVariablePairs) {
+        if (pair.isBlank()) {
+            continue
+        }
+
 		val idx = pair.indexOf("=")
 		try {
 			val key = URLDecoder.decode(pair.substring(0, idx), "UTF-8")
@@ -74,15 +78,15 @@ fun make404(): MockResponse {
 }
 
 fun makeResponse(filePath: String, params: Map<String, String>?, fileOpener: FileOpener): MockResponse {
-	var filePath = filePath
+	var path = filePath
 	// Handle all FileOpener implementations
-	if (filePath.startsWith("/")) {
-		filePath = filePath.substring(1)
+	if (path.startsWith("/")) {
+		path = path.substring(1)
 	}
 
 	val resp = MockResponse()
 	try {
-		var body = getResponse(filePath, fileOpener)
+		var body = getResponse(path, fileOpener)
 		if (params != null) {
 			val it = params.entrySet().iterator()
 			while (it.hasNext()) {
@@ -104,7 +108,7 @@ fun makeResponse(filePath: String, params: Map<String, String>?, fileOpener: Fil
 }
 
 // Read the json responses from the FileOpener
-throws(javaClass<IOException>())
+@throws(IOException::class)
 private fun getResponse(filename: String, fileOpener: FileOpener): String {
 	val inputStream = fileOpener.openFile(filename)
 	val br = BufferedReader(InputStreamReader(inputStream))

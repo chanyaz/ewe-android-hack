@@ -4,10 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
@@ -17,6 +21,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.RateBreakdownItem;
 import com.expedia.bookings.data.cars.RateTerm;
 import com.expedia.bookings.data.cars.RentalFareBreakdownType;
 import com.expedia.bookings.data.cars.Transmission;
@@ -129,7 +134,7 @@ public class CarDataUtils {
 	public static final Map<RentalFareBreakdownType, Integer> RENTAL_FARE_BREAKDOWN_TYPE_MAP = new HashMap<RentalFareBreakdownType, Integer>() {
 		{
 			put(RentalFareBreakdownType.BASE, R.string.car_rental_breakdown_base);
-			put(RentalFareBreakdownType.TAXES_AND_FEES, R.string.car_rental_breakdown_taxes_and_fees);
+			put(RentalFareBreakdownType.TAXES_AND_FEES, R.string.taxes_and_fees);
 			put(RentalFareBreakdownType.INSURANCE, R.string.car_rental_breakdown_insurance);
 			put(RentalFareBreakdownType.DROP_OFF_CHARGE, R.string.car_rental_breakdown_drop_off_charges);
 
@@ -253,5 +258,70 @@ public class CarDataUtils {
 
 
 		return builder.build();
+	}
+
+	public static CarSearchParams fromDeepLink(Uri data, Set<String> queryData) {
+		String pickupDateTime = getQueryParameterIfExists(data, queryData, "pickupDateTime");
+		String dropoffDateTime = getQueryParameterIfExists(data, queryData, "dropoffDateTime");
+		String pickupLocation = getQueryParameterIfExists(data, queryData, "pickupLocation");
+		String originDescription = getQueryParameterIfExists(data, queryData, "originDescription");
+		String productKey = getQueryParameterIfExists(data, queryData, "productKey");
+
+		// Input validation - in case the date time passed from the outside world is in a garbled format,
+		// we fallback to proper defaults to have a graceful behavior and nothing undesirable.
+		DateTime pickup = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTime, DateTime.now());
+		DateTime dropOff = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTime, pickup.plusDays(3));
+
+		CarSearchParams carSearchParams = new CarSearchParams();
+		carSearchParams.startDateTime = pickup;
+		carSearchParams.endDateTime = dropOff;
+		carSearchParams.origin = pickupLocation;
+		carSearchParams.originDescription = originDescription;
+
+		return carSearchParams;
+	}
+
+	public static CarSearchParams getCarSearchParamsFromDeeplink(Intent intent) {
+
+		String pickupDateTime = intent.getStringExtra("pickupDateTime");
+		String dropoffDateTime = intent.getStringExtra("dropoffDateTime");
+		String pickupLocation = intent.getStringExtra("pickupLocation");
+		String originDescription = intent.getStringExtra("originDescription");
+
+		if (Strings.isNotEmpty(pickupDateTime) && Strings.isNotEmpty(dropoffDateTime) && Strings
+			.isNotEmpty(pickupLocation) && Strings.isNotEmpty(originDescription)) {
+
+			// Input validation - in case the date time passed from the outside world is in a garbled format,
+			// we fallback to proper defaults to have a graceful behavior and nothing undesirable.
+			DateTime pickup = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTime, DateTime.now());
+			DateTime dropOff = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTime, pickup.plusDays(3));
+
+			CarSearchParams carSearchParams = new CarSearchParams();
+			carSearchParams.startDateTime = pickup;
+			carSearchParams.endDateTime = dropOff;
+			carSearchParams.origin = pickupLocation;
+			carSearchParams.originDescription = originDescription;
+			return carSearchParams;
+		}
+		return null;
+	}
+
+	private static String getQueryParameterIfExists(Uri uri, Set<String> queryData, String paramKey) {
+		if (queryData.contains(paramKey)) {
+			return uri.getQueryParameter(paramKey);
+		}
+		return null;
+	}
+
+	public static boolean areTaxesAndFeesIncluded(List<RateBreakdownItem> rateBreakdown) {
+		if (rateBreakdown != null && rateBreakdown.size() > 0) {
+			for (RateBreakdownItem item : rateBreakdown) {
+				if (item.type == RentalFareBreakdownType.TAXES_AND_FEES) {
+					return item.price == null;
+				}
+			}
+		}
+
+		return true;
 	}
 }

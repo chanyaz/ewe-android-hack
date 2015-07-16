@@ -58,6 +58,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarTrackingData;
@@ -78,6 +79,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.Strings;
@@ -253,6 +255,7 @@ public class OmnitureTracking {
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppSRPercentRecommend);
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelETPSearchResults);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHSRMapIconTest);
 
 		// Send the tracking data
 		s.track();
@@ -277,9 +280,6 @@ public class OmnitureTracking {
 		// Products
 		addProducts(s, property);
 
-		// Abacus ETP Test
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidETPTest);
-
 		// Send the tracking data
 		s.track();
 	}
@@ -298,7 +298,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppHotelsCheckoutConfirmation(Context context, HotelSearchParams searchParams,
-			Property property, BillingInfo billingInfo, Rate rate, HotelBookingResponse response) {
+			Property property, String supplierType, Rate rate, HotelBookingResponse response) {
 		Log.d(TAG, "Tracking \"App.Hotels.Checkout.Confirmation\" pageLoad");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
@@ -332,7 +332,7 @@ public class OmnitureTracking {
 		if (rate != null && rate.getTotalAmountAfterTax() != null) {
 			totalCost = rate.getTotalAmountAfterTax().getAmount().doubleValue();
 		}
-		addProducts(s, property, numDays, totalCost);
+		addProducts(s, property, supplierType, numDays, totalCost);
 
 		// Currency code
 		s.setCurrencyCode(rate.getTotalAmountAfterTax().getCurrency());
@@ -367,15 +367,6 @@ public class OmnitureTracking {
 
 		String drrString = internalGenerateDRRString(context, property);
 		s.setEvar(9, drrString);
-
-		// Abacus Hotel Book Now button placement
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHISBookAboveFoldTest);
-
-		// Abacus Hotel Info site Free cancellation confidence placement test
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHISFreeCancellationTest);
-
-		// Abacus Hotel Info site swipeable photos test
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHISSwipablePhotosTest);
 
 		// Send the tracking data
 		s.track();
@@ -444,6 +435,35 @@ public class OmnitureTracking {
 		s.setProducts(products);
 	}
 
+	private static void addProducts(ADMS_Measurement s, Property property, String supplierType, int numNights, double totalCost) {
+		// The "products" field uses this format:
+		// Hotel;Hotel;<supplier> Hotel:<hotel id>
+
+		if (TextUtils.isEmpty(supplierType)) {
+			supplierType = "";
+		}
+		String properCaseSupplierType = Strings.splitAndCapitalizeFirstLetters(supplierType);
+
+		s.setProducts("Hotel;" + properCaseSupplierType + " Hotel:" + property.getPropertyId());
+
+		DecimalFormat df = new DecimalFormat("#.##");
+		String products = s.getProducts();
+		products += ";" + numNights + ";" + df.format(totalCost);
+		s.setProducts(products);
+	}
+
+	private static void addProducts(ADMS_Measurement s, Property property, String supplierType) {
+		// The "products" field uses this format:
+		// Hotel;<supplier> Hotel:<hotel id>
+
+		if (TextUtils.isEmpty(supplierType)) {
+			supplierType = "";
+		}
+		String properCaseSupplierType = Strings.splitAndCapitalizeFirstLetters(supplierType);
+
+		s.setProducts("Hotel;" + properCaseSupplierType + " Hotel:" + property.getPropertyId());
+	}
+
 	private static void addEventsAndProductsForAirAttach(ADMS_Measurement s, Property property, String eventVar,
 			String evar66Val) {
 		addProducts(s, property);
@@ -465,7 +485,6 @@ public class OmnitureTracking {
 	public static void trackPageLoadHotelsRateDetails(Context context) {
 		Log.d(TAG, "Tracking \"" + HOTELS_RATE_DETAILS + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, HOTELS_RATE_DETAILS);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppAddORToForm);
 		s.track();
 	}
 
@@ -482,10 +501,15 @@ public class OmnitureTracking {
 		addStandardFields(context, s);
 		s.setEvents("event70");
 
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelHCKOTraveler);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppAddORToForm);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelPayLaterCouponMessaging);
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotel3xMessaging);
+
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		s.setEvar(47, getEvar47String(params));
 		addHotelRegionId(s, params);
-		addProducts(s, Db.getTripBucket().getHotel().getProperty());
+		addProducts(s, Db.getTripBucket().getHotel().getProperty(), Db.getTripBucket().getHotel().getCreateTripResponse().getSupplierType());
 		addStandardHotelFields(s, params);
 
 		s.track();
@@ -1221,6 +1245,7 @@ public class OmnitureTracking {
 	private static final String LX_CHECKOUT_PAYMENT_INFO = "App.LX.Checkout.Payment.Edit.Info";
 	private static final String LX_CHECKOUT_SLIDE_TO_PURCHASE = "App.LX.Checkout.SlideToPurchase";
 	private static final String LX_CHECKOUT_CVV_SCREEN = "App.LX.Checkout.Payment.CID";
+	private static final String LX_NO_SEARCH_RESULTS = "App.LX.NoResults";
 
 	public static void trackAppLXSearch(Context context, LXSearchParams lxSearchParams, LXSearchResponse lxSearchResponse) {
 		// Start actually tracking the search result change
@@ -1247,6 +1272,23 @@ public class OmnitureTracking {
 		if (lxSearchResponse.activities.size() > 0) {
 			s.setProp(1, Integer.toString(lxSearchResponse.activities.size()));
 		}
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackAppLXNoSearchResults(Context context, ApiError apiError) {
+		Log.d(TAG, "Tracking \"" + LX_NO_SEARCH_RESULTS + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(context, LX_NO_SEARCH_RESULTS);
+
+		// Destination
+		if (Strings.isNotEmpty(apiError.regionId)) {
+			s.setProp(4, apiError.regionId);
+			s.setEvar(4, "D=c4");
+		}
+
+		s.setProp(36, apiError.errorInfo.cause);
 
 		// Send the tracking data
 		s.track();
@@ -1294,9 +1336,7 @@ public class OmnitureTracking {
 
 		s.setProducts(addLXProducts(activityId, totalMoney, ticketCount));
 
-		// prop and evar 5, 6
-		LXSearchParams searchParams = lxState.searchParams;
-		setDateValues(s, searchParams.startDate, searchParams.endDate);
+		setLXDateValues(lxState, s);
 
 		// Send the tracking data
 		s.track();
@@ -1325,9 +1365,7 @@ public class OmnitureTracking {
 
 		s.setProducts(addLXProducts(activityId, totalMoney, ticketCount));
 
-		// prop and evar 5, 6
-		LXSearchParams searchParams = lxState.searchParams;
-		setDateValues(s, searchParams.startDate, searchParams.endDate);
+		setLXDateValues(lxState, s);
 
 		// Send the tracking data
 		s.track();
@@ -1449,6 +1487,18 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 		s.setProp(2, LX_LOB);
 		return s;
+	}
+
+	private static void setLXDateValues(LXState lxState, ADMS_Measurement s) {
+		LocalDate activityStartDate = DateUtils.yyyyMMddHHmmssToLocalDate(
+			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
+		String activityStartDateString = activityStartDate.toString(PROP_DATE_FORMAT);
+		s.setProp(5, activityStartDateString);
+
+		// num days between current day (now) and activity start date.
+		LocalDate now = LocalDate.now();
+		String numDaysOut = Integer.toString(JodaUtils.daysBetween(now, activityStartDate));
+		s.setEvar(5, numDaysOut);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2413,8 +2463,6 @@ public class OmnitureTracking {
 	// Lean Plum Notification Tracking
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final String LEAN_PLUM_NOTIFICATION = "App Notification";
-
 	public static void trackLeanPlumNotification(Context context, String campaignText) {
 		Log.d(TAG, "Tracking LeanPlumNotification \"" + campaignText + "\"");
 
@@ -2425,7 +2473,28 @@ public class OmnitureTracking {
 		s.setEvar(11, campaignText);
 		s.setEvents("event12");
 
-		s.trackLink(null, "o", LEAN_PLUM_NOTIFICATION, null, null);
+		s.trackLink(null, "o", "App Notification", null, null);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// In App Messaging Tracking
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void trackLeanPlumInAppMessage(Context context, String campaignText) {
+		Log.d(TAG, "Tracking LeanPlumNotification \"" + campaignText + "\"");
+
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		addStandardFields(context, s);
+
+		s.setEvar(25, campaignText);
+		s.setEvents("event12");
+
+		s.setProp(16, "App.Push.In-App Message");
+		s.setEvar(28, "App.Push.In-App Message");
+
+		s.trackLink(null, "o", "In-App Notification", null, null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2972,10 +3041,8 @@ public class OmnitureTracking {
 
 		// If the email is still null, check against the BillingInfo in Db which is populated from manual forms
 		if (TextUtils.isEmpty(email)) {
-			if (Db.loadBillingInfo(context)) {
-				if (Db.hasBillingInfo()) {
-					email = Db.getBillingInfo().getEmail();
-				}
+			if (Db.hasBillingInfo()) {
+				email = Db.getBillingInfo().getEmail();
 			}
 		}
 
@@ -3096,7 +3163,8 @@ public class OmnitureTracking {
 	private static String getTrackingServer(Context context) {
 		EndPoint endpoint = Ui.getApplication(context).appComponent().endpointProvider().getEndPoint();
 		if (endpoint == EndPoint.CUSTOM_SERVER) {
-			return SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
+			return SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address),
+				"localhost:3000");
 		}
 		else {
 			return ProductFlavorFeatureConfiguration.getInstance().getOmnitureTrackingServer();
@@ -3293,7 +3361,7 @@ public class OmnitureTracking {
 			.capitalizeFirstLetter(offer.vehicleInfo.type.toString().replaceAll("_", " "));
 
 		s.setEvar(38, evar38String);
-
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppCarRatesCollapseTopListing);
 		s.track();
 	}
 
@@ -3322,6 +3390,7 @@ public class OmnitureTracking {
 
 		s.setEvents("event73");
 		s.setCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency());
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppCarInsuranceIncludedCKO);
 		s.track();
 	}
 

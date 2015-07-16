@@ -6,7 +6,6 @@ import org.joda.time.LocalDate;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
@@ -19,33 +18,24 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
-import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.TripBucketItemLX;
-import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
-import com.expedia.bookings.widget.LXErrorWidget;
-import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
 
-public class LXDetailsPresenter extends Presenter implements UserAccountRefresher.IUserAccountRefreshListener {
+public class LXDetailsPresenter extends Presenter {
 	public LXDetailsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -58,9 +48,6 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 
 	@InjectView(R.id.toolbar_background)
 	View toolbarBackground;
-
-	@InjectView(R.id.lx_details_error_widget)
-	LXErrorWidget errorScreen;
 
 	@Inject
 	LXState lxState;
@@ -77,45 +64,19 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 	@InjectView(R.id.toolbar_two)
 	LinearLayout toolbarTwo;
 
-	private ProgressDialog createTripDialog;
-
 	private Subscription detailsSubscription;
-	private Subscription createTripSubscription;
+
 	private int searchTop;
 
 	@Inject
 	LXServices lxServices;
 
-	UserAccountRefresher userAccountRefresher;
-
-	// Transitions
-
-	private Transition detailsToError = new VisibilityTransition(this, LXActivityDetailsWidget.class, LXErrorWidget.class) {
-		@Override
-		public void finalizeTransition(boolean forward) {
-			super.finalizeTransition(forward);
-			toolbar.setVisibility(View.GONE);
-			toolbarBackground.setAlpha(0f);
-			animationFinalize(forward);
-		}
-	};
-
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).lxComponent().inject(this);
-
-		addTransition(detailsToError);
-
-		createTripDialog = new ProgressDialog(getContext());
-		createTripDialog.setMessage(getResources().getString(R.string.preparing_checkout_message));
-		createTripDialog.setIndeterminate(true);
-		createTripDialog.setCancelable(false);
 		setupToolbar();
 		details.addOnScrollListener(parallaxScrollListener);
-		errorScreen.setVisibility(View.GONE);
-
-		userAccountRefresher = new UserAccountRefresher(getContext(), LineOfBusiness.LX, this);
 	}
 
 	@Override
@@ -125,10 +86,6 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 	}
 
 	public void cleanup() {
-		if (createTripSubscription != null) {
-			createTripSubscription.unsubscribe();
-			createTripSubscription = null;
-		}
 		if (detailsSubscription != null) {
 			detailsSubscription.unsubscribe();
 			detailsSubscription = null;
@@ -232,63 +189,6 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 		toolbarBackground.setAlpha(0);
 	}
 
-	@Subscribe
-	public void onOfferBooked(Events.LXOfferBooked event) {
-		createTripDialog.show();
-		cleanup();
-		userAccountRefresher.ensureAccountIsRefreshed();
-	}
-
-	private Observer<LXCreateTripResponse> createTripObserver = new Observer<LXCreateTripResponse>() {
-		@Override
-		public void onCompleted() {
-			cleanup();
-		}
-
-		@Override
-		public void onError(Throwable e) {
-			Log.e("LXCreateTrip - onError", e);
-			createTripDialog.dismiss();
-			if (RetrofitUtils.isNetworkError(e)) {
-				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
-			}
-			else if (e instanceof ApiError) {
-				showErrorScreen((ApiError) e);
-			}
-			else {
-				showErrorScreen(null);
-			}
-		}
-
-		@Override
-		public void onNext(LXCreateTripResponse response) {
-			createTripDialog.dismiss();
-			Db.getTripBucket().clearLX();
-			Db.getTripBucket().add(new TripBucketItemLX(response));
-			Events.post(new Events.LXCreateTripSucceeded(response));
-		}
-	};
-
-	private void showOnCreateNoInternetErrorDialog(@StringRes int message) {
-		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-		b.setCancelable(false)
-			.setMessage(getResources().getString(message))
-			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-					Events.post(new Events.LXOfferBooked(lxState.offer, lxState.selectedTickets));
-				}
-			})
-			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-			})
-			.show();
-	}
-
 	com.expedia.bookings.widget.ScrollView.OnScrollListener parallaxScrollListener = new com.expedia.bookings.widget.ScrollView.OnScrollListener() {
 		@Override
 		public void onScrollChanged(com.expedia.bookings.widget.ScrollView scrollView, int x, int y, int oldx, int oldy) {
@@ -318,14 +218,5 @@ public class LXDetailsPresenter extends Presenter implements UserAccountRefreshe
 		toolBarSubtitleText.setTranslationY(0);
 	}
 
-	private void showErrorScreen(ApiError error) {
-		errorScreen.bind(error);
-		show(errorScreen);
-	}
-
-	@Override
-	public void onUserAccountRefreshed() {
-		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), createTripObserver);
-	}
 }
 

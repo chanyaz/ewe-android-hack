@@ -51,6 +51,7 @@ public class NavUtils {
 
 	public static final int FLAG_DEEPLINK = 1;
 	public static final int FLAG_OPEN_SEARCH = 2;
+	public static final int FLAG_OPEN_RESULTS = 3;
 
 	public static boolean canHandleIntent(Context context, Intent intent) {
 		return intent.resolveActivity(context.getPackageManager()) != null;
@@ -93,6 +94,26 @@ public class NavUtils {
 			sendKillActivityBroadcast(context);
 			context.startActivity(intent);
 		}
+	}
+
+	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall, LineOfBusiness lobNotSupported) {
+		Intent intent;
+		if (ExpediaBookingApp.useTabletInterface(context)) {
+			intent = new Intent(context, TabletLaunchActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+		}
+		else {
+			intent = new Intent(context, PhoneLaunchActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+			if (forceShowWaterfall) {
+				intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+			}
+
+			sendKillActivityBroadcast(context);
+		}
+		intent.putExtra(Codes.LOB_NOT_SUPPORTED, lobNotSupported);
+		context.startActivity(intent);
 	}
 
 	public static void goToTabletResults(Context context, SearchParams searchParams, LineOfBusiness lob) {
@@ -185,31 +206,9 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToLocalExpert(Context context, Bundle animOptions) {
+	public static void goToActivities(Context context, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, LXBaseActivity.class);
-		startActivity(context, intent, animOptions);
-	}
-
-	public static void goToLocalExpert(Context context, String location, String startDateStr, Bundle animOptions,
-		int flags) {
-
-		sendKillActivityBroadcast(context);
-		Intent intent = new Intent();
-
-		if (location != null) {
-			intent.putExtra("location", location);
-			intent.putExtra("startDateStr", startDateStr);
-			// Only used by phone search currently, but won't harm to put on tablet as well
-			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
-		}
-
-		if ((flags & FLAG_DEEPLINK) != 0) {
-			intent.putExtra(Codes.FROM_DEEPLINK, true);
-		}
-
-		Class<? extends Activity> routingTarget = LXBaseActivity.class;
-		intent.setClass(context, routingTarget);
 		startActivity(context, intent, animOptions);
 	}
 
@@ -258,7 +257,25 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToCars(Context context, Bundle animOptions, CarSearchParams searchParams) {
+	public static void goToCars(Context context, Bundle animOptions, CarSearchParams searchParams, String productKey, int flags) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, CarActivity.class);
+		if (searchParams != null) {
+			intent.putExtra("pickupLocation", searchParams.origin);
+			intent.putExtra("originDescription", searchParams.originDescription);
+			intent.putExtra("pickupDateTime", DateUtils.carSearchFormatFromDateTime(searchParams.startDateTime));
+			intent.putExtra("dropoffDateTime", DateUtils.carSearchFormatFromDateTime(searchParams.endDateTime));
+		}
+
+		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.putExtra(Codes.FROM_DEEPLINK, true);
+		}
+
+		intent.putExtra(Codes.CARS_PRODUCT_KEY, productKey);
+		startActivity(context, intent, animOptions);
+	}
+
+	public static void goToCars(Context context, Bundle animOptions, CarSearchParams searchParams, int flags) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, CarActivity.class);
 		if (searchParams != null) {
@@ -266,17 +283,44 @@ public class NavUtils {
 			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, gson.toJson(searchParams));
 		}
 
+		if ((flags & FLAG_OPEN_SEARCH) != 0) {
+			intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
+		}
+
+		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.putExtra(Codes.FROM_DEEPLINK, true);
+		}
+
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToLx(Context context, Bundle animOptions, LXSearchParams searchParams, boolean openResults) {
+	public static void goToActivities(Context context, Bundle animOptions, LXSearchParams searchParams, int flags) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, LXBaseActivity.class);
 		if (searchParams != null) {
 			intent.putExtra("startDateStr", DateUtils.localDateToyyyyMMdd(searchParams.startDate));
 			intent.putExtra("location", searchParams.location);
-			intent.putExtra((openResults ? Codes.EXTRA_OPEN_RESULTS : Codes.EXTRA_OPEN_SEARCH), true);
 		}
+
+		if (flags == FLAG_OPEN_SEARCH) {
+			intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
+		}
+
+		if (flags == FLAG_OPEN_RESULTS) {
+			intent.putExtra(Codes.EXTRA_OPEN_RESULTS, true);
+		}
+
+		if (flags == FLAG_DEEPLINK) {
+			// If we don't have filters, open search box.
+			if (searchParams.filters == null) {
+				intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
+			}
+			else {
+				intent.putExtra("filters", searchParams.filters);
+				intent.putExtra(Codes.FROM_DEEPLINK, true);
+			}
+		}
+
 		startActivity(context, intent, animOptions);
 	}
 

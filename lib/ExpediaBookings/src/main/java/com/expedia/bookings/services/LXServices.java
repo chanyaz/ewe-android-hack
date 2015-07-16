@@ -84,7 +84,12 @@ public class LXServices {
 		@Override
 		public void call(LXSearchResponse lxSearchResponse) {
 			if (lxSearchResponse.searchFailure) {
-				throw new ApiError(ApiError.Code.LX_SEARCH_NO_RESULTS);
+				ApiError apiError = new ApiError(ApiError.Code.LX_SEARCH_NO_RESULTS);
+				apiError.regionId = lxSearchResponse.regionId;
+				ApiError.ErrorInfo errorInfo = new ApiError.ErrorInfo();
+				errorInfo.cause = "No results from api.";
+				apiError.errorInfo = errorInfo;
+				throw apiError;
 			}
 		}
 	};
@@ -203,6 +208,7 @@ public class LXServices {
 			String currencyCode = response.currencyCode;
 			for (LXActivity activity : response.activities) {
 				activity.price = new Money(activity.fromPriceValue, currencyCode);
+				activity.originalPrice = new Money(activity.fromOriginalPriceValue, currencyCode);
 				activity.title = Strings.escapeQuotes(activity.title);
 			}
 			return response;
@@ -216,13 +222,14 @@ public class LXServices {
 		@Override
 		public LXSearchResponse call(LXSearchResponse lxSearchResponse, LXSortFilterMetadata lxSortFilterMetadata) {
 
-			if (lxSortFilterMetadata.lxCategoryMetadataMap == null) {
+			if (unfilteredActivities.size() == 0) {
 				unfilteredActivities.addAll(lxSearchResponse.activities);
+			}
+			if (lxSortFilterMetadata.lxCategoryMetadataMap == null) {
 				return lxSearchResponse;
 			}
 			else {
-				lxSearchResponse.activities = applySortFilter(unfilteredActivities, lxSearchResponse, lxSortFilterMetadata.sort);
-				lxSearchResponse.filterCategories = lxSortFilterMetadata.lxCategoryMetadataMap;
+				lxSearchResponse.activities = applySortFilter(unfilteredActivities, lxSearchResponse, lxSortFilterMetadata);
 				return lxSearchResponse;
 			}
 		}
@@ -239,11 +246,11 @@ public class LXServices {
 			.subscribe(searchResultObserver);
 	}
 
-	public List<LXActivity> applySortFilter(List<LXActivity> unfilteredActivities, LXSearchResponse lxSearchResponse, LXSortType sort) {
+	public List<LXActivity> applySortFilter(List<LXActivity> unfilteredActivities, LXSearchResponse lxSearchResponse, LXSortFilterMetadata lxSortFilterMetadata) {
 
 		Set<LXActivity> filteredSet = new LinkedHashSet<>();
 		for (int i = 0; i < unfilteredActivities.size(); i++) {
-			for (Map.Entry<String, LXCategoryMetadata> filterCategory : lxSearchResponse.filterCategories.entrySet()) {
+			for (Map.Entry<String, LXCategoryMetadata> filterCategory : lxSortFilterMetadata.lxCategoryMetadataMap.entrySet()) {
 				LXCategoryMetadata lxCategoryMetadata = filterCategory.getValue();
 				if (lxCategoryMetadata.checked) {
 					if (unfilteredActivities.get(i).categories.contains(lxCategoryMetadata.displayValue)) {
@@ -264,7 +271,7 @@ public class LXServices {
 		}
 
 		// Sorting.
-		if (sort == LXSortType.PRICE) {
+		if (lxSortFilterMetadata.sort == LXSortType.PRICE) {
 			Collections.sort(lxSearchResponse.activities, new Comparator<LXActivity>() {
 				@Override
 				public int compare(LXActivity lhs, LXActivity rhs) {

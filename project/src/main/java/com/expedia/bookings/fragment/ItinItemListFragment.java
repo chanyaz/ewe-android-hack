@@ -29,7 +29,6 @@ import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.User.SignOutCompleteListener;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
@@ -189,6 +188,11 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			mJumpToItinId = getArguments().getString(ARG_JUMP_TO_UNIQUE_ID);
 		}
 
+		boolean isSignInEnabled = ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled();
+		mLoginButton.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
+		mOrEnterNumberTv.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
+		mFindItineraryButton.setVisibility(isSignInEnabled ? View.GONE : View.VISIBLE);
+
 		return view;
 	}
 
@@ -340,10 +344,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			mLoginButton.setVisibility(mShowError ? View.GONE : View.VISIBLE);
 			mNoTripsRefreshButton.setVisibility(View.GONE);
 		}
-		boolean isSignInEnabled = ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled();
-		mLoginButton.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
-		mOrEnterNumberTv.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
-		mFindItineraryButton.setVisibility(isSignInEnabled ? View.GONE : View.VISIBLE);
 	}
 
 	public void accountLogoutClicked() {
@@ -377,7 +377,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public void doLogout() {
-
 		setErrorMessage(null, false);
 
 		// Note: On 2.x, the user can logout from the expanded details view, be sure to collapse the view so when we
@@ -390,23 +389,12 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		}
 
 		// Sign out user
-		User.signOutAsync(getActivity(), new SignOutCompleteListener() {
-			@Override
-			public void onSignOutComplete() {
-				syncItinManager(true, false);
-				AdTracker.trackLogout();
-			}
-		});
-
-		updateLoginState();
-
-		invalidateOptionsMenu();
-	}
-
-	public void onLoginCompleted() {
-		updateLoginState();
+		User.signOut(getActivity());
 
 		syncItinManager(true, false);
+		AdTracker.trackLogout();
+
+		updateLoginState();
 
 		invalidateOptionsMenu();
 	}

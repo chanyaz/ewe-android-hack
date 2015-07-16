@@ -212,10 +212,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			Db.kickOffBackgroundTravelerSave(getActivity());
 		}
 
-		if (Db.getBillingInfoIsDirty()) {
-			Db.kickOffBackgroundBillingInfoSave(getActivity());
-		}
-
 		if (getActivity().isFinishing()) {
 			BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
 		}
@@ -291,8 +287,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
 					}
 				}
-				Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
-				if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+				if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
 					Db.getTripBucket().getFlight().getFlightTrip().setRewardsPoints("");
 				}
 				mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.FLIGHTS);
@@ -433,8 +428,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			else {
 				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(new Traveler());
 			}
-
-			Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(false);
 
 			startActivity(editTravelerIntent);
 		}
@@ -633,7 +626,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	public void onLoginCompleted() {
 		Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
-		if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+		if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
 			mLogInListener.onLoginCompleted();
 			mWasLoggedIn = true;
 		}

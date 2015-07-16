@@ -32,8 +32,8 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 	public CreateTripResponse handleJson(JSONObject response) {
 		CreateTripResponse createTripResponse = new CreateTripResponse();
 		try {
-			List<ServerError> errors = ParserUtils.parseErrors(mContext, ServerError.ApiMethod.CREATE_TRIP, response);
-			List<ServerError> warnings = ParserUtils.parseWarnings(mContext, ServerError.ApiMethod.CREATE_TRIP, response);
+			List<ServerError> errors = ParserUtils.parseErrors(ServerError.ApiMethod.CREATE_TRIP, response);
+			List<ServerError> warnings = ParserUtils.parseWarnings(ServerError.ApiMethod.CREATE_TRIP, response);
 			List<ServerError> allErrors = new ArrayList<ServerError>();
 			if (errors != null) {
 				allErrors.addAll(errors);
@@ -56,18 +56,19 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 
 			int newNumberOfNights = newHotelResponse.getInt("numberOfNights");
 
-			HotelOffersResponseHandler availHandler = new HotelOffersResponseHandler(mContext, mSearchParams, mProperty);
-			Rate newRate = availHandler.parseJsonHotelOffer(newHotelResponse.getJSONObject("hotelRoomResponse"), newNumberOfNights, null);
+			HotelOffersResponseHandler availHandler = new HotelOffersResponseHandler(mContext, mSearchParams);
+			Rate newRate = availHandler.parseJsonHotelOffer(newHotelResponse.getJSONObject("hotelRoomResponse"), newNumberOfNights);
 
 			Rate originalRate = null;
 			// "originalHotelProductResponse" is empty if we don't have a price change.
 			if (originalHotelResponse.length() != 0) {
 				int origNumberOfNights = originalHotelResponse.getInt("numberOfNights");
-				originalRate = availHandler.parseJsonHotelOffer(originalHotelResponse.getJSONObject("hotelRoomResponse"), origNumberOfNights, null);
+				originalRate = availHandler.parseJsonHotelOffer(originalHotelResponse.getJSONObject("hotelRoomResponse"), origNumberOfNights);
 			}
 
 			createTripResponse.setNewRate(newRate);
 			createTripResponse.setOriginalRate(originalRate);
+			createTripResponse.setSupplierType(newHotelResponse.getString("supplierType"));
 
 			List<ValidPayment> payments = CreateItineraryResponseHandler.parseValidPayments(response);
 			createTripResponse.setValidPayments(payments);
@@ -76,7 +77,7 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 			JSONObject airAttachHotelResponse = response.optJSONObject("airAttachedProductResponse");
 			if (airAttachHotelResponse != null && airAttachHotelResponse.has("hotelRoomResponse")) {
 				int nights = airAttachHotelResponse.getInt("numberOfNights");
-				Rate airAttachRate = availHandler.parseJsonHotelOffer(airAttachHotelResponse.getJSONObject("hotelRoomResponse"), nights, null);
+				Rate airAttachRate = availHandler.parseJsonHotelOffer(airAttachHotelResponse.getJSONObject("hotelRoomResponse"), nights);
 				airAttachRate.setAirAttached(true);
 				createTripResponse.setAirAttachRate(airAttachRate);
 			}

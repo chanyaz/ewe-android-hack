@@ -223,16 +223,16 @@
     </declare-styleable>
 
     <!-- SwipeOutLayout style -->
-    <declare-styleable name="SwipeOutLayout">
-        <attr name="swipeOutDirection">
+    <declare-styleable name="EBSwipeOutLayout">
+        <attr name="EBSwipeOutDirection">
             <enum name="north" value="0" />
             <enum name="south" value="1" />
             <enum name="east" value="2" />
             <enum name="west" value="3" />
         </attr>
-        <attr name="swipeOutEnabled" format="boolean" />
-        <attr name="swipeOutContentId" format="reference" />
-        <attr name="swipeOutIndicatorId" format="reference" />
+        <attr name="EBSwipeOutEnabled" format="boolean" />
+        <attr name="EBSwipeOutContentId" format="reference" />
+        <attr name="EBSwipeOutIndicatorId" format="reference" />
     </declare-styleable>
 
     <!-- FruitList style -->

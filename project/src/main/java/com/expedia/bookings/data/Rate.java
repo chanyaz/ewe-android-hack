@@ -98,13 +98,11 @@ public class Rate implements JSONable {
 	private boolean mShowResortFees = false;
 	private boolean mResortFeeInclusion = false;
 	private boolean mDepositRequired = false;
+	private String mCancellationPolicy;
 
 	private TaxStatusType mTaxStatusType;
 
 	private Set<BedType> mBedTypes;
-
-	// For Expedia, RateRules are provided with with availability response
-	private RateRules mRateRules;
 
 	// #1266: There's sometimes thumbnail associated with the rate (of the specific room)
 	private HotelMedia mThumbnail;
@@ -117,10 +115,6 @@ public class Rate implements JSONable {
 
 	//ETP: is this rate a pay later rate?
 	private boolean mIsPayLater;
-
-	// These are computed rates, based on the user's current locale.  They should
-	// not be saved, but instead computed on demand (since locale can change).
-	private Money mMandatoryFeesBaseRate = null;
 
 	public String getRatePlanCode() {
 		return mRatePlanCode;
@@ -479,14 +473,6 @@ public class Rate implements JSONable {
 		}
 	}
 
-	public void setRateRules(RateRules rateRules) {
-		mRateRules = rateRules;
-	}
-
-	public RateRules getRateRules() {
-		return mRateRules;
-	}
-
 	public void setThumbnail(HotelMedia thumbnail) {
 		mThumbnail = thumbnail;
 	}
@@ -583,12 +569,12 @@ public class Rate implements JSONable {
 		return mDepositRequired;
 	}
 
-	public void setMobileExlusivity(boolean bool) {
-		mIsMobileExclusive = bool;
+	public void setCancellationPolicy(String cancellationPolicy) {
+		mCancellationPolicy = cancellationPolicy;
 	}
 
-	public boolean isMobileExclusive() {
-		return mIsMobileExclusive;
+	public String getCancellationPolicy() {
+		return mCancellationPolicy;
 	}
 
 	public int compareForPriceChange(Rate other) {
@@ -748,7 +734,6 @@ public class Rate implements JSONable {
 			obj.putOpt("nonRefundable", mNonRefundable);
 			JSONUtils.putStringList(obj, "valueAdds", mValueAdds);
 			JSONUtils.putJSONableList(obj, "bedTypes", mBedTypes);
-			JSONUtils.putJSONable(obj, "rateRules", mRateRules);
 			JSONUtils.putJSONable(obj, "thumbnail", mThumbnail);
 			obj.putOpt("airAttached", mAirAttached);
 			JSONUtils.putJSONable(obj, "etpRate", mEtpRate);
@@ -826,7 +811,6 @@ public class Rate implements JSONable {
 		if (bedTypes != null) {
 			mBedTypes = new HashSet<BedType>(bedTypes);
 		}
-		mRateRules = JSONUtils.getJSONable(obj, "rateRules", RateRules.class);
 		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", HotelMedia.class);
 		mAirAttached = obj.optBoolean("airAttached", false);
 		mEtpRate = JSONUtils.getJSONable(obj, "etpRate", Rate.class);

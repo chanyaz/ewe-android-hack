@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.ui.phone.tests.flights;
 
+import org.joda.time.LocalDate;
+
 import android.support.test.espresso.Espresso;
 
 import com.expedia.bookings.R;
@@ -9,6 +11,7 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonPaymentMethodScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ConfirmationScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
@@ -16,16 +19,17 @@ import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsCheckoutScreen;
+import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
+import com.expedia.bookings.test.ui.utils.EspressoUtils;
 import com.expedia.bookings.test.ui.utils.HotelsUserData;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
 
-import org.joda.time.LocalDate;
-
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.expedia.bookings.test.ui.utils.EspressoUtils.assertViewWithTextIsDisplayed;
 import static com.expedia.bookings.test.ui.utils.EspressoUtils.getText;
+import static org.hamcrest.core.AllOf.allOf;
 
 /**
  * Created by dmadan on 4/30/14.
@@ -41,18 +45,27 @@ public class FlightsConfirmationTests extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "START TEST: Testing confirmation screen for guest flight booking");
 		getToCheckout();
 		ScreenActions.enterLog(TAG, "START TEST: Testing confirmation screen for air attach messaging");
-		testAirAttach();
+		verifyAirAttach();
+		verifyAirAttachBannerOnHomeScreen();
 	}
 
-	private void testAirAttach() {
+	private void verifyAirAttach() {
 		assertViewWithTextIsDisplayed(R.id.itin_air_attach_text_view, "Because you booked a flight");
 		assertViewWithTextIsDisplayed(R.id.itin_air_attach_savings_text_view, "Save up to 55% on a hotel.");
 		assertViewWithTextIsDisplayed(R.id.itin_air_attach_expires_text_view, "Offer expires in");
 		assertViewWithTextIsDisplayed(R.id.itin_air_attach_expiration_date_text_view, "10 days");
 		assertViewWithTextIsDisplayed(R.id.action_text_view, "Add a hotel");
-		onView(withId(R.id.action_text_view)).perform(click());
+
+		ConfirmationScreen.clickAirAttachAddHotelButton();
 		// assert we're seeing hotel search results
 		assertViewWithTextIsDisplayed("vip_hotel");
+	}
+
+	private void verifyAirAttachBannerOnHomeScreen() {
+		// jump to home screen
+		Common.pressBack();
+		EspressoUtils.assertContains(onView(allOf(withId(R.id.itin_air_attach_text_view), isDescendantOfA(withId(R.id.air_attach_banner)))), "Because you booked a flight");
+		EspressoUtils.assertContains(onView(allOf(withId(R.id.itin_air_attach_savings_text_view), isDescendantOfA(withId(R.id.air_attach_banner)))), "Save up to 55% on a hotel.");
 	}
 
 	private void getToCheckout() throws Exception {

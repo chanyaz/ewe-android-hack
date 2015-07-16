@@ -67,8 +67,6 @@
     <string name="car_auto_tran_text">Số tự động</string>
     <!-- Car manual transmission text-->
     <string name="car_man_tran_text">Số tay (số sàn)</string>
-    <!-- Sign in Text-->
-    <string name="cars_sign_in_text">Đăng nhập Expedia</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -159,6 +157,8 @@
     <string name="car_rental_breakdown_drop_off_charges">Phí trả xe</string>
     <!-- Unlimited mileage -->
     <string name="unlimited_mileage">Không giới hạn dặm</string>
+    <!-- Insurance included -->
+    <string name="insurance_included">Gồm bảo hiểm</string>
     <!-- Checkout confirmation message (temporary) -->
     <string name="successful_checkout_TEMPLATE">Lịch trình số %1$s</string>
     <!-- Error message for some missing checkout params -->
@@ -877,8 +877,8 @@
     <string name="sign_in_failed_try_again">Không đăng nhập được. Nếu đã nhập đúng địa chỉ email và mật khẩu, vui lòng kiểm tra xác nhận cài đặt quốc gia trên app của quý vị chính xác.</string>
     <!-- User needs to reset password -->
     <string name="sign_in_reset_password">Vui lòng tạo một tài khoản mới dùng chung cho tất cả các trang web Expedia.&lt;br&gt;Vui lòng thiết lập lại mật khẩu, sử dụng link \&apos;Quên mật khẩu?\&apos; dưới đây.</string>
-    <!-- Facebook connect expedia password hint -->
-    <string name="expedia_password_hint">Mật khẩu Expedia</string>
+    <!-- Facebook connect password hint -->
+    <string name="brand_password_hint_TEMPLATE">Mật khẩu {brand}</string>
     <!-- Link accounts -->
     <string name="link_accounts">Kết nối tài khoản</string>
     <!-- Failure to update the user -->
@@ -895,6 +895,8 @@
     <string name="Sign_In">Đăng nhập</string>
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_Expedia">Đăng nhập Expedia</string>
+    <!-- Sign in with the current brand -->
+    <string name="sign_in_with_brand_TEMPLATE">Đăng nhập {brand}</string>
     <!-- or -->
     <string name="or">hoặc</string>
     <!-- Already signed in -->
@@ -1825,16 +1827,14 @@
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">Chúng tôi có tin vui cho quý vị! Giá kỳ lưu trú của quý vị vừa giảm từ %1$s xuống %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Hoàn tất</string>
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Tổng phí thanh toán cho Expedia ngay</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Vui lòng chỉ sử dụng ký tự Latin không dấu</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Vui lòng nhập địa chỉ email hợp lệ</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Phí thanh toán tại Khách sạn:</string>
-    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_expedia_today">Tổng phí thanh toán cho Expedia ngay:</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
+    <string name="due_to_brand_today_TEMPLATE">Cần thanh toán cho {brand} hôm nay:</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">Khách sạn sẽ thu phí &lt;b&gt;%1$s&lt;/b&gt; resort. Tổng giá chuyến đi của quý vị là &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -2359,6 +2359,10 @@
     <string name="DONE">HOÀN TẤT</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Tìm trên bản đồ</string>
+    <!-- Button label for toggling to the map -->
+    <string name="map_text">Bản đồ</string>
+    <!-- Button label for toggling to the hotel list -->
+    <string name="list_text">Danh sách</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="sort">Sắp xếp</string>
     <!-- Label to swtich between map and list search results -->
@@ -2735,20 +2739,6 @@
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
     <string name="unknown">Không có thông tin</string>
 
-    <!-- Expedia policy strings -->
-    <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">Toàn bộ chi phí đặt phòng này sẽ được tính ngay vào thẻ tín dụng của quý vị.</string>
-    <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">Chúng tôi đang có giá đặc biệt thấp cho khách sạn này. Và để đảm bảo, chúng tôi phải tính giá không hoàn trả. Nếu hủy đặt phòng này, quý vị sẽ không được hoàn trả số tiền đã thanh toán.</string>
-    <!-- Policy displayed to user when a deposit is required -->
-    <string name="PolicyDepositRequired">Tiền đặt cọc cho hồ sơ đặt phòng này sẽ được tính vào thẻ tín dụng của quý vị. Khách sạn sẽ tín phí đặt phòng trực tiếp vào thẻ tín dụng của quý vị khi việc đặt phòng hoàn tất.</string>
-    <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">Chúng tôi cần thông tin thẻ tín dụng của quý vị để đảm bảo có thể giữ phòng quý vị đã đặt. Quý vị sẽ không phải thanh toán qua thẻ tín dụng cho đến khi có mặt tại khách sạn hoặc hết thời hạn cho phép hủy đặt phòng.</string>
-    <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">Tiến hành đặt phòng khách sạn này cũng đồng nghĩa với việc quý vị đồng ý với mọi điều khoản và điều kiện, bao gồm cả Chính sách Hủy đặt phòng và mọi điều khoản khác trong mục Thỏa thuận Người dùng.\n\n Quý vị đồng ý thanh toán cho việc đặt phòng của mình. Nếu quý vị không thanh toán và khoản nợ này phải được thu hồi qua một công ty thu hồi nợ, luật sư hoặc qua các quy trình pháp lý khác, quý vị đồng ý thanh toán mọi khoản chi phí hợp lý phát sinh trong quá trình thu hồi nợ, bao gồm phí luật sư và án phí.</string>
-    <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">Quý vị đang tiến hành đặt phòng tại một khách sạn không có giá ưu đãi. Tất cả giá hiển thị đều là giá từng phòng mỗi đêm, dành cho 2 người, trừ khi có các lưu ý khác. Vui lòng xem kỹ mô tả phòng và các quy định về giá để đảm bảo rằng phòng quý vị chọn phù hợp nhu cầu của quý vị. Một số mức giá có thể yêu cầu một số thông tin xác thực đặc biệt. Phí đặt phòng của chúng tôi, thuế và các phí phát sinh khác của khách sạn chưa được tính. Mọi yêu cầu bổ sung chỗ cho người lớn hoặc trẻ em vào danh sách đặt phòng bên trên có thể sẽ bị khách sạn tính phí bổ sung.\n\nYêu cầu về chỗ cho từ hơn 2 người trở lên (so với mức giá quý vị đã chọn) sẽ được chuyển đến khách sạn nhưng không được đảm bảo chắc chắn. Nếu đồng ý, khách sạn có thể thu thêm phụ phí cho yêu cầu này.</string>
-
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Đăng nhập</string>
@@ -2761,7 +2751,7 @@
     <!-- Message that tells user they failed to sign in -->
     <string name="sign_in_failed">Vui lòng đăng nhập lại</string>
     <!-- Label for sign out confirmation -->
-    <string name="sign_out_confirmation">Quý vị có chắc muốn thoát khỏi tài khoản Expedia không?</string>
+    <string name="sign_out_confirmation_TEMPLATE">Quý vị có chắc chắn muốn thoát khỏi tài khoản {brand} không?</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +silver rewards program name -->
@@ -2770,8 +2760,8 @@
     <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Tài khoản Expedia</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Đang tải tài khoản Expedia</string>
+    <!-- Label for loading user profile from Expedia -->
+    <string name="loading_brand_account_TEMPLATE">Đang tải tài khoản {brand}</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Quên mật khẩu?</string>
     <!-- Webview title for password recovery -->
@@ -2832,6 +2822,8 @@
     <string name="coupon_error_exceeded_earn_limit">Rất tiếc, coupon này đã được sử dụng quá nhiều lần và hiện không thể áp dụng được nữa.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
     <string name="coupon_error_invalid_average_price">Rất tiếc, giá trung bình mỗi đêm không đạt yêu cầu giá tối thiểu của coupon này.</string>
+    <!-- Error when applying coupon - Pay Later Hotel -->
+    <string name="coupon_error_pay_later_hotel">Không thể áp dụng coupon với phòng Thanh toán Sau, vui lòng chọn phòng Thanh toán Ngay.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2844,18 +2836,12 @@
     <string name="contact_expedia_via">Liên lạc với Expedia qua…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Điện thoại</string>
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">Bộ phận Hỗ trợ Đặt phòng/chỗ của Expedia</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Website</string>
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Trang web Expedia</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Hỗ trợ ứng dụng</string>
-    <!-- Subject line for "tell a friend" feature -->
-    <string name="tell_a_friend_subject">Expedia Hotels</string>
-    <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Xin chào,\n\nHãy thử ứng dụng Expedia Hotels dành cho điện thoại iPhone và Android. MIỄN PHÍ và quý vị có thể dễ dàng tìm kiếm cũng như đặt phòng từ hơn 140.000 khách sạn trên toàn thế giới. Đây là cách dễ dàng nhất để đặt phòng khách sạn từ điện thoại của quý vị.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Điều khoản và Điều kiện</string>
     <!-- Label for link to privacy policy -->
@@ -2870,8 +2856,6 @@
     <string name="dialog_title_cleared_private_data">Đã xóa dữ liệu cá nhân</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">Đã xóa mọi thông tin thanh toán và liên hệ đã lưu.</string>
-    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">Mở trang web cho di động của Expedia?</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">Đăng ký</string>
     <!-- Action button label to follow on twitter -->
@@ -3270,8 +3254,6 @@
     <string name="country_ax">Quần đảo Åland</string>
 
     <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Expedia, Inc.</string>
     <!-- Loading message -->
     <string name="loading">Đang tải</string>
     <!-- Google Wallet label -->
@@ -3321,9 +3303,9 @@
 
     <!-- Handling sold out hotels -->
     <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available">Hiện không có tại Expedia</string>
+    <string name="not_currently_available_from_brand_TEMPLATE">Hiện không có tại {brand}</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_TEMPLATE">Expedia hiện không còn phòng vào %s</string>
+    <string name="not_currently_available_from_brand_dates_TEMPLATE">Không có tại {brand} vào {dates}</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -3487,8 +3469,6 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">Bấm để bắt đầu thanh toán</string>
-    <!-- Content description for action: Press to sign in with your Expedia account -->
-    <string name="cd_checkout_sign_in_with_expedia">Bấm để đăng nhập tài khoản Expedia</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">Bấm để thêm khách cho lần đặt này</string>
     <!-- Content description for action: Press to select payment for this booking -->
@@ -3496,8 +3476,8 @@
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Bấm để nhập mã coupon hoặc khuyến mãi</string>
     <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign into Expedia with your Facebook account -->
-    <string name="cd_sign_in_with_facebook">Bấm để đăng nhập tài khoản Expedia bằng tài khoản Facebook</string>
+    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
+    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">Bấm để đăng nhập {brand} bằng tài khoản Facebook</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Bấm để thêm khách</string>

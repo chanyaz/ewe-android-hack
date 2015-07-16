@@ -28,7 +28,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -289,7 +288,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		// Remove invalid credit cards when going from hotels -> flights
 		if (mCurrentLob == LineOfBusiness.FLIGHTS) {
-			Db.loadBillingInfo(getActivity());
 			BillingInfo billingInfo = Db.getBillingInfo();
 
 			boolean isValidCard = Db.getTripBucket().getFlight().isCardTypeSupported(billingInfo.getCardType());
@@ -712,9 +710,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				mFlightCreateTripDownloadThrobber.show(getFragmentManager(), TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
 				mFlightBookingFrag.startDownload(FlightBookingState.CREATE_TRIP);
 			}
-			else {
-				dismissLoadingDialogs();
-			}
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
 			if (!mHotelBookingFrag.isDownloadingCreateTrip()
@@ -948,7 +943,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onSlideAllTheWay() {
 		final CheckoutState stateTwo = bookingWithGoogleWallet() ? CheckoutState.BOOKING : CheckoutState.CVV;
 		if (!BookingInfoUtils
-			.migrateRequiredCheckoutDataToDbBillingInfo(getActivity(), getLob(), Db.getTravelers().get(0), true)) {
+			.migrateRequiredCheckoutDataToDbBillingInfo(getActivity(), getLob(), Db.getTravelers().get(0))) {
 			//Somehow we don't have the information we need. This should be very rare, but it could happen.
 
 			if (mSlideFragment != null) {
@@ -1562,8 +1557,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onLoginStateChanged() {
-		Traveler.LoyaltyMembershipTier userTier = User.getLoggedInLoyaltyMembershipTier(getActivity());
-		if (User.isLoggedIn(getActivity()) && userTier.isGoldOrSilver()) {
+		if (User.isLoggedIn(getActivity())) {
 			if (getLob() == LineOfBusiness.FLIGHTS) {
 				Db.getTripBucket().getFlight().clearCheckoutData();
 			}

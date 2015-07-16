@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -22,6 +23,7 @@ import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.squareup.phrase.Phrase;
 
 
 public class HotelDetailsPricePromoFragment extends Fragment {
@@ -70,11 +72,18 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 
 			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 			if (params.isDefaultStay()) {
-				mSoldOutTextView.setText((Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelSearchResultNotAvailale)));
+				mSoldOutTextView.setText(
+					Phrase.from(getActivity(), R.string.not_currently_available_from_brand_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.format());
 			}
 			else {
 				String dates = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_ABBREV_ALL);
-				mSoldOutTextView.setText(getString(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelSearchResultTEMPLATE), dates));
+				mSoldOutTextView.setText(
+					Phrase.from(getActivity(), R.string.not_currently_available_from_brand_dates_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.put("dates", dates)
+					.format());
 			}
 		}
 		else {

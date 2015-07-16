@@ -61,6 +61,7 @@ public class LXPresenter extends Presenter {
 		addTransition(checkoutToConfirmation);
 		show(resultsPresenter);
 		resultsPresenter.setVisibility(VISIBLE);
+
 	}
 
 	private Transition searchParamsToResults = new Transition(LXSearchParamsPresenter.class,
@@ -243,7 +244,7 @@ public class LXPresenter extends Presenter {
 	}
 
 	@Subscribe
-	public void onShowCheckout(Events.LXCreateTripSucceeded event) {
+	public void onOfferBooked(Events.LXOfferBooked event) {
 		show(checkoutPresenter);
 	}
 

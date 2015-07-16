@@ -10,6 +10,7 @@ import com.expedia.bookings.test.component.lx.pagemodels.LXInfositePageModel;
 import com.expedia.bookings.test.ui.espresso.IdlingResources.LxIdlingResource;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.utils.PhoneTestCase;
@@ -97,7 +98,7 @@ public class LxPhoneHappyPath extends PhoneTestCase {
 		LXInfositePageModel.bookNowButton(ticketName).perform(scrollTo());
 		screenshot("LX Ticket Selection");
 		LXInfositePageModel.bookNowButton(ticketName).perform(click());
-
+		ScreenActions.delay(1);
 		screenshot("LX Checkout Started");
 		CheckoutViewModel.enterTravelerInfo();
 		CheckoutViewModel.enterPaymentInfo();

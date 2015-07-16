@@ -70,6 +70,7 @@ public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 				mOverlay = new ColorDrawable(color);
 				setOverlayAlpha(mOverlayAlpha);
 				setOverlayDrawable(mOverlayEnabled ? mOverlay : null);
+				enableOverlay();
 			}
 
 			setBitmap(bitmap);
@@ -85,6 +86,7 @@ public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 		public void onPrepareLoad(Drawable placeHolderDrawable) {
 			super.onPrepareLoad(placeHolderDrawable);
 			setPlaceholderDrawable(placeHolderDrawable);
+			disableOverlay();
 		}
 	};
 

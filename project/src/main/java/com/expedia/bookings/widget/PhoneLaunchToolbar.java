@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -29,7 +30,8 @@ public class PhoneLaunchToolbar extends Toolbar {
 		super.onFinishInflate();
 
 		slidingTabLayout.setCustomTabView(R.layout.actionbar_tab_bg, R.id.tab_text);
-		slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.launch_tab_indicator));
+		slidingTabLayout.setSelectedIndicatorColors(
+			getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_launchTabIndicatorColor)));
 		slidingTabLayout.setDistributeEvenly(true);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

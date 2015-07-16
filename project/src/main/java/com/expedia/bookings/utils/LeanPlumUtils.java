@@ -1,9 +1,11 @@
 package com.expedia.bookings.utils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -15,18 +17,25 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.cars.CarCheckoutResponse;
+import com.expedia.bookings.data.cars.CarLocation;
+import com.expedia.bookings.data.cars.CreateTripCarFare;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.leanplum.Leanplum;
 import com.leanplum.LeanplumActivityHelper;
+import com.leanplum.LeanplumPushNotificationCustomizer;
 import com.leanplum.LeanplumPushService;
 import com.leanplum.annotations.Parser;
 import com.leanplum.callbacks.VariablesChangedCallback;
@@ -37,6 +46,7 @@ public class LeanPlumUtils {
 	public static Context mContext;
 	public static final String CAMPAIGN_TEXT_KEY = "campaignText";
 	public static final String DEFAULT_CAMPAIGN_TEXT = "leanplum.notification";
+	public static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ssZZ";
 
 	public static void init(ExpediaBookingApp app) {
 		mContext = app.getApplicationContext();
@@ -62,14 +72,8 @@ public class LeanPlumUtils {
 		String deviceType = ExpediaBookingApp.useTabletInterface(mContext) ? "Tablet" : "Phone";
 		mUserAtrributes.put("DeviceType", deviceType);
 
-		boolean isUserLoggedIn = User.isLoggedIn(mContext);
-		mUserAtrributes.put("isUserLoggedIn", isUserLoggedIn);
-		if (isUserLoggedIn) {
-			mUserAtrributes.put("membershipTier", User.getLoggedInLoyaltyMembershipTier(mContext).toString());
-		}
-
 		LeanplumPushService.setGcmSenderId(PushNotificationUtils.SENDER_ID);
-		LeanplumPushService.setCustomizer(new LeanplumPushService.NotificationCustomizer() {
+		LeanplumPushService.setCustomizer(new LeanplumPushNotificationCustomizer() {
 			@Override
 			public void customize(NotificationCompat.Builder builder, Bundle bundle) {
 				String campaignText = bundle.getString(CAMPAIGN_TEXT_KEY, DEFAULT_CAMPAIGN_TEXT);
@@ -80,7 +84,9 @@ public class LeanPlumUtils {
 
 		Leanplum.setApplicationContext(mContext);
 		LeanplumActivityHelper.enableLifecycleCallbacks(app);
+		LeanPlumTemplate.register(mContext);
 		Leanplum.start(mContext, mUserAtrributes);
+		updateLoggedInStatus();
 		Parser.parseVariablesForClasses(LeanPlumFlags.class);
 		Leanplum.addVariablesChangedHandler(flightShareCallback);
 
@@ -96,6 +102,16 @@ public class LeanPlumUtils {
 			String deviceLocale = Locale.getDefault().toString();
 			mUserAtrributes.put("DeviceLocale", deviceLocale);
 
+			boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
+				Db.getTripBucket().isUserAirAttachQualified();
+			updateAirAttachState(isUserAirAttachQualified);
+		}
+	}
+
+	public static void updateAirAttachState(boolean userIsAttachEligible) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+			// Air attach state
+			mUserAtrributes.put("airattach_eligible", userIsAttachEligible);
 			Leanplum.setUserAttributes(mUserAtrributes);
 		}
 	}
@@ -105,9 +121,17 @@ public class LeanPlumUtils {
 			boolean isUserLoggedIn = User.isLoggedIn(mContext);
 			mUserAtrributes.put("isUserLoggedIn", isUserLoggedIn);
 			if (isUserLoggedIn) {
+				if (Db.getUser() == null) {
+					Db.loadUser(mContext);
+				}
+				if (Db.getUser().getPrimaryTraveler() != null) {
+					mUserAtrributes.put("first_name", Db.getUser().getPrimaryTraveler().getFirstName());
+				}
 				mUserAtrributes.put("membershipTier", User.getLoggedInLoyaltyMembershipTier(mContext).toString());
 			}
-			Leanplum.setUserAttributes(mUserAtrributes);
+			boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
+				Db.getTripBucket().isUserAirAttachQualified();
+			updateAirAttachState(isUserAirAttachQualified);
 		}
 	}
 
@@ -141,6 +165,7 @@ public class LeanPlumUtils {
 			eventParams.put("CheckOutDate", DateUtils.convertDatetoInt(params.getCheckOutDate()));
 			eventParams.put("b_win", "" + getBookingWindow(params.getCheckInDate()));
 			eventParams.put("p_type", "HOTEL");
+			eventParams.put("hotel_friendly_name", property.getName());
 			eventParams.put("PropertyId", property.getPropertyId());
 			eventParams.put("AveragePrice", "" + avgPrice);
 			eventParams.put("StayDuration", "" + params.getStayDuration());
@@ -151,9 +176,10 @@ public class LeanPlumUtils {
 		}
 	}
 
-	public static void trackFlightBooked(FlightSearch search, String orderId, String currency, double totalPrice) {
+	public static void trackFlightBooked(TripBucketItemFlight tripBucketItemFlight, String orderId, String currency, double totalPrice) {
 		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
-			FlightSearchParams params = search.getSearchParams();
+			FlightSearchParams params = tripBucketItemFlight.getFlightSearch().getSearchParams();
+			List<FlightLeg> flightLegs = tripBucketItemFlight.getFlightTrip().getLegs();
 			String eventName = "Sale Flight";
 			Log.i("LeanPlum flight booking event currency=" + currency + " total=" + totalPrice);
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
@@ -166,8 +192,17 @@ public class LeanPlumUtils {
 			eventParams.put("DepartureId", params.getDepartureLocation().getDestinationId());
 			eventParams.put("ArrivalId", params.getArrivalLocation().getDestinationId());
 			eventParams.put("DepartureDate", DateUtils.convertDatetoInt(params.getDepartureDate()));
+
+			eventParams.put("DepartureTakeoffDatetime",
+				flightLegs.get(0).getFirstWaypoint().getBestSearchDateTime().toString(DATE_PATTERN));
+			eventParams.put("DepartureLandingDatetime",
+				flightLegs.get(0).getLastWaypoint().getBestSearchDateTime().toString(DATE_PATTERN));
 			if (params.isRoundTrip()) {
 				eventParams.put("ReturnDate", DateUtils.convertDatetoInt(params.getReturnDate()));
+				eventParams.put("ReturnTakeoffDatetime",
+					flightLegs.get(1).getFirstWaypoint().getBestSearchDateTime().toString(DATE_PATTERN));
+				eventParams.put("ReturnLandingDatetime",
+					flightLegs.get(1).getLastWaypoint().getBestSearchDateTime().toString(DATE_PATTERN));
 			}
 			eventParams.put("b_win", "" + getBookingWindow(params.getDepartureDate()));
 			eventParams.put("p_type", "FLIGHT");
@@ -325,5 +360,62 @@ public class LeanPlumUtils {
 			Log.i("Show Share flight Notification " + LeanPlumFlags.mShowShareFlightNotification);
 		}
 	};
+
+	public static void trackCarBooked(CarCheckoutResponse response) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+			String eventName = "Sale Car";
+			CarLocation pickUplocation = response.newCarProduct.pickUpLocation;
+			Log.i("LeanPlum car booking event origin = " + pickUplocation.cityName);
+
+			HashMap<String, Object> eventParams = new HashMap<String, Object>();
+
+			addCommonProductRetargeting(eventParams, pickUplocation.cityName, pickUplocation.provinceStateName,
+				pickUplocation.countryCode);
+
+			DateTime pickUpTime = response.newCarProduct.getPickupTime();
+			DateTime dropOfTime = response.newCarProduct.getDropOffTime();
+
+			eventParams.put("Destination", pickUplocation.cityName);
+			eventParams.put("PickupDate", DateUtils.convertDatetoInt(pickUpTime.toLocalDate()));
+			eventParams.put("PickupDatetime", pickUpTime.toString(DATE_PATTERN));
+			eventParams.put("DropoffDate", DateUtils.convertDatetoInt(dropOfTime.toLocalDate()));
+			eventParams.put("DropoffDatetime", dropOfTime.toString(DATE_PATTERN));
+			eventParams.put("RentalDuration", JodaUtils.hoursBetween(pickUpTime, dropOfTime));
+
+			CreateTripCarFare carFare = response.newCarProduct.detailedFare;
+			eventParams.put("TotalPrice", String.valueOf(carFare.grandTotal.getAmount().doubleValue()));
+			eventParams.put("currency", carFare.grandTotal.getCurrency());
+
+			eventParams.put("b_win", "" + getBookingWindow(pickUpTime.toLocalDate()));
+			eventParams.put("p_type", "CAR");
+
+			tracking(eventName, eventParams);
+		}
+	}
+
+	public static void trackLXBooked(LXState lxState) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+			String eventName = "Sale LX";
+			Log.i("LeanPlum LX booking event origin = " + lxState.activity.location);
+
+			HashMap<String, Object> eventParams = new HashMap<String, Object>();
+
+			eventParams.put("destination", lxState.activity.location);
+
+			eventParams.put("TotalPrice", String.valueOf(LXUtils.getTotalAmount(lxState.selectedTickets).getAmount().doubleValue()));
+			eventParams.put("currency", LXUtils.getTotalAmount(lxState.selectedTickets).getCurrency());
+
+			LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
+				lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
+
+			eventParams.put("ActivityDate", "" + DateUtils.convertDatetoInt(offerSelectedDate));
+			eventParams.put("ActivityDatetime", "" + DateUtils.yyyyMMddHHmmssToDateTime(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate).toString(DATE_PATTERN));
+			eventParams.put("ActivityCategory", "" + Strings.joinWithoutEmpties(",", lxState.activity.categories));
+			eventParams.put("b_win", "" + getBookingWindow(offerSelectedDate));
+			eventParams.put("p_type", "LX");
+
+			tracking(eventName, eventParams);
+		}
+	}
 
 }

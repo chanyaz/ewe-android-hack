@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -428,10 +429,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (Db.getTravelersAreDirty()) {
 			Db.kickOffBackgroundTravelerSave(getActivity());
 		}
-
-		if (Db.getBillingInfoIsDirty()) {
-			Db.kickOffBackgroundBillingInfoSave(getActivity());
-		}
 	}
 
 	@Override
@@ -631,7 +628,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 			else {
 				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
-				User.signOutAsync(getActivity(), null);
+				User.signOut(getActivity());
 				mAccountButton.bind(false, false, null, LineOfBusiness.HOTELS);
 			}
 		}
@@ -1026,7 +1023,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mRefreshedUserTime = 0L;
 
 		// Sign out user
-		User.signOutAsync(getActivity(), null);
+		User.signOut(getActivity());
 
 		// Update UI
 		mAccountButton.bind(false, false, null, LineOfBusiness.HOTELS);
@@ -1048,8 +1045,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	public void onLoginCompleted() {
-		Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
-		if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+		if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
 			if (mHotelBookingFragment != null && !mHotelBookingFragment.isDownloadingCreateTrip()) {
 				mHotelBookingFragment.startDownload(HotelBookingState.CREATE_TRIP);
 				showCreateTripDialog();
@@ -1119,7 +1115,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				else {
 					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(new Traveler());
 				}
-				Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(false);
 				startActivity(new Intent(getActivity(), HotelTravelerInfoOptionsActivity.class));
 				break;
 			}
@@ -1131,6 +1126,15 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				break;
 			}
 			case R.id.coupon_button: {
+				TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+				Rate selectedRate = hotel.getRate();
+				boolean isPayLater = selectedRate.isPayLater();
+				boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPayLaterCouponMessaging);
+				if (isPayLater && isUserBucketedForTest) {
+					handlePayLaterCouponError();
+					break;
+				}
+
 				OmnitureTracking.trackHotelCouponExpand(getActivity());
 				mCouponDialogFragment = new CouponDialogFragment();
 				mCouponDialogFragment.show(getChildFragmentManager(), CouponDialogFragment.TAG);
@@ -1655,5 +1659,16 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		dialog.setMessage(R.string.error_hotel_no_longer_available);
 		dialog.show(getFragmentManager(), HOTEL_EXPIRED_ERROR_DIALOG);
 
+	}
+
+	/*
+	 * Pay Later Coupon Error Handling
+	 */
+
+	private void handlePayLaterCouponError() {
+		String errorMessage = getString(R.string.coupon_error_pay_later_hotel);
+		DialogFragment df = SimpleDialogFragment.newInstance(null, errorMessage);
+		df.show(getChildFragmentManager(), "couponError");
+		Events.post(new Events.CouponDownloadError());
 	}
 }
