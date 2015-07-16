@@ -15,8 +15,8 @@ public class AppIntroPagerAdapter extends PagerAdapter {
 	LayoutInflater layoutInflater;
 
 	int[] backgrounds = {
-		R.drawable.default_flights_background,
-		R.drawable.default_flights_background_blurred
+		R.drawable.app_intro_collection,
+		R.drawable.app_intro_sale
 	};
 
 	int[] titles = {

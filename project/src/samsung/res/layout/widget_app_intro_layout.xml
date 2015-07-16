@@ -26,14 +26,14 @@
         android:orientation="horizontal"
         android:paddingBottom="30dp" />
 
-    <TextView
+    <ImageView
         android:id="@+id/pager_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:paddingBottom="30dp"
         android:paddingRight="20dp"
-        android:text="@string/app_intro_next"
-        android:textColor="@android:color/white" />
+        android:src="@drawable/intro_next"
+        />
 
 </com.expedia.bookings.widget.AppIntroWidget>

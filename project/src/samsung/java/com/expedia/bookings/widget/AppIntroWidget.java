@@ -52,11 +52,11 @@ public class AppIntroWidget extends FrameLayout implements ViewPager.OnPageChang
 		introPager.setAdapter(introPagerAdapter);
 		introPager.setOnPageChangeListener(this);
 
+		int indicatorPadding = getResources().getDimensionPixelSize(R.dimen.intro_indicator_image_padding);
 		indicators = new ImageView[introPagerAdapter.getCount()];
 		for (int i = 0; i < introPagerAdapter.getCount(); i++) {
 			indicators[i] = new ImageView(getContext());
-			indicators[i].setMinimumHeight(20);
-			indicators[i].setMinimumWidth(20);
+			indicators[i].setPadding(indicatorPadding, 0, indicatorPadding, 0);
 			pagerIndicatorContainer.addView(indicators[i]);
 		}
 		updateIndicators(0);
@@ -79,9 +79,9 @@ public class AppIntroWidget extends FrameLayout implements ViewPager.OnPageChang
 
 	private void updateIndicators(int selectedPosition) {
 		for (int i = 0; i < introPagerAdapter.getCount(); i++) {
-			// TODO Replace with actual assets once available.
-			indicators[i].setBackgroundColor(
-				getResources().getColor(i == selectedPosition ? R.color.cars_primary_color : R.color.lx_primary_color));
+			indicators[i].setImageResource(
+				i == selectedPosition ? R.drawable.intro_selected_indicator
+					: R.drawable.intro_unselected_indicator);
 		}
 	}
 
