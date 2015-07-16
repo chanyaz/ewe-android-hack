@@ -134,7 +134,7 @@ public class CheckoutViewModel {
 	}
 
 	public static void enterTravelerInfo() {
-		ScreenActions.delay(1);
+		ScreenActions.delay(2);
 		clickDriverInfo();
 		ScreenActions.delay(1);
 		enterFirstName("FiveStar");
@@ -146,10 +146,11 @@ public class CheckoutViewModel {
 		ScreenActions.delay(1);
 		enterPhoneNumber("4158675309");
 		clickDone();
+		ScreenActions.delay(2);
 	}
 
 	public static void enterPaymentInfo() {
-		ScreenActions.delay(1);
+		ScreenActions.delay(2);
 		CheckoutViewModel.clickPaymentInfo();
 		ScreenActions.delay(1);
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
@@ -160,5 +161,6 @@ public class CheckoutViewModel {
 		CardInfoScreen.clickSetButton();
 		CardInfoScreen.typeTextPostalCode("666");
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+		ScreenActions.delay(2);
 	}
 }

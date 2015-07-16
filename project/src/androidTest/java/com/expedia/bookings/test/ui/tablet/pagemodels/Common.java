@@ -8,6 +8,7 @@ import android.support.test.espresso.action.ViewActions;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.mobiata.android.Log;
 
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -18,6 +19,7 @@ import static org.hamcrest.CoreMatchers.not;
 public class Common {
 	public static void closeSoftKeyboard(ViewInteraction v) {
 		v.perform(ViewActions.closeSoftKeyboard());
+		ScreenActions.delay(1);
 	}
 
 	public static void checkDisplayed(ViewInteraction v) {
