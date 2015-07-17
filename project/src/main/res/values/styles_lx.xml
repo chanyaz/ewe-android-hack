@@ -1,47 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="V2.Theme.LX" parent="AppTheme.BaseLX"/>
+    <style name="V2.Theme.LX" parent="Whitelabel.LXTheme.Base"/>
 
-    <style name="AppTheme.BaseLX" parent="@style/Theme.AppCompat.Light">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
+    <!--
+        Override this theme in whitelabels to provide whitelabel specific theme values.
+
+        Note: If any attr which is in AppTheme.Base.LX and need to be customized per whitelabel,
+        that attr should be removed from AppTheme.Base.LX and
+        must be added in all Whitelabel.LXTheme.Base for all whitelabels
+    -->
+    <style name="Whitelabel.LXTheme.Base" parent="AppTheme.Base.LX">
+        <!-- Required white label attr for login widget -->
+        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="primary_color">@color/lx_primary_color</item>
+        <item name="android:colorPrimaryDark">#A8540D</item>
+        <item name="android:colorButtonNormal">@color/lx_primary_color</item>
+        <item name="colorAccent">@color/lx_primary_color</item>
+
+        <!-- Skins added for whitelabel -->
+        <item name="skin_loginBrandLogoDrawable">@drawable/expedia</item>
+        <item name="skin_costSummaryAlertDrawable">@drawable/border_horizontal_expedia_striped</item>
+        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
+        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
+        <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
+        <item name="skin_checkoutLoginButtonColor">#836B11</item>
+        <item name="skin_loginBrandIconDrawable">@drawable/expedia_login</item>
+        <item name="skin_lxPrimaryColor">@color/lx_primary_color</item>
+
+        <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_book_now_button_selector</item>
+        <item name="skin_lxOfferDateSelectorDrawable">@drawable/lx_offer_date_selector</item>
+        <item name="skin_lxSelectTicketButtonSelectorDrawable">@drawable/lx_select_ticket_button_selector</item>
+        <item name="skin_lxShowMoreBackgroundDrawable">@drawable/lx_show_more_background</item>
+        <item name="skin_lxSortButtonSelectorDrawable">@drawable/lx_sort_button_selector</item>
+        <item name="skin_lxSortButtonTextSelectorDrawable">@drawable/lx_sort_button_text_selector</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/lx_traveler_checkout_circle</item>
+        <item name="skin_lxTextSelectorDrawable">@drawable/lx_text_selector</item>
+        <item name="skin_lxUncheckedToggleTextColor">@color/lx_unchecked_toggle_text_color</item>
+        <item name="skin_lxTicketPlusButtonSelectorDrawable">@drawable/lx_ticket_plus_button_selector</item>
+        <item name="skin_lxTicketMinusButtonSelectorDrawable">@drawable/lx_ticket_minus_button_selector</item>
+
+    </style>
+
+    <!--
+        Base app theme for LX, all the properties of LX which are common for all whitelabels should be added here
+    -->
+    <style name="AppTheme.Base.LX">
+        <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
         <item name="checkout_card_view_style">@style/LXCardView</item>
         <item name="checkout_slider_text">@string/lx_slider_text</item>
         <item name="toolbar_title_style">@style/LXToolbarTitleTextAppearance</item>
         <item name="android:textColorSecondary">@color/lx_actionbar_text_color</item>
-        <item name="android:colorPrimaryDark">#A8540D</item>
-        <item name="android:colorButtonNormal">@color/lx_primary_color</item>
-        <item name="colorControlNormal">#C3C3C3</item>
-        <item name="actionMenuTextColor">#FFFFFF</item>
-        <item name="android:actionMenuTextColor">#FFFFFF</item>
-        <item name="colorAccent">@color/lx_primary_color</item>
 
-
-        <!-- Required white label attr for login widget -->
-        <item name="skin_loginWithExpediaTitleText">@string/expedia_account</item>
-        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="skin_loginButtonColor">@android:color/black</item>
-        <item name="skin_hotelCheckoutLoginButtonText">@string/Sign_in_with_Expedia</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
-        <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
-        <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
-        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
         <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
 
         <!-- CVV attrs -->
-        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
-        <item name="skin_cvvBookButtonTextColor">@android:color/black</item>
-
         <item name="traveler_toolbar_text">@string/lx_traveler_details_text</item>
         <item name="traveler_details_text">@string/lx_traveler_enter_details_text</item>
-        <item name="traveler_checkout_circle_drawable">@drawable/lx_traveler_checkout_circle</item>
 
         <item name="card_list_image_container_height">@dimen/lx_search_list_image_container_height</item>
         <item name="card_details_container_height">@dimen/lx_search_details_container_height</item>
@@ -51,27 +69,6 @@
 
         <item name="checkout_unexpanded_space_height">@dimen/lx_unexpanded_space_height</item>
         <item name="toolbarNavigationButtonStyle">@style/LXNavigationButtonStyle</item>
-        <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
-
-        <!-- Skins added for whitelabel -->
-        <item name="skin_loginBrandLogoDrawable">@drawable/expedia</item>
-        <item name="skin_costSummaryAlertDrawable">@drawable/border_horizontal_expedia_striped</item>
-        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
-        <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
-        <item name="skin_checkoutLoginButtonColor">#836B11</item>
-        <item name="skin_loginBrandIconDrawable">@drawable/expedia_login</item>
-        <item name="skin_lxPrimaryColor">@color/lx_primary_color</item>
-        <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_book_now_button_selector</item>
-        <item name="skin_lxOfferDateSelectorDrawable">@drawable/lx_offer_date_selector</item>
-        <item name="skin_lxSelectTicketButtonSelectorDrawable">@drawable/lx_select_ticket_button_selector</item>
-        <item name="skin_lxShowMoreBackgroundDrawable">@drawable/lx_show_more_background</item>
-        <item name="skin_lxSortButtonSelectorDrawable">@drawable/lx_sort_button_selector</item>
-        <item name="skin_lxSortButtonTextSelectorDrawable">@drawable/lx_sort_button_text_selector</item>
-        <item name="skin_lxTextSelectorDrawable">@drawable/lx_text_selector</item>
-        <item name="skin_lxUncheckedToggleTextColor">@color/lx_unchecked_toggle_text_color</item>
-        <item name="skin_lxTicketPlusButtonSelectorDrawable">@drawable/lx_ticket_plus_button_selector</item>
-        <item name="skin_lxTicketMinusButtonSelectorDrawable">@drawable/lx_ticket_minus_button_selector</item>
-
     </style>
 
     <style name="DateRadioButton" parent="V2.Theme.LX">
