@@ -98,6 +98,8 @@ public class HotelReceipt extends LinearLayout {
 	private TextView mGrandTotalTextView;
 	private TextView mViewMapTextButton;
 
+	private boolean mIsABTestViewMapClicked;
+
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
@@ -131,6 +133,7 @@ public class HotelReceipt extends LinearLayout {
 			public void onClick(View view) {
 				if (mMapClickListener != null) {
 					mMapClickListener.onViewMapClicked();
+					mIsABTestViewMapClicked = true;
 				}
 			}
 		});
@@ -280,7 +283,11 @@ public class HotelReceipt extends LinearLayout {
 					// ignore
 				}
 			});
-			crossfade.start();
+
+			// Let's not show the crossfade animation when they are coming back from map view AB test.
+			if (!mIsABTestViewMapClicked) {
+				crossfade.start();
+			}
 
 			mMiniReceipt.setOnClickListener(new OnClickListener() {
 				@Override
