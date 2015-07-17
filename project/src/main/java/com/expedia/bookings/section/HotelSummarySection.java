@@ -300,7 +300,10 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		if (mUrgencyText != null) {
-			boolean isEtpSearchResultsBucket = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelETPSearchResults);
+			boolean isEtpSearchResultsBucket =
+				(!ExpediaBookingApp.useTabletInterface(getContext())) && Db.getAbacusResponse()
+					.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelETPSearchResults);
+
 			int roomsLeft = property.getRoomsLeftAtThisRate();
 			mUrgencyText.setTextSize(14f);
 			if (property.isSponsored()) {
