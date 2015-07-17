@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
@@ -26,6 +27,7 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.InjectViews;
 
 public class LXTicketSelectionWidget extends LinearLayout {
 
@@ -46,9 +48,6 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	@InjectView(R.id.offer_title)
 	com.expedia.bookings.widget.TextView title;
 
-	@InjectView(R.id.free_cancellation)
-	TextView freeCancellationText;
-
 	@InjectView(R.id.ticket_summary_container)
 	LinearLayout ticketSummaryContainer;
 
@@ -58,8 +57,8 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	@InjectView(R.id.offer_bags)
 	com.expedia.bookings.widget.TextView offerBags;
 
-	@InjectView(R.id.offer_duration)
-	com.expedia.bookings.widget.TextView offerDuration;
+	@InjectViews({ R.id.offer_detail1, R.id.offer_detail2, R.id.offer_detail3 })
+	List<com.expedia.bookings.widget.TextView> offerDetails;
 
 	@InjectView(R.id.offer_description)
 	LXOfferDescription offerDescription;
@@ -83,8 +82,6 @@ public class LXTicketSelectionWidget extends LinearLayout {
 		this.offerId = offer.id;
 		title.setText(offer.title);
 
-		freeCancellationText.setVisibility(offer.freeCancellation ? VISIBLE : GONE);
-
 		if (Strings.isNotEmpty(offer.description)) {
 			offerDescription.setVisibility(View.VISIBLE);
 			offerDescription.bindData(offer.description);
@@ -93,13 +90,47 @@ public class LXTicketSelectionWidget extends LinearLayout {
 			offerDescription.setVisibility(View.GONE);
 		}
 
-		if (Strings.isNotEmpty(offer.duration)) {
-			offerDuration.setText(offer.duration);
-			offerDuration.setVisibility(View.VISIBLE);
+		int index = 0;
+		if (offer.freeCancellation) {
+			offerDetails.get(index).setText(getContext().getString(R.string.lx_free_cancellation));
+			offerDetails.get(index).setVisibility(View.VISIBLE);
+			Drawable freeCancellationDrawable = getResources().getDrawable(R.drawable.checkmark).mutate();
+			freeCancellationDrawable.setColorFilter(getResources().getColor(
+				Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)), PorterDuff.Mode.SRC_IN);
+			offerDetails.get(index).setCompoundDrawablesWithIntrinsicBounds(freeCancellationDrawable, null, null, null);
+			index++;
 		}
-		else {
-			offerDuration.setText("");
-			offerDuration.setVisibility(View.GONE);
+
+		if (Strings.isNotEmpty(offer.duration)) {
+			offerDetails.get(index).setText(offer.duration);
+			offerDetails.get(index).setVisibility(View.VISIBLE);
+			Drawable durationDrawable = getResources().getDrawable(R.drawable.duration).mutate();
+			durationDrawable
+				.setColorFilter(getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)),
+					PorterDuff.Mode.SRC_IN);
+			offerDetails.get(index).setCompoundDrawablesWithIntrinsicBounds(durationDrawable, null, null, null);
+			index++;
+		}
+
+		if (offer.redemptionType != null) {
+			String redemptionText =
+				offer.redemptionType.equals(LXRedemptionType.PRINT) ? getResources().getString(
+					R.string.lx_print_voucher_offer) : getResources()
+					.getString(R.string.lx_voucherless_offer);
+			offerDetails.get(index).setText(redemptionText);
+			offerDetails.get(index).setVisibility(View.VISIBLE);
+			Drawable redemptionDrawable = getResources().getDrawable(R.drawable.printed_receipt).mutate();
+			redemptionDrawable
+				.setColorFilter(getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)),
+					PorterDuff.Mode.SRC_IN);
+			offerDetails.get(index).setCompoundDrawablesWithIntrinsicBounds(redemptionDrawable, null, null, null);
+			index++;
+		}
+
+		// Reset other offer details section
+		for (int i = index; i < offerDetails.size(); i++) {
+			offerDetails.get(i).setText("");
+			offerDetails.get(i).setVisibility(View.GONE);
 		}
 
 		if (offer.isGroundTransport) {
@@ -114,16 +145,6 @@ public class LXTicketSelectionWidget extends LinearLayout {
 			}
 		}
 
-		Drawable freeCancellationDrawable = getResources().getDrawable(R.drawable.check).mutate();
-		freeCancellationDrawable.setColorFilter(getResources().getColor(
-			Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)), PorterDuff.Mode.SRC_IN);
-		freeCancellationText.setCompoundDrawablesWithIntrinsicBounds(freeCancellationDrawable, null, null, null);
-
-		Drawable durationDrawable = getResources().getDrawable(R.drawable.time).mutate();
-		durationDrawable
-			.setColorFilter(getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)),
-				PorterDuff.Mode.SRC_IN);
-		offerDuration.setCompoundDrawablesWithIntrinsicBounds(durationDrawable, null, null, null);
 	}
 
 	public void buildTicketPickers(AvailabilityInfo availabilityInfo) {

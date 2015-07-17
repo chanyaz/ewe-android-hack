@@ -31,7 +31,7 @@
         android:paddingTop="9dp" >
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/offer_duration"
+            android:id="@+id/offer_detail1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
@@ -42,16 +42,30 @@
             android:textSize="11sp" />
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/free_cancellation"
+            android:id="@+id/offer_detail2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lx_free_cancellation"
+            android:layout_marginRight="8dp"
             android:gravity="center_vertical"
             android:drawablePadding="8dp"
             android:includeFontPadding="false"
             android:textColor="@color/lx_ticket_summary_color"
             android:textSize="11sp" />
+
     </LinearLayout>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/offer_detail3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:drawablePadding="12dp"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="14dp"
+        android:paddingTop="9dp"
+        android:textColor="@color/lx_ticket_summary_color"
+        android:textSize="11sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

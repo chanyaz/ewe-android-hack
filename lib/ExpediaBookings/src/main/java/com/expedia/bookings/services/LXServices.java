@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
@@ -123,6 +124,7 @@ public class LXServices {
 			String bags = response.bags;
 			String passengers = response.passengers;
 			boolean isGroundTransport = response.isGroundTransport;
+			LXRedemptionType redemptionType = response.redemptionType;
 
 			response.title = Strings.escapeQuotes(response.title);
 
@@ -131,6 +133,7 @@ public class LXServices {
 				offer.bags = bags;
 				offer.passengers = passengers;
 				offer.isGroundTransport = isGroundTransport;
+				offer.redemptionType = redemptionType;
 				for (AvailabilityInfo availabilityInfo : offer.availabilityInfo) {
 					for (Ticket ticket : availabilityInfo.tickets) {
 						ticket.money = new Money(ticket.amount, response.currencyCode);
