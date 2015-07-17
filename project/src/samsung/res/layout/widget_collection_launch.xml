@@ -14,27 +14,30 @@
         android:id="@+id/collection_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="25dp"
         android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:textColor="@color/itin_white_text"
+        android:gravity="left"
+        android:textColor="@android:color/white"
         android:textSize="16sp" />
 
     <Button
         android:id="@+id/button_search_hotels"
-        style="@style/CollectionLOBButton"
-        android:drawableLeft="@drawable/btn_samsung_hotels"
-        android:text="@string/search_hotels" />
+        style="@style/HotelCollectionLOBButton"
+        android:drawableLeft="@drawable/hotel_details_icon"
+        android:text="@string/search_hotels"
+        android:textAllCaps="true" />
 
     <Button
         android:id="@+id/button_search_flights"
-        style="@style/CollectionLOBButton"
-        android:drawableLeft="@drawable/btn_samsung_flights"
-        android:text="@string/search_flights" />
+        style="@style/FlightCollectionLOBButton"
+        android:drawableLeft="@drawable/flight_details_icon"
+        android:text="@string/search_flights"
+        android:textAllCaps="true" />
 
     <Button
         android:id="@+id/button_search_activities"
-        style="@style/CollectionLOBButton"
-        android:drawableLeft="@drawable/btn_samsung_activities"
-        android:text="@string/search_activities" />
+        style="@style/LXCollectionLOBButton"
+        android:drawableLeft="@drawable/lx_details_icon"
+        android:text="@string/search_activities"
+        android:textAllCaps="true" />
 </com.expedia.bookings.widget.CollectionLaunchWidget>

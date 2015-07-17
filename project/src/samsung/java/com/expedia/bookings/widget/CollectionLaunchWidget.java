@@ -5,20 +5,32 @@ import org.joda.time.LocalDate;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class CollectionLaunchWidget extends LinearLayout {
 
+	@InjectView(R.id.collection_description)
+	TextView collectionDescription;
+	@InjectView(R.id.button_search_hotels)
+	Button searchHotels;
+	@InjectView(R.id.button_search_flights)
+	Button searchFlights;
+	@InjectView(R.id.button_search_activities)
+	Button searchActivities;
 	private Suggestion location;
 	private Bundle animOptions;
 
@@ -31,6 +43,10 @@ public class CollectionLaunchWidget extends LinearLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		FontCache.setTypeface(collectionDescription, FontCache.Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(searchHotels, FontCache.Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(searchFlights, FontCache.Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(searchActivities, FontCache.Font.ROBOTO_LIGHT);
 	}
 
 	@OnClick(R.id.button_search_hotels)

@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.data.collections.CollectionLocation;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.location.CurrentLocationObservable;
@@ -64,6 +67,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		getActivity().registerReceiver(broadcastReceiver, filter);
 		OmnitureTracking.onResume(getActivity());
 	}
+
 
 	@Override
 	public void onPause() {
@@ -145,7 +149,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	// Hotel search in collection location
 	@Subscribe
 	public void onCollectionLocationSelected(Events.LaunchCollectionItemSelected event) {
-		updateDetailsViewText(event.collectionLocation);
+		updateCollectionDetailsView(event.collectionLocation, event.collectionLocationDrawable);
 		switchView(false);
 	}
 
@@ -163,11 +167,18 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		toolBar.findViewById(R.id.tab_layout).setVisibility(isCollectionClicked ? View.VISIBLE : View.GONE);
 	}
 
-	private void updateDetailsViewText(CollectionLocation collectionLocation) {
+	private void updateCollectionDetailsView(CollectionLocation collectionLocation,
+		HeaderBitmapDrawable collectionLocationDrawable) {
 		Toolbar toolBar = ((PhoneLaunchActivity) getActivity()).getToolbar();
 		((TextView) toolBar.findViewById(R.id.locationName)).setText(collectionLocation.title);
 		((TextView) toolBar.findViewById(R.id.locationCountryName)).setText(collectionLocation.subtitle);
-		(((TextView) collectionDetailsView.findViewById(R.id.collection_description)))
-			.setText(collectionLocation.description);
+
+		(((TextView) collectionDetailsView.findViewById(R.id.collection_description))).setText(
+			collectionLocation.description);
+
+		LayerDrawable layerDraw = new LayerDrawable(new Drawable[] {
+			collectionLocationDrawable, getResources().getDrawable(R.drawable.collection_screen_gradient_overlay)
+		});
+		collectionDetailsView.setBackground(layerDraw);
 	}
 }
