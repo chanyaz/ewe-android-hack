@@ -2161,6 +2161,8 @@
     <string name="add_insurance">Add Insurance</string>
     <!-- Insurance -->
     <string name="insurance">Insurance</string>
+    <!-- Insurance label on itin section -->
+    <string name="insurance_itin_label">Travel Protection</string>
     <!-- Air attach messaging -->
     <string name="air_attach_alert">Because you booked a flight</string>
     <!-- Air attach savings messaging -->
