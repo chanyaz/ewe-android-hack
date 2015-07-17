@@ -1902,6 +1902,8 @@
     <string name="add_new_traveler">Add New Traveler</string>
     <!-- Select card from checkout saved credit cards list -->
     <string name="saved_creditcards">Saved Cards</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="select_saved_cards">Select saved cards</string>
     <!-- Add new card, checkout saved credit cards list -->
     <string name="add_new_creditcard">Add New Card</string>
     <!-- Add Guest for hotels -->
