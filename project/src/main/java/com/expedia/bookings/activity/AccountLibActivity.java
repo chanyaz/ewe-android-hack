@@ -28,12 +28,14 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LoginExtender;
+import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.TextView;
@@ -201,13 +203,16 @@ public class AccountLibActivity extends AppCompatActivity
 		new PicassoHelper.Builder(background).build().load(R.drawable.bg_mtfuji_crop);
 
 		accountView.configure(Config.build()
-				.setEndpoint(Ui.getApplication(this).appComponent().okHttpClient(), Ui.getApplication(this).appComponent().endpointProvider().getE3EndpointUrl())
+				.setEndpoint(Ui.getApplication(this).appComponent().okHttpClient(),
+					Ui.getApplication(this).appComponent().endpointProvider().getE3EndpointUrl())
 				.setSiteId(PointOfSale.getPointOfSale().getSiteId())
 				.setLangId(PointOfSale.getPointOfSale().getDualLanguageId())
 				.setBackgroundImageView(background)
-				.setPOSEnableSpamByDefault(true)
-				.setPOSShowSpamOptIn(true)
-				.setClientId("accountstest.phone.android")
+				.setPOSEnableSpamByDefault(PointOfSale.getPointOfSale().shouldEnableMarketingOptIn())
+				.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
+				.setEnableFacebookButton(
+					ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
+				.setClientId(ServicesUtil.generateClientId(this))
 				.setListener(new Listener())
 				.setAnalyticsListener(analyticsListener)
 		);
