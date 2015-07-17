@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -22,6 +23,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
@@ -100,8 +102,11 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 
 		//Associated Travelers (From Expedia Account)
 		mAssociatedTravelersContainer.removeAllViews();
-		List<Traveler> alternativeTravelers = BookingInfoUtils.getAlternativeTravelers(getActivity());
-		alternativeTravelers.add(Db.getUser().getPrimaryTraveler());
+		List<Traveler> alternativeTravelers = new ArrayList<Traveler>();
+		if (User.isLoggedIn(getActivity()) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
+			alternativeTravelers.add(Db.getUser().getPrimaryTraveler());
+		}
+		alternativeTravelers.addAll(BookingInfoUtils.getAlternativeTravelers(getActivity()));
 		int numAltTravelers = alternativeTravelers.size();
 		Resources res = getResources();
 		for (int i = 0; i < numAltTravelers; i++) {
