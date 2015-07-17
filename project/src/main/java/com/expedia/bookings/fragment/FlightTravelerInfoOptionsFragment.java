@@ -133,8 +133,13 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		//Associated Travelers (From Expedia Account)
 		mAssociatedTravelersContainer.removeAllViews();
-		List<Traveler> alternativeTravelers = BookingInfoUtils.getAlternativeTravelers(getActivity());
-		alternativeTravelers.add(Db.getUser().getPrimaryTraveler());
+		List<Traveler> alternativeTravelers = new ArrayList<Traveler>();
+
+		if (User.isLoggedIn(getActivity()) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
+			alternativeTravelers.add(Db.getUser().getPrimaryTraveler());
+		}
+		alternativeTravelers.addAll(BookingInfoUtils.getAlternativeTravelers(getActivity()));
+
 		int numAltTravelers = alternativeTravelers.size();
 		Resources res = getResources();
 		for (int i = 0; i < numAltTravelers; i++) {
