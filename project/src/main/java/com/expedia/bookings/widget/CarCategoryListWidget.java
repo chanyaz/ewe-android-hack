@@ -14,6 +14,7 @@ import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -103,6 +104,7 @@ public class CarCategoryListWidget extends FrameLayout {
 		adapter.setCategories(event.results.categories);
 		adapter.loadingState = false;
 		adapter.notifyDataSetChanged();
+		AdTracker.trackCarResult(event.results, mParams);
 	}
 
 	@Subscribe

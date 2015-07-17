@@ -788,6 +788,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				}
 				if (mFlightLegsFrag.isFirstLeg()) {
 					OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), 0);
+					AdTracker.trackPageLoadFlightSearchResults(0);
 				}
 			}
 		}

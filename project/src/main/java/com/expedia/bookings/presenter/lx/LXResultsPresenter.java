@@ -199,6 +199,7 @@ public class LXResultsPresenter extends Presenter {
 			sortFilterWidget.bind(lxSearchResponse.filterCategories);
 			sortFilterButton.setVisibility(View.VISIBLE);
 			sortFilterButton.showNumberOfFilters(0);
+			AdTracker.trackLXSearchResults(lxState.searchParams, lxSearchResponse);
 		}
 	};
 

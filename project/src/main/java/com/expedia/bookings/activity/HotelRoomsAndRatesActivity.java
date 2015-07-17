@@ -24,7 +24,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.HotelRoomsAndRatesFragment;
 import com.expedia.bookings.fragment.HotelRoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.server.CrossContextHelper;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.HotelUtils;
@@ -141,7 +140,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		super.onStart();
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		OmnitureTracking.trackAppHotelsRoomsRates(this, property, null);
-		AdTracker.trackHotelRoomAndRates();
 	}
 
 	@Override
