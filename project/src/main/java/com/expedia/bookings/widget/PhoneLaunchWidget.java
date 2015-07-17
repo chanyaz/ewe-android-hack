@@ -337,6 +337,11 @@ public class PhoneLaunchWidget extends FrameLayout {
 	}
 
 	@Subscribe
+	public void onDownloadAndShowCollections(Events.DownloadAndShowCollections downloadAndShowCollections) {
+		onLocationNotAvailable(null);
+	}
+
+	@Subscribe
 	public void onLocationNotAvailable(Events.LaunchLocationFetchError event) {
 		Log.i(TAG, "Start collection download");
 		launchListWidget.setVisibility(VISIBLE);
