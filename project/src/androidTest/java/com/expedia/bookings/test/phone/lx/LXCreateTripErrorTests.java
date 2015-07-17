@@ -1,92 +1,54 @@
 package com.expedia.bookings.test.phone.lx;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import org.joda.time.LocalDate;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import android.support.test.runner.AndroidJUnit4;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXSearchParams;
-import com.expedia.bookings.data.lx.Offer;
-import com.expedia.bookings.data.lx.Ticket;
-import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
-import com.expedia.bookings.test.rules.PlaygroundRule;
-import com.expedia.bookings.utils.DateUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.expedia.bookings.test.espresso.LxTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.Matchers.allOf;
 
 
-@RunWith(AndroidJUnit4.class)
-public class LXCreateTripErrorTests {
+public class LXCreateTripErrorTests extends LxTestCase {
 
-	@Rule
-	public final PlaygroundRule playground = new PlaygroundRule(R.layout.test_lx_checkout_presenter, R.style.V2_Theme_LX);
+	private void goToCheckout(int productPosition, String ticketName) throws Throwable {
+		if (getLxIdlingResource().isInSearchEditMode()) {
+			onView(allOf(withId(R.id.error_action_button), withText(R.string.edit_search)))
+				.perform(click());
+			LXScreen.location().perform(typeText("San"));
+			LXScreen.selectLocation("San Francisco, CA");
+			LXScreen.selectDateButton().perform(click());
+			LXScreen.selectDates(LocalDate.now(), null);
+			LXScreen.searchButton().perform(click());
+		}
 
-	@Rule
-	public final ExpediaMockWebServerRule server = new ExpediaMockWebServerRule();
+		LXScreen.waitForSearchListDisplayed();
+		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(productPosition, click()));
+		LXScreen.waitForLoadingDetailsNotDisplayed();
 
-	Gson gson = new GsonBuilder().create();
-
-	@Before
-	public void before() {
-		//Search Params
-		LXSearchParams searchParams = new LXSearchParams();
-		searchParams.location = "New York";
-		searchParams.startDate = DateUtils.yyyyMMddToLocalDate("2015-03-25");
-		searchParams.endDate = DateUtils.yyyyMMddToLocalDate("2015-04-08");
-		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
-		//Select Activity
-		Events.post(new Events.LXActivitySelected(new LXActivity()));
+		LXInfositeScreen.selectOffer(ticketName).perform(scrollTo(), click());
+		LXInfositeScreen.bookNowButton(ticketName).perform(scrollTo(), click());
 	}
 
-	@Test
-	public void testCreateTripError() {
-		//Select Offer which will return mocked data for create trip failure.
-		Offer lxOffer = gson.fromJson("{\"id\": \"error_activity_id\", \"title\": \"2-Day New York Pass\", \"description\": \"\", \"currencySymbol\": \"$\", \"currencyDisplayedLeft\": true, \"freeCancellation\": true, \"duration\": \"2d\", \"discountPercentage\": null, \"directionality\": \"\", \"availabilityInfo\": [{\"availabilities\": {\"displayDate\": \"Tue, Feb 24\", \"valueDate\": \"2015-02-24 07:30:00\", \"allDayActivity\": false }, \"tickets\": [{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }, {\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"displayName\": null, \"defaultTicketCount\": 0 } ] } ], \"direction\": null }", Offer.class);
-		List<Ticket> selectedTickets = new ArrayList<>();
-		Ticket adultTicket = gson.fromJson("{\"code\": \"Adult\",\"count\": \"3\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }", Ticket.class);
-		adultTicket.money = new Money(adultTicket.amount, "USD");
-		selectedTickets.add(adultTicket);
-		lxOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
+	public void testCreateTripError() throws Throwable {
+		goToCheckout(1, "2-Day New York Pass");
 
-		Events.post(new Events.LXOfferBooked(lxOffer, selectedTickets));
-		onView(withId(R.id.lx_checkout_error_widget)).inRoot(
-			withDecorView(is(playground.getActivity().getWindow().getDecorView())))
-			.perform(waitFor((isDisplayed()), 10L, TimeUnit.SECONDS));
+		onView(withId(R.id.lx_checkout_error_widget)).check(matches(isCompletelyDisplayed()));
 	}
 
-	@Test
-	public void testCreateTripPriceChange() {
-		//Select Offer which will return mocked data for create trip failure.
-		Offer lxOffer = gson.fromJson("{\"id\": \"price_change\", \"title\": \"2-Day New York Pass\", \"description\": \"\", \"currencySymbol\": \"$\", \"currencyDisplayedLeft\": true, \"freeCancellation\": true, \"duration\": \"2d\", \"discountPercentage\": null, \"directionality\": \"\", \"availabilityInfo\": [{\"availabilities\": {\"displayDate\": \"Tue, Feb 24\", \"valueDate\": \"2015-02-24 07:30:00\", \"allDayActivity\": false }, \"tickets\": [{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }, {\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"displayName\": null, \"defaultTicketCount\": 0 } ] } ], \"direction\": null }", Offer.class);
-		List<Ticket> selectedTickets = new ArrayList<>();
-		Ticket adultTicket = gson.fromJson("{\"code\": \"Adult\",\"count\": \"3\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"displayName\": null, \"defaultTicketCount\": 2 }", Ticket.class);
-		adultTicket.money = new Money(adultTicket.amount, "USD");
-		selectedTickets.add(adultTicket);
-		lxOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
+	public void testCreateTripPriceChange() throws Throwable {
+		goToCheckout(2, "2-Day New York Pass");
 
-		Events.post(new Events.LXOfferBooked(lxOffer, selectedTickets));
-		onView(withId(R.id.error_text)).inRoot(
-			withDecorView(is(playground.getActivity().getWindow().getDecorView()))).perform(
-			waitFor(isDisplayed(), 10L, TimeUnit.SECONDS));
-		onView(withId(R.id.error_text)).check(matches(withText(R.string.lx_error_price_changed)));
+		onView(allOf(isCompletelyDisplayed(), withId(R.id.error_text))).check(
+			matches(withText(R.string.lx_error_price_changed)));
 	}
 }
