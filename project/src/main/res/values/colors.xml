@@ -297,4 +297,10 @@
     <color name="acct__flavor_text">#ffffff</color>
     <color name="acct__user_info_text_color">#ffffff</color>
     <color name="toolbar_icon">#ffffff</color>
+
+    <!-- MER Email Opt checkbox color -->
+    <color name="mer_email_checkbox_unchecked_color">#F7F8FA</color>
+    <color name="mer_email_checkbox_checked_color">#00B9E6</color>
+    <color name="mer_email_text_color">#F7F8FA</color>
+
 </resources>

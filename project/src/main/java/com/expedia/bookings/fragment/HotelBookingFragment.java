@@ -97,6 +97,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 				String tripId = null;
 				String tealeafId = null;
 				Long tuid = null;
+				boolean isMerEmailOptIn;
 
 				if (hotel.getCreateTripResponse() != null) {
 					tripId = hotel.getCreateTripResponse().getTripId();
@@ -108,9 +109,10 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 					tuid = Db.getUser().getPrimaryTraveler().getTuid();
 				}
 
+				isMerEmailOptIn = hotel.isMerEmailOptIn();
 				Rate selectedRate = hotel.getRate();
 				HotelBookingResponse response = services.reservation(hotel.getHotelSearchParams(),
-					selectedRate, Db.getBillingInfo(), tripId, userId, tuid, tealeafId);
+					selectedRate, Db.getBillingInfo(), tripId, userId, tuid, tealeafId, isMerEmailOptIn);
 
 				notifyWalletTransactionStatus(response);
 

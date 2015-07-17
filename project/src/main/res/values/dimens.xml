@@ -286,4 +286,8 @@
     <dimen name="hotel_traveler_table_margin">24dp</dimen>
     <dimen name="hotel_traveler_padding">28dp</dimen>
     <dimen name="hotel_traveler_plus_minus_size">40dp</dimen>
+
+    <!-- Dimensions For hotel traveler edit page -->
+    <dimen name="hotel_traveler_edit_email_disclaimer_text_size">12sp</dimen>
+
 </resources>
