@@ -11,7 +11,6 @@ public class AppIntroActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.widget_app_intro_layout);
-		getActionBar().hide();
 	}
 
 }

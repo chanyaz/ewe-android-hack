@@ -2,8 +2,6 @@
 <resources>
     <!-- Label for skip app intro -->
     <string name="app_intro_skip">SKIP</string>
-    <!-- Label for next app intro -->
-    <string name="app_intro_next">NEXT</string>
     <!-- Collecions app intro title -->
     <string name="app_intro_collections_title">Discover new destinations from Samsung collections</string>
     <!-- Hotels savings app intro title -->
