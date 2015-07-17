@@ -81,19 +81,21 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 			CreateTripResponse createTripResponse = tripHotel.getCreateTripResponse();
 			boolean isChecked = false;
 			mMerchandiseSpam = createTripResponse.getMerchandiseSpam();
-			switch (mMerchandiseSpam) {
-			case ALWAYS:
-				break;
-			case CONSENT_TO_OPT_IN:
-				mMerchendiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_in_TEMPLATE).put("brand", BuildConfig.brand).format());
-				isChecked = tripHotel.isMerEmailOptIn();
-				mMerchendiseOptCheckBox.setVisibility(View.VISIBLE);
-				break;
-			case CONSENT_TO_OPT_OUT:
-				mMerchendiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_out_TEMPLATE).put("brand", BuildConfig.brand).format());
-				isChecked = !tripHotel.isMerEmailOptIn();
-				mMerchendiseOptCheckBox.setVisibility(View.VISIBLE);
-				break;
+			if (mMerchandiseSpam != null) {
+				switch (mMerchandiseSpam) {
+				case ALWAYS:
+					break;
+				case CONSENT_TO_OPT_IN:
+					mMerchendiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_in_TEMPLATE).put("brand", BuildConfig.brand).format());
+					isChecked = tripHotel.isMerEmailOptIn();
+					mMerchendiseOptCheckBox.setVisibility(View.VISIBLE);
+					break;
+				case CONSENT_TO_OPT_OUT:
+					mMerchendiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_out_TEMPLATE).put("brand", BuildConfig.brand).format());
+					isChecked = !tripHotel.isMerEmailOptIn();
+					mMerchendiseOptCheckBox.setVisibility(View.VISIBLE);
+					break;
+				}
 			}
 
 			mMerchendiseOptCheckBox.setChecked(isChecked);
