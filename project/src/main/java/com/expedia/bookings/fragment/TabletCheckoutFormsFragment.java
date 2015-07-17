@@ -175,6 +175,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		if (getLob() != null) {
 			buildCheckoutForm();
+			BookingInfoUtils.populateTravelerDataFromUser(getActivity(), getLob());
+			BookingInfoUtils.populateTravelerDataFromUser(getActivity(), getLob());
 		}
 
 		registerStateListener(new StateListenerLogger<CheckoutFormState>(), false);
