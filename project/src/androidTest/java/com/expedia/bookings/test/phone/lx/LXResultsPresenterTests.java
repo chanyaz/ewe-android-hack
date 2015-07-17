@@ -15,10 +15,10 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
+import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
@@ -29,7 +29,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
@@ -53,19 +52,15 @@ public class LXResultsPresenterTests {
 		searchParams.endDate = LocalDate.now().plusDays(14);
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 
-		onView(isRoot()).perform(waitFor(allOf
-			(hasDescendant(withText(startsWith("New York Pass"))),
-				hasDescendant(withText("$130"))), 10L, TimeUnit.SECONDS));
-
-
+		LXScreen.searchResultsWidget().perform(waitFor(isDisplayed(), 10L, TimeUnit.SECONDS));
 		LXScreen.searchResultsWidget().check(matches(isDisplayed()));
 		LXScreen.searchList().check(matches(isDisplayed()));
 		ViewInteraction searchResultItem = LXScreen.recyclerItemView(allOf
-				(hasDescendant(withText(startsWith("New York Pass"))),
+				(hasDescendant(withText(startsWith("happy"))),
 					hasDescendant(withText("$130"))),
 			R.id.lx_search_results_list);
 
-			searchResultItem.check(matches(isDisplayed()));
+		searchResultItem.check(matches(isDisplayed()));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_title))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_image))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_price))));
@@ -83,9 +78,7 @@ public class LXResultsPresenterTests {
 		searchParams.location = location;
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 
-		onView(isRoot()).perform(waitFor(allOf
-			(hasDescendant(withText(startsWith("New York Pass"))),
-				hasDescendant(withText("$130"))), 10L, TimeUnit.SECONDS));
+		LXScreen.searchResultsWidget().perform(waitFor(isDisplayed(), 10L, TimeUnit.SECONDS));
 
 		String expectedToolbarDateRange = startDate.toString("MMM d") + " - " + endDate.toString("MMM d");
 		ViewInteraction searchToolbar = LXScreen.toolbar();
@@ -117,6 +110,7 @@ public class LXResultsPresenterTests {
 		a.duration = duration;
 		activities.add(a);
 
+		LXScreen.searchResultsWidget().perform(waitFor(isDisplayed(), 10L, TimeUnit.SECONDS));
 		onView(withId(R.id.lx_search_results_list)).perform(LXScreen.setLXActivities(activities));
 		onView(withId(R.id.lx_search_results_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0,
 			LXScreen.performViewHolderComparison(title, price.getFormattedMoney(),
@@ -145,9 +139,7 @@ public class LXResultsPresenterTests {
 		searchParams.endDate = LocalDate.now().plusDays(14);
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 
-		onView(isRoot()).perform(waitFor(allOf
-			(hasDescendant(withText(startsWith("New York Pass"))),
-				hasDescendant(withText("$130"))), 10L, TimeUnit.SECONDS));
+		LXScreen.searchResultsWidget().perform(waitFor(isDisplayed(), 10L, TimeUnit.SECONDS));
 
 		LXScreen.searchResultsWidget().check(matches(isDisplayed()));
 		LXScreen.searchList().check(matches(isDisplayed()));

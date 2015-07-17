@@ -1,5 +1,6 @@
 package com.mobiata.mocke3
 
+import com.google.gson.JsonParser
 import com.squareup.okhttp.mockwebserver.Dispatcher
 import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
@@ -333,17 +334,16 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 			}
 			return makeResponse("lx/api/activity/happy.json", params)
 		}
-		else if (request.getPath().contains("/trip/create")) {
-			val body = request.getUtf8Body()
-			if (body.contains("error_activity_id")) {
-				return makeResponse("m/api/lx/trip/create/error_create_trip.json")
+		else if (request.getPath().contains("m/api/lx/trip/create")) {
+            var activityId: String?
+            val obj = JsonParser().parse(request.getUtf8Body()).getAsJsonObject()
+            activityId = obj.getAsJsonArray("items").get(0).getAsJsonObject().get("activityId").getAsString()
+			if (activityId != null && activityId.isNotBlank()) {
+				return makeResponse("m/api/lx/trip/create/" + activityId + ".json")
 			}
-			if (body.contains("price_change")) {
-				return makeResponse("m/api/lx/trip/create/price_change.json")
-			}
-			return makeResponse("m/api/lx/trip/create/happy.json")
+            return make404()
 		}
-		else if (request.getPath().contains("/trip/checkout")) {
+		else if (request.getPath().contains("m/api/lx/trip/checkout")) {
 			val params = parseRequest(request)
 			val firstName = params.get("firstName")
 			val tripId = params.get("tripId")

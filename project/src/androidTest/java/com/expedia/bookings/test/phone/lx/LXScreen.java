@@ -20,10 +20,10 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.test.espresso.TabletViewActions;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
+import com.expedia.bookings.test.espresso.TabletViewActions;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.widget.LXResultsListAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -266,7 +266,8 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction checkoutErrorButton() {
-		return onView(allOf(isDescendantOfA(withId(R.id.lx_checkout_error_widget)), withId(R.id.error_action_button)));
+		return onView(allOf(isDescendantOfA(withId(R.id.lx_checkout_error_widget)),
+			withId(R.id.error_action_button)));
 	}
 
 	// LX Rules widget view models
@@ -308,7 +309,8 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction searchErrorButton() {
-		return onView(allOf(isDescendantOfA(withId(R.id.lx_search_error_widget)), withId(R.id.error_action_button)));
+		return onView(allOf(isDescendantOfA(withId(R.id.lx_search_error_widget)),
+			withId(R.id.error_action_button)));
 	}
 
 	public static ViewInteraction resultList() {
