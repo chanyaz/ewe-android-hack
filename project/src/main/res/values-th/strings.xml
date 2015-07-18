@@ -3580,5 +3580,7 @@
     <string name="child_age_label">โปรดระบุอายุเด็ก</string>
 
     <string name="lob_not_supported_error_message">ขออภัย การจอง{lob}ยังไม่มีให้บริการในตำแหน่งของคุณ</string>
+    <string name="acct_Create_an_Expedia_account">สร้างบัญชีเอ็กซ์พีเดีย</string>
+    <string name="acct_Welcome_to_Expedia">ยินดีต้อนรับสู่เอ็กซ์พีเดีย</string>
 
 </resources>

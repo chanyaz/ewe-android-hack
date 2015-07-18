@@ -3578,5 +3578,7 @@
     <string name="child_age_label">Chọn tuổi từng trẻ</string>
 
     <string name="lob_not_supported_error_message">Rất tiếc, hiện {lob} chưa hỗ trợ đặt tại địa điểm của quý vị.</string>
+    <string name="acct_Create_an_Expedia_account">Tạo tài khoản Expedia</string>
+    <string name="acct_Welcome_to_Expedia">Expedia xin chào</string>
 
 </resources>

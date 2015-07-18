@@ -3578,5 +3578,7 @@
     <string name="child_age_label">Selecteer de leeftijd van elk kind</string>
 
     <string name="lob_not_supported_error_message">Sorry, boekingen van {lob} zijn nog niet beschikbaar voor jouw regio.</string>
+    <string name="acct_Create_an_Expedia_account">Expedia-account aanmaken</string>
+    <string name="acct_Welcome_to_Expedia">Welkom bij Expedia</string>
 
 </resources>

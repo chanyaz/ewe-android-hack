@@ -3579,5 +3579,7 @@
     <string name="child_age_label">Geben Sie das Alter jedes Kindes an</string>
 
     <string name="lob_not_supported_error_message">Leider können {lob} an Ihrem Standort noch nicht mobil gebucht werden.</string>
+    <string name="acct_Create_an_Expedia_account">Expedia-Konto erstellen</string>
+    <string name="acct_Welcome_to_Expedia">Willkommen bei Expedia</string>
 
 </resources>
