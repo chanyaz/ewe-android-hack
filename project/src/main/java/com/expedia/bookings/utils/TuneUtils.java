@@ -99,6 +99,7 @@ public class TuneUtils {
 				.withRevenue(selectedProperty.getLowestRate().getDisplayPrice().getAmount().doubleValue())
 				.withDate1(hotelSearchParams.getCheckInDate().toDate())
 				.withDate2(hotelSearchParams.getCheckOutDate().toDate())
+				.withEventItems(Arrays.asList(eventItem))
 				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
 				.withAttribute4("Mobile:US:OLA:Criteo");
 			trackEvent(event);
@@ -122,6 +123,7 @@ public class TuneUtils {
 				.withAttribute4("ola.us.display.criteo.appremarketing.hotel")
 				.withContentType(selectedProperty.getName())
 				.withContentId(selectedProperty.getPropertyId())
+				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(checkInDate)
 				.withDate2(checkOutDate);
 
