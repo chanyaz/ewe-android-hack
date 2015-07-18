@@ -3578,5 +3578,7 @@
     <string name="child_age_label">Vælg hvert barns alder</string>
 
     <string name="lob_not_supported_error_message">Beklager, men reservation af {lob} er endnu ikke tilgængelig, der hvor du befinder dig.</string>
+    <string name="acct_Create_an_Expedia_account">Opret en Expedia-konto</string>
+    <string name="acct_Welcome_to_Expedia">Velkommen til Expedia</string>
 
 </resources>

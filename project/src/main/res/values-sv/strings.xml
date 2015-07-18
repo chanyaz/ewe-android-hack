@@ -3578,5 +3578,7 @@
     <string name="child_age_label">Välj vardera barns ålder</string>
 
     <string name="lob_not_supported_error_message">Bokningar av {lob} är tyvärr inte tillgängliga där du befinner dig än.</string>
+    <string name="acct_Create_an_Expedia_account">Skapa ett Expediakonto</string>
+    <string name="acct_Welcome_to_Expedia">Välkommen till Expedia</string>
 
 </resources>

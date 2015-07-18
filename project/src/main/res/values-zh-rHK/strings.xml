@@ -3578,5 +3578,7 @@
     <string name="child_age_label">請選擇每位小童的年齡</string>
 
     <string name="lob_not_supported_error_message">很抱歉，您的地點尚未提供{lob}預訂服務。</string>
+    <string name="acct_Create_an_Expedia_account">建立 Expedia 帳戶</string>
+    <string name="acct_Welcome_to_Expedia">歡迎成為 Expedia 用戶</string>
 
 </resources>

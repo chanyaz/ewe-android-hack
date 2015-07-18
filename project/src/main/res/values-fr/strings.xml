@@ -3578,5 +3578,7 @@
     <string name="child_age_label">Sélectionnez l\&apos;âge de tous les enfants</string>
 
     <string name="lob_not_supported_error_message">Désolés, la réservation des {lob} n\&apos;est pas encore disponible pour votre position actuelle.</string>
+    <string name="acct_Create_an_Expedia_account">Créer un compte Expedia</string>
+    <string name="acct_Welcome_to_Expedia">Bienvenue sur Expedia</string>
 
 </resources>
