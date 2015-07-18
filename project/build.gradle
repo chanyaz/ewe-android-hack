@@ -426,6 +426,3 @@ android.applicationVariants.all { variant ->
     variant.resValue "string", "launcher_name", "${launcherName}"
 }
 
-// robolectric - fix for robolectric issue
-apply from: "build.workaround-missing-resource.gradle"
-
