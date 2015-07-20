@@ -10,9 +10,9 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 
+import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
@@ -25,6 +25,10 @@ import com.expedia.bookings.data.cars.RateBreakdownItem;
 import com.expedia.bookings.data.cars.RateTerm;
 import com.expedia.bookings.data.cars.RentalFareBreakdownType;
 import com.expedia.bookings.data.cars.Transmission;
+import com.expedia.bookings.services.CarServices;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.mobiata.android.Log;
 
 /*
  * Connecting lib-ExpediaBookings car data stuctures to Android-based
@@ -261,48 +265,47 @@ public class CarDataUtils {
 	}
 
 	public static CarSearchParams fromDeepLink(Uri data, Set<String> queryData) {
-		String pickupDateTime = getQueryParameterIfExists(data, queryData, "pickupDateTime");
-		String dropoffDateTime = getQueryParameterIfExists(data, queryData, "dropoffDateTime");
 		String pickupLocation = getQueryParameterIfExists(data, queryData, "pickupLocation");
+		String pickupLocationLatStr = getQueryParameterIfExists(data, queryData, "pickupLocationLat");
+		String pickupLocationLngStr = getQueryParameterIfExists(data, queryData, "pickupLocationLng");
+		LatLong pickupLocationLatLng = LatLong.fromLatLngStrings(pickupLocationLatStr, pickupLocationLngStr);
 		String originDescription = getQueryParameterIfExists(data, queryData, "originDescription");
-		String productKey = getQueryParameterIfExists(data, queryData, "productKey");
 
-		// Input validation - in case the date time passed from the outside world is in a garbled format,
-		// we fallback to proper defaults to have a graceful behavior and nothing undesirable.
-		DateTime pickup = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTime, DateTime.now());
-		DateTime dropOff = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTime, pickup.plusDays(3));
+		//Input Validation
+		//1. One of `origin` and `pickupLocationLatLng` should exist for Car Search Params to be valid
+		//2. `originDescription` should be non-empty
+		if ((Strings.isEmpty(pickupLocation) && pickupLocationLatLng == null) || Strings.isEmpty(originDescription)) {
+			return null;
+		}
+
+		String pickupDateTimeStr = getQueryParameterIfExists(data, queryData, "pickupDateTime");
+		String dropoffDateTimeStr = getQueryParameterIfExists(data, queryData, "dropoffDateTime");
 
 		CarSearchParams carSearchParams = new CarSearchParams();
-		carSearchParams.startDateTime = pickup;
-		carSearchParams.endDateTime = dropOff;
-		carSearchParams.origin = pickupLocation;
+		// DateTime Sanity - In case the date time passed from the outside world is in a garbled format,
+		// we fallback to proper defaults to have a graceful behavior and nothing undesirable.
+		carSearchParams.startDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTimeStr, DateTime.now());
+		carSearchParams.endDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTimeStr, carSearchParams.startDateTime.plusDays(3));
 		carSearchParams.originDescription = originDescription;
+
+		carSearchParams.origin = pickupLocation;
+		carSearchParams.pickupLocationLatLng = pickupLocationLatLng;
 
 		return carSearchParams;
 	}
 
-	public static CarSearchParams getCarSearchParamsFromDeeplink(Intent intent) {
+	public static CarSearchParams getCarSearchParamsFromJSON(String carSearchParamsJSON) {
+		Gson gson = CarServices.generateGson();
 
-		String pickupDateTime = intent.getStringExtra("pickupDateTime");
-		String dropoffDateTime = intent.getStringExtra("dropoffDateTime");
-		String pickupLocation = intent.getStringExtra("pickupLocation");
-		String originDescription = intent.getStringExtra("originDescription");
-
-		if (Strings.isNotEmpty(pickupDateTime) && Strings.isNotEmpty(dropoffDateTime) && Strings
-			.isNotEmpty(pickupLocation) && Strings.isNotEmpty(originDescription)) {
-
-			// Input validation - in case the date time passed from the outside world is in a garbled format,
-			// we fallback to proper defaults to have a graceful behavior and nothing undesirable.
-			DateTime pickup = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTime, DateTime.now());
-			DateTime dropOff = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTime, pickup.plusDays(3));
-
-			CarSearchParams carSearchParams = new CarSearchParams();
-			carSearchParams.startDateTime = pickup;
-			carSearchParams.endDateTime = dropOff;
-			carSearchParams.origin = pickupLocation;
-			carSearchParams.originDescription = originDescription;
-			return carSearchParams;
+		if (Strings.isNotEmpty(carSearchParamsJSON)) {
+			try {
+				return gson.fromJson(carSearchParamsJSON, CarSearchParams.class);
+			}
+			catch (JsonSyntaxException jse) {
+				Log.e("Failed to fetch carSearchParams: " + carSearchParamsJSON, jse);
+			}
 		}
+
 		return null;
 	}
 

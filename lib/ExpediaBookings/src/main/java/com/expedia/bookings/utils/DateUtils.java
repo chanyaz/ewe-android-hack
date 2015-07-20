@@ -132,4 +132,12 @@ public class DateUtils {
 		}
 	}
 
+	public static DateTime localDateAndMillisToDateTime(LocalDate date, int millis) {
+		DateTime convertedDateTime = new DateTime();
+		return convertedDateTime.withYear(date.getYear())
+			.withMonthOfYear(date.getMonthOfYear())
+			.withDayOfMonth(date.getDayOfMonth())
+			.withTimeAtStartOfDay()
+			.plusMillis(millis);
+	}
 }

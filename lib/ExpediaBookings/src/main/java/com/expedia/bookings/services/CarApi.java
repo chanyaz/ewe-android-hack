@@ -21,6 +21,14 @@ public interface CarApi {
 		@Query("pickupTime") String pickupTime,
 		@Query("dropOffTime") String dropoffTime);
 
+	@GET("/m/api/cars/search/location")
+	public Observable<CarSearchResponse> roundtripCarSearch(
+		@Query("pickupLocation.lat") double pickupLocationLatitude,
+		@Query("pickupLocation.lon") double pickupLocationLongitude,
+		@Query("pickupTime") String pickupTime,
+		@Query("dropOffTime") String dropoffTime,
+		@Query("searchRadius") int searchRadius);
+
 	@GET("/m/api/cars/trip/create")
 	public Observable<CarCreateTripResponse> createTrip(
 		@Query("productKey") String productKey,

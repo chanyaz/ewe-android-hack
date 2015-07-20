@@ -1,5 +1,7 @@
 package com.expedia.ui;
 
+import org.joda.time.DateTimeZone;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -78,7 +80,11 @@ public class CarActivity extends ActionBarActivity {
 	private void handleNavigationViaDeepLink() {
 		Intent intent = getIntent();
 		final String productKey = intent.getStringExtra(Codes.CARS_PRODUCT_KEY);
-		final CarSearchParams carSearchParams = CarDataUtils.getCarSearchParamsFromDeeplink(intent);
+		final CarSearchParams carSearchParams = CarDataUtils.getCarSearchParamsFromJSON(intent.getStringExtra("carSearchParams"));
+		if (carSearchParams != null && carSearchParams.startDateTime != null && carSearchParams.endDateTime != null) {
+			carSearchParams.startDateTime = carSearchParams.startDateTime.withZone(DateTimeZone.getDefault());
+			carSearchParams.endDateTime = carSearchParams.endDateTime.withZone(DateTimeZone.getDefault());
+		}
 
 		carsPresenter.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 			@Override

@@ -584,8 +584,7 @@ public class CarResultsPresenter extends Presenter {
 	@Subscribe
 	public void onCarSearchParams(Events.CarsKickOffSearchCall event) {
 		cleanup();
-		searchSubscription = carServices
-			.carSearch(event.carSearchParams, searchObserver);
+		searchSubscription = carServices.carSearch(event.carSearchParams, searchObserver);
 		setToolBarResultsText();
 	}
 

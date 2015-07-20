@@ -34,11 +34,6 @@ public class Suggestion implements Cloneable {
 	@SerializedName("ll")
 	public LatLong latLong;
 
-	public static class LatLong {
-		public double lat;
-		public double lng;
-	}
-
 	public boolean isMinorAirport;
 
 	public IconType iconType = IconType.SEARCH_TYPE_ICON;

@@ -3,6 +3,8 @@ package com.expedia.bookings.presenter.car;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.joda.time.DateTimeZone;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -29,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Codes;
@@ -37,7 +40,6 @@ import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.CarDataUtils;
@@ -50,7 +52,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView;
 import com.expedia.bookings.widget.CarDateTimeWidget;
 import com.expedia.bookings.widget.CarSuggestionAdapter;
-import com.google.gson.Gson;
 import com.mobiata.android.time.widget.CalendarPicker;
 
 import butterknife.ButterKnife;
@@ -200,15 +201,18 @@ public class CarSearchPresenter extends Presenter
 		show(new CarParamsDefault());
 
 		CarSearchParams carSearchParams = null;
-		Gson gson = CarServices.generateGson();
 		Intent intent = ((Activity) getContext()).getIntent();
 		String carSearchParamsString = intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
 
 		if (intent.getBooleanExtra(Codes.FROM_DEEPLINK, false)) {
-			carSearchParams = CarDataUtils.getCarSearchParamsFromDeeplink(intent);
+			carSearchParams = CarDataUtils.getCarSearchParamsFromJSON(intent.getStringExtra("carSearchParams"));
+			if (carSearchParams != null && carSearchParams.startDateTime != null && carSearchParams.endDateTime != null) {
+				carSearchParams.startDateTime = carSearchParams.startDateTime.withZone(DateTimeZone.getDefault());
+				carSearchParams.endDateTime = carSearchParams.endDateTime.withZone(DateTimeZone.getDefault());
+			}
 		}
 		else if (Strings.isNotEmpty(carSearchParamsString)) {
-			carSearchParams = gson.fromJson(carSearchParamsString, CarSearchParams.class);
+			carSearchParams = CarDataUtils.getCarSearchParamsFromJSON(carSearchParamsString);
 		}
 
 		if (carSearchParams != null) {
@@ -216,9 +220,18 @@ public class CarSearchPresenter extends Presenter
 				.startDate(carSearchParams.startDateTime.toLocalDate())
 				.endDate(carSearchParams.endDateTime.toLocalDate());
 			searchParamsBuilder.dateTimeBuilder(dateTimeBuilder);
+			searchParamsBuilder.pickupLocationLatLng(carSearchParams.pickupLocationLatLng);
+
 			Suggestion suggestion = new Suggestion();
-			suggestion.airportCode = carSearchParams.origin;
+
+			if (Strings.isNotEmpty(carSearchParams.origin)) {
+				suggestion.airportCode = carSearchParams.origin;
+			}
 			suggestion.fullName = suggestion.shortName = suggestion.displayName = carSearchParams.originDescription;
+			if (carSearchParams.pickupLocationLatLng != null) {
+				suggestion.latLong = new LatLong(carSearchParams.pickupLocationLatLng.lat, carSearchParams.pickupLocationLatLng.lng);
+			}
+
 			setPickUpLocation(suggestion, false);
 			calendar.setSelectedDates(carSearchParams.startDateTime.toLocalDate(),
 				carSearchParams.endDateTime.toLocalDate());
@@ -264,15 +277,25 @@ public class CarSearchPresenter extends Presenter
 	private void setPickUpLocation(final Suggestion suggestion, final boolean filter) {
 		Suggestion suggest = suggestion.clone();
 		pickUpLocation.setText(StrUtils.formatCityName(suggest.fullName), filter);
-		searchParamsBuilder.origin(suggest.airportCode);
-		searchParamsBuilder.originDescription(StrUtils.formatAirport(suggest));
+
+		if (suggest.latLong != null) {
+			searchParamsBuilder.origin(null);
+			searchParamsBuilder.pickupLocationLatLng(new LatLong(suggest.latLong.lat, suggest.latLong.lng));
+			searchParamsBuilder.originDescription(StrUtils.formatCityName(suggest.fullName));
+		}
+		else {
+			searchParamsBuilder.pickupLocationLatLng(null);
+			searchParamsBuilder.origin(suggest.airportCode);
+			searchParamsBuilder.originDescription(StrUtils.formatAirport(suggest));
+		}
 		paramsChanged();
 		suggest.iconType = Suggestion.IconType.HISTORY_ICON;
+
 		// Remove duplicates
 		Iterator<Suggestion> it = mRecentCarsLocationsSearches.iterator();
 		while (it.hasNext()) {
 			Suggestion s = it.next();
-			if (s.airportCode.equalsIgnoreCase(suggest.airportCode)) {
+			if (Strings.isNotEmpty(s.id) && s.id.equalsIgnoreCase(suggest.id)) {
 				it.remove();
 			}
 		}
@@ -375,6 +398,7 @@ public class CarSearchPresenter extends Presenter
 				pickUpLocation.setText("");
 				searchParamsBuilder.origin("");
 				searchParamsBuilder.originDescription("");
+				searchParamsBuilder.pickupLocationLatLng(null);
 				paramsChanged();
 				setUpSearchButton();
 			}
@@ -386,13 +410,16 @@ public class CarSearchPresenter extends Presenter
 	 */
 
 	private void paramsChanged() {
-		carSearchParams = searchParamsBuilder.build();
-		if (carSearchParams.startDateTime != null) {
-			String dateTimeRange = DateFormatUtils.formatCarDateTimeRange(getContext(), carSearchParams.startDateTime,
-				carSearchParams.endDateTime);
-			selectDateButton.setText(dateTimeRange);
-			selectDateButton.setTextOff(dateTimeRange);
-			selectDateButton.setTextOn(dateTimeRange);
+		if (searchParamsBuilder.hasOrigin()) {
+			carSearchParams = searchParamsBuilder.build();
+			if (carSearchParams.startDateTime != null) {
+				String dateTimeRange = DateFormatUtils
+					.formatCarDateTimeRange(getContext(), carSearchParams.startDateTime,
+						carSearchParams.endDateTime);
+				selectDateButton.setText(dateTimeRange);
+				selectDateButton.setTextOff(dateTimeRange);
+				selectDateButton.setTextOn(dateTimeRange);
+			}
 		}
 	}
 

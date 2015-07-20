@@ -44,13 +44,13 @@ public class SuggestionServicesTest {
 		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<List<Suggestion>> observerV3 = new TestSubscriber<>();
-		service.getAirportSuggestions("seattle", "en_US", observerV3);
+		service.getCarSuggestions("seattle", "en_US", observerV3);
 		observerV3.awaitTerminalEvent();
 		assertEquals(NUM_SUGGESTIONS_IN_V3_MOCK_TEMPLATES, observerV3.getOnNextEvents().get(0).size());
 
 		TestSubscriber<List<Suggestion>> observerV1 = new TestSubscriber<>();
 		String latLong = "37.615940|-122.387996";
-		service.getNearbyAirportSuggestions("en_US", latLong, 1, observerV1);
+		service.getNearbyCarSuggestions("en_US", latLong, 1, observerV1);
 		observerV1.awaitTerminalEvent();
 		assertEquals(NUM_SUGGESTIONS_IN_V1_MOCK_TEMPLATES, observerV1.getOnNextEvents().get(0).size());
 	}
@@ -81,7 +81,7 @@ public class SuggestionServicesTest {
 
 		TestSubscriber<List<Suggestion>> observer = new TestSubscriber<>();
 		String latLong = "37.615940|-122.387996";
-		service.getNearbyAirportSuggestions("en_US", latLong, 1, observer);
+		service.getNearbyCarSuggestions("en_US", latLong, 1, observer);
 		observer.awaitTerminalEvent();
 		assertEquals(observer.getOnNextEvents().get(0).get(0).airportCode, "SFO");
 	}
