@@ -2,7 +2,6 @@ package com.expedia.bookings.test.phone.lx;
 
 import java.util.concurrent.TimeUnit;
 
-import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -98,13 +97,8 @@ public class LXCheckoutErrorTests extends LxTestCase {
 		LXScreen.checkoutErrorText().check(matches(withText(R.string.lx_error_price_changed)));
 		//on click of the price change button we must come back to the Infosite Page
 		LXScreen.checkoutErrorButton().perform(click());
-		screenshot("Infosite Page after price change");
-		onView(CoreMatchers.allOf(withId(R.id.section_title), withText(
-			R.string.highlights_activity_details))).check(matches(
-			isDisplayed()));
-		//click book now button again so that we can test if upon click of Back button we must reach back to CVV Screen
-		LXInfositeScreen.selectOffer("2-Day New York Pass").perform(click());
-		LXInfositeScreen.bookNowButton("2-Day New York Pass").perform(scrollTo(), click());
+
+		screenshot("Checkout after price change");
 		CheckoutViewModel.enterPaymentInfo();
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.performSlideToPurchase();
