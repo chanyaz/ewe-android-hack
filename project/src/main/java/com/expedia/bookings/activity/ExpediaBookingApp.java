@@ -221,9 +221,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
 
-		AdTracker.init(getApplicationContext());
-		startupTimer.addSplit("AdTracker started.");
-
 		// We need to run this for automation right now until leanplum fixes a crash
 		if (!isRobolectric()) {
 			if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
@@ -233,6 +230,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 
 		if (!isAutomation()) {
+			AdTracker.init(getApplicationContext());
+			startupTimer.addSplit("AdTracker started.");
+
 			if (ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled()) {
 				AdX.initialize(this);
 				startupTimer.addSplit("AdX started.");

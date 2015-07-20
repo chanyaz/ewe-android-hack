@@ -15,7 +15,6 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment.FlightSearchParamsFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
@@ -198,7 +197,6 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 				Db.getFlightSearch().setSearchParams(params);
 				startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
 				mUpdateOnResume = true;
-				AdTracker.trackFlightSearch();
 			}
 			return true;
 		}

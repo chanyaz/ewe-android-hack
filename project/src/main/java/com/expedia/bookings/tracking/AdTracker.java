@@ -100,6 +100,7 @@ public class AdTracker {
 						money.getCurrency(), money.getAmount().doubleValue());
 					TuneUtils.trackFlightBooked(Db.getTripBucket().getFlight(), orderNumber,
 						money.getCurrency(), money.getAmount().doubleValue());
+					new FacebookEvents(context).trackFlightConfirmation(Db.getTripBucket().getFlight());
 				}
 			}
 		}
@@ -130,6 +131,7 @@ public class AdTracker {
 			Money totalPrice = Db.getTripBucket().getFlight().getFlightTrip().getTotalFare();
 			AdX.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 			LeanPlumUtils.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+			new FacebookEvents(context).trackFlightCheckout(Db.getTripBucket().getFlight());
 		}
 	}
 
@@ -169,6 +171,7 @@ public class AdTracker {
 	public static void trackFlightSearch() {
 		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchParams() != null) {
 			AdX.trackFlightSearch(Db.getFlightSearch());
+			new FacebookEvents(context).trackFlightSearch(Db.getFlightSearch());
 			LeanPlumUtils.trackFlightSearch();
 		}
 	}
@@ -179,6 +182,7 @@ public class AdTracker {
 
 	public static void trackFlightRateDetailOverview() {
 		TuneUtils.trackFlightRateDetailOverview();
+		new FacebookEvents(context).trackFlightDetail(Db.getFlightSearch(), Db.getFlightSearch().getSelectedFlightTrip());
 	}
 
 	public static void updatePOS() {
