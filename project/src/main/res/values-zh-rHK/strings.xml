@@ -266,7 +266,7 @@
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
-    <string name="cancellation_policy_TEMPLATE">可於預訂項目開始前 %1$s 或之前免費取消。於上述時間後將不可取消、更改或退款。</string>
+    <string name="lx_cancellation_policy_TEMPLATE">可於預訂項目開始前 {hours} 小時或之前免費取消。於上述時間後將不可取消、更改或退款。</string>
     <!-- Cancellation policy text for non-cancellable activities -->
     <string name="lx_policy_non_cancellable">此預訂不設退款，預訂後無法更改或取消。</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -712,8 +712,6 @@
         <item quantity="other">個行程項目</item>
     </plurals>
 
-    <!-- LX Sort & Filter "Apply" header -->
-    <string name="lx_apply_sort_filter">使用</string>
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">排序方式</string>
     <!-- LX Sort & Filter "Categories" header -->
@@ -874,32 +872,23 @@
     <string name="unable_to_sign_into_facebook">無法登入 Facebook。</string>
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">無法登入。如電郵和密碼均正確無誤，請確認 App 的「國家/地區」設定是否正確。</string>
-    <!-- User needs to reset password -->
-    <string name="sign_in_reset_password_TEMPLATE">您必須建立一個適用於所有 {brand} 網站的新國際登入帳戶。&lt;br&gt;請使用以下「忘記密碼？」連結重設密碼。</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">{brand} 密碼</string>
     <!-- Link accounts -->
     <string name="link_accounts">連接帳戶</string>
-    <!-- Failure to update the user -->
-    <string name="failure_to_update_user">無法取得最新的使用者資料。</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">授予電郵權限</string>
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">電郵權限</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">如需透過 Facebook 登入，我們需先獲授權確認您的電郵地址。\n\n請輕按以下 Facebook 鍵以授予 {brand} 確認您電郵地址的權限。謝謝！</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">正將您的帳戶連在一起…</string>
-    <!-- Sign In -->
-    <string name="Sign_In">登入</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">授予電郵權限</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message_TEMPLATE">如需透過 Facebook 登入，我們需先獲授權確認您的電郵地址。\n\n請輕按以下 Facebook 鍵以授予 {brand} 確認您電郵地址的權限。謝謝！</string>
+
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">以 {brand} 帳戶登入</string>
-    <!-- Sign in with the current brand -->
-    <string name="sign_in_with_brand_TEMPLATE">以 {brand} 帳戶登入</string>
     <!-- or -->
     <string name="or">或</string>
-    <!-- Already signed in -->
-    <string name="already_signed_in">已登入</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1717,6 +1706,12 @@
     <string name="select_payment">選擇付款</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">付款資料</string>
+    <!-- Select payment sentence case AB Test variate1 -->
+    <string name="select_payment_sentence_case_variate1">輸入付款資料</string>
+    <!-- Select payment sentence case AB Test variate2 -->
+    <string name="select_payment_sentence_case_variate2">付款</string>
+    <!-- Select payment callout AB Test variate2 -->
+    <string name="select_payment_callout">輸入資料</string>
     <!-- Add new card -->
     <string name="add_new_card">新增信用卡</string>
     <!-- Overview button -->
@@ -1811,6 +1806,10 @@
     <string name="menu_checkout">付款</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">至抵價保證</string>
+    <!-- Label for address of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_address">地址：</string>
+    <!-- Label to view map of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_view_map">查看地圖</string>
     <!-- Expedia Rate - Non merchant default infosite messaging -->
     <string name="non_merchant_rate_TEMPLATE">{brand} 優惠價</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
@@ -1851,6 +1850,8 @@
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">您行程的總金額 (包括 &lt;b&gt;%1$s&lt;/b&gt; 休閒設施費) 將為 &lt;b&gt;%2$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂的餘額。</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">24 小時內免費取消</string>
+    <!-- Flights AB Test Traveler info missing callout label -->
+    <string name="ab_test_flights_missing_info_callout">輸入旅客資料</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1906,21 +1907,49 @@
     <!-- Add Guest for hotels -->
     <string name="guest_details">房客資料</string>
     <!-- Add adult traveler number template -->
-    <string name="add_adult_number_TEMPLATE">成人 %1$s 詳情</string>
+    <string name="add_adult_number_TEMPLATE">成人 %1$s 資料</string>
+    <!-- AB test variate 1 - Add adult traveler number template -->
+    <string name="add_adult_number_variate1_TEMPLATE">輸入成人 %1$s 資料</string>
+    <!-- AB test variate 2 - Add adult traveler number template -->
+    <string name="add_adult_number_variate2_TEMPLATE">成人 %1$s</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">成人資料</string>
+    <!-- AB test variate 1 - Add adult traveler details label -->
+    <string name="add_adult_variate1">輸入成人資料</string>
+    <!-- AB test variate 2 - Add adult traveler details label -->
+    <string name="add_adult_variate2">成人</string>
     <!-- Add child traveler number template -->
-    <string name="add_child_number_TEMPLATE">小童 %1$s 詳情</string>
+    <string name="add_child_number_TEMPLATE">小童 %1$s 資料</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">%1$s 歲小童詳情</string>
+    <string name="add_child_with_age_TEMPLATE">%1$s 歲旅客資料</string>
+    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate1_TEMPLATE">輸入 %1$s 歲旅客資料</string>
+    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate2_TEMPLATE">%1$s 歲旅客</string>
     <!-- Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_TEMPLATE">手抱嬰幼兒 %1$s 詳情</string>
+    <string name="add_infant_in_lap_number_TEMPLATE">手抱嬰幼兒 %1$s 資料</string>
+    <!-- AB test variate 1 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate1_TEMPLATE">輸入手抱嬰幼兒 %1$s 資料</string>
+    <!-- AB test variate 2 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate2_TEMPLATE">手抱嬰幼兒 %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">手抱嬰幼兒詳情</string>
+    <string name="add_infant_in_lap">手抱嬰幼兒資料</string>
+    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate1">輸入手抱嬰幼兒資料</string>
+    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate2">手抱嬰幼兒</string>
     <!-- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_TEMPLATE">佔位嬰幼兒 %1$s 詳情</string>
+    <string name="add_infant_in_seat_number_TEMPLATE">佔位嬰幼兒 %1$s 資料</string>
+    <!-- AB test variate 1- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate1_TEMPLATE">輸入佔位嬰幼兒 %1$s 資料</string>
+    <!-- AB test variate 2- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate2_TEMPLATE">佔位嬰幼兒 %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">佔位嬰幼兒詳情</string>
+    <string name="add_infant_in_seat">佔位嬰幼兒資料</string>
+    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate1">輸入佔位嬰幼兒資料</string>
+    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate2">佔位嬰幼兒</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如旅客姓名與政府簽發附有照片的身分證明不符，可能會被拒登機。</string>
 
@@ -2687,6 +2716,8 @@
     <string name="included_in_the_price">已包括在價格內</string>
     <!-- Not included in the price -->
     <string name="not_included_in_the_price">不包括在價格內</string>
+    <!-- View Room button text -->
+    <string name="view_room_button_text">查看客房</string>
 
     <!-- Renovation Notice -->
     <string name="renovation_notice">裝修通知</string>
@@ -2750,8 +2781,6 @@
     <string name="sign_in">登入</string>
     <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
     <string name="Earn_points_and_book_fast">賺取積分並節省預訂時間。</string>
-    <!-- Hint for user to enter password into a field -->
-    <string name="hint_password">密碼</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">正在登入…</string>
     <!-- Message that tells user they failed to sign in -->
@@ -2764,14 +2793,8 @@
     <string name="Expedia_plus_silver">Expedia +silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
-    <!-- Label for signin screen -->
-    <string name="account_TEMPLATE">{brand} 帳戶</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">正載入 {brand} 帳戶</string>
-    <!-- Label for password recovery -->
-    <string name="forgot_your_password">忘記密碼？</string>
-    <!-- Webview title for password recovery -->
-    <string name="title_forgot_password">忘記密碼</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">輸入優惠或推廣代碼</string>
     <!-- Label for coupon code hint -->
@@ -3481,9 +3504,6 @@
     <string name="cd_checkout_select_payment">輕按以選擇此預訂的付款形式</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">輕按以輸入優惠券或推廣代碼</string>
-    <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
-    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">輕按以使用您的 Facebook 帳戶登入 {brand}</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">輕按以輸入新的旅客</string>
@@ -3578,7 +3598,5 @@
     <string name="child_age_label">請選擇每位小童的年齡</string>
 
     <string name="lob_not_supported_error_message">很抱歉，您的地點尚未提供{lob}預訂服務。</string>
-    <string name="acct_Create_an_Expedia_account">建立 Expedia 帳戶</string>
-    <string name="acct_Welcome_to_Expedia">歡迎成為 Expedia 用戶</string>
 
 </resources>

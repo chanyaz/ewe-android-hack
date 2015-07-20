@@ -266,7 +266,7 @@
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
-    <string name="cancellation_policy_TEMPLATE">Anda bisa membatalkan gratis sampai dengan %1$s sebelum kegiatan dimulai. Setelah batas waktu tersebut, pembatalan, perubahan, dan refund tidak tersedia.</string>
+    <string name="lx_cancellation_policy_TEMPLATE">Anda dapat membatalkan secara gratis hingga {hours} jam sebelum reservasi Anda dimulai. Setelah batas waktu tersebut, pembatalan, perubahan, dan refund tidak tersedia.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
     <string name="lx_policy_non_cancellable">Pemesanan ini bersifat non-refundable dan karena itu tidak bisa diubah dan dibatalkan setelah dikonfirmasi</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -712,8 +712,6 @@
         <item quantity="other">Item dalam Perjalanan</item>
     </plurals>
 
-    <!-- LX Sort & Filter "Apply" header -->
-    <string name="lx_apply_sort_filter">Gunakan</string>
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Urutkan Berdasarkan</string>
     <!-- LX Sort & Filter "Categories" header -->
@@ -874,32 +872,23 @@
     <string name="unable_to_sign_into_facebook">Tidak bisa masuk ke Facebook.</string>
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">Login gagal. Jika email dan kata sandi Anda sudah benar, periksa apakah pengaturan Negara pada aplikasi Anda juga sudah benar.</string>
-    <!-- User needs to reset password -->
-    <string name="sign_in_reset_password_TEMPLATE">Kami perlu Anda untuk membuat satu data login baru untuk mengakses semua situs {brand}.&lt;br&gt;Harap reset kata sandi Anda menggunakan link \&apos;Lupa kata sandi Anda?\&apos; di bawah ini.</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">Kata Sandi {brand}</string>
     <!-- Link accounts -->
     <string name="link_accounts">Hubungkan Akun</string>
-    <!-- Failure to update the user -->
-    <string name="failure_to_update_user">Tak berhasil mengambil informasi pengguna terbaru.</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">Berikan Izin Email</string>
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">Izin Email</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">Untuk login dengan Facebook, kami memerlukan izin verifikasi alamat email Anda. \n\nHarap ketuk tombol Facebook di bawah ini untuk memberi izin bagi {brand} untuk memverifikasi alamat email Anda. Terima kasih!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Menghubungkan akun Anda…</string>
-    <!-- Sign In -->
-    <string name="Sign_In">Masuk</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">Berikan Izin Email</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message_TEMPLATE">Untuk login dengan Facebook, kami memerlukan izin verifikasi alamat email Anda. \n\nHarap ketuk tombol Facebook di bawah ini untuk memberi izin bagi {brand} untuk memverifikasi alamat email Anda. Terima kasih!</string>
+
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Login dengan {brand}</string>
-    <!-- Sign in with the current brand -->
-    <string name="sign_in_with_brand_TEMPLATE">Login dengan {brand}</string>
     <!-- or -->
     <string name="or">atau</string>
-    <!-- Already signed in -->
-    <string name="already_signed_in">Sudah login</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1717,6 +1706,12 @@
     <string name="select_payment">Pilih Pembayaran</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">Rincian pembayaran</string>
+    <!-- Select payment sentence case AB Test variate1 -->
+    <string name="select_payment_sentence_case_variate1">Masukkan Rincian Pembayaran</string>
+    <!-- Select payment sentence case AB Test variate2 -->
+    <string name="select_payment_sentence_case_variate2">Pembayaran</string>
+    <!-- Select payment callout AB Test variate2 -->
+    <string name="select_payment_callout">Masukkan Rincian</string>
     <!-- Add new card -->
     <string name="add_new_card">Tambahkan Kartu Baru</string>
     <!-- Overview button -->
@@ -1811,6 +1806,10 @@
     <string name="menu_checkout">Pembayaran</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Garansi Harga Terbaik</string>
+    <!-- Label for address of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_address">Alamat:</string>
+    <!-- Label to view map of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_view_map">Lihat Peta</string>
     <!-- Expedia Rate - Non merchant default infosite messaging -->
     <string name="non_merchant_rate_TEMPLATE">Skor {brand}</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
@@ -1851,6 +1850,8 @@
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Total biaya perjalanan Anda, termasuk &lt;b&gt;%1$s&lt;/b&gt; untuk biaya resor, akan menjadi &lt;b&gt;%2$s&lt;/b&gt;. Anda akan membayar sisa biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">Pembatalan gratis dalam 24 jam</string>
+    <!-- Flights AB Test Traveler info missing callout label -->
+    <string name="ab_test_flights_missing_info_callout">Masukkan Rincian Traveler</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1907,20 +1908,48 @@
     <string name="guest_details">Rincian tamu</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Rincian tamu dewasa %1$s</string>
+    <!-- AB test variate 1 - Add adult traveler number template -->
+    <string name="add_adult_number_variate1_TEMPLATE">Masukkan rincian Tamu Dewasa %1$s</string>
+    <!-- AB test variate 2 - Add adult traveler number template -->
+    <string name="add_adult_number_variate2_TEMPLATE">Tamu Dewasa %1$s</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">Rincian tamu dewasa</string>
+    <!-- AB test variate 1 - Add adult traveler details label -->
+    <string name="add_adult_variate1">Masukkan rincian Tamu Dewasa</string>
+    <!-- AB test variate 2 - Add adult traveler details label -->
+    <string name="add_adult_variate2">Tamu Dewasa</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Rincian anak %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">Rincian anak usia %1$s tahun</string>
+    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate1_TEMPLATE">Masukkan rincian anak usia %1$s tahun</string>
+    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate2_TEMPLATE">%1$s tahun</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Detail bayi di pangkuan %1$s</string>
+    <!-- AB test variate 1 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate1_TEMPLATE">Masukkan rincian Bayi di pangkuan %1$s</string>
+    <!-- AB test variate 2 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate2_TEMPLATE">Bayi di pangkuan %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap">Detail bayi di pangkuan</string>
+    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate1">Masukkan rincian Bayi di pangkuan</string>
+    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate2">Bayi di pangkuan</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">Detail bayi di tempat duduk %1$s</string>
+    <!-- AB test variate 1- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate1_TEMPLATE">Masukkan rincian Bayi di tempat duduk %1$s</string>
+    <!-- AB test variate 2- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate2_TEMPLATE">Bayi di tempat duduk %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat">Detail bayi di tempat duduk</string>
+    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate1">Masukkan rincian Bayi di tempat duduk</string>
+    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate2">Bayi di tempat duduk</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Anda mungkin akan ditolak naik pesawat jika nama traveler tidak sama dengan nama pada kartu identitas resmi berfoto Anda.</string>
 
@@ -2687,6 +2716,8 @@
     <string name="included_in_the_price">Sudah termasuk dalam harga</string>
     <!-- Not included in the price -->
     <string name="not_included_in_the_price">Belum termasuk dalam harga</string>
+    <!-- View Room button text -->
+    <string name="view_room_button_text">Lihat Kamar</string>
 
     <!-- Renovation Notice -->
     <string name="renovation_notice">Pemberitahuan Renovasi</string>
@@ -2750,8 +2781,6 @@
     <string name="sign_in">Masuk</string>
     <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
     <string name="Earn_points_and_book_fast">Dapatkan poin dan pesan dengan cepat.</string>
-    <!-- Hint for user to enter password into a field -->
-    <string name="hint_password">Kata Sandi</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Sedang login…</string>
     <!-- Message that tells user they failed to sign in -->
@@ -2764,14 +2793,8 @@
     <string name="Expedia_plus_silver">Expedia +silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
-    <!-- Label for signin screen -->
-    <string name="account_TEMPLATE">Akun {brand}</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Memuat Akun {brand}</string>
-    <!-- Label for password recovery -->
-    <string name="forgot_your_password">Lupa kata sandi Anda?</string>
-    <!-- Webview title for password recovery -->
-    <string name="title_forgot_password">Lupa Kata Sandi</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">Masukkan kupon atau kode promosi</string>
     <!-- Label for coupon code hint -->
@@ -3481,9 +3504,6 @@
     <string name="cd_checkout_select_payment">Tekan untuk memilih pembayaran untuk pemesanan ini</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Tekan untuk memasukkan kode kupon atau promo</string>
-    <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
-    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">Klik untuk login ke {brand} dengan akun Facebook Anda</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Tekan untuk memasukkan traveler baru</string>
@@ -3578,7 +3598,5 @@
     <string name="child_age_label">Masukkan umur tiap anak</string>
 
     <string name="lob_not_supported_error_message">Maaf, pemesanan {lob} saat ini belum tersedia untuk kawasan Anda.</string>
-    <string name="acct_Create_an_Expedia_account">Buat akun Expedia</string>
-    <string name="acct_Welcome_to_Expedia">Selamat datang di Expedia</string>
 
 </resources>

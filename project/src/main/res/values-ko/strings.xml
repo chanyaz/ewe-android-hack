@@ -70,7 +70,7 @@
 
     <!-- car result -->
     <!-- car door range -->
-    <string name="car_door_range_TEMPLATE">%1$d ~ %2$d</string>
+    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
     <!-- car details template -->
     <string name="car_details_TEMPLATE">%1$s %2$s</string>
 
@@ -262,11 +262,11 @@
     <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
     <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">지금 예약! %1$s</string>
+    <string name="offer_book_now_TEMPLATE">지금 예약 %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
-    <string name="cancellation_policy_TEMPLATE">예약된 여행이 시작되기 %1$s 전까지 무료 취소가 가능합니다. 이 시간 이후로는 취소나 변경 또는 환불이 불가능합니다.</string>
+    <string name="lx_cancellation_policy_TEMPLATE">예약이 시작되기 {hours}시간 전까지 무료로 취소하실 수 있습니다. 이 시간 이후로는 취소나 변경 또는 환불이 불가능합니다.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
     <string name="lx_policy_non_cancellable">이 예약은 환불되지 않으며 예약 후 변경이나 취소하실 수 없습니다.</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -712,8 +712,6 @@
         <item quantity="other">여행 항목</item>
     </plurals>
 
-    <!-- LX Sort & Filter "Apply" header -->
-    <string name="lx_apply_sort_filter">적용</string>
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">정렬 기준</string>
     <!-- LX Sort & Filter "Categories" header -->
@@ -874,32 +872,23 @@
     <string name="unable_to_sign_into_facebook">Facebook에 로그인할 수 없습니다.</string>
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">로그인하지 못했습니다. 이메일과 비밀번호가 올바른 경우 앱의 국가 설정이 올바른지 확인해 주세요.</string>
-    <!-- User needs to reset password -->
-    <string name="sign_in_reset_password_TEMPLATE">모든 {brand} 사이트에 사용할 새로운 글로벌 로그인을 생성해 주셔야 합니다.&lt;br&gt;아래의 ‘비밀번호를 잊으셨나요?\&apos; 링크를 사용하여 비밀번호를 재설정해 주세요.</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">{brand} 비밀번호</string>
     <!-- Link accounts -->
     <string name="link_accounts">계정 연결</string>
-    <!-- Failure to update the user -->
-    <string name="failure_to_update_user">업데이트된 사용자 정보를 가져오지 못했습니다.</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">이메일 권한 부여하기</string>
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">이메일 권한</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">Facebook 계정으로 로그인하려면 저희에게 고객님의 이메일 주소를 확인할 권한을 주셔야 합니다. \n\n아래의 Facebook 버튼을 눌러 {brand}에 고객님 이메일 주소를 확인할 권한을 주세요. 감사합니다!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">계정 연결 중…</string>
-    <!-- Sign In -->
-    <string name="Sign_In">로그인</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">이메일 권한 부여하기</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message_TEMPLATE">Facebook 계정으로 로그인하려면 저희에게 고객님의 이메일 주소를 확인할 권한을 주셔야 합니다. \n\n아래의 Facebook 버튼을 눌러 {brand}에 고객님 이메일 주소를 확인할 권한을 주세요. 감사합니다!</string>
+
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">{brand} 계정으로 로그인</string>
-    <!-- Sign in with the current brand -->
-    <string name="sign_in_with_brand_TEMPLATE">{brand} 계정으로 로그인</string>
     <!-- or -->
     <string name="or">또는</string>
-    <!-- Already signed in -->
-    <string name="already_signed_in">이미 로그인됨</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1717,6 +1706,12 @@
     <string name="select_payment">결제 선택</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">결제 정보</string>
+    <!-- Select payment sentence case AB Test variate1 -->
+    <string name="select_payment_sentence_case_variate1">결제 정보 입력</string>
+    <!-- Select payment sentence case AB Test variate2 -->
+    <string name="select_payment_sentence_case_variate2">결제</string>
+    <!-- Select payment callout AB Test variate2 -->
+    <string name="select_payment_callout">세부 정보 입력</string>
     <!-- Add new card -->
     <string name="add_new_card">새 카드 추가</string>
     <!-- Overview button -->
@@ -1811,6 +1806,10 @@
     <string name="menu_checkout">예약하기</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">최저가격보장</string>
+    <!-- Label for address of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_address">주소:</string>
+    <!-- Label to view map of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_view_map">지도 보기</string>
     <!-- Expedia Rate - Non merchant default infosite messaging -->
     <string name="non_merchant_rate_TEMPLATE">{brand} 요금</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
@@ -1851,6 +1850,8 @@
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 포함하여 고객님 여행의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 나머지 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">예약 후 24시간 이내 무료 취소</string>
+    <!-- Flights AB Test Traveler info missing callout label -->
+    <string name="ab_test_flights_missing_info_callout">여행객 정보 입력</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1907,20 +1908,48 @@
     <string name="guest_details">숙박객 정보</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">어른 %1$s 정보</string>
+    <!-- AB test variate 1 - Add adult traveler number template -->
+    <string name="add_adult_number_variate1_TEMPLATE">어른 %1$s 정보 입력</string>
+    <!-- AB test variate 2 - Add adult traveler number template -->
+    <string name="add_adult_number_variate2_TEMPLATE">어른 %1$s</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">어른 정보</string>
+    <!-- AB test variate 1 - Add adult traveler details label -->
+    <string name="add_adult_variate1">어른 정보 입력</string>
+    <!-- AB test variate 2 - Add adult traveler details label -->
+    <string name="add_adult_variate2">어른</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">아동 %1$s 정보</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">만 %1$s세 아동 정보</string>
+    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate1_TEMPLATE">만 %1$s세 아동 정보 입력</string>
+    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate2_TEMPLATE">만 %1$s세</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">무릎에 앉히는 영유아 %1$s 정보</string>
+    <!-- AB test variate 1 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate1_TEMPLATE">무릎에 앉히는 영유아 %1$s 정보 입력</string>
+    <!-- AB test variate 2 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate2_TEMPLATE">무릎에 앉히는 영유아 %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap">무릎에 앉히는 영유아 정보</string>
+    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate1">무릎에 앉히는 영유아 정보 입력</string>
+    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate2">무릎에 앉히는 영유아</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">좌석에 앉는 영유아 %1$s 정보</string>
+    <!-- AB test variate 1- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate1_TEMPLATE">좌석에 앉는 영유아 %1$s 정보 입력</string>
+    <!-- AB test variate 2- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate2_TEMPLATE">좌석에 앉는 영유아 %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat">좌석에 앉는 영유아 정보</string>
+    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate1">좌석에 앉는 영유아 정보 입력</string>
+    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate2">좌석에 앉는 영유아</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">여행객 이름이 정부가 발급한 사진이 부착된 ID와 맞지 않는 경우 탑승이 거부될 수 있습니다.</string>
 
@@ -2687,6 +2716,8 @@
     <string name="included_in_the_price">요금에 포함됨</string>
     <!-- Not included in the price -->
     <string name="not_included_in_the_price">요금에 포함 안 됨</string>
+    <!-- View Room button text -->
+    <string name="view_room_button_text">객실 보기</string>
 
     <!-- Renovation Notice -->
     <string name="renovation_notice">새단장 공사 알림</string>
@@ -2750,8 +2781,6 @@
     <string name="sign_in">로그인</string>
     <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
     <string name="Earn_points_and_book_fast">포인트도 적립하고 빠르게 예약하세요.</string>
-    <!-- Hint for user to enter password into a field -->
-    <string name="hint_password">비밀번호</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">로그인하는 중…</string>
     <!-- Message that tells user they failed to sign in -->
@@ -2764,14 +2793,8 @@
     <string name="Expedia_plus_silver">익스피디아 +실버</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">익스피디아 +골드</string>
-    <!-- Label for signin screen -->
-    <string name="account_TEMPLATE">{brand} 계정</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">{brand} 계정 가져오는 중</string>
-    <!-- Label for password recovery -->
-    <string name="forgot_your_password">비밀번호를 잊으셨나요?</string>
-    <!-- Webview title for password recovery -->
-    <string name="title_forgot_password">비밀번호를 잊으셨나요?</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">쿠폰 또는 프로모션 코드를 입력해 주세요.</string>
     <!-- Label for coupon code hint -->
@@ -2955,7 +2978,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -3481,9 +3504,6 @@
     <string name="cd_checkout_select_payment">누르면 이 예약을 위한 지불을 선택하실 수 있습니다.</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">누르면 쿠폰 또는 프로모션 코드를 입력하실 수 있습니다.</string>
-    <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
-    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">Facebook 계정으로 {brand}에 로그인하려면 눌러주세요.</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">누르면 새로운 여행객을 입력하실 수 있습니다.</string>
@@ -3578,7 +3598,5 @@
     <string name="child_age_label">각 아동의 나이 선택</string>
 
     <string name="lob_not_supported_error_message">죄송합니다. 고객님의 위치에서는 아직 {lob} 예약을 이용하실 수 없습니다.</string>
-    <string name="acct_Create_an_Expedia_account">익스피디아에 회원가입</string>
-    <string name="acct_Welcome_to_Expedia">익스피디아에 오신 걸 환영합니다!</string>
 
 </resources>
