@@ -186,6 +186,7 @@ public class NavUtils {
 		}
 
 		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intent.putExtra(Codes.FROM_DEEPLINK, true);
 		}
 
@@ -262,6 +263,7 @@ public class NavUtils {
 		}
 
 		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intent.putExtra(Codes.FROM_DEEPLINK, true);
 		}
 
@@ -282,6 +284,7 @@ public class NavUtils {
 		}
 
 		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intent.putExtra(Codes.FROM_DEEPLINK, true);
 		}
 
@@ -305,6 +308,7 @@ public class NavUtils {
 		}
 
 		if (flags == FLAG_DEEPLINK) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			// If we don't have filters, open search box.
 			if (searchParams.filters == null) {
 				intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
