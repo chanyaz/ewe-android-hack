@@ -48,7 +48,6 @@ public class LXCreateTripErrorTests extends LxTestCase {
 	public void testCreateTripPriceChange() throws Throwable {
 		goToCheckout(2, "2-Day New York Pass");
 
-		onView(allOf(isCompletelyDisplayed(), withId(R.id.error_text))).check(
-			matches(withText(R.string.lx_error_price_changed)));
+		onView(withId(R.id.price_change_text)).check(matches(allOf(isCompletelyDisplayed(), withText("Price changed from $130"))));
 	}
 }
