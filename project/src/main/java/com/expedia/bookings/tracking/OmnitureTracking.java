@@ -8,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -45,7 +44,6 @@ import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
-import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -68,7 +66,6 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
-import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -79,9 +76,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.CurrencyUtils;
-import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.DebugUtils;
@@ -1334,49 +1329,38 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppLXCheckoutPayment(Context context, LXState lxState) {
+	public static void trackAppLXCheckoutPayment(Context context, String lxActivityId, LocalDate lxActivityStartDate,
+		int selectedTicketsCount, String totalPriceFormattedTo2DecimalPlaces) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_INFO + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(context, LX_CHECKOUT_INFO);
-		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).amount.setScale(2).toString();
-		int ticketCount = LXUtils.getTotalTicketCount(lxState.selectedTickets);
-		String activityId = lxState.activity.id;
-
-
 		s.setEvents("event75");
-
-		s.setProducts(addLXProducts(activityId, totalMoney, ticketCount));
-
-		setLXDateValues(lxState, s);
+		s.setProducts(addLXProducts(lxActivityId, totalPriceFormattedTo2DecimalPlaces, selectedTicketsCount));
+		setLXDateValues(lxActivityStartDate, s);
 
 		// Send the tracking data
 		s.track();
 	}
 
-	public static void trackAppLXCheckoutConfirmation(Context context, LXCheckoutResponse checkoutResponse, LXState lxState) {
+	public static void trackAppLXCheckoutConfirmation(Context context, LXCheckoutResponse checkoutResponse,
+		String lxActivityId, LocalDate lxActivityStartDate, int selectedTicketsCount) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_CONFIRMATION + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(context, LX_CHECKOUT_CONFIRMATION);
-		String activityId = lxState.activity.id;
-		List<Ticket> selectedTickets = lxState.selectedTickets;
 		String orderId = checkoutResponse.orderId;
 		String currencyCode = checkoutResponse.currencyCode;
 		String travelRecordLocator = checkoutResponse.newTrip.travelRecordLocator;
 		String totalMoney = checkoutResponse.totalCharges;
-		int ticketCount = LXUtils.getTotalTicketCount(selectedTickets);
 
 		s.setEvents("purchase");
 
 		s.setPurchaseID("onum" + orderId);
 		s.setProp(72, orderId);
-
 		s.setProp(71, travelRecordLocator);
-
 		s.setCurrencyCode(currencyCode);
+		s.setProducts(addLXProducts(lxActivityId, totalMoney, selectedTicketsCount));
 
-		s.setProducts(addLXProducts(activityId, totalMoney, ticketCount));
-
-		setLXDateValues(lxState, s);
+		setLXDateValues(lxActivityStartDate, s);
 
 		// Send the tracking data
 		s.track();
@@ -1500,15 +1484,13 @@ public class OmnitureTracking {
 		return s;
 	}
 
-	private static void setLXDateValues(LXState lxState, ADMS_Measurement s) {
-		LocalDate activityStartDate = DateUtils.yyyyMMddHHmmssToLocalDate(
-			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
-		String activityStartDateString = activityStartDate.toString(PROP_DATE_FORMAT);
+	private static void setLXDateValues(LocalDate lxActivityStartDate, ADMS_Measurement s) {
+		String activityStartDateString = lxActivityStartDate.toString(PROP_DATE_FORMAT);
 		s.setProp(5, activityStartDateString);
 
 		// num days between current day (now) and activity start date.
 		LocalDate now = LocalDate.now();
-		String numDaysOut = Integer.toString(JodaUtils.daysBetween(now, activityStartDate));
+		String numDaysOut = Integer.toString(JodaUtils.daysBetween(now, lxActivityStartDate));
 		s.setEvar(5, numDaysOut);
 	}
 

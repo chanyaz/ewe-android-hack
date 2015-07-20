@@ -14,7 +14,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.LXState;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemFlight;
@@ -492,45 +492,49 @@ public class TuneUtils {
 		}
 	}
 
-	public static void trackLXDetails(LXState lxState) {
+	public static void trackLXDetails(String lxActivityLocation, Money totalPrice, String lxOfferSelectedDate,
+		int selectedTicketCount, String lxActivityTitle) {
 		if (initialized) {
 			MATEvent event = new MATEvent("lx_details");
-			MATEventItem eventItem = new MATEventItem("lx_details_item").withAttribute2(lxState.activity.destination)
-				.withAttribute3(lxState.activity.title);
+			MATEventItem eventItem = new MATEventItem("lx_details_item").withAttribute2(lxActivityLocation)
+				.withAttribute3(lxActivityTitle);
 
 			withTuidAndMembership(event)
-				.withQuantity(lxState.selectedTickets.size())
+				.withQuantity(selectedTicketCount)
 				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
 				.withAttribute4("ola.us.display.criteo.appretargetting.lx")
-				.withRevenue(lxState.activity.price.getAmount().doubleValue())
-				.withCurrencyCode(lxState.activity.price.getCurrency())
+				.withRevenue(totalPrice.getAmount().doubleValue())
+				.withCurrencyCode(totalPrice.getCurrency())
 				.withEventItems(Arrays.asList(eventItem))
-				.withDate1(lxState.searchParams.startDate.toDate());
+				.withDate1(DateUtils
+					.yyyyMMddHHmmssToLocalDate(lxOfferSelectedDate)
+					.toDate());
 
 			trackEvent(event);
 		}
 	}
 
-	public static void trackLXConfirmation(LXState state, String orderId) {
+	public static void trackLXConfirmation(String lxActivityLocation, Money totalPrice, String lxActivityStartDate,
+		String orderId, String lxActivityTitle) {
 		if (initialized) {
 			MATEvent event = new MATEvent("lx_confirmation");
 			MATEventItem eventItem = new MATEventItem("lx_confirmation_item");
-			double revenue = LXUtils.getTotalAmount(state.selectedTickets).getAmount().doubleValue();
+			double revenue = totalPrice.getAmount().doubleValue();
 
 			eventItem.withQuantity(1)
 				.withRevenue(revenue)
-				.withAttribute2(state.activity.destination)
-				.withAttribute3(state.activity.title);
+				.withAttribute2(lxActivityLocation)
+				.withAttribute3(lxActivityTitle);
 
 			withTuidAndMembership(event)
 				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
 				.withAttribute4("ola.us.display.criteo.appretargetting.car")
 				.withRevenue(revenue)
-				.withCurrencyCode(state.selectedTickets.get(0).money.getCurrency())
+				.withCurrencyCode(totalPrice.getCurrency())
 				.withAdvertiserRefId(orderId)
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(DateUtils
-					.yyyyMMddHHmmssToLocalDate(state.offer.availabilityInfoOfSelectedDate.availabilities.valueDate)
+					.yyyyMMddHHmmssToLocalDate(lxActivityStartDate)
 					.toDate());
 
 			trackEvent(event);

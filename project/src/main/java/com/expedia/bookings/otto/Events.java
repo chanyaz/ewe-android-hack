@@ -549,10 +549,6 @@ public class Events {
 		// ignore
 	}
 
-	public static class CarsPriceChange {
-		// ignore
-	}
-
 	public static class CarsSessionTimeout {
 		// ignore
 	}
@@ -637,11 +633,15 @@ public class Events {
 	}
 
 	public static class CarsShowCheckoutAfterPriceChange {
+		// ignore
+	}
+
+	public static class CarsUpdateCheckoutSummaryAfterPriceChange {
 		public CreateTripCarOffer originalCreateTripOffer;
 		public CreateTripCarOffer newCreateTripOffer;
 		public String tripId;
 
-		public CarsShowCheckoutAfterPriceChange(CreateTripCarOffer originalOffer, CreateTripCarOffer newOffer, String tripId) {
+		public CarsUpdateCheckoutSummaryAfterPriceChange(CreateTripCarOffer originalOffer, CreateTripCarOffer newOffer, String tripId) {
 			this.originalCreateTripOffer = originalOffer;
 			this.newCreateTripOffer = newOffer;
 			this.tripId = tripId;
@@ -852,6 +852,18 @@ public class Events {
 
 	public static class LXShowRulesOnCheckout {
 		//ignore
+	}
+
+	public static class LXShowCheckoutAfterPriceChange {
+		//ignore
+	}
+
+	public static class LXUpdateCheckoutSummaryAfterPriceChange {
+		public LXCheckoutResponse lxCheckoutResponse;
+
+		public LXUpdateCheckoutSummaryAfterPriceChange(LXCheckoutResponse lxCheckoutResponse) {
+			this.lxCheckoutResponse = lxCheckoutResponse;
+		}
 	}
 
 	public static class LXActivitySelectedRetry {

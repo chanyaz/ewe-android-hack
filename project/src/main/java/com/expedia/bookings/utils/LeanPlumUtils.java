@@ -21,7 +21,6 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
@@ -483,46 +482,40 @@ public class LeanPlumUtils {
 		}
 	}
 
-	public static void trackLXCheckoutStarted(LXState lxState) {
+	public static void trackLXCheckoutStarted(String lxActivityLocation, Money totalPrice, String lxOfferSelectedDate , List<String> lxActivityCategories) {
 		if (initialized) {
 			String eventName = "Checkout LX Started";
-			Log.i("LeanPlum LX checkout started event origin = " + lxState.activity.destination);
+			Log.i("LeanPlum LX checkout started event origin = " + lxActivityLocation);
 
-			trackLXCheckoutInformation(eventName, lxState);
+			trackLXCheckoutInformation(eventName, lxActivityLocation, totalPrice, lxOfferSelectedDate, lxActivityCategories);
 		}
 	}
 
-	public static void trackLXBooked(LXState lxState) {
+	public static void trackLXBooked(String lxActivityLocation, Money totalPrice, String lxOfferSelectedDate , List<String> lxActivityCategories) {
 		if (initialized) {
 			String eventName = "Sale LX";
-			Log.i("LeanPlum LX booking event origin = " + lxState.activity.destination);
+			Log.i("LeanPlum LX booking event origin = " + lxActivityLocation);
 
-			trackLXCheckoutInformation(eventName, lxState);
+			trackLXCheckoutInformation(eventName, lxActivityLocation, totalPrice, lxOfferSelectedDate, lxActivityCategories);
 		}
 	}
 
-	private static void trackLXCheckoutInformation(String eventName, LXState lxState) {
+	private static void trackLXCheckoutInformation(String eventName, String lxActivityLocation, Money totalPrice, String lxOfferSelectedDate , List<String> lxActivityCategories) {
 		HashMap<String, Object> eventParams = new HashMap<>();
 
 		/**
 		 * Common retargeting params i.e. city, state and country are not available for LX.
 		 * Add them once available.
 		 */
-		eventParams.put("destination", lxState.activity.destination);
+		eventParams.put("destination", lxActivityLocation);
 
-		eventParams.put("TotalPrice",
-			String.valueOf(LXUtils.getTotalAmount(lxState.selectedTickets).getAmount().doubleValue()));
-		eventParams.put("currency", LXUtils.getTotalAmount(lxState.selectedTickets).getCurrency());
+		eventParams.put("TotalPrice", String.valueOf(totalPrice.getAmount().doubleValue()));
+		eventParams.put("currency", totalPrice.getCurrency());
 
-		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
-			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
-
-		eventParams.put("ActivityDate", "" + DateUtils.convertDatetoInt(offerSelectedDate));
-		eventParams.put("ActivityDatetime", "" + DateUtils
-			.yyyyMMddHHmmssToDateTime(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate)
-			.toString(DATE_PATTERN));
-		eventParams.put("isGT", LXDataUtils.isActivityGT(lxState.activity.categories));
-		eventParams.put("b_win", "" + getBookingWindow(offerSelectedDate));
+		eventParams.put("ActivityDate", "" + DateUtils.convertDatetoInt(DateUtils.yyyyMMddHHmmssToLocalDate(lxOfferSelectedDate)));
+		eventParams.put("ActivityDatetime", "" + DateUtils.yyyyMMddHHmmssToDateTime(lxOfferSelectedDate).toString(DATE_PATTERN));
+		eventParams.put("isGT", LXDataUtils.isActivityGT(lxActivityCategories));
+		eventParams.put("b_win", "" + getBookingWindow(DateUtils.yyyyMMddHHmmssToLocalDate(lxOfferSelectedDate)));
 		eventParams.put("p_type", "LX");
 
 		tracking(eventName, eventParams);

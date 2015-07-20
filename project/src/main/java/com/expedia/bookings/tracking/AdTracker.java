@@ -1,12 +1,13 @@
 package com.expedia.bookings.tracking;
 
+import java.util.List;
+
 import android.content.Context;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -133,9 +134,10 @@ public class AdTracker {
 		TuneUtils.trackLXSearch(searchParams, searchResponse);
 	}
 
-	public static void trackLXCheckoutStarted(LXState lxState) {
-		LeanPlumUtils.trackLXCheckoutStarted(lxState);
-		TuneUtils.trackLXDetails(lxState);
+	public static void trackLXCheckoutStarted(String lxActivityLocation, Money totalPrice, String lxOfferSelectedDate,
+		List<String> lxActivityCategories, int selectedTicketCount, String lxActivityTitle) {
+		LeanPlumUtils.trackLXCheckoutStarted(lxActivityLocation, totalPrice, lxOfferSelectedDate, lxActivityCategories);
+		TuneUtils.trackLXDetails(lxActivityLocation, totalPrice, lxOfferSelectedDate, selectedTicketCount, lxActivityTitle);
 	}
 
 	public static void trackCarCheckoutStarted(CreateTripCarOffer carOffer) {
@@ -182,9 +184,9 @@ public class AdTracker {
 		TuneUtils.trackCarSearch(search, params);
 	}
 
-	public static void trackLXBooked(LXState lxState, String orderId) {
-		LeanPlumUtils.trackLXBooked(lxState);
-		TuneUtils.trackLXConfirmation(lxState, orderId);
+	public static void trackLXBooked(String lxActivityLocation, Money totalPrice, String lxActivityStartDate, List<String> lxActivityCategories, String orderId, String lxActivityTitle) {
+		LeanPlumUtils.trackLXBooked(lxActivityLocation, totalPrice, lxActivityStartDate, lxActivityCategories);
+		TuneUtils.trackLXConfirmation(lxActivityLocation, totalPrice, lxActivityStartDate,
+			orderId, lxActivityTitle);
 	}
-
 }
