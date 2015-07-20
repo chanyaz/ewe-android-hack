@@ -266,7 +266,7 @@
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">+%1$s</string>
     <!-- Cancellation policy template -->
-    <string name="cancellation_policy_TEMPLATE">Annuleer gratis tot %1$s voor aanvang van de reservering. Annuleringen, wijzigingen of restituties zijn nadien niet mogelijk.</string>
+    <string name="lx_cancellation_policy_TEMPLATE">Annuleer gratis tot {hours} uur voor aanvang van de reservering. Annuleringen, wijzigingen of restituties zijn nadien niet mogelijk.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
     <string name="lx_policy_non_cancellable">Deze reservering is niet restitueerbaar en kan na het boeken niet gewijzigd of geannuleerd worden.</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -712,8 +712,6 @@
         <item quantity="other">Items in reis</item>
     </plurals>
 
-    <!-- LX Sort & Filter "Apply" header -->
-    <string name="lx_apply_sort_filter">Toepassen</string>
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Sorteer op</string>
     <!-- LX Sort & Filter "Categories" header -->
@@ -874,32 +872,23 @@
     <string name="unable_to_sign_into_facebook">Aanmelden via Facebook mislukt.</string>
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">Aanmelden mislukt. Bevestig of de Landinstellingen van je app kloppen als je e-mail en wachtwoord correct zijn.</string>
-    <!-- User needs to reset password -->
-    <string name="sign_in_reset_password_TEMPLATE">We hebben jouw hulp nodig om nieuwe, universele aanmeldingsinfo voor alle {brand}-sites te creëren.&lt;br&gt;Stel je wachtwoord opnieuw in via de onderstaande link \&apos;Je wachtwoord vergeten?\&apos;.</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">{brand}-wachtwoord</string>
     <!-- Link accounts -->
     <string name="link_accounts">Accounts koppelen</string>
-    <!-- Failure to update the user -->
-    <string name="failure_to_update_user">Bijgewerkte gebruikersgegevens ophalen mislukt.</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">E-mailtoestemming geven</string>
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">E-mailtoestemming</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">Om je te kunnen aanmelden bij Facebook, hebben wij je toestemming nodig om je e-mailadres te controleren. \n\n{brand}Tik op de onderstaande Facebook-knop om toestemming te geven je e-mailadres te controleren. Hartelijk bedankt.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Accounts aan het koppelen…</string>
-    <!-- Sign In -->
-    <string name="Sign_In">Aanmelden</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">E-mailtoestemming geven</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message_TEMPLATE">Om je te kunnen aanmelden bij Facebook, hebben wij je toestemming nodig om je e-mailadres te controleren. \n\n{brand}Tik op de onderstaande Facebook-knop om toestemming te geven je e-mailadres te controleren. Hartelijk bedankt.</string>
+
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Aanmelden via {brand}</string>
-    <!-- Sign in with the current brand -->
-    <string name="sign_in_with_brand_TEMPLATE">Aanmelden via {brand}</string>
     <!-- or -->
     <string name="or">of</string>
-    <!-- Already signed in -->
-    <string name="already_signed_in">Reeds aangemeld</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1717,6 +1706,12 @@
     <string name="select_payment">Kies betaalmethode</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">Betalingsinfo</string>
+    <!-- Select payment sentence case AB Test variate1 -->
+    <string name="select_payment_sentence_case_variate1">Betalingsinfo invoeren</string>
+    <!-- Select payment sentence case AB Test variate2 -->
+    <string name="select_payment_sentence_case_variate2">Betaling</string>
+    <!-- Select payment callout AB Test variate2 -->
+    <string name="select_payment_callout">details invoeren</string>
     <!-- Add new card -->
     <string name="add_new_card">Nieuwe creditcard toevoegen</string>
     <!-- Overview button -->
@@ -1811,6 +1806,10 @@
     <string name="menu_checkout">Betaling</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Prijsgarantie</string>
+    <!-- Label for address of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_address">Adres:</string>
+    <!-- Label to view map of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_view_map">Kaart weergeven</string>
     <!-- Expedia Rate - Non merchant default infosite messaging -->
     <string name="non_merchant_rate_TEMPLATE">{brand}-tarief</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
@@ -1851,6 +1850,8 @@
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Het totaal voor je reis, incl. &lt;b&gt;%1$s&lt;/b&gt; resortkosten, is &lt;b&gt;%2$s&lt;/b&gt;. Je betaalt pas tijdens je verblijf de resterende boekingskosten aan het hotel (in de lokale valuta van het hotel).</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">Gratis annulering binnen 24 uur</string>
+    <!-- Flights AB Test Traveler info missing callout label -->
+    <string name="ab_test_flights_missing_info_callout">Reizigersinfo invoeren</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1907,20 +1908,48 @@
     <string name="guest_details">Reizigersinfo</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Info volwassene %1$s</string>
+    <!-- AB test variate 1 - Add adult traveler number template -->
+    <string name="add_adult_number_variate1_TEMPLATE">Info volwassene %1$s invoeren</string>
+    <!-- AB test variate 2 - Add adult traveler number template -->
+    <string name="add_adult_number_variate2_TEMPLATE">Volwassene %1$s</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">Info volwassene</string>
+    <!-- AB test variate 1 - Add adult traveler details label -->
+    <string name="add_adult_variate1">Info volwassene invoeren</string>
+    <!-- AB test variate 2 - Add adult traveler details label -->
+    <string name="add_adult_variate2">Volwassene</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Info kind %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">Info kind van %1$s jaar</string>
+    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate1_TEMPLATE">Info kind van %1$s jaar invoeren</string>
+    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate2_TEMPLATE">Kind van %1$s jaar</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Info baby op schoot %1$s</string>
+    <!-- AB test variate 1 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate1_TEMPLATE">Info baby op schoot %1$s invoeren</string>
+    <!-- AB test variate 2 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate2_TEMPLATE">Baby op schoot %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap">Info baby op schoot</string>
+    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate1">Info baby op schoot invoeren</string>
+    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate2">Baby op schoot</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">Info baby op stoel %1$s</string>
+    <!-- AB test variate 1- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate1_TEMPLATE">Info baby op stoel %1$s invoeren</string>
+    <!-- AB test variate 2- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate2_TEMPLATE">Baby op stoel %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat">Info baby op stoel</string>
+    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate1">Baby op stoel invoeren</string>
+    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate2">Baby op stoel</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Mogelijk wordt toegang tot het vliegtuig geweigerd als de naam van de reiziger niet overeenstemt met die op het identiteitsbewijs.</string>
 
@@ -2687,6 +2716,8 @@
     <string name="included_in_the_price">Inbegrepen bij de prijs</string>
     <!-- Not included in the price -->
     <string name="not_included_in_the_price">Niet inbegrepen bij de prijs</string>
+    <!-- View Room button text -->
+    <string name="view_room_button_text">Kamer bekijken</string>
 
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renovatiewerken</string>
@@ -2750,8 +2781,6 @@
     <string name="sign_in">Aanmelden</string>
     <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
     <string name="Earn_points_and_book_fast">Verdien punten en boek snel.</string>
-    <!-- Hint for user to enter password into a field -->
-    <string name="hint_password">Wachtwoord</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Bezig met aanmelden …</string>
     <!-- Message that tells user they failed to sign in -->
@@ -2764,14 +2793,8 @@
     <string name="Expedia_plus_silver">Expedia +silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
-    <!-- Label for signin screen -->
-    <string name="account_TEMPLATE">{brand}-account</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Bezig met laden van {brand}-account</string>
-    <!-- Label for password recovery -->
-    <string name="forgot_your_password">Je wachtwoord vergeten?</string>
-    <!-- Webview title for password recovery -->
-    <string name="title_forgot_password">Wachtwoord vergeten</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">Voer een coupon of promocode in</string>
     <!-- Label for coupon code hint -->
@@ -3481,9 +3504,6 @@
     <string name="cd_checkout_select_payment">Tik om een betaalmethode te kiezen</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Tik om een coupon- of promocode in te voeren</string>
-    <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
-    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">Meld je aan bij {brand} via je Facebook-account</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Tik om nieuwe reiziger in te voeren</string>
@@ -3578,7 +3598,5 @@
     <string name="child_age_label">Selecteer de leeftijd van elk kind</string>
 
     <string name="lob_not_supported_error_message">Sorry, boekingen van {lob} zijn nog niet beschikbaar voor jouw regio.</string>
-    <string name="acct_Create_an_Expedia_account">Expedia-account aanmaken</string>
-    <string name="acct_Welcome_to_Expedia">Welkom bij Expedia</string>
 
 </resources>

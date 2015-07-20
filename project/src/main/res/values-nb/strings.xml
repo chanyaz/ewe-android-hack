@@ -266,7 +266,7 @@
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
-    <string name="cancellation_policy_TEMPLATE">Du kan avbestille uten ekstra kostnad frem til %1$s før starttidspunktet for bestillingen din. Etter dette vil det ikke være mulig å utføre avbestillinger, endringer eller refusjoner.</string>
+    <string name="lx_cancellation_policy_TEMPLATE">Du kan avbestille gratis frem til {hours} timer før starttidspunktet for bestillingen din. Etter dette vil det ikke være mulig å utføre avbestillinger, endringer eller refusjoner.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
     <string name="lx_policy_non_cancellable">Denne bestillingen er ikke-refunderbar og kan ikke endres eller kanselleres etter at den er utført.</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -712,8 +712,6 @@
         <item quantity="other">Elementer i reisen</item>
     </plurals>
 
-    <!-- LX Sort & Filter "Apply" header -->
-    <string name="lx_apply_sort_filter">Benytt</string>
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Sorter etter</string>
     <!-- LX Sort & Filter "Categories" header -->
@@ -874,32 +872,23 @@
     <string name="unable_to_sign_into_facebook">Innlogging på Facebook ikke mulig.</string>
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">Pålogging feilet. Hvis e-postadressen og passordet er korrekt, kan det være lurt å sjekke at landsinnstillingen på appen er korrekt.</string>
-    <!-- User needs to reset password -->
-    <string name="sign_in_reset_password_TEMPLATE">Du må opprette en ny, internasjonal pålogging for alle nettstedene til {brand}.&lt;br&gt;Nullstill passordet ditt ved å klikke på "Glemt passordet ditt?" nedenfor.</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">{brand}-passord</string>
     <!-- Link accounts -->
     <string name="link_accounts">Koble sammen kontoer</string>
-    <!-- Failure to update the user -->
-    <string name="failure_to_update_user">Det er ikke mulig å hente oppdatert brukerinformasjon.</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">Gi e-post-tillatelse</string>
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">E-post-tillatelse</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">For at du skal kunne logge på med Facebook ber vi om din tillatelse til å verifisere e-postadressen din. \n\nTrykk på Facebook-knappen nedenfor for å gi {brand} tillatelse til å verifisere e-postadressen din. Takk!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Kobler kontoene dine opp mot hverandre…</string>
-    <!-- Sign In -->
-    <string name="Sign_In">Logg på</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">Gi e-post-tillatelse</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message_TEMPLATE">For at du skal kunne logge på med Facebook ber vi om din tillatelse til å verifisere e-postadressen din. \n\nTrykk på Facebook-knappen nedenfor for å gi {brand} tillatelse til å verifisere e-postadressen din. Takk!</string>
+
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Logg på med {brand}</string>
-    <!-- Sign in with the current brand -->
-    <string name="sign_in_with_brand_TEMPLATE">Logg på med {brand}</string>
     <!-- or -->
     <string name="or">eller</string>
-    <!-- Already signed in -->
-    <string name="already_signed_in">Allerede logget på</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1006,7 +995,7 @@
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Finn reiserutenummer</string>
     <!-- Expedia Itinerary -->
-    <string name="itinerary_TEMPLATE">{brand}Reiserutenummer: </string>
+    <string name="itinerary_TEMPLATE">{brand}Reiserutenummer</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
     <string name="Expedia_plus_Silver_Customer_Support">Kundeservice for Expedia +silver</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
@@ -1717,6 +1706,12 @@
     <string name="select_payment">Velg betalingsform</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">Betalingsinfo</string>
+    <!-- Select payment sentence case AB Test variate1 -->
+    <string name="select_payment_sentence_case_variate1">Oppgi betalingsinformasjon</string>
+    <!-- Select payment sentence case AB Test variate2 -->
+    <string name="select_payment_sentence_case_variate2">Betaling</string>
+    <!-- Select payment callout AB Test variate2 -->
+    <string name="select_payment_callout">Oppgi informasjon</string>
     <!-- Add new card -->
     <string name="add_new_card">Legg til nytt betalingskort</string>
     <!-- Overview button -->
@@ -1811,6 +1806,10 @@
     <string name="menu_checkout">Betaling</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Prismatch</string>
+    <!-- Label for address of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_address">Adresse:</string>
+    <!-- Label to view map of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_view_map">Vis kart</string>
     <!-- Expedia Rate - Non merchant default infosite messaging -->
     <string name="non_merchant_rate_TEMPLATE">{brand}-rangering</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
@@ -1851,6 +1850,8 @@
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Totalbeløpet for oppholdet ditt, inkludert feriestedsavgift på &lt;b&gt;%1$s&lt;/b&gt;, er &lt;b&gt;%2$s&lt;/b&gt;. Du betaler det gjenstående beløpet for bestillingen til hotellet (i deres lokale valuta) i løpet av oppholdet.</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">Gratis avbestilling innen 24 timer</string>
+    <!-- Flights AB Test Traveler info missing callout label -->
+    <string name="ab_test_flights_missing_info_callout">Oppgi kontaktdetaljer</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1907,20 +1908,48 @@
     <string name="guest_details">Gjestens detaljer</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Detaljer for voksen %1$s</string>
+    <!-- AB test variate 1 - Add adult traveler number template -->
+    <string name="add_adult_number_variate1_TEMPLATE">Oppgi detaljer for voksen %1$s</string>
+    <!-- AB test variate 2 - Add adult traveler number template -->
+    <string name="add_adult_number_variate2_TEMPLATE">Voksen %1$s</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">Detaljer for voksen</string>
+    <!-- AB test variate 1 - Add adult traveler details label -->
+    <string name="add_adult_variate1">Oppgi detaljer for voksen</string>
+    <!-- AB test variate 2 - Add adult traveler details label -->
+    <string name="add_adult_variate2">Voksen</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Detaljer for barn %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">Detaljer om %1$s-åring</string>
+    <string name="add_child_with_age_TEMPLATE">Detaljer for %1$s-åring</string>
+    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate1_TEMPLATE">Oppgi detaljer for %1$s-åring</string>
+    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate2_TEMPLATE">%1$s-åring</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Detaljer for spedbarn %1$s på fanget</string>
+    <!-- AB test variate 1 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate1_TEMPLATE">Oppgi detaljer for spedbarn %1$s på fanget</string>
+    <!-- AB test variate 2 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate2_TEMPLATE">Spedbarn %1$s på fanget</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap">Detaljer for spedbarn på fanget</string>
+    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate1">Oppgi detaljer for spedbarn på fanget</string>
+    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate2">Spedbarn på fanget</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">Detaljer for spedbarn %1$s i sete</string>
+    <!-- AB test variate 1- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate1_TEMPLATE">Oppgi detaljer for spedbarn %1$s i sete</string>
+    <!-- AB test variate 2- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate2_TEMPLATE">Spedbarn %1$s i sete</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat">Detaljer for spedbarn i sete</string>
+    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate1">Oppgi detaljer for spedbarn i sete</string>
+    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate2">Spedbarn i sete</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Du kan nektes boarding på flyet dersom navnet på billetten ikke stemmer overens med din offentlig godkjente legitimasjon.</string>
 
@@ -2687,6 +2716,8 @@
     <string name="included_in_the_price">Inkludert i prisen</string>
     <!-- Not included in the price -->
     <string name="not_included_in_the_price">Ikke inkludert i prisen</string>
+    <!-- View Room button text -->
+    <string name="view_room_button_text">Vis rom</string>
 
     <!-- Renovation Notice -->
     <string name="renovation_notice">Advarsel om renovering</string>
@@ -2750,8 +2781,6 @@
     <string name="sign_in">Logg på</string>
     <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
     <string name="Earn_points_and_book_fast">Tjen opp poeng og bestill hurtig.</string>
-    <!-- Hint for user to enter password into a field -->
-    <string name="hint_password">Passord</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Logger på…</string>
     <!-- Message that tells user they failed to sign in -->
@@ -2764,14 +2793,8 @@
     <string name="Expedia_plus_silver">Expedia +silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
-    <!-- Label for signin screen -->
-    <string name="account_TEMPLATE">{brand}Konto</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Henter {brand}-konto</string>
-    <!-- Label for password recovery -->
-    <string name="forgot_your_password">Glemt passordet ditt?</string>
-    <!-- Webview title for password recovery -->
-    <string name="title_forgot_password">Glemt passord?</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">Skriv inn en kupongkode</string>
     <!-- Label for coupon code hint -->
@@ -3481,9 +3504,6 @@
     <string name="cd_checkout_select_payment">Trykk for å velge betalingsmåten for denne bestillingen</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Trykk for å oppgi en rabatt- eller tilbudskode</string>
-    <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
-    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">Trykk for å logge på {brand} med din Facebook-konto</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Trykk for å legge til en ny reisende</string>
@@ -3578,7 +3598,5 @@
     <string name="child_age_label">Velg hvert barns alder</string>
 
     <string name="lob_not_supported_error_message">Beklager, {lob}-bestillinger på mobil er ikke tilgjengelig der du befinner deg ennå.</string>
-    <string name="acct_Create_an_Expedia_account">Opprett en Expedia-konto</string>
-    <string name="acct_Welcome_to_Expedia">Velkommen til Expedia</string>
 
 </resources>
