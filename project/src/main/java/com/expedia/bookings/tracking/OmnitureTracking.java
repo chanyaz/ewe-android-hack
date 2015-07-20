@@ -183,6 +183,9 @@ public class OmnitureTracking {
 	public static final String HOTELS_ETP_TOGGLE_PAY_NOW = "App.Hotels.RR.Toggle.PayNow";
 	public static final String HOTELS_ETP_PAYMENT = "App.Hotels.RR.ETP";
 
+	private static final String HOTELS_MER_EMAIL_OPT_IN = "App.Mktg.Opt-in";
+	private static final String HOTELS_MER_EMAIL_OPT_OUT = "App.Mktg.Opt-Out";
+
 	//////////////////////////////
 	// Coupon tracking
 	public static final String HOTELS_COUPON_LINK_NAME = "CKO:Coupon Action";
@@ -723,6 +726,46 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", HOTELS_ETP_TOGGLE_LINK_NAME, null, null);
 	}
 
+	public static void trackHotelsGuestMerEmailOptIn(Context context) {
+		Log.d(TAG, "Tracking \"" + HOTELS_MER_EMAIL_OPT_IN + "\"");
+
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.setEvents("event42");
+
+		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		s.setProp(7, posTpid);
+		s.setEvar(28, HOTELS_MER_EMAIL_OPT_IN);
+		s.setProp(16, HOTELS_MER_EMAIL_OPT_IN);
+		s.setEvar(61, posTpid);
+
+		// AB Test: Opt-in/out checkbox for MER email on Guest HCKO
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidHotelCKOMerEmailGuestOpt);
+
+		s.trackLink(null, "o", "Marketing Choice", null, null);
+	}
+
+	public static void trackHotelsGuestMerEmailOptOut(Context context) {
+		Log.d(TAG, "Tracking \"" + HOTELS_MER_EMAIL_OPT_OUT + "\"");
+
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.setEvents("event43");
+
+		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		s.setProp(7, posTpid);
+		s.setEvar(28, HOTELS_MER_EMAIL_OPT_OUT);
+		s.setProp(16, HOTELS_MER_EMAIL_OPT_OUT);
+		s.setEvar(61, posTpid);
+
+		// AB Test: Opt-in/out checkbox for MER email on Guest HCKO
+		trackAbacusTest(context, s, AbacusUtils.EBAndroidHotelCKOMerEmailGuestOpt);
+
+		s.trackLink(null, "o", "Marketing Choice", null, null);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Flights Tracking
 	//
@@ -1220,7 +1263,6 @@ public class OmnitureTracking {
 	public static void trackFlightInfantDialog(Context context) {
 		createTrackLinkEvent(context, FLIGHT_INFANT_ALERT).track();
 	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// LX tracking

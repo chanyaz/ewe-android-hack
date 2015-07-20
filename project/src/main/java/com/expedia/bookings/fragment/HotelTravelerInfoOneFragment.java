@@ -38,11 +38,11 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 
 	Traveler mTraveler;
 	SectionTravelerInfo mSectionTravelerInfo;
-	CheckBox mMerchendiseOptCheckBox;
+	CheckBox mMerchandiseOptCheckBox;
 
 	boolean mAttemptToLeaveMade = false;
 	boolean mIsMerEmailOptIn = true;
-	boolean isUserBucketedForTest;
+	boolean mIsUserBucketedForTest;
 
 	MerchandiseSpam mMerchandiseSpam;
 
@@ -61,22 +61,12 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 		View v = inflater.inflate(R.layout.fragment_hotel_traveler_info_step1, container, false);
 		mAttemptToLeaveMade = false;
 		mSectionTravelerInfo = Ui.findView(v, R.id.traveler_info);
-		mMerchendiseOptCheckBox = Ui.findView(v, R.id.merchandise_guest_opt_checkbox);
+		mMerchandiseOptCheckBox = Ui.findView(v, R.id.merchandise_guest_opt_checkbox);
 
-		isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidHotelCKOMerEmailGuestOpt);
-		if (isUserBucketedForTest && !User.isLoggedIn(getActivity())) {
+		mIsUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidHotelCKOMerEmailGuestOpt);
+		if (mIsUserBucketedForTest && !User.isLoggedIn(getActivity())) {
 			Ui.hideKeyboard(getActivity(), WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-			mMerchendiseOptCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-					mIsMerEmailOptIn = (mMerchandiseSpam == MerchandiseSpam.CONSENT_TO_OPT_IN ? isChecked : !isChecked);
-					// Save to DB
-					Db.getTripBucket().getHotel().setIsMerEmailOptIn(mIsMerEmailOptIn);
-					Db.saveTripBucket(getActivity());
 
-					updateMerEmailOptCheckBox(isChecked);
-				}
-			});
 			TripBucketItemHotel tripHotel = Db.getTripBucket().getHotel();
 			CreateTripResponse createTripResponse = tripHotel.getCreateTripResponse();
 			boolean isChecked = false;
@@ -86,20 +76,33 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 				case ALWAYS:
 					break;
 				case CONSENT_TO_OPT_IN:
-					mMerchendiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_in_TEMPLATE).put("brand", BuildConfig.brand).format());
+					mMerchandiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_in_TEMPLATE).put("brand", BuildConfig.brand).format());
 					isChecked = tripHotel.isMerEmailOptIn();
-					mMerchendiseOptCheckBox.setVisibility(View.VISIBLE);
+					mMerchandiseOptCheckBox.setVisibility(View.VISIBLE);
 					break;
 				case CONSENT_TO_OPT_OUT:
-					mMerchendiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_out_TEMPLATE).put("brand", BuildConfig.brand).format());
+					mMerchandiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_out_TEMPLATE).put("brand", BuildConfig.brand).format());
 					isChecked = !tripHotel.isMerEmailOptIn();
-					mMerchendiseOptCheckBox.setVisibility(View.VISIBLE);
+					mMerchandiseOptCheckBox.setVisibility(View.VISIBLE);
 					break;
 				}
 			}
 
-			mMerchendiseOptCheckBox.setChecked(isChecked);
+			mMerchandiseOptCheckBox.setChecked(isChecked);
 			updateMerEmailOptCheckBox(isChecked);
+
+			mMerchandiseOptCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+					mIsMerEmailOptIn = (mMerchandiseSpam == MerchandiseSpam.CONSENT_TO_OPT_IN ? isChecked : !isChecked);
+					// Save to DB
+					Db.getTripBucket().getHotel().setIsMerEmailOptIn(mIsMerEmailOptIn);
+					Db.saveTripBucket(getActivity());
+
+					updateMerEmailOptCheckBox(isChecked);
+					trackMerEmailOptInOut();
+				}
+			});
 		}
 
 		mSectionTravelerInfo.addChangeListener(new SectionChangeListener() {
@@ -122,11 +125,20 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 		return v;
 	}
 
+	private void trackMerEmailOptInOut() {
+		if (mIsMerEmailOptIn) {
+			OmnitureTracking.trackHotelsGuestMerEmailOptIn(getActivity());
+		}
+		else {
+			OmnitureTracking.trackHotelsGuestMerEmailOptOut(getActivity());
+		}
+	}
+
 	private void updateMerEmailOptCheckBox(boolean isChecked) {
 		Drawable drawable = getResources().getDrawable(R.drawable.abc_btn_check_material);
 		drawable.setColorFilter(isChecked ? getResources().getColor(R.color.mer_email_checkbox_checked_color) :
 			getResources().getColor(R.color.mer_email_checkbox_unchecked_color), PorterDuff.Mode.SRC_IN);
-		mMerchendiseOptCheckBox.setButtonDrawable(drawable);
+		mMerchandiseOptCheckBox.setButtonDrawable(drawable);
 	}
 
 	@Override
@@ -141,7 +153,7 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 		mTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 		mSectionTravelerInfo.bind(mTraveler);
 
-		if (!isUserBucketedForTest) {
+		if (!mIsUserBucketedForTest) {
 			View focused = this.getView().findFocus();
 			if (focused == null || !(focused instanceof EditText)) {
 				int firstFocusResId = R.id.edit_first_name;
