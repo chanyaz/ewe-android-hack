@@ -226,7 +226,7 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
     }
 
     private fun dispatchCar(request: RecordedRequest): MockResponse {
-        if (request.getPath().contains("/search/airport")) {
+        if (request.getPath().contains("/search/airport") || request.getPath().contains("/search/location")) {
             val params = parseRequest(request)
             val airportCode = params.get("airportCode")
             if ("KTM" == airportCode) {
