@@ -77,7 +77,7 @@ public class AdTracker {
 		Property property = Db.getTripBucket().getHotel().getProperty();
 		AdX.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
 		LeanPlumUtils.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
-		TuneUtils.trackHotelConfirmation(totalPrice, orderNumber, numberRooms, Db.getTripBucket().getHotel());
+		TuneUtils.trackHotelConfirmation(totalPrice, orderNumber, currency, numberRooms, Db.getTripBucket().getHotel());
 	}
 
 	public static void trackFlightBooked() {
@@ -115,7 +115,7 @@ public class AdTracker {
 		AdX.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 		LeanPlumUtils.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(),
 			totalPrice.getAmount().doubleValue());
-		TuneUtils.trackHotelCheckoutStarted(property, totalPrice.getAmount().doubleValue());
+		TuneUtils.trackHotelCheckoutStarted(property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 	}
 
 	public static void trackFlightCheckoutStarted() {

@@ -97,6 +97,7 @@ public class TuneUtils {
 
 			withTuidAndMembership(event)
 				.withRevenue(selectedProperty.getLowestRate().getDisplayPrice().getAmount().doubleValue())
+				.withCurrencyCode(selectedProperty.getLowestRate().getDisplayPrice().getCurrency())
 				.withDate1(hotelSearchParams.getCheckInDate().toDate())
 				.withDate2(hotelSearchParams.getCheckOutDate().toDate())
 				.withEventItems(Arrays.asList(eventItem))
@@ -106,7 +107,7 @@ public class TuneUtils {
 		}
 	}
 
-	public static void trackHotelCheckoutStarted(Property selectedProperty, double totalPrice) {
+	public static void trackHotelCheckoutStarted(Property selectedProperty, String currency, double totalPrice) {
 		if (initialized) {
 			Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 			MATEvent event = new MATEvent("hotel_rate_details");
@@ -119,6 +120,7 @@ public class TuneUtils {
 
 			withTuidAndMembership(event)
 				.withRevenue(totalPrice)
+				.withCurrencyCode(currency)
 				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
 				.withAttribute4("ola.us.display.criteo.appremarketing.hotel")
 				.withContentType(selectedProperty.getName())
@@ -176,7 +178,7 @@ public class TuneUtils {
 		}
 	}
 
-	public static void trackHotelConfirmation(double revenue, String transactionId, int numberRooms,
+	public static void trackHotelConfirmation(double revenue, String transactionId, String currency, int numberRooms,
 		TripBucketItemHotel hotel) {
 		if (initialized) {
 			MATEvent event = new MATEvent("hotel_confirmation");
@@ -193,6 +195,7 @@ public class TuneUtils {
 				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
 				.withAttribute4("ola.us.display.criteo.appretargetting.hotel")
 				.withRevenue(revenue)
+				.withCurrencyCode(currency)
 				.withAdvertiserRefId(transactionId)
 				.withQuantity(numberRooms)
 				.withContentType(hotel.getProperty().getName())
@@ -224,6 +227,7 @@ public class TuneUtils {
 			}
 			withTuidAndMembership(event)
 				.withRevenue(trip.getTotalFare().getAmount().doubleValue())
+				.withCurrencyCode(trip.getTotalFare().getCurrency())
 				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
 				.withAttribute4("ola.us.display.criteo.appremarketing.flight")
 				.withEventItems(Arrays.asList(eventItem))
@@ -356,6 +360,7 @@ public class TuneUtils {
 				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
 				.withAttribute4("ola.us.display.criteo.appretargetting.flight")
 				.withRevenue(totalPrice)
+				.withCurrencyCode(currency)
 				.withAdvertiserRefId(orderId)
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(departureDate);
@@ -420,6 +425,7 @@ public class TuneUtils {
 				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
 				.withAttribute4("ola.us.display.criteo.appretargetting.car")
 				.withRevenue(carOffer.detailedFare.grandTotal.getAmount().doubleValue())
+				.withCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency())
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate2(carOffer.getDropOffTime().toDate())
 				.withDate1(carOffer.getPickupTime().toDate());
@@ -432,18 +438,21 @@ public class TuneUtils {
 		if (initialized) {
 			MATEvent event = new MATEvent("car_confirmation");
 			MATEventItem eventItem = new MATEventItem("car_confirmation_item");
+
+			CreateTripCarOffer carOffer = carCheckoutResponse.newCarProduct;
 			eventItem.withQuantity(1)
 				.withRevenue(carCheckoutResponse.totalChargesPrice.getAmount().doubleValue())
-				.withAttribute2(carCheckoutResponse.newCarProduct.pickUpLocation.locationCode)
-				.withAttribute3(carCheckoutResponse.newCarProduct.dropOffLocation.locationCode)
-				.withAttribute4(carCheckoutResponse.newCarProduct.vehicleInfo.type.name());
+				.withAttribute2(carOffer.pickUpLocation.locationCode)
+				.withAttribute3(carOffer.dropOffLocation.locationCode)
+				.withAttribute4(carOffer.vehicleInfo.type.name());
 
-			Date pickupTime = carCheckoutResponse.newCarProduct.getPickupTime().toDate();
-			Date dropOffTime = carCheckoutResponse.newCarProduct.getDropOffTime().toDate();
+			Date pickupTime = carOffer.getPickupTime().toDate();
+			Date dropOffTime = carOffer.getDropOffTime().toDate();
 			withTuidAndMembership(event)
 				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
 				.withAttribute4("ola.us.display.criteo.appretargetting.car")
-				.withRevenue(carCheckoutResponse.totalChargesPrice.getAmount().doubleValue())
+				.withRevenue(carOffer.detailedFare.grandTotal.getAmount().doubleValue())
+				.withCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency())
 				.withAdvertiserRefId(carCheckoutResponse.orderId)
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(pickupTime)
