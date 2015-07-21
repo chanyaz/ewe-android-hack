@@ -232,6 +232,13 @@ public class AccountLibActivity extends AppCompatActivity
 	}
 
 	@Override
+	public void onBackPressed() {
+		if (!accountView.back()) {
+			super.onBackPressed();
+		}
+	}
+
+	@Override
 	public void onUserAccountRefreshed() {
 		User.addUserToAccountManager(this, Db.getUser());
 		if (User.isLoggedIn(this)) {
