@@ -146,7 +146,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 			final String url = Images.getCollectionImageUrl(location, width);
 			HeaderBitmapDrawable drawable = Images.makeCollectionBitmapDrawable(parentView.getContext(), (CollectionViewHolder) holder, url, PICASSO_TAG);
-			((CollectionViewHolder) holder).drawable = drawable;
+			((CollectionViewHolder) holder).collectionUrl = url;
 			((CollectionViewHolder) holder).backgroundImage.setImageDrawable(drawable);
 
 			((CollectionViewHolder) holder).bindListData(location, fullWidthTile);
@@ -467,7 +467,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		@InjectView(R.id.gradient)
 		public View gradient;
 
-		public HeaderBitmapDrawable drawable;
+		public String collectionUrl;
 
 		public CollectionViewHolder(View view) {
 			super(view);
@@ -501,7 +501,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		public void onClick(View view) {
 			Bundle animOptions = AnimUtils.createActivityScaleBundle(view);
 			CollectionLocation location = (CollectionLocation) view.getTag();
-			Events.post(new Events.LaunchCollectionItemSelected(location, animOptions, drawable));
+			Events.post(new Events.LaunchCollectionItemSelected(location, animOptions, collectionUrl));
 			OmnitureTracking.trackNewLaunchScreenTileClick(view.getContext(), true);
 		}
 

@@ -28,6 +28,8 @@ import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.widget.DisableableViewPager;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
@@ -110,7 +112,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	@Override
 	public boolean onBackPressed() {
 		if (collectionDetailsView.getVisibility() == View.VISIBLE) {
-			switchView(true);
+			switchView(false);
 			return true;
 		}
 		return false;
@@ -119,26 +121,26 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	// Hotel search in collection location
 	@Subscribe
 	public void onCollectionLocationSelected(Events.LaunchCollectionItemSelected event) {
-		updateCollectionDetailsView(event.collectionLocation, event.collectionLocationDrawable);
-		switchView(false);
+		updateCollectionDetailsView(event.collectionLocation, event.collectionUrl);
+		switchView(true);
 	}
 
 	private void switchView(boolean isCollectionClicked) {
 		ActionBar actionBar = ((PhoneLaunchActivity) getActivity()).getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(!isCollectionClicked);
-		actionBar.setHomeButtonEnabled(!isCollectionClicked);
+		actionBar.setDisplayHomeAsUpEnabled(isCollectionClicked);
+		actionBar.setHomeButtonEnabled(isCollectionClicked);
 		actionBar.setBackgroundDrawable(new ColorDrawable(
-			isCollectionClicked ? getResources().getColor(R.color.cars_launch_actionbar_color) : Color.TRANSPARENT));
+			isCollectionClicked ? Color.TRANSPARENT : getResources().getColor(R.color.cars_launch_actionbar_color)));
 
-		collectionDetailsView.setVisibility(isCollectionClicked ? View.GONE : View.VISIBLE);
+		collectionDetailsView.setVisibility(isCollectionClicked ? View.VISIBLE : View.GONE);
+		((DisableableViewPager) getActivity().findViewById(R.id.viewpager)).setPageSwipingEnabled(!isCollectionClicked);
 
 		Toolbar toolBar = ((PhoneLaunchActivity) getActivity()).getToolbar();
-		toolBar.findViewById(R.id.collection_layout).setVisibility(isCollectionClicked ? View.GONE : View.VISIBLE);
-		toolBar.findViewById(R.id.tab_layout).setVisibility(isCollectionClicked ? View.VISIBLE : View.GONE);
+		toolBar.findViewById(R.id.collection_layout).setVisibility(isCollectionClicked ? View.VISIBLE : View.GONE);
+		toolBar.findViewById(R.id.tab_layout).setVisibility(isCollectionClicked ? View.GONE : View.VISIBLE);
 	}
 
-	private void updateCollectionDetailsView(CollectionLocation collectionLocation,
-		HeaderBitmapDrawable collectionLocationDrawable) {
+	private void updateCollectionDetailsView(CollectionLocation collectionLocation, String collectionUrl) {
 		Toolbar toolBar = ((PhoneLaunchActivity) getActivity()).getToolbar();
 		((TextView) toolBar.findViewById(R.id.locationName)).setText(collectionLocation.title);
 		((TextView) toolBar.findViewById(R.id.locationCountryName)).setText(collectionLocation.subtitle);
@@ -146,8 +148,11 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		(((TextView) collectionDetailsView.findViewById(R.id.collection_description))).setText(
 			collectionLocation.description);
 
+		HeaderBitmapDrawable drawable = Images
+			.makeCollectionBitmapDrawable(getActivity(), null, collectionUrl, "Collection_Details");
+
 		LayerDrawable layerDraw = new LayerDrawable(new Drawable[] {
-			collectionLocationDrawable, getResources().getDrawable(R.drawable.collection_screen_gradient_overlay)
+			drawable, getResources().getDrawable(R.drawable.collection_screen_gradient_overlay)
 		});
 		collectionDetailsView.setBackground(layerDraw);
 	}
