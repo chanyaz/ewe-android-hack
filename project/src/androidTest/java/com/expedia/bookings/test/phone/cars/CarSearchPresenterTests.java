@@ -203,25 +203,32 @@ public final class CarSearchPresenterTests {
 
 	@Test
 	public void testStartTimeBeforeCurrentTime() throws Throwable {
-		final DateTime today = DateTime.now();
-		int currentTime = ((today.getHourOfDay() + 1) * 2) + (today.getMinuteOfHour() > 30 ? 1 : 0);
-		int startTime = today.minusHours(2).getHourOfDay() * 2;
+		//All `step` vars below are 30-minute-steps as on the Time Bar for Cars Search
 
-		int ninePmProgress = 42;
+		final DateTime today = DateTime.now();
+		int currentTimeSteps = (today.getHourOfDay() + 1) * 2 + (today.getMinuteOfHour() > 30 ? 1 : 0);
+		int startTimeSteps = today.minusHours(2).getHourOfDay() * 2;
+		if (startTimeSteps > currentTimeSteps) {
+			//Our intention was to bring startTimeSteps lower than currentTimeSteps, but `.minusHours(2)` took us back 1 day
+			//frustrating our intention. Since we need to be on the same day, so stay at the minimum step for that day!
+			startTimeSteps = 0;
+		}
+
+		int ninePMSteps = (12 + 9) * 2;
 		CarScreen.selectAirport("SFO", "San Francisco, CA");
 		CarScreen.pickupLocation().perform(clearText());
 		CarScreen.selectDateButton().perform(click());
-		CarScreen.pickUpTimeBar().perform(ViewActions.setSeekbarTo(startTime));
-		CarScreen.dropOffTimeBar().perform(ViewActions.setSeekbarTo(ninePmProgress));
+		CarScreen.pickUpTimeBar().perform(ViewActions.setSeekbarTo(startTimeSteps));
+		CarScreen.dropOffTimeBar().perform(ViewActions.setSeekbarTo(ninePMSteps));
 		CarScreen.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
 
 		//Select dates from calendar
 		final DateTime tomorrow = today.plusDays(1);
 		CarScreen.selectDates(today.toLocalDate(), tomorrow.toLocalDate());
-		int minutesToMillis = 30 * 60 * 1000;
-		String expected =  DateFormatUtils.formatCarDateTimeRange(playground.getActivity(),
-			today.withTimeAtStartOfDay().plusMillis(currentTime * minutesToMillis),
-			tomorrow.withTimeAtStartOfDay().plusMillis(ninePmProgress * minutesToMillis));
+		int millisInOneStep = 30 * 60 * 1000;
+		String expected = DateFormatUtils.formatCarDateTimeRange(playground.getActivity(),
+			today.withTimeAtStartOfDay().plusMillis(currentTimeSteps * millisInOneStep),
+			tomorrow.withTimeAtStartOfDay().plusMillis(ninePMSteps * millisInOneStep));
 		CarScreen.selectDateButton().check(matches(withText(expected)));
 	}
 
