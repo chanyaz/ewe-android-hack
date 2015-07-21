@@ -200,7 +200,8 @@ public class AccountLibActivity extends AppCompatActivity
 		facebookEmailDeniedContainer.setPadding(facebookEmailDeniedContainer.getPaddingLeft(), statusBarHeight, facebookEmailDeniedContainer.getPaddingRight(), facebookEmailDeniedContainer.getPaddingBottom());
 		faceBookLinkContainer.setPadding(faceBookLinkContainer.getPaddingLeft(), statusBarHeight, faceBookLinkContainer.getPaddingRight(), faceBookLinkContainer.getPaddingBottom());
 
-		new PicassoHelper.Builder(background).build().load(R.drawable.bg_mtfuji_crop);
+		int backgroundDrawableResId = Ui.obtainThemeResID(this, R.attr.skin_accountCreationBackgroundDrawable);
+		new PicassoHelper.Builder(background).setPlaceholder(backgroundDrawableResId).build().load(backgroundDrawableResId);
 
 		accountView.configure(Config.build()
 				.setEndpoint(Ui.getApplication(this).appComponent().okHttpClient(),

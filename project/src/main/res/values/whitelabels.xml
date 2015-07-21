@@ -329,5 +329,6 @@
     <attr name="skin_lxTicketMinusButtonSelectorDrawable" format="reference" />
     <attr name="skin_lxErrorDefaultDrawable" format="reference" />
     <attr name="skin_filterNumberBgDrawable" format="reference" />
+    <attr name="skin_accountCreationBackgroundDrawable" format="reference" />
 
 </resources>
