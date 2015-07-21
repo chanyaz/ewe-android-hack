@@ -66,6 +66,7 @@ import com.expedia.bookings.fragment.FlightSearchLoadingFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Akeakamai;
@@ -839,6 +840,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 				}
 				else {
 					showResultsListFragment(0);
+					AdTracker.trackFlightSearch();
 				}
 			}
 		}

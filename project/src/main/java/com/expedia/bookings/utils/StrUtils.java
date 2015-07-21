@@ -84,6 +84,10 @@ public class StrUtils {
 		return formatAddress(location, F_CITY + F_STATE_CODE + F_POSTAL_CODE);
 	}
 
+	public static String formatAddressCityState(Location location) {
+		return formatAddress(location, F_CITY + F_STATE_CODE);
+	}
+
 	public static String formatAddress(Location location) {
 		return formatAddress(location, F_STREET_ADDRESS + F_CITY + F_STATE_CODE + F_POSTAL_CODE);
 	}
