@@ -83,7 +83,11 @@ fun makeResponse(filePath: String, params: Map<String, String>?, fileOpener: Fil
 	if (path.startsWith("/")) {
 		path = path.substring(1)
 	}
+    if (path.contains('?')) {
+        path = path.substring(0, path.indexOf('?'))
+    }
 
+    System.out.println("MockWebSever: " + path)
 	val resp = MockResponse()
 	try {
 		var body = getResponse(path, fileOpener)
@@ -101,6 +105,7 @@ fun makeResponse(filePath: String, params: Map<String, String>?, fileOpener: Fil
 		resp.setHeader("Content-Type", "application/json")
 	}
 	catch (e: Exception) {
+        e.printStackTrace()
 		resp.setResponseCode(404)
 	}
 
