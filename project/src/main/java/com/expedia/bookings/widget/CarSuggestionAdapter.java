@@ -58,9 +58,12 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 		}
 
 		public void bind(Suggestion suggestion) {
-			boolean isSuggestionAirport = Strings.isNotEmpty(suggestion.type) && suggestion.type.toLowerCase(Locale.US).equals("airport");
+			boolean isSuggestionMajorAirport =
+				Strings.isNotEmpty(suggestion.regionType) &&
+					suggestion.regionType.toLowerCase(Locale.US).equals("airport") &&
+					!suggestion.isMinorAirport;
 
-			if (isSuggestionAirport) {
+			if (isSuggestionMajorAirport) {
 				locationTitle.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
 				locationSubtitle.setText(StrUtils.formatAirportName(suggestion.shortName));
 			}
@@ -76,7 +79,7 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 				dropdownImage.setImageResource(R.drawable.ic_suggest_current_location);
 			}
 			else {
-				dropdownImage.setImageResource(isSuggestionAirport ? R.drawable.ic_suggest_airport : R.drawable.search_type_icon);
+				dropdownImage.setImageResource(isSuggestionMajorAirport ? R.drawable.ic_suggest_airport : R.drawable.search_type_icon);
 			}
 			dropdownImage
 				.setColorFilter(dropdownImage.getContext().getResources()
