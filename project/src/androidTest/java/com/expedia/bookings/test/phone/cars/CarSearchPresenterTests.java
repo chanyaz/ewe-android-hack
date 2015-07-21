@@ -27,7 +27,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
 public final class CarSearchPresenterTests {
@@ -53,11 +52,6 @@ public final class CarSearchPresenterTests {
 			.dateTimeBuilder(dateTimeBuilder)
 			.origin("SFO")
 			.build();
-
-		actual = widget.getCurrentParams();
-		assertNull(actual.origin);
-		assertNull(actual.startDateTime);
-		assertNull(actual.endDateTime);
 
 		CarScreen.selectAirport("SFO", "San Francisco, CA");
 		CarScreen.selectDateButton().perform(click());
