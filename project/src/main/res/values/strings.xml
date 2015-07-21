@@ -2793,8 +2793,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Sign In</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">Earn points and book fast.</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Signing in…</string>
     <!-- Message that tells user they failed to sign in -->

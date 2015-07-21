@@ -43,6 +43,7 @@
     <dimen name="hotel_map_price_pin_text_size">14px</dimen>
 
     <!-- Account / Login button -->
+    <dimen name="account_button_height">52dp</dimen>
     <dimen name="account_button_padding">6dp</dimen>
     <dimen name="login_button_text_size">17sp</dimen>
     <dimen name="account_button_rewards_text_size">19sp</dimen>

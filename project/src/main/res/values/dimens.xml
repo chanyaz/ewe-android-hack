@@ -193,6 +193,8 @@
     <dimen name="login_field_spacing">2dp</dimen>
 
     <!-- Account / Login button -->
+    <dimen name="account_button_text_padding">16dp</dimen>
+    <dimen name="account_button_height">40dp</dimen>
     <dimen name="account_button_padding">0dp</dimen>
     <dimen name="wallet_button_bottom_margin">8dp</dimen>
     <dimen name="wallet_button_left_padding">0dp</dimen>
