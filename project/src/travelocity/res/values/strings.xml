@@ -49,4 +49,12 @@
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Due to Travelocity Today</string>
+
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_a_Travelocity_account">Create a Travelocity account</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Travelocity">Welcome to Travelocity</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Travelocity_account_already_exists">A Travelocity account already exists with this email</string>
 </resources>
