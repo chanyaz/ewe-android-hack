@@ -27,4 +27,13 @@
     <!-- Hotel book now button -->
     <color name="bg_btn_book_now_samsung">#7bae00</color>
 
+    <!-- Cars and LX-->
+    <color name="cars_primary_color_samsung">#BA0A98</color>
+    <color name="cars_secondary_color_samsung">#915B7C</color>
+    <color name="cars_unchecked_toggle_text_color_samsung">#B3FFFFFF</color>
+    <color name="lx_primary_color_samsung">#EFBA00</color>
+    <color name="lx_ripple_color_samsung">#EFBA00</color>
+    <color name="lx_secondary_color_disabled_samsung">#DB6F0D</color>
+    <color name="lx_unchecked_toggle_text_color_samsung">@android:color/white</color>
+
 </resources>
