@@ -463,8 +463,8 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		int screenDpi = AndroidUtils.getScreenDpi(context);
 		String screenDpiClass = AndroidUtils.getScreenDensityClass(context);
 
-		String screenSize = Integer.toString(screenPoint.x) + " x " + Integer.toString(screenPoint.y);
-		String displaySize = Integer.toString(displayPoint.x) + " x " + Integer.toString(displayPoint.y);
+		String screenSize = Integer.toString(screenPoint.x) + "x" + Integer.toString(screenPoint.y);
+		String displaySize = Integer.toString(displayPoint.x) + "x" + Integer.toString(displayPoint.y);
 
 		String localeId = PointOfSale.getPointOfSale().getLocaleIdentifier();
 		String posId = PointOfSale.getPointOfSale().getPointOfSaleId().name();
@@ -535,6 +535,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 				Db.getAbacusResponse().updateABTestForDebug(key, SettingUtils.get(ExpediaBookingApp.this, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
 			}
 		}
+
+		Log.v("AbacusData", Db.getAbacusResponse().toString());
+		Crashlytics.log(Db.getAbacusResponse().toString());
 	}
 
 	public String generateAbacusGuid() {
