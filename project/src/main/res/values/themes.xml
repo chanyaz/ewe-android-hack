@@ -136,7 +136,7 @@
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
         <item name="skin_hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
         <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
         <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
@@ -319,6 +319,8 @@
         <item name="acct__create_account_prompt_string">@string/acct_Create_an_Expedia_account</item>
         <item name="acct__welcome_message_string">@string/acct_Welcome_to_Expedia</item>
         <item name="acct__account_already_exists_string">@string/acct_Expedia_account_already_exists</item>
+        <item name="acct__logo_text_drawable_margin_left">6dp</item>
+        <item name="acct__logo_text_drawable_margin_top">5dp</item>
     </style>
 
     <!--
@@ -334,8 +336,6 @@
         <item name="acct__input_text_default_color">@color/acct__bg_input_text_default</item>
         <item name="acct__toolbar_icon_color">@color/toolbar_icon</item>
         <item name="acct__user_info_text_color">@color/acct__user_info_text_color</item>
-        <item name="acct__logo_text_drawable_margin_left">6dp</item>
-        <item name="acct__logo_text_drawable_margin_top">5dp</item>
     </style>
 
     <style name="LaunchOverflowStyle" parent="Widget.AppCompat.ActionButton.Overflow">
