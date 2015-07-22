@@ -44,7 +44,7 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
 
     public fun getCarSuggestions(query: String, locale: String, observer: Observer<MutableList<Suggestion>>): Subscription {
         val type = getTypeForCarSuggestions()
-        val lob = null;
+        val lob = "CARS";
         return suggestV3(query, type, locale, lob)
                 .doOnNext { list -> sortCarSuggestions(list) }
                 .subscribe(observer);
@@ -53,7 +53,8 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
     public fun getNearbyCarSuggestions(locale: String, latlng: String, siteId: Int, observer: Observer<MutableList<Suggestion>>): Subscription {
         val type = getTypeForCarSuggestions()
         val sort = "p"
-        return suggestNearbyV1(locale, latlng, siteId, type, sort)
+        var lob = "CARS"
+        return suggestNearbyV1(locale, latlng, siteId, type, sort, lob)
                 .doOnNext { list -> sortCarSuggestions(list) }
                 .subscribe(observer)
     }
@@ -95,12 +96,12 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
     public fun getNearbyLxSuggestions(locale: String, latlng: String, siteId: Int): Observable<MutableList<Suggestion>> {
         val type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD
         val sort = "d"
-
-        return suggestNearbyV1(locale, latlng, siteId, type, sort)
+        val lob = "ACTIVITIES"
+        return suggestNearbyV1(locale, latlng, siteId, type, sort, lob)
     }
 
-    private fun suggestNearbyV1(locale: String, latlng: String, siteId: Int, type: Int, sort: String): Observable<MutableList<Suggestion>> {
-        return suggestApi.suggestNearbyV1(locale, latlng, siteId, type, sort)
+    private fun suggestNearbyV1(locale: String, latlng: String, siteId: Int, type: Int, sort: String, lob: String): Observable<MutableList<Suggestion>> {
+        return suggestApi.suggestNearbyV1(locale, latlng, siteId, type, sort, lob)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions.take(MAX_NEARBY_SUGGESTIONS) }
