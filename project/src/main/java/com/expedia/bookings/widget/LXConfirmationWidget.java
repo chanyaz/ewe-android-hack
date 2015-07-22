@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.joda.time.LocalDate;
@@ -26,6 +28,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -120,13 +123,14 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 			lxState.activity.categories, event.checkoutResponse.orderId, lxState.activity.title);
 
 		final Resources res = getResources();
-		String url = Images.getLXImageURL(lxState.activity.imageUrl);
+		List<String> imageURLs = Images
+			.getLXImageURLBasedOnWidth(lxState.activity.getImages(), AndroidUtils.getDisplaySize(getContext()).x);
 		new PicassoHelper.Builder(confirmationImageView)
 			.fade()
 			.fit()
 			.centerCrop()
 			.build()
-			.load(url);
+			.load(imageURLs);
 		title.setText(lxState.activity.title);
 		tickets.setText(lxState.selectedTicketsCountSummary(getContext()));
 		location.setText(lxState.activity.location);
