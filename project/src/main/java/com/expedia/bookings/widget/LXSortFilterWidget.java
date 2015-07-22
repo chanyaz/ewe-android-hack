@@ -24,8 +24,6 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.android.view.OnClickEvent;
-import rx.functions.Func1;
 
 public class LXSortFilterWidget extends FrameLayout {
 
@@ -101,16 +99,6 @@ public class LXSortFilterWidget extends FrameLayout {
 		priceSortButton.setSelected(false);
 		postLXFilterChangedEvent();
 	}
-
-	private Func1<OnClickEvent, LXSortFilterMetadata> filterSortMetadata = new Func1<OnClickEvent, LXSortFilterMetadata>() {
-		@Override
-		public LXSortFilterMetadata call(OnClickEvent nothing) {
-			LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata();
-			lxSortFilterMetadata.lxCategoryMetadataMap = selectedFilterCategories;
-			lxSortFilterMetadata.sort = priceSortButton.isSelected() ? LXSortType.PRICE : LXSortType.POPULARITY;
-			return lxSortFilterMetadata;
-		}
-	};
 
 	public void bind(Map<String, LXCategoryMetadata> filterCategories) {
 		filterCategoriesContainer.removeAllViews();
