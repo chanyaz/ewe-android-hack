@@ -28,8 +28,8 @@ public abstract class TripBucketItem implements JSONable {
 	// Boolean check to indicate if this bucket item is actively being viewed/selected.
 	private boolean mIsSelected;
 
-	// Boolean check to if user wants to enroll in MER email. Let's set it to "true" to begin with.
-	boolean mIsMerEmailOptIn = true;
+	boolean mIsMerEmailOptIn;
+	boolean mIsMerEmailOptInShownOnce;
 
 	public boolean hasPriceChanged() {
 		return mHasPriceChanged;
@@ -80,6 +80,14 @@ public abstract class TripBucketItem implements JSONable {
 
 	public void setIsMerEmailOptIn(boolean optIn) {
 		this.mIsMerEmailOptIn = optIn;
+	}
+
+	public boolean isMerEmailOptInShownOnce() {
+		return mIsMerEmailOptInShownOnce;
+	}
+
+	public void setIsMerEmailOptInShownOnce(boolean shown) {
+		this.mIsMerEmailOptInShownOnce = shown;
 	}
 
 	public void addValidPayments(List<ValidPayment> payments) {

@@ -41,7 +41,7 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 	CheckBox mMerchandiseOptCheckBox;
 
 	boolean mAttemptToLeaveMade = false;
-	boolean mIsMerEmailOptIn = true;
+	boolean mIsMerEmailOptIn;
 	boolean mIsUserBucketedForTest;
 
 	MerchandiseSpam mMerchandiseSpam;
@@ -77,12 +77,12 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 					break;
 				case CONSENT_TO_OPT_IN:
 					mMerchandiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_in_TEMPLATE).put("brand", BuildConfig.brand).format());
-					isChecked = tripHotel.isMerEmailOptIn();
+					isChecked = tripHotel.isMerEmailOptInShownOnce() ? tripHotel.isMerEmailOptIn() : isChecked;
 					mMerchandiseOptCheckBox.setVisibility(View.VISIBLE);
 					break;
 				case CONSENT_TO_OPT_OUT:
 					mMerchandiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_out_TEMPLATE).put("brand", BuildConfig.brand).format());
-					isChecked = !tripHotel.isMerEmailOptIn();
+					isChecked = tripHotel.isMerEmailOptInShownOnce() ? !tripHotel.isMerEmailOptIn() : isChecked;
 					mMerchandiseOptCheckBox.setVisibility(View.VISIBLE);
 					break;
 				}
@@ -166,6 +166,7 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 				FocusViewRunnable.focusView(this, focused);
 			}
 		}
+		Db.getTripBucket().getHotel().setIsMerEmailOptInShownOnce(true);
 	}
 
 	@Override
