@@ -635,7 +635,7 @@ public class CarResultsPresenter extends Presenter {
 		@Override
 		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 			super.onScrolled(recyclerView, dx, dy);
-			if (recyclerView == details.offerList) {
+			if (recyclerView == details.offerList && details.offerList.getChildAt(0) != null) {
 				float ratio = details.parallaxScrollHeader();
 				toolbarBackground.setAlpha(ratio);
 			}
