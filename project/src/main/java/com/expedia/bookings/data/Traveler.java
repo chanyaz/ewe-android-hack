@@ -230,10 +230,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public String getPrimaryPassportCountry() {
-		if (mPassportCountries == null || mPassportCountries.size() == 0) {
-			return null;
-		}
-		else if (Strings.isEmpty(mPassportCountries.get(0))) {
+		if (mPassportCountries == null || mPassportCountries.size() == 0 || Strings.isEmpty(mPassportCountries.get(0))) {
 			return null;
 		}
 
