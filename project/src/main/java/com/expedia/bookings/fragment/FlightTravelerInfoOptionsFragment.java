@@ -301,7 +301,9 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 					else if (!state.allTravelerInfoValid(mCurrentTraveler,
 						Db.getTripBucket().getFlight().getFlightTrip().isInternational())) {
 						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(mCurrentTraveler);
-						mListener.setMode(YoYoMode.EDIT);
+						// force customer through flow when they don't have a passport
+						YoYoMode yoYoMode = (mCurrentTraveler.getPrimaryPassportCountry() == null) ? YoYoMode.YOYO : YoYoMode.EDIT;
+						mListener.setMode(yoYoMode);
 						mListener.displayTravelerEntryOne();
 					}
 					else if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
