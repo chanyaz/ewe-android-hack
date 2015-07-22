@@ -139,9 +139,6 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.lx_cost_breakdown_taxes_included)));
 		ll.addView(addDisclaimerRow(context, tickets.get(0).money.getCurrency()));
-		if (isInPriceChangeFlow) {
-			ll.addView(addDisclaimerRowStaleTicketPrices(context));
-		}
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.checkout_breakdown_total_price),
 			lxState.latestTotalPrice().getFormattedMoney()));
@@ -156,13 +153,6 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 				}
 			});
 		builder.create().show();
-	}
-
-	private View addDisclaimerRowStaleTicketPrices(Context context) {
-		View row = LayoutInflater.from(context).inflate(R.layout.checkout_breakdown_price_disclaimer, null);
-		TextView disclaimer = Ui.findView(row, R.id.price_disclaimer);
-		disclaimer.setText(context.getResources().getString(R.string.lx_checkout_breakdown_stale_ticket_prices_disclaimer_text));
-		return row;
 	}
 
 	private View addDisclaimerRow(Context context, String currency) {
