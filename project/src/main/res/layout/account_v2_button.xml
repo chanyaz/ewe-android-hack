@@ -78,7 +78,7 @@
             android:textSize="18sp"
             android:padding="16dp"
             android:textColor="@color/cars_actionbar_text_color"
-            android:drawableLeft="@drawable/expedia"
+            android:drawableLeft="?attr/skin_phoneCheckoutLoginLogoDrawable"
             app:textStyle="@integer/login_button_text_style" />
 
         <com.expedia.bookings.widget.TextView

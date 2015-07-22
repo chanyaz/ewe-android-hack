@@ -18,7 +18,7 @@
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/tvly</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
