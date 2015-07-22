@@ -1076,7 +1076,8 @@ public class PointOfSale {
 		pos.mDisableForProduction = data.optBoolean("disableForProduction", false);
 		pos.mShowHalfTileStrikethroughPrice = data.optBoolean("launchScreenStrikethroughEnabled", false);
 		pos.mShowFlightsFreeCancellation = data.optBoolean("shouldShowFlightsFreeCancellation", false);
-		pos.mMarketingOptIn = MarketingOptIn.valueOf(data.optString("marketingOptIn"));
+		pos.mMarketingOptIn = MarketingOptIn
+			.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
