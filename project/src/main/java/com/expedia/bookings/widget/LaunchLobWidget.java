@@ -115,4 +115,32 @@ public class LaunchLobWidget extends RelativeLayout {
 		bg.setScaleY(1.0f);
 		shadow.setTranslationY(0.0f);
 	}
+
+	public void updateView() {
+		updateMargins();
+		updateVisibilities();
+	}
+
+	public void updateMargins() {
+		int sideMargin = getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_side);
+		int middleMargin = getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_middle);
+		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
+			setRightMargin(flightsBtn, middleMargin);
+			setRightMargin(lxBtn, sideMargin);
+		}
+		else if (PointOfSale.getPointOfSale().supports(LineOfBusiness.CARS)) {
+			setRightMargin(flightsBtn, middleMargin);
+			setRightMargin(carsBtn, sideMargin);
+		}
+		else {
+			setRightMargin(flightsBtn, sideMargin);
+		}
+	}
+
+	private void setRightMargin(PhoneLaunchButton lobBtn, int pixels) {
+		MarginLayoutParams params = (MarginLayoutParams) lobBtn.getLayoutParams();
+		params.setMargins(0, 0, pixels, 0);
+		lobBtn.setLayoutParams(params);
+	}
+
 }
