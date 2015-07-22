@@ -127,7 +127,10 @@ public class LXSortFilterWidget extends FrameLayout {
 			}
 		}
 		else {
+			// Set to default state, as we have new search params available.
 			selectedFilterCategories.clear();
+			popularitySortButton.setSelected(true);
+			priceSortButton.setSelected(false);
 		}
 
 		// Hide the dynamic feedback & update done button in case we have zero filters applied.
