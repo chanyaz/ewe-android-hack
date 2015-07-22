@@ -49,7 +49,6 @@ import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.enums.ResultsSearchState;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
@@ -981,15 +980,15 @@ public class Events {
 	}
 
 	public static class LaunchCollectionItemSelected {
-		public HeaderBitmapDrawable collectionLocationDrawable;
+		public String collectionUrl;
 		public CollectionLocation collectionLocation;
 		public Bundle animOptions;
 
 		public LaunchCollectionItemSelected(CollectionLocation location, Bundle animOptions,
-			HeaderBitmapDrawable drawable) {
+			String url) {
 			this.collectionLocation = location;
 			this.animOptions = animOptions;
-			this.collectionLocationDrawable = drawable;
+			this.collectionUrl = url;
 		}
 	}
 
