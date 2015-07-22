@@ -471,6 +471,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		String api = appComponent().endpointProvider().getEndPoint().name();
 		String gcmId = GCMRegistrationKeeper.getInstance(context).getRegistrationId(context);
 		String mc1Cookie = DebugInfoUtils.getMC1CookieStr(context);
+		String abacusGuid = Db.getAbacusGuid();
 
 		ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 		int memClass = am.getMemoryClass();
@@ -484,6 +485,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		Crashlytics.setString("mc1 cookie", mc1Cookie);
 		Crashlytics.setString("api", api);
 		Crashlytics.setInt("memory class", memClass);
+		Crashlytics.setString("abacus guid", abacusGuid);
 
 		if (!gcmId.isEmpty()) {
 			Crashlytics.setString("gcm token", gcmId);
