@@ -461,6 +461,9 @@ public class PointOfSale {
 
 		// directly gives the forgot_password Url for the POS
 		private String mForgotPasswordUrl;
+
+		// Account creation marketing text
+		private String mMarketingText;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -704,6 +707,10 @@ public class PointOfSale {
 
 	public boolean shouldEnableMarketingOptIn() {
 		return mMarketingOptIn == MarketingOptIn.SHOW_CHECKED || mMarketingOptIn == MarketingOptIn.DO_NOT_SHOW_AUTO_ENROLL;
+	}
+
+	public String getMarketingText() {
+		return getPosLocale().mMarketingText;
 	}
 
 	/**
@@ -1158,7 +1165,7 @@ public class PointOfSale {
 		locale.mLanguageCode = data.optString("languageCode", null);
 		locale.mLanguageId = data.optInt("languageIdentifier");
 		locale.mForgotPasswordUrl = data.optString("forgotPasswordURL", null);
-
+		locale.mMarketingText = data.optString("createAccountMarketingText");
 		// Fix one thing with the iOS-based data...
 		if ("zh-Hant".equals(locale.mLanguageCode)) {
 			locale.mLanguageCode = "zh";

@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.net.Uri;
@@ -459,6 +460,37 @@ public class StrUtils {
 			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
 			legalTextSpan.setSpan(new UnderlineSpan(), start, end, 0);
 			legalTextSpan.setSpan(new ForegroundColorSpan(Ui.obtainThemeColor(context, R.attr.primary_color)), start,
+				end,
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
+
+		return legalTextSpan;
+	}
+
+	public static SpannableStringBuilder generateAccountCreationLegalLink(Context context) {
+		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
+
+		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
+			context.getResources().getString(R.string.info_label_terms_conditions));
+		String spannedPrivacy = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), context.getResources().getString(R.string.privacy_policy));
+		String statement = context.getResources()
+			.getString(R.string.account_creation_legal_TEMPLATE, spannedTerms, spannedPrivacy);
+
+		legalTextSpan.append(Html.fromHtml(statement));
+		URLSpan[] spans = legalTextSpan.getSpans(0, statement.length(), URLSpan.class);
+
+		for (final URLSpan span : spans) {
+			int start = legalTextSpan.getSpanStart(span);
+			int end = legalTextSpan.getSpanEnd(span);
+			// Replace URL span with ClickableSpan to redirect to our own webview
+			legalTextSpan.removeSpan(span);
+			legalTextSpan.setSpan(new LegalClickableSpan(context, span.getURL(), legalTextSpan.subSequence(start, end).toString()), start,
+				end, 0);
+			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
+			legalTextSpan.setSpan(new UnderlineSpan(), start, end, 0);
+			legalTextSpan.setSpan(new ForegroundColorSpan(Color.WHITE), start,
 				end,
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}

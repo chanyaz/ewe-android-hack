@@ -36,6 +36,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.utils.ServicesUtil;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.TextView;
@@ -215,6 +216,8 @@ public class AccountLibActivity extends AppCompatActivity
 					ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
 				.setClientId(ServicesUtil.generateClientId(this))
 				.setListener(new Listener())
+				.setTOSText(StrUtils.generateAccountCreationLegalLink(this))
+				.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
 				.setAnalyticsListener(analyticsListener)
 		);
 
