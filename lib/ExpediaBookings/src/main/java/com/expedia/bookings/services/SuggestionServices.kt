@@ -68,15 +68,18 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
     private fun sortCarSuggestions(suggestions: MutableList<Suggestion>) {
         Collections.sort(suggestions, object : Comparator<Suggestion> {
             override fun compare(lhs: Suggestion, rhs: Suggestion): Int {
-                val leftSuggestionPrecedenceOrder = suggestionPrecedenceOrder(lhs.type)
-                val rightSuggestionPrecedenceOrder = suggestionPrecedenceOrder(rhs.type)
+                val leftSuggestionPrecedenceOrder = suggestionPrecedenceOrder(lhs.regionType, lhs.isMinorAirport)
+                val rightSuggestionPrecedenceOrder = suggestionPrecedenceOrder(rhs.regionType, rhs.isMinorAirport)
                 return leftSuggestionPrecedenceOrder.compareTo(rightSuggestionPrecedenceOrder)
             }
 
-            private fun suggestionPrecedenceOrder(type: String): Int {
-                when (type.toLowerCase(Locale.US)) {
-                    "airport" -> return 1
-                    else -> return 2
+            private fun suggestionPrecedenceOrder(type: String, isMinorAirport: Boolean): Int {
+                val isMajorAirport = type.toLowerCase(Locale.US).equals("airport") && !isMinorAirport;
+                if (isMajorAirport) {
+                    return 1;
+                }
+                else {
+                    return 2;
                 }
             }
         })

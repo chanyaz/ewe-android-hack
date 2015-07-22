@@ -278,7 +278,8 @@ public class CarSearchPresenter extends Presenter
 		Suggestion suggest = suggestion.clone();
 		pickUpLocation.setText(StrUtils.formatCityName(suggest.fullName), filter);
 
-		if (!Strings.equals("AIRPORT", suggest.type) && suggest.latLong != null) {
+		boolean isMajorAirport = Strings.equals("AIRPORT", suggest.regionType) && !suggest.isMinorAirport;
+		if (!isMajorAirport && suggest.latLong != null) {
 			searchParamsBuilder.origin(null);
 			searchParamsBuilder.pickupLocationLatLng(new LatLong(suggest.latLong.lat, suggest.latLong.lng));
 			searchParamsBuilder.originDescription(StrUtils.formatCityName(suggest.fullName));
