@@ -83,6 +83,10 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 						JSONObject passport = passports.optJSONObject(a);
 						traveler.addPassportCountry(passport.optString("countryCode"));
 					}
+					if (traveler.getPassportCountries().size() > 1) { // multiple passports.
+						// force customer to select a passport (#4834)
+						traveler.setPrimaryPassportCountry(null);
+					}
 				}
 
 				JSONObject tsaDetails = response.optJSONObject("tsaDetails");
