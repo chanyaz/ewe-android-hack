@@ -109,7 +109,7 @@ public class TuneUtils {
 
 	public static void trackHotelCheckoutStarted(Property selectedProperty, String currency, double totalPrice) {
 		if (initialized) {
-			Rate selectedRate = Db.getHotelSearch().getSelectedRate();
+			Rate selectedRate = Db.getTripBucket().getHotel().getRate();
 			MATEvent event = new MATEvent("hotel_rate_details");
 			MATEventItem eventItem = new MATEventItem("hotel_rate_details_item");
 			eventItem.withAttribute1(selectedProperty.getLocation().getCity());
@@ -271,7 +271,7 @@ public class TuneUtils {
 							searchParams.getArrivalLocation().getDestinationId());
 
 						sb.append(
-							String.format("%s|%s|%s|%s|%s|%s", carrier, currency, price, currency, routeType, route));
+							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
 						if (i != 4) {
 							sb.append(":");
 						}
@@ -318,7 +318,7 @@ public class TuneUtils {
 							searchParams.getDepartureLocation().getDestinationId());
 
 						sb.append(
-							String.format("%s|%s|%s|%s|%s|%s", carrier, currency, price, currency, routeType, route));
+							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
 						if (i != 4) {
 							sb.append(":");
 						}
