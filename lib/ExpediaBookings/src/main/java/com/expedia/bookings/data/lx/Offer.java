@@ -19,6 +19,7 @@ public class Offer {
 	public String bags;
 	public String passengers;
 	public boolean isGroundTransport;
+	public LXRedemptionType redemptionType;
 
 	// Utility for available info on selected date - not coming from the API
 	public AvailabilityInfo availabilityInfoOfSelectedDate;

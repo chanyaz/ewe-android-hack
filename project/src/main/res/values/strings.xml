@@ -598,6 +598,10 @@
     <string name="lx_select_ticket">Select Tickets</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">Free Cancellation</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">Electronic voucher</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">Printed voucher required</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s not accepted</string>
     <!-- LX Error Activity Price Changed -->

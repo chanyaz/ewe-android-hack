@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;
@@ -72,8 +73,9 @@ public class LXTicketSelectionWidgetTest {
 		assertNotNull(container);
 
 		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
-		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_duration);
-		TextView freeCancellation = (TextView) widget.findViewById(R.id.free_cancellation);
+		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail2);
+		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView redemptionType = (TextView) widget.findViewById(R.id.offer_detail3);
 		LXOfferDescription descriptionWidget = (LXOfferDescription) widget.findViewById(R.id.offer_description);
 		TextView ticketDetails = (TextView) ticketSelector.findViewById(R.id.ticket_details);
 		TextView ticketCount = (TextView) ticketSelector.findViewById(R.id.ticket_count);
@@ -82,7 +84,11 @@ public class LXTicketSelectionWidgetTest {
 
 		assertNotNull(titleText);
 		assertNotNull(offerDuration);
+		assertEquals("1h", offerDuration.getText());
 		assertNotNull(freeCancellation);
+		assertEquals(activity.getResources().getString(R.string.free_cancellation), freeCancellation.getText());
+		assertNotNull(redemptionType);
+		assertEquals(activity.getResources().getString(R.string.lx_print_voucher_offer), redemptionType.getText());
 		assertNotNull(descriptionWidget);
 		assertNotNull(ticketDetails);
 		assertNotNull(ticketCount);
@@ -99,16 +105,79 @@ public class LXTicketSelectionWidgetTest {
 		widget.buildTicketPickers(singleTicketAvailability());
 
 		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
-		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_duration);
-		TextView freeCancellation = (TextView) widget.findViewById(R.id.free_cancellation);
+		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail2);
+		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView redemptionType = (TextView) widget.findViewById(R.id.offer_detail3);
 		TextView bags = (TextView) widget.findViewById(R.id.offer_bags);
 		TextView passengers = (TextView) widget.findViewById(R.id.offer_passengers);
 
 		assertNotNull(titleText);
 		assertNotNull(offerDuration);
+		assertEquals("1h", offerDuration.getText());
 		assertNotNull(freeCancellation);
+		assertEquals(activity.getResources().getString(R.string.free_cancellation), freeCancellation.getText());
+		assertNotNull(redemptionType);
+		assertEquals(activity.getResources().getString(R.string.lx_voucherless_offer), redemptionType.getText());
 		assertNotNull(bags);
 		assertNotNull(passengers);
+	}
+
+	@Test
+	public void testTicketSelectionWidgetWithOnlyDuration() {
+		assertNotNull(widget);
+		ButterKnife.inject(activity);
+
+		Offer offer = buildGTOffer();
+		offer.freeCancellation = false;
+		offer.redemptionType = null;
+		widget.bind(offer);
+		widget.buildTicketPickers(singleTicketAvailability());
+
+		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView offerDetail2 = (TextView) widget.findViewById(R.id.offer_detail2);
+		TextView offerDetail3 = (TextView) widget.findViewById(R.id.offer_detail3);
+
+		assertEquals("1h", offerDuration.getText());
+		assertEquals(View.GONE, offerDetail2.getVisibility());
+		assertEquals(View.GONE, offerDetail3.getVisibility());
+	}
+
+	@Test
+	public void testTicketSelectionWidgetWithDurationAndRedemption() {
+		assertNotNull(widget);
+		ButterKnife.inject(activity);
+
+		Offer offer = buildGTOffer();
+		offer.freeCancellation = false;
+		widget.bind(offer);
+		widget.buildTicketPickers(singleTicketAvailability());
+
+		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView redemptionType = (TextView) widget.findViewById(R.id.offer_detail2);
+		TextView offerDetail3 = (TextView) widget.findViewById(R.id.offer_detail3);
+
+		assertEquals("1h", offerDuration.getText());
+		assertEquals(activity.getResources().getString(R.string.lx_voucherless_offer), redemptionType.getText());
+		assertEquals(View.GONE, offerDetail3.getVisibility());
+	}
+
+	@Test
+	public void testTicketSelectionWidgetWithFreeCancellationAndRedemption() {
+		assertNotNull(widget);
+		ButterKnife.inject(activity);
+
+		Offer offer = buildGTOffer();
+		offer.duration = null;
+		widget.bind(offer);
+		widget.buildTicketPickers(singleTicketAvailability());
+
+		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView redemptionType = (TextView) widget.findViewById(R.id.offer_detail2);
+		TextView offerDetail3 = (TextView) widget.findViewById(R.id.offer_detail3);
+
+		assertEquals(activity.getResources().getString(R.string.free_cancellation), freeCancellation.getText());
+		assertEquals(activity.getResources().getString(R.string.lx_voucherless_offer), redemptionType.getText());
+		assertEquals(View.GONE, offerDetail3.getVisibility());
 	}
 
 	@Test
@@ -276,6 +345,7 @@ public class LXTicketSelectionWidgetTest {
 		offer.description = "Offer Description";
 		offer.freeCancellation = true;
 		offer.duration = "1h";
+		offer.redemptionType = LXRedemptionType.PRINT;
 		return offer;
 	}
 
@@ -286,6 +356,7 @@ public class LXTicketSelectionWidgetTest {
 		offer.description = "Offer Description";
 		offer.freeCancellation = true;
 		offer.duration = "1h";
+		offer.redemptionType = LXRedemptionType.VOUCHERLESS;
 		offer.bags = "2";
 		offer.passengers = "2";
 		return offer;
