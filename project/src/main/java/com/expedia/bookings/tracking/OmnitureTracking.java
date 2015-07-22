@@ -2581,35 +2581,146 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final String LAUNCH_SCREEN = "App.LaunchScreen";
-	private static final String LOGIN_SUCCESS_TEMPLATE = "App.%s.Login.Success";
+	private static final String LOGIN_SCREEN = "App.Account.SignIn";
+	private static final String LOGIN_SUCCESS = "App.Account.Login.Success";
+	private static final String LOGIN_CONTACT_ACCESS = "App.Account.Create.AccessInfo";
+	private static final String LOGIN_CONTACT_ACCESS_ALLOWED = "App.Account.Access.Yes";
+	private static final String LOGIN_CONTACT_ACCESS_NOT_ALLOWED = "App.Account.Access.NotNow";
+	private static final String LOGIN_SEARCH_CONTACTS = "App.Account.Create.SearchContacts";
+	private static final String LOGIN_EMAIL_PROMPT = "App.Account.Email.Prompt";
+	private static final String LOGIN_EMAIL_PROMPT_EXISTING = "App.Account.Email.SignIn";
+	private static final String LOGIN_EMAIL_PROMPT_NEW = "App.Account.Email.CreateNew";
+	private static final String LOGIN_CREATE_USERNAME = "App.Account.Create.UserName";
+	private static final String LOGIN_CREATE_PASSWORD = "App.Account.Create.Password";
+	private static final String LOGIN_TOS = "App.Account.Create.Terms";
+	private static final String LOGIN_MARKETING_OPT_IN = "App.Account.Terms.Email.Opt-In";
+	private static final String LOGIN_MARKETING_OPT_OUT = "App.Account.Terms.Email.Opt-Out";
+	private static final String LOGIN_ACCOUNT_CREATE_SUCCESS = "App.Account.Create.Success";
 	private static final String ITIN_LOGIN_PARAM = "Itinerary";
 	private static final String HOTEL_LOGIN_PARAM = "Hotels.Checkout";
 	private static final String FLIGHT_LOGIN_PARAM = "Flight.Checkout";
 
 	public static void trackLoginSuccess(Context ctx, LineOfBusiness lob, boolean loggedInWithFb, boolean isRewards) {
-		// Construct the pageName via LOB
-		String lobParam;
-		switch (lob) {
-		case ITIN:
-			lobParam = ITIN_LOGIN_PARAM;
-			break;
-		case FLIGHTS:
-			lobParam = FLIGHT_LOGIN_PARAM;
-			break;
-		case HOTELS:
-			lobParam = HOTEL_LOGIN_PARAM;
-			break;
-		default:
-			// Should never get here, but no sense in crashing the app over tracking
-			lobParam = HOTEL_LOGIN_PARAM;
-			break;
-		}
-		String pageName = String.format(LOGIN_SUCCESS_TEMPLATE, lobParam);
-		ADMS_Measurement s = createTrackLinkEvent(ctx, pageName);
-
+		ADMS_Measurement s = createTrackLinkEvent(ctx, LOGIN_SUCCESS);
+		addStandardFields(ctx, s);
 		s.setEvents("event26");
+		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
 
-		internalTrackLink(s);
+	public static void trackLoginScreen(Context ctx) {
+		ADMS_Measurement s = getFreshTrackingObject(ctx);
+		addStandardFields(ctx, s);
+		// set the pageName
+		s.setAppState(LOGIN_SCREEN);
+		s.setEvar(18, LOGIN_SCREEN);
+		s.track();
+	}
+
+	public static void trackLoginContactAccess(Context ctx) {
+		ADMS_Measurement s = getFreshTrackingObject(ctx);
+		addStandardFields(ctx, s);
+		// set the pageName
+		s.setAppState(LOGIN_CONTACT_ACCESS);
+		s.setEvar(18, LOGIN_CONTACT_ACCESS);
+		s.track();
+	}
+
+	public static void trackAllowContactAccess(Context ctx, boolean isAllowed) {
+		ADMS_Measurement s = createTrackLinkEvent(ctx,
+			isAllowed ? LOGIN_CONTACT_ACCESS_ALLOWED : LOGIN_CONTACT_ACCESS_NOT_ALLOWED);
+		addStandardFields(ctx, s);
+		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackEmailPrompt(Context ctx) {
+		ADMS_Measurement s = createTrackLinkEvent(ctx, LOGIN_EMAIL_PROMPT);
+		addStandardFields(ctx, s);
+		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackEmailPromptChoice(Context ctx, boolean useExisting, boolean createNew) {
+		ADMS_Measurement s = createTrackLinkEvent(ctx,
+			useExisting ? LOGIN_EMAIL_PROMPT_EXISTING : LOGIN_EMAIL_PROMPT_NEW);
+		addStandardFields(ctx, s);
+		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackLoginCreateUsername(Context ctx) {
+		ADMS_Measurement s = getFreshTrackingObject(ctx);
+		addStandardFields(ctx, s);
+		// set the pageName
+		s.setAppState(LOGIN_CREATE_USERNAME);
+		s.setEvar(18, LOGIN_CREATE_USERNAME);
+		s.track();
+	}
+
+	public static void trackLoginCreatePassword(Context ctx) {
+		ADMS_Measurement s = getFreshTrackingObject(ctx);
+		addStandardFields(ctx, s);
+		// set the pageName
+		s.setAppState(LOGIN_CREATE_PASSWORD);
+		s.setEvar(18, LOGIN_CREATE_PASSWORD);
+		s.track();
+	}
+
+	public static void trackLoginEmailsQueried(Context ctx) {
+		ADMS_Measurement s = getFreshTrackingObject(ctx);
+		addStandardFields(ctx, s);
+		// set the pageName
+		s.setAppState(LOGIN_SEARCH_CONTACTS);
+		s.setEvar(18, LOGIN_SEARCH_CONTACTS);
+		s.track();
+	}
+
+	public static void trackLoginPasswordValidation(Context ctx, String error) {
+		ADMS_Measurement s = getFreshTrackingObject(ctx);
+		addStandardFields(ctx, s);
+		// set the pageName
+		s.setAppState(LOGIN_CREATE_PASSWORD);
+		s.setEvar(18, LOGIN_CREATE_PASSWORD);
+		s.setProp(36, error);
+		s.track();
+	}
+
+	public static void trackLoginTOS(Context ctx) {
+		ADMS_Measurement s = getFreshTrackingObject(ctx);
+		addStandardFields(ctx, s);
+		// set the pageName
+		s.setAppState(LOGIN_TOS);
+		s.setEvar(18, LOGIN_TOS);
+		s.track();
+	}
+
+	public static void trackMarketingOptIn(Context ctx, boolean optIn) {
+		ADMS_Measurement s = createTrackLinkEvent(ctx, optIn ? LOGIN_MARKETING_OPT_IN : LOGIN_MARKETING_OPT_OUT);
+		addStandardFields(ctx, s);
+		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackAccountCreateSuccess(Context ctx) {
+		ADMS_Measurement s = getFreshTrackingObject(ctx);
+		addStandardFields(ctx, s);
+		// set the pageName
+		s.setAppState(LOGIN_ACCOUNT_CREATE_SUCCESS);
+		s.setEvar(18, LOGIN_ACCOUNT_CREATE_SUCCESS);
+		s.setEvents("event25,event26");
+		s.track();
+	}
+
+	public static void trackAccountCreateError(Context ctx, String error) {
+		ADMS_Measurement s = getFreshTrackingObject(ctx);
+		addStandardFields(ctx, s);
+		// set the pageName
+		s.setAppState(LOGIN_SCREEN);
+		s.setEvar(18, LOGIN_SCREEN);
+		s.setProp(36, error);
+		s.track();
 	}
 
 	public static void trackLinkLaunchScreenToHotels(Context context) {
