@@ -114,20 +114,18 @@ public class Money {
 	}
 
 	public String getFormattedMoney(int flags) {
-		if (formattedWholePrice != null) {
-			return formattedWholePrice;
-		}
-		else {
-			return formatRate(amount, currencyCode, flags);
-		}
+		return getFormattedMoney(flags, currencyCode);
 	}
 
 	public String getFormattedMoney(int flags, String currencyCode) {
-		if (formattedWholePrice != null) {
+		if (amount != null && Strings.isNotEmpty(currencyCode)) {
+			return formatRate(amount, currencyCode, flags);
+		}
+		else if (formattedWholePrice != null) {
 			return formattedWholePrice;
 		}
 		else {
-			return formatRate(amount, currencyCode, flags);
+			throw new IllegalStateException("amount != null && Strings.isNotEmpty(currencyCode) && formattedWholePrice != null both failed!");
 		}
 	}
 
