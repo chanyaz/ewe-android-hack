@@ -346,8 +346,10 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		if (traveler != null) {
 			Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
 			mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-			mCurrentTraveler.setSaveTravelerToExpediaAccount(!mCurrentTraveler
-				.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
+			// We default account travelers to save, unless the user alters the name, or
+			// they have more than one passport on their account and are required to manually choose one (#4832)
+			boolean isAutoSaveTraveler = !mCurrentTraveler.fromGoogleWallet() && (traveler.getPassportCountries().size() <= 1);
+			mCurrentTraveler.setSaveTravelerToExpediaAccount(isAutoSaveTraveler);
 			FlightTravelerFlowState state = FlightTravelerFlowState.getInstance(getActivity());
 			if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
 				boolean flightIsInternational = Db.getTripBucket().getFlight().getFlightTrip().isInternational();

@@ -1209,12 +1209,14 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 							if (mCountryAdapter.getItemValue(i, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
 								data.getPrimaryPassportCountry())) {
 								getField().setSelection(i);
+								getField().setItemChecked(i, true);
 								break;
 							}
 						}
 					}
 					else {
 						getField().setSelection(AdapterView.INVALID_POSITION);
+						getField().setItemChecked(AdapterView.INVALID_POSITION, true);
 						onChange(SectionTravelerInfo.this);
 					}
 				}
