@@ -585,8 +585,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				TextView insuranceName = Ui.findView(insuranceRow, R.id.insurance_name);
 				insuranceName.setText(Html.fromHtml(insurance.getPolicyName()).toString());
 
-				View insuranceLinkView = Ui.findView(insuranceRow, R.id.insurance_button);
-				insuranceLinkView.setOnClickListener(ProductFlavorFeatureConfiguration.getInstance().getInsuranceLinkViewClickListener(mContext, insurance.getTermsUrl()));
+				insuranceRow.setOnClickListener(ProductFlavorFeatureConfiguration.getInstance().getInsuranceLinkViewClickListener(mContext, insurance.getTermsUrl()));
 
 				insuranceContainer.addView(insuranceRow);
 				viewAddedCount++;
