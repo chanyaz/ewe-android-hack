@@ -55,7 +55,7 @@ public class TuneUtils {
 		MATEvent launchEvent = new MATEvent("launch")
 			.withAttribute1(getTuid())
 			.withAttribute3(getMembershipTier())
-			.withAttribute2(Boolean.toString(User.isLoggedIn(context)));
+			.withAttribute2(isUserLoggedIn());
 		trackEvent(launchEvent);
 	}
 
@@ -74,7 +74,7 @@ public class TuneUtils {
 			MATEvent event = new MATEvent("home_view");
 
 			withTuidAndMembership(event)
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute2(isUserLoggedIn())
 				.withAttribute4("Mobile:US:OLA:Criteo"); // TODO: Need to verify this String
 			trackEvent(event);
 		}
@@ -93,7 +93,7 @@ public class TuneUtils {
 				supplierType = "";
 			}
 
-			event.withAttribute2(supplierType);
+			eventItem.withAttribute2(supplierType);
 
 			withTuidAndMembership(event)
 				.withRevenue(selectedProperty.getLowestRate().getDisplayPrice().getAmount().doubleValue())
@@ -101,8 +101,8 @@ public class TuneUtils {
 				.withDate1(hotelSearchParams.getCheckInDate().toDate())
 				.withDate2(hotelSearchParams.getCheckOutDate().toDate())
 				.withEventItems(Arrays.asList(eventItem))
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
-				.withAttribute4("Mobile:US:OLA:Criteo");
+				.withAttribute2(isUserLoggedIn())
+				.withAttribute4("ola.us.display.criteo.appremarketing.hotel");
 			trackEvent(event);
 		}
 	}
@@ -121,7 +121,7 @@ public class TuneUtils {
 			withTuidAndMembership(event)
 				.withRevenue(totalPrice)
 				.withCurrencyCode(currency)
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute2(isUserLoggedIn())
 				.withAttribute4("ola.us.display.criteo.appremarketing.hotel")
 				.withContentType(selectedProperty.getName())
 				.withContentId(selectedProperty.getPropertyId())
@@ -155,7 +155,8 @@ public class TuneUtils {
 					String currency = property.getLowestRate().getDisplayBasePrice().getCurrency();
 					String starRating = Double.toString(property.getHotelRating());
 					String miles = Double.toString(property.getDistanceFromUser().getDistance());
-					String.format("%s|%s|%s|%s|%s|%s", hotelId, hotelName, price, currency, starRating, miles);
+					sb.append(
+						String.format("%s|%s|%s|%s|%s|%s", hotelId, hotelName, price, currency, starRating, miles));
 					if (i != 4) {
 						sb.append(":");
 						topFiveHotelIdsBuilder.append(",");
@@ -166,7 +167,7 @@ public class TuneUtils {
 			eventItem.withAttribute5(sb.toString());
 
 			withTuidAndMembership(event)
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute2(isUserLoggedIn())
 				.withAttribute4("ola.us.display.criteo.appretargetting.hotel")
 				.withDate1(checkInDate)
 				.withDate2(checkOutDate)
@@ -192,8 +193,8 @@ public class TuneUtils {
 			Date checkOutDate = hotel.getHotelSearchParams().getCheckOutDate().toDate();
 
 			withTuidAndMembership(event)
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
-				.withAttribute4("ola.us.display.criteo.appretargetting.hotel")
+				.withAttribute2(isUserLoggedIn())
+				.withAttribute4("ola.us.display.appretargetting.hotel")
 				.withRevenue(revenue)
 				.withCurrencyCode(currency)
 				.withAdvertiserRefId(transactionId)
@@ -228,7 +229,7 @@ public class TuneUtils {
 			withTuidAndMembership(event)
 				.withRevenue(trip.getTotalFare().getAmount().doubleValue())
 				.withCurrencyCode(trip.getTotalFare().getCurrency())
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute2(isUserLoggedIn())
 				.withAttribute4("ola.us.display.criteo.appremarketing.flight")
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(departureDate);
@@ -284,7 +285,7 @@ public class TuneUtils {
 				event.withDate2(returnDate);
 			}
 			withTuidAndMembership(event)
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute2(isUserLoggedIn())
 				.withAttribute4("ola.us.display.criteo.appremarketing.flight")
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(departureDate);
@@ -331,7 +332,7 @@ public class TuneUtils {
 				event.withDate2(returnDate);
 			}
 			withTuidAndMembership(event)
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute2(isUserLoggedIn())
 				.withAttribute4("ola.us.display.criteo.appremarketing.flight")
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(departureDate);
@@ -357,7 +358,7 @@ public class TuneUtils {
 				event.withDate2(returnDate);
 			}
 			withTuidAndMembership(event)
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute2(isUserLoggedIn())
 				.withAttribute4("ola.us.display.criteo.appretargetting.flight")
 				.withRevenue(totalPrice)
 				.withCurrencyCode(currency)
@@ -401,7 +402,7 @@ public class TuneUtils {
 
 
 			withTuidAndMembership(event)
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute2(isUserLoggedIn())
 				.withAttribute4("ola.us.display.criteo.appretargetting.car")
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate2(params.startDateTime.toDate())
@@ -422,7 +423,7 @@ public class TuneUtils {
 
 
 			withTuidAndMembership(event)
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute2(isUserLoggedIn())
 				.withAttribute4("ola.us.display.criteo.appretargetting.car")
 				.withRevenue(carOffer.detailedFare.grandTotal.getAmount().doubleValue())
 				.withCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency())
@@ -444,12 +445,14 @@ public class TuneUtils {
 				.withRevenue(carCheckoutResponse.totalChargesPrice.getAmount().doubleValue())
 				.withAttribute2(carOffer.pickUpLocation.locationCode)
 				.withAttribute3(carOffer.dropOffLocation.locationCode)
-				.withAttribute4(carOffer.vehicleInfo.type.name());
+				.withAttribute4(carOffer.vehicleInfo.carCategoryDisplayLabel)
+				.withAttribute5(carOffer.vendor.name);
+
 
 			Date pickupTime = carOffer.getPickupTime().toDate();
 			Date dropOffTime = carOffer.getDropOffTime().toDate();
 			withTuidAndMembership(event)
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute2(isUserLoggedIn())
 				.withAttribute4("ola.us.display.criteo.appretargetting.car")
 				.withRevenue(carOffer.detailedFare.grandTotal.getAmount().doubleValue())
 				.withCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency())
@@ -491,7 +494,7 @@ public class TuneUtils {
 			}
 
 			withTuidAndMembership(event)
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute2(isUserLoggedIn())
 				.withAttribute4("ola.us.display.criteo.appretargetting.lx")
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(searchParams.startDate.toDate())
@@ -510,7 +513,7 @@ public class TuneUtils {
 
 			withTuidAndMembership(event)
 				.withQuantity(selectedTicketCount)
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
+				.withAttribute2(isUserLoggedIn())
 				.withAttribute4("ola.us.display.criteo.appretargetting.lx")
 				.withRevenue(totalPrice.getAmount().doubleValue())
 				.withCurrencyCode(totalPrice.getCurrency())
@@ -536,8 +539,8 @@ public class TuneUtils {
 				.withAttribute3(lxActivityTitle);
 
 			withTuidAndMembership(event)
-				.withAttribute2(Boolean.toString(User.isLoggedIn(context)))
-				.withAttribute4("ola.us.display.criteo.appretargetting.car")
+				.withAttribute2(isUserLoggedIn())
+				.withAttribute4("ola.us.display.appretargetting.car")
 				.withRevenue(revenue)
 				.withCurrencyCode(totalPrice.getCurrency())
 				.withAdvertiserRefId(orderId)
@@ -598,4 +601,9 @@ public class TuneUtils {
 		return event.withAttribute1(getTuid())
 			.withAttribute3(getMembershipTier());
 	}
+
+	private static String isUserLoggedIn() {
+		return User.isLoggedIn(context) ? "1" : "0";
+	}
+	
 }
