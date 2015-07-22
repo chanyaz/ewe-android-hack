@@ -151,7 +151,7 @@ public class TuneUtils {
 					topFiveHotelIdsBuilder.append(property.getPropertyId());
 					String hotelId = property.getPropertyId();
 					String hotelName = property.getName();
-					String price = property.getLowestRate().getDisplayPrice().formattedPrice;
+					String price = property.getLowestRate().getDisplayPrice().getAmount().toString();
 					String currency = property.getLowestRate().getDisplayBasePrice().getCurrency();
 					String starRating = Double.toString(property.getHotelRating());
 					String miles = Double.toString(property.getDistanceFromUser().getDistance());
@@ -162,6 +162,10 @@ public class TuneUtils {
 						topFiveHotelIdsBuilder.append(",");
 					}
 				}
+			}
+			if (propertiesCount > 0) {
+				eventItem
+					.withAttribute1(Db.getHotelSearch().getSearchResponse().getProperty(0).getLocation().getCity());
 			}
 			eventItem.withAttribute4(topFiveHotelIdsBuilder.toString());
 			eventItem.withAttribute5(sb.toString());
