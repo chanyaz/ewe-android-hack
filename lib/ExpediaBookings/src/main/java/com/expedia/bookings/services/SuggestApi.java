@@ -31,5 +31,6 @@ public interface SuggestApi {
 		@Query("latlong") String latlong,
 		@Query("siteid") int siteid,
 		@Query("type") int type,
-		@Query("sort") String sort);
+		@Query("sort") String sort,
+		@Query("lob") String lineOfBusiness);
 }
