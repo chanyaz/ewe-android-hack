@@ -10,4 +10,6 @@
     <string name="search_hotels">Search hotels</string>
     <!-- Activities Search -->
     <string name="search_activities">Search activities</string>
+
+    <string name="samsung_best_price_guarantee">Samsung Price Guarantee</string>
 </resources>

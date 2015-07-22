@@ -74,7 +74,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public int getSearchProgressImageResId() {
-		return 0;
+		return R.id.search_progress_image_samsung;
 	}
 
 	public int getNotificationIconResourceId() {
@@ -211,7 +211,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isHangTagProgressBarEnabled() {
-		return true;
+		return false;
 	}
 
 	public boolean isSettingsInMenuVisible() {
