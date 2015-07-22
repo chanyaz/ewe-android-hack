@@ -63,36 +63,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:gravity="center"
-        android:paddingTop="@dimen/account_button_padding"
+        android:gravity="center_vertical"
         android:orientation="vertical"
+        android:paddingTop="@dimen/account_button_padding"
         android:visibility="gone">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/login_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/account_button_padding"
             android:drawablePadding="16dp"
-            android:gravity="center|left"
-            android:textSize="18sp"
-            android:padding="16dp"
-            android:textColor="@color/cars_actionbar_text_color"
-            android:drawableLeft="?attr/skin_phoneCheckoutLoginLogoDrawable"
+            android:gravity="center"
+            android:textSize="16sp"
             app:textStyle="@integer/login_button_text_style" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/login_blurb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginRight="17dp"
-            android:gravity="right"
-            android:text="@string/Earn_points_and_book_fast"
-            android:textColor="#cc363636"
-            android:textSize="18sp"
-            android:visibility="gone"
-            app:textStyle="light" />
     </LinearLayout>
 
     <LinearLayout

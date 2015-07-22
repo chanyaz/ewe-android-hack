@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -180,10 +181,6 @@ public class AccountLibActivity extends AppCompatActivity
 		if (!ExpediaBookingApp.useTabletInterface(this)) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
-		overridePendingTransition(R.anim.expand, R.anim.unexpand);
-		setContentView(R.layout.account_lib_activity);
-		Ui.showTransparentStatusBar(this);
-		ButterKnife.inject(this);
 
 		Intent intent = getIntent();
 		if (intent.hasExtra(ARG_BUNDLE)) {
@@ -195,6 +192,14 @@ public class AccountLibActivity extends AppCompatActivity
 				loginExtender = LoginExtender.buildLoginExtenderFromState(args.getBundle(ARG_LOGIN_FRAGMENT_EXTENDER));
 			}
 		}
+
+		if (lob == LineOfBusiness.CARS || lob == LineOfBusiness.LX) {
+			overridePendingTransition(R.anim.expand, R.anim.unexpand);
+		}
+
+		setContentView(R.layout.account_lib_activity);
+		Ui.showTransparentStatusBar(this);
+		ButterKnife.inject(this);
 
 		int statusBarHeight = Ui.getStatusBarHeight(this);
 		accountView.setPadding(accountView.getPaddingLeft(), statusBarHeight, accountView.getPaddingRight(), accountView.getPaddingBottom());
@@ -255,12 +260,24 @@ public class AccountLibActivity extends AppCompatActivity
 			}
 		}
 
-		finish();
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				finish();
+			}
+		}, 300);
+
+
 	}
 
 	@Override
 	public void loginExtenderWorkComplete(LoginExtender extender) {
-		finish();
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				finish();
+			}
+		}, 300);
 	}
 
 	@Override

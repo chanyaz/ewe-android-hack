@@ -1,9 +1,13 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -65,10 +69,6 @@ public class AccountButton extends LinearLayout {
 		mRewardsTextView = Ui.findView(mRewardsContainer, R.id.account_rewards_textview);
 		mExpediaLogo = Ui.findView(this, R.id.card_icon);
 		mLoadingTextView = Ui.findView(this, R.id.loading_textview);
-
-		if (!AndroidUtils.isTablet(getContext())) {
-			setBackgroundResource(R.drawable.card_background);
-		}
 
 		mLoginContainer.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -146,6 +146,10 @@ public class AccountButton extends LinearLayout {
 			mLogoutContainer.setVisibility(View.GONE);
 			bindLoginContainer(lob);
 		}
+
+		if (!AndroidUtils.isTablet(getContext()) && (lob == LineOfBusiness.CARS || lob == LineOfBusiness.LX)) {
+			setBackgroundResource(R.drawable.card_background);
+		}
 	}
 
 	// Do some runtime styling, based on whether this is tablet or a white-labelled app
@@ -153,12 +157,41 @@ public class AccountButton extends LinearLayout {
 		boolean isTablet = AndroidUtils.isTablet(getContext());
 
 		if (isTablet) {
+			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
+			lp.height = getResources().getDimensionPixelSize(R.dimen.account_button_height);
+			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
+			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
 			mLoginContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
-			Ui.findView(mLoginContainer, R.id.login_blurb).setVisibility(View.GONE);
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
 				Ui.obtainThemeResID(mContext, R.attr.skin_tabletCheckoutLoginLogoDrawable), 0, 0, 0);
 			mLoginTextView.setTextColor(
 				Ui.obtainThemeColor(mContext, R.attr.skin_tabletCheckoutLoginButtonTextColor));
+		}
+		else if (lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS) {
+			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
+			lp.height = getResources().getDimensionPixelSize(R.dimen.account_button_height);
+			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
+			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
+			int bgResourceId = Ui.obtainThemeResID(getContext(), R.attr.skin_phoneCheckoutLoginButtonDrawable);
+			mLoginContainer.setBackgroundResource(bgResourceId);
+			mLoginTextView.setTextColor(Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
+			Drawable drawable = getResources().getDrawable(R.drawable.expedia).mutate();
+			drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+			int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
+			mLoginTextView.setPadding(padding, 0, 0, 0);
+		}
+		else {
+			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
+			lp.height = LayoutParams.WRAP_CONTENT;
+			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
+			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
+			int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
+			mLoginContainer.setBackgroundResource(bgResourceId);
+			mLoginTextView.setTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.expedia, 0, 0, 0);
+			int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
+			mLoginTextView.setPadding(padding, padding, padding, padding);
 		}
 	}
 
