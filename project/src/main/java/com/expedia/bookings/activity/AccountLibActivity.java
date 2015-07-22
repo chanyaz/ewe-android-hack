@@ -234,10 +234,11 @@ public class AccountLibActivity extends AppCompatActivity
 
 		userDeniedPermissionEmailMessage.setText(
 			Phrase.from(this, R.string.user_denied_permission_email_message_TEMPLATE)
-								.put("brand", BuildConfig.brand)
-							.format());
+				.put("brand", BuildConfig.brand)
+				.format());
 
 		FontCache.setTypeface(statusText, FontCache.Font.ROBOTO_REGULAR);
+		OmnitureTracking.trackLoginScreen(this);
 	}
 
 	@Override
@@ -293,57 +294,58 @@ public class AccountLibActivity extends AppCompatActivity
 
 		@Override
 		public void contactsAccessRequested() {
-
+			OmnitureTracking.trackLoginContactAccess(AccountLibActivity.this);
 		}
 
 		@Override
 		public void contactsAccessResponse(boolean b) {
-
+			OmnitureTracking.trackAllowContactAccess(AccountLibActivity.this, b);
 		}
 
 		@Override
 		public void emailsQueried() {
-
+			OmnitureTracking.trackLoginEmailsQueried(AccountLibActivity.this);
 		}
 
 		@Override
-		public void accountCreationAttemptWithPreexistingEmail(boolean b, boolean b1) {
-
+		public void accountCreationAttemptWithPreexistingEmail(boolean useExisting, boolean createNew) {
+			OmnitureTracking.trackEmailPrompt(AccountLibActivity.this);
+			OmnitureTracking.trackEmailPromptChoice(AccountLibActivity.this, useExisting, createNew);
 		}
 
 		@Override
 		public void userViewedNameEntering() {
-
+			OmnitureTracking.trackLoginCreateUsername(AccountLibActivity.this);
 		}
 
 		@Override
 		public void userViewedPasswordEntering() {
-
+			OmnitureTracking.trackLoginCreatePassword(AccountLibActivity.this);
 		}
 
 		@Override
 		public void userViewedTosPage() {
-
+			OmnitureTracking.trackLoginTOS(AccountLibActivity.this);
 		}
 
 		@Override
 		public void userExplicitlyModifiedMarketingOptIn(boolean b) {
-
+			OmnitureTracking.trackMarketingOptIn(AccountLibActivity.this, b);
 		}
 
 		@Override
 		public void userSucceededInCreatingAccount() {
-
+			OmnitureTracking.trackAccountCreateSuccess(AccountLibActivity.this);
 		}
 
 		@Override
 		public void userReceivedErrorOnSignInAttempt(String s) {
-
+			OmnitureTracking.trackAccountCreateError(AccountLibActivity.this, s);
 		}
 
 		@Override
 		public void userTriedReallyHardToNotEnterValidPassword(String s) {
-
+			OmnitureTracking.trackLoginPasswordValidation(AccountLibActivity.this, s);
 		}
 	};
 
