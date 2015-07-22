@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import java.util.List;
-import java.util.Locale;
 
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.SuggestionServices;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
@@ -58,12 +56,7 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 		}
 
 		public void bind(Suggestion suggestion) {
-			boolean isSuggestionMajorAirport =
-				Strings.isNotEmpty(suggestion.regionType) &&
-					suggestion.regionType.toLowerCase(Locale.US).equals("airport") &&
-					!suggestion.isMinorAirport;
-
-			if (isSuggestionMajorAirport) {
+			if (suggestion.isMajorAirport()) {
 				locationTitle.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
 				locationSubtitle.setText(StrUtils.formatAirportName(suggestion.shortName));
 			}
@@ -79,7 +72,7 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 				dropdownImage.setImageResource(R.drawable.ic_suggest_current_location);
 			}
 			else {
-				dropdownImage.setImageResource(isSuggestionMajorAirport ? R.drawable.ic_suggest_airport : R.drawable.search_type_icon);
+				dropdownImage.setImageResource(suggestion.isMajorAirport() ? R.drawable.ic_suggest_airport : R.drawable.search_type_icon);
 			}
 			dropdownImage
 				.setColorFilter(dropdownImage.getContext().getResources()
