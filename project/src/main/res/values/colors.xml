@@ -26,7 +26,7 @@
     <color name="hotel_lob_btn">@color/hotels_primary_color</color>
     <color name="cars_lob_btn">@color/cars_primary_color</color>
     <color name="lx_lob_btn">@color/lx_primary_color</color>
-    <color name="flights_lob_btn">#1580AC</color>
+    <color name="flights_lob_btn">#204A8E</color>
     <color name="disabled_lob_btn">#909ba3</color>
 
     <color name="launch_list_bg">#ECEFF1</color>
@@ -80,6 +80,7 @@
     <color name="section_flight_edit_traveler_link_color">#2A4367</color>
 
     <!-- Hotels colors -->
+    <color name="hotels_primary_color">#028F87</color>
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
     <color name="hotel_price_breakdown_discount_green">#218b22</color>
     <color name="actionbar_text_disabled">#505c69</color>
@@ -230,11 +231,9 @@
     <color name="placeholder_background_color">#21394E</color>
 
     <!-- Cars colors -->
-    <color name="hotels_primary_color">#009688</color>
-
     <color name="cars_status_bar_color">#7E4569</color>
     <color name="cars_checkout_text_color">#676767</color>
-    <color name="cars_primary_color">#A25283</color>
+    <color name="cars_primary_color">#9E4E7F</color>
     <color name="cars_secondary_color">#915B7C</color>
     <color name="cars_tooltip_color">#915B7C</color>
     <color name="cars_tooltip_disabled_color">#9D9D9D</color>
