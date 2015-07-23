@@ -455,7 +455,7 @@ public class StrUtils {
 			int end = legalTextSpan.getSpanEnd(span);
 			// Replace URL span with ClickableSpan to redirect to our own webview
 			legalTextSpan.removeSpan(span);
-			legalTextSpan.setSpan(new LegalClickableSpan(context, span.getURL(), legalTextSpan.subSequence(start, end).toString()), start,
+			legalTextSpan.setSpan(new LegalClickableSpan(span.getURL(), legalTextSpan.subSequence(start, end).toString(), true), start,
 				end, 0);
 			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
 			legalTextSpan.setSpan(new UnderlineSpan(), start, end, 0);
@@ -486,10 +486,9 @@ public class StrUtils {
 			int end = legalTextSpan.getSpanEnd(span);
 			// Replace URL span with ClickableSpan to redirect to our own webview
 			legalTextSpan.removeSpan(span);
-			legalTextSpan.setSpan(new LegalClickableSpan(context, span.getURL(), legalTextSpan.subSequence(start, end).toString()), start,
+			legalTextSpan.setSpan(new LegalClickableSpan(span.getURL(), legalTextSpan.subSequence(start, end).toString(), false), start,
 				end, 0);
 			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
-			legalTextSpan.setSpan(new UnderlineSpan(), start, end, 0);
 			legalTextSpan.setSpan(new ForegroundColorSpan(Color.WHITE), start,
 				end,
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

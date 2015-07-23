@@ -6,7 +6,6 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -757,12 +756,5 @@ public class AccountLibActivity extends AppCompatActivity
 	private void showEmailDenied(boolean visible) {
 		accountView.setVisibility(visible ? View.GONE : View.VISIBLE);
 		facebookEmailDeniedContainer.setVisibility(visible ? View.VISIBLE : View.GONE);
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		accountView.setListener(listener);
-		accountView.setAnalyticsListener(analyticsListener);
 	}
 }
