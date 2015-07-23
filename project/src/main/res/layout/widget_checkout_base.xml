@@ -6,7 +6,6 @@
         android:id="@+id/checkout_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         android:paddingTop="?attr/actionBarSize">
 
         <LinearLayout
@@ -110,7 +109,7 @@
             <Space
                 android:id="@+id/spacer"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/checkout_unexpanded_space_height" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </com.expedia.bookings.widget.ScrollView>
 
