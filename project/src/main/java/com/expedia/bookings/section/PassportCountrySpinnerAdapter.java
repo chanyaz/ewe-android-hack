@@ -41,4 +41,19 @@ public class PassportCountrySpinnerAdapter extends CountrySpinnerAdapter {
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
 		return getViewImpl(getItem(position), convertView, parent, RES_ID);
 	}
+
+	@Override
+	protected CountrySpinnerAdapter.CountryNameData[] buildCountriesDataSet(String[] countryNames,
+		String[] twoLetterCountryCodes,
+		String[] threeLetterCountryCodes) {
+		int countriesLength = countryNames.length + 1;
+		CountryNameData[] mCountries = new CountryNameData[countriesLength];
+		// create empty country. This will be the unselected (index:0) item
+		mCountries[0] = new CountryNameData("", "", "");
+		for (int i = 1; i < countriesLength; i++) {
+			mCountries[i] = new CountryNameData(countryNames[i - 1], twoLetterCountryCodes[i - 1], threeLetterCountryCodes[i - 1]);
+		}
+
+		return mCountries;
+	}
 }
