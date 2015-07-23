@@ -720,8 +720,6 @@
     <string name="lx_sort_by">Sort By</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">Categories</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">Filter</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->

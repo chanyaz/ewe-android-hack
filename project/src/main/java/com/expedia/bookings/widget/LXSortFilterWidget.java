@@ -8,7 +8,10 @@ import org.jetbrains.annotations.NotNull;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -25,7 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class LXSortFilterWidget extends FrameLayout {
+public class LXSortFilterWidget extends LinearLayout {
 
 	public static final String DEEPLINK_FILTER_DILIMITER = "\\|";
 	private Map<String, LXCategoryMetadata> selectedFilterCategories = new HashMap<>();
@@ -35,8 +38,7 @@ public class LXSortFilterWidget extends FrameLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.sort_filter_done_button)
-	Button doneButton;
+	private Button doneButton;
 
 	@InjectView(R.id.price_sort_button)
 	Button priceSortButton;
@@ -50,25 +52,28 @@ public class LXSortFilterWidget extends FrameLayout {
 	@InjectView(R.id.dynamic_feedback_container)
 	DynamicFeedbackWidget dynamicFeedbackWidget;
 
-	@OnClick(R.id.sort_filter_done_button)
-	public void onDoneButtonClicked() {
-		if (isFilteredToZeroResults) {
-			dynamicFeedbackWidget.showDynamicFeedback();
-			dynamicFeedbackWidget.animateDynamicFeedbackWidget();
-		}
-		else {
-			Events.post(new Events.LXFilterDoneClicked());
-		}
-	}
+	@InjectView(R.id.toolbar)
+	Toolbar toolbar;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
-		navIcon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN);
-		doneButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
+		toolbar.setTitle(getResources().getString(R.string.filter));
+		toolbar.setTitleTextAppearance(getContext(), R.style.LXToolbarTitleTextAppearance);
+		toolbar.setTitleTextColor(getResources().getColor(R.color.lx_actionbar_text_color));
+		toolbar.inflateMenu(R.menu.cars_lx_filter_menu);
+
+		MenuItem item = toolbar.getMenu().findItem(R.id.apply_check);
+		setupToolBarCheckmark(item);
+
+		int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		if (statusBarHeight > 0) {
+			int color = getContext().getResources()
+				.getColor(Ui.obtainThemeResID(getContext(), R.attr.primary_color));
+			addView(Ui.setUpStatusBar(getContext(), null, null, color), 0);
+		}
 		// Reset Popularity sort as default.
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);
@@ -201,5 +206,29 @@ public class LXSortFilterWidget extends FrameLayout {
 
 	public int getNumberOfSelectedFilters() {
 		return selectedFilterCategories.size();
+	}
+
+	public Button setupToolBarCheckmark(final MenuItem menuItem) {
+		doneButton = Ui.inflate(getContext(), R.layout.toolbar_checkmark_item, null);
+		doneButton.setText(R.string.done);
+		doneButton.setTextColor(getResources().getColor(R.color.lx_actionbar_text_color));
+		doneButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (isFilteredToZeroResults) {
+					dynamicFeedbackWidget.showDynamicFeedback();
+					dynamicFeedbackWidget.animateDynamicFeedbackWidget();
+				}
+				else {
+					Events.post(new Events.LXFilterDoneClicked());
+				}
+			}
+		});
+
+		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
+		navIcon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		doneButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
+		menuItem.setActionView(doneButton);
+		return doneButton;
 	}
 }

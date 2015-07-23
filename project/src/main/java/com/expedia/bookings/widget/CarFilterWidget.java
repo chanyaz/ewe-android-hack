@@ -159,7 +159,7 @@ public class CarFilterWidget extends LinearLayout {
 		toolbar.setTitle(getResources().getString(R.string.filter));
 		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
 		toolbar.setTitleTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
-		toolbar.inflateMenu(R.menu.cars_filter_menu);
+		toolbar.inflateMenu(R.menu.cars_lx_filter_menu);
 
 		MenuItem item = toolbar.getMenu().findItem(R.id.apply_check);
 		setupToolBarCheckmark(item);

@@ -55,14 +55,10 @@ public class LXSortFilterWidgetTest {
 		widget.bind(buildCategories());
 
 		View filterContainer = widget.findViewById(R.id.filter_categories);
-		View sortFilterTopLayout = widget.findViewById(R.id.sort_filter_top_layout);
-		Button doneButton = (Button) widget.findViewById(R.id.sort_filter_done_button);
-		Button priceSortButton = (Button) widget.findViewById(R.id.sort_filter_done_button);
+		Button priceSortButton = (Button) widget.findViewById(R.id.price_sort_button);
 		Button popularitySortButton = (Button) widget.findViewById(R.id.popularity_sort_button);
 
 		assertNotNull(filterContainer);
-		assertNotNull(sortFilterTopLayout);
-		assertNotNull(doneButton);
 		assertNotNull(priceSortButton);
 		assertNotNull(popularitySortButton);
 

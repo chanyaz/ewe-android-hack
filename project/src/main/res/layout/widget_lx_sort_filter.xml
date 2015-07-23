@@ -1,47 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.LXSortFilterWidget xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sort_filter_widget"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFEFEF"
+    android:orientation="vertical"
     android:clickable="true">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:minHeight="?attr/actionBarSize">
 
-        <LinearLayout
-            android:id="@+id/sort_filter_top_layout"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:orientation="horizontal">
+    </android.support.v7.widget.Toolbar>
 
-            <com.expedia.bookings.widget.TextView
-                style="@style/LXFilterTitleTextAppearance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:padding="@dimen/lx_sort_filter_padding"
-                android:text="@string/lx_filter" />
-
-            <Button
-                android:id="@+id/sort_filter_done_button"
-                style="@style/LXRobotoFont"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableLeft="@drawable/ic_check_white_24dp"
-                android:padding="@dimen/lx_sort_filter_padding"
-                android:text="@string/done"
-                android:textAllCaps="false"
-                android:textColor="@color/lx_sort_filter_top_bar_text_color"
-                android:textSize="16sp" />
-        </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -115,19 +93,22 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical" />
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp" />
+
             </LinearLayout>
         </ScrollView>
-    </LinearLayout>
 
-    <com.expedia.bookings.widget.DynamicFeedbackWidget
-        android:id="@+id/dynamic_feedback_container"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        app:cardCornerRadius="18dp"
-        android:layout_margin="16dp"
-        android:clickable="true"
-        app:cardPreventCornerOverlap="false"
-        android:visibility="gone"
-        android:layout_gravity="bottom" />
-
+        <com.expedia.bookings.widget.DynamicFeedbackWidget
+            android:id="@+id/dynamic_feedback_container"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_gravity="bottom"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:visibility="gone"
+            app:cardCornerRadius="18dp"
+            app:cardPreventCornerOverlap="false" />
+    </FrameLayout>
 </com.expedia.bookings.widget.LXSortFilterWidget>
