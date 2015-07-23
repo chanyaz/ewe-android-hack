@@ -23,8 +23,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
+import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
@@ -73,8 +73,8 @@ public class LXTicketSelectionWidgetTest {
 		assertNotNull(container);
 
 		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
-		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail2);
-		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail2);
 		TextView redemptionType = (TextView) widget.findViewById(R.id.offer_detail3);
 		LXOfferDescription descriptionWidget = (LXOfferDescription) widget.findViewById(R.id.offer_description);
 		TextView ticketDetails = (TextView) ticketSelector.findViewById(R.id.ticket_details);
@@ -105,8 +105,8 @@ public class LXTicketSelectionWidgetTest {
 		widget.buildTicketPickers(singleTicketAvailability());
 
 		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
-		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail2);
-		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail2);
 		TextView redemptionType = (TextView) widget.findViewById(R.id.offer_detail3);
 		TextView bags = (TextView) widget.findViewById(R.id.offer_bags);
 		TextView passengers = (TextView) widget.findViewById(R.id.offer_passengers);
