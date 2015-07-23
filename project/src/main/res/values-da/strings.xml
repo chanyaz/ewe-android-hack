@@ -1902,6 +1902,8 @@
     <string name="add_new_traveler">Tilføj ny rejsende</string>
     <!-- Select card from checkout saved credit cards list -->
     <string name="saved_creditcards">Gemte kort</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="select_saved_cards">Vælg gemte kort</string>
     <!-- Add new card, checkout saved credit cards list -->
     <string name="add_new_creditcard">Tilføj nyt kort</string>
     <!-- Add Guest for hotels -->
@@ -1977,6 +1979,10 @@
     <string name="email_disclaimer">Din bekræftelses-e-mail vil blive sendt hertil</string>
     <!-- Expires on colored template -->
     <string name="expires_colored_TEMPLATE">Udløber %1$s</string>
+    <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">Jeg ønsker ikke at modtage e-mails fra {brand} med rejsetilbud, særtilbud og andre oplysninger.</string>
+    <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">Jeg vil gerne modtage e-mails fra {brand} med rejsetilbud, særtilbud og andre oplysninger.</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -2159,6 +2165,8 @@
     <string name="add_insurance">Tilføj forsikring</string>
     <!-- Insurance -->
     <string name="insurance">Forsikring</string>
+    <!-- Insurance label on itin section -->
+    <string name="insurance_itin_label">Rejseforsikring</string>
     <!-- Air attach messaging -->
     <string name="air_attach_alert">Fordi du har reserveret en flyrejse</string>
     <!-- Air attach savings messaging -->
@@ -2211,7 +2219,7 @@
     <!-- Terms of Booking for some POSes (UK, IT) -->
     <string name="Terms_of_Booking">Reservationsbetingelser</string>
     <!-- Privacy policy -->
-    <string name="privacy_policy">Beskyttelse af personlige oplysninger</string>
+    <string name="privacy_policy">Fortrolighedspolitik</string>
     <!-- Fare information header -->
     <string name="fare_information">PRISOPLYSNINGER</string>
 
@@ -2874,7 +2882,7 @@
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Vilkår og betingelser</string>
     <!-- Label for link to privacy policy -->
-    <string name="info_label_privacy_policy">Beskyttelse af personlige oplysninger</string>
+    <string name="info_label_privacy_policy">Fortrolighedspolitik</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAlle rettigheder forbeholdes.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3593,10 +3601,19 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Ved at gennemføre denne reservation bekræfter jeg, at jeg har læst og accepterer %1$s, %2$s samt %3$s.</string>
+    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="account_creation_legal_TEMPLATE">Jeg har læst og accepterer %1$s samt Expedias %2$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Vælg hvert barns alder</string>
 
     <string name="lob_not_supported_error_message">Beklager, men reservation af {lob} er endnu ikke tilgængelig, der hvor du befinder dig.</string>
 
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_Expedia_account">Opret en Expedia-konto</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Expedia">Velkommen til Expedia</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Expedia_account_already_exists">Der findes allerede en Expedia-konto med denne e-mailadresse</string>
 </resources>

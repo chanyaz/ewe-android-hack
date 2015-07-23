@@ -1902,6 +1902,8 @@
     <string name="add_new_traveler">새 여행객 추가</string>
     <!-- Select card from checkout saved credit cards list -->
     <string name="saved_creditcards">저장된 카드</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="select_saved_cards">저장된 카드 선택</string>
     <!-- Add new card, checkout saved credit cards list -->
     <string name="add_new_creditcard">새 카드 추가</string>
     <!-- Add Guest for hotels -->
@@ -1977,6 +1979,10 @@
     <string name="email_disclaimer">예약 일정이 고객님의 이메일로 전송됩니다.</string>
     <!-- Expires on colored template -->
     <string name="expires_colored_TEMPLATE">만료일: %1$s</string>
+    <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">여행 상품, 특가 혜택 및 기타 정보가 들어 있는 {brand}의 이메일을 받지 않겠습니다.</string>
+    <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">여행 상품, 특가 혜택 및 기타 정보가 들어 있는 {brand}의 이메일을 받겠습니다.</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -2159,6 +2165,8 @@
     <string name="add_insurance">보험 추가</string>
     <!-- Insurance -->
     <string name="insurance">보험</string>
+    <!-- Insurance label on itin section -->
+    <string name="insurance_itin_label">여행자 보험</string>
     <!-- Air attach messaging -->
     <string name="air_attach_alert">항공편을 예약하셨으므로</string>
     <!-- Air attach savings messaging -->
@@ -3593,10 +3601,19 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">이 예약을 완료함으로써 본인은 %1$s, %2$s 및 %3$s을 읽었으며 이를 수락하는 데 동의합니다.</string>
+    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="account_creation_legal_TEMPLATE">%1$s 및 %2$s을 읽었고 이에 동의합니다.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">각 아동의 나이 선택</string>
 
     <string name="lob_not_supported_error_message">죄송합니다. 고객님의 위치에서는 아직 {lob} 예약을 이용하실 수 없습니다.</string>
 
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_Expedia_account">익스피디아에 회원가입</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Expedia">익스피디아에 오신 걸 환영합니다!</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Expedia_account_already_exists">이 이메일로 익스피디아 계정이 이미 있습니다.</string>
 </resources>

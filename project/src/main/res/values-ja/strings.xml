@@ -1902,6 +1902,8 @@
     <string name="add_new_traveler">新しい旅行者情報を追加</string>
     <!-- Select card from checkout saved credit cards list -->
     <string name="saved_creditcards">保存済みのカード</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="select_saved_cards">保存済みのカードから選択</string>
     <!-- Add new card, checkout saved credit cards list -->
     <string name="add_new_creditcard">新しいカードを追加</string>
     <!-- Add Guest for hotels -->
@@ -1977,6 +1979,10 @@
     <string name="email_disclaimer">確認メールはこちらに送信されます</string>
     <!-- Expires on colored template -->
     <string name="expires_colored_TEMPLATE">有効期限 : %1$s</string>
+    <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">セールなどのお得な旅行情報満載の{brand} メールマガジンを受信しない。</string>
+    <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">セールなどのお得な旅行情報満載の{brand} メールマガジンを受信する。</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -2159,6 +2165,8 @@
     <string name="add_insurance">保険を追加する</string>
     <!-- Insurance -->
     <string name="insurance">保険</string>
+    <!-- Insurance label on itin section -->
+    <string name="insurance_itin_label">旅行保険</string>
     <!-- Air attach messaging -->
     <string name="air_attach_alert">航空券をご予約いただいた方のみの特別価格 !</string>
     <!-- Air attach savings messaging -->
@@ -3593,10 +3601,19 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">この予約を完了をもって、%1$s、%2$s、%3$sを読み、理解したものと見なされます。</string>
+    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="account_creation_legal_TEMPLATE">%1$sおよび%2$sを読み、これに同意します。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">お子様の年齢を選択する</string>
 
     <string name="lob_not_supported_error_message">{lob}の予約は、お客様のロケーションではまだご利用いただけません。</string>
 
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_Expedia_account">エクスペディアのアカウントを作成する</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Expedia">エクスペディアにようこそ</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Expedia_account_already_exists">この電子メールが登録されたエクスペディア アカウントはすでに存在しています。</string>
 </resources>

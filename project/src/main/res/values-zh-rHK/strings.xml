@@ -1902,6 +1902,8 @@
     <string name="add_new_traveler">新增旅客</string>
     <!-- Select card from checkout saved credit cards list -->
     <string name="saved_creditcards">已儲存的信用卡</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="select_saved_cards">選擇已儲存的信用卡</string>
     <!-- Add new card, checkout saved credit cards list -->
     <string name="add_new_creditcard">新增信用卡</string>
     <!-- Add Guest for hotels -->
@@ -1977,6 +1979,10 @@
     <string name="email_disclaimer">您的確認電郵將寄發至此</string>
     <!-- Expires on colored template -->
     <string name="expires_colored_TEMPLATE">到期日：%1$s</string>
+    <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">我不想收取 {brand} 有關旅遊優惠、特別推廣及其他資訊的電郵。</string>
+    <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">我想收取 {brand} 有關旅遊優惠、特別推廣及其他資訊的電郵。</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -2159,6 +2165,8 @@
     <string name="add_insurance">新增保險</string>
     <!-- Insurance -->
     <string name="insurance">保險</string>
+    <!-- Insurance label on itin section -->
+    <string name="insurance_itin_label">旅遊保險</string>
     <!-- Air attach messaging -->
     <string name="air_attach_alert">訂機票才能獲享的特別優惠！</string>
     <!-- Air attach savings messaging -->
@@ -2515,7 +2523,7 @@
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">正在載入酒店…</string>
     <!-- Template for sale element in widget. The parameter is for the sale % -->
-    <string name="widget_savings_template">節省 %2.0f%%</string>
+    <string name="widget_savings_template">慳 %2.0f%%</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">沒有互聯網連接能力</string>
 
@@ -3593,10 +3601,19 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">完成此預訂，即表示本人同意已閱讀並接受%1$s、%2$s及%3$s。</string>
+    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="account_creation_legal_TEMPLATE">我已閱讀並同意%1$s和%2$s。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">請選擇每位小童的年齡</string>
 
     <string name="lob_not_supported_error_message">很抱歉，您的地點尚未提供{lob}預訂服務。</string>
 
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_Expedia_account">建立 Expedia 帳戶</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Expedia">歡迎成為 Expedia 用戶</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Expedia_account_already_exists">此電郵地址已用作建立 Expedia 帳戶</string>
 </resources>

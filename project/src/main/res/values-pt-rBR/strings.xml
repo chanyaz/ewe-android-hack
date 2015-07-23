@@ -1902,6 +1902,8 @@
     <string name="add_new_traveler">Adicionar novo viajante</string>
     <!-- Select card from checkout saved credit cards list -->
     <string name="saved_creditcards">Cartões salvos</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="select_saved_cards">Selecionar a partir dos cartões salvos</string>
     <!-- Add new card, checkout saved credit cards list -->
     <string name="add_new_creditcard">Adicionar um novo cartão</string>
     <!-- Add Guest for hotels -->
@@ -1911,7 +1913,7 @@
     <!-- AB test variate 1 - Add adult traveler number template -->
     <string name="add_adult_number_variate1_TEMPLATE">Insira os detalhes do adulto %1$s</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
-    <string name="add_adult_number_variate2_TEMPLATE">adulto%1$s</string>
+    <string name="add_adult_number_variate2_TEMPLATE">Adulto %1$s</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">Detalhes do adulto</string>
     <!-- AB test variate 1 - Add adult traveler details label -->
@@ -1977,6 +1979,10 @@
     <string name="email_disclaimer">Seu e-mail de confirmação será enviado para este endereço</string>
     <!-- Expires on colored template -->
     <string name="expires_colored_TEMPLATE">Expira em %1$s</string>
+    <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">Não quero receber e-mails da {brand} com ofertas de viagens, ofertas especiais e outras informações.</string>
+    <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">Quero receber e-mails da {brand} com ofertas de viagens, ofertas especiais e outras informações.</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -2159,6 +2165,8 @@
     <string name="add_insurance">Adicione seguro</string>
     <!-- Insurance -->
     <string name="insurance">Seguro</string>
+    <!-- Insurance label on itin section -->
+    <string name="insurance_itin_label">Proteção para viagem</string>
     <!-- Air attach messaging -->
     <string name="air_attach_alert">Como você reservou um voo,</string>
     <!-- Air attach savings messaging -->
@@ -3593,10 +3601,19 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Ao finalizar esta reserva, eu concordo que li e aceitei as %1$s, os %2$s e a %3$s.</string>
+    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="account_creation_legal_TEMPLATE">Li e aceito os %1$s e a %2$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Selecione a idade de cada criança</string>
 
     <string name="lob_not_supported_error_message">Reserva de {lob} ainda não está disponível para seu local.</string>
 
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_Expedia_account">Criar uma conta da Expedia</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Expedia">Bem-vindo à Expedia</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Expedia_account_already_exists">Já existe uma conta da Expedia com este endereço de e-mail</string>
 </resources>
