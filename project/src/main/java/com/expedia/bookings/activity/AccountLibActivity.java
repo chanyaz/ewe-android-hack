@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -80,6 +81,7 @@ public class AccountLibActivity extends AppCompatActivity
 	private LoginExtender loginExtender;
 	private UserAccountRefresher userAccountRefresher;
 	private boolean loginWithFacebook = false;
+	private Listener listener = new Listener();
 
 	/** Facebook garbage **/
 
@@ -219,7 +221,7 @@ public class AccountLibActivity extends AppCompatActivity
 				.setEnableFacebookButton(
 					ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
 				.setClientId(ServicesUtil.generateClientId(this))
-				.setListener(new Listener())
+				.setListener(listener)
 				.setTOSText(StrUtils.generateAccountCreationLegalLink(this))
 				.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
 				.setAnalyticsListener(analyticsListener)
@@ -755,5 +757,12 @@ public class AccountLibActivity extends AppCompatActivity
 	private void showEmailDenied(boolean visible) {
 		accountView.setVisibility(visible ? View.GONE : View.VISIBLE);
 		facebookEmailDeniedContainer.setVisibility(visible ? View.VISIBLE : View.GONE);
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		accountView.setListener(listener);
+		accountView.setAnalyticsListener(analyticsListener);
 	}
 }

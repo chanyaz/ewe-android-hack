@@ -247,7 +247,7 @@
 
         <activity
             android:name="com.expedia.bookings.activity.AccountLibActivity"
-            android:configChanges="screenSize"
+            android:configChanges="screenSize|orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:theme="@style/AccountLibTheme"
             android:windowSoftInputMode="adjustResize" />
