@@ -3459,18 +3459,19 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + CAR_SEARCH + "\" pageLoad...");
 		ADMS_Measurement s = internalTrackAppCar(context, CAR_SEARCH);
 
+		boolean isOffAirportSearch = carSearchParams.shouldSearchByLocationLatLng();
 		// Success event for Product Search, Local Expert Search
-		s.setEvents("event30,event54");
+		s.setEvents(isOffAirportSearch ? "event30,event52,event59" : "event30,event52");
 
 		//Number of results
 		s.setProp(1, Integer.toString(resultSize));
 
 		//Search Origin
 		s.setEvar(3, "D=c3");
-		s.setProp(3, "CAR:" + carSearchParams.origin);
+		s.setProp(3, "CAR:" + (isOffAirportSearch ? "CAR:Non-Airport" : carSearchParams.origin));
 
 		//Search Destination
-		s.setProp(4, "CAR:" + carSearchParams.origin);
+		s.setProp(4, "CAR:" + (isOffAirportSearch ? "CAR:Non-Airport" : carSearchParams.origin));
 		s.setEvar(4, "D=c4");
 
 		setDateValues(s, carSearchParams.startDateTime.toLocalDate(), carSearchParams.endDateTime.toLocalDate());
