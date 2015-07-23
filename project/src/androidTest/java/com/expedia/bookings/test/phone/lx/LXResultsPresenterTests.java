@@ -146,8 +146,7 @@ public class LXResultsPresenterTests {
 		LXScreen.sortAndFilterButton().check(matches(isDisplayed()));
 		LXScreen.sortAndFilterButton().perform(click());
 		LXScreen.sortAndFilterWidget().check(matches(isDisplayed()));
-		LXScreen.closeFilter().check(matches(isDisplayed()));
-		LXScreen.closeFilter().perform(click());
-		LXScreen.sortAndFilterWidget().check(matches(not(isDisplayed())));
+		Events.post(new Events.LXFilterDoneClicked());
+		LXScreen.sortAndFilterWidget().perform(waitFor(not(isDisplayed()), 10L, TimeUnit.SECONDS));
 	}
 }
