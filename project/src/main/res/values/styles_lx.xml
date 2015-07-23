@@ -121,7 +121,6 @@
     </style>
 
     <style name="LXCardView" parent="V2.Theme.LX">
-        <item name="android:background">#FFF</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:animateLayoutChanges">true</item>
         <item name="android:textColor">@color/lx_actionbar_text_color</item>

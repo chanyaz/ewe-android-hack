@@ -146,10 +146,6 @@ public class AccountButton extends LinearLayout {
 			mLogoutContainer.setVisibility(View.GONE);
 			bindLoginContainer(lob);
 		}
-
-		if (!AndroidUtils.isTablet(getContext()) && (lob == LineOfBusiness.CARS || lob == LineOfBusiness.LX)) {
-			setBackgroundResource(R.drawable.card_background);
-		}
 	}
 
 	// Do some runtime styling, based on whether this is tablet or a white-labelled app
@@ -185,9 +181,12 @@ public class AccountButton extends LinearLayout {
 			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
 			lp.height = LayoutParams.WRAP_CONTENT;
 			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
+			lpt.width = LayoutParams.MATCH_PARENT;
 			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
 			int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
-			mLoginContainer.setBackgroundResource(bgResourceId);
+			mLoginContainer.setBackgroundResource(R.drawable.card_background);
+			mLoginTextView.setBackgroundResource(bgResourceId);
+			mLoginTextView.setGravity(Gravity.LEFT);
 			mLoginTextView.setTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.expedia, 0, 0, 0);
 			int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
@@ -233,7 +232,6 @@ public class AccountButton extends LinearLayout {
 			expediaPlusRewardsCategoryTextView.setVisibility(View.VISIBLE);
 			expediaPlusRewardsCategoryTextView.setText(expediaPlusRewardsCategoryTextResId);
 			expediaPlusRewardsCategoryTextView.setTextColor(getResources().getColor(expediaPlusRewardsCategoryColorResId));
-
 			//Show Reward Points Container
 			mRewardsContainer.setVisibility(View.VISIBLE);
 			FontCache.setTypeface(expediaPlusRewardsCategoryTextView, FontCache.Font.EXPEDIASANS_REGULAR);
@@ -247,9 +245,7 @@ public class AccountButton extends LinearLayout {
 			}
 
 			//Update Logout Container
-			if (lob != LineOfBusiness.CARS && lob != LineOfBusiness.LX) {
-				mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
-			}
+			mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
 		}
 		else {
 			expediaPlusRewardsCategoryTextView.setVisibility(View.GONE);
@@ -337,13 +333,13 @@ public class AccountButton extends LinearLayout {
 		int rewardsBgResId = 0;
 		switch (membershipTier) {
 		case BLUE:
-			rewardsBgResId = R.color.expedia_plus_blue;
+			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_blue_normal;
 			break;
 		case SILVER:
-			rewardsBgResId = R.color.expedia_plus_silver;
+			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_silver_normal;
 			break;
 		case GOLD:
-			rewardsBgResId = R.color.expedia_plus_gold;
+			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_gold_normal;
 			break;
 		}
 
