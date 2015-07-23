@@ -131,6 +131,20 @@ public class Money {
 		}
 	}
 
+	public String getFormattedMoneyFromAmountAndCurrencyCode() {
+		return getFormattedMoneyFromAmountAndCurrencyCode(0);
+	}
+
+	public String getFormattedMoneyFromAmountAndCurrencyCode(int flags) {
+		if (amount != null && Strings.isNotEmpty(currencyCode)) {
+			return formatRate(amount, currencyCode, flags);
+		}
+		else {
+			throw new IllegalStateException(
+				"amount != null && Strings.isNotEmpty(currencyCode) failed!");
+		}
+	}
+
 	/**
 	 * Adds one Money to this one.
 	 * <p/>

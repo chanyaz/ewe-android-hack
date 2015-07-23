@@ -133,7 +133,8 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 			ll.addView(
 				CheckoutSummaryWidgetUtils.addRow(context,
 					LXDataUtils.ticketCountSummary(getContext(), ticket.code, ticket.count),
-					ticket.getBreakdownForType(PriceBreakdownItemType.PER_CATEGORY_TOTAL).price.getFormattedMoney()));
+					ticket.getBreakdownForType(PriceBreakdownItemType.PER_CATEGORY_TOTAL).price
+						.getFormattedMoneyFromAmountAndCurrencyCode()));
 		}
 
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
