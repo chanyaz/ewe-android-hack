@@ -2776,7 +2776,8 @@
     <string name="itinerary_number">Itinerary #</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">If you have questions about your reservation, please call {brand} at {phone}.</string>
-
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Forgot Password</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
