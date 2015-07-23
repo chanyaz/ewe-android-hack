@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
+import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -91,16 +91,6 @@ public class LXTicketSelectionWidget extends LinearLayout {
 		}
 
 		int index = 0;
-		if (offer.freeCancellation) {
-			offerDetails.get(index).setText(getContext().getString(R.string.lx_free_cancellation));
-			offerDetails.get(index).setVisibility(View.VISIBLE);
-			Drawable freeCancellationDrawable = getResources().getDrawable(R.drawable.checkmark).mutate();
-			freeCancellationDrawable.setColorFilter(getResources().getColor(
-				Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)), PorterDuff.Mode.SRC_IN);
-			offerDetails.get(index).setCompoundDrawablesWithIntrinsicBounds(freeCancellationDrawable, null, null, null);
-			index++;
-		}
-
 		if (Strings.isNotEmpty(offer.duration)) {
 			offerDetails.get(index).setText(offer.duration);
 			offerDetails.get(index).setVisibility(View.VISIBLE);
@@ -109,6 +99,16 @@ public class LXTicketSelectionWidget extends LinearLayout {
 				.setColorFilter(getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)),
 					PorterDuff.Mode.SRC_IN);
 			offerDetails.get(index).setCompoundDrawablesWithIntrinsicBounds(durationDrawable, null, null, null);
+			index++;
+		}
+
+		if (offer.freeCancellation) {
+			offerDetails.get(index).setText(getContext().getString(R.string.lx_free_cancellation));
+			offerDetails.get(index).setVisibility(View.VISIBLE);
+			Drawable freeCancellationDrawable = getResources().getDrawable(R.drawable.checkmark).mutate();
+			freeCancellationDrawable.setColorFilter(getResources().getColor(
+				Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)), PorterDuff.Mode.SRC_IN);
+			offerDetails.get(index).setCompoundDrawablesWithIntrinsicBounds(freeCancellationDrawable, null, null, null);
 			index++;
 		}
 
