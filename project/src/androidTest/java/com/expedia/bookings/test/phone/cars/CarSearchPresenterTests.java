@@ -39,7 +39,9 @@ public final class CarSearchPresenterTests {
 
 	@Test
 	public void testViewPopulatesSearchParams() throws Throwable {
-		DateTime expectedStartDate = DateTime.now().withTimeAtStartOfDay();
+		DateTime today = DateTime.now();
+		boolean isEleventhHour = today.getHourOfDay() == 23;
+		DateTime expectedStartDate = isEleventhHour ? today.plusDays(1) : today;
 
 		CarSearchPresenter widget = (CarSearchPresenter) playground.getRoot();
 		CarSearchParams actual;
@@ -206,12 +208,16 @@ public final class CarSearchPresenterTests {
 		//All `step` vars below are 30-minute-steps as on the Time Bar for Cars Search
 
 		final DateTime today = DateTime.now();
+		boolean isEleventhHour = today.getHourOfDay() == 23;
 		int currentTimeSteps = (today.getHourOfDay() + 1) * 2 + (today.getMinuteOfHour() > 30 ? 1 : 0);
 		int startTimeSteps = today.minusHours(2).getHourOfDay() * 2;
-		if (startTimeSteps > currentTimeSteps) {
-			//Our intention was to bring startTimeSteps lower than currentTimeSteps, but `.minusHours(2)` took us back 1 day
-			//frustrating our intention. Since we need to be on the same day, so stay at the minimum step for that day!
-			startTimeSteps = 0;
+		if (startTimeSteps > currentTimeSteps || isEleventhHour) {
+			// 1. `startTimeSteps > currentTimeSteps`
+			// Our intention was to bring startTimeSteps below currentTimeSteps, but `.minusHours(2)` took us back 1 day
+			// frustrating our intention. Since we need to be on the same day, so stay at the minimum step for that day!
+			// 2. `isEleventhHour`
+			// At the eleventh hour, we disable selecting the current date altogether, so select the minimum step for next day!
+			startTimeSteps = today.getMinuteOfHour() > 30 ? 1 : 0;
 		}
 
 		int ninePMSteps = (12 + 9) * 2;
@@ -254,5 +260,4 @@ public final class CarSearchPresenterTests {
 			date.withTimeAtStartOfDay().plusMillis((ninePmProgress + 4) * minutesToMillis));
 		CarScreen.selectDateButton().check(matches(withText(expected)));
 	}
-
 }
