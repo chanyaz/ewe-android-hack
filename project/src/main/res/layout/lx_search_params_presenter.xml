@@ -42,7 +42,6 @@
                     android:layout_weight="1"
                     android:completionThreshold="1"
                     android:dropDownAnchor="@+id/drop_down_anchor"
-                    android:dropDownHeight="fill_parent"
                     android:dropDownSelector="#FFFFFF"
                     android:dropDownWidth="fill_parent"
                     android:hint="@string/location_activity_details"
