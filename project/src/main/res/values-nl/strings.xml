@@ -1902,6 +1902,8 @@
     <string name="add_new_traveler">Nieuwe reiziger toevoegen</string>
     <!-- Select card from checkout saved credit cards list -->
     <string name="saved_creditcards">Opgeslagen creditcards</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="select_saved_cards">Opgeslagen kaarten selecteren</string>
     <!-- Add new card, checkout saved credit cards list -->
     <string name="add_new_creditcard">Nieuwe creditcard toevoegen</string>
     <!-- Add Guest for hotels -->
@@ -1977,6 +1979,10 @@
     <string name="email_disclaimer">Je bevestigingsbericht wordt hier naartoe gestuurd</string>
     <!-- Expires on colored template -->
     <string name="expires_colored_TEMPLATE">Vervaldatum: %1$s</string>
+    <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">Ik wil geen e-mails van {brand} ontvangen met reisaanbiedingen, speciale deals en andere informatie.</string>
+    <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">Ik wil e-mails van {brand} ontvangen met reisaanbiedingen, speciale deals en andere informatie.</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -2159,6 +2165,8 @@
     <string name="add_insurance">Verzekering toevoegen</string>
     <!-- Insurance -->
     <string name="insurance">Verzekering</string>
+    <!-- Insurance label on itin section -->
+    <string name="insurance_itin_label">Reisverzekering</string>
     <!-- Air attach messaging -->
     <string name="air_attach_alert">Omdat je een vlucht hebt geboekt</string>
     <!-- Air attach savings messaging -->
@@ -3593,10 +3601,19 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Door deze boeking te voltooien, bevestig ik de %1$s, de %2$s en het %3$s te hebben gelezen en goedgekeurd.</string>
+    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="account_creation_legal_TEMPLATE">Ik heb de %1$s en het %2$s gelezen en goedgekeurd.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Selecteer de leeftijd van elk kind</string>
 
     <string name="lob_not_supported_error_message">Sorry, boekingen van {lob} zijn nog niet beschikbaar voor jouw regio.</string>
 
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_Expedia_account">Expedia-account aanmaken</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Expedia">Welkom bij Expedia</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Expedia_account_already_exists">Er bestaat al een Expedia-account met dit e-mailadres</string>
 </resources>

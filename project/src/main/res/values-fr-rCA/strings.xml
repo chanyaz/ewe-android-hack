@@ -89,9 +89,9 @@
     <!-- Label for hotel suggestion -->
     <string name="search_location">Rechercher un emplacement</string>
     <!-- Label for pickup location selector -->
-    <string name="pick_up_location">Prise en charge</string>
+    <string name="pick_up_location">Départ</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="drop_off_location">Remise</string>
+    <string name="drop_off_location">Retour</string>
     <!-- Label for Car Search Screen header -->
     <string name="toolbar_search_cars">Rechercher des voitures</string>
     <!-- Label for Cars date button -->
@@ -101,9 +101,9 @@
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">%1$s – Sélectionner la date de retour</string>
     <!-- Label for pick-up time picker -->
-    <string name="pick_up_time_label">Prise en charge</string>
+    <string name="pick_up_time_label">Départ</string>
     <!-- Label for drop-up time picker -->
-    <string name="drop_off_time_label">Remise</string>
+    <string name="drop_off_time_label">Retour</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Bientôt disponible! Nous déployons des efforts pour ajouter des réservations en aller simple dans une version prochaine.</string>
     <!-- Car search error -->
@@ -1902,6 +1902,8 @@
     <string name="add_new_traveler">Ajouter un nouveau voyageur</string>
     <!-- Select card from checkout saved credit cards list -->
     <string name="saved_creditcards">Cartes enregistrées</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="select_saved_cards">Sélectionner les cartes enregistrées</string>
     <!-- Add new card, checkout saved credit cards list -->
     <string name="add_new_creditcard">Ajouter une nouvelle carte</string>
     <!-- Add Guest for hotels -->
@@ -1977,6 +1979,10 @@
     <string name="email_disclaimer">Votre courriel de confirmation sera envoyé ici</string>
     <!-- Expires on colored template -->
     <string name="expires_colored_TEMPLATE">Expire le %1$s</string>
+    <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">Je ne veux pas recevoir de courriels de la part de {brand} contenant des promotions sur des voyages, des offres spéciales et d\&apos;autres renseignements.</string>
+    <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">Je veux recevoir des courriels de la part de {brand} contenant des promotions sur des voyages, des offres spéciales et d\&apos;autres renseignements.</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -2159,6 +2165,8 @@
     <string name="add_insurance">Ajouter une assurance</string>
     <!-- Insurance -->
     <string name="insurance">Assurance</string>
+    <!-- Insurance label on itin section -->
+    <string name="insurance_itin_label">Assurance voyage</string>
     <!-- Air attach messaging -->
     <string name="air_attach_alert">Parce que vous avez réservé un vol</string>
     <!-- Air attach savings messaging -->
@@ -3593,10 +3601,19 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">En choisissant d\&apos;effectuer cette réservation, je reconnais que j\&apos;ai lu et que j\&apos;accepte les %1$s, les %2$s et la %3$s.</string>
+    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="account_creation_legal_TEMPLATE">J\&apos;ai lu et j\&apos;accepte les %1$s et la %2$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Sélectionnez l\&apos;âge de chaque enfant</string>
 
     <string name="lob_not_supported_error_message">Désolé, la réservation de {lob} depuis votre appareil mobile n\&apos;est pas encore disponible dans votre région.</string>
 
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_Expedia_account">Créer un compte Expedia</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Expedia">Bienvenue sur Expedia</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Expedia_account_already_exists">Il existe déjà un compte Expedia associé à cette adresse courriel</string>
 </resources>
