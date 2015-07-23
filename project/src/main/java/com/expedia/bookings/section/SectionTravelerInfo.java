@@ -1073,13 +1073,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			}
 			else { // traveler has multiple passports
-
 				int selectedItemPosition = (field.getSelectedItemPosition() == AdapterView.INVALID_POSITION) ? 0 : field.getSelectedItemPosition();
 				boolean dataAndFieldMatch = mCountryAdapter.getItemValue(selectedItemPosition, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
 					data.getPrimaryPassportCountry());
 
 				if (!dataAndFieldMatch) {
-					if (data.isChangedPrimaryPassportCountry()) {
+					if (data.isChangedPrimaryPassportCountry() && (data.getPrimaryPassportCountry() != null)) {
 						// use the primary passport country recently selected
 						for (int i = 0; i < mCountryAdapter.getCount(); i++) {
 							if (mCountryAdapter.getItemValue(i, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
