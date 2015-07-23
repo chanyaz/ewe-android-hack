@@ -29,6 +29,7 @@ import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
@@ -154,6 +155,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		LayerDrawable layerDraw = new LayerDrawable(new Drawable[] {
 			drawable, getResources().getDrawable(R.drawable.collection_screen_gradient_overlay)
 		});
-		collectionDetailsView.setBackground(layerDraw);
+
+		Ui.setViewBackground(collectionDetailsView, layerDraw);
 	}
 }

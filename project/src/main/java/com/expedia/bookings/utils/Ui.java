@@ -334,6 +334,16 @@ public class Ui extends com.mobiata.android.util.Ui {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
 			v.setBackgroundDrawable(bg);
 		}
+		else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+			// Padding gets ignored while setting the background image in Android 4.3.
+			// Hence, saved and applied back later.
+			int paddingTop = v.getPaddingTop();
+			int paddingLeft = v.getPaddingLeft();
+			int paddingRight = v.getPaddingRight();
+			int paddingBottom = v.getPaddingBottom();
+			v.setBackground(bg);
+			v.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+		}
 		else {
 			v.setBackground(bg);
 		}
