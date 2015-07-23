@@ -236,7 +236,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			mainContactInfoCardView.setVisibility(GONE);
 			paymentInfoCardView.setVisibility(GONE);
 			legalInformationText.setVisibility(GONE);
-
+			updateSpacerHeight();
 		}
 	};
 
@@ -264,9 +264,18 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			else {
 				animateInSlideTo(false);
 			}
-
+			updateSpacerHeight();
 		}
 	};
+
+	protected void updateSpacerHeight() {
+		float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
+		if (scrollViewActualHeight - legalInformationText.getBottom() < slideToContainer.getHeight()) {
+			ViewGroup.LayoutParams params = space.getLayoutParams();
+			params.height = slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
+			space.setLayoutParams(params);
+		}
+	}
 
 	private Transition defaultToCheckoutFailed = new Transition(CheckoutDefault.class, CheckoutFailed.class) {
 		@Override
@@ -310,10 +319,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
 			}
 
-			ViewGroup.LayoutParams params = space.getLayoutParams();
-			params.height = forward ? (int) getResources().getDimension(R.dimen.car_expanded_space_height) : (int) getResources().getDimension(Ui.obtainThemeResID(getContext(), R.attr.checkout_unexpanded_space_height));
-			space.setLayoutParams(params);
-
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()
 				: getContext().getString(R.string.cars_checkout_text));
 			Drawable nav = getResources().getDrawable(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp).mutate();
@@ -331,6 +336,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			else {
 				isCheckoutComplete();
 			}
+			updateSpacerHeight();
 		}
 	};
 

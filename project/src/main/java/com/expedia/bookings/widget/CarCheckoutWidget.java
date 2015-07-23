@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -28,7 +27,6 @@ import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
@@ -212,12 +210,6 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		}
 		else {
 			loginWidget.bind(false, false, null,  getLineOfBusiness());
-		}
-		// Resize spacer to accommodate price change display
-		if (Strings.isNotEmpty(originalOfferFormattedPrice)) {
-			ViewGroup.LayoutParams params = space.getLayoutParams();
-			params.height = (int) getResources().getDimension(R.dimen.car_unexpanded_with_price_change_space_height);
-			space.setLayoutParams(params);
 		}
 	}
 
