@@ -26,6 +26,7 @@ import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -108,8 +109,11 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		@InjectView(R.id.transmission)
 		public TextView transmission;
 
-		@InjectView(R.id.address)
-		public TextView address;
+		@InjectView(R.id.address_line_one)
+		public TextView addressLineOne;
+
+		@InjectView(R.id.address_line_two)
+		public TextView addressLineTwo;
 
 		@InjectView(R.id.category_price_text)
 		public TextView ratePrice;
@@ -179,7 +183,8 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			}
 			totalPrice.setText(
 				totalPrice.getContext().getString(R.string.cars_total_template, offer.fare.total.getFormattedMoney()));
-			address.setText(offer.pickUpLocation.locationDescription);
+			addressLineOne.setText(offer.pickUpLocation.getAddressLine1());
+			addressLineTwo.setText(offer.pickUpLocation.getAddressLine2());
 			mapText.setText(offer.pickUpLocation.airportInstructions);
 
 			reserveNow.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +220,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			collapsedContainer.setPadding(isChecked ? sideExpanded : sideCollapsed,
 				isChecked ? topExpanded : topCollapsed, isChecked ? sideExpanded : sideCollapsed,
 				isChecked ? bottomExpanded : bottomCollapsed);
-			address.setPadding(0, isChecked ? paddingExpanded : topCollapsed, 0,
+			addressLineOne.setPadding(0, isChecked ? paddingExpanded : topCollapsed, 0,
 				isChecked ? 0 : topCollapsed);
 			reserveNow.setPadding(isChecked ? reserveExpanded : toggleCollapsed, 0,
 				isChecked ? reserveExpanded : toggleCollapsed, 0);
@@ -223,14 +228,17 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			boolean passengerVisibility = isChecked && offer.vehicleInfo.adultCapacity > 0;
 			boolean bagsVisibility = isChecked && offer.vehicleInfo.largeLuggageCapacity > 0;
 			boolean doorsVisibility = isChecked && offer.vehicleInfo.maxDoors > 0;
+			boolean mapTextVisibility = isChecked && Strings.isNotEmpty(offer.pickUpLocation.airportInstructions);
+			boolean addressLineTwoVisibility = isChecked && offer.pickUpLocation.isAddressLine2Available();
 
 			passengers.setVisibility(passengerVisibility ? View.VISIBLE : View.GONE);
 			bags.setVisibility(bagsVisibility ? View.VISIBLE : View.GONE);
 			doors.setVisibility(doorsVisibility ? View.VISIBLE : View.GONE);
 			transmission.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+			addressLineTwo.setVisibility(addressLineTwoVisibility ? View.VISIBLE : View.GONE);
 
 			mapView.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-			mapText.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+			mapText.setVisibility(mapTextVisibility ? View.VISIBLE : View.GONE);
 			totalPrice.setVisibility(isChecked ? View.VISIBLE : View.GONE);
 			reserveNow.setTextSize(TypedValue.COMPLEX_UNIT_SP, isChecked ? 17 : 15);
 
