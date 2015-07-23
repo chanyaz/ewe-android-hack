@@ -294,7 +294,7 @@
     <color name="btn_sign_in_pressed">#fae58b</color>
     <color name="btn_sign_in_focused">#f9e179</color>
     <color name="btn_sign_in_disabled">#80f9e06e</color>
-    <color name="acct__btn_sign_in_text">#cc000000</color>
+    <color name="acct__btn_sign_in_text">#000000</color>
     <color name="acct__bg_input_text_default">#80ffffff</color>
     <color name="acct__bg_input_text_error">#db4437</color>
     <color name="acct__bg_input_text_good">#4a90e2</color>

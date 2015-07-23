@@ -309,7 +309,7 @@
         <item name="acct__input_text_error_color">@color/acct__bg_input_text_error</item>
         <item name="acct__input_text_good_color">@color/acct__bg_input_text_good</item>
         <item name="acct__sign_in_button_background_drawable">@drawable/acct__bg_btn_sign_in</item>
-        <item name="acct__sign_in_button_text_color">@color/acct__btn_sign_in_text</item>
+        <item name="acct__sign_in_button_text_color">@drawable/ac_color_list</item>
         <item name="acct__logo_small_drawable">@drawable/acct__logo_small</item>
         <item name="acct__logo_large_drawable">@drawable/acct__logo_large</item>
         <item name="acct__logo_text_drawable">@drawable/acct__logo_text</item>
