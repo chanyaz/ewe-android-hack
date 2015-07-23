@@ -1,13 +1,13 @@
 package com.expedia.bookings.test.phone.cars;
 
+import org.joda.time.DateTime;
+
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.espresso.PhoneTestCase;
-
-import org.joda.time.DateTime;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -40,7 +40,8 @@ public class CarDetailsTests extends PhoneTestCase {
 		assertTextAppearsInFirstOffer("4 Doors");
 		assertTextAppearsInFirstOffer("Daily $32");
 		assertTextAppearsInFirstOffer("Total $32");
-		assertViewWithIdAppearsInFirstOffer(R.id.address);
+		assertViewWithIdAppearsInFirstOffer(R.id.address_line_one);
+		assertViewWithIdAppearsInFirstOffer(R.id.address_line_two);
 		assertViewWithIdAppearsInFirstOffer(R.id.car_details);
 		assertViewWithIdAppearsInFirstOffer(R.id.vendor);
 		assertViewWithIdAppearsInFirstOffer(R.id.transmission);
@@ -67,7 +68,8 @@ public class CarDetailsTests extends PhoneTestCase {
 		assertViewNotDisplayedInFirstOffer(R.id.doors);
 		assertTextAppearsInFirstOffer("Daily $32");
 		assertTextAppearsInFirstOffer("Total $32");
-		assertViewWithIdAppearsInFirstOffer(R.id.address);
+		assertViewWithIdAppearsInFirstOffer(R.id.address_line_one);
+		assertViewWithIdAppearsInFirstOffer(R.id.address_line_two);
 		assertViewWithIdAppearsInFirstOffer(R.id.car_details);
 		assertViewWithIdAppearsInFirstOffer(R.id.vendor);
 		assertViewWithIdAppearsInFirstOffer(R.id.transmission);
