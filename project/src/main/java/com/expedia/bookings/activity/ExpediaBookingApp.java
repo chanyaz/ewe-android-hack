@@ -230,9 +230,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 
 		if (!isAutomation()) {
-			AdTracker.init(getApplicationContext());
-			startupTimer.addSplit("AdTracker started.");
-
 			if (ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled()) {
 				AdX.initialize(this);
 				startupTimer.addSplit("AdX started.");

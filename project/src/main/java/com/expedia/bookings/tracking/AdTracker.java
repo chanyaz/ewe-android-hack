@@ -2,8 +2,6 @@ package com.expedia.bookings.tracking;
 
 import java.util.List;
 
-import android.content.Context;
-
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelBookingResponse;
@@ -22,11 +20,6 @@ import com.expedia.bookings.utils.TuneUtils;
 import com.mobiata.android.Log;
 
 public class AdTracker {
-	private static Context context;
-
-	public static void init(Context c) {
-		context = c;
-	}
 
 	public static void trackFirstLaunch() {
 		// Other
@@ -34,7 +27,7 @@ public class AdTracker {
 		LeanPlumUtils.tracking("FirstLaunch");
 	}
 
-	public static void trackLaunch(Context context) {
+	public static void trackLaunch() {
 		// Other
 		AdX.trackLaunch();
 		LeanPlumUtils.tracking("Launch");
@@ -82,8 +75,8 @@ public class AdTracker {
 		Property property = Db.getTripBucket().getHotel().getProperty();
 		AdX.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
 		LeanPlumUtils.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
-		TuneUtils.trackHotelConfirmation(totalPrice, orderNumber, currency, numberRooms, Db.getTripBucket().getHotel());
-		new FacebookEvents(context).trackHotelConfirmation(Db.getTripBucket().getHotel(), rate);
+		TuneUtils.trackHotelConfirmation(totalPrice, orderNumber, currency, numberRooms,
+			Db.getTripBucket().getHotel());
 	}
 
 	public static void trackFlightBooked() {
@@ -100,7 +93,6 @@ public class AdTracker {
 						money.getCurrency(), money.getAmount().doubleValue());
 					TuneUtils.trackFlightBooked(Db.getTripBucket().getFlight(), orderNumber,
 						money.getCurrency(), money.getAmount().doubleValue());
-					new FacebookEvents(context).trackFlightConfirmation(Db.getTripBucket().getFlight());
 				}
 			}
 		}
@@ -122,16 +114,16 @@ public class AdTracker {
 		AdX.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 		LeanPlumUtils.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(),
 			totalPrice.getAmount().doubleValue());
-		TuneUtils.trackHotelCheckoutStarted(property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
-		new FacebookEvents(context).trackHotelCheckout(Db.getTripBucket().getHotel(), rate);
+		TuneUtils.trackHotelCheckoutStarted(property, totalPrice.getCurrency(),
+			totalPrice.getAmount().doubleValue());
 	}
 
 	public static void trackFlightCheckoutStarted() {
 		if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getFlightTrip() != null) {
 			Money totalPrice = Db.getTripBucket().getFlight().getFlightTrip().getTotalFare();
 			AdX.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
-			LeanPlumUtils.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
-			new FacebookEvents(context).trackFlightCheckout(Db.getTripBucket().getFlight());
+			LeanPlumUtils.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(),
+				totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 		}
 	}
 
@@ -156,7 +148,6 @@ public class AdTracker {
 
 	public static void trackHotelSearch() {
 		if (Db.getHotelSearch() != null) {
-			new FacebookEvents(context).trackHotelSearch(Db.getHotelSearch());
 			AdX.trackHotelSearch(Db.getHotelSearch());
 			LeanPlumUtils.trackHotelSearch();
 			TuneUtils.trackHotelSearchResults();
@@ -164,14 +155,12 @@ public class AdTracker {
 	}
 
 	public static void trackHotelInfoSite() {
-			TuneUtils.trackHotelInfoSite(Db.getHotelSearch().getSelectedProperty());
-		new FacebookEvents(context).trackHotelInfosite(Db.getHotelSearch());
+		TuneUtils.trackHotelInfoSite(Db.getHotelSearch().getSelectedProperty());
 	}
 
 	public static void trackFlightSearch() {
 		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchParams() != null) {
 			AdX.trackFlightSearch(Db.getFlightSearch());
-			new FacebookEvents(context).trackFlightSearch(Db.getFlightSearch());
 			LeanPlumUtils.trackFlightSearch();
 		}
 	}
@@ -182,7 +171,6 @@ public class AdTracker {
 
 	public static void trackFlightRateDetailOverview() {
 		TuneUtils.trackFlightRateDetailOverview();
-		new FacebookEvents(context).trackFlightDetail(Db.getFlightSearch(), Db.getFlightSearch().getSelectedFlightTrip());
 	}
 
 	public static void updatePOS() {

@@ -47,7 +47,7 @@ public class RouterActivity extends Activity {
 
 		// Track the app loading
 		OmnitureTracking.trackAppLoading(mContext);
-		AdTracker.trackLaunch(mContext);
+		AdTracker.trackLaunch();
 
 		// Update data
 		ItineraryManager.getInstance().startSync(false, false, true);
