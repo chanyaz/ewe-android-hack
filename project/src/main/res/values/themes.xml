@@ -305,7 +305,7 @@
         that attr should be removed from AccountLibTheme and
         must be added in all Whitelabel.AccountLibTheme for all whitelabels
     -->
-    <style name="Whitelabel.AccountLibTheme" parent="Theme.AppCompat">
+    <style name="Whitelabel.AccountLibTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="acct__input_text_error_color">@color/acct__bg_input_text_error</item>
         <item name="acct__input_text_good_color">@color/acct__bg_input_text_good</item>
         <item name="acct__sign_in_button_background_drawable">@drawable/acct__bg_btn_sign_in</item>
@@ -328,9 +328,6 @@
     -->
     <style name="AccountLibTheme" parent="Whitelabel.AccountLibTheme">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
         <item name="acct__flavor_text_color">@color/acct__flavor_text</item>
         <item name="acct__input_text_default_color">@color/acct__bg_input_text_default</item>
         <item name="acct__toolbar_icon_color">@color/toolbar_icon</item>

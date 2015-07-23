@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -261,24 +260,12 @@ public class AccountLibActivity extends AppCompatActivity
 			}
 		}
 
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				finish();
-			}
-		}, 300);
-
-
+		finish();
 	}
 
 	@Override
 	public void loginExtenderWorkComplete(LoginExtender extender) {
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				finish();
-			}
-		}, 300);
+		finish();
 	}
 
 	@Override
