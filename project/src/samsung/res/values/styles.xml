@@ -24,4 +24,14 @@
         <item name="android:background">@drawable/bg_collection_lx_btn</item>
     </style>
 
+    <style name="Dark.ActionBar.Samsung" parent="Dark.ActionBar">
+        <item name="android:background">@drawable/bg_action_bar_samsung</item>
+        <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom_samsung</item>
+    </style>
+
+    <style name="RatingBar.UserReview.Blue">
+        <item name="android:progressDrawable">@drawable/ratingbar_userreview_blue</item>
+    </style>
+
+
 </resources>
