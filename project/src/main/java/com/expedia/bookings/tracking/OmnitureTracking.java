@@ -1821,7 +1821,6 @@ public class OmnitureTracking {
 
 	private static final String CHECKOUT_FLIGHT_INFO_TEMPLATE = "App.Flight.Checkout";
 	private static final String CHECKOUT_HOTEL_INFO_TEMPLATE = "App.Hotels.Checkout";
-	private static final String LOGIN_PAGELOAD  = "App.Account.Login";
 
 	private static final String getBase(boolean isFlights) {
 		return isFlights ? CHECKOUT_FLIGHT_INFO_TEMPLATE : CHECKOUT_HOTEL_INFO_TEMPLATE;
@@ -2083,10 +2082,6 @@ public class OmnitureTracking {
 	public static void trackDoneBookingClick(Context context, LineOfBusiness lob) {
 		String link = getBase(lob == LineOfBusiness.FLIGHTS) + ".Confirm.Done";
 		internalTrackLink(context, link);
-	}
-
-	public static void trackTabletLoginPageLoad(Context context) {
-		internalTrackPageLoadEventStandard(context, LOGIN_PAGELOAD);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2600,7 +2595,7 @@ public class OmnitureTracking {
 	private static final String HOTEL_LOGIN_PARAM = "Hotels.Checkout";
 	private static final String FLIGHT_LOGIN_PARAM = "Flight.Checkout";
 
-	public static void trackLoginSuccess(Context ctx, LineOfBusiness lob, boolean loggedInWithFb, boolean isRewards) {
+	public static void trackLoginSuccess(Context ctx) {
 		ADMS_Measurement s = createTrackLinkEvent(ctx, LOGIN_SUCCESS);
 		addStandardFields(ctx, s);
 		s.setEvents("event26");

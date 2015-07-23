@@ -331,7 +331,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public synchronized void startLoginActivity() {
 		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItineraryLoaderLoginExtender());
-		OmnitureTracking.trackTabletLoginPageLoad(getActivity());
 		User.signIn(getActivity(), args);
 	}
 
