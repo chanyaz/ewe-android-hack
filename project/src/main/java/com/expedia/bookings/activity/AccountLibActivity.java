@@ -252,7 +252,9 @@ public class AccountLibActivity extends AppCompatActivity
 	public void onUserAccountRefreshed() {
 		User.addUserToAccountManager(this, Db.getUser());
 		if (User.isLoggedIn(this)) {
-			OmnitureTracking.trackLoginSuccess(this, lob, loginWithFacebook, Db.getUser().isRewardsUser());
+			if (loginWithFacebook) {
+				OmnitureTracking.trackLoginSuccess(AccountLibActivity.this);
+			}
 			AdTracker.trackLogin();
 			if (loginExtender != null) {
 				loginExtenderContainer.setVisibility(View.VISIBLE);
@@ -277,7 +279,7 @@ public class AccountLibActivity extends AppCompatActivity
 	private AnalyticsListener analyticsListener = new AnalyticsListener() {
 		@Override
 		public void signInSucceeded() {
-
+			OmnitureTracking.trackLoginSuccess(AccountLibActivity.this);
 		}
 
 		@Override
