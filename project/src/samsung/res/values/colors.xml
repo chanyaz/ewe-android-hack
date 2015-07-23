@@ -36,4 +36,7 @@
     <color name="lx_secondary_color_disabled_samsung">#DB6F0D</color>
     <color name="lx_unchecked_toggle_text_color_samsung">@android:color/white</color>
 
+    <!-- Itin colors -->
+    <color name="itin_flight_line_color_samsung">#5195BB</color>
+
 </resources>
