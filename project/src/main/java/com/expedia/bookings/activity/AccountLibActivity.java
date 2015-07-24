@@ -332,11 +332,6 @@ public class AccountLibActivity extends AppCompatActivity
 		public void userReceivedErrorOnSignInAttempt(String s) {
 			OmnitureTracking.trackAccountCreateError(AccountLibActivity.this, s);
 		}
-
-		@Override
-		public void userTriedReallyHardToNotEnterValidPassword(String s) {
-			OmnitureTracking.trackLoginPasswordValidation(AccountLibActivity.this, s);
-		}
 	};
 
 	public class Listener extends AccountView.Listener {
