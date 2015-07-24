@@ -32,7 +32,6 @@ dependencies {
             'adxtag3.2.6.jar',
             'MobileAppTracker-3.9.1.jar',
     ])
-    compile project(':lib:FlightLib')
     compile project(':lib:Utils')
     compile project(':lib:ShareEverywhere:shareeverywhere')
     compile project(':lib:AndroidTime')
