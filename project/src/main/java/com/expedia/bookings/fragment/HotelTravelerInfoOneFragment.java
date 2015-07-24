@@ -65,7 +65,7 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 
 		mIsUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidHotelCKOMerEmailGuestOpt);
 		if (mIsUserBucketedForTest && !User.isLoggedIn(getActivity())) {
-			getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
 			TripBucketItemHotel tripHotel = Db.getTripBucket().getHotel();
 			CreateTripResponse createTripResponse = tripHotel.getCreateTripResponse();
 			boolean isChecked = false;
@@ -77,31 +77,15 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 				case CONSENT_TO_OPT_IN:
 					mMerchandiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_in_TEMPLATE).put("brand", BuildConfig.brand).format());
 					isChecked = tripHotel.isMerEmailOptInShownOnce() ? tripHotel.isMerEmailOptIn() : isChecked;
-					mMerchandiseOptCheckBox.setVisibility(View.VISIBLE);
+					initBucketedUsers(isChecked);
 					break;
 				case CONSENT_TO_OPT_OUT:
 					mMerchandiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_out_TEMPLATE).put("brand", BuildConfig.brand).format());
 					isChecked = tripHotel.isMerEmailOptInShownOnce() ? !tripHotel.isMerEmailOptIn() : isChecked;
-					mMerchandiseOptCheckBox.setVisibility(View.VISIBLE);
+					initBucketedUsers(isChecked);
 					break;
 				}
 			}
-
-			mMerchandiseOptCheckBox.setChecked(isChecked);
-			updateMerEmailOptCheckBox(isChecked);
-
-			mMerchandiseOptCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-					mIsMerEmailOptIn = (mMerchandiseSpam == MerchandiseSpam.CONSENT_TO_OPT_IN ? isChecked : !isChecked);
-					// Save to DB
-					Db.getTripBucket().getHotel().setIsMerEmailOptIn(mIsMerEmailOptIn);
-					Db.saveTripBucket(getActivity());
-
-					updateMerEmailOptCheckBox(isChecked);
-					trackMerEmailOptInOut();
-				}
-			});
 		}
 
 		mSectionTravelerInfo.addChangeListener(new SectionChangeListener() {
@@ -122,6 +106,27 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 		});
 
 		return v;
+	}
+
+	private void initBucketedUsers(boolean isChecked) {
+		mMerchandiseOptCheckBox.setChecked(isChecked);
+		updateMerEmailOptCheckBox(isChecked);
+
+		mMerchandiseOptCheckBox.setVisibility(View.VISIBLE);
+		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+		mMerchandiseOptCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+				mIsMerEmailOptIn = (mMerchandiseSpam == MerchandiseSpam.CONSENT_TO_OPT_IN ? isChecked : !isChecked);
+				// Save to DB
+				Db.getTripBucket().getHotel().setIsMerEmailOptIn(mIsMerEmailOptIn);
+				Db.saveTripBucket(getActivity());
+
+				updateMerEmailOptCheckBox(isChecked);
+				trackMerEmailOptInOut();
+			}
+		});
 	}
 
 	private void trackMerEmailOptInOut() {
