@@ -170,6 +170,8 @@ public class AccountLibActivity extends AppCompatActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
+		accountView.setListener(listener);
+		accountView.setAnalyticsListener(analyticsListener);
 		if (Session.getActiveSession() != null) {
 			Session.getActiveSession().addCallback(mFacebookStatusCallback);
 		}
@@ -593,12 +595,6 @@ public class AccountLibActivity extends AppCompatActivity
 		if (loading) {
 			if (ldf == null) {
 				ldf = ThrobberDialog.newInstance(message);
-				ldf.setCancelListener(new ThrobberDialog.CancelListener() {
-					@Override
-					public void onCancel() {
-						finish();
-					}
-				});
 			}
 			else {
 				ldf.setText(message);
@@ -711,8 +707,6 @@ public class AccountLibActivity extends AppCompatActivity
 		}
 
 		setIsLoading(false);
-
-		finish();
 	}
 
 	protected void setStatusText(int resId, boolean isHeading) {
