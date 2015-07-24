@@ -65,8 +65,7 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 
 		mIsUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidHotelCKOMerEmailGuestOpt);
 		if (mIsUserBucketedForTest && !User.isLoggedIn(getActivity())) {
-			Ui.hideKeyboard(getActivity(), WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+			getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 			TripBucketItemHotel tripHotel = Db.getTripBucket().getHotel();
 			CreateTripResponse createTripResponse = tripHotel.getCreateTripResponse();
 			boolean isChecked = false;
