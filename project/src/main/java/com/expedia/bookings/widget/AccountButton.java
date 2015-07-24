@@ -1,9 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -171,11 +168,8 @@ public class AccountButton extends LinearLayout {
 			int bgResourceId = Ui.obtainThemeResID(getContext(), R.attr.skin_phoneCheckoutLoginButtonDrawable);
 			mLoginContainer.setBackgroundResource(bgResourceId);
 			mLoginTextView.setTextColor(Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
-			Drawable drawable = getResources().getDrawable(R.drawable.expedia).mutate();
-			drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-			int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
-			mLoginTextView.setPadding(padding, 0, 0, 0);
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_expedia_white_logo_small, 0, 0, 0);
+			mLoginTextView.setCompoundDrawablePadding(getResources().getDimensionPixelSize(R.dimen.card_icon_padding));
 		}
 		else {
 			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
