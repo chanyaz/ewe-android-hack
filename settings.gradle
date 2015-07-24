@@ -6,6 +6,5 @@ include ':project'
 // Order matters in the dependencies block of individual projects
 //include ':lib:FlightLib'
 include ':lib:Utils'
-include ':lib:ShareEverywhere:shareeverywhere'
 include ':lib:AndroidTime'
 include ':lib:mocked:mocke3'
