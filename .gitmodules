@@ -4,9 +4,6 @@
 [submodule "lib/Utils"]
 	path = lib/Utils
 	url = git@github.com:/ExpediaInc/ewe-android-utils.git
-[submodule "lib/FlightLib"]
-	path = lib/FlightLib
-	url = git@github.com:/ExpediaInc/ewe-android-flight-lib.git
 [submodule "project/assets/ExpediaSharedData"]
 	path = project/src/main/assets/ExpediaSharedData
 	url = git@github.com:/ExpediaInc/ewe-nativeapps-shared-data.git
