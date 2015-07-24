@@ -20,13 +20,13 @@
         <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe_samsung</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_samsung</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_samsung</item>
-        <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_samsung</item>
-        <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
+        <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin</item>
+        <item name="skin_checkoutLoginButtonColor">#836B11</item>
         <item name="skin_loginBrandIconDrawable">@drawable/samsung_login</item>
         <item name="skin_carsUncheckedToggleTextColor">@color/cars_unchecked_toggle_text_color_samsung</item>
         <item name="skin_carsPinDrawable">@drawable/cars_pin_samsung</item>
 
-        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_samsung</item>
+        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/samsung</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/samsung</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/samsung</item>
