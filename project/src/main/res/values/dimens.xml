@@ -296,4 +296,8 @@
     <!-- Dimensions For hotel traveler edit page -->
     <dimen name="hotel_traveler_edit_email_disclaimer_text_size">12sp</dimen>
 
+    <!-- Dimensions For LX Toolbar dropshadow height -->
+    <dimen name="toolbar_dropshadow_height">5dp</dimen>
+
+
 </resources>

@@ -78,6 +78,9 @@ public class CarResultsPresenter extends Presenter {
 	@InjectView(R.id.sort_toolbar)
 	FilterButtonWithCountWidget filterToolbar;
 
+	@InjectView(R.id.toolbar_dropshadow)
+	View toolbarDropshadow;
+
 	@InjectView(R.id.filter)
 	CarFilterWidget filter;
 
@@ -390,6 +393,7 @@ public class CarResultsPresenter extends Presenter {
 			lastState = forward ? CarCategoryDetailsWidget.class.getName() : CarCategoryListWidget.class.getName();
 			toolbarBackground.setVisibility(VISIBLE);
 			toolbarBackground.setAlpha(1f);
+			toolbarDropshadow.setAlpha(1f);
 
 			filterToolbar.setTranslationY(0);
 			filterToolbar.showNumberOfFilters(filter.getNumCheckedFilters(forward));
@@ -421,6 +425,7 @@ public class CarResultsPresenter extends Presenter {
 			toolbarBackground.setVisibility(VISIBLE);
 			toolbarBackground.setTranslationX(0);
 			toolbarBackground.setAlpha(forward ? 0f : 1f);
+			toolbarDropshadow.setAlpha(forward ? 0f : 1f);
 
 			details.reset();
 
@@ -615,6 +620,9 @@ public class CarResultsPresenter extends Presenter {
 		toolbarBackground.setAlpha(
 			Strings.equals(getCurrentState(), CarCategoryDetailsWidget.class.getName()) ? toolbarBackground.getAlpha()
 				: 1f);
+		toolbarDropshadow.setAlpha(
+			Strings.equals(getCurrentState(), CarCategoryDetailsWidget.class.getName()) ? toolbarBackground.getAlpha()
+				: 1f);
 		toolbar.setVisibility(VISIBLE);
 		toolbarBackground.setVisibility(VISIBLE);
 		toolBarDetailText.setTranslationY(0);
@@ -646,6 +654,7 @@ public class CarResultsPresenter extends Presenter {
 			if (recyclerView == details.offerList && details.offerList.getChildAt(0) != null) {
 				float ratio = details.parallaxScrollHeader();
 				toolbarBackground.setAlpha(ratio);
+				toolbarDropshadow.setAlpha(ratio);
 			}
 
 			int heightOfButton = filterToolbar.getHeight();
