@@ -52,7 +52,7 @@ public class LXSortFilterWidget extends LinearLayout {
 	@InjectView(R.id.dynamic_feedback_container)
 	DynamicFeedbackWidget dynamicFeedbackWidget;
 
-	@InjectView(R.id.toolbar)
+	@InjectView(R.id.toolbar_sort_filter)
 	Toolbar toolbar;
 
 	@Override
