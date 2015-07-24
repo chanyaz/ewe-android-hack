@@ -15,8 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="5dp"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/account_button_margin_top" />
+        android:orientation="vertical" />
 
     <include
         android:id="@+id/wallet_button_layout"
