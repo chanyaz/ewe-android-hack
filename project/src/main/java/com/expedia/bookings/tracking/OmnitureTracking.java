@@ -3463,10 +3463,10 @@ public class OmnitureTracking {
 
 		//Search Origin
 		s.setEvar(3, "D=c3");
-		s.setProp(3, "CAR:" + (isOffAirportSearch ? "CAR:Non-Airport" : carSearchParams.origin));
+		s.setProp(3, "CAR:" + (isOffAirportSearch ? "Non-Airport" : carSearchParams.origin));
 
 		//Search Destination
-		s.setProp(4, "CAR:" + (isOffAirportSearch ? "CAR:Non-Airport" : carSearchParams.origin));
+		s.setProp(4, "CAR:" + (isOffAirportSearch ? "Non-Airport" : carSearchParams.origin));
 		s.setEvar(4, "D=c4");
 
 		setDateValues(s, carSearchParams.startDateTime.toLocalDate(), carSearchParams.endDateTime.toLocalDate());
