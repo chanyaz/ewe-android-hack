@@ -190,10 +190,8 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         params.put("tzOffsetEastern", "" + easternDaylightTzOffset)
 
         // Inject hotel DateTimes
-        val hotelCancellationEnd = startOfTodayPacific.plusDays(9).plusHours(11).plusMinutes(32)
         val hotelCheckIn = startOfTodayPacific.plusDays(10).plusHours(11).plusMinutes(32)
         val hotelCheckOut = startOfTodayPacific.plusDays(12).plusHours(18).plusMinutes(4)
-        params.put("hotelCancellationEndEpochSeconds", "" + hotelCancellationEnd.getMillis() / 1000)
         params.put("hotelCheckInEpochSeconds", "" + hotelCheckIn.getMillis() / 1000)
         params.put("hotelCheckOutEpochSeconds", "" + hotelCheckOut.getMillis() / 1000)
 
@@ -221,6 +219,26 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         val lxEnd = startOfTodayPacific.plusDays(25).plusHours(17)
         params.put("lxStartEpochSeconds", "" + lxStart.getMillis() / 1000)
         params.put("lxEndEpochSeconds", "" + lxEnd.getMillis() / 1000)
+
+
+        // Inject package DateTimes
+        val pckgStart = startOfTodayPacific.plusDays(35).plusHours(4)
+        val pckgEnd = startOfTodayPacific.plusDays(41).plusHours(12)
+        val pckgHotelCheckIn = startOfTodayPacific.plusDays(35).plusHours(8).plusMinutes(0)
+        val pckgHotelCheckOut = startOfTodayPacific.plusDays(40).plusHours(2).plusMinutes(0)
+        val pckgOutboundFlightDeparture = startOfTodayPacific.plusDays(35).plusHours(4)
+        val pckgOutboundFlightArrival = startOfTodayEastern.plusDays(35).plusHours(6).plusMinutes(4)
+        val pckgInboundFlightDeparture = startOfTodayEastern.plusDays(40).plusHours(10)
+        val pckgInboundFlightArrival = startOfTodayPacific.plusDays(40).plusHours(12)
+        params.put("pckgStartEpochSeconds", "" + pckgStart.getMillis() / 1000)
+        params.put("pckgEndEpochSeconds", "" + pckgEnd.getMillis() / 1000)
+        params.put("pckgOutboundFlightDepartureEpochSeconds", "" + pckgOutboundFlightDeparture.getMillis() / 1000)
+        params.put("pckgOutboundFlightArrivalEpochSeconds", "" + pckgOutboundFlightArrival.getMillis() / 1000)
+        params.put("pckgInboundFlightDepartureEpochSeconds", "" + pckgInboundFlightDeparture.getMillis() / 1000)
+        params.put("pckgInboundFlightArrivalEpochSeconds", "" + pckgInboundFlightArrival.getMillis() / 1000)
+        params.put("pckgHotelCheckInEpochSeconds", "" + pckgHotelCheckIn.getMillis() / 1000)
+        params.put("pckgHotelCheckOutEpochSeconds", "" + pckgHotelCheckOut.getMillis() / 1000)
+
 
         return makeResponse("/api/trips/happy.json", params)
     }

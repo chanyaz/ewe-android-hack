@@ -35,7 +35,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		String hotelTitle = getListItemValues(hotelRow, R.id.header_text_view);
 		final String expectedHotelTitle = "Orchard Hotel";
 		assertEquals(expectedHotelTitle, hotelTitle);
-		hotelRow.onChildView(withText(containsString("Check in"))).atPosition(0).perform(click());
+		hotelRow.onChildView(withText(containsString("Check in"))).perform(click());
 		screenshot("Hotel Itin");
 		onView(withId(R.id.bed_type_text_view)).perform(scrollTo());
 		assertViewWithTextIsDisplayed(R.id.local_phone_number_header_text_view, "Local Phone");
@@ -68,7 +68,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed("Airline Confirmation");
 		assertViewWithTextIsDisplayed("1102138068718");
 		assertViewWithTextIsDisplayed("Directions");
-		outboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(scrollTo(), click());
+		outboundFlightRow.onChildView(withText(outboundFlightAirportTimeStr)).perform(scrollTo(), click());
 
 		// Air attach assertions
 		DataInteraction airAttachRow = TripsScreen.tripsListItem().atPosition(2);
@@ -83,7 +83,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		carRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 		screenshot("Car Itin");
 		assertEquals("Budget", carTitle);
-		carRow.onChildView(withId(R.id.header_text_date_view)).perform(scrollTo(), click());
+		carRow.onChildView(withText(containsString("Pick up"))).perform(scrollTo(), click());
 
 		// Return flight assertions
 		DataInteraction returnFlightRow = TripsScreen.tripsListItem().atPosition(4);
@@ -91,6 +91,8 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertEquals("From DTW at 9:59 PM", returnFlightAirportTimeStr);
 		returnFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 		screenshot("Return Flight Itin");
+		returnFlightRow.onChildView(withText(returnFlightAirportTimeStr)).perform(scrollTo(), click());
+
 
 		// Lx assertions
 		DataInteraction lxRow = TripsScreen.tripsListItem().atPosition(5);
@@ -99,11 +101,58 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		final String expectedLxTitle = "Explorer Pass: Choose 4 Museums, Attractions, & Tours: Explorer Pass - Chose 4 Attractions & Tours";
 		assertEquals(expectedLxTitle, lxTitle);
 
+		// Pacakage outbound flight assertions
+		DataInteraction pckgOutboundFlightRow = TripsScreen.tripsListItem().atPosition(6);
+		String pckgOutboundFlightAirportTimeStr = getListItemValues(pckgOutboundFlightRow,
+			R.id.flight_status_bottom_line);
+		assertEquals("From SFO at 4:00 AM", pckgOutboundFlightAirportTimeStr);
+		pckgOutboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
+		screenshot("Package Outbound Flight Itin");
+		assertViewWithTextIsDisplayed(R.id.departure_time, "4:00 AM");
+		assertViewWithTextIsDisplayed(R.id.departure_time_tz, "Depart (PDT)");
+		assertViewWithTextIsDisplayed(R.id.arrival_time, "6:04 AM");
+		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, "Arrive (PDT)");
+		onView(withText("11590764196")).perform(scrollTo());
+		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
+		assertViewWithTextIsDisplayed(R.id.departure_time_text_view, "4:00 AM");
+		assertViewWithTextIsDisplayed("McCarran Int'l Airport");
+		assertViewWithTextIsDisplayed(R.id.passengers_label, "Passengers");
+		assertViewWithTextIsDisplayed(R.id.passenger_name_list, "android qa");
+		assertViewWithTextIsDisplayed("Airline Confirmation");
+		assertViewWithTextIsDisplayed("11590764196");
+		assertViewWithTextIsDisplayed("Directions");
+		pckgOutboundFlightRow.onChildView(withText(pckgOutboundFlightAirportTimeStr)).perform(scrollTo(), click());
+
+		// Package hotel assertions
+		DataInteraction pckgHotelRow = TripsScreen.tripsListItem().atPosition(7);
+		String pckgHotelTitle = getListItemValues(pckgHotelRow, R.id.header_text_view);
+		final String expectedPckgHotelTitle = "Caesars Palace";
+		assertEquals(expectedPckgHotelTitle, pckgHotelTitle);
+		pckgHotelRow.onChildView(withId(R.id.header_text_date_view)).perform(scrollTo(), click());
+		screenshot("Package Hotel Itin");
+		pckgHotelRow.onChildView(withId(R.id.bed_type_text_view)).perform(scrollTo());
+		assertViewWithTextIsDisplayed(R.id.local_phone_number_header_text_view, "Local Phone");
+		assertViewWithTextIsDisplayed(R.id.local_phone_number_text_view, "1-702-731-7110");
+		assertViewWithTextIsDisplayed(R.id.room_type_header_text_view, "Room Type");
+		assertViewWithTextIsDisplayed(R.id.room_type_text_view, "Roman Tower");
+		assertViewWithTextIsDisplayed(R.id.bed_type_header_text_view, "Bed Type");
+		assertViewWithTextIsDisplayed(R.id.bed_type_text_view, "1 king bed");
+		pckgHotelRow.onChildView(withText(containsString("Check in"))).perform(scrollTo(), click());
+
+		// Package return flight assertions
+		DataInteraction pckgReturnFlightRow = TripsScreen.tripsListItem().atPosition(8);
+		String pckgReturnFlightAirportTimeStr = getListItemValues(pckgReturnFlightRow, R.id.flight_status_bottom_line);
+		assertEquals("From LAS at 10:00 AM", pckgReturnFlightAirportTimeStr);
+		pckgReturnFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
+		screenshot("Package Return Flight Itin");
+		pckgReturnFlightRow.onChildView(withText(pckgReturnFlightAirportTimeStr)).perform(scrollTo(), click());
+
 		// Cruise
-		DataInteraction cruiseRow = TripsScreen.tripsListItem().atPosition(6);
+		DataInteraction cruiseRow = TripsScreen.tripsListItem().atPosition(9);
 		String cruiseTitle = getListItemValues(cruiseRow, R.id.header_text_view);
 		screenshot("Cruise");
 		final String expectedCruiseTitle = "Cruise Card";
 		assertEquals(expectedCruiseTitle, cruiseTitle);
 	}
+
 }
