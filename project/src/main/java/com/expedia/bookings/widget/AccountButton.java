@@ -123,11 +123,6 @@ public class AccountButton extends LinearLayout {
 			mErrorContainer.setVisibility(View.GONE);
 		}
 
-		// Rewards container
-		if (mRewardsContainer != null) {
-			mRewardsContainer.setVisibility(View.GONE);
-		}
-
 		// Loading container
 		mAccountLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 
@@ -135,12 +130,14 @@ public class AccountButton extends LinearLayout {
 		if (isLoggedIn) {
 			mLoginContainer.setVisibility(View.GONE);
 			mLogoutContainer.setVisibility(View.VISIBLE);
+			mRewardsContainer.setVisibility(View.VISIBLE);
 			bindLogoutContainer(traveler, lob);
 		}
 		// If not logged in, show the login container
 		else {
 			mLoginContainer.setVisibility(View.VISIBLE);
 			mLogoutContainer.setVisibility(View.GONE);
+			mRewardsContainer.setVisibility(View.GONE);
 			bindLoginContainer(lob);
 		}
 	}
