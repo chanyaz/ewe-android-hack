@@ -310,4 +310,6 @@
     <dimen name="hotel_marker_padding_width">20dp</dimen>
     <dimen name="hotel_marker_padding_height">14dp</dimen>
 
+    <!-- Approx height of car & lx suggestion's row -->
+    <dimen name="suggestion_list_height">60dp</dimen>
 </resources>

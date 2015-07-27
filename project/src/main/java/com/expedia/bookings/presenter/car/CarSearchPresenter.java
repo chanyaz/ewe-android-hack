@@ -251,6 +251,9 @@ public class CarSearchPresenter extends Presenter
 			public void onGlobalLayout() {
 				searchParamsContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				searchParamsContainerHeight = searchParamsContainer.getMeasuredHeight();
+
+				// Set the dropdown height to size of 3 suggestions.
+				pickUpLocation.setDropDownHeight(3 * (int) getResources().getDimension(R.dimen.suggestion_list_height));
 			}
 		});
 	}
