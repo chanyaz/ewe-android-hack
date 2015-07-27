@@ -48,7 +48,7 @@ public class LXSortFilterWidgetTest {
 	public void testLXSortAndFilterWidgetViews() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		LXSortFilterWidget widget = (LXSortFilterWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.widget_lx_sort_filter, null);
+			.inflate(R.layout.test_lx_sort_filter_widget, null);
 		assertNotNull(widget);
 		ButterKnife.inject(activity);
 

@@ -36,6 +36,7 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	public LXSortFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		inflate(context, R.layout.widget_lx_sort_filter, this);
 	}
 
 	private Button doneButton;

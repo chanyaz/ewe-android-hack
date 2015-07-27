@@ -99,32 +99,26 @@ public class LXResultsPresenter extends Presenter {
 	// Transitions
 	private Presenter.Transition searchResultsToSortFilter = new Presenter.Transition(LXSearchResultsWidget.class, LXSortFilterWidget.class,
 		new DecelerateInterpolator(), ANIMATION_DURATION) {
-		private int sortFilterWidgetHeight;
 
 		@Override
 		public void startTransition(boolean forward) {
-			final int parentHeight = getHeight();
-			sortFilterWidgetHeight = parentHeight - Ui.getStatusBarHeight(getContext());
-			sortFilterWidget.setVisibility(View.VISIBLE);
-			float pos = forward ? parentHeight + sortFilterWidgetHeight : sortFilterWidgetHeight;
-			sortFilterWidget.setTranslationY(pos);
 			sortFilterButton.showNumberOfFilters(sortFilterWidget.getNumberOfSelectedFilters());
+			sortFilterWidget.setVisibility(View.VISIBLE);
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
-			float pos = forward ? sortFilterWidgetHeight + (-f * sortFilterWidgetHeight) : (f * sortFilterWidgetHeight);
-			sortFilterWidget.setTranslationY(pos);
+			float translatePercentage = forward ? 1f - f : f;
+			sortFilterWidget.setTranslationY(sortFilterWidget.getHeight() * translatePercentage);
 		}
 
 		@Override
 		public void endTransition(boolean forward) {
-			sortFilterWidget.setTranslationY(forward ? 0 : sortFilterWidgetHeight);
 		}
 
 		@Override
 		public void finalizeTransition(boolean forward) {
-			sortFilterWidget.setTranslationY(forward ? 0 : sortFilterWidgetHeight);
+			sortFilterWidget.setTranslationY(forward ? 0 : sortFilterWidget.getHeight());
 			sortFilterWidget.setVisibility(forward ? VISIBLE : GONE);
 		}
 	};
@@ -140,7 +134,6 @@ public class LXResultsPresenter extends Presenter {
 		if (toolbarSize > 0) {
 			searchResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
 		}
-		sortFilterWidget.setPadding(0, toolbarSize, 0, 0);
 		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
 		sortFilterButton.setFilterText(getResources().getString(R.string.lx_sort_filter));
 	}
