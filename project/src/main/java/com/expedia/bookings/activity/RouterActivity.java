@@ -4,7 +4,6 @@ import java.io.File;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -30,16 +29,6 @@ public class RouterActivity extends Activity {
 
 	private Context mContext;
 
-	private static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
-
-	public static Intent createIntent(Context context, boolean openedFromWidget) {
-		Intent intent = new Intent(context, RouterActivity.class);
-		if (openedFromWidget) {
-			intent.putExtra(OPENED_FROM_WIDGET, true);
-		}
-		return intent;
-	}
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,18 +50,8 @@ public class RouterActivity extends Activity {
 			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
 		}
 		else {
-			boolean forceShowWaterfall = false;
-			if (getIntent().getBooleanExtra(OPENED_FROM_WIDGET, false)) {
-				// We're being ultra-safe here and only sending a kill broadcast if opened from
-				// the widget.  This is so that the widget *always* opens to the launch screen.
-				NavUtils.sendKillActivityBroadcast(this);
-
-				// If opened from widget, we want to always show the reverse waterfall
-				forceShowWaterfall = true;
-			}
-
 			// On default, go to launch screen
-			NavUtils.goToLaunchScreen(this, forceShowWaterfall);
+			NavUtils.goToLaunchScreen(this, false);
 		}
 
 		// Finish this Activity after routing

@@ -50,6 +50,7 @@ import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
@@ -60,7 +61,6 @@ import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.squareup.phrase.Phrase;
 
@@ -198,7 +198,7 @@ public class ResultsHotelDetailsFragment extends Fragment implements IBackManage
 			scrollFragmentToTop();
 			toggleLoadingState(true);
 			prepareDetailsForInfo(mRootC, property);
-			if (!NetUtils.isOnline(getActivity())) {
+			if (!ExpediaNetUtils.isOnline(getActivity())) {
 				Events.post(new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_HOTEL_DETAILS));
 				mCurrentProperty = null;
 			}

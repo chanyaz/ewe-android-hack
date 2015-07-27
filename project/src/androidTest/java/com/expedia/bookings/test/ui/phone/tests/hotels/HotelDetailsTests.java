@@ -72,20 +72,16 @@ public class HotelDetailsTests extends PhoneTestCase {
 			ScreenActions.enterLog(TAG, "Verifying UI elements for details of: " + rowHotelName);
 			if (!rowHotelName.isEmpty() && !rowHotelName.contains("...")) {
 				String detailHotelsName = EspressoUtils.getText(R.id.title);
-				ScreenActions.enterLog(TAG, "Testing that the hotel name: " + rowHotelName + " matches " + detailHotelsName);
 				assertEquals(rowHotelName, detailHotelsName);
 			}
+
 			HotelsDetailsScreen.hotelGallery().check(matches(isDisplayed()));
-			ScreenActions.enterLog(TAG, "the photo gallery is displayed");
 
 			HotelsDetailsScreen.ratingBar().check(matches(isDisplayed()));
-			ScreenActions.enterLog(TAG, "user reviews is displayed");
 
 			EspressoUtils.assertViewIsDisplayed(R.id.rate_text_view);
-			ScreenActions.enterLog(TAG, "hotel price is displayed");
 
 			HotelsDetailsScreen.bookNowButton().perform(scrollTo()).check(matches(isDisplayed()));
-			ScreenActions.enterLog(TAG, "Book now button is displayed");
 
 			Espresso.pressBack();
 		}

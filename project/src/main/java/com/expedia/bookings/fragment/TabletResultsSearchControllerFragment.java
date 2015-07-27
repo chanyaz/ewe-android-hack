@@ -44,6 +44,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -52,7 +53,6 @@ import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TouchableFrameLayout;
-import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -538,7 +538,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public void onClick(View v) {
 			if (getState().showsSearchControls() || getState().showsSearchPopup()) {
-				if (NetUtils.isOnline(getActivity())) {
+				if (ExpediaNetUtils.isOnline(getActivity())) {
 					if (copyTempValuesToParams()) {
 						doSpUpdate();
 					}

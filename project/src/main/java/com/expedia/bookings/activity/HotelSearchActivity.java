@@ -103,6 +103,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -126,7 +127,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -785,6 +785,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			AlertDialog.Builder builder = new Builder(this);
 			builder.setTitle(R.string.ChooseLocation);
 			builder.setItems(freeformLocations, new Dialog.OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					Address address = mAddresses.get(which);
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
@@ -807,12 +808,14 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				}
 			});
 			builder.setNegativeButton(R.string.cancel, new Dialog.OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					simulateErrorResponse(getString(R.string.NoGeocodingResults, getCurrentSearchParams().getQuery()));
 				}
 			});
 			builder.setOnCancelListener(new OnCancelListener() {
+				@Override
 				public void onCancel(DialogInterface dialog) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					simulateErrorResponse(getString(R.string.NoGeocodingResults, getCurrentSearchParams().getQuery()));
@@ -825,6 +828,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			final ServerError error = Db.getHotelSearch().getSearchResponse().getErrors().get(0);
 			builder.setMessage(error.getExtra("message"));
 			builder.setPositiveButton(R.string.upgrade, new OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					SocialUtils.openSite(HotelSearchActivity.this, error.getExtra("url"));
 				}
@@ -836,6 +840,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			AlertDialog.Builder builder = new Builder(this);
 			builder.setMessage(R.string.EnableLocationSettings);
 			builder.setPositiveButton(R.string.ok, new Dialog.OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 					if (NavUtils.isIntentAvailable(mContext, intent)) {
@@ -1127,7 +1132,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	//----------------------------------
 
 	private void findLocation() {
-		if (!NetUtils.isOnline(mContext)) {
+		if (!ExpediaNetUtils.isOnline(mContext)) {
 			simulateErrorResponse(R.string.error_no_internet);
 			return;
 		}
@@ -1505,7 +1510,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		searchParams.setUserQuery(searchParams.getQuery());
 
-		if (!NetUtils.isOnline(this)) {
+		if (!ExpediaNetUtils.isOnline(this)) {
 			simulateErrorResponse(R.string.error_no_internet);
 			return;
 		}
@@ -1516,12 +1521,14 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	private final Download<List<Address>> mGeocodeDownload = new Download<List<Address>>() {
+		@Override
 		public List<Address> doDownload() {
 			return LocationServices.geocodeGoogle(mContext, Db.getHotelSearch().getSearchParams().getQuery());
 		}
 	};
 
 	private final OnDownloadComplete<List<Address>> mGeocodeCallback = new OnDownloadComplete<List<Address>>() {
+		@Override
 		public void onDownload(List<Address> results) {
 			if (results == null || results.size() == 0) {
 				OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "LocationNotFound");
@@ -1581,7 +1588,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		commitEditedSearchParams();
 
-		if (!NetUtils.isOnline(this)) {
+		if (!ExpediaNetUtils.isOnline(this)) {
 			simulateErrorResponse(R.string.error_no_internet);
 			return;
 		}
@@ -2098,6 +2105,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		// showing up for a split second for reason I'm not entirely sure of.  ~dlew
 		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 			mProgressBar.postDelayed(new Runnable() {
+				@Override
 				public void run() {
 					mProgressBar.setVisibility(View.GONE);
 				}
@@ -2179,6 +2187,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	public void onDrawStarted() {
 		mGLProgressBarStarted = true;
 		mProgressBarHider.postDelayed(new Runnable() {
+			@Override
 			public void run() {
 				mProgressBarHider.setVisibility(View.GONE);
 			}
@@ -2492,12 +2501,14 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 
+		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			List<ChildTraveler> children = getCurrentSearchParams().getChildren();
 			GuestsPickerUtils.setChildrenFromSpinners(HotelSearchActivity.this, mChildAgesLayout, children);
 			GuestsPickerUtils.updateDefaultChildTravelers(HotelSearchActivity.this, children);
 		}
 
+		@Override
 		public void onNothingSelected(AdapterView<?> parent) {
 			// Do nothing.
 		}

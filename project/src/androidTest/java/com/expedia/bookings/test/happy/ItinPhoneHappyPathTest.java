@@ -11,6 +11,7 @@ import com.expedia.bookings.test.espresso.PhoneTestCase;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
@@ -48,8 +49,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 		// Outbound flight assertions
 		DataInteraction outboundFlightRow = TripsScreen.tripsListItem().atPosition(1);
-		String outboundFlightAirportTimeStr = getListItemValues(outboundFlightRow, R.id.flight_status_bottom_line);
-		assertEquals("From SFO at 11:32 AM", outboundFlightAirportTimeStr);
+		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).check(matches(withText("From SFO at 11:32 AM")));
 		outboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 		screenshot("Outbound Flight Itin");
 		assertViewWithTextIsDisplayed(R.id.departure_time, "11:32 AM");
@@ -68,7 +68,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed("Airline Confirmation");
 		assertViewWithTextIsDisplayed("1102138068718");
 		assertViewWithTextIsDisplayed("Directions");
-		outboundFlightRow.onChildView(withText(outboundFlightAirportTimeStr)).perform(scrollTo(), click());
+		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).perform(scrollTo(), click());
 
 		// Air attach assertions
 		DataInteraction airAttachRow = TripsScreen.tripsListItem().atPosition(2);

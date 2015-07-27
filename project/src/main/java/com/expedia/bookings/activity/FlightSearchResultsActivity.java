@@ -71,6 +71,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -82,7 +83,6 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.squareup.phrase.Phrase;
@@ -806,7 +806,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			if (response == null) {
 				response = new FlightSearchResponse();
 				ServerError error = new ServerError(ApiMethod.FLIGHT_SEARCH);
-				if (!NetUtils.isOnline(mContext)) {
+				if (!ExpediaNetUtils.isOnline(mContext)) {
 					// 821: If we get a null response and the user is offline,
 					// we can assume it was a lack of internet that caused the problem.
 					error.setPresentationMessage(getString(R.string.error_no_internet));
