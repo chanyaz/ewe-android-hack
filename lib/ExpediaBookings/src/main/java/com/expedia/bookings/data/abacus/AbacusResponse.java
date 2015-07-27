@@ -69,6 +69,11 @@ public class AbacusResponse {
 		return abacusTestMap.size();
 	}
 
+	public void updateFrom(AbacusResponse otherResponse) {
+		abacusTestMap.putAll(otherResponse.abacusTestMap);
+		abacusTestDebugMap.putAll(otherResponse.abacusTestDebugMap);
+	}
+
 	@Override
 	public String toString() {
 		return Strings.toPrettyString(this);
