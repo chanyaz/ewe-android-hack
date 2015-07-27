@@ -96,7 +96,6 @@ import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
 import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
-import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.AdTracker;
@@ -787,11 +786,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
 					HotelSearchParams searchParams = getCurrentSearchParams();
 					SearchType searchType = SearchUtils.isExactLocation(address) ? SearchType.ADDRESS : SearchType.CITY;
-
-					// The user found a better version of the search they ran,
-					// so we'll replace it from startSearchDownloader
-					Search.delete(HotelSearchActivity.this, searchParams);
-
 					searchParams.setQuery(formattedAddress);
 					setSearchEditViews();
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
@@ -1547,11 +1541,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
 					HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 					SearchType searchType = SearchUtils.isExactLocation(address) ? SearchType.ADDRESS : SearchType.CITY;
-
-					// The user found a better version of the search they ran,
-					// so we'll replace it from startSearchDownloader
-					Search.delete(HotelSearchActivity.this, searchParams);
-
 					searchParams.setQuery(formattedAddress);
 					setSearchEditViews();
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
@@ -1587,12 +1576,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		if (!ExpediaNetUtils.isOnline(this)) {
 			simulateErrorResponse(R.string.error_no_internet);
 			return;
-		}
-
-		SearchType type = Db.getHotelSearch().getSearchParams().getSearchType();
-		if (type != SearchType.MY_LOCATION && type != SearchType.VISIBLE_MAP_AREA
-			&& (type != SearchType.HOTEL || !getIntent().getBooleanExtra(Codes.FROM_DEEPLINK, false))) {
-			Search.add(this, Db.getHotelSearch().getSearchParams());
 		}
 
 		Log.d("Resetting filter...");
@@ -2441,9 +2424,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			}
 			else {
 				Object o = AutocompleteProvider.extractSearchOrString(suggestion);
-
-				if (o instanceof Search) {
-					mEditedSearchParams.fillFromSearch((Search) o);
+				if (o instanceof HotelSearchParams) {
+					mEditedSearchParams = (HotelSearchParams) o;
 				}
 				else {
 					mEditedSearchParams.setSearchType(SearchType.FREEFORM);
@@ -2561,8 +2543,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// 1574: It seems that the cursor is null if we are still finding location
 			if (suggestion != null) {
 				Object o = AutocompleteProvider.extractSearchOrString(suggestion);
-				if (o instanceof Search) {
-					mEditedSearchParams.fillFromSearch((Search) o);
+				if (o instanceof HotelSearchParams) {
+					mEditedSearchParams = (HotelSearchParams) o;
 				}
 				startSearch();
 				return true;
