@@ -13,13 +13,14 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.enums.PassengerCategory;
+import com.mobiata.android.util.AndroidUtils;
 
 public class TravelerUtils {
 
 	public static ArrayList<String> generateTravelerBoxLabels(Context context, List<Traveler> travelers) {
 		ArrayList<String> travelerLabels = new ArrayList<String>();
 
-		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout) && !AndroidUtils.isTablet(context);
 		int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
 
 		if (travelers.size() == 1) {
