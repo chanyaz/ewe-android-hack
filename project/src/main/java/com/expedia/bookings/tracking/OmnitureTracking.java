@@ -76,6 +76,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -84,7 +85,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 
 /**
@@ -2401,7 +2401,7 @@ public class OmnitureTracking {
 
 	private static void addEvent15And16Maybe(Context context, ADMS_Measurement s) {
 		String event = "event15";
-		if (!NetUtils.isOnline(context)) {
+		if (!ExpediaNetUtils.isOnline(context)) {
 			event += ",event16";
 		}
 		s.setEvents(event);
