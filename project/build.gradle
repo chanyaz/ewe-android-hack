@@ -13,7 +13,7 @@ apply plugin: 'checkstyle'
 apply plugin: 'fork'
 
 repositories {
-    mavenCentral()
+    jcenter()
     maven { url 'https://maven.fabric.io/public' }
     maven { url 'http://www.leanplum.com/leanplum-sdks/' }
     maven {
@@ -32,9 +32,7 @@ dependencies {
             'adxtag3.2.6.jar',
             'MobileAppTracker-3.9.1.jar',
     ])
-    compile project(':lib:FlightLib')
     compile project(':lib:Utils')
-    compile project(':lib:ShareEverywhere:shareeverywhere')
     compile project(':lib:AndroidTime')
     // We keep some classes in a pure java project so we can test them with pure jvm unit tests
     compile (project(':lib:ExpediaBookings')) {
@@ -42,6 +40,7 @@ dependencies {
     }
     compile 'com.expedia:svg-android:0.1.0'
     compile 'com.expedia:android-account-lib:0.5.7'
+    compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
 
     // Google Play Services deps on the support lib
