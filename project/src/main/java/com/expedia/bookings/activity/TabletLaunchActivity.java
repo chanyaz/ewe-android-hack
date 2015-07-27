@@ -85,7 +85,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok);
 		}
 
-		OmnitureTracking.trackPageLoadLaunchScreen(this, null);
+		OmnitureTracking.trackPageLoadLaunchScreen(this);
 	}
 
 	@Override

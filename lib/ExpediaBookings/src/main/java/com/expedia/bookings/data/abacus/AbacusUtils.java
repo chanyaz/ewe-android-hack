@@ -35,25 +35,25 @@ public class AbacusUtils {
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
-	public static enum DefaultVariate {
+	public enum DefaultVariate {
 		CONTROL,
 		BUCKETED
 	}
 
-	public static enum HSearchInfluenceMessagingVariate {
+	public enum HSearchInfluenceMessagingVariate {
 		CONTROL,
 		WORKING_HARD,
 		SEARCHING_HUNDREDS,
 		NO_TEXT
 	}
 
-	public static enum HISMapIconVariate {
+	public enum HISMapIconVariate {
 		CONTROL,
 		MAP_PIN,
 		TEXT_ONLY
 	}
 
-	public static enum FMissingTravelerCalloutVariate {
+	public enum FMissingTravelerCalloutVariate {
 		CONTROL,
 		SINGLE_LINE_CALLOUT,
 		SECOND_LINE_CALLOUT
