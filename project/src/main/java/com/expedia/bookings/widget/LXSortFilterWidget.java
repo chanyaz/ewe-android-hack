@@ -217,9 +217,9 @@ public class LXSortFilterWidget extends LinearLayout {
 		return doneButton;
 	}
 
-	public LXSortFilterWidget setSelectedFilterCategories(
-		Map<String, LXCategoryMetadata> selectedFilterCategories) {
-		this.selectedFilterCategories = selectedFilterCategories;
+	public LXSortFilterWidget setSelectedFilterCategories(String filters) {
+		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata(filters);
+		this.selectedFilterCategories = lxSortFilterMetadata.lxCategoryMetadataMap;
 		return this;
 	}
 }
