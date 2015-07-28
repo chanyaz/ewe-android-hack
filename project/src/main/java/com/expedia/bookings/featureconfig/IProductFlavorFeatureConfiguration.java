@@ -127,4 +127,5 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean shouldSendSiteIdInRequests();
 
+	String getPhoneCollectionId();
 }
