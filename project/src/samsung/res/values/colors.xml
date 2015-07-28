@@ -39,4 +39,7 @@
     <!-- Itin colors -->
     <color name="itin_flight_line_color_samsung">#5195BB</color>
 
+    <!-- Flight colors -->
+    <color name="flight_free_cancellation_text_color_samsung">#7baed4</color>
+
 </resources>
