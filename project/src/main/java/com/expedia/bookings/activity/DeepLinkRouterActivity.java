@@ -119,6 +119,11 @@ public class DeepLinkRouterActivity extends Activity {
 			finish();
 			return;
 		}
+		else if (dataString.contains("signIn")) {
+			handleSignIn();
+			finish();
+			return;
+		}
 		else if (ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl().equalsIgnoreCase(host)) {
 			final String shortUrl = dataString;
 			final ExpediaServices services = new ExpediaServices(this);
@@ -673,6 +678,10 @@ public class DeepLinkRouterActivity extends Activity {
 			Log.w(TAG, "Could not decode destination", e);
 			NavUtils.goToLaunchScreen(this);
 		}
+	}
+
+	private void handleSignIn() {
+		NavUtils.goToSignIn(this);
 	}
 
 	@Override
