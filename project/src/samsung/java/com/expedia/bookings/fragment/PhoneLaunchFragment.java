@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
+import com.expedia.bookings.location.CurrentLocationObservable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Images;
@@ -35,8 +37,12 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
 
+import rx.Observer;
+import rx.Subscription;
+
 public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
 
+	private Subscription locSubscription;
 	private boolean wasOffline;
 
 	private View collectionDetailsView;
@@ -57,7 +63,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		Events.post(new Events.PhoneLaunchOnResume());
 
 		if (checkConnection()) {
-			Events.post(new Events.DownloadAndShowCollections());
+			findLocation();
 		}
 
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -69,6 +75,9 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	@Override
 	public void onPause() {
 		super.onPause();
+		if (locSubscription != null) {
+			locSubscription.unsubscribe();
+		}
 		getActivity().unregisterReceiver(broadcastReceiver);
 		Events.unregister(this);
 		OmnitureTracking.onPause();
@@ -102,6 +111,27 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			Events.post(new Events.LaunchOnlineState());
 			return true;
 		}
+	}
+
+	// Location finder
+
+	private void findLocation() {
+		locSubscription = CurrentLocationObservable.create(getActivity()).subscribe(new Observer<Location>() {
+			@Override
+			public void onCompleted() {
+				// ignore
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				Events.post(new Events.LaunchLocationFetchError());
+			}
+
+			@Override
+			public void onNext(Location currentLocation) {
+				Events.post(new Events.LaunchLocationFetchComplete(currentLocation));
+			}
+		});
 	}
 
 	@Override
