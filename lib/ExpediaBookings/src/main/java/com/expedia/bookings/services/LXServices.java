@@ -257,6 +257,7 @@ public class LXServices {
 		public LXSearchResponse call(LXSearchResponse lxSearchResponse, LXSortFilterMetadata lxSortFilterMetadata) {
 
 			if (lxSortFilterMetadata.lxCategoryMetadataMap == null) {
+				// No filters Applied.
 				lxSearchResponse.activities.clear();
 				lxSearchResponse.activities.addAll(lxSearchResponse.unFilteredActivities);
 				for (Map.Entry<String, LXCategoryMetadata> filterCategory : lxSearchResponse.filterCategories
@@ -273,11 +274,15 @@ public class LXServices {
 		}
 	}
 
-	public Subscription lxSearchSortFilter(LXSortFilterMetadata lxSortFilterMetadata,
+	public Subscription lxSearchSortFilter(LXSearchParams lxSearchParams, LXSortFilterMetadata lxSortFilterMetadata,
 		Observer<LXSearchResponse> searchResultFilterObserver) {
+		Observable<LXSearchResponse> lxSearchResponseObservable =
+			lxSearchParams == null ? Observable.just(cachedLXSearchResponse) : lxSearch(lxSearchParams);
 
-		return Observable.combineLatest(Observable.just(cachedLXSearchResponse), Observable.just(lxSortFilterMetadata),
-			new CombineSearchResponseAndSortFilterStreams())
+		return (lxSortFilterMetadata != null ?
+			Observable.combineLatest(lxSearchResponseObservable, Observable.just(lxSortFilterMetadata),
+				new CombineSearchResponseAndSortFilterStreams()) :
+			lxSearch(lxSearchParams))
 			.subscribeOn(this.subscribeOn)
 			.observeOn(this.observeOn)
 			.subscribe(searchResultFilterObserver);
