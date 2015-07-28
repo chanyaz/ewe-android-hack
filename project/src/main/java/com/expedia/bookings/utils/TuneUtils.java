@@ -96,13 +96,15 @@ public class TuneUtils {
 			eventItem.withAttribute2(supplierType);
 
 			withTuidAndMembership(event)
-				.withRevenue(selectedProperty.getLowestRate().getDisplayPrice().getAmount().doubleValue())
-				.withCurrencyCode(selectedProperty.getLowestRate().getDisplayPrice().getCurrency())
 				.withDate1(hotelSearchParams.getCheckInDate().toDate())
 				.withDate2(hotelSearchParams.getCheckOutDate().toDate())
 				.withEventItems(Arrays.asList(eventItem))
 				.withAttribute2(isUserLoggedIn())
 				.withAttribute4("ola.us.display.criteo.appremarketing.hotel");
+			if (selectedProperty.getLowestRate() != null) {
+				event.withRevenue(selectedProperty.getLowestRate().getDisplayPrice().getAmount().doubleValue())
+					.withCurrencyCode(selectedProperty.getLowestRate().getDisplayPrice().getCurrency());
+			}
 			trackEvent(event);
 		}
 	}
@@ -151,8 +153,13 @@ public class TuneUtils {
 					topFiveHotelIdsBuilder.append(property.getPropertyId());
 					String hotelId = property.getPropertyId();
 					String hotelName = property.getName();
-					String price = property.getLowestRate().getDisplayPrice().getAmount().toString();
-					String currency = property.getLowestRate().getDisplayBasePrice().getCurrency();
+					String price = "";
+					String currency = "";
+					if (property.getLowestRate() != null) {
+						price = property.getLowestRate().getDisplayPrice().getAmount().toString();
+						currency = property.getLowestRate().getDisplayBasePrice().getCurrency();
+					}
+
 					String starRating = Double.toString(property.getHotelRating());
 					String miles = property.getDistanceFromUser() != null ? Double
 						.toString(property.getDistanceFromUser().getDistance()) : "0";
