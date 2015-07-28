@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -14,10 +13,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.phrase.Phrase;
@@ -47,14 +48,16 @@ public class ErrorWidget extends FrameLayout {
 	@InjectView(R.id.error_toolbar)
 	Toolbar toolbar;
 
+	private ArrowXDrawable navIcon;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		Drawable nav = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp).mutate();
-		nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-		toolbar.setNavigationIcon(nav);
+		navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
+		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+		toolbar.setNavigationIcon(navIcon);
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -231,5 +234,9 @@ public class ErrorWidget extends FrameLayout {
 		errorText.setText(text);
 		toolbar.setTitle(toolbarTextId);
 		errorButton.setText(buttonTextId);
+	}
+
+	public void animationUpdate(float f) {
+		navIcon.setParameter(f);
 	}
 }

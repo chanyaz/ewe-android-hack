@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
+import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.lx.LXSearchParams;
@@ -37,6 +38,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
@@ -108,6 +110,7 @@ public class LXSearchParamsPresenter extends Presenter
 	private LxSuggestionAdapter suggestionAdapter;
 
 	private ArrayList<Suggestion> mRecentLXLocationsSearches;
+	private ArrowXDrawable navIcon;
 
 	public LXSearchParamsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -309,7 +312,8 @@ public class LXSearchParamsPresenter extends Presenter
 	}
 
 	private void setupToolbar() {
-		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp).mutate();
+		navIcon = ArrowXDrawableUtil
+			.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.CLOSE);
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
 		toolbar.inflateMenu(R.menu.lx_search_menu);
@@ -475,8 +479,9 @@ public class LXSearchParamsPresenter extends Presenter
 		calendarContainer.setTranslationY(translation);
 		toolBarSearchText.setTranslationY(yTrans);
 		toolBarSearchText.setAlpha(forward ? f : Math.abs(1 - f));
-				searchButton.setAlpha(forward ? f : Math.abs(1 - f));
-				toolbar.setAlpha(forward ? f : Math.abs(1 - f));
+		searchButton.setAlpha(forward ? f : Math.abs(1 - f));
+		toolbar.setAlpha(forward ? f : Math.abs(1 - f));
+		navIcon.setParameter(forward ? f : Math.abs(1 - f));
 	}
 
 	public void animationFinalize(boolean forward) {
@@ -494,5 +499,6 @@ public class LXSearchParamsPresenter extends Presenter
 		else {
 			Ui.hideKeyboard(LXSearchParamsPresenter.this);
 		}
+		navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType());
 	}
 }
