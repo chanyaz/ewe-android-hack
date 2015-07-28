@@ -154,7 +154,8 @@ public class TuneUtils {
 					String price = property.getLowestRate().getDisplayPrice().getAmount().toString();
 					String currency = property.getLowestRate().getDisplayBasePrice().getCurrency();
 					String starRating = Double.toString(property.getHotelRating());
-					String miles = Double.toString(property.getDistanceFromUser().getDistance());
+					String miles = property.getDistanceFromUser() != null ? Double
+						.toString(property.getDistanceFromUser().getDistance()) : "0";
 					sb.append(
 						String.format("%s|%s|%s|%s|%s|%s", hotelId, hotelName, price, currency, starRating, miles));
 					if (i != 4) {
