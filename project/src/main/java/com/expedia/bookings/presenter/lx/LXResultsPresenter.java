@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +15,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
+import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.cars.ApiError;
@@ -27,6 +27,7 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Strings;
@@ -82,6 +83,7 @@ public class LXResultsPresenter extends Presenter {
 	LinearLayout toolbarTwo;
 
 	private int searchTop;
+	private ArrowXDrawable navIcon;
 
 	private SearchResultObserver searchResultObserver = new SearchResultObserver();
 
@@ -292,7 +294,8 @@ public class LXResultsPresenter extends Presenter {
 	}
 
 	private void setupToolbar() {
-		Drawable navIcon = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
+		navIcon = ArrowXDrawableUtil
+			.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
 		toolbar.setNavigationIcon(navIcon);
 		toolbar.inflateMenu(R.menu.lx_results_details_menu);
 
@@ -338,6 +341,7 @@ public class LXResultsPresenter extends Presenter {
 		float yTrans = forward ?  - (searchTop * -f) : (searchTop * (1 - f));
 		toolBarDetailText.setTranslationY(yTrans);
 		toolBarSubtitleText.setTranslationY(yTrans);
+		navIcon.setParameter(forward ? f : Math.abs(1 - f));
 	}
 
 	public void animationFinalize(boolean forward) {
@@ -346,6 +350,7 @@ public class LXResultsPresenter extends Presenter {
 		toolbarBackground.setVisibility(VISIBLE);
 		toolBarDetailText.setTranslationY(0);
 		toolBarSubtitleText.setTranslationY(0);
+		navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType());
 	}
 
 	RecyclerView.OnScrollListener recyclerScrollListener = new RecyclerView.OnScrollListener() {

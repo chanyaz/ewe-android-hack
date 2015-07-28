@@ -31,17 +31,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.expedia.bookings.data.cars.LatLong;
+import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
+import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
@@ -123,6 +125,7 @@ public class CarSearchPresenter extends Presenter
 
 	private int searchParamsContainerHeight;
 	private int searchTop;
+	private ArrowXDrawable navIcon;
 
 	public void reset() {
 		LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) searchParamsContainer.getLayoutParams();
@@ -153,7 +156,8 @@ public class CarSearchPresenter extends Presenter
 		OmnitureTracking.trackAppCarSearchBox(getContext());
 		calendarContainer.setCarDateTimeListener(this);
 
-		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp);
+		navIcon = ArrowXDrawableUtil
+			.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.CLOSE);
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
 		toolBarSearchText.setText(getResources().getString(R.string.toolbar_search_cars));
@@ -564,12 +568,14 @@ public class CarSearchPresenter extends Presenter
 		toolBarSearchText.setAlpha(forward ? f : Math.abs(1 - f));
 		searchButton.setAlpha(forward ? f : Math.abs(1 - f));
 		toolbar.setAlpha(forward ? f : Math.abs(1 - f));
+		navIcon.setParameter(forward ? f : Math.abs(1 - f));
 	}
 
 	public void animationFinalize(boolean forward) {
 		calendarContainer.setTranslationY(0);
 		searchContainer.setBackgroundColor(Color.WHITE);
 		toolBarSearchText.setTranslationY(0);
+		navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType());
 	}
 
 	public void setUpSearchButton() {
