@@ -195,11 +195,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isFacebookLoginIntegrationEnabled() {
-		return false;
+		return true;
 	}
 
 	public boolean isFacebookShareIntegrationEnabled() {
-		return false;
+		return true;
 	}
 
 	public boolean isGoogleWalletPromoEnabled() {
