@@ -118,7 +118,7 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 				promoTextView.setVisibility(View.VISIBLE);
 			}
 			else if (property.isLowestRateMobileExclusive()) {
-				promoTextView.setText(getString(R.string.mobile_exclusive));
+				promoTextView.setText(Ui.obtainThemeResID(getActivity(), R.attr.skin_dealText));
 				promoTextView.setVisibility(View.VISIBLE);
 			}
 			else {

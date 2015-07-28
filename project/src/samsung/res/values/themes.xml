@@ -66,6 +66,7 @@
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_samsung_logo_small</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_samsung</item>
         <item name="skin_etp_pay_now_charges_text">@string/etp_pay_now_charges_text</item>
+        <item name="skin_dealText">@string/samsung_deal</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Samsung">

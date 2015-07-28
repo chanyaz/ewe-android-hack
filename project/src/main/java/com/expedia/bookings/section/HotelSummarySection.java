@@ -321,7 +321,7 @@ public class HotelSummarySection extends RelativeLayout {
 				mUrgencyText.setVisibility(View.VISIBLE);
 			}
 			else if (property.isLowestRateMobileExclusive()) {
-				mUrgencyText.setText(context.getString(R.string.mobile_exclusive));
+				mUrgencyText.setText(Ui.obtainThemeResID(context, R.attr.skin_dealText));
 				mUrgencyText.setVisibility(View.VISIBLE);
 			}
 			else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {

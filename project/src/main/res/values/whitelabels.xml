@@ -363,4 +363,5 @@
     <attr name="skin_lxTicketPlusButtonSelectorDrawable" format="reference" />
     <attr name="skin_lxTicketMinusButtonSelectorDrawable" format="reference" />
 
+    <attr name="skin_dealText" format="reference|string" />
 </resources>
