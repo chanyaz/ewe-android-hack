@@ -956,10 +956,6 @@ public class Events {
 		}
 	}
 
-	public static class DownloadAndShowCollections {
-		// ignore
-	}
-
 	public static class LaunchLocationFetchComplete {
 		public final Location location;
 
