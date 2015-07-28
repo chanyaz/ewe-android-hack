@@ -51,10 +51,10 @@ public class LeanPlumUtils {
 	private static Context context;
 	private static boolean initialized = false;
 
-	public static void init(ExpediaBookingApp app, boolean isTest) {
+	public static void init(ExpediaBookingApp app) {
 		initialized = true;
 		context = app.getApplicationContext();
-		Leanplum.setIsTestModeEnabled(isTest);
+		Leanplum.setIsTestModeEnabled(ExpediaBookingApp.isAutomation());
 		if (BuildConfig.DEBUG) {
 			String appId = context.getString(R.string.lean_plum_sdk_dev_appid);
 			String key = context.getString(R.string.lean_plum_sdk_dev_key);
@@ -94,7 +94,6 @@ public class LeanPlumUtils {
 		updateLoggedInStatus();
 		Parser.parseVariablesForClasses(LeanPlumFlags.class);
 		Leanplum.addVariablesChangedHandler(flightShareCallback);
-
 	}
 
 	public static void registerTemplates() {
