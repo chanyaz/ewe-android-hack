@@ -28,7 +28,7 @@ public abstract class TripBucketItem implements JSONable {
 	// Boolean check to indicate if this bucket item is actively being viewed/selected.
 	private boolean mIsSelected;
 
-	boolean mIsMerEmailOptIn;
+	boolean mIsMerEmailOptIn = true;
 	boolean mIsMerEmailOptInShownOnce;
 
 	public boolean hasPriceChanged() {
