@@ -108,11 +108,6 @@ public class OmnitureTracking {
 	public static void init(Context context) {
 		Log.d(TAG, "init");
 
-		if (!ExpediaBookingApp.isAutomation()) {
-			ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
-			s.configureMeasurement(getReportSuiteIds(), getTrackingServer(context));
-		}
-
 		sMarketingDate = SettingUtils.get(context, context.getString(R.string.preference_marketing_date),
 				sMarketingDate);
 	}
@@ -3106,10 +3101,14 @@ public class OmnitureTracking {
 		// Add offline tracking, so user doesn't have to be online to be tracked
 		if (ExpediaBookingApp.isAutomation()) {
 			s.setOfflineTrackingEnabled(false);
-			s.clearTrackingQueue();
+			s.setOffline();
+			if (!ExpediaBookingApp.isRobolectric()) {
+				s.clearTrackingQueue();
+			}
 		}
 		else {
 			s.setOfflineTrackingEnabled(true);
+			s.setOnline();
 		}
 
 		// account
