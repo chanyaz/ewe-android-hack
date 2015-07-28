@@ -21,6 +21,7 @@ import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
@@ -196,33 +197,14 @@ public class LXResultsPresenter extends Presenter {
 		}
 	};
 
-	private class SearchResultFilterObserver implements Observer<LXSearchResponse> {
-		SearchType searchType;
-
-		@Override
-		public void onCompleted() {
-			cleanup();
-		}
-
-		@Override
-		public void onError(Throwable e) {
-			Log.e("LXSearch - onError", e);
-			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
-
-			if (e instanceof ApiError) {
-				Events.post(new Events.LXShowSearchError((ApiError) e, searchType));
-				return;
-			}
-
-			//Bucket all other errors as Unknown to give some feedback to the user
-			ApiError error = new ApiError(ApiError.Code.UNKNOWN_ERROR);
-			Events.post(new Events.LXShowSearchError(error, searchType));
-			sortFilterButton.setVisibility(View.GONE);
-		}
+	private class SearchResultFilterObserver extends SearchResultObserver {
 
 		@Override
 		public void onNext(LXSearchResponse lxSearchResponse) {
 			Events.post(new Events.LXSearchFilterResultsReady(lxSearchResponse.activities, lxSearchResponse.filterCategories));
+			sortFilterWidget.bind(lxSearchResponse.filterCategories);
+			sortFilterButton.setVisibility(View.VISIBLE);
+			sortFilterButton.showNumberOfFilters(sortFilterWidget.getNumberOfSelectedFilters());
 		}
 	};
 
@@ -260,10 +242,11 @@ public class LXResultsPresenter extends Presenter {
 		sortFilterButton.setVisibility(View.GONE);
 		searchResultObserver.searchType = event.lxSearchParams.searchType;
 		searchResultFilterObserver.searchType = event.lxSearchParams.searchType;
-		if (Strings.isNotEmpty(event.lxSearchParams.filters)) {
-			sortFilterWidget.setDeepLinkFilters(event.lxSearchParams.filters);
-		}
-		searchSubscription = lxServices.lxSearch(event.lxSearchParams, searchResultObserver);
+
+		boolean areExternalFiltersSupplied = Strings.isNotEmpty(event.lxSearchParams.filters);
+		searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams,
+			areExternalFiltersSupplied ? new LXSortFilterMetadata(event.lxSearchParams.filters) : null,
+			areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver);
 	}
 
 	@Subscribe
@@ -276,7 +259,7 @@ public class LXResultsPresenter extends Presenter {
 
 	@Subscribe
 	public void onLXFilterChanged(Events.LXFilterChanged event) {
-		searchSubscription = lxServices.lxSearchSortFilter(event.lxSortFilterMetadata, searchResultFilterObserver);
+		searchSubscription = lxServices.lxSearchSortFilter(null, event.lxSortFilterMetadata, searchResultFilterObserver);
 	}
 
 	@Subscribe
