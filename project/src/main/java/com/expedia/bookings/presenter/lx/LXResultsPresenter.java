@@ -247,6 +247,10 @@ public class LXResultsPresenter extends Presenter {
 		searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams,
 			areExternalFiltersSupplied ? new LXSortFilterMetadata(event.lxSearchParams.filters) : null,
 			areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver);
+
+		if (areExternalFiltersSupplied) {
+			sortFilterWidget.setSelectedFilterCategories(event.lxSearchParams.filters);
+		}
 	}
 
 	@Subscribe
