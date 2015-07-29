@@ -186,6 +186,9 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	@NotNull
 	private LXSortFilterMetadata defaultFilterMetadata() {
+		popularitySortButton.setSelected(true);
+		priceSortButton.setSelected(false);
+		selectedFilterCategories.clear();
 		return new LXSortFilterMetadata();
 	}
 
