@@ -157,7 +157,7 @@ public class TabletLaunchDestinationTilesFragment extends MeasurableFragment imp
 		c.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				OmnitureTracking.trackTabletLaunchTileSelect(getActivity(), collectionToAdd.id);
+				OmnitureTracking.trackTabletLaunchTileSelect(collectionToAdd.id);
 				if (collectionToAdd.id.equals(LaunchDb.YOUR_SEARCH_TILE_ID)) {
 					Events.post(new Events.SearchSuggestionSelected(collectionToAdd.locations.get(0).location,  true));
 				}

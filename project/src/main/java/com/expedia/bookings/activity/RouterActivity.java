@@ -58,18 +58,6 @@ public class RouterActivity extends Activity {
 		finish();
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
-	}
-
 	/**
 	 * Tell facebook we installed the app every time we launch!
 	 * This is asynchronous, and after we get a success message back from FB this call no longer does anything at all.

@@ -60,7 +60,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 		getActivity().registerReceiver(broadcastReceiver, filter);
-		OmnitureTracking.onResume(getActivity());
 
 		AbacusTest test = null;
 		if (launchScreenTest != null) {
@@ -80,7 +79,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		}
 		getActivity().unregisterReceiver(broadcastReceiver);
 		Events.unregister(this);
-		OmnitureTracking.onPause();
 	}
 
 	private void onReactToUserActive() {

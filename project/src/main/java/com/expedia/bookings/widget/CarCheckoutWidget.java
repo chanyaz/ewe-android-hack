@@ -97,7 +97,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 			String ogPriceForPriceChange = createTripResponse.originalPrice == null ?
 				"" : createTripResponse.originalPrice;
 			bind(createTripResponse.carProduct, ogPriceForPriceChange, createTripResponse.tripId);
-			OmnitureTracking.trackAppCarCheckoutPage(getContext(), createTripResponse.carProduct);
+			OmnitureTracking.trackAppCarCheckoutPage(createTripResponse.carProduct);
 			AdTracker.trackCarCheckoutStarted(createTripResponse.carProduct);
 			show(new Ready(), FLAG_CLEAR_BACKSTACK);
 		}

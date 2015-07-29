@@ -142,7 +142,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 			if (this.offer.id.equals(event.offer.id)) {
 				if (!offer.isToggled) {
 					//  Track Link to track Ticket Selected.
-					OmnitureTracking.trackLinkLXSelectTicket(itemView.getContext());
+					OmnitureTracking.trackLinkLXSelectTicket();
 				}
 				offer.isToggled = true;
 				offerRow.setVisibility(View.GONE);

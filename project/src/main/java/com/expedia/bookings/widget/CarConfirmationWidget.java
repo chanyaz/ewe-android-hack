@@ -220,7 +220,7 @@ public class CarConfirmationWidget extends FrameLayout {
 			ItineraryManager.getInstance().addGuestTrip(email, tripId);
 		}
 
-		OmnitureTracking.trackAppCarCheckoutConfirmation(getContext(), response);
+		OmnitureTracking.trackAppCarCheckoutConfirmation(response);
 		AdTracker.trackCarBooked(response);
 	}
 
@@ -228,14 +228,14 @@ public class CarConfirmationWidget extends FrameLayout {
 	public void searchHotels() {
 		HotelSearchParams sp = HotelSearchParams.fromCarParams(offer);
 		NavUtils.goToHotels(getContext(), sp);
-		OmnitureTracking.trackAppCarCheckoutConfirmationCrossSell(getContext(), LineOfBusiness.HOTELS);
+		OmnitureTracking.trackAppCarCheckoutConfirmationCrossSell(LineOfBusiness.HOTELS);
 		Events.post(new Events.FinishActivity());
 	}
 
 	@OnClick(R.id.add_flight_textView)
 	public void searchFlight() {
 		searchForFlights();
-		OmnitureTracking.trackAppCarCheckoutConfirmationCrossSell(getContext(), LineOfBusiness.FLIGHTS);
+		OmnitureTracking.trackAppCarCheckoutConfirmationCrossSell(LineOfBusiness.FLIGHTS);
 		Events.post(new Events.FinishActivity());
 	}
 

@@ -199,7 +199,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 					else {
 						offer.isToggled = false;
 						onItemExpanded(getAdapterPosition());
-						OmnitureTracking.trackAppCarViewDetails(mContext);
+						OmnitureTracking.trackAppCarViewDetails();
 					}
 				}
 			});
@@ -271,7 +271,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 						offer.pickUpLocation.longitude);
 					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
 					mContext.startActivity(intent);
-					OmnitureTracking.trackAppCarMapClick(mContext);
+					OmnitureTracking.trackAppCarMapClick();
 				}
 			});
 		}

@@ -193,7 +193,7 @@ public class CarResultsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
-			OmnitureTracking.trackAppCarNoResults(getContext(), e.getMessage());
+			OmnitureTracking.trackAppCarNoResults(e.getMessage());
 			Log.e("CarSearch - onError", e);
 
 			if (RetrofitUtils.isNetworkError(e)) {
@@ -254,7 +254,7 @@ public class CarResultsPresenter extends Presenter {
 		filterToolbar.showNumberOfFilters(0);
 		show(categories, FLAG_CLEAR_TOP);
 		bindFilter(carSearch);
-		OmnitureTracking.trackAppCarSearch(getContext(), searchedParams, unfilteredSearch.categories.size());
+		OmnitureTracking.trackAppCarSearch(searchedParams, unfilteredSearch.categories.size());
 		AdTracker.trackCarSearch(searchedParams);
 	}
 
@@ -488,10 +488,10 @@ public class CarResultsPresenter extends Presenter {
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
 
 			if (!forward) {
-				OmnitureTracking.trackAppCarSearch(getContext(), searchedParams, unfilteredSearch.categories.size());
+				OmnitureTracking.trackAppCarSearch(searchedParams, unfilteredSearch.categories.size());
 			}
 			else {
-				OmnitureTracking.trackAppCarFilter(getContext());
+				OmnitureTracking.trackAppCarFilter();
 			}
 		}
 	};
@@ -520,7 +520,7 @@ public class CarResultsPresenter extends Presenter {
 			filter.setVisibility(forward ? VISIBLE : GONE);
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
 			if (forward) {
-				OmnitureTracking.trackAppCarFilter(getContext());
+				OmnitureTracking.trackAppCarFilter();
 			}
 		}
 	};

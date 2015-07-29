@@ -176,8 +176,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 
 		supportInvalidateOptionsMenu();
 
-		OmnitureTracking.onResume(this);
-
 		AdTracker.trackViewHomepage();
 
 		TuneUtils.startTune(this);
@@ -190,8 +188,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		if (isFinishing() && mLaunchFragment != null) {
 			mLaunchFragment.cleanUp();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -373,7 +369,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		}
 
 		mJumpToItinId = notification.getItinId();
-		OmnitureTracking.trackNotificationClick(this, notification);
+		OmnitureTracking.trackNotificationClick(notification);
 
 		// There's no need to dismiss with the notification manager, since it was set to
 		// auto dismiss when clicked.

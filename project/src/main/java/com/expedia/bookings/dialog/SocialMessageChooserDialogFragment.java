@@ -59,7 +59,7 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 				SocialUtils.email(getActivity(), mSubject, mLongMessage);
 				dismiss();
 
-				OmnitureTracking.trackItinShare(getActivity(), mType, true);
+				OmnitureTracking.trackItinShare(mType, true);
 			}
 		});
 
@@ -70,7 +70,7 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 				SocialUtils.share(getActivity(), mSubject, mShortMessage);
 				dismiss();
 
-				OmnitureTracking.trackItinShare(getActivity(), mType, false);
+				OmnitureTracking.trackItinShare(mType, false);
 			}
 		});
 
@@ -84,7 +84,7 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 					startActivity(FacebookShareActivity.createIntent(getActivity(), mItinContentGenerator));
 					dismiss();
 
-					OmnitureTracking.trackItinShare(getActivity(), mType, false);
+					OmnitureTracking.trackItinShare(mType, false);
 				}
 			});
 		}

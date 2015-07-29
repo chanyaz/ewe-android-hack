@@ -277,7 +277,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		}
 		// Track change in Reviews filter if it is different than the current.
 		if (mViewPager.getCurrentItem() != position) {
-			OmnitureTracking.trackLinkReviewTypeSelected(getActivity(), referrerId);
+			OmnitureTracking.trackLinkReviewTypeSelected(referrerId);
 		}
 		mViewPager.setCurrentItem(position);
 	}

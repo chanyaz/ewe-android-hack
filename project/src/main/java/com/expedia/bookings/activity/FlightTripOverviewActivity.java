@@ -205,7 +205,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 	public void onResume() {
 		super.onResume();
 		Events.register(this);
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -261,8 +260,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 			mFlightBookingFragment.cancelDownload(FlightBookingFragment.FlightBookingState.CREATE_TRIP);
 			clearCCNumber();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -426,7 +423,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 
 		if (mLastTrackingMode != TrackingMode.OVERVIEW) {
 			mLastTrackingMode = TrackingMode.OVERVIEW;
-			OmnitureTracking.trackPageLoadFlightRateDetailsOverview(this);
+			OmnitureTracking.trackPageLoadFlightRateDetailsOverview();
 			AdTracker.trackFlightRateDetailOverview();
 		}
 	}
@@ -732,7 +729,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 
 			if (mLastTrackingMode != TrackingMode.SLIDE_TO_PURCHASE) {
 				mLastTrackingMode = TrackingMode.SLIDE_TO_PURCHASE;
-				OmnitureTracking.trackPageLoadFlightCheckoutSlideToPurchase(this);
+				OmnitureTracking.trackPageLoadFlightCheckoutSlideToPurchase();
 			}
 
 			//Bring in the slide to checkout view
@@ -749,7 +746,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 
 			if (mLastTrackingMode != TrackingMode.CHECKOUT) {
 				mLastTrackingMode = TrackingMode.CHECKOUT;
-				OmnitureTracking.trackPageLoadFlightCheckoutInfo(this);
+				OmnitureTracking.trackPageLoadFlightCheckoutInfo();
 			}
 
 			//Bring in the price bar

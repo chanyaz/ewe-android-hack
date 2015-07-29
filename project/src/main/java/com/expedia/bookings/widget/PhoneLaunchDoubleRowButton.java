@@ -114,19 +114,19 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 			Bundle animOptions = AnimUtils.createActivityScaleBundle(v);
 			switch (getId()) {
 			case R.id.hotels_button:
-				OmnitureTracking.trackNewLaunchScreenLobNavigation(getContext(), LineOfBusiness.HOTELS);
+				OmnitureTracking.trackNewLaunchScreenLobNavigation(LineOfBusiness.HOTELS);
 				NavUtils.goToHotels(getContext(), animOptions);
 				break;
 			case R.id.flights_button:
-				OmnitureTracking.trackNewLaunchScreenLobNavigation(getContext(), LineOfBusiness.FLIGHTS);
+				OmnitureTracking.trackNewLaunchScreenLobNavigation(LineOfBusiness.FLIGHTS);
 				NavUtils.goToFlights(getContext(), animOptions);
 				break;
 			case R.id.cars_button:
-				OmnitureTracking.trackNewLaunchScreenLobNavigation(getContext(), LineOfBusiness.CARS);
+				OmnitureTracking.trackNewLaunchScreenLobNavigation(LineOfBusiness.CARS);
 				NavUtils.goToCars(getContext(), animOptions);
 				break;
 			case R.id.activities_button:
-				OmnitureTracking.trackNewLaunchScreenLobNavigation(getContext(), LineOfBusiness.LX);
+				OmnitureTracking.trackNewLaunchScreenLobNavigation(LineOfBusiness.LX);
 				NavUtils.goToActivities(getContext(), animOptions);
 				break;
 			default:

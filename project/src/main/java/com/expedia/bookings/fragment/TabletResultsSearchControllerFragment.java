@@ -375,7 +375,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	protected void doSpUpdate() {
 		if (getActivity() != null && isAdded() && isResumed()) {
 			Sp.reportSpUpdate();
-			OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
+			OmnitureTracking.trackTabletSearchResultsPageLoad(Sp.getParams());
 		}
 	}
 
@@ -492,7 +492,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mDestClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			OmnitureTracking.trackChooseDestinationLinkClick(getActivity());
+			OmnitureTracking.trackChooseDestinationLinkClick();
 			setState(ResultsSearchState.DESTINATION, mAnimateButtonClicks);
 		}
 	};
@@ -500,7 +500,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mOrigClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			OmnitureTracking.trackChooseOriginLinkClick(getActivity());
+			OmnitureTracking.trackChooseOriginLinkClick();
 			setState(ResultsSearchState.FLIGHT_ORIGIN, mAnimateButtonClicks);
 		}
 	};
@@ -508,7 +508,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mCalClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			OmnitureTracking.trackChooseDatesLinkClick(getActivity());
+			OmnitureTracking.trackChooseDatesLinkClick();
 			setState(ResultsSearchState.CALENDAR_WITH_POPUP, mAnimateButtonClicks);
 		}
 	};
@@ -1304,7 +1304,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				getString(R.string.no) /*negativeButton*/);
 		}
 		if (!mRedeyeDialogFrag.isAdded()) {
-			OmnitureTracking.trackRedeyeAlert(getActivity());
+			OmnitureTracking.trackRedeyeAlert();
 			mRedeyeDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
 		}
 	}
@@ -1321,14 +1321,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				getString(R.string.no) /*negativeButton*/);
 		}
 		if (!mMismatchedDialogFrag.isAdded()) {
-			OmnitureTracking.trackDateMismatchAlert(getActivity());
+			OmnitureTracking.trackDateMismatchAlert();
 			mMismatchedDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
 		}
 	}
 
 	@Subscribe
 	public void onShowSearchFragment(Events.ShowSearchFragment event) {
-		OmnitureTracking.trackChooseDestinationLinkClick(getActivity());
+		OmnitureTracking.trackChooseDestinationLinkClick();
 		setState(event.searchState, mAnimateButtonClicks);
 	}
 

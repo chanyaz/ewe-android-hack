@@ -317,7 +317,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		// Call the original exception handler - probably crashlytics
 		mOriginalUncaughtExceptionHandler.uncaughtException(thread, ex);
 
-		OmnitureTracking.trackCrash(this, ex);
+		OmnitureTracking.trackCrash(ex);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

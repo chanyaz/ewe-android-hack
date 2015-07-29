@@ -1069,7 +1069,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 	@Override
 	public void onShareTargetSelected(ShareView view, Intent intent) {
-		OmnitureTracking.trackItinShareNew(getContext(), mItinContentGenerator.getType(), intent);
+		OmnitureTracking.trackItinShareNew(mItinContentGenerator.getType(), intent);
 	}
 
 }

@@ -19,7 +19,6 @@ import com.expedia.bookings.fragment.HotelOverviewFragment;
 import com.expedia.bookings.fragment.HotelOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
@@ -57,14 +56,12 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 	protected void onResume() {
 		super.onResume();
 		Events.register(this);
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		Events.unregister(this);
-		OmnitureTracking.onPause();
 
 		if (isFinishing()) {
 			clearCCNumber();

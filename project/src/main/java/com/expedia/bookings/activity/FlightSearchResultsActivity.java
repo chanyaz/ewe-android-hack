@@ -215,7 +215,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	@Override
 	protected void onResume() {
 		super.onResume();
-		OmnitureTracking.onResume(this);
 		if (mMenu != null) {
 			setMenusEnabled(true);
 		}
@@ -257,8 +256,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		if (mCurrentAnimator != null && mCurrentAnimator.isRunning()) {
 			mCurrentAnimator.end();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -681,7 +678,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			filter.notifyFilterChanged();
 			item.setChecked(true);
 
-			OmnitureTracking.trackLinkFlightSort(mContext, filter.getSort().name());
+			OmnitureTracking.trackLinkFlightSort(filter.getSort().name());
 
 			return true;
 		case R.id.menu_search: {
@@ -717,7 +714,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		Intent intent = new Intent(this, FlightSearchOverlayActivity.class);
 		startActivityForResult(intent, REQUEST_CODE_SEARCH_PARAMS);
 
-		OmnitureTracking.trackLinkFlightRefine(mContext, mLegPosition);
+		OmnitureTracking.trackLinkFlightRefine(mLegPosition);
 		OmnitureTracking.setPageLoadTrackingFromFSRAEnabled(false);
 	}
 

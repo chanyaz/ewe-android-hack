@@ -125,7 +125,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 	@Subscribe
 	public void onShowActivityDetails(Events.LXShowDetails event) {
 		//  Track Product Information on load of this Local Expert Information screen.
-		OmnitureTracking.trackAppLXProductInformation(getContext(), event.activityDetails, lxState.searchParams);
+		OmnitureTracking.trackAppLXProductInformation(event.activityDetails, lxState.searchParams);
 		activityDetails = event.activityDetails;
 
 		buildGallery(activityDetails);
@@ -137,7 +137,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 	@Subscribe
 	public void onDetailsDateChanged(Events.LXDetailsDateChanged event) {
 		//  Track Link to track Change of dates.
-		OmnitureTracking.trackLinkLXChangeDate(getContext());
+		OmnitureTracking.trackLinkLXChangeDate();
 		buildOffersSection(event.dateSelected);
 	}
 

@@ -97,7 +97,7 @@ public abstract class AbsTabletLaunchControllerFragment extends MeasurableFragme
 			@Override
 			public void onClick(View view) {
 				setLaunchState(LaunchState.WAYPOINT, true);
-				OmnitureTracking.trackTabletDestinationSearchPageLoad(getActivity());
+				OmnitureTracking.trackTabletDestinationSearchPageLoad();
 			}
 		});
 		mSearchBarC.setVisibility(View.INVISIBLE);

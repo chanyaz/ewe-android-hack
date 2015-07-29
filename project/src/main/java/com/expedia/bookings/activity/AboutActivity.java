@@ -27,7 +27,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -190,18 +189,6 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	private String getCopyrightString() {
 		return Phrase.from(this, R.string.copyright_TEMPLATE).put("brand", BuildConfig.brand)
 			.put("year", AndroidUtils.getAppBuildDate(this).get(Calendar.YEAR)).format().toString();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
 	}
 
 	@Override

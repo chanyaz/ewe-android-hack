@@ -115,7 +115,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 	@Subscribe
 	public void onCheckoutSuccess(Events.LXCheckoutSucceeded event) {
-		OmnitureTracking.trackAppLXCheckoutConfirmation(getContext(), event.checkoutResponse, lxState.activity.id,
+		OmnitureTracking.trackAppLXCheckoutConfirmation(event.checkoutResponse, lxState.activity.id,
 			DateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),
 			lxState.selectedTicketsCount());
 		AdTracker.trackLXBooked(lxState.activity.location, lxState.latestTotalPrice(),

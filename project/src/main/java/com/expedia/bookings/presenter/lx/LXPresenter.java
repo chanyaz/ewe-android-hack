@@ -239,7 +239,7 @@ public class LXPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowParamsOverlayOnResults(Events.LXSearchParamsOverlay event) {
-		OmnitureTracking.trackAppLXSearchBox(getContext());
+		OmnitureTracking.trackAppLXSearchBox();
 		show(new LXParamsOverlay());
 	}
 

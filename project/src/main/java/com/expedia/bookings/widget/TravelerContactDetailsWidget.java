@@ -187,7 +187,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			firstName.requestFocus();
 			Ui.showKeyboard(firstName, null);
 			bind();
-			OmnitureTracking.trackCheckoutTraveler(lineOfBusiness, getContext());
+			OmnitureTracking.trackCheckoutTraveler(lineOfBusiness);
 		}
 		else {
 			bind();

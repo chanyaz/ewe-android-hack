@@ -472,12 +472,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			else if (state == CheckoutState.READY_FOR_CHECKOUT) {
 				setShowCvvPercentage(0f);
 				setShowReadyForCheckoutPercentage(1f);
-				OmnitureTracking.trackTabletSlideToPurchasePageLoad(getActivity(), getLob());
+				OmnitureTracking.trackTabletSlideToPurchasePageLoad(getLob());
 			}
 			else if (state == CheckoutState.CVV) {
 				setShowCvvPercentage(1f);
 				setShowReadyForCheckoutPercentage(0f);
-				OmnitureTracking.trackTabletCVVPageLoad(getActivity(), getLob());
+				OmnitureTracking.trackTabletCVVPageLoad(getLob());
 			}
 			else if (state == CheckoutState.BOOKING) {
 				setShowBookingPercentage(1f);
@@ -496,10 +496,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 					mCheckoutFragment.onCheckoutDataUpdated();
 				}
 
-				OmnitureTracking.trackTabletConfirmationPageLoad(getActivity(), getLob());
+				OmnitureTracking.trackTabletConfirmationPageLoad(getLob());
 
 				if (getLob() == LineOfBusiness.FLIGHTS) {
-					OmnitureTracking.trackFlightConfirmationAirAttach(getActivity());
+					OmnitureTracking.trackFlightConfirmationAirAttach();
 				}
 			}
 
@@ -1531,7 +1531,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			Db.getTripBucket().getHotel().setState(TripBucketItemState.BOOKING_UNAVAILABLE);
 		}
 		Db.saveTripBucket(getActivity());
-		OmnitureTracking.trackItemSoldOutOnCheckoutLink(getActivity(), getLob());
+		OmnitureTracking.trackItemSoldOutOnCheckoutLink(getLob());
 		setCheckoutState(CheckoutState.BOOKING_UNAVAILABLE, true);
 	}
 

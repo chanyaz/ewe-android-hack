@@ -89,7 +89,6 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		if (checkFinishConditionsAndFinish()) {
 			return;
 		}
-		OmnitureTracking.onResume(this);
 	}
 
 	private boolean checkFinishConditionsAndFinish() {
@@ -141,12 +140,6 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
-	}
-
-	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 
@@ -162,7 +155,7 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 				int numReviewsSeen = mViewedReviews.size();
 				Log.d("Tracking # of reviews seen: " + numReviewsSeen);
 				String referrerId = "App.Hotels.Reviews." + numReviewsSeen + "ReviewsViewed";
-				OmnitureTracking.trackSimpleEvent(this, null, null, referrerId);
+				OmnitureTracking.trackSimpleEvent(null, null, referrerId);
 			}
 		}
 	}
@@ -273,7 +266,7 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 			referrerId = "App.Hotels.Reviews.Sort.Critical";
 		}
 		Log.d("Tracking \"App.Hotels.Reviews\" pageLoad");
-		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Reviews", null, referrerId);
+		OmnitureTracking.trackSimpleEvent("App.Hotels.Reviews", null, referrerId);
 	}
 
 	@Override
