@@ -36,12 +36,20 @@ public class AdTracker {
 	public static void trackLogin() {
 		// Other
 		AdX.trackLogin();
-		LeanPlumUtils.tracking("Login");
+		LeanPlumUtils.tracking("Sign In");
 		TuneUtils.trackLogin();
 	}
 
 	public static void trackLogout() {
 		LeanPlumUtils.updateLoggedInStatus();
+	}
+
+	public static void trackSignInUpStarted() {
+		LeanPlumUtils.tracking("Sign In Start");
+	}
+
+	public static void trackAccountCreated() {
+		LeanPlumUtils.tracking("Account Creation Success");
 	}
 
 	public static void trackViewHomepage() {
