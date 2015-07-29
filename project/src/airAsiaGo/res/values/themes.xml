@@ -164,6 +164,7 @@
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
         <item name="skin_launchActionBarBackgroundColor">@color/cars_launch_actionbar_color</item>
+        <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 
     <style name="LaunchActionBarTabAirAsiaGoStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
