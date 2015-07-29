@@ -1430,7 +1430,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setRoomsAndRatesShownPercentage(0f);
 				if (mHotelsDeepLink) {
 					mHotelsDeepLink = false;
-					OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
+					OmnitureTracking.trackTabletSearchResultsPageLoad(Sp.getParams());
 				}
 				break;
 			case HOTEL_LIST_UP:

@@ -131,10 +131,10 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 
 	private void trackMerEmailOptInOut() {
 		if (mIsMerEmailOptIn) {
-			OmnitureTracking.trackHotelsGuestMerEmailOptIn(getActivity());
+			OmnitureTracking.trackHotelsGuestMerEmailOptIn();
 		}
 		else {
-			OmnitureTracking.trackHotelsGuestMerEmailOptOut(getActivity());
+			OmnitureTracking.trackHotelsGuestMerEmailOptOut();
 		}
 	}
 

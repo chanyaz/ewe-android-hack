@@ -471,7 +471,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			AdTracker.trackFlightBooked();
 			launchConfirmationActivity();
 
-			OmnitureTracking.trackPageLoadFlightCheckoutConfirmation(mContext);
+			OmnitureTracking.trackPageLoadFlightCheckoutConfirmation();
 		}
 	}
 

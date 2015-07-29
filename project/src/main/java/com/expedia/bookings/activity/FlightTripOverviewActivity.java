@@ -749,7 +749,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 
 			if (mLastTrackingMode != TrackingMode.CHECKOUT) {
 				mLastTrackingMode = TrackingMode.CHECKOUT;
-				OmnitureTracking.trackPageLoadFlightCheckoutInfo(this);
+				OmnitureTracking.trackPageLoadFlightCheckoutInfo();
 			}
 
 			//Bring in the price bar

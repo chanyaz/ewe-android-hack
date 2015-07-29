@@ -228,7 +228,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			ft.add(mHotelBookingFragment, HotelBookingFragment.TAG);
 			ft.commit();
 		}
-		OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
+		OmnitureTracking.trackPageLoadHotelsRateDetails();
 	}
 
 	@Override
@@ -863,7 +863,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	public void startCheckout(final boolean animate, boolean shouldScrollToCheckout) {
 		if (!isInCheckout()) {
-			OmnitureTracking.trackPageLoadHotelsCheckoutInfo(getActivity());
+			OmnitureTracking.trackPageLoadHotelsCheckoutInfo();
 		}
 
 		mMaintainStartCheckoutPosition = true;
@@ -884,7 +884,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	public void endCheckout() {
 		if (isInCheckout()) {
-			OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
+			OmnitureTracking.trackPageLoadHotelsRateDetails();
 		}
 
 		mMaintainStartCheckoutPosition = false;

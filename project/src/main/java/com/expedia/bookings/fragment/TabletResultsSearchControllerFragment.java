@@ -375,7 +375,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	protected void doSpUpdate() {
 		if (getActivity() != null && isAdded() && isResumed()) {
 			Sp.reportSpUpdate();
-			OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
+			OmnitureTracking.trackTabletSearchResultsPageLoad(Sp.getParams());
 		}
 	}
 

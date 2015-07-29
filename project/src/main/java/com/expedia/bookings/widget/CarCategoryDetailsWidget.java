@@ -111,7 +111,7 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 			.build()
 			.load(url);
 
-		OmnitureTracking.trackAppCarRateDetails(getContext(), bucket.offers.get(0));
+		OmnitureTracking.trackAppCarRateDetails(bucket.offers.get(0));
 	}
 
 	public float parallaxScrollHeader() {

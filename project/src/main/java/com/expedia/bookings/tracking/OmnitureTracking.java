@@ -190,14 +190,14 @@ public class OmnitureTracking {
 	public static final String HOTELS_COUPON_REMOVE = "App.CKO.Coupon.Remove";
 	public static final String HOTELS_COUPON_FAIL = "App.CKO.Coupon.Fail";
 
-	public static void trackAppHotelsSearch(Context context) {
+	public static void trackAppHotelsSearch() {
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
-		internalTrackHotelsSearch(context, searchParams, searchResponse);
+		internalTrackHotelsSearch(searchParams, searchResponse);
 	}
 
-	private static void internalTrackHotelsSearch(Context context, HotelSearchParams searchParams,
-			HotelSearchResponse searchResponse) {
+	private static void internalTrackHotelsSearch(HotelSearchParams searchParams,
+		HotelSearchResponse searchResponse) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"App.Hotels.Search\" pageLoad...");
 
@@ -244,10 +244,10 @@ public class OmnitureTracking {
 			}
 		}
 
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAATest);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppSRPercentRecommend);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelETPSearchResults);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHSRMapIconTest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppSRPercentRecommend);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelETPSearchResults);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHSRMapIconTest);
 
 		// Send the tracking data
 		s.track();
@@ -357,7 +357,7 @@ public class OmnitureTracking {
 		s.setEvar(9, drrString);
 
 		// 4761 - AB Test: Collapse Amenities, Policies, and fees on Infosite
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelCollapseAmenities);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCollapseAmenities);
 
 		// Send the tracking data
 		s.track();
@@ -472,10 +472,10 @@ public class OmnitureTracking {
 		s.setEvents(eventsStr);
 	}
 
-	public static void trackPageLoadHotelsRateDetails(Context context) {
+	public static void trackPageLoadHotelsRateDetails() {
 		Log.d(TAG, "Tracking \"" + HOTELS_RATE_DETAILS + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_RATE_DETAILS);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelShowAddressMapInReceipt);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelShowAddressMapInReceipt);
 		s.track();
 	}
 
@@ -487,13 +487,13 @@ public class OmnitureTracking {
 		internalTrackLink(linkName);
 	}
 
-	public static void trackPageLoadHotelsCheckoutInfo(Context context) {
+	public static void trackPageLoadHotelsCheckoutInfo() {
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
 		s.setEvents("event70");
 
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelHCKOTraveler);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelPayLaterCouponMessaging);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotel3xMessaging);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHCKOTraveler);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPayLaterCouponMessaging);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotel3xMessaging);
 
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		s.setEvar(47, getEvar47String(params));
@@ -616,11 +616,11 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandard(HOTELS_CHECKOUT_PAYMENT_CID);
 	}
 
-	public static void trackHotelSearchMapSwitch(Context context) {
+	public static void trackHotelSearchMapSwitch() {
 		ADMS_Measurement s = OmnitureTracking.getFreshTrackingObject();
 		s.setAppState("App.Hotels.Search.Map");
 
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
 
 		s.track();
 	}
@@ -709,7 +709,7 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", HOTELS_ETP_TOGGLE_LINK_NAME, null, null);
 	}
 
-	public static void trackHotelsGuestMerEmailOptIn(Context context) {
+	public static void trackHotelsGuestMerEmailOptIn() {
 		Log.d(TAG, "Tracking \"" + HOTELS_MER_EMAIL_OPT_IN + "\"");
 
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -723,12 +723,12 @@ public class OmnitureTracking {
 		s.setEvar(61, posTpid);
 
 		// AB Test: Opt-in/out checkbox for MER email on Guest HCKO
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidHotelCKOMerEmailGuestOpt);
+		trackAbacusTest(s, AbacusUtils.EBAndroidHotelCKOMerEmailGuestOpt);
 
 		s.trackLink(null, "o", "Marketing Choice", null, null);
 	}
 
-	public static void trackHotelsGuestMerEmailOptOut(Context context) {
+	public static void trackHotelsGuestMerEmailOptOut() {
 		Log.d(TAG, "Tracking \"" + HOTELS_MER_EMAIL_OPT_OUT + "\"");
 
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -742,7 +742,7 @@ public class OmnitureTracking {
 		s.setEvar(61, posTpid);
 
 		// AB Test: Opt-in/out checkbox for MER email on Guest HCKO
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidHotelCKOMerEmailGuestOpt);
+		trackAbacusTest(s, AbacusUtils.EBAndroidHotelCKOMerEmailGuestOpt);
 
 		s.trackLink(null, "o", "Marketing Choice", null, null);
 	}
@@ -809,7 +809,7 @@ public class OmnitureTracking {
 
 	private static final String FLIGHT_INFANT_ALERT = "App.Flight.Search.LapAlert";
 
-	public static void trackPageLoadFlightCheckoutConfirmation(Context context) {
+	public static void trackPageLoadFlightCheckoutConfirmation() {
 		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_CONFIRMATION + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_CHECKOUT_CONFIRMATION);
 
@@ -852,8 +852,8 @@ public class OmnitureTracking {
 		// order #
 		s.setProp(72, orderId);
 
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppFlightConfCarsXsell);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppFlightConfLXXsell);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightConfCarsXsell);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightConfLXXsell);
 		s.track();
 	}
 
@@ -923,7 +923,7 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_LOGIN);
 	}
 
-	public static void trackPageLoadFlightCheckoutInfo(Context context) {
+	public static void trackPageLoadFlightCheckoutInfo() {
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_CHECKOUT_INFO);
 		s.setEvents("event74");
 		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
@@ -940,10 +940,10 @@ public class OmnitureTracking {
 		internalSetFlightDateProps(s, params);
 		addStandardFlightFields(s);
 
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppPaySuppressGoogleWallet);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppPaySuppressGoogleWallet);
 
 		// AB Test: FCKO - More prominent callout for missing traveler details
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
 
 		s.track();
 	}
@@ -1541,7 +1541,7 @@ public class OmnitureTracking {
 		s.setEvar(4, "D=c4");
 	}
 
-	public static void trackTabletSearchResultsPageLoad(Context context, SearchParams params) {
+	public static void trackTabletSearchResultsPageLoad(SearchParams params) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(TABLET_SEARCH_RESULTS);
 		internalSetHotelDateProps(s, params.toHotelSearchParams());
 		addOriginAndDestinationVars(s, params.getOrigin(), params.getDestination());
@@ -1549,12 +1549,12 @@ public class OmnitureTracking {
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
 
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAATest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
 
 		s.track();
 	}
 
-	private static void trackAbacusTest(Context context, ADMS_Measurement s, AbacusTest test) {
+	private static void trackAbacusTest(ADMS_Measurement s, AbacusTest test) {
 		if (test == null) {
 			return;
 		}
@@ -1566,11 +1566,11 @@ public class OmnitureTracking {
 		}
 		AbacusLogQuery query = new AbacusLogQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
 		query.addExperiment(test);
-		Ui.getApplication(context).appComponent().abacus().logExperiment(query);
+		Ui.getApplication(sContext).appComponent().abacus().logExperiment(query);
 	}
 
-	private static void trackAbacusTest(Context context, ADMS_Measurement s, int testKey) {
- 		trackAbacusTest(context, s, Db.getAbacusResponse().testForKey(testKey));
+	private static void trackAbacusTest(ADMS_Measurement s, int testKey) {
+ 		trackAbacusTest(s, Db.getAbacusResponse().testForKey(testKey));
 	}
 
 	private static void addLaunchScreenCommonParams(ADMS_Measurement s, String baseRef, String refAppend) {
@@ -2489,13 +2489,13 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", link, null, null);
 	}
 
-	public static void trackAddLxItinClick(Context context) {
+	public static void trackAddLxItinClick() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, ADD_LX_ITIN);
 		s.setProp(16, ADD_LX_ITIN);
 		s.setEvar(12, CROSS_SELL_LX_FROM_ITIN);
 
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelItinLXXsell);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelItinLXXsell);
 		s.trackLink(null, "o", "Itinerary X-Sell", null, null);
 	}
 
@@ -2639,7 +2639,7 @@ public class OmnitureTracking {
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		if (!ExpediaBookingApp.useTabletInterface(context)) {
-			trackAbacusTest(context, s, test);
+			trackAbacusTest(s, test);
 		}
 		s.track();
 	}
@@ -3373,7 +3373,7 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Car Search", null, null);
 	}
 
-	public static void trackAppCarRateDetails(Context context, SearchCarOffer offer) {
+	public static void trackAppCarRateDetails(SearchCarOffer offer) {
 		Log.d(TAG, "Tracking \"" + CAR_RATE_DETAIL + "\" pageLoad...");
 		ADMS_Measurement s = internalTrackAppCar(CAR_RATE_DETAIL);
 
@@ -3382,7 +3382,7 @@ public class OmnitureTracking {
 			.capitalizeFirstLetter(offer.vehicleInfo.type.toString().replaceAll("_", " "));
 
 		s.setEvar(38, evar38String);
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppCarRatesCollapseTopListing);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppCarRatesCollapseTopListing);
 		s.track();
 	}
 
@@ -3403,13 +3403,13 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Car Details", null, null);
 	}
 
-	public static void trackAppCarCheckoutPage(Context context, CreateTripCarOffer carOffer) {
+	public static void trackAppCarCheckoutPage(CreateTripCarOffer carOffer) {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_PAGE + "\" pageLoad...");
 		ADMS_Measurement s = internalTrackAppCar(CAR_CHECKOUT_PAGE);
 
 		s.setEvents("event73");
 		s.setCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency());
-		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppCarInsuranceIncludedCKO);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppCarInsuranceIncludedCKO);
 		s.track();
 	}
 

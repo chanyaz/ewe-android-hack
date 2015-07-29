@@ -1924,7 +1924,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 		else {
 			newFragmentTag = getString(R.string.tag_hotel_list);
-			OmnitureTracking.trackAppHotelsSearch(this);
+			OmnitureTracking.trackAppHotelsSearch();
 		}
 
 		showFragment(newFragmentTag);
@@ -2722,7 +2722,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private void onSearchResultsChanged() {
 
 		// Start actually tracking the search result change
-		OmnitureTracking.trackAppHotelsSearch(this);
+		OmnitureTracking.trackAppHotelsSearch();
 		AdTracker.trackHotelSearch();
 	}
 
@@ -2731,7 +2731,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	private void onSwitchToMap() {
-		OmnitureTracking.trackHotelSearchMapSwitch(this);
+		OmnitureTracking.trackHotelSearchMapSwitch();
 	}
 
 	// HotelFilter tracking
