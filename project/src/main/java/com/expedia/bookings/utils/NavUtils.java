@@ -10,11 +10,11 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ActivityKillReceiver;
-import com.expedia.ui.CarActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightSearchResultsActivity;
@@ -22,7 +22,6 @@ import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.HotelSearchActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
-import com.expedia.ui.LXBaseActivity;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletLaunchActivity;
@@ -34,11 +33,14 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.expedia.bookings.services.CarServices;
+import com.expedia.ui.CarActivity;
+import com.expedia.ui.LXBaseActivity;
 import com.google.gson.Gson;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
@@ -159,6 +161,27 @@ public class NavUtils {
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
 			context.startActivity(intent);
+		}
+	}
+
+	public static void goToSignIn(Context context) {
+		if (User.isLoggedIn(context) && Db.getUser() != null && !TextUtils.isEmpty(Db.getUser().getTuidString())) {
+			//User is already logged in, launch itins
+			goToItin(context);
+		}
+		else {
+			Intent intent;
+			TaskStackBuilder builder = TaskStackBuilder.create(context);
+			if (ExpediaBookingApp.useTabletInterface(context)) {
+				intent = new Intent(context, TabletLaunchActivity.class);
+			}
+			else {
+				intent = new Intent(context, PhoneLaunchActivity.class);
+			}
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			builder.addNextIntent(intent);
+			builder.startActivities();
+			User.signIn((Activity) context, new Bundle());
 		}
 	}
 

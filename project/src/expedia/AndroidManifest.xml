@@ -40,6 +40,7 @@
                 <data android:host="destination" />
                 <data android:host="carSearch"/>
                 <data android:host="activitySearch"/>
+                <data android:host="signIn"/>
 
                 <!-- We will handle iOS implementation of ItinSharing as well, just cause we can -->
                 <data android:host="addSharedItinerary" />
