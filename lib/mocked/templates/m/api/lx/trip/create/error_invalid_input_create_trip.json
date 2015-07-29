@@ -1,0 +1,14 @@
+{
+  "errors": [
+    {
+      "errorCode": "INVALID_INPUT",
+      "errorInfo": {
+        "summary": "Invalid input error",
+        "field": "items[0].activityId",
+        "cause": "may not be empty"
+      },
+      "diagnosticId": 0
+    }
+  ],
+  "activityId": "833ca0fa-b69f-4ab5-89a9-06dc07dcf2db"
+}
