@@ -157,8 +157,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		else {
 			getHotelOffers();
 		}
-
-		OmnitureTracking.onResume(this);
 	}
 
 	private void getHotelOffers() {
@@ -198,8 +196,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		else {
 			BackgroundDownloader.getInstance().cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override

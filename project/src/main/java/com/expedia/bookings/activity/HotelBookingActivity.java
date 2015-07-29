@@ -125,8 +125,6 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 		}
 
 		setCvvErrorMode(mCvvErrorModeEnabled);
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -148,8 +146,6 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 		if (shouldBail()) {
 			return;
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override

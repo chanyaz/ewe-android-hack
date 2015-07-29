@@ -99,15 +99,8 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
 	public void onPause() {
 		super.onPause();
-		OmnitureTracking.onPause();
 		if (isFinishing()) {
 			clearCCNumber();
 		}

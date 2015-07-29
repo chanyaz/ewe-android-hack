@@ -193,8 +193,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			}
 			mLastSearchTime = DateTime.now();
 		}
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -220,8 +218,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		else {
 			bd.unregisterDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD);
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override

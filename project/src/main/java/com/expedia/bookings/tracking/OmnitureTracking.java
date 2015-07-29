@@ -18,10 +18,12 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 
@@ -107,26 +109,51 @@ public class OmnitureTracking {
 
 	private static Context sContext = null;
 
-	public static void init(Context context) {
+	public static void init(ExpediaBookingApp app) {
 		Log.d(TAG, "init");
-		sContext = context.getApplicationContext();
-
-		sMarketingDate = SettingUtils.get(context, context.getString(R.string.preference_marketing_date),
-				sMarketingDate);
+		sContext = app.getApplicationContext();
+		app.registerActivityLifecycleCallbacks(sOmnitureActivityCallbacks);
+		sMarketingDate = SettingUtils.get(sContext, sContext.getString(R.string.preference_marketing_date), sMarketingDate);
 	}
 
-	public static void onResume(Activity activity) {
-		Log.v(TAG, "onResume");
-		ADMS_Measurement measurement = ADMS_Measurement.sharedInstance(activity);
-		measurement.startActivity(sContext);
+	private static final Application.ActivityLifecycleCallbacks sOmnitureActivityCallbacks = new Application.ActivityLifecycleCallbacks() {
+		@Override
+		public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+			// ignore
+		}
 
-	}
+		@Override
+		public void onActivityStarted(Activity activity) {
+			// ignore
+		}
 
-	public static void onPause() {
-		Log.v(TAG, "onPause");
-		ADMS_Measurement measurement = ADMS_Measurement.sharedInstance();
-		measurement.stopActivity();
-	}
+		@Override
+		public void onActivityResumed(Activity activity) {
+			Log.v(TAG, "onResume - " + activity.getClass().getSimpleName());
+			ADMS_Measurement.sharedInstance(sContext).startActivity(sContext);
+		}
+
+		@Override
+		public void onActivityPaused(Activity activity) {
+			Log.v(TAG, "onPause - " + activity.getClass().getSimpleName());
+			ADMS_Measurement.sharedInstance().stopActivity();
+		}
+
+		@Override
+		public void onActivityStopped(Activity activity) {
+			// ignore
+		}
+
+		@Override
+		public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+			// ignore
+		}
+
+		@Override
+		public void onActivityDestroyed(Activity activity) {
+			// ignore
+		}
+	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Hotels tracking

@@ -608,8 +608,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			downloader.unregisterDownloadCallback(KEY_HOTEL_SEARCH);
 			downloader.unregisterDownloadCallback(KEY_HOTEL_INFO);
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -711,8 +709,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 
 		mIsActivityResumed = true;
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override

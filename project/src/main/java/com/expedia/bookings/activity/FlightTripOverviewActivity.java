@@ -205,7 +205,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 	public void onResume() {
 		super.onResume();
 		Events.register(this);
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -261,8 +260,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 			mFlightBookingFragment.cancelDownload(FlightBookingFragment.FlightBookingState.CREATE_TRIP);
 			clearCCNumber();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override

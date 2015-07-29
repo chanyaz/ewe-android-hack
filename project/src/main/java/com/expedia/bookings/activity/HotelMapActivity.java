@@ -95,18 +95,6 @@ public class HotelMapActivity extends FragmentActivity implements HotelMapFragme
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
-	}
-
-	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
 		int exitAnimRes;

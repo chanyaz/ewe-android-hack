@@ -176,8 +176,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 
 		supportInvalidateOptionsMenu();
 
-		OmnitureTracking.onResume(this);
-
 		AdTracker.trackViewHomepage();
 
 		TuneUtils.startTune(this);
@@ -190,8 +188,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		if (isFinishing() && mLaunchFragment != null) {
 			mLaunchFragment.cleanUp();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override

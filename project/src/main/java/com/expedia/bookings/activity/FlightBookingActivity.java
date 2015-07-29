@@ -163,8 +163,6 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		}
 
 		setCvvErrorMode(mCvvErrorModeEnabled);
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -181,8 +179,6 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		if (shouldBail()) {
 			return;
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override

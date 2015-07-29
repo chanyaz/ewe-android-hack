@@ -89,7 +89,6 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		if (checkFinishConditionsAndFinish()) {
 			return;
 		}
-		OmnitureTracking.onResume(this);
 	}
 
 	private boolean checkFinishConditionsAndFinish() {
@@ -138,12 +137,6 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 			break;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
 	}
 
 	@Override

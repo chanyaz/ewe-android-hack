@@ -95,7 +95,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		Events.register(this);
 		Sp.loadSearchParamsFromDisk(this);
 		LaunchDb.getCollections(this);
-		OmnitureTracking.onResume(this);
 		TuneUtils.startTune(this);
 	}
 
@@ -103,7 +102,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	protected void onPause() {
 		super.onPause();
 		AppEventsLogger.deactivateApp(this);
-		OmnitureTracking.onPause();
 		Events.unregister(this);
 	}
 

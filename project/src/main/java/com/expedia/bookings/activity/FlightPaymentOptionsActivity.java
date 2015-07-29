@@ -159,12 +159,6 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
 	public void onPause() {
 		super.onPause();
 
@@ -172,8 +166,6 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 		if (mPos.equals(YoYoPosition.SAVE)) {
 			this.closeSaveDialog();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
