@@ -39,6 +39,7 @@ import com.expedia.bookings.fragment.PhoneLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
@@ -234,11 +235,13 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		if (mLaunchFragment != null && requestCode == REQUEST_SETTINGS
+		if (requestCode == REQUEST_SETTINGS
 			&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
-			mLaunchFragment.reset();
-			Db.getHotelSearch().resetSearchData();
+			Events.post(new Events.PhoneLaunchOnPOSChange());
+			if (mLaunchFragment != null) {
+				mLaunchFragment.reset();
+				Db.getHotelSearch().resetSearchData();
+			}
 		}
 	}
 
