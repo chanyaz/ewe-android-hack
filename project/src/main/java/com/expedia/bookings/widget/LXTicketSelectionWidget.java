@@ -21,6 +21,7 @@ import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -84,7 +85,7 @@ public class LXTicketSelectionWidget extends LinearLayout {
 
 		if (Strings.isNotEmpty(offer.description)) {
 			offerDescription.setVisibility(View.VISIBLE);
-			offerDescription.bindData(offer.description);
+			offerDescription.bindData(StrUtils.stripHTMLTags(offer.description));
 		}
 		else {
 			offerDescription.setVisibility(View.GONE);
