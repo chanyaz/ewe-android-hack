@@ -259,15 +259,8 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
             return makeResponse("m/api/cars/trip/create/" + params.get("productKey") + ".json", params)
         } else if (request.getPath().contains("/trip/checkout")) {
             val params = parseRequest(request)
-            when (params.get("mainMobileTraveler.firstName")) {
-                "AlreadyBooked" -> return makeResponse("m/api/cars/trip/checkout/trip_already_booked.json")
-                "PriceChange" -> return makeResponse("m/api/cars/trip/checkout/price_change.json")
-                "PaymentFailed" -> return makeResponse("m/api/cars/trip/checkout/payment_failed.json")
-                "UnknownError" -> return makeResponse("m/api/cars/trip/checkout/unknown_error.json")
-                "SessionTimeout" -> return makeResponse("m/api/cars/trip/checkout/session_timeout.json")
-                "InvalidInput" -> return makeResponse("m/api/cars/trip/checkout/invalid_input.json")
-                else -> return makeResponse("m/api/cars/trip/checkout/happy.json")
-            }
+            val fileName = params.get("mainMobileTraveler.firstName")
+            return makeResponse("m/api/cars/trip/checkout/" + fileName + ".json")
         }
         return make404()
     }
