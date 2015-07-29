@@ -15,7 +15,7 @@ import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDispl
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsNotDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 
-public class CarCheckoutViewTests extends CarTestCase {
+public class CarCheckoutViewTest extends CarTestCase {
 
 	private final static String CATEGORY = "Standard";
 	private final static int CREDIT_CARD_NOT_REQUIRED = 0;

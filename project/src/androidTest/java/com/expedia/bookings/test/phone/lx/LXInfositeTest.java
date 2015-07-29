@@ -53,7 +53,7 @@ import static org.hamcrest.Matchers.not;
 			v> The addition of travellers must match the number of travellers on each row.
 			vi> The total cost of travel must be correctly reflected on the book now button.
 */
-public class LXInfositeTestCases extends LxTestCase {
+public class LXInfositeTest extends LxTestCase {
 
 	private ExpectedDataSupplierForTicketWidget mExpectedDataTktWdgt;
 

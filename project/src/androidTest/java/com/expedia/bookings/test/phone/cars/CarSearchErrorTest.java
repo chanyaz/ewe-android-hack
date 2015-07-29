@@ -12,7 +12,7 @@ import com.squareup.phrase.Phrase;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 
-public class CarSearchErrorTests extends CarTestCase {
+public class CarSearchErrorTest extends CarTestCase {
 
 	public void testSearchErrorProductNotAvailable() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();

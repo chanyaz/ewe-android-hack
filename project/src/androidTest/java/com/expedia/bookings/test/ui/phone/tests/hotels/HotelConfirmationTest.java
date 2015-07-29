@@ -36,9 +36,9 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-public class HotelConfirmationTests extends PhoneTestCase {
+public class HotelConfirmationTest extends PhoneTestCase {
 
-	private static final String TAG = HotelConfirmationTests.class.getSimpleName();
+	private static final String TAG = HotelConfirmationTest.class.getSimpleName();
 	HotelsUserData mUser;
 	int mNumberOfGuests;
 	String mDateRangeString;

@@ -25,7 +25,7 @@ import static android.support.test.espresso.contrib.PickerActions.setDate;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 
-public class FlightTravelerErrorHandling extends PhoneTestCase {
+public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 
 	/*
  	* #512 eb_tp test plan

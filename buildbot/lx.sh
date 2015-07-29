@@ -17,16 +17,16 @@ else
 fi
 
 # LX
-add_test "com.expedia.bookings.test.phone.lx.LXCurrentLocationErrorTests"
+add_test "com.expedia.bookings.test.phone.lx.LXCurrentLocationErrorTest"
 add_test "com.expedia.bookings.test.phone.lx.LXSearchParamsTest"
-add_test "com.expedia.bookings.test.phone.lx.LXDetailsPresenterTests"
-add_test "com.expedia.bookings.test.phone.lx.LXResultsPresenterTests"
-add_test "com.expedia.bookings.test.phone.lx.LXCheckoutPresenterTests"
-add_test "com.expedia.bookings.test.phone.lx.LXCheckoutErrorTests"
-add_test "com.expedia.bookings.test.phone.lx.LXCreateTripErrorTests"
-add_test "com.expedia.bookings.test.phone.lx.LXInfositeTestCases"
-add_test "com.expedia.bookings.test.phone.lx.LxSearchResultsTestCases"
-add_test "com.expedia.bookings.test.phone.lx.LXCreditCardTests"
+add_test "com.expedia.bookings.test.phone.lx.LXDetailsPresenterTest"
+add_test "com.expedia.bookings.test.phone.lx.LXResultsPresenterTest"
+add_test "com.expedia.bookings.test.phone.lx.LXCheckoutPresenterTest"
+add_test "com.expedia.bookings.test.phone.lx.LXCheckoutErrorTest"
+add_test "com.expedia.bookings.test.phone.lx.LXCreateTripErrorTest"
+add_test "com.expedia.bookings.test.phone.lx.LXInfositeTest"
+add_test "com.expedia.bookings.test.phone.lx.LxSearchResultsTest"
+add_test "com.expedia.bookings.test.phone.lx.LXCreditCardTest"
 
 java \
     -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \

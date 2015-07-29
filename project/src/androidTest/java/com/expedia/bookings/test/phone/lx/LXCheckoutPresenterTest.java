@@ -23,7 +23,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
-public class LXCheckoutPresenterTests extends LxTestCase {
+public class LXCheckoutPresenterTest extends LxTestCase {
 	private void goToCheckout() throws Throwable {
 		if (getLxIdlingResource().isInSearchEditMode()) {
 			onView(allOf(withId(R.id.error_action_button), withText(R.string.edit_search))).perform(click());

@@ -22,7 +22,7 @@ import static com.expedia.bookings.test.espresso.CustomMatchers.isEmpty;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withRating;
 import static org.hamcrest.CoreMatchers.not;
 
-public class HotelRoomsAndRatesTests extends PhoneTestCase {
+public class HotelRoomsAndRatesTest extends PhoneTestCase {
 
 	public void testRoomsAndRatesInfo() throws Exception {
 		initiateSearch();

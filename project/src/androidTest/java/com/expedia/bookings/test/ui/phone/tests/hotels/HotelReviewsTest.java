@@ -17,7 +17,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-public class HotelReviewsTests extends PhoneTestCase {
+public class HotelReviewsTest extends PhoneTestCase {
 
 	//tests number of reviews on Hotel reviews screen is equal to number of reviews on Hotel details screen
 	public void testNumberOfReviews() throws Exception {

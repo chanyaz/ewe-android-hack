@@ -16,7 +16,7 @@ import com.mobiata.android.util.IoUtils;
 
 import static android.support.test.espresso.action.ViewActions.clearText;
 
-public class CarCreditCardTests extends CarTestCase {
+public class CarCreditCardTest extends CarTestCase {
 
 	public void testPaymentInfo() throws Throwable {
 		goToCheckout();

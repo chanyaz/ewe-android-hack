@@ -28,9 +28,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.Matchers.not;
 
-public class HotelCheckoutUserInfoTests extends PhoneTestCase {
+public class HotelCheckoutUserInfoTest extends PhoneTestCase {
 
-	private static final String TAG = HotelCheckoutUserInfoTests.class.getSimpleName();
+	private static final String TAG = HotelCheckoutUserInfoTest.class.getSimpleName();
 	HotelsUserData mUser;
 
 	public void testCheckHotels() throws Exception {

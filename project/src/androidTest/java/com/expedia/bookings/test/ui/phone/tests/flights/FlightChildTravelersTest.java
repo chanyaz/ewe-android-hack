@@ -25,7 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class FlightChildTravelers {
+public class FlightChildTravelersTest {
 	/*
 	*  #511. Child travelers - Flights
 	*/
