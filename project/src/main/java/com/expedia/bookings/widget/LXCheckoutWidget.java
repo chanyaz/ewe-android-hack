@@ -192,7 +192,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 			Db.getTripBucket().clearLX();
 			Db.getTripBucket().add(new TripBucketItemLX(response));
 			showProgress(false);
-			OmnitureTracking.trackAppLXCheckoutPayment(getContext(), lxState.activity.id,
+			OmnitureTracking.trackAppLXCheckoutPayment(lxState.activity.id,
 				DateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),
 				lxState.selectedTicketsCount(), lxState.latestTotalPrice().getAmount().setScale(2).toString());
 			Money tripTotalPrice = response.hasPriceChange() ? response.newTotalPrice : lxState.latestTotalPrice();

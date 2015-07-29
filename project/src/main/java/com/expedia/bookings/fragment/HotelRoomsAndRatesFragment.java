@@ -131,7 +131,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		// Track room clicked with the type of payment i.e. pay now/later. and fire only if user have the option
 		if (mPayGroup.getVisibility() == View.VISIBLE) {
 			Rate rate = getItem(position);
-			OmnitureTracking.trackHotelETPRoomSelected(getActivity(), rate.isPayLater());
+			OmnitureTracking.trackHotelETPRoomSelected(rate.isPayLater());
 		}
 
 		mAdapter.setSelectedPosition(position);
@@ -180,7 +180,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		mProgressBar.setVisibility(View.GONE);
 
 		if (response == null) {
-			OmnitureTracking.trackErrorPage(getActivity(), "RatesListRequestFailed");
+			OmnitureTracking.trackErrorPage("RatesListRequestFailed");
 			mEmptyTextView.setText(R.string.error_no_response_room_rates);
 			return;
 		}
@@ -209,7 +209,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 				sb.append("\n");
 			}
 			mEmptyTextView.setText(sb.toString().trim());
-			OmnitureTracking.trackErrorPage(getActivity(), "RatesListRequestFailed");
+			OmnitureTracking.trackErrorPage("RatesListRequestFailed");
 			return;
 		}
 
@@ -242,7 +242,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		}
 
 		if (mAdapter.getCount() == 0) {
-			OmnitureTracking.trackErrorPage(getActivity(), "HotelHasNoRoomsAvailable");
+			OmnitureTracking.trackErrorPage("HotelHasNoRoomsAvailable");
 		}
 
 		Property property = Db.getHotelSearch().getSelectedProperty();
@@ -369,7 +369,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 			// Track ETP payment toggle events.
 			// Let's not trigger omniture event when we 1st get to the rooms&rate screen. Only on user toggle.
 			if (checkedId != mLastCheckedItem) {
-				OmnitureTracking.trackHotelETPPayToggle(getActivity(), isInPayLaterMode(checkedId));
+				OmnitureTracking.trackHotelETPPayToggle(isInPayLaterMode(checkedId));
 			}
 			mLastCheckedItem = checkedId;
 			if (mAdapter != null) {

@@ -388,7 +388,7 @@ public class LXSearchParamsPresenter extends Presenter
 	@Subscribe
 	public void onShowSearchWidget(Events.LXShowSearchWidget event) {
 		// Search Box Omniture Tracking on load of search param screen.
-		OmnitureTracking.trackAppLXSearchBox(getContext());
+		OmnitureTracking.trackAppLXSearchBox();
 
 		show(new LXParamsDefault());
 		if (!Strings.isEmpty(location.getText())) {

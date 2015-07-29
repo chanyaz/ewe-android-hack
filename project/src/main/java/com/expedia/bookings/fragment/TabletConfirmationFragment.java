@@ -96,7 +96,7 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 				// Tracking
 				boolean isAirAttachScenario = getLob() == LineOfBusiness.FLIGHTS &&
 					Db.getTripBucket().getHotel().hasAirAttachRate();
-				OmnitureTracking.trackBookNextClick(getActivity(), getLob(), isAirAttachScenario);
+				OmnitureTracking.trackBookNextClick(getLob(), isAirAttachScenario);
 			}
 		});
 
@@ -105,7 +105,7 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 
 			@Override
 			public void onClick(View v) {
-				OmnitureTracking.trackDoneBookingClick(getActivity(), getLob());
+				OmnitureTracking.trackDoneBookingClick(getLob());
 				NavUtils.goToItin(getActivity());
 				getActivity().finish();
 			}
@@ -116,7 +116,7 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 
 			@Override
 			public void onClick(View v) {
-				OmnitureTracking.trackDoneBookingClick(getActivity(), getLob());
+				OmnitureTracking.trackDoneBookingClick(getLob());
 				NavUtils.goToItin(getActivity());
 				getActivity().finish();
 			}

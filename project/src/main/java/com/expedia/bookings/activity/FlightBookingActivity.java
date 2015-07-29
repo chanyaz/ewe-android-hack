@@ -151,7 +151,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			return;
 		}
 
-		OmnitureTracking.trackPageLoadFlightCheckoutPaymentCid(this);
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentCid();
 	}
 
 	@Override

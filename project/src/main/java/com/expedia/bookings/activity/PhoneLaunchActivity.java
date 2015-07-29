@@ -373,7 +373,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		}
 
 		mJumpToItinId = notification.getItinId();
-		OmnitureTracking.trackNotificationClick(this, notification);
+		OmnitureTracking.trackNotificationClick(notification);
 
 		// There's no need to dismiss with the notification manager, since it was set to
 		// auto dismiss when clicked.

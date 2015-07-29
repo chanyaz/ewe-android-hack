@@ -195,8 +195,8 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(getActivity(),
-				getArguments().getInt(ARG_LEG_POSITION, 0));
+		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(
+			getArguments().getInt(ARG_LEG_POSITION, 0));
 	}
 
 	public FlightTripLeg getFlightTripLeg() {

@@ -946,7 +946,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	@Override
 	public void onTravelerEditButtonPressed(int travelerNumber) {
-		OmnitureTracking.trackTabletEditTravelerPageLoad(getActivity(), getLob());
+		OmnitureTracking.trackTabletEditTravelerPageLoad(getLob());
 		openTravelerEntry(travelerNumber);
 	}
 
@@ -1006,7 +1006,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	private void openPaymentFormWithTracking() {
-		OmnitureTracking.trackTabletEditPaymentPageLoad(getActivity(), getLob());
+		OmnitureTracking.trackTabletEditPaymentPageLoad(getLob());
 		openPaymentForm();
 	}
 

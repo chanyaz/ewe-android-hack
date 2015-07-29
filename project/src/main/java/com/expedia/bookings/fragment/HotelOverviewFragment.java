@@ -923,7 +923,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				OmnitureTracking.trackPageLoadHotelsCheckoutSlideToPurchase(getActivity());
+				OmnitureTracking.trackPageLoadHotelsCheckoutSlideToPurchase();
 			}
 		}).start();
 
@@ -997,7 +997,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mAccountButton.setEnabled(false);//We open a new activity and reenable accountButton in onResume;
 			Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
 			User.signIn(getActivity(), args);
-			OmnitureTracking.trackPageLoadHotelsLogin(getActivity());
+			OmnitureTracking.trackPageLoadHotelsLogin();
 		}
 	}
 
@@ -1128,7 +1128,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 					break;
 				}
 
-				OmnitureTracking.trackHotelCouponExpand(getActivity());
+				OmnitureTracking.trackHotelCouponExpand();
 				mCouponDialogFragment = new CouponDialogFragment();
 				mCouponDialogFragment.show(getChildFragmentManager(), CouponDialogFragment.TAG);
 				break;

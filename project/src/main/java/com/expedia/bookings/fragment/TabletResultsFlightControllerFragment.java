@@ -787,7 +787,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 					popInfantPromptIfNeeded();
 				}
 				if (mFlightLegsFrag.isFirstLeg()) {
-					OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), 0);
+					OmnitureTracking.trackPageLoadFlightSearchResults(0);
 					AdTracker.trackPageLoadFlightSearchResults(0);
 				}
 			}
@@ -835,7 +835,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (!mInfantFrag.isAdded()) {
 				mInfantFrag.show(getFragmentManager(), "infantChooser");
 			}
-			OmnitureTracking.trackFlightInfantDialog(getActivity());
+			OmnitureTracking.trackFlightInfantDialog();
 		}
 	}
 

@@ -236,7 +236,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			if (group.getId() == R.id.flight_filter_control) {
 				int newStops = FlightFilter.getStopsValueFromStopsViewId(checkedId);
 				if (mFilter.getStops() != newStops) {
-					OmnitureTracking.trackNumStopsFlightFilter(getActivity(), newStops);
+					OmnitureTracking.trackNumStopsFlightFilter(newStops);
 				}
 				mFilter.setStops(newStops);
 			}
@@ -250,7 +250,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
 			String airlineCode = (String) view.getTag();
 			mFilter.setPreferredAirline(airlineCode, isChecked);
-			OmnitureTracking.trackLinkFlightFilter(getActivity(), "Airline");
+			OmnitureTracking.trackLinkFlightFilter("Airline");
 			onFilterChanged();
 		}
 	};
@@ -267,7 +267,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			else {
 				mFilter.removeAirport(departureAirport, airportCode);
 			}
-			OmnitureTracking.trackLinkFlightFilter(getActivity(), "Airport");
+			OmnitureTracking.trackLinkFlightFilter("Airport");
 			onFilterChanged();
 		}
 	};
@@ -297,7 +297,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			if (sort != null) {
 				if (mFilter.getSort() != sort) {
 					mFilter.setSort(sort);
-					OmnitureTracking.trackLinkFlightSort(getActivity(), sort.toString());
+					OmnitureTracking.trackLinkFlightSort(sort.toString());
 				}
 			}
 

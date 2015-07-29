@@ -38,7 +38,7 @@ public class FlightUnsupportedPOSActivity extends FragmentActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		OmnitureTracking.trackErrorPageLoadFlightUnsupportedPOS(this);
+		OmnitureTracking.trackErrorPageLoadFlightUnsupportedPOS();
 	}
 
 	@Override

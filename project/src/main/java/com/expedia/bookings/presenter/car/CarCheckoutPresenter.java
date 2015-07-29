@@ -229,7 +229,7 @@ public class CarCheckoutPresenter extends Presenter {
 		show(cvv);
 		BillingInfo billingInfo = event.billingInfo;
 		cvv.bind(billingInfo);
-		OmnitureTracking.trackAppCarCheckoutCvvScreen(getContext());
+		OmnitureTracking.trackAppCarCheckoutCvvScreen();
 	}
 
 	// Cached for checkout call failure retry purposes

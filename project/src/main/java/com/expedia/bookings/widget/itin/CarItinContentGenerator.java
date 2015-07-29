@@ -278,7 +278,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 						if (intent != null) {
 							NavUtils.startActivitySafe(getContext(), intent);
 
-							OmnitureTracking.trackItinCarDirections(getContext());
+							OmnitureTracking.trackItinCarDirections();
 						}
 					}
 				});
@@ -293,7 +293,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 				public void onClick(View v) {
 					SocialUtils.call(getContext(), vendorPhone);
 
-					OmnitureTracking.trackItinCarCall(getContext());
+					OmnitureTracking.trackItinCarCall();
 				}
 			});
 		}

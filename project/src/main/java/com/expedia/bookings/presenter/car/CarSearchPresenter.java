@@ -153,7 +153,7 @@ public class CarSearchPresenter extends Presenter
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		OmnitureTracking.trackAppCarSearchBox(getContext());
+		OmnitureTracking.trackAppCarSearchBox();
 		calendarContainer.setCarDateTimeListener(this);
 
 		navIcon = ArrowXDrawableUtil

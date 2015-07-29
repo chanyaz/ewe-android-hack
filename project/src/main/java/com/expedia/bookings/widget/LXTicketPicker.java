@@ -57,7 +57,7 @@ public class LXTicketPicker extends LinearLayout {
 		StringBuilder sb = new StringBuilder();
 		sb.append(type);
 		sb.append(ticket.code.toString());
-		OmnitureTracking.trackLinkLXAddRemoveTicket(getContext(), sb.toString());
+		OmnitureTracking.trackLinkLXAddRemoveTicket(sb.toString());
 	}
 
 	public LXTicketPicker(Context context, AttributeSet attrs) {

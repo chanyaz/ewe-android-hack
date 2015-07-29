@@ -590,7 +590,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.FLIGHTS, new UserToTripAssocLoginExtender(
 			tripId));
 		User.signIn(getActivity(), args);
-		OmnitureTracking.trackPageLoadFlightLogin(getActivity());
+		OmnitureTracking.trackPageLoadFlightLogin();
 	}
 
 	@Override

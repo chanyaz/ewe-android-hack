@@ -398,7 +398,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 			for (LaunchLocation location : mLocations.keySet()) {
 				if (TextUtils.equals(mLocations.get(location).getTitle(), marker.getTitle())) {
 					mClickedLocation = location.id;
-					OmnitureTracking.trackLaunchCitySelect(getActivity(), mClickedLocation);
+					OmnitureTracking.trackLaunchCitySelect(mClickedLocation);
 					Events.post(new Events.LaunchMapPinClicked(location));
 					return true;
 				}

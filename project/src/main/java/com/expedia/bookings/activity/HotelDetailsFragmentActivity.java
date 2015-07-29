@@ -361,7 +361,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	}
 
 	private void doOmnitureTracking() {
-		OmnitureTracking.trackPageLoadHotelsInfosite(mContext, getIntent().getIntExtra(EXTRA_POSITION, -1));
+		OmnitureTracking.trackPageLoadHotelsInfosite(mContext);
 		AdTracker.trackHotelInfoSite();
 	}
 

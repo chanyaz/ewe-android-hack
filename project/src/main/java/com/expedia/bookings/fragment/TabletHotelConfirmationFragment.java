@@ -124,7 +124,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 
 		SocialUtils.email(context, subject, body);
 
-		OmnitureTracking.trackHotelConfirmationShareEmail(getActivity());
+		OmnitureTracking.trackHotelConfirmationShareEmail();
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		startActivity(generateHotelCalendarIntent(false));
 		startActivity(generateHotelCalendarIntent(true));
 
-		OmnitureTracking.trackHotelConfirmationAddToCalendar(getActivity());
+		OmnitureTracking.trackHotelConfirmationAddToCalendar();
 	}
 
 	private Intent generateHotelCalendarIntent(boolean checkIn) {

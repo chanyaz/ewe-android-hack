@@ -112,7 +112,7 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 			return;
 		}
 
-		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentCid(this);
+		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentCid();
 	}
 
 	@Override
@@ -421,7 +421,7 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 			DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
 			df.show(getSupportFragmentManager(), "noResultsErrorDialog");
 
-			OmnitureTracking.trackErrorPage(mContext, "ReservationRequestFailed");
+			OmnitureTracking.trackErrorPage("ReservationRequestFailed");
 		}
 		else if (!results.isSuccess() && !response.succeededWithErrors()) {
 			response.setProperty(property);

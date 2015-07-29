@@ -64,7 +64,7 @@ public class LeanPlumTemplate extends BaseMessageDialog {
 							AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 							LayoutInflater inflater = activity.getLayoutInflater();
 
-							OmnitureTracking.trackLeanPlumInAppMessage(activity, actionContext.stringNamed(CAMPAIGN_TEXT));
+							OmnitureTracking.trackLeanPlumInAppMessage(actionContext.stringNamed(CAMPAIGN_TEXT));
 							// Inflate and set the layout for the dialog
 							// Pass null as the parent view because its going in the dialog layout
 							View view = inflater.inflate(R.layout.leanplum_dialog, null);

@@ -359,7 +359,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 				break;
 			case SAVE:
 				displayCheckout();
-				OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditSave(getApplicationContext());
+				OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditSave();
 				break;
 			default:
 				Ui.showToast(this, "FAIL");

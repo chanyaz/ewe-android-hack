@@ -267,7 +267,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	private void goToHotels(Bundle animOptions) {
 		NavUtils.goToHotels(getContext(), animOptions);
-		OmnitureTracking.trackLinkLaunchScreenToHotels(getContext());
+		OmnitureTracking.trackLinkLaunchScreenToHotels();
 	}
 
 	/*
@@ -420,7 +420,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 				public void onClick(View v) {
 					Bundle animOptions = AnimUtils.createActivityScaleBundle(airAttachBanner);
 					goToHotels(animOptions);
-					OmnitureTracking.trackPhoneAirAttachBannerClick(getContext());
+					OmnitureTracking.trackPhoneAirAttachBannerClick();
 				}
 			});
 		}
@@ -429,10 +429,10 @@ public class PhoneLaunchWidget extends FrameLayout {
 				@Override
 				public void onClick(View v) {
 					NavUtils.goToHotels(getContext(), hotelSearchParams);
-					OmnitureTracking.trackPhoneAirAttachBannerClick(getContext());
+					OmnitureTracking.trackPhoneAirAttachBannerClick();
 				}
 			});
-			OmnitureTracking.trackPhoneAirAttachBanner(getContext());
+			OmnitureTracking.trackPhoneAirAttachBanner();
 		}
 	}
 

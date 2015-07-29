@@ -365,7 +365,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 		// Tracking
 		boolean isAirAttachScenario = lob == LineOfBusiness.HOTELS &&
 			Db.getTripBucket().getHotel().hasAirAttachRate();
-		OmnitureTracking.trackBookNextClick(this, lob, isAirAttachScenario);
+		OmnitureTracking.trackBookNextClick(lob, isAirAttachScenario);
 
 		updateBucketItems(true);
 		setCheckoutState(state, true);

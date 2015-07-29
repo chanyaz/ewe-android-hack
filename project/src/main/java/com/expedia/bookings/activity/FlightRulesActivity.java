@@ -33,7 +33,7 @@ public class FlightRulesActivity extends FragmentActivity {
 	protected void onStart() {
 		super.onStart();
 
-		OmnitureTracking.trackPageLoadFlightCheckoutWarsaw(this);
+		OmnitureTracking.trackPageLoadFlightCheckoutWarsaw();
 	}
 
 	@Override

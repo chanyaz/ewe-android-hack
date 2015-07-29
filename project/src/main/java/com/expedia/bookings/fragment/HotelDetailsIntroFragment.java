@@ -125,7 +125,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 				public synchronized void onClick(final View v) {
 					Intent newIntent = new Intent(getActivity(), UserReviewsListActivity.class);
 					newIntent.fillIn(getActivity().getIntent(), 0);
-					OmnitureTracking.trackPageLoadHotelsDetailsReviews(getActivity());
+					OmnitureTracking.trackPageLoadHotelsDetailsReviews();
 					startActivity(newIntent);
 				}
 			};

@@ -96,7 +96,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
 
-				OmnitureTracking.trackLinkHotelsCheckoutTravelerEnterManually(getActivity());
+				OmnitureTracking.trackLinkHotelsCheckoutTravelerEnterManually();
 			}
 		});
 
@@ -140,7 +140,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 						bd.startDownload(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsDownload,
 								mTravelerDetailsCallback);
 
-						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting(getActivity());
+						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting();
 					}
 				}
 			});
@@ -172,7 +172,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsTravelerSelect(getActivity());
+		OmnitureTracking.trackPageLoadHotelsTravelerSelect();
 	}
 
 	@Override

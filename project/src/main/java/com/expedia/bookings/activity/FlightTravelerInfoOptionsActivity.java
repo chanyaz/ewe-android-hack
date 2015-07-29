@@ -420,12 +420,12 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 					displayOverwriteDialog();
 				}
 				else {
-					OmnitureTracking.trackPageLoadFlightTravelerEditSave(mContext);
+					OmnitureTracking.trackPageLoadFlightTravelerEditSave();
 					displayCheckout();
 				}
 				break;
 			case OVERWRITE_TRAVELER:
-				OmnitureTracking.trackPageLoadFlightTravelerEditSave(mContext);
+				OmnitureTracking.trackPageLoadFlightTravelerEditSave();
 				displayCheckout();
 				break;
 			default:

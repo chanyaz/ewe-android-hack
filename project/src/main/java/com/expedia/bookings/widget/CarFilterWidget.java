@@ -97,7 +97,7 @@ public class CarFilterWidget extends LinearLayout {
 		filter.carTransmissionType = null;
 		postCarFilterEvent();
 
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "All");
+		OmnitureTracking.trackAppCarFilterUsage("All");
 	}
 
 	@OnClick(R.id.transmission_filter_manual)
@@ -108,7 +108,7 @@ public class CarFilterWidget extends LinearLayout {
 		filter.carTransmissionType = Transmission.MANUAL_TRANSMISSION;
 		postCarFilterEvent();
 
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Manual");
+		OmnitureTracking.trackAppCarFilterUsage("Manual");
 
 	}
 
@@ -120,35 +120,35 @@ public class CarFilterWidget extends LinearLayout {
 		filter.carTransmissionType = Transmission.AUTOMATIC_TRANSMISSION;
 		postCarFilterEvent();
 
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Auto");
+		OmnitureTracking.trackAppCarFilterUsage("Auto");
 
 	}
 
 	@OnClick(R.id.ac_filter)
 	public void onAirConditioningFilterClick() {
 		airConditioningCheckbox.setChecked(!airConditioningCheckbox.isChecked());
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Air");
+		OmnitureTracking.trackAppCarFilterUsage("Air");
 
 	}
 
 	@OnClick(R.id.unlimited_mileage_filter)
 	public void onMileageFilterClick() {
 		unlimitedMileageCheckbox.setChecked(!unlimitedMileageCheckbox.isChecked());
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Unlimited");
+		OmnitureTracking.trackAppCarFilterUsage("Unlimited");
 	}
 
 	@OnCheckedChanged(R.id.ac_filter_checkbox)
 	public void onACFilterCheckedChanged(boolean checked) {
 		filter.hasAirConditioning = checked;
 		postCarFilterEvent();
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Air");
+		OmnitureTracking.trackAppCarFilterUsage("Air");
 	}
 
 	@OnCheckedChanged(R.id.unlimited_mileage_filter_checkbox)
 	public void onMileageFilterCheckedChanged(boolean checked) {
 		filter.hasUnlimitedMileage = checked;
 		postCarFilterEvent();
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Unlimited");
+		OmnitureTracking.trackAppCarFilterUsage("Unlimited");
 	}
 
 	@Override
@@ -320,7 +320,7 @@ public class CarFilterWidget extends LinearLayout {
 		}
 
 		postCarFilterEvent();
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Category");
+		OmnitureTracking.trackAppCarFilterUsage("Category");
 	}
 
 	@Subscribe
@@ -333,7 +333,7 @@ public class CarFilterWidget extends LinearLayout {
 		}
 
 		postCarFilterEvent();
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Vendor");
+		OmnitureTracking.trackAppCarFilterUsage("Vendor");
 	}
 
 	@Subscribe

@@ -368,7 +368,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			filter.notifyFilterChanged();
 			mNeighborhoodLayout.updateWidgets(Db.getHotelSearch().getSearchResponse());
 
-			OmnitureTracking.trackLinkHotelRefineVip(getActivity(), vipAccessOnly);
+			OmnitureTracking.trackLinkHotelRefineVip(vipAccessOnly);
 		}
 	};
 
@@ -378,7 +378,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			HotelFilter filter = Db.getFilter();
 			filter.setNeighborhoods(neighborhoods);
 			filter.notifyFilterChanged();
-			OmnitureTracking.trackTabletNeighborhoodFilter(getActivity());
+			OmnitureTracking.trackTabletNeighborhoodFilter();
 		}
 	};
 
@@ -387,7 +387,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 
 	private void onFilterClosed() {
 		Log.d("Tracking \"App.Hotels.Search.Refine.Name\" change...");
-		OmnitureTracking.trackLinkHotelRefineName(getActivity(), mHotelNameEditText.getText().toString());
+		OmnitureTracking.trackLinkHotelRefineName(mHotelNameEditText.getText().toString());
 	}
 
 	private void onSortChanged() {
@@ -396,24 +396,24 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			Sort sort = Sort.values()[mSortByButtonGroup.getSelectedItemPosition()];
 			switch (sort) {
 			case PRICE: {
-				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_PRICE);
+				OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_PRICE);
 				break;
 			}
 			case RATING: {
-				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_RATING);
+				OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_RATING);
 				break;
 			}
 			case DISTANCE: {
-				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_DISTANCE);
+				OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_DISTANCE);
 				break;
 			}
 			case DEALS: {
-				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_DEALS);
+				OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_DEALS);
 				break;
 			}
 			case POPULAR:
 			default: {
-				OmnitureTracking.trackLinkHotelSort(getActivity(), OmnitureTracking.HOTELS_SEARCH_SORT_POPULAR);
+				OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_POPULAR);
 				break;
 			}
 			}
@@ -426,20 +426,20 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 
 			switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
 			case R.id.price_cheap_button: {
-				OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.CHEAP);
+				OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.CHEAP);
 				break;
 			}
 			case R.id.price_moderate_button: {
-				OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.MODERATE);
+				OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.MODERATE);
 				break;
 			}
 			case R.id.price_expensive_button: {
-				OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.EXPENSIVE);
+				OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.EXPENSIVE);
 				break;
 			}
 			case R.id.price_all_button:
 			default: {
-				OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.ALL);
+				OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.ALL);
 				break;
 			}
 			}
@@ -452,20 +452,20 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 
 			switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
 			case R.id.radius_small_button: {
-				OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.SMALL);
+				OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.SMALL);
 				break;
 			}
 			case R.id.radius_medium_button: {
-				OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.MEDIUM);
+				OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.MEDIUM);
 				break;
 			}
 			case R.id.radius_large_button: {
-				OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.LARGE);
+				OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.LARGE);
 				break;
 			}
 			case R.id.radius_all_button:
 			default: {
-				OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.ALL);
+				OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.ALL);
 				break;
 			}
 			}
@@ -477,20 +477,20 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			Log.d("Tracking \"App.Hotels.Search.Refine\" rating change...");
 			switch (mRatingButtonGroup.getCheckedRadioButtonId()) {
 			case R.id.rating_low_button: {
-				OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "3Stars");
+				OmnitureTracking.trackLinkHotelRefineRating("3Stars");
 				break;
 			}
 			case R.id.rating_medium_button: {
-				OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "4Stars");
+				OmnitureTracking.trackLinkHotelRefineRating("4Stars");
 				break;
 			}
 			case R.id.rating_high_button: {
-				OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "5Stars");
+				OmnitureTracking.trackLinkHotelRefineRating("5Stars");
 				break;
 			}
 			case R.id.rating_all_button:
 			default: {
-				OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "AllStars");
+				OmnitureTracking.trackLinkHotelRefineRating("AllStars");
 				break;
 			}
 			}

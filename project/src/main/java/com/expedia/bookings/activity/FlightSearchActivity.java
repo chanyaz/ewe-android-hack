@@ -89,7 +89,7 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 	@Override
 	protected void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightSearch(this);
+		OmnitureTracking.trackPageLoadFlightSearch();
 	}
 
 	@Override

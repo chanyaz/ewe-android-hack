@@ -148,7 +148,7 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsTravelerEditInfo(getActivity());
+		OmnitureTracking.trackPageLoadHotelsTravelerEditInfo();
 	}
 
 	@Override

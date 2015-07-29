@@ -306,7 +306,7 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 			case SAVE:
 				setIntentResultOk();
 				displayCheckout();
-				OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditSave(getApplicationContext());
+				OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditSave();
 				break;
 			default:
 				Ui.showToast(this, "FAIL");

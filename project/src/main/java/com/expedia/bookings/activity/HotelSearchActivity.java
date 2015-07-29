@@ -967,27 +967,27 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 
 		case R.id.menu_select_sort_popularity:
-			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_POPULAR);
+			OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_POPULAR);
 			mSortOptionSelectedId = item.getItemId();
 			rebuildFilter = true;
 			break;
 		case R.id.menu_select_sort_deals:
-			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_DEALS);
+			OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_DEALS);
 			mSortOptionSelectedId = item.getItemId();
 			rebuildFilter = true;
 			break;
 		case R.id.menu_select_sort_price:
-			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_PRICE);
+			OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_PRICE);
 			mSortOptionSelectedId = item.getItemId();
 			rebuildFilter = true;
 			break;
 		case R.id.menu_select_sort_user_rating:
-			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_RATING);
+			OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_RATING);
 			mSortOptionSelectedId = item.getItemId();
 			rebuildFilter = true;
 			break;
 		case R.id.menu_select_sort_distance:
-			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_DISTANCE);
+			OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_DISTANCE);
 			mSortOptionSelectedId = item.getItemId();
 			rebuildFilter = true;
 			break;
@@ -1152,7 +1152,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			public void onError() {
 				mFindingLocation = false;
 				simulateErrorResponse(R.string.ProviderDisabled);
-				OmnitureTracking.trackErrorPage(mContext, "LocationServicesNotAvailable");
+				OmnitureTracking.trackErrorPage("LocationServicesNotAvailable");
 			}
 		});
 	}
@@ -1531,7 +1531,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		@Override
 		public void onDownload(List<Address> results) {
 			if (results == null || results.size() == 0) {
-				OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "LocationNotFound");
+				OmnitureTracking.trackErrorPage("LocationNotFound");
 				simulateErrorResponse(R.string.geolocation_failed);
 			}
 			else {
@@ -1757,7 +1757,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				// Deprecated client version
 				showDialog(DIALOG_CLIENT_DEPRECATED);
 
-				OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "OutdatedVersion");
+				OmnitureTracking.trackErrorPage("OutdatedVersion");
 
 				showLoading(true /*isErrorMsg*/, false /*dontShowProgress*/, errorOne.getExtra("message"));
 			}
@@ -1768,7 +1768,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 
 		if (!handledError) {
-			OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "HotelListRequestFailed");
+			OmnitureTracking.trackErrorPage("HotelListRequestFailed");
 			showLoading(true /*isErrorMsg*/, false /*dontShowProgress*/, LayoutUtils.noHotelsFoundMessage(mContext, Db.getHotelSearch().getSearchParams()));
 		}
 	}
@@ -2492,10 +2492,10 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 	private void trackGuestCountChange(int oldCount, int newCount, String travelerType) {
 		if (oldCount < newCount) {
-			OmnitureTracking.trackAddTravelerLink(getBaseContext(), OmnitureTracking.PICKER_TRACKING_BASE_HOTELS, travelerType);
+			OmnitureTracking.trackAddTravelerLink(OmnitureTracking.PICKER_TRACKING_BASE_HOTELS, travelerType);
 		}
 		else if (oldCount > newCount) {
-			OmnitureTracking.trackRemoveTravelerLink(getBaseContext(), OmnitureTracking.PICKER_TRACKING_BASE_HOTELS, travelerType);
+			OmnitureTracking.trackRemoveTravelerLink(OmnitureTracking.PICKER_TRACKING_BASE_HOTELS, travelerType);
 		}
 	}
 
@@ -2553,7 +2553,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			mVipAccessFilterButton.setSelected(vipAccessEnabled);
 			buildFilter();
 
-			OmnitureTracking.trackLinkHotelRefineVip(mContext, vipAccessEnabled);
+			OmnitureTracking.trackLinkHotelRefineVip(vipAccessEnabled);
 		}
 	};
 
@@ -2727,7 +2727,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	private void onOpenFilterPanel() {
-		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Refine", null, null);
+		OmnitureTracking.trackSimpleEvent("App.Hotels.Search.Refine", null, null);
 	}
 
 	private void onSwitchToMap() {
@@ -2737,26 +2737,26 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	// HotelFilter tracking
 
 	private void onFilterClosed() {
-		OmnitureTracking.trackLinkHotelRefineName(this, mFilterHotelNameEditText.getText().toString());
+		OmnitureTracking.trackLinkHotelRefineName(mFilterHotelNameEditText.getText().toString());
 	}
 
 	private void onPriceFilterChanged() {
 		switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.price_cheap_button: {
-			OmnitureTracking.trackLinkHotelRefinePriceRange(this, PriceRange.CHEAP);
+			OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.CHEAP);
 			break;
 		}
 		case R.id.price_moderate_button: {
-			OmnitureTracking.trackLinkHotelRefinePriceRange(this, PriceRange.MODERATE);
+			OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.MODERATE);
 			break;
 		}
 		case R.id.price_expensive_button: {
-			OmnitureTracking.trackLinkHotelRefinePriceRange(this, PriceRange.EXPENSIVE);
+			OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.EXPENSIVE);
 			break;
 		}
 		case R.id.price_all_button:
 		default: {
-			OmnitureTracking.trackLinkHotelRefinePriceRange(this, PriceRange.ALL);
+			OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.ALL);
 			break;
 		}
 		}
@@ -2765,20 +2765,20 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private void onRadiusFilterChanged() {
 		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.radius_small_button: {
-			OmnitureTracking.trackLinkHotelRefineSearchRadius(this, SearchRadius.SMALL);
+			OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.SMALL);
 			break;
 		}
 		case R.id.radius_medium_button: {
-			OmnitureTracking.trackLinkHotelRefineSearchRadius(this, SearchRadius.MEDIUM);
+			OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.MEDIUM);
 			break;
 		}
 		case R.id.radius_large_button: {
-			OmnitureTracking.trackLinkHotelRefineSearchRadius(this, SearchRadius.LARGE);
+			OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.LARGE);
 			break;
 		}
 		case R.id.radius_all_button:
 		default: {
-			OmnitureTracking.trackLinkHotelRefineSearchRadius(this, SearchRadius.ALL);
+			OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.ALL);
 			break;
 		}
 		}
@@ -2787,20 +2787,20 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private void onRatingFilterChanged() {
 		switch (mRatingButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.rating_low_button: {
-			OmnitureTracking.trackLinkHotelRefineRating(this, "3Stars");
+			OmnitureTracking.trackLinkHotelRefineRating("3Stars");
 			break;
 		}
 		case R.id.rating_medium_button: {
-			OmnitureTracking.trackLinkHotelRefineRating(this, "4Stars");
+			OmnitureTracking.trackLinkHotelRefineRating("4Stars");
 			break;
 		}
 		case R.id.rating_high_button: {
-			OmnitureTracking.trackLinkHotelRefineRating(this, "5Stars");
+			OmnitureTracking.trackLinkHotelRefineRating("5Stars");
 			break;
 		}
 		case R.id.rating_all_button:
 		default: {
-			OmnitureTracking.trackLinkHotelRefineRating(this, "AllStars");
+			OmnitureTracking.trackLinkHotelRefineRating("AllStars");
 			break;
 		}
 		}
@@ -2842,7 +2842,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		Db.getHotelSearch().setSelectedProperty(property);
 		if (property.isSponsored()) {
 			AdImpressionTracking.trackAdClickOrImpression(mContext, property.getClickTrackingUrl(), null);
-			OmnitureTracking.trackHotelSponsoredListingClick(mContext);
+			OmnitureTracking.trackHotelSponsoredListingClick();
 		}
 		Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
 		startActivity(intent);

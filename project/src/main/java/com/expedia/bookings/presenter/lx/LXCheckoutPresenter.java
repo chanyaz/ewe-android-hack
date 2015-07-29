@@ -186,7 +186,7 @@ public class LXCheckoutPresenter extends Presenter {
 		show(cvv);
 		BillingInfo billingInfo = event.billingInfo;
 		cvv.bind(billingInfo);
-		OmnitureTracking.trackAppLXCheckoutCvvScreen(getContext());
+		OmnitureTracking.trackAppLXCheckoutCvvScreen();
 	}
 
 	@Subscribe

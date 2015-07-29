@@ -299,7 +299,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		if (mParentFlightSelectedListener != null) {
 			mParentFlightSelectedListener.onFlightSelected(legNumber);
 		}
-		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(getActivity(), legNumber);
+		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(legNumber);
 	}
 
 	/*
@@ -329,7 +329,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				}
 				setState(ResultsFlightLegState.LATER_LEG, true);
 				AdTracker.trackPageLoadFlightSearchResults(mLegNumber + 1);
-				OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), mLegNumber + 1);
+				OmnitureTracking.trackPageLoadFlightSearchResults(mLegNumber + 1);
 			}
 		}
 		if (mParentLegSelectedListener != null) {
