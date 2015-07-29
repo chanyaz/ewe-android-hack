@@ -11,10 +11,9 @@
     <!-- Activities Search -->
     <string name="search_activities">Search activities</string>
 
-    <string name="samsung_best_price_guarantee">Samsung Price Guarantee</string>
-
-    <string name="samsung_deal">Samsung deal</string>
+    <string name="samsung_deal">for Samsung</string>
 
     <!-- Airport code and name (code - name) -->
     <string name="airport_code_name_TEMPLATE">{code} - {name}</string>
+
 </resources>

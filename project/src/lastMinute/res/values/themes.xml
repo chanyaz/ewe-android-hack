@@ -187,6 +187,7 @@
         <item name="skin_actionBarShopText">@string/shop</item>
         <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
         <item name="skin_launchActionBarBackgroundColor">@color/cars_launch_actionbar_color</item>
+        <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 
     <style name="FlightActionBarlm" parent="FlightActionBar">

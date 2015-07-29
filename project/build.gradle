@@ -239,7 +239,7 @@ android {
         }
 
         samsung {
-            buildConfigField "String", "brand", "\"Samsung\""
+            buildConfigField "String", "brand", "\"Expedia\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.samsung.travel.android"
 

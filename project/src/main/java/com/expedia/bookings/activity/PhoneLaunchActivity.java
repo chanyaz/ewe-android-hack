@@ -463,7 +463,8 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 			String title;
 			switch (i) {
 			case PAGER_POS_ITIN:
-				title = getResources().getString(R.string.Your_Trips);
+				title = getResources()
+					.getString(Ui.obtainThemeResID(PhoneLaunchActivity.this, R.attr.skin_tripsTabText));
 				break;
 			case PAGER_POS_WATERFALL:
 				title = getResources().getString(R.string.shop);
