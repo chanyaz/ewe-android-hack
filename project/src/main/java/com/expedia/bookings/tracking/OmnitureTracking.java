@@ -135,12 +135,10 @@ public class OmnitureTracking {
 	//
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final String HOTELS_ROOMS_RATES = "App.Hotels.RoomsRates";
 	private static final String HOTELS_RATE_DETAILS = "App.Hotels.RateDetails";
 	private static final String HOTELS_DETAILS_REVIEWS = "App.Hotels.Reviews";
 	private static final String HOTELS_CHECKOUT_INFO = "App.Hotels.Checkout.Info";
 	private static final String HOTELS_CHECKOUT_LOGIN = "App.Hotels.Checkout.Login";
-	private static final String HOTELS_CHECKOUT_LOGIN_FORGOT = "App.Hotels.Checkout.Login.Forgot";
 	private static final String HOTELS_CHECKOUT_TRAVELER_SELECT = "App.Hotels.Checkout.Traveler.Select";
 	private static final String HOTELS_CHECKOUT_TRAVELER_EDIT_INFO = "App.Hotels.Checkout.Traveler.Edit.Info";
 	private static final String HOTELS_CHECKOUT_TRAVELER_ENTER_MANUALLY = "App.Hotels.Checkout.Traveler.EnterManually";
@@ -578,10 +576,6 @@ public class OmnitureTracking {
 		internalTrackLink(pageName);
 	}
 
-	public static void trackLinkHotelsCheckoutLoginForgot() {
-		internalTrackLink(HOTELS_CHECKOUT_LOGIN_FORGOT);
-	}
-
 	public static void trackPageLoadHotelsTravelerEditInfo() {
 		internalTrackPageLoadEventStandard(HOTELS_CHECKOUT_TRAVELER_EDIT_INFO);
 	}
@@ -782,7 +776,6 @@ public class OmnitureTracking {
 	private static final String FLIGHT_RATE_DETAILS = "App.Flight.RateDetails";
 	private static final String FLIGHT_CHECKOUT_INFO = "App.Flight.Checkout.Info";
 	private static final String FLIGHT_CHECKOUT_LOGIN = "App.Flight.Checkout.Login";
-	private static final String FLIGHT_CHECKOUT_LOGIN_FORGOT = "App.Flight.Checkout.Login.Forgot";
 	private static final String FLIGHT_CHECKOUT_TRAVELER_SELECT = "App.Flight.Checkout.Traveler.Select";
 	private static final String FLIGHT_CHECKOUT_TRAVELER_EDIT_INFO = "App.Flight.Checkout.Traveler.Edit.Info";
 	private static final String FLIGHT_CHECKOUT_TRAVELER_EDIT_DETAILS = "App.Flight.Checkout.Traveler.Edit.Details";
@@ -821,7 +814,6 @@ public class OmnitureTracking {
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_REFINE = "App.Flight.Search.Roundtrip.Out.RefineSearch";
 	private static final String PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SELECT = "App.Flight.Search.Roundtrip.In.Select";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REFINE = "App.Flight.Search.Roundtrip.In.RefineSearch";
-	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REMOVE_OUT = "App.Flight.Search.Roundtrip.In.RemoveOut";
 
 	private static final String FLIGHT_CONF_ADD_TO_CALENDAR = "App.Flight.Checkout.Confirmation.Add.Calendar";
 	private static final String FLIGHT_CONF_SHARE_EMAIL = "App.Flight.Checkout.Confirmation.Share.Mail";
@@ -1198,14 +1190,6 @@ public class OmnitureTracking {
 		trackLinkFlightFilter(stopsString);
 	}
 
-	public static void trackLinkFlightRemoveOutboundSelection() {
-		internalTrackLink(FLIGHT_SEARCH_ROUNDTRIP_IN_REMOVE_OUT);
-	}
-
-	public static void trackLinkFlightCheckoutLoginForgot() {
-		internalTrackLink(FLIGHT_CHECKOUT_LOGIN_FORGOT);
-	}
-
 	public static void trackLinkFlightCheckoutTravelerSelectExisting() {
 		internalTrackLink(FLIGHT_CHECKOUT_TRAVELER_SELECT_EXISTING);
 	}
@@ -1281,9 +1265,7 @@ public class OmnitureTracking {
 	public static final String LX_INFO = "LX_INFO";
 	public static final String LX_TICKET = "App.LX.Ticket.";
 	private static final String LX_CHECKOUT_TRAVELER_INFO = "App.LX.Checkout.Traveler.Edit.Info";
-	private static final String LX_CHECKOUT_LOGIN = "App.LX.Checkout.Login";
 	private static final String LX_CHECKOUT_LOGIN_SUCCESS = "App.LX.Checkout.Login.Success";
-	private static final String LX_CHECKOUT_LOGIN_ERROR = "App.LX.Checkout.Login.Error";
 	private static final String LX_CHECKOUT_PAYMENT_INFO = "App.LX.Checkout.Payment.Edit.Info";
 	private static final String LX_CHECKOUT_SLIDE_TO_PURCHASE = "App.LX.Checkout.SlideToPurchase";
 	private static final String LX_CHECKOUT_CVV_SCREEN = "App.LX.Checkout.Payment.CID";
@@ -1417,19 +1399,6 @@ public class OmnitureTracking {
 
 	}
 
-	public static void trackAppLXCheckoutLoginError(String errorMessage) {
-		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_LOGIN_ERROR + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
-
-
-		s.setEvar(28, LX_CHECKOUT_LOGIN_ERROR);
-		s.setProp(16, LX_CHECKOUT_LOGIN_ERROR);
-		s.setProp(36, "LX:" + errorMessage);
-
-		s.trackLink(null, "o", "User Login", null, null);
-	}
-
 	public static void trackAppLXCheckoutLoginSuccess() {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_LOGIN_SUCCESS + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -1441,14 +1410,6 @@ public class OmnitureTracking {
 		s.setEvents("event26");
 
 		s.trackLink(null, "o", "User Login", null, null);
-	}
-
-	public static void trackAppLXLoginPage() {
-		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_LOGIN + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setAppState(LX_CHECKOUT_LOGIN);
-		s.setEvar(18, LX_CHECKOUT_LOGIN);
-		s.track();
 	}
 
 	public static void trackAppLXCheckoutPayment() {
@@ -2594,9 +2555,6 @@ public class OmnitureTracking {
 	private static final String LOGIN_MARKETING_OPT_IN = "App.Account.Terms.Email.Opt-In";
 	private static final String LOGIN_MARKETING_OPT_OUT = "App.Account.Terms.Email.Opt-Out";
 	private static final String LOGIN_ACCOUNT_CREATE_SUCCESS = "App.Account.Create.Success";
-	private static final String ITIN_LOGIN_PARAM = "Itinerary";
-	private static final String HOTEL_LOGIN_PARAM = "Hotels.Checkout";
-	private static final String FLIGHT_LOGIN_PARAM = "Flight.Checkout";
 
 	public static void trackLoginSuccess() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
@@ -2675,16 +2633,6 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackLoginPasswordValidation(String error) {
-		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
-		// set the pageName
-		s.setAppState(LOGIN_CREATE_PASSWORD);
-		s.setEvar(18, LOGIN_CREATE_PASSWORD);
-		s.setProp(36, error);
-		s.track();
-	}
-
 	public static void trackLoginTOS() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		addStandardFields(s);
@@ -2751,7 +2699,6 @@ public class OmnitureTracking {
 	private static final String LAUNCH_SEARCH = "Launch.Search";
 	private static final String LAUNCH_DEALS_TILE = "App.LS.Promo";
 	private static final String LAUNCH_MESSAGING = "Launch.TopDeals.Hotel";
-	private static final String LAUNCH_GLOBAL = "App.Global";
 
 	private static final String HOTEL_LOB_NAVIGATION = "Hotel";
 	private static final String FLIGHT_LOB_NAVIGATION = "Flight";
@@ -2806,24 +2753,6 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		addCommonLaunchScreenFields(s, launchMessage, "DealTile");
 
-		s.trackLink(null, "o", "App Landing", null, null);
-	}
-
-	public static void trackNewLaunchScreenShopClick() {
-		trackNewLaunchScreenGlobalNavigation("Shop");
-	}
-
-	public static void trackNewLaunchScreenTripsClick() {
-		trackNewLaunchScreenGlobalNavigation("Trips");
-	}
-
-	private static void trackNewLaunchScreenGlobalNavigation(String type) {
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		addStandardFields(s);
-
-		s.setEvar(28, LAUNCH_GLOBAL + "." + type);
-		s.setProp(16, LAUNCH_GLOBAL + "." + type);
 		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
@@ -3433,9 +3362,7 @@ public class OmnitureTracking {
 	private static final String CAR_VIEW_DETAILS = "App.Cars.RD.ViewDetails";
 	private static final String CAR_VIEW_MAP = "App.Cars.RD.ViewMap";
 	private static final String CAR_CHECKOUT_PAGE = "App.Cars.Checkout.Info";
-	private static final String CAR_CHECKOUT_LOGIN = "App.Cars.Checkout.Login";
 	private static final String CAR_CHECKOUT_LOGIN_SUCCESS = "App.Cars.Checkout.Login.Success";
-	private static final String CAR_CHECKOUT_LOGIN_ERROR = "App.Cars.Checkout.Login.Error";
 	private static final String CAR_CHECKOUT_TRAVELER_INFO = "App.Cars.Checkout.Traveler.Edit.Info";
 	private static final String CAR_CHECKOUT_PAYMENT_INFO = "App.Cars.Checkout.Payment.Edit.Info";
 	private static final String CAR_CHECKOUT_SLIDE_TO_PURCHASE = "App.Cars.Checkout.SlideToPurchase";
@@ -3542,14 +3469,6 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppCarLoginPage() {
-		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_LOGIN + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setAppState(CAR_CHECKOUT_LOGIN);
-		s.setEvar(18, CAR_CHECKOUT_LOGIN);
-		s.track();
-	}
-
 	public static void trackAppCarCheckoutLoginSuccess() {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_LOGIN_SUCCESS + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -3559,20 +3478,6 @@ public class OmnitureTracking {
 		s.setEvar(28, CAR_CHECKOUT_LOGIN_SUCCESS);
 		s.setProp(16, CAR_CHECKOUT_LOGIN_SUCCESS);
 		s.setEvents("event26");
-
-		s.trackLink(null, "o", "User Login", null, null);
-
-	}
-
-	public static void trackAppCarCheckoutLoginError() {
-		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_LOGIN_ERROR + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
-
-
-		s.setEvar(28, CAR_CHECKOUT_LOGIN_ERROR);
-		s.setProp(16, CAR_CHECKOUT_LOGIN_ERROR);
-		s.setProp(36, "error");
 
 		s.trackLink(null, "o", "User Login", null, null);
 
@@ -3696,15 +3601,6 @@ public class OmnitureTracking {
 	}
 
 
-	public static void trackCheckoutLoginError(LineOfBusiness lineOfBusiness, String errorMessage) {
-		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
-			trackAppCarCheckoutLoginError();
-		}
-		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
-			trackAppLXCheckoutLoginError(errorMessage);
-		}
-	}
-
 	public static void trackCheckoutSlideToPurchase(LineOfBusiness lineOfBusiness, Context context, CreditCardType creditCardType) {
 		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
 			trackAppCarCheckoutSlideToPurchase(context, creditCardType);
@@ -3741,12 +3637,4 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static void trackLoginPage(LineOfBusiness lineOfBusiness) {
-		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
-			trackAppCarLoginPage();
-		}
-		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
-			trackAppLXLoginPage();
-		}
-	}
 }
