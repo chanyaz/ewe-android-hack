@@ -596,6 +596,10 @@
     <string name="lx_select_ticket">Chọn vé</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">Hủy miễn phí</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">Voucher điện tử</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">Cần bản in voucher</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">Không nhận thanh toán bằng %1$s</string>
     <!-- LX Error Activity Price Changed -->
@@ -716,8 +720,6 @@
     <string name="lx_sort_by">Sắp xếp theo</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">Danh mục</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">Lọc</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -1892,6 +1894,10 @@
     <string name="enter_traveler_info">Thông tin khách</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Chi tiết khách chính</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">Nhập thông tin khách chính</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">Khách chính</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Đã lưu</string>
     <!-- Edit button for traveler/payment -->
@@ -1977,8 +1983,6 @@
     <string name="cardholder">Chủ thẻ</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">Email xác nhận sẽ được gửi đến đây</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">Hết hạn %1$s</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
     <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">Tôi không muốn nhận email về ưu đãi, khuyến mãi và thông tin khác từ {brand}.</string>
     <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
@@ -2772,7 +2776,8 @@
     <string name="itinerary_number">Số lịch trình</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">Nếu có câu hỏi về đặt phòng/đặt chỗ của mình, vui lòng gọi {brand} qua số {phone}.</string>
-
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Quên mật khẩu</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2787,8 +2792,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Đăng nhập</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">Nhận điểm và đặt nhanh hơn.</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Đang đăng nhập…</string>
     <!-- Message that tells user they failed to sign in -->

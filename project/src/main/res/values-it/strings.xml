@@ -596,6 +596,10 @@
     <string name="lx_select_ticket">Seleziona i biglietti</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">Cancellazione gratuita</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">Voucher elettronico</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">È necessario presentare il voucher stampato</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s non accettata</string>
     <!-- LX Error Activity Price Changed -->
@@ -716,8 +720,6 @@
     <string name="lx_sort_by">Ordina</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">Categorie</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">Filtra</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -995,7 +997,7 @@
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Trova n. itinerario</string>
     <!-- Expedia Itinerary -->
-    <string name="itinerary_TEMPLATE">Itinerario {brand} n.</string>
+    <string name="itinerary_TEMPLATE">N. itinerario {brand}</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
     <string name="Expedia_plus_Silver_Customer_Support">Supporto clienti Expedia +silver</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
@@ -1892,6 +1894,10 @@
     <string name="enter_traveler_info">Dati viaggiatore</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Dettagli del viaggiatore principale</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">Inserisci i dettagli del viaggiatore principale</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">Viaggiatore principale</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Salvati</string>
     <!-- Edit button for traveler/payment -->
@@ -1977,8 +1983,6 @@
     <string name="cardholder">Titolare della carta</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">L\&apos;e-mail di conferma sarà inviata a questo indirizzo</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">Scade in data %1$s</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
     <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">Non desidero ricevere e-mail da {brand} con offerte speciali, promozioni e altre informazioni.</string>
     <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
@@ -2772,7 +2776,8 @@
     <string name="itinerary_number">Itinerario n.</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">Se hai domande sulla tua prenotazione, chiama {brand} al numero {phone}.</string>
-
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Password dimenticata</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2787,8 +2792,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Accedi</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">Guadagna crediti e prenota con rapidità.</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Accesso in corso…</string>
     <!-- Message that tells user they failed to sign in -->
@@ -3615,5 +3618,5 @@
     <!-- Message displayed after a successful create account -->
     <string name="acct_Welcome_to_Expedia">Benvenuto su Expedia</string>
     <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Expedia_account_already_exists">Questo indirizzo e-mail e già associato a un account Expedia</string>
+    <string name="acct_Expedia_account_already_exists">Questo indirizzo e-mail è già associato a un account Expedia</string>
 </resources>

@@ -596,6 +596,10 @@
     <string name="lx_select_ticket">Kies tickets</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">Gratis annulering</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">Online coupon</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">Afgedrukte coupon nodig</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s niet geaccepteerd</string>
     <!-- LX Error Activity Price Changed -->
@@ -716,8 +720,6 @@
     <string name="lx_sort_by">Sorteer op</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">Categorieën</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">Filteren</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -1892,6 +1894,10 @@
     <string name="enter_traveler_info">Reizigersinformatie</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Info hoofdreiziger</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">Info hoofdreiziger invoeren</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">Hoofdreiziger</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Opgeslagen</string>
     <!-- Edit button for traveler/payment -->
@@ -1977,8 +1983,6 @@
     <string name="cardholder">Kaarthouder</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">Je bevestigingsbericht wordt hier naartoe gestuurd</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">Vervaldatum: %1$s</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
     <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">Ik wil geen e-mails van {brand} ontvangen met reisaanbiedingen, speciale deals en andere informatie.</string>
     <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
@@ -2772,7 +2776,8 @@
     <string name="itinerary_number">Reisplannr.</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">Als je vragen hebt over je boeking, bel dan {brand} op {phone}.</string>
-
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Wachtwoord vergeten</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2787,8 +2792,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Aanmelden</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">Verdien punten en boek snel.</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Bezig met aanmelden …</string>
     <!-- Message that tells user they failed to sign in -->

@@ -596,6 +596,10 @@
     <string name="lx_select_ticket">选票</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">免费取消预订</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">电子兑换券</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">需要打印的兑换券</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">不接受 %1$s</string>
     <!-- LX Error Activity Price Changed -->
@@ -716,8 +720,6 @@
     <string name="lx_sort_by">排序方式：</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">类别</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">筛选</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -1892,6 +1894,10 @@
     <string name="enter_traveler_info">旅客信息</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">主要旅客的信息</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">输入主要旅客的信息</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">主要旅客</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">已保存</string>
     <!-- Edit button for traveler/payment -->
@@ -1977,12 +1983,10 @@
     <string name="cardholder">持卡人</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">您的确认邮件将会发送到这里。</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">到期日期为 %1$s</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
-    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">我不要收到来自 {brand} 有关旅行优惠、特别促销和其他信息的电子邮件。</string>
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">我不想接收 {brand} 发送的旅行优惠、特别促销和其他信息。</string>
     <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
-    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">我要接收来自 {brand} 有关旅行优惠、特别促销和其他信息的电子邮件。</string>
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">我要接收 {brand} 发送旅行优惠、特别促销和其他信息。</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -2772,7 +2776,8 @@
     <string name="itinerary_number">行程编号</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">若对您的预订有任何疑问，请拨电 {phone} 联系 {brand}。</string>
-
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">忘记密码</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2787,8 +2792,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">登录</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">快捷预订，轻松积分。</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">正在登录…</string>
     <!-- Message that tells user they failed to sign in -->

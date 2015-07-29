@@ -596,6 +596,10 @@
     <string name="lx_select_ticket">Tickets auswählen</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">Kostenlose Stornierung</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">E-Voucher</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">Der Voucher muss ausgedruckt werden</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s wird nicht akzeptiert</string>
     <!-- LX Error Activity Price Changed -->
@@ -716,8 +720,6 @@
     <string name="lx_sort_by">Sortieren nach</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">Kategorien</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">Filtern</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -1363,7 +1365,7 @@
     <string name="itin_card_details_bed_type">Bettentyp</string>
     <string name="toast_copied_to_clipboard">In die Zwischenablage kopiert</string>
     <string name="itin_card_details_reload">Infos neu laden</string>
-    <string name="itin_card_details_reload_activity">Aktivitätsinfos erneut laden</string>
+    <string name="itin_card_details_reload_activity">Aktivitäteninfos erneut laden</string>
     <string name="itin_card_details_reload_car">Mietwageninfos erneut laden</string>
     <string name="itin_card_details_reload_flight">Fluginfos erneut laden</string>
     <string name="itin_card_details_reload_hotel">Hotelinfos erneut laden</string>
@@ -1892,6 +1894,10 @@
     <string name="enter_traveler_info">Angaben zum Reisenden</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Angaben zum Hauptreisenden</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">Angaben zum Hauptreisenden eingeben</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">Hauptreisender</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Gespeichert</string>
     <!-- Edit button for traveler/payment -->
@@ -1977,8 +1983,6 @@
     <string name="cardholder">Karteninhaber</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">Die Bestätigungsmail geht an diese Adresse</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">Gültig bis %1$s</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
     <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">Ich möchte keine Newsletter von {brand} mit Reiseschnäppchen, Sonderangeboten und weiteren Infos erhalten.</string>
     <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
@@ -2773,7 +2777,8 @@
     <string name="itinerary_number">Reiseplannr.</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">Wenn Sie Fragen zu Ihrer Buchung haben, wenden Sie sich bitte unter der Nummer {brand} an {phone}.</string>
-
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Passwort vergessen?</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2788,8 +2793,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Anmelden</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">Sammeln Sie Punkte und buchen Sie noch schneller!</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Anmeldung erfolgt…</string>
     <!-- Message that tells user they failed to sign in -->
