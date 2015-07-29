@@ -203,7 +203,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		addStandardFields(s);
 
 		s.setAppState("App.Hotels.Search");
 		s.setEvents("event30,event51");
@@ -259,7 +258,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		addStandardFields(s);
 
 		s.setAppState("App.Hotels.RoomsRates");
 
@@ -282,7 +280,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		addStandardFields(s);
 
 		s.setAppState(HOTELS_ETP_INFO_PAGE);
 
@@ -296,7 +293,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		addStandardFields(s);
 		String pageName = "App.Hotels.Checkout.Confirmation";
 		s.setAppState(pageName);
 		s.setEvar(18, pageName);
@@ -342,7 +338,6 @@ public class OmnitureTracking {
 		s.setAppState("App.Hotels.Rooms.Infosite");
 		s.setEvents("event32");
 
-		addStandardFields(s);
 		addStandardHotelFields(s, Db.getHotelSearch().getSearchParams());
 		addHotelRegionId(s, Db.getHotelSearch().getSearchParams());
 
@@ -392,7 +387,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		addStandardFields(s);
 
 		s.setAppState("App.Hotels.Infosite.Map");
 
@@ -495,7 +489,6 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadHotelsCheckoutInfo(Context context) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
-		addStandardFields(s);
 		s.setEvents("event70");
 
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelHCKOTraveler);
@@ -625,7 +618,6 @@ public class OmnitureTracking {
 
 	public static void trackHotelSearchMapSwitch(Context context) {
 		ADMS_Measurement s = OmnitureTracking.getFreshTrackingObject();
-		addStandardFields(s);
 		s.setAppState("App.Hotels.Search.Map");
 
 		trackAbacusTest(context, s, AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
@@ -636,7 +628,6 @@ public class OmnitureTracking {
 	// Coupon tracking: https://mingle/projects/eb_ad_app/cards/1003
 
 	private static void addCouponFields(ADMS_Measurement s, String refererId) {
-		addStandardFields(s);
 		s.setEvar(28, refererId);
 		s.setProp(16, refererId);
 		s.trackLink(null, "o", HOTELS_COUPON_LINK_NAME, null, null);
@@ -722,7 +713,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELS_MER_EMAIL_OPT_IN + "\"");
 
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 
 		s.setEvents("event42");
 
@@ -742,7 +732,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELS_MER_EMAIL_OPT_OUT + "\"");
 
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 
 		s.setEvents("event43");
 
@@ -936,7 +925,6 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadFlightCheckoutInfo(Context context) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_CHECKOUT_INFO);
-		addStandardFields(s);
 		s.setEvents("event74");
 		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 		s.setEvar(47, getEvar47String(params));
@@ -1393,7 +1381,6 @@ public class OmnitureTracking {
 	public static void trackAppLXCheckoutTraveler() {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		s.setAppState(LX_CHECKOUT_TRAVELER_INFO);
 		s.track();
 
@@ -1402,7 +1389,6 @@ public class OmnitureTracking {
 	public static void trackAppLXCheckoutLoginSuccess() {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_LOGIN_SUCCESS + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 
 
 		s.setEvar(28, LX_CHECKOUT_LOGIN_SUCCESS);
@@ -1424,7 +1410,6 @@ public class OmnitureTracking {
 	public static void trackAppLXCheckoutSlideToPurchase(Context context, CreditCardType creditCardType) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		s.setAppState(LX_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(18, LX_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(37,
@@ -1467,7 +1452,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + LX_CHANGE_DATE + "\" Link..." + "RFFR : " + rffr);
 
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.setEvar(28, rffr);
 		s.setProp(16, rffr);
@@ -1476,7 +1460,6 @@ public class OmnitureTracking {
 
 	public static ADMS_Measurement internalTrackAppLX(String pageName) {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 
 		s.setAppState(pageName);
 		s.setEvar(18, pageName);
@@ -1794,7 +1777,6 @@ public class OmnitureTracking {
 		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
 		String pageName = getBase(isFlights) + ".Info";
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
-		addStandardFields(s);
 		if (isFlights) {
 			s.setEvents("event74");
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
@@ -1867,7 +1849,6 @@ public class OmnitureTracking {
 
 	public static void trackAirAttachItinCrossSell() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		s.setEvar(28, AIR_ATTACH_ITIN_XSELL_REF);
 		s.setProp(16, AIR_ATTACH_ITIN_XSELL_REF);
 		s.trackLink(null, "o", AIR_ATTACH_ITIN_XSELL, null, null);
@@ -1875,7 +1856,6 @@ public class OmnitureTracking {
 
 	public static void trackPhoneAirAttachBanner() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		s.setEvar(28, AIR_ATTACH_PHONE_BANNER_REF);
 		s.setProp(16, AIR_ATTACH_PHONE_BANNER_REF);
 		s.trackLink(null, "o", AIR_ATTACH_PHONE_BANNER, null, null);
@@ -1883,7 +1863,6 @@ public class OmnitureTracking {
 
 	public static void trackPhoneAirAttachBannerClick() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		s.setEvar(28, AIR_ATTACH_PHONE_BANNER_CLICK);
 		s.setProp(16, AIR_ATTACH_PHONE_BANNER_CLICK);
 		s.trackLink(null, "o", AIR_ATTACH_PHONE_BANNER, null, null);
@@ -1893,7 +1872,6 @@ public class OmnitureTracking {
 		Rate rate = Db.getTripBucket().getHotel().getRate();
 		if (rate.isAirAttached()) {
 			ADMS_Measurement s = getFreshTrackingObject();
-			addStandardFields(s);
 			Property property = Db.getTripBucket().getHotel().getProperty();
 			addEventsAndProductsForAirAttach(s, property, "event58", "Flight:Hotel Infosite X-Sell");
 			s.setEvar(28, AIR_ATTACH_HOTEL_ADD);
@@ -1910,7 +1888,6 @@ public class OmnitureTracking {
 		Rate rate = Db.getTripBucket().getHotel().getRate();
 		if (rate.isAirAttached()) {
 			ADMS_Measurement s = getFreshTrackingObject();
-			addStandardFields(s);
 			Property property = Db.getTripBucket().getHotel().getProperty();
 			addEventsAndProductsForAirAttach(s, property, "event57", "Flight:Hotel CKO X-Sell");
 			s.setEvar(28, AIR_ATTACH_ELIGIBLE);
@@ -1925,7 +1902,6 @@ public class OmnitureTracking {
 		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
 		String pageName = getBase(isFlights) + pageNameSuffix;
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
-		addStandardFields(s);
 		if (includePaymentInfo) {
 			s.setEvar(37, getPaymentType());
 		}
@@ -2021,7 +1997,6 @@ public class OmnitureTracking {
 
 	public static void trackAddHotelClick() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		s.setEvar(28, ADD_ATTACH_HOTEL);
 		s.setProp(16, ADD_ATTACH_HOTEL);
 		s.trackLink(null, "o", "Checkout", null, null);
@@ -2029,7 +2004,6 @@ public class OmnitureTracking {
 
 	public static void trackAddCarClick() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		s.setEvar(28, ADD_ATTACH_CAR);
 		s.setProp(16, ADD_ATTACH_CAR);
 		s.setEvar(12, CROSS_SELL_CAR_FROM_FLIGHT);
@@ -2038,7 +2012,6 @@ public class OmnitureTracking {
 
 	public static void trackAddLxClick() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		s.setEvar(28, ADD_ATTACH_LX);
 		s.setProp(16, ADD_ATTACH_LX);
 		s.setEvar(12, CROSS_SELL_LX_FROM_FLIGHT);
@@ -2445,7 +2418,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		addStandardFields(s);
 
 		s.setEvar(11, link);
 		s.setEvents("event12");
@@ -2462,7 +2434,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		addStandardFields(s);
 
 		s.setEvar(11, campaignText);
 		s.setEvents("event12");
@@ -2480,7 +2451,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		addStandardFields(s);
 
 		s.setEvar(25, campaignText);
 		s.setEvents("event12");
@@ -2513,7 +2483,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		addStandardFields(s);
 
 		s.setEvar(12, link);
 
@@ -2522,7 +2491,6 @@ public class OmnitureTracking {
 
 	public static void trackAddLxItinClick(Context context) {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		s.setEvar(28, ADD_LX_ITIN);
 		s.setProp(16, ADD_LX_ITIN);
 		s.setEvar(12, CROSS_SELL_LX_FROM_ITIN);
@@ -2558,7 +2526,6 @@ public class OmnitureTracking {
 
 	public static void trackLoginSuccess() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
-		addStandardFields(s);
 		s.setEvents("event26");
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
@@ -2567,7 +2534,6 @@ public class OmnitureTracking {
 
 	public static void trackLoginScreen() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		// set the pageName
 		s.setAppState(LOGIN_SCREEN);
 		s.setEvar(18, LOGIN_SCREEN);
@@ -2576,7 +2542,6 @@ public class OmnitureTracking {
 
 	public static void trackLoginContactAccess() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		// set the pageName
 		s.setAppState(LOGIN_CONTACT_ACCESS);
 		s.setEvar(18, LOGIN_CONTACT_ACCESS);
@@ -2586,14 +2551,12 @@ public class OmnitureTracking {
 	public static void trackAllowContactAccess(boolean isAllowed) {
 		ADMS_Measurement s = createTrackLinkEvent(
 			isAllowed ? LOGIN_CONTACT_ACCESS_ALLOWED : LOGIN_CONTACT_ACCESS_NOT_ALLOWED);
-		addStandardFields(s);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 
 	public static void trackEmailPrompt() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_EMAIL_PROMPT);
-		addStandardFields(s);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
@@ -2601,14 +2564,12 @@ public class OmnitureTracking {
 	public static void trackEmailPromptChoice(boolean useExisting) {
 		ADMS_Measurement s = createTrackLinkEvent(
 			useExisting ? LOGIN_EMAIL_PROMPT_EXISTING : LOGIN_EMAIL_PROMPT_NEW);
-		addStandardFields(s);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 
 	public static void trackLoginCreateUsername() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		// set the pageName
 		s.setAppState(LOGIN_CREATE_USERNAME);
 		s.setEvar(18, LOGIN_CREATE_USERNAME);
@@ -2617,7 +2578,6 @@ public class OmnitureTracking {
 
 	public static void trackLoginCreatePassword() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		// set the pageName
 		s.setAppState(LOGIN_CREATE_PASSWORD);
 		s.setEvar(18, LOGIN_CREATE_PASSWORD);
@@ -2626,7 +2586,6 @@ public class OmnitureTracking {
 
 	public static void trackLoginEmailsQueried() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		// set the pageName
 		s.setAppState(LOGIN_SEARCH_CONTACTS);
 		s.setEvar(18, LOGIN_SEARCH_CONTACTS);
@@ -2635,7 +2594,6 @@ public class OmnitureTracking {
 
 	public static void trackLoginTOS() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		// set the pageName
 		s.setAppState(LOGIN_TOS);
 		s.setEvar(18, LOGIN_TOS);
@@ -2644,14 +2602,12 @@ public class OmnitureTracking {
 
 	public static void trackMarketingOptIn(boolean optIn) {
 		ADMS_Measurement s = createTrackLinkEvent(optIn ? LOGIN_MARKETING_OPT_IN : LOGIN_MARKETING_OPT_OUT);
-		addStandardFields(s);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 
 	public static void trackAccountCreateSuccess() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		// set the pageName
 		s.setAppState(LOGIN_ACCOUNT_CREATE_SUCCESS);
 		s.setEvar(18, LOGIN_ACCOUNT_CREATE_SUCCESS);
@@ -2661,7 +2617,6 @@ public class OmnitureTracking {
 
 	public static void trackAccountCreateError(String error) {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		// set the pageName
 		s.setAppState(LOGIN_SCREEN);
 		s.setEvar(18, LOGIN_SCREEN);
@@ -2726,7 +2681,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		addStandardFields(s);
 
 		s.setEvar(12, LAUNCH_SEARCH + "." + lobString);
 		s.setEvar(28, link);
@@ -2758,7 +2712,6 @@ public class OmnitureTracking {
 
 	private static void addCommonLaunchScreenFields(ADMS_Measurement s, String launchMessage,
 		String tileType) {
-		addStandardFields(s);
 
 		s.setEvar(28, LAUNCH_DEALS_TILE + "." + tileType);
 		s.setProp(16, LAUNCH_DEALS_TILE + "." + tileType);
@@ -2769,7 +2722,6 @@ public class OmnitureTracking {
 		// Log the crash
 		Log.d(TAG, "Tracking \"crash\" onClick");
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		s.setEvents("event39");
 		s.setEvar(28, "App.Crash");
 		s.setProp(16, "App.Crash");
@@ -2791,7 +2743,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		addStandardFields(s);
 
 		s.setAppState("App.Loading");
 
@@ -2846,7 +2797,6 @@ public class OmnitureTracking {
 
 			ADMS_Measurement s = getFreshTrackingObject();
 
-			addStandardFields(s);
 			s.setEvar(8, referral);
 
 			s.trackLink(null, "o", ADX_ORGANIC_EVENT, null, null);
@@ -2855,7 +2805,6 @@ public class OmnitureTracking {
 			Log.d(TAG, "Tracking \"" + ADX_EVENT + "\"");
 
 			ADMS_Measurement s = getFreshTrackingObject();
-			addStandardFields(s);
 
 			s.setEvar(8, referral);
 			s.setEvents("event20");
@@ -2908,7 +2857,6 @@ public class OmnitureTracking {
 		String referrerId) {
 		ADMS_Measurement s = OmnitureTracking.getFreshTrackingObject();
 
-		addStandardFields(s);
 
 		s.setAppState(pageName);
 
@@ -2932,100 +2880,10 @@ public class OmnitureTracking {
 	 * variables from being erroneously sent along with the tracking call.
 	 */
 	private static ADMS_Measurement getFreshTrackingObject() {
-		ADMS_Measurement a = ADMS_Measurement.sharedInstance(sContext);
-		a.clearVars();
-		return a;
-	}
-
-	private static void internalTrackPageLoadEventStandard(String pageName) {
-		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
-		createTrackPageLoadEventBase(pageName).track();
-	}
-
-	private static void internalTrackPageLoadEventStandard(String pageName, LineOfBusiness lob) {
-		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
-		String lobString = getLobString(lob);
-		s.setEvar(2, lobString);
-		s.setProp(2, lobString);
-		s.track();
-	}
-
-	private static void internalTrackPageLoadEventPriceChange(String pageName) {
-		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
-		createTrackPageLoadEventPriceChange(pageName).track();
-	}
-
-	private static void internalTrackLink(String link) {
-		ADMS_Measurement s = createTrackLinkEvent(link);
-		internalTrackLink(s);
-	}
-
-	private static void internalTrackLink(ADMS_Measurement s) {
-		Log.d(TAG, "Tracking \"" + s.getProp(16) + "\" linkClick");
-		s.trackLink(null, "o", s.getEvar(28), null, null);
-	}
-
-	private static ADMS_Measurement createTrackLinkEvent(String link) {
-		ADMS_Measurement s = getFreshTrackingObject();
-
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(sContext);
+		s.clearVars();
 		addStandardFields(s);
-
-		// link
-		s.setEvar(28, link);
-		s.setProp(16, link);
-
 		return s;
-	}
-
-	private static ADMS_Measurement createTrackPageLoadEventBase(String pageName) {
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		// set the pageName
-		s.setAppState(pageName);
-		s.setEvar(18, pageName);
-
-		addStandardFields(s);
-
-		return s;
-	}
-
-	private static ADMS_Measurement createTrackPageLoadEventPriceChange(String pageName) {
-		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
-
-		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-
-		// This is only to be included when there is a price change shown on the page. This should be the % increase or
-		// decrease in price. Round to whole integers.
-		String priceChange = trip.computePercentagePriceChangeForOmnitureTracking();
-		if (priceChange != null) {
-			s.setEvents("event62");
-			s.setProp(9, priceChange);
-		}
-
-		return s;
-	}
-
-	private static void addStandardHotelFields(ADMS_Measurement s, HotelSearchParams searchParams) {
-		s.setEvar(2, "hotels");
-		s.setProp(2, "hotels");
-		s.setEvar(6, Integer.toString(searchParams.getStayDuration()));
-		internalSetHotelDateProps(s, searchParams);
-	}
-
-	private static void addStandardFlightFields(ADMS_Measurement s) {
-		s.setEvar(2, "Flight");
-		s.setProp(2, "Flight");
-	}
-
-	private static void addAdvancePurchaseWindow(ADMS_Measurement s, HotelSearchParams searchParams) {
-		String window = Integer.toString(JodaUtils.daysBetween(LocalDate.now(), searchParams.getCheckInDate()));
-		s.setEvar(5, window);
-		s.setProp(5, window);
-	}
-
-	private static String getLobString(LineOfBusiness lob) {
-		return (lob == LineOfBusiness.HOTELS ? "hotels" : "Flight");
 	}
 
 	private static void addStandardFields(ADMS_Measurement s) {
@@ -3176,8 +3034,97 @@ public class OmnitureTracking {
 		android.location.Location bestLastLocation = LocationServices.getLastBestLocation(sContext, 0);
 		if (bestLastLocation != null) {
 			s.setProp(40, bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
-					+ bestLastLocation.getAccuracy());
+				+ bestLastLocation.getAccuracy());
 		}
+	}
+
+	private static void internalTrackPageLoadEventStandard(String pageName) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		createTrackPageLoadEventBase(pageName).track();
+	}
+
+	private static void internalTrackPageLoadEventStandard(String pageName, LineOfBusiness lob) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+		String lobString = getLobString(lob);
+		s.setEvar(2, lobString);
+		s.setProp(2, lobString);
+		s.track();
+	}
+
+	private static void internalTrackPageLoadEventPriceChange(String pageName) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		createTrackPageLoadEventPriceChange(pageName).track();
+	}
+
+	private static void internalTrackLink(String link) {
+		ADMS_Measurement s = createTrackLinkEvent(link);
+		internalTrackLink(s);
+	}
+
+	private static void internalTrackLink(ADMS_Measurement s) {
+		Log.d(TAG, "Tracking \"" + s.getProp(16) + "\" linkClick");
+		s.trackLink(null, "o", s.getEvar(28), null, null);
+	}
+
+	private static ADMS_Measurement createTrackLinkEvent(String link) {
+		ADMS_Measurement s = getFreshTrackingObject();
+
+
+		// link
+		s.setEvar(28, link);
+		s.setProp(16, link);
+
+		return s;
+	}
+
+	private static ADMS_Measurement createTrackPageLoadEventBase(String pageName) {
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		// set the pageName
+		s.setAppState(pageName);
+		s.setEvar(18, pageName);
+
+
+		return s;
+	}
+
+	private static ADMS_Measurement createTrackPageLoadEventPriceChange(String pageName) {
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
+
+		// This is only to be included when there is a price change shown on the page. This should be the % increase or
+		// decrease in price. Round to whole integers.
+		String priceChange = trip.computePercentagePriceChangeForOmnitureTracking();
+		if (priceChange != null) {
+			s.setEvents("event62");
+			s.setProp(9, priceChange);
+		}
+
+		return s;
+	}
+
+	private static void addStandardHotelFields(ADMS_Measurement s, HotelSearchParams searchParams) {
+		s.setEvar(2, "hotels");
+		s.setProp(2, "hotels");
+		s.setEvar(6, Integer.toString(searchParams.getStayDuration()));
+		internalSetHotelDateProps(s, searchParams);
+	}
+
+	private static void addStandardFlightFields(ADMS_Measurement s) {
+		s.setEvar(2, "Flight");
+		s.setProp(2, "Flight");
+	}
+
+	private static void addAdvancePurchaseWindow(ADMS_Measurement s, HotelSearchParams searchParams) {
+		String window = Integer.toString(JodaUtils.daysBetween(LocalDate.now(), searchParams.getCheckInDate()));
+		s.setEvar(5, window);
+		s.setProp(5, window);
+	}
+
+	private static String getLobString(LineOfBusiness lob) {
+		return (lob == LineOfBusiness.HOTELS ? "hotels" : "Flight");
 	}
 
 	private static String getRewardsStatusString(User user) {
@@ -3419,7 +3366,6 @@ public class OmnitureTracking {
 	public static void trackAppCarFilterUsage(String filter) {
 		Log.d(TAG, "Tracking \"" + CAR_FILTERS + "." + filter + "\" trackLink...");
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 
 		s.setEvar(28, CAR_FILTERS + "." + filter);
 		s.setProp(16, CAR_FILTERS + "." + filter);
@@ -3443,7 +3389,6 @@ public class OmnitureTracking {
 	public static void trackAppCarViewDetails() {
 		Log.d(TAG, "Tracking \"" + CAR_RATE_DETAIL + ".sh" + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 
 		s.setEvar(28, CAR_VIEW_DETAILS);
 		s.setProp(16, CAR_VIEW_DETAILS);
@@ -3452,7 +3397,6 @@ public class OmnitureTracking {
 
 	public static void trackAppCarMapClick() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 
 		s.setEvar(28, CAR_VIEW_MAP);
 		s.setProp(16, CAR_VIEW_MAP);
@@ -3472,7 +3416,6 @@ public class OmnitureTracking {
 	public static void trackAppCarCheckoutLoginSuccess() {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_LOGIN_SUCCESS + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 
 
 		s.setEvar(28, CAR_CHECKOUT_LOGIN_SUCCESS);
@@ -3486,7 +3429,6 @@ public class OmnitureTracking {
 	public static void trackAppCarCheckoutTraveler() {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		s.setAppState(CAR_CHECKOUT_TRAVELER_INFO);
 		s.track();
 
@@ -3505,7 +3447,6 @@ public class OmnitureTracking {
 	public static void trackAppCarCheckoutSlideToPurchase(Context context, CreditCardType creditCardType) {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 		s.setAppState(CAR_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(18, CAR_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(37,
@@ -3529,7 +3470,6 @@ public class OmnitureTracking {
 	public static void trackAppCarCheckoutConfirmation(CarCheckoutResponse carCheckoutResponse) {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_CONFIRMATION + "\" pageLoad...");
 		ADMS_Measurement s = internalTrackAppCar(CAR_CHECKOUT_CONFIRMATION);
-		addStandardFields(s);
 
 		s.setEvents("purchase");
 		s.setCurrencyCode(carCheckoutResponse.totalChargesPrice.currencyCode);
@@ -3545,7 +3485,6 @@ public class OmnitureTracking {
 
 	public static void trackAppCarCheckoutConfirmationCrossSell(LineOfBusiness lob) {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 
 		s.setEvar(12,
 			lob == LineOfBusiness.HOTELS ? "CrossSell.Cars.Confirm.Hotels" : "CrossSell.Cars.Confirm.Flights");
@@ -3589,7 +3528,6 @@ public class OmnitureTracking {
 
 	private static ADMS_Measurement internalTrackAppCar(String pageName) {
 		ADMS_Measurement s = getFreshTrackingObject();
-		addStandardFields(s);
 
 		s.setAppState(pageName);
 		s.setEvar(18, pageName);
