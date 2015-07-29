@@ -611,7 +611,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			if (hasBoundField()) {
 				getField().setAdapter(
 					new CountrySpinnerAdapter(mContext, CountryDisplayType.FULL_NAME,
-						R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item));
+						R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item, false));
 			}
 		}
 
