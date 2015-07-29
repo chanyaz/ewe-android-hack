@@ -1038,6 +1038,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	public void onLoginCompleted() {
+		// Let's reset MerEmailOptInStatus to false.
+		Db.getTripBucket().getHotel().setIsMerEmailOptIn(false);
+		Db.saveTripBucket(getActivity());
+
 		if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
 			if (mHotelBookingFragment != null && !mHotelBookingFragment.isDownloadingCreateTrip()) {
 				mHotelBookingFragment.startDownload(HotelBookingState.CREATE_TRIP);
