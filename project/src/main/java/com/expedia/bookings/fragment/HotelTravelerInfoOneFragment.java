@@ -73,6 +73,9 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 			if (mMerchandiseSpam != null) {
 				switch (mMerchandiseSpam) {
 				case ALWAYS:
+					// Save to DB
+					Db.getTripBucket().getHotel().setIsMerEmailOptIn(true);
+					Db.saveTripBucket(getActivity());
 					break;
 				case CONSENT_TO_OPT_IN:
 					mMerchandiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_in_TEMPLATE).put("brand", BuildConfig.brand).format());
