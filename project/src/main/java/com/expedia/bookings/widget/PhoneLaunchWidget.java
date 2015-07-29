@@ -34,6 +34,7 @@ import com.expedia.bookings.data.collections.Collection;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CollectionServices;
@@ -173,8 +174,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 		public void onError(Throwable e) {
 			Log.d(TAG, "Error downloading locale/POS specific Collections. Kicking off default download.");
 			String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
-			downloadSubscription = collectionServices.getPhoneCollection(country, "default",
-				defaultCollectionListener);
+			downloadSubscription = collectionServices
+				.getPhoneCollection(ProductFlavorFeatureConfiguration.getInstance().getPhoneCollectionId(), country,
+					"default", defaultCollectionListener);
 		}
 
 		@Override
@@ -344,8 +346,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 		launchDataTimeStamp = null;
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();
-		downloadSubscription = collectionServices
-			.getPhoneCollection(country, localeCode, collectionDownloadListener);
+		downloadSubscription = collectionServices.getPhoneCollection(
+			ProductFlavorFeatureConfiguration.getInstance().getPhoneCollectionId(), country, localeCode,
+			collectionDownloadListener);
 	}
 
 	@Subscribe

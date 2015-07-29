@@ -272,4 +272,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean shouldSendSiteIdInRequests() {
 		return false;
 	}
+
+	public String getPhoneCollectionId() {
+		return "PhoneDestinations";
+	}
 }
