@@ -256,11 +256,21 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
             }
         } else if (request.getPath().contains("/trip/create")) {
             val params = parseRequest(request)
-            return makeResponse("m/api/cars/trip/create/" + params.get("productKey") + ".json", params)
+            when (params.get("productKey")) {
+                "CreateTripPriceChange" -> return makeResponse("m/api/cars/trip/create/price_change.json")
+                else -> return makeResponse("m/api/cars/trip/create/" + params.get("productKey") + ".json", params)
+            }
         } else if (request.getPath().contains("/trip/checkout")) {
             val params = parseRequest(request)
-            val fileName = params.get("mainMobileTraveler.firstName")
-            return makeResponse("m/api/cars/trip/checkout/" + fileName + ".json")
+            when (params.get("mainMobileTraveler.firstName")) {
+                "AlreadyBooked" -> return makeResponse("m/api/cars/trip/checkout/trip_already_booked.json")
+                "PriceChange" -> return makeResponse("m/api/cars/trip/checkout/price_change.json")
+                "PaymentFailed" -> return makeResponse("m/api/cars/trip/checkout/payment_failed.json")
+                "UnknownError" -> return makeResponse("m/api/cars/trip/checkout/unknown_error.json")
+                "SessionTimeout" -> return makeResponse("m/api/cars/trip/checkout/session_timeout.json")
+                "InvalidInput" -> return makeResponse("m/api/cars/trip/checkout/invalid_input.json")
+                else -> return makeResponse("m/api/cars/trip/checkout/happy.json")
+            }
         }
         return make404()
     }

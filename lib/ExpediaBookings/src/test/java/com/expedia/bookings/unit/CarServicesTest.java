@@ -189,7 +189,7 @@ public class CarServicesTest {
 		givenServerUsingMockResponses();
 
 		TestSubscriber<CarCreateTripResponse> observer = new TestSubscriber<>();
-		String productKey = "price_change";
+		String productKey = "CreateTripPriceChange";
 		Money fare = new Money();
 		fare.formattedPrice = "$100";
 		service.createTrip(productKey, fare, false, observer);
@@ -272,7 +272,7 @@ public class CarServicesTest {
 
 		TestSubscriber<CarCheckoutResponse> observer = new TestSubscriber<>();
 		givenCreateTripCarOffer();
-		givenCheckoutParams("invalid_input");
+		givenCheckoutParams("InvalidInput");
 
 		service.checkout(offer, params, observer);
 		observer.awaitTerminalEvent();
@@ -289,7 +289,7 @@ public class CarServicesTest {
 
 		TestSubscriber<CarCheckoutResponse> observer = new TestSubscriber<>();
 		givenCreateTripCarOffer();
-		givenCheckoutParams("price_change");
+		givenCheckoutParams("PriceChange");
 
 		service.checkout(offer, params, observer);
 		observer.awaitTerminalEvent();
@@ -310,7 +310,7 @@ public class CarServicesTest {
 
 		TestSubscriber<CarCheckoutResponse> observer = new TestSubscriber<>();
 		givenCreateTripCarOffer();
-		givenCheckoutParams("payment_failed");
+		givenCheckoutParams("PaymentFailed");
 
 		service.checkout(offer, params, observer);
 		observer.awaitTerminalEvent();
@@ -327,7 +327,7 @@ public class CarServicesTest {
 
 		TestSubscriber<CarCheckoutResponse> observer = new TestSubscriber<>();
 		givenCreateTripCarOffer();
-		givenCheckoutParams("session_timeout");
+		givenCheckoutParams("SessionTimeout");
 
 		service.checkout(offer, params, observer);
 		observer.awaitTerminalEvent();
@@ -344,7 +344,7 @@ public class CarServicesTest {
 
 		TestSubscriber<CarCheckoutResponse> observer = new TestSubscriber<>();
 		givenCreateTripCarOffer();
-		givenCheckoutParams("trip_already_booked");
+		givenCheckoutParams("AlreadyBooked");
 
 		service.checkout(offer, params, observer);
 		observer.awaitTerminalEvent();
@@ -361,7 +361,7 @@ public class CarServicesTest {
 
 		TestSubscriber<CarCheckoutResponse> observer = new TestSubscriber<>();
 		givenCreateTripCarOffer();
-		givenCheckoutParams("unknown_error");
+		givenCheckoutParams("UnknownError");
 
 		service.checkout(offer, params, observer);
 		observer.awaitTerminalEvent();
