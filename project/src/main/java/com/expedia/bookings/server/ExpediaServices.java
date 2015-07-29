@@ -1578,6 +1578,7 @@ public class ExpediaServices implements DownloadListener {
 			base = createHttpPost(serverUrl, params);
 		}
 
+		base.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(mContext));
 		// Some logging before passing the request along
 		Log.d(TAG_REQUEST, "Request: " + serverUrl + "?" + NetUtils.getParamsForLogging(params));
 
