@@ -35,9 +35,9 @@ import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckou
 import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.logOutButton;
 import static org.hamcrest.core.IsNot.not;
 
-public class FlightCheckoutUserInfoTests extends PhoneTestCase {
+public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 
-	private static final String TAG = FlightCheckoutUserInfoTests.class.getSimpleName();
+	private static final String TAG = FlightCheckoutUserInfoTest.class.getSimpleName();
 	HotelsUserData mUser;
 
 	public void testCheckFlights() throws Exception {

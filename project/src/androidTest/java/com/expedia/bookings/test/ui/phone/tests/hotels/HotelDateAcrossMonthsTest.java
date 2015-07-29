@@ -36,7 +36,7 @@ Then A room rate will appear for each night selected on the calendar if the nigh
  */
 
 
-public class HotelDateAcrossMonths extends PhoneTestCase {
+public class HotelDateAcrossMonthsTest extends PhoneTestCase {
 
 	private LocalDate mStartDate, mEndDate;
 	HotelsUserData mUser;

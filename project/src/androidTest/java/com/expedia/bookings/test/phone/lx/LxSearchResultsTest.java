@@ -26,7 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.isEmpty;
 import static org.hamcrest.Matchers.containsString;
 
-public class LxSearchResultsTestCases extends LxTestCase {
+public class LxSearchResultsTest extends LxTestCase {
 
 	List<LXActivity> mActivities;
 	SearchResultsHandler searchResultsHandler = new SearchResultsHandler();

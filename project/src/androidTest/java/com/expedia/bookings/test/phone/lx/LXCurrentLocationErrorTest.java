@@ -16,7 +16,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-public class LXCurrentLocationErrorTests extends LxTestCase {
+public class LXCurrentLocationErrorTest extends LxTestCase {
 
 	@Override
 	public void runTest() throws Throwable {

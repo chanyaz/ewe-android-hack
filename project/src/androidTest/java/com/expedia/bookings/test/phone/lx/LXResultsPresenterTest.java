@@ -37,7 +37,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.startsWith;
 
 @RunWith(AndroidJUnit4.class)
-public class LXResultsPresenterTests {
+public class LXResultsPresenterTest {
 	@Rule
 	public final PlaygroundRule playground = new PlaygroundRule(R.layout.lx_result_presenter, R.style.V2_Theme_LX);
 

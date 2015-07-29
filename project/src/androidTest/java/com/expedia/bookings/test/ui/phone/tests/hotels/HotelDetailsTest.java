@@ -20,12 +20,12 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
-public class HotelDetailsTests extends PhoneTestCase {
+public class HotelDetailsTest extends PhoneTestCase {
 
 	/*
 	* #206 eb_tp plan
 	 */
-	private static final String TAG = HotelDetailsTests.class.getName();
+	private static final String TAG = HotelDetailsTest.class.getName();
 
 	// Verify that the correct dialog appears after clicking the VIP Access image in
 	// on the image gallery

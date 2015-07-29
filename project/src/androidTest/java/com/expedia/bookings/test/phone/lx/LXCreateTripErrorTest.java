@@ -18,7 +18,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 
-public class LXCreateTripErrorTests extends LxTestCase {
+public class LXCreateTripErrorTest extends LxTestCase {
 
 	private void goToCheckout(int productPosition, String ticketName) throws Throwable {
 		if (getLxIdlingResource().isInSearchEditMode()) {

@@ -14,7 +14,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-public class CarCreateTripErrorTests extends CarTestCase {
+public class CarCreateTripErrorTest extends CarTestCase {
 
 	private static final String CATEGORY = "Economy";
 

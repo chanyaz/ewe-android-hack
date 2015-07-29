@@ -18,7 +18,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.IsNot.not;
 
-public class CarDetailsTests extends PhoneTestCase {
+public class CarDetailsTest extends PhoneTestCase {
 
 	private final static String CATEGORY = "Standard";
 

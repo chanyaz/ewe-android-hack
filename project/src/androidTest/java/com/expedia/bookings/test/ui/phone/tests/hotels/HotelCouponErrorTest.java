@@ -16,9 +16,9 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-public class HotelCouponErrorTests extends PhoneTestCase {
+public class HotelCouponErrorTest extends PhoneTestCase {
 
-	private static final String TAG = HotelCouponErrorTests.class.getSimpleName();
+	private static final String TAG = HotelCouponErrorTest.class.getSimpleName();
 
 	public void testHotelCouponErrors() throws Exception {
 		LaunchScreen.launchHotels();

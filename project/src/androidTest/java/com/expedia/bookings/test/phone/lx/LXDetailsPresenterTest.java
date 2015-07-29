@@ -36,7 +36,7 @@ import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class LXDetailsPresenterTests {
+public class LXDetailsPresenterTest {
 	@Rule
 	public final PlaygroundRule playground = new PlaygroundRule(R.layout.lx_details_presenter, R.style.V2_Theme_LX);
 

@@ -17,15 +17,15 @@ else
 fi
 
 # hotels
-add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelDetailsTests"
-#add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelCheckoutUserInfoTests"
+add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelDetailsTest"
+#add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelCheckoutUserInfoTest"
 #add_test "com.expedia.bookings.test.ui.phone.tests.ui.CreditCardsInfoEditTest"
-add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelConfirmationTests"
-add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelRoomsAndRatesTests"
+add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelConfirmationTest"
+add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelRoomsAndRatesTest"
 add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelFieldValidationTest"
-add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelReviewsTests"
-add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelDateAcrossMonths"
-add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelCouponErrorTests"
+add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelReviewsTest"
+add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelDateAcrossMonthsTest"
+add_test "com.expedia.bookings.test.ui.phone.tests.hotels.HotelCouponErrorTest"
 
 #Localization tests. Adding to this script, for now.
 #add_test "com.expedia.bookings.test.ui.phone.tests.ui.InfoScreenPhoneNumberTest"

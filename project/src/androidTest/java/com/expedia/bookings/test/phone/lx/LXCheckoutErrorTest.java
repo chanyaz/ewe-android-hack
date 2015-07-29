@@ -27,7 +27,7 @@ import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.Is.is;
 
-public class LXCheckoutErrorTests extends LxTestCase {
+public class LXCheckoutErrorTest extends LxTestCase {
 
 	public void testInvalidInput() throws Throwable {
 		performLXCheckout("InvalidInput");

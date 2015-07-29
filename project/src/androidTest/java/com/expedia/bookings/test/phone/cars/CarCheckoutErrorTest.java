@@ -22,7 +22,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-public class CarCheckoutErrorTests extends CarTestCase {
+public class CarCheckoutErrorTest extends CarTestCase {
 
 	private static final int CC_NOT_REQUIRED = 0;
 	private static final int CC_REQUIRED = 1;
