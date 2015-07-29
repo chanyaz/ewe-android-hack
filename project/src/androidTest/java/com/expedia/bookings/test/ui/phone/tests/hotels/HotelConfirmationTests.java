@@ -29,6 +29,8 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelsUserData;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.MockModeShim;
+import com.mobiata.mocke3.ExpediaDispatcher;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -185,9 +187,10 @@ public class HotelConfirmationTests extends PhoneTestCase {
 	}
 
 	private void verifyTravelAdTracking() {
-		assertEquals(3, mDispatcher.numOfTravelAdRequests("/travel"));
-		assertEquals(3, mDispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdImpression"));
-		assertEquals(2, mDispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdClick"));
-		assertEquals(1, mDispatcher.numOfTravelAdRequests("/ads/hooklogic"));
+		ExpediaDispatcher dispatcher = MockModeShim.getDispatcher();
+		assertEquals(3, dispatcher.numOfTravelAdRequests("/travel"));
+		assertEquals(3, dispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdImpression"));
+		assertEquals(2, dispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdClick"));
+		assertEquals(1, dispatcher.numOfTravelAdRequests("/ads/hooklogic"));
 	}
 }

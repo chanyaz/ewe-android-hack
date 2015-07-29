@@ -11,6 +11,8 @@ import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 public class MockModeShim {
 
+	private static ExpediaDispatcher dispatcher = null;
+
 	public static void initMockWebServer(final Context context) {
 		new Thread(new Runnable() {
 			@Override
@@ -23,7 +25,7 @@ public class MockModeShim {
 					throw new RuntimeException("Failed to init MockWebServer, wut?", e);
 				}
 				AndroidFileOpener fileOpener = new AndroidFileOpener(context);
-				ExpediaDispatcher dispatcher = new ExpediaDispatcher(fileOpener);
+				dispatcher = new ExpediaDispatcher(fileOpener);
 				mockWebServer.setDispatcher(dispatcher);
 
 				// Persist MockWebServer address to be used for the services classes
@@ -35,4 +37,7 @@ public class MockModeShim {
 		}).start();
 	}
 
+	public static ExpediaDispatcher getDispatcher() {
+		return dispatcher;
+	}
 }
