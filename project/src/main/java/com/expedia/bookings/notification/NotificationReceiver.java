@@ -171,7 +171,12 @@ public class NotificationReceiver extends BroadcastReceiver {
 				new PicassoHelper.Builder(mContext).setTarget(mDestinationImageLoaded).build().load(url);
 				break;
 			}
-			case CAR:
+			case CAR: {
+				mUrls = new ArrayList<String>(1);
+				mUrls.add(mNotification.getImageValue());
+				loadNextUrl();
+				break;
+			}
 			case ACTIVITY:
 			case NONE:
 				display();
