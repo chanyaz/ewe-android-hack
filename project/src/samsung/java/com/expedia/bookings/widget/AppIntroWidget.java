@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -89,5 +90,6 @@ public class AppIntroWidget extends FrameLayout implements ViewPager.OnPageChang
 		NavUtils.goToLaunchScreen(getContext());
 		SettingUtils
 			.save(getContext(), R.string.preference_app_intro_shown_once, true);
+		((Activity) getContext()).finish();
 	}
 }
