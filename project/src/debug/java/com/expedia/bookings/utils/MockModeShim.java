@@ -11,25 +11,35 @@ import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 public class MockModeShim {
 
+	private static MockWebServer server = null;
 	private static ExpediaDispatcher dispatcher = null;
 
-	public static void initMockWebServer(final Context context) {
+	public static void initMockWebServer(Context c) {
+		final Context context = c.getApplicationContext();
 		new Thread(new Runnable() {
+
 			@Override
 			public void run() {
-				MockWebServer mockWebServer = new MockWebServer();
 				try {
-					mockWebServer.start();
+					if (server != null) {
+						server.shutdown();
+						dispatcher = null;
+						server = null;
+					}
+
+					server = new MockWebServer();
+					server.start();
 				}
 				catch (Exception e) {
 					throw new RuntimeException("Failed to init MockWebServer, wut?", e);
 				}
-				AndroidFileOpener fileOpener = new AndroidFileOpener(context);
-				dispatcher = new ExpediaDispatcher(fileOpener);
-				mockWebServer.setDispatcher(dispatcher);
+
+				AndroidFileOpener opener = new AndroidFileOpener(context);
+				dispatcher = new ExpediaDispatcher(opener);
+				server.setDispatcher(dispatcher);
 
 				// Persist MockWebServer address to be used for the services classes
-				URL mockUrl = mockWebServer.getUrl("");
+				URL mockUrl = server.getUrl("");
 				String server = mockUrl.getHost() + ":" + mockUrl.getPort();
 				SettingUtils.save(context, R.string.preference_proxy_server_address, server);
 				SettingUtils.save(context, R.string.preference_force_custom_server_http_only, true);
