@@ -344,7 +344,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 		// We currently use the size of the screen, as that is what is required by us of the Expedia image API
 		Point size = AndroidUtils.getScreenSize(getContext());
-		mItinContentGenerator.getHeaderBitmapDrawable(size.x, size.y, mHeaderBitmapDrawable);
+		int expandedImageHeight = getResources().getDimensionPixelSize(R.dimen.itin_card_expanded_image_height);
+		int parallaxSlop = getResources().getDimensionPixelSize(R.dimen.itin_card_expanded_parallax_slop);
+		int imageHeight = expandedImageHeight - parallaxSlop;
+		mItinContentGenerator.getHeaderBitmapDrawable(size.x, imageHeight, mHeaderBitmapDrawable);
 
 
 		if (mDisplayState == DisplayState.EXPANDED) {

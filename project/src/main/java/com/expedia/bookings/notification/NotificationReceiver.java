@@ -164,7 +164,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				final String code = mNotification.getImageValue();
 				Point screen = AndroidUtils.getScreenSize(mContext);
 				int width = screen.x;
-				int height = screen.y;
+				int height = (int) (mContext.getResources().getDisplayMetrics().density * 256);
 				final String url = new Akeakamai(Images.getFlightDestination(code)) //
 					.resizeExactly(width, height) //
 					.build();
@@ -183,13 +183,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			@Override
 			public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 				super.onBitmapLoaded(bitmap, from);
-				// These are tailored to the specific size of our destination images (720x1140 on xhdpi).
-				// They don't need to be exact anyway.
-				int left = 0;
-				int top = (int) (bitmap.getHeight() * 0.1);
-				int width = bitmap.getWidth();
-				int height = (int) (bitmap.getHeight() * 0.35);
-				mBitmap = Bitmap.createBitmap(bitmap, left, top, width, height, null, false);
+				mBitmap = bitmap;
 				display();
 			}
 

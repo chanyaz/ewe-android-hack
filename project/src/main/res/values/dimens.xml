@@ -49,6 +49,7 @@
     <dimen name="itin_title_height">48dp</dimen>
     <dimen name="itin_list_view_width">@dimen/match_parent</dimen>
     <dimen name="itin_card_expanded_image_height">160dp</dimen>
+    <dimen name="itin_card_expanded_parallax_slop">-80dp</dimen>
     <dimen name="itin_card_mini_image_height">120dp</dimen>
     <dimen name="itin_summary_section_height">48dp</dimen>
     <dimen name="itin_action_button_height">48dp</dimen>
