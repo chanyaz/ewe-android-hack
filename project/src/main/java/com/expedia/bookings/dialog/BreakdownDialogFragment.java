@@ -33,7 +33,6 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
@@ -413,9 +412,13 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// OB fees
 		if (trip.getFees() != null) {
+			CharSequence bookingFee = Phrase.from(context, R.string.brand_booking_fee)
+				.put("brand", BuildConfig.brand)
+				.format();
+
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(StrUtils.getBrandedString(context, R.string.brand_booking_fee))
+					.setText(bookingFee)
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())

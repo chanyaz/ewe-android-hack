@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="brand_name">lastminute.com.au</string>
-
     <string name="app_name">lastminute.com.au</string>
 
     <!-- Email addresses -->
