@@ -160,8 +160,8 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		ActionBar actionBar = ((PhoneLaunchActivity) getActivity()).getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(isCollectionClicked);
 		actionBar.setHomeButtonEnabled(isCollectionClicked);
-		actionBar.setBackgroundDrawable(new ColorDrawable(
-			isCollectionClicked ? Color.TRANSPARENT : getResources().getColor(R.color.cars_launch_actionbar_color)));
+		actionBar.setBackgroundDrawable(new ColorDrawable(isCollectionClicked ? Color.TRANSPARENT
+			: getResources().getColor(R.color.launch_actionbar_bg_color_samsung)));
 
 		collectionDetailsView.setVisibility(isCollectionClicked ? View.VISIBLE : View.GONE);
 		((DisableableViewPager) getActivity().findViewById(R.id.viewpager)).setPageSwipingEnabled(!isCollectionClicked);
