@@ -4,5 +4,4 @@
     <string name="address_state_hint">Prov.</string>
     <!-- Zip code hint -->
     <string name="address_postal_code_hint">Postal Code</string>
-    <string name="fees_paid_at_hotel"></string>
 </resources>
