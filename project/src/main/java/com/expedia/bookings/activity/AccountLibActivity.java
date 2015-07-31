@@ -184,6 +184,10 @@ public class AccountLibActivity extends AppCompatActivity
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
+		if (savedInstanceState == null) {
+			AdTracker.trackSignInUpStarted();
+		}
+
 		Intent intent = getIntent();
 		if (intent.hasExtra(ARG_BUNDLE)) {
 			Bundle args = intent.getBundleExtra(ARG_BUNDLE);
@@ -282,6 +286,7 @@ public class AccountLibActivity extends AppCompatActivity
 		@Override
 		public void signInSucceeded() {
 			OmnitureTracking.trackLoginSuccess();
+			AdTracker.trackLogin();
 		}
 
 		@Override
@@ -328,6 +333,8 @@ public class AccountLibActivity extends AppCompatActivity
 		@Override
 		public void userSucceededInCreatingAccount() {
 			OmnitureTracking.trackAccountCreateSuccess();
+			AdTracker.trackAccountCreated();
+			AdTracker.trackLogin();
 		}
 
 		@Override
