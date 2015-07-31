@@ -39,6 +39,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
@@ -161,7 +162,7 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction detailsDate(String dateText) {
-		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(dateText)));
+		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(containsString(dateText))));
 	}
 
 	public static ViewAction setLXActivities(final List<LXActivity> activities) {

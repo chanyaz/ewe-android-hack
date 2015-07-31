@@ -204,7 +204,7 @@ public class CustomMatchers {
 			public boolean matchesSafely(RadioGroup view) {
 				RadioButton currentButton = (RadioButton) view.getChildAt(index);
 				String text = currentButton.getText().toString();
-				return text.startsWith(weekDay) && text.endsWith(dayOfMonth);
+				return text.contains(weekDay) && text.contains(dayOfMonth);
 			}
 
 			@Override
