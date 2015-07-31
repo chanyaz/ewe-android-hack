@@ -260,8 +260,8 @@ android {
             ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
             ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
 
-            buildConfigField "boolean", "RELEASE", "false"
-            buildConfigField "boolean", "USABILITY", GradleUtil.isUsabilityBuild(project) ? "true" : "false"
+            buildConfigField "boolean", "RELEASE", "Boolean.parseBoolean(\"false\")"
+            buildConfigField "boolean", "USABILITY", GradleUtil.isUsabilityBuild(project) ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
         }
 
         release {
