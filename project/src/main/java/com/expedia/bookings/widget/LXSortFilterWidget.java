@@ -30,12 +30,12 @@ import butterknife.OnClick;
 
 public class LXSortFilterWidget extends LinearLayout {
 
-	public static final String DEEPLINK_FILTER_DILIMITER = "\\|";
 	private Map<String, LXCategoryMetadata> selectedFilterCategories = new HashMap<>();
 	private boolean isFilteredToZeroResults = false;
 
 	public LXSortFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		inflate(context, R.layout.widget_lx_sort_filter, this);
 	}
 
 	private Button doneButton;
@@ -145,21 +145,9 @@ public class LXSortFilterWidget extends LinearLayout {
 		postLXFilterChangedEvent();
 	}
 
-	public void setDeepLinkFilters(String filters) {
-		selectedFilterCategories.clear();
-		String[] filter = filters.split(DEEPLINK_FILTER_DILIMITER);
-		for (String filterDisplayValue : filter) {
-			LXCategoryMetadata lxCategoryMetadata = new LXCategoryMetadata();
-			lxCategoryMetadata.checked = true;
-			lxCategoryMetadata.displayValue = filterDisplayValue;
-			selectedFilterCategories.put(filterDisplayValue, lxCategoryMetadata);
-		}
-	}
-
 	private void postLXFilterChangedEvent() {
-		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata();
-		lxSortFilterMetadata.lxCategoryMetadataMap = selectedFilterCategories;
-		lxSortFilterMetadata.sort = priceSortButton.isSelected() ? LXSortType.PRICE : LXSortType.POPULARITY;
+		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata(selectedFilterCategories,
+			priceSortButton.isSelected() ? LXSortType.PRICE : LXSortType.POPULARITY);
 		Events.post(new Events.LXFilterChanged(lxSortFilterMetadata));
 	}
 
@@ -198,10 +186,10 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	@NotNull
 	private LXSortFilterMetadata defaultFilterMetadata() {
-		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata();
-		lxSortFilterMetadata.sort = LXSortType.POPULARITY;
+		popularitySortButton.setSelected(true);
+		priceSortButton.setSelected(false);
 		selectedFilterCategories.clear();
-		return lxSortFilterMetadata;
+		return new LXSortFilterMetadata();
 	}
 
 	public int getNumberOfSelectedFilters() {
@@ -230,5 +218,11 @@ public class LXSortFilterWidget extends LinearLayout {
 		doneButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
 		menuItem.setActionView(doneButton);
 		return doneButton;
+	}
+
+	public LXSortFilterWidget setSelectedFilterCategories(String filters) {
+		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata(filters);
+		this.selectedFilterCategories = lxSortFilterMetadata.lxCategoryMetadataMap;
+		return this;
 	}
 }

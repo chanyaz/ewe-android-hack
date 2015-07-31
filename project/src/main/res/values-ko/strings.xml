@@ -596,6 +596,10 @@
     <string name="lx_select_ticket">티켓 선택</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">무료 취소</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">전자 바우처</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">출력한 바우처 필요</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s 결제가 지원되지 않습니다.</string>
     <!-- LX Error Activity Price Changed -->
@@ -716,8 +720,6 @@
     <string name="lx_sort_by">정렬 기준</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">범주</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">필터링</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -1892,6 +1894,10 @@
     <string name="enter_traveler_info">여행객 정보</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">주 여행객 정보</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">주 여행객 정보 입력</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">주 여행객</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">저장된 정보</string>
     <!-- Edit button for traveler/payment -->
@@ -1977,8 +1983,6 @@
     <string name="cardholder">카드 소유자 이름</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">예약 일정이 고객님의 이메일로 전송됩니다.</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">만료일: %1$s</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
     <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">여행 상품, 특가 혜택 및 기타 정보가 들어 있는 {brand}의 이메일을 받지 않겠습니다.</string>
     <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
@@ -2772,7 +2776,8 @@
     <string name="itinerary_number">일정 번호</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">예약 관련 문의 사항이 있으시면 {brand}({phone})에 전화해 주시기 바랍니다.</string>
-
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">비밀번호를 잊으셨나요?</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2787,8 +2792,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">로그인</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">포인트도 적립하고 빠르게 예약하세요.</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">로그인하는 중…</string>
     <!-- Message that tells user they failed to sign in -->
@@ -2986,7 +2989,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->

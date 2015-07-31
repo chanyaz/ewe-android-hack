@@ -596,6 +596,10 @@
     <string name="lx_select_ticket">選擇門票</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">免費取消</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">電子兌換券</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">須出示紙本兌換券</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">不接受 %1$s</string>
     <!-- LX Error Activity Price Changed -->
@@ -716,8 +720,6 @@
     <string name="lx_sort_by">排序依據</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">類別</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">篩選</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -1892,6 +1894,10 @@
     <string name="enter_traveler_info">旅客資訊</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">主要旅客資訊</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">輸入主要旅客資訊</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">主要旅客</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">已儲存</string>
     <!-- Edit button for traveler/payment -->
@@ -1977,8 +1983,6 @@
     <string name="cardholder">持卡人</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">您的確認電子郵件將發送到此地址</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">到期日：%1$s</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
     <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">我不想收到內含旅遊優惠、特價活動和其他好康的 {brand} 電子報。</string>
     <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
@@ -2772,7 +2776,8 @@
     <string name="itinerary_number">行程編號</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">如果您對預訂有任何疑問，請聯絡 {brand}，電話：。{phone}</string>
-
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">忘記密碼</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2787,8 +2792,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">登入</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">賺取點數，同時加快預訂速度。</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">正在登入…</string>
     <!-- Message that tells user they failed to sign in -->

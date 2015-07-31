@@ -73,6 +73,9 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 			if (mMerchandiseSpam != null) {
 				switch (mMerchandiseSpam) {
 				case ALWAYS:
+					// Save to DB
+					Db.getTripBucket().getHotel().setIsMerEmailOptIn(true);
+					Db.saveTripBucket(getActivity());
 					break;
 				case CONSENT_TO_OPT_IN:
 					mMerchandiseOptCheckBox.setText(Phrase.from(getActivity(), R.string.hotel_checkout_merchandise_guest_opt_in_TEMPLATE).put("brand", BuildConfig.brand).format());
@@ -118,11 +121,6 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 		mMerchandiseOptCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-				mIsMerEmailOptIn = (mMerchandiseSpam == MerchandiseSpam.CONSENT_TO_OPT_IN ? isChecked : !isChecked);
-				// Save to DB
-				Db.getTripBucket().getHotel().setIsMerEmailOptIn(mIsMerEmailOptIn);
-				Db.saveTripBucket(getActivity());
-
 				updateMerEmailOptCheckBox(isChecked);
 				trackMerEmailOptInOut();
 			}
@@ -143,6 +141,10 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 		drawable.setColorFilter(isChecked ? getResources().getColor(R.color.mer_email_checkbox_checked_color) :
 			getResources().getColor(R.color.mer_email_checkbox_unchecked_color), PorterDuff.Mode.SRC_IN);
 		mMerchandiseOptCheckBox.setButtonDrawable(drawable);
+		mIsMerEmailOptIn = (mMerchandiseSpam == MerchandiseSpam.CONSENT_TO_OPT_IN ? isChecked : !isChecked);
+		// Save to DB
+		Db.getTripBucket().getHotel().setIsMerEmailOptIn(mIsMerEmailOptIn);
+		Db.saveTripBucket(getActivity());
 	}
 
 	@Override

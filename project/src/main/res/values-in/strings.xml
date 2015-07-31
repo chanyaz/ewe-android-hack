@@ -596,6 +596,10 @@
     <string name="lx_select_ticket">Pilih Tiket</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">Pembatalan Gratis</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">E-voucher</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">Voucher perlu dicetak</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">Hotel tidak menerima %1$s</string>
     <!-- LX Error Activity Price Changed -->
@@ -716,8 +720,6 @@
     <string name="lx_sort_by">Urutkan Berdasarkan</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">Kategori</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">Filter</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -1892,6 +1894,10 @@
     <string name="enter_traveler_info">Informasi Traveler</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Rincian traveler utama</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">Masukkan Rincian Traveler Utama</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">Traveler Utama</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Tersimpan</string>
     <!-- Edit button for traveler/payment -->
@@ -1977,8 +1983,6 @@
     <string name="cardholder">Pemilik Kartu</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">Email konfirmasi Anda akan dikirim ke sini</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">Kedaluwarsa %1$s</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
     <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">Saya tidak ingin menerima email dari {brand} berisi promo perjalanan, penawaran khusus, dan informasi lainnya.</string>
     <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
@@ -2772,7 +2776,8 @@
     <string name="itinerary_number">Nomor Itinerary</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">Jika Anda memiliki pertanyaan tentang pemesanan Anda, silakan hubungi {brand} di nomor {phone}.</string>
-
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Lupa Kata Sandi</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2787,8 +2792,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Masuk</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">Dapatkan poin dan pesan dengan cepat.</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Sedang login…</string>
     <!-- Message that tells user they failed to sign in -->
@@ -3615,5 +3618,5 @@
     <!-- Message displayed after a successful create account -->
     <string name="acct_Welcome_to_Expedia">Selamat datang di Expedia</string>
     <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Expedia_account_already_exists">Ada akun Expedia yang sudah terdaftar dengan email ini</string>
+    <string name="acct_Expedia_account_already_exists">Sudah ada akun Expedia yang terdaftar dengan email ini</string>
 </resources>

@@ -596,6 +596,10 @@
     <string name="lx_select_ticket">チケットを選択</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">キャンセル手数料無料</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">電子バウチャー</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">印刷されたバウチャーが必要</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s利用不可</string>
     <!-- LX Error Activity Price Changed -->
@@ -716,8 +720,6 @@
     <string name="lx_sort_by">並べ替え</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">カテゴリー</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">絞り込み</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -1301,9 +1303,9 @@
     <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -1892,6 +1894,10 @@
     <string name="enter_traveler_info">旅行者情報</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">代表者の詳細</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">代表者の詳細</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">代表者</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">保存済み</string>
     <!-- Edit button for traveler/payment -->
@@ -1977,8 +1983,6 @@
     <string name="cardholder">カードの名義人</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">確認メールはこちらに送信されます</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">有効期限 : %1$s</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
     <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">セールなどのお得な旅行情報満載の{brand} メールマガジンを受信しない。</string>
     <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
@@ -2772,7 +2776,8 @@
     <string name="itinerary_number">旅程番号</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">ご予約に関するお問い合わせは、{brand} ({phone}) までお電話ください。</string>
-
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">パスワードを忘れた場合</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2787,8 +2792,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">サインイン</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">ポイントを獲得してすばやく予約</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">サインイン…</string>
     <!-- Message that tells user they failed to sign in -->
