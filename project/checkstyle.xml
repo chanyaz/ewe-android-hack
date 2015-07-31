@@ -50,6 +50,10 @@
         <property name="message" value="Don't use AndroidUtils.getSdkVersion(), use Build.VERSION.SDK_INT instead"/>
     </module>
     <module name="RegexpSingleline">
+        <property name="format" value="AndroidUtils.getAppVersion"/>
+        <property name="message" value="Don't use AndroidUtils.getAppVersion(), use BuildConfig.VERSION_NAME instead"/>
+    </module>
+    <module name="RegexpSingleline">
         <property name="format" value="removeGlobalOnLayoutListener"/>
         <property name="message" value="Don't use removeGlobalOnLayoutListener, use removeOnGlobalLayoutListener you fool"/>
     </module>
