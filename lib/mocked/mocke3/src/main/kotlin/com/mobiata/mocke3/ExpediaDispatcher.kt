@@ -13,13 +13,14 @@ import java.util.Date
 public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
     private val travelAdRequests = hashMapOf<String, Int>()
+    private val hotelRequestDispatcher = HotelRequestDispatcher(fileOpener)
 
     @throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
 
         // Hotels API
         if (request.getPath().startsWith("/m/api/hotel") || request.getPath().startsWith("/api/m/trip/coupon")) {
-            return dispatchHotel(request)
+            return hotelRequestDispatcher.dispatch(request)
         }
 
         // Flights API
@@ -102,39 +103,6 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 
     /////////////////////////////////////////////////////////////////////////////
     // Path dispatching
-
-    public fun dispatchHotel(request: RecordedRequest): MockResponse {
-        if (request.getPath().startsWith("/m/api/hotel/search")) {
-            return makeResponse("m/api/hotel/search/happy.json")
-        } else if (request.getPath().startsWith("/m/api/hotel/offers")) {
-            val params = parseRequest(request)
-            return makeResponse("m/api/hotel/offers/" + params.get("hotelId") + ".json", params)
-        } else if (request.getPath().startsWith("/m/api/hotel/product")) {
-            val params = parseRequest(request)
-            if (params.get("productKey")!!.startsWith("hotel_coupon_errors")) {
-                params.put("productKey", "hotel_coupon_errors")
-            }
-            return makeResponse("m/api/hotel/product/" + params.get("productKey") + ".json", params)
-        } else if (request.getPath().startsWith("/m/api/hotel/trip/create")) {
-            val params = parseRequest(request)
-            var filename = "m/api/hotel/trip/create/" + params.get("productKey") + ".json"
-            if (params.get("productKey")!!.startsWith("hotel_coupon_errors")) {
-                filename = "m/api/hotel/trip/create/hotel_coupon_errors.json"
-            }
-            return makeResponse(filename, params)
-        } else if (request.getPath().startsWith("/api/m/trip/coupon")) {
-            val params = parseRequest(request)
-            return makeResponse("api/m/trip/coupon/" + params.get("coupon.code") + ".json", params)
-        } else if (request.getPath().startsWith("/m/api/hotel/trip/checkout")) {
-            val params = parseRequest(request)
-            var filename = "m/api/hotel/trip/checkout/" + params.get("tripId") + ".json"
-            if (params.get("tripId")!!.startsWith("hotel_coupon_errors")) {
-                filename = "m/api/hotel/trip/create/hotel_coupon_errors.json"
-            }
-            return makeResponse(filename, params)
-        }
-        return make404()
-    }
 
     private fun dispatchFlight(request: RecordedRequest): MockResponse {
         if (request.getPath().startsWith("/api/flight/search")) {
