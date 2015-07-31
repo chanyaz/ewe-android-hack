@@ -86,7 +86,6 @@ import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 /**
@@ -2775,7 +2774,7 @@ public class OmnitureTracking {
 
 		// Determine if this is a new install, an upgrade, or just a regular launch
 		String trackVersion = SettingUtils.get(context, TRACK_VERSION, null);
-		String currentVersion = AndroidUtils.getAppVersion(context);
+		String currentVersion = BuildConfig.VERSION_NAME;
 
 		boolean save = false;
 		if (trackVersion == null) {
