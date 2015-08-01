@@ -14,6 +14,7 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 
     private val travelAdRequests = hashMapOf<String, Int>()
     private val hotelRequestDispatcher = HotelRequestDispatcher(fileOpener)
+    private val flightApiRequestDispatcher = FlightApiRequestDispatcher(fileOpener)
 
     @throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -25,7 +26,7 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 
         // Flights API
         if (request.getPath().contains("/api/flight")) {
-            return dispatchFlight(request)
+            return flightApiRequestDispatcher.dispatch(request)
         }
 
         // Cars API
@@ -103,48 +104,6 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 
     /////////////////////////////////////////////////////////////////////////////
     // Path dispatching
-
-    private fun dispatchFlight(request: RecordedRequest): MockResponse {
-        if (request.getPath().startsWith("/api/flight/search")) {
-            val params = parseRequest(request)
-            var filename = "happy_oneway"
-
-            val departCalTakeoff = parseYearMonthDay(params.get("departureDate"), 10, 0)
-            val departCalLanding = parseYearMonthDay(params.get("departureDate"), 12 + 4, 0)
-            params.put("departingFlightTakeoffTimeEpochSeconds", "" + (departCalTakeoff.getTimeInMillis() / 1000))
-            params.put("departingFlightLandingTimeEpochSeconds", "" + (departCalLanding.getTimeInMillis() / 1000))
-
-            if (params.containsKey("returnDate")) {
-                filename = "happy_roundtrip"
-                val returnCalTakeoff = parseYearMonthDay(params.get("returnDate"), 10, 0)
-                val returnCalLanding = parseYearMonthDay(params.get("returnDate"), 12 + 4, 0)
-                params.put("returnFlightTakeoffTimeEpochSeconds", "" + (returnCalTakeoff.getTimeInMillis() / 1000))
-                params.put("returnFlightLandingTimeEpochSeconds", "" + (returnCalLanding.getTimeInMillis() / 1000))
-            }
-
-            params.put("tzOffsetSeconds", "" + (departCalTakeoff.getTimeZone().getOffset(departCalTakeoff.getTimeInMillis()) / 1000))
-
-            return makeResponse("api/flight/search/" + filename + ".json", params)
-        } else if (request.getPath().startsWith("/api/flight/trip/create")) {
-            val params = parseRequest(request)
-            return makeResponse("api/flight/trip/create/" + params.get("productKey") + ".json", params)
-        } else if (request.getPath().startsWith("/api/flight/checkout")) {
-            val params = parseRequest(request)
-
-            if (params.get("tripId")!!.startsWith("air_attach_0")) {
-                val c = Calendar.getInstance()
-                c.setTime(Date())
-                c.add(Calendar.DATE, 10)
-                val millisFromEpoch = (c.getTimeInMillis() / 1000)
-                val tzOffsetSeconds = (c.getTimeZone().getOffset(c.getTimeInMillis()) / 1000)
-
-                params.put("airAttachEpochSeconds", "" + millisFromEpoch)
-                params.put("airAttachTimeZoneOffsetSeconds", "" + tzOffsetSeconds)
-            }
-            return makeResponse("api/flight/checkout/" + params.get("tripId") + ".json", params)
-        }
-        return make404()
-    }
 
     private fun dispatchTrip(request: RecordedRequest): MockResponse {
         val params = parseRequest(request)
