@@ -187,7 +187,7 @@
         <item name="android:listSeparatorTextViewStyle">@style/TabletPreferenceSeparator</item>
     </style>
 
-    <style name="Whitelabel.AccountLibTheme" parent="Theme.AppCompat">
+    <style name="Whitelabel.AccountLibTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="acct__input_text_error_color">@color/acct__bg_input_text_error_tvly</item>
         <item name="acct__input_text_good_color">@color/acct__bg_input_text_good_tvly</item>
         <item name="acct__sign_in_button_background_drawable">@drawable/btn_signin_travelocity</item>
