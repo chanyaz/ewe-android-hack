@@ -7,7 +7,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.regex.Pattern
 
-public class FlightApiRequestDispatcher(override val fileOpener: FileOpener) : AbstractDispatcher(fileOpener: FileOpener) {
+public class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener: FileOpener) {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         val urlPath = request.getPath()
