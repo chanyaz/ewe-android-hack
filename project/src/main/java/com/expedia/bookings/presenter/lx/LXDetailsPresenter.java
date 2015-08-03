@@ -49,6 +49,9 @@ public class LXDetailsPresenter extends Presenter {
 	@InjectView(R.id.toolbar_background)
 	View toolbarBackground;
 
+	@InjectView(R.id.toolbar_dropshadow)
+	View toolbarDropshadow;
+
 	@Inject
 	LXState lxState;
 
@@ -187,6 +190,7 @@ public class LXDetailsPresenter extends Presenter {
 			DateUtils.localDateToMMMd(searchParams.startDate), DateUtils.localDateToMMMd(searchParams.endDate));
 		toolBarSubtitleText.setText(dateRange);
 		toolbarBackground.setAlpha(0);
+		toolbarDropshadow.setAlpha(0);
 	}
 
 	com.expedia.bookings.widget.ScrollView.OnScrollListener parallaxScrollListener = new com.expedia.bookings.widget.ScrollView.OnScrollListener() {
@@ -194,6 +198,7 @@ public class LXDetailsPresenter extends Presenter {
 		public void onScrollChanged(com.expedia.bookings.widget.ScrollView scrollView, int x, int y, int oldx, int oldy) {
 			float ratio = details.parallaxScrollHeader(y);
 			toolbarBackground.setAlpha(ratio);
+			toolbarDropshadow.setAlpha(ratio);
 		}
 	};
 

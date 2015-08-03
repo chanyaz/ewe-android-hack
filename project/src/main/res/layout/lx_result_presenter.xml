@@ -29,11 +29,24 @@
 
     </com.expedia.bookings.widget.LXSearchResultsWidget>
 
-    <View
-        android:id="@+id/toolbar_background"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/skin_lxPrimaryColor" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/toolbar_background"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/skin_lxPrimaryColor" />
+
+        <View
+            android:id="@+id/toolbar_dropshadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_dropshadow_height"
+            android:background="@drawable/tb_shadow" />
+    </LinearLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

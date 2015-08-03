@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -86,6 +87,9 @@ public class CarFilterWidget extends LinearLayout {
 
 	@InjectView(R.id.dynamic_feedback_container)
 	DynamicFeedbackWidget dynamicFeedbackWidget;
+
+	@InjectView(R.id.toolbar_dropshadow)
+	View toolbarDropshadow;
 
 	private Button doneButton;
 
@@ -177,7 +181,18 @@ public class CarFilterWidget extends LinearLayout {
 				return true;
 			}
 		});
+
+		scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+			@Override
+			public void onScrollChanged() {
+				int scrollY = scrollView.getScrollY();
+				float ratio = (float) (scrollY) / 100;
+				toolbarDropshadow.setAlpha(ratio);
+			}
+		});
+
 	}
+
 
 	@Override
 	protected void onAttachedToWindow() {

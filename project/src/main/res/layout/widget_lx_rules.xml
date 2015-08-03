@@ -3,12 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/lx_rules_toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:minHeight="?attr/actionBarSize" />
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/lx_rules_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize" />
+
+        <View
+            android:id="@+id/toolbar_dropshadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_dropshadow_height"
+            android:background="@drawable/tb_shadow" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/main_container"
@@ -42,7 +54,7 @@
         <View style="@style/LegalInformationDivider.Grey" />
 
         <!-- Cancellation Policy -->
-          <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/cancellation_policy_header_text_view"
             style="@style/LegalInformationTextView.Blue.LX"
             android:text="@string/cancellation_policy"
