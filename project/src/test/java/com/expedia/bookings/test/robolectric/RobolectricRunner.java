@@ -22,7 +22,7 @@ public class RobolectricRunner extends RobolectricGradleTestRunner {
 	@Override
 	protected final AndroidManifest getAppManifest(Config config) {
 		FsFile mani = Fs.fileFromPath("build/intermediates/manifests/full/expedia/debug/AndroidManifest.xml");
-		FsFile res = Fs.fileFromPath("build/intermediates/res/expedia/debug/");
+		FsFile res = Fs.fileFromPath("build/intermediates/res/merged/expedia/debug/");
 		FsFile assets = Fs.fileFromPath("build/intermediates/assets/expedia/debug/");
 
 		AndroidManifest manifest = new AndroidManifest(mani, res, assets);
