@@ -14,8 +14,11 @@ buildscript {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
         classpath 'com.shazam.fork:fork-gradle-plugin:1.0.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.11.3'
     }
 }
+
+apply plugin: 'com.github.ben-manes.versions'
 
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions
 
