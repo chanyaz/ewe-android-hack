@@ -35,8 +35,8 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
-import com.facebook.AppEventsConstants
-import com.facebook.AppEventsLogger
+import com.facebook.appevents.AppEventsConstants
+import com.facebook.appevents.AppEventsLogger
 import com.mobiata.android.Log
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate

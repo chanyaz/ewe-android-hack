@@ -48,7 +48,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.PhoneLaunchToolbar;
-import com.facebook.AppEventsLogger;
+import com.facebook.appevents.AppEventsLogger;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;

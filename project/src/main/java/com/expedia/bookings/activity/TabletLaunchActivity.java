@@ -34,7 +34,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
-import com.facebook.AppEventsLogger;
+import com.facebook.appevents.AppEventsLogger;
 import com.squareup.phrase.Phrase;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)

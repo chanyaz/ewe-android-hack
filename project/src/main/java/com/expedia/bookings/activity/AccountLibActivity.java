@@ -1,16 +1,10 @@
 package com.expedia.bookings.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -23,14 +17,11 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
@@ -40,13 +31,6 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.TextView;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.model.GraphUser;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
@@ -58,11 +42,6 @@ public class AccountLibActivity extends AppCompatActivity
 	public static final String ARG_BUNDLE = "ARG_BUNDLE";
 	public static final String ARG_PATH_MODE = "ARG_PATH_MODE";
 	public static final String ARG_LOGIN_FRAGMENT_EXTENDER = "ARG_LOGIN_FRAGMENT_EXTENDER";
-
-	private static final String NET_AUTO_LOGIN = "NET_AUTO_LOGIN";
-	private static final String NET_LINK_NEW_USER = "NET_LINK_NEW_USER";
-	private static final String NET_LINK_EXISTING_USER = "NET_LINK_EXISTING_USER";
-	private static final String DIALOG_LOADING = "DIALOG_LOADING";
 
 	@InjectView(R.id.parallax_view)
 	public PanningImageView background;
@@ -101,46 +80,23 @@ public class AccountLibActivity extends AppCompatActivity
 
 	@OnClick(R.id.link_accounts_button)
 	public void onLinkFacebook() {
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (!bd.isDownloading(NET_LINK_EXISTING_USER)) {
-			setLoadingText(getString(R.string.linking_your_accounts));
-			setIsLoading(true);
-			bd.startDownload(NET_LINK_EXISTING_USER, mFbLinkExistingUserDownload,
-				mFbLinkExistingUserHandler);
-		}
+		// waiting for accountlib to support facebook
 	}
 
 	@OnClick(R.id.cancel_link_accounts_button)
 	public void onCancelLinkFacebook() {
-
-		BackgroundDownloader.getInstance().cancelDownload(NET_AUTO_LOGIN);
-		BackgroundDownloader.getInstance().cancelDownload(NET_LINK_EXISTING_USER);
-		BackgroundDownloader.getInstance().cancelDownload(NET_LINK_NEW_USER);
-
-		//goto previous state...
-		showLinkFacebook(false);
+		// waiting for accountlib to support facebook
 	}
 
 	@OnClick(R.id.try_facebook_again)
 	public void onTryFacebookAgain() {
-		// Do facebook things!!!
-		Session currentSession = Session.getActiveSession();
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("email");
-		Session.NewPermissionsRequest request = new Session.NewPermissionsRequest(this, permissions);
-		currentSession.requestNewReadPermissions(request);
+		// waiting for accountlib to support facebook
 	}
 
 	@OnClick(R.id.try_facebook_again_cancel)
 	public void onTryFacebookAgainCancel() {
-		Session.setActiveSession(null);
-		showEmailDenied(false);
+		// waiting for accountlib to support facebook
 	}
-
-	private String mFbUserId;
-	private String mFbUserEmail;
-	private String mFbUserName;
-	private ThrobberDialog mLoadingFragment;
 
 	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, AccountLibActivity.class);
@@ -160,21 +116,10 @@ public class AccountLibActivity extends AppCompatActivity
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
-		if (Session.getActiveSession() != null) {
-			Session.getActiveSession().removeCallback(mFacebookStatusCallback);
-		}
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
 		accountView.setListener(listener);
 		accountView.setAnalyticsListener(analyticsListener);
-		if (Session.getActiveSession() != null) {
-			Session.getActiveSession().addCallback(mFacebookStatusCallback);
-		}
 	}
 
 	@Override
@@ -361,7 +306,6 @@ public class AccountLibActivity extends AppCompatActivity
 		@Override
 		public void onFacebookRequested() {
 			loginWithFacebook = true;
-			doFacebookLogin();
 		}
 
 		@Override
@@ -377,386 +321,5 @@ public class AccountLibActivity extends AppCompatActivity
 
 	public interface LogInListener {
 		void onLoginCompleted();
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (Session.getActiveSession() != null) {
-			Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-		}
-	}
-
-	/** Facebook garbage, will remove with Account Lib v2 **/
-
-	/**
-	 * Login with facebook.
-	 * <p/>
-	 * This uses the facebook app if it is installed.
-	 * If the fb app isn't installed it should use a webpage.
-	 */
-	protected void doFacebookLogin() {
-		Log.d("FB: doFacebookLogin");
-		setIsLoading(true);
-		setLoadingText(getString(R.string.fetching_facebook_info));
-		setStatusText(R.string.Sign_in_with_Facebook, true);
-
-		// start Facebook Login
-		Session currentSession = Session.getActiveSession();
-		if (currentSession == null || currentSession.getState().isClosed()) {
-			Session session = new Session.Builder(this).build();
-			Session.setActiveSession(session);
-			currentSession = session;
-		}
-		if (!currentSession.isOpened()) {
-			Log.d("FB: doFacebookLogin - !currentSession.isOpened()");
-			Session.OpenRequest openRequest = new Session.OpenRequest(this);
-
-			//We need an email address to do any sort of Expedia account creation/linking
-			List<String> permissions = new ArrayList<String>();
-			permissions.add("email");
-
-			if (openRequest != null) {
-				openRequest.setPermissions(permissions);
-				currentSession.addCallback(mFacebookStatusCallback);
-				currentSession.openForRead(openRequest);
-			}
-		}
-		else {
-			Log.d("FB: doFacebookLogin - currentSession.isOpened()");
-			if (hasRequiredInfoFromFB(currentSession)) {
-				fetchFacebookUserInfo(currentSession);
-			}
-			else {
-				setFBEmailDeniedState();
-			}
-		}
-
-	}
-
-	private void setFBEmailDeniedState() {
-		setIsLoading(false);
-		setStatusText(R.string.user_denied_permission_email_heading, true);
-		showEmailDenied(true);
-	}
-
-	private boolean hasRequiredInfoFromFB(Session session) {
-		if (session.isPermissionGranted("email")) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Ok so we have a users facebook session, but we need the users information for that to be useful so lets get that
-	 *
-	 * @param session
-	 */
-	protected void fetchFacebookUserInfo(Session session) {
-		Log.d("FB: fetchFacebookUserInfo");
-
-		// make request to the /me API
-		Request.newMeRequest(session, new Request.GraphUserCallback() {
-
-			// callback after Graph API response with user object
-			@Override
-			public void onCompleted(GraphUser user, Response response) {
-				Log.d("FB: executeMeRequestAsync response:" + response.toString());
-				if (user != null && response.getError() == null) {
-
-					Log.d("FB: executeMeRequestAsync response - user != null && response.getError() == null");
-					setFbUserVars(user);
-					setStatusTextFbInfoLoaded(mFbUserName);
-					BackgroundDownloader bd = BackgroundDownloader.getInstance();
-					if (!bd.isDownloading(NET_AUTO_LOGIN)) {
-						bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
-					}
-				}
-				else {
-					Log.d("FB: executeMeRequestAsync response - user == null || response.getError() != null");
-					setStatusText(R.string.unable_to_sign_into_facebook, false);
-					setIsLoading(false);
-				}
-			}
-		}).executeAsync();
-	}
-
-	/**
-	 * Facebook returns us stuff, here is where we determine what that stuff means
-	 *
-	 * @param session
-	 * @param state
-	 * @param exception
-	 */
-	public void handleFacebookResponse(Session session, SessionState state, Exception exception) {
-		Log.d("FB: handleFacebookResponse", exception);
-		if (session == null || state == null || exception != null
-			|| state.equals(SessionState.CLOSED)
-			|| state.equals(SessionState.CLOSED_LOGIN_FAILED)) {
-			setStatusText(R.string.unable_to_sign_into_facebook, false);
-			goBack();
-		}
-		else if (session.isOpened()) {
-			fetchFacebookUserInfo(session);
-		}
-		else {
-			Log.d("FB: handleFacebookResponse - else");
-		}
-
-	}
-
-	/**
-	 * When the facebook login status changes, this gets called
-	 */
-	Session.StatusCallback mFacebookStatusCallback = new Session.StatusCallback() {
-		// callback when session changes state
-		@Override
-		public void call(Session session, SessionState state, Exception exception) {
-			handleFacebookResponse(session, state, exception);
-		}
-	};
-
-	private final BackgroundDownloader.OnDownloadComplete<FacebookLinkResponse> mFbLinkAutoLoginHandler = new BackgroundDownloader.OnDownloadComplete<FacebookLinkResponse>() {
-		@Override
-		public void onDownload(FacebookLinkResponse results) {
-			if (results != null && results.getFacebookLinkResponseCode() != null) {
-				Log.d("onDownload: mFbLinkAutoLoginHandler:" + results.getFacebookLinkResponseCode().name());
-				if (results.isSuccess()) {
-					userAccountRefresher.ensureAccountIsRefreshed();
-				}
-				else if (results.getFacebookLinkResponseCode()
-					.compareTo(FacebookLinkResponse.FacebookLinkResponseCode.nofbdatafound) == 0 && TextUtils
-					.isEmpty(mFbUserEmail)) {
-					setFBEmailDeniedState();
-				}
-				else {
-					BackgroundDownloader bd = BackgroundDownloader.getInstance();
-					if (!bd.isDownloading(NET_LINK_NEW_USER)) {
-						//setLoadingText(R.string.linking_your_accounts);
-						setIsLoading(true);
-						bd.startDownload(NET_LINK_NEW_USER, mFbLinkNewUserDownload, mFbLinkNewUserHandler);
-					}
-				}
-			}
-			else {
-				//TODO:Better error message
-				setStatusText(R.string.unspecified_error, false);
-				setIsLoading(false);
-			}
-		}
-	};
-
-	/**
-	 * Create a new user based on facebook creds
-	 */
-	private final BackgroundDownloader.Download<FacebookLinkResponse> mFbLinkNewUserDownload = new BackgroundDownloader.Download<FacebookLinkResponse>() {
-		@Override
-		public FacebookLinkResponse doDownload() {
-			Log.d("doDownload: mFbLinkNewUserDownload");
-			Session fbSession = Session.getActiveSession();
-			if (fbSession == null || fbSession.isClosed()) {
-				Log.e("fbState invalid");
-				return null;
-			}
-
-			setLoadingText(getString(R.string.attempting_to_sign_in_with_facebook));
-			ExpediaServices services = new ExpediaServices(AccountLibActivity.this);
-			return services.facebookLinkNewUser(mFbUserId, fbSession.getAccessToken(), mFbUserEmail);
-		}
-	};
-
-
-	/**
-	 * This attmpts to hand our facebook info to expedia and tries to auto login based on that info.
-	 * This will only succeed if the user has at some point granted Expedia access to fbconnect.
-	 */
-	private final BackgroundDownloader.Download<FacebookLinkResponse> mFbLinkAutoLoginDownload = new BackgroundDownloader.Download<FacebookLinkResponse>() {
-		@Override
-		public FacebookLinkResponse doDownload() {
-			Log.d("doDownload: mFbLinkAutoLoginDownload");
-			Session fbSession = Session.getActiveSession();
-			if (fbSession == null || fbSession.isClosed()) {
-				Log.e("fbState invalid");
-			}
-
-			ExpediaServices services = new ExpediaServices(AccountLibActivity.this);
-			return services.facebookAutoLogin(mFbUserId, fbSession.getAccessToken());
-		}
-	};
-
-	protected void setFbUserVars(GraphUser user) {
-		setFbUserVars(user.getName(), user.getId(), user.getProperty("email") == null ? null : user
-			.getProperty("email").toString());
-	}
-
-	protected void setFbUserVars(String fbUserName, String fbUserId, String fbUserEmail) {
-		this.mFbUserName = fbUserName;
-		this.mFbUserId = fbUserId;
-		this.mFbUserEmail = fbUserEmail;
-	}
-
-	protected void setIsLoading(boolean loading) {
-		String message = getString(R.string.fetching_facebook_info);
-		ThrobberDialog ldf = (ThrobberDialog) getSupportFragmentManager().findFragmentByTag(DIALOG_LOADING);
-		if (loading) {
-			if (ldf == null) {
-				ldf = ThrobberDialog.newInstance(message);
-			}
-			else {
-				ldf.setText(message);
-			}
-			if (!ldf.isAdded()) {
-				ldf.show(getSupportFragmentManager(), DIALOG_LOADING);
-			}
-			mLoadingFragment = ldf;
-		}
-		else {
-			if (ldf != null) {
-				ldf.dismiss();
-			}
-			if (mLoadingFragment != null) {
-				mLoadingFragment.dismiss();
-			}
-		}
-	}
-
-	private final BackgroundDownloader.OnDownloadComplete<FacebookLinkResponse> mFbLinkNewUserHandler = new BackgroundDownloader.OnDownloadComplete<FacebookLinkResponse>() {
-		@Override
-		public void onDownload(FacebookLinkResponse results) {
-			if (results != null && results.getFacebookLinkResponseCode() != null) {
-				Log.d("onDownload: mFbLinkNewUserHandler");
-				if (results.isSuccess()) {
-					BackgroundDownloader bd = BackgroundDownloader.getInstance();
-					if (!bd.isDownloading(NET_AUTO_LOGIN)) {
-						bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
-					}
-				}
-				else if (results.getFacebookLinkResponseCode()
-					.compareTo(FacebookLinkResponse.FacebookLinkResponseCode.existing) == 0 ||
-					results.getFacebookLinkResponseCode()
-						.compareTo(FacebookLinkResponse.FacebookLinkResponseCode.loginFailed) == 0) {
-					setStatusTextExpediaAccountFound(mFbUserName);
-					setIsLoading(false);
-				}
-				else {
-					//TODO:Better error message
-					setStatusText(R.string.unspecified_error, false);
-					setIsLoading(false);
-				}
-			}
-			else {
-				//TODO:Better error message
-				setStatusText(R.string.unspecified_error, false);
-				setIsLoading(false);
-			}
-		}
-	};
-
-	/**
-	 * This is for associating a facebook account with an existing expedia account
-	 */
-	private final BackgroundDownloader.Download<FacebookLinkResponse> mFbLinkExistingUserDownload = new BackgroundDownloader.Download<FacebookLinkResponse>() {
-		@Override
-		public FacebookLinkResponse doDownload() {
-			Log.d("doDownload: mFbLinkExistingUserDownload");
-			Session fbSession = Session.getActiveSession();
-			if (fbSession == null || fbSession.isClosed()) {
-				Log.e("fbState invalid");
-				return null;
-			}
-
-			setLoadingText(getString(R.string.linking_your_accounts));
-			String expediaPw = linkPassword.getText().toString();
-			ExpediaServices services = new ExpediaServices(AccountLibActivity.this);
-			return services.facebookLinkExistingUser(mFbUserId, fbSession.getAccessToken(), mFbUserEmail, expediaPw);
-		}
-	};
-
-	private final BackgroundDownloader.OnDownloadComplete<FacebookLinkResponse> mFbLinkExistingUserHandler = new BackgroundDownloader.OnDownloadComplete<FacebookLinkResponse>() {
-		@Override
-		public void onDownload(FacebookLinkResponse results) {
-			if (results != null && results.getFacebookLinkResponseCode() != null) {
-				Log.d("onDownload: mFbLinkExistingUserHandler");
-				if (results.isSuccess()) {
-					BackgroundDownloader bd = BackgroundDownloader.getInstance();
-					if (!bd.isDownloading(NET_AUTO_LOGIN)) {
-						bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
-					}
-				}
-				else if (results.getFacebookLinkResponseCode().compareTo(
-					FacebookLinkResponse.FacebookLinkResponseCode.loginFailed) == 0) {
-					setStatusText(R.string.sign_in_failed_try_again, false);
-					showLinkFacebook(true);
-					setIsLoading(false);
-				}
-				else {
-					//TODO: Something...
-					setStatusText(R.string.unspecified_error, false);
-					setIsLoading(false);
-				}
-			}
-			else {
-				//TODO:Better error message
-				setStatusText(R.string.unspecified_error, false);
-				setIsLoading(false);
-			}
-		}
-	};
-
-	public void goBack() {
-		//Cancel all the current downloads....
-		BackgroundDownloader.getInstance().cancelDownload(NET_AUTO_LOGIN);
-		BackgroundDownloader.getInstance().cancelDownload(NET_LINK_EXISTING_USER);
-		BackgroundDownloader.getInstance().cancelDownload(NET_LINK_NEW_USER);
-		if (Session.getActiveSession() != null) {
-			Session.getActiveSession().removeCallback(mFacebookStatusCallback);
-		}
-
-		setIsLoading(false);
-	}
-
-	protected void setStatusText(int resId, boolean isHeading) {
-		String str = getString(resId);
-		setStatusText(str, isHeading);
-	}
-
-	private void setStatusText(String text, boolean isHeading) {
-		Snackbar.make(accountView, Html.fromHtml(text).toString(), Snackbar.LENGTH_LONG).show();
-	}
-
-	protected void setLoadingText(final String text) {
-		Runnable runner = new Runnable() {
-			@Override
-			public void run() {
-				if (mLoadingFragment != null) {
-					mLoadingFragment.setText(text);
-				}
-			}
-		};
-		runOnUiThread(runner);
-	}
-
-	protected void setStatusTextExpediaAccountFound(String name) {
-		String str = String.format(
-			Phrase.from(this, R.string.facebook_weve_found_your_account_TEMPLATE)
-				.put("brand", BuildConfig.brand)
-				.put("name", name).format().toString());
-		statusText.setText(Html.fromHtml(str).toString());
-		showLinkFacebook(true);
-	}
-
-	protected void setStatusTextFbInfoLoaded(String name) {
-		String str = String.format(getString(R.string.facebook_weve_fetched_your_info), name);
-		setStatusText(str, false);
-	}
-
-	private void showLinkFacebook(boolean visible) {
-		accountView.setVisibility(visible ? View.GONE : View.VISIBLE);
-		faceBookLinkContainer.setVisibility(visible ? View.VISIBLE : View.GONE);
-	}
-
-	private void showEmailDenied(boolean visible) {
-		accountView.setVisibility(visible ? View.GONE : View.VISIBLE);
-		facebookEmailDeniedContainer.setVisibility(visible ? View.VISIBLE : View.GONE);
 	}
 }

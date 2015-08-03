@@ -93,7 +93,7 @@ import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.facebook.Session;
+import com.facebook.AccessToken;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
@@ -1229,11 +1229,9 @@ public class ExpediaServices implements DownloadListener {
 	 * @return
 	 */
 	public FacebookLinkResponse facebookAutoLogin(String facebookUserId, String facebookAccessToken) {
-		Session fbSession = Session.getActiveSession();
-		if (fbSession == null || fbSession.isClosed()) {
-			throw new RuntimeException("We must be logged into facebook inorder to call facebookAutoLogin");
+		if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
+			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
 		}
-
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("provider", "Facebook"));
 		query.add(new BasicNameValuePair("userId", facebookUserId));
@@ -1253,8 +1251,7 @@ public class ExpediaServices implements DownloadListener {
 	public FacebookLinkResponse facebookLinkNewUser(String facebookUserId, String facebookAccessToken,
 		String facebookEmailAddress) {
 
-		Session fbSession = Session.getActiveSession();
-		if (fbSession == null || fbSession.isClosed()) {
+		if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
 			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
 		}
 
@@ -1278,8 +1275,7 @@ public class ExpediaServices implements DownloadListener {
 	 */
 	public FacebookLinkResponse facebookLinkExistingUser(String facebookUserId, String facebookAccessToken,
 		String facebookEmailAddress, String expediaPassword) {
-		Session fbSession = Session.getActiveSession();
-		if (fbSession == null || fbSession.isClosed()) {
+		if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
 			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
 		}
 
