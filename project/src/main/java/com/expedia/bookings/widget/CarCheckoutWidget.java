@@ -66,6 +66,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		summaryContainer.addView(summaryWidget);
 		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details));
 		paymentInfoCardView.setLineOfBusiness(LineOfBusiness.CARS);
+		paymentInfoCardView.setZipValidationRequired(true);
 	}
 
 	// Create Trip network handling
