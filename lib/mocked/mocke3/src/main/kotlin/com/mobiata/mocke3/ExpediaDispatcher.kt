@@ -15,6 +15,8 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
     private val travelAdRequests = hashMapOf<String, Int>()
     private val hotelRequestDispatcher = HotelRequestDispatcher(fileOpener)
     private val flightApiRequestDispatcher = FlightApiRequestDispatcher(fileOpener)
+    private val carApiRequestDispatcher = CarApiRequestDispatcher(fileOpener)
+    private val lxApiRequestDispatcher = LxApiRequestDispatcher(fileOpener)
 
     @throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -31,12 +33,12 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 
         // Cars API
         if (request.getPath().contains("/m/api/cars")) {
-            return dispatchCar(request)
+            return carApiRequestDispatcher.dispatch(request)
         }
 
         // LX API
         if (request.getPath().contains("/lx/api") || request.getPath().contains("m/api/lx")) {
-            return dispatchLX(request)
+            return lxApiRequestDispatcher.dispatch(request)
         }
 
         // AbacusV2 API
@@ -170,38 +172,6 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         return makeResponse("/api/trips/happy.json", params)
     }
 
-    private fun dispatchCar(request: RecordedRequest): MockResponse {
-        if (request.getPath().contains("/search/airport") || request.getPath().contains("/search/location")) {
-            val params = parseRequest(request)
-            val airportCode = params.get("airportCode")
-            if ("KTM" == airportCode) {
-                return makeResponse("m/api/cars/search/airport/ktm_no_product.json")
-            } else if ("DTW" == airportCode) {
-                return makeResponse("m/api/cars/search/airport/dtw_invalid_input.json")
-            } else {
-                return makeResponse("m/api/cars/search/airport/happy.json")
-            }
-        } else if (request.getPath().contains("/trip/create")) {
-            val params = parseRequest(request)
-            when (params.get("productKey")) {
-                "CreateTripPriceChange" -> return makeResponse("m/api/cars/trip/create/price_change.json")
-                else -> return makeResponse("m/api/cars/trip/create/" + params.get("productKey") + ".json", params)
-            }
-        } else if (request.getPath().contains("/trip/checkout")) {
-            val params = parseRequest(request)
-            when (params.get("mainMobileTraveler.firstName")) {
-                "AlreadyBooked" -> return makeResponse("m/api/cars/trip/checkout/trip_already_booked.json")
-                "PriceChange" -> return makeResponse("m/api/cars/trip/checkout/price_change.json")
-                "PaymentFailed" -> return makeResponse("m/api/cars/trip/checkout/payment_failed.json")
-                "UnknownError" -> return makeResponse("m/api/cars/trip/checkout/unknown_error.json")
-                "SessionTimeout" -> return makeResponse("m/api/cars/trip/checkout/session_timeout.json")
-                "InvalidInput" -> return makeResponse("m/api/cars/trip/checkout/invalid_input.json")
-                else -> return makeResponse("m/api/cars/trip/checkout/happy.json")
-            }
-        }
-        return make404()
-    }
-
     private fun dispatchSuggest(request: RecordedRequest): MockResponse {
         var type: String? = ""
         var latlong: String? = ""
@@ -240,55 +210,6 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         val params = parseRequest(request)
         params.put("email", "qa-ehcc@mobiata.com")
         return makeResponse("api/user/sign-in/login.json", params)
-    }
-
-    private fun dispatchLX(request: RecordedRequest): MockResponse {
-        if (request.getPath().startsWith("/lx/api/search")) {
-            val params = parseRequest(request)
-            val location = params.get("location")
-            // Return happy path response if not testing for special cases.
-            if (location == "search_failure") {
-                return makeResponse("lx/api/search/" + location + ".json")
-            } else {
-                return makeResponse("lx/api/search/happy.json")
-            }
-        } else if (request.getPath().startsWith("/lx/api/activity")) {
-            val params = parseRequest(request)
-            val DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss"
-            val startDateTime = DateTime.now().withTimeAtStartOfDay()
-            // supply the dates to the response
-            params.put("startDate", startDateTime.toString(DATE_TIME_PATTERN))
-            // Add availability dates for 13 days which should make the last date selector disabled.
-            for (iPlusDays in 1..12) {
-                params.put("startDatePlus" + iPlusDays, startDateTime.plusDays(iPlusDays).toString(DATE_TIME_PATTERN))
-            }
-            return makeResponse("lx/api/activity/happy.json", params)
-        } else if (request.getPath().contains("m/api/lx/trip/create")) {
-            var activityId: String?
-            val obj = JsonParser().parse(request.getUtf8Body()).getAsJsonObject()
-            activityId = obj.getAsJsonArray("items").get(0).getAsJsonObject().get("activityId").getAsString()
-            if (activityId != null && activityId.isNotBlank()) {
-                return makeResponse("m/api/lx/trip/create/" + activityId + ".json")
-            }
-            return make404()
-        } else if (request.getPath().contains("m/api/lx/trip/checkout")) {
-            val params = parseRequest(request)
-            val firstName = params.get("firstName")
-            val tripId = params.get("tripId")
-
-            if (firstName != null) {
-                when (firstName) {
-                    "AlreadyBooked" -> return makeResponse("m/api/lx/trip/checkout/trip_already_booked.json")
-                    "PaymentFailed" -> return makeResponse("m/api/lx/trip/checkout/payment_failed_trip_id.json")
-                    "UnknownError" -> return makeResponse("m/api/lx/trip/checkout/unknown_error.json")
-                    "SessionTimeout" -> return makeResponse("m/api/lx/trip/checkout/session_timeout.json")
-                    "InvalidInput" -> return makeResponse("m/api/lx/trip/checkout/invalid_input.json")
-                    "PriceChange" -> return makeResponse("m/api/lx/trip/checkout/price_change.json")
-                }
-            }
-            return makeResponse("m/api/lx/trip/checkout/" + tripId + ".json")
-        }
-        return make404()
     }
 
     private fun dispatchStaticContent(request: RecordedRequest): MockResponse {

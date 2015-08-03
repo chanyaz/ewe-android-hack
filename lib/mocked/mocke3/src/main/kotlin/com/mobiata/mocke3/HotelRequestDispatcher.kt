@@ -6,7 +6,7 @@ import com.squareup.okhttp.mockwebserver.RecordedRequest
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-public class HotelRequestDispatcher(override val fileOpener: FileOpener) : AbstractDispatcher(fileOpener: FileOpener) {
+public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener: FileOpener) {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
 
