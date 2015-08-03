@@ -1,0 +1,46 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="?attr/actionBarSize"
+    android:layout_marginLeft="9dp"
+    android:layout_marginRight="9dp"
+    android:layout_marginTop="9dp" >
+
+    <ImageView
+        android:id="@+id/hotel_room_background"
+        android:layout_width="match_parent"
+        android:layout_height="120dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignBottom="@+id/hotel_room_background"
+        android:layout_alignTop="@+id/hotel_room_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/hotel_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="The Ritz-Carleton San Francisco" />
+
+        <TextView
+            android:id="@+id/check_in_out_dates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Jan 23 - Jan 25" />
+
+        <TextView
+            android:id="@+id/address_line_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="323 Market St" />
+
+        <TextView
+            android:id="@+id/address_city_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="San Francisco, CA" />
+    </LinearLayout>
+
+</FrameLayout>

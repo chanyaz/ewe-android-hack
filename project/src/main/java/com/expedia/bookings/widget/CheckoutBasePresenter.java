@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import org.jetbrains.annotations.NotNull;
+
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
@@ -56,16 +58,16 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public PaymentWidget paymentInfoCardView;
 
 	@InjectView(R.id.slide_to_purchase_layout)
-	ViewGroup slideToContainer;
+	public ViewGroup slideToContainer;
 
 	@InjectView(R.id.summary_container)
-	CardView summaryContainer;
+	public CardView summaryContainer;
 
 	@InjectView(R.id.summary_progress_layout)
-	View mSummaryProgressLayout;
+	public View mSummaryProgressLayout;
 
 	@InjectView(R.id.login_widget)
-	AccountButton loginWidget;
+	public AccountButton loginWidget;
 
 	@InjectView(R.id.hint_container)
 	ViewGroup hintContainer;
@@ -88,7 +90,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	ExpandableCardView lastExpandedCard;
 	ExpandableCardView currentExpandedCard;
 
-	private UserAccountRefresher userAccountRefresher;
+	@NotNull public WidgetHotelSummaryHeader widgetHotelSummaryHeader;
+
+	protected UserAccountRefresher userAccountRefresher;
 
 	@Override
 	protected void onFinishInflate() {
@@ -305,6 +309,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				if (lastExpandedCard != null && lastExpandedCard != currentExpandedCard) {
 					lastExpandedCard.setExpanded(false, false);
 				}
+				if (widgetHotelSummaryHeader != null) {
+					widgetHotelSummaryHeader.setVisibility(View.GONE);
+				}
 			}
 			else {
 				currentExpandedCard.setExpanded(false, false);
@@ -317,6 +324,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				}
 				legalInformationText.setVisibility(VISIBLE);
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
+				if (widgetHotelSummaryHeader != null) {
+					widgetHotelSummaryHeader.setVisibility(View.VISIBLE);
+				}
 			}
 
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()

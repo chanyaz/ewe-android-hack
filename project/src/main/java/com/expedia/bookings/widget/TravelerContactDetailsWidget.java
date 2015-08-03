@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -38,7 +39,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	ContactInitialsImageView driverCheckoutStatusLeftImageView;
 
 	@InjectView(R.id.section_traveler_info_container)
-	SectionTravelerInfo sectionTravelerInfo;
+	public SectionTravelerInfo sectionTravelerInfo;
 
 	@InjectView(R.id.enter_details_text)
 	TextView enterDetailsText;
@@ -96,7 +97,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		sectionTravelerInfo.addInvalidCharacterListener(new InvalidCharacterHelper.InvalidCharacterListener() {
 			@Override
 			public void onInvalidCharacterEntered(CharSequence text, InvalidCharacterHelper.Mode mode) {
-				ActionBarActivity activity = (ActionBarActivity) getContext();
+				AppCompatActivity activity = (AppCompatActivity) getContext();
 				InvalidCharacterHelper.showInvalidCharacterPopup(activity.getSupportFragmentManager(), mode);
 			}
 		});
