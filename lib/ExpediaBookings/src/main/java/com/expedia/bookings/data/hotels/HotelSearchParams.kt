@@ -1,6 +1,5 @@
 package com.expedia.bookings.data.hotels
 
-import com.expedia.bookings.data.cars.Suggestion
 import org.joda.time.LocalDate
 
 public class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {

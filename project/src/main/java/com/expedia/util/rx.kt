@@ -36,7 +36,7 @@ public fun ToggleButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
     }
 }
 
-public fun Observable<String>.subscribe(textview: TextView) {
+public fun <T : CharSequence> Observable<T>.subscribe(textview: TextView) {
     this.subscribe { text -> textview.setText(text) }
 }
 

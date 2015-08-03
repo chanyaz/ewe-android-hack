@@ -2,12 +2,16 @@ package com.expedia.vm
 
 import android.content.Context
 import android.text.Html
+import android.text.SpannableStringBuilder
+import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
+import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -19,11 +23,13 @@ class HotelSearchViewModel(val context: Context) {
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
-    val dateTextObservable = PublishSubject.create<String>()
+    val dateTextObservable = PublishSubject.create<CharSequence>()
     val calendarTooltipTextObservable = PublishSubject.create<Pair<String,String>>()
     val locationTextObservable = PublishSubject.create<String>()
+    val searchButtonObservable = PublishSubject.create<Boolean>()
     val errorNoOriginObservable = PublishSubject.create<Unit>()
     val errorNoDatesObservable = PublishSubject.create<Unit>()
+
 
     // Inputs
     val datesObserver = endlessObserver<Pair<LocalDate?, LocalDate?>> { data ->
@@ -35,6 +41,12 @@ class HotelSearchViewModel(val context: Context) {
         dateTextObservable.onNext(computeDateText(start, end))
 
         calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
+
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
+    var requiredSearchParamsObserver = endlessObserver<Unit>{
+        searchButtonObservable.onNext(paramsBuilder.areRequiredParamsFilled())
     }
 
     val travelersObserver = endlessObserver<HotelTravelerParams> { update ->
@@ -45,6 +57,7 @@ class HotelSearchViewModel(val context: Context) {
     val suggestionObserver = endlessObserver<SuggestionV4> { suggestion ->
         paramsBuilder.suggestion(suggestion)
         locationTextObservable.onNext(Html.fromHtml(StrUtils.formatCityName(suggestion.regionNames.displayName)).toString())
+        requiredSearchParamsObserver.onNext(Unit)
     }
 
     val searchObserver = endlessObserver<Unit> {
@@ -61,22 +74,45 @@ class HotelSearchViewModel(val context: Context) {
     }
 
     // Helpers
-    private fun computeDateText(start: LocalDate?, end: LocalDate?): String {
-            if (start == null && end == null) {
-                return context.getResources().getString(R.string.select_dates_proper_case)
-            } else if (end == null) {
-                return DateUtils.localDateToMMMd(start)
-            } else {
-                return context.getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
-            }
+    private fun computeDateRangeText(start: LocalDate?, end: LocalDate?): String? {
+        if (start == null && end == null) {
+            return context.getResources().getString(R.string.select_dates)
+        } else if (end == null) {
+            return context.getResources().getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
+        } else {
+            return context.getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+        }
+    }
+
+    private fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {
+        val dateRangeText = computeDateRangeText(start, end)
+        val sb = SpannableBuilder()
+        sb.append(dateRangeText)
+
+        if (start != null && end != null) {
+            val nightCount = JodaUtils.daysBetween(start, end)
+            val nightsString = context.getResources().getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
+            sb.append(context.getResources().getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
+        }
+        return sb.build()
+    }
+
+    private fun computeTopTextForToolTip(start: LocalDate?, end: LocalDate?): String {
+        if (start == null && end == null) {
+            return context.getResources().getString(R.string.select_dates_proper_case)
+        } else if (end == null) {
+            return DateUtils.localDateToMMMd(start)
+        } else {
+            return context.getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+        }
     }
 
     private fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
         val resource =
-                if (end == null) R.string.calendar_tooltip_bottom_select_return_date
+                if (end == null) R.string.hotel_calendar_tooltip_bottom
                 else R.string.calendar_tooltip_bottom_drag_to_modify
         val instructions = context.getResources().getString(resource)
-        return Pair(computeDateText(start, end), instructions)
+        return Pair(computeTopTextForToolTip(start, end), instructions)
     }
 }
 
@@ -100,17 +136,18 @@ public class HotelTravelerPickerViewModel(val context: Context) {
     val childTextObservable = BehaviorSubject.create<String>()
 
     init {
-        travelerParamsObservable.subscribe { update ->
+        travelerParamsObservable.subscribe { travelers ->
+            val total = travelers.numberOfAdults + travelers.children.size()
             guestsTextObservable.onNext(
-                    StrUtils.formatGuests(context, update.numberOfAdults, update.children.size())
+                    context.getResources().getQuantityString(R.plurals.number_of_guests, total, total)
             )
 
             adultTextObservable.onNext(
-                    context.getResources().getQuantityString(R.plurals.number_of_adults, update.numberOfAdults, update.numberOfAdults)
+                    context.getResources().getQuantityString(R.plurals.number_of_adults, travelers.numberOfAdults, travelers.numberOfAdults)
             )
 
             childTextObservable.onNext(
-                    context.getResources().getQuantityString(R.plurals.number_of_children, update.children.size(), update.children.size())
+                    context.getResources().getQuantityString(R.plurals.number_of_children, travelers.children.size(), travelers.children.size())
             )
         }
     }

@@ -38,4 +38,8 @@ public class DummyFiletoHandleKotlinLintError {
 	private static final int HOTEL_CHECKOUT_WIDGET = R.layout.widget_hotel_checkout;
 	private static final int HOTEL_CONFIRMATION = R.layout.widget_hotel_confirmation;
 	private static final int HOTEL_CHECKOUT_SUMMARY_HEADER = R.layout.widget_hotel_summary_header;
+	private static final int HOTEL_CALENDAR_TOOLTIP_BOTTOM = R.string.hotel_calendar_tooltip_bottom;
+	private static final int SELECT_CHECKOUT_DATE_TEMPLATE = R.string.select_checkout_date_TEMPLATE;
+	private static final int NIGHT_COUNT_TEMPLATE = R.string.nights_count_TEMPLATE;
+
 }

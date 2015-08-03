@@ -23,9 +23,9 @@ import kotlin.properties.Delegates
 
 public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    val travelerInfoText: TextView by bindView(R.id.num_guests)
     val adultText: TextView by bindView(R.id.adult)
     val childText: TextView by bindView(R.id.children)
+    val childAgeLabel: TextView by bindView(R.id.child_age_label)
 
     val spinner1: Spinner by bindView(R.id.child_spinner_1)
     val spinner2: Spinner by bindView(R.id.child_spinner_2)
@@ -50,7 +50,6 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Li
         childPlus.subscribeOnClick(vm.incrementChildrenObserver)
         childMinus.subscribeOnClick(vm.decrementChildrenObserver)
 
-        vm.guestsTextObservable.subscribe(travelerInfoText)
         vm.adultTextObservable.subscribe(adultText)
         vm.childTextObservable.subscribe(childText)
 
@@ -68,10 +67,19 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Li
             })
         }
 
-        vm.travelerParamsObservable.subscribe { update ->
+        vm.travelerParamsObservable.subscribe { travelers ->
+            if (travelers.children.size() == 0) {
+                childAgeLabel.setVisibility(View.GONE)
+            } else {
+                childAgeLabel.setVisibility(View.VISIBLE)
+            }
             for (i in childSpinners.indices) {
                 val spinner = childSpinners[i]
-                spinner.setEnabled(i < update.children.size())
+                if (i >= travelers.children.size()) {
+                    spinner.setVisibility(View.GONE)
+                } else {
+                    spinner.setVisibility(View.VISIBLE)
+                }
             }
         }
     }
