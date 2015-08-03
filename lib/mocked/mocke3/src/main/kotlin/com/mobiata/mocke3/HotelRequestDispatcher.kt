@@ -14,7 +14,7 @@ public class HotelRequestDispatcher(override val fileOpener: FileOpener) : Abstr
         val params = parseRequest(request)
 
         if (!HotelRequestMatcher.isHotelRequest(urlPath) && !HotelRequestMatcher.isCouponRequest(urlPath)) {
-            throwUnsupportedOperationException(request)
+            throwUnsupportedRequestException(urlPath)
         }
 
         return when {
@@ -50,10 +50,6 @@ public class HotelRequestDispatcher(override val fileOpener: FileOpener) : Abstr
 
             else -> make404()
         }
-    }
-
-    private fun throwUnsupportedOperationException(request: RecordedRequest) {
-        throw UnsupportedOperationException("Sorry, I don't support the request you passed.\n (Request:" + request.getPath() + ")")
     }
 }
 
