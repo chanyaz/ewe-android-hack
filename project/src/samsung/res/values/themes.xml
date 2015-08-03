@@ -22,6 +22,7 @@
         <item name="skin_roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon_samsung</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_samsung</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_samsung</item>
+        <item name="skin_calendarDatePickerTextColor">@color/calendar_cell_text_samsung</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_samsung</item>
         <item name="skin_webViewPreferencesActionBarLogo">@android:color/transparent</item>

@@ -36,7 +36,7 @@
     <attr name="skin_calendarDatePickerCellDrawable" format="reference" />
     <attr name="skin_calendarDatePickerPopupDrawable" format="reference" />
     <attr name="skin_calendarDatePickerDateFormat" format="reference|string" />
-
+    <attr name="skin_calendarDatePickerTextColor" format="reference" />
 
     <!--Flight Calendar related styling -->
     <attr name="skin_flightCalendarDatePickerCellDrawable" format="reference" />

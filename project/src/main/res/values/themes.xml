@@ -111,6 +111,7 @@
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
         <item name="skin_calendarDatePickerDateFormat">@string/calendar_date_picker_date_format</item>
+        <item name="skin_calendarDatePickerTextColor">@color/calendar_cell_text</item>
         <item name="skin_hotelCancellationPolicyDateFormat">@string/hotel_receipt_cancellation_policy_date_format</item>
         <item name="skin_hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
         <item name="skin_hotelDetailAirAttachRibbonDrawable">@drawable/bg_sale_airattach_ribbon</item>
