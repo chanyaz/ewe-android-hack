@@ -87,11 +87,11 @@ class LxApiRequestMatcher {
         }
 
         fun isCreateTripRequest(urlPath: String): Boolean {
-            return doesItMatch("^/m/api/lx/trip/create$", urlPath)
+            return doesItMatch("^/m/api/lx/trip/create.*$", urlPath)
         }
 
         fun isCheckoutRequest(urlPath: String): Boolean {
-            return doesItMatch("^/m/api/lx/trip/checkout$", urlPath)
+            return doesItMatch("^/m/api/lx/trip/checkout.*$", urlPath)
         }
 
         fun doesItMatch(regExp: String, str: String): Boolean {
