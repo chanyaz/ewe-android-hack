@@ -7,9 +7,7 @@ import android.support.v7.widget.Toolbar
 import android.text.Html
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget
 import android.widget.*
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
@@ -30,14 +28,14 @@ import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.Subscription
-import java.util.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
 public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     var hotelServices: HotelServices? = null
-        @Inject set
+    @Inject set
+
 
     var downloadSubscription: Subscription? = null
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
@@ -103,7 +101,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     private val scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
         override fun onScrollChanged() {
             var yOffset = detailContainer.getScrollY()
-            headerImage.setTranslationY(-yOffset * 0.5f)
+            headerImage.setTranslationY(-yOffset * 0.75f)
             var ratio: Float = (yOffset.toFloat() / (headerImage.getHeight()).toFloat()) * 1.51f
             if (detailContainer.getScrollY() == 0) ratio = 0f
             toolBarBackground.setAlpha(ratio)
@@ -144,7 +142,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     private fun bindDetails(hotelOffersResponse: HotelOffersResponse) {
-        val url = Images.getHotelImage(hotelOffersResponse, 1)
+        val url = Images.getHotelImage(hotelOffersResponse, 0)
         PicassoHelper.Builder(headerImage)
                 .setError(R.drawable.cars_fallback)
                 .fade()
@@ -160,30 +158,8 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         roomContainer.removeAllViews()
         var roomResponseList: List<HotelOffersResponse.HotelRoomResponse> = hotelOffersResponse.hotelRoomResponse
 
-        for (roomResponseIndex in 0..roomResponseList.size() - 1) {
-            val response = roomResponseList.get(roomResponseIndex)
-            // have to add all room rates
-            val tableRow: View = View.inflate(getContext(), R.layout.hotel_room_row, null)
-            val roomType = tableRow.findViewById (R.id.room_type_text_view) as TextView
-            val bedType = tableRow.findViewById (R.id.bed_type_text_view) as TextView
-            val pricePerNight = tableRow.findViewById (R.id.price_per_night) as TextView
-            val viewRoom = tableRow.findViewById (R.id.view_room_button) as Button
-
-            // TODO add expanded rooms description
-            viewRoom.setOnClickListener { view -> roomResponseIndex }
-
-            roomType.setText(response.roomTypeDescription)
-            pricePerNight.setText(response.rateInfo.chargeableRateInfo.maxNightlyRate.toString());
-
-            var bedTypeList: List<HotelOffersResponse.BedTypes> = response.bedTypes
-            val sb = StringBuilder()
-            for (bedTypeIndex in 0..bedTypeList.size() - 1) {
-                sb.append(response.bedTypes.get(bedTypeIndex).description)
-            }
-            bedType.setText(sb.toString())
-
-            roomContainer.addView(tableRow)
-        }
+        val view = HotelRoomRateRowUtils(getContext(), roomContainer)
+        view.bindDetails(roomResponseList)
 
         //set amenities description
         amenities_text_header.setText(hotelOffersResponse.hotelAmenitiesText.name)
@@ -191,21 +167,23 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     private fun setHotelDescription(hotelOffersResponse: HotelOffersResponse) {
-        var sectionBody = Html.fromHtml(hotelOffersResponse.firstHotelOverview).toString()
+        if (hotelOffersResponse.firstHotelOverview != null) {
+            var sectionBody: String = Html.fromHtml(hotelOffersResponse.firstHotelOverview).toString()
 
-        // Add "read more" button if the intro paragraph is too long
-        if (sectionBody.length() > INTRO_PARAGRAPH_CUTOFF) {
-            val untruncated = sectionBody
-            readMoreView.setVisibility(View.VISIBLE)
-            fadeOverlay.setVisibility(View.VISIBLE)
+            // Add "read more" button if the intro paragraph is too long
+            if (sectionBody.length() > INTRO_PARAGRAPH_CUTOFF) {
+                val untruncated = sectionBody
+                readMoreView.setVisibility(View.VISIBLE)
+                fadeOverlay.setVisibility(View.VISIBLE)
 
-            hotelDescription.setOnClickListener { view -> expandSection(untruncated, sectionBody) }
-            readMoreView.setOnClickListener { view -> expandSection(untruncated, sectionBody) }
+                hotelDescription.setOnClickListener { view -> expandSection(untruncated, sectionBody) }
+                readMoreView.setOnClickListener { view -> expandSection(untruncated, sectionBody) }
 
-            sectionBody = Phrase.from(getContext(), R.string.hotel_ellipsize_text_template).put("text", sectionBody.substring(0, Strings.cutAtWordBarrier(sectionBody, INTRO_PARAGRAPH_CUTOFF))).format().toString()
+                sectionBody = Phrase.from(getContext(), R.string.hotel_ellipsize_text_template).put("text", sectionBody.substring(0, Strings.cutAtWordBarrier(sectionBody, INTRO_PARAGRAPH_CUTOFF))).format().toString()
+            }
+
+            hotelDescription.setText(sectionBody)
         }
-
-        hotelDescription.setText(sectionBody)
     }
 
     public fun expandSection(untruncated: String, sectionBody: String) {
@@ -243,4 +221,5 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.cars_pin))
         googleMap.addMarker(marker)
     }
+
 }

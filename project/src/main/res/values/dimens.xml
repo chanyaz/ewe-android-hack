@@ -299,5 +299,7 @@
     <!-- Dimensions For LX Toolbar dropshadow height -->
     <dimen name="toolbar_dropshadow_height">5dp</dimen>
 
+    <!--Dimesnion for room rate margin -->
+    <dimen name="hotel_room_list_container_margin">9dp</dimen>
 
 </resources>
