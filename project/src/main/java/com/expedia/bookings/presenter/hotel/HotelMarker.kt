@@ -8,6 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.widget.HotelMarkerPreviewAdapter
+import com.expedia.bookings.widget.priceFormatter
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
@@ -16,7 +17,7 @@ fun createHotelMarker(resources: Resources, hotel: Hotel, clicked: Boolean): Bit
     val markerPaddingHeight = resources.getDimensionPixelSize(R.dimen.hotel_marker_padding_height)
 
     var bounds = Rect()
-    var text = HotelMarkerPreviewAdapter.PriceFormat.priceFormatter(hotel, false)
+    var text = priceFormatter(hotel, false)
     var paint: Paint = Paint()
     paint.setColor(Color.WHITE)
     paint.setAntiAlias(true)
