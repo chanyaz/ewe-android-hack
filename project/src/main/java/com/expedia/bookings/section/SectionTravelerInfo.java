@@ -997,8 +997,11 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		Validator<Spinner> mValidator = new Validator<Spinner>() {
 			@Override
 			public int validate(Spinner obj) {
-				boolean hasMoreThanOnePassport = (getData().getPassportCountries().size() > 1);
+				if (getData() == null) {
+					return ValidationError.ERROR_DATA_MISSING;
+				}
 
+				boolean hasMoreThanOnePassport = (getData().getPassportCountries().size() > 1);
 				if (obj.getSelectedItemPosition() == 0 || getData().getPrimaryPassportCountry() == null) {
 					return ValidationError.ERROR_DATA_MISSING;
 				}
