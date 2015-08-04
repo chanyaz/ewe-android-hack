@@ -302,4 +302,11 @@
     <!--Dimesnion for room rate margin -->
     <dimen name="hotel_room_list_container_margin">9dp</dimen>
 
+    <!-- Dimensions for Hotel Results -->
+    <dimen name="hotel_preview_margin_large">14dp</dimen>
+    <dimen name="hotel_preview_margin_top">12dp</dimen>
+    <dimen name="hotel_preview_margin_small">4dp</dimen>
+    <dimen name="hotel_marker_padding_width">20dp</dimen>
+    <dimen name="hotel_marker_padding_height">14dp</dimen>
+
 </resources>

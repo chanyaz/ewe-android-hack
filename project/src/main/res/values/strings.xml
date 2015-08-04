@@ -2559,6 +2559,7 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="guest_recommend">of guests recommend</string>
+    <string name="hotel_guest_recommend">of 5 - guest rating</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->

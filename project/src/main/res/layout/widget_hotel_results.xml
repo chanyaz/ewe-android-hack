@@ -19,4 +19,23 @@
         android:layout_gravity="top"
         android:minHeight="?attr/actionBarSize" />
 
+    <LinearLayout
+        android:id="@+id/preview_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/preview_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@drawable/map_shadow" />
+
+        <com.expedia.bookings.widget.HotelMarkerPreviewRecycler
+            android:id="@+id/hotel_marker_preview"
+            android:layout_width="match_parent"
+            android:layout_height="90dp" />
+    </LinearLayout>
+
 </merge>
