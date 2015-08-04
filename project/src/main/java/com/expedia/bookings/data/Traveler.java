@@ -468,10 +468,11 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		if (mPassportCountries != null && mPassportCountries.size() > 0) {
 			boolean countryFound = false;
 
-			//See if the country is already in the list, if so set it as primary and move old primary
+			// See if the country is already in the list, if so set it as primary and move old primary
 			if (passportCountry != null) {
 				for (int i = 0; i < mPassportCountries.size(); i++) {
-					if (mPassportCountries.get(i).compareToIgnoreCase(passportCountry) == 0) {
+					String pCountry = mPassportCountries.get(i);
+					if (pCountry != null && passportCountry.compareToIgnoreCase(pCountry) == 0) {
 						mPassportCountries.set(i, mPassportCountries.get(0));
 						mPassportCountries.set(0, passportCountry);
 						countryFound = true;
