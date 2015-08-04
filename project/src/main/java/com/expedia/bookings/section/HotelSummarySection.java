@@ -33,6 +33,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -301,6 +302,8 @@ public class HotelSummarySection extends RelativeLayout {
 			boolean isEtpSearchResultsBucket = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelETPSearchResults);
 			int roomsLeft = property.getRoomsLeftAtThisRate();
 			mUrgencyText.setTextSize(14f);
+			mUrgencyText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
 			if (property.isSponsored()) {
 				if (!property.hasShownImpression()) {
 					//Ad is being inflated for the first time, fire impression tracking
@@ -321,7 +324,14 @@ public class HotelSummarySection extends RelativeLayout {
 				mUrgencyText.setVisibility(View.VISIBLE);
 			}
 			else if (property.isLowestRateMobileExclusive()) {
-				mUrgencyText.setText(Ui.obtainThemeResID(context, R.attr.skin_dealText));
+				if (ProductFlavorFeatureConfiguration.getInstance().getSearchResultDealImageDrawable() != 0) {
+					mUrgencyText.setCompoundDrawablesWithIntrinsicBounds(
+						ProductFlavorFeatureConfiguration.getInstance().getSearchResultDealImageDrawable(), 0, 0, 0);
+					mUrgencyText.setText("");
+				}
+				else {
+					mUrgencyText.setText(R.string.mobile_exclusive);
+				}
 				mUrgencyText.setVisibility(View.VISIBLE);
 			}
 			else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
