@@ -13,9 +13,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.presenter.hotel.HotelResultsPresenter
-import com.expedia.bookings.utils.*
+import com.expedia.bookings.utils.Akeakamai
+import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
+import com.expedia.util.subscribe
 import com.google.android.gms.maps.model.Marker
 import rx.subjects.PublishSubject
 import java.util.ArrayList
@@ -33,7 +36,9 @@ public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresent
     override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
         val holder: HotelViewHolder = given as HotelViewHolder
 
-        holder.bind(sortedHotelList.get(position).hotel)
+        val viewModel = HotelViewModel(sortedHotelList.get(position).hotel, holder.resources)
+
+        holder.bind(viewModel)
         holder.itemView.setOnClickListener(holder)
     }
 
@@ -70,25 +75,15 @@ public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresent
         return modifiedHotels
     }
 
-    public class PriceFormat {
-        companion object {
-            public fun priceFormatter(hotel: Hotel, strikeThrough: Boolean): String {
-                var hotelPrice = if (strikeThrough)
-                    Money(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers).toString(), hotel.lowRateInfo.currencyCode)
-                else Money(Math.round(hotel.lowRateInfo.priceToShowUsers).toString(), hotel.lowRateInfo.currencyCode)
-                return hotelPrice.getFormattedMoney()
-            }
-        }
-    }
-
-    public inner class HotelViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), HeaderBitmapDrawable.CallbackListener, View.OnClickListener {
-        override fun onClick(view: View) {
-            val hotel: Hotel = sortedHotelList.get(getAdapterPosition()).hotel
-            hotelSubject.onNext(hotel)
-        }
+    public inner class HotelViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
 
         val resources: Resources by Delegates.lazy {
             itemView.getResources()
+        }
+
+        override fun onClick(view: View) {
+            val hotel: Hotel = sortedHotelList.get(getAdapterPosition()).hotel
+            hotelSubject.onNext(hotel)
         }
 
         val hotelPreviewImage: ImageView by bindView(R.id.hotel_preview_image)
@@ -97,43 +92,46 @@ public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresent
         val hotelStrikeThroughPrice: TextView by bindView(R.id.hotel_strike_through_price)
         val hotelGuestRating: TextView by bindView(R.id.hotel_guest_rating)
         val hotelGuestRecommend: TextView by bindView(R.id.hotel_guest_recommend)
-
         val hotelPreviewRating: RatingBar by bindView(R.id.hotel_preview_rating)
 
-        public fun bind(hotel: Hotel) {
-            val url = Images.getNearbyHotelImageThumbnail(hotel)
-            val imageUrl = Akeakamai(url).resizeExactly(100, 100).build()
-            PicassoHelper.Builder(hotelPreviewImage).setError(R.drawable.cars_fallback).fade().build().load(imageUrl)
+        public fun bind(viewModel: HotelViewModel) {
+            viewModel.hotelThumbnailUrlObservable.subscribe { url ->
+                val imageUrl = Akeakamai(url).resizeExactly(100, 100).build()
 
-            hotelPreviewText.setText(hotel.name)
+                PicassoHelper.Builder(hotelPreviewImage)
+                        .setError(R.drawable.cars_fallback)
+                        .fade()
+                        .build()
+                        .load(imageUrl)
+            }
+
+            viewModel.hotelNameObservable.subscribe(hotelPreviewText)
+
+            viewModel.hotelPreviewRatingObservable.subscribe {
+                hotelPreviewRating.setRating(it)
+            }
+
+            viewModel.hotelPriceObservable.subscribe(hotelPricePerNight)
+            viewModel.hotelStrikeThroughPriceObservable.subscribe(hotelStrikeThroughPrice)
+            viewModel.hotelGuestRatingObservable.subscribe(hotelGuestRating)
+
             hotelPreviewText.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM))
 
-            hotelPreviewRating.setRating(hotel.hotelStarRating)
-
-            hotelPricePerNight.setText(PriceFormat.priceFormatter(hotel, false))
             hotelPricePerNight.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD))
 
-            hotelStrikeThroughPrice.setText(PriceFormat.priceFormatter(hotel, true))
             hotelStrikeThroughPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG)
             hotelStrikeThroughPrice.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
 
-            hotelGuestRating.setText(hotel.hotelGuestRating.toString())
             hotelGuestRating.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM))
 
             hotelGuestRecommend.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
         }
-
-        override fun onBitmapLoaded() {
-
-        }
-
-        override fun onBitmapFailed() {
-
-        }
-
-        override fun onPrepareLoad() {
-
-        }
     }
+}
 
+public fun priceFormatter(hotel: Hotel, strikeThrough: Boolean): String {
+    var hotelPrice = if (strikeThrough)
+        Money(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers).toString(), hotel.lowRateInfo.currencyCode)
+    else Money(Math.round(hotel.lowRateInfo.priceToShowUsers).toString(), hotel.lowRateInfo.currencyCode)
+    return hotelPrice.getFormattedMoney()
 }
