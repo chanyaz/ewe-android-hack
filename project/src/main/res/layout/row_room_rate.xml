@@ -51,14 +51,14 @@
 
         <TextView
             android:id="@+id/price_text_view"
+            style="?attr/skin_hotelPriceTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/price_explanation_text_view"
             android:gravity="left"
             android:includeFontPadding="false"
             android:textColor="?attr/skin_hotelPriceStandardColor"
-            android:textSize="26sp"
-            android:textStyle="bold" />
+            android:textSize="26sp" />
 
         <TextView
             android:id="@+id/price_description_text_view"
