@@ -330,13 +330,22 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		@Override
 		public void finalizeTransition(boolean forward) {
+			int spacerHeight = 0;
+			float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
 			if (forward) {
 				slideToContainer.setVisibility(INVISIBLE);
+				// Space to avoid keyboard hiding the view behind.
+				spacerHeight = (int) getResources().getDimension(R.dimen.car_expanded_space_height);
 			}
 			else {
 				isCheckoutComplete();
+				spacerHeight = scrollViewActualHeight - legalInformationText.getBottom() < slideToContainer.getHeight()
+					&& slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
 			}
-			updateSpacerHeight();
+
+			ViewGroup.LayoutParams params = space.getLayoutParams();
+			params.height = spacerHeight;
+			space.setLayoutParams(params);
 		}
 	};
 
