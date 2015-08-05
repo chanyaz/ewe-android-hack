@@ -29,6 +29,7 @@ import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.collections.Collection;
@@ -74,6 +75,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 	private boolean isAirAttachDismissed;
 	private boolean wasHotelsDownloadEmpty;
 
+	private int launchListYScroll;
+	private float airAttachTranslation;
+
 	@InjectView(R.id.lob_selector)
 	LaunchLobWidget lobSelectorWidget;
 
@@ -100,6 +104,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	@Override
 	public void onFinishInflate() {
+		super.onFinishInflate();
 		ButterKnife.inject(this);
 		Ui.getApplication(getContext()).launchComponent().inject(this);
 		launchListWidget.setOnScrollListener(scrollListener);
@@ -228,12 +233,10 @@ public class PhoneLaunchWidget extends FrameLayout {
 	 */
 
 	RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
-
-		private float airAttachTranslation;
-
 		@Override
 		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-			float currentPos = Math.abs(launchListWidget.getHeader().getTop());
+			launchListYScroll += dy;
+			float currentPos = launchListYScroll;
 			if (airAttachTranslation >= 0 && airAttachTranslation <= airAttachBanner.getHeight()) {
 				airAttachTranslation += dy;
 				airAttachTranslation = Math.min(airAttachTranslation, airAttachBanner.getHeight());
@@ -446,22 +449,33 @@ public class PhoneLaunchWidget extends FrameLayout {
 		}
 	}
 
+	public void initLaunchListScroll() {
+		launchListYScroll = 0;
+		airAttachTranslation = 0;
+		launchListWidget.scrollToPosition(0);
+	}
+
 	public void bindLobWidget() {
 		int listHeaderPaddingTop;
-		if (PointOfSale.getPointOfSale().supportsCars() && PointOfSale.getPointOfSale().supportsLx()) {
+		initLaunchListScroll();
+		PointOfSale currentPointOfSale = PointOfSale.getPointOfSale();
+		if (currentPointOfSale.supports(LineOfBusiness.CARS) && currentPointOfSale.supports(
+			LineOfBusiness.LX)) {
 			doubleRowLob = true;
 			lobHeight = getResources().getDimension(R.dimen.launch_lob_double_row_container_height);
 			lobSelectorWidget.setVisibility(View.GONE);
+			doubleRowLobSelectorWidget.transformButtons(1.0f);
 			doubleRowLobSelectorWidget.setVisibility(View.VISIBLE);
 			listHeaderPaddingTop = R.dimen.launch_header_double_row_top_space;
 		}
 		else {
 			doubleRowLob = false;
 			lobHeight = getResources().getDimension(R.dimen.launch_lob_container_height);
+			lobSelectorWidget.transformButtons(1.0f);
 			lobSelectorWidget.setVisibility(View.VISIBLE);
 			doubleRowLobSelectorWidget.setVisibility(View.GONE);
 			listHeaderPaddingTop = R.dimen.launch_header_top_space;
-			lobSelectorWidget.updateVisibilities();
+			lobSelectorWidget.updateView();
 		}
 		launchListWidget.setHeaderPaddingTop(getResources().getDimension(listHeaderPaddingTop));
 		squashedHeaderHeight = getResources().getDimension(R.dimen.launch_lob_squashed_height);
@@ -469,6 +483,11 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	@Subscribe
 	public void onLaunchResume(Events.PhoneLaunchOnResume event) {
+		setListState();
+	}
+
+	@Subscribe
+	public void onPOSChange(Events.PhoneLaunchOnPOSChange event) {
 		bindLobWidget();
 		setListState();
 	}

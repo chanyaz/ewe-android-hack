@@ -11,11 +11,9 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.ViewGroup;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
@@ -56,10 +54,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 	private static final String TRIP_BUCKET_FRAG_TAG = "TRIP_BUCKET_FRAG_TAG";
 
 	private static final String INSTANCE_CURRENT_LOB = "INSTANCE_CURRENT_LOB";
-	private static final String INSTANCE_LOADED_CACHED_DATA = "INSTANCE_LOADED_CACHED_DATA";
-
-	//Containers..
-	private ViewGroup mRootC;
 
 	//Fragments
 	TabletCheckoutControllerFragment mFragCheckoutController;
@@ -84,17 +78,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 		}
 
 		setContentView(R.layout.activity_tablet_checkout);
-
-		if (savedInstanceState != null) {
-			mLoadedDbInfo = savedInstanceState.getBoolean(INSTANCE_LOADED_CACHED_DATA, false) && Db.hasBillingInfo();
-		}
-
-		// Loading checkout data and blocking. this is disk i/o but we need the data loaded at this
-		// point due to how the code is structured.
-		loadCachedData(true);
-
-		// Containers
-		mRootC = Ui.findView(this, R.id.root_layout);
 
 		// Args
 		if (savedInstanceState == null) {
@@ -137,7 +120,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 		if (lob != null) {
 			outState.putString(INSTANCE_CURRENT_LOB, lob.name());
 		}
-		outState.putBoolean(INSTANCE_LOADED_CACHED_DATA, mLoadedDbInfo);
 	}
 
 	@Override
@@ -390,15 +372,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 	}
 
 	private void loadCachedData(boolean wait) {
-		if (!mLoadedDbInfo) {
-			CheckoutDataLoader.CheckoutDataLoadedListener listener = new CheckoutDataLoader.CheckoutDataLoadedListener() {
-				@Override
-				public void onCheckoutDataLoaded(boolean wasSuccessful) {
-					mLoadedDbInfo = wasSuccessful;
-				}
-			};
-			CheckoutDataLoader.getInstance().loadCheckoutData(this, true, true, listener, wait);
-		}
+
 	}
 
 	/*

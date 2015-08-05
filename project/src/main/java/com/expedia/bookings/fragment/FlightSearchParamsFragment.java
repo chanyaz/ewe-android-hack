@@ -140,8 +140,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private View mDoneButton;
 	private View mButtonBarLayout;
 	private TextView mRefinementInfoTextView;
-	private TextView mInfantPreferenceTextView;
 	private RadioGroup mInfantPreferenceRadioGroup;
+	private LinearLayout mInfantPreferenceLayout;
 
 	private FlightSearchParams mSearchParams;
 
@@ -253,8 +253,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mInfantAlertTextView = Ui.findView(v, R.id.infant_alert_text_view);
 		mButtonBarLayout = Ui.findView(v, R.id.button_bar_layout);
 		mRefinementInfoTextView = Ui.findView(v, R.id.refinement_info_text_view);
-		mInfantPreferenceTextView = Ui.findView(v, R.id.infant_seating_preference_text_view);
 		mInfantPreferenceRadioGroup = Ui.findView(v, R.id.infant_seating_preference_radio_group);
+		mInfantPreferenceLayout = Ui.findView(v, R.id.infant_preference_seating_layout);
 		mDoneButton = Ui.findView(v, R.id.guest_done_button);
 
 		// Configure views
@@ -1085,8 +1085,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	private void showInfantSeatingPreferenceAsNecessary() {
 		int vis = mSearchParams.hasInfants() ? View.VISIBLE : View.INVISIBLE;
-		mInfantPreferenceTextView.setVisibility(vis);
-		mInfantPreferenceRadioGroup.setVisibility(vis);
+		mInfantPreferenceLayout.setVisibility(vis);
 
 		if (vis == View.VISIBLE) {
 			mInfantPreferenceRadioGroup.setOnCheckedChangeListener(null);

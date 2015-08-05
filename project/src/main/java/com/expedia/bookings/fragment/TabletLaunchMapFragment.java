@@ -28,7 +28,6 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
-import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;

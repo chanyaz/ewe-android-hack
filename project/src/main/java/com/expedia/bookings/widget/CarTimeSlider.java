@@ -20,6 +20,7 @@ import android.widget.SeekBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.Ui;
 
 /**
  * Created by mohsharma on 2/9/15.
@@ -104,7 +105,7 @@ public class CarTimeSlider extends com.expedia.bookings.widget.SeekBar {
 
 	public void setupThumbnail() {
 		textPaint = new Paint(Paint.LINEAR_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
-		textPaint.setColor(getResources().getColor(R.color.cars_secondary_color));
+		textPaint.setColor(getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsSecondaryColor)));
 		textPaint.setTextAlign(Paint.Align.CENTER);
 		textPaint.setTextSize(getContext().getResources().getDimension(R.dimen.car_time_slider_text_size));
 		textPaint.setAntiAlias(true);
@@ -145,7 +146,8 @@ public class CarTimeSlider extends com.expedia.bookings.widget.SeekBar {
 	}
 
 	public String calculateProgress(int progress) {
-		return DateUtils.formatDateTime(getContext(), getDateTime(progress).getMillis(), DateFormatUtils.FLAGS_TIME_FORMAT);
+		return DateUtils
+			.formatDateTime(getContext(), getDateTime(progress).getMillis(), DateFormatUtils.FLAGS_TIME_FORMAT);
 	}
 
 	public DateTime getDateTime(int progress) {

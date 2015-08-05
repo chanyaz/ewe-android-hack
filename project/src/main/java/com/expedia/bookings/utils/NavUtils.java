@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ActivityKillReceiver;
-import com.expedia.bookings.activity.CarActivity;
+import com.expedia.ui.CarActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightSearchResultsActivity;
@@ -22,7 +22,7 @@ import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.HotelSearchActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
-import com.expedia.bookings.activity.LXBaseActivity;
+import com.expedia.ui.LXBaseActivity;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletLaunchActivity;
@@ -186,6 +186,7 @@ public class NavUtils {
 		}
 
 		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intent.putExtra(Codes.FROM_DEEPLINK, true);
 		}
 
@@ -212,10 +213,6 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToFlights(Context context) {
-		goToFlights(context, false, null);
-	}
-
 	public static void goToFlights(Context context, boolean usePresetSearchParams) {
 		goToFlights(context, usePresetSearchParams, null);
 	}
@@ -233,7 +230,7 @@ public class NavUtils {
 	}
 
 	public static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions, int flags) {
-		if (!PointOfSale.getPointOfSale().supportsFlights()) {
+		if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
 			// Because the user can't actually navigate forward from here, perhaps it makes sense to preserve the
 			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
 			Intent intent = new Intent(context, FlightUnsupportedPOSActivity.class);
@@ -261,13 +258,12 @@ public class NavUtils {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, CarActivity.class);
 		if (searchParams != null) {
-			intent.putExtra("pickupLocation", searchParams.origin);
-			intent.putExtra("originDescription", searchParams.originDescription);
-			intent.putExtra("pickupDateTime", DateUtils.carSearchFormatFromDateTime(searchParams.startDateTime));
-			intent.putExtra("dropoffDateTime", DateUtils.carSearchFormatFromDateTime(searchParams.endDateTime));
+			Gson gson = CarServices.generateGson();
+			intent.putExtra("carSearchParams", gson.toJson(searchParams));
 		}
 
 		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intent.putExtra(Codes.FROM_DEEPLINK, true);
 		}
 
@@ -288,6 +284,7 @@ public class NavUtils {
 		}
 
 		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intent.putExtra(Codes.FROM_DEEPLINK, true);
 		}
 
@@ -311,6 +308,7 @@ public class NavUtils {
 		}
 
 		if (flags == FLAG_DEEPLINK) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			// If we don't have filters, open search box.
 			if (searchParams.filters == null) {
 				intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
@@ -383,21 +381,6 @@ public class NavUtils {
 	public static boolean skipLaunchScreenAndStartEHTablet(Context context) {
 		Intent intent = generateStartEHTabletIntent(context);
 		if (intent != null) {
-			context.startActivity(intent);
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Sometimes we want to get out of flights (or anyplace) and want to go back to our start page.
-	 * @param context
-	 * @return true if we called startActivity on the way to EhTabletStart, false if not
-	 */
-	public static boolean goBackToEhTabletStart(Context context) {
-		Intent intent = generateStartEHTabletIntent(context);
-		if (intent != null) {
-			sendKillActivityBroadcast(context);
 			context.startActivity(intent);
 			return true;
 		}
@@ -486,19 +469,5 @@ public class NavUtils {
 		final PackageManager packageManager = context.getPackageManager();
 		List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 		return list.size() > 0;
-	}
-
-	// Takes care of the VSC flow. For now we only support for phone UI.
-	// TODO: How do we handle for tablets?
-	public static void goToVSC(Context context) {
-		sendKillActivityBroadcast(context);
-
-		Class<? extends Activity> routingTarget;
-
-		// Send user to hotelListing by default
-		routingTarget = HotelSearchActivity.class;
-
-		Intent intent = new Intent(context, routingTarget);
-		context.startActivity(intent);
 	}
 }

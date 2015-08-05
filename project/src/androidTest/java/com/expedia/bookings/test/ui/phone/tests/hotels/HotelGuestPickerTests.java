@@ -18,7 +18,7 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.utils.DateFormatUtils;
 
 import static android.support.test.espresso.assertion.ViewAssertions.matches;

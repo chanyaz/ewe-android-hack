@@ -98,6 +98,10 @@ public class DateUtils {
 		return date.toString("yyyy-MM-dd");
 	}
 
+	public static String dateTimeToMMMdhmma(DateTime date) {
+		return date.toString("MMM d, h:mm a");
+	}
+
 	public static LocalDate yyyyMMddToLocalDate(String dateyyyyMMdd) {
 		return LocalDate.parse(dateyyyyMMdd, DateTimeFormat.forPattern("yyyy-MM-dd"));
 	}
@@ -128,4 +132,12 @@ public class DateUtils {
 		}
 	}
 
+	public static DateTime localDateAndMillisToDateTime(LocalDate date, int millis) {
+		DateTime convertedDateTime = new DateTime();
+		return convertedDateTime.withYear(date.getYear())
+			.withMonthOfYear(date.getMonthOfYear())
+			.withDayOfMonth(date.getDayOfMonth())
+			.withTimeAtStartOfDay()
+			.plusMillis(millis);
+	}
 }

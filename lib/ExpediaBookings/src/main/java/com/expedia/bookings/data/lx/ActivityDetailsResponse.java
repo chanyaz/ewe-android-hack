@@ -19,9 +19,11 @@ public class ActivityDetailsResponse {
 	public List<String> inclusions;
 	public List<String> exclusions;
 	public List<String> knowBeforeYouBook;
-	public String cancellationPolicyText;
+	public int freeCancellationMinHours;
 	@SerializedName("typeGT")
 	public boolean isGroundTransport;
 	public String passengers;
 	public String bags;
+	public String destination;
+	public LXRedemptionType redemptionType;
 }

@@ -80,9 +80,9 @@
     <!-- Location for calendar event.  %1$s is the name of the pick up location -->
     <string name="calendar_car_location_TEMPLATE">%1$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_car_desc_itinerary_TEMPLATE">Expedia-rejseplansnummer: %s</string>
+    <string name="calendar_desc_itinerary_TEMPLATE">{brand}-rejseplansnummer: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_car_desc_support_TEMPLATE">Expedias kundeservice: %1$s og %2$s</string>
+    <string name="calendar_desc_support_TEMPLATE">{brand}s kundeservice: {localphone} og {phone}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Søg efter hoteller</string>
@@ -96,6 +96,8 @@
     <string name="toolbar_search_cars">Søg efter udlejningsbiler</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Vælg afhentnings- og afleveringsdatoer</string>
+    <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
+    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">%1$s – Vælg afleveringsdato</string>
     <!-- Label for pick-up time picker -->
@@ -137,7 +139,6 @@
     <string name="car_model_name_template">%1$s eller lignende</string>
     <string name="car_model_unknown_template">Nøjagtig bilmodel ikke tilgængelig</string>
 
-    <string name="preparing_checkout_message">Forbereder betaling…</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">Skranke samt køretøj i terminalen</string>
     <!-- Car checkout cost breakdown total due today -->
@@ -149,8 +150,6 @@
     <!-- Car checkout rental fare breakdown types -->
     <!--Cost breakdown type base -->
     <string name="car_rental_breakdown_base">Biludlejning</string>
-    <!--Cost breakdown type taxes and fees -->
-    <string name="car_rental_breakdown_taxes_and_fees">Anslåede skatter og gebyrer</string>
     <!--Cost breakdown type insurance -->
     <string name="car_rental_breakdown_insurance">Forsikring</string>
     <!--Cost breakdown type drop off charge -->
@@ -194,7 +193,7 @@
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">Navne må ikke indeholder tal eller specialtegn.</string>
     <!-- Show to user when their phone number is invalid -->
-    <string name="reservation_invalid_phone">Telefonnummeret skal være på 1-20 tal.</string>
+    <string name="reservation_invalid_phone">Telefonnummeret skal være på 4-20 tal.</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hmm… din betaling gik ikke igennem. Kontroller venligst dine betalingsoplysninger, og prøv igen.</string>
@@ -267,7 +266,7 @@
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
-    <string name="cancellation_policy_TEMPLATE">Det er gratis at afbestille frem til %1$s før, aktiviteten begynder. Efter det tidspunkt kan der ikke foretages afbestillinger, ændringer eller refusioner.</string>
+    <string name="lx_cancellation_policy_TEMPLATE">Det er gratis at afbestille frem til {hours} timer, før din aktivitet starter. Efter det tidspunkt kan der ikke foretages afbestillinger, ændringer eller refusioner.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
     <string name="lx_policy_non_cancellable">Denne reservation kan ikke refunderes, ændres eller afbestilles.</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -565,8 +564,6 @@
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">Skub for at reservere</string>
-    <!-- Total with tax -->
-    <string name="lx_total_with_tax">Samlet pris inkl. skat</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Indtast kontaktoplysninger</string>
     <!-- LX search error -->
@@ -599,6 +596,10 @@
     <string name="lx_select_ticket">Vælg billetter</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">Gratis afbestilling</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">Elektronisk værdikupon</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">Udskreven værdikupon påkrævet</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s accepteres ikke</string>
     <!-- LX Error Activity Price Changed -->
@@ -620,6 +621,8 @@
     <string name="lx_ground_transport_bags_text">%1$s stykker bagage</string>
     <!-- Ground Transport passengers text-->
     <string name="lx_ground_transport_passengers_text">%1$s passagerer</string>
+    <!-- Incorrect date search for LX -->
+    <string name="lx_start_date_error">Denne dato ligger før dags dato; vælg venligst en ny dato.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -713,14 +716,10 @@
         <item quantity="other">Komponenter i denne rejseplan</item>
     </plurals>
 
-    <!-- LX Sort & Filter "Apply" header -->
-    <string name="lx_apply_sort_filter">Anvend</string>
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Sorter efter</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">Kategorier</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">Filtrer</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -809,9 +808,9 @@
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% anbefaler</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
-    <string name="sorry_rooms_sold_out">Beklager, alle værelser er udsolgt på Expedia.</string>
+    <string name="sorry_rooms_sold_out_TEMPLATE">Beklager, alle værelser er udsolgt på {brand}.</string>
     <!-- A message stating this hotel is sold out on Expedia -->
-    <string name="sold_out_on_expedia">Udsolgt på Expedia</string>
+    <string name="sold_out_on_TEMPLATE">Udsolgt på {brand}</string>
     <!-- Hotel gallery title -->
     <string name="photos_for_TEMPLATE">Billeder for %s</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
@@ -860,7 +859,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Hej &lt;b&gt;%1$s&lt;/b&gt;, det ser ud til, at vi har fundet din Expedia-konto! Indtast venligst din adgangskode til Expedia nedenfor for at forbinde din facebook-konto og din Expedia-konto.</string>
+    <string name="facebook_weve_found_your_account_TEMPLATE">Hej &lt;b&gt;{name}&lt;/b&gt;! Det ser ud til, at vi har fundet din {brand}-konto! Indtast venligst din adgangskode til {brand} nedenfor for at forbinde din Facebook-konto og din {brand}-konto.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hej &lt;b&gt;%1$s&lt;/b&gt;, vi har hentet dine Facebook-oplysninger!</string>
     <!-- Sign in with facebook (button text) -->
@@ -875,36 +874,27 @@
     <string name="unable_to_sign_into_facebook">Kan ikke logge på Facebook.</string>
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">Login-forsøget mislykkedes. Hvis din e-mail og adgangskode er korrekte, bedes du kontrollere, om indstillingen for land i din app er korrekt.</string>
-    <!-- User needs to reset password -->
-    <string name="sign_in_reset_password">Du bedes oprette et nyt, universelt login, som du kan bruge på alle Expedias hjemmesider.&lt;br&gt;Nulstil din adgangskode ved at klikke på linket ‘Har du glemt din adgangskode\&apos;? nedenfor.</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">Adgangskode til {brand}</string>
     <!-- Link accounts -->
     <string name="link_accounts">Forbind kontoer</string>
-    <!-- Failure to update the user -->
-    <string name="failure_to_update_user">Kunne ikke hente opdaterede brugeroplysninger.</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">Giv e-mailtilladelse</string>
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">E-mailtilladelse</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">For at logge på med Facebook har vi brug for din tilladelse til at verificere din e-mailadresse. \n\nTryk på Facebook-knappen nedenfor for at give Expedia tilladelse til at verificere din e-mailadresse. Tak!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Forbinder dine kontoer…</string>
-    <!-- Sign In -->
-    <string name="Sign_In">Log på</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">Giv e-mailtilladelse</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message_TEMPLATE">For at logge på med Facebook har vi brug for din tilladelse til at verificere din e-mailadresse. \n\nTryk på Facebook-knappen nedenfor for at give {brand} tilladelse til at verificere din e-mailadresse. Tak!</string>
+
     <!-- Sign in with Expedia -->
-    <string name="Sign_in_with_Expedia">Log på med Expedia</string>
-    <!-- Sign in with the current brand -->
-    <string name="sign_in_with_brand_TEMPLATE">Log på med {brand}</string>
+    <string name="Sign_in_with_TEMPLATE">Log på med {brand}</string>
     <!-- or -->
     <string name="or">eller</string>
-    <!-- Already signed in -->
-    <string name="already_signed_in">Allerede logget på</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
-    <string name="restricted_profile_sign_in_message">For at logge på Expedia skal du anvende en ubegrænset brugerprofil på din enhed.</string>
+    <string name="restricted_profile_sign_in_message_TEMPLATE">For at logge på {brand} skal du anvende en ubegrænset brugerprofil på din enhed.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
@@ -1007,7 +997,7 @@
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Find rejseplansnummer</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">Expedia-rejseplansnummer</string>
+    <string name="itinerary_TEMPLATE">Rejseplansnummer fra {brand}</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
     <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver-kundeservice</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
@@ -1437,7 +1427,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">Telefon\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">Book hoteller, flyrejser og se/del dine rejseplaner. Download Expedias gratis mobil-app i dag.\n%s</string>
+    <string name="share_long_ad_TEMPLATE">Reserver hoteller, flyrejser og se/del dine rejseplaner. Download {brand}s gratis mobilapp i dag.\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Jeg rejser til %1$s d. %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1533,7 +1523,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">Expedia-flyrejser</string>
+    <string name="Flights_TEMPLATE">{brand}s flyrejser</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Søg efter flybilletter</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -1560,8 +1550,8 @@
     <string name="outbound_TEMPLATE">Udgående fly til %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Returflyvning til %s</string>
-    <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">Beklager, vi kunne desværre ikke få forbindelse med Expedias servere.  Prøv igen senere.</string>
+    <!-- Template string for error when we simple can't connect to E3 servers-->
+    <string name="error_server_TEMPLATE">Beklager, vi kunne desværre ikke opnå forbindelse til {brand}s servere.  Prøv igen senere.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Afgang</string>
     <!-- Sort by arrival time label -->
@@ -1652,7 +1642,8 @@
     <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">Vælg indtjekningsdato</string>
-
+    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests} gæster</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">Enkeltbillet for &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1717,6 +1708,12 @@
     <string name="select_payment">Vælg betaling</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">Betalingsoplysninger</string>
+    <!-- Select payment sentence case AB Test variate1 -->
+    <string name="select_payment_sentence_case_variate1">Indtast betalingsoplysninger</string>
+    <!-- Select payment sentence case AB Test variate2 -->
+    <string name="select_payment_sentence_case_variate2">Betaling</string>
+    <!-- Select payment callout AB Test variate2 -->
+    <string name="select_payment_callout">Indtast oplysninger</string>
     <!-- Add new card -->
     <string name="add_new_card">Tilføj nyt kort</string>
     <!-- Overview button -->
@@ -1811,10 +1808,18 @@
     <string name="menu_checkout">Til kassen</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Prisgaranti</string>
+    <!-- Label for address of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_address">Adresse:</string>
+    <!-- Label to view map of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_view_map">Vis kort</string>
+    <!-- Expedia Rate - Non merchant default infosite messaging -->
+    <string name="non_merchant_rate_TEMPLATE">{brand}-pris</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis afbestilling&lt;/b&gt; inden &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">Log af</string>
+    <!-- AB Test 3x messaging for hotel points -->
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Du vil optjene %1$s point — 3 gange så mange point for at reservere gennem appen!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Du vil optjene %1$s point for denne reservation!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1847,6 +1852,8 @@
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Den samlede pris for din rejse, inklusive resortgebyret på &lt;b&gt;%1$s&lt;/b&gt;, er &lt;b&gt;%2$s&lt;/b&gt;. Du betaler det resterende beløb for din reservation på hotellet (i hotellets lokale valuta) under dit ophold.</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">Gratis afbestilling inden for 24 timer</string>
+    <!-- Flights AB Test Traveler info missing callout label -->
+    <string name="ab_test_flights_missing_info_callout">Indtast oplysninger om rejsende</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1887,6 +1894,10 @@
     <string name="enter_traveler_info">Oplysninger om rejsende</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Oplysninger om den primære rejsende</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">Indtast oplysninger om den primære rejsende</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">Den primære rejsende</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Gemt</string>
     <!-- Edit button for traveler/payment -->
@@ -1897,26 +1908,56 @@
     <string name="add_new_traveler">Tilføj ny rejsende</string>
     <!-- Select card from checkout saved credit cards list -->
     <string name="saved_creditcards">Gemte kort</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="select_saved_cards">Vælg gemte kort</string>
     <!-- Add new card, checkout saved credit cards list -->
     <string name="add_new_creditcard">Tilføj nyt kort</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Oplysninger om gæst</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Oplysninger for voksen %1$s</string>
+    <!-- AB test variate 1 - Add adult traveler number template -->
+    <string name="add_adult_number_variate1_TEMPLATE">Indtast oplysninger for voksen %1$s</string>
+    <!-- AB test variate 2 - Add adult traveler number template -->
+    <string name="add_adult_number_variate2_TEMPLATE">Voksen %1$s</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">Oplysninger for voksen</string>
+    <!-- AB test variate 1 - Add adult traveler details label -->
+    <string name="add_adult_variate1">Indtast oplysninger for voksen</string>
+    <!-- AB test variate 2 - Add adult traveler details label -->
+    <string name="add_adult_variate2">Voksen</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Oplysninger for barn %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">Oplysninger for barn på %1$s</string>
+    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate1_TEMPLATE">Indtast oplysninger for barn på %1$s</string>
+    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate2_TEMPLATE">Barn på %1$s</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Oplysninger for spædbarn %1$s på skødet</string>
+    <!-- AB test variate 1 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate1_TEMPLATE">Indtast oplysninger for spædbarn %1$s på skødet</string>
+    <!-- AB test variate 2 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate2_TEMPLATE">Spædbarn %1$s på skødet</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap">Oplysninger for spædbarn på skødet</string>
+    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate1">Indtast oplysninger for spædbarn på skødet</string>
+    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate2">Spædbarn på skødet</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">Oplysninger for spædbarn %1$s på eget sæde</string>
+    <!-- AB test variate 1- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate1_TEMPLATE">Indtast oplysninger for spædbarn %1$s på eget sæde</string>
+    <!-- AB test variate 2- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate2_TEMPLATE">Spædbarn %1$s på eget sæde</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat">Oplysninger for spædbarn på eget sæde</string>
+    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate1">Indtast oplysninger for spædbarn på eget sæde</string>
+    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate2">Spædbarn på eget sæde</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Boarding kan nægtes, hvis den rejsendes navn ikke stemmer overens med det officielle billed-id.</string>
 
@@ -1942,8 +1983,10 @@
     <string name="cardholder">Kortindehaver</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">Din bekræftelses-e-mail vil blive sendt hertil</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">Udløber %1$s</string>
+    <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">Jeg ønsker ikke at modtage e-mails fra {brand} med rejsetilbud, særtilbud og andre oplysninger.</string>
+    <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">Jeg vil gerne modtage e-mails fra {brand} med rejsetilbud, særtilbud og andre oplysninger.</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -1982,7 +2025,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">Gem faktureringsoplysninger</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">Vil du gemme denne betalingsmetode på din Expedia-konto, så det bliver hurtigere at reservere i fremtiden?</string>
+    <string name="save_billing_info_message_TEMPLATE">Vil du gemme denne betalingsmetode på din {brand}-konto, så det bliver hurtigere at reservere fremover?</string>
     <!-- save -->
     <string name="save">Gem</string>
 
@@ -1990,7 +2033,7 @@
     <!-- save traveler -->
     <string name="save_traveler">Gem rejsende</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Vil du gemme %1$ss oplysninger på din Expedia-konto, så det bliver hurtigere at reservere i fremtiden?</string>
+    <string name="save_traveler_message_TEMPLATE">Vil du gemme {name}s oplysninger på din {brand}-konto, så det bliver nemmere at reservere fremover?</string>
     <!-- no thanks -->
     <string name="no_thanks">Nej tak</string>
 
@@ -2121,11 +2164,13 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">Følg flyafgange med FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">Ring til Expedias kundeservice</string>
+    <string name="call_customer_support_TEMPLATE">Ring til {brand}s kundeservice</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Tilføj forsikring</string>
     <!-- Insurance -->
     <string name="insurance">Forsikring</string>
+    <!-- Insurance label on itin section -->
+    <string name="insurance_itin_label">Rejseforsikring</string>
     <!-- Air attach messaging -->
     <string name="air_attach_alert">Fordi du har reserveret en flyrejse</string>
     <!-- Air attach savings messaging -->
@@ -2156,11 +2201,11 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">Expedia-rejseplansnummer: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">Rejseplansnummer fra {brand}: {itinerary}</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">Rutevejledning til lufthavnen: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">Expedias kundeservice: %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">{brand}s kundeservice: {phone}</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -2178,7 +2223,7 @@
     <!-- Terms of Booking for some POSes (UK, IT) -->
     <string name="Terms_of_Booking">Reservationsbetingelser</string>
     <!-- Privacy policy -->
-    <string name="privacy_policy">Beskyttelse af personlige oplysninger</string>
+    <string name="privacy_policy">Fortrolighedspolitik</string>
     <!-- Fare information header -->
     <string name="fare_information">PRISOPLYSNINGER</string>
 
@@ -2214,11 +2259,11 @@
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din bestilling i øjeblikket. Forsøg venligst igen.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din bestilling i øjeblikket. Forsøg venligst igen, eller ring til Expedias kundeservice. Opgiv følgende rejseplansnummer: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din bestilling i øjeblikket. Prøv venligst igen, eller ring til {brand}s kundeservice. Husk at angive dette rejseplansnummer: {itinerary}</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_expedia">Vi beklager meget, men dit fly er ikke længere tilgængeligt fra Expedia.</string>
+    <string name="error_flight_no_longer_available_TEMPLATE">Vi beklager meget, men din flyrejse er ikke længere tilgængelig fra {brand}.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_expedia">Vi beklager meget, men en af dine flyrejser er ikke længere tilgængelig fra Expedia.</string>
+    <string name="error_flights_no_longer_available_TEMPLATE">Vi beklager meget, men en af dine flyrejser er ikke længere tilgængelig fra {brand}.</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
     <string name="error_flight_hold_expired">Vi beklager, men din forhåndsreservation af denne flyrejse er udløbet.</string>
     <!-- Error shown to user if one of multiple flights is no longer available or expired -->
@@ -2434,11 +2479,7 @@
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
     <string name="progress_finding_location">Finder aktuelle placering…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">Søger efter hoteller…</string>
-    <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_message">Søger…</string>
-    <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_working_hard">Vi er ved at finde de bedste hoteltilbud til dig.</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">Søger blandt hundredvis af hoteller til dig…</string>
     <!-- Message displayed when app is searching for a particular hotel -->
@@ -2452,7 +2493,7 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Ingen tilgængelige hotelværelser</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_expedia">Vi beklager, men dette hotel er ikke længere tilgængeligt fra Expedia.</string>
+    <string name="error_hotel_is_now_sold_out_TEMPLATE">Vi beklager, men dette hotel er ikke længere tilgængeligt fra {brand}.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -2465,6 +2506,8 @@
     <string name="per_night">/nat</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/nat</string>
+    <!-- The label for abbreviated price per night - "$120/nt", for example -->
+    <string name="per_nt_TEMPLATE">{price}/nat</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Ikke anmeldt</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2516,6 +2559,10 @@
     <string name="minus_x_percent">-%2.0f%%</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% af gæsterne anbefaler dette hotel.</string>
+    <!-- new material Hotel results cell guest rating -->
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
+    <!-- new material Hotel results cell guest recommend-->
+    <string name="guest_recommend">af gæster anbefaler</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
@@ -2635,7 +2682,7 @@
     <string name="etp_pay_later_payment_info_text">Betalingsoplysninger bruges kun til at holde din reservation.</string>
     <string name="etp_pay_later_cancellation_text">Det er gratis at afbestille frem til hotellets afbestillingsfrist.</string>
     <string name="etp_pay_now_option_text">Betal online nu</string>
-    <string name="etp_pay_now_charges_text">Expedia behandler dine betalingsoplysninger.</string>
+    <string name="etp_pay_now_charges_text_TEMPLATE">{brand} behandler dine betalingsoplysninger.</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">Du betaler i din lokale valuta (%s).</string>
     <string name="etp_pay_now_cancellation_text">Det er gratis at afbestille frem til hotellets afbestillingsfrist.</string>
     <string name="etp_select_room">Vælg værelse</string>
@@ -2681,6 +2728,8 @@
     <string name="included_in_the_price">Inkluderet i prisen</string>
     <!-- Not included in the price -->
     <string name="not_included_in_the_price">Ikke inkluderet i prisen</string>
+    <!-- View Room button text -->
+    <string name="view_room_button_text">Se værelse</string>
 
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renoveringsmeddelelse</string>
@@ -2726,8 +2775,9 @@
     <!-- Itinerary number label -->
     <string name="itinerary_number">Rejseplansnummer</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">Hvis du har spørgsmål til din reservation, så ring venligst til Expedia på %s.</string>
-
+    <string name="contact_phone_TEMPLATE">Har du spørgsmål om din reservation, bedes du ringe til {brand} på {phone}.</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Glemt adgangskode</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2742,10 +2792,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Log på</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">Optjen point, og book endnu hurtigere.</string>
-    <!-- Hint for user to enter password into a field -->
-    <string name="hint_password">Adgangskode</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Logger på…</string>
     <!-- Message that tells user they failed to sign in -->
@@ -2758,14 +2804,8 @@
     <string name="Expedia_plus_silver">Expedia +silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
-    <!-- Label for signin screen -->
-    <string name="expedia_account">Expedia-konto</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Indlæser {brand}-konto</string>
-    <!-- Label for password recovery -->
-    <string name="forgot_your_password">Har du glemt din adgangskode?</string>
-    <!-- Webview title for password recovery -->
-    <string name="title_forgot_password">Glemt adgangskode</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">Indtast en kupon eller kampagnekode</string>
     <!-- Label for coupon code hint -->
@@ -2833,25 +2873,25 @@
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Reservationssupport</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">Kontakt Expedia via…</string>
+    <string name="contact_via_TEMPLATE">Kontakt {brand} via…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Telefon</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Hjemmeside</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">Expedias hjemmeside</string>
+    <string name="website_TEMPLATE">{brand}s hjemmeside</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App Support</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Vilkår og betingelser</string>
     <!-- Label for link to privacy policy -->
-    <string name="info_label_privacy_policy">Beskyttelse af personlige oplysninger</string>
+    <string name="info_label_privacy_policy">Fortrolighedspolitik</string>
     <!-- Copyright information -->
-    <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nAlle rettigheder forbeholdes.</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAlle rettigheder forbeholdes.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_signed_out_and_cleared_private_data">Du er logget ud, og oplysningerne er slettet</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data">Du er logget ud af din Expedia-konto, og alle gemte betalings- og kontaktoplysninger er blevet slettet.</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">Du er blevet logget ud af din {brand}-konto, og alle gemte betalings- og kontaktoplysninger er blevet slettet.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Personlige oplysninger er slettet</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2969,7 +3009,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">En fejl forhindrede os i at fuldføre din reservation. Forsøg venligst igen.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">Dit hotel er booket! Hvis du har brug for en rejseplan med det samme, så ring venligst til Expedias kundeservice.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">Dit hotel er reserveret! Hvis du har brug for en rejseplan med det samme, bedes du venligst ringe til {brand}s kundeservice.</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">Det værelse, du ønskede, er desværre ikke længere ledigt.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -2992,9 +3032,9 @@
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Vi beklager! Tilbuddet på dette værelse er forbi, men vi har andre gode tilbud til dig.</string>
-    <string name="e3_error_hotel_offers_hotel_room_unavailable">Det værelse, du ønskede, er desværre ikke længere ledigt.</string>
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">Det værelse, du ønskede, er desværre ikke længere tilgængeligt.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Vi kunne desværre ikke få forbindelse til Expedia. Forsøg venligst igen.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Vi kunne desværre ikke oprette forbindelse til {brand}. Prøv venligst igen.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">Vi beklager! Tilbuddet på dette værelse er forbi, men vi har andre gode tilbud til dig.</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -3475,9 +3515,6 @@
     <string name="cd_checkout_select_payment">Tryk for at vælge betaling for denne reservation</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Tryk for at indtaste en kupon- eller kampagnekode</string>
-    <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
-    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">Tryk for at logge på {brand} med din Facebook-konto</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Tryk for at indtaste en ny rejsende</string>
@@ -3567,8 +3604,19 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Ved at gennemføre denne reservation bekræfter jeg, at jeg har læst og accepterer %1$s, %2$s samt %3$s.</string>
+    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="account_creation_legal_TEMPLATE">Jeg har læst og accepterer %1$s samt Expedias %2$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Vælg hvert barns alder</string>
 
+    <string name="lob_not_supported_error_message">Beklager, men reservation af {lob} er endnu ikke tilgængelig, der hvor du befinder dig.</string>
+
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_Expedia_account">Opret en Expedia-konto</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Expedia">Velkommen til Expedia</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Expedia_account_already_exists">Der findes allerede en Expedia-konto med denne e-mailadresse</string>
 </resources>

@@ -14,9 +14,9 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.HotelsUserData;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.HotelsUserData;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -25,7 +25,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.Matchers.not;
 
 public class HotelCheckoutUserInfoTests extends PhoneTestCase {
@@ -34,7 +34,7 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 	HotelsUserData mUser;
 
 	public void testCheckHotels() throws Exception {
-		mUser = new HotelsUserData(getInstrumentation());
+		mUser = new HotelsUserData();
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
@@ -97,7 +97,7 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 		CommonTravelerInformationScreen.phoneNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CommonTravelerInformationScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		CommonTravelerInformationScreen.enterPhoneNumber(mUser.getPhoneNumber());
+		CommonTravelerInformationScreen.enterPhoneNumber(mUser.phoneNumber);
 		CommonTravelerInformationScreen.clickDoneButton();
 		ScreenActions.enterLog(TAG, "Verifying email address edit text shows error when 'Done' is pressed and it is empty.");
 		CommonTravelerInformationScreen.firstNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
@@ -121,7 +121,7 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 		CardInfoScreen.postalCodeEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		ScreenActions.enterLog(TAG, "CC, name on card, expiration date, email address views all have error icon");
 
-		CardInfoScreen.typeTextCreditCardEditText(mUser.getCreditCardNumber());
+		CardInfoScreen.typeTextCreditCardEditText(mUser.creditCardNumber);
 		CardInfoScreen.clickOnDoneButton();
 		CardInfoScreen.creditCardNumberEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
@@ -143,7 +143,7 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 		CardInfoScreen.postalCodeEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		ScreenActions.enterLog(TAG, "name on card edit text both display error icon when data isn't entered.");
 
-		CardInfoScreen.typeTextNameOnCardEditText(mUser.getFirstName() + mUser.getLastName());
+		CardInfoScreen.typeTextNameOnCardEditText(mUser.firstName + mUser.lastName);
 		CardInfoScreen.clickOnDoneButton();
 		HotelsCheckoutScreen.logInButton().check(matches(isDisplayed()));
 		ScreenActions.enterLog(TAG, "After all card info was added, the test was able to return to the checkout screen");
@@ -152,20 +152,13 @@ public class HotelCheckoutUserInfoTests extends PhoneTestCase {
 	private void verifyLoginButtonNotAppearing() throws Exception {
 		HotelsCheckoutScreen.clickLogInButton();
 		ScreenActions.delay(1);
-		LogInScreen.facebookButton().check(matches(isDisplayed()));
-		LogInScreen.logInButton().check(matches(not(isDisplayed())));
-		ScreenActions.enterLog(TAG, "Log in button isn't shown until an email address is entered");
-		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
-		LogInScreen.facebookButton().check(matches(not(isDisplayed())));
-		ScreenActions.enterLog(TAG, "Facebook button is no longer shown after email address is entered");
-		LogInScreen.logInButton().check(matches(isDisplayed()));
-		ScreenActions.enterLog(TAG, "Log in button is shown after email address is entered");
-		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
+		LogInScreen.typeTextEmailEditText(mUser.email);
+		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();
 		HotelsCheckoutScreen.clickCheckoutButton();
 		onView(withId(R.id.account_logout_container)).perform(scrollTo());
-		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
+		EspressoUtils.assertViewWithTextIsDisplayed(mUser.email);
 		ScreenActions.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
 		HotelsCheckoutScreen.clickLogOutButton();
 		onView(withText(mRes.getString(R.string.sign_out))).perform(click());

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.presenter.CarResultsPresenter xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.presenter.car.CarResultsPresenter xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -55,7 +55,7 @@
         android:id="@+id/toolbar_background"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/cars_primary_color" />
+        android:background="?attr/skin_carsPrimaryColor" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/toolbar_detail_text"
@@ -101,60 +101,13 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <LinearLayout
+    <com.expedia.bookings.widget.FilterButtonWithCountWidget
         android:id="@+id/sort_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="58dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:orientation="vertical"
-        android:visibility="gone">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/drop_shadow" />
-
-        <LinearLayout
-            android:id="@+id/sort_filter_button"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/sort_filter_selector"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/filter_number_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/filter_number_bg"
-                android:paddingBottom="1dp"
-                android:paddingLeft="5.5dp"
-                android:paddingRight="5.5dp"
-                android:textColor="#ffffff"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:textStyle="medium" />
-
-            <ImageView
-                android:id="@+id/filter_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:src="@drawable/sort" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="@string/filter"
-                android:textAllCaps="false"
-                android:textColor="@color/text_black"
-                android:textSize="16sp"
-                app:textStyle="medium" />
-        </LinearLayout>
-
-    </LinearLayout>
+        android:visibility="gone" />
 
     <com.expedia.bookings.widget.CarFilterWidget
         android:id="@+id/filter"
@@ -169,4 +122,4 @@
         android:layout_height="match_parent"
         android:background="#FFFFFF" />
 
-</com.expedia.bookings.presenter.CarResultsPresenter>
+</com.expedia.bookings.presenter.car.CarResultsPresenter>

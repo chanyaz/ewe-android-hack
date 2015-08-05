@@ -3,7 +3,7 @@ package com.expedia.bookings.test.ui.phone.tests.localization;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 /**
  * Created by dmadan on 11/17/14.

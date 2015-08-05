@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.presenter.CarSearchPresenter xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.presenter.car.CarSearchPresenter xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true">
@@ -16,7 +16,7 @@
             android:id="@+id/search_params_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/cars_primary_color"
+            android:background="?attr/skin_carsPrimaryColor"
             android:orientation="vertical">
 
         <LinearLayout
@@ -46,7 +46,6 @@
                     android:layout_weight="1.65"
                     android:completionThreshold="1"
                     android:dropDownAnchor="@+id/drop_down_anchor"
-                    android:dropDownHeight="fill_parent"
                     android:dropDownSelector="#FFFFFF"
                     android:dropDownWidth="fill_parent"
                     android:hint="@string/pick_up_location"
@@ -151,4 +150,4 @@
 
     </android.support.v7.widget.Toolbar>
 
-</com.expedia.bookings.presenter.CarSearchPresenter>
+</com.expedia.bookings.presenter.car.CarSearchPresenter>

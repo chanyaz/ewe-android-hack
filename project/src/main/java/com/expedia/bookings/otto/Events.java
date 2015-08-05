@@ -1,6 +1,7 @@
 package com.expedia.bookings.otto;
 
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.LocalDate;
 
@@ -45,6 +46,7 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
@@ -547,10 +549,6 @@ public class Events {
 		// ignore
 	}
 
-	public static class CarsPriceChange {
-		// ignore
-	}
-
 	public static class CarsSessionTimeout {
 		// ignore
 	}
@@ -594,6 +592,7 @@ public class Events {
 		public CarsNewSearchParams(CarSearchParams params) {
 			carSearchParams = params;
 		}
+
 		public CarsNewSearchParams(CarSearchParams params, String productKey) {
 			carSearchParams = params;
 			this.productKey = productKey;
@@ -634,11 +633,15 @@ public class Events {
 	}
 
 	public static class CarsShowCheckoutAfterPriceChange {
+		// ignore
+	}
+
+	public static class CarsUpdateCheckoutSummaryAfterPriceChange {
 		public CreateTripCarOffer originalCreateTripOffer;
 		public CreateTripCarOffer newCreateTripOffer;
 		public String tripId;
 
-		public CarsShowCheckoutAfterPriceChange(CreateTripCarOffer originalOffer, CreateTripCarOffer newOffer, String tripId) {
+		public CarsUpdateCheckoutSummaryAfterPriceChange(CreateTripCarOffer originalOffer, CreateTripCarOffer newOffer, String tripId) {
 			this.originalCreateTripOffer = originalOffer;
 			this.newCreateTripOffer = newOffer;
 			this.tripId = tripId;
@@ -753,6 +756,14 @@ public class Events {
 		// ignore
 	}
 
+	public static class DynamicFeedbackClearButtonClicked {
+		//ignore
+	}
+
+	public static class LXFilterDoneClicked {
+		//ignore
+	}
+
 	public static class LXNewSearch {
 		public String locationName;
 		public LocalDate startDate;
@@ -803,6 +814,24 @@ public class Events {
 		}
 	}
 
+	public static class LXFilterChanged {
+		public LXSortFilterMetadata lxSortFilterMetadata;
+
+		public LXFilterChanged(LXSortFilterMetadata lxSortFilterMetadata) {
+			this.lxSortFilterMetadata = lxSortFilterMetadata;
+		}
+	}
+
+	public static class LXSearchFilterResultsReady {
+		public List<LXActivity> filteredActivities;
+		public Map<String, LXCategoryMetadata> filterCategories;
+
+		public LXSearchFilterResultsReady(List<LXActivity> filteredActivities,  Map<String, LXCategoryMetadata> filterCategories) {
+			this.filteredActivities = filteredActivities;
+			this.filterCategories = filterCategories;
+		}
+	}
+
 	public static class LXShowSearchError {
 		public ApiError error;
 		public SearchType searchType;
@@ -823,6 +852,18 @@ public class Events {
 
 	public static class LXShowRulesOnCheckout {
 		//ignore
+	}
+
+	public static class LXShowCheckoutAfterPriceChange {
+		//ignore
+	}
+
+	public static class LXUpdateCheckoutSummaryAfterPriceChange {
+		public LXCheckoutResponse lxCheckoutResponse;
+
+		public LXUpdateCheckoutSummaryAfterPriceChange(LXCheckoutResponse lxCheckoutResponse) {
+			this.lxCheckoutResponse = lxCheckoutResponse;
+		}
 	}
 
 	public static class LXActivitySelectedRetry {
@@ -1007,6 +1048,10 @@ public class Events {
 	public static class PhoneLaunchOnResume {
 	}
 
+	public static class PhoneLaunchOnPOSChange {
+	}
+
+
 	// Memory testing
 
 	public static class MemoryTestImpetus {
@@ -1017,5 +1062,9 @@ public class Events {
 		public MemoryTestInput(int viewId) {
 			this.viewId = viewId;
 		}
+	}
+
+	public static class LoggedInSuccessful {
+
 	}
 }

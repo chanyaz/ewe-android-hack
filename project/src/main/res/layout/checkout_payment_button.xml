@@ -12,7 +12,7 @@
         android:drawablePadding="12dp"
         android:gravity="left|center_vertical"
         android:paddingLeft="8dp"
-        android:text="Select saved cards"
+        android:text="@string/select_saved_cards"
         android:textAllCaps="false"
         android:textColor="@color/cars_actionbar_text_color"
         android:textSize="16sp" />

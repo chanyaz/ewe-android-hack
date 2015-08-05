@@ -40,9 +40,8 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
-import com.expedia.bookings.maps.HotelMapFragment;
-import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
-import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
+import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
+import com.expedia.bookings.fragment.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.AdTracker;
@@ -896,7 +895,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		@Override
 		public void onStateFinalized(ResultsHotelsListState state) {
 			if (shouldWeListenToScroll()) {
-				setHotelsState(getHotelsStateFromListState(state), false);
+				ResultsHotelsState hotelsStateFromListState = getHotelsStateFromListState(state);
+				if (hotelsStateFromListState != mHotelsStateManager.getState()) {
+					setHotelsState(hotelsStateFromListState, false);
+				}
 			}
 		}
 

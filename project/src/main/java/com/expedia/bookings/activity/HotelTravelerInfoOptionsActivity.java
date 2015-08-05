@@ -20,6 +20,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.fragment.HotelTravelerInfoOneFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
+import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -236,7 +237,13 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 			case ONE:
 			default:
 				if (isUserBucketedForTest) {
-					setShowNextButton(true);
+					HotelPaymentFlowState state = HotelPaymentFlowState.getInstance(this);
+					if (state.hasAValidCardSelected(Db.getBillingInfo())) {
+						setShowDoneButton(true);
+					}
+					else {
+						setShowNextButton(true);
+					}
 				}
 				else {
 					setShowDoneButton(true);
@@ -244,12 +251,7 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 			}
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
-			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
-				setShowDoneButton(true);
-			}
-			else {
-				setShowDoneButton(true);
-			}
+			setShowDoneButton(true);
 		}
 		else if (mMode.equals(YoYoMode.NONE)) {
 			setShowDoneButton(false);

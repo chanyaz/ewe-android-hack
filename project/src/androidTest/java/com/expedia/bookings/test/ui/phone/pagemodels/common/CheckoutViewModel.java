@@ -4,9 +4,9 @@ import android.app.Instrumentation;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.espresso.ViewActions;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
+import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -15,6 +15,8 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -34,19 +36,19 @@ public class CheckoutViewModel {
 	}
 
 	public static ViewInteraction userName() {
-		return onView(withId(R.id.username_edit_text));
+		return onView(allOf(withId(R.id.input_text), withParent(withId(R.id.email_address_sign_in))));
 	}
 
 	public static void enterUsername(String name) {
-		userName().perform(scrollTo(), typeText(name));
+		userName().perform(typeText(name));
 	}
 
 	public static ViewInteraction password() {
-		return onView(withId(R.id.password_edit_text));
+		return onView(allOf(withId(R.id.input_text), withParent(withId(R.id.password))));
 	}
 
 	public static void enterPassword(String name) {
-		password().perform(scrollTo(), typeText(name));
+		password().perform(typeText(name));
 	}
 
 	public static ViewInteraction firstName() {
@@ -92,7 +94,7 @@ public class CheckoutViewModel {
 	public static void selectStoredTraveler(Instrumentation instrumentation, String travelername) throws Throwable {
 		onView(withText(travelername))
 			.inRoot(withDecorView(
-				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
+				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
 			.perform(click());
 	}
 
@@ -103,7 +105,7 @@ public class CheckoutViewModel {
 	public static void selectStoredCard(Instrumentation instrumentation, String cardname) throws Throwable {
 		onView(withText(cardname))
 			.inRoot(withDecorView(
-				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
+				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
 			.perform(click());
 	}
 
@@ -112,7 +114,9 @@ public class CheckoutViewModel {
 	}
 
 	public static void pressDoLogin() {
-		onView(withId(R.id.log_in_btn)).perform(click());
+		Common.closeSoftKeyboard(CheckoutViewModel.password());
+		ScreenActions.delay(1);
+		onView(withId(R.id.sign_in_button)).perform(click());
 	}
 
 	public static void clickLogin() {
@@ -125,12 +129,12 @@ public class CheckoutViewModel {
 
 	public static void enterLoginDetails() {
 		clickLogin();
-		enterUsername("username");
+		enterUsername("username@gmail.com");
 		enterPassword("password");
 	}
 
 	public static void enterTravelerInfo() {
-		ScreenActions.delay(1);
+		ScreenActions.delay(2);
 		clickDriverInfo();
 		ScreenActions.delay(1);
 		enterFirstName("FiveStar");
@@ -142,10 +146,11 @@ public class CheckoutViewModel {
 		ScreenActions.delay(1);
 		enterPhoneNumber("4158675309");
 		clickDone();
+		ScreenActions.delay(2);
 	}
 
 	public static void enterPaymentInfo() {
-		ScreenActions.delay(1);
+		ScreenActions.delay(2);
 		CheckoutViewModel.clickPaymentInfo();
 		ScreenActions.delay(1);
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
@@ -156,5 +161,6 @@ public class CheckoutViewModel {
 		CardInfoScreen.clickSetButton();
 		CardInfoScreen.typeTextPostalCode("666");
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+		ScreenActions.delay(2);
 	}
 }

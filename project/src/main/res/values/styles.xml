@@ -216,6 +216,12 @@
         <item name="android:maxHeight">12dp</item>
     </style>
 
+    <style name="RatingBar.UserReview.Material">
+        <item name="android:progressDrawable">@drawable/ratingbar_star_material</item>
+        <item name="android:minHeight">14dp</item>
+        <item name="android:maxHeight">14dp</item>
+    </style>
+
     <style name="RatingBar.UserReview.Yellow" />
 
     <style name="RatingBar.UserReview.White">
@@ -1096,6 +1102,18 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">15sp</item>
+    </style>
+
+    <!-- New hotel material design -->
+    <style name="Widget.SlidingRadioGroup.HotelFilterControls" parent="Widget">
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="dividerWidth">1dp</item>
+        <item name="selectedDividerColor">#ff596a80</item>
+        <item name="selectedDrawable">@color/hotels_primary_color</item>
+        <item name="sluggishness">150</item>
+        <item name="unselectedDividerColor">#40999999</item>
+        <item name="unselectedDrawable">@color/itin_white_text</item>
     </style>
 
 </resources>

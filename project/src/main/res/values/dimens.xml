@@ -31,10 +31,14 @@
     <dimen name="launch_lob_height">103dp</dimen>
     <dimen name="launch_lob_container_height">140dp</dimen>
     <dimen name="launch_lob_squashed_height">80dp</dimen>
-    <dimen name="launch_lob_double_row_height">76dp</dimen>
+    <dimen name="launch_lob_double_row_height">81dp</dimen>
     <dimen name="launch_lob_double_row_container_height">197dp</dimen>
     <dimen name="launch_lob_double_row_squashed_height">112dp</dimen>
-    <dimen name="launch_lob_margin">8dp</dimen>
+    <dimen name="launch_lob_btn_corner_radius">3dp</dimen>
+    <dimen name="launch_tile_margin_top">8dp</dimen>
+    <dimen name="launch_tile_margin_bottom">2dp</dimen>
+    <dimen name="launch_tile_margin_side">10dp</dimen>
+    <dimen name="launch_tile_margin_middle">4dp</dimen>
     <dimen name="launch_list_corner_radius">2dp</dimen>
 
     <!-- Itinerary dimens -->
@@ -164,8 +168,6 @@
     <dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
 
     <!-- Account support dimensions -->
-    <dimen name="login_button_icon_padding_left">-3dp</dimen>
-    <dimen name="login_button_icon_padding_right">1dp</dimen>
     <dimen name="account_button_points_text_size">11.5sp</dimen>
     <dimen name="account_rewards_container_height">20dp</dimen>
     <dimen name="account_rewards_container_height_for_empty_message">8dp</dimen>
@@ -186,20 +188,14 @@
     <dimen name="login_field_width">400dp</dimen>
     <dimen name="login_button_width">328dp</dimen>
     <dimen name="login_button_text_size">16sp</dimen>
-    <dimen name="login_side_margin_medium">20dp</dimen>
-    <dimen name="login_side_margin_small">16dp</dimen>
-    <dimen name="login_or_spacing">12dp</dimen>
     <dimen name="login_header_text_size">25sp</dimen>
-    <dimen name="login_header_text_small_size">18sp</dimen>
     <dimen name="login_divider_height">3dp</dimen>
-    <dimen name="login_button_spacing">20dp</dimen>
-    <dimen name="login_fb_buttons_top_spacing">10dp</dimen>
     <dimen name="login_field_spacing">2dp</dimen>
-    <dimen name="login_bottom_room_spacing">6dp</dimen>
 
     <!-- Account / Login button -->
-    <dimen name="account_button_height">40dp</dimen>
     <dimen name="account_button_margin_top">12dp</dimen>
+    <dimen name="account_button_text_padding">16dp</dimen>
+    <dimen name="account_button_height">40dp</dimen>
     <dimen name="account_button_padding">0dp</dimen>
     <dimen name="wallet_button_bottom_margin">8dp</dimen>
     <dimen name="wallet_button_left_padding">0dp</dimen>
@@ -257,7 +253,6 @@
     <dimen name="lx_search_details_container_height">36dp</dimen>
     <dimen name="lx_offer_dates_container_height">52dp</dimen>
     <dimen name="lx_offer_dates_container_width">50dp</dimen>
-    <dimen name="lx_sort_filter_button_height">50dp</dimen>
     <dimen name="lx_sort_filter_container_height">58dp</dimen>
     <dimen name="lx_sort_filter_padding">16dp</dimen>
     <dimen name="lx_sort_filter_margin">16dp</dimen>
@@ -285,11 +280,19 @@
     <dimen name="car_slide_to_purchase_padding">50dp</dimen>
     <dimen name="car_image_width">300dp</dimen>
     <dimen name="car_unexpanded_space_height">165dp</dimen>
-    <dimen name="car_unexpanded_with_price_change_space_height">170dp</dimen>
-    <dimen name="car_expanded_space_height">350dp</dimen>
     <dimen name="hotel_spinner_height">50dp</dimen>
 
     <!-- Dimensions for leanplum in app message templates -->
     <dimen name="leanplum_dialog_image_width">280dp</dimen>
     <dimen name="leanplum_dialog_image_height">157dp</dimen>
+    <dimen name="gt_leanplum_dialog_height">190dp</dimen>
+
+    <!-- Dimensions for Hotel Traveler Table -->
+    <dimen name="hotel_traveler_table_margin">24dp</dimen>
+    <dimen name="hotel_traveler_padding">28dp</dimen>
+    <dimen name="hotel_traveler_plus_minus_size">40dp</dimen>
+
+    <!-- Dimensions For hotel traveler edit page -->
+    <dimen name="hotel_traveler_edit_email_disclaimer_text_size">12sp</dimen>
+
 </resources>

@@ -16,6 +16,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FacebookShareActivity;
 import com.expedia.bookings.data.CarVendor;
@@ -33,7 +34,6 @@ import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -42,6 +42,7 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
+import com.squareup.phrase.Phrase;
 
 public class ShareUtils {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -236,11 +237,6 @@ public class ShareUtils {
 		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers, null, false, null);
 	}
 
-	public String getFlightShareEmail(FlightTrip trip, List<Traveler> travelers, String sharableDetailsURL) {
-		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers,
-				sharableDetailsURL, false, null);
-	}
-
 	public String getFlightShareEmail(FlightLeg leg, List<Traveler> travelers, String sharableDetailsURL, boolean isShared, String travelerFirstName) {
 		return getFlightShareEmail(null, leg, leg, travelers, sharableDetailsURL, isShared, travelerFirstName);
 	}
@@ -427,9 +423,8 @@ public class ShareUtils {
 		body.append("\n");
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInFlightShareContentEnabled()) {
-			body.append(mContext.getString(
-				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-				PointOfSale.getPointOfSale().getAppInfoUrl()));
+			body.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
 
 		return body.toString();
@@ -543,9 +538,8 @@ public class ShareUtils {
 		}
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInHotelShareContentEnabled()) {
-			builder.append(mContext.getString(
-				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-				PointOfSale.getPointOfSale().getAppInfoUrl()));
+			builder.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
 
 		return builder.toString();
@@ -692,9 +686,8 @@ public class ShareUtils {
 		sb.append("\n");
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInCarShareContentEnabled()) {
-			sb.append(mContext.getString(
-				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-				PointOfSale.getPointOfSale().getAppInfoUrl()));
+			sb.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
 
 		return sb.toString();
@@ -785,25 +778,14 @@ public class ShareUtils {
 		sb.append("\n");
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInActivityShareContentEnabled()) {
-			sb.append(mContext.getString(
-				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-				PointOfSale.getPointOfSale().getAppInfoUrl()));
+			sb.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
 
 		return sb.toString();
 	}
 
 	// Helper methods
-
-	private void appendLabelValue(Context context, StringBuilder sb, int labelStrId, String value) {
-		appendLabelValue(sb, context.getString(labelStrId), value);
-	}
-
-	private void appendLabelValue(StringBuilder sb, String label, String value) {
-		sb.append(label);
-		sb.append(": ");
-		sb.append(value);
-	}
 
 	private void addShareLeg(StringBuilder sb, FlightLeg flightLeg) {
 		Resources res = mContext.getResources();
@@ -861,9 +843,6 @@ public class ShareUtils {
 	public Intent[] getShareIntents(ItinContentGenerator<? extends ItinCardData> generator) {
 		ArrayList<Intent> intents = new ArrayList<Intent>();
 
-		if (generator instanceof FlightItinContentGenerator) {
-			intents.add(((FlightItinContentGenerator) generator).getShareWithFlightTrackIntent());
-		}
 		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookShareIntegrationEnabled() && AndroidUtils
 			.isPackageInstalled(mContext, "com.facebook.katana")) {
 			intents.add(FacebookShareActivity.createIntent(mContext, generator));

@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -13,24 +12,28 @@ import android.content.DialogInterface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.cars.PriceBreakdownItemType;
+import com.expedia.bookings.data.lx.LXBookableItem;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.CheckoutSummaryWidgetUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LXDataUtils;
-import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.CheckoutSummaryWidgetUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class LXCheckoutSummaryWidget extends LinearLayout {
+
+	private LXBookableItem lxBookableItem;
 
 	public LXCheckoutSummaryWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -54,6 +57,12 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 	@InjectView(R.id.price_text)
 	TextView tripTotalText;
 
+	@InjectView(R.id.price_change_container)
+	ViewGroup priceChangeContainer;
+
+	@InjectView(R.id.price_change_text)
+	TextView priceChangeText;
+
 	@Inject
 	LXState lxState;
 
@@ -64,18 +73,42 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 	}
 
-	public void bind() {
+	/**
+	 * Detecting whether we are in a Price Change Flow
+	 * Required to show hint message in "Cost Breakdown Dialog" that "Breakdown is not updated".
+	 */
+	boolean isInPriceChangeFlow = false;
+
+	/**
+	 *
+	 * @param originalPrice - In case there was a Price Change [during CreateTrip/Checkout], this is non-null
+	 *                        and contains the original price. Otherwise it is null.
+	 * @param latestPrice - Always non-null. Contains the up-to-date price of the selected offer(s) to be displayed to the user
+	 *                 and deducted during Payment.
+	 */
+	public void bind(Money originalPrice, Money latestPrice, LXBookableItem lxBookableItem) {
+		this.lxBookableItem = lxBookableItem;
 		lxOfferTitleText.setText(lxState.offer.title);
-		lxGroupText.setText(LXDataUtils.ticketsCountSummary(getContext(), lxState.selectedTickets));
+		lxGroupText.setText(lxState.selectedTicketsCountSummary(getContext()));
 		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
 			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 		lxOfferDate.setText(DateUtils.localDateToEEEMMMd(offerSelectedDate));
 		lxOfferLocation.setText(lxState.activity.location);
 
-		String totalMoney = LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney();
-		tripTotalText.setText(totalMoney);
-
 		freeCancellationText.setVisibility(lxState.offer.freeCancellation ? VISIBLE : GONE);
+
+		tripTotalText.setText(latestPrice.getFormattedMoney());
+
+		// Price change
+		isInPriceChangeFlow = (originalPrice != null);
+		if (isInPriceChangeFlow) {
+			priceChangeContainer.setVisibility(View.VISIBLE);
+			priceChangeText.setText(getResources().getString(R.string.price_changed_from_TEMPLATE,
+				originalPrice.getFormattedMoney()));
+		}
+		else {
+			priceChangeContainer.setVisibility(View.GONE);
+		}
 	}
 
 	@OnClick(R.id.free_cancellation_text)
@@ -85,7 +118,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 
 	@OnClick(R.id.price_text)
 	public void showCostBreakdown() {
-		buildCostBreakdownDialog(getContext(), lxState.selectedTickets);
+		buildCostBreakdownDialog(getContext(), lxState.selectedTickets());
 	}
 
 	private void buildCostBreakdownDialog(Context context, List<Ticket> tickets) {
@@ -94,27 +127,27 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.lx_cost_breakdown_due_today),
-			LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney()));
+			lxState.latestTotalPrice().getFormattedMoney()));
 
-		for (Ticket ticketSelected : tickets) {
-			if (ticketSelected.count > 0) {
-				Money totalMoneyForTicketType = new Money(ticketSelected.money);
-				totalMoneyForTicketType
-					.setAmount(totalMoneyForTicketType.getAmount().multiply(BigDecimal.valueOf(ticketSelected.count)));
+		String currencyCode = tickets.get(0).money.getCurrency();
+		for (Ticket ticket : lxBookableItem.tickets) {
+			//Presently API is not sending currency code within the Ticket Json Object, so we are resorting to
+			//creating the formatted string by picking the amount from `moneyWithoutCurrencyCode` and `currencyCode`.
+			Money moneyWithoutCurrencyCode = ticket.getBreakdownForType(PriceBreakdownItemType.PER_CATEGORY_TOTAL).price;
 
-				ll.addView(
-					CheckoutSummaryWidgetUtils.addRow(context,
-						LXDataUtils.ticketCountSummary(getContext(), ticketSelected.code, ticketSelected.count),
-						totalMoneyForTicketType.getFormattedMoney()));
-			}
+			ll.addView(
+				CheckoutSummaryWidgetUtils.addRow(context,
+					LXDataUtils.ticketCountSummary(getContext(), ticket.code, ticket.count),
+					moneyWithoutCurrencyCode
+						.getFormattedMoneyFromAmountAndCurrencyCode(moneyWithoutCurrencyCode.getAmount(), currencyCode)));
 		}
 
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.lx_cost_breakdown_taxes_included)));
-		ll.addView(addDisclaimerRow(context, tickets.get(0).money.getCurrency()));
+		ll.addView(addDisclaimerRow(context, currencyCode));
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.checkout_breakdown_total_price),
-			LXUtils.getTotalAmount(lxState.selectedTickets).getFormattedMoney()));
+			lxState.latestTotalPrice().getFormattedMoney()));
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);

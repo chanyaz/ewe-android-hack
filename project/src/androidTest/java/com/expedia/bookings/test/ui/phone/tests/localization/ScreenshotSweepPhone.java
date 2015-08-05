@@ -23,9 +23,9 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsConfirmationSc
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickCheckoutButton;
 import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickNewPaymentCard;
 import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickSelectPaymentButton;
@@ -121,8 +121,8 @@ public class ScreenshotSweepPhone extends PhoneTestCase {
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
 		CardInfoScreen.clickSetButton();
-		EspressoUtils.clear(CardInfoScreen.nameOnCardEditText());
-		EspressoUtils.clear(CardInfoScreen.emailEditText());
+		CardInfoScreen.nameOnCardEditText().perform(clearText());
+		CardInfoScreen.emailEditText().perform(clearText());
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
 		CardInfoScreen.typeTextEmailEditText("mobiataauto@gmail.com");
 		CardInfoScreen.clickOnDoneButton();

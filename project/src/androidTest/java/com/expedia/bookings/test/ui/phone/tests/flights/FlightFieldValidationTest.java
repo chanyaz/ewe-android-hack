@@ -16,13 +16,13 @@ import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResult
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsTravelerInfoScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.expedia.bookings.test.ui.espresso.ViewActions.setText;
+import static com.expedia.bookings.test.espresso.ViewActions.setText;
 import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickCheckoutButton;
 import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickNewPaymentCard;
 import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickSelectPaymentButton;

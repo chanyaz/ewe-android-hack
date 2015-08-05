@@ -213,7 +213,9 @@ public class LXSearchParamsPresenter extends Presenter
 	@OnCheckedChanged(R.id.select_dates)
 	public void onDateCheckedChanged(boolean isChecked) {
 		Drawable drawableEnabled = getResources().getDrawable(R.drawable.date).mutate();
-		drawableEnabled.setColorFilter(isChecked ? Color.WHITE : getResources().getColor(R.color.lx_unchecked_toggle_text_color), PorterDuff.Mode.SRC_IN);
+		drawableEnabled.setColorFilter(isChecked ? Color.WHITE
+			: getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_lxUncheckedToggleTextColor)),
+			PorterDuff.Mode.SRC_IN);
 		selectDates.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
 	}
 
@@ -316,7 +318,8 @@ public class LXSearchParamsPresenter extends Presenter
 
 		toolBarSearchText.setText(getResources().getString(R.string.lx_search_title));
 		toolbar.setTitleTextColor(Color.WHITE);
-		toolbar.setBackgroundColor(getResources().getColor(R.color.lx_primary_color));
+		toolbar
+			.setBackgroundColor(getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)));
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -329,7 +332,8 @@ public class LXSearchParamsPresenter extends Presenter
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
-			int toolbarColor = getContext().getResources().getColor(R.color.lx_primary_color);
+			int toolbarColor = getContext().getResources()
+				.getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor));
 			statusBar = Ui.setUpStatusBar(getContext(), toolbar, searchContainer, toolbarColor);
 			addView(statusBar);
 		}
@@ -337,6 +341,7 @@ public class LXSearchParamsPresenter extends Presenter
 
 	private void setupToolBarCheckmark(final MenuItem menuItem) {
 		searchButton = Ui.inflate(getContext(), R.layout.toolbar_checkmark_item, null);
+		searchButton.setTextColor(Color.WHITE);
 		searchButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

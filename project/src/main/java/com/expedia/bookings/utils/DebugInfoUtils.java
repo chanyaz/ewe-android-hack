@@ -44,6 +44,9 @@ public class DebugInfoUtils {
 		body.append("\n");
 		body.append("LOCALE: ");
 		body.append(Locale.getDefault().toString());
+		body.append("\n");
+		body.append("ABACUS GUID: ");
+		body.append(Db.getAbacusGuid());
 
 		body.append("\n\n");
 

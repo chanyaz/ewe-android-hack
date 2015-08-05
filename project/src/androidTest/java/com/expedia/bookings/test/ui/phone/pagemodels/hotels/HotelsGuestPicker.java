@@ -14,7 +14,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.ui.espresso.ViewActions.getString;
+import static com.expedia.bookings.test.espresso.ViewActions.getString;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 

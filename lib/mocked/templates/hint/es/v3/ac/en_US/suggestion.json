@@ -21,9 +21,9 @@
                 "lng": "-122.408200"
             },
             "pb": "false",
-            "rt": "MULTICITY",
+            "rt": "AIRPORT",
             "s": "results",
-            "t": "CITY"
+            "t": "AIRPORT"
         },
         {
             "@type": "regionResult",
@@ -43,9 +43,9 @@
                 "lng": "-83.046530"
             },
             "pb": "false",
-            "rt": "MULTICITY",
+            "rt": "AIRPORT",
             "s": "invalid input",
-            "t": "CITY"
+            "t": "AIRPORT"
         },
         {
             "@type": "regionResult",

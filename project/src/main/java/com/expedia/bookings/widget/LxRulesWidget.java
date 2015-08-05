@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -23,9 +23,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class LxRulesWidget extends FrameLayout {
+public class LxRulesWidget extends LinearLayout {
 	public LxRulesWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		setOrientation(VERTICAL);
 		inflate(context, R.layout.widget_lx_rules, this);
 	}
 
@@ -60,7 +61,7 @@ public class LxRulesWidget extends FrameLayout {
 	@Subscribe
 	public void onCreateTripSucceeded(Events.LXCreateTripSucceeded event) {
 		this.tripId = event.createTripResponse.tripId;
-		updateCancellationPolicyDisplayText(event.activity.cancellationPolicyText);
+		updateCancellationPolicyDisplayText(event.activity.freeCancellationMinHours);
 	}
 
 	@OnClick(R.id.rules_and_restrictions)
@@ -110,8 +111,8 @@ public class LxRulesWidget extends FrameLayout {
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 	}
 
-	private void updateCancellationPolicyDisplayText(String cancellationPolicyTextFromAPIResponse) {
+	private void updateCancellationPolicyDisplayText(int freeCancellationMinHours) {
 		cancellationPolicy.setText(
-			LXDataUtils.getCancelationPolicyDisplayText(getContext(), cancellationPolicyTextFromAPIResponse));
+			LXDataUtils.getCancelationPolicyDisplayText(getContext(), freeCancellationMinHours));
 	}
 }

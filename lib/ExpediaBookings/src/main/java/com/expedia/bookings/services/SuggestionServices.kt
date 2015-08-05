@@ -3,6 +3,7 @@ package com.expedia.bookings.services
 import com.expedia.bookings.data.SuggestionResultType
 import com.expedia.bookings.data.cars.Suggestion
 import com.expedia.bookings.data.cars.SuggestionResponse
+import com.expedia.bookings.data.lx.LXActivity
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import retrofit.RequestInterceptor
@@ -13,7 +14,9 @@ import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
-import rx.functions.Func1
+import java.util.Collections
+import java.util.Comparator
+import java.util.Locale
 import kotlin.properties.Delegates
 
 public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
@@ -37,44 +40,53 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
         adapter.create<SuggestApi>(javaClass<SuggestApi>())
     }
 
-    private val MAX_NEARBY_AIRPORTS = 2
-    private val MAX_AIRPORTS_RETURNED = 3
-    private val MAX_LX_SUGGESTIONS_RETURNED = 3
+    private val MAX_NEARBY_SUGGESTIONS = 2
 
-    public fun getAirportSuggestions(query: String, observer: Observer<MutableList<Suggestion>>): Subscription {
-        val type = SuggestionResultType.AIRPORT
-        val lob = null;
-        return suggestV3(query, type, lob)
-                .map { list -> list.take(MAX_AIRPORTS_RETURNED).toArrayList() }
+    public fun getCarSuggestions(query: String, locale: String, observer: Observer<MutableList<Suggestion>>): Subscription {
+        val type = getTypeForCarSuggestions()
+        val lob = "CARS";
+        return suggestV3(query, type, locale, lob)
+                .doOnNext { list -> sortCarSuggestions(list) }
+                .subscribe(observer);
+    }
+
+    public fun getNearbyCarSuggestions(locale: String, latlng: String, siteId: Int, observer: Observer<MutableList<Suggestion>>): Subscription {
+        val type = getTypeForCarSuggestions()
+        val sort = "p"
+        var lob = "CARS"
+        return suggestNearbyV1(locale, latlng, siteId, type, sort, lob)
+                .doOnNext { list -> sortCarSuggestions(list) }
                 .subscribe(observer)
     }
 
-    public fun getHotelSuggestions(query: String, observer: Observer<MutableList<Suggestion>>): Subscription {
-        val type = SuggestionResultType.REGION
-        return suggestApi.suggestV2(query, type)
-                .observeOn(observeOn)
-                .subscribeOn(subscribeOn)
-                .map { response -> response.suggestions.toArrayList() }
-                .subscribe(observer)
+    private fun getTypeForCarSuggestions(): Int {
+        val type = SuggestionResultType.AIRPORT or SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or
+                SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.AIRPORT_METRO_CODE
+
+        return type;
     }
 
-    public fun getLxSuggestions(query: String, observer: Observer<MutableList<Suggestion>>): Subscription {
+    private fun sortCarSuggestions(suggestions: MutableList<Suggestion>) {
+        Collections.sort(suggestions, object : Comparator<Suggestion> {
+            override fun compare(lhs: Suggestion, rhs: Suggestion): Int {
+                val leftSuggestionPrecedenceOrder = if (lhs.isMajorAirport()) 1 else 2
+                val rightSuggestionPrecedenceOrder = if (rhs.isMajorAirport()) 1 else 2
+                return leftSuggestionPrecedenceOrder.compareTo(rightSuggestionPrecedenceOrder)
+            }
+        })
+    }
+
+    public fun getLxSuggestions(query: String, locale: String, observer: Observer<MutableList<Suggestion>>): Subscription {
         val type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD
         val lob = "ACTIVITIES"
-        return suggestV3(query, type, lob).subscribe(observer)
+        return suggestV3(query, type, locale, lob).subscribe(observer)
     }
 
-    private fun suggestV3(query: String, type: Int, lob: String?): Observable<MutableList<Suggestion>> {
-        return suggestApi.suggestV3(query, type, lob)
+    private fun suggestV3(query: String, type: Int, locale: String, lob: String?): Observable<MutableList<Suggestion>> {
+        return suggestApi.suggestV3(query, type, locale, lob)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions.toArrayList() }
-    }
-
-    public fun getNearbyAirportSuggestions(locale: String, latlng: String, siteId: Int, observer: Observer<MutableList<Suggestion>>): Subscription {
-        val type = SuggestionResultType.AIRPORT
-        val sort = "p"
-        return suggestNearbyV1(locale, latlng, siteId, type, sort).subscribe(observer)
     }
 
     public fun getNearbyLxSuggestions(locale: String, latlng: String, siteId: Int, observer: Observer<MutableList<Suggestion>>): Subscription {
@@ -84,15 +96,15 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
     public fun getNearbyLxSuggestions(locale: String, latlng: String, siteId: Int): Observable<MutableList<Suggestion>> {
         val type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD
         val sort = "d"
-
-        return suggestNearbyV1(locale, latlng, siteId, type, sort)
+        val lob = "ACTIVITIES"
+        return suggestNearbyV1(locale, latlng, siteId, type, sort, lob)
     }
 
-    private fun suggestNearbyV1(locale: String, latlng: String, siteId: Int, type: Int, sort: String): Observable<MutableList<Suggestion>> {
-        return suggestApi.suggestNearbyV1(locale, latlng, siteId, type, sort)
+    private fun suggestNearbyV1(locale: String, latlng: String, siteId: Int, type: Int, sort: String, lob: String): Observable<MutableList<Suggestion>> {
+        return suggestApi.suggestNearbyV1(locale, latlng, siteId, type, sort, lob)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .map { response -> response.suggestions.take(MAX_NEARBY_AIRPORTS) }
+                .map { response -> response.suggestions.take(MAX_NEARBY_SUGGESTIONS) }
                 .doOnNext { list ->
                     list.forEach {
                         suggestion ->

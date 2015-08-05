@@ -39,14 +39,16 @@ import com.expedia.bookings.fragment.PhoneLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
-import com.expedia.bookings.utils.ExpediaDebugUtil;
+import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.PhoneLaunchToolbar;
+import com.facebook.AppEventsLogger;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
@@ -164,15 +166,12 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 			}
 			showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok);
 		}
-
-		// Debug code to notify QA to open ExpediaDebug app
-		ExpediaDebugUtil.showExpediaDebugToastIfNeeded(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		AppEventsLogger.activateApp(this);
 		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
 		gpsd.startChecking();
 
@@ -181,12 +180,14 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		OmnitureTracking.onResume(this);
 
 		AdTracker.trackViewHomepage();
+
+		TuneUtils.startTune(this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-
+		AppEventsLogger.deactivateApp(this);
 		if (isFinishing() && mLaunchFragment != null) {
 			mLaunchFragment.cleanUp();
 		}
@@ -234,11 +235,13 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		if (mLaunchFragment != null && requestCode == REQUEST_SETTINGS
+		if (requestCode == REQUEST_SETTINGS
 			&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
-			mLaunchFragment.reset();
-			Db.getHotelSearch().resetSearchData();
+			Events.post(new Events.PhoneLaunchOnPOSChange());
+			if (mLaunchFragment != null) {
+				mLaunchFragment.reset();
+				Db.getHotelSearch().resetSearchData();
+			}
 		}
 	}
 

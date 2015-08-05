@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
+import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
@@ -40,6 +41,8 @@ import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricRunner.class)
 public class LXTicketSelectionWidgetTest {
+	private LXTicketSelectionWidget widget;
+	private Activity activity;
 
 	// This test hits Omniture which in turn throws NPE because of unavailability of operator information.
 	@Before
@@ -48,13 +51,15 @@ public class LXTicketSelectionWidgetTest {
 			.getSystemService(Context.TELEPHONY_SERVICE);
 		ShadowTelephonyManager shadowTelephonyManager = shadowOf(telephonyManager);
 		shadowTelephonyManager.setNetworkOperatorName("Test Operator");
+
+		activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_LX);
+		widget = (LXTicketSelectionWidget) LayoutInflater.from(activity).inflate(R.layout.widget_lx_ticket_selection,
+			null);
 	}
 
 	@Test
 	public void testActivityTicketSelectionWidgetViews() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		LXTicketSelectionWidget widget = (LXTicketSelectionWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.widget_lx_ticket_selection, null);
 		assertNotNull(widget);
 		ButterKnife.inject(activity);
 
@@ -68,8 +73,9 @@ public class LXTicketSelectionWidgetTest {
 		assertNotNull(container);
 
 		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
-		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_duration);
-		TextView freeCancellation = (TextView) widget.findViewById(R.id.free_cancellation);
+		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail2);
+		TextView redemptionType = (TextView) widget.findViewById(R.id.offer_detail3);
 		LXOfferDescription descriptionWidget = (LXOfferDescription) widget.findViewById(R.id.offer_description);
 		TextView ticketDetails = (TextView) ticketSelector.findViewById(R.id.ticket_details);
 		TextView ticketCount = (TextView) ticketSelector.findViewById(R.id.ticket_count);
@@ -78,7 +84,11 @@ public class LXTicketSelectionWidgetTest {
 
 		assertNotNull(titleText);
 		assertNotNull(offerDuration);
+		assertEquals("1h", offerDuration.getText());
 		assertNotNull(freeCancellation);
+		assertEquals(activity.getResources().getString(R.string.free_cancellation), freeCancellation.getText());
+		assertNotNull(redemptionType);
+		assertEquals(activity.getResources().getString(R.string.lx_print_voucher_offer), redemptionType.getText());
 		assertNotNull(descriptionWidget);
 		assertNotNull(ticketDetails);
 		assertNotNull(ticketCount);
@@ -88,9 +98,6 @@ public class LXTicketSelectionWidgetTest {
 
 	@Test
 	public void testGTTicketSelectionWidgetViews() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		LXTicketSelectionWidget widget = (LXTicketSelectionWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.widget_lx_ticket_selection, null);
 		assertNotNull(widget);
 		ButterKnife.inject(activity);
 
@@ -98,24 +105,83 @@ public class LXTicketSelectionWidgetTest {
 		widget.buildTicketPickers(singleTicketAvailability());
 
 		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
-		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_duration);
-		TextView freeCancellation = (TextView) widget.findViewById(R.id.free_cancellation);
+		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail2);
+		TextView redemptionType = (TextView) widget.findViewById(R.id.offer_detail3);
 		TextView bags = (TextView) widget.findViewById(R.id.offer_bags);
 		TextView passengers = (TextView) widget.findViewById(R.id.offer_passengers);
 
 		assertNotNull(titleText);
 		assertNotNull(offerDuration);
+		assertEquals("1h", offerDuration.getText());
 		assertNotNull(freeCancellation);
+		assertEquals(activity.getResources().getString(R.string.free_cancellation), freeCancellation.getText());
+		assertNotNull(redemptionType);
+		assertEquals(activity.getResources().getString(R.string.lx_voucherless_offer), redemptionType.getText());
 		assertNotNull(bags);
 		assertNotNull(passengers);
 	}
 
 	@Test
-	public void testSingleTicketTypeSelections() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		LXTicketSelectionWidget widget = (LXTicketSelectionWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.widget_lx_ticket_selection, null);
+	public void testTicketSelectionWidgetWithOnlyDuration() {
+		assertNotNull(widget);
+		ButterKnife.inject(activity);
 
+		Offer offer = buildGTOffer();
+		offer.freeCancellation = false;
+		offer.redemptionType = null;
+		widget.bind(offer);
+		widget.buildTicketPickers(singleTicketAvailability());
+
+		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView offerDetail2 = (TextView) widget.findViewById(R.id.offer_detail2);
+		TextView offerDetail3 = (TextView) widget.findViewById(R.id.offer_detail3);
+
+		assertEquals("1h", offerDuration.getText());
+		assertEquals(View.GONE, offerDetail2.getVisibility());
+		assertEquals(View.GONE, offerDetail3.getVisibility());
+	}
+
+	@Test
+	public void testTicketSelectionWidgetWithDurationAndRedemption() {
+		assertNotNull(widget);
+		ButterKnife.inject(activity);
+
+		Offer offer = buildGTOffer();
+		offer.freeCancellation = false;
+		widget.bind(offer);
+		widget.buildTicketPickers(singleTicketAvailability());
+
+		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView redemptionType = (TextView) widget.findViewById(R.id.offer_detail2);
+		TextView offerDetail3 = (TextView) widget.findViewById(R.id.offer_detail3);
+
+		assertEquals("1h", offerDuration.getText());
+		assertEquals(activity.getResources().getString(R.string.lx_voucherless_offer), redemptionType.getText());
+		assertEquals(View.GONE, offerDetail3.getVisibility());
+	}
+
+	@Test
+	public void testTicketSelectionWidgetWithFreeCancellationAndRedemption() {
+		assertNotNull(widget);
+		ButterKnife.inject(activity);
+
+		Offer offer = buildGTOffer();
+		offer.duration = null;
+		widget.bind(offer);
+		widget.buildTicketPickers(singleTicketAvailability());
+
+		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail1);
+		TextView redemptionType = (TextView) widget.findViewById(R.id.offer_detail2);
+		TextView offerDetail3 = (TextView) widget.findViewById(R.id.offer_detail3);
+
+		assertEquals(activity.getResources().getString(R.string.free_cancellation), freeCancellation.getText());
+		assertEquals(activity.getResources().getString(R.string.lx_voucherless_offer), redemptionType.getText());
+		assertEquals(View.GONE, offerDetail3.getVisibility());
+	}
+
+	@Test
+	public void testSingleTicketTypeSelections() {
 		AvailabilityInfo availabilityInfo = singleTicketAvailability();
 
 		widget.bind(buildActivityOffer());
@@ -184,9 +250,6 @@ public class LXTicketSelectionWidgetTest {
 
 	@Test
 	public void testMultipleTicketTypeSelections() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		LXTicketSelectionWidget widget = (LXTicketSelectionWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.widget_lx_ticket_selection, null);
 		AvailabilityInfo availabilityInfo = multipleTicketAvailability();
 
 		widget.bind(buildActivityOffer());
@@ -282,6 +345,7 @@ public class LXTicketSelectionWidgetTest {
 		offer.description = "Offer Description";
 		offer.freeCancellation = true;
 		offer.duration = "1h";
+		offer.redemptionType = LXRedemptionType.PRINT;
 		return offer;
 	}
 
@@ -292,6 +356,7 @@ public class LXTicketSelectionWidgetTest {
 		offer.description = "Offer Description";
 		offer.freeCancellation = true;
 		offer.duration = "1h";
+		offer.redemptionType = LXRedemptionType.VOUCHERLESS;
 		offer.bags = "2";
 		offer.passengers = "2";
 		return offer;

@@ -170,11 +170,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mCurrentLob = LineOfBusiness.valueOf(savedInstanceState.getString(INSTANCE_CURRENT_LOB));
 			mTripBucketOpen = savedInstanceState.getBoolean(INSTANCE_TRIP_BUCKET_OPEN);
 		}
-		else {
-			// Initial load of this fragment, so attempt to load user data
-			BookingInfoUtils.populateTravelerDataFromUser(getActivity(), getLob());
-			BookingInfoUtils.populatePaymentDataFromUser(getActivity(), getLob());
-		}
 
 		registerStateListener(mStateHelper, false);
 		registerStateListener(new StateListenerLogger<CheckoutState>(), false);

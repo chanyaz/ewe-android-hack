@@ -19,9 +19,9 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsConfirmationSc
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.HotelsUserData;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.HotelsUserData;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.utils.JodaUtils;
 
 import android.support.test.espresso.ViewInteraction;
@@ -93,8 +93,8 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 	private void bookHotel() throws Exception {
 		HotelsCheckoutScreen.clickCheckoutButton();
 		HotelsCheckoutScreen.clickLogInButton();
-		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
-		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
+		LogInScreen.typeTextEmailEditText(mUser.email);
+		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
 		HotelsCheckoutScreen.clickSelectPaymentButton();
 		try {
@@ -103,9 +103,9 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 		catch (Exception e) {
 			//ignore
 		}
-		CardInfoScreen.typeTextCreditCardEditText(mUser.getCreditCardNumber());
-		BillingAddressScreen.typeTextPostalCode(mUser.getAddressPostalCode());
-		CardInfoScreen.typeTextNameOnCardEditText(mUser.getFirstName() + " " + mUser.getLastName());
+		CardInfoScreen.typeTextCreditCardEditText(mUser.creditCardNumber);
+		BillingAddressScreen.typeTextPostalCode(mUser.zipcode);
+		CardInfoScreen.typeTextNameOnCardEditText(mUser.firstName + " " + mUser.lastName);
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
@@ -113,7 +113,7 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 		CardInfoScreen.clickOnDoneButton();
 		CardInfoScreen.clickNoThanksButton();
 		HotelsCheckoutScreen.slideToCheckout();
-		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
+		CVVEntryScreen.parseAndEnterCVV(mUser.cvv);
 		CVVEntryScreen.clickBookButton();
 	}
 
@@ -122,7 +122,7 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 
 	 */
 	private void initialSearch() throws Exception {
-		mUser = new HotelsUserData(getInstrumentation());
+		mUser = new HotelsUserData();
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.enterSearchText("New York, NY");

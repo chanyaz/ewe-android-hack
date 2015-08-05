@@ -5,7 +5,6 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
 import com.expedia.bookings.content.SuggestionProvider;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.data.Sp;
@@ -22,9 +21,6 @@ public class ClearPrivateDataUtil {
 	public static void clear(Context context) {
 		Log.i("Clearing all private data!");
 
-		BillingInfo info = new BillingInfo();
-		info.delete(context);
-
 		boolean signedIn = User.isLoggedIn(context);
 		if (signedIn) {
 			User.signOut(context);
@@ -32,29 +28,7 @@ public class ClearPrivateDataUtil {
 
 		ItineraryManager.getInstance().clear();
 
-		Db.deleteCachedFlightData(context);
-		Db.deleteTravelers(context);
-
-		Db.deleteHotelSearchData(context);
-
 		Db.deleteTripBucket(context);
-
-		try {
-			//If the data has already been populated in memory, we should clear that....
-			if (Db.getWorkingBillingInfoManager() != null) {
-				Db.getWorkingBillingInfoManager().clearWorkingBillingInfo();
-			}
-
-			if (Db.getWorkingTravelerManager() != null) {
-				Db.getWorkingTravelerManager().clearWorkingTraveler();
-			}
-
-			Db.getBillingInfo().delete(context);
-			Db.getTravelers().clear();
-		}
-		catch (Exception ex) {
-			//Don't care
-		}
 
 		// Cookies
 		ExpediaServices services = new ExpediaServices(context);
@@ -65,8 +39,6 @@ public class ClearPrivateDataUtil {
 
 		// Clear itin button dismissals
 		DismissedItinButton.clear();
-
-		// Clear image caches, why not
 
 		// AirAsia Flight routes
 		Db.deleteCachedFlightRoutes(context);
@@ -87,6 +59,7 @@ public class ClearPrivateDataUtil {
 
 		// Clear anything else out that might remain
 		Db.clear();
+		Db.clearFlightSearchParamsFromDisk(context);
 
 		// Clear LX and cars suggestions history
 		SuggestionUtils.deleteCachedSuggestions(context);

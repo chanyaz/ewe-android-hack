@@ -1,5 +1,7 @@
 package com.expedia.bookings.data.hotels;
 
+import java.util.List;
+
 public class HotelRate {
 
 	public float maxNightlyRate;
@@ -27,4 +29,11 @@ public class HotelRate {
 	public String ratePlanCode;
 	public boolean showResortFeeMessage;
 	public boolean resortFeeInclusion;
+	public List<NightlyRatesPerRoom> nightlyRatesPerRoom;
+
+	public static class NightlyRatesPerRoom {
+		Boolean promo;
+		String baseRate;
+		String rate;
+	}
 }

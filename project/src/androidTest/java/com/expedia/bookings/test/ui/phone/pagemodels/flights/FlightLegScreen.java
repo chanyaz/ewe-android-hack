@@ -29,6 +29,14 @@ public class FlightLegScreen {
 		return onView(withId(BAGGAGE_FEE_INFO_VIEW_ID));
 	}
 
+	public static ViewInteraction costBreakdownButtonView() {
+		return onView(withId(R.id.price_section));
+	}
+
+	public static ViewInteraction costBreakdownDoneButton() {
+		return onView(withId(R.id.done_button));
+	}
+
 	// Object interaction
 
 	public static void clickSelectFlightButton() {
@@ -41,5 +49,13 @@ public class FlightLegScreen {
 
 	public static void clickBaggageInfoView() {
 		baggageFeeInfoTextView().perform(click());
+	}
+
+	public static void clickCostBreakdownButtonView() {
+		costBreakdownButtonView().perform(click());
+	}
+
+	public static void clickCostBreakdownDoneButton() {
+		costBreakdownDoneButton().perform(click());
 	}
 }

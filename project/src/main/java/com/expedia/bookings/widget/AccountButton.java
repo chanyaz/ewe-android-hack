@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,15 +50,13 @@ public class AccountButton extends LinearLayout {
 	public AccountButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
-	}
-
-	public AccountButton(Context context) {
-		super(context);
-		mContext = context;
+		inflate(context, R.layout.account_v2_button, this);
 	}
 
 	@Override
 	protected void onFinishInflate() {
+		super.onFinishInflate();
+
 		mAccountLoadingContainer = findViewById(R.id.account_loading_container);
 		mLoginContainer = findViewById(R.id.account_login_container);
 		mLoginTextView = Ui.findView(mLoginContainer, R.id.login_text_view);
@@ -94,6 +93,10 @@ public class AccountButton extends LinearLayout {
 		mLoadingTextView.setText(Phrase.from(this, R.string.loading_brand_account_TEMPLATE)
 			.put("brand", BuildConfig.brand)
 			.format());
+
+		mLoginTextView.setText(Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
 	}
 
 	@Override
@@ -120,11 +123,6 @@ public class AccountButton extends LinearLayout {
 			mErrorContainer.setVisibility(View.GONE);
 		}
 
-		// Rewards container
-		if (mRewardsContainer != null) {
-			mRewardsContainer.setVisibility(View.GONE);
-		}
-
 		// Loading container
 		mAccountLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 
@@ -132,12 +130,14 @@ public class AccountButton extends LinearLayout {
 		if (isLoggedIn) {
 			mLoginContainer.setVisibility(View.GONE);
 			mLogoutContainer.setVisibility(View.VISIBLE);
+			mRewardsContainer.setVisibility(View.VISIBLE);
 			bindLogoutContainer(traveler, lob);
 		}
 		// If not logged in, show the login container
 		else {
 			mLoginContainer.setVisibility(View.VISIBLE);
 			mLogoutContainer.setVisibility(View.GONE);
+			mRewardsContainer.setVisibility(View.GONE);
 			bindLoginContainer(lob);
 		}
 	}
@@ -147,26 +147,41 @@ public class AccountButton extends LinearLayout {
 		boolean isTablet = AndroidUtils.isTablet(getContext());
 
 		if (isTablet) {
+			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
+			lp.height = getResources().getDimensionPixelSize(R.dimen.account_button_height);
+			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
+			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
 			mLoginContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
-			Ui.findView(mLoginContainer, R.id.login_blurb).setVisibility(View.INVISIBLE);
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
 				Ui.obtainThemeResID(mContext, R.attr.skin_tabletCheckoutLoginLogoDrawable), 0, 0, 0);
 			mLoginTextView.setTextColor(
 				Ui.obtainThemeColor(mContext, R.attr.skin_tabletCheckoutLoginButtonTextColor));
 		}
-		else {
-			int bgResourceId = ProductFlavorFeatureConfiguration.getInstance().getLoginContainerBackgroundResId(mContext);
+		else if (lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS) {
+			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
+			lp.height = getResources().getDimensionPixelSize(R.dimen.account_button_height);
+			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
+			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
+			int bgResourceId = Ui.obtainThemeResID(getContext(), R.attr.skin_phoneCheckoutLoginButtonDrawable);
 			mLoginContainer.setBackgroundResource(bgResourceId);
-
-			boolean doesLoginTextViewHaveCompoundDrawables = ProductFlavorFeatureConfiguration.getInstance()
-				.doesLoginTextViewHaveCompoundDrawables();
-			if (doesLoginTextViewHaveCompoundDrawables) {
-				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
-					Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
-			}
-
-			mLoginTextView.setTextColor(
-				Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
+			mLoginTextView.setTextColor(Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_expedia_white_logo_small, 0, 0, 0);
+			mLoginTextView.setCompoundDrawablePadding(getResources().getDimensionPixelSize(R.dimen.card_icon_padding));
+		}
+		else {
+			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
+			lp.height = LayoutParams.WRAP_CONTENT;
+			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
+			lpt.width = LayoutParams.MATCH_PARENT;
+			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
+			int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
+			mLoginContainer.setBackgroundResource(R.drawable.card_background);
+			mLoginTextView.setBackgroundResource(bgResourceId);
+			mLoginTextView.setGravity(Gravity.LEFT);
+			mLoginTextView.setTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.expedia, 0, 0, 0);
+			int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
+			mLoginTextView.setPadding(padding, padding, padding, padding);
 		}
 	}
 
@@ -208,7 +223,6 @@ public class AccountButton extends LinearLayout {
 			expediaPlusRewardsCategoryTextView.setVisibility(View.VISIBLE);
 			expediaPlusRewardsCategoryTextView.setText(expediaPlusRewardsCategoryTextResId);
 			expediaPlusRewardsCategoryTextView.setTextColor(getResources().getColor(expediaPlusRewardsCategoryColorResId));
-
 			//Show Reward Points Container
 			mRewardsContainer.setVisibility(View.VISIBLE);
 			FontCache.setTypeface(expediaPlusRewardsCategoryTextView, FontCache.Font.EXPEDIASANS_REGULAR);
@@ -222,9 +236,7 @@ public class AccountButton extends LinearLayout {
 			}
 
 			//Update Logout Container
-			if (lob != LineOfBusiness.CARS && lob != LineOfBusiness.LX) {
-				mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
-			}
+			mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
 		}
 		else {
 			expediaPlusRewardsCategoryTextView.setVisibility(View.GONE);
@@ -311,20 +323,19 @@ public class AccountButton extends LinearLayout {
 	protected void setRewardsContainerBackground(View rewardsContainer, Traveler.LoyaltyMembershipTier membershipTier) {
 		int rewardsBgResId = 0;
 		switch (membershipTier) {
-			case BLUE:
-				rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_blue_normal;
-				break;
-			case SILVER:
-				rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_silver_normal;
-				break;
-			case GOLD:
-				rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_gold_normal;
-				break;
+		case BLUE:
+			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_blue_normal;
+			break;
+		case SILVER:
+			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_silver_normal;
+			break;
+		case GOLD:
+			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_gold_normal;
+			break;
 		}
 
 		rewardsContainer.setBackgroundResource(rewardsBgResId);
 	}
-
 	private void clearCheckoutData() {
 		clearHotelCheckoutData();
 		clearFlightCheckoutData();
@@ -354,8 +365,7 @@ public class AccountButton extends LinearLayout {
 	}
 
 	public interface AccountButtonClickListener {
-		public void accountLoginClicked();
-
-		public void accountLogoutClicked();
+		void accountLoginClicked();
+		void accountLogoutClicked();
 	}
 }

@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
 import com.expedia.bookings.data.Db;
@@ -20,6 +21,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.squareup.phrase.Phrase;
 
 // Methods that tie together TabletAboutActivity and AboutActivity
 public class AboutUtils {
@@ -39,7 +41,7 @@ public class AboutUtils {
 	public Dialog createContactExpediaDialog(final Runnable onDismiss) {
 		AlertDialog.Builder builder = new Builder(mActivity, R.style.LightDialog);
 
-		builder.setTitle(Ui.obtainThemeResID(mActivity, R.attr.skin_infoContactUsString));
+		builder.setTitle(Phrase.from(mActivity, R.string.contact_via_TEMPLATE).put("brand", BuildConfig.brand).format());
 
 		// Figure out which items to display to the user
 		List<String> items = new ArrayList<String>();

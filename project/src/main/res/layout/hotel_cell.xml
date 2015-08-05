@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/card_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="12dp"
+    android:paddingLeft="9dp"
+    android:paddingRight="9dp"
+    android:paddingTop="12dp"
+    android:background="@drawable/card_layer_list"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="144dp"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hotel Title"
+                android:textColor="#ffffff" />
+
+            <RatingBar
+                android:id="@+id/hotel_rating_bar"
+                style="@style/RatingBar.UserReview.Material"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stepSize=".5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/strike_through_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="3dp"
+                android:text="$100"
+                android:textColor="#ffffff" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/price_per_night"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$99/nt"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/text_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/guest_rating_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/guest_rating_background"
+            android:gravity="center"
+            android:padding="4dp"
+            android:textColor="#ffffff"
+            android:textSize="11.5sp"
+            android:textStyle="bold" />
+
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:text="@string/guest_recommend"
+            android:textSize="12sp" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/top_amenity_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

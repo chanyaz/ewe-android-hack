@@ -7,8 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -27,10 +27,10 @@ import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import rx.Observer;
@@ -117,7 +117,9 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	private void showGenericCreateTripErrorDialog() {
 		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
 		b.setCancelable(false)
-			.setMessage(getResources().getString(R.string.error_server))
+			.setMessage(
+				Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format()
+					.toString())
 			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -157,6 +159,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
+					show(new CheckoutFailed(), FLAG_CLEAR_BACKSTACK);
 				}
 			})
 			.show();
@@ -172,11 +175,11 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	@Subscribe
 	public void onSignOut(Events.SignOut event) {
-		loginWidget.accountLogoutClicked();
+		accountLogoutClicked();
 	}
 
 	@Subscribe
-	public void onShowCheckoutAfterPriceChange(Events.CarsShowCheckoutAfterPriceChange event) {
+	public void onShowCheckoutAfterPriceChange(Events.CarsUpdateCheckoutSummaryAfterPriceChange event) {
 		bind(event.newCreateTripOffer, /* createTripOffer */
 			event.originalCreateTripOffer.detailedFare.grandTotal.formattedPrice, /* originalPriceString */
 			event.tripId /* tripId */);
@@ -202,12 +205,11 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 		legalInformationText.setText(
 			StrUtils.generateLegalClickableLink(getContext(), carProduct.rulesAndRestrictionsURL));
-		loginWidget.updateView();
-		// Resize spacer to accommodate price change display
-		if (Strings.isNotEmpty(originalOfferFormattedPrice)) {
-			ViewGroup.LayoutParams params = space.getLayoutParams();
-			params.height = (int) getResources().getDimension(R.dimen.car_unexpanded_with_price_change_space_height);
-			space.setLayoutParams(params);
+		if (User.isLoggedIn(getContext())) {
+			loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness());
+		}
+		else {
+			loginWidget.bind(false, false, null,  getLineOfBusiness());
 		}
 	}
 
@@ -293,6 +295,11 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	public void showProgress(boolean show) {
 		summaryWidget.setVisibility(show ? INVISIBLE : VISIBLE);
 		mSummaryProgressLayout.setVisibility(show ? VISIBLE : GONE);
+	}
+
+	@Subscribe
+	public void onLogin(Events.LoggedInSuccessful event) {
+		onLoginSuccessful();
 	}
 }
 

@@ -147,33 +147,9 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
-            android:key="7005"
-            android:summary="Select a test group"
-            android:title="Flight Free Cancellation Messaging" />
-
-        <ListPreference
-            android:entries="@array/abacus_search_influence_choices"
-            android:entryValues="@array/abacus_search_influence_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7017"
-            android:summary="Select a test group"
-            android:title="Hotel Search Influence Messaging" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
             android:key="7369"
             android:summary="Select a test group"
             android:title="Launch Screen NearBy Deals vs Collections" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7372"
-            android:summary="Select a test group"
-            android:title="Checkout OR Form Messaging" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -270,6 +246,46 @@
             android:key="7973"
             android:summary="Select a test group"
             android:title="Hotel 3x points messaging" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:key="8126"
+            android:summary="Select a test group"
+            android:title="Hotel collapse amenities, policies, fees" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:key="8129"
+            android:summary="Select a test group"
+            android:title="Show hotel address and map in receipt" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:key="8148"
+            android:summary="Select a test group"
+            android:title="Payment collapse Google Wallet" />
+
+        <ListPreference
+            android:entries="@array/abacus_flight_missing_callout_choices"
+            android:entryValues="@array/abacus_flight_missing_callout_values"
+            android:defaultValue="-1"
+            android:key="8128"
+            android:summary="Select a test group"
+            android:title="Flight Checkout Missing Traveler details Callout" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:key="8127"
+            android:summary="Select a test group"
+            android:title="Hotel CKO MER Email Guest opt/in/out" />
 
     </PreferenceCategory>
 

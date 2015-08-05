@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="UnusedResources">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:id="@+id/search_container"
@@ -83,8 +81,8 @@
                     android:paddingLeft="20dp"
                     android:textAllCaps="false"
                     android:textColor="@drawable/cars_text_selector"
-                    android:textOff="@string/select_dates"
-                    android:textOn="@string/select_dates"
+                    android:textOff="@string/select_dates_proper_case"
+                    android:textOn="@string/select_dates_proper_case"
                     android:textSize="15sp"
                     android:textStyle="normal" />
 
@@ -100,8 +98,8 @@
                     android:paddingRight="16dp"
                     android:textAllCaps="false"
                     android:textColor="@drawable/cars_text_selector"
-                    android:textOff="1 Traveler"
-                    android:textOn="1 Traveler"
+                    android:textOff="1 Adult"
+                    android:textOn="1 Adult"
                     android:textSize="15sp"
                     android:textStyle="normal" />
             </LinearLayout>
@@ -112,7 +110,7 @@
             android:layout_height="8dp"
             android:background="@drawable/revers_drop_shadow" />
 
-        <com.expedia.bookings.widget.TravelerPicker
+        <com.expedia.bookings.widget.HotelTravelerPickerView
             android:id="@+id/traveler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -157,6 +155,5 @@
         app:navigationIcon="@drawable/ic_close_white_24dp"
         app:title="@string/hotel_toolbar_title"
         app:titleTextAppearance="@style/CarsToolbarTitleTextAppearance" />
-
 
 </merge>

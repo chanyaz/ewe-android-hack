@@ -3,6 +3,8 @@ package com.expedia.bookings.data.abacus;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.expedia.bookings.utils.Strings;
+
 public class AbacusResponse {
 
 	private Map<Integer, AbacusTest> abacusTestMap = new HashMap<>();
@@ -65,5 +67,15 @@ public class AbacusResponse {
 
 	public int numberOfTests() {
 		return abacusTestMap.size();
+	}
+
+	public void updateFrom(AbacusResponse otherResponse) {
+		abacusTestMap.putAll(otherResponse.abacusTestMap);
+		abacusTestDebugMap.putAll(otherResponse.abacusTestDebugMap);
+	}
+
+	@Override
+	public String toString() {
+		return Strings.toPrettyString(this);
 	}
 }

@@ -14,6 +14,7 @@ import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -50,8 +51,12 @@ public class CarCategoryListWidget extends FrameLayout {
 
 		int toolbarSize = Ui.getToolbarSize(getContext());
 
+		//  Footer : Height of filter view container to make the view scrollable.
+		int filterViewHeight = (int) getResources().getDimension(R.dimen.lx_sort_filter_container_height);
+
 		recyclerView.addItemDecoration(
-			new RecyclerDividerDecoration(getContext(), 0, LIST_DIVIDER_HEIGHT, 0, LIST_DIVIDER_HEIGHT, toolbarSize + Ui.getStatusBarHeight(getContext()), 0, false));
+			new RecyclerDividerDecoration(getContext(), 0, LIST_DIVIDER_HEIGHT, 0, LIST_DIVIDER_HEIGHT,
+				toolbarSize + Ui.getStatusBarHeight(getContext()), filterViewHeight, false));
 		recyclerView.setHasFixedSize(true);
 		recyclerView.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 
@@ -99,6 +104,7 @@ public class CarCategoryListWidget extends FrameLayout {
 		adapter.setCategories(event.results.categories);
 		adapter.loadingState = false;
 		adapter.notifyDataSetChanged();
+		AdTracker.trackCarResult(event.results, mParams);
 	}
 
 	@Subscribe

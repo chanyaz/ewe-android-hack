@@ -57,7 +57,6 @@ public class WorkingBillingInfoManager {
 	public void commitWorkingBillingInfoToDB() {
 		BillingInfo commitBillingInfo = new BillingInfo(mWorkingBillingInfo);
 		Db.setBillingInfo(commitBillingInfo);
-		Db.setBillingInfoIsDirty(true);
 	}
 
 	/**

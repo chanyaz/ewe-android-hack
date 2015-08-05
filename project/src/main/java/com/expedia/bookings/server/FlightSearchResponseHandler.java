@@ -8,8 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightSegmentAttributes;
@@ -33,8 +31,6 @@ import com.squareup.okhttp.Response;
  * for parsing other aspects which are repeated across the app (like flight trips).
  */
 public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearchResponse> {
-
-	private Context mContext;
 
 	private FlightSearchResponse mResponse;
 

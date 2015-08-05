@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.net.Uri;
@@ -82,6 +83,10 @@ public class StrUtils {
 
 	public static String formatAddressCity(Location location) {
 		return formatAddress(location, F_CITY + F_STATE_CODE + F_POSTAL_CODE);
+	}
+
+	public static String formatAddressCityState(Location location) {
+		return formatAddress(location, F_CITY + F_STATE_CODE);
 	}
 
 	public static String formatAddress(Location location) {
@@ -450,11 +455,41 @@ public class StrUtils {
 			int end = legalTextSpan.getSpanEnd(span);
 			// Replace URL span with ClickableSpan to redirect to our own webview
 			legalTextSpan.removeSpan(span);
-			legalTextSpan.setSpan(new LegalClickableSpan(context, span.getURL(), legalTextSpan.subSequence(start, end).toString()), start,
+			legalTextSpan.setSpan(new LegalClickableSpan(span.getURL(), legalTextSpan.subSequence(start, end).toString(), true), start,
 				end, 0);
 			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
 			legalTextSpan.setSpan(new UnderlineSpan(), start, end, 0);
 			legalTextSpan.setSpan(new ForegroundColorSpan(Ui.obtainThemeColor(context, R.attr.primary_color)), start,
+				end,
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
+
+		return legalTextSpan;
+	}
+
+	public static SpannableStringBuilder generateAccountCreationLegalLink(Context context) {
+		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
+
+		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
+			context.getResources().getString(R.string.info_label_terms_conditions));
+		String spannedPrivacy = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), context.getResources().getString(R.string.privacy_policy));
+		String statement = context.getResources()
+			.getString(R.string.account_creation_legal_TEMPLATE, spannedTerms, spannedPrivacy);
+
+		legalTextSpan.append(Html.fromHtml(statement));
+		URLSpan[] spans = legalTextSpan.getSpans(0, statement.length(), URLSpan.class);
+
+		for (final URLSpan span : spans) {
+			int start = legalTextSpan.getSpanStart(span);
+			int end = legalTextSpan.getSpanEnd(span);
+			// Replace URL span with ClickableSpan to redirect to our own webview
+			legalTextSpan.removeSpan(span);
+			legalTextSpan.setSpan(new LegalClickableSpan(span.getURL(), legalTextSpan.subSequence(start, end).toString(), false), start,
+				end, 0);
+			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
+			legalTextSpan.setSpan(new ForegroundColorSpan(Color.WHITE), start,
 				end,
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
@@ -486,5 +521,20 @@ public class StrUtils {
 		return Phrase.from(context.getString(stringResId))
 			.put("brand", context.getString(R.string.brand_name))
 			.format();
+	}
+
+	/**
+	 * Fetch text of the child traveler in the spinner.
+	 */
+	public static String getChildTravelerAgeText(Resources res, int age) {
+		age = age + GuestsPickerUtils.MIN_CHILD_AGE;
+		String str = null;
+		if (age == 0) {
+			str = res.getString(R.string.child_age_less_than_one);
+		}
+		else {
+			str = res.getQuantityString(R.plurals.child_age, age, age);
+		}
+		return Html.fromHtml(str).toString();
 	}
 }

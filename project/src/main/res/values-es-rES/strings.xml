@@ -80,9 +80,9 @@
     <!-- Location for calendar event.  %1$s is the name of the pick up location -->
     <string name="calendar_car_location_TEMPLATE">%1$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_car_desc_itinerary_TEMPLATE">Número de itinerario de Expedia: %s</string>
+    <string name="calendar_desc_itinerary_TEMPLATE">Número de itinerario de {brand}: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_car_desc_support_TEMPLATE">Servicio de atención al cliente de Expedia: %1$s y %2$s</string>
+    <string name="calendar_desc_support_TEMPLATE">Servicio de atención al cliente de {brand}: {localphone} y {phone}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Buscar hoteles</string>
@@ -96,8 +96,10 @@
     <string name="toolbar_search_cars">Buscar vehículos de alquiler</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Selecciona las fechas de recogida y entrega</string>
+    <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
+    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">%1$s - Selecciona la fecha de vuelta</string>
+    <string name="select_return_date_TEMPLATE">%1$s – Selecciona la fecha de vuelta</string>
     <!-- Label for pick-up time picker -->
     <string name="pick_up_time_label">Recogida</string>
     <!-- Label for drop-up time picker -->
@@ -137,7 +139,6 @@
     <string name="car_model_name_template">%1$s o similar</string>
     <string name="car_model_unknown_template">Modelo exacto desconocido</string>
 
-    <string name="preparing_checkout_message">Preparando pago…</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">Mostrador y vehículo en la terminal</string>
     <!-- Car checkout cost breakdown total due today -->
@@ -149,8 +150,6 @@
     <!-- Car checkout rental fare breakdown types -->
     <!--Cost breakdown type base -->
     <string name="car_rental_breakdown_base">Alquiler de coches</string>
-    <!--Cost breakdown type taxes and fees -->
-    <string name="car_rental_breakdown_taxes_and_fees">Impuestos y tasas estimados</string>
     <!--Cost breakdown type insurance -->
     <string name="car_rental_breakdown_insurance">Seguro</string>
     <!--Cost breakdown type drop off charge -->
@@ -194,7 +193,7 @@
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">Los nombres no pueden contener números o caracteres especiales.</string>
     <!-- Show to user when their phone number is invalid -->
-    <string name="reservation_invalid_phone">El número de teléfono debe contener entre 1 y 20 dígitos.</string>
+    <string name="reservation_invalid_phone">El número de teléfono debe contener entre 4 y 20 dígitos.</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Vaya, parece que no se ha podido procesar el pago. Comprueba tus datos de pago e inténtalo de nuevo.</string>
@@ -267,7 +266,7 @@
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
-    <string name="cancellation_policy_TEMPLATE">Puedes cancelar gratis hasta %1$s antes de que comience la reserva. Una vez pasado ese tiempo, no es posible realizar cancelaciones, cambios o reembolsos.</string>
+    <string name="lx_cancellation_policy_TEMPLATE">Puedes cancelar gratis hasta {hours} horas antes de que comience la reserva. Una vez pasado ese tiempo, no es posible realizar cancelaciones, cambios o reembolsos.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
     <string name="lx_policy_non_cancellable">Esta reserva no es reembolsable y no puede modificarse o cancelarse después de haberse confirmado.</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -565,8 +564,6 @@
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">Desliza para reservar</string>
-    <!-- Total with tax -->
-    <string name="lx_total_with_tax">Total con impuestos</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Introducir datos de contacto</string>
     <!-- LX search error -->
@@ -599,6 +596,10 @@
     <string name="lx_select_ticket">Seleccionar billete</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">Cancelación gratuita</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">Cupón electrónico</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">Se requiere cupón impreso</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">No es posible aceptar %1$s</string>
     <!-- LX Error Activity Price Changed -->
@@ -620,6 +621,8 @@
     <string name="lx_ground_transport_bags_text">%1$s maletas</string>
     <!-- Ground Transport passengers text-->
     <string name="lx_ground_transport_passengers_text">%1$s pasajeros</string>
+    <!-- Incorrect date search for LX -->
+    <string name="lx_start_date_error">La fecha seleccionada ya ha pasado, elige una fecha nueva.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -713,14 +716,10 @@
         <item quantity="other">Elementos de viaje</item>
     </plurals>
 
-    <!-- LX Sort & Filter "Apply" header -->
-    <string name="lx_apply_sort_filter">Canjear</string>
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Ordenar por</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">Categorías</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">Filtrar</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -809,9 +808,9 @@
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">El %s%% lo recomienda</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
-    <string name="sorry_rooms_sold_out">Lo sentimos, no quedan más habitaciones en Expedia.</string>
+    <string name="sorry_rooms_sold_out_TEMPLATE">Lo sentimos, no quedan más habitaciones en {brand}</string>
     <!-- A message stating this hotel is sold out on Expedia -->
-    <string name="sold_out_on_expedia">No quedan más habitaciones en Expedia.</string>
+    <string name="sold_out_on_TEMPLATE">Agotado en {brand}</string>
     <!-- Hotel gallery title -->
     <string name="photos_for_TEMPLATE">Fotos de %s</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
@@ -860,7 +859,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">¡Hola, &lt;b&gt;%1$s&lt;/b&gt;! Hemos encontrado tu cuenta de Expedia. Introduce tu contraseña de Expedia para conectar tu cuenta de Facebook a tu cuenta de Expedia.</string>
+    <string name="facebook_weve_found_your_account_TEMPLATE">¡Hola, &lt;b&gt;{name}&lt;/b&gt;! Hemos encontrado tu cuenta de {brand} Introduce tu contraseña de {brand} para conectar tu cuenta de Facebook a tu cuenta de {brand}.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">¡Hola, &lt;b&gt;%1$s&lt;/b&gt;! Hemos cargado tu información de Facebook.</string>
     <!-- Sign in with facebook (button text) -->
@@ -875,36 +874,27 @@
     <string name="unable_to_sign_into_facebook">No ha sido posible iniciar sesión en Facebook.</string>
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">No se ha podido iniciar sesión. Si tu correo electrónico y contraseña son correctos, confirma que la configuración "País" de la aplicación es correcta.</string>
-    <!-- User needs to reset password -->
-    <string name="sign_in_reset_password">Necesitamos que crees un nuevo inicio de sesión que podrás utilizar en todos los sitios web internacionales de Expedia.&lt;br&gt;Utiliza el enlace "¿Has olvidado tu contraseña?" para restablecer tu contraseña.</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">Contraseña de {brand}</string>
     <!-- Link accounts -->
     <string name="link_accounts">Conectar cuentas</string>
-    <!-- Failure to update the user -->
-    <string name="failure_to_update_user">No se ha podido recuperar la información actualizada del usuario.</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">Autorizar verificación de correo electrónico</string>
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">Verificación de correo electrónico</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">Para poder iniciar sesión con Facebook, necesitamos que nos des permiso para verificar tu dirección de correo electrónico. \n\nSolo tienes que seleccionar el botón de Facebook que aparece más abajo para autorizar a Expedia a que verifique tu dirección de correo electrónico. ¡Muchas gracias!</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Enlazando cuentas…</string>
-    <!-- Sign In -->
-    <string name="Sign_In">Iniciar sesión</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">Autorizar verificación de correo electrónico</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message_TEMPLATE">Para poder iniciar sesión con Facebook, necesitamos que nos des permiso para verificar tu dirección de correo electrónico. \n\nSolo tienes que seleccionar el botón de Facebook que aparece más abajo para autorizar a {brand} a que verifique tu dirección de correo electrónico. ¡Muchas gracias!</string>
+
     <!-- Sign in with Expedia -->
-    <string name="Sign_in_with_Expedia">Iniciar sesión con Expedia</string>
-    <!-- Sign in with the current brand -->
-    <string name="sign_in_with_brand_TEMPLATE">Iniciar sesión con {brand}</string>
+    <string name="Sign_in_with_TEMPLATE">Iniciar sesión con {brand}</string>
     <!-- or -->
     <string name="or">o</string>
-    <!-- Already signed in -->
-    <string name="already_signed_in">Sesión iniciada</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
-    <string name="restricted_profile_sign_in_message">Para iniciar sesión en Expedia, debes usar un perfil de usuario sin restricciones en tu dispositivo.</string>
+    <string name="restricted_profile_sign_in_message_TEMPLATE">Para iniciar sesión en {brand}, debes usar un perfil de usuario sin restricciones en tu dispositivo.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
@@ -1007,7 +997,7 @@
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Encontrar número de itinerario</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">Itinerario Expedia:</string>
+    <string name="itinerary_TEMPLATE">Nº de itinerario de {brand}</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
     <string name="Expedia_plus_Silver_Customer_Support">Servicio de atención al cliente de Expedia +silver</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
@@ -1437,7 +1427,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">Teléfono\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">Reserva hoteles y vuelos, y visualiza y comparte tus itinerarios Descarga la aplicación gratuita de Expedia hoy.\n%s</string>
+    <string name="share_long_ad_TEMPLATE">Reserva hoteles y vuelos, y visualiza y comparte tus itinerarios. Descarga la aplicación gratuita de {brand} hoy mismo.\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Voy a volar a %1$s el %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1533,7 +1523,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">Vuelos de Expedia</string>
+    <string name="Flights_TEMPLATE">{brand} vuelos</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Buscar vuelos</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -1560,8 +1550,8 @@
     <string name="outbound_TEMPLATE">Vuelos de ida a %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Vuelos de vuelta a %s</string>
-    <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">No hemos podido conectar con los servidores de Expedia.  Vuelve a intentarlo más tarde.</string>
+    <!-- Template string for error when we simple can't connect to E3 servers-->
+    <string name="error_server_TEMPLATE">Lo sentimos, no hemos podido conectar con los servidores de {brand}.  Vuelve a intentarlo más tarde.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Salida</string>
     <!-- Sort by arrival time label -->
@@ -1652,7 +1642,8 @@
     <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">Selecciona la fecha de entrada</string>
-
+    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests} personas</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">Ida por &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1717,6 +1708,12 @@
     <string name="select_payment">Seleccionar método de pago</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">Datos de pago</string>
+    <!-- Select payment sentence case AB Test variate1 -->
+    <string name="select_payment_sentence_case_variate1">Introduce la información de pago</string>
+    <!-- Select payment sentence case AB Test variate2 -->
+    <string name="select_payment_sentence_case_variate2">Pago</string>
+    <!-- Select payment callout AB Test variate2 -->
+    <string name="select_payment_callout">Introducir datos</string>
     <!-- Add new card -->
     <string name="add_new_card">Añadir nueva tarjeta</string>
     <!-- Overview button -->
@@ -1811,10 +1808,18 @@
     <string name="menu_checkout">Completar reserva</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Mejor precio garantizado</string>
+    <!-- Label for address of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_address">Dirección:</string>
+    <!-- Label to view map of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_view_map">Ver mapa</string>
+    <!-- Expedia Rate - Non merchant default infosite messaging -->
+    <string name="non_merchant_rate_TEMPLATE">Tarifa de {brand}</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Cancelación gratuita&lt;/b&gt; antes del &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">Cerrar sesión</string>
+    <!-- AB Test 3x messaging for hotel points -->
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Conseguirás %1$s puntos: ¡el triple por reservar desde la app!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">¡Conseguirás %1$s puntos por esta reserva!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1847,6 +1852,8 @@
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">El precio total de tu estancia, incluyendo la tasa de completo turístico (&lt;b&gt;%1$s&lt;/b&gt;), es de &lt;b&gt;%2$s&lt;/b&gt;. Pagarás al hotel la cantidad restante de la reserva (en la moneda local) durante tu estancia.</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">Cancelación gratuita durante las 24 horas posteriores a la reserva.</string>
+    <!-- Flights AB Test Traveler info missing callout label -->
+    <string name="ab_test_flights_missing_info_callout">Introduce los datos del viajero</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1887,6 +1894,10 @@
     <string name="enter_traveler_info">Datos del viajero</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Datos del viajero principal</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">Introduce los datos del viajero principal</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">Viajero principal</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Guardado</string>
     <!-- Edit button for traveler/payment -->
@@ -1897,26 +1908,56 @@
     <string name="add_new_traveler">Añadir nuevo viajero</string>
     <!-- Select card from checkout saved credit cards list -->
     <string name="saved_creditcards">Tarjetas guardadas</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="select_saved_cards">Seleccionar una tarjeta guardada</string>
     <!-- Add new card, checkout saved credit cards list -->
     <string name="add_new_creditcard">Añadir nueva tarjeta</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Datos del huésped</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Datos del adulto %1$s</string>
+    <!-- AB test variate 1 - Add adult traveler number template -->
+    <string name="add_adult_number_variate1_TEMPLATE">Introduce los datos del adulto %1$s</string>
+    <!-- AB test variate 2 - Add adult traveler number template -->
+    <string name="add_adult_number_variate2_TEMPLATE">Adulto %1$s</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">Datos del adulto</string>
+    <!-- AB test variate 1 - Add adult traveler details label -->
+    <string name="add_adult_variate1">Introduce los datos del adulto</string>
+    <!-- AB test variate 2 - Add adult traveler details label -->
+    <string name="add_adult_variate2">Adulto</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Datos del niño %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">Datos del niño de %1$s años</string>
+    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate1_TEMPLATE">Introduce los datos del niño de %1$s año(s)</string>
+    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate2_TEMPLATE">Niño de %1$s año(s)</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Datos del bebé en regazo %1$s</string>
+    <!-- AB test variate 1 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate1_TEMPLATE">Introduce los datos del bebé en regazo %1$s</string>
+    <!-- AB test variate 2 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate2_TEMPLATE">Bebé en regazo %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap">Datos del bebé en regazo</string>
+    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate1">Introduce los datos del bebé en regazo</string>
+    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate2">Bebé en regazo</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">Datos del bebé en asiento %1$s</string>
+    <!-- AB test variate 1- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate1_TEMPLATE">Introduce los datos del bebé en asiento %1$s</string>
+    <!-- AB test variate 2- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate2_TEMPLATE">Bebé en asiento %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat">Datos del bebé en asiento</string>
+    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate1">Introduce los datos del bebé en asiento</string>
+    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate2">Bebé en asiento</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">El operador de la aerolínea puede denegar el embarque si el nombre del pasajero no coincide con el de alguna identificación oficial con fotografía.</string>
 
@@ -1942,8 +1983,10 @@
     <string name="cardholder">Titular de la tarjeta</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">Enviaremos el correo de confirmación a esta dirección</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">Fecha de caducidad: %1$s</string>
+    <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">No deseo recibir correos electrónicos de {brand} con ofertas de viajes, promociones especiales y otra información.</string>
+    <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">Deseo recibir correos electrónicos de {brand} con ofertas de viajes, promociones especiales y otra información.</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -1982,7 +2025,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">Guardar información de facturación</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">¿Quieres guardar esta forma de pago en tu cuenta de Expedia para las próximas reservas?</string>
+    <string name="save_billing_info_message_TEMPLATE">¿Quieres guardar esta forma de pago en tu cuenta de {brand} para las próximas reservas?</string>
     <!-- save -->
     <string name="save">Guardar</string>
 
@@ -1990,7 +2033,7 @@
     <!-- save traveler -->
     <string name="save_traveler">Guardar pasajero</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">¿Quieres guardar los datos de %1$s en tu cuenta de Expedia para las próximas reservas?</string>
+    <string name="save_traveler_message_TEMPLATE">¿Quieres guardar los datos de {name} en tu cuenta de {brand} para las próximas reservas?</string>
     <!-- no thanks -->
     <string name="no_thanks">No, gracias</string>
 
@@ -2121,11 +2164,13 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">Rastrear con FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">Llamar al servicio de atención al cliente de Expedia</string>
+    <string name="call_customer_support_TEMPLATE">Llamar al servicio de atención al cliente de {brand}</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Añadir seguro</string>
     <!-- Insurance -->
     <string name="insurance">Seguro</string>
+    <!-- Insurance label on itin section -->
+    <string name="insurance_itin_label">Protección de viaje</string>
     <!-- Air attach messaging -->
     <string name="air_attach_alert">Ahora que has reservado tu vuelo…</string>
     <!-- Air attach savings messaging -->
@@ -2156,11 +2201,11 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">Número de itinerario de Expedia: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">Número de itinerario de {brand}: {itinerary}</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">Cómo llegar al aeropuerto: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">Servicio de atención al cliente de Expedia: %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">Servicio de atención al cliente de {brand}: {phone}</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -2214,11 +2259,11 @@
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Lo sentimos, no podemos procesar el pedido en este momento. Vuelve a intentarlo.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Lo sentimos, no podemos procesar el pedido en este momento. Vuelve a intentarlo o llama al servicio de atención al cliente, indicando el siguiente número de itinerario: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">Lo sentimos, no podemos procesar el pedido en este momento. Vuelve a intentarlo o llama al servicio de atención al cliente de {brand}, indicando el siguiente número de itinerario: {itinerary}</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_expedia">Lo sentimos, el vuelo ya no está disponible en Expedia.</string>
+    <string name="error_flight_no_longer_available_TEMPLATE">Lo sentimos, el vuelo ya no está disponible en {brand}.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_expedia">Lo sentimos, uno de los vuelos ya no está disponible en Expedia.</string>
+    <string name="error_flights_no_longer_available_TEMPLATE">Lo sentimos, uno de los vuelos ya no está disponible en {brand}.</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
     <string name="error_flight_hold_expired">La sesión ha caducado, debes iniciarla de nuevo para poder reservar estos vuelos.</string>
     <!-- Error shown to user if one of multiple flights is no longer available or expired -->
@@ -2434,11 +2479,7 @@
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
     <string name="progress_finding_location">Buscando ubicación actual…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">Buscando hoteles…</string>
-    <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_message">Buscando…</string>
-    <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_working_hard">Estamos buscando las mejores ofertas de hotel para ti.</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">Buscando entre cientos de ofertas de hoteles…</string>
     <!-- Message displayed when app is searching for a particular hotel -->
@@ -2452,7 +2493,7 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">No hay habitaciones disponibles</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_expedia">Vaya, este hotel ya no está disponible en Expedia.</string>
+    <string name="error_hotel_is_now_sold_out_TEMPLATE">Lo sentimos, este hotel ya no está disponible en {brand}.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -2465,6 +2506,8 @@
     <string name="per_night">por noche</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/noche</string>
+    <!-- The label for abbreviated price per night - "$120/nt", for example -->
+    <string name="per_nt_TEMPLATE">{price}/noche</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Sin valoraciones</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2516,6 +2559,10 @@
     <string name="minus_x_percent">-%2.0f%%</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">El %2.0f%% de los clientes recomiendan este hotel</string>
+    <!-- new material Hotel results cell guest rating -->
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
+    <!-- new material Hotel results cell guest recommend-->
+    <string name="guest_recommend">de los clientes lo recomiendan</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
@@ -2635,7 +2682,7 @@
     <string name="etp_pay_later_payment_info_text">La información de pago solo se utilizará para asegurar tu reserva.</string>
     <string name="etp_pay_later_cancellation_text">Podrás cancelar gratis dentro del plazo de cancelación permitido por el hotel.</string>
     <string name="etp_pay_now_option_text">Pagar ahora en línea</string>
-    <string name="etp_pay_now_charges_text">Expedia gestionará tus datos de pago.</string>
+    <string name="etp_pay_now_charges_text_TEMPLATE">{brand} gestionará tus datos de pago.</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">Pagarás en tu moneda local (%s).</string>
     <string name="etp_pay_now_cancellation_text">Podrás cancelar gratis dentro del plazo de cancelación permitido por el hotel.</string>
     <string name="etp_select_room">Elegir habitación</string>
@@ -2681,6 +2728,8 @@
     <string name="included_in_the_price">Incluidas en el precio</string>
     <!-- Not included in the price -->
     <string name="not_included_in_the_price">No incluidas en el precio</string>
+    <!-- View Room button text -->
+    <string name="view_room_button_text">Ver habitación</string>
 
     <!-- Renovation Notice -->
     <string name="renovation_notice">Aviso de obras</string>
@@ -2726,8 +2775,9 @@
     <!-- Itinerary number label -->
     <string name="itinerary_number">Núm. de itinerario</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">Si tienes cualquier duda sobre tu reserva, ponte en contacto con Expedia llamando al %s.</string>
-
+    <string name="contact_phone_TEMPLATE">Si tienes alguna pregunta sobre la reserva, ponte en contacto con {brand}llamando al {phone}.</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">¿Has olvidado tu contraseña?</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2742,10 +2792,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Iniciar sesión</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">Consigue puntos y reserva aún más rápido.</string>
-    <!-- Hint for user to enter password into a field -->
-    <string name="hint_password">Contraseña</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Iniciando sesión…</string>
     <!-- Message that tells user they failed to sign in -->
@@ -2758,14 +2804,8 @@
     <string name="Expedia_plus_silver">Expedia +silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
-    <!-- Label for signin screen -->
-    <string name="expedia_account">Cuenta de Expedia</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Cargando cuenta de {brand}</string>
-    <!-- Label for password recovery -->
-    <string name="forgot_your_password">¿Has olvidado tu contraseña?</string>
-    <!-- Webview title for password recovery -->
-    <string name="title_forgot_password">¿Has olvidado tu contraseña?</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">Introduce un cupón o código promocional</string>
     <!-- Label for coupon code hint -->
@@ -2834,13 +2874,13 @@
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Ayuda para reservas</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">Ponte en contacto con Expedia por…</string>
+    <string name="contact_via_TEMPLATE">Ponte en contacto con {brand} vía…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Teléfono</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Web</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">Web de Expedia</string>
+    <string name="website_TEMPLATE">Web de {brand}</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Ayuda de la aplicación</string>
     <!-- Label for link to terms and conditions -->
@@ -2848,11 +2888,11 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Política de privacidad</string>
     <!-- Copyright information -->
-    <string name="copyright_TEMPLATE">© Copyright %1$s- Expedia, Inc.\nTodos los derechos reservados.</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nTodos los derechos reservados.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_signed_out_and_cleared_private_data">Se ha cerrado la sesión y se han borrado los datos</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data">Se ha cerrado la sesión de Expedia y todos los datos de facturación y contacto han sido borrados.</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">Se ha cerrado la sesión de {brand} y todos los datos de facturación y contacto han sido borrados.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Datos privados borrados</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2970,7 +3010,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">Un error nos ha impedido completar tu reserva. Vuelve a intentarlo.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">¡Has hecho la reserva con éxito! Si necesitas un itinerario inmediatamente, llama al Servicio de atención al cliente de Expedia.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">¡Has hecho la reserva con éxito! Si necesitas un itinerario inmediatamente, llama al servicio de atención al cliente de {brand}.</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">Lo sentimos, pero la habitación que has solicitado ya no está disponible.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -2995,7 +3035,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Lo sentimos. La promoción para esta habitación ha terminado, pero hay otras ofertas disponibles.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">Lo sentimos, pero la habitación que has solicitado ya no está disponible.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Lo sentimos, pero no hemos podido conectar con Expedia. Vuelve a intentarlo.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Lo sentimos, pero no hemos podido conectar con {brand}. Vuelve a intentarlo.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">Lo sentimos. La promoción para esta habitación ha terminado, pero hay otras ofertas disponibles.</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -3476,9 +3516,6 @@
     <string name="cd_checkout_select_payment">Pulsa para seleccionar un pago para esta reserva</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Pulsa para introducir un cupón o un código promocional</string>
-    <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
-    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">Pulsa para iniciar sesión en {brand} con tu cuenta de Facebook</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Pulsa para introducir un nuevo pasajero</string>
@@ -3568,8 +3605,19 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Al completar esta reserva, declaro haber leído y aceptado las %1$s, los %2$s y la %3$s.</string>
+    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="account_creation_legal_TEMPLATE">He leído y acepto los %1$s y la %2$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Selecciona la edad de cada niño</string>
 
+    <string name="lob_not_supported_error_message">La reserva de {lob} no se encuentra disponible todavía en tu región.</string>
+
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_Expedia_account">Crear una cuenta de Expedia</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Expedia">¡Bienvenido a Expedia!</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Expedia_account_already_exists">Ya existe una cuenta de Expedia con esa dirección de correo electrónico.</string>
 </resources>

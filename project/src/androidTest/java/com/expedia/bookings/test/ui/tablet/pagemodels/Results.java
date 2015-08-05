@@ -9,9 +9,9 @@ import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 
-import static com.expedia.bookings.test.ui.espresso.ViewActions.slowSwipeUp;
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.listLengthGreaterThan;
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withHotelName;
+import static com.expedia.bookings.test.espresso.ViewActions.slowSwipeUp;
+import static com.expedia.bookings.test.espresso.CustomMatchers.listLengthGreaterThan;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withHotelName;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

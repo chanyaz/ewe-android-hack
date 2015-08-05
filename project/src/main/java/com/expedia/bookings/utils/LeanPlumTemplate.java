@@ -19,7 +19,6 @@ import com.leanplum.LeanplumActivityHelper;
 import com.leanplum.callbacks.ActionCallback;
 import com.leanplum.callbacks.VariablesChangedCallback;
 import com.leanplum.messagetemplates.BaseMessageDialog;
-import com.leanplum.messagetemplates.CenterPopupOptions;
 import com.mobiata.android.Log;
 
 /**
@@ -35,9 +34,8 @@ public class LeanPlumTemplate extends BaseMessageDialog {
 	public static final String DISMISS_ACTION = "Dismiss Action";
 	public static final String TITLE = "Title";
 
-	public LeanPlumTemplate(Activity activity, CenterPopupOptions options) {
-		super(activity, false, options, null);
-		this.options = options;
+	public LeanPlumTemplate(Activity activity) {
+		super(activity, false, null, null);
 	}
 
 	public static void register(Context context) {

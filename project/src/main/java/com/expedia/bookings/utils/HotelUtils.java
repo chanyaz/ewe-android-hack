@@ -37,11 +37,6 @@ import com.mobiata.android.util.ViewUtils;
 public class HotelUtils {
 
 	public static boolean checkPhoneFinishConditionsAndFinish(Activity activity) {
-		// Attempt to load hotel data from disk
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
-			Db.loadHotelSearchFromDisk(activity);
-		}
-
 		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			activity.finish();

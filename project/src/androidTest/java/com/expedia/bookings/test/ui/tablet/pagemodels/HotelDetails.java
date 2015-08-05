@@ -5,7 +5,7 @@ import com.expedia.bookings.R;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 
-import static com.expedia.bookings.test.ui.espresso.ViewActions.swipeUp;
+import static com.expedia.bookings.test.espresso.ViewActions.swipeUp;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;

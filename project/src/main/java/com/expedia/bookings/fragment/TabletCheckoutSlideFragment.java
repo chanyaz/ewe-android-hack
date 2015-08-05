@@ -143,10 +143,6 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 		super.onPause();
 
 		Events.unregister(this);
-
-		if (Db.getTravelersAreDirty()) {
-			Db.kickOffBackgroundTravelerSave(getActivity());
-		}
 	}
 
 	@Override

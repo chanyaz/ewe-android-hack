@@ -6,7 +6,6 @@
         android:id="@+id/checkout_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         android:paddingTop="?attr/actionBarSize">
 
         <LinearLayout
@@ -36,11 +35,13 @@
 
             </android.support.v7.widget.CardView>
 
-            <com.expedia.bookings.widget.AccountLoginWidget
+            <com.expedia.bookings.widget.AccountButton
                 android:id="@+id/login_widget"
                 style="?attr/checkout_card_view_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
                 android:layout_marginLeft="9dp"
                 android:layout_marginRight="9dp"
                 android:layout_marginTop="12dp" />
@@ -108,7 +109,7 @@
             <Space
                 android:id="@+id/spacer"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/checkout_unexpanded_space_height" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </com.expedia.bookings.widget.ScrollView>
 

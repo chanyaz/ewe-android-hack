@@ -9,8 +9,8 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -18,8 +18,8 @@ import static android.support.test.espresso.assertion.ViewAssertions.selectedDes
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.isEmpty;
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withRating;
+import static com.expedia.bookings.test.espresso.CustomMatchers.isEmpty;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withRating;
 import static org.hamcrest.CoreMatchers.not;
 
 public class HotelRoomsAndRatesTests extends PhoneTestCase {

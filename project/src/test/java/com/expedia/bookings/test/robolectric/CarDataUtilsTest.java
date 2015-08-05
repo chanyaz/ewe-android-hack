@@ -14,6 +14,7 @@ import android.net.Uri;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.server.TripParser;
 import com.expedia.bookings.utils.CarDataUtils;
@@ -86,7 +87,7 @@ public class CarDataUtilsTest {
 	}
 
 	@Test
-	public void testFromDeeplink() {
+	public void testFromDeeplinkWithAirportCode() {
 		final String expectedURL = "expda://carSearch?pickupLocation=SFO&pickupDateTime=2015-06-26T09:00:00&dropoffDateTime=2015-06-27T09:00:00&originDescription=SFO-San Francisco International Airport";
 		final String pickupLocation = "SFO";
 		final String pickupDateTime = "2015-06-26T09:00:00";
@@ -106,6 +107,32 @@ public class CarDataUtilsTest {
 		assertEquals(expectedCarSearchParams.startDateTime, obtainedCarSearchParams.startDateTime);
 		assertEquals(expectedCarSearchParams.endDateTime, obtainedCarSearchParams.endDateTime);
 		assertEquals(expectedCarSearchParams.origin, obtainedCarSearchParams.origin);
+		assertEquals(expectedCarSearchParams.originDescription, obtainedCarSearchParams.originDescription);
+	}
+
+	@Test
+	public void testFromDeeplinkWithLocationLatLng() {
+		final String expectedURL = "expda://carSearch?pickupLocationLat=32.71444&pickupLocationLng=-117.16237&pickupDateTime=2015-06-26T09:00:00&dropoffDateTime=2015-06-27T09:00:00&originDescription=SFO-San Francisco International Airport";
+		final double pickupLocationLat = 32.71444d;
+		final double pickupLocationLng = -117.16237d;
+		final String pickupDateTime = "2015-06-26T09:00:00";
+		final String dropoffDateTime = "2015-06-27T09:00:00";
+		final String originDescription = "SFO-San Francisco International Airport";
+
+		CarSearchParams obtainedCarSearchParams = getCarSearchParamsFromDeeplink(expectedURL);
+
+		CarSearchParams expectedCarSearchParams = new CarSearchParams();
+		expectedCarSearchParams.startDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTime, DateTime.now());
+		expectedCarSearchParams.endDateTime = DateUtils
+			.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTime, expectedCarSearchParams.startDateTime.plusDays(3));
+
+		expectedCarSearchParams.pickupLocationLatLng = new LatLong(pickupLocationLat, pickupLocationLng);
+		expectedCarSearchParams.originDescription = originDescription;
+
+		assertEquals(expectedCarSearchParams.startDateTime, obtainedCarSearchParams.startDateTime);
+		assertEquals(expectedCarSearchParams.endDateTime, obtainedCarSearchParams.endDateTime);
+		assertEquals(expectedCarSearchParams.pickupLocationLatLng.lat, obtainedCarSearchParams.pickupLocationLatLng.lat, 1e-10);
+		assertEquals(expectedCarSearchParams.pickupLocationLatLng.lng, obtainedCarSearchParams.pickupLocationLatLng.lng, 1e-10);
 		assertEquals(expectedCarSearchParams.originDescription, obtainedCarSearchParams.originDescription);
 	}
 
