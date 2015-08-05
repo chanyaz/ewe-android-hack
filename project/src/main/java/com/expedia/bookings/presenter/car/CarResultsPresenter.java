@@ -24,6 +24,7 @@ import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.LeftToRightTransition;
 import com.expedia.bookings.presenter.Presenter;
@@ -50,6 +51,7 @@ import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscription;
 import rx.exceptions.OnErrorNotImplementedException;
+import rx.subjects.PublishSubject;
 
 public class CarResultsPresenter extends Presenter {
 
@@ -105,6 +107,8 @@ public class CarResultsPresenter extends Presenter {
 	private CarSearch unfilteredSearch = new CarSearch();
 	private int searchTop;
 	private String lastState;
+	private CarSearch filteredSearch = new CarSearch();
+	PublishSubject filterDonePublishSubject = PublishSubject.create();
 
 	@Override
 	protected void onFinishInflate() {
@@ -152,6 +156,9 @@ public class CarResultsPresenter extends Presenter {
 		toolbarBackground.getLayoutParams().height += statusBarHeight;
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 		filterToolbar.setFilterText(getResources().getString(R.string.filter));
+		details.getSearchCarOfferPublishSubject().subscribe(carOfferObserver);
+		filterDonePublishSubject.subscribe(filterDoneObserver);
+
 	}
 
 	@Override
@@ -234,6 +241,7 @@ public class CarResultsPresenter extends Presenter {
 
 		@Override
 		public void onNext(CarSearch filteredCarSearch) {
+			filteredSearch = filteredCarSearch;
 			CategorizedCarOffers filteredBucket = null;
 
 			if (selectedCategorizedCarOffers != null) {
@@ -251,6 +259,22 @@ public class CarResultsPresenter extends Presenter {
 		}
 	};
 
+	private Observer<CarSearch> filterDoneObserver = new Observer<CarSearch>() {
+		@Override
+		public void onCompleted() {
+			cleanup();
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(CarSearch carSearch) {
+			AdTracker.trackFilteredCarResult(filteredSearch, searchedParams);
+		}
+	};
+
 	private void handleCarSearchResults(CarSearch carSearch) {
 		unfilteredSearch = carSearch;
 		filterToolbar.setVisibility(View.VISIBLE);
@@ -262,7 +286,7 @@ public class CarResultsPresenter extends Presenter {
 	}
 
 	private void bindFilter(CarSearch carSearch) {
-		filter.bind(carSearch);
+		filter.bind(carSearch, filterDonePublishSubject);
 	}
 
 	/* handle CAR_SEARCH_WINDOW_VIOLATION detail errors and show default error screen
@@ -666,6 +690,21 @@ public class CarResultsPresenter extends Presenter {
 				scrolledDistance = Math.max(0, scrolledDistance + dy);
 				filterToolbar.setTranslationY(Math.min(scrolledDistance, 0));
 			}
+		}
+	};
+
+	private Observer<SearchCarOffer> carOfferObserver = new Observer<SearchCarOffer>() {
+		@Override
+		public void onCompleted() {
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(SearchCarOffer searchCarOffer) {
+			AdTracker.trackCarDetails(searchedParams, searchCarOffer);
 		}
 	};
 }

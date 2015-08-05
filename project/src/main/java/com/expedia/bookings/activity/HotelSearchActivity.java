@@ -2732,6 +2732,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 	private void onFilterClosed() {
 		OmnitureTracking.trackLinkHotelRefineName(mFilterHotelNameEditText.getText().toString());
+		AdTracker.trackFilteredHotelSearch();
 	}
 
 	private void onPriceFilterChanged() {

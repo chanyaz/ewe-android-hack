@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Ticket;
 
 public class LXUtils {
@@ -40,5 +41,22 @@ public class LXUtils {
 		}
 
 		return ticketCount;
+	}
+
+	public static int getTicketTypeCount(List<Ticket> selectedTickets, LXTicketType ticketType) {
+		int ticketTypeCount = 0;
+
+		if (CollectionUtils.isEmpty(selectedTickets)) {
+			//Should be invoked with at least 1 selected ticket!
+			return ticketTypeCount;
+		}
+
+		for (Ticket ticket : selectedTickets) {
+			if (ticket.code == ticketType) {
+				ticketTypeCount += ticket.count;
+			}
+		}
+
+		return ticketTypeCount;
 	}
 }

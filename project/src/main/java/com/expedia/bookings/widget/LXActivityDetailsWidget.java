@@ -23,10 +23,15 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXMedia;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.LXTicketType;
+import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.OffersDetail;
+import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -37,6 +42,7 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observer;
 
 public class LXActivityDetailsWidget extends ScrollView {
 
@@ -108,6 +114,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 		offers.setVisibility(View.GONE);
 
 		offset = Ui.toolbarSizeWithStatusBar(getContext());
+		offers.getOfferPublishSubject().subscribe(lxOfferObserever);
 	}
 
 	@Override
@@ -281,5 +288,32 @@ public class LXActivityDetailsWidget extends ScrollView {
 		galleryContainer.setTranslationY(scrollY * 0.5f);
 		return ratio;
 	}
+
+	private Observer<Offer> lxOfferObserever = new Observer<Offer>() {
+		@Override
+		public void onCompleted() {
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(Offer offer) {
+			LocalDate availabilityDate = DateUtils
+				.yyyyMMddHHmmssToLocalDate(offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
+			String lowestTicketAmount = offer.availabilityInfoOfSelectedDate.getLowestTicket().money.getAmount().toString();
+
+			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
+				if (ticket.code == LXTicketType.Adult) {
+					lowestTicketAmount = ticket.money.getAmount().toString();
+					break;
+				}
+			}
+
+			AdTracker.trackLXDetails(lxState.activity.id, lxState.activity.destination, availabilityDate,
+				lxState.activity.regionId, lxState.activity.price.currencyCode, lowestTicketAmount);
+		}
+	};
 }
 

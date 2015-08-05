@@ -34,11 +34,13 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import rx.subjects.PublishSubject;
 
 public class CarFilterWidget extends LinearLayout {
 
 	private CarFilter filter = new CarFilter();
 	private boolean isFilteredToZeroResults = false;
+	private PublishSubject filterDonePublishSubject;
 
 	public CarFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -214,6 +216,7 @@ public class CarFilterWidget extends LinearLayout {
 			@Override
 			public void onClick(View v) {
 				if (!isFilteredToZeroResults) {
+					filterDonePublishSubject.onNext(null);
 					((Activity) getContext()).onBackPressed();
 				}
 				else {
@@ -263,7 +266,8 @@ public class CarFilterWidget extends LinearLayout {
 		}
 	}
 
-	public void bind(CarSearch search) {
+	public void bind(CarSearch search, PublishSubject filterDonePublishSubject) {
+		this.filterDonePublishSubject = filterDonePublishSubject;
 		List<CategorizedCarOffers> categories = search.categories;
 
 		filter = new CarFilter();

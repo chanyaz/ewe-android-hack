@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.utils.LXUtils;
 import com.google.gson.Gson;
@@ -17,6 +18,26 @@ public class LXUtilsTest {
 	@Test
 	public void testGetTotalAmount() {
 		Gson gson = new GsonBuilder().create();
+		List<Ticket> selectedTickets = getSelectedTickets(gson);
+
+		Assert.assertEquals(LXUtils.getTotalAmount(selectedTickets), new Money("500", "USD"));
+
+		selectedTickets.clear();
+		Assert.assertEquals(LXUtils.getTotalAmount(selectedTickets), new Money());
+
+		Assert.assertEquals(LXUtils.getTotalAmount(null), new Money());
+	}
+
+	@Test
+	public void testGetTicketTypeCount() {
+		Gson gson = new GsonBuilder().create();
+		List<Ticket> selectedTickets = getSelectedTickets(gson);
+
+		Assert.assertEquals(LXUtils.getTicketTypeCount(selectedTickets, LXTicketType.Child), 1);
+		Assert.assertEquals(LXUtils.getTicketTypeCount(selectedTickets, LXTicketType.Adult), 3);
+	}
+
+	private List<Ticket> getSelectedTickets(Gson gson) {
 		List<Ticket> selectedTickets = new ArrayList<>();
 
 		Ticket adultTicket = gson.fromJson(
@@ -29,12 +50,6 @@ public class LXUtilsTest {
 		childTicket.money = new Money(childTicket.amount, "USD");
 		selectedTickets.add(adultTicket);
 		selectedTickets.add(childTicket);
-
-		Assert.assertEquals(LXUtils.getTotalAmount(selectedTickets), new Money("500", "USD"));
-
-		selectedTickets.clear();
-		Assert.assertEquals(LXUtils.getTotalAmount(selectedTickets), new Money());
-
-		Assert.assertEquals(LXUtils.getTotalAmount(null), new Money());
+		return selectedTickets;
 	}
 }
