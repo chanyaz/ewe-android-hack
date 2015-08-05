@@ -7,5 +7,6 @@
     <dimen name="intro_title_left_padding">30dp</dimen>
     <dimen name="intro_title_right_padding">30dp</dimen>
     <dimen name="intro_content_padding">20dp</dimen>
-    
+    <dimen name="intro_pager_action_padding">30dp</dimen>
+
 </resources>
