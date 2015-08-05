@@ -8,7 +8,7 @@
     android:paddingTop="10dp">
 
     <ImageView
-        android:id="@+id/cars_dropdown_imageView"
+        android:id="@+id/hotels_dropdown_imageView"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_gravity="center_vertical"

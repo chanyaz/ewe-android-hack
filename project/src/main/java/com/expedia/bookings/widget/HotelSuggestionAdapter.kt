@@ -16,6 +16,8 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.subscribe
+import com.expedia.vm.HotelSuggestionViewModel
 import com.mobiata.android.time.widget.CalendarPicker
 import rx.Observer
 import rx.Subscription
@@ -36,7 +38,7 @@ public class HotelSuggestionAdapter(val suggestionServices: SuggestionV4Services
         }
 
         val holder = view.getTag() as SuggestionViewHolder
-        holder.bind(getItem(position))
+        holder.bind(HotelSuggestionViewModel(getItem(position)))
 
         return view
     }
@@ -61,36 +63,28 @@ public class HotelSuggestionAdapter(val suggestionServices: SuggestionV4Services
 
         val displayName: TextView by root.bindView(R.id.display_name_textView)
 
-        val dropdownImage: ImageView by root.bindView(R.id.cars_dropdown_imageView)
+        val dropdownImage: ImageView by root.bindView(R.id.hotels_dropdown_imageView)
 
         val groupImage: ImageView by root.bindView(R.id.hotel_group_imageView)
 
-        public fun bind(suggestion: SuggestionV4) {
+        public fun bind(viewModel: HotelSuggestionViewModel) {
+            viewModel.displayNameObservable.subscribe(displayName)
 
-            displayName.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.regionNames.displayName)))
+            viewModel.groupNameObservable.subscribe { isChild ->
+                if (isChild) {
+                    //is child show add left margin and change the image view with arrow
+                    groupImage.setVisibility(View.VISIBLE)
+                    dropdownImage.setVisibility(View.GONE)
+                    groupImage.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.hotels_primary_color))
+                } else {
+                    groupImage.setVisibility(View.GONE)
+                    dropdownImage.setVisibility(View.VISIBLE)
+                    dropdownImage.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.hotels_primary_color))
+                }
 
-            if (suggestion.hierarchyInfo.isChild) {
-                //is child show add left margin and change the image view with arrow
-                groupImage.setVisibility(View.VISIBLE)
-                dropdownImage.setVisibility(View.GONE)
-                groupImage.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.hotels_primary_color))
-                return
-            } else {
-                groupImage.setVisibility(View.GONE)
-                dropdownImage.setVisibility(View.VISIBLE)
-                dropdownImage.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.hotels_primary_color))
             }
-
-            if (suggestion.iconType === SuggestionV4.IconType.HISTORY_ICON) {
-                dropdownImage.setImageResource(R.drawable.recents)
-            } else if (suggestion.iconType === SuggestionV4.IconType.CURRENT_LOCATION_ICON) {
-                dropdownImage.setImageResource(R.drawable.ic_suggest_current_location)
-            } else if (suggestion.type == "HOTEL") {
-                dropdownImage.setImageResource(R.drawable.hotel_suggest)
-            } else if (suggestion.type == "AIRPORT") {
-                dropdownImage.setImageResource(R.drawable.airport_suggest)
-            } else {
-                dropdownImage.setImageResource(R.drawable.search_type_icon)
+            viewModel.dropdownImageObservable.subscribe { imageSource ->
+                dropdownImage.setImageResource(imageSource)
             }
 
         }
