@@ -1098,4 +1098,8 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="HotelPriceTextStyle">
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
