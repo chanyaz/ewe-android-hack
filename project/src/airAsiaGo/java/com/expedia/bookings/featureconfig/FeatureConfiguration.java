@@ -271,4 +271,14 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getPhoneCollectionId() {
 		return "PhoneDestinations";
 	}
+
+	public int getSearchResultDealImageDrawable() {
+		//No deal image
+		return 0;
+	}
+
+	public int getHotelDetailsDealImageDrawable() {
+		//No deal image
+		return 0;
+	}
 }

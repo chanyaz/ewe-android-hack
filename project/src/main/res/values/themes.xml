@@ -230,7 +230,6 @@
         <item name="skin_confirmationHeaderHotelDividerLineColor">@color/confirmation_header_divider_hotel</item>
         <item name="skin_confirmationHeaderFlightDividerLineColor">@color/confirmation_header_divider_flight</item>
         <item name="skin_checkmarkFlightDrawable">@drawable/checkmark_flight</item>
-        <item name="skin_dealText">@string/mobile_exclusive</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
