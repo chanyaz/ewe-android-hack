@@ -47,6 +47,7 @@
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
     </style>
 
     <!--
