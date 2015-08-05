@@ -160,6 +160,9 @@ public class PointOfSale {
 	// Should we show the marketing opt in checkbox
 	private MarketingOptIn mMarketingOptIn;
 
+	// Should we show cirlces for rating
+	private boolean shouldShowCirlceForRatings;
+
 	private static boolean mIsTablet;
 
 	private static Map<String, Integer> sCountryCodeMap;
@@ -713,6 +716,9 @@ public class PointOfSale {
 		return getPosLocale().mMarketingText;
 	}
 
+	public boolean shouldShowCirlceForRatings() {
+		return shouldShowCirlceForRatings;
+	}
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1078,6 +1084,7 @@ public class PointOfSale {
 		pos.mShowFlightsFreeCancellation = data.optBoolean("shouldShowFlightsFreeCancellation", false);
 		pos.mMarketingOptIn = MarketingOptIn
 			.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
+		pos.shouldShowCirlceForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
