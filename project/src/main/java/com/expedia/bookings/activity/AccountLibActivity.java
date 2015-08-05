@@ -404,8 +404,7 @@ public class AccountLibActivity extends AppCompatActivity
 		// start Facebook Login
 		Session currentSession = Session.getActiveSession();
 		if (currentSession == null || currentSession.getState().isClosed()) {
-			Session session = new Session.Builder(this).setApplicationId(
-				ExpediaServices.getFacebookAppId(this)).build();
+			Session session = new Session.Builder(this).build();
 			Session.setActiveSession(session);
 			currentSession = session;
 		}

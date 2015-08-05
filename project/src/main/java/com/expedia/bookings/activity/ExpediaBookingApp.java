@@ -221,6 +221,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
 
 		if (!isAutomation()) {
+			AdTracker.init(getApplicationContext());
+			startupTimer.addSplit("AdTracker started.");
+
 			if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 				LeanPlumUtils.init(this);
 				startupTimer.addSplit("LeanPlum started.");
