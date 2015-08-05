@@ -69,6 +69,7 @@
         <item name="skin_etp_pay_now_charges_text">@string/etp_pay_now_charges_text</item>
         <item name="skin_couponSuccessMessageColor">@color/hotel_price_text_color_samsung</item>
         <item name="skin_bookNowButtonDrawable">@drawable/btn_signin_samsung</item>
+        <item name="skin_hangTagProgressDrawable">@drawable/gl_progress_tag_samsung</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Samsung">
