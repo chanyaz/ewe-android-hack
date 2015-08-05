@@ -333,6 +333,8 @@
     <attr name="skin_launchTabIndicatorColor" format="reference|color" />
     <attr name="skin_launchActionBarBackgroundColor" format="reference|color" />
 
+    <attr name="skin_bookNowButtonDrawable" format="reference" />
+
     <!-- Cars -->
     <attr name="skin_carsPrimaryColor" format="reference|color" />
     <attr name="skin_carsSecondaryColor" format="reference|color" />
