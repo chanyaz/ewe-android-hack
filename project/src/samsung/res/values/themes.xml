@@ -28,6 +28,7 @@
         <item name="skin_webViewPreferencesActionBarLogo">@android:color/transparent</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/ic_launcher</item>
         <item name="skin_webViewPreferencesActionBarLogoWithTitle">@android:color/transparent</item>
+        <item name="skin_actionBarAboutLogo">@drawable/icon_home_samsung</item>
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_samsung</item>
         <item name="skin_flightLoadingMessagePosition">@id/search_progress_flight_samsung</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_samsung_white_logo_small</item>

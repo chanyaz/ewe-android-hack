@@ -272,7 +272,7 @@
 
         <activity
             android:name="com.expedia.bookings.activity.AboutActivity"
-            android:theme="@style/Theme.Phone.WebView" />
+            android:theme="@style/Theme.Phone.AboutActivity" />
         <activity
             android:name="com.expedia.bookings.activity.ExpediaBookingPreferenceActivity"
             android:screenOrientation="portrait"
