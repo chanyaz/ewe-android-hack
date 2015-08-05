@@ -30,6 +30,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
@@ -108,7 +109,7 @@ public class HotelUtils {
 		titleView.setText(property.getName());
 
 		RatingBar ratingBar;
-		if (property.shouldShowCircles()) {
+		if (PointOfSale.getPointOfSale().shouldShowCirlceForRatings()) {
 			ratingBar = Ui.findView(actionBarView, R.id.rating_circles);
 		}
 		else {
