@@ -290,5 +290,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		//No deal image
 		return 0;
 	}
+
+	public int getCollectionCount() {
+		// No need to hard code count
+		return 0;
+	}
 }
 
