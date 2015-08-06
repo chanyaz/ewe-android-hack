@@ -4,6 +4,7 @@
     <style name="Theme.AirAsiaGo" parent="@style/Theme.Expedia">
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_aag</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_aag</item>
+        <item name="skin_bookNowButtonDrawable">@drawable/btn_signin_aag</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_aag</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_aag</item>

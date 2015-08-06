@@ -33,6 +33,7 @@
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_vsc</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/rainbow_bar</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_vsc</item>
+        <item name="skin_bookNowButtonDrawable">@drawable/btn_signin_vsc</item>
         <item name="skin_loginWithExpediaTitleText">@string/vsc_account</item>
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_vsc</item>
         <item name="skin_hotelConfirmationCallActionDrawable">@null</item>

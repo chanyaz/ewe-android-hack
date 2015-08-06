@@ -39,6 +39,7 @@
         <item name="skin_actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_blue_wotif</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_blue_wotif</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_wotif</item>
+        <item name="skin_bookNowButtonDrawable">@drawable/btn_signin_wotif</item>
         <item name="skin_hotelConfirmationCallActionText">@string/call_wotif_customer_support</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_wotif</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_wotif</item>
