@@ -38,7 +38,8 @@
                 <data android:host="hotelSearch" />
                 <data android:host="flightSearch" />
                 <data android:host="destination" />
-                <data android:host="localexpert"/>
+                <data android:host="carSearch"/>
+                <data android:host="activitySearch"/>
 
                 <!-- We will handle iOS implementation of ItinSharing as well, just cause we can -->
                 <data android:host="addSharedItinerary" />
@@ -51,7 +52,7 @@
 
                 <data android:scheme="https"/>
                 <data android:scheme="http"/>
-                <data android:pathPrefix="/localexpert"/>
+                <data android:pathPrefix="/activitySearch"/>
                 <data android:pathPrefix="/m/trips/shared"/>
                 <data android:host="www.expedia.com" />
 
