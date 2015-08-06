@@ -2515,7 +2515,7 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", link, null, null);
 	}
 
-	public static void trackAddLxItinClick() {
+	public static void trackAddLxItin() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, ADD_LX_ITIN);
 		s.setProp(16, ADD_LX_ITIN);

@@ -21,6 +21,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
@@ -600,7 +601,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	private void addLXAttachData(List<ItinCardData> itinCardDatas) {
 		boolean isUserBucketedForTest = Db.getAbacusResponse()
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelItinLXXsell);
-		if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.LX) || !isUserBucketedForTest) {
+		if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
 			return;
 		}
 		// Nothing to do if there are no itineraries
@@ -633,11 +634,16 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
-			TripHotel tripHotel = (TripHotel) data.getTripComponent();
-			itinCardDatas
-				.add(i + 1, new ItinCardDataLXAttach(tripHotel));
-			len++;
-			i++;
+			// Track as user qualifies for the Cross-sell.
+			OmnitureTracking.trackAddLxItin();
+
+			if (isUserBucketedForTest) {
+				TripHotel tripHotel = (TripHotel) data.getTripComponent();
+				itinCardDatas
+					.add(i + 1, new ItinCardDataLXAttach(tripHotel));
+				len++;
+				i++;
+			}
 		}
 	}
 
