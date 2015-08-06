@@ -1894,10 +1894,6 @@
     <string name="enter_traveler_info">旅客信息</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">主要旅客的信息</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">输入主要旅客的信息</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate2">主要旅客</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">已保存</string>
     <!-- Edit button for traveler/payment -->
@@ -2563,6 +2559,7 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="guest_recommend">的住客推荐</string>
+    <string name="hotel_guest_recommend">/5 - 住客评分</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
