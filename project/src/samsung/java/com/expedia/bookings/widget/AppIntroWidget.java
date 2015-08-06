@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.NavUtils;
@@ -26,6 +27,9 @@ public class AppIntroWidget extends FrameLayout implements ViewPager.OnPageChang
 
 	@InjectView(R.id.pager_indicator_container)
 	LinearLayout pagerIndicatorContainer;
+
+	@InjectView(R.id.skip_intro)
+	TextView skipIntroText;
 
 	private AppIntroPagerAdapter introPagerAdapter;
 	private ImageView[] indicators;
@@ -60,7 +64,7 @@ public class AppIntroWidget extends FrameLayout implements ViewPager.OnPageChang
 			indicators[i].setPadding(indicatorPadding, 0, indicatorPadding, 0);
 			pagerIndicatorContainer.addView(indicators[i]);
 		}
-		updateIndicators(0);
+		updatePageUI(0);
 	}
 
 	@Override
@@ -70,12 +74,17 @@ public class AppIntroWidget extends FrameLayout implements ViewPager.OnPageChang
 
 	@Override
 	public void onPageSelected(int position) {
-		updateIndicators(position);
+		updatePageUI(position);
 	}
 
 	@Override
 	public void onPageScrollStateChanged(int state) {
 		// ignore
+	}
+
+	private void updatePageUI(int selectedPosition) {
+		updateIndicators(selectedPosition);
+		updateSkipVisibility(selectedPosition);
 	}
 
 	private void updateIndicators(int selectedPosition) {
@@ -84,6 +93,17 @@ public class AppIntroWidget extends FrameLayout implements ViewPager.OnPageChang
 				i == selectedPosition ? R.drawable.intro_selected_indicator
 					: R.drawable.intro_unselected_indicator);
 		}
+	}
+
+	/**
+	 * Sets the visibility of SKIP depending upon the current position of the viewpager.
+	 * It will be hidden for the last position.
+	 *
+	 * @param selectedPosition current position of the viewpager
+	 */
+	private void updateSkipVisibility(int selectedPosition) {
+		int visibility = (selectedPosition == introPagerAdapter.getCount() - 1) ? GONE : VISIBLE;
+		skipIntroText.setVisibility(visibility);
 	}
 
 	private void goToLaunchScreen() {
