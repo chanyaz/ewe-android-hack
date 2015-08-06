@@ -13,13 +13,27 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.enums.PassengerCategory;
+import com.mobiata.android.util.AndroidUtils;
 
 public class TravelerUtils {
 
 	public static ArrayList<String> generateTravelerBoxLabels(Context context, List<Traveler> travelers) {
 		ArrayList<String> travelerLabels = new ArrayList<String>();
+
+		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout) && !AndroidUtils.isTablet(context);
+		int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+
 		if (travelers.size() == 1) {
-			travelerLabels.add(context.getString(R.string.traveler_details));
+			if (!isUserBucketedForTest) {
+				travelerLabels.add(context.getString(R.string.traveler_details));
+			}
+			else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
+				travelerLabels.add(context.getString(R.string.traveler_details_variate1));
+			}
+			else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
+				travelerLabels.add(context.getString(R.string.traveler_details_variate2));
+			}
+
 		}
 		else {
 			int numAdultsAdded = 0, numAdults = 0;
@@ -53,8 +67,7 @@ public class TravelerUtils {
 				}
 			}
 
-			boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
-			int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+
 
 			for (int index = 0; index < travelers.size(); index++) {
 				Traveler traveler = travelers.get(index);

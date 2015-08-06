@@ -514,7 +514,13 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			return;
 		}
 
-		Db.setAbacusResponse(abacusResponse);
+		if (Db.getAbacusResponse() == null) {
+			Db.setAbacusResponse(abacusResponse);
+		}
+		else {
+			Db.getAbacusResponse().updateFrom(abacusResponse);
+		}
+
 		// Modify the bucket values based on dev settings;
 		if (BuildConfig.DEBUG) {
 			for (int key : AbacusUtils.getActiveTests()) {

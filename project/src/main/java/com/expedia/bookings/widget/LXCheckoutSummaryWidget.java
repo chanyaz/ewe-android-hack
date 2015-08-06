@@ -129,17 +129,22 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 			context.getString(R.string.lx_cost_breakdown_due_today),
 			lxState.latestTotalPrice().getFormattedMoney()));
 
+		String currencyCode = tickets.get(0).money.getCurrency();
 		for (Ticket ticket : lxBookableItem.tickets) {
+			//Presently API is not sending currency code within the Ticket Json Object, so we are resorting to
+			//creating the formatted string by picking the amount from `moneyWithoutCurrencyCode` and `currencyCode`.
+			Money moneyWithoutCurrencyCode = ticket.getBreakdownForType(PriceBreakdownItemType.PER_CATEGORY_TOTAL).price;
+
 			ll.addView(
 				CheckoutSummaryWidgetUtils.addRow(context,
 					LXDataUtils.ticketCountSummary(getContext(), ticket.code, ticket.count),
-					ticket.getBreakdownForType(PriceBreakdownItemType.PER_CATEGORY_TOTAL).price
-						.getFormattedMoneyFromAmountAndCurrencyCode()));
+					moneyWithoutCurrencyCode
+						.getFormattedMoneyFromAmountAndCurrencyCode(moneyWithoutCurrencyCode.getAmount(), currencyCode)));
 		}
 
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.lx_cost_breakdown_taxes_included)));
-		ll.addView(addDisclaimerRow(context, tickets.get(0).money.getCurrency()));
+		ll.addView(addDisclaimerRow(context, currencyCode));
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.checkout_breakdown_total_price),
 			lxState.latestTotalPrice().getFormattedMoney()));

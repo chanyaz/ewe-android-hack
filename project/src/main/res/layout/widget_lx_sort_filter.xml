@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.LXSortFilterWidget xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/sort_filter_widget"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#EFEFEF"
-    android:orientation="vertical"
-    android:clickable="true">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -124,4 +119,4 @@
             app:cardCornerRadius="18dp"
             app:cardPreventCornerOverlap="false" />
     </FrameLayout>
-</com.expedia.bookings.widget.LXSortFilterWidget>
+</merge>

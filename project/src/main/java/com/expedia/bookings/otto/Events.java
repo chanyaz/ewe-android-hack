@@ -1048,6 +1048,10 @@ public class Events {
 	public static class PhoneLaunchOnResume {
 	}
 
+	public static class PhoneLaunchOnPOSChange {
+	}
+
+
 	// Memory testing
 
 	public static class MemoryTestImpetus {

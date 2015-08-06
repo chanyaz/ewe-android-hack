@@ -997,9 +997,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		Validator<Spinner> mValidator = new Validator<Spinner>() {
 			@Override
 			public int validate(Spinner obj) {
-				boolean hasMoreThanOnePassport = (getData().getPassportCountries().size() > 1);
+				if (getData() == null) {
+					return ValidationError.ERROR_DATA_MISSING;
+				}
 
-				if (obj.getSelectedItemPosition() == AdapterView.INVALID_POSITION) {
+				boolean hasMoreThanOnePassport = (getData().getPassportCountries().size() > 1);
+				if (obj.getSelectedItemPosition() == 0 || getData().getPrimaryPassportCountry() == null) {
 					return ValidationError.ERROR_DATA_MISSING;
 				}
 				else if (hasMoreThanOnePassport && !getData().isChangedPrimaryPassportCountry()) {
@@ -1049,8 +1052,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		@Override
 		protected void onHasFieldAndData(Spinner field, Traveler data) {
-			getField().setSelection(AdapterView.INVALID_POSITION);
-			// what impact does the below have?
+			getField().setSelection(0, false);
 			onChange(SectionTravelerInfo.this);
 
 			boolean travelerHasMultiplePassports = (data.getPassportCountries().size() > 1);
@@ -1073,9 +1075,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			}
 			else { // traveler has multiple passports
-				int selectedItemPosition = (field.getSelectedItemPosition() == AdapterView.INVALID_POSITION) ? 0 : field.getSelectedItemPosition();
-				boolean dataAndFieldMatch = mCountryAdapter.getItemValue(selectedItemPosition, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
-					data.getPrimaryPassportCountry());
+				boolean countrySelected = (field.getSelectedItemPosition() > 0);
+				boolean dataAndFieldMatch = mCountryAdapter.getItemValue(field.getSelectedItemPosition(), CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
+					data.getPrimaryPassportCountry()) && countrySelected;
 
 				if (!dataAndFieldMatch) {
 					if (data.isChangedPrimaryPassportCountry() && (data.getPrimaryPassportCountry() != null)) {
@@ -1089,7 +1091,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 						}
 					}
 					else { // reset drop down to 0
-						getField().setSelection(AdapterView.INVALID_POSITION);
+						getField().setSelection(0, false);
 					}
 				}
 			}

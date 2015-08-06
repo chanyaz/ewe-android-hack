@@ -131,13 +131,9 @@ public class Money {
 		}
 	}
 
-	public String getFormattedMoneyFromAmountAndCurrencyCode() {
-		return getFormattedMoneyFromAmountAndCurrencyCode(0);
-	}
-
-	public String getFormattedMoneyFromAmountAndCurrencyCode(int flags) {
+	public static String getFormattedMoneyFromAmountAndCurrencyCode(BigDecimal amount, String currencyCode) {
 		if (amount != null && Strings.isNotEmpty(currencyCode)) {
-			return formatRate(amount, currencyCode, flags);
+			return formatRate(amount, currencyCode, 0);
 		}
 		else {
 			throw new IllegalStateException(

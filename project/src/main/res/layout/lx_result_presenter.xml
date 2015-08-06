@@ -93,11 +93,12 @@
         </FrameLayout>
     </android.support.v7.widget.Toolbar>
 
-    <include
+    <com.expedia.bookings.widget.LXSortFilterWidget
         android:id="@+id/sort_filter_widget"
-        layout="@layout/widget_lx_sort_filter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:background="#EFEFEF"
+        android:orientation="vertical"
+        android:visibility="invisible" />
 
 </com.expedia.bookings.presenter.lx.LXResultsPresenter>

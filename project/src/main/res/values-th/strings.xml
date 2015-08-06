@@ -596,6 +596,10 @@
     <string name="lx_select_ticket">เลือกตั๋ว</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">ยกเลิกฟรี</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">คูปองอิเล็กทรอนิกส์</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">ต้องใช้คูปองที่พิมพ์ออกมา</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">ไม่รับ %1$s</string>
     <!-- LX Error Activity Price Changed -->
@@ -716,8 +720,6 @@
     <string name="lx_sort_by">เรียงตาม</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">ประเภท</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">จำกัดการค้นหา</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -1894,6 +1896,10 @@
     <string name="enter_traveler_info">ข้อมูลผู้เดินทาง</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">รายละเอียดของผู้เดินทางหลัก</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">ป้อนรายละเอียดผู้เดินทางหลัก</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">ผู้เดินทางหลัก</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">บันทึกไว้</string>
     <!-- Edit button for traveler/payment -->
@@ -1979,8 +1985,6 @@
     <string name="cardholder">เจ้าของบัตร</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">เราจะส่งอีเมลยืนยันของคุณมาที่นี่</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">หมดอายุ %1$s</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
     <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">ฉันไม่ต้องการรับอีเมลดีลท่องเที่ยว ข้อเสนอพิเศษ และข้อมูลอื่นๆ จาก {brand}</string>
     <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
@@ -2774,7 +2778,8 @@
     <string name="itinerary_number">หมายเลขแผนการเดินทาง</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">หากคุณมีคำถามเกี่ยวกับการจอง โปรดโทรติดต่อ {brand} ที่ {phone}</string>
-
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">ลืมรหัสผ่าน</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2789,8 +2794,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">เข้าสู่ระบบ</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">รับคะแนนสะสมและจองได้เร็วยิ่งขึ้น</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">กำลังเข้าสู่ระบบ…</string>
     <!-- Message that tells user they failed to sign in -->

@@ -596,6 +596,10 @@
     <string name="lx_select_ticket">Välj biljetter</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">Gratis avbokning</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">Elektronisk kupong</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">Utskriven kupong krävs</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s accepteras ej</string>
     <!-- LX Error Activity Price Changed -->
@@ -716,8 +720,6 @@
     <string name="lx_sort_by">Sortera efter</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">Kategorier</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">Filter</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -1892,6 +1894,10 @@
     <string name="enter_traveler_info">Resenärens uppgifter</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Huvudresenärens uppgifter</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">Ange huvudresenärens uppgifter</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">Huvudresenär</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Sparat</string>
     <!-- Edit button for traveler/payment -->
@@ -1977,8 +1983,6 @@
     <string name="cardholder">Kortinnehavare</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">Din bokningsbekräftelse kommer att skickas hit</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">Förfaller %1$s</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
     <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">Jag vill inte ta emot e-postutskick från {brand} med resetips, specialerbjudanden och annan information.</string>
     <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
@@ -2772,7 +2776,8 @@
     <string name="itinerary_number">Bokningsnummer</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">Om du har frågor gällande din bokning, ring {brand} på {phone}.</string>
-
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Glömt lösenordet</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2787,8 +2792,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Logga in</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">Tjäna poäng och boka snabbt.</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Loggar in…</string>
     <!-- Message that tells user they failed to sign in -->

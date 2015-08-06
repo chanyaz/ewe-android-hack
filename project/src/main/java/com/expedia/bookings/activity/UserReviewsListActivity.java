@@ -11,11 +11,9 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.format.DateUtils;
@@ -126,8 +124,7 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		switch (item.getItemId()) {
 		case android.R.id.home: {
 			// app icon in action bar clicked; go back
-			Intent intent = HotelDetailsFragmentActivity.createIntent(this);
-			NavUtils.navigateUpTo(this, intent);
+			onBackPressed();
 			return true;
 		}
 		case R.id.menu_select_hotel: {

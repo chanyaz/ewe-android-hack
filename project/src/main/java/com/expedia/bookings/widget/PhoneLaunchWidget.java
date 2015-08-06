@@ -75,6 +75,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 	private boolean isAirAttachDismissed;
 	private boolean wasHotelsDownloadEmpty;
 
+	private int launchListYScroll;
+	private float airAttachTranslation;
+
 	@InjectView(R.id.lob_selector)
 	LaunchLobWidget lobSelectorWidget;
 
@@ -230,13 +233,10 @@ public class PhoneLaunchWidget extends FrameLayout {
 	 */
 
 	RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
-
-		private float airAttachTranslation;
-		private int distanceY;
 		@Override
 		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-			distanceY += dy;
-			float currentPos = distanceY;
+			launchListYScroll += dy;
+			float currentPos = launchListYScroll;
 			if (airAttachTranslation >= 0 && airAttachTranslation <= airAttachBanner.getHeight()) {
 				airAttachTranslation += dy;
 				airAttachTranslation = Math.min(airAttachTranslation, airAttachBanner.getHeight());
@@ -449,18 +449,29 @@ public class PhoneLaunchWidget extends FrameLayout {
 		}
 	}
 
+	public void initLaunchListScroll() {
+		launchListYScroll = 0;
+		airAttachTranslation = 0;
+		launchListWidget.scrollToPosition(0);
+	}
+
 	public void bindLobWidget() {
 		int listHeaderPaddingTop;
-		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.CARS) && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
+		initLaunchListScroll();
+		PointOfSale currentPointOfSale = PointOfSale.getPointOfSale();
+		if (currentPointOfSale.supports(LineOfBusiness.CARS) && currentPointOfSale.supports(
+			LineOfBusiness.LX)) {
 			doubleRowLob = true;
 			lobHeight = getResources().getDimension(R.dimen.launch_lob_double_row_container_height);
 			lobSelectorWidget.setVisibility(View.GONE);
+			doubleRowLobSelectorWidget.transformButtons(1.0f);
 			doubleRowLobSelectorWidget.setVisibility(View.VISIBLE);
 			listHeaderPaddingTop = R.dimen.launch_header_double_row_top_space;
 		}
 		else {
 			doubleRowLob = false;
 			lobHeight = getResources().getDimension(R.dimen.launch_lob_container_height);
+			lobSelectorWidget.transformButtons(1.0f);
 			lobSelectorWidget.setVisibility(View.VISIBLE);
 			doubleRowLobSelectorWidget.setVisibility(View.GONE);
 			listHeaderPaddingTop = R.dimen.launch_header_top_space;
@@ -472,6 +483,11 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	@Subscribe
 	public void onLaunchResume(Events.PhoneLaunchOnResume event) {
+		setListState();
+	}
+
+	@Subscribe
+	public void onPOSChange(Events.PhoneLaunchOnPOSChange event) {
 		bindLobWidget();
 		setListState();
 	}

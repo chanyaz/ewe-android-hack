@@ -1580,10 +1580,17 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	private static void trackAbacusTest(ADMS_Measurement s, AbacusTest test) {
+	private static void trackAbacusTest(ADMS_Measurement s, int testKey) {
+		AbacusTest test = Db.getAbacusResponse().testForKey(testKey);
+
 		if (test == null) {
-			return;
+			// Just log control
+			test = new AbacusTest();
+			test.id = testKey;
+			test.value = AbacusUtils.DefaultVariate.CONTROL.ordinal();
+			test.instanceId = 0;
 		}
+
 		// Adds piping for multivariate AB Tests.
 		String analyticsString = AbacusUtils.appendString(s.getProp(34)) + AbacusUtils.getAnalyticsString(test);
 		if (!TextUtils.isEmpty(analyticsString)) {
@@ -1593,10 +1600,6 @@ public class OmnitureTracking {
 		AbacusLogQuery query = new AbacusLogQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
 		query.addExperiment(test);
 		Ui.getApplication(sContext).appComponent().abacus().logExperiment(query);
-	}
-
-	private static void trackAbacusTest(ADMS_Measurement s, int testKey) {
- 		trackAbacusTest(s, Db.getAbacusResponse().testForKey(testKey));
 	}
 
 	private static void addLaunchScreenCommonParams(ADMS_Measurement s, String baseRef, String refAppend) {
@@ -2660,14 +2663,21 @@ public class OmnitureTracking {
 		internalTrackLink(link);
 	}
 
-	public static void trackPageLoadLaunchScreen(Context context, AbacusTest test) {
+	public static void trackPageLoadLaunchScreen() {
 		ADMS_Measurement s = createTrackPageLoadEventBase(LAUNCH_SCREEN);
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
-		if (!ExpediaBookingApp.useTabletInterface(context)) {
-			trackAbacusTest(s, test);
-		}
 		s.track();
+	}
+
+	public static void trackPageLoadAbacusTestResults() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		final String link = "LogExperiement";
+
+		addStandardFields(s);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchScreenTest);
+
+		s.trackLink(null, "o", link, null, null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
