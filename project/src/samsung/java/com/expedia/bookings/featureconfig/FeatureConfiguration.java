@@ -286,4 +286,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getHotelDetailsDealImageDrawable() {
 		return R.drawable.for_samsung_white;
 	}
+
+	@Override
+	public int getCollectionCount() {
+		return 11;
+	}
 }

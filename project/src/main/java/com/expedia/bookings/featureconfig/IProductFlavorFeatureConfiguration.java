@@ -132,4 +132,6 @@ public interface IProductFlavorFeatureConfiguration {
 	int getSearchResultDealImageDrawable();
 
 	int getHotelDetailsDealImageDrawable();
+
+	int getCollectionCount();
 }

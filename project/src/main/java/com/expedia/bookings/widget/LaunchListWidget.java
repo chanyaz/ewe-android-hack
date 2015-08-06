@@ -15,6 +15,7 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
 import com.squareup.otto.Subscribe;
 
@@ -91,6 +92,12 @@ public class LaunchListWidget extends RecyclerView {
 	@Subscribe
 	public void onCollectionDownloadComplete(Events.CollectionDownloadComplete event) {
 		String headerTitle = event.collection.title;
+		if (ProductFlavorFeatureConfiguration.getInstance().getCollectionCount() != 0
+			&& ProductFlavorFeatureConfiguration.getInstance().getCollectionCount() < event.collection.locations
+			.size()) {
+			event.collection.locations = event.collection.locations
+				.subList(0, ProductFlavorFeatureConfiguration.getInstance().getCollectionCount());
+		}
 		adapter.setListData(event.collection.locations, headerTitle);
 		adapter.notifyDataSetChanged();
 	}
