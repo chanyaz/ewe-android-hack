@@ -11,6 +11,7 @@ import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
@@ -31,6 +32,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val resultsPresenter: HotelResultsPresenter by bindView(R.id.widget_hotel_results)
     val detailPresenter: HotelDetailPresenter by bindView(R.id.widget_hotel_detail)
     val checkoutPresenter: HotelCheckoutPresenter by bindView(R.id.hotel_checkout_presenter)
+    val confirmationPresenter: HotelConfirmationPresenter by bindView(R.id.hotel_confirmation_presenter)
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
@@ -43,12 +45,13 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(searchToResults)
         addTransition(resultsToDetail)
         addTransition(detailsToCheckout)
+        addTransition(checkoutToConfirmation)
         addDefaultTransition(defaultTransition)
         show(searchPresenter)
         searchPresenter.viewmodel = HotelSearchViewModel(getContext())
         searchPresenter.viewmodel.searchParamsObservable.subscribe(searchObserver)
         resultsPresenter.hotelSubject.subscribe(hotelSelectedObserver)
-        detailPresenter.hotelRoomRateUtils.selectedHotelRoomObservable.subscribe(checkoutObserver)
+        checkoutPresenter.confirmationObserver = confirmationObserver
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(javaClass<HotelSearchPresenter>().getName()) {
@@ -61,11 +64,11 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val searchToResults = LeftToRightTransition(this, javaClass<HotelSearchPresenter>(), javaClass<HotelResultsPresenter>())
     private val resultsToDetail = LeftToRightTransition(this, javaClass<HotelResultsPresenter>(), javaClass<HotelDetailPresenter>())
     private val detailsToCheckout = LeftToRightTransition(this, javaClass<HotelDetailPresenter>(), javaClass<HotelCheckoutPresenter>())
+    private val checkoutToConfirmation = LeftToRightTransition(this, javaClass<HotelCheckoutPresenter>(), javaClass<HotelConfirmationPresenter>())
 
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
         resultsPresenter.doSearch(params)
         hotelSearchParams = params
-
         show(resultsPresenter)
     }
 
@@ -74,7 +77,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailPresenter.hotelDetailView.viewmodel.searchObserver.onNext(hotelSearchParams)
         detailPresenter.hotelDetailView.viewmodel.hotelObserver.onNext(hotel)
         detailPresenter.hotelDetailView.viewmodel.getDetail()
-
         show(detailPresenter)
     }
 
@@ -92,6 +94,22 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         override fun onError(e: Throwable) {
             Log.d("oh no!", e)
+        }
+    }
+
+    val confirmationObserver = object: Observer<HotelCheckoutResponse> {
+        override fun onNext(t: HotelCheckoutResponse) {
+            Log.d("Got a checkout response!")
+            show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
+            confirmationPresenter.bind(t)
+        }
+
+        override fun onError(e: Throwable) {
+            Log.d("Whoa! We have a checkout error", e)
+        }
+
+        override fun onCompleted() {
+            //            Log.d("Got a checkout response!")
         }
     }
 }

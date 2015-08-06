@@ -31,4 +31,10 @@
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
+    <com.expedia.bookings.presenter.hotel.HotelConfirmationPresenter
+        android:id="@+id/hotel_confirmation_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
 </com.expedia.bookings.presenter.hotel.HotelPresenter>

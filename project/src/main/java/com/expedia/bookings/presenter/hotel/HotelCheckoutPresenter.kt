@@ -25,15 +25,15 @@ import com.mobiata.android.Log
 import org.joda.time.format.ISODateTimeFormat
 import rx.Observer
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
     val checkout: HotelCheckoutWidget by bindView(R.id.checkout)
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
     val errorScreen: ErrorWidget by bindView(R.id.checkout_error_widget)
-
     var confirmationObserver: Observer<HotelCheckoutResponse> by Delegates.notNull()
-    
+
     var hotelServices: HotelServices? = null
         @Inject set
     
@@ -92,22 +92,6 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         }
     }
 
-    val checkoutCompleteObserver = object: Observer<HotelCheckoutResponse> {
-        override fun onNext(t: HotelCheckoutResponse?) {
-            Log.d("Got a checkout response!")
-            // TODO: Should we make this call in HotelPresenter ?
-            // TODO: show confirmation
-        }
-
-        override fun onError(e: Throwable?) {
-            Log.d("Whoa! We have a checkout error", e)
-        }
-
-        override fun onCompleted() {
-//            Log.d("Got a checkout response!")
-        }
-    }
-
     override fun onBook(cvv: String?) {
         val hotelCheckoutParams = HotelCheckoutParams()
         val hotelRate = Db.getTripBucket().getHotelV2().mHotelTripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
@@ -134,6 +118,6 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         hotelCheckoutParams.expirationDateMonth = JodaUtils.format(billingInfo.getExpirationDate(), "MM")
         hotelCheckoutParams.postalCode = billingInfo.getLocation().getPostalCode()
 
-        hotelServices!!.checkoutHotel(hotelCheckoutParams, checkoutCompleteObserver)
+        hotelServices!!.checkoutHotel(hotelCheckoutParams, confirmationObserver)
     }
 }
