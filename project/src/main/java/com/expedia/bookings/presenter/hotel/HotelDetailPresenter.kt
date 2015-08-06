@@ -18,8 +18,12 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.FrameLayout
+import com.expedia.bookings.widget.HotelRoomRateView
 import com.expedia.bookings.widget.ScrollView
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.endlessObserver
+import com.expedia.util.notNullAndObservable
+import com.expedia.vm.HotelRoomRateViewModel
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -34,7 +38,7 @@ import kotlin.properties.Delegates
 public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     var hotelServices: HotelServices? = null
-    @Inject set
+        @Inject set
 
 
     var downloadSubscription: Subscription? = null
@@ -158,9 +162,11 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         roomContainer.removeAllViews()
         var roomResponseList: List<HotelOffersResponse.HotelRoomResponse> = hotelOffersResponse.hotelRoomResponse
 
-        val view = HotelRoomRateRowUtils(getContext(), roomContainer)
-        view.bindDetails(roomResponseList)
-
+        roomResponseList.forEachIndexed { roomResponseIndex, room ->
+            val view = HotelRoomRateView(getContext(), roomContainer)
+            view.viewmodel = HotelRoomRateViewModel(getContext(), roomResponseList.get(roomResponseIndex), roomResponseIndex)
+            roomContainer.addView(view)
+        }
         //set amenities description
         amenities_text_header.setText(hotelOffersResponse.hotelAmenitiesText.name)
         amenities_text.setText(Html.fromHtml(hotelOffersResponse.hotelAmenitiesText.content))
