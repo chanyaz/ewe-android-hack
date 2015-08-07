@@ -30,5 +30,6 @@
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle_samsung</item>
     </style>
 </resources>
