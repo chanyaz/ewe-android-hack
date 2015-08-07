@@ -10,7 +10,7 @@ import rx.Observable;
 public interface HotelApi {
 
 	@GET("/m/api/hotel/search")
-	public Observable<HotelSearchResponse> nearbyHotelSearch(
+	Observable<HotelSearchResponse> nearbyHotelSearch(
 		@Query("latitude") String latitude,
 		@Query("longitude") String longitude,
 		@Query("room1") String count,
@@ -20,14 +20,14 @@ public interface HotelApi {
 		@Query("filterUnavailable") String filterUnavailable);
 
 	@GET("/m/api/hotel/search?sourceType=mobileApp&sortOrder=ExpertPicks&resultsPerPage=50&pageIndex=0&filterUnavailable=true&enableSponsoredListings=true")
-	public Observable<HotelSearchResponse> suggestionHotelSearch(
-		@Query("city") String city,
+	Observable<HotelSearchResponse> regionSearch(
+		@Query("regionId") String regionId,
 		@Query("checkInDate") String checkInDate,
 		@Query("checkOutDate") String checkOutDate,
 		@Query("room1") String travelers);
 
 	@GET("/m/api/hotel/offers")
-	public Observable<HotelOffersResponse> getHotelDetails(
+	Observable<HotelOffersResponse> offers(
 		@Query("checkInDate") String checkInDate,
 		@Query("checkOutDate") String checkOutDate,
 		@Query("room1") String travelers,

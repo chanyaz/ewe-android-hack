@@ -25,10 +25,8 @@ public class Hotel {
 	public String shortDescription;
 	public String locationDescription;
 	public String locationId;
-	public float lowRate;
 	public HotelRate lowRateInfo;
 	public String rateCurrencyCode;
-	public String rateCurrencySymbol;
 	public int roomsLeftAtThisRate;
 	public double latitude;
 	public double longitude;

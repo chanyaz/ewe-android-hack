@@ -83,6 +83,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             traveler.setVisibility(View.GONE)
         }
 
+        traveler.viewmodel.updateObservable.subscribe(vm.travelersObserver)
         traveler.viewmodel.guestsTextObservable.subscribe(selectTraveler)
         selectTraveler.setOnClickListener {
             calendar.setVisibility(View.GONE)

@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.hotel
+package com.expedia.bookings.widget
 
 import android.content.res.Resources
 import android.graphics.*
@@ -28,8 +28,8 @@ fun createHotelMarker(resources: Resources, hotel: Hotel, clicked: Boolean): Bit
     paint.getTextBounds(text, 0, text.length(), bounds)
 
     var outputBitmap = getBitmap(resources, clicked)
-    var chuck = outputBitmap.getNinePatchChunk()
-    val drawable = NinePatchDrawable(outputBitmap, chuck, Rect(), null)
+    var chunk = outputBitmap.getNinePatchChunk()
+    val drawable = NinePatchDrawable(resources, outputBitmap, chunk, Rect(), null)
     val height = bounds.height() + markerPaddingHeight + markerPaddingHeight / 2 + 6
     drawable.setBounds(0, 0, bounds.width() + markerPaddingWidth, height)
 

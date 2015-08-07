@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.presenter.hotel.HotelResultsPresenter
-import com.expedia.bookings.presenter.hotel.createHotelMarker
+import com.expedia.bookings.widget.createHotelMarker
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import rx.subjects.PublishSubject
@@ -40,13 +40,8 @@ public class HotelMarkerPreviewRecycler(context: Context, attrs: AttributeSet) :
         return true
     }
 
-    private fun getScrollDistance(v: View, offset: Int): Int {
-        return v.getLeft()
-    }
-
     private fun snapTo(velocityX: Int) {
         val position: Int
-        val offset: Int
         val v: View?
 
         if (velocityX < 0) {
@@ -55,17 +50,15 @@ public class HotelMarkerPreviewRecycler(context: Context, attrs: AttributeSet) :
             if (v == null) {
                 return
             }
-            offset = layoutManager.getRightDecorationWidth(v)
         } else {
             position = layoutManager.findLastVisibleItemPosition()
             v = layoutManager.findViewByPosition(position)
             if (v == null) {
                 return
             }
-            offset = layoutManager.getLeftDecorationWidth(v)
         }
 
-        smoothScrollBy(getScrollDistance(v, offset), 0)
+        smoothScrollBy(v.getLeft(), 0)
     }
 
 }
