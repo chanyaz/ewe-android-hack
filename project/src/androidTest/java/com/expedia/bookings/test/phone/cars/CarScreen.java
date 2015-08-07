@@ -167,6 +167,17 @@ public final class CarScreen {
 		carOfferList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
 	}
 
+	public static void selectCategoryFilter(String categoryName) {
+		onView(allOf(withId(R.id.category), withText(categoryName))).perform(click());
+
+	}
+
+	public static void selectSupplierFilter(String supplierName) {
+		onView(allOf(withId(R.id.vendor), withText(supplierName),
+			isDescendantOfA(withId(R.id.filter_suppliers)))).perform(click());
+
+	}
+
 	public static void selectCarOffer(int carOfferNum) throws Throwable {
 		//Selecting an already expanded offer opens google maps
 		if (carOfferNum != 0) {
