@@ -1894,10 +1894,6 @@
     <string name="enter_traveler_info">Información del pasajero</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Detalles del pasajero principal</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">Ingresa los detalles del pasajero principal</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate2">Pasajero principal</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Guardado</string>
     <!-- Edit button for traveler/payment -->
@@ -2563,6 +2559,7 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="guest_recommend">de los huéspedes lo recomiendan</string>
+    <string name="hotel_guest_recommend">de 5 - evaluación de los clientes</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
