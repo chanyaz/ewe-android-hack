@@ -9,6 +9,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelSearchViewModel
 import rx.Observer
 
@@ -21,52 +22,36 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     override fun onFinishInflate() {
         super<Presenter>.onFinishInflate()
 
-        searchPresenter.viewmodel = HotelSearchViewModel(getContext())
-
+        addDefaultTransition(defaultTransition)
         addTransition(searchToResults)
         addTransition(resultsToDetail)
-        addDefaultTransition(defaultTransition)
         show(searchPresenter)
+
+        searchPresenter.viewmodel = HotelSearchViewModel(getContext())
+
         searchPresenter.viewmodel.searchParamsObservable.subscribe(searchObserver)
-        resultsPresenter.hotelSubject.subscribe(detailObserver)
+        resultsPresenter.hotelSubject.subscribe(hotelSelectedObserver)
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(javaClass<HotelSearchPresenter>().getName()) {
         override fun finalizeTransition(forward: Boolean) {
             searchPresenter.setVisibility(View.VISIBLE)
             resultsPresenter.setVisibility(View.GONE)
+            detailPresenter.setVisibility(View.GONE)
         }
     }
     private val searchToResults = LeftToRightTransition(this, javaClass<HotelSearchPresenter>(), javaClass<HotelResultsPresenter>())
 
     private val resultsToDetail = LeftToRightTransition(this, javaClass<HotelResultsPresenter>(), javaClass<HotelDetailPresenter>())
 
-    val searchObserver : Observer<HotelSearchParams> = object : Observer<HotelSearchParams> {
-
-        override fun onNext(params: HotelSearchParams) {
-            resultsPresenter.doSearch(params)
-            detailPresenter.setSearchParams(params)
-            show(resultsPresenter)
-        }
-
-        override fun onCompleted() {
-        }
-
-        override fun onError(e: Throwable?) {
-        }
+    val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
+        resultsPresenter.doSearch(params)
+        detailPresenter.setSearchParams(params)
+        show(resultsPresenter)
     }
 
-    val detailObserver: Observer<Hotel> = object : Observer<Hotel> {
-
-        override fun onNext(params: Hotel) {
-            detailPresenter.getDetail(params)
-            show(detailPresenter)
-        }
-
-        override fun onCompleted() {
-        }
-
-        override fun onError(e: Throwable?) {
-        }
+    val hotelSelectedObserver: Observer<Hotel> = endlessObserver { selectedHotel ->
+        detailPresenter.getDetail(selectedHotel)
+        show(detailPresenter)
     }
 }

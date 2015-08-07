@@ -41,7 +41,7 @@ class HotelSearchViewModel(val context: Context) {
     }
 
     val locationObserver = endlessObserver<SuggestionV4> { suggestion ->
-        paramsBuilder.city(suggestion)
+        paramsBuilder.suggestion(suggestion)
         locationTextObservable.onNext(Html.fromHtml(StrUtils.formatCityName(suggestion.regionNames.displayName)).toString())
     }
 

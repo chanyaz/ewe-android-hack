@@ -118,7 +118,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
 
     fun getDetail(params: Hotel) {
         hotel = params
-        downloadSubscription = hotelServices?.getHotelDetails(hotelSearchParams, params.hotelId, downloadListener)
+        downloadSubscription = hotelServices?.details(hotelSearchParams, params.hotelId, downloadListener)
         toolbarTitle.setText(params.name)
         toolBarRating.setRating(params.hotelStarRating)
         pricePerNight.setText(Phrase.from(getContext().getResources(), R.string.per_nt_TEMPLATE).put("price", params.lowRateInfo.nightlyRateTotal.toString()).format())

@@ -44,8 +44,8 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			.subscribe(observer)
 	}
 
-	public fun suggestHotels(params: HotelSearchParams, observer: Observer<HotelSearchResponse>): Subscription {
-		return hotelApi.suggestionHotelSearch(params.city.regionNames.shortName, params.checkIn.toString(), params.checkOut.toString(),
+	public fun regionSearch(params: HotelSearchParams, observer: Observer<HotelSearchResponse>): Subscription {
+		return hotelApi.regionSearch(params.suggestion.gaiaId, params.checkIn.toString(), params.checkOut.toString(),
 				params.getGuestString())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
@@ -61,8 +61,8 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 				.subscribe(observer)
 	}
 
-    public fun getHotelDetails(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
-        return hotelApi.getHotelDetails(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
+    public fun details(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
+        return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
                 hotelSearchParams.getGuestString(), hotelId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

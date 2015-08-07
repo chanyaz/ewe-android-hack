@@ -9,7 +9,11 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format
 import android.util.AttributeSet
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import com.expedia.bookings.R
@@ -26,17 +30,23 @@ import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.HotelMarkerPreviewAdapter
 import com.expedia.bookings.widget.HotelMarkerPreviewRecycler
 import com.expedia.bookings.widget.RecyclerDividerDecoration
+import com.expedia.bookings.widget.createHotelMarker
+import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.mobiata.android.LocationServices
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import rx.Observer
 import rx.Subscription
+import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import javax.inject.Inject
@@ -66,9 +76,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val layoutManager = LinearLayoutManager(context)
 
-    var statusBar: View? = null
     var googleMap: GoogleMap? = null
-    var locationName: String? = null
     var subtitle: CharSequence? = null
 
     var listOffset: Int = 0
@@ -94,9 +102,110 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     }
 
+    val resultsSubject: PublishSubject<HotelSearchResponse> = PublishSubject.create()
+
+    val listResultsObserver: Observer<HotelSearchResponse> = object : Observer<HotelSearchResponse> {
+        override fun onNext(response: HotelSearchResponse) {
+            recyclerView.setAdapter(HotelListAdapter(response.hotelList, hotelSubject))
+            listOffset = (screenHeight - (screenHeight / 2.7f)).toInt()
+            layoutManager.scrollToPositionWithOffset(1, listOffset)
+            show(ResultsList())
+        }
+
+        override fun onCompleted() {
+            throw OnErrorNotImplementedException(RuntimeException("Completed called"))
+        }
+
+        override fun onError(e: Throwable?) {
+            throw OnErrorNotImplementedException(e)
+        }
+    }
+
+    val mapResultsObserver: Observer<HotelSearchResponse> = object : Observer<HotelSearchResponse> {
+        override fun onNext(response: HotelSearchResponse) {
+            val map = googleMap
+            map ?: return
+
+            map.clear()
+
+            map.setMyLocationEnabled(true)
+
+            // Determine current location
+            val MINIMUM_TIME_AGO = format.DateUtils.HOUR_IN_MILLIS
+            val minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO
+            val loc = LocationServices.getLastBestLocation(context, minTime)
+            val currentLat = loc?.getLatitude() ?: 0.0
+            val currentLong = loc?.getLongitude() ?: 0.0
+
+            var closestHotel: Hotel? = null
+            var closestToCurrentLocationVal: Float = Float.MAX_VALUE
+
+            val allHotelsBox = LatLngBounds.Builder()
+
+            for (hotel in response.hotelList) {
+                // Add markers for all hotels
+                val marker: Marker = map.addMarker(MarkerOptions()
+                        .position(LatLng(hotel.latitude, hotel.longitude))
+                        .icon(createHotelMarker(getResources(), hotel, false)))
+
+                val markerDistance = MarkerDistance(marker, -1f, hotel)
+                mHotelList.add(markerDistance)
+
+                allHotelsBox.include(LatLng(hotel.latitude, hotel.longitude))
+
+                // Determine which neighbourhood is closest to current location
+                if (hotel.locationId != null) {
+                    var a = Location("a")
+                    a.setLatitude(currentLat)
+                    a.setLongitude(currentLong)
+
+                    var b = Location("b")
+                    b.setLatitude(hotel.latitude)
+                    b.setLongitude(hotel.longitude)
+
+                    var distanceBetween = a.distanceTo(b)
+
+                    if (distanceBetween <= closestToCurrentLocationVal) {
+                        closestToCurrentLocationVal = distanceBetween
+                        closestHotel = hotel
+                    }
+                }
+            }
+
+            var mostInterestingNeighborhood: HotelSearchResponse.Neighborhood?
+
+            if (allHotelsBox.build().contains(LatLng(currentLat, currentLong)) && closestHotel != null && closestHotel.locationId != null) {
+                mostInterestingNeighborhood = response.neighborhoodsMap.get(closestHotel.locationId)
+            } else {
+                mostInterestingNeighborhood = response.allNeighborhoodsInSearchRegion.reduce { left, right -> if (left.score >= right.score) left else right }
+            }
+
+            if (mostInterestingNeighborhood != null) {
+                val neighborhoodBox = LatLngBounds.Builder()
+                for (hotel in mostInterestingNeighborhood.hotels) {
+                    neighborhoodBox.include(LatLng(hotel.latitude, hotel.longitude))
+                }
+                map.animateCamera(CameraUpdateFactory.newLatLngBounds(neighborhoodBox.build(), getResources().getDisplayMetrics().density.toInt() * 50))
+            }
+
+            Log.d("Hotel Results Next")
+        }
+
+        override fun onCompleted() {
+            Log.d("Hotel Results Completed")
+        }
+
+        override fun onError(e: Throwable?) {
+            Log.d("Hotel Results Error", e)
+        }
+    }
+
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
         View.inflate(getContext(), R.layout.widget_hotel_results, this)
+
+        resultsSubject.subscribe(listResultsObserver)
+        resultsSubject.subscribe(mapResultsObserver)
     }
 
     override fun onFinishInflate() {
@@ -152,110 +261,25 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     fun doSearch(params: HotelSearchParams) {
-        val subject: PublishSubject<HotelSearchResponse> = PublishSubject.create()
-        subject.subscribe(listResultsObserver)
-        subject.subscribe(mapResultsObserver)
-        downloadSubscription = hotelServices.suggestHotels(params, subject)
+        downloadSubscription = hotelServices.regionSearch(params, object : Observer<HotelSearchResponse> {
+            override fun onNext(response: HotelSearchResponse?) {
+                resultsSubject.onNext(response)
+            }
 
-        toolbar.setTitle(params.city.regionNames.shortName)
+            override fun onCompleted() {
+                // ignore
+            }
+
+            override fun onError(e: Throwable?) {
+                // ignore
+            }
+        })
+
+        toolbar.setTitle(params.suggestion.regionNames.shortName)
         subtitle = Phrase.from(getContext(), R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(params.checkIn)).put("enddate", DateUtils.localDateToMMMd(params.checkOut)).put("guests", params.children.size() + 1).format()
         toolbar.setSubtitle(subtitle)
 
-        googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.city.coordinates.lat, params.city.coordinates.lng), 14.0f))
-    }
-
-    val listResultsObserver: Observer<HotelSearchResponse> = object : Observer<HotelSearchResponse> {
-        override fun onNext(response: HotelSearchResponse) {
-            recyclerView.setAdapter(HotelListAdapter(response.hotelList, hotelSubject))
-        }
-
-        override fun onCompleted() {
-            listOffset = (screenHeight - (screenHeight / 2.7f)).toInt()
-            layoutManager.scrollToPositionWithOffset(1, listOffset)
-            show(ResultsList())
-            Log.d("Hotel Results Completed")
-        }
-
-        override fun onError(e: Throwable?) {
-            Log.d("Hotel Results Error", e)
-        }
-    }
-
-    val mapResultsObserver: Observer<HotelSearchResponse> = object : Observer<HotelSearchResponse> {
-        override fun onNext(response: HotelSearchResponse) {
-            val map = googleMap
-            map ?: return
-
-            map.setMyLocationEnabled(true)
-
-            // Determine current location
-            val MINIMUM_TIME_AGO = format.DateUtils.HOUR_IN_MILLIS
-            val minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO
-            val loc = LocationServices.getLastBestLocation(context, minTime)
-            val currentLat = loc?.getLatitude() ?: 0.0
-            val currentLong = loc?.getLongitude() ?: 0.0
-
-            var closestHotel: Hotel? = null
-            var closestToCurrentLocationVal: Float = Float.MAX_VALUE
-
-            val allHotelsBox = LatLngBounds.Builder()
-
-            for (hotel in response.hotelList) {
-                // Add markers for all hotels
-                val marker: Marker = map.addMarker(MarkerOptions()
-                        .position(LatLng(hotel.latitude, hotel.longitude))
-                        .icon(createHotelMarker(getResources(), hotel, false)))
-
-                val markerDistance = MarkerDistance(marker, -1f, hotel)
-                mHotelList.add(markerDistance)
-
-                allHotelsBox.include(LatLng(hotel.latitude, hotel.longitude))
-
-                // Determine which neighbourhood is closest to current location
-                if (currentLat != null && currentLong != null && hotel.locationId != null) {
-                    var a = Location("a")
-                    a.setLatitude(currentLat)
-                    a.setLongitude(currentLong)
-
-                    var b = Location("b")
-                    b.setLatitude(hotel.latitude)
-                    b.setLongitude(hotel.longitude)
-
-                    var distanceBetween = a.distanceTo(b)
-
-                    if (distanceBetween <= closestToCurrentLocationVal) {
-                        closestToCurrentLocationVal = distanceBetween
-                        closestHotel = hotel
-                    }
-                }
-            }
-
-            var mostInterestingNeighborhood: HotelSearchResponse.Neighborhood? = null
-
-            if (allHotelsBox.build().contains(LatLng(currentLat, currentLong)) && closestHotel != null && closestHotel.locationId != null) {
-                mostInterestingNeighborhood = response.neighborhoodsMap.get(closestHotel.locationId)
-            } else {
-                mostInterestingNeighborhood = response.allNeighborhoodsInSearchRegion.reduce { left, right -> if (left.score >= right.score) left else right }
-            }
-
-            if (mostInterestingNeighborhood != null) {
-                val neighborhoodBox = LatLngBounds.Builder()
-                for (hotel in mostInterestingNeighborhood.hotels) {
-                    neighborhoodBox.include(LatLng(hotel.latitude, hotel.longitude))
-                }
-                map.animateCamera(CameraUpdateFactory.newLatLngBounds(neighborhoodBox.build(), getResources().getDisplayMetrics().density.toInt() * 50))
-            }
-
-            Log.d("Hotel Results Next")
-        }
-
-        override fun onCompleted() {
-            Log.d("Hotel Results Completed")
-        }
-
-        override fun onError(e: Throwable?) {
-            Log.d("Hotel Results Error", e)
-        }
+        googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
@@ -408,26 +432,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
+    val markerObserver: Observer<Marker> = endlessObserver { marker ->
+        val map = googleMap
+        map?.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), map.getCameraPosition().zoom))
+    }
+
     // Classes for state
     public class ResultsList
 
     public class ResultsMap
-
-    val markerObserver: Observer<Marker> = object : Observer<Marker> {
-
-        override fun onNext(marker: Marker) {
-            val map = googleMap
-            map ?: return
-
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), map.getCameraPosition().zoom))
-        }
-
-        override fun onCompleted() {
-        }
-
-        override fun onError(e: Throwable?) {
-        }
-    }
-
-
 }
