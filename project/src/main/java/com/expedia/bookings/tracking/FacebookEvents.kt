@@ -213,7 +213,9 @@ fun addCommonHotelParams(parameters: Bundle, searchParams: HotelSearchParams, lo
     parameters.putInt("Num_People", searchParams.getNumTravelers())
     parameters.putInt("Number_Children", searchParams.getNumChildren())
     parameters.putInt("Number_Nights", searchParams.getStayDuration())
-    parameters.putBoolean("Logged_in_Status", User.isLoggedIn(context))
+    if (context != null) {
+        parameters.putBoolean("Logged_in_Status", User.isLoggedIn(context))
+    }
     parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
     parameters.putString("POS", PointOfSale.getPointOfSale().getTwoLetterCountryCode())
 }
@@ -234,7 +236,9 @@ fun addCommonFlightParams(parameters: Bundle, searchParams: FlightSearchParams, 
     parameters.putInt("Num_People", searchParams.getNumTravelers())
     parameters.putInt("Number_Children", searchParams.getNumChildren())
 
-    parameters.putBoolean("Logged_in_Status", User.isLoggedIn(context))
+    if (context != null) {
+        parameters.putBoolean("Logged_in_Status", User.isLoggedIn(context))
+    }
     parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
     parameters.putString("POS", PointOfSale.getPointOfSale().getTwoLetterCountryCode())
 }
