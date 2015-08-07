@@ -176,13 +176,17 @@ public class StringsTests {
 	@Test
 	public void cutAtWordBarrier() {
 		final String firstCutAtWord = "Ain't";
-		final String secondCutAtword = "Ain't no";
-		final String thirsCutAtWord = "Ain't no sunshine";
+		final String secondCutAtWord = "Ain't no";
+		final String thirdCutAtWord = "Ain't no sunshine";
 		final String body = "Ain't no sunshine when she's gone";
 
+		// Don't try and cut past the end of a string
+		assertEquals(firstCutAtWord.length(), Strings.cutAtWordBarrier(firstCutAtWord, 10));
+
+		// Cutting to the work barrier
 		assertEquals(firstCutAtWord.length(), Strings.cutAtWordBarrier(body, 5));
-		assertEquals(secondCutAtword.length(), Strings.cutAtWordBarrier(body, 7));
-		assertEquals(thirsCutAtWord.length(), Strings.cutAtWordBarrier(body, 14));
+		assertEquals(secondCutAtWord.length(), Strings.cutAtWordBarrier(body, 7));
+		assertEquals(thirdCutAtWord.length(), Strings.cutAtWordBarrier(body, 14));
 	}
 
 	@Test
