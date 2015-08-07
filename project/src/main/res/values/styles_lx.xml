@@ -44,6 +44,7 @@
         <item name="skin_lxTicketMinusButtonSelectorDrawable">@drawable/lx_ticket_minus_button_selector</item>
         <item name="skin_lxErrorDefaultDrawable">@drawable/error_default</item>
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_lx</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
 
     </style>
 
