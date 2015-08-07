@@ -117,7 +117,7 @@ public class ErrorWidget extends FrameLayout {
 			else if (error.errorInfo.field.equals("mainMobileTraveler.phone")) {
 				message = getResources().getString(R.string.reservation_invalid_phone);
 			}
-			bindText(R.drawable.error_default,
+			bindText(Ui.obtainThemeResID(getContext(), R.attr.skin_carsErrorDefaultDrawable),
 				message,
 				R.string.cars_invalid_input_text,
 				R.string.edit_info);
