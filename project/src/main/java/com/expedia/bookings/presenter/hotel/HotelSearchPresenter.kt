@@ -26,6 +26,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribe
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelSearchViewModel
+import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelTravelerPickerViewModel
 import com.mobiata.android.time.widget.CalendarPicker
 import com.mobiata.android.time.widget.DaysOfWeekView
@@ -61,7 +62,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     private val hotelSuggestionAdapter by Delegates.lazy {
         val service = Ui.getApplication(getContext()).hotelComponent().suggestionsService()
-        HotelSuggestionAdapter(service)
+        HotelSuggestionAdapter(HotelSuggestionAdapterViewModel(service))
     }
 
     var viewmodel: HotelSearchViewModel by notNullAndObservable { vm ->

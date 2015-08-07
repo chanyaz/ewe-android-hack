@@ -11,24 +11,18 @@ import android.widget.ImageView
 import butterknife.ButterKnife
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.SuggestionV4
-import com.expedia.bookings.services.SuggestionV4Services
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribe
+import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelSuggestionViewModel
 import com.mobiata.android.time.widget.CalendarPicker
-import rx.Observer
-import rx.Subscription
 import java.util.ArrayList
-import kotlin.properties.Delegates
 
-public class HotelSuggestionAdapter(val suggestionServices: SuggestionV4Services) : BaseAdapter(), Filterable {
+public class HotelSuggestionAdapter(private val vm: HotelSuggestionAdapterViewModel) : BaseAdapter(), Filterable {
 
-    private var suggestions = ArrayList<SuggestionV4>()
+    private val suggestions = ArrayList<SuggestionV4>()
     private val filter = SuggestFilter()
-    private var suggestSubscription: Subscription? = null
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         var view = convertView
@@ -91,49 +85,29 @@ public class HotelSuggestionAdapter(val suggestionServices: SuggestionV4Services
 
     }
 
-    public inner class SuggestFilter: Filter() {
+    public inner class SuggestFilter : Filter() {
         override public fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
             notifyDataSetChanged()
         }
 
         override fun performFiltering(input: CharSequence?): Filter.FilterResults {
-            val query = input?.toString() ?: ""
-
             val results = Filter.FilterResults()
-            if (query.isNotBlank() && query.length() >= 3) {
-                cleanup()
-                suggestSubscription = suggest(suggestionServices, query)
-            } else {
-                suggestions.clear()
-            }
-
+            vm.hotelSearchTextObserver.onNext(input)
             results.count = suggestions.size()
             results.values = suggestions
             return results
         }
     }
 
-    private var suggestionsObserverV4 = object : Observer<List<SuggestionV4>> {
-        override fun onCompleted() {
-            filter.publishResults("", null)
-            cleanup()
-        }
-
-        override fun onError(e: Throwable) {
-        }
-
-        override fun onNext(suggests: List<SuggestionV4>) {
+    init {
+        vm.updateSuggestionsV4Observable.subscribe { suggests ->
             suggestions.clear()
-            suggestions.addAll(suggests)
+            if (suggests != null) {
+                suggestions.addAll(suggests)
+            }
+            filter.publishResults("", null)
         }
     }
 
-    public fun cleanup() {
-            suggestSubscription?.unsubscribe()
-            suggestSubscription = null
-    }
 
-    protected fun suggest(suggestionServices: SuggestionV4Services, query: CharSequence): Subscription {
-        return suggestionServices.getHotelSuggestionsV4(query.toString(), suggestionsObserverV4)
-    }
 }
