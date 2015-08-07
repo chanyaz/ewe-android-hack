@@ -48,6 +48,7 @@
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
     </style>
 
     <!--
@@ -62,8 +63,6 @@
         <item name="traveler_details_text">@string/enter_driver_details</item>
         <item name="card_list_image_container_height">@dimen/car_search_list_image_container_height</item>
         <item name="card_details_container_height">@dimen/car_search_details_container_height</item>
-
-        <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
 
         <!-- Action Bar Attrs -->
         <item name="skin_actionbarTextColor">@color/cars_actionbar_text_color</item>
