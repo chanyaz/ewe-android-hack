@@ -32,5 +32,6 @@
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/tvly</item>
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_cars_tvly</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle_tvly</item>
     </style>
 </resources>

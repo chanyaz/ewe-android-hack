@@ -35,5 +35,6 @@
         <item name="skin_lxTicketMinusButtonSelectorDrawable">@drawable/lx_ticket_minus_button_selector_tvly</item>
         <item name="skin_lxErrorDefaultDrawable">@drawable/error_default_tvly</item>
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_lx_tvly</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
     </style>
 </resources>
