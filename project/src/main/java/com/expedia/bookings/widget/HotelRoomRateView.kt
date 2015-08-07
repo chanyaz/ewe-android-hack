@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
 import android.widget.*
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Ui
@@ -15,9 +16,10 @@ import com.expedia.util.subscribe
 import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelRoomRateViewModel
+import rx.Observer
 import kotlin.properties.Delegates
 
-public class HotelRoomRateView(context: Context, val container: TableLayout) : LinearLayout(context) {
+public class HotelRoomRateView(context: Context, val container: TableLayout, val checkoutObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : LinearLayout(context) {
 
     val PICASSO_HOTEL_ROOM = "HOTEL_ROOMS"
 
@@ -38,6 +40,7 @@ public class HotelRoomRateView(context: Context, val container: TableLayout) : L
 
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
         viewRoom.subscribeOnCheckChanged(vm.expandCollapseRoomRate)
+        vm.roomSelectedObservable.subscribe(checkoutObserver)
         roomInfoHeader.subscribeOnClick(vm.expandCollapseRoomRateInfo)
 
         vm.totalPricePerNightObservable.subscribe(totalPricePerNight)

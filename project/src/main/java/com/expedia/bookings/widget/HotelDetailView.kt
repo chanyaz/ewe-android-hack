@@ -9,6 +9,7 @@ import android.widget.*
 import android.widget.HorizontalScrollView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -20,12 +21,15 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import rx.Observer
 import kotlin.properties.Delegates
 
 /**
  * Created by mohsharma on 8/6/15.
  */
-
+object RoomSelected {
+    var observer: Observer<HotelOffersResponse.HotelRoomResponse> by Delegates.notNull()
+}
 public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
 
     val MAP_ZOOM_LEVEL = 12f
@@ -83,7 +87,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.roomResponseListObservable.subscribe { roomList ->
             roomContainer.removeAllViews()
             roomList.forEachIndexed { roomResponseIndex, room ->
-                val view = HotelRoomRateView(getContext(), roomContainer)
+                val view = HotelRoomRateView(getContext(), roomContainer, RoomSelected.observer)
                 view.viewmodel = HotelRoomRateViewModel(getContext(), roomList.get(roomResponseIndex), roomResponseIndex)
                 roomContainer.addView(view)
             }

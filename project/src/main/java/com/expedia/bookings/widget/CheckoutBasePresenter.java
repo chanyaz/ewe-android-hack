@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget;
 
-import org.jetbrains.annotations.NotNull;
-
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
@@ -46,7 +44,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	@InjectView(R.id.checkout_scroll)
-	ScrollView scrollView;
+	public ScrollView scrollView;
 
 	@InjectView(R.id.checkout_toolbar)
 	Toolbar toolbar;
@@ -82,7 +80,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	TextView sliderTotalText;
 
 	@InjectView(R.id.spacer)
-	Space space;
+	public Space space;
 
 	MenuItem menuNext;
 	MenuItem menuDone;
@@ -90,9 +88,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	ExpandableCardView lastExpandedCard;
 	ExpandableCardView currentExpandedCard;
 
-	@NotNull public WidgetHotelSummaryHeader widgetHotelSummaryHeader;
-
 	protected UserAccountRefresher userAccountRefresher;
+
+	public WidgetHotelSummaryHeader widgetHotelSummaryHeader;
 
 	@Override
 	protected void onFinishInflate() {
@@ -240,6 +238,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			mainContactInfoCardView.setVisibility(GONE);
 			paymentInfoCardView.setVisibility(GONE);
 			legalInformationText.setVisibility(GONE);
+			if (widgetHotelSummaryHeader != null) {
+				widgetHotelSummaryHeader.setVisibility(INVISIBLE);
+			}
 			updateSpacerHeight();
 		}
 	};
@@ -249,13 +250,15 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void startTransition(boolean forward) {
 			super.startTransition(forward);
 			loginWidget.setVisibility(forward ? VISIBLE : INVISIBLE);
-			hintContainer.setVisibility(forward ? VISIBLE : INVISIBLE);
+			hintContainer.setVisibility(forward ? User.isLoggedIn(getContext()) ? GONE : VISIBLE : INVISIBLE);
 			mainContactInfoCardView.setVisibility(forward ? VISIBLE : INVISIBLE);
 			if (paymentInfoCardView.isCreditCardRequired()) {
 				paymentInfoCardView.setVisibility(forward ? VISIBLE : INVISIBLE);
 			}
 			legalInformationText.setVisibility(forward ? VISIBLE : INVISIBLE);
-
+			if (widgetHotelSummaryHeader != null) {
+				widgetHotelSummaryHeader.setVisibility(VISIBLE);
+			}
 		}
 
 		@Override
@@ -310,7 +313,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					lastExpandedCard.setExpanded(false, false);
 				}
 				if (widgetHotelSummaryHeader != null) {
-					widgetHotelSummaryHeader.setVisibility(View.GONE);
+					widgetHotelSummaryHeader.setVisibility(View.INVISIBLE);
 				}
 			}
 			else {

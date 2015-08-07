@@ -5,11 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.data.hotels.HotelCheckoutParams
-import com.expedia.bookings.fragment.HotelConfirmationFragment
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.services.HotelCheckoutResponse
@@ -18,8 +15,6 @@ import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CVVEntryWidget
-import com.expedia.bookings.widget.CarCheckoutWidget
-import com.expedia.bookings.widget.CarConfirmationWidget
 import com.expedia.bookings.widget.ErrorWidget
 import com.mobiata.android.Log
 import org.joda.time.format.ISODateTimeFormat
@@ -53,7 +48,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         addTransition(checkoutToError)
         addTransition(cvvToError)
         addDefaultTransition(defaultCheckoutTransition)
-        checkout.slidAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
+        checkout.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
         cvv.setCVVEntryListener(this)
     }
 
@@ -80,6 +75,8 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
 
     val checkoutSliderSlidObserver: Observer<Unit> = object : Observer<Unit> {
         override fun onCompleted() {
+            val billingInfo = checkout.paymentInfoCardView.sectionBillingInfo.getBillingInfo()
+            cvv.bind(billingInfo)
             show(cvv)
         }
 
@@ -104,7 +101,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         val billingInfo = checkout.paymentInfoCardView.sectionBillingInfo.getBillingInfo()
         hotelCheckoutParams.firstName = primaryTraveler.getFirstName()
         hotelCheckoutParams.phone = primaryTraveler.getPhoneNumber()
-        hotelCheckoutParams.phoneCountryCode = "1"
+        hotelCheckoutParams.phoneCountryCode = primaryTraveler.getPhoneCountryCode()
         hotelCheckoutParams.email = primaryTraveler.getEmail()
         hotelCheckoutParams.lastName = primaryTraveler.getLastName()
         hotelCheckoutParams.sendEmailConfirmation = false // TODO: when true?
@@ -112,12 +109,14 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         hotelCheckoutParams.checkInDate = dtf.print(Db.getHotelSearch().getSearchParams().getCheckInDate())
         hotelCheckoutParams.checkOutDate = dtf.print(Db.getHotelSearch().getSearchParams().getCheckOutDate())
         hotelCheckoutParams.cvv = cvv
+        // TODO: Support saved credit cards
         hotelCheckoutParams.nameOnCard = billingInfo.getNameOnCard()
         hotelCheckoutParams.creditCardNumber = billingInfo.getNumber()
         hotelCheckoutParams.expirationDateYear = JodaUtils.format(billingInfo.getExpirationDate(), "yyyy")
         hotelCheckoutParams.expirationDateMonth = JodaUtils.format(billingInfo.getExpirationDate(), "MM")
         hotelCheckoutParams.postalCode = billingInfo.getLocation().getPostalCode()
 
-        hotelServices!!.checkoutHotel(hotelCheckoutParams, confirmationObserver)
+
+        hotelServices!!.checkout(hotelCheckoutParams, confirmationObserver)
     }
 }

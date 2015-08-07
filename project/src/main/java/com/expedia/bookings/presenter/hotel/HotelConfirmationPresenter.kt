@@ -18,10 +18,6 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
         View.inflate(getContext(), R.layout.widget_hotel_confirmation, this)
     }
 
-    override fun onFinishInflate() {
-
-    }
-
     fun bind(response: HotelCheckoutResponse) {
         myTextView.setText(response.checkoutResponse.bookingResponse.itineraryNumber)
     }

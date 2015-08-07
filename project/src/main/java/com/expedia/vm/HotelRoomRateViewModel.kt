@@ -10,6 +10,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 public data class HotelRoomRate(val hotelRoom: HotelOffersResponse.HotelRoomResponse)
@@ -23,6 +24,7 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
     //Output
     val rateObservable = BehaviorSubject.create(HotelRoomRate(hotelRoomResponse))
     val roomBackgroundViewObservable = BehaviorSubject.create<Drawable>()
+    val roomSelectedObservable = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
     val roomTypeObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomTypeDescription)
     val collapsedBedTypeObservable = BehaviorSubject.create<String>()
     val expandedBedTypeObservable = BehaviorSubject.create<String>()
@@ -38,7 +40,7 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
     val expandCollapseRoomRate: Observer<Boolean> = endlessObserver {
         isChecked ->
         if (!isChecked) {
-            //TODO :show checkout
+            roomSelectedObservable.onNext(hotelRoomResponse)
         } else {
             // expand row if it's not expanded
             if (lastExpanded != index) {

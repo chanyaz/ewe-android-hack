@@ -11,7 +11,6 @@ import retrofit.converter.GsonConverter
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
-import java.util.*
 import kotlin.properties.Delegates
 
 public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
@@ -66,14 +65,14 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
                 .subscribe(observer)
     }
 
-	public fun createTripHotels(body: HotelCreateTripParams, observer: Observer<HotelCreateTripResponse>): Subscription {
+	public fun createTrip(body: HotelCreateTripParams, observer: Observer<HotelCreateTripResponse>): Subscription {
 		return hotelApi.createTrip(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.subscribe(observer)
 	}
 
-	public fun checkoutHotel(params: HotelCheckoutParams, observer: Observer<HotelCheckoutResponse>): Subscription {
+	public fun checkout(params: HotelCheckoutParams, observer: Observer<HotelCheckoutResponse>): Subscription {
 		return hotelApi.checkout(params.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)

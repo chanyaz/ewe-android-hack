@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -12,6 +13,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.Ui
@@ -19,8 +21,8 @@ import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
 import com.expedia.bookings.widget.WidgetHotelSummaryHeader
 import com.mobiata.android.Log
+import com.squareup.otto.Subscribe
 import rx.Observer
-import rx.Subscription
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -29,33 +31,30 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
     var hotelServices: HotelServices? = null
         @Inject set
 
-    var downloadSubscription: Subscription? = null
-
-    var hotelSearchParams: HotelSearchParams by Delegates.notNull()
-
-    var slidAllTheWayObservable = PublishSubject.create<Unit>()
-
+    var slideAllTheWayObservable = PublishSubject.create<Unit>()
     var hotelCheckoutSummaryWidget: HotelCheckoutSummaryWidget by Delegates.notNull()
 
-    var offer : HotelOffersResponse.HotelRoomResponse? = null
+    var offer: HotelOffersResponse.HotelRoomResponse by Delegates.notNull()
+    var hotelSearchParams: HotelSearchParams by Delegates.notNull()
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {
-        return LineOfBusiness.HOTELS
+        return LineOfBusiness.HOTELSV2
     }
 
     override fun onFinishInflate() {
         super<CheckoutBasePresenter>.onFinishInflate()
-        hotelCheckoutSummaryWidget = com.mobiata.android.util.Ui.inflate(R.layout.hotel_checkout_summary_widget, summaryContainer, false)
+        hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(getContext(), null)
         summaryContainer.addView(hotelCheckoutSummaryWidget)
         widgetHotelSummaryHeader = WidgetHotelSummaryHeader(getContext(), null)
-        this.addView(widgetHotelSummaryHeader)
+        addView(widgetHotelSummaryHeader)
     }
 
     fun bind() {
+        widgetHotelSummaryHeader.setHotelImage(offer)
         mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
         mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details))
         paymentInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
@@ -81,15 +80,12 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         val numberOfAdults = hotelSearchParams.adults
         val childAges = hotelSearchParams.children
         val qualifyAirAttach = false
-        downloadSubscription = hotelServices?.createTripHotels(HotelCreateTripParams(offer!!.productKey, qualifyAirAttach, numberOfAdults, childAges), downloadListener)
+        hotelServices?.createTrip(HotelCreateTripParams(offer!!.productKey, qualifyAirAttach, numberOfAdults, childAges), downloadListener)
     }
 
     val downloadListener: Observer<HotelCreateTripResponse> = object : Observer<HotelCreateTripResponse> {
         override fun onNext(hotelCreateTripResponse: HotelCreateTripResponse) {
             Log.d("Hotel Checkout Next")
-            widgetHotelSummaryHeader.setHotelImage(offer)
-
-
             Db.getTripBucket().add(TripBucketItemHotelV2(hotelCreateTripResponse))
             bind()
             show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
@@ -111,7 +107,6 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         mSummaryProgressLayout.setVisibility(if (show) View.VISIBLE else View.GONE)
     }
 
-    //  SlideToWidget.ISlideToListener
 
     override fun onSlideStart() {
     }
@@ -120,7 +115,7 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
     }
 
     override fun onSlideAllTheWay() {
-        slidAllTheWayObservable.onCompleted()
+        slideAllTheWayObservable.onCompleted()
     }
 
     override fun onSlideAbort() {
@@ -128,6 +123,24 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
 
     fun setSearchParams(params: HotelSearchParams) {
         hotelSearchParams = params
+    }
+
+    Subscribe
+    public fun onLogin(event: Events.LoggedInSuccessful) {
+        onLoginSuccessful()
+    }
+
+    override fun updateSpacerHeight() {
+        val summary = hotelCheckoutSummaryWidget.findViewById(R.id.hotel_booking_summary)
+        val summaryHeight = summary.getHeight()
+        var remainingHeight = 0
+        val scrollViewContentHeight = scrollView.getChildAt(0).getHeight() - space.getHeight() + TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18f, getResources().getDisplayMetrics())
+        if (scrollView.getHeight() > scrollViewContentHeight) {
+            remainingHeight = scrollView.getHeight() - scrollViewContentHeight.toInt()
+        }
+        val params = space.getLayoutParams()
+        params.height = summaryHeight + remainingHeight
+        space.setLayoutParams(params)
     }
 }
 

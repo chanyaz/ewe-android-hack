@@ -372,7 +372,7 @@ public class PaymentWidget extends ExpandableCardView {
 						message = getResources().getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName);
 					}
 					else if (lineOfBusiness.equals(LineOfBusiness.HOTELSV2)) {
-						message = getResources().getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName);
+						message = getResources().getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName);
 					}
 					invalidPaymentText.setText(message);
 					invalidPaymentContainer.setVisibility(VISIBLE);

@@ -9,15 +9,17 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.RoomSelected
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.mobiata.android.Log
 import rx.Observer
+import rx.exceptions.OnErrorNotImplementedException
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -41,7 +43,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     override fun onFinishInflate() {
         super<Presenter>.onFinishInflate()
 
-        addDefaultTransition(defaultTransition)
         addTransition(searchToResults)
         addTransition(resultsToDetail)
         addTransition(detailsToCheckout)
@@ -51,6 +52,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         searchPresenter.viewmodel = HotelSearchViewModel(getContext())
         searchPresenter.viewmodel.searchParamsObservable.subscribe(searchObserver)
         resultsPresenter.hotelSubject.subscribe(hotelSelectedObserver)
+        RoomSelected.observer = checkoutObserver
         checkoutPresenter.confirmationObserver = confirmationObserver
     }
 
@@ -69,6 +71,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
         resultsPresenter.doSearch(params)
         hotelSearchParams = params
+        checkoutPresenter.checkout.setSearchParams(params)
         show(resultsPresenter)
     }
 
@@ -80,10 +83,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         show(detailPresenter)
     }
 
-    val checkoutObserver: Observer<HotelOffersResponse.HotelRoomResponse> = object : Observer<HotelOffersResponse.HotelRoomResponse> {
+    val checkoutObserver = object : Observer<HotelOffersResponse.HotelRoomResponse> {
 
         override fun onNext(t: HotelOffersResponse.HotelRoomResponse) {
-            // TODO: createTrip call here
             checkoutPresenter.showCheckout(t)
             show(checkoutPresenter)
         }
@@ -93,7 +95,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
 
         override fun onError(e: Throwable) {
-            Log.d("oh no!", e)
+            throw OnErrorNotImplementedException(e)
         }
     }
 
@@ -105,11 +107,11 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
 
         override fun onError(e: Throwable) {
-            Log.d("Whoa! We have a checkout error", e)
+            throw OnErrorNotImplementedException(e)
         }
 
         override fun onCompleted() {
-            //            Log.d("Got a checkout response!")
+            Log.d("Got a checkout response!")
         }
     }
 }

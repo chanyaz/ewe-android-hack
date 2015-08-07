@@ -28,9 +28,7 @@ public class HotelCreateTripResponse {
 		public String numberOfNights;
 		public String numberOfRooms;
 		public String hotelId;
-		public String hotelName;
 		public String localizedHotelName;
-		public String nonLocalizedHotelName;
 		public String hotelAddress;
 		public String hotelCity;
 		public String hotelStateProvince;

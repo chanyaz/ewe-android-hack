@@ -41,11 +41,11 @@ public interface HotelApi {
 
 	@FormUrlEncoded
 	@POST("/m/api/hotel/trip/create")
-	public Observable<HotelCreateTripResponse> createTrip(
+	Observable<HotelCreateTripResponse> createTrip(
 		@FieldMap Map<String, Object> queryParams);
 
 	@FormUrlEncoded
 	@POST("/m/api/hotel/trip/checkout")
-	public Observable<HotelCheckoutResponse> checkout(
+	Observable<HotelCheckoutResponse> checkout(
 		@FieldMap Map<String, Object> queryParams);
 }
