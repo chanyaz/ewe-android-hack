@@ -31,7 +31,6 @@ public class LaunchScreenTest {
 	@Before
 	public void before() {
 		HotelRate rate = new HotelRate();
-		rate.maxNightlyRate = 1;
 		rate.averageRate = 1;
 		rate.surchargeTotal = 1;
 		rate.surchargeTotalForEntireStay = 1;
@@ -44,7 +43,6 @@ public class LaunchScreenTest {
 		rate.discountMessage = "";
 		rate.priceToShowUsers = 1;
 		rate.strikethroughPriceToShowUsers = 1;
-		rate.strikethroughPriceWithTaxesAndFeesToShowUsers = 1;
 		rate.totalMandatoryFees = 1;
 		rate.totalPriceMandatoryFees = 1;
 		rate.formattedTotalPriceMandatoryFees = "1";
@@ -53,12 +51,12 @@ public class LaunchScreenTest {
 		rate.roomTypeCode = "";
 		rate.ratePlanCode = "";
 
-		hotel.name = "Hotel";
+		hotel.localizedName = "Hotel";
 		hotel.lowRateInfo = rate;
 		hotel.largeThumbnailUrl = "";
 		hotel.hotelGuestRating = 5f;
 
-		hotelNoRating.name = "Hotel No Rating";
+		hotelNoRating.localizedName = "Hotel No Rating";
 		hotelNoRating.lowRateInfo = rate;
 		hotelNoRating.largeThumbnailUrl = "";
 		hotelNoRating.hotelGuestRating = 0f;

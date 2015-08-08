@@ -603,7 +603,7 @@ public class Property implements JSONable {
 	}
 
 	public void updateFrom(final Hotel offer) {
-		mName = offer.name;
+		mName = offer.localizedName;
 		mPropertyId = offer.hotelId;
 
 		mLocation = new Location();

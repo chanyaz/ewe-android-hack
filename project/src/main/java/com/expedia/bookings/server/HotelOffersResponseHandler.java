@@ -352,9 +352,6 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		// handle the parsing separately here
 		Money averageRate = ParserUtils.createMoney(chargeableRateInfo.getString("averageRate"), currencyCode);
 		rate.setDailyAmountBeforeTax(averageRate);
-		rate.setAverageRate(averageRate);
-		rate.setAverageBaseRate(ParserUtils.createMoney(chargeableRateInfo.getString("averageBaseRate"),
-			currencyCode));
 		rate.setDiscountPercent(chargeableRateInfo.getDouble("discountPercent"));
 
 		Money totalMandatoryFees = ParserUtils.createMoney(

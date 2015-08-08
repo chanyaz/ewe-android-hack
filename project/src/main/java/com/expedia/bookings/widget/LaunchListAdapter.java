@@ -323,7 +323,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 
 		private void bindHotelData(Hotel hotel, Context context, boolean fullWidth) {
-			title.setText(hotel.name);
+			title.setText(hotel.localizedName);
 			subtitle.setVisibility(View.GONE);
 			ratingInfo.setVisibility(View.VISIBLE);
 			noRatingText.setVisibility(View.GONE);
