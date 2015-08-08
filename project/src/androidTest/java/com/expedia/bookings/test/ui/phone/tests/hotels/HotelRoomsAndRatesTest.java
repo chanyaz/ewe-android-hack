@@ -11,6 +11,7 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScre
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -74,6 +75,21 @@ public class HotelRoomsAndRatesTest extends PhoneTestCase {
 		HotelsRoomsRatesScreen.listItem().atPosition(1).check(selectedDescendantsMatch(withId(R.id.sale_text_view),
 			isDisplayed()));
 		screenshot("discounted_room");
+		Common.pressBack();
+	}
+
+	public void testARenovationNotice() throws Throwable {
+		/*Display renovation notice if the hotel has one
+		*/
+		initiateSearch();
+		HotelsSearchScreen.clickHotelWithName("hotel_renovation_notice");
+		HotelsDetailsScreen.clickSelectButton();
+		screenshot("renovation_notice");
+		onView(withId(R.id.construction_top_text)).check(matches(withText("Renovation Notice")));
+		onView(withId(R.id.construction_bottom_text)).check(matches(withText("This property is undergoing renovations")));
+		onView(withId(R.id.construction_icon)).check(matches(isDisplayed()));
+		Common.pressBack();
+
 	}
 
 	private void initiateSearch() throws Exception {
