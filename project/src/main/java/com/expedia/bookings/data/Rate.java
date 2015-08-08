@@ -59,7 +59,6 @@ public class Rate implements JSONable {
 	private Money mTotalAmountAfterTax; // HP equiv: totalCostPerRoom
 
 	// HotelPal unique fields
-	private int mRateType;
 	private String mRateKey;
 	private String mRoomTypeCode;
 	private Money mTaxesAndFeesPerRoom;
@@ -79,13 +78,7 @@ public class Rate implements JSONable {
 	private Money mDepositToShowUsers;
 	private Money mStrikethroughPriceToShowUsers;
 
-	// StayHIP unique fields
-	private String mBookingCode;
-	private String mRoomTypeName;
-
 	// Expedia-specific fields
-	private Money mAverageRate; // The average rate, post-sale
-	private Money mAverageBaseRate; // The average rate, without sale discounts
 	private double mDiscountPercent = UNSET_DISCOUNT_PERCENT; // Discount percent, as reported by E3 (i.e. 15.0)
 	private boolean mIsMobileExclusive = false;
 	private int mNumberOfNights;
@@ -182,10 +175,6 @@ public class Rate implements JSONable {
 		this.mRoomLongDescription = roomLongDescription;
 	}
 
-	public Money getDailyAmountBeforeTax() {
-		return mDailyAmountBeforeTax;
-	}
-
 	public void setDailyAmountBeforeTax(Money dailyAmountBeforeTax) {
 		this.mDailyAmountBeforeTax = dailyAmountBeforeTax;
 	}
@@ -218,10 +207,6 @@ public class Rate implements JSONable {
 		this.mTotalAmountAfterTax = totalAmountAfterTax;
 	}
 
-	public Money getTaxesAndFeesPerRoom() {
-		return mTaxesAndFeesPerRoom;
-	}
-
 	public void setTaxesAndFeesPerRoom(Money taxesAndFeesPerRoom) {
 		this.mTaxesAndFeesPerRoom = taxesAndFeesPerRoom;
 	}
@@ -232,14 +217,6 @@ public class Rate implements JSONable {
 
 	public void setExtraGuestFee(Money extraGuestFee) {
 		this.mExtraGuestFee = extraGuestFee;
-	}
-
-	public int getRateType() {
-		return mRateType;
-	}
-
-	public void setRateType(int rateType) {
-		this.mRateType = rateType;
 	}
 
 	public String getRateKey() {
@@ -258,22 +235,6 @@ public class Rate implements JSONable {
 		this.mRoomTypeCode = roomTypeCode;
 	}
 
-	public String getBookingCode() {
-		return mBookingCode;
-	}
-
-	public void setBookingCode(String bookingCode) {
-		this.mBookingCode = bookingCode;
-	}
-
-	public String getRoomTypeName() {
-		return mRoomTypeName;
-	}
-
-	public void setRoomTypeName(String roomTypeName) {
-		this.mRoomTypeName = roomTypeName;
-	}
-
 	public String getRatePlanName() {
 		return mRatePlanName;
 	}
@@ -290,36 +251,12 @@ public class Rate implements JSONable {
 		mPromoDescription = promoDescription;
 	}
 
-	public Money getAverageRate() {
-		return mAverageRate;
-	}
-
-	public void setAverageRate(Money averageRate) {
-		mAverageRate = averageRate;
-	}
-
-	public Money getAverageBaseRate() {
-		return mAverageBaseRate;
-	}
-
-	public void setAverageBaseRate(Money averageBaseRate) {
-		mAverageBaseRate = averageBaseRate;
-	}
-
 	/**
 	 * @return the savings between the base rate and the sale rate, in the range [0, 100]. 0 if no sale.
 	 */
 	public double getDiscountPercent() {
 		if (mDiscountPercent <= 100 && mDiscountPercent >= 0) {
 			return mDiscountPercent;
-		}
-		// Alternate/old method of calculating savings percent.
-		else if (mAverageRate != null && mAverageBaseRate != null) {
-			double baseRate = mAverageBaseRate.getAmount().doubleValue();
-			double saleRate = mAverageRate.getAmount().doubleValue();
-			if (baseRate > saleRate) {
-				return 100 * (1 - (saleRate / baseRate));
-			}
 		}
 		return 0;
 	}
@@ -698,17 +635,12 @@ public class Rate implements JSONable {
 			GsonUtil.putForJsonable(obj, "totalAmountBeforeTax", mTotalAmountBeforeTax);
 			GsonUtil.putForJsonable(obj, "totalAmountAfterTax", mTotalAmountAfterTax);
 
-			obj.putOpt("rateType", mRateType);
 			obj.putOpt("rateKey", mRateKey);
 			obj.putOpt("roomTypeCode", mRoomTypeCode);
 			GsonUtil.putForJsonable(obj, "taxesAndFeesPerRoom", mTaxesAndFeesPerRoom);
 			GsonUtil.putForJsonable(obj, "extraGuestFee", mExtraGuestFee);
-			obj.putOpt("bookingCode", mBookingCode);
-			obj.putOpt("roomTypeName", mRoomTypeName);
 
 			obj.putOpt("promoDescription", mPromoDescription);
-			GsonUtil.putForJsonable(obj, "averageRate", mAverageRate);
-			GsonUtil.putForJsonable(obj, "averageBaseRate", mAverageBaseRate);
 			obj.put("discountPercent", mDiscountPercent);
 			obj.putOpt("isMobileExclusive", mIsMobileExclusive);
 			GsonUtil.putForJsonable(obj, "totalSurcharge", mTotalSurcharge);
@@ -769,19 +701,13 @@ public class Rate implements JSONable {
 		mTotalAmountBeforeTax = GsonUtil.getForJsonable(obj, "totalAmountBeforeTax", Money.class);
 		mTotalAmountAfterTax = GsonUtil.getForJsonable(obj, "totalAmountAfterTax", Money.class);
 
-		mRateType = obj.optInt("rateType");
 		mRateKey = obj.optString("rateKey", null);
 		mRoomTypeCode = obj.optString("roomTypeCode", null);
 
 		mTaxesAndFeesPerRoom = GsonUtil.getForJsonable(obj, "taxesAndFeesPerRoom", Money.class);
 		mExtraGuestFee = GsonUtil.getForJsonable(obj, "extraGuestFee", Money.class);
 
-		mBookingCode = obj.optString("bookingCode", null);
-		mRoomTypeName = obj.optString("roomTypeName", null);
-
 		mPromoDescription = obj.optString("promoDescription", null);
-		mAverageRate = GsonUtil.getForJsonable(obj, "averageRate", Money.class);
-		mAverageBaseRate = GsonUtil.getForJsonable(obj, "averageBaseRate", Money.class);
 		mDiscountPercent = obj.optDouble("discountPercent", UNSET_DISCOUNT_PERCENT);
 		mIsMobileExclusive = obj.optBoolean("isMobileExclusive");
 		mTotalSurcharge = GsonUtil.getForJsonable(obj, "totalSurcharge", Money.class);
@@ -827,15 +753,6 @@ public class Rate implements JSONable {
 		mNightlyRateTotal.setCurrency(rate.currencyCode);
 
 		mRoomTypeCode = rate.roomTypeCode;
-		mBookingCode = rate.ratePlanCode;
-
-		mAverageRate = new Money();
-		mAverageRate.setCurrency(rate.currencyCode);
-		mAverageRate.setAmount(rate.averageRate);
-
-		mAverageBaseRate = new Money();
-		mAverageBaseRate.setCurrency(rate.currencyCode);
-		mAverageBaseRate.setAmount(rate.averageBaseRate);
 
 		mDiscountPercent = rate.discountPercent;
 

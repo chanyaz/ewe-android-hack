@@ -424,8 +424,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		reader.endObject();
 
 		Rate rate = new Rate();
-		rate.setAverageRate(ParserUtils.createMoney(averageRate, currencyCode));
-		rate.setAverageBaseRate(ParserUtils.createMoney(averageBaseRate, currencyCode));
 		rate.setDiscountPercent(discountPercent);
 		rate.setTotalSurcharge(ParserUtils.createMoney(surchargeTotalForEntireStay, currencyCode));
 		rate.setTotalMandatoryFees(ParserUtils.createMoney(totalMandatoryFees, currencyCode));

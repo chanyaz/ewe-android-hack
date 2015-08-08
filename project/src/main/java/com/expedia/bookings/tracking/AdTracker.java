@@ -78,7 +78,7 @@ public class AdTracker {
 		final Rate rate = Db.getTripBucket().getHotel().getRate();
 
 		final String currency = rate.getDisplayPrice().getCurrency();
-		final Double avgPrice = rate.getAverageRate().getAmount().doubleValue();
+		final Double displayPrice = rate.getDisplayPrice().getAmount().doubleValue();
 		final Double totalPrice = rate.getTotalAmountAfterTax().getAmount().doubleValue();
 
 		int numberRooms = 1; // we only offer 1 room bookings as of now
@@ -88,8 +88,8 @@ public class AdTracker {
 		String orderNumber = response != null ? response.getOrderNumber() : "";
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		Property property = Db.getTripBucket().getHotel().getProperty();
-		AdX.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
-		LeanPlumUtils.trackHotelBooked(params, property, orderNumber, currency, totalPrice, avgPrice);
+		AdX.trackHotelBooked(params, property, orderNumber, currency, totalPrice, displayPrice);
+		LeanPlumUtils.trackHotelBooked(params, property, orderNumber, currency, totalPrice, displayPrice);
 		TuneUtils.trackHotelConfirmation(totalPrice, orderNumber, currency, numberRooms, Db.getTripBucket().getHotel());
 		new FacebookEvents().trackHotelConfirmation(Db.getTripBucket().getHotel(), rate);
 	}

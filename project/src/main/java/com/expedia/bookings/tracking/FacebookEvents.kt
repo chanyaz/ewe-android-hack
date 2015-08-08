@@ -72,10 +72,10 @@ class FacebookEvents() {
 
         val parameters = Bundle()
         addCommonHotelParams(parameters, searchParams, location)
-        parameters.putString("Room_Value", property.getLowestRate().getAverageRate().getFormattedMoney())
+        parameters.putString("Room_Value", property.getLowestRate().getDisplayPrice().getFormattedMoney())
         parameters.putInt("Num_Rooms", search.getSearchResponse().getProperties().size())
         parameters.putString("Content_ID", property.getPropertyId())
-        parameters.putString("Currency", property.getLowestRate().getAverageRate().currencyCode)
+        parameters.putString("Currency", property.getLowestRate().getDisplayPrice().currencyCode)
         parameters.putString("ContentType", "product")
 
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
@@ -90,7 +90,7 @@ class FacebookEvents() {
         addCommonHotelParams(parameters, searchParams, location)
         parameters.putString("Booking_Value", rate.getTotalAmountAfterTax().getFormattedMoney())
         parameters.putString("Content_ID", property.getPropertyId())
-        parameters.putString("Currency", property.getLowestRate().getAverageRate().currencyCode)
+        parameters.putString("Currency", property.getLowestRate().getDisplayPrice().currencyCode)
         parameters.putString("ContentType", "product")
 
         track(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, parameters)
@@ -105,7 +105,7 @@ class FacebookEvents() {
         addCommonHotelParams(parameters, searchParams, location)
         parameters.putString("Booking_Value", rate.getTotalAmountAfterTax().getFormattedMoney())
         parameters.putString("Content_ID", property.getPropertyId())
-        parameters.putString("Currency", property.getLowestRate().getAverageRate().currencyCode)
+        parameters.putString("Currency", property.getLowestRate().getDisplayPrice().currencyCode)
         parameters.putString("ContentType", "product")
 
         track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
@@ -179,7 +179,7 @@ fun getBookingWindow(time: LocalDate): Int {
 fun calculateAverageRateHotels(properties: List<Property>): String {
     var totalPrice = BigDecimal.ZERO
     for (property in properties) {
-        totalPrice = totalPrice.add(property.getLowestRate().getAverageRate().amount)
+        totalPrice = totalPrice.add(property.getLowestRate().getDisplayPrice().amount)
     }
     return totalPrice.divide(BigDecimal(properties.size()), 2, RoundingMode.HALF_UP).toString()
 }

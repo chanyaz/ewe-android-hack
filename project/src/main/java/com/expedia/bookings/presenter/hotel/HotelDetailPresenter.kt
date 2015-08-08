@@ -119,7 +119,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     fun getDetail(params: Hotel) {
         hotel = params
         downloadSubscription = hotelServices?.details(hotelSearchParams, params.hotelId, downloadListener)
-        toolbarTitle.setText(params.name)
+        toolbarTitle.setText(params.localizedName)
         toolBarRating.setRating(params.hotelStarRating)
         pricePerNight.setText(Phrase.from(getContext().getResources(), R.string.per_nt_TEMPLATE).put("price", params.lowRateInfo.nightlyRateTotal.toString()).format())
         var text = Phrase.from(getContext(), R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(hotelSearchParams.checkIn)).put("enddate", DateUtils.localDateToMMMd(hotelSearchParams.checkOut)).put("guests", hotelSearchParams.getGuestString()).format()

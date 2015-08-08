@@ -8,7 +8,7 @@ import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 
 public class HotelViewModel(private val hotel: Hotel, private val resources: Resources) {
-    val hotelNameObservable = BehaviorSubject.create(hotel.name)
+    val hotelNameObservable = BehaviorSubject.create(hotel.localizedName)
     val hotelPriceObservable = BehaviorSubject.create(priceFormatter(hotel, false))
     val hotelStrikeThroughPriceObservable = BehaviorSubject.create(priceFormatter(hotel, true))
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating.toString())
