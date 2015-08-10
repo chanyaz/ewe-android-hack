@@ -109,16 +109,6 @@ public class DeepLinkRouterActivity extends Activity {
 			finish();
 			return;
 		}
-		else if (dataString.contains("activitySearch")) {
-			handleActivitySearch(data, queryData);
-			finish();
-			return;
-		}
-		else if (dataString.contains("carSearch")) {
-			handleCarsSearch(data, queryData);
-			finish();
-			return;
-		}
 		else if (dataString.contains("signIn")) {
 			handleSignIn();
 			finish();
@@ -162,6 +152,10 @@ public class DeepLinkRouterActivity extends Activity {
 			break;
 		case "activitySearch":
 			handleActivitySearch(data, queryData);
+			finish = true;
+			break;
+		case "carSearch":
+			handleCarsSearch(data, queryData);
 			finish = true;
 			break;
 		case "destination":
@@ -244,8 +238,6 @@ public class DeepLinkRouterActivity extends Activity {
 	 * <p/>
 	 */
 	private boolean handleActivitySearch(Uri data, Set<String> queryData) {
-
-
 
 		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
 			LXSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
