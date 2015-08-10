@@ -224,7 +224,7 @@ public class RecyclerGallery extends RecyclerView {
 				Property selected = Db.getHotelSearch().getSelectedProperty();
 
 				if (mListener != null && selected != null) {
-					mListener.onGalleryItemClicked(mMedia.get(getPosition()));
+					mListener.onGalleryItemClicked(mMedia.get(getAdapterPosition()));
 				}
 			}
 
@@ -363,10 +363,10 @@ public class RecyclerGallery extends RecyclerView {
 			outRect.top = mMode == MODE_CENTER ? mPadding : 0;
 			outRect.bottom = mMode == MODE_CENTER ? mPadding : 0;
 
-			if (parent.getChildPosition(view) == 0) {
+			if (parent.getChildAdapterPosition(view) == 0) {
 				outRect.left = mMode == MODE_CENTER ? mPadding * 4 : 0;
 			}
-			else if (parent.getChildPosition(view) == parent.getAdapter().getItemCount() - 1) {
+			else if (parent.getChildAdapterPosition(view) == parent.getAdapter().getItemCount() - 1) {
 				outRect.right = mMode == MODE_CENTER ? mPadding * 4 : 0;
 			}
 		}

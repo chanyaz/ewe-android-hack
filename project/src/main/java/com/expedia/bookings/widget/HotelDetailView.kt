@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.*
 import android.widget.HorizontalScrollView
@@ -36,7 +37,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle: TextView by bindView(R.id.hotel_name_text)
     val toolBarRating: RatingBar by bindView(R.id.hotel_star_rating_bar)
-    val headerImage: ImageView by bindView(R.id.header_image)
+
+    val gallery: RecyclerGallery by bindView(R.id.images_gallery)
+    val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
+
     val pricePerNight: TextView by bindView(R.id.price_per_night)
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
     val userRating: TextView by bindView(R.id.user_rating)
@@ -56,19 +60,21 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val amenities_text_header: TextView by bindView(R.id.amenities_text_header)
 
     val detailContainer: ScrollView by bindView(R.id.detail_container)
+    val mainContainer: ViewGroup by bindView(R.id.main_container)
     var statusBarHeight = 0
     var toolBarHeight = 0
     val toolBarBackground: View by bindView(R.id.toolbar_background)
     var hotelLatLng: DoubleArray by Delegates.notNull()
+    var offset: Float by Delegates.notNull()
 
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
-        vm.hotelImageObservable.subscribe { hotelImageUrl ->
-            PicassoHelper.Builder(headerImage)
-                    .setError(R.drawable.cars_fallback)
-                    .fade()
-                    .build()
-                    .load(hotelImageUrl)
+        vm.galleryObservable.subscribe { galleryUrls ->
+            gallery.setDataSource(galleryUrls)
+            gallery.scrollToPosition(0)
+            gallery.setOnItemClickListener(vm)
+            gallery.startFlipping()
         }
+
         vm.amenityHeaderTextObservable.subscribe(amenities_text_header)
         vm.amenityTextObservable.subscribe(amenities_text)
         vm.sectionBodyObservable.subscribe(hotelDescription)
@@ -100,7 +106,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         //getting the map
         mapView.onCreate(null)
         mapView.getMapAsync(this);
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -110,7 +115,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         googleMap.getUiSettings().setMyLocationButtonEnabled(false)
         googleMap.getUiSettings().setZoomControlsEnabled(false)
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
-
     }
 
     public fun addMarker(googleMap: GoogleMap) {
@@ -123,11 +127,15 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
         override fun onScrollChanged() {
             var yOffset = detailContainer.getScrollY()
-            headerImage.setTranslationY(-yOffset * 0.75f)
-            var ratio: Float = (yOffset.toFloat() / (headerImage.getHeight()).toFloat()) * 1.51f
-            if (detailContainer.getScrollY() == 0) ratio = 0f
+            var ratio: Float = parallaxScrollHeader(yOffset)
             toolBarBackground.setAlpha(ratio)
         }
+    }
+
+    public fun parallaxScrollHeader(scrollY: Int): Float {
+        val ratio = (scrollY).toFloat() / (mainContainer.getTop() - offset)
+        galleryContainer.setTranslationY(scrollY * 0.5f)
+        return ratio
     }
 
     init {
@@ -144,7 +152,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         toolBarBackground.setAlpha(0f)
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
         detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
-
+        offset = Ui.toolbarSizeWithStatusBar(getContext()).toFloat()
     }
 
 }
