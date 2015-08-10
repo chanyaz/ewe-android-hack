@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewTreeObserver
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -19,7 +20,6 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
-import com.expedia.bookings.widget.WidgetHotelSummaryHeader
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
 import rx.Observer
@@ -49,15 +49,13 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         super<CheckoutBasePresenter>.onFinishInflate()
         hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(getContext(), null)
         summaryContainer.addView(hotelCheckoutSummaryWidget)
-        widgetHotelSummaryHeader = WidgetHotelSummaryHeader(getContext(), null)
-        addView(widgetHotelSummaryHeader)
+        mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
+        paymentInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
     }
 
     fun bind() {
-        widgetHotelSummaryHeader.setHotelImage(offer)
-        mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
+        hotelCheckoutSummaryWidget.setHotelImage(offer)
         mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details))
-        paymentInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
         paymentInfoCardView.setCreditCardRequired(true)
         mainContactInfoCardView.setExpanded(false)
         paymentInfoCardView.setExpanded(false)
@@ -80,7 +78,7 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         val numberOfAdults = hotelSearchParams.adults
         val childAges = hotelSearchParams.children
         val qualifyAirAttach = false
-        hotelServices?.createTrip(HotelCreateTripParams(offer!!.productKey, qualifyAirAttach, numberOfAdults, childAges), downloadListener)
+        hotelServices?.createTrip(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges), downloadListener)
     }
 
     val downloadListener: Observer<HotelCreateTripResponse> = object : Observer<HotelCreateTripResponse> {
@@ -107,7 +105,6 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         mSummaryProgressLayout.setVisibility(if (show) View.VISIBLE else View.GONE)
     }
 
-
     override fun onSlideStart() {
     }
 
@@ -131,16 +128,21 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
     }
 
     override fun updateSpacerHeight() {
-        val summary = hotelCheckoutSummaryWidget.findViewById(R.id.hotel_booking_summary)
-        val summaryHeight = summary.getHeight()
-        var remainingHeight = 0
-        val scrollViewContentHeight = scrollView.getChildAt(0).getHeight() - space.getHeight() + TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18f, getResources().getDisplayMetrics())
-        if (scrollView.getHeight() > scrollViewContentHeight) {
-            remainingHeight = scrollView.getHeight() - scrollViewContentHeight.toInt()
-        }
-        val params = space.getLayoutParams()
-        params.height = summaryHeight + remainingHeight
-        space.setLayoutParams(params)
+        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                scrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this)
+                val summaryHeight = hotelCheckoutSummaryWidget.getHeight()
+                val scrollViewContentHeight = scrollView.getChildAt(0).getHeight() - space.getHeight()
+                var remainingHeight = scrollView.getHeight() - scrollViewContentHeight
+                val params = space.getLayoutParams()
+                params.height = summaryHeight + remainingHeight
+                space.setLayoutParams(params)
+            }
+        })
+    }
+
+    override  fun isCheckoutButtonEnabled(): Boolean {
+        return true
     }
 }
 

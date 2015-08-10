@@ -82,6 +82,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@InjectView(R.id.spacer)
 	public Space space;
 
+	MenuItem menuCheckout;
 	MenuItem menuNext;
 	MenuItem menuDone;
 
@@ -89,8 +90,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	ExpandableCardView currentExpandedCard;
 
 	protected UserAccountRefresher userAccountRefresher;
-
-	public WidgetHotelSummaryHeader widgetHotelSummaryHeader;
 
 	@Override
 	protected void onFinishInflate() {
@@ -119,10 +118,14 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				return true;
 			}
 		});
+
 		if (ExpediaBookingApp.isAutomation()) {
 			//Espresso hates progress bars
+			summaryContainer.removeView(mSummaryProgressLayout);
 			mSummaryProgressLayout = new View(getContext(), null);
+			summaryContainer.addView(mSummaryProgressLayout);
 		}
+
 		userAccountRefresher = new UserAccountRefresher(getContext(), getLineOfBusiness(), this);
 	}
 
@@ -139,6 +142,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
 		toolbar.inflateMenu(R.menu.cars_checkout_menu);
 
+		menuCheckout = toolbar.getMenu().findItem(R.id.menu_checkout);
+		menuCheckout.setVisible(isCheckoutButtonEnabled());
+
 		menuNext = toolbar.getMenu().findItem(R.id.menu_next);
 		menuNext.setVisible(false);
 
@@ -151,8 +157,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				switch (menuItem.getItemId()) {
 				case R.id.menu_checkout:
 					Ui.hideKeyboard(CheckoutBasePresenter.this);
-					menuItem.setVisible(false);
-					slideToContainer.setVisibility(View.VISIBLE);
+					scrollView.fullScroll(View.FOCUS_DOWN);
 					return true;
 				case R.id.menu_next:
 					currentExpandedCard.setNextFocus();
@@ -238,9 +243,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			mainContactInfoCardView.setVisibility(GONE);
 			paymentInfoCardView.setVisibility(GONE);
 			legalInformationText.setVisibility(GONE);
-			if (widgetHotelSummaryHeader != null) {
-				widgetHotelSummaryHeader.setVisibility(INVISIBLE);
-			}
+			menuCheckout.setVisible(false);
 			updateSpacerHeight();
 		}
 	};
@@ -256,9 +259,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				paymentInfoCardView.setVisibility(forward ? VISIBLE : INVISIBLE);
 			}
 			legalInformationText.setVisibility(forward ? VISIBLE : INVISIBLE);
-			if (widgetHotelSummaryHeader != null) {
-				widgetHotelSummaryHeader.setVisibility(VISIBLE);
-			}
+			menuCheckout.setVisible(forward && isCheckoutButtonEnabled());
 		}
 
 		@Override
@@ -274,6 +275,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			updateSpacerHeight();
 		}
 	};
+
+	protected boolean isCheckoutButtonEnabled() {
+		return false;
+	}
 
 	protected void updateSpacerHeight() {
 		float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
@@ -312,9 +317,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				if (lastExpandedCard != null && lastExpandedCard != currentExpandedCard) {
 					lastExpandedCard.setExpanded(false, false);
 				}
-				if (widgetHotelSummaryHeader != null) {
-					widgetHotelSummaryHeader.setVisibility(View.INVISIBLE);
-				}
 			}
 			else {
 				currentExpandedCard.setExpanded(false, false);
@@ -327,9 +329,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				}
 				legalInformationText.setVisibility(VISIBLE);
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
-				if (widgetHotelSummaryHeader != null) {
-					widgetHotelSummaryHeader.setVisibility(View.VISIBLE);
-				}
 			}
 
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()
@@ -337,28 +336,26 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			Drawable nav = getResources().getDrawable(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp).mutate();
 			nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 			toolbar.setNavigationIcon(nav);
-			menuNext.setVisible(forward ? true : false);
+			menuNext.setVisible(forward);
 			menuDone.setVisible(false);
 		}
 
 		@Override
 		public void finalizeTransition(boolean forward) {
-			int spacerHeight = 0;
-			float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
 			if (forward) {
 				slideToContainer.setVisibility(INVISIBLE);
 				// Space to avoid keyboard hiding the view behind.
-				spacerHeight = (int) getResources().getDimension(R.dimen.car_expanded_space_height);
+				int spacerHeight = (int) getResources().getDimension(R.dimen.car_expanded_space_height);
+				ViewGroup.LayoutParams params = space.getLayoutParams();
+				params.height = spacerHeight;
+				space.setLayoutParams(params);
 			}
 			else {
 				isCheckoutComplete();
-				spacerHeight = scrollViewActualHeight - legalInformationText.getBottom() < slideToContainer.getHeight()
-					&& slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
+				updateSpacerHeight();
 			}
+			menuCheckout.setVisible(!forward && isCheckoutButtonEnabled());
 
-			ViewGroup.LayoutParams params = space.getLayoutParams();
-			params.height = spacerHeight;
-			space.setLayoutParams(params);
 		}
 	};
 

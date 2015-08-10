@@ -22,6 +22,7 @@ add_test "com.expedia.bookings.test.happy.FlightPhoneHappyPathTest"
 add_test "com.expedia.bookings.test.happy.ItinPhoneHappyPathTest"
 add_test "com.expedia.bookings.test.happy.CarPhoneHappyPathTest"
 add_test "com.expedia.bookings.test.happy.LxPhoneHappyPathTest"
+add_test "com.expedia.bookings.test.happy.NewHotelPhoneHappyPathTest"
 
 java \
     -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \

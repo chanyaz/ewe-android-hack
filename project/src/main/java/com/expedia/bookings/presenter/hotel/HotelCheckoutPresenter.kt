@@ -89,7 +89,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         }
     }
 
-    override fun onBook(cvv: String?) {
+    override fun onBook(cvv: String) {
         val hotelCheckoutParams = HotelCheckoutParams()
         val hotelRate = Db.getTripBucket().getHotelV2().mHotelTripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
         val dtf = ISODateTimeFormat.date()
