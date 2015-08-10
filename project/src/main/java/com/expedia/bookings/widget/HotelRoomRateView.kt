@@ -78,7 +78,7 @@ public class HotelRoomRateView(context: Context, val container: TableLayout) : L
             val expandedAmenity = row.findViewById (R.id.expanded_amenity_text_view) as TextView
             val freeCancellation = row.findViewById (R.id.expanded_free_cancellation__text_view) as TextView
             val totalPricePerNight = row.findViewById(R.id.total_price_per_night) as TextView
-            
+
             Ui.setViewBackground(row.findViewById(R.id.root), null)
 
             viewRoom.setChecked(false)

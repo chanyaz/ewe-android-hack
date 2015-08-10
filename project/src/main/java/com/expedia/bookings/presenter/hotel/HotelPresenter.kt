@@ -8,16 +8,30 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
+import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelSearchViewModel
 import rx.Observer
+import javax.inject.Inject
+import kotlin.properties.Delegates
 
 public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+
+    var hotelServices: HotelServices by Delegates.notNull()
+        @Inject set
+
+    var hotelSearchParams: HotelSearchParams by Delegates.notNull()
 
     val searchPresenter: HotelSearchPresenter by bindView(R.id.widget_hotel_params)
     val resultsPresenter: HotelResultsPresenter by bindView(R.id.widget_hotel_results)
     val detailPresenter: HotelDetailPresenter by bindView(R.id.widget_hotel_detail)
+
+    init {
+        Ui.getApplication(getContext()).hotelComponent().inject(this)
+    }
 
     override fun onFinishInflate() {
         super<Presenter>.onFinishInflate()
@@ -46,12 +60,17 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
         resultsPresenter.doSearch(params)
-        detailPresenter.setSearchParams(params)
+        hotelSearchParams = params
+
         show(resultsPresenter)
     }
 
-    val hotelSelectedObserver: Observer<Hotel> = endlessObserver { selectedHotel ->
-        detailPresenter.getDetail(selectedHotel)
+    val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
+        detailPresenter.hotelDetailView.viewmodel = HotelDetailViewModel(getContext(), hotelServices)
+        detailPresenter.hotelDetailView.viewmodel.searchObserver.onNext(hotelSearchParams)
+        detailPresenter.hotelDetailView.viewmodel.hotelObserver.onNext(hotel)
+        detailPresenter.hotelDetailView.viewmodel.getDetail()
+
         show(detailPresenter)
     }
 }

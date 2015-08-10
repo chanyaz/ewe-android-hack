@@ -40,14 +40,15 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
         if (!isChecked) {
             //TODO :show checkout
         } else {
-            // collapse the last expanded room
+            // expand row if it's not expanded
             if (lastExpanded != index) {
                 collapseRoomObservable.onNext(lastExpanded)
-            }
-            if (isChecked) {
-                expandRoomObservable.onNext(true)
-                roomBackgroundViewObservable.onNext(context.getResources().getDrawable(R.drawable.card_background))
-                lastExpanded = index
+
+                if (isChecked) {
+                    expandRoomObservable.onNext(true)
+                    roomBackgroundViewObservable.onNext(context.getResources().getDrawable(R.drawable.card_background))
+                    lastExpanded = index
+                }
             }
         }
     }

@@ -33,4 +33,5 @@ public class DummyFiletoHandleKotlinLintError {
 	private static final int MENU_FILTER_ITEM = R.menu.menu_filter_item;
 	private static final int HOTEL_MARKER_PADDING_WIDTH = R.dimen.hotel_marker_padding_width;
 	private static final int HOTEL_MARKER_PADDING_HEIGHT = R.dimen.hotel_marker_padding_height;
+	public static final int HOTEL_DETAIL_PRESENTER = R.layout.widget_hotel_detail_presenter;
 }
