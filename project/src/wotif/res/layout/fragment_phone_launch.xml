@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize" />
 
-    <include layout="@layout/wotif_section_phone_launch_lob" />
+    <include layout="@layout/section_phone_launch_lob" />
 
     <LinearLayout
         android:id="@+id/error_container"
