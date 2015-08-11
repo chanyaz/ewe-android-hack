@@ -68,7 +68,7 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Li
             })
         }
 
-        vm.updateObservable.subscribe { update ->
+        vm.travelerParamsObservable.subscribe { update ->
             for (i in childSpinners.indices) {
                 val spinner = childSpinners[i]
                 spinner.setEnabled(i < update.children.size())
