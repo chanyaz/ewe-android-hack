@@ -28,7 +28,7 @@ public class HotelTravelerPickerTest {
     @Test
     fun defaults() {
         val testSubscriber = TestSubscriber<HotelTravelerParams>(1)
-        vm.updateObservable.subscribe(testSubscriber)
+        vm.travelerParamsObservable.subscribe(testSubscriber)
 
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValues(HotelTravelerParams(1, emptyList()))
@@ -39,7 +39,7 @@ public class HotelTravelerPickerTest {
         val testSubscriber = TestSubscriber<HotelTravelerParams>()
         val expected = arrayListOf<HotelTravelerParams>()
 
-        vm.updateObservable.subscribe(testSubscriber)
+        vm.travelerParamsObservable.subscribe(testSubscriber)
         expected.add(HotelTravelerParams(1, emptyList()))
 
         vm.incrementAdultsObserver.onNext(Unit)
@@ -63,7 +63,7 @@ public class HotelTravelerPickerTest {
         val testSubscriber = TestSubscriber<HotelTravelerParams>()
         val expected = arrayListOf<HotelTravelerParams>()
 
-        vm.updateObservable.subscribe(testSubscriber)
+        vm.travelerParamsObservable.subscribe(testSubscriber)
         expected.add(HotelTravelerParams(1, emptyList()))
 
         // Don't fire events
@@ -79,7 +79,7 @@ public class HotelTravelerPickerTest {
         val testSubscriber = TestSubscriber<HotelTravelerParams>()
         val expected = arrayListOf<HotelTravelerParams>()
 
-        vm.updateObservable.subscribe(testSubscriber)
+        vm.travelerParamsObservable.subscribe(testSubscriber)
         expected.add(HotelTravelerParams(1, emptyList()))
 
         for (i in 2..6) {
@@ -105,7 +105,7 @@ public class HotelTravelerPickerTest {
         val testSubscriber = TestSubscriber<HotelTravelerParams>()
         val expected = arrayListOf<HotelTravelerParams>()
 
-        vm.updateObservable.subscribe(testSubscriber)
+        vm.travelerParamsObservable.subscribe(testSubscriber)
         expected.add(HotelTravelerParams(1, emptyList()))
 
         // Max children is 4
@@ -133,7 +133,7 @@ public class HotelTravelerPickerTest {
         val testSubscriber = TestSubscriber<HotelTravelerParams>()
         val expected = arrayListOf<HotelTravelerParams>()
 
-        vm.updateObservable.subscribe(testSubscriber)
+        vm.travelerParamsObservable.subscribe(testSubscriber)
         expected.add(HotelTravelerParams(1, emptyList()))
 
         for (i in 1..2) {

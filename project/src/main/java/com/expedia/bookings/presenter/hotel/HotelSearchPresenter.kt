@@ -83,7 +83,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             traveler.setVisibility(View.GONE)
         }
 
-        traveler.viewmodel.updateObservable.subscribe(vm.travelersObserver)
+        traveler.viewmodel.travelerParamsObservable.subscribe(vm.travelersObserver)
         traveler.viewmodel.guestsTextObservable.subscribe(selectTraveler)
         selectTraveler.setOnClickListener {
             calendar.setVisibility(View.GONE)
@@ -94,10 +94,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         searchLocation.setAdapter(hotelSuggestionAdapter)
         searchLocation.setOnItemClickListener {
             adapterView, view, position, l ->
-            var suggestion: SuggestionV4 = hotelSuggestionAdapter.getItem(position)
-            vm.locationObserver.onNext(suggestion)
+            vm.suggestionObserver.onNext(hotelSuggestionAdapter.getItem(position))
             com.mobiata.android.util.Ui.hideKeyboard(this)
         }
+
         vm.locationTextObservable.subscribe(searchLocation)
 
         searchButton.subscribeOnClick(vm.searchObserver)
