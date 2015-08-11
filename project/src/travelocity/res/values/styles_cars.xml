@@ -32,5 +32,6 @@
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/tvly</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/tvly</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
     </style>
 </resources>
