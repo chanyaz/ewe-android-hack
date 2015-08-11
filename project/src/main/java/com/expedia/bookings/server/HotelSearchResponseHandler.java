@@ -275,7 +275,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			}
 			else if (name.equals("lowRateInfo")) {
 				Rate lowestRate = readLowRateInfo(reader);
-				lowestRate.setNumberOfNights(mNumNights);
 				property.setLowestRate(lowestRate);
 			}
 			else if (name.equals("roomsLeftAtThisRate")) {
@@ -322,10 +321,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			}
 		}
 		reader.endObject();
-
-		if (promoDesc != null && property.getLowestRate() != null) {
-			property.getLowestRate().setPromoDescription(promoDesc);
-		}
 
 		// If we didn't get a distance but we have a search latitude/longitude,
 		// calculate the distance based on the params.
@@ -431,7 +426,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		rate.setUserPriceType(userPriceType);
 		rate.setCheckoutPriceType(checkoutPriceType);
 		rate.setPriceToShowUsers(ParserUtils.createMoney(priceToShowUsers, currencyCode));
-		rate.setStrikethroughPriceToShowUsers(ParserUtils.createMoney(strikethroughPriceToShowUsers, currencyCode));
+		rate.setStrikeThroughPriceToShowUsers(ParserUtils.createMoney(strikethroughPriceToShowUsers, currencyCode));
 		rate.setAirAttached(airAttached);
 		return rate;
 	}

@@ -636,7 +636,6 @@ public class Property implements JSONable {
 		mTotalRecommendations = offer.totalRecommendations;
 		mAverageExpediaRating = offer.hotelGuestRating;
 		mLowestRate = new Rate();
-		mLowestRate.setPromoDescription(offer.discountMessage);
 		mLowestRate.setNumRoomsLeft(offer.roomsLeftAtThisRate);
 		mLowestRate.setThumbnail(mThumbnail);
 		mLowestRate.setIsPayLater(offer.isPaymentChoiceAvailable);
