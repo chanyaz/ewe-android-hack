@@ -70,6 +70,7 @@
         <item name="skin_bookNowButtonDrawable">@drawable/btn_signin_samsung</item>
         <item name="skin_hangTagProgressDrawable">@drawable/gl_progress_tag_samsung</item>
         <item name="skin_hotelPriceTextStyle">@style/HotelPriceTextStyleSamsung</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Samsung">

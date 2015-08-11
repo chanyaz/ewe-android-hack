@@ -370,4 +370,6 @@
 
     <attr name="skin_tripsTabText" format="reference|string" />
     <attr name="skin_hotelPriceTextStyle" format="reference" />
+    <attr name="skin_errorIndicationExclaimationDrawable" format="reference" />
+
 </resources>
