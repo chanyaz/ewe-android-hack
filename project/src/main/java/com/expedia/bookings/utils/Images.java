@@ -75,8 +75,9 @@ public class Images {
 	/**
 	 * Returns list of image URLs based on the screen size.
 	 * List contains the best match at 0th index followed by higher resolution and then lower resolution image URLs
+	 *
 	 * @param lxImages List of images in ascending order of size
-	 * @param width of the device
+	 * @param width    of the device
 	 * @return sorted imageURLs
 	 */
 	public static List<String> getLXImageURLBasedOnWidth(List<LXImage> lxImages, int width) {
@@ -122,12 +123,13 @@ public class Images {
 		return getMediaHost() + offer.largeThumbnailUrl;
 	}
 
-	public static String getHotelImage(HotelOffersResponse offer, int index) {
-		return getMediaHost() + offer.photos.get(index).url;
-	}
-
-	public static String getNearbyHotelImageThumbnail(Hotel offer) {
-		return getMediaHost() + offer.thumbnailUrl;
+	public static List<HotelMedia> getHotelImages(HotelOffersResponse offer) {
+		List<HotelMedia> urlList = new ArrayList<>();
+		for (int index = 0; index < offer.photos.size() - 1; index++) {
+			HotelMedia hotelMedia = new HotelMedia(getMediaHost() + offer.photos.get(index).url);
+			urlList.add(hotelMedia);
+		}
+		return urlList;
 	}
 
 	public static HeaderBitmapDrawable makeLaunchListBitmapDrawable(Context context) {

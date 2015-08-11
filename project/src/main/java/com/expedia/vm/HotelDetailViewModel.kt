@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.text.Html
 import com.expedia.bookings.R
+import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -12,6 +13,7 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.util.endlessObserver
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
@@ -20,7 +22,11 @@ import rx.Subscription
 import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 
-class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices) {
+class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices) : RecyclerGallery.GalleryItemListener {
+
+    override fun onGalleryItemClicked(item: Any) {
+        throw UnsupportedOperationException()
+    }
 
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
     var downloadSubscription: Subscription? = null
@@ -33,7 +39,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     var isSectionExpanded = false
     val sectionBodyObservable = BehaviorSubject.create<String>()
     val showReadMoreObservable = BehaviorSubject.create<Boolean>()
-    val hotelImageObservable = BehaviorSubject.create<String>()
+    val galleryObservable = BehaviorSubject.create<List<HotelMedia>>()
+
     val amenityHeaderTextObservable = BehaviorSubject.create<String>()
     val amenityTextObservable = BehaviorSubject.create<String>()
     var roomResponseListObservable = BehaviorSubject.create<List<HotelOffersResponse.HotelRoomResponse>>()
@@ -91,7 +98,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     }
 
     fun bindDetails() {
-        hotelImageObservable.onNext(Images.getHotelImage(hotelOffersResponse, 0))
+        galleryObservable.onNext(Images.getHotelImages(hotelOffersResponse))
+
         roomResponseListObservable.onNext(hotelOffersResponse.hotelRoomResponse)
         amenityHeaderTextObservable.onNext(hotelOffersResponse.hotelAmenitiesText.name)
         amenityTextObservable.onNext(Html.fromHtml(hotelOffersResponse.hotelAmenitiesText.content).toString())
