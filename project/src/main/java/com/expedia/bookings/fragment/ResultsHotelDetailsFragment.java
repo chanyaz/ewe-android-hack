@@ -314,7 +314,7 @@ public class ResultsHotelDetailsFragment extends Fragment implements IBackManage
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
 		TextView notRatedText = Ui.findView(view, R.id.not_rated_text_view);
 		RatingBar ratingBar;
-		if (PointOfSale.getPointOfSale().shouldShowCirlceForRatings()) {
+		if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
 			ratingBar = Ui.findView(view, R.id.circle_rating_bar);
 		}
 		else {
