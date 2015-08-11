@@ -21,6 +21,7 @@
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
     </style>
 
     <!--

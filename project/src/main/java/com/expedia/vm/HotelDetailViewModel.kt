@@ -13,19 +13,11 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.util.endlessObserver
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapsInitializer
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.Subscription
 import rx.subjects.BehaviorSubject
-import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices) {

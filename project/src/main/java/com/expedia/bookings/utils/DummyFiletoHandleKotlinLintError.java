@@ -34,4 +34,8 @@ public class DummyFiletoHandleKotlinLintError {
 	private static final int HOTEL_MARKER_PADDING_WIDTH = R.dimen.hotel_marker_padding_width;
 	private static final int HOTEL_MARKER_PADDING_HEIGHT = R.dimen.hotel_marker_padding_height;
 	public static final int HOTEL_DETAIL_PRESENTER = R.layout.widget_hotel_detail_presenter;
+	private static final int HOTEL_CHECKOUT_SUMMARY = R.layout.hotel_checkout_summary_widget;
+	private static final int HOTEL_CHECKOUT_WIDGET = R.layout.widget_hotel_checkout;
+	private static final int HOTEL_CONFIRMATION = R.layout.widget_hotel_confirmation;
+	private static final int HOTEL_CHECKOUT_SUMMARY_HEADER = R.layout.widget_hotel_summary_header;
 }

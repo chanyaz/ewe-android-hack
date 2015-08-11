@@ -1036,7 +1036,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		if (info == null || info.getCardType() == null) {
 			return false;
 		}
-
+		if (lob == LineOfBusiness.HOTELSV2) {
+			return Db.getTripBucket().getHotelV2() != null &&
+				Db.getTripBucket().getHotelV2().isCardTypeSupported(info.getCardType());
+		}
 		if (lob == LineOfBusiness.HOTELS) {
 			return Db.getTripBucket().getHotel() != null &&
 				Db.getTripBucket().getHotel().isCardTypeSupported(info.getCardType());

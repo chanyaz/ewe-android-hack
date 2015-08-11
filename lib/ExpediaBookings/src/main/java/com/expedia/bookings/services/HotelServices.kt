@@ -1,10 +1,6 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.data.hotels.NearbyHotelParams
+import com.expedia.bookings.data.hotels.*
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import org.joda.time.DateTime
@@ -68,4 +64,18 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)
     }
+
+	public fun createTrip(body: HotelCreateTripParams, observer: Observer<HotelCreateTripResponse>): Subscription {
+		return hotelApi.createTrip(body.toQueryMap())
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+				.subscribe(observer)
+	}
+
+	public fun checkout(params: HotelCheckoutParams, observer: Observer<HotelCheckoutResponse>): Subscription {
+		return hotelApi.checkout(params.toQueryMap())
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+				.subscribe(observer)
+	}
 }

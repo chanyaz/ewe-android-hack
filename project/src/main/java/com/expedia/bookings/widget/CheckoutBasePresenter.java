@@ -44,7 +44,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	@InjectView(R.id.checkout_scroll)
-	ScrollView scrollView;
+	public ScrollView scrollView;
 
 	@InjectView(R.id.checkout_toolbar)
 	Toolbar toolbar;
@@ -56,16 +56,16 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public PaymentWidget paymentInfoCardView;
 
 	@InjectView(R.id.slide_to_purchase_layout)
-	ViewGroup slideToContainer;
+	public ViewGroup slideToContainer;
 
 	@InjectView(R.id.summary_container)
-	CardView summaryContainer;
+	public CardView summaryContainer;
 
 	@InjectView(R.id.summary_progress_layout)
-	View mSummaryProgressLayout;
+	public View mSummaryProgressLayout;
 
 	@InjectView(R.id.login_widget)
-	AccountButton loginWidget;
+	public AccountButton loginWidget;
 
 	@InjectView(R.id.hint_container)
 	ViewGroup hintContainer;
@@ -80,7 +80,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	TextView sliderTotalText;
 
 	@InjectView(R.id.spacer)
-	Space space;
+	public Space space;
 
 	MenuItem menuNext;
 	MenuItem menuDone;
@@ -88,7 +88,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	ExpandableCardView lastExpandedCard;
 	ExpandableCardView currentExpandedCard;
 
-	private UserAccountRefresher userAccountRefresher;
+	protected UserAccountRefresher userAccountRefresher;
+
+	public WidgetHotelSummaryHeader widgetHotelSummaryHeader;
 
 	@Override
 	protected void onFinishInflate() {
@@ -236,6 +238,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			mainContactInfoCardView.setVisibility(GONE);
 			paymentInfoCardView.setVisibility(GONE);
 			legalInformationText.setVisibility(GONE);
+			if (widgetHotelSummaryHeader != null) {
+				widgetHotelSummaryHeader.setVisibility(INVISIBLE);
+			}
 			updateSpacerHeight();
 		}
 	};
@@ -245,13 +250,15 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void startTransition(boolean forward) {
 			super.startTransition(forward);
 			loginWidget.setVisibility(forward ? VISIBLE : INVISIBLE);
-			hintContainer.setVisibility(forward ? VISIBLE : INVISIBLE);
+			hintContainer.setVisibility(forward ? User.isLoggedIn(getContext()) ? GONE : VISIBLE : INVISIBLE);
 			mainContactInfoCardView.setVisibility(forward ? VISIBLE : INVISIBLE);
 			if (paymentInfoCardView.isCreditCardRequired()) {
 				paymentInfoCardView.setVisibility(forward ? VISIBLE : INVISIBLE);
 			}
 			legalInformationText.setVisibility(forward ? VISIBLE : INVISIBLE);
-
+			if (widgetHotelSummaryHeader != null) {
+				widgetHotelSummaryHeader.setVisibility(VISIBLE);
+			}
 		}
 
 		@Override
@@ -305,6 +312,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				if (lastExpandedCard != null && lastExpandedCard != currentExpandedCard) {
 					lastExpandedCard.setExpanded(false, false);
 				}
+				if (widgetHotelSummaryHeader != null) {
+					widgetHotelSummaryHeader.setVisibility(View.INVISIBLE);
+				}
 			}
 			else {
 				currentExpandedCard.setExpanded(false, false);
@@ -317,6 +327,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				}
 				legalInformationText.setVisibility(VISIBLE);
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
+				if (widgetHotelSummaryHeader != null) {
+					widgetHotelSummaryHeader.setVisibility(View.VISIBLE);
+				}
 			}
 
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()

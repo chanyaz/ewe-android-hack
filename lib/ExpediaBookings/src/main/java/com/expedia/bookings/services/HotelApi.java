@@ -1,9 +1,15 @@
 package com.expedia.bookings.services;
 
+import java.util.Map;
+
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchResponse;
 
+import retrofit.http.FieldMap;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Query;
 import rx.Observable;
 
@@ -32,4 +38,14 @@ public interface HotelApi {
 		@Query("checkOutDate") String checkOutDate,
 		@Query("room1") String travelers,
 		@Query("hotelId") String propertyId);
+
+	@FormUrlEncoded
+	@POST("/m/api/hotel/trip/create")
+	Observable<HotelCreateTripResponse> createTrip(
+		@FieldMap Map<String, Object> queryParams);
+
+	@FormUrlEncoded
+	@POST("/m/api/hotel/trip/checkout")
+	Observable<HotelCheckoutResponse> checkout(
+		@FieldMap Map<String, Object> queryParams);
 }
