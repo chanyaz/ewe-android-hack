@@ -11,9 +11,6 @@ import com.expedia.bookings.utils.Strings;
 
 public class Money {
 
-	// Version of this class
-	private static final int VERSION = 2;
-
 	/**
 	 * Flag to remove all value past the decimal point in formatting.
 	 */
@@ -27,11 +24,10 @@ public class Money {
 	/**
 	 * Rounding Flags
 	 */
-	public static final int F_ROUND_DOWN = 4;
 	public static final int F_ROUND_HALF_UP = 8;
 
 	public BigDecimal amount;
-	public String currencyCode = null;
+	public String currencyCode;
 	public String formattedPrice;
 	public String formattedWholePrice;
 
@@ -65,7 +61,7 @@ public class Money {
 	public void setAmount(String amount) {
 		if (Strings.isEmpty(amount)) {
 			// Default to 0 for the amount value
-			this.amount = new BigDecimal(0);
+			this.amount = BigDecimal.ZERO;
 		}
 		else {
 			this.amount = new BigDecimal(amount);
@@ -101,12 +97,8 @@ public class Money {
 		this.currencyCode = currency;
 	}
 
-	public void setFormattedMoney(String formattedMoney) {
-		this.formattedWholePrice = formattedMoney;
-	}
-
 	public boolean hasPreformatedMoney() {
-		return formattedWholePrice != null;
+		return Strings.isNotEmpty(formattedPrice) || Strings.isNotEmpty(formattedWholePrice);
 	}
 
 	public String getFormattedMoney() {
@@ -176,7 +168,7 @@ public class Money {
 	/**
 	 * Acts just like add(), only subtracts the amount at the end.
 	 *
-	 * @see add()
+	 * @see boolean add(Money)
 	 */
 	public boolean subtract(Money money) {
 		if (!canManipulate(money)) {
@@ -284,21 +276,7 @@ public class Money {
 		return thisAmount - otherAmount;
 	}
 
-	// #7012 - INR on Android 2.1 is messed up, so we have to fix it here.
-	private static final String INR_MESSED_UP = "=0#Rs.|1#Re.|1<Rs.";
-
-	// #12791 - PHP (Philippine Peso) doesn't display correctly on SGS2 Gingerbread, so fix it here.
-	private static final String PHP_CURRENCY_UNICODE = "₱";
-
-	// #12855 - Indonesian POS shows the generic money symbol instead of Rp
-	private static final String GENERIC_CURRENCY_UNICODE = "¤";
-
-	// #13560 - No space between BRL currency and price
-	private static final String BRL_CURRENCY_STRING = "R$";
-
-	private static final String EURO_CURRENCY_UNICODE = "\u20AC";
-
-	private static HashMap<Integer, NumberFormat> sFormats = new HashMap<Integer, NumberFormat>();
+	private static HashMap<Integer, NumberFormat> sFormats = new HashMap<>();
 
 	private static String formatRate(BigDecimal amount, String currencyCode, int flags) {
 
@@ -347,43 +325,7 @@ public class Money {
 				amount = amount.round(new MathContext(amount.precision() - amount.scale(), RoundingMode.HALF_UP));
 			}
 		}
-		else if ((flags & F_ROUND_DOWN) != 0) {
-			if ((flags & F_NO_DECIMAL) != 0) {
-				amount = amount.setScale(0, BigDecimal.ROUND_DOWN);
-			}
-			else {
-				amount = amount.round(new MathContext(amount.precision() - amount.scale(), RoundingMode.DOWN));
-			}
-		}
 
-		String formatted = nf.format(amount);
-
-		// #7012 - INR on Android 2.1 is messed up, so we have to fix it manually here.
-		if (currencyCode.equals("INR")) {
-			if (formatted.startsWith(INR_MESSED_UP)) {
-				formatted = "Rs" + formatted.substring(INR_MESSED_UP.length());
-			}
-			else if (formatted.endsWith(INR_MESSED_UP)) {
-				formatted = formatted.substring(0, formatted.length() - INR_MESSED_UP.length()) + "Rs";
-			}
-		}
-		else if (currencyCode.equals("IDR")) {
-			if (formatted.startsWith(GENERIC_CURRENCY_UNICODE)) {
-				formatted = "Rp" + formatted.substring(GENERIC_CURRENCY_UNICODE.length());
-			}
-			else if (formatted.endsWith(GENERIC_CURRENCY_UNICODE)) {
-				formatted = formatted.substring(0, formatted.length() - GENERIC_CURRENCY_UNICODE.length()) + "Rp";
-			}
-		}
-		else if (currencyCode.equals("BRL")) {
-			if (formatted.startsWith(BRL_CURRENCY_STRING) && formatted.charAt(2) != ' ') {
-				formatted = "R$ " + formatted.substring(BRL_CURRENCY_STRING.length());
-			}
-			else if (formatted.endsWith(BRL_CURRENCY_STRING) && formatted.charAt(formatted.length() - 3) != ' ') {
-				formatted = formatted.substring(0, formatted.length() - BRL_CURRENCY_STRING.length()) + " R$";
-			}
-		}
-
-		return formatted;
+		return nf.format(amount);
 	}
 }
