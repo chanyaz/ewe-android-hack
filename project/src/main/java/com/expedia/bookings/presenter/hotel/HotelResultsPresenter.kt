@@ -4,18 +4,21 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.location.Location
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format
 import android.util.AttributeSet
+import android.view.animation.AlphaAnimation
+import android.view.animation.DecelerateInterpolator
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
-import android.view.animation.DecelerateInterpolator
 import android.widget.Button
+import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.hotels.Hotel
@@ -26,11 +29,11 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.HotelListAdapter
-import com.expedia.bookings.widget.HotelMarkerPreviewAdapter
 import com.expedia.bookings.widget.HotelMarkerPreviewRecycler
-import com.expedia.bookings.widget.RecyclerDividerDecoration
+import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.createHotelMarker
+import com.expedia.bookings.widget.HotelMarkerPreviewAdapter
+import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -84,6 +87,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     var halfway = 0
     var threshold = 0
+
+    val mapFab: FloatingActionButton by bindView(R.id.map_fab)
+    val listFab: FloatingActionButton by bindView(R.id.list_fab)
+
+    var showMapFab: Boolean = false
 
     public class MarkerDistance(marker: Marker, distance: Float, hotel: Hotel) : Comparable<MarkerDistance> {
         override fun compareTo(other: MarkerDistance): Int {
@@ -188,6 +196,32 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 map.animateCamera(CameraUpdateFactory.newLatLngBounds(neighborhoodBox.build(), getResources().getDisplayMetrics().density.toInt() * 50))
             }
 
+            var closestMarker: MarkerDistance? = null
+            for (item in mHotelList) {
+                var a = Location("a")
+                a.setLatitude(map.getCameraPosition().target.latitude)
+                a.setLongitude(map.getCameraPosition().target.longitude)
+
+                var b = Location("b")
+                b.setLatitude(item.hotel.latitude)
+                b.setLongitude(item.hotel.longitude)
+
+                var distanceBetween = a.distanceTo(b)
+
+                if (distanceBetween <= closestToCurrentLocationVal) {
+                    closestToCurrentLocationVal = distanceBetween
+                    closestMarker = item
+                }
+            }
+
+            if (closestMarker != null) {
+                closestMarker.marker.showInfoWindow()
+                closestMarker.marker.setIcon(createHotelMarker(getResources(), closestMarker.hotel, true))
+                markerPreviewLayout.setVisibility(View.INVISIBLE)
+                hotelMarkerPreview.addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
+                hotelMarkerPreview.setAdapter(HotelMarkerPreviewAdapter(mHotelList, closestMarker.marker, hotelSubject))
+            }
+
             Log.d("Hotel Results Next")
         }
 
@@ -213,6 +247,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
+            var lp = recyclerView.getLayoutParams() as FrameLayout.LayoutParams
+            lp.topMargin = lp.topMargin + statusBarHeight
         }
 
         addDefaultTransition(defaultTransition)
@@ -249,8 +285,18 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         toolbar.setNavigationOnClickListener { view ->
             back()
             resetToolbar()
-            markerPreviewLayout.setVisibility(View.INVISIBLE)
+
         }
+
+        mapFab.setOnClickListener { view ->
+            changeToolbar()
+        }
+
+        listFab.setOnClickListener { view ->
+            back()
+            resetToolbar()
+        }
+
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
@@ -280,6 +326,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         toolbar.setSubtitle(subtitle)
 
         googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
+
+        resetToolbar()
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
@@ -328,10 +376,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 changeToolbar()
                 show(ResultsMap())
             } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset >= halfway) {
+                resetToolbar()
                 recyclerView.setTranslationY(0f)
                 recyclerView.smoothScrollBy(0, topOffset - halfway)
             }
-
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -344,6 +392,14 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             if (y <= 0) {
                 mapView.setTranslationY(y)
             }
+
+            val topOffset = recyclerView.getChildAt(0).getTop()
+            if (topOffset <= 0) {
+                showMapFab = true
+            } else {
+                showMapFab = false
+            }
+            resetToolbar()
         }
     }
 
@@ -354,7 +410,23 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
         toolbar.setSubtitle(subtitle)
 
-        menu?.setVisible(false)
+        menu?.setVisible(true)
+
+        recyclerView.setVisibility(View.VISIBLE)
+        markerPreviewLayout.setVisibility(View.INVISIBLE)
+
+        listFab.setVisibility(View.INVISIBLE)
+
+        if (showMapFab && mapFab.getVisibility() == View.INVISIBLE) {
+            mapFab.setVisibility(View.VISIBLE)
+            val map_anim: AlphaAnimation = AlphaAnimation(0.0f, 1.0f)
+            map_anim.setDuration(1000)
+            mapFab.startAnimation(map_anim)
+        } else if (!showMapFab && mapFab.getVisibility() == View.VISIBLE) {
+            mapFab.setVisibility(View.INVISIBLE)
+        }
+
+        mapView.setTranslationY(0f)
     }
 
     fun changeToolbar() {
@@ -364,6 +436,18 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         toolbar.setSubtitle(null)
 
         menu?.setVisible(true)
+
+        recyclerView.setVisibility(View.INVISIBLE)
+        markerPreviewLayout.setVisibility(View.VISIBLE)
+
+        listFab.setVisibility(View.VISIBLE)
+        val list_anim: AlphaAnimation = AlphaAnimation(0.0f, 1.0f)
+        list_anim.setDuration(1000)
+        listFab.startAnimation(list_anim)
+
+        mapFab.setVisibility(View.INVISIBLE)
+
+        mapView.setTranslationY(0f)
     }
 
     private val layoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {

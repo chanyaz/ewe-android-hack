@@ -25,8 +25,16 @@ public class HotelMarkerPreviewRecycler(context: Context, attrs: AttributeSet) :
 
     override fun fling(velocityX: Int, velocityY: Int): Boolean {
         snapTo(velocityX)
-        val position: Int = layoutManager.findLastVisibleItemPosition()
+
         val sortedHotelList: ArrayList<HotelResultsPresenter.MarkerDistance> = (getAdapter() as HotelMarkerPreviewAdapter).sortedHotelList
+        var position : Int = 0
+        // Fling right, else left
+        if (velocityX < 0) {
+            position: Int = layoutManager.findFirstVisibleItemPosition()
+        } else {
+            position: Int = layoutManager.findLastVisibleItemPosition()
+        }
+
         val marker = sortedHotelList.get(position).marker
 
         // Reset markers
