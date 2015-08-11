@@ -25,9 +25,7 @@
         <item name="skin_calendarDatePickerTextColor">@color/calendar_cell_text_samsung</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_samsung</item>
-        <item name="skin_webViewPreferencesActionBarLogo">@android:color/transparent</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/ic_launcher</item>
-        <item name="skin_webViewPreferencesActionBarLogoWithTitle">@android:color/transparent</item>
         <item name="skin_actionBarAboutLogo">@drawable/icon_home_samsung</item>
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_samsung</item>
         <item name="skin_flightLoadingMessagePosition">@id/search_progress_flight_samsung</item>
@@ -188,10 +186,6 @@
     </style>
     <style name="Theme.Phone.Preferences">
         <item name="android:logo" tools:targetApi="11">@drawable/icon_home_samsung</item>
-    </style>
-
-    <style name="Theme.Phone.WebView">
-        <item name="android:logo" tools:targetApi="11">@android:color/transparent</item>
     </style>
 
     <style name="Theme.Tablet.Preferences" parent="@style/Theme.Light.Dialog">
