@@ -24,7 +24,7 @@ public class SpoonScreenshotUtils {
 		throws Throwable {
 		List<Activity> activities = getResumedActivities();
 		for (int i = 0; i < activities.size(); i++) {
-			Spoon.screenshot(activities.get(i), instrumentation, tag + ":" + i, testClass);
+			Spoon.screenshot(activities.get(i), instrumentation, tag + "_" + i, testClass);
 		}
 	}
 
