@@ -679,5 +679,4 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			return null;
 		}
 	};
-
 }

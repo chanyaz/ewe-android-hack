@@ -68,6 +68,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		summaryContainer.addView(summaryWidget);
 		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.lx_enter_contact_details));
 		paymentInfoCardView.setLineOfBusiness(LineOfBusiness.LX);
+		paymentInfoCardView.setZipValidationRequired(false);
 	}
 
 	@Subscribe

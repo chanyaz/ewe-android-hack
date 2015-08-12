@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -37,6 +38,8 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class PaymentWidget extends ExpandableCardView {
+
+	private boolean isZipValidationRequired;
 
 	public PaymentWidget(Context context, AttributeSet attr) {
 		super(context, attr);
@@ -122,7 +125,7 @@ public class PaymentWidget extends ExpandableCardView {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		LayoutInflater inflater = LayoutInflater.from(getContext());
- 		inflater.inflate(R.layout.payment_widget, this);
+		inflater.inflate(R.layout.payment_widget, this);
 		ButterKnife.inject(this);
 
 		creditCardPostalCode.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
@@ -154,6 +157,17 @@ public class PaymentWidget extends ExpandableCardView {
 		sectionBillingInfo.setLineOfBusiness(lineOfBusiness);
 		sectionLocation.setLineOfBusiness(lineOfBusiness);
 		paymentButton.setLineOfBusiness(lineOfBusiness);
+	}
+
+	@Override
+	public void onFocusChange(View v, boolean hasFocus) {
+		super.onFocusChange(v, hasFocus);
+		if (hasFocus) {
+			 if (v == creditCardPostalCode && isZipValidationRequired) {
+				sectionLocation.resetValidation();
+			 }
+			sectionBillingInfo.resetValidation(v.getId(), true);
+		}
 	}
 
 	public void bind() {
@@ -388,4 +402,7 @@ public class PaymentWidget extends ExpandableCardView {
 	};
 
 
+	public void setZipValidationRequired(boolean zipValidationRequired) {
+		this.isZipValidationRequired = zipValidationRequired;
+	}
 }
