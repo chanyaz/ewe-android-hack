@@ -133,6 +133,7 @@ public class LXSearchParamsPresenter extends Presenter
 		location.setOnFocusChangeListener(mLocationFocusListener);
 		location.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		selectDates.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
+		onDateCheckedChanged(false);
 		addTransition(defaultToCal);
 		show(new LXParamsDefault());
 
@@ -323,7 +324,7 @@ public class LXSearchParamsPresenter extends Presenter
 		MenuItem item = toolbar.getMenu().findItem(R.id.menu_search);
 		setupToolBarCheckmark(item);
 
-		toolBarSearchText.setText(getResources().getString(R.string.lx_search_title));
+		toolBarSearchText.setText(getResources().getString(Ui.obtainThemeResID(getContext(), R.attr.skin_lxSearchToolbarText)));
 		toolbar.setTitleTextColor(Color.WHITE);
 		toolbar
 			.setBackgroundColor(getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)));

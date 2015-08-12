@@ -62,6 +62,31 @@
         "Tours & Sightseeing"
       ],
       "badgingDiscountPercentage": null
+    },
+    {
+      "id": "happy_gt",
+      "title": "happy_gt",
+      "imageUrl": "//www.expedia.com/lx/mv/lxmedia-201959-350x197-0.jpeg",
+      "largeImageURL": "//www.expedia.com/lx/mv/lxmedia-201959-1005x565-0.jpeg",
+      "fromPrice": "$20",
+      "fromPriceValue": "19.25",
+      "fromPriceLabel": "per traveler",
+      "fromOriginalPrice": "",
+      "fromOriginalPriceValue": "",
+      "duration": "30m+",
+      "durationInMillis": 1800000,
+      "fromPriceTicketType": "traveler",
+      "fromPriceTicketCode": "Traveler",
+      "freeCancellation": true,
+      "discountPercentage": null,
+      "formattedTitle": "train-bart-san-francisco-airport-sfo.a201959.activity-details",
+      "categories": [
+        "Shared Transfers"
+      ],
+      "badgingDiscountPercentage": null,
+      "latLng": "37.615223,-122.389979",
+      "redemptionType": "Print",
+      "supplierName": "Bay Area Rapid Transit (BART)"
     }
   ],
   "filterCategories": {

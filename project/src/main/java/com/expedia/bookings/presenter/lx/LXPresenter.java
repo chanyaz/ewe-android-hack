@@ -255,4 +255,8 @@ public class LXPresenter extends Presenter {
 	public void onCheckoutSuccess(Events.LXCheckoutSucceeded event) {
 		show(confirmationWidget, FLAG_CLEAR_BACKSTACK);
 	}
+
+	public void setIsGroundTransport(boolean isGroundTransport) {
+		resultsPresenter.setIsFromGroundTransport(isGroundTransport);
+	}
 }

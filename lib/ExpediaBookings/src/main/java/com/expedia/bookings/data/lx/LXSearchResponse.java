@@ -12,6 +12,7 @@ public class LXSearchResponse {
 	public Map<String, LXCategoryMetadata> filterCategories;
 	public boolean searchFailure;
 	public String currencyCode;
+	public boolean isFromCachedResponse;
 
 	// Utility Members - Required for Filtering
 	public transient List<LXActivity> unFilteredActivities = new ArrayList<>();

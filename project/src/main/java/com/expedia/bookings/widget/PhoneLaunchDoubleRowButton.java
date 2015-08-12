@@ -129,6 +129,10 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 				OmnitureTracking.trackNewLaunchScreenLobNavigation(LineOfBusiness.LX);
 				NavUtils.goToActivities(getContext(), animOptions);
 				break;
+			case R.id.transport_button:
+				OmnitureTracking.trackNewLaunchScreenLobNavigation(LineOfBusiness.TRANSPORT);
+				NavUtils.goToTransport(getContext(), animOptions);
+				break;
 			default:
 				throw new RuntimeException("No onClick defined for PhoneLaunchButton with id: " + getId());
 			}

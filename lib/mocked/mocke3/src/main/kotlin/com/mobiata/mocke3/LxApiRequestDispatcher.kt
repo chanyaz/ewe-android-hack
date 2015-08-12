@@ -29,6 +29,7 @@ public class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
 
             LxApiRequestMatcher.isDetailsRequest(urlPath) -> {
                 val params = parseRequest(request)
+                val activityId = params.get("activityId")
                 val DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss"
                 val startDateTime = DateTime.now().withTimeAtStartOfDay()
                 // supply the dates to the response
@@ -37,7 +38,11 @@ public class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
                 for (iPlusDays in 1..12) {
                     params.put("startDatePlus" + iPlusDays, startDateTime.plusDays(iPlusDays).toString(DATE_TIME_PATTERN))
                 }
-                return getMockResponse("lx/api/activity/happy.json", params)
+                return if (activityId == "happy_gt") {
+                    getMockResponse("lx/api/activity/happy_gt.json", params)
+                } else {
+                    getMockResponse("lx/api/activity/happy.json", params)
+                }
             }
 
             LxApiRequestMatcher.isCreateTripRequest(urlPath) -> {

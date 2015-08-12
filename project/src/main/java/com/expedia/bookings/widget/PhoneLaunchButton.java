@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -26,9 +27,14 @@ import butterknife.OnClick;
 public class PhoneLaunchButton extends FrameLayout {
 
 	private String text;
+	private float textSize;
 	private Drawable icon;
 	private int disabledBg;
 	private int bgColor;
+	private int iconPaddingTop;
+	private int bgCardHeight;
+	private float fullHeight;
+	private float minIconSize;
 
 	@InjectView(R.id.lob_btn_bg)
 	public CardView bgView;
@@ -54,9 +60,18 @@ public class PhoneLaunchButton extends FrameLayout {
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.PhoneLaunchButton);
 			text = ta.getString(R.styleable.PhoneLaunchButton_btn_text);
+			textSize = ta.getDimension(R.styleable.PhoneLaunchButton_btn_text_size,
+				getResources().getDimension(R.dimen.launch_lob_button_text_size));
 			icon = ta.getDrawable(R.styleable.PhoneLaunchButton_btn_icon);
 			disabledBg = getResources().getColor(R.color.disabled_lob_btn);
 			bgColor = ta.getColor(R.styleable.PhoneLaunchButton_btn_bg, -1);
+			bgCardHeight = (int) ta.getDimension(R.styleable.PhoneLaunchButton_bg_card_height,
+				getResources().getDimension(R.dimen.launch_lob_height));
+			iconPaddingTop = (int) ta.getDimension(R.styleable.PhoneLaunchButton_bg_icon_padding_top,
+				getResources().getDimension(R.dimen.launch_lob_button_top_padding));
+			fullHeight = ta.getDimension(R.styleable.PhoneLaunchButton_refernce_container_height,
+				getResources().getDimension(R.dimen.launch_lob_container_height));
+			minIconSize = ta.getFloat(R.styleable.PhoneLaunchButton_icon_min_scale, 0.5f);
 			ta.recycle();
 		}
 	}
@@ -71,11 +86,13 @@ public class PhoneLaunchButton extends FrameLayout {
 		ViewCompat.setElevation(iconView, 2 * bgView.getCardElevation());
 		bgView.setCardBackgroundColor(bgColor);
 		textView.setText(text);
+		textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
 		iconView.setImageDrawable(icon);
+		iconView.setPadding(0, iconPaddingTop, 0, 0);
 		FontCache.setTypeface(textView, FontCache.Font.ROBOTO_LIGHT);
 		bgView.setPivotY(getBottom());
+		bgView.setMinimumHeight(bgCardHeight);
 		float squashedHeight = getResources().getDimension(R.dimen.launch_lob_squashed_height);
-		float fullHeight = getResources().getDimension(R.dimen.launch_lob_container_height);
 		squashedRatio =  squashedHeight / fullHeight;
 	}
 
@@ -119,9 +136,13 @@ public class PhoneLaunchButton extends FrameLayout {
 				OmnitureTracking.trackNewLaunchScreenLobNavigation(LineOfBusiness.CARS);
 				NavUtils.goToCars(getContext(), animOptions);
 				break;
-			case R.id.lx_button:
+			case R.id.activities_button:
 				OmnitureTracking.trackNewLaunchScreenLobNavigation(LineOfBusiness.LX);
 				NavUtils.goToActivities(getContext(), animOptions);
+				break;
+			case R.id.transport_button:
+				OmnitureTracking.trackNewLaunchScreenLobNavigation(LineOfBusiness.TRANSPORT);
+				NavUtils.goToTransport(getContext(), animOptions);
 				break;
 			default:
 				throw new RuntimeException("No onClick defined for PhoneLaunchButton with id: " + getId());
@@ -148,7 +169,6 @@ public class PhoneLaunchButton extends FrameLayout {
 
 	private static final float minIconAlpha = 0.3f;
 	private static final float maxIconAlpha = 0.6f;
-	private static final float minIconSize = 0.5f;
 	private static final float maxIconSize = 1.0f;
 
 	public void scaleTo(float f) {

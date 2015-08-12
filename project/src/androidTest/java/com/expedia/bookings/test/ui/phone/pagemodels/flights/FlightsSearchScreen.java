@@ -118,4 +118,8 @@ public class FlightsSearchScreen {
 	public static void checkHint(String hintText) {
 		selectDepartureButton().check(matches(withHint(hintText)));
 	}
+
+	public static ViewInteraction actionBarUp() {
+		return onView(withId(android.R.id.home));
+	}
 }

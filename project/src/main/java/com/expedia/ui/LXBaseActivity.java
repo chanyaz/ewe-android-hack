@@ -35,12 +35,22 @@ public class LXBaseActivity extends AppCompatActivity {
 	private LXCurrentLocationSuggestionObserver currentLocationSuggestionObserver;
 	private Subscription currentLocationSuggestionSubscription;
 
+	public static final String EXTRA_IS_GROUND_TRANSPORT = "IS_GROUND_TRANSPORT";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Ui.getApplication(this).defaultLXComponents();
+
+		Intent intent = getIntent();
+		boolean isGroundTransport = intent.getBooleanExtra(EXTRA_IS_GROUND_TRANSPORT, false);
+		if (isGroundTransport) {
+			this.setTheme(R.style.V2_Theme_LX_Transport);
+		}
+
 		setContentView(R.layout.lx_base_layout);
 		ButterKnife.inject(this);
+		lxPresenter.setIsGroundTransport(isGroundTransport);
 		Ui.showTransparentStatusBar(this);
 		handleNavigationViaDeepLink();
 	}

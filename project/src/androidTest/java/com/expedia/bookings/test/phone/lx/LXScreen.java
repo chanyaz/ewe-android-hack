@@ -16,6 +16,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -150,6 +151,16 @@ public class LXScreen {
 
 	public static ViewInteraction toolbar() {
 		return onView(withId(R.id.toolbar));
+	}
+
+	public static ViewInteraction searchWidgetToolbarNavigation() {
+		return onView(allOf(withParent(withParent(withId(R.id.search_params_widget))), withParent(withId(R.id.toolbar)),
+			isAssignableFrom(ImageButton.class)));
+	}
+
+	public static ViewInteraction resultsPresenterToolbarNavigation() {
+		return onView(allOf(withParent(withParent(withId(R.id.search_list_presenter))), withParent(withId(R.id.toolbar)),
+			isAssignableFrom(ImageButton.class)));
 	}
 
 	public static ViewInteraction searchButton() {

@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
-        android:src="?attr/skin_lxTicketMinusButtonSelectorDrawable" />
+        android:src="@drawable/lx_ticket_minus_button_selector" />
 
     <TextView
         android:id="@+id/ticket_count"
@@ -40,6 +40,6 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
-        android:src="?attr/skin_lxTicketPlusButtonSelectorDrawable" />
+        android:src="@drawable/lx_ticket_plus_button_selector" />
 
 </com.expedia.bookings.widget.LXTicketPicker>

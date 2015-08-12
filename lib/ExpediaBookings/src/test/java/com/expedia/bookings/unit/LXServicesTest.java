@@ -103,7 +103,7 @@ public class LXServicesTest {
 		observer.assertNoErrors();
 		observer.assertCompleted();
 		observer.assertValueCount(1);
-		assertEquals(3, observer.getOnNextEvents().get(0).activities.size());
+		assertEquals(4, observer.getOnNextEvents().get(0).activities.size());
 	}
 
 	@Test
