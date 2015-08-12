@@ -5,13 +5,17 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format
 import android.util.AttributeSet
 import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -92,6 +96,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val listFab: FloatingActionButton by bindView(R.id.list_fab)
 
     var showMapFab: Boolean = false
+
+    var fabAnim : Animation? = null
 
     public class MarkerDistance(marker: Marker, distance: Float, hotel: Hotel) : Comparable<MarkerDistance> {
         override fun compareTo(other: MarkerDistance): Int {
@@ -240,6 +246,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         resultsSubject.subscribe(listResultsObserver)
         resultsSubject.subscribe(mapResultsObserver)
+
+        fabAnim = AnimationUtils.loadAnimation(getContext(), R.anim.fab_in)
     }
 
     override fun onFinishInflate() {
@@ -283,9 +291,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         resetToolbar()
 
         toolbar.setNavigationOnClickListener { view ->
-            back()
+            val activity = getContext() as AppCompatActivity
+            activity.onBackPressed()
             resetToolbar()
-
         }
 
         mapFab.setOnClickListener { view ->
@@ -293,7 +301,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
 
         listFab.setOnClickListener { view ->
-            back()
+            val activity = getContext() as AppCompatActivity
+            activity.onBackPressed()
             resetToolbar()
         }
 
@@ -419,9 +428,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         if (showMapFab && mapFab.getVisibility() == View.INVISIBLE) {
             mapFab.setVisibility(View.VISIBLE)
-            val map_anim: AlphaAnimation = AlphaAnimation(0.0f, 1.0f)
-            map_anim.setDuration(1000)
-            mapFab.startAnimation(map_anim)
+            mapFab.startAnimation(fabAnim)
+
         } else if (!showMapFab && mapFab.getVisibility() == View.VISIBLE) {
             mapFab.setVisibility(View.INVISIBLE)
         }
@@ -441,9 +449,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         markerPreviewLayout.setVisibility(View.VISIBLE)
 
         listFab.setVisibility(View.VISIBLE)
-        val list_anim: AlphaAnimation = AlphaAnimation(0.0f, 1.0f)
-        list_anim.setDuration(1000)
-        listFab.startAnimation(list_anim)
+        listFab.startAnimation(fabAnim)
 
         mapFab.setVisibility(View.INVISIBLE)
 
