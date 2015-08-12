@@ -40,6 +40,11 @@ public interface HotelApi {
 		@Query("hotelId") String propertyId);
 
 	@FormUrlEncoded
+	@POST("/api/m/trip/coupon")
+	Observable<HotelCreateTripResponse> applyCoupon(
+		@FieldMap Map<String, Object> queryParams);
+
+	@FormUrlEncoded
 	@POST("/m/api/hotel/trip/create")
 	Observable<HotelCreateTripResponse> createTrip(
 		@FieldMap Map<String, Object> queryParams);

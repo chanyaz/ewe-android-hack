@@ -72,6 +72,13 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 				.subscribe(observer)
 	}
 
+	public fun applyCoupon(body: HotelApplyCouponParams, observer: Observer<HotelCreateTripResponse>): Subscription {
+		return hotelApi.applyCoupon(body.toQueryMap())
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+				.subscribe(observer)
+	}
+
 	public fun checkout(params: HotelCheckoutParams, observer: Observer<HotelCheckoutResponse>): Subscription {
 		return hotelApi.checkout(params.toQueryMap())
 				.observeOn(observeOn)

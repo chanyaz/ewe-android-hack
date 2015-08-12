@@ -42,4 +42,7 @@ public class DummyFiletoHandleKotlinLintError {
 	private static final int NIGHT_COUNT_TEMPLATE = R.string.nights_count_TEMPLATE;
 	private static final int HOTEL_CALENDAR_BOTTOM_DRAG_TO_MODIFY = R.string.hotel_calendar_bottom_drag_to_modify;
 	private static final int AMENITIES_TITLE = R.string.AmenityTitle;
+	private static final int HOTEL_COUPON_WIDGET = R.layout.coupon_widget;
+	private static final int SAVED_COUPON_STRING = R.string.saved_coupon;
+	private static final int COUPON_TITLE_STRING = R.string.coupon_promo_title;
 }

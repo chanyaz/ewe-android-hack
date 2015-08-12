@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewTreeObserver
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -19,8 +20,10 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CheckoutBasePresenter
+import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
-import com.mobiata.android.Log
+import com.expedia.util.endlessObserver
+import com.expedia.vm.HotelCouponViewModel
 import com.squareup.otto.Subscribe
 import rx.Observer
 import rx.subjects.PublishSubject
@@ -36,6 +39,7 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
 
     var offer: HotelOffersResponse.HotelRoomResponse by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
+    val couponCardView = CouponWidget(context, attr)
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
@@ -49,8 +53,18 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         super<CheckoutBasePresenter>.onFinishInflate()
         hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(getContext(), null)
         summaryContainer.addView(hotelCheckoutSummaryWidget)
+
         mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
         paymentInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
+
+        val container = scrollView.findViewById(R.id.scroll_content) as LinearLayout
+        container.addView(couponCardView, container.getChildCount() - 2)
+        couponCardView.setToolbarListener(toolbarListener)
+        couponCardView.viewmodel = HotelCouponViewModel(getContext(), hotelServices)
+        couponCardView.viewmodel.applyObservable.subscribe(applyCouponObservable)
+        couponCardView.viewmodel.couponObservable.subscribe(downloadListener)
+        val params = couponCardView.getLayoutParams() as LinearLayout.LayoutParams
+        params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, getResources().getDisplayMetrics()).toInt(), 0, 0);
     }
 
     fun bind() {
@@ -59,6 +73,7 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         paymentInfoCardView.setCreditCardRequired(true)
         mainContactInfoCardView.setExpanded(false)
         paymentInfoCardView.setExpanded(false)
+        couponCardView.setExpanded(false)
         slideWidget.resetSlider()
         slideToContainer.setVisibility(View.INVISIBLE)
         if (User.isLoggedIn(getContext())) {
@@ -81,24 +96,14 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         hotelServices?.createTrip(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges), downloadListener)
     }
 
-    val downloadListener: Observer<HotelCreateTripResponse> = object : Observer<HotelCreateTripResponse> {
-        override fun onNext(hotelCreateTripResponse: HotelCreateTripResponse) {
-            Log.d("Hotel Checkout Next")
-            Db.getTripBucket().add(TripBucketItemHotelV2(hotelCreateTripResponse))
-            bind()
-            show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
-
-        }
-
-        override fun onCompleted() {
-            Log.d("Hotel Checkout Completed")
-        }
-
-        override fun onError(e: Throwable?) {
-            Log.d("Hotel Checkout Error", e)
-        }
+    val applyCouponObservable: Observer<String> = endlessObserver { coupon ->
+        show(CheckoutBasePresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
     }
-
+    val downloadListener: Observer<HotelCreateTripResponse> = endlessObserver { hotelCreateTripResponse ->
+        Db.getTripBucket().add(TripBucketItemHotelV2(hotelCreateTripResponse))
+        bind()
+        show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
+    }
 
     override fun showProgress(show: Boolean) {
         hotelCheckoutSummaryWidget.setVisibility(if (show) View.INVISIBLE else View.VISIBLE)

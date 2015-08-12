@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
@@ -16,6 +15,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Space;
 
@@ -48,6 +48,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@InjectView(R.id.checkout_scroll)
 	public ScrollView scrollView;
 
+	@InjectView(R.id.scroll_content)
+	public LinearLayout checkoutContent;
+
 	@InjectView(R.id.checkout_toolbar)
 	Toolbar toolbar;
 
@@ -61,7 +64,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public ViewGroup slideToContainer;
 
 	@InjectView(R.id.summary_container)
-	public CardView summaryContainer;
+	public FrameLayout summaryContainer;
 
 	public View mSummaryProgressLayout;
 
@@ -101,6 +104,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		addTransition(defaultToExpanded);
 		addTransition(defaultToReady);
 		addTransition(defaultToCheckoutFailed);
+		addTransition(expandedToDefault);
 		addDefaultTransition(defaultTransition);
 
 		slideWidget.addSlideToListener(this);
@@ -188,7 +192,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	// Listener to update the toolbar status when a widget(Login, Driver Info, Payment) is being interacted with
-	ToolbarListener toolbarListener = new ToolbarListener() {
+	public ToolbarListener toolbarListener = new ToolbarListener() {
 		@Override
 		public void setActionBarTitle(String title) {
 			toolbar.setTitle(title);
@@ -243,15 +247,15 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void finalizeTransition(boolean forward) {
 			showProgress(true);
 			paymentInfoCardView.setCreditCardRequired(false);
-			mainContactInfoCardView.setExpanded(false, false);
-			paymentInfoCardView.setExpanded(false, false);
+			for (int i = 0; i < checkoutContent.getChildCount(); i ++) {
+				View v = checkoutContent.getChildAt(i);
+				if (v instanceof ExpandableCardView) {
+					((ExpandableCardView) v).setExpanded(false, false);
+				}
+				v.setVisibility(GONE);
+			}
+			summaryContainer.setVisibility(VISIBLE);
 			slideToContainer.setVisibility(INVISIBLE);
-			loginWidget.setVisibility(GONE);
-			hintContainer.setVisibility(GONE);
-			mainContactInfoCardView.setVisibility(GONE);
-			paymentInfoCardView.setVisibility(GONE);
-			legalInformationText.setVisibility(GONE);
-			menuCheckout.setVisible(false);
 			updateSpacerHeight();
 		}
 	};
@@ -260,14 +264,20 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		@Override
 		public void startTransition(boolean forward) {
 			super.startTransition(forward);
-			loginWidget.setVisibility(forward ? VISIBLE : INVISIBLE);
-			hintContainer.setVisibility(forward ? User.isLoggedIn(getContext()) ? GONE : VISIBLE : INVISIBLE);
-			mainContactInfoCardView.setVisibility(forward ? VISIBLE : INVISIBLE);
-			if (paymentInfoCardView.isCreditCardRequired()) {
-				paymentInfoCardView.setVisibility(forward ? VISIBLE : INVISIBLE);
+			for (int i = 0; i < checkoutContent.getChildCount(); i++) {
+				View v = checkoutContent.getChildAt(i);
+				if (v == hintContainer) {
+					hintContainer.setVisibility(forward ? User.isLoggedIn(getContext()) ? GONE : VISIBLE : INVISIBLE);
+				}
+				else if (v == paymentInfoCardView) {
+					paymentInfoCardView
+						.setVisibility(forward && paymentInfoCardView.isCreditCardRequired() ? VISIBLE : INVISIBLE);
+				}
+				else {
+					v.setVisibility(forward ? VISIBLE : INVISIBLE);
+				}
 			}
-			legalInformationText.setVisibility(forward ? VISIBLE : INVISIBLE);
-			menuCheckout.setVisible(forward && isCheckoutButtonEnabled());
+			summaryContainer.setVisibility(VISIBLE);
 		}
 
 		@Override
@@ -310,32 +320,34 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		@Override
 		public void startTransition(boolean forward) {
-			scrollCheckoutToTop();
 			if (forward) {
-				summaryContainer.setVisibility(GONE);
-				loginWidget.setVisibility(GONE);
-				hintContainer.setVisibility(GONE);
-				if (mainContactInfoCardView != currentExpandedCard) {
-					mainContactInfoCardView.setVisibility(GONE);
+				for (int i = 0; i < checkoutContent.getChildCount(); i++) {
+					View v = checkoutContent.getChildAt(i);
+					if (v instanceof ExpandableCardView && v == currentExpandedCard) {
+						continue;
+					}
+					v.setVisibility(GONE);
 				}
-				if (paymentInfoCardView != currentExpandedCard) {
-					paymentInfoCardView.setVisibility(GONE);
-				}
-				legalInformationText.setVisibility(GONE);
 				if (lastExpandedCard != null && lastExpandedCard != currentExpandedCard) {
 					lastExpandedCard.setExpanded(false, false);
 				}
 			}
 			else {
 				currentExpandedCard.setExpanded(false, false);
-				summaryContainer.setVisibility(VISIBLE);
-				loginWidget.setVisibility(VISIBLE);
-				hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
-				mainContactInfoCardView.setVisibility(VISIBLE);
-				if (paymentInfoCardView.isCreditCardRequired()) {
-					paymentInfoCardView.setVisibility(VISIBLE);
+				for (int i = 0; i < checkoutContent.getChildCount(); i++) {
+					View v = checkoutContent.getChildAt(i);
+					if (v == hintContainer) {
+						hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
+					}
+					else if (v == paymentInfoCardView) {
+						paymentInfoCardView.setVisibility(paymentInfoCardView.isCreditCardRequired() ? VISIBLE : GONE);
+					}
+					else {
+						v.setVisibility(VISIBLE);
+					}
 				}
-				legalInformationText.setVisibility(VISIBLE);
+
+
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
 			}
 
@@ -344,6 +356,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			Drawable nav = getResources().getDrawable(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp).mutate();
 			nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 			toolbar.setNavigationIcon(nav);
+			menuCheckout.setVisible(!forward && isCheckoutButtonEnabled());
 			menuNext.setVisible(forward);
 			menuDone.setVisible(false);
 		}
@@ -362,8 +375,30 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				isCheckoutComplete();
 				updateSpacerHeight();
 			}
-			menuCheckout.setVisible(!forward && isCheckoutButtonEnabled());
+		}
+	};
 
+	private Presenter.Transition expandedToDefault = new Presenter.Transition(WidgetExpanded.class,
+		CheckoutDefault.class) {
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
+			menuCheckout.setVisible(isCheckoutButtonEnabled());
+			menuNext.setVisible(false);
+			menuDone.setVisible(false);
+			showProgress(true);
+			paymentInfoCardView.setCreditCardRequired(false);
+			for (int i = 0; i < checkoutContent.getChildCount(); i ++) {
+				View v = checkoutContent.getChildAt(i);
+				if (v instanceof ExpandableCardView) {
+					((ExpandableCardView) v).setExpanded(false, false);
+				}
+				v.setVisibility(GONE);
+			}
+			summaryContainer.setVisibility(VISIBLE);
+			slideToContainer.setVisibility(INVISIBLE);
+			updateSpacerHeight();
 		}
 	};
 

@@ -1,24 +1,25 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.interfaces.ToolbarListener;
 
 /**
  * Created by malnguyen on 2/28/15.
  */
-public abstract class ExpandableCardView extends CardView implements View.OnFocusChangeListener, View.OnClickListener,
+public abstract class ExpandableCardView extends FrameLayout implements View.OnFocusChangeListener, View.OnClickListener,
 	View.OnTouchListener {
 
 	public ExpandableCardView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		setOnClickListener(this);
 		setOnTouchListener(this);
+		setBackgroundResource(R.drawable.card_background);
 	}
 
 	private EditText mCurrentEditText;
@@ -106,4 +107,5 @@ public abstract class ExpandableCardView extends CardView implements View.OnFocu
 	public boolean onTouch(View v, MotionEvent event) {
 		return isExpanded;
 	}
+
 }
