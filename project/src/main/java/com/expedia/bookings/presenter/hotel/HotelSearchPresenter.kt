@@ -39,8 +39,8 @@ import kotlin.properties.Delegates
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val searchLocation: AlwaysFilterAutoCompleteTextView by bindView(R.id.hotel_location)
-    val selectDate: ToggleButton by bindView(R.id.select_date)
-    val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
+    val selectDate: Button by bindView(R.id.select_date)
+    val selectTraveler: Button by bindView(R.id.select_traveler)
     val calendar: CalendarPicker by bindView(R.id.calendar)
     val monthView: MonthView by bindView(R.id.month)
     val traveler: HotelTravelerPickerView by bindView(R.id.traveler_view)
@@ -54,7 +54,8 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         button.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
         button.setTextColor(getResources().getColor(android.R.color.white))
-
+        // Disable search button initially
+        button.setAlpha(0.15f)
         toolbar.getMenu().findItem(R.id.menu_check).setActionView(button)
 
         button
@@ -70,6 +71,9 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_hotel_stay))
         calendar.setDateChangedListener { start, end ->
             vm.datesObserver.onNext(Pair(start, end))
+        }
+        calendar.setYearMonthDisplayedChangedListener {
+            calendar.hideToolTip()
         }
 
         vm.calendarTooltipTextObservable.subscribe(endlessObserver { p ->
@@ -101,6 +105,13 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.locationTextObservable.subscribe(searchLocation)
 
         searchButton.subscribeOnClick(vm.searchObserver)
+        vm.searchButtonObservable.subscribe { enable ->
+            if (enable) {
+                searchButton.setAlpha(1.0f)
+            } else {
+                searchButton.setAlpha(0.15f)
+            }
+        }
         vm.errorNoOriginObservable.subscribe {
             AnimUtils.doTheHarlemShake(searchLocation)
         }
