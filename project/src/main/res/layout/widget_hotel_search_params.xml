@@ -48,10 +48,10 @@
                     android:layout_weight="1"
                     android:completionThreshold="1"
                     android:dropDownAnchor="@+id/drop_down_anchor"
-                    android:dropDownHeight="fill_parent"
                     android:dropDownSelector="#FFFFFF"
                     android:dropDownWidth="fill_parent"
                     android:hint="@string/search_location"
+                    android:textColorHighlight="#12AD9F"
                     android:imeOptions="actionDone"
                     android:inputType="textNoSuggestions" />
 
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
+                <ToggleButton
                     android:id="@+id/select_date"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -80,11 +80,11 @@
                     android:gravity="left|center_vertical"
                     android:paddingLeft="20dp"
                     android:textAllCaps="false"
-                    android:text="@string/select_dates"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@drawable/cars_text_selector"
+                    android:textOff="@string/select_dates"
+                    android:textOn="@string/select_dates"
                     android:textSize="15sp"
-                    android:textStyle="normal" >
-                </Button>
+                    android:textStyle="normal" />
             </LinearLayout>
 
             <LinearLayout
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
+                <ToggleButton
                     android:id="@+id/select_traveler"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -102,8 +102,9 @@
                     android:gravity="left|center_vertical"
                     android:paddingLeft="20dp"
                     android:textAllCaps="false"
-                    android:text="@string/hotel_search_guest_default_text"
-                    android:textColor="#FFFFFF"
+                    android:textOff="@string/hotel_search_guest_default_text"
+                    android:textOn="@string/hotel_search_guest_default_text"
+                    android:textColor="@drawable/cars_text_selector"
                     android:textSize="15sp"
                     android:textStyle="normal" />
             </LinearLayout>
