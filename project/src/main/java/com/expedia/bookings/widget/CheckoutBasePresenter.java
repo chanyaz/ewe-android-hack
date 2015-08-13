@@ -11,10 +11,12 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Space;
 
 import com.expedia.bookings.R;
@@ -61,7 +63,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@InjectView(R.id.summary_container)
 	public CardView summaryContainer;
 
-	@InjectView(R.id.summary_progress_layout)
 	public View mSummaryProgressLayout;
 
 	@InjectView(R.id.login_widget)
@@ -121,11 +122,17 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		if (ExpediaBookingApp.isAutomation()) {
 			//Espresso hates progress bars
-			summaryContainer.removeView(mSummaryProgressLayout);
 			mSummaryProgressLayout = new View(getContext(), null);
-			summaryContainer.addView(mSummaryProgressLayout);
-		}
 
+		}
+		else {
+			mSummaryProgressLayout = new ProgressBar(getContext(), null);
+			FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+			lp.gravity = Gravity.CENTER;
+			((ProgressBar) mSummaryProgressLayout).setIndeterminate(true);
+		}
+		summaryContainer.addView(mSummaryProgressLayout);
 		userAccountRefresher = new UserAccountRefresher(getContext(), getLineOfBusiness(), this);
 	}
 
