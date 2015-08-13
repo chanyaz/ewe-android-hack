@@ -28,13 +28,6 @@
                 card_view:cardCornerRadius="3dp"
                 card_view:cardElevation="1dp">
 
-                <ProgressBar
-                    android:id="@+id/summary_progress_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:indeterminate="true" />
-
             </android.support.v7.widget.CardView>
 
             <com.expedia.bookings.widget.AccountButton
