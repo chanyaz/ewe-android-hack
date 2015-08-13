@@ -41,4 +41,5 @@ public class DummyFiletoHandleKotlinLintError {
 	private static final int SELECT_CHECKOUT_DATE_TEMPLATE = R.string.select_checkout_date_TEMPLATE;
 	private static final int NIGHT_COUNT_TEMPLATE = R.string.nights_count_TEMPLATE;
 	private static final int HOTEL_CALENDAR_BOTTOM_DRAG_TO_MODIFY = R.string.hotel_calendar_bottom_drag_to_modify;
+	private static final int AMENITIES_TITLE = R.string.AmenityTitle;
 }

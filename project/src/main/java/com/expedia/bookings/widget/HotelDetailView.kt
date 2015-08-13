@@ -1,16 +1,24 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.*
-import android.widget.HorizontalScrollView
+import android.widget
+import android.widget.LinearLayout
+import android.widget.RatingBar
+import android.widget.TableLayout
+import android.widget.TableRow
 import com.expedia.bookings.R
-import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -22,7 +30,9 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.larvalabs.svgandroid.widget.SVGView
 import rx.Observer
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 /**
@@ -51,9 +61,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val mapView: MapView by bindView(R.id.map_view)
     val mapClickContainer: FrameLayout by bindView(R.id.map_click_container)
 
-    val amenityScrollView: HorizontalScrollView by bindView(R.id.amenities_scroll_view)
-    val amenityRow: TableRow by bindView(R.id.amenities_table_row)
-    val noAmenityText: TextView by bindView(R.id.amenities_none_text)
+    val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
+    val amenityTitleText: TextView by bindView(R.id.amenities_none_text)
 
     val roomContainer: TableLayout by bindView(R.id.room_container)
     val amenities_text: TextView by bindView(R.id.amenities_text)
@@ -73,6 +82,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             gallery.scrollToPosition(0)
             gallery.setOnItemClickListener(vm)
             gallery.startFlipping()
+        }
+
+        vm.amenityTitleTextObservable.subscribe(amenityTitleText)
+        vm.amenitiesListObservable.subscribe { amenityList ->
+            Amenity.addAmenity(amenityContainer, amenityList)
         }
 
         vm.amenityHeaderTextObservable.subscribe(amenities_text_header)

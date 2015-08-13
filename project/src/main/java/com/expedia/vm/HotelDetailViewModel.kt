@@ -10,6 +10,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
@@ -33,6 +34,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val INTRO_PARAGRAPH_CUTOFF = 120
     var sectionBody: String by Delegates.notNull()
     var untruncated: String by Delegates.notNull()
+    var amenityTitle: String by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     var hotel: Hotel by Delegates.notNull()
 
@@ -43,6 +45,9 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     val amenityHeaderTextObservable = BehaviorSubject.create<String>()
     val amenityTextObservable = BehaviorSubject.create<String>()
+
+    val amenitiesListObservable = BehaviorSubject.create<List<Amenity>>()
+    val amenityTitleTextObservable = BehaviorSubject.create<String>()
     var roomResponseListObservable = BehaviorSubject.create<List<HotelOffersResponse.HotelRoomResponse>>()
 
     val hotelNameObservable = BehaviorSubject.create<String>()
@@ -114,6 +119,14 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             }
             sectionBodyObservable.onNext(sectionBody)
         }
+
+        val amenityList: List<Amenity> = Amenity.amenitiesToShow(hotelOffersResponse.hotelAmenities)
+        //Here have to pass the list of amenities which we want to show
+        amenitiesListObservable.onNext(amenityList)
+        if (amenityList.isEmpty()) amenityTitle = context.getResources().getString(R.string.AmenityNone)
+        else amenityTitle = context.getResources().getString(R.string.AmenityTitle)
+        amenityTitleTextObservable.onNext(amenityTitle)
+
     }
 
     public fun expandSection(untruncated: String, sectionBody: String) {
