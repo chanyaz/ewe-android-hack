@@ -22,6 +22,7 @@ import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.Subscription
+import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 import java.util.ArrayList
@@ -65,20 +66,9 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val reviewsObservable = BehaviorSubject.create<Hotel>()
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
-    val downloadListener: Observer<HotelOffersResponse> = object : Observer<HotelOffersResponse> {
-        override fun onNext(hotelResponse: HotelOffersResponse) {
-            hotelOffersResponse = hotelResponse
-            bindDetails()
-            Log.d("Hotel Detail Next")
-        }
-
-        override fun onCompleted() {
-            Log.d("Hotel Detail Completed")
-        }
-
-        override fun onError(e: Throwable?) {
-            Log.d("Hotel Detail Error")
-        }
+    val downloadListener: Observer<HotelOffersResponse> = endlessObserver { response ->
+        hotelOffersResponse = response
+        bindDetails()
     }
 
     fun getDetail() {

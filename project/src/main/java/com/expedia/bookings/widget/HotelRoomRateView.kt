@@ -19,7 +19,7 @@ import com.expedia.vm.HotelRoomRateViewModel
 import rx.Observer
 import kotlin.properties.Delegates
 
-public class HotelRoomRateView(context: Context, val container: TableLayout, val checkoutObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : LinearLayout(context) {
+public class HotelRoomRateView(context: Context, val container: TableLayout, val selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : LinearLayout(context) {
 
     val PICASSO_HOTEL_ROOM = "HOTEL_ROOMS"
 
@@ -40,7 +40,7 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
 
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
         viewRoom.subscribeOnCheckChanged(vm.expandCollapseRoomRate)
-        vm.roomSelectedObservable.subscribe(checkoutObserver)
+        vm.roomSelectedObservable.subscribe(selectedRoomObserver)
         roomInfoHeader.subscribeOnClick(vm.expandCollapseRoomRateInfo)
 
         vm.totalPricePerNightObservable.subscribe(totalPricePerNight)

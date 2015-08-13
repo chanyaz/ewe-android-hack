@@ -51,3 +51,9 @@ public fun Observable<CharSequence>.subscribeToggleButton(togglebutton: ToggleBu
         togglebutton.setTextOff(text)
     }
 }
+
+public fun Observable<Boolean>.subscribeVisibility(view: View) {
+    this.subscribe { visible ->
+        view.setVisibility(if (visible) View.VISIBLE else View.GONE)
+    }
+}

@@ -9,16 +9,15 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.RoomSelected
 import com.expedia.util.endlessObserver
+import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
-import com.mobiata.android.Log
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import javax.inject.Inject
@@ -30,7 +29,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         @Inject set
 
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
-
     val searchPresenter: HotelSearchPresenter by bindView(R.id.widget_hotel_params)
     val resultsPresenter: HotelResultsPresenter by bindView(R.id.widget_hotel_results)
     val detailPresenter: HotelDetailPresenter by bindView(R.id.widget_hotel_detail)
@@ -55,8 +53,13 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         searchPresenter.viewmodel = HotelSearchViewModel(getContext())
         searchPresenter.viewmodel.searchParamsObservable.subscribe(searchObserver)
         resultsPresenter.hotelSubject.subscribe(hotelSelectedObserver)
-        RoomSelected.observer = checkoutObserver
-        checkoutPresenter.confirmationObserver = confirmationObserver
+        RoomSelected.observer = selectedRoomObserver
+
+        checkoutPresenter.viewmodel = HotelCheckoutViewModel(hotelServices)
+        checkoutPresenter.viewmodel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
+            confirmationPresenter.bind(checkoutResponse)
+            show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
+        })
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(javaClass<HotelSearchPresenter>().getName()) {
@@ -75,7 +78,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
         resultsPresenter.doSearch(params)
         hotelSearchParams = params
-        checkoutPresenter.checkout.setSearchParams(params)
+        checkoutPresenter.hotelCheckoutWidget.setSearchParams(params)
         show(resultsPresenter)
     }
 
@@ -94,35 +97,18 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         show(reviewsPresenter)
     }
 
-    val checkoutObserver = object : Observer<HotelOffersResponse.HotelRoomResponse> {
-
+    val selectedRoomObserver = object : Observer<HotelOffersResponse.HotelRoomResponse> {
         override fun onNext(t: HotelOffersResponse.HotelRoomResponse) {
             checkoutPresenter.showCheckout(t)
             show(checkoutPresenter)
         }
 
         override fun onCompleted() {
-            Log.d("completed yo!")
+            throw UnsupportedOperationException()
         }
 
         override fun onError(e: Throwable) {
             throw OnErrorNotImplementedException(e)
-        }
-    }
-
-    val confirmationObserver = object: Observer<HotelCheckoutResponse> {
-        override fun onNext(t: HotelCheckoutResponse) {
-            Log.d("Got a checkout response!")
-            show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
-            confirmationPresenter.bind(t)
-        }
-
-        override fun onError(e: Throwable) {
-            throw OnErrorNotImplementedException(e)
-        }
-
-        override fun onCompleted() {
-            Log.d("Got a checkout response!")
         }
     }
 }
