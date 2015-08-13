@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.LM.Tablet" parent="Theme.LM">
+        <item name="skin_action_bar_logo_tablet">@drawable/ic_log_in_lm</item>
+        <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
+        <item name="skin_collection_overlay_static_color">@color/collection_overlay_color</item>
+        <item name="skin_tablet_book_button_text_color">@color/tablet_book_button_text_color_lm</item>
+        <item name="skin_tablet_trip_bucket_arrow">@drawable/ic_book_bucket_arrow_lm</item>
+        <item name="skin_collection_placeholder">@drawable/bg_itin_placeholder_lm</item>
+        <item name="skin_tablet_hotel_room_rate_select_button">@drawable/tablet_hotel_room_select_button_lm</item>
+        <item name="skin_tablet_addToTrip_button">@drawable/tablet_hotel_room_add_button_lm</item>
+
+        <item name="skin_hotelPriceStandardColor">#ffffff</item>
+        <item name="skin_hotelPriceSaleColor">#ffffff</item>
+        <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
+        <item name="skin_hotelListingFilterGroupStyle">@style/Widget.SlidingRadioGroup.TabletFilterControls</item>
+        <item name="skin_hotelListingFilterToggleButtonStyle">@style/Widget.CompoundButton.Switch.TabletFilterControls</item>
+        <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/bg_tablet_hotel_results_placeholder_lm</item>
+        <item name="skin_hotelImagePlaceHolderDrawable">@drawable/placeholder_lg_lm</item>
+        <item name="skin_hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.HotelDetails</item>
+
+        <item name="skin_tablet_bucket_item_counter">@drawable/bg_tablet_portrait_trip_bucket_item_counter_lm</item>
+        <item name="skin_tablet_bucket_text_color">@color/tablet_trip_bucket_text_color_lm</item>
+
+        <!-- Flight Map -->
+        <item name="skin_tablet_flight_map_arrival_pin">@drawable/tablet_flight_map_arrival_lm</item>
+
+        <item name="skin_tablet_search_result_error_button_drawable">@drawable/bg_tablet_search_result_error_action_button_lm</item>
+        <item name="skin_tablet_search_result_error_button_text_color">@color/tablet_search_error_text_color_lm</item>
+        <item name="skin_tablet_dates_popup_done_color">@color/tablet_results_search_blue_lm</item>
+        <item name="skin_skin_tablet_dates_popup_done_drawable">@drawable/ic_tablet_search_results_popup_done_check_lm</item>
+        <item name="skin_tablet_hotel_details_background_drawable">@drawable/ic_hotel_details_background_layer_list_lm</item>
+        <item name="skin_tabletHotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails.LM</item>
+        <item name="skin_tabletHotelDetailsCircleRatingStyle">@style/RatingBar.Star.HotelDetails.LM</item>
+
+        <item name="skin_tablet_flight_confirmation_placeholder">@drawable/bg_itin_placeholder_lm</item>
+        <item name="skin_tablet_hotel_confirmation_placeholder">@drawable/bg_itin_placeholder_lm</item>
+        <item name="skin_icActionBarTripsDrawable">@drawable/ic_action_bar_trips</item>
+        <item name="skin_tablet_legal_blurb_text_color">@color/tablet_legal_blurb_text_color_lm</item>
+        <item name="skin_tablet_confirmation_book_next_arrow_icon">@drawable/ic_tablet_confirmation_book_next_arrow_lm</item>
+        <item name="skin_tablet_confirmation_book_next_arrow_color">@color/tablet_confirmation_action_color_lm</item>
+        <item name="skin_tablet_confirmation_done_booking_icon">@drawable/ic_tablet_confirmation_done_booking_lm</item>
+        <item name="skin_tablet_confirmation_done_booking_color">@color/tablet_confirmation_action_color_lm</item>
+        <item name="skin_tablet_confirmation_calendar_icon">@drawable/ic_tablet_confirmation_calendar_lm</item>
+        <item name="skin_tablet_confirmation_phone_icon">@drawable/ic_tablet_confirmation_phone_lm</item>
+        <item name="skin_tablet_confirmation_share_icon">@drawable/ic_tablet_confirmation_share_lm</item>
+        <item name="skin_tablet_confirmation_action_color">@color/tablet_confirmation_action_color_lm</item>
+        <item name="skin_tablet_price_expanded_bucket_text_color">@color/tablet_price_expanded_bucket_text_color_lm</item>
+        <item name="skin_tablet_checkout_price_breakdown_icon">@drawable/ic_tablet_checkout_price_breakdown_lm</item>
+
+        <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
+        <item name="android:homeAsUpIndicator" >@drawable/ic_action_bar_back_arrow_white_lm</item>
+
+        <item name="skin_bgSaleTextViewDrawable">@drawable/bg_sale_text_view_lm</item>
+        <item name="skin_bgFlightSummaryRowTablet">@drawable/bg_flight_summary_row_tablet_lm</item>
+        <item name="skin_bgSelectedFlightCard">@drawable/bg_selected_flight_card_lm</item>
+        <item name="skin_bgFlightSummaryRowReturnLegTabletDrawable">@drawable/bg_flight_summary_row_return_leg_tablet_lm</item>
+        <item name="skin_tabletCalenderResultsSearchBlue">@color/tablet_calender_results_search_blue_lm</item>
+        <item name="skin_sectionFlightEditTravelerLinkColor">@color/section_flight_edit_traveler_link_color_lm</item>
+        <item name="skin_roomRateRefundableCancellationTextColor">@color/room_rate_refundable_cancellation_text_color_lm</item>
+        <item name="skin_icTabletConfirmationCheckmarkDrawable">@drawable/ic_tablet_confirmation_checkmark_lm</item>
+        <item name="skin_icRenovationTabletDrawable">@drawable/ic_renovation_tablet_lm</item>
+        <item name="skin_icFeesTabletDrawable">@drawable/ic_fees_tablet_lm</item>
+        <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color_lm</item>
+        <item name="skin_tabletFilterPriceTextColor">@color/tablet_filter_price_text_lm</item>
+
+    </style>
+
+    <style name="V2.Theme.Activity.TabletWeb">
+        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletWeb</item>
+        <item name="android:homeAsUpIndicator" >@drawable/ic_action_bar_back_arrow_lm</item>
+        <item name="skin_action_bar_logo_tablet">@drawable/ic_log_in_lm</item>
+        <item name="android:actionMenuTextColor">@color/actionbarTabletTitleColor</item>
+        <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
+    </style>
+
+    <style name="V2.Widget.ActionBar.TabletWeb">
+        <item name="android:displayOptions">showHome|useLogo|homeAsUp|showTitle</item>
+        <item name="android:background">@color/action_bar_bg_color</item>
+        <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
+    </style>
+
+    <style name="V2.Theme" parent="Theme.LM.Tablet" />
+
+</resources>

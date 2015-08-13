@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.Expedia.Tablet" parent="Theme.Expedia">
+        <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
         <item name="skin_hotelPriceStandardColor">#ffffff</item>
         <item name="skin_hotelPriceSaleColor">#ffffff</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
@@ -44,6 +45,8 @@
         <item name="skin_sectionFlightEditTravelerLinkColor">@color/section_flight_edit_traveler_link_color</item>
 
         <item name="skin_roomRateRefundableCancellationTextColor">@color/room_rate_refundable_cancellation_text_color</item>
+        <item name="skin_icRenovationTabletDrawable">@drawable/ic_renovation_tablet</item>
+        <item name="skin_icFeesTabletDrawable">@drawable/ic_fees_tablet</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Expedia.Tablet" />

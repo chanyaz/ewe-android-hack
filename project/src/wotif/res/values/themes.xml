@@ -102,11 +102,12 @@
         <item name="skin_etp_pay_now_charges_text">@string/etp_pay_now_charges_text_wotif</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
+        <item name="skin_checkmarkFlightDrawable">@drawable/checkmark_flight_wotif</item>
+
         <item name="skin_itinActionOverflowDrawable">@drawable/ic_menu_overflow_image</item>
         <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder_wotif</item>
         <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen_wotif</item>
         <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_wotif</item>
-        <item name="skin_checkmarkFlightDrawable">@drawable/checkmark_flight_wotif</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Wotif">

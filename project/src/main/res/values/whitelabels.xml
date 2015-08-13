@@ -325,11 +325,16 @@
 
     <attr name="skin_sectionFlightEditTravelerLinkColor" format="reference|color" />
     <attr name="skin_roomRateRefundableCancellationTextColor" format="reference|color" />
-    <attr name="skin_actionBarShopText" format="reference|string" />
     <attr name="skin_confirmationHeaderHotelDividerLineColor" format="reference|color" />
     <attr name="skin_confirmationHeaderFlightDividerLineColor" format="reference|color" />
     <attr name="skin_checkmarkFlightDrawable" format="reference" />
 
     <attr name="skin_launchTabIndicatorColor" format="reference|color" />
     <attr name="skin_launchActionBarBackgroundColor" format="reference|color" />
+
+    <attr name="skin_actionbarTabletTitleColor" format="reference|color" />
+    <attr name="skin_icTabletConfirmationCheckmarkDrawable" format="reference" />
+    <attr name="skin_icRenovationTabletDrawable" format="reference" />
+    <attr name="skin_icFeesTabletDrawable" format="reference" />
+    <attr name="skin_tabletFilterPriceTextColor" format="reference|color" />
 </resources>
