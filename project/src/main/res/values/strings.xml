@@ -2908,8 +2908,6 @@
     <string name="dialog_title_cleared_private_data">Private data cleared</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">All saved billing and contact information has been removed.</string>
-    <!-- Action button label to Subscribe to our mailing list -->
-    <string name="Subscribe">Subscribe</string>
     <!-- Action button label to follow on twitter -->
     <string name="Follow">Follow</string>
     <!-- Action button label to like on facebook -->
