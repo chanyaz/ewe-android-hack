@@ -36,7 +36,11 @@ class HotelSearchViewModel(val context: Context) {
         val (start, end) = data
 
         paramsBuilder.checkIn(start)
-        paramsBuilder.checkOut(end)
+        if (start != null && end == null) {
+            paramsBuilder.checkOut(start.plusDays(1))
+        } else {
+            paramsBuilder.checkOut(end)
+        }
 
         dateTextObservable.onNext(computeDateText(start, end))
 
@@ -66,8 +70,7 @@ class HotelSearchViewModel(val context: Context) {
         } else {
             if (!paramsBuilder.hasOrigin()) {
                 errorNoOriginObservable.onNext(Unit)
-            }
-            else if (!paramsBuilder.hasStartAndEndDates()) {
+            } else if (!paramsBuilder.hasStartAndEndDates()) {
                 errorNoDatesObservable.onNext(Unit)
             }
         }
@@ -110,7 +113,7 @@ class HotelSearchViewModel(val context: Context) {
     private fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
         val resource =
                 if (end == null) R.string.hotel_calendar_tooltip_bottom
-                else R.string.calendar_tooltip_bottom_drag_to_modify
+                else R.string.hotel_calendar_bottom_drag_to_modify
         val instructions = context.getResources().getString(resource)
         return Pair(computeTopTextForToolTip(start, end), instructions)
     }

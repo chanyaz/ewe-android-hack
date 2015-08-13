@@ -28,6 +28,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelTravelerPickerViewModel
+import com.mobiata.android.time.util.JodaUtils
 import com.mobiata.android.time.widget.CalendarPicker
 import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
@@ -67,10 +68,20 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     var viewmodel: HotelSearchViewModel by notNullAndObservable { vm ->
-        calendar.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)))
+        val maxDate = LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range))
+        calendar.setSelectableDateRange(LocalDate.now(), maxDate)
         calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_hotel_stay))
         calendar.setDateChangedListener { start, end ->
-            vm.datesObserver.onNext(Pair(start, end))
+            if (JodaUtils.isEqual(start, end)) {
+                if (!JodaUtils.isEqual(end, maxDate)) {
+                    calendar.setSelectedDates(start, end.plusDays(1))
+                } else {
+                    // Do not select an end date beyond the allowed range
+                    calendar.setSelectedDates(start, null)
+                }
+            } else {
+                vm.datesObserver.onNext(Pair(start, end))
+            }
         }
         calendar.setYearMonthDisplayedChangedListener {
             calendar.hideToolTip()
@@ -116,7 +127,11 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             AnimUtils.doTheHarlemShake(searchLocation)
         }
         vm.errorNoDatesObservable.subscribe {
-            AnimUtils.doTheHarlemShake(calendar)
+            if (calendar.getVisibility() == View.VISIBLE) {
+                AnimUtils.doTheHarlemShake(calendar)
+            } else {
+                AnimUtils.doTheHarlemShake(selectDate)
+            }
         }
         vm.searchParamsObservable.subscribe {
             calendar.hideToolTip()
