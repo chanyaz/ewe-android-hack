@@ -233,6 +233,7 @@
         <item name="skin_bookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="skin_hotelPriceTextStyle">@style/HotelPriceTextStyle</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
+        <item name="skin_flightLoadingMessageTextColor">@color/flight_loading_message_text_color</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
