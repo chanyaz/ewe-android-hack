@@ -56,7 +56,7 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
 class HotelRequestMatcher() {
     companion object {
         fun isHotelCheckoutRequest(urlPath: String): Boolean {
-            return doesItMatch("^/m/api/hotel/trip/checkout$", urlPath)
+            return doesItMatch("^/m/api/hotel/trip/checkout.*$", urlPath)
         }
 
         fun isCouponCall(urlPath: String): Boolean {

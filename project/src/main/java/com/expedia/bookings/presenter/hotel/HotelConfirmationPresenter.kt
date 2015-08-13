@@ -12,7 +12,7 @@ import com.expedia.bookings.utils.bindView
 
 public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
-    val myTextView: TextView by bindView(R.id.text_view)
+    val myTextView: TextView by bindView(R.id.itin_text_view)
 
     init {
         View.inflate(getContext(), R.layout.widget_hotel_confirmation, this)

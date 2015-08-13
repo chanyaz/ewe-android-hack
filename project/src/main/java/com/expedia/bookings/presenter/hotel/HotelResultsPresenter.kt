@@ -24,6 +24,7 @@ import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.FrameLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -326,7 +327,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
 
             override fun onError(e: Throwable?) {
-                // ignore
+                Log.d("Hotel Results Error", e)
             }
         })
 
@@ -459,7 +460,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     private val layoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             getViewTreeObserver().removeOnGlobalLayoutListener(this)
-            screenHeight = getHeight()
+            screenHeight = if (ExpediaBookingApp.isAutomation()) { 0 } else { getHeight() }
             recyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, screenHeight, 0, false))
         }
     }

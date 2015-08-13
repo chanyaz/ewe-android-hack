@@ -57,7 +57,7 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         }
 
         // Expedia Suggest
-        if (request.getPath().startsWith("/hint/es")) {
+        if (request.getPath().startsWith("/hint/es") || request.getPath().startsWith("/api/v4") ) {
             return dispatchSuggest(request)
         }
 
@@ -201,6 +201,8 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
             } else {
                 return makeResponse("/hint/es/v1/nearby/en_US/suggestion.json")
             }// City
+        } else if (request.getPath().startsWith("/api/v4/typeahead/")) {
+            return makeResponse("/api/v4/suggestion.json")
         }
         return make404()
     }
