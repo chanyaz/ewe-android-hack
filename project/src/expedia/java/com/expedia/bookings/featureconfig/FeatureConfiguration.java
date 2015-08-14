@@ -288,4 +288,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		// No need to hard code count
 		return 0;
 	}
+
+	@Override
+	public int getFlightSearchProgressImageResId() {
+		return 0;
+	}
 }
