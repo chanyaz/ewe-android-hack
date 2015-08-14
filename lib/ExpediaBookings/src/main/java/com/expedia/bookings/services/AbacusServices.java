@@ -19,51 +19,49 @@ import rx.Scheduler;
 import rx.Subscription;
 
 public class AbacusServices {
-	public static final long TIMEOUT_5_SECONDS = 5L;
-	public static final long TIMEOUT_DEFAULT = 15L;
-	private AbacusApi mApi;
-	private Gson mGson;
+	private AbacusApi api;
+	private Gson gson;
 
-	private Scheduler mObserveOn;
-	private Scheduler mSubscribeOn;
+	private Scheduler observeOn;
+	private Scheduler subscribeOn;
 
 	public AbacusServices(OkHttpClient client, String endpoint, Scheduler observeOn, Scheduler subscribeOn,
 		RestAdapter.LogLevel logLevel) {
-		mObserveOn = observeOn;
-		mSubscribeOn = subscribeOn;
+		this.observeOn = observeOn;
+		this.subscribeOn = subscribeOn;
 
-		mGson = new GsonBuilder().registerTypeAdapter(AbacusResponse.class, new PayloadDeserializer()).create();
+		gson = new GsonBuilder().registerTypeAdapter(AbacusResponse.class, new PayloadDeserializer()).create();
 
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
 			.setLogLevel(logLevel)
-			.setConverter(new GsonConverter(mGson))
+			.setConverter(new GsonConverter(gson))
 			.setClient(new OkClient(client))
 			.build();
 
-		mApi = adapter.create(AbacusApi.class);
+		api = adapter.create(AbacusApi.class);
 	}
 
 	public Subscription downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer) {
-		return downloadBucket(query, observer, TIMEOUT_DEFAULT, TimeUnit.SECONDS);
+		return downloadBucket(query, observer, 15, TimeUnit.SECONDS);
 	}
 
 	public Subscription downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer, long timeout, TimeUnit timeUnit) {
-		return mApi.evaluateExperiments(query.guid, query.eapid, query.tpid, query.evaluatedExperiments)
-			.observeOn(mObserveOn)
-			.subscribeOn(mSubscribeOn)
+		return api.evaluateExperiments(query.guid, query.eapid, query.tpid, query.evaluatedExperiments)
+			.observeOn(observeOn)
+			.subscribeOn(subscribeOn)
 			.timeout(timeout, timeUnit)
 			.subscribe(observer);
 	}
 
 	public Subscription logExperiment(AbacusLogQuery query) {
-		return mApi.logExperiment(query)
-			.observeOn(mObserveOn)
-			.subscribeOn(mSubscribeOn)
-			.subscribe(mAbacusLogObserver);
+		return api.logExperiment(query)
+			.observeOn(observeOn)
+			.subscribeOn(subscribeOn)
+			.subscribe(emptyObserver);
 	}
 
-	private Observer<AbacusLogResponse> mAbacusLogObserver = new Observer<AbacusLogResponse>() {
+	private final static Observer<AbacusLogResponse> emptyObserver = new Observer<AbacusLogResponse>() {
 		@Override
 		public void onCompleted() {
 			//Ignore

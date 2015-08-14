@@ -347,7 +347,7 @@ public class RecyclerGallery extends RecyclerView {
 
 		private int getPadding() {
 			if (mMode == MODE_FILL) {
-				return 20;
+				return 1;
 			}
 			else {
 				Point screen = Ui.getScreenSize(getContext());

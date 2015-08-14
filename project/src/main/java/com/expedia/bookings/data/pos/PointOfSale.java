@@ -17,7 +17,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -31,6 +30,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -48,7 +48,6 @@ import com.mobiata.android.util.SettingUtils;
  * You MUST call init() before using this (suggested usage: call in Application)
  */
 public class PointOfSale {
-
 	/**
 	 * This enum defines the different types of fields required for hotels checkout.
 	 */
@@ -57,8 +56,6 @@ public class PointOfSale {
 		POSTAL_CODE,
 		ALL,
 	}
-
-	public static final String ACTION_POS_CHANGED = "com.expedia.bookings.action.pos_changed";
 
 	private static final int INVALID_SITE_ID = -1;
 
@@ -156,6 +153,12 @@ public class PointOfSale {
 
 	// Should we show strikethrough prices on half-width launch tiles for this POS?
 	private boolean mShowHalfTileStrikethroughPrice;
+
+	// Should we show free cancellation of flights for this POS?
+	private boolean mShowFlightsFreeCancellation;
+
+	// Should we show the marketing opt in checkbox
+	private MarketingOptIn mMarketingOptIn;
 
 	private static boolean mIsTablet;
 
@@ -458,6 +461,9 @@ public class PointOfSale {
 
 		// directly gives the forgot_password Url for the POS
 		private String mForgotPasswordUrl;
+
+		// Account creation marketing text
+		private String mMarketingText;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -571,25 +577,35 @@ public class PointOfSale {
 		return mHideMiddleName;
 	}
 
-	public boolean supportsFlights() {
-		return mSupportsFlights;
-	}
 
 	public boolean supportsGDE() {
 		return mSupportsGDE;
 	}
 
-	public boolean supportsCars() {
-		return mSupportsCars && !mIsTablet;
-	}
+	public boolean supports(LineOfBusiness lob) {
+		switch (lob) {
+		case CARS:
+			return mSupportsCars && !mIsTablet;
+		case LX:
+			return mSupportsLx && !mIsTablet;
+		case FLIGHTS:
+			return mSupportsFlights;
+		case HOTELS:
+			return true;
 
-	public boolean supportsLx() {
-		return mSupportsLx && !mIsTablet;
+		}
+
+		return false;
 	}
 
 	public boolean supportsStrikethroughPrice() {
 		return mShowHalfTileStrikethroughPrice;
 	}
+
+	public boolean supportsFlightsFreeCancellation() {
+		return mShowFlightsFreeCancellation;
+	}
+
 	/**
 	 * Helper method to determine if flights are enabled and if we need to even
 	 * kick off a flight search - TABLETS ONLY.
@@ -683,6 +699,18 @@ public class PointOfSale {
 
 	public boolean isDisabledForProduction() {
 		return mDisableForProduction;
+	}
+
+	public boolean shouldShowMarketingOptIn() {
+		return mMarketingOptIn != MarketingOptIn.DO_NOT_SHOW && mMarketingOptIn != MarketingOptIn.DO_NOT_SHOW_AUTO_ENROLL;
+	}
+
+	public boolean shouldEnableMarketingOptIn() {
+		return mMarketingOptIn == MarketingOptIn.SHOW_CHECKED || mMarketingOptIn == MarketingOptIn.DO_NOT_SHOW_AUTO_ENROLL;
+	}
+
+	public String getMarketingText() {
+		return getPosLocale().mMarketingText;
 	}
 
 	/**
@@ -924,10 +952,6 @@ public class PointOfSale {
 			Db.deleteCachedFlightRoutes(context);
 		}
 
-		// Notify app of POS change
-		Intent intent = new Intent(ACTION_POS_CHANGED);
-		context.sendBroadcast(intent);
-
 		Log.d("New POS id: " + sCachedPOS);
 	}
 
@@ -1051,6 +1075,9 @@ public class PointOfSale {
 		pos.mShouldShowFTCResortRegulations = data.optBoolean("shouldShowFTCResortRegulations", false);
 		pos.mDisableForProduction = data.optBoolean("disableForProduction", false);
 		pos.mShowHalfTileStrikethroughPrice = data.optBoolean("launchScreenStrikethroughEnabled", false);
+		pos.mShowFlightsFreeCancellation = data.optBoolean("shouldShowFlightsFreeCancellation", false);
+		pos.mMarketingOptIn = MarketingOptIn
+			.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
@@ -1139,7 +1166,7 @@ public class PointOfSale {
 		locale.mLanguageCode = data.optString("languageCode", null);
 		locale.mLanguageId = data.optInt("languageIdentifier");
 		locale.mForgotPasswordUrl = data.optString("forgotPasswordURL", null);
-
+		locale.mMarketingText = data.optString("createAccountMarketingText");
 		// Fix one thing with the iOS-based data...
 		if ("zh-Hant".equals(locale.mLanguageCode)) {
 			locale.mLanguageCode = "zh";
@@ -1192,5 +1219,12 @@ public class PointOfSale {
 
 	public static boolean countryPaymentRequiresPostalCode(String localeIdentifier) {
 		return !sExpediaPaymentPostalCodeOptionalCountries.contains(localeIdentifier);
+	}
+
+	public enum MarketingOptIn {
+		DO_NOT_SHOW_AUTO_ENROLL,
+		SHOW_CHECKED,
+		SHOW_UNCHECKED,
+		DO_NOT_SHOW
 	}
 }

@@ -21,9 +21,9 @@ public class RobolectricRunner extends RobolectricGradleTestRunner {
 
 	@Override
 	protected final AndroidManifest getAppManifest(Config config) {
-		FsFile mani = Fs.fileFromPath("../project/build/intermediates/manifests/full/expedia/debug/AndroidManifest.xml");
-		FsFile res = Fs.fileFromPath("../project/build/intermediates/res/expedia/debug/");
-		FsFile assets = Fs.fileFromPath("../project/build/intermediates/assets/expedia/debug/");
+		FsFile mani = Fs.fileFromPath("build/intermediates/manifests/full/expedia/debug/AndroidManifest.xml");
+		FsFile res = Fs.fileFromPath("build/intermediates/res/expedia/debug/");
+		FsFile assets = Fs.fileFromPath("build/intermediates/assets/expedia/debug/");
 
 		AndroidManifest manifest = new AndroidManifest(mani, res, assets);
 		manifest.setPackageName("com.expedia.bookings");

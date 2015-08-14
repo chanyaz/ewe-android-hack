@@ -42,16 +42,18 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical" >
 
-                        <include
-                            android:id="@+id/account_button_layout"
-                            android:layout_width="fill_parent"
+                        <com.expedia.bookings.widget.AccountButton
+                            android:id="@+id/account_button_root"
+                            style="@style/CarsCardView"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="16dp"
                             android:layout_marginLeft="1.5dp"
                             android:layout_marginRight="1.5dp"
                             android:layout_marginTop="4dp"
-                            layout="@layout/include_account_button" />
+                            android:orientation="vertical"
+                            android:paddingTop="@dimen/account_button_margin_top" />
 
                         <include
                             android:id="@+id/wallet_button_layout"

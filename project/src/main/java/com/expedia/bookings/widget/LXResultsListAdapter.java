@@ -27,6 +27,7 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.mobiata.android.util.AndroidUtils;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
@@ -180,7 +181,8 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 				duration.setVisibility(View.GONE);
 			}
 
-			String url = Images.getLXImageURL(activity.imageUrl);
+			List<String> imageURLs = Images
+				.getLXImageURLBasedOnWidth(activity.getImages(), AndroidUtils.getDisplaySize(itemView.getContext()).x);
 			new PicassoHelper.Builder(itemView.getContext())
 				.setPlaceholder(R.drawable.results_list_placeholder)
 				.setError(R.drawable.itin_header_placeholder_activities)
@@ -188,7 +190,7 @@ public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 				.setTag(ROW_PICASSO_TAG)
 				.setTarget(target)
 				.build()
-				.load(url);
+				.load(imageURLs);
 
 		}
 

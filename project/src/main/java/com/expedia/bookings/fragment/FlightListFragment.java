@@ -32,6 +32,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.FlightLegSummarySection;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -175,6 +176,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		});
 
 		OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), mLegPosition);
+		AdTracker.trackPageLoadFlightSearchResults(mLegPosition);
 
 		return v;
 	}

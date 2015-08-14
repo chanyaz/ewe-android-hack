@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -72,6 +73,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	// (Tablet Checkout) Is the current Traveler being newly added. ONLY used when a user is logged in.
 	private boolean mIsNew;
+
+	private boolean mChangedPrimaryPassportCountry;
 
 	public enum Gender {
 		MALE, FEMALE, OTHER
@@ -227,13 +230,17 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public String getPrimaryPassportCountry() {
-		if (mPassportCountries == null || mPassportCountries.size() == 0) {
+		if (mPassportCountries == null || mPassportCountries.size() == 0 || Strings.isEmpty(mPassportCountries.get(0))) {
 			return null;
 		}
+
 		return mPassportCountries.get(0);
 	}
 
 	public List<String> getPassportCountries() {
+		if (mPassportCountries == null) {
+			return Collections.emptyList();
+		}
 		return mPassportCountries;
 	}
 
@@ -457,16 +464,20 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public void setPrimaryPassportCountry(String passportCountry) {
+		mChangedPrimaryPassportCountry = true;
 		if (mPassportCountries != null && mPassportCountries.size() > 0) {
 			boolean countryFound = false;
 
-			//See if the country is already in the list, if so set it as primary and move old primary
-			for (int i = 0; i < mPassportCountries.size(); i++) {
-				if (passportCountry.compareToIgnoreCase(mPassportCountries.get(i)) == 0) {
-					mPassportCountries.set(i, mPassportCountries.get(0));
-					mPassportCountries.set(0, passportCountry);
-					countryFound = true;
-					break;
+			// See if the country is already in the list, if so set it as primary and move old primary
+			if (passportCountry != null) {
+				for (int i = 0; i < mPassportCountries.size(); i++) {
+					String pCountry = mPassportCountries.get(i);
+					if (pCountry != null && passportCountry.compareToIgnoreCase(pCountry) == 0) {
+						mPassportCountries.set(i, mPassportCountries.get(0));
+						mPassportCountries.set(0, passportCountry);
+						countryFound = true;
+						break;
+					}
 				}
 			}
 
@@ -613,6 +624,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 			obj.putOpt("isNew", mIsNew);
 
+			obj.putOpt("isChangedPrimaryPassportCountry", mChangedPrimaryPassportCountry);
+
 			return obj;
 		}
 		catch (JSONException e) {
@@ -662,6 +675,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mIsSelectable = obj.optBoolean("isSelectable");
 
 		mIsNew = obj.optBoolean("isNew");
+
+		mChangedPrimaryPassportCountry = obj.optBoolean("isChangedPrimaryPassportCountry");
 
 		return true;
 	}
@@ -862,5 +877,9 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public void setAge(int age) {
 		mAge = age;
+	}
+
+	public boolean isChangedPrimaryPassportCountry() {
+		return mChangedPrimaryPassportCountry;
 	}
 }

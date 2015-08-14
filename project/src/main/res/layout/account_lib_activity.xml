@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.expedia.account.PanningImageView
+        android:id="@+id/parallax_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <com.expedia.account.AccountView
+        android:id="@+id/account_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/login_extension_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/extender_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/facebook_email_denied_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/user_denied_permission_email_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="0"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:textStyle="light" />
+
+        <Button
+            android:id="@+id/try_facebook_again"
+            style="@style/LoginFormButton"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_facebook_signin"
+            android:gravity="center"
+            android:text="@string/authorize_email_facebook_button" />
+
+        <Button
+            android:id="@+id/try_facebook_again_cancel"
+            style="@style/LoginFormButton"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/btn_cancel"
+            android:gravity="center"
+            android:text="@string/cancel" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/facebook_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/login_status_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:bufferType="spannable"
+            android:textColor="#f3f3f3"
+            android:textSize="18sp" />
+
+        <View
+            android:id="@+id/login_status_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_divider_height"
+            android:background="#5CFFFFFF" />
+
+        <EditText
+            android:id="@+id/link_password_edit_text"
+            style="@style/LoginFormEditText"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/link_accounts_button"
+            style="@style/LoginFormButton"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/btn_link"
+            android:gravity="center"
+            android:text="@string/link_accounts" />
+
+        <Button
+            android:id="@+id/cancel_link_accounts_button"
+            style="@style/LoginFormButton"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/btn_cancel"
+            android:gravity="center"
+            android:text="@string/cancel" />
+    </LinearLayout>
+
+</FrameLayout>

@@ -22,6 +22,7 @@ import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.mobiata.flightlib.data.Airport;
+import com.squareup.phrase.Phrase;
 
 public class LXDataUtils {
 	private static final String RULES_RESTRICTIONS_URL_PATH = "Checkout/LXRulesAndRestrictions?tripid=";
@@ -268,9 +269,10 @@ public class LXDataUtils {
 		return e3EndpointUrl + RULES_RESTRICTIONS_URL_PATH + tripId;
 	}
 
-	public static String getCancelationPolicyDisplayText(Context context, String cancellationPolicyTextFromAPIResponse) {
-		if (Strings.isNotEmpty(cancellationPolicyTextFromAPIResponse)) {
-			return String.format(context.getString(R.string.cancellation_policy_TEMPLATE), StrUtils.stripHTMLTags(cancellationPolicyTextFromAPIResponse));
+	public static String getCancelationPolicyDisplayText(Context context, int freeCancellationMinHours) {
+		if (freeCancellationMinHours > 0) {
+			return Phrase.from(context, R.string.lx_cancellation_policy_TEMPLATE)
+				.put("hours", freeCancellationMinHours).format().toString();
 		}
 		else {
 			return context.getString(R.string.lx_policy_non_cancellable);
@@ -293,5 +295,13 @@ public class LXDataUtils {
 			searchParams.filters(data.getQueryParameter("filters"));
 		}
 		return searchParams;
+	}
+
+	public static boolean isActivityGT(List<String> activityCategories) {
+		if (CollectionUtils.isNotEmpty(activityCategories)) {
+			return activityCategories.contains("Private Transfers") || activityCategories.contains("Shared Transfers");
+		}
+
+		return false;
 	}
 }

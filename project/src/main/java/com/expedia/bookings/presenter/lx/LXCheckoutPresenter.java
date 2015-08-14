@@ -131,11 +131,15 @@ public class LXCheckoutPresenter extends Presenter {
 
 		@Override
 		public void onNext(LXCheckoutResponse lxCheckoutResponse) {
+			checkoutDialog.dismiss();
 			if (lxCheckoutResponse == null) {
 				showErrorScreen(null);
 			}
+			else if (lxCheckoutResponse.hasPriceChange()) {
+				Events.post(new Events.LXUpdateCheckoutSummaryAfterPriceChange(lxCheckoutResponse));
+				showErrorScreen(lxCheckoutResponse.getFirstError());
+			}
 			else {
-				checkoutDialog.dismiss();
 				Events.post(new Events.LXCheckoutSucceeded(lxCheckoutResponse));
 				// Add guest itin to itin manager
 				refreshGuestTrip(lxCheckoutResponse);
@@ -164,6 +168,7 @@ public class LXCheckoutPresenter extends Presenter {
 			super.finalizeTransition(forward);
 			if (!forward) {
 				checkout.slideWidget.resetSlider();
+				checkout.isCheckoutComplete();
 			}
 		}
 	};
@@ -171,6 +176,10 @@ public class LXCheckoutPresenter extends Presenter {
 	 * Events
 	 */
 
+	@Subscribe
+	public void showPriceChange(Events.LXShowCheckoutAfterPriceChange event) {
+		show(checkout, FLAG_CLEAR_TOP);
+	}
 
 	@Subscribe
 	public void onShowCVV(Events.ShowCVV event) {

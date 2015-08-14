@@ -14,16 +14,16 @@
         android:paddingBottom="8dp"
         app:calendarBaseColor="@color/cars_valid_days_calendar"
         app:calendarDaySelectionFillColor="@android:color/white"
-        app:calendarDaysOfWeekColor="@color/cars_primary_color"
-        app:calendarHeaderTextColor="@color/cars_primary_color"
+        app:calendarDaysOfWeekColor="?attr/skin_carsPrimaryColor"
+        app:calendarHeaderTextColor="?attr/skin_carsPrimaryColor"
         app:calendarHeaderTextSize="16dp"
-        app:calendarHighlightColor="@color/cars_primary_color"
-        app:calendarHighlightInverseColor="@color/cars_primary_color"
+        app:calendarHighlightColor="?attr/skin_carsPrimaryColor"
+        app:calendarHighlightInverseColor="?attr/skin_carsPrimaryColor"
         app:calendarInvalidDaysColor="@color/cars_invalid_days_calendar"
         app:calendarLayout="@layout/calendar_cars_lx_layout"
         app:calendarSecondaryColor="@color/cars_valid_days_calendar"
-        app:calendarTodayColor="@color/cars_primary_color"
-        app:calendarWeekSelectionColor="@color/cars_primary_color" />
+        app:calendarTodayColor="?attr/skin_carsPrimaryColor"
+        app:calendarWeekSelectionColor="?attr/skin_carsPrimaryColor" />
 
     <View
         android:id="@+id/slider_shadow"
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/cars_primary_color"
+        android:background="?attr/skin_carsPrimaryColor"
         android:paddingBottom="12dp"
         android:paddingTop="12dp">
 
@@ -51,7 +51,6 @@
             android:layout_toLeftOf="@+id/pickup_time_seek_bar"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
-            android:paddingRight="4dp"
             android:text="@string/pick_up_time_label"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
@@ -76,7 +75,7 @@
             android:layout_alignTop="@+id/dropoff_time_seek_bar"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
-            android:paddingRight="4dp"
+            android:layout_marginRight="5dp"
             android:text="@string/drop_off_time_label"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
@@ -146,7 +145,7 @@
             android:layout_marginRight="13dp"
             android:adjustViewBounds="true"
             android:src="@drawable/toolbar_arrow"
-            android:tint="@color/cars_tooltip_color" />
+            android:tint="?attr/skin_carsTooltipColor" />
 
     </LinearLayout>
 

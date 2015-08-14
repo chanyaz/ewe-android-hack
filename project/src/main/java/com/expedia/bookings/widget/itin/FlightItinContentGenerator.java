@@ -37,7 +37,6 @@ import com.expedia.bookings.activity.TerminalMapActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.AirlineCheckInIntervals;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.FlightConfirmation;
@@ -69,7 +68,6 @@ import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
-import com.mobiata.flightlib.utils.AddFlightsIntentUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 
@@ -684,13 +682,6 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		Intent intent = new Intent(Intent.ACTION_VIEW, airportUri);
 
 		return intent;
-	}
-
-	public Intent getShareWithFlightTrackIntent() {
-		ItinCardDataFlight cardData = getItinCardData();
-		FlightTrip flightTrip = ((TripFlight) cardData.getTripComponent()).getFlightTrip();
-		List<Flight> flights = flightTrip.getLeg(cardData.getLegNumber()).getSegments();
-		return AddFlightsIntentUtils.getIntent(flights);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

@@ -298,8 +298,8 @@
     <declare-styleable name="PhoneLaunchButton">
         <!-- Button text -->
         <attr name="btn_text" format="string" />
-        <!-- Button color -->
-        <attr name="btn_bg" format="reference" />
+        <!--Button color -->
+        <attr name="btn_bg" format="color"/>
         <!-- Button icon -->
         <attr name="btn_icon" format="reference"/>
         <!-- Minimum scale factor for icon -->

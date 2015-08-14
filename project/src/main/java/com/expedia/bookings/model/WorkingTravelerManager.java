@@ -90,7 +90,6 @@ public class WorkingTravelerManager {
 			commitTrav.setIsNew(false);
 		}
 		Db.getTravelers().set(travelerNumber, commitTrav);
-		Db.setTravelersAreDirty(true);
 		return commitTrav;
 	}
 

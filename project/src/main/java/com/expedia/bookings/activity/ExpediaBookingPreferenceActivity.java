@@ -30,9 +30,9 @@ import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivate
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.MockModeShim;
-import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+import com.squareup.phrase.Phrase;
 
 public class ExpediaBookingPreferenceActivity extends PreferenceActivity implements ClearPrivateDataListener {
 	public static final int RESULT_NO_CHANGES = 1;
@@ -157,7 +157,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 		if (key.equals(getString(R.string.preference_force_fs_db_update))) {
 			try {
 				FlightStatsDbUtils.setUpgradeCutoff(0);
-				FlightStatsDbUtils.createDatabaseIfNotExists(this);
+				FlightStatsDbUtils.createDatabaseIfNotExists(this, BuildConfig.RELEASE);
 			}
 			catch (IOException e) {
 				Log.w("Could not force update FS.db", e);
@@ -192,7 +192,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 		case DIALOG_CLEAR_DATA_SIGNED_OUT: {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.dialog_title_signed_out_and_cleared_private_data);
-			builder.setMessage(Ui.obtainThemeResID(this, R.attr.skin_clearPrivateDataMsg));
+			builder.setMessage(Phrase.from(this, R.string.dialog_message_signed_out_and_cleared_private_data_TEMPLATE).put("brand", BuildConfig.brand).format());
 			builder.setOnCancelListener(new OnCancelListener() {
 				@Override
 				public void onCancel(DialogInterface dialog) {

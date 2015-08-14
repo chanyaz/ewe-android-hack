@@ -18,8 +18,8 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScre
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Checkout;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 public class CreditCardsInfoEditTest extends PhoneTestCase {
 

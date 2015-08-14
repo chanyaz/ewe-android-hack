@@ -14,6 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -26,7 +27,6 @@ public class LXSearchResultsWidget extends FrameLayout {
 	}
 
 	private static final int LIST_DIVIDER_HEIGHT = 12;
-
 	private static final int CARDS_FOR_LOADING_ANIMATION = 3;
 
 	@InjectView(R.id.lx_search_results_list)
@@ -47,9 +47,12 @@ public class LXSearchResultsWidget extends FrameLayout {
 		layoutManager.scrollToPosition(0);
 		recyclerView.setLayoutManager(layoutManager);
 
+		//  Footer : Height of filter view container to make the view scrollable.
+		int filterViewHeight = (int) getResources().getDimension(R.dimen.lx_sort_filter_container_height);
+
 		recyclerView.addItemDecoration(
 			new RecyclerDividerDecoration(getContext(), 0, LIST_DIVIDER_HEIGHT, 0, LIST_DIVIDER_HEIGHT,
-				0, 0, false));
+				0, filterViewHeight, false));
 		recyclerView.setHasFixedSize(true);
 
 		adapter = new LXResultsListAdapter();
@@ -91,6 +94,13 @@ public class LXSearchResultsWidget extends FrameLayout {
 		errorScreen.setVisibility(View.GONE);
 		List<LXActivity> elements = createDummyListForAnimation();
 		adapter.setDummyActivities(elements);
+	}
+
+	@Subscribe
+	public void onLXSearchFilterResultsReady(Events.LXSearchFilterResultsReady event) {
+		if (CollectionUtils.isNotEmpty(event.filteredActivities)) {
+			adapter.setActivities(event.filteredActivities);
+		}
 	}
 
 	// Create list to show cards for loading animation

@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
@@ -34,6 +35,7 @@ import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 import com.expedia.bookings.widget.SlidingRadioGroup;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
+import com.squareup.phrase.Phrase;
 
 public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListView.OnScrollListener {
 
@@ -113,7 +115,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		mFooterTextView.setVisibility(View.GONE);
 
 		// Hide the header if this is not the tablet
-		if (!AndroidUtils.isHoneycombTablet(getActivity())) {
+		if (!AndroidUtils.isTablet(getActivity())) {
 			Ui.findView(view, R.id.header_layout).setVisibility(View.GONE);
 		}
 
@@ -186,7 +188,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 			Db.getHotelSearch().removeProperty(selectedId);
 
 			HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-			dialog.setMessage(Ui.obtainThemeResID(getActivity(), R.attr.skin_sorryRoomsSoldOutErrorMessage));
+			dialog.setMessage(Phrase.from(getActivity(), R.string.error_hotel_is_now_sold_out_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 			dialog.show(getFragmentManager(), "soldOutDialog");
 
 			mEmptyTextView.setText(R.string.error_no_hotel_rooms_available);
@@ -231,7 +233,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 			: View.GONE);
 
 		// Disable highlighting if we're on phone UI
-		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(getActivity()));
+		mAdapter.highlightSelectedPosition(AndroidUtils.isTablet(getActivity()));
 
 		CharSequence commonValueAdds = response.getCommonValueAddsString(getActivity());
 		if (commonValueAdds != null) {

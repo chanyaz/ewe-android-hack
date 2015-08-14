@@ -32,7 +32,9 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
+import com.facebook.AppEventsLogger;
 import com.squareup.phrase.Phrase;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -83,22 +85,24 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok);
 		}
 
-		OmnitureTracking.trackPageLoadLaunchScreen(this, null);
+		OmnitureTracking.trackPageLoadLaunchScreen(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		AppEventsLogger.activateApp(this);
 		Events.register(this);
 		Sp.loadSearchParamsFromDisk(this);
 		LaunchDb.getCollections(this);
 		OmnitureTracking.onResume(this);
+		TuneUtils.startTune(this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+		AppEventsLogger.deactivateApp(this);
 		OmnitureTracking.onPause();
 		Events.unregister(this);
 	}

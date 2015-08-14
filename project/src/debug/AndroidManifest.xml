@@ -13,7 +13,7 @@
         </activity>
 
         <activity
-            android:name="com.expedia.bookings.ui.HotelActivity"
+            android:name="com.expedia.ui.HotelActivity"
             android:taskAffinity="com.expedia.bookings.ui.HotelActivity"
             android:label="New Hotels"
             android:theme="@style/V2.Theme.Hotels" >

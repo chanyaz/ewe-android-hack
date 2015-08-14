@@ -94,8 +94,8 @@ import com.expedia.bookings.fragment.FusedLocationProviderFragment;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
-import com.expedia.bookings.maps.HotelMapFragment;
-import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
+import com.expedia.bookings.fragment.HotelMapFragment;
+import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdImpressionTracking;
@@ -130,6 +130,7 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.SegmentedControlGroup;
+import com.squareup.phrase.Phrase;
 
 public class HotelSearchActivity extends FragmentActivity implements OnDrawStartedListener,
 	HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
@@ -368,7 +369,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private void loadHotelOffers(HotelOffersResponse offersResponse) {
 		if (offersResponse == null) {
 			Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
-			simulateErrorResponse(Ui.obtainThemeResID(this, R.attr.skin_serverErrorMessageString));
+			simulateErrorResponse(
+				Phrase.from(HotelSearchActivity.this, R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand)
+					.format().toString());
 		}
 		else if (offersResponse.isHotelUnavailable()) {
 			// Start an info call, so we can show an unavailable hotel
@@ -377,7 +380,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			bd.startDownload(KEY_HOTEL_INFO, mHotelInfoDownload, mHotelInfoCallback);
 		}
 		else if (offersResponse.hasErrors()) {
-			String message = getString(Ui.obtainThemeResID(this, R.attr.skin_serverErrorMessageString));
+			String message = Phrase.from(HotelSearchActivity.this, R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format().toString();
 			for (ServerError error : offersResponse.getErrors()) {
 				message = error.getPresentableMessage(HotelSearchActivity.this);
 			}
@@ -405,7 +408,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 		else {
 			Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
-			simulateErrorResponse(Ui.obtainThemeResID(this, R.attr.skin_serverErrorMessageString));
+			simulateErrorResponse(
+				Phrase.from(HotelSearchActivity.this, R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 		}
 	}
 
@@ -453,10 +457,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 			broadcastSearchCompleted();
 			hideLoading();
-
-			// Save the timestamp in memory and on disk
-			mLastSearchTime = DateTime.now();
-			Db.saveHotelSearchTimestamp(this);
 
 			// 1940: If we had a successful search, don't let past failures re-start a search next time
 			mStartSearchOnResume = false;
@@ -514,28 +514,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchEditText.setAdapter(mSearchSuggestionAdapter);
 
-		// AB test - Changing hotel search influence messaging text
-		// AbacusUtils.HSearchInfluenceMessagingVariate
-		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest);
-		int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest);
-		if (isUserBucketedForTest) {
-			if (testVariate == AbacusUtils.HSearchInfluenceMessagingVariate.WORKING_HARD.ordinal()) {
-				searchInfluenceTextResId = R.string.progress_searching_hotels_working_hard;
-				mProgressSearchingABText.setVisibility(View.VISIBLE);
-				mIsProgressSearchABTextVisible = true;
-			}
-			else if (testVariate == AbacusUtils.HSearchInfluenceMessagingVariate.SEARCHING_HUNDREDS.ordinal()) {
-				searchInfluenceTextResId = R.string.progress_searching_hotels_hundreds;
-			}
-			else if (testVariate == AbacusUtils.HSearchInfluenceMessagingVariate.NO_TEXT.ordinal()) {
-				searchInfluenceTextResId = 0;
-			}
-			mProgressText.setGravity(Gravity.TOP | Gravity.CENTER);
-		}
-		else {
-			searchInfluenceTextResId = R.string.progress_searching_hotels;
-			mProgressText.setGravity(Gravity.BOTTOM | Gravity.CENTER);
-		}
+		searchInfluenceTextResId = R.string.progress_searching_hotels_hundreds;
+		mProgressText.setGravity(Gravity.TOP | Gravity.CENTER);
 
 		boolean startNewSearch = getIntent().getBooleanExtra(EXTRA_NEW_SEARCH, false);
 		boolean hasExternalSearchParams = getIntent().hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
@@ -544,9 +524,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			Db.clear();
 			// Remove it so we don't keep doing this on rotation
 			getIntent().removeExtra(EXTRA_NEW_SEARCH);
-		}
-		else if (!hasExternalSearchParams) {
-			Db.loadHotelSearchFromDisk(this);
 		}
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -736,20 +713,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mIsActivityResumed = true;
 
 		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-
-		// If the configuration isn't changing but we are stopping this activity, save the search params
-		boolean configChange = isChangingConfigurations();
-		if (!configChange) {
-			// Save here to prevent saving to disk all the time. This will only save to disk when the user
-			// is leaving the screen. Moreover, waiting until now to save to disk will ensure HotelSearch
-			// contains a selected property.
-			Db.kickOffBackgroundHotelSearchSave(this);
-		}
 	}
 
 	@Override
@@ -1489,8 +1452,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		bd.cancelDownload(KEY_HOTEL_SEARCH);
 		bd.cancelDownload(KEY_HOTEL_INFO);
 		bd.cancelDownload(KEY_LOADING_PREVIOUS);
-
-		Db.deleteHotelSearchData(this);
 
 		buildFilter();
 		commitEditedSearchParams();

@@ -49,7 +49,7 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		setDisplayType(displayType);
 	}
 
-	private void setDisplayType(CountryDisplayType displayType) {
+	protected void setDisplayType(CountryDisplayType displayType) {
 		mDisplayType = displayType;
 
 		final Resources res = mContext.getResources();
@@ -59,14 +59,21 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		for (int i = 0; i < twoLetterCountryCodes.length; i++) {
 			threeLetterCountryCodes[i] = LocaleUtils.convertCountryCode(twoLetterCountryCodes[i]);
 		}
-
-		mCountries = new CountryNameData[countryNames.length];
-		for (int i = 0; i < countryNames.length; i++) {
-			mCountries[i] = new CountryNameData(countryNames[i], twoLetterCountryCodes[i], threeLetterCountryCodes[i]);
-		}
+		mCountries = buildCountriesDataSet(countryNames, twoLetterCountryCodes, threeLetterCountryCodes);
 
 		CountryNameDataComparator comparator = new CountryNameDataComparator(displayType);
 		Arrays.sort(mCountries, comparator);
+	}
+
+	protected CountryNameData[] buildCountriesDataSet(String[] countryNames, String[] twoLetterCountryCodes,
+		String[] threeLetterCountryCodes) {
+		int countriesLength = countryNames.length;
+		CountryNameData[] mCountries = new CountryNameData[countriesLength];
+		for (int i = 0; i < countriesLength; i++) {
+			mCountries[i] = new CountryNameData(countryNames[i], twoLetterCountryCodes[i], threeLetterCountryCodes[i]);
+		}
+
+		return mCountries;
 	}
 
 	@Override
@@ -113,7 +120,7 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	private static class ViewHolder {
+	public static class ViewHolder {
 		public TextView text;
 
 		public ViewHolder(View view) {
@@ -143,7 +150,7 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		return -1;
 	}
 
-	private static class CountryNameData {
+	public static class CountryNameData {
 		String mName;
 		String mTwoLetter;
 		String mThreeLetter;

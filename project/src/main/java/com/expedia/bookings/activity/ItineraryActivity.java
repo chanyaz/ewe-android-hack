@@ -27,7 +27,7 @@ import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentLi
 import com.expedia.bookings.fragment.ItinMapFragment;
 import com.expedia.bookings.fragment.ItinMapFragment.ItineraryMapFragmentListener;
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutListener;
-import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
+import com.expedia.bookings.fragment.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;

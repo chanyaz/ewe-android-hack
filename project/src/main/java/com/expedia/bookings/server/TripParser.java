@@ -502,8 +502,8 @@ public class TripParser {
 	private Insurance parseTripInsurance(JSONObject obj) {
 		Insurance retVal = new Insurance();
 
-		if (obj.has("name")) {
-			retVal.setPolicyName(obj.optString("name", null));
+		if (obj.has("displayName")) {
+			retVal.setPolicyName(obj.optString("displayName", null));
 			retVal.setTermsUrl(obj.optString("termsURL", null));
 			retVal.setInsuranceLineOfBusiness(obj.optString("lineOfBusiness", ""));
 		}

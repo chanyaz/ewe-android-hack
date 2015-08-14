@@ -210,6 +210,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		else {
 			mFields.setFieldEnabled(mEditEmailAddress, true);
 		}
+		onChange();
 	}
 
 	private void setPhoneContainerVisibility(int visibility) {
@@ -392,8 +393,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			if (TextUtils.isEmpty(data.getPrimaryPassportCountry())) {
 				field.setText("");
 			}
-			else {
-				//TODO: Slow but it already has all the data we need... sigh...
+			else { // set primary passport country
 				CountrySpinnerAdapter adapter = new CountrySpinnerAdapter(getContext(), CountryDisplayType.FULL_NAME);
 				int pos = adapter.getPositionByCountryThreeLetterCode(data.getPrimaryPassportCountry());
 				if (pos > 0) {
@@ -403,6 +403,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					field.setText("");
 				}
 			}
+			onChange();
 		}
 	};
 
@@ -996,7 +997,21 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		Validator<Spinner> mValidator = new Validator<Spinner>() {
 			@Override
 			public int validate(Spinner obj) {
-				return ValidationError.NO_ERROR;
+				if (getData() == null) {
+					return ValidationError.ERROR_DATA_MISSING;
+				}
+
+				boolean hasMoreThanOnePassport = (getData().getPassportCountries().size() > 1);
+				if (obj.getSelectedItemPosition() == 0 || getData().getPrimaryPassportCountry() == null) {
+					return ValidationError.ERROR_DATA_MISSING;
+				}
+				else if (hasMoreThanOnePassport && !getData().isChangedPrimaryPassportCountry()) {
+					// customer has more than one passport && they haven't selected a passport
+					return ValidationError.ERROR_DATA_MISSING;
+				}
+				else {
+					return ValidationError.NO_ERROR;
+				}
 			}
 		};
 
@@ -1037,19 +1052,48 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		@Override
 		protected void onHasFieldAndData(Spinner field, Traveler data) {
-			if (mCountryAdapter != null && !TextUtils.isEmpty(data.getPrimaryPassportCountry())) {
-				for (int i = 0; i < mCountryAdapter.getCount(); i++) {
-					if (mCountryAdapter.getItemValue(i, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
-						data.getPrimaryPassportCountry())) {
-						getField().setSelection(i);
-						break;
+			getField().setSelection(0, false);
+			onChange(SectionTravelerInfo.this);
+
+			boolean travelerHasMultiplePassports = (data.getPassportCountries().size() > 1);
+			if (!travelerHasMultiplePassports) {
+				// only auto-populate passport country spinner/drop down when traveler has 1 or no stored passports
+
+				if (mCountryAdapter != null && !TextUtils.isEmpty(data.getPrimaryPassportCountry())) {
+					for (int i = 0; i < mCountryAdapter.getCount(); i++) {
+						if (mCountryAdapter.getItemValue(i, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
+							data.getPrimaryPassportCountry())) {
+							getField().setSelection(i);
+							break;
+						}
 					}
 				}
+				else if (mCountryAdapter != null && mAutoChoosePassportCountry) {
+					int pos = mCountryAdapter.getDefaultLocalePosition();
+					getField().setSelection(pos);
+					getData().setPrimaryPassportCountry(mCountryAdapter.getItemValue(pos, CountryDisplayType.THREE_LETTER));
+				}
 			}
-			else if (mAutoChoosePassportCountry) {
-				int pos = mCountryAdapter.getDefaultLocalePosition();
-				getField().setSelection(pos);
-				getData().setPrimaryPassportCountry(mCountryAdapter.getItemValue(pos, CountryDisplayType.THREE_LETTER));
+			else { // traveler has multiple passports
+				boolean countrySelected = (field.getSelectedItemPosition() > 0);
+				boolean dataAndFieldMatch = mCountryAdapter.getItemValue(field.getSelectedItemPosition(), CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
+					data.getPrimaryPassportCountry()) && countrySelected;
+
+				if (!dataAndFieldMatch) {
+					if (data.isChangedPrimaryPassportCountry() && (data.getPrimaryPassportCountry() != null)) {
+						// use the primary passport country recently selected
+						for (int i = 0; i < mCountryAdapter.getCount(); i++) {
+							if (mCountryAdapter.getItemValue(i, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
+								data.getPrimaryPassportCountry())) {
+								getField().setSelection(i);
+								break;
+							}
+						}
+					}
+					else { // reset drop down to 0
+						getField().setSelection(0, false);
+					}
+				}
 			}
 		}
 
@@ -1072,15 +1116,27 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		Validator<ListView> mValidator = new Validator<ListView>() {
 			@Override
 			public int validate(ListView obj) {
-				if (obj.getCheckedItemPosition() != ListView.INVALID_POSITION) {
-					return ValidationError.NO_ERROR;
-				}
-				else if (getData() != null && getData().getPrimaryPassportCountry() != null) {
-					//referring to data instead of gui elements sort of breaks our paradigm, but meh
-					return ValidationError.NO_ERROR;
+				boolean hasMoreThanOnePassport = (getData().getPassportCountries().size() > 1);
+
+				if (hasMoreThanOnePassport) {
+					if (getData().isChangedPrimaryPassportCountry() && obj.getCheckedItemPosition() != ListView.INVALID_POSITION) {
+						return ValidationError.NO_ERROR;
+					}
+					else {
+						return ValidationError.ERROR_DATA_MISSING;
+					}
 				}
 				else {
-					return ValidationError.ERROR_DATA_MISSING;
+					if (obj.getCheckedItemPosition() != ListView.INVALID_POSITION) {
+						return ValidationError.NO_ERROR;
+					}
+					else if (getData() != null && getData().getPrimaryPassportCountry() != null) {
+						//referring to data instead of gui elements sort of breaks our paradigm, but meh
+						return ValidationError.NO_ERROR;
+					}
+					else {
+						return ValidationError.ERROR_DATA_MISSING;
+					}
 				}
 			}
 		};
@@ -1120,21 +1176,51 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		@Override
 		protected void onHasFieldAndData(ListView field, Traveler data) {
-			if (mCountryAdapter != null && !TextUtils.isEmpty(data.getPrimaryPassportCountry())) {
-				for (int i = 0; i < mCountryAdapter.getCount(); i++) {
-					if (mCountryAdapter.getItemValue(i, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
-						data.getPrimaryPassportCountry())) {
-						getField().setItemChecked(i, true);
-						getField().setSelection(i);
-						break;
+			getField().setSelection(AdapterView.INVALID_POSITION);
+			onChange(SectionTravelerInfo.this);
+
+			boolean travelerHasMultiplePassports = (data.getPassportCountries().size() > 1);
+			if (!travelerHasMultiplePassports) {
+				if (mCountryAdapter != null && !TextUtils.isEmpty(data.getPrimaryPassportCountry())) {
+					for (int i = 0; i < mCountryAdapter.getCount(); i++) {
+						if (mCountryAdapter.getItemValue(i, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
+							data.getPrimaryPassportCountry())) {
+							getField().setItemChecked(i, true);
+							getField().setSelection(i);
+							break;
+						}
 					}
 				}
+				else if (mAutoChoosePassportCountry) {
+					int pos = mCountryAdapter.getDefaultLocalePosition();
+					getField().setItemChecked(pos, true);
+					getField().setSelection(pos);
+					getData().setPrimaryPassportCountry(mCountryAdapter.getItemValue(pos, CountryDisplayType.THREE_LETTER));
+				}
 			}
-			else if (mAutoChoosePassportCountry) {
-				int pos = mCountryAdapter.getDefaultLocalePosition();
-				getField().setItemChecked(pos, true);
-				getField().setSelection(pos);
-				getData().setPrimaryPassportCountry(mCountryAdapter.getItemValue(pos, CountryDisplayType.THREE_LETTER));
+			else { // traveler has multiple passports
+				int countryIndex = (field.getSelectedItemPosition() == AdapterView.INVALID_POSITION) ? 0 : field.getSelectedItemPosition();
+				boolean dataAndFieldMatch = mCountryAdapter.getItemValue(countryIndex, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
+					data.getPrimaryPassportCountry());
+
+				if (!dataAndFieldMatch) {
+					if (data.isChangedPrimaryPassportCountry()) {
+						// use the primary passport country recently selected
+						for (int i = 0; i < mCountryAdapter.getCount(); i++) {
+							if (mCountryAdapter.getItemValue(i, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
+								data.getPrimaryPassportCountry())) {
+								getField().setSelection(i);
+								getField().setItemChecked(i, true);
+								break;
+							}
+						}
+					}
+					else {
+						getField().setSelection(AdapterView.INVALID_POSITION);
+						getField().setItemChecked(AdapterView.INVALID_POSITION, true);
+						onChange(SectionTravelerInfo.this);
+					}
+				}
 			}
 		}
 

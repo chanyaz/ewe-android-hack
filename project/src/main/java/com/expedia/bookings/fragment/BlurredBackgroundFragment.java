@@ -11,6 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.utils.Akeakamai;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
@@ -48,7 +49,7 @@ public class BlurredBackgroundFragment extends Fragment {
 	}
 
 	public void loadBitmapFromCache() {
-		if (getActivity() == null) {
+		if (FragmentBailUtils.shouldBail(getActivity())) {
 			return;
 		}
 

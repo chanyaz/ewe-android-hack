@@ -14,6 +14,8 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ValidPayment;
+import com.expedia.bookings.enums.MerchandiseSpam;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 
 public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripResponse> {
@@ -50,6 +52,10 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 			createTripResponse.setTripId(response.optString("tripId", null));
 			createTripResponse.setUserId(response.optString("userId", null));
 			createTripResponse.setTealeafId(response.optString("tealeafTransactionId", null));
+			String merchandiseSpamString = response.optString("guestUserPromoEmailOptInStatus", null);
+			if (Strings.isNotEmpty(merchandiseSpamString)) {
+				createTripResponse.setMerchandiseSpam(MerchandiseSpam.valueOf(merchandiseSpamString));
+			}
 
 			JSONObject newHotelResponse = response.getJSONObject("newHotelProductResponse");
 			JSONObject originalHotelResponse = response.getJSONObject("originalHotelProductResponse");

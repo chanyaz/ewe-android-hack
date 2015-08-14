@@ -7,10 +7,12 @@ import javax.inject.Inject;
 
 import org.joda.time.LocalDate;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -30,6 +32,7 @@ import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -37,6 +40,7 @@ import butterknife.InjectView;
 
 public class LXActivityDetailsWidget extends ScrollView {
 
+	public static final int DURATION = 500;
 	@InjectView(R.id.activity_details_container)
 	LinearLayout activityContainer;
 
@@ -145,8 +149,9 @@ public class LXActivityDetailsWidget extends ScrollView {
 	private void buildGallery(ActivityDetailsResponse activityDetails) {
 		final List<LXMedia> mediaList = new ArrayList<LXMedia>();
 		for (int i = 0; i < activityDetails.images.size(); i++) {
-			String url = Images.getLXImageURL(activityDetails.images.get(i).url);
-			LXMedia media = new LXMedia(url);
+			List<String> imageURLs = Images
+				.getLXImageURLBasedOnWidth(activityDetails.images.get(i).getImages(), AndroidUtils.getDisplaySize(getContext()).x);
+			LXMedia media = new LXMedia(imageURLs);
 			mediaList.add(media);
 		}
 
@@ -194,7 +199,8 @@ public class LXActivityDetailsWidget extends ScrollView {
 			knowBeforeYouBook.bindData(getResources().getString(R.string.know_before_you_book_activity_details), knowBeforeYouBookContent, 0);
 			knowBeforeYouBook.setVisibility(View.VISIBLE);
 		}
-		String cancellationPolicyText = LXDataUtils.getCancelationPolicyDisplayText(getContext(), activityDetailsResponse.cancellationPolicyText);
+		String cancellationPolicyText = LXDataUtils
+			.getCancelationPolicyDisplayText(getContext(), activityDetailsResponse.freeCancellationMinHours);
 		cancellation.bindData(getResources().getString(R.string.cancellation_policy),
 			cancellationPolicyText, 0);
 		cancellation.setVisibility(View.VISIBLE);
@@ -233,26 +239,41 @@ public class LXActivityDetailsWidget extends ScrollView {
 	}
 
 	private void selectFirstDateWithAvailabilities(LocalDate startDate) {
-		int numOfDaysToDisplay = getResources().getInteger(R.integer.lx_default_search_range);
+		final int numOfDaysToDisplay = getResources().getInteger(R.integer.lx_default_search_range);
 		dateButtonWidth = (int) getResources().getDimension(R.dimen.lx_offer_dates_container_width);
+		int selectedDateX = 0;
 
 		for (int iDay = 0; iDay <= numOfDaysToDisplay; iDay++) {
 			if (offerDatesContainer.getChildAt(iDay).isEnabled()) {
 				RadioButton child = (RadioButton) offerDatesContainer.getChildAt(iDay);
 				child.setChecked(true);
 				buildOffersSection(startDate.plusDays(iDay));
-				dateButtonWidth = dateButtonWidth * iDay;
-				offerDatesScrollView.getViewTreeObserver().addOnGlobalLayoutListener(
-					new ViewTreeObserver.OnGlobalLayoutListener() {
-						@Override
-						public void onGlobalLayout() {
-							offerDatesScrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-							offerDatesScrollView.scrollTo(dateButtonWidth, 0);
-						}
-					});
+				selectedDateX = dateButtonWidth * iDay;
 				break;
 			}
 		}
+
+		// Scroll to end.
+		offerDatesScrollView.scrollTo((dateButtonWidth * numOfDaysToDisplay), 0);
+		offerDatesScrollView.getViewTreeObserver().addOnGlobalLayoutListener(
+			new ViewTreeObserver.OnGlobalLayoutListener() {
+				@Override
+				public void onGlobalLayout() {
+					offerDatesScrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					offerDatesScrollView.scrollTo(dateButtonWidth * numOfDaysToDisplay, 0);
+				}
+			});
+
+		final int finalSelectedDateX = selectedDateX;
+		// Scroll from end to the selected date.
+		postDelayed(new Runnable() {
+			public void run() {
+				ObjectAnimator scrollAnimation = ObjectAnimator.ofInt(offerDatesScrollView, "scrollX", finalSelectedDateX);
+				scrollAnimation.setDuration(DURATION);
+				scrollAnimation.setInterpolator(new DecelerateInterpolator());
+				scrollAnimation.start();
+			}
+		}, DURATION);
 	}
 
 	public float parallaxScrollHeader(int scrollY) {

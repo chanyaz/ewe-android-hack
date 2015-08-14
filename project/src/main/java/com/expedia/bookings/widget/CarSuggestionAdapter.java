@@ -10,8 +10,10 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.SuggestionServices;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -21,7 +23,7 @@ import rx.Subscription;
 public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 
 	protected Subscription getNearbySuggestions(String locale, String latLong, int siteId, Observer<List<Suggestion>> observer) {
-		return suggestionServices.getNearbyAirportSuggestions(locale, latLong, siteId, observer);
+		return suggestionServices.getNearbyCarSuggestions(locale, latLong, siteId, observer);
 	}
 
 	@Override
@@ -40,11 +42,11 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 	}
 
 	public static class CarSuggestionViewHolder {
-		@InjectView(R.id.display_name_textView)
-		TextView displayName;
+		@InjectView(R.id.location_title_textView)
+		TextView locationTitle;
 
-		@InjectView(R.id.airport_name_textView)
-		TextView airportName;
+		@InjectView(R.id.location_subtitle_textView)
+		TextView locationSubtitle;
 
 		@InjectView(R.id.cars_dropdown_imageView)
 		ImageView dropdownImage;
@@ -54,8 +56,14 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 		}
 
 		public void bind(Suggestion suggestion) {
-			airportName.setText(StrUtils.formatAirportName(suggestion.shortName));
-			displayName.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
+			if (suggestion.isMajorAirport()) {
+				locationTitle.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
+				locationSubtitle.setText(StrUtils.formatAirportName(suggestion.shortName));
+			}
+			else {
+				locationTitle.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
+				locationSubtitle.setText(suggestion.shortName);
+			}
 
 			if (suggestion.iconType == Suggestion.IconType.HISTORY_ICON) {
 				dropdownImage.setImageResource(R.drawable.recents);
@@ -64,15 +72,16 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 				dropdownImage.setImageResource(R.drawable.ic_suggest_current_location);
 			}
 			else {
-				dropdownImage.setImageResource(R.drawable.search_type_icon);
+				dropdownImage.setImageResource(suggestion.isMajorAirport() ? R.drawable.ic_suggest_airport : R.drawable.search_type_icon);
 			}
 			dropdownImage
-				.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.cars_secondary_color));
+				.setColorFilter(dropdownImage.getContext().getResources()
+					.getColor(Ui.obtainThemeResID(dropdownImage.getContext(), R.attr.skin_carsSecondaryColor)));
 		}
 	}
 
 	@Override
 	protected Subscription suggest(SuggestionServices suggestionServices, Observer<List<Suggestion>> suggestionsObserver, CharSequence query) {
-		return suggestionServices.getAirportSuggestions(query.toString(), suggestionsObserver);
+		return suggestionServices.getCarSuggestions(query.toString(), PointOfSale.getSuggestLocaleIdentifier(), suggestionsObserver);
 	}
 }

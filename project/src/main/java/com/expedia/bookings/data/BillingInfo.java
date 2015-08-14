@@ -1,12 +1,8 @@
 package com.expedia.bookings.data;
 
-import java.io.File;
-
 import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.content.Context;
 
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.Log;
@@ -14,8 +10,6 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class BillingInfo implements JSONable, Comparable<BillingInfo> {
-
-	private static final String SAVED_INFO_FILENAME = "billing.dat";
 
 	private String mFirstName;
 	private String mLastName;
@@ -211,41 +205,6 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 			selectedCardType = CurrencyUtils.detectCreditCardBrand(number);
 		}
 		return selectedCardType;
-	}
-
-	// Returns true if the file does not exist by the end of the method;
-	// If it didn't exist at the beginning, it doesn't matter.
-	public boolean delete(Context context) {
-		Log.i("Deleting saved billing info.");
-
-		// Reset internal fields
-		mFirstName = null;
-		mLastName = null;
-		mNameOnCard = null;
-		mTelephoneCountryCode = null;
-		mTelephone = null;
-		mEmail = null;
-		mLocation = null;
-		mBrandName = null;
-		mBrandCode = null;
-		mNumber = null;
-		mSecurityCode = null;
-		mExpirationDate = null;
-		mSaveCardToExpediaAccount = false;
-		mStoredCard = null;
-
-		// Check that the saved billing info file exists before trying to delete
-		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
-		if (!f.exists()) {
-			return true;
-		}
-
-		return f.delete();
-	}
-
-	public static boolean hasSavedBillingInfo(Context context) {
-		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
-		return f.exists();
 	}
 
 	public JSONObject toJson() {

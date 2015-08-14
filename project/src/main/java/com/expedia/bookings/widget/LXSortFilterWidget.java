@@ -3,10 +3,15 @@ package com.expedia.bookings.widget;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jetbrains.annotations.NotNull;
+
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -15,30 +20,25 @@ import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.android.view.OnClickEvent;
-import rx.android.view.ViewObservable;
-import rx.functions.Func1;
 
 public class LXSortFilterWidget extends LinearLayout {
 
-	public static final String DEEPLINK_FILTER_DILIMITER = "\\|";
 	private Map<String, LXCategoryMetadata> selectedFilterCategories = new HashMap<>();
+	private boolean isFilteredToZeroResults = false;
 
 	public LXSortFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		inflate(context, R.layout.widget_lx_sort_filter, this);
 	}
 
-	@InjectView(R.id.sort_filter_done_button)
-	Button doneButton;
+	private Button doneButton;
 
 	@InjectView(R.id.price_sort_button)
 	Button priceSortButton;
@@ -49,14 +49,34 @@ public class LXSortFilterWidget extends LinearLayout {
 	@InjectView(R.id.filter_categories)
 	LinearLayout filterCategoriesContainer;
 
+	@InjectView(R.id.dynamic_feedback_container)
+	DynamicFeedbackWidget dynamicFeedbackWidget;
+
+	@InjectView(R.id.toolbar_sort_filter)
+	Toolbar toolbar;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
-		navIcon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN);
-		doneButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
+		toolbar.setTitle(getResources().getString(R.string.filter));
+		toolbar.setTitleTextAppearance(getContext(), R.style.LXToolbarTitleTextAppearance);
+		toolbar.setTitleTextColor(getResources().getColor(R.color.lx_actionbar_text_color));
+		toolbar.inflateMenu(R.menu.cars_lx_filter_menu);
+
+		MenuItem item = toolbar.getMenu().findItem(R.id.apply_check);
+		setupToolBarCheckmark(item);
+
+		int statusBarHeight = Ui.getStatusBarHeight(getContext());
+		if (statusBarHeight > 0) {
+			int color = getContext().getResources()
+				.getColor(Ui.obtainThemeResID(getContext(), R.attr.primary_color));
+			addView(Ui.setUpStatusBar(getContext(), null, null, color), 0);
+		}
+		// Reset Popularity sort as default.
+		popularitySortButton.setSelected(true);
+		priceSortButton.setSelected(false);
 	}
 
 	@Override
@@ -75,37 +95,17 @@ public class LXSortFilterWidget extends LinearLayout {
 	public void onPriceSortClicked() {
 		popularitySortButton.setSelected(false);
 		priceSortButton.setSelected(true);
+		postLXFilterChangedEvent();
 	}
 
 	@OnClick(R.id.popularity_sort_button)
 	public void onPopularitySortClicked() {
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);
+		postLXFilterChangedEvent();
 	}
-
-	public Observable<LXSortFilterMetadata> filterSortEventStream() {
-		Scheduler scheduler = AndroidSchedulers.mainThread();
-
-		return ViewObservable.clicks(doneButton, true)
-			.map(filterSortMetadata)
-			.subscribeOn(scheduler)
-			.observeOn(scheduler);
-	}
-
-	private Func1<OnClickEvent, LXSortFilterMetadata> filterSortMetadata = new Func1<OnClickEvent, LXSortFilterMetadata>() {
-		@Override
-		public LXSortFilterMetadata call(OnClickEvent nothing) {
-			LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata();
-			lxSortFilterMetadata.lxCategoryMetadataMap = selectedFilterCategories;
-			lxSortFilterMetadata.sort = priceSortButton.isSelected() ? LXSortType.PRICE : LXSortType.POPULARITY;
-			return lxSortFilterMetadata;
-		}
-	};
 
 	public void bind(Map<String, LXCategoryMetadata> filterCategories) {
-		// Reset Popularity sort as default.
-		popularitySortButton.setSelected(true);
-		priceSortButton.setSelected(false);
 		filterCategoriesContainer.removeAllViews();
 		if (filterCategories != null) {
 			for (Map.Entry<String, LXCategoryMetadata> filterCategory : filterCategories.entrySet()) {
@@ -120,7 +120,16 @@ public class LXSortFilterWidget extends LinearLayout {
 			}
 		}
 		else {
+			// Set to default state, as we have new search params available.
 			selectedFilterCategories.clear();
+			popularitySortButton.setSelected(true);
+			priceSortButton.setSelected(false);
+		}
+
+		// Hide the dynamic feedback & update done button in case we have zero filters applied.
+		if (selectedFilterCategories.size() == 0) {
+			updateDoneButton();
+			dynamicFeedbackWidget.hideDynamicFeedback();
 		}
 	}
 
@@ -133,16 +142,87 @@ public class LXSortFilterWidget extends LinearLayout {
 		else {
 			selectedFilterCategories.remove(event.categoryKey);
 		}
+		postLXFilterChangedEvent();
 	}
 
-	public void setDeepLinkFilters(String filters) {
-		selectedFilterCategories.clear();
-		String[] filter = filters.split(DEEPLINK_FILTER_DILIMITER);
-		for (String filterDisplayValue : filter) {
-			LXCategoryMetadata lxCategoryMetadata = new LXCategoryMetadata();
-			lxCategoryMetadata.checked = true;
-			lxCategoryMetadata.displayValue = filterDisplayValue;
-			selectedFilterCategories.put(filterDisplayValue, lxCategoryMetadata);
+	private void postLXFilterChangedEvent() {
+		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata(selectedFilterCategories,
+			priceSortButton.isSelected() ? LXSortType.PRICE : LXSortType.POPULARITY);
+		Events.post(new Events.LXFilterChanged(lxSortFilterMetadata));
+	}
+
+	@Subscribe
+	public void onLXSearchFilterResultsReady(Events.LXSearchFilterResultsReady event) {
+		if (selectedFilterCategories.size() == 0) {
+			isFilteredToZeroResults = false;
+			updateDoneButton();
+			dynamicFeedbackWidget.hideDynamicFeedback();
+			bind(event.filterCategories);
+			return;
 		}
+		else {
+			dynamicFeedbackWidget.showDynamicFeedback();
+		}
+
+		int filteredActivitiesCount = 0;
+		if (CollectionUtils.isNotEmpty(event.filteredActivities)) {
+			filteredActivitiesCount += event.filteredActivities.size();
+		}
+
+		isFilteredToZeroResults = filteredActivitiesCount == 0;
+		updateDoneButton();
+		dynamicFeedbackWidget.setDynamicCounterText(filteredActivitiesCount);
+	}
+
+	private void updateDoneButton() {
+		doneButton.setAlpha(isFilteredToZeroResults ? 0.15f : 1.0f);
+	}
+
+	@Subscribe
+	public void onDynamicFeedbackClearButtonClicked(Events.DynamicFeedbackClearButtonClicked event) {
+		LXSortFilterMetadata lxSortFilterMetadata = defaultFilterMetadata();
+		Events.post(new Events.LXFilterChanged(lxSortFilterMetadata));
+	}
+
+	@NotNull
+	private LXSortFilterMetadata defaultFilterMetadata() {
+		popularitySortButton.setSelected(true);
+		priceSortButton.setSelected(false);
+		selectedFilterCategories.clear();
+		return new LXSortFilterMetadata();
+	}
+
+	public int getNumberOfSelectedFilters() {
+		return selectedFilterCategories.size();
+	}
+
+	public Button setupToolBarCheckmark(final MenuItem menuItem) {
+		doneButton = Ui.inflate(getContext(), R.layout.toolbar_checkmark_item, null);
+		doneButton.setText(R.string.done);
+		doneButton.setTextColor(getResources().getColor(R.color.lx_actionbar_text_color));
+		doneButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (isFilteredToZeroResults) {
+					dynamicFeedbackWidget.showDynamicFeedback();
+					dynamicFeedbackWidget.animateDynamicFeedbackWidget();
+				}
+				else {
+					Events.post(new Events.LXFilterDoneClicked());
+				}
+			}
+		});
+
+		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
+		navIcon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		doneButton.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
+		menuItem.setActionView(doneButton);
+		return doneButton;
+	}
+
+	public LXSortFilterWidget setSelectedFilterCategories(String filters) {
+		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata(filters);
+		this.selectedFilterCategories = lxSortFilterMetadata.lxCategoryMetadataMap;
+		return this;
 	}
 }

@@ -94,7 +94,14 @@
                         android:paddingTop="2dp" />
 
                     <TextView
-                        android:id="@+id/address"
+                        android:id="@+id/address_line_one"
+                        style="@style/CarOfferText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="" />
+
+                    <TextView
+                        android:id="@+id/address_line_two"
                         style="@style/CarOfferText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Space;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -32,7 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public abstract class CheckoutBasePresenter extends Presenter implements SlideToWidgetLL.ISlideToListener,
-	UserAccountRefresher.IUserAccountRefreshListener {
+	UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
 
 	protected abstract LineOfBusiness getLineOfBusiness();
 
@@ -63,7 +65,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	View mSummaryProgressLayout;
 
 	@InjectView(R.id.login_widget)
-	AccountLoginWidget loginWidget;
+	AccountButton loginWidget;
 
 	@InjectView(R.id.hint_container)
 	ViewGroup hintContainer;
@@ -96,17 +98,14 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		addTransition(defaultToExpanded);
 		addTransition(defaultToReady);
-		addTransition(widgetToCheckoutDefault);
+		addTransition(defaultToCheckoutFailed);
 		addDefaultTransition(defaultTransition);
 
 		slideWidget.addSlideToListener(this);
 
-		loginWidget.setLineOfBusiness(getLineOfBusiness());
+		loginWidget.setListener(this);
 		mainContactInfoCardView.setLineOfBusiness(getLineOfBusiness());
 		paymentInfoCardView.setLineOfBusiness(getLineOfBusiness());
-
-		loginWidget.setToolbarListener(toolbarListener);
-		loginWidget.setLoginStatusListener(mLoginStatusListener);
 		mainContactInfoCardView.setToolbarListener(toolbarListener);
 		paymentInfoCardView.setToolbarListener(toolbarListener);
 		hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
@@ -221,6 +220,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 	public static class WidgetExpanded {
 	}
+	public static class CheckoutFailed {
+	}
 
 	private DefaultTransition defaultTransition = new DefaultTransition(CheckoutDefault.class.getName()) {
 		@Override
@@ -235,7 +236,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			mainContactInfoCardView.setVisibility(GONE);
 			paymentInfoCardView.setVisibility(GONE);
 			legalInformationText.setVisibility(GONE);
-
+			updateSpacerHeight();
 		}
 	};
 
@@ -257,35 +258,30 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void finalizeTransition(boolean forward) {
 			super.finalizeTransition(forward);
 			showProgress(!forward);
-			isCheckoutComplete();
+			if (forward) {
+				isCheckoutComplete();
+			}
+			else {
+				animateInSlideTo(false);
+			}
+			updateSpacerHeight();
 		}
 	};
 
-	private Transition widgetToCheckoutDefault = new Transition(WidgetExpanded.class, CheckoutDefault.class) {
+	protected void updateSpacerHeight() {
+		float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
+		if (scrollViewActualHeight - legalInformationText.getBottom() < slideToContainer.getHeight()) {
+			ViewGroup.LayoutParams params = space.getLayoutParams();
+			params.height = slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
+			space.setLayoutParams(params);
+		}
+	}
+
+	private Transition defaultToCheckoutFailed = new Transition(CheckoutDefault.class, CheckoutFailed.class) {
 		@Override
-		public void startTransition(boolean forward) {
-			super.startTransition(forward);
-			if (forward) {
-				currentExpandedCard.setExpanded(false, false);
-				summaryContainer.setVisibility(VISIBLE);
-				loginWidget.setVisibility(GONE);
-				hintContainer.setVisibility(GONE);
-				mainContactInfoCardView.setVisibility(GONE);
-				paymentInfoCardView.setVisibility(GONE);
-				legalInformationText.setVisibility(GONE);
-				Ui.hideKeyboard(CheckoutBasePresenter.this);
-
-				ViewGroup.LayoutParams params = space.getLayoutParams();
-				params.height = (int) getResources().getDimension(Ui.obtainThemeResID(getContext(), R.attr.checkout_unexpanded_space_height));
-				space.setLayoutParams(params);
-
-				toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
-				Drawable nav = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp).mutate();
-				nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-				toolbar.setNavigationIcon(nav);
-				menuNext.setVisible(false);
-				menuDone.setVisible(false);
-			}
+		public void finalizeTransition(boolean forward) {
+			super.finalizeTransition(forward);
+			showProgress(false);
 		}
 	};
 
@@ -297,9 +293,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			scrollCheckoutToTop();
 			if (forward) {
 				summaryContainer.setVisibility(GONE);
-				if (loginWidget != currentExpandedCard) {
-					loginWidget.setVisibility(GONE);
-				}
+				loginWidget.setVisibility(GONE);
 				hintContainer.setVisibility(GONE);
 				if (mainContactInfoCardView != currentExpandedCard) {
 					mainContactInfoCardView.setVisibility(GONE);
@@ -325,10 +319,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
 			}
 
-			ViewGroup.LayoutParams params = space.getLayoutParams();
-			params.height = forward ? (int) getResources().getDimension(R.dimen.car_expanded_space_height) : (int) getResources().getDimension(Ui.obtainThemeResID(getContext(), R.attr.checkout_unexpanded_space_height));
-			space.setLayoutParams(params);
-
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()
 				: getContext().getString(R.string.cars_checkout_text));
 			Drawable nav = getResources().getDrawable(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp).mutate();
@@ -346,37 +336,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			else {
 				isCheckoutComplete();
 			}
-		}
-	};
-
-	AccountLoginWidget.LogInStatusListener mLoginStatusListener = new AccountLoginWidget.LogInStatusListener() {
-		@Override
-		public void onLoginStarted() {
-
-		}
-
-		@Override
-		public void onLoginCompleted() {
-			showProgress(true);
-			mainContactInfoCardView.onLogin();
-			paymentInfoCardView.onLogin();
-			hintContainer.setVisibility(GONE);
-			OmnitureTracking.trackCheckoutLoginSuccess(getLineOfBusiness(), getContext());
-			showCheckout();
-		}
-
-		@Override
-		public void onLoginFailed() {
-
-		}
-
-		@Override
-		public void onLogout() {
-			showProgress(true);
-			mainContactInfoCardView.onLogout();
-			paymentInfoCardView.onLogout();
-			hintContainer.setVisibility(VISIBLE);
-			showCheckout();
+			updateSpacerHeight();
 		}
 	};
 
@@ -429,5 +389,31 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			return true;
 		}
 		return super.back();
+	}
+
+	public void onLoginSuccessful() {
+		showProgress(true);
+		loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness());
+		mainContactInfoCardView.onLogin();
+		paymentInfoCardView.onLogin();
+		hintContainer.setVisibility(GONE);
+		OmnitureTracking.trackCheckoutLoginSuccess(getLineOfBusiness(), getContext());
+		showCheckout();
+	}
+
+	@Override
+	public void accountLoginClicked() {
+		Bundle args = AccountLibActivity.createArgumentsBundle(getLineOfBusiness(), new CheckoutLoginExtender());
+		User.signIn((Activity) getContext(), args);
+	}
+
+	@Override
+	public void accountLogoutClicked() {
+		User.signOut(getContext());
+		showProgress(true);
+		mainContactInfoCardView.onLogout();
+		paymentInfoCardView.onLogout();
+		hintContainer.setVisibility(VISIBLE);
+		showCheckout();
 	}
 }

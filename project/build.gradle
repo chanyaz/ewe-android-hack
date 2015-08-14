@@ -10,11 +10,19 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
+apply plugin: 'fork'
 
 repositories {
     mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
     maven { url 'http://www.leanplum.com/leanplum-sdks/' }
+    maven {
+        url "s3://mobiata-maven/release"
+        credentials(AwsCredentials) {
+            accessKey AWS_ACCESS_KEY
+            secretKey AWS_SECRET_KEY
+        }
+    }
 }
 
 dependencies {
@@ -22,10 +30,9 @@ dependencies {
             'activeandroid-20131111.jar',
             'admsAppLibrary-3.0.5.jar',
             'adxtag3.2.6.jar',
-            'Kahuna.jar',
+            'MobileAppTracker-3.9.1.jar',
     ])
     compile project(':lib:FlightLib')
-    compile project(':lib:svg-android:svgandroid')
     compile project(':lib:Utils')
     compile project(':lib:ShareEverywhere:shareeverywhere')
     compile project(':lib:AndroidTime')
@@ -33,17 +40,21 @@ dependencies {
     compile (project(':lib:ExpediaBookings')) {
         exclude group: 'org.json'
     }
-
+    compile 'com.expedia:svg-android:0.1.0'
+    compile 'com.expedia:android-account-lib:0.5.9'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
 
     // Google Play Services deps on the support lib
     // however we add it here so the android-sdk-manager plugin behaves
+
     compile "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:palette-v7:${rootProject.ext.supportLibVersion}"
-    compile "com.android.support:recyclerview-v7:21.0.3"
+    compile "com.android.support:gridlayout-v7:${rootProject.ext.supportLibVersion}"
+    compile "com.android.support:recyclerview-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:cardview-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
+    compile "com.android.support:design:${rootProject.ext.supportLibVersion}"
 
     compile "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-wallet:${rootProject.ext.googlePlayServicesVersion}"
@@ -88,10 +99,10 @@ dependencies {
 
     // Test dependencies
     testCompile 'junit:junit:4.12'
-    def roboVersion = '3.0-rc3'
+    def roboVersion = '3.0'
     testCompile "org.robolectric:robolectric:${roboVersion}"
     testCompile "org.robolectric:shadows-multidex:${roboVersion}"
-    testCompile "org.mockito:mockito-core:1.10.19"
+    testCompile 'org.mockito:mockito-core:2.0.13-beta'
 
     def espressoVersion = '2.2'
     androidTestCompile ("com.android.support.test.espresso:espresso-core:${espressoVersion}"){
@@ -153,7 +164,7 @@ android {
 
         multiDexEnabled = true
         testApplicationId "com.expedia.bookings.test"
-        testInstrumentationRunner "com.expedia.bookings.test.ui.utils.SpoonInstrumentationTestRunner"
+        testInstrumentationRunner "com.expedia.bookings.test.espresso.SpoonInstrumentationTestRunner"
 
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
         buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
@@ -169,8 +180,8 @@ android {
             applicationId "com.expedia.bookings"
 
             def major = 6
-            def minor = 2
-            def patch = 0
+            def minor = 3
+            def patch = 1
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
@@ -414,7 +425,4 @@ android.applicationVariants.all { variant ->
     }
     variant.resValue "string", "launcher_name", "${launcherName}"
 }
-
-// robolectric - fix for robolectric issue
-apply from: "build.workaround-missing-resource.gradle"
 

@@ -829,12 +829,15 @@ public class ExpediaServices implements DownloadListener {
 
 	public HotelBookingResponse reservation(HotelSearchParams params, Rate rate,
 		BillingInfo billingInfo,
-		String tripId, String userId, Long tuid, String tealeafId) {
+		String tripId, String userId, Long tuid, String tealeafId, boolean isMerEmailOptIn) {
 		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId, userId,
 			tuid);
 
 		Log.v("tealeafTransactionId for hotel: " + tealeafId);
 		addTealeafId(query, tealeafId);
+
+		// #4762. Adding MER email opt in choice
+		query.add(new BasicNameValuePair("emailOptIn", String.valueOf(isMerEmailOptIn)));
 
 		return doE3Request("m/api/hotel/trip/checkout", query, new BookingResponseHandler(mContext));
 	}
@@ -1075,7 +1078,7 @@ public class ExpediaServices implements DownloadListener {
 			User.signOut(mContext);
 		}
 
-		return doE3Request("api/user/sign-in", query, new SignInResponseHandler(mContext));
+		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
 	}
 
 	// Attempt to sign in again with the stored cookie
@@ -1089,7 +1092,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addProfileTypes(query, flags);
 
-		return doE3Request("api/user/sign-in", query, new SignInResponseHandler(mContext));
+		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
 	}
 
 	public AssociateUserToTripResponse associateUserToTrip(String tripId, int flags) {
@@ -1121,7 +1124,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addProfileTypes(query, flags | F_FLIGHTS | F_HOTELS);
 
-		return doE3Request("api/user/profile", query, new SignInResponseHandler(mContext));
+		return doE3Request("api/user/profile", query, new SignInResponseHandler());
 	}
 
 	/**

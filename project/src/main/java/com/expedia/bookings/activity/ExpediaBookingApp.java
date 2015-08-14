@@ -44,16 +44,17 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.KahunaUtils;
 import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
@@ -88,14 +89,23 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	// Debug / test settings
 
-	private static boolean sIsAutomation = false;
+	private static boolean sIsRobolectric = false;
+	private static boolean sIsInstrumentation = false;
 
 	public static boolean isAutomation() {
-		return sIsAutomation;
+		return sIsRobolectric || sIsInstrumentation;
 	}
 
-	public static void setAutomation(boolean isAutomation) {
-		sIsAutomation = isAutomation;
+	public static boolean isRobolectric() {
+		return sIsRobolectric;
+	}
+
+	public static void setIsInstrumentation(boolean isInstrumentation) {
+		sIsInstrumentation = isInstrumentation;
+	}
+
+	public static void setIsRobolectric(boolean isRobolectric) {
+		sIsRobolectric = isRobolectric;
 	}
 
 	@Override
@@ -104,7 +114,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		super.onCreate();
 		startupTimer.addSplit("super.onCreate()");
 
-		if (!isRobolectric() && !isAutomation()) {
+		if (!isAutomation()) {
 			Fabric.with(this, new Crashlytics());
 			startupTimer.addSplit("Crashlytics started.");
 
@@ -149,7 +159,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 				FlightStatsDbUtils.setUpgradeCutoff(DateUtils.DAY_IN_MILLIS); // 1 day cutoff for upgrading FS.db
 			}
 
-			FlightStatsDbUtils.createDatabaseIfNotExists(this);
+			FlightStatsDbUtils.createDatabaseIfNotExists(this, BuildConfig.RELEASE);
 		}
 		catch (IOException e) {
 			throw new RuntimeException(e);
@@ -165,7 +175,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		// Init required for Omniture tracking
 		OmnitureTracking.init(this);
-		if (!isRobolectric() && !isAutomation()) {
+		if (!isAutomation()) {
 			// Setup Omniture for tracking crashes
 			mOriginalUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 			Thread.setDefaultUncaughtExceptionHandler(this);
@@ -192,9 +202,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		FontCache.initialize(this);
 		startupTimer.addSplit("FontCache Init");
 
-		AdTracker.initialize(this);
-		startupTimer.addSplit("AdTracker Init");
-
 		ItineraryManager.getInstance().init(this);
 		// Load data from Disk
 		ItineraryManager.getInstance().startSync(false, true, false);
@@ -214,15 +221,24 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
-			LeanPlumUtils.init(this);
-			startupTimer.addSplit("LeanPlum started.");
+		// We need to run this for automation right now until leanplum fixes a crash
+		if (!isRobolectric()) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+				LeanPlumUtils.init(this, isAutomation());
+				startupTimer.addSplit("LeanPlum started.");
+			}
 		}
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isKahunaEnabled()) {
-			KahunaUtils.init(this);
-			registerActivityLifecycleCallbacks(new ExpediaActivityLifeCycleCallBack());
-			startupTimer.addSplit("Kahuna started.");
+		if (!isAutomation()) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled()) {
+				AdX.initialize(this);
+				startupTimer.addSplit("AdX started.");
+			}
+
+			if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled()) {
+				TuneUtils.init(this);
+				startupTimer.addSplit("Tune started.");
+			}
 		}
 
 		// 2249: We were not sending push registrations to the prod push server
@@ -444,14 +460,15 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		int screenDpi = AndroidUtils.getScreenDpi(context);
 		String screenDpiClass = AndroidUtils.getScreenDensityClass(context);
 
-		String screenSize = Integer.toString(screenPoint.x) + " x " + Integer.toString(screenPoint.y);
-		String displaySize = Integer.toString(displayPoint.x) + " x " + Integer.toString(displayPoint.y);
+		String screenSize = Integer.toString(screenPoint.x) + "x" + Integer.toString(screenPoint.y);
+		String displaySize = Integer.toString(displayPoint.x) + "x" + Integer.toString(displayPoint.y);
 
 		String localeId = PointOfSale.getPointOfSale().getLocaleIdentifier();
 		String posId = PointOfSale.getPointOfSale().getPointOfSaleId().name();
 		String api = appComponent().endpointProvider().getEndPoint().name();
 		String gcmId = GCMRegistrationKeeper.getInstance(context).getRegistrationId(context);
 		String mc1Cookie = DebugInfoUtils.getMC1CookieStr(context);
+		String abacusGuid = Db.getAbacusGuid();
 
 		ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 		int memClass = am.getMemoryClass();
@@ -465,6 +482,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		Crashlytics.setString("mc1 cookie", mc1Cookie);
 		Crashlytics.setString("api", api);
 		Crashlytics.setInt("memory class", memClass);
+		Crashlytics.setString("abacus guid", abacusGuid);
 
 		if (!gcmId.isEmpty()) {
 			Crashlytics.setString("gcm token", gcmId);
@@ -473,16 +491,12 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onIDFALoaded(String idfa) {
-
+		// ignore
 	}
 
 	@Override
 	public void onIDFAFailed() {
 		// ignore
-	}
-
-	public boolean isRobolectric() {
-		return false;
 	}
 
 	private Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
@@ -511,13 +525,22 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			return;
 		}
 
-		Db.setAbacusResponse(abacusResponse);
+		if (Db.getAbacusResponse() == null) {
+			Db.setAbacusResponse(abacusResponse);
+		}
+		else {
+			Db.getAbacusResponse().updateFrom(abacusResponse);
+		}
+
 		// Modify the bucket values based on dev settings;
 		if (BuildConfig.DEBUG) {
 			for (int key : AbacusUtils.getActiveTests()) {
 				Db.getAbacusResponse().updateABTestForDebug(key, SettingUtils.get(ExpediaBookingApp.this, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
 			}
 		}
+
+		Log.v("AbacusData", Db.getAbacusResponse().toString());
+		Crashlytics.log(Db.getAbacusResponse().toString());
 	}
 
 	public String generateAbacusGuid() {

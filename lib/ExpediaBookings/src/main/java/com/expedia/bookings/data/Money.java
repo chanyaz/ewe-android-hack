@@ -131,6 +131,16 @@ public class Money {
 		}
 	}
 
+	public static String getFormattedMoneyFromAmountAndCurrencyCode(BigDecimal amount, String currencyCode) {
+		if (amount != null && Strings.isNotEmpty(currencyCode)) {
+			return formatRate(amount, currencyCode, 0);
+		}
+		else {
+			throw new IllegalStateException(
+				"amount != null && Strings.isNotEmpty(currencyCode) failed!");
+		}
+	}
+
 	/**
 	 * Adds one Money to this one.
 	 * <p/>

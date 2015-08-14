@@ -408,7 +408,6 @@ public class TravelerButtonFragment extends LobableFragment {
 				TravelerUtils.resetPreviousTravelerSelectState(currentTraveler);
 				Db.getTravelers().remove(mTravelerNumber);
 				Db.getTravelers().add(mTravelerNumber, results.getTraveler());
-				Db.saveTravelers(getActivity());
 				bindToDb();
 				mTravelerButtonListener.onTravelerChosen();
 			}

@@ -80,9 +80,9 @@
     <!-- Location for calendar event.  %1$s is the name of the pick up location -->
     <string name="calendar_car_location_TEMPLATE">%1$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_car_desc_itinerary_TEMPLATE">エクスペディア旅程番号 : %s</string>
+    <string name="calendar_desc_itinerary_TEMPLATE">{brand} 旅程番号 : {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_car_desc_support_TEMPLATE">エクスペディア カスタマー サポート : %1$s および %2$s</string>
+    <string name="calendar_desc_support_TEMPLATE">{brand} カスタマー サポート : {localphone} および {phone}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">ホテルを検索</string>
@@ -96,6 +96,8 @@
     <string name="toolbar_search_cars">レンタカーを検索</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">借出日および返却日を選択</string>
+    <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
+    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">%1$s – 返却日時を選択してください</string>
     <!-- Label for pick-up time picker -->
@@ -137,7 +139,6 @@
     <string name="car_model_name_template">%1$sまたは同等のもの</string>
     <string name="car_model_unknown_template">車種指定なし</string>
 
-    <string name="preparing_checkout_message">支払い手続き中の準備中…</string>
     <!-- Desk & vehicle at terminal -->
     <string name="desk_and_vehicle_terminal">空港内にカウンター &amp; 車両あり</string>
     <!-- Car checkout cost breakdown total due today -->
@@ -149,8 +150,6 @@
     <!-- Car checkout rental fare breakdown types -->
     <!--Cost breakdown type base -->
     <string name="car_rental_breakdown_base">レンタカー</string>
-    <!--Cost breakdown type taxes and fees -->
-    <string name="car_rental_breakdown_taxes_and_fees">税およびサービス料 (概算)</string>
     <!--Cost breakdown type insurance -->
     <string name="car_rental_breakdown_insurance">保険</string>
     <!--Cost breakdown type drop off charge -->
@@ -194,7 +193,7 @@
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">名前には数字や特殊文字は含めないでください。</string>
     <!-- Show to user when their phone number is invalid -->
-    <string name="reservation_invalid_phone">電話番号は 1 ～ 20 桁以内で入力してください。</string>
+    <string name="reservation_invalid_phone">電話番号は 4 ～ 20 桁以内で入力してください。</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">支払い処理ができませんでした。支払い情報をご確認の上、再度お試しください。</string>
@@ -267,7 +266,7 @@
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
     <!-- Cancellation policy template -->
-    <string name="cancellation_policy_TEMPLATE">予約時間開始の %1$s前まで無料でキャンセルできます。この時間以降は、キャンセル、変更、および返金はできません。</string>
+    <string name="lx_cancellation_policy_TEMPLATE">予約開始の {hours} 時間前まで無料でキャンセルできます。この時間以降は、キャンセル、変更、および返金はできません。</string>
     <!-- Cancellation policy text for non-cancellable activities -->
     <string name="lx_policy_non_cancellable">この予約は返金不可のため、ご予約後の変更およびキャンセルはできません。</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -565,8 +564,6 @@
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">スライドして予約</string>
-    <!-- Total with tax -->
-    <string name="lx_total_with_tax">税込合計</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">連絡先情報を入力</string>
     <!-- LX search error -->
@@ -599,6 +596,10 @@
     <string name="lx_select_ticket">チケットを選択</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">キャンセル手数料無料</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">電子バウチャー</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">印刷されたバウチャーが必要</string>
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s利用不可</string>
     <!-- LX Error Activity Price Changed -->
@@ -620,6 +621,8 @@
     <string name="lx_ground_transport_bags_text">手荷物 %1$s 個</string>
     <!-- Ground Transport passengers text-->
     <string name="lx_ground_transport_passengers_text">乗客 %1$s 名</string>
+    <!-- Incorrect date search for LX -->
+    <string name="lx_start_date_error">過去の日付が入力されています。新しい日付を選択してください。</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -713,14 +716,10 @@
         <item quantity="other">つのアイテムが予約されています</item>
     </plurals>
 
-    <!-- LX Sort & Filter "Apply" header -->
-    <string name="lx_apply_sort_filter">適用</string>
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">並べ替え</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">カテゴリー</string>
-    <!-- LX Sort & Filter "Filter" header -->
-    <string name="lx_filter">絞り込み</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -809,9 +808,9 @@
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% のゲストが推奨</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
-    <string name="sorry_rooms_sold_out">申し訳ありません。エクスペディアでは完売しました。</string>
+    <string name="sorry_rooms_sold_out_TEMPLATE">申し訳ありません。{brand} では完売しました。</string>
     <!-- A message stating this hotel is sold out on Expedia -->
-    <string name="sold_out_on_expedia">エクスペディアでは売り切れ</string>
+    <string name="sold_out_on_TEMPLATE">{brand} では完売しました</string>
     <!-- Hotel gallery title -->
     <string name="photos_for_TEMPLATE">%sの写真</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
@@ -860,7 +859,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;さん、すでにエクスペディアのアカウントをお持ちのようです。以下にエクスペディアのパスワードを入力して、Facebook とエクスペディアのアカウントをリンクしてください。</string>
+    <string name="facebook_weve_found_your_account_TEMPLATE">&lt;b&gt;{name}&lt;/b&gt;さん、すでに{brand}のアカウントをお持ちのようです。以下に{brand}のパスワードを入力して、Facebook と{brand}のアカウントをリンクしてください。</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;さん、Facebook のアカウントを読み込みました !</string>
     <!-- Sign in with facebook (button text) -->
@@ -875,36 +874,27 @@
     <string name="unable_to_sign_into_facebook">Facebook にサインインできません。</string>
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">サインインに失敗しました。メールアドレスとパスワードに間違いがない場合は、アプリの国の設定が正しいことを確認してください。</string>
-    <!-- User needs to reset password -->
-    <string name="sign_in_reset_password">すべてのエクスペディアのサイト共通のグローバル アカウントの作成が必要です。&lt;br&gt;以下の「パスワードをお忘れですか ?」リンクをクリックして、パスワードをリセットしてください。</string>
     <!-- Facebook connect password hint -->
     <string name="brand_password_hint_TEMPLATE">{brand} のパスワード</string>
     <!-- Link accounts -->
     <string name="link_accounts">アカウントをリンクする</string>
-    <!-- Failure to update the user -->
-    <string name="failure_to_update_user">更新されたユーザー情報を取得できませんでした。</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">電子メールアドレスの認証を許可する</string>
     <!-- User Denied email permission Heading -->
     <string name="user_denied_permission_email_heading">電子メールアドレスの認証</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message">Facebook アカウントでサインインするには、電子メールアドレスの認証を許可してください。\n\n下記の Facebook ボタンをタップして許可すると、エクスペディアが電子メールアドレスを認証します。ありがとうございます !</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">アカウントをリンク中…</string>
-    <!-- Sign In -->
-    <string name="Sign_In">サインイン</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">電子メールアドレスの認証を許可する</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message_TEMPLATE">Facebook アカウントでサインインするには、電子メールアドレスの認証を許可してください。\n\n下記の Facebook ボタンをタップして許可すると、{brand}が電子メールアドレスを認証します。ありがとうございます !</string>
+
     <!-- Sign in with Expedia -->
-    <string name="Sign_in_with_Expedia">エクスペディアでサインイン</string>
-    <!-- Sign in with the current brand -->
-    <string name="sign_in_with_brand_TEMPLATE">{brand} でサインイン</string>
+    <string name="Sign_in_with_TEMPLATE">{brand} アカウントでサインイン</string>
     <!-- or -->
     <string name="or">または</string>
-    <!-- Already signed in -->
-    <string name="already_signed_in">すでにサインイン済み</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
-    <string name="restricted_profile_sign_in_message">エクスペディアにサインインするには、ご使用の端末で制限なしのユーザー プロフィールをお使いください。</string>
+    <string name="restricted_profile_sign_in_message_TEMPLATE">{brand} にサインインするには、ご使用のデバイスで制限なしのユーザー プロフィールをお使いください。</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
@@ -1007,7 +997,7 @@
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">旅程番号を検索する</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">エクスペディアの旅程番号</string>
+    <string name="itinerary_TEMPLATE">{brand} 旅程番号</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
     <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver カスタマー サポート</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
@@ -1437,7 +1427,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">電話\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">ホテルとフライトを予約して、旅程を表示 &amp; シェアできます。無料のエクスペディア モバイル アプリを今すぐダウンロードしてください。\n%s</string>
+    <string name="share_long_ad_TEMPLATE">ホテルとフライトを予約して、旅程を表示 &amp; シェアできます。無料の{brand}モバイル アプリを今すぐダウンロードしてください。\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">%2$sに%1$sへ行きます</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1533,7 +1523,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">エクスペディア フライト予約</string>
+    <string name="Flights_TEMPLATE">{brand} 件のフライト</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">フライト検索</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -1560,8 +1550,8 @@
     <string name="outbound_TEMPLATE">往路 (行き) 到着地 : %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">復路 (帰り) 到着地 : %s</string>
-    <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">申し訳ありません。エクスペディアのサーバーに接続できません。後ほどお試しください。</string>
+    <!-- Template string for error when we simple can't connect to E3 servers-->
+    <string name="error_server_TEMPLATE">申し訳ありません。{brand} のサーバーに接続できません。後ほど再度お試しください。</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">出発時刻</string>
     <!-- Sort by arrival time label -->
@@ -1652,7 +1642,8 @@
     <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s ～ %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">チェックイン日を選択</string>
-
+    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} ～ {enddate}、宿泊者 {guests} 名</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">片道 &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1717,6 +1708,12 @@
     <string name="select_payment">お支払い方法を選択する</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">支払い情報の詳細</string>
+    <!-- Select payment sentence case AB Test variate1 -->
+    <string name="select_payment_sentence_case_variate1">支払い情報を入力</string>
+    <!-- Select payment sentence case AB Test variate2 -->
+    <string name="select_payment_sentence_case_variate2">お支払い</string>
+    <!-- Select payment callout AB Test variate2 -->
+    <string name="select_payment_callout">詳細を入力</string>
     <!-- Add new card -->
     <string name="add_new_card">新しいカードを追加する</string>
     <!-- Overview button -->
@@ -1811,14 +1808,22 @@
     <string name="menu_checkout">購入手続き</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">最低価格保証</string>
+    <!-- Label for address of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_address">住所 :</string>
+    <!-- Label to view map of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_view_map">地図を表示する</string>
+    <!-- Expedia Rate - Non merchant default infosite messaging -->
+    <string name="non_merchant_rate_TEMPLATE">{brand} 料金</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;無料キャンセル期限 : &lt;/b&gt;&lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">サインアウト</string>
+    <!-- AB Test 3x messaging for hotel points -->
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">%1$s ポイント付与されます — アプリで予約するとポイント 3 倍 !</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">今回のご予約で %1$s ポイント取得します !</string>
+    <string name="youll_earn_points_TEMPLATE">今回のご予約で %1$s ポイント付与されます !</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
-    <string name="x_points_for_this_trip_TEMPLATE">今回の旅行で %1$s ポイント取得します !</string>
+    <string name="x_points_for_this_trip_TEMPLATE">今回の旅行で %1$s ポイント付与されます !</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">税金とサービス料を計算中…</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -1847,6 +1852,8 @@
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">ご旅行の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です (&lt;b&gt;%1$s&lt;/b&gt;のリゾート料金を含む)。残額は滞在中にホテルの現地通貨でお支払いください。</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">予約後 24 時間以内ならキャンセル手数料無料 !</string>
+    <!-- Flights AB Test Traveler info missing callout label -->
+    <string name="ab_test_flights_missing_info_callout">旅行者情報を入力</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1873,7 +1880,7 @@
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">航空会社のカード手数料</string>
     <!-- Flight -->
-    <string name="flight">フライト</string>
+    <string name="flight">航空券</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
     <string name="traveler_num_and_category_TEMPLATE">旅行者 %1$d</string>
 
@@ -1887,6 +1894,10 @@
     <string name="enter_traveler_info">旅行者情報</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">代表者の詳細</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">代表者の詳細</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">代表者</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">保存済み</string>
     <!-- Edit button for traveler/payment -->
@@ -1897,26 +1908,56 @@
     <string name="add_new_traveler">新しい旅行者情報を追加</string>
     <!-- Select card from checkout saved credit cards list -->
     <string name="saved_creditcards">保存済みのカード</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="select_saved_cards">保存済みのカードから選択</string>
     <!-- Add new card, checkout saved credit cards list -->
     <string name="add_new_creditcard">新しいカードを追加</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">ゲストの詳細</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">大人 %1$s の詳細</string>
+    <!-- AB test variate 1 - Add adult traveler number template -->
+    <string name="add_adult_number_variate1_TEMPLATE">大人 %1$s の情報を入力</string>
+    <!-- AB test variate 2 - Add adult traveler number template -->
+    <string name="add_adult_number_variate2_TEMPLATE">大人 %1$s</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">大人の詳細</string>
+    <!-- AB test variate 1 - Add adult traveler details label -->
+    <string name="add_adult_variate1">大人の情報を入力</string>
+    <!-- AB test variate 2 - Add adult traveler details label -->
+    <string name="add_adult_variate2">大人</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">お子様 %1$s の詳細</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">%1$s 才のお子様の詳細</string>
+    <string name="add_child_with_age_TEMPLATE">%1$s 歳のお子様の詳細</string>
+    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate1_TEMPLATE">%1$s 歳のお子様の情報を入力</string>
+    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate2_TEMPLATE">%1$s 歳</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">膝抱きの乳幼児 %1$s の詳細</string>
+    <!-- AB test variate 1 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate1_TEMPLATE">膝抱きの乳幼児 %1$s の情報を入力</string>
+    <!-- AB test variate 2 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate2_TEMPLATE">膝抱きの乳幼児 %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap">膝抱きの乳幼児の詳細</string>
+    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate1">膝抱きの乳幼児の情報を入力</string>
+    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate2">膝抱きの乳幼児</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">座席が必要な乳幼児 %1$s の詳細</string>
+    <!-- AB test variate 1- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate1_TEMPLATE">座席が必要な乳幼児 %1$s の情報を入力</string>
+    <!-- AB test variate 2- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate2_TEMPLATE">座席が必要な乳幼児 %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat">座席が必要な乳幼児の詳細</string>
+    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate1">座席が必要な乳幼児の情報を入力</string>
+    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate2">予約席ありの乳幼児</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">旅行者名がパスポートなど写真付きの公的証明書に記載された名前と一致しない場合は搭乗できません。</string>
 
@@ -1942,8 +1983,10 @@
     <string name="cardholder">カードの名義人</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">確認メールはこちらに送信されます</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">有効期限 : %1$s</string>
+    <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">セールなどのお得な旅行情報満載の{brand} メールマガジンを受信しない。</string>
+    <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">セールなどのお得な旅行情報満載の{brand} メールマガジンを受信する。</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -1982,7 +2025,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">お支払い情報を保存する</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">このお支払い方法をお客様のエクスペディア アカウントに保存しますか ? 保存すると、次回ご購入時に便利です。</string>
+    <string name="save_billing_info_message_TEMPLATE">このお支払い方法をお客様の {brand} アカウントに保存しますか ? 保存すると、次回ご購入時に便利です。</string>
     <!-- save -->
     <string name="save">保存</string>
 
@@ -1990,7 +2033,7 @@
     <!-- save traveler -->
     <string name="save_traveler">旅行者を保存する</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">%1$s様の情報をお客様のエクスペディア アカウントに保存しますか ? 保存すると、次回ご購入時に便利です。</string>
+    <string name="save_traveler_message_TEMPLATE">{name}様の情報をお客様の {brand} アカウントに保存しますか ? 保存すると、次回ご購入時に便利です。</string>
     <!-- no thanks -->
     <string name="no_thanks">いいえ</string>
 
@@ -2099,7 +2142,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">%s への旅をお楽しみください !</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">旅程番号%s が に送信されます</string>
+    <string name="itinerary_confirmation_TEMPLATE">旅程番号 %s が に送信されます</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">部屋を予約する</string>
     <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
@@ -2121,11 +2164,13 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">FlightTrack で追跡する</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">エクスペディア カスタマー サポートに電話する</string>
+    <string name="call_customer_support_TEMPLATE">{brand} カスタマー サポートに電話する</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">保険を追加する</string>
     <!-- Insurance -->
     <string name="insurance">保険</string>
+    <!-- Insurance label on itin section -->
+    <string name="insurance_itin_label">旅行保険</string>
     <!-- Air attach messaging -->
     <string name="air_attach_alert">航空券をご予約いただいた方のみの特別価格 !</string>
     <!-- Air attach savings messaging -->
@@ -2156,11 +2201,11 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">エクスペディア旅程番号 : %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">{brand} 旅程番号 : {itinerary}</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">空港への行き方 : %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">エクスペディア カスタマー サポート : %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">{brand} カスタマー サポート : {phone}</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -2214,11 +2259,11 @@
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">申し訳ありません。現在お客様のご予約を完了できません。もう一度お試しください。</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">申し訳ありません。現在お客様のご予約を完了できません。もう一度お試しになるか、エクスペディア カスタマー サポートまでお電話ください。お問い合わせの際は、この旅程番号をお知らせください : %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">申し訳ありません。現在お客様のご予約を完了できません。後でもう一度お試しいただくか、{brand} カスタマーサポートまでお電話ください。お問い合わせの際には旅程番号 ({itinerary}) をお伝えください。</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_expedia">申し訳ありません。エクスペディアではご希望のフライトはご利用いただけません。</string>
+    <string name="error_flight_no_longer_available_TEMPLATE">申し訳ありません。{brand} ではご希望のフライトはご利用いただけません。</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_expedia">申し訳ありません。エクスペディアではご希望のフライトの一部がご利用いただけません。</string>
+    <string name="error_flights_no_longer_available_TEMPLATE">申し訳ありません。{brand} ではご希望のフライトの一部がご利用いただけません。</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
     <string name="error_flight_hold_expired">申し訳ありません。保留中のフライトが無効になりました。</string>
     <!-- Error shown to user if one of multiple flights is no longer available or expired -->
@@ -2434,11 +2479,7 @@
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
     <string name="progress_finding_location">現在地を検索中…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">ホテルを検索中…</string>
-    <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_message">検索中 !</string>
-    <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_working_hard">お得なセール情報を検索しています。</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">条件に合ったホテルを検索しています !</string>
     <!-- Message displayed when app is searching for a particular hotel -->
@@ -2452,7 +2493,7 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">ご利用いただける客室はありません</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_expedia">申し訳ありません。エクスペディアではこのホテルはご利用いただけません。</string>
+    <string name="error_hotel_is_now_sold_out_TEMPLATE">申し訳ありません。{brand} ではこのホテルはご利用いただけません。</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -2465,6 +2506,8 @@
     <string name="per_night">/ 泊</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/ 泊</string>
+    <!-- The label for abbreviated price per night - "$120/nt", for example -->
+    <string name="per_nt_TEMPLATE">{price} / 泊</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">評価なし</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2516,6 +2559,10 @@
     <string name="minus_x_percent">-%2.0f%%</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% の宿泊者がこのホテルをお勧めしています。</string>
+    <!-- new material Hotel results cell guest rating -->
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
+    <!-- new material Hotel results cell guest recommend-->
+    <string name="guest_recommend">のゲストが推奨</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
@@ -2635,7 +2682,7 @@
     <string name="etp_pay_later_payment_info_text">お支払い情報は予約保証のためのみに使用されます。</string>
     <string name="etp_pay_later_cancellation_text">ホテルのキャンセル料金適用期間より前であればキャンセル料は無料です。</string>
     <string name="etp_pay_now_option_text">オンラインで今すぐお支払い</string>
-    <string name="etp_pay_now_charges_text">お客様のお支払い情報の処理はエクスペディアが行います。</string>
+    <string name="etp_pay_now_charges_text_TEMPLATE">お客様のお支払い情報の処理は {brand} が行います。</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">お客様の自国通貨 (%s) でのお支払いとなります。</string>
     <string name="etp_pay_now_cancellation_text">ホテルのキャンセル料金適用期間より前であればキャンセル料は無料です。</string>
     <string name="etp_select_room">部屋を選択</string>
@@ -2681,6 +2728,8 @@
     <string name="included_in_the_price">料金に含まれる</string>
     <!-- Not included in the price -->
     <string name="not_included_in_the_price">料金に含まれない</string>
+    <!-- View Room button text -->
+    <string name="view_room_button_text">部屋を見る</string>
 
     <!-- Renovation Notice -->
     <string name="renovation_notice">改装工事のお知らせ</string>
@@ -2726,8 +2775,9 @@
     <!-- Itinerary number label -->
     <string name="itinerary_number">旅程番号</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">ご予約に関するお問い合わせは、エクスペディア (%s) までご連絡ください。</string>
-
+    <string name="contact_phone_TEMPLATE">ご予約に関するお問い合わせは、{brand} ({phone}) までお電話ください。</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">パスワードを忘れた場合</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -2742,10 +2792,6 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">サインイン</string>
-    <!-- Sign in blurb: descriptive second line of text on sign in button on larger screens -->
-    <string name="Earn_points_and_book_fast">ポイントを獲得してすばやく予約</string>
-    <!-- Hint for user to enter password into a field -->
-    <string name="hint_password">パスワード</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">サインイン…</string>
     <!-- Message that tells user they failed to sign in -->
@@ -2758,14 +2804,8 @@
     <string name="Expedia_plus_silver">Expedia +silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
-    <!-- Label for signin screen -->
-    <string name="expedia_account">Expedia アカウント</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">{brand} アカウントを読み込み中</string>
-    <!-- Label for password recovery -->
-    <string name="forgot_your_password">パスワードをお忘れですか ?</string>
-    <!-- Webview title for password recovery -->
-    <string name="title_forgot_password">パスワードを忘れた場合</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">クーポンコードを入力</string>
     <!-- Label for coupon code hint -->
@@ -2833,13 +2873,13 @@
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">予約に関するお問い合わせ</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">エクスペディアへのご連絡方法</string>
+    <string name="contact_via_TEMPLATE">{brand} へのご連絡方法…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">電話</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Web サイト</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">エクスペディア ウェブサイト</string>
+    <string name="website_TEMPLATE">{brand} Web サイト</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">アプリ サポート</string>
     <!-- Label for link to terms and conditions -->
@@ -2847,11 +2887,11 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">プライバシー ポリシー</string>
     <!-- Copyright information -->
-    <string name="copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nAll rights reserved.</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_signed_out_and_cleared_private_data">サインアウト済み、データ削除済み</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data">エクスペディアのアカウントからサインアウトしています。セーブした全ての請求情報および連絡先が削除されました。</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">{brand} のアカウントからサインアウトしています。セーブした全ての請求情報および連絡先が削除されました。</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">個人データが削除されました</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2969,7 +3009,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">エラーが発生したため、お客様のご予約を完了することができませんでした。もう一度お試しください。</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">ホテルのご予約が完了しました。すぐに旅程が必要な場合は、エクスペディア カスタマー サポートまでお電話ください。</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">ホテルのご予約が完了しました。すぐに旅程が必要な場合は、 {brand}のカスタマーサポートまでお電話ください。</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">申し訳ありません。ご希望の客室はご利用いただけません。</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -2994,7 +3034,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">申し訳ありません。この客室のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">申し訳ありません。ご希望の客室はご利用いただけません。</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">申し訳ありません。エクスペディアに接続することができませんでした。もう一度お試しください。</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">申し訳ありません。 {brand}に接続することができませんでした。もう一度お試しください。</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">申し訳ありません。この客室のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -3475,9 +3515,6 @@
     <string name="cd_checkout_select_payment">タップしてこの予約の支払い方法を選択</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">タップしてクーポンあるいはプロモーション コードを入力</string>
-    <!-- Sign in screen -->
-    <!-- Content description for action: Press to sign in to Expedia with your Facebook account -->
-    <string name="cd_sign_into_brand_with_your_facebook_account_TEMPLATE">タップして Facebook アカウントを使って {brand} にサインイン</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">タップして新しい旅行者を入力</string>
@@ -3567,8 +3604,19 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">この予約を完了をもって、%1$s、%2$s、%3$sを読み、理解したものと見なされます。</string>
+    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="account_creation_legal_TEMPLATE">%1$sおよび%2$sを読み、これに同意します。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">お子様の年齢を選択する</string>
 
+    <string name="lob_not_supported_error_message">{lob}の予約は、お客様のロケーションではまだご利用いただけません。</string>
+
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_Expedia_account">エクスペディアのアカウントを作成する</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Expedia">エクスペディアにようこそ</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Expedia_account_already_exists">この電子メールが登録されたエクスペディア アカウントはすでに存在しています。</string>
 </resources>

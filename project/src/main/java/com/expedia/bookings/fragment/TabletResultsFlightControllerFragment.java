@@ -199,7 +199,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {
 			return ResultsFlightsState.NO_FLIGHTS_DROPDOWN_POS;
 		}
-		else if (!PointOfSale.getPointOfSale().supportsFlights()) {
+		else if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
 			return ResultsFlightsState.NO_FLIGHTS_POS;
 		}
 		else if (TextUtils.isEmpty(Sp.getParams().getOriginAirportCode()) || isOriginDestinationSame()) {
@@ -788,6 +788,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				}
 				if (mFlightLegsFrag.isFirstLeg()) {
 					OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), 0);
+					AdTracker.trackPageLoadFlightSearchResults(0);
 				}
 			}
 		}
@@ -861,7 +862,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		FlightSearchResponse flightResponse = event.response;
 
 		if (flightResponse != null) {
-			Db.kickOffBackgroundFlightSearchSave(getActivity());
 			Db.addAirlineNames(flightResponse.getAirlineNames());
 		}
 		else {

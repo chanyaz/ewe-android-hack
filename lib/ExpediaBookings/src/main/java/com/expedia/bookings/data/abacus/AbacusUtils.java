@@ -14,10 +14,7 @@ public class AbacusUtils {
 	 */
 
 	public static final int EBAndroidAATest = 6714;
-	public static final int EBAndroidAppFlightCKOFreeCancelationTest = 7005;
-	public static final int EBAndroidAppHSearchInfluenceMessagingTest = 7017;
 	public static final int EBAndroidAppLaunchScreenTest = 7369;
-	public static final int EBAndroidAppAddORToForm = 7372;
 	public static final int EBAndroidAppSRPercentRecommend = 7373;
 	public static final int EBAndroidAppFlightConfCarsXsell = 7370;
 	public static final int EBAndroidAppHotelHSRSalePinTest = 7535;
@@ -30,35 +27,43 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelHCKOTraveler = 7775;
 	public static final int EBAndroidAppHotelPayLaterCouponMessaging = 7777;
 	public static final int EBAndroidAppHotel3xMessaging = 7973;
+	public static final int EBAndroidAppHotelCollapseAmenities = 8126;
+	public static final int EBAndroidAppHotelShowAddressMapInReceipt = 8129;
+	public static final int EBAndroidAppPaySuppressGoogleWallet = 8148;
+	public static final int EBAndroidAppFlightMissingTravelerInfoCallout = 8128;
+	public static final int EBAndroidHotelCKOMerEmailGuestOpt = 8127;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
-	public static enum DefaultVariate {
+	public enum DefaultVariate {
 		CONTROL,
 		BUCKETED
 	}
 
-	public static enum HSearchInfluenceMessagingVariate {
+	public enum HSearchInfluenceMessagingVariate {
 		CONTROL,
 		WORKING_HARD,
 		SEARCHING_HUNDREDS,
 		NO_TEXT
 	}
 
-	public static enum HISMapIconVariate {
+	public enum HISMapIconVariate {
 		CONTROL,
 		MAP_PIN,
 		TEXT_ONLY
+	}
+
+	public enum FMissingTravelerCalloutVariate {
+		CONTROL,
+		SINGLE_LINE_CALLOUT,
+		SECOND_LINE_CALLOUT
 	}
 
 	// Test ID's that we are bucketing the user for.
 	public static List<Integer> getActiveTests() {
 		List<Integer> testIDs = new ArrayList<>();
 		testIDs.add(EBAndroidAATest);
-		testIDs.add(EBAndroidAppFlightCKOFreeCancelationTest);
-		testIDs.add(EBAndroidAppHSearchInfluenceMessagingTest);
 		testIDs.add(EBAndroidAppLaunchScreenTest);
-		testIDs.add(EBAndroidAppAddORToForm);
 		testIDs.add(EBAndroidAppSRPercentRecommend);
 		testIDs.add(EBAndroidAppFlightConfCarsXsell);
 		testIDs.add(EBAndroidAppHotelHSRSalePinTest);
@@ -71,6 +76,11 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelHCKOTraveler);
 		testIDs.add(EBAndroidAppHotelPayLaterCouponMessaging);
 		testIDs.add(EBAndroidAppHotel3xMessaging);
+		testIDs.add(EBAndroidAppHotelCollapseAmenities);
+		testIDs.add(EBAndroidAppHotelShowAddressMapInReceipt);
+		testIDs.add(EBAndroidAppPaySuppressGoogleWallet);
+		testIDs.add(EBAndroidAppFlightMissingTravelerInfoCallout);
+		testIDs.add(EBAndroidHotelCKOMerEmailGuestOpt);
 		return testIDs;
 	}
 

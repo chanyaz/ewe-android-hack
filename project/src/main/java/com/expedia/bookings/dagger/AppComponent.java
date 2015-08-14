@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import android.content.Context;
 
+import com.expedia.account.server.ExpediaAccountApi;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
@@ -25,4 +26,5 @@ public interface AppComponent {
 	PersistentCookieManager persistentCookieManager();
 	RestAdapter.LogLevel logLevel();
 	AbacusServices abacus();
+	ExpediaAccountApi accountApi();
 }

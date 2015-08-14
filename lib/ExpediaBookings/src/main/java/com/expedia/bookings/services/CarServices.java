@@ -69,7 +69,12 @@ public class CarServices {
 	}
 
 	public Subscription carSearch(CarSearchParams params, Observer<CarSearch> observer) {
-		return mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate())
+		boolean searchByLocationLatLng = params.shouldSearchByLocationLatLng();
+		Observable<CarSearchResponse> carSearchResponse = searchByLocationLatLng ?
+			mApi.roundtripCarSearch(params.pickupLocationLatLng.lat, params.pickupLocationLatLng.lng, params.toServerPickupDate(), params.toServerDropOffDate(), 12) :
+			mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate());
+
+		return carSearchResponse
 			.doOnNext(HANDLE_ERRORS)
 			.doOnNext(CACHE_SEARCH_RESPONSE)
 			.flatMap(BUCKET_OFFERS)
@@ -81,7 +86,12 @@ public class CarServices {
 	}
 
 	public Subscription carSearchWithProductKey(CarSearchParams params, String productKey, Observer<CarSearch> observer) {
-		return Observable.combineLatest(mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate()), Observable.just(productKey), FIND_PRODUCT_KEY)
+		boolean searchByLocationLatLng = params.shouldSearchByLocationLatLng();
+		Observable<CarSearchResponse> carSearchResponse = searchByLocationLatLng ?
+			mApi.roundtripCarSearch(params.pickupLocationLatLng.lat, params.pickupLocationLatLng.lng, params.toServerPickupDate(), params.toServerDropOffDate(), 12) :
+			mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate());
+
+		return Observable.combineLatest(carSearchResponse, Observable.just(productKey), FIND_PRODUCT_KEY)
 			.doOnNext(HANDLE_ERRORS)
 			.doOnNext(CACHE_SEARCH_RESPONSE)
 			.flatMap(BUCKET_OFFERS)

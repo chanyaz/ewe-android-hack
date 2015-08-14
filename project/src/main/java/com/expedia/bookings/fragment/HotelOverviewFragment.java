@@ -28,14 +28,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.activity.HotelMapActivity;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
-import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
@@ -90,6 +91,7 @@ import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
 	LoginConfirmLogoutDialogFragment.DoLogoutListener,
@@ -241,7 +243,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mCheckoutLayout = Ui.findView(view, R.id.checkout_layout);
 		mCheckoutLayoutBlocker = Ui.findView(view, R.id.checkout_layout_touch_blocker);
 
-		mAccountButton = Ui.findView(view, R.id.account_button_layout);
+		mAccountButton = Ui.findView(view, R.id.account_button_root);
 		mWalletButton = Ui.findView(view, R.id.wallet_button_layout);
 		mHintContainer = Ui.findView(view, R.id.hint_container);
 		mCheckoutDivider = Ui.findView(view, R.id.checkout_divider);
@@ -293,11 +295,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mCheckoutLayout.setAlpha(0);
 		mCheckoutLayoutBlocker.setBlockNewEventsEnabled(true);
 
-		//We start loading the checkout data on the parent activity, but if it isn't finished we should wait
-		if (CheckoutDataLoader.getInstance().isLoading()) {
-			CheckoutDataLoader.getInstance().waitForCurrentThreadToFinish();
-		}
-
 		mBillingInfo = Db.getBillingInfo();
 		if (mBillingInfo.getLocation() == null) {
 			mBillingInfo.setLocation(new Location());
@@ -341,6 +338,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mCouponRemoveView.setOnClickListener(mOnClickListener);
 		mLegalInformationTextView.setOnClickListener(mOnClickListener);
 		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
+		mHotelReceipt.setOnViewMapClickListener(mViewMapClickListener);
 
 		mWalletButton.setPromoVisible(ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled());
 		// Touch events to constituent parts are handled in WalletButton.onInterceptTouchEvent(...)
@@ -357,9 +355,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	private void toggleOrMessaging(boolean isSignedIn) {
-		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAddORToForm);
-		mHintContainer.setVisibility(isUserBucketedForTest && !isSignedIn ? View.VISIBLE : View.GONE);
-		mCheckoutDivider.setVisibility(isUserBucketedForTest && !isSignedIn ? View.GONE : View.VISIBLE);
+		mHintContainer.setVisibility(!isSignedIn ? View.VISIBLE : View.GONE);
+		mCheckoutDivider.setVisibility(!isSignedIn ? View.GONE : View.VISIBLE);
 	}
 
 	@Override
@@ -424,10 +421,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
-		}
-
-		if (Db.getTravelersAreDirty()) {
-			Db.kickOffBackgroundTravelerSave(getActivity());
 		}
 	}
 
@@ -1001,8 +994,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Override
 	public void accountLoginClicked() {
 		if (mAccountButton.isEnabled()) {
-			mAccountButton.setEnabled(false);//We open a new activity and reenable accountButton in onResume
-			Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
+			mAccountButton.setEnabled(false);//We open a new activity and reenable accountButton in onResume;
+			Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
 			User.signIn(getActivity(), args);
 			OmnitureTracking.trackPageLoadHotelsLogin(getActivity());
 		}
@@ -1045,6 +1038,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	public void onLoginCompleted() {
+		// Let's reset MerEmailOptInStatus to false.
+		Db.getTripBucket().getHotel().setIsMerEmailOptIn(false);
+		Db.saveTripBucket(getActivity());
+
 		if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
 			if (mHotelBookingFragment != null && !mHotelBookingFragment.isDownloadingCreateTrip()) {
 				mHotelBookingFragment.startDownload(HotelBookingState.CREATE_TRIP);
@@ -1159,6 +1156,19 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			BreakdownDialogFragment dialogFrag = BreakdownDialogFragment.buildHotelRateBreakdownDialog(getActivity(),
 					Db.getTripBucket().getHotel());
 			dialogFrag.show(getFragmentManager(), BreakdownDialogFragment.TAG);
+		}
+	};
+
+	private HotelReceipt.OnViewMapClickListener mViewMapClickListener = new HotelReceipt.OnViewMapClickListener() {
+
+		@Override
+		public void onViewMapClicked() {
+			Intent intent = HotelMapActivity.createIntent(getActivity());
+			intent.putExtra(HotelMapActivity.INSTANCE_IS_HOTEL_RECEIPT, true);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+			startActivity(intent);
+			getActivity().overridePendingTransition(R.anim.fade_in, R.anim.explode);
 		}
 	};
 
@@ -1624,7 +1634,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 
 			mBookingUnavailableDialog = HotelErrorDialog.newInstance();
-			mBookingUnavailableDialog.setMessage(Ui.obtainThemeResID(getActivity(), R.attr.skin_sorryRoomsSoldOutErrorMessage));
+			mBookingUnavailableDialog.setMessage(
+				Phrase.from(getActivity(), R.string.error_hotel_is_now_sold_out_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 			mBookingUnavailableDialog.show(getFragmentManager(), HOTEL_SOLD_OUT_DIALOG);
 		}
 	}
@@ -1656,9 +1667,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		dismissDialogs();
 
 		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-		dialog.setMessage(R.string.error_hotel_no_longer_available);
+		dialog.setMessage(getString(R.string.error_hotel_no_longer_available));
 		dialog.show(getFragmentManager(), HOTEL_EXPIRED_ERROR_DIALOG);
-
 	}
 
 	/*

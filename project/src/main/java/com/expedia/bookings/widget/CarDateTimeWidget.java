@@ -55,7 +55,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 	private LocalDate lastEnd;
 
 	//2 hours in millis
-	private static final long PICKUP_DROPOFF_MINIMUM_TIME_DIFFERECE = TimeUnit.MILLISECONDS.convert(2, TimeUnit.HOURS);
+	private static final long PICKUP_DROPOFF_MINIMUM_TIME_DIFFERENCE = TimeUnit.MILLISECONDS.convert(2, TimeUnit.HOURS);
 	private static final String TOOLTIP_DATE_PATTERN = "MMM dd";
 	private DateTimeFormatter df = DateTimeFormat.forPattern(TOOLTIP_DATE_PATTERN);
 
@@ -105,8 +105,12 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		calendar.setSelectableDateRange(LocalDate.now(),
-			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_days_car_search)));
+		LocalDate todayDate = LocalDate.now();
+		LocalDate tomorrowDate = LocalDate.now().plusDays(1);
+		boolean isEleventhHour = DateTime.now().getHourOfDay() == 23;
+		LocalDate startDate = isEleventhHour ? tomorrowDate : todayDate;
+		calendar.setSelectableDateRange(startDate, startDate
+			.plusDays(getResources().getInteger(R.integer.calendar_max_days_car_search)));
 		calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_car_search));
 		calendar.setDateChangedListener(this);
 		calendar.setYearMonthDisplayedChangedListener(this);
@@ -117,8 +121,9 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		monthView.setTextEqualDatesColor(Color.WHITE);
 
 		NinePatchDrawable drawablePopUp = (NinePatchDrawable) getResources().getDrawable(R.drawable.toolbar_bg).mutate();
-		drawablePopUp
-				.setColorFilter(getResources().getColor(R.color.cars_tooltip_color), PorterDuff.Mode.SRC_IN);
+		drawablePopUp.setColorFilter(
+			getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsTooltipColor)),
+			PorterDuff.Mode.SRC_IN);
 
 		Ui.setViewBackground(pickupTimePopupContainerText, drawablePopUp);
 
@@ -270,12 +275,13 @@ public class CarDateTimeWidget extends RelativeLayout implements
 
 	//end time should always be at least 2 hours ahead of start time
 	private boolean isEndTimeBeforeStartTime() {
-		return dateTimeBuilder.isStartEqualToEnd() && dateTimeBuilder.getEndMillis() < dateTimeBuilder.getStartMillis() + PICKUP_DROPOFF_MINIMUM_TIME_DIFFERECE;
+		return dateTimeBuilder.isStartEqualToEnd() && dateTimeBuilder.getEndMillis() < dateTimeBuilder.getStartMillis() + PICKUP_DROPOFF_MINIMUM_TIME_DIFFERENCE;
 	}
 
 	private void setUpTooltipColor(boolean isValid) {
 		NinePatchDrawable drawablePopUp = (NinePatchDrawable) getResources().getDrawable(R.drawable.toolbar_bg).mutate();
-		int color = isValid ? getResources().getColor(R.color.cars_tooltip_disabled_color) : getResources().getColor(R.color.cars_tooltip_color);
+		int color = isValid ? getResources().getColor(R.color.cars_tooltip_disabled_color)
+			: getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsTooltipColor));
 		drawablePopUp.setColorFilter(color, PorterDuff.Mode.SRC_IN);
 		Ui.setViewBackground(pickupTimePopupContainerText, drawablePopUp);
 		pickupTimePopupTail.setColorFilter(color, PorterDuff.Mode.SRC_IN);

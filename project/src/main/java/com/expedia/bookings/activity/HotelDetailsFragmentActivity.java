@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -45,6 +46,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
+import com.squareup.phrase.Phrase;
 
 public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelDetailsMiniMapClickedListener,
 	RecyclerGallery.GalleryItemListener {
@@ -83,7 +85,8 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
-
+	// For tracking - if you get there directly from Launchscreen, clear SearchResponse
+	private boolean fromLaunch;
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
@@ -233,6 +236,9 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		if (fromLaunch) {
+			Db.getHotelSearch().setSearchResponse(null);
+		}
 
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
@@ -315,7 +321,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		mGalleryFragment = (HotelDetailsMiniGalleryFragment) getSupportFragmentManager().findFragmentByTag(
 			FRAGMENT_MINI_GALLERY_TAG);
 		if (mGalleryFragment == null) {
-			boolean fromLaunch = getIntent().getBooleanExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, false);
+			fromLaunch = getIntent().getBooleanExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, false);
 			mGalleryFragment = HotelDetailsMiniGalleryFragment.newInstance(fromLaunch);
 		}
 		if (!mGalleryFragment.isAdded()) {
@@ -427,26 +433,28 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			}
 
 			if (response == null) {
-				showErrorDialog(Ui.obtainThemeResID(mContext, R.attr.skin_errorHotelOffersHotelServiceFailureString));
+				showErrorDialog(Phrase.from(mContext, R.string.e3_error_hotel_offers_hotel_service_failure_TEMPLATE)
+					.put("brand", BuildConfig.brand).format().toString());
 				return;
 			}
 			else if (response.hasErrors()) {
-				int messageResId;
+				String message = "";
 				if (response.isHotelUnavailable()) {
-					messageResId = Ui.obtainThemeResID(mContext, R.attr.skin_sorryRoomsSoldOutErrorMessage);
+					message = Phrase.from(mContext, R.string.error_hotel_is_now_sold_out_TEMPLATE)
+						.put("brand", BuildConfig.brand).format().toString();
+
 				}
 				else {
-					messageResId = Ui.obtainThemeResID(mContext, R.attr.skin_errorHotelOffersHotelServiceFailureString);
+					message = Phrase.from(mContext, R.string.e3_error_hotel_offers_hotel_service_failure_TEMPLATE)
+						.put("brand", BuildConfig.brand).format().toString();
 				}
-				showErrorDialog(messageResId);
+
+				showErrorDialog(message);
 			}
 			else if ((Db.getHotelSearch().getAvailability(selectedId) == null
 				|| Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0)
 				&& Db.getHotelSearch().getSearchParams().getSearchType() != SearchType.HOTEL) {
-				showErrorDialog(Ui.obtainThemeResID(mContext, R.attr.skin_sorryRoomsSoldOutErrorMessage));
-			}
-			else {
-				Db.kickOffBackgroundHotelSearchSave(mContext);
+				showErrorDialog(Phrase.from(mContext, R.string.error_hotel_is_now_sold_out_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 			}
 
 			// Notify affected child fragments to refresh.
@@ -470,8 +478,12 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	};
 
 	private void showErrorDialog(int messageResId) {
+		showErrorDialog(getResources().getString(messageResId));
+	}
+
+	private void showErrorDialog(String message) {
 		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-		dialog.setMessage(messageResId);
+		dialog.setMessage(message);
 		dialog.show(getSupportFragmentManager(), "errorDialog");
 	}
 

@@ -1,5 +1,5 @@
 {
-  "id": "183615",
+  "id": "${activityId}",
   "title": "New York Pass: Visit up to 80 Attractions, Museums & Tours",
   "description": "<p>Whether you know exactly where you want to visit or you're improvising, The New York Pass offers something just right for you. View masterpieces at world-renowned museums, cruise the Hudson River for spectacular skyline views and snap photos with Lady Liberty. All this while getting VIP entry to top attractions and museums with a single pass.</p>\n<p>Your New York adventure just got easier (and less expensive) with the tourist card that offers access to more than 80 total things to do, including, but not limited to, these top attractions, tours, and museums:</p>\n<ul>\n<li>Statue of Liberty and Ellis Island Immigration Museum (includes ferry and entry)</li>\n<li>Empire State Building Observatory</li>\n<li>Top of the Rock Observation Deck</li>\n<li>American Museum of Natural History</li>\n<li>Metropolitan Museum of Art (MET)</li>\n<li>Museum of Modern Art (MoMA)</li>\n<li>Solomon R. Guggenheim Museum</li>\n<li>Radio City Music Hall Stage Door Tour</li>\n<li>Central Park Bike Tours and Rentals</li>\n<li>The Intrepid Sea, Air &amp; Space Museum</li>\n<li>Madame Tussauds New York</li>\n<li>Food on Foot Tours</li>\n<li>Greenwich Village, Wall Street, Brooklyn Bridge, and Central Park walking tours</li>\n</ul>\n<p>There's no way to fit every sight into one visit to the Big Apple, but you have a fighting chance with The New York Pass.</p>",
   "images": [
@@ -63,7 +63,7 @@
   "exclusions": [
     "<p>Transportation to and from attractions</p>"
   ],
-  "cancellationPolicyText": "72 hours",
+  "freeCancellationMinHours": 72,
   "knowBeforeYouBook": [
     "<p>Children 3 and younger are complimentary at most attractions.</p>",
     "<p>Pass is valid for the number of consecutive calendar days you purchase, beginning on the first day of use.</p>",

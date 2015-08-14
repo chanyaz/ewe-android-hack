@@ -4,7 +4,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="V2.Theme.Cars" parent="CarsTheme.Base">
+    <style name="V2.Theme.Cars" parent="Whitelabel.CarsTheme.Base">
         <item name="android:alertDialogTheme">@style/Theme.AlertDialog</item>
     </style>
 
@@ -27,9 +27,9 @@
     </style>
 
     <style name="Theme.AlertDialog" parent="android:Theme.Material.Light.Dialog.Alert">
-        <item name="android:colorPrimary">@color/cars_primary_color</item>
-        <item name="android:colorPrimaryDark">@color/cars_primary_color</item>
-        <item name="android:colorAccent">@color/cars_primary_color</item>
+        <item name="android:colorPrimary">?attr/skin_carsPrimaryColor</item>
+        <item name="android:colorPrimaryDark">?attr/skin_carsPrimaryColor</item>
+        <item name="android:colorAccent">?attr/skin_carsPrimaryColor</item>
     </style>
 
 </resources>

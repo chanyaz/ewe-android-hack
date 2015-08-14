@@ -17,14 +17,14 @@ else
 fi
 
 # Cars
-add_test "com.expedia.bookings.test.component.cars.CarSearchPresenterTests"
-add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarSearchErrorTests"
-add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarCreateTripErrorTests"
-add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarCheckoutErrorTests"
-add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarFilterTests"
-add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarCreditCardTests"
-add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarDetailsTests"
-add_test "com.expedia.bookings.test.ui.phone.tests.cars.CarCheckoutViewTests"
+add_test "com.expedia.bookings.test.phone.cars.CarSearchPresenterTests"
+add_test "com.expedia.bookings.test.phone.cars.CarSearchErrorTests"
+add_test "com.expedia.bookings.test.phone.cars.CarCreateTripErrorTests"
+add_test "com.expedia.bookings.test.phone.cars.CarCheckoutErrorTests"
+add_test "com.expedia.bookings.test.phone.cars.CarFilterTests"
+add_test "com.expedia.bookings.test.phone.cars.CarCreditCardTests"
+add_test "com.expedia.bookings.test.phone.cars.CarDetailsTests"
+add_test "com.expedia.bookings.test.phone.cars.CarCheckoutViewTests"
 
 java \
     -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \

@@ -21,8 +21,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	String getAppSupportUrl(Context context);
 
-	int getCrossSellStringResourceIdForShareEmail();
-
 	boolean isAppCrossSellInActivityShareContentEnabled();
 
 	boolean isAppCrossSellInCarShareContentEnabled();
@@ -43,10 +41,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean shouldShowBrandLogoOnAccountButton();
 
-	int getLoginContainerBackgroundResId(Context context);
-
-	boolean doesLoginTextViewHaveCompoundDrawables();
-
 	PointOfSaleId getDefaultPOS();
 
 	boolean isAdXEnabled();
@@ -59,10 +53,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	void contactUsViaWeb(Context context);
 
-	int getResIdForErrorHotelServiceFatalFailure();
-
-	int getResIdForErrorBookingSucceededWithErrors();
-
 	List<BasicNameValuePair> getAdditionalParamsForReviewsRequest();
 
 	boolean shouldUseDotlessDomain(EndPoint endpoint);
@@ -73,7 +63,7 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isLeanPlumEnabled();
 
-	boolean isKahunaEnabled();
+	boolean isTuneEnabled();
 
 	boolean isWeAreHiringInAboutEnabled();
 
@@ -85,15 +75,11 @@ public interface IProductFlavorFeatureConfiguration {
 
 	AboutSectionFragment getAboutSectionFragment(Context context);
 
-	boolean isLocalExpertEnabled();
-
 	boolean isFacebookLoginIntegrationEnabled();
 
 	boolean isFacebookShareIntegrationEnabled();
 
 	boolean isGoogleWalletPromoEnabled();
-
-	boolean isTrackingWithFlightTrackEnabled();
 
 	boolean isHangTagProgressBarEnabled();
 
