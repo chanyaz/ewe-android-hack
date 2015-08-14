@@ -23,19 +23,9 @@ public class HotelErrorDialog extends DialogFragment {
 		return frag;
 	}
 
-	public void setMessage(int messageId) {
-		setMessage(getResources().getString(messageId));
-	}
-
 	public void setMessage(String message) {
 		Bundle args = getArguments();
 		args.putString(ARG_MESSAGE, message);
-		setArguments(args);
-	}
-
-	public void shouldFinishActivity(boolean shouldFinish) {
-		Bundle args = getArguments();
-		args.putBoolean(ARG_SHOULD_FINISH_ACTIVITY, shouldFinish);
 		setArguments(args);
 	}
 

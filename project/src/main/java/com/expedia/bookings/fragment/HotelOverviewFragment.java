@@ -1667,9 +1667,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		dismissDialogs();
 
 		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-		dialog.setMessage(R.string.error_hotel_no_longer_available);
+		dialog.setMessage(getString(R.string.error_hotel_no_longer_available));
 		dialog.show(getFragmentManager(), HOTEL_EXPIRED_ERROR_DIALOG);
-
 	}
 
 	/*
