@@ -63,6 +63,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -1219,6 +1220,10 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			mVipAccessFilterButton.setOnClickListener(mVipAccessClickListener);
 		}
 
+		if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
+			setCircleDrawableForRatingRadioBtnBackground();
+		}
+
 		mFilterHotelNameEditText.setOnEditorActionListener(mFilterEditorActionLisenter);
 
 		// Special case for HTC keyboards, which seem to ignore the android:inputType="textFilter|textNoSuggestions" xml flag
@@ -1255,6 +1260,17 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 		mAdultsNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
 		mChildrenNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
+	}
+	
+	private void setCircleDrawableForRatingRadioBtnBackground() {
+		RadioButton ratingLowButton = (RadioButton) mRatingButtonGroup.findViewById(R.id.rating_low_button);
+		RadioButton ratingMediumButton = (RadioButton) mRatingButtonGroup.findViewById(R.id.rating_medium_button);
+		RadioButton ratingHighButton = (RadioButton) mRatingButtonGroup.findViewById(R.id.rating_high_button);
+		ratingLowButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.btn_filter_rating_light_low_circle);
+		ratingMediumButton
+			.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.btn_filter_rating_light_medium_circle);
+		ratingHighButton
+			.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.btn_filter_rating_light_high_circle);
 	}
 
 	//----------------------------------

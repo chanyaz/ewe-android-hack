@@ -111,7 +111,7 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		locationView.setText(StrUtils.formatAddressShort(property.getLocation()));
 
 		RatingBar hotelRating;
-		if (PointOfSale.getPointOfSale().shouldShowCirlceForRatings()) {
+		if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
 			hotelRating = Ui.findView(this, R.id.hotel_rating_bar_circles);
 		}
 		else {

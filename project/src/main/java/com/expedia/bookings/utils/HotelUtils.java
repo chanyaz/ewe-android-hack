@@ -109,7 +109,7 @@ public class HotelUtils {
 		titleView.setText(property.getName());
 
 		RatingBar ratingBar;
-		if (PointOfSale.getPointOfSale().shouldShowCirlceForRatings()) {
+		if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
 			ratingBar = Ui.findView(actionBarView, R.id.rating_circles);
 		}
 		else {

@@ -161,7 +161,7 @@ public class PointOfSale {
 	private MarketingOptIn mMarketingOptIn;
 
 	// Should we show cirlces for rating
-	private boolean shouldShowCirlceForRatings;
+	private boolean shouldShowCircleForRatings;
 
 	private static boolean mIsTablet;
 
@@ -716,8 +716,8 @@ public class PointOfSale {
 		return getPosLocale().mMarketingText;
 	}
 
-	public boolean shouldShowCirlceForRatings() {
-		return shouldShowCirlceForRatings;
+	public boolean shouldShowCircleForRatings() {
+		return shouldShowCircleForRatings;
 	}
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
@@ -1084,7 +1084,7 @@ public class PointOfSale {
 		pos.mShowFlightsFreeCancellation = data.optBoolean("shouldShowFlightsFreeCancellation", false);
 		pos.mMarketingOptIn = MarketingOptIn
 			.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
-		pos.shouldShowCirlceForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
+		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
