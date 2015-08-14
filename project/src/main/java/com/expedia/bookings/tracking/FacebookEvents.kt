@@ -72,10 +72,10 @@ class FacebookEvents() {
 
         val parameters = Bundle()
         addCommonHotelParams(parameters, searchParams, location)
-        parameters.putString("Room_Value", property.getLowestRate().getDisplayPrice().getFormattedMoney())
+        parameters.putString("Room_Value", getLowestRate(property)?.getDisplayPrice()?.getFormattedMoney() ?: "")
+        parameters.putString("Currency", getLowestRate(property)?.getDisplayPrice()?.currencyCode  ?: "")
         parameters.putInt("Num_Rooms", search.getSearchResponse().getProperties().size())
         parameters.putString("Content_ID", property.getPropertyId())
-        parameters.putString("Currency", property.getLowestRate().getDisplayPrice().currencyCode)
         parameters.putString("ContentType", "product")
 
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
@@ -90,7 +90,7 @@ class FacebookEvents() {
         addCommonHotelParams(parameters, searchParams, location)
         parameters.putString("Booking_Value", rate.getTotalAmountAfterTax().getFormattedMoney())
         parameters.putString("Content_ID", property.getPropertyId())
-        parameters.putString("Currency", property.getLowestRate().getDisplayPrice().currencyCode)
+        parameters.putString("Currency", getLowestRate(property)?.getDisplayPrice()?.currencyCode ?: "")
         parameters.putString("ContentType", "product")
 
         track(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, parameters)
@@ -105,7 +105,7 @@ class FacebookEvents() {
         addCommonHotelParams(parameters, searchParams, location)
         parameters.putString("Booking_Value", rate.getTotalAmountAfterTax().getFormattedMoney())
         parameters.putString("Content_ID", property.getPropertyId())
-        parameters.putString("Currency", property.getLowestRate().getDisplayPrice().currencyCode)
+        parameters.putString("Currency", getLowestRate(property)?.getDisplayPrice()?.currencyCode  ?: "")
         parameters.putString("ContentType", "product")
 
         track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
@@ -179,7 +179,9 @@ fun getBookingWindow(time: LocalDate): Int {
 fun calculateAverageRateHotels(properties: List<Property>): String {
     var totalPrice = BigDecimal.ZERO
     for (property in properties) {
-        totalPrice = totalPrice.add(property.getLowestRate().getDisplayPrice().amount)
+        if (property.getLowestRate() != null) {
+            totalPrice = totalPrice.add(property.getLowestRate().getDisplayPrice().amount)
+        }
     }
     return totalPrice.divide(BigDecimal(properties.size()), 2, RoundingMode.HALF_UP).toString()
 }
@@ -247,4 +249,12 @@ fun addCommonLocationEvents(parameters: Bundle, location: Location) {
     parameters.putString("destination_city", location.getCity())
     parameters.putString("destination_state", location.getStateCode())
     parameters.putString("destination_country", location.getCountryCode())
+}
+
+/**
+ * Null safe getter for lowestRate() call. See defect #4908 for more
+ */
+private fun getLowestRate(property: Property): Rate? {
+    val propertyLowestRate: Rate? = property.getLowestRate() // yes, this can be null (#4908)
+    return propertyLowestRate
 }
