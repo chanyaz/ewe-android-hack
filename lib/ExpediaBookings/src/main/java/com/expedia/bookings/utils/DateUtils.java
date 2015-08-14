@@ -140,4 +140,9 @@ public class DateUtils {
 			.withTimeAtStartOfDay()
 			.plusMillis(millis);
 	}
+
+	public static LocalDate ensureDateIsTodayOrInFuture(LocalDate date) {
+		LocalDate today = new LocalDate();
+		return date.isBefore(today) ? today : date;
+	}
 }

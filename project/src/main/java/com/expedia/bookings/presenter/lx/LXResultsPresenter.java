@@ -19,6 +19,7 @@ import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
@@ -196,8 +197,19 @@ public class LXResultsPresenter extends Presenter {
 			sortFilterButton.setVisibility(View.VISIBLE);
 			sortFilterButton.showNumberOfFilters(0);
 			AdTracker.trackLXSearchResults(lxState.searchParams, lxSearchResponse);
+
+			handleActivityDetailsDeeplink(lxSearchResponse);
 		}
-	};
+	}
+
+	private void handleActivityDetailsDeeplink(LXSearchResponse lxSearchResponse) {
+		if (Strings.isNotEmpty(lxState.searchParams.activityId)) {
+			LXActivity activity = lxSearchResponse.getActivityFromID(lxState.searchParams.activityId);
+			if (activity != null) {
+				Events.post(new Events.LXActivitySelected(activity));
+			}
+		}
+	}
 
 	private class SearchResultFilterObserver extends SearchResultObserver {
 

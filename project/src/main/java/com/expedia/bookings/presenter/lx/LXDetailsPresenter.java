@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
-import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
@@ -142,17 +141,20 @@ public class LXDetailsPresenter extends Presenter {
 
 	@Subscribe
 	public void onActivitySelected(Events.LXActivitySelected event) {
-		showActivityDetails(event.lxActivity, lxState.searchParams.startDate, lxState.searchParams.endDate);
+		showActivityDetails(event.lxActivity.id, event.lxActivity.title, lxState.searchParams.location,
+			lxState.searchParams.startDate, lxState.searchParams.endDate);
 	}
 
 	@Subscribe
 	public void onActivitySelectedRetry(Events.LXActivitySelectedRetry event) {
-		showActivityDetails(lxState.activity, lxState.searchParams.startDate, lxState.searchParams.endDate);
+		showActivityDetails(lxState.activity.id, lxState.activity.title, lxState.searchParams.location,
+			lxState.searchParams.startDate, lxState.searchParams.endDate);
 	}
 
-	private void showActivityDetails(LXActivity activity, LocalDate startDate, LocalDate endDate) {
-		setToolbarTitles(activity);
-		detailsSubscription = lxServices.lxDetails(activity, lxState.searchParams.location, startDate, endDate, detailsObserver);
+	private void showActivityDetails(String activityId, String title, String location, LocalDate startDate,
+		LocalDate endDate) {
+		setToolbarTitles(title);
+		detailsSubscription = lxServices.lxDetails(activityId, location, startDate, endDate, detailsObserver);
 	}
 
 	private void setupToolbar() {
@@ -183,9 +185,9 @@ public class LXDetailsPresenter extends Presenter {
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 	}
 
-	private void setToolbarTitles(LXActivity lxActivity) {
+	private void setToolbarTitles(String title) {
 		LXSearchParams searchParams = lxState.searchParams;
-		toolBarDetailText.setText(lxActivity.title);
+		toolBarDetailText.setText(title);
 		String dateRange = String.format(getResources().getString(R.string.lx_toolbar_date_range_template),
 			DateUtils.localDateToMMMd(searchParams.startDate), DateUtils.localDateToMMMd(searchParams.endDate));
 		toolBarSubtitleText.setText(dateRange);
