@@ -287,4 +287,6 @@
     <color name="lx_sort_filter_pressed_row_color">#D8D8D8</color>
 
     <color name="leanplum_dialog_button_color">#fc2176</color>
+
+    <color name="flight_loading_message_text_color">#575757</color>
 </resources>

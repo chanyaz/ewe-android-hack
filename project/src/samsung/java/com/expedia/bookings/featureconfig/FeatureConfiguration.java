@@ -291,4 +291,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getCollectionCount() {
 		return 11;
 	}
+
+	@Override
+	public int getFlightSearchProgressImageResId() {
+		return 0;
+	}
 }
