@@ -124,8 +124,12 @@ public class Money {
 	}
 
 	public static String getFormattedMoneyFromAmountAndCurrencyCode(BigDecimal amount, String currencyCode) {
+		return getFormattedMoneyFromAmountAndCurrencyCode(amount, currencyCode, 0);
+	}
+
+	public static String getFormattedMoneyFromAmountAndCurrencyCode(BigDecimal amount, String currencyCode, int flags) {
 		if (amount != null && Strings.isNotEmpty(currencyCode)) {
-			return formatRate(amount, currencyCode, 0);
+			return formatRate(amount, currencyCode, flags);
 		}
 		else {
 			throw new IllegalStateException(

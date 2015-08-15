@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.RateBreakdownItem;
@@ -93,7 +94,8 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		categoryTitleText.setText(offer.vehicleInfo.carCategoryDisplayLabel);
 		carModelText.setText(CarDataUtils.getMakeName(getContext(), offer.vehicleInfo.makes));
 		airportText.setText(offer.pickUpLocation.locationDescription);
-		tripTotalText.setText(offer.detailedFare.grandTotal.formattedPrice);
+		tripTotalText.setText(Money.getFormattedMoneyFromAmountAndCurrencyCode(offer.detailedFare.grandTotal.amount,
+			offer.detailedFare.grandTotal.getCurrency()));
 		dateTimeText.setText(DateFormatUtils
 			.formatCarDateTimeRange(getContext(), offer.getPickupTime(), offer.getDropOffTime()));
 
