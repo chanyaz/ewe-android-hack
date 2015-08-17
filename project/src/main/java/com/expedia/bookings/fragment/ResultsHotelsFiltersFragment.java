@@ -37,6 +37,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelNeighborhoodLayout;
 import com.expedia.bookings.widget.HotelNeighborhoodLayout.OnNeighborhoodsChangedListener;
+import com.expedia.bookings.widget.ImageRadioButton;
 import com.expedia.bookings.widget.SlidingRadioGroup;
 import com.expedia.bookings.widget.Switch;
 import com.mobiata.android.Log;
@@ -164,6 +165,8 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		SearchType searchType = search.getSearchParams().getSearchType();
 		// Visibility of SortBy & Filters for "distance" are declared in searchType.
 		mRadiusButtonGroup.setVisibility(searchType.shouldShowDistance() ? View.VISIBLE : View.GONE);
+
+		setDrawableForRatingRadioBtnBackground();
 
 		double minStarRating = filter.getMinimumStarRating();
 		if (minStarRating >= 5) {
@@ -501,6 +504,21 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		if (!mSortAndFilterListeners.contains(sortAndFilterListener)) {
 			mSortAndFilterListeners.add(sortAndFilterListener);
 		}
+	}
+
+	private void setDrawableForRatingRadioBtnBackground() {
+		boolean shouldShowCircleForRatings = PointOfSale.getPointOfSale().shouldShowCircleForRatings();
+
+		ImageRadioButton ratingLowButton = (ImageRadioButton) mRatingButtonGroup.findViewById(R.id.rating_low_button);
+		ImageRadioButton ratingMediumButton = (ImageRadioButton) mRatingButtonGroup.findViewById(R.id.rating_medium_button);
+		ImageRadioButton ratingHighButton = (ImageRadioButton) mRatingButtonGroup.findViewById(R.id.rating_high_button);
+
+		ratingLowButton.setDrawable(getResources()
+			.getDrawable(shouldShowCircleForRatings ? R.drawable.btn_filter_3circle : R.drawable.btn_filter_3star));
+		ratingMediumButton.setDrawable(getResources()
+			.getDrawable(shouldShowCircleForRatings ? R.drawable.btn_filter_4circle : R.drawable.btn_filter_4star));
+		ratingHighButton.setDrawable(getResources()
+			.getDrawable(shouldShowCircleForRatings ? R.drawable.btn_filter_5circle : R.drawable.btn_filter_5star));
 	}
 
 }
