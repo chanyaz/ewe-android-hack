@@ -59,4 +59,12 @@
     <color name="room_rate_refundable_cancellation_text_color_wotif">#599027</color>
     <color name="tablet_hotel_coupon_text_color_wotif">#1F8EDE</color>
 
+    <!-- Cars and LX -->
+    <color name="cars_primary_color_wotif">#7AC231</color>
+    <color name="cars_unchecked_toggle_text_color_wotif">#B3FFFFFF</color>
+    <color name="lx_primary_color_wotif">#7AC231</color>
+    <color name="lx_ripple_color_wotif">#599027</color>
+    <color name="lx_secondary_color_disabled_wotif">#599027</color>
+    <color name="lx_unchecked_toggle_text_color_wotif">@android:color/white</color>
+
 </resources>
