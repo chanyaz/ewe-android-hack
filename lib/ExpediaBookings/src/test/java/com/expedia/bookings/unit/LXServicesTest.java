@@ -158,7 +158,7 @@ public class LXServicesTest {
 		TestSubscriber<ActivityDetailsResponse> observer = new TestSubscriber<>();
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		service.lxDetails(lxActivity, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
+		service.lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoErrors();
@@ -177,7 +177,7 @@ public class LXServicesTest {
 
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		service.lxDetails(lxActivity, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
+		service.lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertCompleted();
@@ -251,7 +251,7 @@ public class LXServicesTest {
 		server.enqueue(new MockResponse().setBody("{Unexpected}"));
 		TestSubscriber<ActivityDetailsResponse> observer = new TestSubscriber<>();
 
-		service.lxDetails(new LXActivity(), null, null, null, observer);
+		service.lxDetails(new LXActivity().id, null, null, null, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();

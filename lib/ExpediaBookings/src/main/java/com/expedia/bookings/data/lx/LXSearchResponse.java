@@ -15,4 +15,13 @@ public class LXSearchResponse {
 
 	// Utility Members - Required for Filtering
 	public transient List<LXActivity> unFilteredActivities = new ArrayList<>();
+
+	public LXActivity getActivityFromID(String activityId) {
+		for (LXActivity lxActivity : activities) {
+			if (lxActivity.id.equals(activityId)) {
+				return lxActivity;
+			}
+		}
+		return null;
+	}
 }

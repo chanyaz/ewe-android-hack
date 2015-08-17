@@ -236,6 +236,12 @@ public class DeepLinkRouterActivity extends Activity {
 	 * This will search for an activity with location, start date & Activity filters applied, i.e. Adventures & Attractions.
 	 * expda://activitySearch?startDate=2015-08-08&location=San+Francisco&filters=Adventures|Attractions
 	 * <p/>
+	 *
+	 *  <p/>
+	 * Example: Activity details search.
+	 * This will search for an activity with location, start date & activityID applied, i.e. 219796.
+	 * expda://activitySearch?startDate=2015-08-14&location=San+Francisco&activityId=219796
+	 * <p/>
 	 */
 	private boolean handleActivitySearch(Uri data, Set<String> queryData) {
 

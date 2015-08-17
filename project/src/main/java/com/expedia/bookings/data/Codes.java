@@ -29,6 +29,7 @@ public class Codes {
 
 	// Indicates that we came from a deeplink, which might entail different behavior
 	public static final String FROM_DEEPLINK = "TAG_FROM_DEEPLINK";
+	public static final String FROM_DEEPLINK_TO_DETAILS = "TAG_FROM_DEEPLINK_TO_DETAILS";
 
 	// Indicates we should open search automatically when launching a screen
 	public static final String EXTRA_OPEN_SEARCH = "EXTRA_OPEN_SEARCH";
