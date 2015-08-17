@@ -122,6 +122,8 @@
     </style>
 
     <style name="LaunchTheme" parent="Theme.AppCompat">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:logo">@drawable/ic_ab_wotif_logo</item>
         <item name="actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
         <item name="actionBarTabBarStyle">@style/ActionBarTabBar</item>
