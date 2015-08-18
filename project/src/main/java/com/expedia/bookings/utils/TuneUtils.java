@@ -141,7 +141,7 @@ public class TuneUtils {
 	public static void trackHotelSearchResults() {
 		if (initialized) {
 			MATEvent event = new MATEvent("hotel_search_results");
-			MATEventItem eventItem = new MATEventItem("hotel_rate_details_item");
+			MATEventItem eventItem = new MATEventItem("hotel_search_results_item");
 
 			Date checkInDate = getHotelSearchParams().getCheckInDate().toDate();
 			Date checkOutDate = getHotelSearchParams().getCheckOutDate().toDate();
