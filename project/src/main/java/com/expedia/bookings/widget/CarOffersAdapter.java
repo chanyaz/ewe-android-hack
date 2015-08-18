@@ -19,6 +19,7 @@ import android.widget.ToggleButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.RateTerm;
@@ -178,11 +179,14 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 				ratePrice.setText(
 					mContext.getString(R.string.car_details_TEMPLATE,
 						CarDataUtils.getStringTemplateForRateTerm(mContext, offer.fare.rateTerm),
-						offer.fare.rate.getFormattedMoney()));
+						Money.getFormattedMoneyFromAmountAndCurrencyCode(offer.fare.rate.amount,
+							offer.fare.rate.getCurrency(), offer.fare.rate.F_NO_DECIMAL)));
 				ratePrice.setVisibility(View.VISIBLE);
 			}
 			totalPrice.setText(
-				totalPrice.getContext().getString(R.string.cars_total_template, offer.fare.total.getFormattedMoney()));
+				totalPrice.getContext().getString(R.string.cars_total_template,
+					Money.getFormattedMoneyFromAmountAndCurrencyCode(offer.fare.total.amount,
+						offer.fare.total.getCurrency(), Money.F_NO_DECIMAL)));
 			addressLineOne.setText(offer.pickUpLocation.getAddressLine1());
 			addressLineTwo.setText(offer.pickUpLocation.getAddressLine2());
 			mapText.setText(offer.pickUpLocation.airportInstructions);
