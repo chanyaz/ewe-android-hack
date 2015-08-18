@@ -6,8 +6,8 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 public class HotelApplyCouponParams {
-	String tripId;
-	String couponCode;
+	public String tripId;
+	public String couponCode;
 
 	public HotelApplyCouponParams(String tripId, String couponCode) {
 		this.tripId = tripId;

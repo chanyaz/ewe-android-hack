@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.hotels.HotelApplyCouponParams
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.HotelCouponViewModel
 import kotlin.properties.Delegates
@@ -23,10 +25,6 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
 
     init {
         View.inflate(getContext(), R.layout.coupon_widget, this)
-    }
-
-    override fun onFinishInflate() {
-
     }
 
     override fun getDoneButtonFocus(): Boolean {
@@ -57,7 +55,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     }
 
     override fun onDonePressed() {
-        viewmodel.doneButtonObservable.onNext(couponCode.getText().toString())
+        viewmodel.couponParamsObservable.onNext(HotelApplyCouponParams(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId, couponCode.getText().toString()))
     }
 
     override fun onLogin() {

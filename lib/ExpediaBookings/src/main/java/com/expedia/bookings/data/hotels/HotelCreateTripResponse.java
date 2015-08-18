@@ -3,8 +3,9 @@ package com.expedia.bookings.data.hotels;
 import java.util.List;
 
 import com.expedia.bookings.data.ValidPayment;
+import com.expedia.bookings.data.cars.BaseApiResponse;
 
-public class HotelCreateTripResponse {
+public class HotelCreateTripResponse extends BaseApiResponse {
 
 	public String tripId;
 	public String userId;

@@ -43,6 +43,7 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
+        couponCardView.viewmodel = HotelCouponViewModel(getContext(), hotelServices)
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {
@@ -60,7 +61,6 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         val container = scrollView.findViewById(R.id.scroll_content) as LinearLayout
         container.addView(couponCardView, container.getChildCount() - 2)
         couponCardView.setToolbarListener(toolbarListener)
-        couponCardView.viewmodel = HotelCouponViewModel(getContext(), hotelServices)
         couponCardView.viewmodel.applyObservable.subscribe(applyCouponObservable)
         couponCardView.viewmodel.couponObservable.subscribe(downloadListener)
         val params = couponCardView.getLayoutParams() as LinearLayout.LayoutParams
@@ -99,6 +99,7 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
     val applyCouponObservable: Observer<String> = endlessObserver { coupon ->
         show(CheckoutBasePresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
     }
+
     val downloadListener: Observer<HotelCreateTripResponse> = endlessObserver { hotelCreateTripResponse ->
         Db.getTripBucket().add(TripBucketItemHotelV2(hotelCreateTripResponse))
         bind()

@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.presenter.Presenter
@@ -16,6 +17,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.ErrorWidget
+import com.expedia.util.endlessObserver
 import com.mobiata.android.Log
 import org.joda.time.format.ISODateTimeFormat
 import rx.Observer
@@ -49,6 +51,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         addTransition(cvvToError)
         addDefaultTransition(defaultCheckoutTransition)
         checkout.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
+        checkout.couponCardView.viewmodel.errorObservable.subscribe(errorListener)
         cvv.setCVVEntryListener(this)
     }
 
@@ -72,6 +75,11 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
     }
 
     private val cvvToError = VisibilityTransition(this, javaClass<CVVEntryWidget>(), javaClass<ErrorWidget>())
+
+
+    val errorListener: Observer<ApiError> = endlessObserver { error ->
+        show(errorScreen)
+    }
 
     val checkoutSliderSlidObserver: Observer<Unit> = object : Observer<Unit> {
         override fun onCompleted() {
@@ -115,7 +123,6 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         hotelCheckoutParams.expirationDateYear = JodaUtils.format(billingInfo.getExpirationDate(), "yyyy")
         hotelCheckoutParams.expirationDateMonth = JodaUtils.format(billingInfo.getExpirationDate(), "MM")
         hotelCheckoutParams.postalCode = billingInfo.getLocation().getPostalCode()
-
 
         hotelServices!!.checkout(hotelCheckoutParams, confirmationObserver)
     }
