@@ -130,6 +130,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
 			lp.gravity = Gravity.CENTER;
+			mSummaryProgressLayout.setLayoutParams(lp);
 			((ProgressBar) mSummaryProgressLayout).setIndeterminate(true);
 		}
 		summaryContainer.addView(mSummaryProgressLayout);
