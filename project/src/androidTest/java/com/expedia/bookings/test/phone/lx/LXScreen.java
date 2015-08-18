@@ -39,7 +39,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
@@ -162,7 +161,7 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction detailsDate(String dateText) {
-		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(containsString(dateText))));
+		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(dateText)));
 	}
 
 	public static ViewAction setLXActivities(final List<LXActivity> activities) {
@@ -218,24 +217,31 @@ public class LXScreen {
 	public static ViewInteraction checkoutWidget() {
 		return onView(withId(R.id.checkout));
 	}
+
 	public static ViewInteraction checkoutOfferTitle() {
 		return onView(withId(R.id.lx_offer_title_text));
 	}
+
 	public static ViewInteraction checkoutGroupText() {
 		return onView(withId(R.id.lx_group_text));
 	}
+
 	public static ViewInteraction checkoutOfferDate() {
 		return onView(withId(R.id.lx_offer_date));
 	}
+
 	public static ViewInteraction checkoutOfferLocation() {
 		return onView(withId(R.id.lx_offer_location));
 	}
+
 	public static ViewInteraction checkoutGrandTotalText() {
 		return onView(withId(R.id.grand_total_text));
 	}
+
 	public static ViewInteraction checkoutPriceText() {
 		return onView(withId(R.id.price_text));
 	}
+
 	public static ViewInteraction checkoutFreeCancellationText() {
 		return onView(withId(R.id.free_cancellation_text));
 	}
@@ -243,9 +249,11 @@ public class LXScreen {
 	public static ViewInteraction checkoutSignInCard() {
 		return onView(withId(R.id.login_widget));
 	}
+
 	public static ViewInteraction checkoutPaymentInfoCard() {
 		return onView(withId(R.id.payment_info_card_view));
 	}
+
 	public static ViewInteraction checkoutContactInfoCard() {
 		return onView(withId(R.id.main_contact_info_card_view));
 	}

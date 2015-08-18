@@ -207,13 +207,10 @@ public class LXDetailsPresenterTest {
 		LocalDate now = LocalDate.now();
 		LocalDate withoutOfferDate = LocalDate.now().plusDays(14);
 
-		LXScreen.detailsDate(
-			now.dayOfWeek().getAsShortText() + "\n" + now.dayOfMonth().getAsText()).check(
+		LXScreen.detailsDate(now.dayOfWeek().getAsShortText() + "\n" + now.dayOfMonth().getAsText() + "\n" + now.monthOfYear().getAsShortText()).check(
 			matches(isEnabled()));
 
-		LXScreen.detailsDate(
-			withoutOfferDate.dayOfWeek().getAsShortText() + "\n" + withoutOfferDate.dayOfMonth()
-				.getAsShortText()).check(
+		LXScreen.detailsDate(withoutOfferDate.dayOfWeek().getAsShortText() + "\n" + withoutOfferDate.dayOfMonth().getAsShortText() + "\n").check(
 			matches(not(isEnabled())));
 	}
 }
