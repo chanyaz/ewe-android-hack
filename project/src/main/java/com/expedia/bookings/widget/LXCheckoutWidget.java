@@ -200,7 +200,9 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 			// We don't support multiple ticket booking as of now, passing only the first bookable item.
 			bind(response.tripId, response.originalPrice, tripTotalPrice, response.lxProduct.lxBookableItems.get(0));
 			AdTracker.trackLXCheckoutStarted(lxState.activity.destination, tripTotalPrice,
-				lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate, lxState.activity.categories, lxState.selectedTicketsCount(), lxState.activity.title);
+				lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate, lxState.activity.categories,
+				lxState.selectedTicketsCount(), lxState.activity.title, lxState.activity.regionId, lxState.activity.id,
+				lxState.searchParams.startDate, lxState.selectedChildTicketsCount());
 			show(new Ready(), FLAG_CLEAR_BACKSTACK);
 			Events.post(new Events.LXCreateTripSucceeded(response, lxState.activity));
 		}

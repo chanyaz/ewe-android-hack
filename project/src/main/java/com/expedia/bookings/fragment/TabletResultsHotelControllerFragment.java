@@ -1780,5 +1780,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	public void onFilterDoneClicked() {
 		mMapFragment.reset();
 		mMapFragment.notifyFilterChanged();
+		AdTracker.trackFilteredHotelSearch();
 	}
 }
