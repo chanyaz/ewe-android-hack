@@ -17,9 +17,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 
-public class HotelCheckoutPriceChangeTests extends PhoneTestCase {
+public class HotelCheckoutPriceChangeTest extends PhoneTestCase {
 
-	private static final String TAG = HotelCheckoutPriceChangeTests.class.getSimpleName();
+	private static final String TAG = HotelCheckoutPriceChangeTest.class.getSimpleName();
 
 	public void testCheckHotels() throws Exception {
 		LaunchScreen.launchHotels();
