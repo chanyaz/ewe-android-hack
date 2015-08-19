@@ -47,7 +47,7 @@ public class AdTracker {
 	public static void trackLogin() {
 		// Other
 		AdX.trackLogin();
-		LeanPlumUtils.tracking("Sign In");
+		LeanPlumUtils.tracking("Sign In Success");
 		TuneUtils.trackLogin();
 	}
 

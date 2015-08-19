@@ -286,7 +286,7 @@ public class AccountLibActivity extends AppCompatActivity
 		@Override
 		public void signInSucceeded() {
 			OmnitureTracking.trackLoginSuccess();
-			AdTracker.trackLogin();
+			//Don't track the adtracker login here, as it happens once we fetch the profile
 		}
 
 		@Override
@@ -334,7 +334,7 @@ public class AccountLibActivity extends AppCompatActivity
 		public void userSucceededInCreatingAccount() {
 			OmnitureTracking.trackAccountCreateSuccess();
 			AdTracker.trackAccountCreated();
-			AdTracker.trackLogin();
+			//Don't track the adtracker login here, as it happens once we fetch the profile
 		}
 
 		@Override
