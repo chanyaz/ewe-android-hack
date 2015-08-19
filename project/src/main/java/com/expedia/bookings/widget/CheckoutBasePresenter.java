@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
@@ -61,7 +60,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public ViewGroup slideToContainer;
 
 	@InjectView(R.id.summary_container)
-	public CardView summaryContainer;
+	public FrameLayout summaryContainer;
 
 	public View mSummaryProgressLayout;
 

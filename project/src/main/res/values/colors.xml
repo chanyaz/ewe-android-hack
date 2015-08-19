@@ -309,4 +309,9 @@
     <color name="mer_email_checkbox_checked_color">#00B9E6</color>
     <color name="mer_email_text_color">#F7F8FA</color>
 
+    <!-- Signed in user tier colors -->
+    <color name="sign_in_user_tier_blue">#0085c9</color>
+    <color name="sign_in_user_tier_silver">#808080</color>
+    <color name="sign_in_user_tier_gold">#e7b40d</color>
+
 </resources>
