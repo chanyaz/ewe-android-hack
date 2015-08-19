@@ -280,8 +280,7 @@ class FacebookEvents() {
         val startDate = searchParams.startDate
 
         addCommonLXParams(parameters, startDate, lxSearchResponse.regionId, lxSearchResponse.destination)
-        val location = searchParams.location
-        parameters.putString("Search_String", location ?: "")
+        parameters.putString("Search_String", searchParams.location ?: "")
         parameters.putString("LowestSearch_Value", lxSearchResponse.getLowestPriceActivity()
                 .price.getAmount().toString())
 
@@ -433,7 +432,7 @@ private fun getLowestRate(property: Property): Rate? {
     return propertyLowestRate
 }
 
-fun addCommonCarParams(parameters: Bundle, startDate: LocalDate, endDate: LocalDate, pickUpLocation: CarLocation) {
+private fun addCommonCarParams(parameters: Bundle, startDate: LocalDate, endDate: LocalDate, pickUpLocation: CarLocation) {
     val dtf = ISODateTimeFormat.date()
     val locationCode = pickUpLocation.locationDescription
     val regionId = pickUpLocation.regionId
@@ -458,7 +457,7 @@ fun addCommonCarParams(parameters: Bundle, startDate: LocalDate, endDate: LocalD
     parameters.putString("POS", PointOfSale.getPointOfSale().getTwoLetterCountryCode())
 }
 
-fun addCommonLXParams(parameters: Bundle, startDate: LocalDate, regionId: String, location: String) {
+private fun addCommonLXParams(parameters: Bundle, startDate: LocalDate, regionId: String?, location: String?) {
     val dtf = ISODateTimeFormat.date()
     parameters.putString("LOB", "Activity")
     parameters.putString("region_id", regionId ?: "")
@@ -474,6 +473,6 @@ fun addCommonLXParams(parameters: Bundle, startDate: LocalDate, regionId: String
 
 }
 
-fun encodeBoolean(boolean: Boolean):Int{
+private fun encodeBoolean(boolean: Boolean): Int {
     return if (boolean) 1 else 0
 }
