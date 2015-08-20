@@ -89,7 +89,13 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 
 	public void bind(CreateTripCarOffer createTripOffer, String originalFormattedPrice) {
 		offer = createTripOffer;
-		locationDescriptionText.setText(offer.pickUpLocation.airportInstructions);
+		if (!Strings.isEmpty(offer.pickUpLocation.airportInstructions)) {
+			locationDescriptionText.setVisibility(View.VISIBLE);
+			locationDescriptionText.setText(offer.pickUpLocation.airportInstructions);
+		}
+		else {
+			locationDescriptionText.setVisibility(View.GONE);
+		}
 		carCompanyText.setText(offer.vendor.name);
 		categoryTitleText.setText(offer.vehicleInfo.carCategoryDisplayLabel);
 		carModelText.setText(CarDataUtils.getMakeName(getContext(), offer.vehicleInfo.makes));
