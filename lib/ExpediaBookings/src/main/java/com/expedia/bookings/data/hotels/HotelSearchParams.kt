@@ -2,7 +2,7 @@ package com.expedia.bookings.data.hotels
 
 import org.joda.time.LocalDate
 
-public class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
+public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
 
     public fun getGuestString() : String {
         val sb = StringBuilder {
