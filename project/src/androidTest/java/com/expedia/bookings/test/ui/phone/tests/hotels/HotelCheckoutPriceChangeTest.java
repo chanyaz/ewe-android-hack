@@ -12,15 +12,14 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 
-public class HotelCheckoutPriceChangeTests extends PhoneTestCase {
+public class HotelCheckoutPriceChangeTest extends PhoneTestCase {
 
-	private static final String TAG = HotelCheckoutPriceChangeTests.class.getSimpleName();
+	private static final String TAG = HotelCheckoutPriceChangeTest.class.getSimpleName();
 
 	public void testCheckHotels() throws Exception {
 		LaunchScreen.launchHotels();
@@ -29,24 +28,18 @@ public class HotelCheckoutPriceChangeTests extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "Setting hotel search city to: " + "New York, NY");
 		HotelsSearchScreen.enterSearchText("New York, NY");
 		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
-		HotelsSearchScreen.clickListItem(2);
+		HotelsSearchScreen.clickHotelWithName("hotel_price_change");
 		HotelsDetailsScreen.clickSelectButton();
-		try {
-			onView(withText("OK")).perform(click());
-		}
-		catch (Exception e) {
-			ScreenActions.enterLog(TAG, "Not available right now");
-		}
 		ScreenActions.enterLog(TAG, "Selecting first room listed for this hotel.");
 		HotelsRoomsRatesScreen.selectRoomItemWithPriceChange(0);
 		verifyPriceChangeDecrease();
 		HotelsRoomsRatesScreen.dismissPriceChange();
+		verifyPriceUpdated("$1,395.88");
 		Espresso.pressBack();
 		HotelsRoomsRatesScreen.selectRoomItemWithPriceChange(1);
 		verifyPriceChangeIncrease();
 		HotelsRoomsRatesScreen.dismissPriceChange();
-		Espresso.pressBack();
-		verifyPriceUpdated();
+		verifyPriceUpdated("$3,395.88");
 	}
 
 	private void verifyPriceChangeDecrease() {
@@ -57,10 +50,9 @@ public class HotelCheckoutPriceChangeTests extends PhoneTestCase {
 		EspressoUtils.assertViewWithSubstringIsDisplayed("Sorry, but it looks like the hotel");
 	}
 
-	private void verifyPriceUpdated() {
-		// Verify the new price is shown on the rooms and rates.
-		HotelsRoomsRatesScreen.getRoomRow(2).onChildView(withId(R.id.price_text_view))
-			.check(matches(withText(containsString("$1,229"))));
+	private void verifyPriceUpdated(String price) {
+		// Verify the new price is shown on the trip overview page.
+		onView(withId(R.id.price_text)).check(matches(withText(containsString(price))));
 	}
 
 }

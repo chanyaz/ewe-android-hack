@@ -17,11 +17,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 /**
  * Created by dmadan on 5/2/14.
  */
-public class FlightSearchTests extends PhoneTestCase {
+public class FlightSearchTest extends PhoneTestCase {
 	/*
 	*  #289 eb_tp test for flight search.
 	*/
-	private static final String TAG = "FlightSearchTests";
+	private static final String TAG = "FlightSearchTest";
 
 	// Test to check duplicate airport search gives error message
 	public void testDuplicateAirportSearchGivesErrorMessage() throws Exception {
