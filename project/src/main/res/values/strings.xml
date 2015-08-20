@@ -2579,6 +2579,8 @@
     <string name="hotel_guest_recommend">of 5 - guest rating</string>
 
     <!-- Amenity strings -->
+    <!-- Label to show amenities -->
+    <string name="AmenityTitle">Amenities</string>
     <!-- Text that indicates no amenities at this property -->
     <string name="AmenityNone">No Amenities Offered</string>
     <!-- Business center amenity -->
