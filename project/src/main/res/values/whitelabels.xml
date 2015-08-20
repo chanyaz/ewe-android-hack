@@ -335,4 +335,6 @@
     <attr name="skin_lxErrorDefaultDrawable" format="reference" />
     <attr name="skin_filterNumberBgDrawable" format="reference" />
     <attr name="skin_accountCreationBackgroundDrawable" format="reference" />
+    <attr name="skin_errorIndicationExclaimationDrawable" format="reference" />
+
 </resources>

@@ -18,7 +18,7 @@
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/tvly</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_tvly_logo_small</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
@@ -58,6 +58,8 @@
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_travelocity_logo_small</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_travelocity</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
+        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_signin_travelocity</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
@@ -186,7 +188,7 @@
         <item name="android:listSeparatorTextViewStyle">@style/TabletPreferenceSeparator</item>
     </style>
 
-    <style name="Whitelabel.AccountLibTheme" parent="Theme.AppCompat">
+    <style name="Whitelabel.AccountLibTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="acct__input_text_error_color">@color/acct__bg_input_text_error_tvly</item>
         <item name="acct__input_text_good_color">@color/acct__bg_input_text_good_tvly</item>
         <item name="acct__sign_in_button_background_drawable">@drawable/btn_signin_travelocity</item>

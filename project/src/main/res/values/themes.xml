@@ -136,7 +136,7 @@
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
         <item name="skin_hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
         <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
         <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
@@ -207,7 +207,7 @@
         <item name="skin_checkmarkFlightDrawable">@drawable/checkmark_flight</item>
         <item name="skin_icTabletConfirmationCheckmarkDrawable">@drawable/ic_tablet_confirmation_checkmark</item>
         <item name="skin_tabletFilterPriceTextColor">@color/tablet_filter_price_text</item>
-
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

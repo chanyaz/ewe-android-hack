@@ -41,7 +41,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getAppSupportUrl(Context context) {
-		return PointOfSale.getPointOfSale().getAppSupportUrl();
+		return context.getString(R.string.app_support_url_tvly);
 	}
 
 	@Override
@@ -280,5 +280,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
-
+	@Override
+	public boolean isTrackWithFlightTrackEnabled() {
+		return false;
+	}
 }

@@ -277,4 +277,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isAppCrossSellInFlightShareContentEnabled() {
 		return true;
 	}
+
+	@Override
+	public boolean isTrackWithFlightTrackEnabled() {
+		return true;
+	}
 }

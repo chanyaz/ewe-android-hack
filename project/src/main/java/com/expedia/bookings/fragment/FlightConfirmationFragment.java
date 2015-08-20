@@ -29,6 +29,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
@@ -235,6 +236,10 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.get_a_room_text_view));
 		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.more_actions_text_view));
 
+		if (!ProductFlavorFeatureConfiguration.getInstance().isTrackWithFlightTrackEnabled()) {
+			Ui.findView(v, R.id.flighttrack_action_text_view).setVisibility(View.GONE);
+			Ui.findView(v, R.id.flighttrack_divider).setVisibility(View.GONE);
+		}
 		return v;
 	}
 
