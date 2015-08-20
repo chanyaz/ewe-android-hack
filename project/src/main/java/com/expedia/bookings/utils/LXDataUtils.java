@@ -287,7 +287,7 @@ public class LXDataUtils {
 		LXSearchParams searchParams = new LXSearchParams();
 		if (queryData.contains("startDate")) {
 			LocalDate startDate = DateUtils.yyyyMMddToLocalDate(data.getQueryParameter("startDate"));
-			searchParams.startDate(queryData.contains("activityId") ? DateUtils.ensureDateIsTodayOrInFuture(startDate) : startDate);
+			searchParams.startDate(DateUtils.ensureDateIsTodayOrInFuture(startDate));
 		}
 		if (queryData.contains("location")) {
 			searchParams.location(data.getQueryParameter("location"));
