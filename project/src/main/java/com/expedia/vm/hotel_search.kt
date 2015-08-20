@@ -29,6 +29,16 @@ class HotelSearchViewModel(val context: Context) {
     val searchButtonObservable = PublishSubject.create<Boolean>()
     val errorNoOriginObservable = PublishSubject.create<Unit>()
     val errorNoDatesObservable = PublishSubject.create<Unit>()
+    val enableDateObservable = PublishSubject.create<Boolean>()
+    val enableTravelerObservable = PublishSubject.create<Boolean>()
+
+    val enableDateObserver = endlessObserver<Unit> {
+        enableDateObservable.onNext(paramsBuilder.hasOrigin())
+    }
+
+    val enableTravelerObserver = endlessObserver<Unit> {
+        enableTravelerObservable.onNext(paramsBuilder.hasOrigin())
+    }
 
 
     // Inputs
@@ -61,6 +71,11 @@ class HotelSearchViewModel(val context: Context) {
     val suggestionObserver = endlessObserver<SuggestionV4> { suggestion ->
         paramsBuilder.suggestion(suggestion)
         locationTextObservable.onNext(Html.fromHtml(StrUtils.formatCityName(suggestion.regionNames.displayName)).toString())
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
+    val suggestionTextChangedObserver = endlessObserver<Unit> {
+        paramsBuilder.suggestion(null)
         requiredSearchParamsObserver.onNext(Unit)
     }
 
@@ -134,7 +149,7 @@ public class HotelTravelerPickerViewModel(val context: Context) {
 
     // Outputs
     val travelerParamsObservable = BehaviorSubject.create(HotelTravelerParams(numberOfAdults, emptyList()))
-    val guestsTextObservable = BehaviorSubject.create<String>()
+    val guestsTextObservable = BehaviorSubject.create<CharSequence>()
     val adultTextObservable = BehaviorSubject.create<String>()
     val childTextObservable = BehaviorSubject.create<String>()
 

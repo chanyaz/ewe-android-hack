@@ -44,7 +44,7 @@ public fun Observable<Float>.subscribe(ratingBar: RatingBar) {
     this.subscribe { text -> ratingBar.setRating(text) }
 }
 
-public fun Observable<String>.subscribe(togglebutton: ToggleButton) {
+public fun Observable<CharSequence>.subscribeToggleButton(togglebutton: ToggleButton) {
     this.subscribe { text ->
         togglebutton.setText(text)
         togglebutton.setTextOn(text)

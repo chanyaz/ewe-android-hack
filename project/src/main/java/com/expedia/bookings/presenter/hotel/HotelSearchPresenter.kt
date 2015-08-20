@@ -5,6 +5,8 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.support.v7.widget.Toolbar
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +27,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribe
 import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeToggleButton
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelTravelerPickerViewModel
@@ -40,8 +43,8 @@ import kotlin.properties.Delegates
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val searchLocation: AlwaysFilterAutoCompleteTextView by bindView(R.id.hotel_location)
-    val selectDate: Button by bindView(R.id.select_date)
-    val selectTraveler: Button by bindView(R.id.select_traveler)
+    val selectDate: ToggleButton by bindView(R.id.select_date)
+    val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
     val calendar: CalendarPicker by bindView(R.id.calendar)
     val monthView: MonthView by bindView(R.id.month)
     val traveler: HotelTravelerPickerView by bindView(R.id.traveler_view)
@@ -92,25 +95,75 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             calendar.setToolTipText(top, bottom)
         })
 
-        vm.dateTextObservable.subscribe(selectDate)
-        selectDate.setOnClickListener {
-            calendar.setVisibility(View.VISIBLE)
-            traveler.setVisibility(View.GONE)
+        vm.dateTextObservable.subscribeToggleButton(selectDate)
+
+        selectDate.subscribeOnClick(vm.enableDateObserver)
+        vm.enableDateObservable.subscribe { enable ->
+            if (enable) {
+                selectDate.setChecked(true)
+                com.mobiata.android.util.Ui.hideKeyboard(this)
+                searchLocation.clearFocus()
+                calendar.setVisibility(View.VISIBLE)
+                traveler.setVisibility(View.GONE)
+            } else {
+                vm.errorNoOriginObservable.onNext(Unit)
+            }
         }
 
         traveler.viewmodel.travelerParamsObservable.subscribe(vm.travelersObserver)
-        traveler.viewmodel.guestsTextObservable.subscribe(selectTraveler)
-        selectTraveler.setOnClickListener {
-            calendar.setVisibility(View.GONE)
-            traveler.setVisibility(View.VISIBLE)
-            calendar.hideToolTip()
+        traveler.viewmodel.guestsTextObservable.subscribeToggleButton(selectTraveler)
+        selectTraveler.subscribeOnClick(vm.enableTravelerObserver)
+        vm.enableTravelerObservable.subscribe { enable ->
+            if (enable) {
+                selectTraveler.setChecked(true)
+                com.mobiata.android.util.Ui.hideKeyboard(this)
+                searchLocation.clearFocus()
+                calendar.setVisibility(View.GONE)
+                traveler.setVisibility(View.VISIBLE)
+                calendar.hideToolTip()
+            } else {
+                vm.errorNoOriginObservable.onNext(Unit)
+            }
         }
 
         searchLocation.setAdapter(hotelSuggestionAdapter)
+        searchLocation.setSelectAllOnFocus(true)
+        searchLocation.setOnFocusChangeListener { view, isFocused ->
+            if (isFocused) {
+                searchLocation.showDropDown()
+            }
+        }
+
+        searchLocation.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (selectDate.isChecked()) {
+                    vm.suggestionTextChangedObserver.onNext(Unit)
+                    selectDate.setChecked(false)
+                    selectTraveler.setChecked(false)
+                    calendar.setVisibility(View.GONE)
+                    traveler.setVisibility(View.GONE)
+                    calendar.hideToolTip()
+                }
+            }
+        })
+
         searchLocation.setOnItemClickListener {
             adapterView, view, position, l ->
             vm.suggestionObserver.onNext(hotelSuggestionAdapter.getItem(position))
+            selectDate.setChecked(true)
+            selectTraveler.setChecked(true)
+
             com.mobiata.android.util.Ui.hideKeyboard(this)
+            searchLocation.clearFocus()
+            searchLocation.setSelected(false)
+            calendar.setVisibility(View.VISIBLE)
+            traveler.setVisibility(View.GONE)
         }
 
         vm.locationTextObservable.subscribe(searchLocation)
@@ -124,6 +177,8 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             }
         }
         vm.errorNoOriginObservable.subscribe {
+            selectDate.setChecked(false)
+            selectTraveler.setChecked(false)
             AnimUtils.doTheHarlemShake(searchLocation)
         }
         vm.errorNoDatesObservable.subscribe {
@@ -141,6 +196,11 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     init {
         View.inflate(context, R.layout.widget_hotel_search_params, this)
         traveler.viewmodel = HotelTravelerPickerViewModel(getContext())
+        searchLocation.requestFocus();
+        calendar.setVisibility(View.GONE)
+        traveler.setVisibility(View.GONE)
+        selectDate.setChecked(false)
+        selectTraveler.setChecked(false)
 
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {

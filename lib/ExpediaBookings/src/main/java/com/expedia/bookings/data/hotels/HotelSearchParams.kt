@@ -22,7 +22,7 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
         private var adults: Int = 1
         private var children: List<Int> = emptyList()
 
-        fun suggestion(city: SuggestionV4): Builder {
+        fun suggestion(city: SuggestionV4?): Builder {
             this.suggestion = city
             return this
         }
