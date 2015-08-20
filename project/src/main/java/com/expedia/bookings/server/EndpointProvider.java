@@ -125,6 +125,20 @@ public class EndpointProvider {
 		return ESS_PRODUCTION_ENDPOINT;
 	}
 
+	private static final String TEST_REVIEWS_BASE_URL = "https://test.reviewsvc.expedia.com/";
+	private static final String PROD_REVIEWS_BASE_URL = "https://reviewsvc.expedia.com/";
+
+
+	public String getReviewsEndpointUrl() {
+		EndPoint endPoint = getEndPoint();
+		String endPointURL = TEST_REVIEWS_BASE_URL;
+		if (endPoint == EndPoint.PRODUCTION) {
+			endPointURL = PROD_REVIEWS_BASE_URL;
+		}
+		return endPointURL;
+	}
+
+
 	public String getCustomServerAddress() {
 		boolean forceHttp = SettingUtils.get(context, R.string.preference_force_custom_server_http_only, false);
 		String protocol = !forceHttp ? "https" : "http";
