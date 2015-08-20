@@ -15,8 +15,6 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelTravelerPickerViewModel
 import com.expedia.vm.HotelTravelerParams
 import rx.Observable
-import rx.android.view.ViewObservable
-import rx.android.widget.WidgetObservable
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.properties.Delegates
