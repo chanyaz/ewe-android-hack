@@ -233,11 +233,37 @@
                     android:layout_marginTop="10dp"
                     android:background="@color/divider_grey" />
 
+                <LinearLayout
+                    android:id="@+id/common_amenities_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/etp_divider"
+                    android:orientation="vertical">
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/common_amenities_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:drawableLeft="@drawable/check"
+                        android:drawablePadding="4dp"
+                        android:padding="8dp" />
+
+                    <View
+                        android:id="@+id/common_amenities_divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/divider_grey" />
+
+                </LinearLayout>
+
                 <TableLayout
                     android:id="@+id/room_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/etp_divider"
+                    android:layout_below="@+id/common_amenities_container"
                     android:layout_marginBottom="20dp"></TableLayout>
 
                 <RelativeLayout
@@ -300,9 +326,17 @@
                 </com.expedia.bookings.widget.HotelEtpStickyHeaderLayout>
 
             </RelativeLayout>
+
         </RelativeLayout>
 
     </com.expedia.bookings.widget.ScrollView>
+    <com.expedia.bookings.widget.ResortFeeWidget
+        android:id="@+id/resort_fee_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
 
     <View
         android:id="@+id/toolbar_background"

@@ -1,22 +1,16 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget
-import android.widget.LinearLayout
+import android.widget.Button
 import android.widget.RatingBar
 import android.widget.TableLayout
 import android.widget.TableRow
 import com.expedia.bookings.R
-import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.Ui
@@ -30,9 +24,7 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.larvalabs.svgandroid.widget.SVGView
 import rx.Observer
-import java.util.ArrayList
 import kotlin.properties.Delegates
 
 /**
@@ -44,6 +36,8 @@ object RoomSelected {
 public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
 
     val MAP_ZOOM_LEVEL = 12f
+    val screenSize by Delegates.lazy { Ui.getScreenSize(context) }
+
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle: TextView by bindView(R.id.hotel_name_text)
     val toolBarRating: RatingBar by bindView(R.id.hotel_star_rating_bar)
@@ -51,8 +45,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val gallery: RecyclerGallery by bindView(R.id.images_gallery)
     val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
 
+    val priceContainer : ViewGroup by bindView(R.id.price_widget)
     val pricePerNight: TextView by bindView(R.id.price_per_night)
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
+    val selectRoomButton: Button by bindView(R.id.select_room_button)
     val userRating: TextView by bindView(R.id.user_rating)
     val numberOfReviews: TextView by bindView(R.id.number_of_reviews)
     val hotelDescription: TextView by bindView(R.id.body_text)
@@ -63,6 +59,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
     val amenityTitleText: TextView by bindView(R.id.amenities_none_text)
+
+    val resortFeeWidget : ResortFeeWidget by bindView(R.id.resort_fee_widget)
+
+    val commonAmenityContainer : ViewGroup by bindView(R.id.common_amenities_container)
+    val commonAmenityText : TextView by bindView(R.id.common_amenities_text)
 
     val roomContainer: TableLayout by bindView(R.id.room_container)
     val amenities_text: TextView by bindView(R.id.amenities_text)
@@ -75,8 +76,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val toolBarBackground: View by bindView(R.id.toolbar_background)
     var hotelLatLng: DoubleArray by Delegates.notNull()
     var offset: Float by Delegates.notNull()
-
+    var priceContainerLocation = IntArray(2)
+    var roomContainerPosition = IntArray(2)
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
+
+        resetView()
+        detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
         vm.galleryObservable.subscribe { galleryUrls ->
             gallery.setDataSource(galleryUrls)
             gallery.scrollToPosition(0)
@@ -88,6 +93,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.amenitiesListObservable.subscribe { amenityList ->
             Amenity.addAmenity(amenityContainer, amenityList)
         }
+        vm.commonAmenityTextObservable.subscribe { text ->
+            commonAmenityContainer.setVisibility(View.VISIBLE)
+            commonAmenityText.setText(text)
+        }
+
+        vm.hotelResortFeeObservable.subscribe(resortFeeWidget.resortFeeText)
 
         vm.amenityHeaderTextObservable.subscribe(amenities_text_header)
         vm.amenityTextObservable.subscribe(amenities_text)
@@ -111,6 +122,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 view.viewmodel = HotelRoomRateViewModel(getContext(), roomList.get(roomResponseIndex), roomResponseIndex)
                 roomContainer.addView(view)
             }
+
         }
 
         mapClickContainer.subscribeOnClick(vm.mapClickContainer)
@@ -120,6 +132,14 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         //getting the map
         mapView.onCreate(null)
         mapView.getMapAsync(this);
+    }
+
+    fun resetView() {
+        detailContainer.scrollTo(0, 0)
+        toolBarBackground.setAlpha(0f)
+        priceViewAlpha(1f)
+        resortFeeWidget.setVisibility(View.GONE)
+        commonAmenityContainer.setVisibility(View.GONE)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -140,16 +160,37 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     val scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
         override fun onScrollChanged() {
-            var yOffset = detailContainer.getScrollY()
-            var ratio: Float = parallaxScrollHeader(yOffset)
-            toolBarBackground.setAlpha(ratio)
+            priceContainer.getLocationOnScreen(priceContainerLocation)
+            if (priceContainerLocation[1] <= 0) {
+                toolBarBackground.setAlpha(1.0f)
+            }
+            else {
+                toolBarBackground.setAlpha(0f)
+            }
+
+            var ratio = (priceContainerLocation[1]) / offset
+            priceViewAlpha(ratio * 1.5f)
+
+            if (shouldShowResortView()) {
+                resortFeeWidget.setVisibility(View.VISIBLE)
+            }
+            else {
+                resortFeeWidget.setVisibility(View.GONE)
+            }
         }
     }
 
-    public fun parallaxScrollHeader(scrollY: Int): Float {
-        val ratio = (scrollY).toFloat() / (mainContainer.getTop() - offset)
-        galleryContainer.setTranslationY(scrollY * 0.5f)
-        return ratio
+    fun priceViewAlpha(ratio: Float) {
+        pricePerNight.setAlpha(ratio)
+        searchInfo.setAlpha(ratio)
+        selectRoomButton.setAlpha(ratio)
+    }
+
+    public fun shouldShowResortView(): Boolean {
+        roomContainer.getLocationOnScreen(roomContainerPosition)
+        if (roomContainerPosition[1] + roomContainer.getHeight() < offset) return false
+        if ((viewmodel.hotelResortFeeObservable.getValue() != null) && roomContainerPosition[1] < screenSize.y / 2) return true
+        else return false
     }
 
     init {
@@ -163,10 +204,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp))
         toolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent))
         toolBarBackground.getLayoutParams().height += statusBarHeight
-        toolBarBackground.setAlpha(0f)
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
-        detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
-        offset = Ui.toolbarSizeWithStatusBar(getContext()).toFloat()
+        offset = Ui.toolbarSizeWithStatusBar(getContext()).toFloat() + Ui.getToolbarSize(getContext())
     }
 
 }

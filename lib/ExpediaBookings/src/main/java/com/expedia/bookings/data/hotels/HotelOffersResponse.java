@@ -52,6 +52,7 @@ public class HotelOffersResponse {
 		public String roomTypeDescription;
 		public String roomLongDescription;
 		public String roomThumbnailUrl;
+		public List<ValueAdds> valueAdds;
 	}
 
 	public static class BedTypes {
@@ -82,5 +83,9 @@ public class HotelOffersResponse {
 	public static class Photos {
 		public String displayText;
 		public String url;
+	}
+
+	public static class ValueAdds {
+		public String description;
 	}
 }
