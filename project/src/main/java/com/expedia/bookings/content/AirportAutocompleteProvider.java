@@ -44,7 +44,6 @@ public class AirportAutocompleteProvider extends ContentProvider {
 
 	@Override
 	public boolean onCreate() {
-		mServices = new ExpediaServices(getContext());
 		return true;
 	}
 
@@ -61,6 +60,10 @@ public class AirportAutocompleteProvider extends ContentProvider {
 
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+		if (mServices == null) {
+			mServices = new ExpediaServices(getContext());
+		}
+
 		String query = "";
 		if (uri.getPathSegments().size() > 0) {
 			query = URLDecoder.decode(uri.getLastPathSegment());

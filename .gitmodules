@@ -13,15 +13,9 @@
 [submodule "project/assets/FlightStatsDb"]
 	path = project/src/main/assets/FlightStatsDb
 	url = git@github.com:/ExpediaInc/ewe-android-flight-stats-db.git
-[submodule "lib/svg-android"]
-	path = lib/svg-android
-	url = git@github.com:/ExpediaInc/ewe-android-svg-android.git
 [submodule "lib/ShareEverywhere"]
 	path = lib/ShareEverywhere
 	url = git@github.com:/ExpediaInc/ewe-android-share-everywhere.git
 [submodule "lib/AndroidTime"]
 	path = lib/AndroidTime
 	url = git@github.com:/ExpediaInc/ewe-android-time.git
-[submodule "lib/mocke3"]
-	path = lib/mocke3
-	url = git@github.com:/ExpediaInc/ewe-mocke3

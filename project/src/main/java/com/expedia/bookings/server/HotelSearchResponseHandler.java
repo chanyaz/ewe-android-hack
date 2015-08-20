@@ -11,23 +11,22 @@ import android.content.Context;
 import android.text.Html;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
-import com.expedia.bookings.utils.LoggingInputStream;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchResponse> {
@@ -40,7 +39,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 	private boolean mFilterMerchants = false;
 
 	public HotelSearchResponseHandler(Context context) {
-		mIsRelease = AndroidUtils.isRelease(context);
+		mIsRelease = BuildConfig.RELEASE;
 		if (!mIsRelease) {
 			mFilterMerchants = SettingUtils.get(context, context.getString(R.string.preference_filter_merchant_properties), false);
 		}
@@ -73,11 +72,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		String contentEncoding = response.headers().get("Content-Encoding");
 		if (!TextUtils.isEmpty(contentEncoding) && "gzip".equalsIgnoreCase(contentEncoding)) {
 			in = new GZIPInputStream(in);
-		}
-
-		if (!mIsRelease) {
-			// Only wire this up on debug builds
-			in = new LoggingInputStream(in);
 		}
 
 		JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
@@ -269,9 +263,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 						mediaName = reader.nextName();
 						mediaToken = reader.peek();
 						if (mediaName.equals("url") && !mediaToken.equals(JsonToken.NULL)) {
-							Media media = ParserUtils.parseUrl(reader.nextString());
-							if (media != null) {
-								property.addMedia(media);
+							HotelMedia hotelMedia = ParserUtils.parseUrl(reader.nextString());
+							if (hotelMedia != null) {
+								property.addMedia(hotelMedia);
 							}
 						}
 					}
@@ -319,6 +313,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 				boolean allowedToDisplayRatingAsStars = reader.nextBoolean();
 				// ignore for 4.3
 				//property.setShowCircles(!allowedToDisplayRatingAsStars);
+			}
+			else if (name.equals("isShowEtpChoice")) {
+				property.setIsETPHotel(reader.nextBoolean());
 			}
 			else {
 				reader.skipValue();

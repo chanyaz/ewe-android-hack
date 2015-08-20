@@ -23,6 +23,7 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -64,7 +65,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -123,6 +123,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 	private boolean mDoingHotelsAddToBucket = false;
 
 	boolean mIsBailing = false;
+	boolean showHotels = false;
 
 	/**
 	 * Create intent to open this activity in a standard way.
@@ -193,7 +194,6 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		manager.executePendingTransactions();//These must be finished before we continue..
 
 		// Deep linking
-		boolean showHotels = false;
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			if (extras.getBoolean(INTENT_EXTRA_DEEP_LINK_HOTEL_STATE, false)) {
@@ -246,8 +246,10 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		Sp.getBus().register(this);
 		Events.register(this);
 		mTripBucketFrag.bindToDb();
-		OmnitureTracking.trackTabletSearchResultsPageLoad(this, Sp.getParams());
-		OmnitureTracking.onResume(this);
+		if (!showHotels) {
+			OmnitureTracking.trackTabletSearchResultsPageLoad(this, Sp.getParams());
+			OmnitureTracking.onResume(this);
+		}
 	}
 
 	@Override
@@ -266,7 +268,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
 		//We allow debug users to jump between states
-		if (!AndroidUtils.isRelease(this)) {
+		if (BuildConfig.DEBUG) {
 			//We use ordinal() + 1 for all ids and groups because 0 == Menu.NONE
 			SubMenu subMen = menu.addSubMenu(Menu.NONE, Menu.NONE, 0, "Results State");
 
@@ -320,7 +322,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		}
 
 		//We allow debug users to jump between states
-		if (!AndroidUtils.isRelease(this)) {
+		if (BuildConfig.DEBUG) {
 
 			//All of our groups/ids are .ordinal() + 1 so we subtract here to make things easier
 			int groupId = item.getGroupId() - 1;

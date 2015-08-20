@@ -1,0 +1,154 @@
+{
+    "legs": [
+        {
+            "legId": "leg0",
+            "segments": [
+                {
+                    "airlineCode": "AA",
+                    "airlineName": "American Airlines",
+                    "arrivalAirportCode": "${departureAirport}",
+                    "arrivalAirportLocation": "${departureAirport}",
+                    "arrivalTimeEpochSeconds": "${returnFlightLandingTimeEpochSeconds}",
+                    "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
+                    "departureAirportCode": "${arrivalAirport}",
+                    "departureAirportLocation": "${arrivalAirport}",
+                    "departureTimeEpochSeconds": "${returnFlightTakeoffTimeEpochSeconds}",
+                    "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
+                    "distance": 2572,
+                    "distanceUnits": "miles",
+                    "equipmentCode": "32B",
+                    "flightNumber": "179",
+                    "meal": "Food and beverage for purchase",
+                    "onTimePercentage": "70",
+                    "providerCode": "Amadeus",
+                    "stops": 0
+                }
+            ]
+        },
+        {
+            "legId": "leg1",
+            "segments": [
+                {
+                    "airlineCode": "DL",
+                    "airlineName": "Delta",
+                    "arrivalAirportCode": "${arrivalAirport}",
+                    "arrivalAirportLocation": "${arrivalAirport}",
+                    "arrivalTimeEpochSeconds": "${departingFlightLandingTimeEpochSeconds}",
+                    "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
+                    "departureAirportCode": "${departureAirport}",
+                    "departureAirportLocation": "${departureAirport}",
+                    "departureTimeEpochSeconds": "${departingFlightTakeoffTimeEpochSeconds}",
+                    "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
+                    "distance": 2572,
+                    "distanceUnits": "miles",
+                    "equipmentCode": "752",
+                    "equipmentDescription": "Boeing 757-200",
+                    "flightNumber": "2340",
+                    "meal": "Food For Purchase",
+                    "onTimePercentage": "100",
+                    "providerCode": "Amadeus",
+                    "stops": 0
+                }
+            ]
+        }
+    ],
+    "obFeesDetails": "http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033",
+    "offers": [
+        {
+            "averageTotalPricePerTicket": {
+                "amount": "696.00",
+                "formattedPrice": "$696.00",
+                "formattedWholePrice": "$696"
+            },
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+            "baseFare": "620.46",
+            "baseFarePrice": {
+                "amount": "620.46",
+                "formattedPrice": "$620.46",
+                "formattedWholePrice": "$620"
+            },
+            "currency": "USD",
+            "fareType": "PUBLISHED",
+            "fees": "7.00",
+            "feesPrice": {
+                "amount": "7.00",
+                "formattedPrice": "$7.00",
+                "formattedWholePrice": "$7"
+            },
+            "hasBagFee": false,
+            "hasNoBagFee": false,
+            "isInternational": false,
+            "legIds": [
+                "leg1",
+                "leg0"
+            ],
+            "mayChargeOBFees": false,
+            "numberOfTickets": 1,
+            "pricePerPassengerCategory": [
+                {
+                    "basePrice": {
+                        "amount": "620.46",
+                        "formattedPrice": "$620.46",
+                        "formattedWholePrice": "$620"
+                    },
+                    "passengerCategory": "ADULT",
+                    "taxesPrice": {
+                        "amount": "68.54",
+                        "formattedPrice": "$68.54",
+                        "formattedWholePrice": "$69"
+                    },
+                    "totalPrice": {
+                        "amount": "689.00",
+                        "formattedPrice": "$689.00",
+                        "formattedWholePrice": "$689"
+                    }
+                }
+            ],
+            "productKey": "happy_roundtrip_0",
+            "seatsRemaining": 1,
+            "segmentAttributes": [
+                [
+                    {
+                        "bookingCode": "K",
+                        "cabinCode": "coach"
+                    }
+                ],
+                [
+                    {
+                        "bookingCode": "V",
+                        "cabinCode": "coach"
+                    }
+                ]
+            ],
+            "showFees": true,
+            "taxes": "68.54",
+            "taxesPrice": {
+                "amount": "68.54",
+                "formattedPrice": "$68.54",
+                "formattedWholePrice": "$69"
+            },
+            "totalFare": "696.00",
+            "totalFarePrice": {
+                "amount": "696.00",
+                "formattedPrice": "$696.00",
+                "formattedWholePrice": "$696"
+            }
+        }
+    ],
+    "searchCities": [
+        {
+            "city": "${departureAirport}",
+            "code": "${departureAirport}",
+            "country": "United States",
+            "province": "CA",
+            "searchType": "AIRPORT"
+        },
+        {
+            "city": "${arrivalAirport}",
+            "code": "${arrivalAirport}",
+            "country": "United States",
+            "province": "NY",
+            "searchType": "AIRPORT"
+        }
+    ]
+}

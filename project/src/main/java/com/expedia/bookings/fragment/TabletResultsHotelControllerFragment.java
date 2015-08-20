@@ -25,6 +25,7 @@ import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterList
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.IResultsFilterDoneClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelGalleryBackClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelGalleryClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
@@ -39,9 +40,8 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
-import com.expedia.bookings.maps.HotelMapFragment;
-import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
-import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
+import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
+import com.expedia.bookings.fragment.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.AdTracker;
@@ -66,7 +66,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState>,
 	IAddToBucketListener,
 	IResultsHotelReviewsClickedListener, IAcceptingListenersListener, IResultsHotelReviewsBackClickedListener,
-	IResultsHotelGalleryClickedListener, IResultsHotelGalleryBackClickedListener {
+	IResultsHotelGalleryClickedListener, IResultsHotelGalleryBackClickedListener, IResultsFilterDoneClickedListener {
 
 	// State
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
@@ -713,6 +713,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
 		}
 		OmnitureTracking.trackPageLoadHotelsInfosite(getActivity(), -1);
+		AdTracker.trackHotelInfoSite();
 	}
 
 	private void updateFragsForRoomsAndRates() {
@@ -894,7 +895,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		@Override
 		public void onStateFinalized(ResultsHotelsListState state) {
 			if (shouldWeListenToScroll()) {
-				setHotelsState(getHotelsStateFromListState(state), false);
+				ResultsHotelsState hotelsStateFromListState = getHotelsStateFromListState(state);
+				if (hotelsStateFromListState != mHotelsStateManager.getState()) {
+					setHotelsState(hotelsStateFromListState, false);
+				}
 			}
 		}
 
@@ -1125,6 +1129,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 					}
 					else if (state == ResultsHotelsState.ROOMS_AND_RATES) {
 						setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
+						Db.getHotelSearch().setSelectedProperty(null);
 						return true;
 					}
 					else if (state == ResultsHotelsState.REVIEWS) {
@@ -1423,6 +1428,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
 				setRoomsAndRatesShownPercentage(0f);
+				if (mHotelsDeepLink) {
+					mHotelsDeepLink = false;
+					OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
+				}
 				break;
 			case HOTEL_LIST_UP:
 				mBgHotelMapC.setAlpha(1f);
@@ -1696,7 +1705,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 		if (mHotelsStateManager.getState() == ResultsHotelsState.LOADING_HOTEL_LIST_UP) {
 			showDetails &= mHotelsDeepLink;
-			mHotelsDeepLink = false;
 			mHotelsStateManager.setDefaultState(getBaseState());
 			ResultsHotelsState state = showDetails ?
 				ResultsHotelsState.ROOMS_AND_RATES : ResultsHotelsState.HOTEL_LIST_UP;
@@ -1764,4 +1772,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 		}
 	};
+
+	/**
+	 * IResultsFilterDoneClickedListener
+	 */
+	@Override
+	public void onFilterDoneClicked() {
+		mMapFragment.reset();
+		mMapFragment.notifyFilterChanged();
+	}
 }

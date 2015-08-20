@@ -66,7 +66,7 @@ public class Car implements JSONable {
 	private CarVendor mVendor;
 
 	private CarCategory mCategory;
-	private Media mCategoryImage;
+	private HotelMedia mCategoryImage;
 
 	private CarType mType;
 
@@ -142,11 +142,11 @@ public class Car implements JSONable {
 		mCategory = category;
 	}
 
-	public Media getCategoryImage() {
+	public HotelMedia getCategoryImage() {
 		return mCategoryImage;
 	}
 
-	public void setCategoryImage(Media categoryImage) {
+	public void setCategoryImage(HotelMedia categoryImage) {
 		mCategoryImage = categoryImage;
 	}
 
@@ -205,7 +205,7 @@ public class Car implements JSONable {
 		mVendor = JSONUtils.getJSONable(obj, "vendor", CarVendor.class);
 
 		mCategory = JSONUtils.getEnum(obj, "category", CarCategory.class);
-		mCategoryImage = JSONUtils.getJSONable(obj, "categoryImage", Media.class);
+		mCategoryImage = JSONUtils.getJSONable(obj, "categoryImage", HotelMedia.class);
 
 		mType = JSONUtils.getEnum(obj, "type", CarType.class);
 

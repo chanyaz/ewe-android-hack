@@ -8,8 +8,8 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Launch;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Results;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Settings;
 import com.expedia.bookings.test.ui.tablet.pagemodels.SortFilter;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.TabletTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.TabletTestCase;
 import android.support.test.espresso.DataInteraction;
 
 import static android.support.test.espresso.Espresso.onView;

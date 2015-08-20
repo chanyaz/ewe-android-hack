@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Checkout summary card style -->
+    <attr name="checkout_card_view_style" format="reference" />
+    <!-- Primary color for lob -->
+    <attr name="primary_color" format="reference" />
+    <!-- Text for slide to book -->
+    <attr name="checkout_slider_text" format="reference" />
+    <!-- Title style for toolbar -->
+    <attr name="toolbar_title_style" format="reference" />
+    <!-- Text displayed on traveler details widget toolbar -->
+    <attr name="traveler_toolbar_text" format="reference" />
+    <!-- Text displayed on collapsed traveler details widget -->
+    <attr name="traveler_details_text" format="reference" />
+    <!-- Height for search list image container -->
+    <attr name="card_list_image_container_height" format="reference" />
+    <!-- Height for search list details container -->
+    <attr name="card_details_container_height" format="reference" />
+    <!-- Drawable for traveler initials in saved traveler list -->
+    <attr name="traveler_checkout_circle_drawable" format="reference" />
+    <!-- Unexpanded space height on Checkout -->
+    <attr name="checkout_unexpanded_space_height" format="reference" />
+</resources>

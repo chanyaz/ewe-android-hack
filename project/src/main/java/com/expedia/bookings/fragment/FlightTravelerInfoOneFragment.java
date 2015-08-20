@@ -66,9 +66,6 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 					mSectionTravelerInfo.performValidation();
 				}
 
-				//We attempt a save on change
-				Db.getWorkingTravelerManager().attemptWorkingTravelerSave(getActivity(), false);
-
 				onInteraction();
 			}
 		});

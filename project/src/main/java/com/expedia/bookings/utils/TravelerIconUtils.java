@@ -19,7 +19,7 @@ public class TravelerIconUtils {
 	 * @param isCircular		  - Is shape of icon circular or a square
 	 * @return
 	 */
-	public static Bitmap generateInitialIcon(Context context, String travelerDisplayName, int backgroundColor, boolean isCircular) {
+	public static Bitmap generateInitialIcon(Context context, String travelerDisplayName, int backgroundColor, boolean isCircular, boolean hasStroke) {
 		String name = getInitialsFromDisplayName(travelerDisplayName);
 
 		float density = context.getResources().getDisplayMetrics().density;
@@ -44,14 +44,16 @@ public class TravelerIconUtils {
 		iconBgPaint.setColor(backgroundColor);
 		txtPaint.setColor(0xFFFFFFFF);
 		txtPaint.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
-		txtPaint.setTextSize(32 * density);
+		txtPaint.setTextSize(30 * density);
 
 		float textHeight = txtPaint.descent() - txtPaint.ascent();
 		float textOffset = (textHeight / 2) - txtPaint.descent();
 
 		if (isCircular) {
 			int borderWidth = (int) (2.5 * density);
-			canvas.drawCircle(size / 2, size / 2, size / 2, bgPaintWhite);
+			if (hasStroke) {
+				canvas.drawCircle(size / 2, size / 2, size / 2, bgPaintWhite);
+			}
 			canvas.drawCircle(size / 2, size / 2, size / 2 - borderWidth, iconBgPaint);
 			canvas.drawText(TextUtils.isEmpty(name) ? "?" : name, size / 2, (size / 2) + (textOffset), txtPaint);
 		}

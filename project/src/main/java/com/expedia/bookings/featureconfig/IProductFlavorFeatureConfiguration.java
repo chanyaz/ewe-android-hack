@@ -21,8 +21,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	String getAppSupportUrl(Context context);
 
-	int getCrossSellStringResourceIdForShareEmail();
-
 	boolean isAppCrossSellInActivityShareContentEnabled();
 
 	boolean isAppCrossSellInCarShareContentEnabled();
@@ -43,25 +41,17 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean shouldShowBrandLogoOnAccountButton();
 
-	int getLoginContainerBackgroundResId(Context context);
-
-	boolean doesLoginTextViewHaveCompoundDrawables();
-
 	PointOfSaleId getDefaultPOS();
 
 	boolean isAdXEnabled();
 
 	int getAdXPosIdentifier();
 
-	String getOmnitureReportSuiteIds(Context context);
+	String getOmnitureReportSuiteIds();
 
 	String getOmnitureTrackingServer();
 
 	void contactUsViaWeb(Context context);
-
-	int getResIdForErrorHotelServiceFatalFailure();
-
-	int getResIdForErrorBookingSucceededWithErrors();
 
 	List<BasicNameValuePair> getAdditionalParamsForReviewsRequest();
 
@@ -73,6 +63,8 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isLeanPlumEnabled();
 
+	boolean isTuneEnabled();
+
 	boolean isWeAreHiringInAboutEnabled();
 
 	boolean isClearPrivateDataInAboutEnabled();
@@ -83,15 +75,11 @@ public interface IProductFlavorFeatureConfiguration {
 
 	AboutSectionFragment getAboutSectionFragment(Context context);
 
-	boolean isLocalExpertEnabled();
-
 	boolean isFacebookLoginIntegrationEnabled();
 
 	boolean isFacebookShareIntegrationEnabled();
 
 	boolean isGoogleWalletPromoEnabled();
-
-	boolean isTrackingWithFlightTrackEnabled();
 
 	boolean isHangTagProgressBarEnabled();
 
@@ -110,4 +98,14 @@ public interface IProductFlavorFeatureConfiguration {
 	String getClientShortName();
 
 	String getAdXKey();
+
+	boolean isAppSupportUrlEnabled();
+
+	boolean isSigninEnabled();
+
+	boolean isAppCrossSellInHotelShareContentEnabled();
+
+	boolean isAppCrossSellInFlightShareContentEnabled();
+
+	boolean isTrackWithFlightTrackEnabled();
 }

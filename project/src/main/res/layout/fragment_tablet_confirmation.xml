@@ -26,7 +26,7 @@
                 android:id="@+id/confirmation_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/confirmation_image_height"
-                android:scaleType="centerCrop" />
+                android:scaleType="fitCenter" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -120,12 +120,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:drawableLeft="@drawable/ic_tablet_confirmation_book_next_arrow"
+                    android:drawableLeft="?attr/skin_tablet_confirmation_book_next_arrow_icon"
                     android:drawablePadding="10dp"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="@string/tablet_confirmation_book_next"
-                    android:textColor="#374F6E"
+                    android:textColor="?attr/skin_tablet_confirmation_book_next_arrow_color"
                     android:textSize="14sp"
                     app:textStyle="medium" />
 
@@ -164,7 +164,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:drawableLeft="@drawable/ic_tablet_confirmation_book_next_arrow"
+                            android:drawableLeft="?attr/skin_tablet_confirmation_book_next_arrow_icon"
                             android:drawablePadding="10dp" />
 
                         <LinearLayout
@@ -179,7 +179,7 @@
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:text="@string/tablet_confirmation_book_next"
-                                android:textColor="#374F6E"
+                                android:textColor="?attr/skin_tablet_confirmation_done_booking_color"
                                 android:textSize="14sp"
                                 app:textStyle="medium" />
 
@@ -189,7 +189,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="-2dp"
                                 android:gravity="center"
-                                android:textColor="#374F6E"
+                                android:textColor="?attr/skin_tablet_confirmation_done_booking_color"
                                 android:textSize="10sp" />
 
                         </LinearLayout>
@@ -222,12 +222,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:drawableLeft="@drawable/ic_tablet_confirmation_done_booking"
+                    android:drawableLeft="?attr/skin_tablet_confirmation_done_booking_icon"
                     android:drawablePadding="10dp"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="@string/tablet_confirmation_done_booking"
-                    android:textColor="#374F6E"
+                    android:textColor="?attr/skin_tablet_confirmation_done_booking_color"
                     android:textSize="14sp"
                     app:textStyle="medium" />
 
@@ -246,12 +246,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:drawableLeft="@drawable/ic_tablet_confirmation_done_booking"
+                    android:drawableLeft="?attr/skin_tablet_confirmation_done_booking_icon"
                     android:drawablePadding="10dp"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="@string/tablet_confirmation_done_booking"
-                    android:textColor="#374F6E"
+                    android:textColor="?attr/skin_tablet_confirmation_done_booking_color"
                     android:textSize="14sp"
                     app:textStyle="medium" />
 

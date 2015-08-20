@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!-- Content description for action: Press to log in with your Wotif account -->
+    <string name="cd_checkout_log_in_with_wotif">Press to log in to your Wotif account</string>
+
+    <string name="wotif_info_url">http://www.wotif.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_wotif">Are you sure you want to log out of your Wotif account?</string>
+
+    <!-- Expedia booking fee -->
+    <string name="wotif_booking_fee">Wotif Booking Fee</string>
+
+
+
+
+
+
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">Accommodation</string>
+    
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_wotif_email_subject">Wotif Reservations Support</string>
+
+
+
+    <!--A message stating this hotel is Not currently available on Wotif -->
+    <string name="not_currently_available_wotif">Not currently available from Wotif</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Wotif Nov. 3-4" -->
+    <string name="not_currently_available_wotif_TEMPLATE">Not available from Wotif %s</string>
+
+    <!-- Missing strings for Wotif from Expedia-->
+    <string name="tell_a_friend_body_wotif">Hi there,\n\nCheck out Wotif Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
+    <string name="tell_a_friend_subject_wotif">Wotif Hotels</string>
+    <string name="loading_wotif_account">Loading Wotif Account</string>
+    <string name="wotif_password_hint">Wotif Password</string>
+    <string name="dialog_message_launch_wotif_mobile_site">Launch the Wotif mobile website?</string>
+    <!-- Wotif App download link -->
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">Total Due to Wotif Today:</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">We need you to create a new, international sign in for all Wotif sites.&lt;br>Please reset your password using the ‘Forgot your password?’ link below.</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_wotif">Due to Wotif Today</string>
+</resources>

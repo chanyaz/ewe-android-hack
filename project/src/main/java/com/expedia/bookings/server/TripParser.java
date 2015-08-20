@@ -31,7 +31,6 @@ import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
-import com.expedia.bookings.data.trips.Trip.TimePeriod;
 import com.expedia.bookings.data.trips.TripActivity;
 import com.expedia.bookings.data.trips.TripCar;
 import com.expedia.bookings.data.trips.TripComponent;
@@ -78,7 +77,6 @@ public class TripParser {
 		trip.setEndDate(DateTimeParser.parseDateTime(tripJson.opt("endTime")));
 
 		trip.setBookingStatus(parseBookingStatus(tripJson.optString("bookingStatus")));
-		trip.setTimePeriod(parseTimePeriod(tripJson.optString("timePeriod")));
 
 		/*
 		 *  The api returns the sharableUrl in the form of /api/trips/shared. But this is NOT the link that is to be shared to any users.
@@ -191,20 +189,6 @@ public class TripParser {
 		return null;
 	}
 
-	private TimePeriod parseTimePeriod(String period) {
-		if ("UPCOMING".equals(period)) {
-			return TimePeriod.UPCOMING;
-		}
-		else if ("INPROGRESS".equals(period)) {
-			return TimePeriod.INPROGRESS;
-		}
-		else if ("COMPLETED".equals(period)) {
-			return TimePeriod.COMPLETED;
-		}
-
-		return null;
-	}
-
 	private TripHotel parseTripHotel(JSONObject obj) {
 		TripHotel hotel = new TripHotel();
 
@@ -298,7 +282,7 @@ public class TripParser {
 		return hotel;
 	}
 
-	private TripFlight parseTripFlight(JSONObject obj) {
+	public TripFlight parseTripFlight(JSONObject obj) {
 		TripFlight flight = new TripFlight();
 
 		parseTripCommon(obj, flight);
@@ -318,7 +302,7 @@ public class TripParser {
 			return flight;
 		}
 
-		//Parse confirmations
+		// Parse confirmations
 		JSONArray confirmationArr = obj.optJSONArray("confirmationNumbers");
 		if (confirmationArr != null) {
 			for (int a = 0; a < confirmationArr.length(); a++) {
@@ -331,6 +315,9 @@ public class TripParser {
 				}
 			}
 		}
+
+		// Parse destination regionId
+		flight.setDestinationRegionId(obj.optString("destinationRegionId"));
 
 		FlightTrip flightTrip = new FlightTrip();
 		flight.setFlightTrip(flightTrip);
@@ -374,6 +361,7 @@ public class TripParser {
 				FlightCode flightCode = new FlightCode();
 				flightCode.mAirlineCode = segmentJson.optString("externalAirlineCode");
 				flightCode.mNumber = segmentJson.optString("flightNumber").trim();
+				flightCode.mAirlineName = segmentJson.optString("airlineName");
 				segment.addFlightCode(flightCode, Flight.F_PRIMARY_AIRLINE_CODE);
 
 				String operatedBy = segmentJson.optString("operatedByAirCarrierName", null);
@@ -478,19 +466,12 @@ public class TripParser {
 
 			activity.setId(obj.optString("uniqueID", null));
 			activity.setTitle(obj.optString("activityTitle", null));
-			activity.setDetailsUrl(obj.optString("activityDetailsURL", null));
 			activity.setGuestCount(obj.optInt("travelerCount"));
 			activity.setVoucherPrintUrl(obj.optString("voucherPrintURL"));
 
-			JSONObject priceJson = obj.optJSONObject("price");
-			if (priceJson != null) {
-				activity.setPrice(ParserUtils.createMoney(priceJson.optString("total", null),
-						priceJson.optString("currency", null)));
-			}
-
 			// Parse travelers
 			JSONArray travelersArr = obj.optJSONArray("travelers");
-			if (travelersArr != null && travelersArr.length() > 0) {
+			if (travelersArr != null) {
 				for (int i = 0; i < travelersArr.length(); i++) {
 					activity.addTraveler(parseTraveler(travelersArr.optJSONObject(i)));
 				}
@@ -521,8 +502,8 @@ public class TripParser {
 	private Insurance parseTripInsurance(JSONObject obj) {
 		Insurance retVal = new Insurance();
 
-		if (obj.has("name")) {
-			retVal.setPolicyName(obj.optString("name", null));
+		if (obj.has("displayName")) {
+			retVal.setPolicyName(obj.optString("displayName", null));
 			retVal.setTermsUrl(obj.optString("termsURL", null));
 			retVal.setInsuranceLineOfBusiness(obj.optString("lineOfBusiness", ""));
 		}
@@ -553,8 +534,6 @@ public class TripParser {
 			traveler.setPhoneCountryCode(firstPhoneJson.optString("countryCode"));
 			traveler.setPhoneNumber(firstPhoneJson.optString("phone"));
 		}
-
-		traveler.setIsRedeemer(obj.optBoolean("isRedeemer"));
 
 		return traveler;
 	}

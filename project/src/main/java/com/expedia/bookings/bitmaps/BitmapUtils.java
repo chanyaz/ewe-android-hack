@@ -45,7 +45,7 @@ public class BitmapUtils {
 		int scaledBlurRadius = Math.round(blurRadius / reductionFactor);
 
 		//Blur and darken it
-		if (AndroidUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR1 && !AndroidUtils.isGenymotion()) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && !AndroidUtils.isGenymotion()) {
 			return stackBlurAndDarkenRenderscript(shrunk, context, scaledBlurRadius, darkenMultiplier);
 		}
 		else if (!AndroidUtils.isGenymotion()) {

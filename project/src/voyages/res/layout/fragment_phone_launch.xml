@@ -49,8 +49,7 @@
                 android:drawablePadding="15dp"
                 android:textColor="@android:color/white"
                 android:text="@string/nav_hotels"
-                android:textSize="15dp"
-                android:contentDescription="@string/cd_launch_hotels"/>
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/vsc_flight_button"
@@ -62,8 +61,7 @@
                 android:drawablePadding="15dp"
                 android:textColor="@android:color/white"
                 android:text="@string/nav_flights"
-                android:textSize="15dp"
-                android:contentDescription="@string/cd_launch_flights"/>
+                android:textSize="15dp" />
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

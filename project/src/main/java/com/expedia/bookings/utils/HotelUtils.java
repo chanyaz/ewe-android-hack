@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -19,14 +20,16 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchResponse;
-import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.hotels.HotelRate;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
@@ -34,11 +37,6 @@ import com.mobiata.android.util.ViewUtils;
 public class HotelUtils {
 
 	public static boolean checkPhoneFinishConditionsAndFinish(Activity activity) {
-		// Attempt to load hotel data from disk
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
-			Db.loadHotelSearchFromDisk(activity);
-		}
-
 		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			activity.finish();
@@ -53,7 +51,7 @@ public class HotelUtils {
 	 * Tries to return the best "room" picture, but falls back to property
 	 * images/thumbnails if none exists.  May return null if all fails.
 	 */
-	public static Media getRoomMedia(TripBucketItemHotel hotel) {
+	public static HotelMedia getRoomMedia(TripBucketItemHotel hotel) {
 		Rate rate = hotel.getRate();
 		Rate oldRate = hotel.getOldRate();
 		Property property = hotel.getProperty();
@@ -177,14 +175,15 @@ public class HotelUtils {
 	 * @param context
 	 * @param property
 	 * @param rate
+	 * @param isTablet
 	 * @return
 	 */
-	public static String getSlideToPurchaseString(Context context, Property property, Rate rate) {
+	public static String getSlideToPurchaseString(Context context, Property property, Rate rate, boolean isTablet) {
 		int chargeTypeMessageId = 0;
 
 		// Determine price to be paid now
 		Money sliderCharge;
-		if (rate.isPayLater() && !AndroidUtils.isTablet(context) && property.isMerchant()) {
+		if (rate.isPayLater() && !isTablet && property.isMerchant()) {
 			sliderCharge = rate.getDepositAmount();
 		}
 		else {
@@ -256,5 +255,40 @@ public class HotelUtils {
 		// TODO should we be referring to Db.getHotelSearch() or Sp.toHotelSearch() ??
 		return Sp.getParams().toHotelSearchParams().getStayDuration() <= context.getResources()
 			.getInteger(R.integer.calendar_max_days_hotel_stay);
+	}
+
+	// Distance formatting
+
+	public static String formatDistanceForNearby(Context context, Hotel offer, boolean abbreviated) {
+		boolean isMiles = offer.distanceUnit.equals("Miles");
+		double distance = Double.valueOf(isMiles ? offer.proximityDistanceInMiles : offer.proximityDistanceInKiloMeters);
+		NumberFormat nf = NumberFormat.getInstance();
+		nf.setMaximumFractionDigits(1);
+
+		// This skirts the pluralization problem, while also being more precise.
+		// We will display "1.0 miles away" instead of "1 miles away".
+		nf.setMinimumFractionDigits(abbreviated ? 0 : 1);
+
+		int unitStrId;
+		if (!isMiles) {
+			unitStrId = abbreviated ? R.string.unit_kilometers : R.string.unit_kilometers_full;
+		}
+		else {
+			unitStrId = abbreviated ? R.string.unit_miles : R.string.unit_miles_full;
+		}
+		int templateResId = (abbreviated) ? R.string.distance_template_short : R.string.distance_template;
+		return context.getString(templateResId, nf.format(distance), context.getString(unitStrId));
+	}
+
+	public static float getDiscountPercent(HotelRate rate) {
+		return Math.abs(rate.discountPercent);
+	}
+
+	public static boolean isDiscountTenPercentOrBetter(HotelRate rate) {
+		float discountPercent = getDiscountPercent(rate);
+		if (discountPercent <= 100 && discountPercent >= 0) {
+			return discountPercent > 9.5;
+		}
+		return false;
 	}
 }

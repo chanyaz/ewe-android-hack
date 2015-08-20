@@ -68,10 +68,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			if (Db.getWorkingBillingInfoManager().getAttemptToLoadFromDisk() && Db.getWorkingBillingInfoManager()
-				.hasBillingInfoOnDisk(getActivity())) {
-				Db.getWorkingBillingInfoManager().loadWorkingBillingInfoFromDisk(getActivity());
-			}
 			mFormOpen = savedInstanceState.getBoolean(STATE_FORM_IS_OPEN, false);
 		}
 		return super.onCreateView(inflater, container, savedInstanceState);
@@ -116,7 +112,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		public void onClick(View arg0) {
 			mAttemptToLeaveMade = true;
 
-			if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
+			if (Db.getBillingInfo().hasStoredCard()) {
 				//If we have a saved card we're good to go
 				commitAndLeave();
 			}
@@ -133,8 +129,19 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		}
 	};
 
+	private void resetValidation() {
+		if (mSectionBillingInfo != null) {
+			mSectionBillingInfo.resetValidation();
+		}
+		if (mSectionLocation != null) {
+			mSectionLocation.resetValidation();
+		}
+	}
+
+
 	private void commitAndLeave() {
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+		resetValidation();
 		mListener.onCheckoutDataUpdated();
 		Ui.hideKeyboard(getActivity(), InputMethodManager.HIDE_NOT_ALWAYS);
 		closeForm(true);
@@ -172,9 +179,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				if (mAttemptToLeaveMade) {
 					mSectionBillingInfo.performValidation();
 				}
-
-				//We attempt to save on change
-				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
 
 				// Let's show airline fees (LCC Fees) or messages if any
 				if (getLob() == LineOfBusiness.FLIGHTS) {
@@ -242,7 +246,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	public void onFormClosed() {
 		if (isResumed() && mFormOpen) {
 			mAttemptToLeaveMade = false;
-			Db.getWorkingBillingInfoManager().deleteWorkingBillingInfoFile(getActivity());
+			resetValidation();
 			mListener.onCheckoutDataUpdated();
 		}
 		mFormOpen = false;
@@ -257,6 +261,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			else {
 				showStoredCardContainer();
 			}
+			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
 		}
 		else {
 			showNewCardContainer();
@@ -366,7 +371,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	// Stored cards
 
 	private void showStoredCardContainer() {
-		StoredCreditCard card = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard();
+		StoredCreditCard card = Db.getBillingInfo().getStoredCard();
 		String cardName = card.getDescription();
 		CreditCardType cardType = card.getType();
 		showStoredCardContainer(cardName, cardType);
@@ -400,7 +405,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				// Let's reset the selectable/clickable state (in the stored card picker, checkout overview screen) of the currentCC
 				StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
 				if (currentCC != null) {
-					BookingInfoUtils.resetPreviousCreditCardSelectState(getActivity(), currentCC);
+					BookingInfoUtils.resetPreviousCreditCardSelectState(getParentFragment().getActivity(), currentCC);
 				}
 				Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
 				Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setLocation(new Location());

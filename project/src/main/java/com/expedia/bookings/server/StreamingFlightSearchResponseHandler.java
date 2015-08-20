@@ -12,6 +12,7 @@ import java.util.zip.GZIPInputStream;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightSegmentAttributes;
@@ -22,11 +23,9 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.enums.PassengerCategory;
-import com.expedia.bookings.utils.LoggingInputStream;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
@@ -54,7 +53,7 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 	private List<List<FlightSegmentAttributes>> mAttributes = new ArrayList<List<FlightSegmentAttributes>>();
 
 	public StreamingFlightSearchResponseHandler(Context context) {
-		mIsRelease = AndroidUtils.isRelease(context);
+		mIsRelease = BuildConfig.RELEASE;
 	}
 
 	@Override
@@ -75,11 +74,6 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		String contentEncoding = response.headers().get("Content-Encoding");
 		if (!TextUtils.isEmpty(contentEncoding) && "gzip".equalsIgnoreCase(contentEncoding)) {
 			in = new GZIPInputStream(in);
-		}
-
-		if (!mIsRelease) {
-			// Only wire this up on debug builds
-			in = new LoggingInputStream(in);
 		}
 
 		return handleResponse(in);
@@ -188,6 +182,9 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			}
 			else if (name.equals("baggageFeesUrl")) {
 				leg.setBaggageFeesUrl(reader.nextString());
+			}
+			else if (name.equals("fareType")) {
+				leg.setFareType(reader.nextString());
 			}
 			else {
 				reader.skipValue();
@@ -404,6 +401,9 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 					}
 				}
 				reader.endObject();
+			}
+			else if (name.equals("isPassportNeeded")) {
+				trip.setPassportNeeded(reader.nextBoolean());
 			}
 			else {
 				reader.skipValue();

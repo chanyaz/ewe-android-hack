@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Whitelabel.LXTheme.Base" parent="AppTheme.Base.LX">
+        <!-- Required white label attr for login widget -->
+        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/tvly</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/tvly</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/tvly</item>
+        <item name="primary_color">@color/lx_primary_color_tvly</item>
+        <item name="android:colorPrimaryDark">@color/lx_primary_color_tvly</item>
+        <item name="android:colorButtonNormal">@color/lx_primary_color_tvly</item>
+        <item name="colorAccent">@color/lx_primary_color_tvly</item>
+
+        <!-- Skins added for whitelabel -->
+        <item name="skin_loginBrandLogoDrawable">@drawable/tvly</item>
+        <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
+        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>
+        <item name="skin_cvvDivDrawable">@drawable/div_cvv_tvly</item>
+        <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
+        <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
+        <item name="skin_loginBrandIconDrawable">@drawable/tvly_login</item>
+        <item name="skin_lxPrimaryColor">@color/lx_primary_color_tvly</item>
+
+        <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_book_now_button_selector_tvly</item>
+        <item name="skin_lxOfferDateSelectorDrawable">@drawable/lx_offer_date_selector_tvly</item>
+        <item name="skin_lxSelectTicketButtonSelectorDrawable">@drawable/lx_select_ticket_button_selector_tvly</item>
+        <item name="skin_lxShowMoreBackgroundDrawable">@drawable/lx_show_more_background_tvly</item>
+        <item name="skin_lxSortButtonSelectorDrawable">@drawable/lx_sort_button_selector_tvly</item>
+        <item name="skin_lxSortButtonTextSelectorDrawable">@drawable/lx_sort_button_text_selector_tvly</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/lx_traveler_checkout_circle_tvly</item>
+        <item name="skin_lxTextSelectorDrawable">@drawable/lx_text_selector_tvly</item>
+        <item name="skin_lxUncheckedToggleTextColor">@color/lx_unchecked_toggle_text_color_tvly</item>
+        <item name="skin_lxTicketPlusButtonSelectorDrawable">@drawable/lx_ticket_plus_button_selector_tvly</item>
+        <item name="skin_lxTicketMinusButtonSelectorDrawable">@drawable/lx_ticket_minus_button_selector_tvly</item>
+        <item name="skin_lxErrorDefaultDrawable">@drawable/error_default_tvly</item>
+        <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_lx_tvly</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
+    </style>
+</resources>

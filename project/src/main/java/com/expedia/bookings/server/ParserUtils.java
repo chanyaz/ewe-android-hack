@@ -8,15 +8,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.text.TextUtils;
 
-import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.utils.Images;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
@@ -38,16 +37,16 @@ public class ParserUtils {
 	 * Often times when parsing URLs are not prefixed with the Expedia URL,
 	 * which is good but we need to fix it.
 	 */
-	public static Media parseUrl(String url) {
+	public static HotelMedia parseUrl(String url) {
 		if (TextUtils.isEmpty(url)) {
 			return null;
 		}
 
 		if (!TextUtils.isEmpty(url) && !url.startsWith("http://")) {
-			url = ExpediaBookingApp.MEDIA_URL + url;
+			url = Images.getMediaHost() + url;
 		}
 
-		return new Media(url);
+		return new HotelMedia(url);
 	}
 
 	/**
@@ -71,54 +70,7 @@ public class ParserUtils {
 		}
 	}
 
-	public static boolean parseServerErrors(Context context, ApiMethod apiMethod, JSONObject jsonResponse,
-											Response response) throws JSONException {
-
-		if (jsonResponse.has("errors")) {
-			JSONArray errors = jsonResponse.getJSONArray("errors");
-			int len = errors.length();
-			for (int a = 0; a < len; a++) {
-				JSONObject error = errors.getJSONObject(a);
-				ServerError serverError = new ServerError(apiMethod);
-				serverError.setMessage(error.getString("msg"));
-				serverError.setCode(error.getString("code"));
-				response.addError(serverError);
-			}
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Parses an error if found; otherwise returns null
-	 */
-	public static ServerError parseEanError(Context context, ApiMethod apiMethod, JSONObject response)
-		throws JSONException {
-
-		if (response.has("EanWsError")) {
-			JSONObject error = response.getJSONObject("EanWsError");
-			ServerError serverError = new ServerError(apiMethod);
-			serverError.setVerboseMessage(error.optString("verboseMessage", null));
-			serverError.setPresentationMessage(error.optString("presentationMessage", null));
-
-			// For backwards compatibility with old versions of HP
-			String errMsg = serverError.getVerboseMessage();
-			if (errMsg != null && ServerError.ERRORS.containsKey(errMsg)) {
-				errMsg = context.getString(ServerError.ERRORS.get(errMsg));
-			}
-			serverError.setMessage(errMsg);
-
-			serverError.setCode("-1");
-			serverError.setCategory(error.optString("category", null));
-			serverError.setHandling(error.optString("handling", null));
-			return serverError;
-		}
-
-		return null;
-	}
-
-	public static List<ServerError> parseErrors(Context context, ApiMethod apiMethod, JSONObject response)
+	public static List<ServerError> parseErrors(ApiMethod apiMethod, JSONObject response)
 		throws JSONException {
 
 		if (response.has("errors")) {
@@ -192,7 +144,7 @@ public class ParserUtils {
 		return null;
 	}
 
-	public static List<ServerError> parseWarnings(Context context, ApiMethod apiMethod, JSONObject response)
+	public static List<ServerError> parseWarnings(ApiMethod apiMethod, JSONObject response)
 		throws JSONException {
 
 		if (response.has("warnings")) {

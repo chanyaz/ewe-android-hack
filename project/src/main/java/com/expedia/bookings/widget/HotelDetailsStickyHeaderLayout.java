@@ -153,5 +153,5 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 		mDominantColorBackground.setAlpha(alpha);
 		mDominantColorBackground.invalidateSelf();
 	}
-
+	
 }

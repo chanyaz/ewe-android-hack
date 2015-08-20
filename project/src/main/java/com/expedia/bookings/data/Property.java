@@ -11,7 +11,9 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.utils.GsonUtil;
+import com.expedia.bookings.utils.Images;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -76,8 +78,8 @@ public class Property implements JSONable {
 	private String mPropertyId;
 	private Location mLocation;
 	private String mDescriptionText;
-	private Media mThumbnail;
-	private List<Media> mMedia;
+	private HotelMedia mThumbnail;
+	private List<HotelMedia> mHotelMedia;
 	private String mLocalPhone;
 	private String mTollFreePhone;
 
@@ -134,6 +136,14 @@ public class Property implements JSONable {
 	private String mOmnitureAdDisplayedUrl;
 	private String mOmnitureAdClickedUrl;
 
+	private boolean mIsETPHotel;
+
+	public boolean isETPHotel() {
+		return mIsETPHotel;
+	}
+	public void setIsETPHotel(boolean mIsETPHotel) {
+		this.mIsETPHotel = mIsETPHotel;
+	}
 	public void setHasShownImpression(Boolean value) {
 		this.mHasShownImpression = value;
 	}
@@ -225,11 +235,11 @@ public class Property implements JSONable {
 		return mItinRoomType;
 	}
 
-	public Media getThumbnail() {
+	public HotelMedia getThumbnail() {
 		return mThumbnail;
 	}
 
-	public void setThumbnail(Media thumbnail) {
+	public void setThumbnail(HotelMedia thumbnail) {
 		this.mThumbnail = thumbnail;
 	}
 
@@ -265,33 +275,33 @@ public class Property implements JSONable {
 		return mHasAmenitiesSet;
 	}
 
-	public void addMedia(Media media) {
-		if (mMedia == null) {
-			mMedia = new ArrayList<Media>();
+	public void addMedia(HotelMedia hotelMedia) {
+		if (mHotelMedia == null) {
+			mHotelMedia = new ArrayList<HotelMedia>();
 		}
-		mMedia.add(media);
+		mHotelMedia.add(hotelMedia);
 	}
 
-	public Media getMedia(int index) {
-		if (mMedia == null) {
+	public HotelMedia getMedia(int index) {
+		if (mHotelMedia == null) {
 			return null;
 		}
-		return mMedia.get(index);
+		return mHotelMedia.get(index);
 	}
 
-	public List<Media> getMediaList() {
-		return mMedia;
+	public List<HotelMedia> getMediaList() {
+		return mHotelMedia;
 	}
 
-	public void setMediaList(List<Media> theList) {
-		this.mMedia = theList;
+	public void setMediaList(List<HotelMedia> theList) {
+		this.mHotelMedia = theList;
 	}
 
 	public int getMediaCount() {
-		if (mMedia == null) {
+		if (mHotelMedia == null) {
 			return 0;
 		}
-		return mMedia.size();
+		return mHotelMedia.size();
 	}
 
 	public String getLocalPhone() {
@@ -592,6 +602,52 @@ public class Property implements JSONable {
 		mShowCircles |= property.shouldShowCircles();
 	}
 
+	public void updateFrom(final Hotel offer) {
+		mName = offer.name;
+		mPropertyId = offer.hotelId;
+
+		mLocation = new Location();
+		mLocation.addStreetAddressLine(offer.address);
+		mLocation.setCity(offer.city);
+		mLocation.setDescription(offer.locationDescription);
+		mLocation.setStateCode(offer.stateProvinceCode);
+		mLocation.setCountryCode(offer.countryCode);
+		mLocation.setPostalCode(offer.postalCode);
+		mLocation.setLatitude(offer.latitude);
+		mLocation.setLongitude(offer.longitude);
+
+		mDescriptionText = offer.shortDescription;
+		String thumbnailUrl = offer.largeThumbnailUrl;
+		if (!TextUtils.isEmpty(thumbnailUrl) && !thumbnailUrl.startsWith("http://")) {
+			mThumbnail = new HotelMedia(Images.getMediaHost() + thumbnailUrl);
+		}
+		else {
+			mThumbnail = new HotelMedia(thumbnailUrl);
+		}
+
+		mAvailable = offer.isHotelAvailable;
+		mDistanceFromUser = offer.distanceUnit.equals("Miles") ?
+			new Distance(offer.proximityDistanceInMiles, Distance.DistanceUnit.MILES) :
+			new Distance(offer.proximityDistanceInKiloMeters, Distance.DistanceUnit.KILOMETERS);
+		mRoomsLeftAtThisRate = offer.roomsLeftAtThisRate;
+		mSupplierType = offer.supplierType;
+		mHotelRating = offer.hotelStarRating;
+		mTotalReviews = offer.totalReviews;
+		mTotalRecommendations = offer.totalRecommendations;
+		mAverageExpediaRating = offer.hotelGuestRating;
+		mLowestRate = new Rate();
+		mLowestRate.setPromoDescription(offer.discountMessage);
+		mLowestRate.setNumRoomsLeft(offer.roomsLeftAtThisRate);
+		mLowestRate.setThumbnail(mThumbnail);
+		mLowestRate.setIsPayLater(offer.isPaymentChoiceAvailable);
+		mLowestRate.updateSearchRateFrom(offer.lowRateInfo);
+
+		mHasEtpOffer = offer.isPaymentChoiceAvailable;
+		mIsVipAccess = offer.isVipAccess;
+
+		mIsSponsored = offer.isSponsoredListing;
+	}
+
 	public Property clone() {
 		Property property = new Property();
 		JSONObject propertyJson = toJson();
@@ -607,7 +663,7 @@ public class Property implements JSONable {
 			JSONUtils.putJSONable(obj, "location", mLocation);
 			obj.putOpt("description", mDescriptionText);
 			JSONUtils.putJSONable(obj, "thumbnail", mThumbnail);
-			JSONUtils.putJSONableList(obj, "media", mMedia);
+			JSONUtils.putJSONableList(obj, "media", mHotelMedia);
 			obj.putOpt("localPhone", mLocalPhone);
 			obj.putOpt("tollFreePhone", mTollFreePhone);
 			JSONUtils.putJSONableList(obj, "overviewText", mOverviewText);
@@ -644,6 +700,7 @@ public class Property implements JSONable {
 			obj.putOpt("hasShownImpression", mHasShownImpression);
 			obj.putOpt("omnitureAdClickedUrl", mOmnitureAdClickedUrl);
 			obj.putOpt("omnitureAdDisplayedUrl", mOmnitureAdDisplayedUrl);
+			obj.putOpt("isETPHotel", mIsETPHotel);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -657,8 +714,8 @@ public class Property implements JSONable {
 		mPropertyId = obj.optString("propertyId", null);
 		mLocation = JSONUtils.getJSONable(obj, "location", Location.class);
 		mDescriptionText = obj.optString("description", null);
-		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", Media.class);
-		mMedia = JSONUtils.getJSONableList(obj, "media", Media.class);
+		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", HotelMedia.class);
+		mHotelMedia = JSONUtils.getJSONableList(obj, "media", HotelMedia.class);
 		mLocalPhone = obj.optString("localPhone", null);
 		mTollFreePhone = obj.optString("tollFreePhone", null);
 		mOverviewText = JSONUtils.getJSONableList(obj, "overviewText", HotelTextSection.class);
@@ -695,6 +752,7 @@ public class Property implements JSONable {
 		mHasShownImpression = obj.optBoolean("hasShownImpression", false);
 		mOmnitureAdClickedUrl = obj.optString("omnitureAdClickedUrl", null);
 		mOmnitureAdDisplayedUrl = obj.optString("omnitureAdDisplayedUrl", null);
+		mIsETPHotel = obj.optBoolean("isETPHotel", false);
 		return true;
 	}
 

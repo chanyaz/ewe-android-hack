@@ -32,6 +32,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.FlightLegSummarySection;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -175,6 +176,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		});
 
 		OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), mLegPosition);
+		AdTracker.trackPageLoadFlightSearchResults(mLegPosition);
 
 		return v;
 	}
@@ -281,23 +283,21 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 
 		AnimatorSet animSet = AnimUtils.playTogether(set);
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			animSet.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationStart(Animator animation) {
-					for (View view : hwLayerViews) {
-						view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-					}
+		animSet.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator animation) {
+				for (View view : hwLayerViews) {
+					view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				}
+			}
 
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					for (View view : hwLayerViews) {
-						view.setLayerType(View.LAYER_TYPE_NONE, null);
-					}
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				for (View view : hwLayerViews) {
+					view.setLayerType(View.LAYER_TYPE_NONE, null);
 				}
-			});
-		}
+			}
+		});
 
 		return animSet;
 	}
@@ -335,23 +335,21 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		// Create AnimatorSet and return
 		AnimatorSet animSet = AnimUtils.playTogether(set);
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			animSet.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationStart(Animator animation) {
-					for (View view : hwLayerViews) {
-						view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-					}
+		animSet.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator animation) {
+				for (View view : hwLayerViews) {
+					view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				}
+			}
 
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					for (View view : hwLayerViews) {
-						view.setLayerType(View.LAYER_TYPE_NONE, null);
-					}
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				for (View view : hwLayerViews) {
+					view.setLayerType(View.LAYER_TYPE_NONE, null);
 				}
-			});
-		}
+			}
+		});
 
 		return animSet;
 	}

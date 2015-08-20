@@ -13,12 +13,13 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.HotelDetails;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Launch;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Results;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Search;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.TabletTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.TabletTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.expedia.bookings.test.ui.espresso.ViewActions.setText;
+import static com.expedia.bookings.test.espresso.ViewActions.setText;
 
 /**
  * Created by dmadan on 1/23/15.
@@ -42,9 +43,9 @@ public class FieldValidationTest extends TabletTestCase {
 
 		Checkout.clickOnTravelerDetails();
 
-		EspressoUtils.clear(Checkout.firstName());
-		EspressoUtils.clear(Checkout.lastName());
-		EspressoUtils.clear(Checkout.emailAddress());
+		Checkout.firstName().perform(clearText());
+		Checkout.lastName().perform(clearText());
+		Checkout.emailAddress().perform(clearText());
 
 		//test field validation for multibyte character
 		onView(withId(R.id.edit_first_name)).perform(setText("ш"));
@@ -63,8 +64,8 @@ public class FieldValidationTest extends TabletTestCase {
 
 		Checkout.clickCreditCardSection();
 
-		EspressoUtils.clear(Checkout.postalCode());
-		EspressoUtils.clear(Checkout.nameOnCard());
+		Checkout.postalCode().perform(clearText());
+		Checkout.nameOnCard().perform(clearText());
 		Checkout.enterNameOnCard("Mobiata Auto");
 		Checkout.enterPostalCode("95104");
 		Common.closeSoftKeyboard(Checkout.postalCode());

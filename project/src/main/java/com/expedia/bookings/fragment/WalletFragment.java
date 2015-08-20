@@ -126,18 +126,19 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 			Log.d("disableGoogleWallet: WalletFragment.onCreate");
 			disableGoogleWallet();
 		}
-
-		// Set up a wallet client
-		Context context = getActivity();
-		Wallet.WalletOptions walletOptions = new Wallet.WalletOptions.Builder()
-			.setEnvironment(WalletUtils.getWalletEnvironment(context))
-			.build();
-		mWalletClient = new GoogleApiClient.Builder(context)
-			.addApi(Wallet.API, walletOptions)
-			.addConnectionCallbacks(this)
-			.addOnConnectionFailedListener(this)
-			.build();
-		mRetryHandler = new RetryHandler(this);
+		else {
+			// Set up a wallet client only if its not disabled on the POS
+			Context context = getActivity();
+			Wallet.WalletOptions walletOptions = new Wallet.WalletOptions.Builder()
+				.setEnvironment(WalletUtils.getWalletEnvironment(context))
+				.build();
+			mWalletClient = new GoogleApiClient.Builder(context)
+				.addApi(Wallet.API, walletOptions)
+				.addConnectionCallbacks(this)
+				.addOnConnectionFailedListener(this)
+				.build();
+			mRetryHandler = new RetryHandler(this);
+		}
 	}
 
 	@Override
@@ -161,8 +162,10 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	public void onStart() {
 		super.onStart();
 
-		// Connect to Google Play Services
-		mWalletClient.connect();
+		if (mGoogleWalletEnabled) {
+			// Connect to Google Play Services
+			mWalletClient.connect();
+		}
 	}
 
 	@Override
@@ -176,14 +179,16 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	public void onStop() {
 		super.onStop();
 
-		// Disconnect from Google Play Services
-		mWalletClient.disconnect();
+		if (mGoogleWalletEnabled) {
+			// Disconnect from Google Play Services
+			mWalletClient.disconnect();
+			mRetryHandler.removeMessages(MESSAGE_RETRY_CONNECTION);
+		}
 
 		if (mProgressDialog != null) {
 			mProgressDialog.dismiss();
 		}
 
-		mRetryHandler.removeMessages(MESSAGE_RETRY_CONNECTION);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

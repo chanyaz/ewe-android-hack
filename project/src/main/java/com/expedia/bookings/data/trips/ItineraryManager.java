@@ -28,6 +28,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -46,17 +47,15 @@ import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.AirAttachUtils;
+import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.data.Waypoint;
 
 /**
  * This singleton keeps all of our itinerary data together.  It loads, syncs and stores all itin data.
@@ -204,7 +203,7 @@ public class ItineraryManager implements JSONable {
 			for (ItinCardData data : mItinCardDatas) {
 				if (data instanceof ItinCardDataFlight) {
 					ItinCardDataFlight fData = (ItinCardDataFlight) data;
-					if (AndroidUtils.isRelease(mContext) || !SettingUtils.get(mContext,
+					if (BuildConfig.RELEASE || !SettingUtils.get(mContext,
 							mContext.getString(R.string.preference_push_notification_any_flight), false)) {
 						FlightLeg flightLeg = fData.getFlightLeg();
 						for (Flight segment : flightLeg.getSegments()) {
@@ -893,6 +892,10 @@ public class ItineraryManager implements JSONable {
 	 * @return true if the sync started or is in progress, false if it never started
 	 */
 	public boolean startSync(boolean forceRefresh) {
+		return startSync(forceRefresh, true, true);
+	}
+
+	public boolean startSync(boolean forceRefresh, boolean load, boolean update) {
 		if (!forceRefresh && DateTime.now().getMillis() < UPDATE_CUTOFF + mLastUpdateTime) {
 			Log.d(LOGGING_TAG, "ItineraryManager sync started too soon since last one; ignoring.");
 			return false;
@@ -913,15 +916,19 @@ public class ItineraryManager implements JSONable {
 			Log.i(LOGGING_TAG, "Starting an ItineraryManager sync...");
 
 			// Add default sync operations
-			mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
-			mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
-			mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
-			mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
-			mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
-			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
-			mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
-			mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
-			mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
+			if (load) {
+				mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
+			}
+			if (update) {
+				mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
+				mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
+				mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
+				mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
+				mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+				mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+				mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
+				mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
+			}
 
 			startSyncIfNotInProgress();
 
@@ -998,14 +1005,6 @@ public class ItineraryManager implements JSONable {
 
 		startSyncIfNotInProgress();
 
-		return true;
-	}
-
-	public boolean startPushNotificationSync() {
-		Log.i(LOGGING_TAG, "Starting push notification sync");
-
-		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
-		startSyncIfNotInProgress();
 		return true;
 	}
 
@@ -1243,7 +1242,7 @@ public class ItineraryManager implements JSONable {
 				Log.d(LOGGING_TAG, op.name() + ": " + mOpCount.get(op));
 			}
 
-			Log.i(LOGGING_TAG, "# Trips=" + mTrips.size() + "; # Added=" + mTripsAdded + "; # Removed=" + mTripsRemoved);
+			Log.i(LOGGING_TAG, "# Trips=" + (mTrips == null ? 0 : mTrips.size()) + "; # Added=" + mTripsAdded + "; # Removed=" + mTripsRemoved);
 			Log.i(LOGGING_TAG, "# Refreshed=" + mTripsRefreshed + "; # Failed Refresh=" + mTripRefreshFailures);
 			Log.i(LOGGING_TAG, "# Flights Updated=" + mFlightsUpdated);
 		}
@@ -1262,8 +1261,8 @@ public class ItineraryManager implements JSONable {
 						FlightLeg fl = flightTrip.getLeg(i);
 
 						for (Flight segment : fl.getSegments()) {
-							long takeOff = segment.getOriginWaypoint().getMostRelevantDateTime().getTimeInMillis();
-							long landing = segment.getArrivalWaypoint().getMostRelevantDateTime().getTimeInMillis();
+							long takeOff = segment.getOriginWaypoint().getMostRelevantDateTime().getMillis();
+							long landing = segment.getArrivalWaypoint().getMostRelevantDateTime().getMillis();
 							long timeToTakeOff = takeOff - now;
 							long timeSinceLastUpdate = now - segment.mLastUpdated;
 							if (segment.mFlightHistoryId == -1) {
@@ -1459,7 +1458,7 @@ public class ItineraryManager implements JSONable {
 				Log.d(LOGGING_TAG, "User is logged in, refreshing the user list.  Using cached details call: "
 						+ getCachedDetails);
 
-				TripResponse response = mServices.getTrips(getCachedDetails, 0);
+				TripResponse response = mServices.getTrips(getCachedDetails);
 
 				if (isCancelled()) {
 					return;
@@ -1766,86 +1765,13 @@ public class ItineraryManager implements JSONable {
 
 		for (int i = 0; i < len; i++) {
 			ItinCardData data = itinCardDatas.get(i);
-			DateTime start = data.getStartDate();
-			DateTime currentDate = DateTime.now(start.getZone());
-
-			// Ignore past itineraries
-			if (currentDate.isAfter(start) && currentDate.getDayOfYear() > start.getDayOfYear()) {
-				continue;
-			}
-
-			// Ignore non-flight itineraries
-			if (!data.getTripComponentType().equals(Type.FLIGHT) || !(data instanceof ItinCardDataFlight)) {
-				continue;
-			}
-
-			// Ignore shared itins
-			if (data.getTripComponent().getParentTrip().isShared()) {
-				continue;
-			}
-
-			// Ignore last leg flights for a multi-leg trip ONLY IF
-			// the origin and final destination airports are the same.
-			FlightLeg itinFlightLeg = ((ItinCardDataFlight) data).getFlightLeg();
-			Waypoint itinDestination = itinFlightLeg.getLastWaypoint();
-			TripFlight tripFlight = (TripFlight) data.getTripComponent();
-			final int legCount = tripFlight.getFlightTrip().getLegCount();
-
-			if (legCount > 1) {
-				Waypoint tripOrigin = tripFlight.getFlightTrip().getLeg(0).getFirstWaypoint();
-				if (((ItinCardDataFlight) data).getLegNumber() == legCount - 1 &&
-					itinDestination.mAirportCode.equals(tripOrigin.mAirportCode)) {
-					continue;
-				}
-			}
-
-			boolean insertButtonCard = false;
-			FlightLeg nextFlightLeg = null;
-
-			// Check if there is a next itin card to compare to
-			if (i < len - 1) {
-				ItinCardData nextData = itinCardDatas.get(i + 1);
-				Type nextType = nextData.getTripComponentType();
-				DateTime dateTimeOne = new DateTime(itinDestination.getMostRelevantDateTime());
-
-				// If the next itin is a flight
-				if (nextType == Type.FLIGHT) {
-					nextFlightLeg = ((ItinCardDataFlight) nextData).getFlightLeg();
-					Waypoint waypointTwo = nextFlightLeg.getFirstWaypoint();
-					DateTime dateTimeTwo = new DateTime(waypointTwo.getMostRelevantDateTime());
-
-					// Check if there is more than 1 day between the two flights
-					if (JodaUtils.daysBetween(dateTimeOne, dateTimeTwo) > 0) {
-
-						// Check if the next flight departs from the same airport the current flight arrives at
-						if (itinDestination.mAirportCode.equals(waypointTwo.mAirportCode)) {
-							insertButtonCard = true;
-						}
-						else {
-							// There is a flight 1+ days later from a different airport
-							insertButtonCard = true;
-							nextFlightLeg = null;
-						}
-					}
-				}
-				// If the next itin is a hotel
-				else if (nextType == Type.HOTEL) {
-					DateTime checkInDate = nextData.getStartDate();
-					if (JodaUtils.daysBetween(dateTimeOne, checkInDate) > 0) {
-						insertButtonCard = true;
-					}
-				}
-			}
-			// The flight is the last itin
-			else if (i == len - 1) {
-				insertButtonCard = true;
-			}
-
-			if (insertButtonCard) {
+			if (data instanceof ItinCardDataFlight) {
+				ItinCardDataFlight itinCardDataFlight = (ItinCardDataFlight) data;
+				boolean showAirAttach = itinCardDataFlight.showAirAttach();
 				// Check if user qualifies for air attach
-				if (isUserAirAttachQualified) {
-					return AirAttachUtils.generateHotelSearchParamsFromItinData(tripFlight,
-						itinFlightLeg, nextFlightLeg);
+				if (isUserAirAttachQualified && showAirAttach) {
+					return HotelCrossSellUtils.generateHotelSearchParamsFromItinData((TripFlight) itinCardDataFlight.getTripComponent(),
+						itinCardDataFlight.getFlightLeg(), itinCardDataFlight.getNextFlightLeg());
 				}
 			}
 		}
@@ -1879,7 +1805,7 @@ public class ItineraryManager implements JSONable {
 				}
 			}
 
-			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(regId, siteId, userTuid,
+			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(mContext, regId, siteId, userTuid,
 					getItinFlights(false), getItinFlights(true));
 
 			Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());
@@ -1932,13 +1858,15 @@ public class ItineraryManager implements JSONable {
 					String time = com.expedia.bookings.utils.DateUtils.convertMilliSecondsForLogging(notification.getTriggerTimeMillis());
 					Log.i(LOGGING_TAG, "Notification scheduled for " + time);
 
-					//Just to display scheduled notification time like 2015/03/28 11:45
-					//TODO: temporary -->
 					// This is just to get the notifications to show up frequently for development
-					//				notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
-					//				notification.setExpirationTimeMillis(System.currentTimeMillis() + DateUtils.DAY_IN_MILLIS);
-					//				notification.setStatus(com.expedia.bookings.notification.Notification.StatusType.NEW);
-					//TODO: <-- temporary
+					if (BuildConfig.DEBUG) {
+						String which = SettingUtils.get(mContext, R.string.preference_which_api_to_use_key, "");
+						if (which.equals("Mock Mode")) {
+							notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
+							notification.setExpirationTimeMillis(System.currentTimeMillis() + DateUtils.DAY_IN_MILLIS);
+							notification.setStatus(com.expedia.bookings.notification.Notification.StatusType.NEW);
+						}
+					}
 
 					notification.save();
 				}

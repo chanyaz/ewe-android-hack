@@ -1,2 +1,7 @@
 #!/bin/bash
-cp common/MobiataIntellij.xml ~/Library/Preferences/AndroidStudio/codestyles/
+
+ASDIR=~/Library/Preferences/AndroidStudio1.2/codestyles/
+
+mkdir -p "${ASDIR}"
+
+cp common/MobiataIntellij.xml "${ASDIR}"

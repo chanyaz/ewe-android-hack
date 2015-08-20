@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoPosition;
 import com.expedia.bookings.bitmaps.PicassoHelper;
@@ -38,7 +39,6 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
 
@@ -127,7 +127,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			ft.commit();
 
 			// If the debug setting is made to fake a price change, then fake the current price (by changing it)
-			if (!AndroidUtils.isRelease(mContext)) {
+			if (BuildConfig.DEBUG) {
 				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 
 				BigDecimal fakePriceChange = getFakePriceChangeAmount();
@@ -356,6 +356,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 
 		switch (callbackId) {
 		case SimpleCallbackDialogFragment.CODE_INVALID_CC:
+		case SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT:
 			//Go to CC number entry page
 			Intent gotoCCEntryIntent = new Intent(FlightBookingActivity.this, FlightPaymentOptionsActivity.class);
 			if (Db.getBillingInfo() != null && Db.getBillingInfo().hasStoredCard()) {
@@ -443,7 +444,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		dismissProgressDialog();
 
 		// Modify the response to fake online booking fees
-		if (!AndroidUtils.isRelease(mContext) && response != null && response.getNewOffer() != null) {
+		if (BuildConfig.DEBUG && response != null && response.getNewOffer() != null) {
 			BigDecimal fakeObFees = getFakeObFeesAmount();
 			if (!fakeObFees.equals(BigDecimal.ZERO)) {
 				Money amount = new Money(response.getNewOffer().getTotalFare());
@@ -452,7 +453,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			}
 		}
 
-		if (!AndroidUtils.isRelease(mContext) && response != null &&
+		if (BuildConfig.DEBUG && response != null &&
 			SettingUtils.get(this, R.string.preference_force_passenger_category_error, false)) {
 			ServerError passengerCategoryError = new ServerError();
 			passengerCategoryError.setCode("INVALID_INPUT");

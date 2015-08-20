@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Action Bar colors -->
+    <color name="action_bar_selected_tab_underline_color">#FFED18</color>
+    <color name="actionbar_suggestion_text_color">@color/actionbar_text</color>
+    <color name="action_bar_flight_cancel_text_color">#E9E9E9</color>
+    <color name="action_bar_flight_result_separator_color">#5FFF</color>
+
     <!-- Tablet colors -->
     <color name="results_cal_trav_bg">#eaeaea</color>
     <color name="launch_tile_pressed_overlay">#40000000</color>
+    <color name="tablet_legal_blurb_text_color">#A7DAFF</color>
+    <color name="tablet_confirmation_color">#374F6E</color>
+    <color name="tablet_confirmation_action_color">#2970CC</color>
 
     <!-- Launch screen colors -->
     <color name="launch_primary">#f3f3f3</color>
-    <color name="launch_secondary">#b2b2b2</color>
-    <color name="launch_band">#36ffffff</color>
-    <color name="launch_tile_overlay">#A6000000</color>
-    <color name="low_memory_bg_color">#404040</color>
-    <color name="bg_air_attach_phone_launch">#1e2022</color>
+    <color name="bg_air_attach_phone_launch">#5E707D</color>
+
+    <!-- New launch screen colors -->
+    <color name="launch_mobile_exclusive">#980351</color>
+    <color name="launch_discount">#03C690</color>
+    <color name="launch_air_attach">#F27D0F</color>
+    <color name="launch_tonight_only">#204A8E</color>
+    <color name="hotel_lob_btn">@color/hotels_primary_color</color>
+    <color name="cars_lob_btn">@color/cars_primary_color</color>
+    <color name="lx_lob_btn">@color/lx_primary_color</color>
+    <color name="flights_lob_btn">#204A8E</color>
+    <color name="disabled_lob_btn">#909ba3</color>
+
+    <color name="launch_list_bg">#ECEFF1</color>
+    <color name="launch_lob_bg">#FFFFFF</color>
+    <color name="launch_list_txt">#FFFFFF</color>
+    <color name="launch_list_strikethrough_txt">#B2FFFFFF</color>
 
     <!-- Itinerary colors -->
     <color name="itin_white_text">#F3F3F3</color>
@@ -24,7 +45,6 @@
     <color name="itin_flight_delayed_color">#F7DE08</color>
     <color name="itin_flight_on_time_color">#A2D104</color>
     <color name="itin_list_bg_transparent">#99212527</color>
-    <color name="itin_summary_pressed">#40000000</color>
 
     <!-- Flights colors -->
     <color name="plane_window_background">#CACACA</color>
@@ -55,12 +75,14 @@
     <color name="flight_results_row_return_leg_bg_pressed">#408CA1</color>
     <color name="spinner_airport">#FFFFFF</color>
     <color name="spinner_airport_details">#777777</color>
+    <color name="flight_free_cancellation_text_color">#FFE980</color>
+    <color name="flight_departure_date_color">#343434</color>
+    <color name="section_flight_edit_traveler_link_color">#2A4367</color>
 
     <!-- Hotels colors -->
+    <color name="hotels_primary_color">#028F87</color>
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
     <color name="hotel_price_breakdown_discount_green">#218b22</color>
-    <color name="rooms_and_rates_notice_bg">#d9dbdd</color>
-    <color name="rooms_and_rates_notice_bottom_div">#898989</color>
     <color name="actionbar_text_disabled">#505c69</color>
     <color name="amenity_text_color_large">#79848f</color>
     <color name="amenity_icon_color">#717880</color>
@@ -70,11 +92,10 @@
     <color name="hotel_filter_spinner_color_selected">#CDCED0</color>
     <color name="hotel_filter_spinner_text_color">#393E43</color>
     <color name="etp_text_color">#29a653</color>
+    <color name="room_rate_refundable_cancellation_text_color">#008C5D</color>
 
     <!-- Login -->
-    <color name="login_shade_flights">#32000000</color>
     <color name="login_text_hotels">#FFFFFF</color>
-    <color name="login_text_flight">#232323</color>
     <color name="login_text_tablet">#363636</color>
     <color name="expedia_plus_blue">#0085c9</color>
     <color name="expedia_plus_blue_text">#ffffff</color>
@@ -149,11 +170,13 @@
     <color name="confirmation_item_divider_flight">#5b646b</color>
     <color name="confirmation_item_divider_hotel">#616871</color>
     <color name="cost_summary_header_text_color">#004582</color>
+    <color name="flight_checkout_missing_info_callout">#E60000</color>
 
     <!-- Hotels search hangtag/mapsearch colors -->
     <color name="hotel_list_progress_text_color">#555555</color>
     <color name="hotel_map_progress_text_color">@color/actionbar_text</color>
     <color name="map_dimmer">#c0495359</color>
+    <color name="hotel_map_text_color">#3c7cf2</color>
 
     <!-- A light Holo shade of blue -->
     <color name="holo_blue_light">#ff33b5e5</color>
@@ -208,15 +231,80 @@
     <color name="placeholder_background_color">#21394E</color>
 
     <!-- Cars colors -->
-    <color name="cars_primary_color">#7E4569</color>
+    <color name="cars_status_bar_color">#7E4569</color>
+    <color name="cars_checkout_text_color">#676767</color>
+    <color name="cars_primary_color">#9E4E7F</color>
     <color name="cars_secondary_color">#915B7C</color>
-    <color name="cars_tooltip_color">#AF89A1</color>
-    <color name="cars_slider_progress_color">#50FFFFFF</color>
-    <color name="cars_dropdown_disabled_stroke">#C3C3C3</color>
-    <color name="cars_dropdown_background_color">#ECECEC</color>
+    <color name="cars_tooltip_color">#915B7C</color>
+    <color name="cars_tooltip_disabled_color">#9D9D9D</color>
     <color name="cars_actionbar_text_color">#5C5C5C</color>
     <color name="cars_invalid_days_calendar">#A9A9A9</color>
     <color name="cars_valid_days_calendar">#3A3A3A</color>
-    <color name="cars_calendar_week_color">#888888</color>
+    <color name="cars_checkmark_color">#29a653</color>
+    <color name="cars_confirmation_icon_color">#D1D3D6</color>
+    <color name="cars_confirmation_gradient">#80000000</color>
+    <color name="cars_confirmation_action_text_color">#F3F3F3</color>
+    <color name="cars_confirmation_email_text_color">#C8C8C8</color>
+    <color name="cars_confirmation_action_background">#3A424C</color>
+    <color name="cars_launch_actionbar_color">#495863</color>
+    <color name="cars_selected_tab_color">#5F717F</color>
+    <color name="launch_tab_indicator">#FFED18</color>
+    <color name="cars_unchecked_toggle_text_color">#ECC3DC</color>
+
+    <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
+    <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>
+    <color name="checkout_traveler_birth_color">#919191</color>
+    <color name="checkout_card_brand_color">#38597D</color>
+
+    <!-- LX colors -->
+    <color name="lx_primary_color">#E88534</color>
+    <color name="lx_valid_days_calendar">#3A3A3A</color>
+    <color name="lx_invalid_days_calendar">#A9A9A9</color>
+    <color name="lx_search_result_info_text_color">#888888</color>
+    <color name="lx_dates_text_color">#707070</color>
+    <color name="lx_details_text_color">#525252</color>
+    <color name="lx_details_heading_text_color">#3C3C3C</color>
+    <color name="lx_details_content_text_color">#585858</color>
+    <color name="lx_details_background_color">#eaeaea</color>
+    <color name="lx_ticket_summary_color">#676767</color>
+    <color name="lx_ticket_title_color">#3C3C3C</color>
+    <color name="lx_select_ticket_button_color">#7C7C7C</color>
+    <color name="lx_date_disabled_background_color">@android:color/white</color>
+    <color name="lx_actionbar_text_color">#5C5C5C</color>
+    <color name="lx_confirmation_gradient">#80000000</color>
+    <color name="lx_confirmation_background">#1A1D20</color>
+    <color name="lx_confirmation_action_text_color">#F3F3F3</color>
+    <color name="lx_confirmation_email_text_color">#C8C8C8</color>
+    <color name="lx_checkout_text_color">#676767</color>
+    <color name="lx_dates_disabled_text_color">#D7D7D7</color>
+    <color name="lx_secondary_color_disabled">#F6DAC0</color>
+    <color name="lx_dates_container_border_color">#CCCCCC</color>
+    <color name="lx_confirmation_action_background">#3A424C</color>
+    <color name="lx_unchecked_toggle_text_color">#FFC48E</color>
+
+    <color name="search_dropdown_disabled_stroke">#C3C3C3</color>
+    <color name="lx_sort_filter_pressed">#D9D9D9</color>
+    <color name="lx_sort_filter_top_bar_text_color">#5C5C5C</color>
+    <color name="lx_sort_filter_pressed_row_color">#D8D8D8</color>
+
+    <color name="leanplum_dialog_button_color">#fc2176</color>
+
+    <!--Account Lib Colors -->
+    <color name="btn_sign_in_normal">#f9e06e</color>
+    <color name="btn_sign_in_pressed">#fae58b</color>
+    <color name="btn_sign_in_focused">#f9e179</color>
+    <color name="btn_sign_in_disabled">#80f9e06e</color>
+    <color name="acct__btn_sign_in_text">#000000</color>
+    <color name="acct__bg_input_text_default">#80ffffff</color>
+    <color name="acct__bg_input_text_error">#db4437</color>
+    <color name="acct__bg_input_text_good">#4a90e2</color>
+    <color name="acct__flavor_text">#ffffff</color>
+    <color name="acct__user_info_text_color">#ffffff</color>
+    <color name="toolbar_icon">#ffffff</color>
+
+    <!-- MER Email Opt checkbox color -->
+    <color name="mer_email_checkbox_unchecked_color">#F7F8FA</color>
+    <color name="mer_email_checkbox_checked_color">#00B9E6</color>
+    <color name="mer_email_text_color">#F7F8FA</color>
 
 </resources>

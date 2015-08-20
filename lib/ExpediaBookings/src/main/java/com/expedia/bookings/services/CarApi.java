@@ -1,10 +1,15 @@
 package com.expedia.bookings.services;
 
+import java.util.Map;
+
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarSearchResponse;
 
+import retrofit.http.FieldMap;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Query;
 import rx.Observable;
 
@@ -16,20 +21,21 @@ public interface CarApi {
 		@Query("pickupTime") String pickupTime,
 		@Query("dropOffTime") String dropoffTime);
 
+	@GET("/m/api/cars/search/location")
+	public Observable<CarSearchResponse> roundtripCarSearch(
+		@Query("pickupLocation.lat") double pickupLocationLatitude,
+		@Query("pickupLocation.lon") double pickupLocationLongitude,
+		@Query("pickupTime") String pickupTime,
+		@Query("dropOffTime") String dropoffTime,
+		@Query("searchRadius") int searchRadius);
+
 	@GET("/m/api/cars/trip/create")
 	public Observable<CarCreateTripResponse> createTrip(
 		@Query("productKey") String productKey,
 		@Query("expectedTotalFare") String expectedTotalFare);
 
-	@GET("/m/api/cars/trip/checkout")
-	public Observable<CarCheckoutResponse> checkoutWithoutCreditCard(
-		@Query("suppressFinalBooking") boolean suppressFinalBooking,
-		@Query("tripId") String tripId,
-		@Query("expectedTotalFare") String expectedTotalFare,
-		@Query("expectedFareCurrencyCode") String currencyCode,
-		@Query("mainMobileTraveler.phoneCountryCode") String phoneCountryCode,
-		@Query("mainMobileTraveler.phone") String phoneNumber,
-		@Query("mainMobileTraveler.email") String emailAddress,
-		@Query("mainMobileTraveler.firstName") String firstName,
-		@Query("mainMobileTraveler.lastName") String lastName);
+	@FormUrlEncoded
+	@POST("/m/api/cars/trip/checkout")
+	public Observable<CarCheckoutResponse> checkout(
+		@FieldMap Map<String, Object> params);
 }

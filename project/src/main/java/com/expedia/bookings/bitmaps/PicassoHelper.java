@@ -8,7 +8,11 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import com.expedia.bookings.R;
+import com.mobiata.android.util.SettingUtils;
+import com.squareup.okhttp.OkHttpClient;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
@@ -43,9 +47,17 @@ public class PicassoHelper implements Target, Callback {
 	private boolean mHasLoadedPlaceholder;
 
 	private static Picasso mPicasso;
+	private boolean mDisableFallback;
 
-	public static void init(Context context) {
-		mPicasso = Picasso.with(context);
+	public static void init(Context context, OkHttpClient client) {
+		OkHttpDownloader okHttpDownloader = new OkHttpDownloader(client);
+
+		mPicasso = new Picasso.Builder(context)
+			.downloader(okHttpDownloader)
+			.build();
+
+		boolean isLoggingEnabled = SettingUtils.get(context, context.getString(R.string.preference_enable_picasso_logging), false);
+		mPicasso.setLoggingEnabled(isLoggingEnabled);
 	}
 
 	private PicassoHelper(Context context) {
@@ -172,16 +184,26 @@ public class PicassoHelper implements Target, Callback {
 			return;
 		}
 
-		// All urls have failed. Load the placeholder if it
+		// All urls have failed. Load the placeholder as the image or error if it
 		// hasn't been set before.
-		if (mDefaultResId != 0 && !mHasLoadedPlaceholder) {
-			mResId = mDefaultResId;
-			mDefaultResId = 0;
-			mBlur = false;
-			retrieveImage(true);
-			return;
+		// - will callback success
+		if (!mDisableFallback) {
+			if ((mErrorResId != 0 || mDefaultResId != 0) && !mHasLoadedPlaceholder) {
+				mResId = mErrorResId != 0 ? mErrorResId : mDefaultResId;
+				mDefaultResId = 0;
+				mBlur = false;
+				retrieveImage(true);
+				return;
+			}
 		}
-
+		else { // no image. fallback behaviour disabled. fetch placeholder
+			// - will callback failure (but use placeholder if exists)
+			String url = getUrl();
+			if (!TextUtils.isEmpty(url)) {
+				mRetrieving = true;
+				loadImage(url);
+			}
+		}
 	}
 
 	/**
@@ -281,6 +303,10 @@ public class PicassoHelper implements Target, Callback {
 		return mPicasso.isLoggingEnabled();
 	}
 
+	public void setDisableFallback(boolean disableFallback) {
+		this.mDisableFallback = disableFallback;
+	}
+
 	public static class Builder {
 
 		// Required attributes
@@ -299,6 +325,7 @@ public class PicassoHelper implements Target, Callback {
 		private boolean mCenterCrop;
 
 		private String mTag;
+		private boolean mDisableFallback = false;
 
 		public Builder(Context context) {
 			this.mContext = context;
@@ -378,7 +405,13 @@ public class PicassoHelper implements Target, Callback {
 			picassoHelper.setImageView(mView);
 			picassoHelper.setFade(mFade);
 			picassoHelper.setTag(mTag);
+			picassoHelper.setDisableFallback(mDisableFallback);
 			return picassoHelper;
+		}
+
+		public Builder disableFallback() {
+			mDisableFallback = true;
+			return this;
 		}
 	}
 }

@@ -18,7 +18,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
@@ -27,7 +27,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FragmentBailUtils;
-import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -68,10 +67,10 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		headerBitmapDrawable.setOverlayDrawable(getResources().getDrawable(R.drawable.card_top_lighting));
 		hotelImageView.setImageDrawable(headerBitmapDrawable);
 
-		Media media = HotelUtils.getRoomMedia(Db.getTripBucket().getHotel());
-		if (media != null) {
+		HotelMedia hotelMedia = Db.getTripBucket().getHotel().getProperty().getThumbnail();
+		if (hotelMedia != null) {
 			new PicassoHelper.Builder(getActivity())
-				.setPlaceholder(Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_hotel_confirmation_placeholder)).setTarget(headerBitmapDrawable.getCallBack()).build().load(media.getHighResUrls());
+				.setPlaceholder(Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_hotel_confirmation_placeholder)).setTarget(headerBitmapDrawable.getCallBack()).build().load(hotelMedia.getHighResUrls());
 		}
 		else {
 			headerBitmapDrawable

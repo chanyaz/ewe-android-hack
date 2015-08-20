@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelRoomsAndRatesActivity;
 import com.expedia.bookings.data.Db;
@@ -17,6 +18,7 @@ import com.expedia.bookings.fragment.base.Fragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 public class HotelPayLaterInfoFragment extends Fragment {
 
@@ -27,6 +29,10 @@ public class HotelPayLaterInfoFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_pay_later_info_screen, container, false);
+
+		TextView etpPayNowChargesText = Ui.findView(v, R.id.etp_pay_now_charges_text);
+		etpPayNowChargesText.setText(Phrase.from(getActivity(), R.string.etp_pay_now_charges_text_TEMPLATE).put("brand",
+			BuildConfig.brand).format());
 
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		String userCountryCode = PointOfSale.getPointOfSale().getThreeLetterCountryCode();

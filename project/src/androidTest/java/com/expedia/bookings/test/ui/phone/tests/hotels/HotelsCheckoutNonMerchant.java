@@ -15,9 +15,9 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.HotelsUserData;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.HotelsUserData;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.action.ViewActions.pressBack;
@@ -33,7 +33,7 @@ public class HotelsCheckoutNonMerchant extends PhoneTestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		mUser = new HotelsUserData(getInstrumentation());
+		mUser = new HotelsUserData();
 		SettingUtils.save(getInstrumentation().getTargetContext(), R.string.preference_filter_merchant_properties, true);
 	}
 
@@ -65,14 +65,14 @@ public class HotelsCheckoutNonMerchant extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "Opened sort fragment");
 		HotelsSearchScreen.clickOnSortButton();
 		ScreenActions.enterLog(TAG, "clicked on sort button");
-		HotelsSearchScreen.sortMenu().clickSortByPopularityString();
+		HotelsSearchScreen.clickSortByPopularity();
 		pressBack();
 		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickSelectButton();
 
 		// Rooms and rates
 		ScreenActions.enterLog(TAG, "Selecting first room listed for this hotel.");
-		HotelsRoomsRatesScreen.selectRoomItem(0);
+		HotelsRoomsRatesScreen.selectETPRoomItem(1);
 		try {
 			SettingsScreen.clickOkString();
 		}
@@ -85,8 +85,8 @@ public class HotelsCheckoutNonMerchant extends PhoneTestCase {
 
 		// Log in
 		HotelsCheckoutScreen.clickLogInButton();
-		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
-		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
+		LogInScreen.typeTextEmailEditText(mUser.email);
+		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
 
 		// Enter payment as logged in user
@@ -100,16 +100,16 @@ public class HotelsCheckoutNonMerchant extends PhoneTestCase {
 		}
 
 		// Select payment as guest user
-		CardInfoScreen.typeTextCreditCardEditText(mUser.getCreditCardNumber());
+		CardInfoScreen.typeTextCreditCardEditText(mUser.creditCardNumber);
 		CardInfoScreen.clickOnExpirationDateButton();
 		ScreenActions.enterLog(TAG, "Incrementing credit card exp. month and year by 1");
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
 		CardInfoScreen.clickSetButton();
-		ScreenActions.enterLog(TAG, "Entering postal code: " + mUser.getAddressPostalCode());
-		CardInfoScreen.typeTextPostalCode(mUser.getAddressPostalCode());
-		ScreenActions.enterLog(TAG, "Entering cardholder name: " + mUser.getFirstName() + " " + mUser.getLastName());
-		CardInfoScreen.typeTextNameOnCardEditText(mUser.getFirstName() + " " + mUser.getLastName());
+		ScreenActions.enterLog(TAG, "Entering postal code: " + mUser.zipcode);
+		CardInfoScreen.typeTextPostalCode(mUser.zipcode);
+		ScreenActions.enterLog(TAG, "Entering cardholder name: " + mUser.firstName + " " + mUser.lastName);
+		CardInfoScreen.typeTextNameOnCardEditText(mUser.firstName + " " + mUser.lastName);
 		CardInfoScreen.clickOnDoneButton();
 		CardInfoScreen.clickNoThanksButton();
 
@@ -118,9 +118,11 @@ public class HotelsCheckoutNonMerchant extends PhoneTestCase {
 		HotelsCheckoutScreen.slideToCheckout();
 
 		// CVV Entry
-		ScreenActions.enterLog(TAG, "Entering CCV: " + mUser.getCCV());
-		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
+		ScreenActions.enterLog(TAG, "Entering CCV: " + mUser.cvv);
+		CVVEntryScreen.parseAndEnterCVV(mUser.cvv);
 		CVVEntryScreen.clickBookButton();
 		EspressoUtils.assertViewWithTextIsDisplayed("Booking Complete");
 	}
+
+
 }

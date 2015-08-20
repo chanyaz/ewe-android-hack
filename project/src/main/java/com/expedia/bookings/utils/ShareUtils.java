@@ -1,8 +1,6 @@
 package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -18,6 +16,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FacebookShareActivity;
 import com.expedia.bookings.data.CarVendor;
@@ -35,7 +34,6 @@ import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -44,6 +42,7 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
+import com.squareup.phrase.Phrase;
 
 public class ShareUtils {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -238,11 +237,6 @@ public class ShareUtils {
 		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers, null, false, null);
 	}
 
-	public String getFlightShareEmail(FlightTrip trip, List<Traveler> travelers, String sharableDetailsURL) {
-		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers,
-				sharableDetailsURL, false, null);
-	}
-
 	public String getFlightShareEmail(FlightLeg leg, List<Traveler> travelers, String sharableDetailsURL, boolean isShared, String travelerFirstName) {
 		return getFlightShareEmail(null, leg, leg, travelers, sharableDetailsURL, isShared, travelerFirstName);
 	}
@@ -289,11 +283,10 @@ public class ShareUtils {
 
 	public String getFlightShareSubject(FlightLeg firstLeg, FlightLeg lastLeg, int travelerCount, boolean isShared, String travelerName) {
 		String destinationCity = StrUtils.getWaypointCityOrCode(firstLeg.getLastWaypoint());
-
-		long start = DateTimeUtils.getTimeInLocalTimeZone(firstLeg.getFirstWaypoint().getMostRelevantDateTime())
-				.getTime();
-		long end = DateTimeUtils.getTimeInLocalTimeZone(
-				lastLeg.getLastWaypoint().getMostRelevantDateTime()).getTime();
+		DateTime first = firstLeg.getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+		DateTime last = lastLeg.getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+		long start = first.getMillis();
+		long end = last.getMillis();
 		String dateRange = DateUtils.formatDateRange(mContext, start, end, DateUtils.FORMAT_NUMERIC_DATE
 				| DateUtils.FORMAT_SHOW_DATE);
 
@@ -318,22 +311,22 @@ public class ShareUtils {
 		}
 
 		String destinationCity = leg.getLastWaypoint().getAirport().mCity;
-		Calendar departureCal = leg.getFirstWaypoint().getBestSearchDateTime();
-		Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(departureCal);
+		DateTime departureCal = leg.getFirstWaypoint().getBestSearchDateTime();
+		DateTime departureDate = departureCal.toLocalDateTime().toDateTime();
 
 		String shareText = "";
 
 		if (Locale.US.equals(Locale.getDefault())) {
 			if (!isShared) {
 				String template = mContext.getString(R.string.share_msg_template_short_flight);
-				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
+				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getMillis(),
 						DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
 				shareText = String.format(template, destinationCity, departureDateStr, shareableDetailsURL);
 			}
 			else {
 				// This is a reshare, hence append the primaryTraveler's FirstName to the share message.
 				String template = mContext.getString(R.string.share_msg_template_short_flight_reshare);
-				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
+				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getMillis(),
 						DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
 				shareText = String.format(template, travelerFirstName, destinationCity, departureDateStr,
 						shareableDetailsURL);
@@ -429,9 +422,10 @@ public class ShareUtils {
 
 		body.append("\n");
 
-		body.append(mContext.getString(
-			ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-			PointOfSale.getPointOfSale().getAppInfoUrl()));
+		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInFlightShareContentEnabled()) {
+			body.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
+		}
 
 		return body.toString();
 	}
@@ -543,9 +537,10 @@ public class ShareUtils {
 			builder.append("\n\n");
 		}
 
-		builder.append(mContext.getString(
-			ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-			PointOfSale.getPointOfSale().getAppInfoUrl()));
+		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInHotelShareContentEnabled()) {
+			builder.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
+		}
 
 		return builder.toString();
 	}
@@ -691,9 +686,8 @@ public class ShareUtils {
 		sb.append("\n");
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInCarShareContentEnabled()) {
-			sb.append(mContext.getString(
-				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-				PointOfSale.getPointOfSale().getAppInfoUrl()));
+			sb.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
 
 		return sb.toString();
@@ -784,25 +778,14 @@ public class ShareUtils {
 		sb.append("\n");
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInActivityShareContentEnabled()) {
-			sb.append(mContext.getString(
-				ProductFlavorFeatureConfiguration.getInstance().getCrossSellStringResourceIdForShareEmail(),
-				PointOfSale.getPointOfSale().getAppInfoUrl()));
+			sb.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
 
 		return sb.toString();
 	}
 
 	// Helper methods
-
-	private void appendLabelValue(Context context, StringBuilder sb, int labelStrId, String value) {
-		appendLabelValue(sb, context.getString(labelStrId), value);
-	}
-
-	private void appendLabelValue(StringBuilder sb, String label, String value) {
-		sb.append(label);
-		sb.append(": ");
-		sb.append(value);
-	}
 
 	private void addShareLeg(StringBuilder sb, FlightLeg flightLeg) {
 		Resources res = mContext.getResources();
@@ -824,19 +807,20 @@ public class ShareUtils {
 			sb.append(mContext.getString(R.string.path_template, formatAirport(flight.getOriginWaypoint().getAirport()),
 					formatAirport(flight.getDestinationWaypoint().getAirport())));
 			sb.append("\n");
-			Date start = DateTimeUtils.getTimeInLocalTimeZone(flight.getOriginWaypoint().getBestSearchDateTime());
-			sb.append(DateUtils.formatDateTime(mContext, start.getTime(), DateUtils.FORMAT_SHOW_DATE
+			DateTime start = flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime();
+			sb.append(DateUtils.formatDateTime(mContext, start.getMillis(), DateUtils.FORMAT_SHOW_DATE
 					| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY));
 			sb.append("\n");
-			Date end = DateTimeUtils.getTimeInLocalTimeZone(flight.getDestinationWaypoint().getBestSearchDateTime());
+			DateTime end = flight.getDestinationWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime();
+
 			String departureTzString = FormatUtils.formatTimeZone(flightLeg.getFirstWaypoint().getAirport(), start,
 					MAX_TIMEZONE_LENGTH);
 			String arrivalTzString = FormatUtils.formatTimeZone(flightLeg.getLastWaypoint().getAirport(), end,
 					MAX_TIMEZONE_LENGTH);
-			sb.append(DateUtils.formatDateTime(mContext, start.getTime(), DateUtils.FORMAT_SHOW_TIME) + " "
+			sb.append(DateUtils.formatDateTime(mContext, start.getMillis(), DateUtils.FORMAT_SHOW_TIME) + " "
 					+ departureTzString);
 			sb.append(" - ");
-			sb.append(DateUtils.formatDateTime(mContext, end.getTime(), DateUtils.FORMAT_SHOW_TIME) + " "
+			sb.append(DateUtils.formatDateTime(mContext, end.getMillis(), DateUtils.FORMAT_SHOW_TIME) + " "
 					+ arrivalTzString);
 			sb.append("\n");
 			sb.append(FormatUtils.formatFlightNumber(flight, mContext));
@@ -859,9 +843,6 @@ public class ShareUtils {
 	public Intent[] getShareIntents(ItinContentGenerator<? extends ItinCardData> generator) {
 		ArrayList<Intent> intents = new ArrayList<Intent>();
 
-		if (generator instanceof FlightItinContentGenerator) {
-			intents.add(((FlightItinContentGenerator) generator).getShareWithFlightTrackIntent());
-		}
 		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookShareIntegrationEnabled() && AndroidUtils
 			.isPackageInstalled(mContext, "com.facebook.katana")) {
 			intents.add(FacebookShareActivity.createIntent(mContext, generator));

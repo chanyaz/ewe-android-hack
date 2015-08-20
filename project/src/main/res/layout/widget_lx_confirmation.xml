@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/lx_confirmation_action_background">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".65">
+
+            <com.expedia.bookings.widget.OptimizedImageView
+                android:id="@+id/confirmation_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/lx_confirmation_gradient" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_container"
+                android:layout_gravity="center"
+                android:layout_margin="30dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_activities_confirmation_checkmark" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/itin_white_text"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    app:textStyle="medium" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/itin_white_text"
+                    android:textSize="13sp" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/itin_white_text"
+                    android:layout_marginTop="10dp"
+                    android:textSize="13sp" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/tickets"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/itin_white_text"
+                    android:textSize="13sp" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/itin_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/itin_white_text"
+                    android:layout_marginTop="10dp"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:minHeight="?attr/actionBarSize" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#3A424C"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:gravity="center"
+            android:layout_weight=".35">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/reservation_confirmation_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/itin_white_text"
+                android:textSize="16sp"
+                app:textStyle="medium" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/confirmation_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/lx_confirmation_email_text_color"
+                android:layout_marginTop="10dp"
+                android:textSize="12sp"
+                app:textStyle="light" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/email_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/lx_confirmation_email_text_color"
+                android:textSize="12sp"
+                app:textStyle="light" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</merge>

@@ -25,7 +25,6 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -43,10 +42,10 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.ActionMode;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
@@ -65,12 +64,11 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.AutocompleteSuggestion;
 import com.expedia.bookings.data.ChildTraveler;
@@ -89,14 +87,15 @@ import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
-import com.expedia.bookings.maps.HotelMapFragment;
-import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
+import com.expedia.bookings.fragment.HotelMapFragment;
+import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdImpressionTracking;
@@ -111,6 +110,7 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
@@ -130,6 +130,7 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.SegmentedControlGroup;
+import com.squareup.phrase.Phrase;
 
 public class HotelSearchActivity extends FragmentActivity implements OnDrawStartedListener,
 	HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
@@ -233,6 +234,13 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private View mProgressBarDimmer;
 	private GLTagProgressBar mProgressBar;
 	private TextView mProgressText;
+	private TextView mProgressSearchingABText;
+
+	/**
+	 * AB test - Changing hotel search influence messaging text
+	 * {@link AbacusUtils.HSearchInfluenceMessagingVariate}
+	 */
+	private int searchInfluenceTextResId = 0;
 
 	//----------------------------------
 	// OTHERS
@@ -272,6 +280,11 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private boolean mIsSearchEditTextTextWatcherEnabled = false;
 	private boolean mGLProgressBarStarted = false;
 	private boolean mHasShownCalendar = false;
+	private boolean mIsProgressSearchABTextVisible = false;
+
+	// helps avoid hangtag visibility issue when coming from launch
+	// with external params for the search.
+	private boolean mFindingLocation = false;
 
 	// The last selection for the search EditText.  Used to maintain between rotations
 	private int mSearchTextSelectionStart = -1;
@@ -356,7 +369,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private void loadHotelOffers(HotelOffersResponse offersResponse) {
 		if (offersResponse == null) {
 			Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
-			simulateErrorResponse(Ui.obtainThemeResID(this, R.attr.skin_serverErrorMessageString));
+			simulateErrorResponse(
+				Phrase.from(HotelSearchActivity.this, R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand)
+					.format().toString());
 		}
 		else if (offersResponse.isHotelUnavailable()) {
 			// Start an info call, so we can show an unavailable hotel
@@ -365,7 +380,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			bd.startDownload(KEY_HOTEL_INFO, mHotelInfoDownload, mHotelInfoCallback);
 		}
 		else if (offersResponse.hasErrors()) {
-			String message = getString(Ui.obtainThemeResID(this, R.attr.skin_serverErrorMessageString));
+			String message = Phrase.from(HotelSearchActivity.this, R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format().toString();
 			for (ServerError error : offersResponse.getErrors()) {
 				message = error.getPresentableMessage(HotelSearchActivity.this);
 			}
@@ -393,7 +408,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 		else {
 			Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
-			simulateErrorResponse(Ui.obtainThemeResID(this, R.attr.skin_serverErrorMessageString));
+			simulateErrorResponse(
+				Phrase.from(HotelSearchActivity.this, R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 		}
 	}
 
@@ -429,18 +445,18 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				searchResponse.clearCache();
 			}
 
+			if (Db.getHotelSearch().getSearchParams().fromLaunchScreen()) {
+				mSortOptionSelectedId = R.id.menu_select_sort_popularity;
+				buildFilter();
+			}
 			// #9773: Show distance sort initially, if user entered street address-level search params
-			if (mShowDistance) {
+			else if (mShowDistance) {
 				mSortOptionSelectedId = R.id.menu_select_sort_distance;
 				buildFilter();
 			}
 
 			broadcastSearchCompleted();
 			hideLoading();
-
-			// Save the timestamp in memory and on disk
-			mLastSearchTime = DateTime.now();
-			Db.saveHotelSearchTimestamp(this);
 
 			// 1940: If we had a successful search, don't let past failures re-start a search next time
 			mStartSearchOnResume = false;
@@ -456,21 +472,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			handleError();
 		}
 	}
-
-	private OnSearchParamsChangedInWidgetListener mSearchParamsChangedListener = new OnSearchParamsChangedInWidgetListener() {
-
-		@Override
-		public void onSearchParamsChanged(HotelSearchParams searchParams) {
-			Db.getHotelSearch().setSearchParams(searchParams);
-			if (searchParams != null) {
-				searchParams.ensureValidCheckInDate();
-			}
-			else {
-				Db.getHotelSearch().resetSearchParams();
-			}
-			mStartSearchOnResume = true;
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Static Methods
@@ -513,6 +514,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchEditText.setAdapter(mSearchSuggestionAdapter);
 
+		searchInfluenceTextResId = R.string.progress_searching_hotels_hundreds;
+		mProgressText.setGravity(Gravity.TOP | Gravity.CENTER);
+
 		boolean startNewSearch = getIntent().getBooleanExtra(EXTRA_NEW_SEARCH, false);
 		boolean hasExternalSearchParams = getIntent().hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
 
@@ -520,9 +524,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			Db.clear();
 			// Remove it so we don't keep doing this on rotation
 			getIntent().removeExtra(EXTRA_NEW_SEARCH);
-		}
-		else if (!hasExternalSearchParams) {
-			Db.loadHotelSearchFromDisk(this);
 		}
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -558,6 +559,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			}
 		}
 
+
+
 		// Setup custom action bar view
 		ActionBar actionBar = getActionBar();
 
@@ -587,12 +590,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	protected void onPause() {
 		super.onPause();
 
-		((ExpediaBookingApp) getApplicationContext())
-			.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
-
 		mIsActivityResumed = false;
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 			mProgressBar.onPause();
 		}
 
@@ -613,21 +613,13 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-		OmnitureTracking.trackAppHotelsSearch(this);
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
-		((ExpediaBookingApp) getApplicationContext())
-			.registerSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
 
 		Db.getFilter().addOnFilterChangedListener(this);
 
 		if (mDisplayType != DisplayType.CALENDAR) {
-			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 				mProgressBar.onResume();
 				mProgressBar.reset();
 			}
@@ -654,6 +646,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		displayRefinementInfo();
 		setActionBarBookingInfoText();
+
+
+
 
 		if (mStartSearchOnResume) {
 			Db.getHotelSearch().getSearchParams().ensureValidCheckInDate();
@@ -685,13 +680,13 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				Log.d("Already geocoding, resuming the search...");
 				mActivityState = ActivityState.SEARCHING;
 				downloader.registerDownloadCallback(KEY_GEOCODE, mGeocodeCallback);
-				showLoading(true, R.string.progress_searching_hotels);
+				showLoading(true, searchInfluenceTextResId);
 			}
 			else if (downloader.isDownloading(KEY_SEARCH)) {
 				Log.d("Already searching, resuming the search...");
 				mActivityState = ActivityState.SEARCHING;
 				downloader.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
-				showLoading(true, R.string.progress_searching_hotels);
+				showLoading(true, searchInfluenceTextResId);
 			}
 			else if (downloader.isDownloading(KEY_HOTEL_SEARCH)) {
 				Log.d("Already searching, resuming the hotel name search...");
@@ -706,6 +701,10 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				downloader.registerDownloadCallback(KEY_HOTEL_INFO, mHotelInfoCallback);
 				showLoading(true, R.string.progress_searching_selected_hotel);
 			}
+			else if (mFindingLocation) {
+				Log.d("Searching for location to use, letting it be.");
+				mActivityState = ActivityState.SEARCHING;
+			}
 			else {
 				hideLoading();
 			}
@@ -714,26 +713,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mIsActivityResumed = true;
 
 		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-
-		// If the configuration isn't changing but we are stopping this activity, save the search params
-		//
-		// Due to not being able to tell a config change or not on earlier versions of Android, we just
-		// always save.
-		boolean configChange = false;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			configChange = isChangingConfigurations();
-		}
-		if (!configChange) {
-			// Save here to prevent saving to disk all the time. This will only save to disk when the user
-			// is leaving the screen. Moreover, waiting until now to save to disk will ensure HotelSearch
-			// contains a selected property.
-			Db.kickOffBackgroundHotelSearchSave(this);
-		}
 	}
 
 	@Override
@@ -924,6 +903,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		menu.findItem(R.id.menu_select_filter).setEnabled(shouldEnableMenuItems);
 		menu.findItem(R.id.menu_select_search_map).setEnabled(shouldEnableMenuItems);
 		menu.findItem(R.id.menu_select_change_view).setEnabled(shouldEnableMenuItems);
+		MenuItem map = menu.findItem(R.id.menu_select_change_view);
 
 		// Disable distance sort
 		menu.findItem(R.id.menu_select_sort_distance).setVisible(mShowDistance);
@@ -934,22 +914,30 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			mTag = prefs.getString("tag", getString(R.string.tag_hotel_list));
 		}
 		boolean isListShowing = mTag.equals(getString(R.string.tag_hotel_list));
+		int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHSRMapIconTest);
 		if (isListShowing) {
-			menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_map);
+			if (testVariate == AbacusUtils.HISMapIconVariate.MAP_PIN.ordinal()) {
+				map.setIcon(R.drawable.ab_map);
+			}
+			else if (testVariate == AbacusUtils.HISMapIconVariate.TEXT_ONLY.ordinal()) {
+				map.setIcon(null);
+				map.setTitle(R.string.map_text);
+			}
+			else {
+				map.setIcon(R.drawable.ic_menu_map);
+			}
 		}
 		else {
-			menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_list);
+			if (testVariate == AbacusUtils.HISMapIconVariate.TEXT_ONLY.ordinal()) {
+				map.setIcon(null);
+				map.setTitle(R.string.list_text);
+			}
+			else {
+				map.setIcon(R.drawable.ic_menu_list);
+			}
 		}
 		menu.findItem(R.id.menu_select_sort).setVisible(isListShowing);
 		menu.findItem(R.id.menu_select_search_map).setVisible(!isListShowing);
-
-		// Push actions into the overflow in landscape mode
-		int orientation = getWindowManager().getDefaultDisplay().getOrientation();
-		final boolean shouldShowMenuItems = orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180;
-		final int menuFlags = shouldShowMenuItems ? MenuItem.SHOW_AS_ACTION_ALWAYS : MenuItem.SHOW_AS_ACTION_NEVER;
-		menu.findItem(R.id.menu_select_sort).setShowAsActionFlags(menuFlags);
-		menu.findItem(R.id.menu_select_filter).setShowAsActionFlags(menuFlags);
-		menu.findItem(R.id.menu_select_search_map).setShowAsActionFlags(menuFlags);
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -1144,17 +1132,20 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			return;
 		}
 		else {
+			mFindingLocation = true;
 			showLoading(true, R.string.progress_finding_location);
 		}
 
 		mLocationFragment.find(new FusedLocationProviderListener() {
 			@Override
 			public void onFound(Location currentLocation) {
+				mFindingLocation = false;
 				HotelSearchActivity.this.onLocationFound(currentLocation);
 			}
 
 			@Override
 			public void onError() {
+				mFindingLocation = false;
 				simulateErrorResponse(R.string.ProviderDisabled);
 				OmnitureTracking.trackErrorPage(mContext, "LocationServicesNotAvailable");
 			}
@@ -1215,6 +1206,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 
 		mProgressText = (TextView) findViewById(R.id.search_progress_text_view);
+		mProgressSearchingABText = (TextView) findViewById(R.id.ab_searching_text);
 		mProgressBarHider = findViewById(R.id.search_progress_hider);
 		mProgressBarDimmer = findViewById(R.id.search_progress_dimmer);
 
@@ -1248,17 +1240,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled()) {
 			mProgressBar.addOnDrawStartedListener(this);
-		}
-
-		// mProgressText is positioned differently based on orientation
-		// Could do this in XML, but more difficult due to include rules
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mProgressText.getLayoutParams();
-		int orientation = getWindowManager().getDefaultDisplay().getOrientation();
-		if (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) {
-			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		}
-		else {
-			params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 		}
 
 		//===================================================================
@@ -1472,8 +1453,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		bd.cancelDownload(KEY_HOTEL_INFO);
 		bd.cancelDownload(KEY_LOADING_PREVIOUS);
 
-		Db.deleteHotelSearchData(this);
-
 		buildFilter();
 		commitEditedSearchParams();
 		setDisplayType(DisplayType.NONE);
@@ -1511,7 +1490,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	private void startGeocode() {
-		showLoading(true, R.string.progress_searching_hotels);
+		showLoading(true /*showProgress*/, searchInfluenceTextResId);
 
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 
@@ -1597,7 +1576,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			showLoading(true, R.string.progress_searching_selected_hotel);
 		}
 		else {
-			showLoading(true, R.string.progress_searching_hotels);
+			showLoading(true, searchInfluenceTextResId);
 		}
 
 		commitEditedSearchParams();
@@ -1773,17 +1752,17 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 				OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "OutdatedVersion");
 
-				showLoading(false, errorOne.getExtra("message"));
+				showLoading(true /*isErrorMsg*/, false /*dontShowProgress*/, errorOne.getExtra("message"));
 			}
 			else {
-				showLoading(false, errorOne.getPresentableMessage(HotelSearchActivity.this));
+				showLoading(true /*isErrorMsg*/, false /*dontShowProgress*/, errorOne.getPresentableMessage(HotelSearchActivity.this));
 			}
 			handledError = true;
 		}
 
 		if (!handledError) {
 			OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "HotelListRequestFailed");
-			showLoading(false, LayoutUtils.noHotelsFoundMessage(mContext, Db.getHotelSearch().getSearchParams()));
+			showLoading(true /*isErrorMsg*/, false /*dontShowProgress*/, LayoutUtils.noHotelsFoundMessage(mContext, Db.getHotelSearch().getSearchParams()));
 		}
 	}
 
@@ -1821,7 +1800,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 			hideFilterOptions();
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 				mProgressBar.onResume();
 				mProgressBar.reset();
 			}
@@ -1856,7 +1835,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// make sure to draw/redraw the calendar
 			mDatesCalendarDatePicker.markAllCellsDirty();
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 				mProgressBar.onPause();
 			}
 
@@ -1934,11 +1913,11 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		if (mTag.equals(getString(R.string.tag_hotel_list))) {
 			newFragmentTag = getString(R.string.tag_hotel_map);
-			OmnitureTracking.trackAppHotelsSearch(this);
+			onSwitchToMap();
 		}
 		else {
 			newFragmentTag = getString(R.string.tag_hotel_list);
-			onSwitchToMap();
+			OmnitureTracking.trackAppHotelsSearch(this);
 		}
 
 		showFragment(newFragmentTag);
@@ -2117,7 +2096,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		// Here, we post it so that we have a few precious frames more of the progress bar before
 		// it's covered up by search results (or a lack thereof).  This keeps a black screen from
 		// showing up for a split second for reason I'm not entirely sure of.  ~dlew
-		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 			mProgressBar.postDelayed(new Runnable() {
 				public void run() {
 					mProgressBar.setVisibility(View.GONE);
@@ -2127,15 +2106,28 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	private void showLoading(boolean showProgress, int resId) {
-		showLoading(showProgress, getString(resId));
+		showLoading(showProgress, resId == 0 ? null : getString(resId));
 	}
 
 	private void showLoading(boolean showProgress, String text) {
+		showLoading(false /*isNotErrorMsg*/, showProgress, text);
+	}
+
+	private void showLoading(boolean isErrorMsg, boolean showProgress, String text) {
+		if (isErrorMsg) {
+			mProgressSearchingABText.setVisibility(View.GONE);
+		}
+		else if (mIsProgressSearchABTextVisible) {
+			mProgressSearchingABText.setVisibility(View.VISIBLE);
+		}
+
 		mProgressBarLayout.setVisibility(View.VISIBLE);
 
 		int searchProgressImageResId = ProductFlavorFeatureConfiguration.getInstance().getSearchProgressImageResId();
 		if (searchProgressImageResId != 0) {
-			findViewById(searchProgressImageResId).bringToFront();
+			View searchProgressImage = findViewById(searchProgressImageResId);
+			searchProgressImage.bringToFront();
+			searchProgressImage.setClickable(true);
 		}
 
 		if (mContentViewPager.getCurrentItem() == VIEWPAGER_PAGE_HOTEL) {
@@ -2146,8 +2138,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// In the case that the user is an emulator and this isn't a release build,
 			// disable the hanging tag for speed purposes
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.sIsAutomation) {
-				if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
+				if (AndroidUtils.isEmulator() && BuildConfig.DEBUG) {
 					mProgressBar.setVisibility(View.GONE);
 				}
 				else {
@@ -2157,6 +2149,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			}
 			// Dark text on light background
 			mProgressText.setTextColor(getResources().getColor(R.color.hotel_list_progress_text_color));
+			mProgressSearchingABText.setTextColor(getResources().getColor(R.color.hotel_list_progress_text_color));
 		}
 		else {
 			// Map
@@ -2169,10 +2162,18 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 			// Light text on dark background
 			mProgressText.setTextColor(getResources().getColor(R.color.hotel_map_progress_text_color));
+			mProgressSearchingABText.setTextColor(getResources().getColor(R.color.hotel_map_progress_text_color));
 		}
 
-		mProgressText.setText(text);
+		if (Strings.isEmpty(text)) {
+			mProgressText.setVisibility(View.GONE);
+		}
+		else {
+			mProgressText.setText(text);
+		}
 	}
+
+
 
 	@Override
 	public void onDrawStarted() {
@@ -2233,10 +2234,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			final int numChildren = searchParams.getNumChildren();
 			text = StrUtils.formatGuests(this, numAdults, numChildren);
 
-			int orientation = getWindowManager().getDefaultDisplay().getOrientation();
-			final int hidden = (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) ? View.GONE
-				: View.INVISIBLE;
-			mChildAgesLayout.setVisibility(numChildren == 0 ? hidden : View.VISIBLE);
 			mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
 				numChildren));
 
@@ -2723,7 +2720,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	private void onSwitchToMap() {
-		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Map", null, null);
+		OmnitureTracking.trackHotelSearchMapSwitch(this);
 	}
 
 	// HotelFilter tracking

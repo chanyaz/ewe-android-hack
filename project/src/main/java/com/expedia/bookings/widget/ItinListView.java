@@ -711,7 +711,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 				public void onGlobalLayout() {
 					if (mFooterView.getHeight() == getHeight() && mFooterView.getHasDrawn()) {
-						getViewTreeObserver().removeGlobalOnLayoutListener(this);
+						getViewTreeObserver().removeOnGlobalLayoutListener(this);
 						synchronizedShowDetails(position, animate);
 					}
 				}

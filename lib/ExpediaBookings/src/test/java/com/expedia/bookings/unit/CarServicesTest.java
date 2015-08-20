@@ -1,12 +1,16 @@
 package com.expedia.bookings.unit;
 
 import java.io.File;
+import java.util.LinkedHashSet;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.expedia.bookings.data.cars.CarFilter;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.Transmission;
 import com.expedia.bookings.services.CarServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
@@ -15,88 +19,119 @@ import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 
 import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import rx.Subscription;
+import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 
 public class CarServicesTest {
 	@Rule
-	public MockWebServerRule mServer = new MockWebServerRule();
+	public MockWebServerRule server = new MockWebServerRule();
 
-	@Test(expected = RetrofitError.class)
+	private CarServices service;
+
+	@Before
+	public void before() {
+		RequestInterceptor emptyInterceptor = new RequestInterceptor() {
+			@Override
+			public void intercept(RequestFacade request) {
+				// ignore
+			}
+		};
+
+		service = new CarServices("http://localhost:" + server.getPort(), new OkHttpClient(),
+			emptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL);
+	}
+
+	@Test
 	public void testMockSearchBlowsUp() throws Throwable {
-		mServer.enqueue(new MockResponse()
+		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));
 
-		BlockingObserver<CarSearch> observer = new BlockingObserver<>(1);
+		TestSubscriber<CarSearch> observer = new TestSubscriber<>();
 		CarSearchParams params = new CarSearchParams();
-		CarServices service = getTestCarServices();
 
-		Subscription sub = service.carSearch(params, observer);
-		observer.await();
-		sub.unsubscribe();
+		service.carSearch(params, observer);
+		observer.awaitTerminalEvent();
 
-		assertEquals(0, observer.getItems().size());
-		assertEquals(1, observer.getErrors().size());
-		for (Throwable error : observer.getErrors()) {
-			throw error;
-		}
+		observer.assertNoValues();
+		observer.assertError(RetrofitError.class);
 	}
 
 	@Test
 	public void testEmptyMockSearchWorks() throws Throwable {
-		mServer.enqueue(new MockResponse()
+		server.enqueue(new MockResponse()
 			.setBody("{\"offers\" = []}"));
 
-		BlockingObserver<CarSearch> observer = new BlockingObserver<>(1);
+		TestSubscriber<CarSearch> observer = new TestSubscriber<>();
 		CarSearchParams params = new CarSearchParams();
-		CarServices service = getTestCarServices();
 
-		Subscription sub = service.carSearch(params, observer);
-		observer.await();
-		sub.unsubscribe();
+		service.carSearch(params, observer);
+		observer.awaitTerminalEvent();
 
-		assertEquals(1, observer.getItems().size());
-		assertEquals(0, observer.getErrors().size());
+		observer.assertValueCount(1);
+		observer.assertNoErrors();
+		observer.assertCompleted();
 	}
 
 	@Test
 	public void testMockSearchWorks() throws Throwable {
-		String root = new File("../mocke3/templates").getCanonicalPath();
+		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		mServer.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
-		BlockingObserver<CarSearch> observer = new BlockingObserver<>(2);
-		CarServices service = getTestCarServices();
+		TestSubscriber<CarSearch> observer = new TestSubscriber<>();
 
-		Subscription sub = service.carSearch(new CarSearchParams(), observer);
-		observer.await();
-		sub.unsubscribe();
+		service.carSearch(new CarSearchParams(), observer);
+		observer.awaitTerminalEvent();
 
-		for (Throwable throwable : observer.getErrors()) {
-			throw throwable;
-		}
-		assertTrue(observer.completed());
-		assertEquals(1, observer.getItems().size());
-
-		for (CarSearch search : observer.getItems()) {
-			assertEquals(9, search.categories.size());
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		for (CarSearch search : observer.getOnNextEvents()) {
+			assertEquals(4, search.categories.size());
 		}
 	}
 
-	private CarServices getTestCarServices() throws Throwable {
-		return new CarServices("http://localhost:" + mServer.getPort(), new OkHttpClient(),
-			sEmptyInterceptor, Schedulers.immediate(), Schedulers.immediate());
-	}
+	@Test
+	public void testMockFilterSearchWorks() throws Throwable {
+		//Set Car filter object
+		CarFilter carFilter = new CarFilter();
+		carFilter.categoriesIncluded = new LinkedHashSet();
+		carFilter.suppliersIncluded = new LinkedHashSet();
+		carFilter.carTransmissionType = Transmission.MANUAL_TRANSMISSION;
+		carFilter.suppliersIncluded.add("NoCCRequired");
 
-	private static final RequestInterceptor sEmptyInterceptor = new RequestInterceptor() {
-		@Override
-		public void intercept(RequestFacade request) {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.get().setDispatcher(new ExpediaDispatcher(opener));
 
+		TestSubscriber<CarSearch> observer = new TestSubscriber<>();
+
+		service.carSearch(new CarSearchParams(), observer);
+		observer.awaitTerminalEvent();
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+
+		TestSubscriber<CarSearch> filterObserver = new TestSubscriber<>();
+		service.carFilterSearch(filterObserver, carFilter);
+		filterObserver.awaitTerminalEvent();
+
+		filterObserver.assertNoErrors();
+		filterObserver.assertCompleted();
+		filterObserver.assertValueCount(1);
+
+		for (CarSearch search : filterObserver.getOnNextEvents()) {
+			assertEquals(1, search.categories.size());
+			assertEquals("Standard", search.categories.get(0).carCategoryDisplayLabel);
+
+			assertEquals(1, search.categories.get(0).offers.size());
+			assertEquals("NoCCRequired", search.categories.get(0).offers.get(0).vendor.name);
 		}
-	};
 
+	}
 }

@@ -16,21 +16,24 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPayLaterInfoActivity;
 import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.util.Ui;
+import com.squareup.phrase.Phrase;
 
 public class HotelDetailsIntroFragment extends Fragment {
 
@@ -130,7 +133,9 @@ public class HotelDetailsIntroFragment extends Fragment {
 			reviewsSummaryLayout.setOnClickListener(userReviewsClickListener);
 		}
 
-		boolean isUserBucketedFreeCancellationABTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHISFreeCancellationTest);
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
+		HotelOffersResponse infoResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+		boolean hasAtleastOneFreeCancellationRate = infoResponse != null && infoResponse.hasAtLeastOnFreeCancellationRate();
 
 		// Banner messages
 		int roomsLeft = property.getRoomsLeftAtThisRate();
@@ -154,16 +159,19 @@ public class HotelDetailsIntroFragment extends Fragment {
 				bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_clock, 0, 0, 0);
 			}
 		}
-		else if (isUserBucketedFreeCancellationABTest) {
+		else if (hasAtleastOneFreeCancellationRate) {
 			bannerTextView.setText(getString(R.string.free_cancellation));
 			bannerTextView.setVisibility(View.VISIBLE);
 			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_hotel_details_free_cancellation_checkmark, 0, 0, 0);
 		}
 		// Special case if no urgency and no recommendations: hide this while banner section.
 		else if (percentRecommend == 0 && numReviews == 0) {
-			reviewsSummaryLayout.setVisibility(View.GONE);
-			view.findViewById(R.id.reviews_banner_divider).setVisibility(View.GONE);
-			return;
+			String banner = property.isMerchant() ? getString(R.string.best_price_guarantee) : Phrase.from(getActivity(), R.string.non_merchant_rate_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format().toString();
+			bannerTextView.setText(banner);
+			bannerTextView.setVisibility(View.VISIBLE);
+			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_hotel_details_free_cancellation_checkmark, 0, 0, 0);
 		}
 		// xx% recommend this hotel
 		else {
@@ -253,37 +261,11 @@ public class HotelDetailsIntroFragment extends Fragment {
 			readMoreView.setOnClickListener(asd);
 
 			sectionBody = String.format(getString(R.string.ellipsize_text_template),
-					sectionBody.subSequence(0, cutAtWordBarrier(sectionBody)));
+					sectionBody.subSequence(0, Strings.cutAtWordBarrier(sectionBody, INTRO_PARAGRAPH_CUTOFF)));
 		}
 
 		// Always hide this for the intro
 		titleView.setVisibility(View.GONE);
 		bodyView.setText(sectionBody);
-	}
-
-	public static int cutAtWordBarrier(CharSequence body) {
-		int before = INTRO_PARAGRAPH_CUTOFF;
-		for (int i = INTRO_PARAGRAPH_CUTOFF; i > 0; i--) {
-			char c = body.charAt(i);
-			if (c == ' ' || c == ',' || c == '.') {
-				before = i;
-				break;
-			}
-		}
-		while (body.charAt(before) == ' ' || body.charAt(before) == ',' || body.charAt(before) == '.') {
-			before--;
-		}
-		before++;
-		int after = INTRO_PARAGRAPH_CUTOFF;
-		for (int i = INTRO_PARAGRAPH_CUTOFF; i < body.length(); i++) {
-			char c = body.charAt(i);
-			if (c == ' ' || c == ',' || c == '.') {
-				after = i;
-				break;
-			}
-		}
-		int leftDistance = Math.abs(INTRO_PARAGRAPH_CUTOFF - before);
-		int rightDistance = Math.abs(after - INTRO_PARAGRAPH_CUTOFF);
-		return (leftDistance < rightDistance) ? before : after;
 	}
 }

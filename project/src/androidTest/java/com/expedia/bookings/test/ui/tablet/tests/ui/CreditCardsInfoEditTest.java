@@ -10,10 +10,11 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.tablet.pagemodels.HotelDetails;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Launch;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Results;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.TabletTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.TabletTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
@@ -108,7 +109,7 @@ public class CreditCardsInfoEditTest extends TabletTestCase {
 			//go back and clear credit card edit box for next test data
 			Common.pressBack();
 			Checkout.clickCreditCardSection();
-			EspressoUtils.clear(Checkout.creditCardNumber());
+			Checkout.creditCardNumber().perform(clearText());
 		}
 	}
 

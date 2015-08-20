@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
-import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.expedia.bookings.otto.Events;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -198,14 +197,6 @@ public class HotelSearch implements JSONable {
 			return null;
 		}
 		return availability.getHotelOffersResponse();
-	}
-
-	public SummarizedRoomRates getSummarizedRoomRates(String id) {
-		HotelOffersResponse response = getHotelOffersResponse(id);
-		if (response == null) {
-			return null;
-		}
-		return response.getSummarizedRoomRates();
 	}
 
 	public ReviewsResponse getReviewsResponse(String id) {

@@ -7,12 +7,10 @@ import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.SettingsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.Espresso;
@@ -22,9 +20,6 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
-/**
- * Created by dmadan on 5/14/14.
- */
 public class HotelDetailsTests extends PhoneTestCase {
 
 	/*
@@ -34,7 +29,7 @@ public class HotelDetailsTests extends PhoneTestCase {
 
 	// Verify that the correct dialog appears after clicking the VIP Access image in
 	// on the image gallery
-	public void testVIPAccessDialog() throws Exception {
+	public void testVIPAccessDialog() throws Throwable {
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
@@ -48,23 +43,13 @@ public class HotelDetailsTests extends PhoneTestCase {
 		HotelsSearchScreen.filterMenu().clickVIPAccessFilterButton();
 		Espresso.pressBack();
 
-		for (int i = 1; i < 5; i++) {
-			HotelsSearchScreen.clickListItem(i);
-
-			String hotelName = EspressoUtils.getText(R.id.title);
-			ScreenActions.enterLog(TAG, "Verifying VIP Dialog for hotel: " + hotelName);
-			try {
-				SettingsScreen.clickOkString();
-				HotelsGuestPicker.searchButton().check(matches(isDisplayed()));
-				ScreenActions.enterLog(TAG, "Room sold out popup was displayed");
-			}
-			catch (Exception e) {
-				HotelsDetailsScreen.clickVIPImageView();
-				EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.vip_access_message));
-				CVVEntryScreen.clickOkButton();
-				Espresso.pressBack();
-			}
-		}
+		HotelsSearchScreen.clickListItem(1);
+		String hotelName = EspressoUtils.getText(R.id.title);
+		ScreenActions.enterLog(TAG, "Verifying VIP Dialog for hotel: " + hotelName);
+		HotelsDetailsScreen.clickVIPImageView();
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.vip_access_message));
+		CVVEntryScreen.clickOkButton();
+		Espresso.pressBack();
 	}
 
 	// Verify that some UI Elements are present on the hotel details screen
@@ -101,9 +86,6 @@ public class HotelDetailsTests extends PhoneTestCase {
 
 			HotelsDetailsScreen.bookNowButton().perform(scrollTo()).check(matches(isDisplayed()));
 			ScreenActions.enterLog(TAG, "Book now button is displayed");
-
-			HotelsDetailsScreen.bookByPhoneButton().perform(scrollTo()).check(matches(isDisplayed()));
-			ScreenActions.enterLog(TAG, "Book by phone button is displayed");
 
 			Espresso.pressBack();
 		}

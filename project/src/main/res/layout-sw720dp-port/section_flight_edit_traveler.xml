@@ -123,7 +123,7 @@
                 android:gravity="center"
                 android:text="@string/seating_preference"
                 android:textAllCaps="true"
-                android:textColor="#2A4367"
+                android:textColor="?attr/skin_sectionFlightEditTravelerLinkColor"
                 android:textStyle="bold"
                 android:textSize="14dp"
                 app:textStyle="medium" />
@@ -145,7 +145,7 @@
                 android:gravity="center"
                 android:text="@string/special_assistance"
                 android:textAllCaps="true"
-                android:textColor="#2A4367"
+                android:textColor="?attr/skin_sectionFlightEditTravelerLinkColor"
                 android:textStyle="bold"
                 android:textSize="14dp"
                 app:textStyle="medium" />
@@ -166,7 +166,7 @@
                 android:gravity="center"
                 android:text="@string/add_redress_num"
                 android:textAllCaps="true"
-                android:textColor="#2A4367"
+                android:textColor="?attr/skin_sectionFlightEditTravelerLinkColor"
                 android:textStyle="bold"
                 android:textSize="14dp"
                 app:textStyle="medium" />

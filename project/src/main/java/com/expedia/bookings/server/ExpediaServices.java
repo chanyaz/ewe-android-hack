@@ -6,24 +6,22 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.HttpCookie;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
+import javax.inject.Inject;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -33,10 +31,9 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.BillingInfo;
@@ -53,7 +50,6 @@ import com.expedia.bookings.data.FlightStatsFlightResponse;
 import com.expedia.bookings.data.FlightStatsRatingResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.GsonResponse;
-import com.expedia.bookings.data.HotelAffinitySearchResponse;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -69,9 +65,6 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.RoutesResponse;
-import com.expedia.bookings.data.Scenario;
-import com.expedia.bookings.data.ScenarioResponse;
-import com.expedia.bookings.data.ScenarioSetResponse;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestResponse;
@@ -91,18 +84,20 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
-import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
+import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
+import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.Ui;
 import com.facebook.Session;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
@@ -127,8 +122,6 @@ public class ExpediaServices implements DownloadListener {
 	private static final String FS_FLEX_APP_KEY = "6cf6ac9c083a45e93c6a290bf0cd442e";
 	private static final String FS_FLEX_BASE_URI = "https://api.flightstats.com/flex";
 
-	private static final String EXPEDIA_SUGGEST_BASE_URL = "http://suggest.expedia.com/";
-
 	public static final int REVIEWS_PER_PAGE = 25;
 
 	public static final int HOTEL_MAX_RESULTS = 200;
@@ -136,9 +129,6 @@ public class ExpediaServices implements DownloadListener {
 	public static final int FLIGHT_MAX_TRIPS = 1600;
 
 	private static final String COOKIES_FILE = "cookies.dat";
-
-	// Flags for doRequest()
-	private static final int F_SECURE_REQUEST = 1;
 
 	// Flags for getE3EndpointUrl()
 	public static final int F_HOTELS = 4;
@@ -167,8 +157,18 @@ public class ExpediaServices implements DownloadListener {
 	private Context mContext;
 
 	// We want to use the cached client for all our requests except the ones that ignore cookies
-	private static OkHttpClient sCachedClient;
-	private static SyncronizedHttpCookieStore sCookieStore;
+	@Inject
+	public OkHttpClient mCachedClient;
+
+	@Inject
+	public PersistentCookieManager mCookieManager;
+
+	@Inject
+	public EndpointProvider mEndpointProvider;
+
+	@Inject
+	public SSLContext mSSLContext;
+
 	private OkHttpClient mClient;
 	private Request mRequest;
 
@@ -181,21 +181,11 @@ public class ExpediaServices implements DownloadListener {
 			throw new RuntimeException("Context passed to ExpediaServices cannot be null!");
 		}
 		mContext = context;
+
+		Ui.getApplication(context).appComponent().inject(this);
 	}
 
-	public static void init(Context context) {
-		sCachedClient = makeOkHttpClient(context);
-
-		sCookieStore = new SyncronizedHttpCookieStore();
-		sCookieStore.init(context);
-
-		ExpediaCookiePolicy policy = new ExpediaCookiePolicy();
-		policy.updateSettings(context);
-
-		sCachedClient.setCookieHandler(new CookieManager(sCookieStore, policy));
-	}
-
-	private static OkHttpClient makeOkHttpClient(Context context) {
+	private OkHttpClient makeOkHttpClient() {
 		OkHttpClient client = new OkHttpClient();
 
 		client.setReadTimeout(100L, TimeUnit.SECONDS);
@@ -205,18 +195,13 @@ public class ExpediaServices implements DownloadListener {
 
 		// When not a release build, allow SSL from all connections
 		// Our test servers use self signed certs
-		if (!AndroidUtils.isRelease(context)) {
-			try {
-				SSLContext socketContext = SSLContext.getInstance("TLS");
-				socketContext.init(null, sEasyTrustManager, new java.security.SecureRandom());
-				client.setSslSocketFactory(socketContext.getSocketFactory());
-			}
-			catch (Exception e) {
-				Log.w("Something sad happened during manipulation of SSL", e);
-			}
-
+		if (BuildConfig.DEBUG) {
+			client.setSslSocketFactory(mSSLContext.getSocketFactory());
 			client.setHostnameVerifier(new AllowAllHostnameVerifier());
 		}
+
+		// Add Stetho debugging network interceptor
+		StethoShim.install(client);
 
 		return client;
 	}
@@ -227,10 +212,8 @@ public class ExpediaServices implements DownloadListener {
 	// Allows one to get the cookie store out of services, in case we need to
 	// inject the cookies elsewhere (e.g., a WebView)
 	public static List<HttpCookie> getCookies(Context context) {
-		HttpCookieStore cs = new HttpCookieStore();
-		// Load what we have on disk
-		cs.init(context);
-		return cs.getCookies();
+		ExpediaServices services = new ExpediaServices(context);
+		return services.mCookieManager.getCookieStore().getCookies();
 	}
 
 	public static void removeUserLoginCookies(Context context) {
@@ -240,42 +223,13 @@ public class ExpediaServices implements DownloadListener {
 			"minfo",
 			"accttype",
 		};
-		sCookieStore.removeAllCookiesByName(userCookieNames);
+		ExpediaServices services = new ExpediaServices(context);
+		services.mCookieManager.removeNamedCookies(userCookieNames);
 	}
 
 	public void clearCookies() {
 		Log.d("Cookies: Clearing!");
-		sCookieStore.removeAll();
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// User-Agent
-
-	/**
-	 * Constructs a user agent string to be used against Expedia requests. It is important to exclude the word "Android"
-	 * otherwise mobile redirects occur when we don't want them. This is useful for all API requests contained here
-	 * in ExpediaServices as well as certain requests through WebViewActivity in order to prevent the redirects.
-	 *
-	 * @param context
-	 * @return
-	 */
-	public static String getUserAgentString(Context context) {
-		// Construct a proper user agent string
-		String versionName;
-		try {
-			PackageManager pm = context.getPackageManager();
-			PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-			versionName = pi.versionName;
-		}
-		catch (Exception e) {
-			// PackageManager is traditionally wonky, need to accept all exceptions here.
-			Log.w("Couldn't get package info in order to submit proper version #!", e);
-			versionName = "1.0";
-		}
-		// Be careful not to use the word "Android" here
-		// https://mingle/projects/e3_mobile_web/cards/676
-		String userAgent = "ExpediaBookings/" + versionName + " (EHad; Mobiata)";
-		return userAgent;
+		mCookieManager.clear();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -294,7 +248,8 @@ public class ExpediaServices implements DownloadListener {
 	private enum SuggestType {
 		AUTOCOMPLETE,
 		NEARBY,
-		HID
+		HID,
+		RID
 	}
 
 	public SuggestResponse suggest(String query, int flags) {
@@ -331,7 +286,7 @@ public class ExpediaServices implements DownloadListener {
 		return doRequest(get, responseHandler, 0);
 	}
 
-	public SuggestionResponse suggestions(String query, int flags) {
+	public SuggestionResponse suggestions(String query) {
 		if (query == null || query.length() < getMinSuggestQueryLength()) {
 			return null;
 		}
@@ -387,6 +342,18 @@ public class ExpediaServices implements DownloadListener {
 		return doSuggestionRequest(url, params);
 	}
 
+	public SuggestionResponse suggestionResolution(String regionId) {
+		String urlBase = getSuggestUrl(1, SuggestType.RID);
+		urlBase += "/";
+		urlBase += regionId;
+		String url = NetUtils.formatUrl(urlBase);
+
+		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+		addCommonParams(params);
+
+		return doSuggestionRequest(url, params);
+	}
+
 	private SuggestionResponse doSuggestionRequest(String url, List<BasicNameValuePair> params) {
 		Request.Builder get = createHttpGet(url, params);
 
@@ -416,18 +383,8 @@ public class ExpediaServices implements DownloadListener {
 
 	private String getSuggestUrl(int version, SuggestType type) {
 		StringBuilder sb = new StringBuilder();
-		String which = SettingUtils.get(mContext, mContext.getString(R.string.preference_which_api_to_use_key), "");
-		if (which.equals("Custom Server")) {
-			sb.append(
-				"http://" + SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
-					"localhost:3000") + "/");
-		}
-		else {
-			sb.append(EXPEDIA_SUGGEST_BASE_URL);
-		}
-
+		sb.append(mEndpointProvider.getEssEndpointUrl());
 		sb.append("hint/es/");
-
 		// Version #
 		sb.append("v" + Integer.toString(version) + "/");
 
@@ -441,6 +398,9 @@ public class ExpediaServices implements DownloadListener {
 			break;
 		case HID:
 			sb.append("hid/");
+			break;
+		case RID:
+			sb.append("rid/");
 			break;
 		}
 
@@ -467,11 +427,11 @@ public class ExpediaServices implements DownloadListener {
 	// Documentation: http://www.expedia.com/static/mobile/APIConsole/flight.html
 
 	public FlightSearchResponse flightSearch(FlightSearchParams params, int flags) {
-		List<BasicNameValuePair> query = generateFlightSearchParams(params, flags);
+		List<BasicNameValuePair> query = generateFlightSearchParams(params);
 		return doFlightsRequest("api/flight/search", query, new StreamingFlightSearchResponseHandler(mContext), flags);
 	}
 
-	public List<BasicNameValuePair> generateFlightSearchParams(FlightSearchParams params, int flags) {
+	public List<BasicNameValuePair> generateFlightSearchParams(FlightSearchParams params) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		// This code currently assumes that you are either making a one-way or round trip flight,
@@ -532,24 +492,22 @@ public class ExpediaServices implements DownloadListener {
 
 		addCommonParams(query);
 
-		return doFlightsRequest("api/flight/trip/create", query, new CreateItineraryResponseHandler(mContext), flags
-			| F_SECURE_REQUEST);
+		return doFlightsRequest("api/flight/trip/create", query, new CreateItineraryResponseHandler(mContext), flags);
 	}
 
 	public FlightCheckoutResponse flightCheckout(TripBucketItemFlight flightItem, BillingInfo billingInfo,
 		List<Traveler> travelers, int flags) {
-		List<BasicNameValuePair> query = generateFlightCheckoutParams(flightItem, billingInfo, travelers, flags);
+		List<BasicNameValuePair> query = generateFlightCheckoutParams(flightItem, billingInfo, travelers);
 
 		Itinerary itinerary = flightItem.getItinerary();
 		Log.v("tealeafTransactionId for flight: " + itinerary.getTealeafId());
 		addTealeafId(query, itinerary.getTealeafId());
 
-		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
-			+ F_SECURE_REQUEST);
+		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags);
 	}
 
 	public List<BasicNameValuePair> generateFlightCheckoutParams(TripBucketItemFlight flightItem,
-		BillingInfo billingInfo, List<Traveler> travelers, int flags) {
+		BillingInfo billingInfo, List<Traveler> travelers) {
 		FlightTrip flightTrip = flightItem.getFlightTrip();
 		Itinerary itinerary = flightItem.getItinerary();
 
@@ -558,6 +516,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
 		query.add(new BasicNameValuePair("expectedTotalFare", flightTrip.getTotalFare().getAmount().toString() + ""));
 		query.add(new BasicNameValuePair("expectedFareCurrencyCode", flightTrip.getTotalFare().getCurrency()));
+		query.add(new BasicNameValuePair("abacusUserGuid", Db.getAbacusGuid()));
 
 		Money cardFee = flightItem.getCardFee(billingInfo.getCardType());
 		if (cardFee != null) {
@@ -604,24 +563,13 @@ public class ExpediaServices implements DownloadListener {
 
 	// Suppress final bookings if we're not in release mode and the preference is set to suppress
 	private static boolean suppressFinalFlightBooking(Context context) {
-		return !AndroidUtils.isRelease(context)
-			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_flight_bookings), true);
+		return BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings);
 	}
 
 	private static boolean suppressFinalHotelBooking(Context context) {
-		return !AndroidUtils.isRelease(context)
-			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_hotel_bookings), true);
+		return BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_hotel_bookings);
 	}
 
-	private static boolean flightBookingHasKids(List<Traveler> travelers) {
-		for (Traveler traveler : travelers) {
-			PassengerCategory category = traveler.getPassengerCategory();
-			if (category != PassengerCategory.ADULT && category != PassengerCategory.SENIOR) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	// Ancillary flight data
@@ -665,11 +613,11 @@ public class ExpediaServices implements DownloadListener {
 		else {
 			// get based on flight number
 			FlightCode flightCode = flight.getPrimaryFlightCode();
-			Calendar departure = flight.getOriginWaypoint().getBestSearchDateTime();
+			DateTime departure = flight.getOriginWaypoint().getBestSearchDateTime();
 			baseUrl = FS_FLEX_BASE_URI + "/flightstatus/rest/v2/json/flight/status/" + flightCode.mAirlineCode + "/"
 				+ flightCode.mNumber.trim()
-				+ "/dep/" + departure.get(Calendar.YEAR) + "/" + (departure.get(Calendar.MONTH) + 1) + "/"
-				+ departure.get(Calendar.DAY_OF_MONTH) + "?";
+				+ "/dep/" + departure.getYear() + "/" + (departure.getMonthOfYear() + 1) + "/"
+				+ departure.getDayOfMonth() + "?";
 
 			parameters.add(new BasicNameValuePair("utc", "false"));
 			parameters.add(new BasicNameValuePair("airport", flight.getOriginWaypoint().mAirportCode));
@@ -737,7 +685,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 		rh.setNumNights(params.getStayDuration());
 
-		if (!AndroidUtils.isRelease(mContext)) {
+		if (BuildConfig.DEBUG) {
 			boolean disabled = SettingUtils
 				.get(mContext, mContext.getString(R.string.preference_disable_domain_v2_hotel_search), false);
 
@@ -750,12 +698,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public List<BasicNameValuePair> generateHotelSearchParams(HotelSearchParams params, int flags) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		if (EndPoint.getEndPoint(mContext) == EndPoint.MOCK_SERVER) {
-			query.add(new BasicNameValuePair("city", "saved_product"));
-			return query;
-		}
+		List<BasicNameValuePair> query = new ArrayList<>();
 
 		query.add(new BasicNameValuePair("sortOrder", "ExpertPicks"));
 		addCommonParams(query);
@@ -791,7 +734,7 @@ public class ExpediaServices implements DownloadListener {
 	public HotelOffersResponse availability(HotelSearchParams params, Property property) {
 		List<BasicNameValuePair> query = generateHotelAvailabilityParams(params, property);
 
-		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, params, property);
+		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, params);
 
 		return doE3Request("m/api/hotel/offers", query, responseHandler, 0);
 	}
@@ -824,7 +767,7 @@ public class ExpediaServices implements DownloadListener {
 	public HotelOffersResponse hotelInformation(Property property) {
 		List<BasicNameValuePair> query = generateHotelAvailabilityParams(null, property);
 
-		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, null, property);
+		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, null);
 
 		return doE3Request("m/api/hotel/info", query, responseHandler, 0);
 	}
@@ -833,7 +776,7 @@ public class ExpediaServices implements DownloadListener {
 		boolean qualifyAirAttach) {
 		List<BasicNameValuePair> query = generateCreateTripParams(rate, params, qualifyAirAttach);
 		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
-		return doE3Request("m/api/hotel/trip/create", query, responseHandler, F_SECURE_REQUEST);
+		return doE3Request("m/api/hotel/trip/create", query, responseHandler);
 	}
 
 	public List<BasicNameValuePair> generateCreateTripParams(Rate rate, HotelSearchParams params,
@@ -855,7 +798,7 @@ public class ExpediaServices implements DownloadListener {
 		Property property = hotel.getProperty();
 		HotelSearchParams params = hotel.getHotelSearchParams();
 		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
-		return doE3Request("api/m/trip/coupon", query, responseHandler, F_SECURE_REQUEST);
+		return doE3Request("api/m/trip/coupon", query, responseHandler);
 	}
 
 	public List<BasicNameValuePair> generateApplyCouponParams(String couponCode, TripBucketItemHotel hotel) {
@@ -874,7 +817,7 @@ public class ExpediaServices implements DownloadListener {
 		Property property = hotel.getProperty();
 		HotelSearchParams params = hotel.getHotelSearchParams();
 		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
-		return doE3Request("api/m/trip/remove/coupon", query, responseHandler, F_SECURE_REQUEST);
+		return doE3Request("api/m/trip/remove/coupon", query, responseHandler);
 	}
 
 	public List<BasicNameValuePair> generateRemoveCouponParams(TripBucketItemHotel hotel) {
@@ -884,17 +827,19 @@ public class ExpediaServices implements DownloadListener {
 		return query;
 	}
 
-	public HotelBookingResponse reservation(HotelSearchParams params, Property property, Rate rate,
+	public HotelBookingResponse reservation(HotelSearchParams params, Rate rate,
 		BillingInfo billingInfo,
-		String tripId, String userId, Long tuid, String tealeafId) {
+		String tripId, String userId, Long tuid, String tealeafId, boolean isMerEmailOptIn) {
 		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId, userId,
 			tuid);
 
 		Log.v("tealeafTransactionId for hotel: " + tealeafId);
 		addTealeafId(query, tealeafId);
 
-		return doE3Request("m/api/hotel/trip/checkout", query, new BookingResponseHandler(mContext),
-			F_SECURE_REQUEST);
+		// #4762. Adding MER email opt in choice
+		query.add(new BasicNameValuePair("emailOptIn", String.valueOf(isMerEmailOptIn)));
+
+		return doE3Request("m/api/hotel/trip/checkout", query, new BookingResponseHandler(mContext));
 	}
 
 	public List<BasicNameValuePair> generateHotelReservationParams(HotelSearchParams params, Rate rate,
@@ -936,6 +881,8 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
 		}
 
+		query.add(new BasicNameValuePair("abacusUserGuid", Db.getAbacusGuid()));
+
 		return query;
 	}
 
@@ -969,40 +916,6 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("tlPaymentsSubmitEvent", "1"));
 			query.add(new BasicNameValuePair("tealeafTransactionId", tealeafId));
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Hotels Affinity Search
-	//
-	// Documentation: https://confluence/display/POS/Affinity+Search+API
-	//
-
-
-	// TODO determine the correct endpoint to hit
-	private static final String HOTELS_AFFINITY_SEARCH_BASE_URL = "http://afs.integration.bgb.karmalab.net:52418/affinity/api/v1/get/hotels";
-
-	public HotelAffinitySearchResponse hotelAffinitySearch(HotelSearchParams params) {
-		List<BasicNameValuePair> query = generateHotelAffinitySearchParams(params);
-		return doBasicGetRequest(HOTELS_AFFINITY_SEARCH_BASE_URL, query, new HotelAffinitySearchResponseHandler());
-	}
-
-	public List<BasicNameValuePair> generateHotelAffinitySearchParams(HotelSearchParams params) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		query.add(new BasicNameValuePair("format", "json"));
-
-		query.add(new BasicNameValuePair("userId", "ama")); // TODO get real client ID
-
-		if (params.hasRegionId()) {
-			Log.d("Searching by regionId...");
-			query.add(new BasicNameValuePair("regionId", params.getRegionId()));
-		}
-		else {
-			// TODO support current loc, etc..
-			throw new RuntimeException("Attempting an affinity search that is not yet supported");
-		}
-
-		return query;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1064,7 +977,7 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// Documentation: https://www.expedia.com/static/mobile/APIConsole/trip.html
 
-	public TripResponse getTrips(boolean getCachedDetails, int flags) {
+	public TripResponse getTrips(boolean getCachedDetails) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		addCommonParams(query);
 		query.add(new BasicNameValuePair("filterBookingStatus", "PENDING"));
@@ -1078,8 +991,7 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("getCachedDetails", "10"));
 		}
 
-		return doE3Request("api/trips", query, new TripResponseHandler(mContext),
-			F_SECURE_REQUEST | F_GET);
+		return doE3Request("api/trips", query, new TripResponseHandler(mContext), F_GET);
 	}
 
 	public TripDetailsResponse getTripDetails(Trip trip, boolean useCache) {
@@ -1087,7 +999,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addCommonParams(query);
 
-		int flags = F_SECURE_REQUEST | F_GET;
+		int flags = F_GET;
 
 		// Always use tripNumber for guests, tripId for logged in
 		String tripIdentifier;
@@ -1116,7 +1028,7 @@ public class ExpediaServices implements DownloadListener {
 	//
 
 	public TripDetailsResponse getSharedItin(String shareableUrl) {
-		int flags = F_SECURE_REQUEST | F_GET | F_DONT_ADD_ENDPOINT | F_IGNORE_COOKIES;
+		int flags = F_GET | F_DONT_ADD_ENDPOINT | F_IGNORE_COOKIES;
 		return doE3Request(shareableUrl, null, new TripDetailsResponseHandler(mContext), flags);
 	}
 
@@ -1132,11 +1044,9 @@ public class ExpediaServices implements DownloadListener {
 			Log.e("Couldn't add the long_url to the argument json");
 		}
 
-		StringBuffer shortUrl = new StringBuffer("http://");
-		shortUrl.append(ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl());
-		shortUrl.append("/v1/shorten");
+		String shortUrl = mEndpointProvider.getShortlyEndpointUrl() + "/v1/shorten";
 
-		Request.Builder post = new Request.Builder().url(shortUrl.toString());
+		Request.Builder post = new Request.Builder().url(shortUrl);
 		RequestBody body = RequestBody.create(MediaType.parse("application/json"), args.toString());
 		post.post(body);
 
@@ -1168,7 +1078,7 @@ public class ExpediaServices implements DownloadListener {
 			User.signOut(mContext);
 		}
 
-		return doE3Request("api/user/sign-in", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
+		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
 	}
 
 	// Attempt to sign in again with the stored cookie
@@ -1182,7 +1092,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addProfileTypes(query, flags);
 
-		return doE3Request("api/user/sign-in", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
+		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
 	}
 
 	public AssociateUserToTripResponse associateUserToTrip(String tripId, int flags) {
@@ -1194,8 +1104,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addProfileTypes(query, flags);
 
-		return doE3Request("api/user/associateUserToTrip", query, new AssociateUserToTripResponseHandler(mContext),
-			F_SECURE_REQUEST);
+		return doE3Request("api/user/associateUserToTrip", query, new AssociateUserToTripResponseHandler(mContext));
 	}
 
 	/**
@@ -1215,8 +1124,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addProfileTypes(query, flags | F_FLIGHTS | F_HOTELS);
 
-		return doE3Request("api/user/profile", query, new SignInResponseHandler(mContext),
-			F_SECURE_REQUEST);
+		return doE3Request("api/user/profile", query, new SignInResponseHandler());
 	}
 
 	/**
@@ -1232,7 +1140,7 @@ public class ExpediaServices implements DownloadListener {
 			addCommonParams(query);
 			Log.i(TAG_REQUEST, "update-travler body:" + NetUtils.getParamsForLogging(query));
 			return doFlightsRequest("api/user/update-traveler", query, new TravelerCommitResponseHandler(mContext,
-				traveler), F_SECURE_REQUEST);
+				traveler));
 		}
 		else {
 			return null;
@@ -1271,7 +1179,7 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("langid", langId));
 		}
 
-		if (EndPoint.requestRequiresSiteId(mContext)) {
+		if (mEndpointProvider.requestRequiresSiteId()) {
 			query.add(new BasicNameValuePair("siteid", ServicesUtil.generateSiteId()));
 		}
 
@@ -1417,15 +1325,15 @@ public class ExpediaServices implements DownloadListener {
 	 * @return
 	 */
 	public static String getFacebookAppId(Context context) {
-		EndPoint endPoint = EndPoint.getEndPoint(context);
+		ExpediaServices services = new ExpediaServices(context);
+		EndPoint endPoint = services.mEndpointProvider.getEndPoint();
 		String appId = null;
 		switch (endPoint) {
 		case INTEGRATION:
-		case STABLE:
 		case DEV:
 		case TRUNK:
 		case PUBLIC_INTEGRATION:
-		case PROXY:
+		case MOCK_MODE:
 		case CUSTOM_SERVER:
 			appId = context.getString(R.string.facebook_dev_app_id);
 			break;
@@ -1456,8 +1364,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("userId", facebookUserId));
 		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
 
-		return doE3Request("api/auth/autologin", query, new FacebookLinkResponseHandler(mContext),
-			F_SECURE_REQUEST);
+		return doE3Request("api/auth/autologin", query, new FacebookLinkResponseHandler(mContext));
 	}
 
 	/**
@@ -1482,8 +1389,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
 		query.add(new BasicNameValuePair("email", facebookEmailAddress));
 
-		return doE3Request("api/auth/linkNewAccount", query, new FacebookLinkResponseHandler(mContext),
-			F_SECURE_REQUEST);
+		return doE3Request("api/auth/linkNewAccount", query, new FacebookLinkResponseHandler(mContext));
 	}
 
 	/**
@@ -1509,8 +1415,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("email", facebookEmailAddress));
 		query.add(new BasicNameValuePair("password", expediaPassword));
 
-		return doE3Request("api/auth/linkExistingAccount", query, new FacebookLinkResponseHandler(mContext),
-			F_SECURE_REQUEST);
+		return doE3Request("api/auth/linkExistingAccount", query, new FacebookLinkResponseHandler(mContext));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1536,7 +1441,7 @@ public class ExpediaServices implements DownloadListener {
 			post.addHeader("MobiataPushName", appNameForMobiataPushNameHeader + "Alpha");
 		}
 
-		if (AndroidUtils.isRelease(mContext)
+		if (BuildConfig.RELEASE
 			|| !SettingUtils.get(mContext, mContext.getString(R.string.preference_disable_push_registration), false)) {
 
 			synchronized (PushNotificationUtils.getLockObject(regId)) {
@@ -1572,8 +1477,8 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// API Console: http://test.reviewsvc.expedia.com/APIConsole?segmentedapi=true
 
-	private static final String TEST_REVIEWS_BASE_URL = "http://test.reviewsvc.expedia.com/api/hotelreviews/hotel/";
-	private static final String PROD_REVIEWS_BASE_URL = "http://reviewsvc.expedia.com/api/hotelreviews/hotel/";
+	private static final String TEST_REVIEWS_BASE_URL = "https://test.reviewsvc.expedia.com/api/hotelreviews/hotel/";
+	private static final String PROD_REVIEWS_BASE_URL = "https://reviewsvc.expedia.com/api/hotelreviews/hotel/";
 
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber) {
 		return reviews(property, sort, pageNumber, REVIEWS_PER_PAGE);
@@ -1605,12 +1510,14 @@ public class ExpediaServices implements DownloadListener {
 	// Launch data
 
 	private String getLaunchEndpointUrl() {
-		String server = "http://";
-		if (EndPoint.getEndPoint(mContext) == EndPoint.CUSTOM_SERVER) {
+		String server = "";
+		if (mEndpointProvider.getEndPoint() == EndPoint.CUSTOM_SERVER) {
+			server = "http://";
 			server += SettingUtils
 				.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
 		}
 		else {
+			server = "https://";
 			server += "www.expedia.com";
 		}
 		return server + "/static/mobile/LaunchDestinations";
@@ -1631,8 +1538,18 @@ public class ExpediaServices implements DownloadListener {
 	// Request code
 
 	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
+		ResponseHandler<T> responseHandler) {
+		return doFlightsRequest(targetUrl, params, responseHandler, F_FLIGHTS);
+	}
+
+	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
 		ResponseHandler<T> responseHandler, int flags) {
 		return doE3Request(targetUrl, params, responseHandler, flags | F_FLIGHTS);
+	}
+
+	private <T extends Response> T doE3Request(String targetUrl, List<BasicNameValuePair> params,
+		ResponseHandler<T> responseHandler) {
+		return doE3Request(targetUrl, params, responseHandler, 0);
 	}
 
 	private <T extends Response> T doE3Request(String targetUrl, List<BasicNameValuePair> params,
@@ -1649,8 +1566,7 @@ public class ExpediaServices implements DownloadListener {
 			serverUrl = targetUrl;
 		}
 		else {
-			boolean isSecure = (flags & F_SECURE_REQUEST) != 0;
-			serverUrl = EndPoint.getE3EndpointUrl(mContext, isSecure) + targetUrl;
+			serverUrl = mEndpointProvider.getE3EndpointUrl() + targetUrl;
 		}
 
 		// Create the request
@@ -1702,16 +1618,16 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private <T extends Response> T doRequest(Request.Builder request, ResponseHandler<T> responseHandler, int flags) {
-		final String userAgent = getUserAgentString(mContext);
+		final String userAgent = ServicesUtil.generateUserAgentString(mContext);
 
-		mClient = sCachedClient;
+		mClient = mCachedClient;
 		request.addHeader("User-Agent", userAgent);
 		request.addHeader("Accept-Encoding", "gzip");
 
 		final boolean ignoreCookies = (flags & F_IGNORE_COOKIES) != 0;
 		if (ignoreCookies) {
 			// We don't want cookies so we cannot use the cached client
-			mClient = makeOkHttpClient(mContext);
+			mClient = makeOkHttpClient();
 			mClient.setCookieHandler(sBlackHoleCookieManager);
 		}
 
@@ -1766,9 +1682,9 @@ public class ExpediaServices implements DownloadListener {
 		Log.d(TAG_REQUEST, "" + url + "?" + NetUtils.getParamsForLogging(params));
 
 		Request.Builder request = createHttpGet(url, params);
-		final String userAgent = getUserAgentString(mContext);
+		final String userAgent = ServicesUtil.generateUserAgentString(mContext);
 
-		mClient = sCachedClient;
+		mClient = mCachedClient;
 		request.addHeader("User-Agent", userAgent);
 		request.addHeader("Accept-Encoding", "gzip");
 
@@ -1814,7 +1730,7 @@ public class ExpediaServices implements DownloadListener {
 	 * @return
 	 */
 	public String getGdeEndpointUrl() {
-		if (EndPoint.getEndPoint(mContext) == EndPoint.CUSTOM_SERVER) {
+		if (mEndpointProvider.getEndPoint() == EndPoint.CUSTOM_SERVER) {
 			String server = SettingUtils
 				.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
 			return "http://" + server;
@@ -1863,40 +1779,6 @@ public class ExpediaServices implements DownloadListener {
 			}
 		}
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Debug/utility (not for release)
-
-	public ScenarioResponse getScenarios() {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("json", "true"));
-		return doE3Request("stubConfiguration/list", query, new ScenarioResponseHandler(), 0);
-	}
-
-	public ScenarioSetResponse setScenario(Scenario config) {
-		String serverUrl = EndPoint.getE3EndpointUrl(mContext, false) + config.getUrl();
-		Log.d(TAG_REQUEST, "Hitting scenario: " + serverUrl);
-		Request.Builder get = new Request.Builder().url(serverUrl);
-		return doRequest(get, new ScenarioSetResponseHandler(), F_ALLOW_REDIRECT);
-	}
-
-	// Automatically trusts all SSL certificates.  ONLY USE IN TESTING!
-	private static final TrustManager[] sEasyTrustManager = new TrustManager[] {
-		new X509TrustManager() {
-			public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-				// So easy
-			}
-
-			public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-				// So easy
-			}
-
-			public X509Certificate[] getAcceptedIssuers() {
-				// So easy
-				return null;
-			}
-		},
-	};
 
 	private static final CookieManager sBlackHoleCookieManager = new CookieManager(null, CookiePolicy.ACCEPT_NONE);
 
@@ -1947,6 +1829,19 @@ public class ExpediaServices implements DownloadListener {
 		if (TextUtils.isEmpty(url)) {
 			return false;
 		}
+
+		if (mEndpointProvider.getEndPoint() == EndPoint.CUSTOM_SERVER
+			|| mEndpointProvider.getEndPoint() == EndPoint.MOCK_MODE) {
+			try {
+				URL originalURL = new URL(url);
+				url = mEndpointProvider.getCustomServerAddress()
+					.substring(0, mEndpointProvider.getCustomServerAddress().length() - 1) + originalURL.getFile();
+			}
+			catch (MalformedURLException ex) {
+				Log.e("Exception modifying url", ex);
+			}
+		}
+
 		return doGet(url, params);
 	}
 

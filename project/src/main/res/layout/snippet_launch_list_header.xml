@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- You need to set the paddingTop based upon the height of the LaunchLobWidget -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/launch_header_height"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/launch_list_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:textColor="#929292"
+            android:textSize="15sp"
+            app:textStyle="medium" />
+
+        <com.expedia.bookings.widget.RoundedCornerFrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical|right"
+            app:radius="2dp">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/see_all_hotels_button"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:background="@color/hotel_lob_btn"
+                android:gravity="center"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="@string/nearby_deals_expand"
+                android:textAllCaps="true"
+                android:textColor="#ffffff"
+                android:textSize="12dp"
+                android:visibility="gone" />
+
+        </com.expedia.bookings.widget.RoundedCornerFrameLayout>
+
+    </FrameLayout>
+</LinearLayout>
+

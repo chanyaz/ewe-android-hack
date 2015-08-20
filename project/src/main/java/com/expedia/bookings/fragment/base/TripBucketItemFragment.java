@@ -238,7 +238,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			}
 
 			if (doTripBucketImageRefresh()) {
-				mHeaderBitmapDrawable.enableOverlay();
 				addTripBucketImage(mTripBucketImageView, mHeaderBitmapDrawable);
 			}
 

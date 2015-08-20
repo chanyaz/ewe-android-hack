@@ -16,26 +16,28 @@ public class CarSearchParamsBuilderTests {
 		LocalDate today = now.toLocalDate();
 		LocalDate tomorrow = today.plusDays(1);
 
-		CarSearchParamsBuilder builder = new CarSearchParamsBuilder();
+		CarSearchParamsBuilder spBuilder = new CarSearchParamsBuilder();
 		CarSearchParams params = null;
+		CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder = new CarSearchParamsBuilder.DateTimeBuilder();
 
 		// Test nulls
-		params = builder.build();
+		params = spBuilder.origin("SFO").build();
 		Assert.assertEquals(null, params.startDateTime);
 		Assert.assertEquals(null, params.endDateTime);
 
 		// Test start
-		builder.startDate(today);
-		params = builder.build();
+		dateTimeBuilder.startDate(today);
+		spBuilder.dateTimeBuilder(dateTimeBuilder);
+		params = spBuilder.build();
 		Assert.assertEquals(now, params.startDateTime);
 		Assert.assertEquals(null, params.endDateTime);
 
 		// Test both
-		builder = new CarSearchParamsBuilder()
-			.startDate(today)
-			.endDate(tomorrow);
+		dateTimeBuilder.endDate(tomorrow);
+		spBuilder = new CarSearchParamsBuilder()
+			.dateTimeBuilder(dateTimeBuilder);
 
-		params = builder.build();
+		params = spBuilder.origin("SFO").build();
 		Assert.assertEquals(now, params.startDateTime);
 		Assert.assertEquals(now.plusDays(1), params.endDateTime);
 	}
@@ -48,19 +50,20 @@ public class CarSearchParamsBuilderTests {
 
 		CarSearchParamsBuilder builder = new CarSearchParamsBuilder();
 		CarSearchParams params;
+		CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder = new CarSearchParamsBuilder.DateTimeBuilder();
 
 		//Test start time with millis set
 		//Set to 12:30 am
 		int millis = 30 * 60 * 1000;
-		builder.startDate(today)
-			.startMillis(millis);
-		params = builder.build();
+		dateTimeBuilder.startDate(today).startMillis(millis);
+		builder.dateTimeBuilder(dateTimeBuilder);
+		params = builder.origin("SFO").build();
 		Assert.assertEquals(now.plusMillis(millis), params.startDateTime);
 
 		//Test end time with millis set
 		millis = millis * 2;
-		builder.endDate(tomorrow)
-			.endMillis(millis);
+		dateTimeBuilder.endDate(tomorrow).endMillis(millis);
+		builder.dateTimeBuilder(dateTimeBuilder);
 		params = builder.build();
 		Assert.assertEquals(now.plusDays(1).plusMillis(millis), params.endDateTime);
 	}
@@ -78,18 +81,25 @@ public class CarSearchParamsBuilderTests {
 		String origin = "SFO";
 		LocalDate now = LocalDate.now();
 		CarSearchParamsBuilder builder = new CarSearchParamsBuilder();
+		CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder = new CarSearchParamsBuilder.DateTimeBuilder();
 
 		Assert.assertFalse(builder.areRequiredParamsFilled());
 		// Fill only origin
 		builder.origin(origin);
 		Assert.assertFalse(builder.areRequiredParamsFilled());
+		// Empty DateTimeBuilder
+		builder.dateTimeBuilder(dateTimeBuilder);
+		Assert.assertFalse(builder.areRequiredParamsFilled());
 		// Fill end date also
-		builder.endDate(now);
+		dateTimeBuilder.endDate(now);
+		builder.dateTimeBuilder(dateTimeBuilder);
 		Assert.assertFalse(builder.areRequiredParamsFilled());
 		// Fill start date also
-		builder.startDate(now);
+		dateTimeBuilder.startDate(now);
+		builder.dateTimeBuilder(dateTimeBuilder);
 		Assert.assertTrue(builder.areRequiredParamsFilled());
-		builder.endDate(null);
+		dateTimeBuilder.endDate(null);
+		builder.dateTimeBuilder(null);
 		Assert.assertFalse(builder.areRequiredParamsFilled());
 	}
 }

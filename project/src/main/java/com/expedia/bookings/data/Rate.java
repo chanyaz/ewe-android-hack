@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BedType.BedTypeId;
+import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.GsonUtil;
 import com.expedia.bookings.utils.JodaUtils;
@@ -97,16 +98,14 @@ public class Rate implements JSONable {
 	private boolean mShowResortFees = false;
 	private boolean mResortFeeInclusion = false;
 	private boolean mDepositRequired = false;
+	private String mCancellationPolicy;
 
 	private TaxStatusType mTaxStatusType;
 
 	private Set<BedType> mBedTypes;
 
-	// For Expedia, RateRules are provided with with availability response
-	private RateRules mRateRules;
-
 	// #1266: There's sometimes thumbnail associated with the rate (of the specific room)
-	private Media mThumbnail;
+	private HotelMedia mThumbnail;
 
 	// Air Attach - is this rate discounted as the result of a flight booking?
 	private boolean mAirAttached;
@@ -116,10 +115,6 @@ public class Rate implements JSONable {
 
 	//ETP: is this rate a pay later rate?
 	private boolean mIsPayLater;
-
-	// These are computed rates, based on the user's current locale.  They should
-	// not be saved, but instead computed on demand (since locale can change).
-	private Money mMandatoryFeesBaseRate = null;
 
 	public String getRatePlanCode() {
 		return mRatePlanCode;
@@ -478,24 +473,16 @@ public class Rate implements JSONable {
 		}
 	}
 
-	public void setRateRules(RateRules rateRules) {
-		mRateRules = rateRules;
-	}
-
-	public RateRules getRateRules() {
-		return mRateRules;
-	}
-
-	public void setThumbnail(Media thumbnail) {
+	public void setThumbnail(HotelMedia thumbnail) {
 		mThumbnail = thumbnail;
 	}
 
-	public Media getThumbnail() {
+	public HotelMedia getThumbnail() {
 		return mThumbnail;
 	}
 
 	public boolean isAirAttached() {
-		return mAirAttached && PointOfSale.getPointOfSale().shouldShowAirAttach();
+		return mAirAttached && PointOfSale.getPointOfSale().showHotelCrossSell();
 	}
 
 	public void setAirAttached(boolean isAirAttached) {
@@ -582,12 +569,12 @@ public class Rate implements JSONable {
 		return mDepositRequired;
 	}
 
-	public void setMobileExlusivity(boolean bool) {
-		mIsMobileExclusive = bool;
+	public void setCancellationPolicy(String cancellationPolicy) {
+		mCancellationPolicy = cancellationPolicy;
 	}
 
-	public boolean isMobileExclusive() {
-		return mIsMobileExclusive;
+	public String getCancellationPolicy() {
+		return mCancellationPolicy;
 	}
 
 	public int compareForPriceChange(Rate other) {
@@ -747,7 +734,6 @@ public class Rate implements JSONable {
 			obj.putOpt("nonRefundable", mNonRefundable);
 			JSONUtils.putStringList(obj, "valueAdds", mValueAdds);
 			JSONUtils.putJSONableList(obj, "bedTypes", mBedTypes);
-			JSONUtils.putJSONable(obj, "rateRules", mRateRules);
 			JSONUtils.putJSONable(obj, "thumbnail", mThumbnail);
 			obj.putOpt("airAttached", mAirAttached);
 			JSONUtils.putJSONable(obj, "etpRate", mEtpRate);
@@ -825,12 +811,61 @@ public class Rate implements JSONable {
 		if (bedTypes != null) {
 			mBedTypes = new HashSet<BedType>(bedTypes);
 		}
-		mRateRules = JSONUtils.getJSONable(obj, "rateRules", RateRules.class);
-		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", Media.class);
+		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", HotelMedia.class);
 		mAirAttached = obj.optBoolean("airAttached", false);
 		mEtpRate = JSONUtils.getJSONable(obj, "etpRate", Rate.class);
 		mIsPayLater = obj.optBoolean("isPayLater", false);
 		return true;
+	}
+
+	// Don't use this with the expectation that data we get
+	// from /offers will be moved properly with this method.
+	public void updateSearchRateFrom(HotelRate rate) {
+		mRatePlanCode = rate.ratePlanCode;
+		mNightlyRateTotal = new Money();
+		mNightlyRateTotal.setAmount(rate.nightlyRateTotal);
+		mNightlyRateTotal.setCurrency(rate.currencyCode);
+
+		mRoomTypeCode = rate.roomTypeCode;
+		mBookingCode = rate.ratePlanCode;
+
+		mAverageRate = new Money();
+		mAverageRate.setCurrency(rate.currencyCode);
+		mAverageRate.setAmount(rate.averageRate);
+
+		mAverageBaseRate = new Money();
+		mAverageBaseRate.setCurrency(rate.currencyCode);
+		mAverageBaseRate.setAmount(rate.averageBaseRate);
+
+		mDiscountPercent = rate.discountPercent;
+
+		mTotalSurcharge = new Money();
+		mTotalSurcharge.setCurrency(rate.currencyCode);
+		mTotalSurcharge.setAmount(rate.surchargeTotal);
+
+		mTotalMandatoryFees = new Money();
+		mTotalMandatoryFees.setCurrency(rate.currencyCode);
+		mTotalMandatoryFees.setAmount(rate.totalMandatoryFees);
+
+		mTotalPriceWithMandatoryFees = new Money();
+		mTotalPriceWithMandatoryFees.setCurrency(rate.currencyCode);
+		mTotalPriceWithMandatoryFees.setAmount(rate.totalPriceMandatoryFees);
+
+		setUserPriceType(rate.userPriceType);
+		setCheckoutPriceType(rate.checkoutPriceType);
+
+		mPriceToShowUsers = new Money();
+		mPriceToShowUsers.setCurrency(rate.currencyCode);
+		mPriceToShowUsers.setAmount(rate.priceToShowUsers);
+
+		mStrikethroughPriceToShowUsers = new Money();
+		mStrikethroughPriceToShowUsers.setCurrency(rate.currencyCode);
+		mStrikethroughPriceToShowUsers.setAmount(rate.strikethroughPriceToShowUsers);
+
+		mShowResortFees = rate.showResortFeeMessage;
+		mResortFeeInclusion = rate.resortFeeInclusion;
+
+		mAirAttached = rate.airAttached;
 	}
 
 	@Override

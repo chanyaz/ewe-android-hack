@@ -7,12 +7,12 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Launch;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Results;
 import com.expedia.bookings.test.ui.tablet.pagemodels.SortFilter;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.TabletTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.TabletTestCase;
 
 import android.support.test.espresso.DataInteraction;
 
-import static com.expedia.bookings.test.ui.espresso.ViewActions.getRating;
+import static com.expedia.bookings.test.espresso.ViewActions.getRating;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**

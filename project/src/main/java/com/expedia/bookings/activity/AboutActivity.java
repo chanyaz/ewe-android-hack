@@ -21,7 +21,9 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -42,6 +44,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.MailChimpUtils;
 import com.mobiata.android.util.MailChimpUtils.MailChimpResult;
+import com.squareup.phrase.Phrase;
 
 public class AboutActivity extends FragmentActivity implements AboutSectionFragmentListener,
 		OnSubscribeEmailClickedListener {
@@ -109,9 +112,13 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 			builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT);
 
-			builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutAppSupportString), ROW_APP_SUPPORT);
+			if (ProductFlavorFeatureConfiguration.getInstance().isAppSupportUrlEnabled()) {
+				builder.addRow(getResources().getString(R.string.app_support), ROW_APP_SUPPORT);
+			}
 
-			builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
+			builder.addRow(
+				Phrase.from(this, R.string.website_TEMPLATE).put("brand", BuildConfig.brand).format().toString(),
+				ROW_EXPEDIA_WEBSITE);
 
 			if (ProductFlavorFeatureConfiguration.getInstance().isWeAreHiringInAboutEnabled()) {
 				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
@@ -181,8 +188,8 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	}
 
 	private String getCopyrightString() {
-		int templateId = Ui.obtainThemeResID(this, R.attr.skin_aboutCopyrightString);
-		return getString(templateId, AndroidUtils.getAppBuildDate(this).get(Calendar.YEAR));
+		return Phrase.from(this, R.string.copyright_TEMPLATE).put("brand", BuildConfig.brand)
+			.put("year", AndroidUtils.getAppBuildDate(this).get(Calendar.YEAR)).format().toString();
 	}
 
 	@Override
@@ -437,6 +444,9 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		ImageView logo = Ui.findView(this, com.mobiata.android.R.id.logo);
 		if (logo != null) {
 			logo.setImageResource(R.drawable.ic_secret);
+			if (BuildConfig.DEBUG) {
+				Db.setMemoryTestActive(true);
+			}
 		}
 	}
 }

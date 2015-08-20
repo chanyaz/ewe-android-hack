@@ -13,51 +13,21 @@ Building
 
 1. Install `JDK7` or `JDK8`.
 
-2. Download [Android Studio](http://developer.android.com/sdk/installing/studio.html).
+2. Clone the `ExpediaInc/ewe-android-eb` repository
 
-3. Clone the `ExpediaInc/ewe-android-eb` repository and run `git submodule init`
-   and `git submodule update`.
+3. Navigate to the root of the `ewe-android-eb` repository.
 
-4. Run ./snap/build.sh to download all the required SDK components and ensure
-   the command line build is working.
+4. Run `git submodule init` and `git submodule update`.
 
-5. Open Android Studio and open the project via Import, selecting the root `build.gradle` file from the repository.
+5. Run `./gradlew assembleExpediaDebug`
 
-6. Select the build variant you'd like to build, e.g. `expediaDebug`, `travelocityDebug`, `airAsiaGoDebug`. You can find
-the Build Variants section via Help in the system bar.
-
-7. You should now be able to build the APK from Android Studio and install on a device or emulator.
+Once you have that working, try importing the project into **AndroidStudio** and
+building from there.
 
 Contributing
 ============
 
-Do not commit directly to master unless you want to get yelled at. Submit a
-pull request from a branch created directly under this repository or from your
-fork from the following naming conventions:
-
-- Stories - `s/`
-  - Choose a good name so we can tell what the feature does. Try to be concise.
-  - eg. `s/air-attach-pricing`
-- Defect(s) - `d/`
-  - Choose a good name so we can tell what the defect fixed. Try to be concise.
-  - It is also fine to fix multiple defects as long as the commits are atomic and
-    have good information in them
-  - eg. `d/fix-air-attach-pricing`
-  - eg. `d/fix-various-flight-list-defects`
-- Improvements - `i/`
-  - eg. `i/resource-cleanup`
-  - eg. `i/port-unittests-to-java`
-- Release branch - `r/`
-  - Choose a good name so we can tell what the release is. Try to be concise.
-  - We use these right before a release to insulate it from other changes we
-    want to merge in and test.
-  - After a release we tag it, rebase master and finally merge back into master
-    with a pull request
-  - eg. `r/expedia-4.1.0`
-  - eg. `r/airasiago-1.0.0`
-- Work in progress/experiments - `w/`
-  - Choose a good name so we can tell what the experiment entails. Try to be concise.
-  - eg. `w/nfc-itin-sharing`
+Please see our expectations on [Contributing](https://github.com/ExpediaInc/ewe-android-eb/wiki/Contributing)
 
 Code Style
 ==========
@@ -72,14 +42,17 @@ Restart Android Studio and select `MobiataIntellij` via `Preferences -> Code Sty
 
 Set XML style via `Preferences -> Code Style -> XML - > Set from ... -> Predefined Style -> Android`.
 
-Jvm Unit Tests
+Unit Tests
 ==============
 
 These live in `lib/ExpediaBookings/` and have no Android dependencies so we can
 run them very quickly just on the `JVM`.
 
+There are also android unit tests and robolectric tests living in the android project
+
+
 ````shell
-./buildbot/jvm_unittests.sh
+./gradlew :lib:ExpediaBookings:test :lib:mocked:mocke3:test :project:testExpediaDebug
 ````
 
 Android Tests
@@ -91,10 +64,6 @@ Window Animation, Transition Animation, Animator Duration.
 ````shell
 BUILDER_NAME=expedia # or another product flavor
 ./buildbot/build.sh
-
-# Robolectric (Android Unit) tests
-./buildbot/robolectric.sh
-open robolectric/build/reports/tests/index.html
 
 # Happy path tests
 ./buildbot/happypath.sh
@@ -118,3 +87,14 @@ resulting `applicationId` becomes `com.expedia.bookings.feature.UNIQUE_FEATURE_N
     $ ./gradlew -Pid="feature.UNIQUE_FEATURE_NAME" crashlyticsUploadDistributionExpediaDebug
 ````
 
+Creating Usability Builds
+=======================
+
+Passing in `-Pid="usability` while assembling a release build triggers special functionality
+to always suppress final bookings for all lines of business. This is behavior deemed important
+for third-party usability testing through www.usertesting.com. We will likely share these builds
+via Crashlytics share link.
+
+````shell
+    $ ./gradlew -Pid="usability" assembleExpediaRelease
+````

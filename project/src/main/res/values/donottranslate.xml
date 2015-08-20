@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- User name label for support email sent to user happiness team -->
-    <string name="email_user_name">Expedia user name:</string>
+    <string name="email_user_name_template">{brand} user name: {email}</string>
     <!-- App Support URL -->
     <string name="app_support_url">http://www.mobiata.com/support/expedia-android</string>
 
@@ -12,14 +12,10 @@
 
     <!-- Names of the open source libraries we use -->
     <!-- The translators should not translate these proper names and when they came back from loc they didn't touch them anyways -->
-    <string name="open_source_names">JodaTime 2.6, ActiveAndroid, OkHttp 2.2.0, Okio 1.2.0, Otto 1.3.5, Gson 2.3, Picasso 2.4.0, Retrofit 1.9.0, FlowLayout 0.4.0</string>
+    <string name="open_source_names">JodaTime 2.8, AndroidTime 2.8, ActiveAndroid, OkHttp 2.4.0, Okio 1.4.0, Otto 1.3.5, Gson 2.3.1, Picasso 2.5.2, Retrofit 1.9.0, FlowLayout 0.4.0, ButterKnife 6.1.0, RxJava 1.0.12, RxAndroid 0.24.0, Dagger 2.0.1, Phrase 1.1.0</string>
 
     <!-- Template for time - distance.  E.g., "9h 40m - 5,5000 miles" -->
     <string name="time_distance_TEMPLATE"> &lt;b&gt;%1$s&lt;/b&gt; - %2$s</string>
-
-    <!-- Stub configuration -->
-    <!-- Warning about clearing data when changing stub -->
-    <string name="warning_setting_a_scenario_clears_all_data">WARNING: Setting a scenario clears all data.</string>
 
     <!-- Facebook -->
     <!-- Development Facebook app id -->
@@ -33,6 +29,10 @@
 
     <string name="lean_plum_sdk_prod_appid">xKlVSadJbLLqOI2ox80QLZQ5IBec4VRggWTjdpuQQAk</string>
     <string name="lean_plum_sdk_prod_key">tCIe8ebANwhOqDWxLtscOmvONeW7OGR4f91hm8rT1cg</string>
+
+    <!-- Tune SDK Key -->
+    <string name="tune_sdk_app_advertiser_id">159126</string>
+    <string name="tune_sdk_app_conversion_key">3670b78dab0046d263b4fb15329d5129</string>
 
     <!-- MapsV2 -->
     <!-- Maps v2 key configured to work with many application package names -->
@@ -64,24 +64,24 @@
     <string name="bold_template">&lt;b&gt;%s&lt;/b&gt;</string>
     <string name="strike_template">&lt;strike&gt;%s&lt;/strike&gt;</string>
     <string name="ellipsize_text_template">%s…</string>
+    <string name="hotel_ellipsize_text_template">{text}</string>
 
     <!-- Preference keys -->
     <string name="preference_clear_private_data_key">CLEAR_PRIVATE_DATA</string>
     <string name="PointOfSaleKey">point_of_sale_key</string>
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
-    <string name="preference_stubconfig_page">preference_stubconfig_page</string>
     <string name="preference_fake_hotel_price_change">fake_hotel_price_change</string>
     <string name="preference_fake_flight_price_change">fake_flight_price_change</string>
     <string name="preference_flight_fake_obfees">flight_fake_obfees</string>
     <string name="preference_filter_merchant_properties">filter_merchant_properties</string>
     <string name="preference_marketing_date">preference_amobee_marketing_date</string> <!-- Originally for amobee, cannot be renamed now -->
     <string name="preference_suppress_flight_bookings">suppress_flight_bookings</string>
+    <string name="preference_suppress_car_bookings">suppress_car_bookings</string>
     <string name="preference_suppress_hotel_bookings">suppress_hotel_bookings</string>
+    <string name="preference_suppress_lx_bookings">suppress_lx_bookings</string>
     <string name="preference_fake_current_location">preference_fake_current_location</string>
     <string name="preference_force_new_location">preference_force_new_location</string>
-    <string name="preference_cookie_logging">preference_cookie_logging</string>
-    <string name="preference_debug_notify_oom_crash">preference_debug_notify_oom_crash</string>
     <string name="preference_google_wallet_cvv_challenge">preference_google_wallet_cvv_challenge</string>
     <string name="preference_disable_push_registration">preference_disable_push_registration</string>
     <string name="preference_push_notification_any_flight">preference_push_notification_any_flight</string>
@@ -91,21 +91,11 @@
     <string name="preference_fake_invalid_google_wallet_line_item">preference_fake_invalid_google_wallet_line_item</string>
     <string name="preference_force_google_wallet_error">preference_force_google_wallet_error</string>
     <string name="preference_force_custom_server_http_only">preference_force_custom_server_http_only</string>
-    <string name="preference_should_start_hierarchy_server">preference_should_start_hierarchy_server</string>
     <string name="preference_enable_picasso_logging">preference_enable_picasso_logging</string>
     <string name="preference_force_passenger_category_error">preference_force_passenger_category_error</string>
-    <string name="preference_aa_test">ExpediaAndroidAppAATest</string>
-    <string name="preference_etp_test">ExpediaAndroidAppETPDefaultNow</string>
-    <string name="preference_book_above_fold">EBAndroidAppHISBookAboveFold</string>
-    <string name="preference_hotel_free_cancellation">EBAndroidAppHISFreeCancellation</string>
-
     <string name="preference_abacus_setting_server">Abacus Server</string>
     <string name="preference_abacus_setting_controlgroup">Control Group</string>
     <string name="preference_abacus_setting_bucketed">Bucketed</string>
-
-    <!-- Setting keys -->
-    <string name="setting_hide_hotel_attach">setting_hide_hotel_attach</string>
-    <string name="setting_hide_air_attach">setting_hide_air_attach</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
@@ -442,14 +432,10 @@
     <string name="cd_zero_btn">Zero</string>
     <string name="cd_delete_btn">Delete</string>
 
-    <!-- Cars Calendar Strings -->
-    <!-- Tooltip description for selecting the start date -->
-    <string name="cars_calendar_start_date_label">Next: Select return date</string>
-    <!-- Tooltip description when both start and end dates are selected -->
-    <string name="cars_calendar_end_date_label">Drag to modify</string>
-    <!-- SeekBar tooltip description for pick up time-->
-    <string name="cars_time_slider_pick_up_label">Pick up time</string>
-    <!-- SeekBar tooltip description for drop off time-->
-    <string name="cars_time_slider_drop_off_label">Drop off time</string>
+    <!-- Car Omniture tracking string when user see the slider -->
+    <string name="car_omniture_checkout_no_credit_card">no card required</string>
+
+    <!-- LX Omniture tracking string when user see the slider -->
+    <string name="lx_omniture_checkout_no_credit_card">no card required</string>
 
 </resources>

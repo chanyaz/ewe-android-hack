@@ -12,7 +12,7 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Launch;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Results;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Search;
 import com.expedia.bookings.test.ui.tablet.pagemodels.SortFilter;
-import com.expedia.bookings.test.ui.utils.TabletTestCase;
+import com.expedia.bookings.test.espresso.TabletTestCase;
 
 import static android.support.test.espresso.action.ViewActions.clearText;
 

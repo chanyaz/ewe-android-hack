@@ -13,16 +13,15 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonPaymentMethodScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LogInScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelReceiptModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsConfirmationScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.HotelsUserData;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.HotelsUserData;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.utils.JodaUtils;
 
 import android.support.test.espresso.ViewInteraction;
@@ -34,13 +33,11 @@ When I select the dates 12/31-1/2, or dates that start in one month and end in t
 Then the Check In and Check Out dates match what was selected on the calendar on Booking Overview/Booking Information screen and on the Confirmation screen
 Then The length of stay matches the number of nights I selected on the calendar.
 Then A room rate will appear for each night selected on the calendar if the nightly breakdown is displayed.
-Automation : napandey : 24/7/14
  */
 
 
 public class HotelDateAcrossMonths extends PhoneTestCase {
 
-	private static final String TAG = HotelDateAcrossMonths.class.getSimpleName();
 	private LocalDate mStartDate, mEndDate;
 	HotelsUserData mUser;
 
@@ -52,7 +49,6 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 		ViewInteraction nightView = HotelReceiptModel.nightsTextView();
 		EspressoUtils.assertContains(nightView, "2 Nights");
 	}
-
 
 	public void testStayDaysOnCostSummaryPage() throws Exception {
 		initialSearch();
@@ -78,7 +74,6 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 		}
 	}
 
-
 	public void testHotelStayDaysOnConfirmationScreen() throws Exception {
 
 		initialSearch();
@@ -93,26 +88,24 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 
 		//test
 		EspressoUtils.assertContains(HotelsConfirmationScreen.summaryTextView(), expectedStayString);
-
 	}
-
 
 	private void bookHotel() throws Exception {
 		HotelsCheckoutScreen.clickCheckoutButton();
 		HotelsCheckoutScreen.clickLogInButton();
-		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
-		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
+		LogInScreen.typeTextEmailEditText(mUser.email);
+		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
 		HotelsCheckoutScreen.clickSelectPaymentButton();
 		try {
 			CommonPaymentMethodScreen.clickOnAddNewCardTextView();
 		}
 		catch (Exception e) {
-			ScreenActions.enterLog(TAG, "No Add New Card button. Proceeding anyway.");
+			//ignore
 		}
-		CardInfoScreen.typeTextCreditCardEditText(mUser.getCreditCardNumber());
-		BillingAddressScreen.typeTextPostalCode(mUser.getAddressPostalCode());
-		CardInfoScreen.typeTextNameOnCardEditText(mUser.getFirstName() + " " + mUser.getLastName());
+		CardInfoScreen.typeTextCreditCardEditText(mUser.creditCardNumber);
+		BillingAddressScreen.typeTextPostalCode(mUser.zipcode);
+		CardInfoScreen.typeTextNameOnCardEditText(mUser.firstName + " " + mUser.lastName);
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
@@ -120,7 +113,7 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 		CardInfoScreen.clickOnDoneButton();
 		CardInfoScreen.clickNoThanksButton();
 		HotelsCheckoutScreen.slideToCheckout();
-		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
+		CVVEntryScreen.parseAndEnterCVV(mUser.cvv);
 		CVVEntryScreen.clickBookButton();
 	}
 
@@ -129,8 +122,11 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 
 	 */
 	private void initialSearch() throws Exception {
-		mUser = new HotelsUserData(getInstrumentation());
+		mUser = new HotelsUserData();
 		LaunchScreen.launchHotels();
+		HotelsSearchScreen.clickSearchEditText();
+		HotelsSearchScreen.enterSearchText("New York, NY");
+		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
 		//getting the last day of the current month as Start Date
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(cal.YEAR);
@@ -145,7 +141,6 @@ public class HotelDateAcrossMonths extends PhoneTestCase {
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 	}
-
 
 	// And I select the first hotel from the results list
 	private void selectFirstHotel() throws Exception {

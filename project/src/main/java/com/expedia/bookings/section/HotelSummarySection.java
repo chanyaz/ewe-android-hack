@@ -1,5 +1,7 @@
 package com.expedia.bookings.section;
 
+import java.text.DecimalFormat;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +12,6 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
-import android.os.Build;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.StateSet;
@@ -21,6 +22,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.PaletteCallback;
@@ -31,11 +33,12 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.text.StrikethroughTagHandler;
-import com.mobiata.android.util.AndroidUtils;
+import com.squareup.phrase.Phrase;
 
 /**
  * Note: This is somewhat overloaded to be able to represent either an entire
@@ -43,26 +46,6 @@ import com.mobiata.android.util.AndroidUtils;
  * to it.
  */
 public class HotelSummarySection extends RelativeLayout {
-
-	private static final int[] DEFAULT_GRADIENT_COLORS = new int[] {
-		0x00000000,
-		0x40000000,
-		0xa4000000,
-	};
-	private static final float[] DEFAULT_GRADIENT_POSITIONS = null; // Distribute the gradient colors evenly
-
-	private static final int[] SELECTED_GRADIENT_COLORS = new int[] {
-		0xb34180d9,
-		0xb34180d9,
-		0xba3d72bc,
-		0xb33867a9,
-	};
-	private static final float[] SELECTED_GRADIENT_POSITIONS = new float[] {
-		0f,
-		0.28f,
-		0.85f,
-		1f,
-	};
 
 	public static final int ROOMS_LEFT_CUTOFF = 5;
 
@@ -82,6 +65,7 @@ public class HotelSummarySection extends RelativeLayout {
 	private ViewGroup mAirAttachC;
 	private TextView mAirAttachTv;
 	private RatingBar mUserRatingBar;
+	private TextView mUserRating;
 	private TextView mNotRatedText;
 	private TextView mProximityText;
 	private TextView mSoldOutText;
@@ -90,6 +74,7 @@ public class HotelSummarySection extends RelativeLayout {
 	private View mCardCornersBottom;
 	private View mBgImgOverlay;
 	private View mSelectedOverlay;
+	private ViewGroup ratingInfo;
 
 	// Properties extracted from the view.xml
 	private Drawable mUnselectedBackground;
@@ -98,6 +83,10 @@ public class HotelSummarySection extends RelativeLayout {
 	private int mAirAttachPriceTextColor;
 	private int mPriceTextColor;
 	private boolean mIsSelected;
+
+	//Value for AB test
+	boolean isUserBucketedForTest = false;
+	private DecimalFormat df = new DecimalFormat("#.0");
 
 	public HotelSummarySection(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -138,6 +127,8 @@ public class HotelSummarySection extends RelativeLayout {
 		mSoldOutText = Ui.findView(this, R.id.sold_out_text_view);
 		mCardCornersBottom = Ui.findView(this, R.id.card_corners_bottom);
 		mBgImgOverlay = Ui.findView(this, R.id.gradient_header_mask);
+		mUserRating = Ui.findView(this, R.id.rating);
+		ratingInfo = Ui.findView(this, R.id.rating_info);
 
 		// We'll fill mUrgencyText either from urgency_text_view or urgency_text_view_color_matched
 		// and if it's from color_matched, then we know we'll need to do color matching later on.
@@ -148,6 +139,9 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		mSelectedOverlay = Ui.findView(this, R.id.selected_hotel_overlay);
+		if (!ExpediaBookingApp.useTabletInterface(getContext())) {
+			isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSRPercentRecommend);
+		}
 	}
 
 	/**
@@ -306,7 +300,12 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		if (mUrgencyText != null) {
+			boolean isEtpSearchResultsBucket =
+				(!ExpediaBookingApp.useTabletInterface(getContext())) && Db.getAbacusResponse()
+					.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelETPSearchResults);
+
 			int roomsLeft = property.getRoomsLeftAtThisRate();
+			mUrgencyText.setTextSize(14f);
 			if (property.isSponsored()) {
 				if (!property.hasShownImpression()) {
 					//Ad is being inflated for the first time, fire impression tracking
@@ -316,6 +315,11 @@ public class HotelSummarySection extends RelativeLayout {
 				}
 				mUrgencyText.setText(context.getString(R.string.sponsored));
 				mUrgencyText.setVisibility(View.VISIBLE);
+			}
+			else if (isEtpSearchResultsBucket && property.isETPHotel()) {
+				mUrgencyText.setText(context.getString(R.string.book_now_pay_later));
+				mUrgencyText.setVisibility(View.VISIBLE);
+				mUrgencyText.setTextSize(12f);
 			}
 			else if (property.isLowestRateTonightOnly()) {
 				mUrgencyText.setText(context.getString(R.string.tonight_only));
@@ -357,14 +361,32 @@ public class HotelSummarySection extends RelativeLayout {
 		mPriceText.setTextSize(priceTextSize);
 		mPriceText.setText(hotelPrice);
 
-		mUserRatingBar.setRating((float) property.getAverageExpediaRating());
-		if (mUserRatingBar.getRating() == 0f) {
+		if (isUserBucketedForTest) {
 			mUserRatingBar.setVisibility(View.GONE);
-			mNotRatedText.setVisibility(View.VISIBLE);
+			double rating = property.getAverageExpediaRating();
+			if (rating == 0f) {
+				ratingInfo.setVisibility(GONE);
+				mNotRatedText.setVisibility(View.VISIBLE);
+			}
+			else {
+				mNotRatedText.setVisibility(View.GONE);
+				mUserRating.setText(df.format(rating));
+				ratingInfo.setVisibility(VISIBLE);
+			}
 		}
 		else {
-			mUserRatingBar.setVisibility(View.VISIBLE);
-			mNotRatedText.setVisibility(View.GONE);
+			if (!ExpediaBookingApp.useTabletInterface(getContext())) {
+				ratingInfo.setVisibility(GONE);
+			}
+			mUserRatingBar.setRating((float) property.getAverageExpediaRating());
+			if (mUserRatingBar.getRating() == 0f) {
+				mUserRatingBar.setVisibility(View.GONE);
+				mNotRatedText.setVisibility(View.VISIBLE);
+			}
+			else {
+				mUserRatingBar.setVisibility(View.VISIBLE);
+				mNotRatedText.setVisibility(View.GONE);
+			}
 		}
 
 		if (showDistance && property.getDistanceFromUser() != null) {
@@ -392,7 +414,6 @@ public class HotelSummarySection extends RelativeLayout {
 			int placeholderResId = Ui
 				.obtainThemeResID(context, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 			if (property.getThumbnail() != null) {
-				//Picasso.with(context).load(property.getThumbnail().getBestUrls(250).get(0)).placeholder(placeholderResId).fit().centerCrop().into(mThumbnailView);
 				property.getThumbnail().fillImageView(mThumbnailView, placeholderResId, null, PICASSO_TAG);
 			}
 			else {
@@ -453,7 +474,8 @@ public class HotelSummarySection extends RelativeLayout {
 		if (ExpediaBookingApp.useTabletInterface(getContext())) {
 			if (mSoldOutText != null) {
 				mSoldOutText.setVisibility(View.VISIBLE);
-				mSoldOutText.setText(Ui.obtainThemeResID(getContext(), R.attr.skin_hotelSearchResultSoldOut));
+				mSoldOutText.setText(
+					Phrase.from(getContext(), R.string.sold_out_on_TEMPLATE).put("brand", BuildConfig.brand).format());
 			}
 			if (mNotRatedText != null) {
 				mNotRatedText.setVisibility(View.GONE);
@@ -467,17 +489,13 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 		else {
 			mProximityText.setVisibility(View.VISIBLE);
-			mProximityText.setText(Ui.obtainThemeResID(getContext(), R.attr.skin_hotelSearchResultSoldOut));
+			mProximityText.setText(Phrase.from(getContext(), R.string.sold_out_on_TEMPLATE).put("brand", BuildConfig.brand).format());
 		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Async handling of Mobile Exclusive Deals / ColorScheme
 
-
-
-
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void setDominantColor(int color) {
 		StateListDrawable stateListDrawable = new StateListDrawable();
 		stateListDrawable.addState(new int[] {
@@ -491,12 +509,7 @@ public class HotelSummarySection extends RelativeLayout {
 		}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay)));
 
 		stateListDrawable.addState(StateSet.WILD_CARD, new ColorDrawable(color));
-		if (AndroidUtils.getSdkVersion() < Build.VERSION_CODES.JELLY_BEAN) {
-			mUrgencyText.setBackgroundDrawable(stateListDrawable);
-		}
-		else {
-			mUrgencyText.setBackground(stateListDrawable);
-		}
+		mUrgencyText.setBackground(stateListDrawable);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

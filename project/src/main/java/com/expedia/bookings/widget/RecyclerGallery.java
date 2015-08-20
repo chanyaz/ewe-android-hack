@@ -22,11 +22,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -44,7 +45,7 @@ public class RecyclerGallery extends RecyclerView {
 
 	private static final int DEFAULT_FLIP_INTERVAL = 4000;
 
-	private RecyclerGallery.GalleryItemClickListner mListener;
+	private GalleryItemListener mListener;
 	private RecyclerAdapter mAdapter;
 	private SpaceDecoration mDecoration;
 	private LinearLayoutManager mLayoutManager;
@@ -168,7 +169,7 @@ public class RecyclerGallery extends RecyclerView {
 		mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 		setLayoutManager(mLayoutManager);
 
-		mAdapter = new RecyclerAdapter(getContext(), new ArrayList<Media>());
+		mAdapter = new RecyclerAdapter(getContext(), new ArrayList<IMedia>());
 		setAdapter(mAdapter);
 	}
 
@@ -179,12 +180,12 @@ public class RecyclerGallery extends RecyclerView {
 	}
 
 	private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-		private List<Media> mMedia;
+		private List<? extends IMedia> mMedia;
 		private Context mContext;
 		private LinearLayout.LayoutParams mLayoutParams;
 		private static final int MAX_IMAGES_LOADED = 5;
 
-		private RecyclerAdapter(Context context, List<Media> media) {
+		private RecyclerAdapter(Context context, List<? extends IMedia> media) {
 			mContext = context;
 			mMedia = media;
 			setWidth();
@@ -276,8 +277,8 @@ public class RecyclerGallery extends RecyclerView {
 
 		@Override
 		public void onBindViewHolder(final ViewHolder holder, int position) {
-			Media media = mMedia.get(position);
-			media.loadHighResImage(holder.mImageView, holder.callback,
+			IMedia media = mMedia.get(position);
+			media.loadImage(holder.mImageView, holder.callback,
 				mMode == MODE_CENTER ? Ui.obtainThemeResID(getContext(), R.attr.skin_HotelRowThumbPlaceHolderDrawable) : 0);
 			preFetchImages(position);
 		}
@@ -287,7 +288,7 @@ public class RecyclerGallery extends RecyclerView {
 			return mMedia.size();
 		}
 
-		private void replaceWith(List<Media> media) {
+		private void replaceWith(List<? extends IMedia> media) {
 			mMedia = media;
 			notifyDataSetChanged();
 		}
@@ -303,7 +304,7 @@ public class RecyclerGallery extends RecyclerView {
 				hasMore = false;
 				if (left > 0) {
 					left--;
-					mMedia.get(left).preloadHighResImage(mContext);
+					mMedia.get(left).preloadImage(mContext);
 					loaded++;
 					hasMore = true;
 				}
@@ -312,7 +313,7 @@ public class RecyclerGallery extends RecyclerView {
 				}
 				if (right < len - 1) {
 					right++;
-					mMedia.get(right).preloadHighResImage(mContext);
+					mMedia.get(right).preloadImage(mContext);
 					loaded++;
 					hasMore = true;
 				}
@@ -321,15 +322,19 @@ public class RecyclerGallery extends RecyclerView {
 	}
 
 	public int getSelectedItem() {
-		int position = mLayoutManager.findFirstCompletelyVisibleItemPosition();
-		if (position == -1) {
-			position = mLayoutManager.findFirstVisibleItemPosition();
+		int position = NO_POSITION;
+
+		if (mLayoutManager != null && getChildCount() > 0) {
+			position = mLayoutManager.findFirstCompletelyVisibleItemPosition();
+			if (position == NO_POSITION) {
+				position = mLayoutManager.findFirstVisibleItemPosition();
+			}
 		}
 
 		return position;
 	}
 
-	public void setDataSource(List<Media> media) {
+	public void setDataSource(List<? extends IMedia> media) {
 		mAdapter.replaceWith(media);
 	}
 
@@ -342,7 +347,7 @@ public class RecyclerGallery extends RecyclerView {
 
 		private int getPadding() {
 			if (mMode == MODE_FILL) {
-				return 20;
+				return 1;
 			}
 			else {
 				Point screen = Ui.getScreenSize(getContext());
@@ -409,11 +414,11 @@ public class RecyclerGallery extends RecyclerView {
 			+ ", mRunning=" + mRunning + ", mScrolling=" + mScrolling);
 	}
 
-	private void showNext() {
-		int position = mLayoutManager.findFirstVisibleItemPosition();
-		View v = mLayoutManager.findViewByPosition(position);
-		int offset = mLayoutManager.getRightDecorationWidth(v) * 2;
-		smoothScrollBy(v.getMeasuredWidth() + offset, 0);
+	public void showNext() {
+		int position = mLayoutManager.findFirstVisibleItemPosition() + 1;
+		if (position >= 0 && position < mAdapter.getItemCount()) {
+			smoothScrollToPosition(position);
+		}
 	}
 
 	private static final int FLIP_MSG = 1;
@@ -444,11 +449,11 @@ public class RecyclerGallery extends RecyclerView {
 
 	private final Handler mHandler = new LeakSafeHandler(this);
 
-	public interface GalleryItemClickListner {
+	public interface GalleryItemListener {
 		public void onGalleryItemClicked(Object item);
 	}
 
-	public void setOnItemClickListener(GalleryItemClickListner listener) {
+	public void setOnItemClickListener(GalleryItemListener listener) {
 		mListener = listener;
 	}
 }

@@ -33,57 +33,22 @@
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_vsc</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/rainbow_bar</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_vsc</item>
-        <item name="skin_loginWithExpediaButtonText">@string/Log_in_with_VSC</item>
-        <item name="skin_loginWithExpediaTitleText">@string/vsc_account</item>
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_vsc</item>
         <item name="skin_hotelConfirmationCallActionDrawable">@null</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_log_out_vsc</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_vsc</item>
-        <item name="skin_hotelCheckoutLoginButtonText">@string/hotel_checkout_logIn_button_text</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_vsc</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale_vsc</item>
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_vsc</item>
         <item name="skin_hotelWebViewActionBarLogo">@drawable/ic_logo_hotels</item>
 		<item name="skin_cvvEntryTitleText">@string/cvv_explanation_vsc</item>
-        <item name="skin_aboutAppSupportString">@string/app_support</item>
-        <item name="skin_aboutCopyrightString">@string/VSC_copyright_TEMPLATE</item>
         <item name="skin_aboutInfoUrlString">@string/app_vsc_info_url</item>
         <item name="skin_aboutAppNameString">@string/vsc_full_app_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/ic_voyages_sncf</item>
-        <item name="skin_aboutWebsiteString">@string/vsc_website</item>
-        <item name="skin_emailUserNameString">@string/email_user_name_vsc</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_vsc_purple_flat</item>
-        <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure_vsc</item>
-        <item name="skin_loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_vsc</item>
-        <item name="skin_costSummaryBookingFeesString">@string/vsc_booking_fee</item>
-        <item name="skin_hotelConfirmationCallActionText">@string/call_vsc_customer_support</item>
-        <item name="skin_logoutConfirmationString">@string/logout_confirmation_vsc</item>
-        <item name="skin_flightUnhandledErrorMessage">@string/error_flight_unhandled_TEMPLATE_vsc</item>
-        <item name="skin_serverErrorMessageString">@string/error_server_vsc</item>
-        <item name="skin_savePaymentToAccountString">@string/save_billing_info_message_vsc</item>
-        <item name="skin_saveTravelerToAccountString">@string/save_traveler_message_TEMPLATE_vsc</item>
-        <item name="skin_infoContactUsString">@string/contact_vsc_via</item>
-        <item name="skin_infoContactEmailSubjectString">@string/contact_vsc_email_subject</item>
-        <item name="skin_singleFlightNotAvailableError">@string/error_flight_no_longer_available_vsc</item>
-        <item name="skin_flightsNotAvailableError">@string/error_flights_no_longer_available_vsc</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_vsc</item>
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_vsc</item>
-        <item name="skin_clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_vsc</item>
-        <item name="skin_hotelSearchResultNotAvailale">@string/not_currently_available_vsc</item>
-        <item name="skin_hotelSearchResultSoldOut">@string/sold_out_on_vsc</item>
-        <item name="skin_hotelSearchResultTEMPLATE">@string/not_currently_available_vsc_TEMPLATE</item>
-        <item name="skin_addToCalenderMessage">@string/contact_phone_template_vsc</item>
-        <item name="skin_sorryRoomsSoldOut">@string/sorry_rooms_sold_out_vsc</item>
-        <item name="skin_passwordHint">@string/vsc_password_hint</item>
-        <item name="skin_loadingAccount">@string/loading_vsc_account</item>
-        <item name="skin_restrictedProfileLoginMessage">@string/restricted_profile_login_message_vsc</item>
-        <item name="skin_tellAFriendSubject">@string/tell_a_friend_subject_vsc</item>
-        <item name="skin_tellAFriendBody">@string/tell_a_friend_body_vsc</item>
-        <item name="skin_dialogMessageLaunchMobileSite">@string/dialog_message_launch_vsc_mobile_site</item>
-        <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_vsc</item>
-        <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_vsc</item>
-        <item name="skin_sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_vsc</item>
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/rainbow_bar</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_vsc_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_vsc_traveler_logo_disabled</item>
@@ -122,7 +87,7 @@
         <item name="skin_travelerLabelOnCheckout">@string/Add_Traveler</item>
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_vsc</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_vsc</item>
-        <item name="skin_flightCheckoutAccountLabel">@string/vsc_account</item>
+        <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
     </style>
 
     <style name="FlightActionBarVSC" parent="FlightActionBar">
@@ -145,7 +110,6 @@
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="skin_logoutConfirmationString">@string/logout_confirmation</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
         <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>
@@ -160,10 +124,11 @@
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_vsc</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_vsc</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel_vsc</item>
-        <item name="skin_addToCalenderMessage">@string/contact_phone_template_vsc</item>
-        <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_vsc</item>
-        <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_vsc</item>
-        <item name="skin_itineraryNumberString">@string/vsc_itinerary</item>
+        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
+        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
+        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
+        <item name="skin_launchActionBarBackgroundColor">@color/cars_launch_actionbar_color</item>
     </style>
 
     <style name="LaunchActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
@@ -188,6 +153,9 @@
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_vsc</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel_vsc</item>
+        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
+        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">

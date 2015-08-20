@@ -43,9 +43,10 @@
                 <include layout="@layout/include_etp_bullet" />
 
                 <TextView
+                    android:id="@+id/etp_pay_now_charges_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="?attr/skin_etp_pay_now_charges_text" />
+                    />
 
             </LinearLayout>
 

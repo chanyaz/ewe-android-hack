@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.LXDetailSectionDataWidget xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?attr/selectableItemBackground"
+    android:paddingBottom="20dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:id="@+id/section_container">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/section_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/lx_details_heading_text_color"
+        android:textSize="12sp"
+        android:textAllCaps="true"
+        app:textStyle="bold" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/section_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/lx_details_content_text_color"
+        android:lineSpacingExtra="3dp"
+        android:textSize="12sp"
+        android:layout_marginTop="2dp"
+        app:textStyle="normal"/>
+
+    <ImageButton
+        android:id="@+id/read_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:clickable="false"
+        android:layout_gravity="right"
+        android:src="@drawable/read_more"
+        android:visibility="gone" />
+
+</com.expedia.bookings.widget.LXDetailSectionDataWidget>

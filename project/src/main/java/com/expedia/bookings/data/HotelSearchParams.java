@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.LocalDate;
 import org.json.JSONException;
@@ -13,10 +14,12 @@ import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -26,7 +29,7 @@ public class HotelSearchParams implements JSONable {
 	private static final String SEARCH_PARAMS_KEY = "searchParams";
 	private SearchType mSearchType = SearchType.MY_LOCATION;
 
-	public static enum SearchType {
+	public enum SearchType {
 		MY_LOCATION(true, false),
 		ADDRESS(true, true),
 		POI(false, true),
@@ -38,7 +41,7 @@ public class HotelSearchParams implements JSONable {
 		private boolean mShouldShowDistance;
 		private boolean mShouldShowExactLocation;
 
-		private SearchType(boolean shouldShowDistance, boolean shouldShowExactLocation) {
+		SearchType(boolean shouldShowDistance, boolean shouldShowExactLocation) {
 			mShouldShowDistance = shouldShowDistance;
 			mShouldShowExactLocation = shouldShowExactLocation;
 		}
@@ -70,6 +73,8 @@ public class HotelSearchParams implements JSONable {
 
 	// This will get set if the HotelSearchParams object was created from the widget
 	private boolean mIsFromWidget;
+
+	private boolean mFromLaunchScreen;
 
 	/**
 	 *  The variables below are just for analytics
@@ -121,6 +126,14 @@ public class HotelSearchParams implements JSONable {
 
 	public HotelSearchParams copy() {
 		return new HotelSearchParams(toJson());
+	}
+
+	public boolean fromLaunchScreen() {
+		return mFromLaunchScreen;
+	}
+
+	public void setFromLaunchScreen(boolean fromLaunchScreen) {
+		mFromLaunchScreen = fromLaunchScreen;
 	}
 
 	public SearchType getSearchType() {
@@ -402,47 +415,34 @@ public class HotelSearchParams implements JSONable {
 		FlightSearchParams params = flight.getFlightSearchParams();
 		int numFlightTravelers = params.getNumAdults();
 		List<ChildTraveler> childTravelers = params.getChildren();
-		return fromFlightParams(firstLeg, secondLeg, numFlightTravelers, childTravelers);
+		String regionId = flight.getCheckoutResponse().getDestinationRegionId();
+		return fromFlightParams(regionId, firstLeg, secondLeg, numFlightTravelers, childTravelers);
 	}
 
 	/**
 	 * Creates a HotelSearchParams which can be used to search for hotels
-	 * related to a flights search.
+	 * related to a booked Flight product.
 	 *
+	 * @param regionId the destination region id to perform the search
 	 * @param firstLeg the first leg of the trip; required
 	 * @param secondLeg the second leg of a trip (if round trip); optional
 	 * @param numFlightTravelers
 	 * @param childTravelers
 	 * @return a HotelSearchParams for those flight parameters
 	 */
-	public static HotelSearchParams fromFlightParams(FlightLeg firstLeg, FlightLeg secondLeg, int numFlightTravelers, List<ChildTraveler> childTravelers) {
+	public static HotelSearchParams fromFlightParams(String regionId, FlightLeg firstLeg, FlightLeg secondLeg, int numFlightTravelers, List<ChildTraveler> childTravelers) {
 		HotelSearchParams hotelParams = new HotelSearchParams();
 
 		// Where //
-		hotelParams.setSearchType(HotelSearchParams.SearchType.CITY);
-
-		// Because we are adding a lat/lon parameter, it doesn't matter too much if our query isn't perfect
+		// Because we are adding regionId, it doesn't matter too much if our query isn't perfect
 		String cityStr = StrUtils.getWaypointCodeOrCityStateString(firstLeg.getLastWaypoint());
+		hotelParams.setSearchType(SearchType.CITY);
 		hotelParams.setUserQuery(cityStr);
 		hotelParams.setQuery(cityStr);
-
-		double latitude = firstLeg.getLastWaypoint().getAirport().getLatitude();
-		double longitude = firstLeg.getLastWaypoint().getAirport().getLongitude();
-
-		if (latitude == 0 && longitude == 0) {
-			// We try the origin of the last segment - this isn't great,
-			// but in the case of a bus ride, it might be about all we have
-			latitude = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).getOriginWaypoint().getAirport().getLatitude();
-			longitude = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).getOriginWaypoint().getAirport().getLongitude();
-		}
-
-		// These should only be zero in rare cases, at which time we just use our cityStr
-		if (latitude != 0 || longitude != 0) {
-			hotelParams.setSearchLatLon(latitude, longitude);
-		}
+		hotelParams.setRegionId(regionId); // Note: must be last, otherwise will get over-written.
 
 		// When //
-		LocalDate checkInDate = LocalDate.fromCalendarFields(firstLeg.getLastWaypoint().getBestSearchDateTime());
+		LocalDate checkInDate = new LocalDate(firstLeg.getLastWaypoint().getBestSearchDateTime());
 		hotelParams.setCheckInDate(checkInDate);
 
 		if (secondLeg == null) {
@@ -451,19 +451,10 @@ public class HotelSearchParams implements JSONable {
 		}
 		else {
 			// Round-trip flight
-			LocalDate checkOutDate = LocalDate.fromCalendarFields(secondLeg.getFirstWaypoint()
+			LocalDate checkOutDate = new LocalDate(secondLeg.getFirstWaypoint()
 					.getMostRelevantDateTime());
-
-			// Make sure the stay is no longer than 28 days
-			LocalDate maxCheckOutDate = checkInDate.plusDays(28);
-			checkOutDate = checkOutDate.isAfter(maxCheckOutDate) ? maxCheckOutDate : checkOutDate;
-			int stayDuration = JodaUtils.daysBetween(checkInDate, checkOutDate);
-			if (stayDuration == 0) {
-				hotelParams.setCheckOutDate(checkOutDate.plusDays(1));
-			}
-			else {
-				hotelParams.setCheckOutDate(checkOutDate);
-			}
+			hotelParams.setCheckOutDate(checkOutDate);
+			ensureMaxStayTwentyEightDays(hotelParams);
 		}
 
 		// Who //
@@ -473,6 +464,47 @@ public class HotelSearchParams implements JSONable {
 		hotelParams.setNumAdults(numHotelAdults);
 
 		return hotelParams;
+	}
+
+	public static HotelSearchParams fromCarParams(CreateTripCarOffer offer) {
+		HotelSearchParams hotelParams = new HotelSearchParams();
+
+		// Where //
+		hotelParams.setSearchType(SearchType.CITY);
+
+		// Because we are adding a lat/lon parameter, it doesn't matter too much if our query isn't perfect
+		String cityStr = offer.pickUpLocation.cityName;
+		hotelParams.setUserQuery(cityStr);
+		hotelParams.setQuery(cityStr);
+
+		if (Strings.isNotEmpty(offer.pickUpLocation.regionId)) {
+			hotelParams.setRegionId(offer.pickUpLocation.regionId);
+		}
+
+		double latitude = offer.pickUpLocation.latitude;
+		double longitude = offer.pickUpLocation.longitude;
+		hotelParams.setSearchLatLon(latitude, longitude);
+
+		hotelParams.setCheckInDate(LocalDate.fromCalendarFields(offer.getPickupTime().toCalendar(Locale.US)));
+		hotelParams.setCheckOutDate(LocalDate.fromCalendarFields(offer.getDropOffTime().toCalendar(Locale.US)));
+		ensureMaxStayTwentyEightDays(hotelParams);
+
+		return hotelParams;
+	}
+
+	private static void ensureMaxStayTwentyEightDays(HotelSearchParams params) {
+		// Make sure the stay is no longer than 28 days
+		LocalDate checkInDate = params.getCheckInDate();
+		LocalDate checkOutDate = params.getCheckOutDate();
+		LocalDate maxCheckOutDate = checkInDate.plusDays(28);
+		checkOutDate = checkOutDate.isAfter(maxCheckOutDate) ? maxCheckOutDate : checkOutDate;
+		int stayDuration = JodaUtils.daysBetween(checkInDate, checkOutDate);
+		if (stayDuration == 0) {
+			params.setCheckOutDate(checkOutDate.plusDays(1));
+		}
+		else {
+			params.setCheckOutDate(checkOutDate);
+		}
 	}
 
 	public boolean fromJson(JSONObject obj) {

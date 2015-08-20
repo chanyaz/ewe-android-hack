@@ -15,7 +15,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
-import android.text.Html;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -168,6 +168,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 	public boolean performValidation() {
 		return mFields.hasValidInput();
+	}
+
+	public void resetValidation() {
+		mFields.setValidationIndicatorState(true);
 	}
 
 	public void onChange() {
@@ -412,7 +416,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				String brandName = data.getBrandName().replace("_", " ");
 				String formatStr = mContext.getString(R.string.brand_expiring_TEMPLATE);
 				String formatted = String.format(formatStr, brandName, exprStr);
-				field.setText(Html.fromHtml(formatted));
+				SpannableString stringToSpan = new SpannableString(formatted);
+				int color = mContext.getResources().getColor(R.color.checkout_card_brand_color);
+				Ui.setTextStyleNormalText(stringToSpan, color, 0, brandName.length());
+				field.setText(stringToSpan);
 			}
 			else {
 				field.setText("");
@@ -585,8 +592,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -630,8 +637,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -675,8 +682,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -715,8 +722,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.EMAIL));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.EMAIL);
 		}
 
 		@Override
@@ -985,14 +992,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected void onHasFieldAndData(TextView field, BillingInfo data) {
-
 			String btnTxt = "";
 			if (data.getExpirationDate() != null) {
-				String formatStr = mContext.getString(R.string.expires_colored_TEMPLATE);
-				String bdayStr = MONTHYEAR_FORMATTER.print(data.getExpirationDate());
-				btnTxt = String.format(formatStr, bdayStr);
+				btnTxt = MONTHYEAR_FORMATTER.print(data.getExpirationDate());
 			}
-			field.setText(Html.fromHtml(btnTxt));
+			field.setText(btnTxt);
 		}
 
 		Validator<TextView> mValidator = new Validator<TextView>() {
@@ -1040,6 +1044,14 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		if (lob == LineOfBusiness.FLIGHTS) {
 			return Db.getTripBucket().getFlight() != null
 				&& Db.getTripBucket().getFlight().isCardTypeSupported(info.getCardType());
+		}
+		if (lob == LineOfBusiness.CARS) {
+			return Db.getTripBucket().getCar() != null
+				&& Db.getTripBucket().getCar().isCardTypeSupported(info.getCardType());
+		}
+		if (lob == LineOfBusiness.LX) {
+			return Db.getTripBucket().getLX() != null
+				&& Db.getTripBucket().getLX().isCardTypeSupported(info.getCardType());
 		}
 
 		throw new RuntimeException("Line of business required");

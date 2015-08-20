@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.ui.phone.pagemodels.flights;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 
@@ -12,17 +12,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
 
-/**
- * Created by dmadan on 4/7/14.
- */
-public class FlightsSearchResultsScreen extends ScreenActions {
+public class FlightsSearchResultsScreen {
 	private static final int FLIGHT_LIST_ID = android.R.id.list;
 	private static final int SORT_FLIGHTS_VIEW_ID = R.id.menu_sort;
 	private static final int SORT_PRICE_STRING = R.string.sort_description_price;
 	private static final int SORT_DEPARTURE_STRING = R.string.sort_description_departure;
 	private static final int SORT_ARRIVAL_STRING = R.string.sort_description_arrival;
 	private static final int SORT_DURATION_STRING = R.string.sort_description_duration;
-	private static final int SEARCH_BUTTON_ID = R.id.menu_search;
 
 	// Object access
 
@@ -48,10 +44,6 @@ public class FlightsSearchResultsScreen extends ScreenActions {
 
 	public static ViewInteraction sortbyDurationString() {
 		return onView(withText(SORT_DURATION_STRING));
-	}
-
-	public static ViewInteraction searchButton() {
-		return onView(withId(SEARCH_BUTTON_ID));
 	}
 
 	public static DataInteraction listItem() {
@@ -83,7 +75,4 @@ public class FlightsSearchResultsScreen extends ScreenActions {
 		sortbyDurationString().perform(click());
 	}
 
-	public static void clickSearchButton() {
-		searchButton().perform(click());
-	}
 }

@@ -8,7 +8,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
-import com.mobiata.android.util.AndroidUtils;
 
 public class TabletWalletButton extends WalletButton {
 
@@ -33,7 +32,7 @@ public class TabletWalletButton extends WalletButton {
 		if (mIsPromoVisible != visible) {
 			Drawable bgDrawable = visible ? getResources().getDrawable(R.drawable.bg_checkout_information_single_no_shadow) :
 				getResources().getDrawable(R.drawable.bg_checkout_information_single);
-			if (AndroidUtils.getSdkVersion() < Build.VERSION_CODES.JELLY_BEAN) {
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
 				mButton.findViewById(R.id.button).setBackgroundDrawable(bgDrawable);
 			}
 			else {

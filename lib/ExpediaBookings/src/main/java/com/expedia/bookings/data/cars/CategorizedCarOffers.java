@@ -3,13 +3,27 @@ package com.expedia.bookings.data.cars;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.expedia.bookings.utils.Interval;
+
 public class CategorizedCarOffers {
 	public CarCategory category;
+	public CarType type;
+	public String carCategoryDisplayLabel;
 	public List<SearchCarOffer> offers = new ArrayList<>();
+
+	// Storing data used to display icons, keeping it sorted
+	// as an optimization.
+	public Interval passengerSet = new Interval();
+	public Interval luggageSet = new Interval();
+	public Interval doorSet = new Interval();
 
 	private SearchCarOffer lowestTotalPriceOffer;
 
-	public CategorizedCarOffers(CarCategory category) {
+	public CategorizedCarOffers() {
+	}
+
+	public CategorizedCarOffers(String carCategoryDisplayLabel, CarCategory category) {
+		this.carCategoryDisplayLabel = carCategoryDisplayLabel;
 		this.category = category;
 	}
 
@@ -19,6 +33,10 @@ public class CategorizedCarOffers {
 			lowestTotalPriceOffer = offer;
 		}
 		offers.add(offer);
+		passengerSet.addIgnoreZero(offer.vehicleInfo.adultCapacity);
+		luggageSet.addIgnoreZero(offer.vehicleInfo.largeLuggageCapacity);
+		doorSet.addIgnoreZero(offer.vehicleInfo.maxDoors);
+		doorSet.addIgnoreZero(offer.vehicleInfo.minDoors);
 	}
 
 	public SearchCarOffer getLowestTotalPriceOffer() {

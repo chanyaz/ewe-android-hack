@@ -1,32 +1,21 @@
 package com.expedia.bookings.data.cars;
 
-import java.util.List;
-
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.TripInfo;
+import com.google.gson.annotations.SerializedName;
 
-public class CarCheckoutResponse {
-	public String activityId;
-	public CarTripInfo newTrip;
+public class CarCheckoutResponse extends BaseApiResponse {
+	public CarTrackingData trackingData;
+	public TripInfo newTrip;
 	public String orderId;
-	public Money totalChargesPrice; // TODO: API needs to include currency code in this object.
+	public Money totalChargesPrice;
 
-	//TODO: nuke these when the comment above is addressed.
-	public String currencyCode;
-	public String totalCharges;
-
-	public List<CarApiError> errors;
-
-	public boolean hasErrors() {
-		return errors != null && errors.size() > 0;
-	}
-
-	public String printErrors() {
-		StringBuilder builder = new StringBuilder();
-		for (CarApiError error : errors) {
-			builder.append(error.toDebugString());
-			builder.append("\n");
-		}
-		return builder.toString();
-	}
+	// NOTE: These fields look shockingly similar to the fields in CarCreateTripResponse. That is
+	// because a price change on checkout is communicated like the CreateTripResponse with price
+	// change.
+	public String tripId;
+	public CreateTripCarOffer originalCarProduct;
+	@SerializedName("carProduct")
+	public CreateTripCarOffer newCarProduct;
 
 }

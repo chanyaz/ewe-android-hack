@@ -28,6 +28,32 @@
         <property name="message" value="Line uses tabs spaces then tabs"/>
     </module>
 
+    <!-- "Don't use" checks -->
+    <module name="RegexpSingleline">
+        <property name="format" value="android.util.Log"/>
+        <property name="message" value="Don't use android.util.Log, use com.mobiata.android.Log instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="AndroidUtils.isRelease"/>
+        <property name="message" value="Don't use AndroidUtils.isRelease, use BuildConfig.DEBUG/BuildConfig.RELEASE instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="!BuildConfig.DEBUG"/>
+        <property name="message" value="Don't use !BuildConfig.DEBUG, use BuildConfig.RELEASE instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="!BuildConfig.RELEASE"/>
+        <property name="message" value="Don't use !BuildConfig.RELEASE, use BuildConfig.DEBUG instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="AndroidUtils.getSdkVersion"/>
+        <property name="message" value="Don't use AndroidUtils.getSdkVersion(), use Build.VERSION.SDK_INT instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="removeGlobalOnLayoutListener"/>
+        <property name="message" value="Don't use removeGlobalOnLayoutListener, use removeOnGlobalLayoutListener you fool"/>
+    </module>
+
     <module name="TreeWalker">
         <!-- Checks for Naming Conventions.                  -->
         <!-- See http://checkstyle.sf.net/config_naming.html -->
