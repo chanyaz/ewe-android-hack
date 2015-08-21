@@ -4,14 +4,13 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.utils.Images
-import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
-import kotlin.properties.Delegates
+import java.math.BigDecimal
 
 public data class HotelRoomRate(val hotelRoom: HotelOffersResponse.HotelRoomResponse)
 
@@ -28,8 +27,10 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
     val roomTypeObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomTypeDescription)
     val collapsedBedTypeObservable = BehaviorSubject.create<String>()
     val expandedBedTypeObservable = BehaviorSubject.create<String>()
-    val currencyCode = hotelRoomResponse.rateInfo.chargeableRateInfo.currencySymbol
-    val dailyPricePerNightObservable = BehaviorSubject.create<String>(currencyCode + hotelRoomResponse.rateInfo.chargeableRateInfo.averageRate.toInt() + context.getResources().getString(R.string.per_night))
+    val currencyCode = hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode
+
+    var dailyPricePerNightObservable = BehaviorSubject.create<String>()
+
     val totalPricePerNightObservable = BehaviorSubject.create<String>(context.getResources().getString(R.string.cars_total_template, currencyCode + hotelRoomResponse.rateInfo.chargeableRateInfo.total))
     val roomHeaderImageObservable = BehaviorSubject.create<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
     val expandRoomObservable = BehaviorSubject.create<Boolean>()
@@ -55,12 +56,21 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
         }
     }
 
+    val payLaterObserver: Observer<Unit> = endlessObserver {
+        val depositAmount = hotelRoomResponse.payLaterOffer?.rateInfo?.chargeableRateInfo?.depositAmountToShowUsers?.toDouble() ?: 0.0
+        val depositAmountMoney = Money(BigDecimal(depositAmount), currencyCode)
+        val payLaterText = depositAmountMoney.getFormattedMoney()+" " + context.getResources().getString(R.string.room_rate_pay_later_due_now)
+        dailyPricePerNightObservable.onNext(payLaterText)
+    }
+
     val expandCollapseRoomRateInfo: Observer<Unit> = endlessObserver {
         if (roomRateInfoVisible == View.VISIBLE) roomRateInfoVisible = View.GONE else roomRateInfoVisible = View.VISIBLE
         roomInfoObservable.onNext(roomRateInfoVisible)
     }
 
     init {
+        val dailyPrice = Money(BigDecimal(hotelRoomResponse.rateInfo.chargeableRateInfo.priceToShowUsers.toDouble()), currencyCode)
+        dailyPricePerNightObservable.onNext(dailyPrice.getFormattedMoney() + context.getResources().getString(R.string.per_night))
         rateObservable.subscribe { update ->
             val bedTypes = update.hotelRoom.bedTypes.map { it.description }.join("")
             collapsedBedTypeObservable.onNext(bedTypes)

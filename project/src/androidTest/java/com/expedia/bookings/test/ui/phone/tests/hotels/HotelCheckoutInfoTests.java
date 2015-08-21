@@ -50,7 +50,6 @@ public class HotelCheckoutInfoTests extends PhoneTestCase {
 		HotelsSearchScreen.clickOnCalendarButton();
 		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		int totalHotels = EspressoUtils.getListChildCount(HotelsSearchScreen.hotelResultsListView());
 		for (int i = 1; i < 3; i++) {
 			HotelsSearchScreen.clickListItem(i);
 			HotelsDetailsScreen.clickSelectButton();

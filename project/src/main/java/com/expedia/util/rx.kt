@@ -1,6 +1,7 @@
 package com.expedia.util
 
 import android.view.View
+import android.widget.RadioGroup
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.ToggleButton
@@ -28,6 +29,12 @@ public fun <T> endlessObserver(body: (in T) -> Unit) : Observer<T> {
 public fun View.subscribeOnClick(observer: Observer<Unit>) {
     this.setOnClickListener {
         observer.onNext(Unit)
+    }
+}
+
+public fun RadioGroup.subscribeOnCheckedChange(observer: Observer<Int>) {
+    this.setOnCheckedChangeListener { radioGroup, checkedId ->
+        observer.onNext(checkedId)
     }
 }
 

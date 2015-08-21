@@ -2755,6 +2755,10 @@
     <!-- View Room button text -->
     <string name="view_room_button_text">View Room</string>
 
+    <!-- Share hotel Listing -->
+    <string name="share_hotel_listing">Share Hotel Listing</string>
+    <!-- Share via when user is shareing hotel listing -->
+    <string name="share_via">Share via</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renovation Notice</string>
     <!-- This property is undergoing renovations -->

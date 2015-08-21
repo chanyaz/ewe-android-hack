@@ -30,6 +30,7 @@ public class HotelOffersResponse {
 	public Boolean isVipAccess;
 
 	public List<Photos> photos;
+	public HotelText hotelRenovationText;
 
 	public static class HotelAmenities {
 		public String id;
@@ -94,4 +95,5 @@ public class HotelOffersResponse {
 	public static class ValueAdds {
 		public String description;
 	}
+
 }
