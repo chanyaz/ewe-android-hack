@@ -1261,7 +1261,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mAdultsNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
 		mChildrenNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
 	}
-	
+
 	private void setCircleDrawableForRatingRadioBtnBackground() {
 		RadioButton ratingLowButton = (RadioButton) mRatingButtonGroup.findViewById(R.id.rating_low_button);
 		RadioButton ratingMediumButton = (RadioButton) mRatingButtonGroup.findViewById(R.id.rating_medium_button);
@@ -2441,7 +2441,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			else {
 				Object o = AutocompleteProvider.extractSearchOrString(suggestion);
 				if (o instanceof HotelSearchParams) {
-					mEditedSearchParams = (HotelSearchParams) o;
+					mEditedSearchParams.fillFromHotelSearchParams((HotelSearchParams) o);
 				}
 				else {
 					mEditedSearchParams.setSearchType(SearchType.FREEFORM);
@@ -2560,7 +2560,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			if (suggestion != null) {
 				Object o = AutocompleteProvider.extractSearchOrString(suggestion);
 				if (o instanceof HotelSearchParams) {
-					mEditedSearchParams = (HotelSearchParams) o;
+					mEditedSearchParams.fillFromHotelSearchParams((HotelSearchParams) o);
 				}
 				startSearch();
 				return true;
