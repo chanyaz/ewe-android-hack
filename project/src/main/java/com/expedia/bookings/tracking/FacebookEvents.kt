@@ -80,7 +80,7 @@ class FacebookEvents() {
         val parameters = Bundle()
         addCommonHotelParams(parameters, searchParams, location)
         parameters.putString("Search_String", location.getCity() ?: "")
-        parameters.putString("LowestSearch_Value", calculateLowestRateHotels(properties).getDisplayPrice().getAmount().toString())
+        parameters.putString("LowestSearch_Value", calculateLowestRateHotels(properties)?.getDisplayPrice()?.getAmount().toString() ?: "")
         parameters.putInt("Num_Rooms", 1)
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
@@ -335,7 +335,9 @@ fun getBookingWindow(time: LocalDate): Int {
     return JodaUtils.daysBetween(LocalDate.now(), time)
 }
 
-fun calculateLowestRateHotels(properties: List<Property>): Rate {
+fun calculateLowestRateHotels(properties: List<Property>): Rate? {
+    if (properties.size() == 0) return null
+
     var minPropertyRate = properties.get(0).getLowestRate()
     for (property in properties) {
         var propertyRate = property.getLowestRate()
