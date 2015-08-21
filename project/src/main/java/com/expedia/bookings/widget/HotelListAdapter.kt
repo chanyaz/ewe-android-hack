@@ -10,18 +10,26 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RatingBar
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribe
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-public class HotelListAdapter(val hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>, val headerSubject: PublishSubject<Unit>, val screenHeight: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
+public class HotelListAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>, val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val HEADER_VIEW = 0
     val HOTEL_VIEW = 1
+    val LOADING_VIEW = 2
+
+    var loadingState: Boolean = false
+
+    fun setData(data: List<Hotel>) {
+        hotels = data
+    }
 
     override fun getItemCount(): Int {
         return hotels.size()
@@ -30,6 +38,8 @@ public class HotelListAdapter(val hotels: List<Hotel>, val hotelSubject: Publish
     override fun getItemViewType(position: Int): Int {
         if (position == 0) {
             return HEADER_VIEW
+        } else if (loadingState) {
+            return LOADING_VIEW
         } else {
             return HOTEL_VIEW
         }
@@ -44,6 +54,10 @@ public class HotelListAdapter(val hotels: List<Hotel>, val hotelSubject: Publish
             val viewModel = HotelViewModel(hotels.get(position), holder.resources)
             holder.bind(viewModel)
             holder.itemView.setOnClickListener(holder)
+        } else if (given.getItemViewType() == LOADING_VIEW) {
+            val holder: LoadingViewHolder = given as LoadingViewHolder
+            val animation = AnimUtils.setupLoadingAnimation(holder.backgroundImageView, position % 2 == 0)
+            holder.setAnimator(animation)
         }
     }
 
@@ -51,14 +65,24 @@ public class HotelListAdapter(val hotels: List<Hotel>, val hotelSubject: Publish
         if (viewType == HEADER_VIEW) {
             val newView = View(parent.getContext())
             var lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.height = screenHeight
+            lp.height = if (ExpediaBookingApp.isAutomation()) { 0 } else { parent.getHeight() }
             newView.setLayoutParams(lp)
             parent.addView(newView)
             return HeaderViewHolder(newView)
+        } else if (viewType == LOADING_VIEW) {
+            val view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_loading_cell, parent, false)
+            return LoadingViewHolder(view)
         } else {
             val view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_cell, parent, false)
             return HotelViewHolder(view as ViewGroup, parent.getWidth())
         }
+    }
+
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        if (holder.getItemViewType() == LOADING_VIEW) {
+            (holder as LoadingViewHolder).cancelAnimation()
+        }
+        super.onViewRecycled(holder)
     }
 
     public inner class HotelViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root), HeaderBitmapDrawable.CallbackListener, View.OnClickListener {
@@ -114,10 +138,6 @@ public class HotelListAdapter(val hotels: List<Hotel>, val hotelSubject: Publish
     }
 
     public inner class HeaderViewHolder(root: View) : RecyclerView.ViewHolder(root), View.OnClickListener {
-
-        val resources: Resources by Delegates.lazy {
-            itemView.getResources()
-        }
 
         override fun onClick(view: View) {
             if (getItemViewType() == HEADER_VIEW) {

@@ -47,5 +47,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.saved_coupon,
 		R.string.coupon_promo_title,
 		R.layout.resort_fee_widget,
+		R.layout.hotel_loading_cell,
 	};
 }

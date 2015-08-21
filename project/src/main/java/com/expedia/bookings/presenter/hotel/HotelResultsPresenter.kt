@@ -98,6 +98,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     var fabAnim : Animation? = null
 
+    var adapter : HotelListAdapter by Delegates.notNull()
+
     public class MarkerDistance(marker: Marker, distance: Float, hotel: Hotel) : Comparable<MarkerDistance> {
         override fun compareTo(other: MarkerDistance): Int {
             if ( this.distance < other.distance ) {
@@ -115,15 +117,37 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     }
 
+    fun showLoading() {
+        val elements = createDummyListForAnimation()
+        adapter.setData(elements)
+        adapter.loadingState = true
+        adapter.notifyDataSetChanged()
+        recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(adapterListener)
+    }
+
+    private fun resetListOffset() {
+        listOffset = (getHeight() - (getHeight() / 2.7f)).toInt()
+        layoutManager.scrollToPositionWithOffset(2, listOffset)
+    }
+
+    // Create list to show cards for loading animation
+    private fun createDummyListForAnimation(): List<Hotel> {
+        val elements = ArrayList<Hotel>(3)
+        for (i in 0..2) {
+            elements.add(Hotel())
+        }
+        return elements
+    }
+
     val resultsSubject: PublishSubject<HotelSearchResponse> = PublishSubject.create()
 
     val listResultsObserver: Observer<HotelSearchResponse> = object : Observer<HotelSearchResponse> {
         override fun onNext(response: HotelSearchResponse) {
             response.hotelList.add(0, Hotel())
-            recyclerView.setAdapter(HotelListAdapter(response.hotelList, hotelSubject, headerClickedSubject, screenHeight))
-            listOffset = (screenHeight - (screenHeight / 2.7f)).toInt()
-            layoutManager.scrollToPositionWithOffset(2, listOffset)
-            show(ResultsList())
+            adapter.setData(response.hotelList)
+            adapter.loadingState = false
+            adapter.notifyDataSetChanged()
+            resetListOffset()
         }
 
         override fun onCompleted() {
@@ -247,7 +271,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         resultsSubject.subscribe(listResultsObserver)
         resultsSubject.subscribe(mapResultsObserver)
         headerClickedSubject.subscribe(mapSelectedObserver)
-
+        adapter = HotelListAdapter(emptyList(), hotelSubject, headerClickedSubject)
+        recyclerView.setAdapter(adapter)
         fabAnim = AnimationUtils.loadAnimation(getContext(), R.anim.fab_in)
     }
 
@@ -273,6 +298,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         recyclerView.addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
         recyclerView.addOnScrollListener(scrollListener)
         recyclerView.addOnItemTouchListener(touchListener)
+        recyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, 0, false))
         hotelMarkerPreview.mapSubject.subscribe(markerObserver)
 
         toolbar.inflateMenu(R.menu.menu_filter_item)
@@ -305,16 +331,12 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             show(ResultsList())
         }
 
-    }
-
-    override fun onVisibilityChanged(changedView: View, visibility: Int) {
-        super<Presenter>.onVisibilityChanged(changedView, visibility)
-        if (changedView == this && visibility == View.VISIBLE) {
-            getViewTreeObserver().addOnGlobalLayoutListener(layoutListener)
-        }
+        show(ResultsList())
     }
 
     fun doSearch(params: HotelSearchParams) {
+        showLoading()
+        show(ResultsList())
         downloadSubscription = hotelServices.regionSearch(params, object : Observer<HotelSearchResponse> {
             override fun onNext(response: HotelSearchResponse?) {
                 resultsSubject.onNext(response)
@@ -378,6 +400,12 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 threshold = halfway + recyclerView.getChildAt(1).getHeight()
             }
 
+            val view = recyclerView.getChildAt(1)
+
+            if (view == null) {
+                return
+            }
+
             val topOffset = recyclerView.getChildAt(1).getTop()
 
             if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset >= threshold) {
@@ -390,7 +418,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            if (mapTransitionRunning || getCurrentState().equals(javaClass<ResultsMap>().getName())) {
+            if (mapTransitionRunning || (recyclerView.getAdapter() as HotelListAdapter).loadingState || getCurrentState().equals(javaClass<ResultsMap>().getName())) {
                 return
             }
 
@@ -407,14 +435,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             } else if (linearLayoutManager.findFirstVisibleItemPosition() == 0 && mapFab.getVisibility() == View.VISIBLE) {
                 mapFab.setVisibility(View.INVISIBLE)
             }
-        }
-    }
-
-    private val layoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
-        override fun onGlobalLayout() {
-            getViewTreeObserver().removeOnGlobalLayoutListener(this)
-            screenHeight = if (ExpediaBookingApp.isAutomation()) { 0 } else { getHeight() }
-            recyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, 0, false))
         }
     }
 
@@ -444,6 +464,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
+    private val adapterListener = object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this)
+            resetListOffset()
+        }
+    }
+
     private val fabTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), 500) {
         override fun finalizeTransition(forward: Boolean) {
             toolbar.setNavigationIcon(if (forward) R.drawable.ic_arrow_back_white_24dp else R.drawable.ic_close_white_24dp)
@@ -454,7 +481,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
             menu?.setVisible(true)
 
-            recyclerView.setVisibility(if (forward) View.VISIBLE else View.INVISIBLE )
+            recyclerView.setVisibility(if (forward) View.VISIBLE else View.INVISIBLE)
             markerPreviewLayout.setVisibility(if (forward) View.INVISIBLE else View.VISIBLE)
 
             listFab.setVisibility(if (forward) View.INVISIBLE else View.VISIBLE)
