@@ -84,14 +84,4 @@
 
     <include layout="@layout/other_apps_crosssell_confirmation_row"/>
 
-    <View
-        android:id="@+id/flighttrack_divider"
-        style="@style/Confirmation.Divider.Action.Flight" />
-
-    <com.expedia.bookings.widget.ConfirmationActionTextView
-        android:id="@+id/flighttrack_action_text_view"
-        style="@style/Confirmation.Action"
-        android:drawableLeft="@drawable/ic_flight_track"
-        android:text="@string/add_to_flighttrack" />
-
 </merge>
