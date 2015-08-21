@@ -1,13 +1,17 @@
 package com.expedia.bookings.unit;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.hotels.HotelApplyCouponParams;
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.services.HotelServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
@@ -22,11 +26,15 @@ import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
+import static junit.framework.Assert.assertEquals;
+
 public class HotelServicesTest {
 	@Rule
 	public MockWebServerRule server = new MockWebServerRule();
 
 	private HotelServices service;
+	private HotelCreateTripResponse createTripResponse;
+	private HotelApplyCouponParams couponParams;
 
 	@Before
 	public void before() {
@@ -73,5 +81,34 @@ public class HotelServicesTest {
 		observer.assertNoErrors();
 		observer.assertCompleted();
 		observer.assertValueCount(1);
+	}
+
+	@Test
+	public void testCouponError() throws IOException {
+		givenServerUsingMockResponses();
+
+		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+		givenCreateTripCarOffer();
+		givenCouponParams("hotel_coupon_errors_expired");
+
+		service.applyCoupon(couponParams, observer);
+		observer.awaitTerminalEvent();
+		observer.assertCompleted();
+		ApiError apiError = observer.getOnNextEvents().get(0).getFirstError();
+		assertEquals(ApiError.Code.APPLY_COUPON_ERROR, apiError.errorCode);
+	}
+
+	private void givenServerUsingMockResponses() throws IOException {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.get().setDispatcher(new ExpediaDispatcher(opener));
+	}
+
+	private void givenCreateTripCarOffer() {
+		createTripResponse = new HotelCreateTripResponse();
+	}
+
+	private void givenCouponParams(String mockFileName) {
+		couponParams = new HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", mockFileName);
 	}
 }

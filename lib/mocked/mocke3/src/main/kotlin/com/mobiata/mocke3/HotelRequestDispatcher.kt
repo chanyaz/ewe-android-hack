@@ -60,7 +60,7 @@ class HotelRequestMatcher() {
         }
 
         fun isCouponCall(urlPath: String): Boolean {
-            return doesItMatch("^/api/m/trip/coupon$", urlPath)
+            return doesItMatch("^/api/m/trip/coupon.*$", urlPath)
         }
 
         fun isHotelCreateTripRequest(urlPath: String): Boolean {

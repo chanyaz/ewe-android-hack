@@ -2830,6 +2830,12 @@
     <string name="apply">Apply</string>
 
     <!-- Coupon dialog -->
+    <!-- Saved coupon title -->
+    <string name="saved_coupon">Saved Coupons</string>
+    <!-- Coupon Widget Title -->
+    <string name="coupon_promo_title">Coupons and Promotions</string>
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_promo_code">Enter coupons or promotional code</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">Enter Coupon Code</string>
     <!-- Message shown when applying coupon (in progress) -->
