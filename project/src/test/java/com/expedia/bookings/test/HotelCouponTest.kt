@@ -21,6 +21,7 @@ import java.io.File
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 public class HotelCouponTest {
@@ -52,19 +53,24 @@ public class HotelCouponTest {
 
         val testSubscriber = TestSubscriber<ApiError>()
         val expected = arrayListOf<ApiError>()
-        val latch = CountDownLatch(2)
 
         vm.errorObservable.subscribe(testSubscriber)
-        vm.errorObservable.subscribe { latch.countDown() }
 
+        var latch = CountDownLatch(1)
+        var sub = vm.errorObservable.subscribe { latch.countDown() }
         vm.couponParamsObservable.onNext(HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", "hotel_coupon_errors_expired"))
         expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "Expired"))
+        assertTrue(latch.await(10, TimeUnit.SECONDS))
+        sub.unsubscribe()
 
+        latch = CountDownLatch(1)
+        sub = vm.errorObservable.subscribe { latch.countDown() }
         vm.couponParamsObservable.onNext(HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", "hotel_coupon_errors_duplicate"))
         expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "Duplicate"))
+        assertTrue(latch.await(10, TimeUnit.SECONDS))
+        sub.unsubscribe()
 
         testSubscriber.requestMore(LOTS_MORE)
-        assertTrue(latch.await(10, TimeUnit.SECONDS))
         testSubscriber.assertReceivedOnNext(expected)
     }
 
