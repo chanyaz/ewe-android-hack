@@ -2755,8 +2755,6 @@
     <string name="more_info">More Info</string>
 
     <!-- Booking info -->
-    <!-- Error if we couldn't find the room type details -->
-    <string name="error_room_type_nonexistant">We\'re sorry, we could not find extra details on this room.</string>
     <!-- Quantity for the length of stay -->
     <plurals name="length_of_stay">
         <item quantity="one">1 night</item>

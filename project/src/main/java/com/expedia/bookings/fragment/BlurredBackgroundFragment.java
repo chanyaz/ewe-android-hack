@@ -13,7 +13,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.Images;
-import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.BoundedBottomImageView;
 import com.expedia.bookings.widget.FadingImageView;
@@ -29,8 +28,6 @@ public class BlurredBackgroundFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_blurred_bg, container, false);
-
-		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, false);
 
 		mBackgroundBgView = Ui.findView(v, R.id.background_bg_view);
 		mBackgroundFgView = Ui.findView(v, R.id.background_fg_view);
