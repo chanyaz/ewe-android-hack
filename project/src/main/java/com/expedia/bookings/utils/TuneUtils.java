@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.adobe.adms.measurement.ADMS_Measurement;
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
@@ -49,9 +48,8 @@ public class TuneUtils {
 
 		mobileAppTracker = MobileAppTracker.init(app, advertiserID, conversionKey);
 		mobileAppTracker.setUserId(ADMS_Measurement.sharedInstance(app.getApplicationContext()).getVisitorID());
-		mobileAppTracker.setDebugMode(BuildConfig.DEBUG);
+		mobileAppTracker.setDebugMode(false);
 		mobileAppTracker.setDeferredDeeplink(Boolean.TRUE, DEEEPLINK_TIMEOUT);
-		mobileAppTracker.setAllowDuplicates(BuildConfig.DEBUG);
 
 		MATEvent launchEvent = new MATEvent("launch")
 			.withAttribute1(getTuid())
