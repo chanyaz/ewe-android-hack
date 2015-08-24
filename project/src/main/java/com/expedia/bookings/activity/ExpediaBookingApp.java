@@ -57,6 +57,7 @@ import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.WalletUtils;
+import com.facebook.AppLinkData;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
@@ -65,7 +66,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-import com.facebook.AppLinkData;
 import com.squareup.leakcanary.LeakCanary;
 
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -222,6 +222,25 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
 
+		AppLinkData.fetchDeferredAppLinkData(this,
+			new AppLinkData.CompletionHandler() {
+				@Override
+				public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
+					// applinkData is null in case it is not a deferred deeplink.
+					if (appLinkData != null && appLinkData.getTargetUri() != null) {
+						Log.v("Facebook Deferred Deeplink: ", appLinkData.getTargetUri().toString());
+						Intent intent = new Intent();
+						intent.setData(appLinkData.getTargetUri());
+						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						intent.setComponent(new ComponentName(BuildConfig.APPLICATION_ID,
+							"com.expedia.bookings.activity.DeepLinkRouterActivity"));
+						startActivity(intent);
+					}
+				}
+			}
+		);
+
 		if (!isAutomation()) {
 			AdTracker.init(getApplicationContext());
 			startupTimer.addSplit("AdTracker started.");
@@ -310,25 +329,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		query.addExperiments(AbacusUtils.getActiveTests());
 		mAppComponent.abacus().downloadBucket(query, abacusSubscriber);
 		startupTimer.addSplit("Abacus Guid init");
-
-		AppLinkData.fetchDeferredAppLinkData(this,
-			new AppLinkData.CompletionHandler() {
-				@Override
-				public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
-					// applinkData is null in case it is not a deferred deeplink.
-					if (appLinkData != null && appLinkData.getTargetUri() != null) {
-						Log.v("Facebook Deferred Deeplink: ", appLinkData.getTargetUri().toString());
-						Intent intent = new Intent();
-						intent.setData(appLinkData.getTargetUri());
-						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						intent.setComponent(new ComponentName(BuildConfig.APPLICATION_ID,
-							"com.expedia.bookings.activity.DeepLinkRouterActivity"));
-						startActivity(intent);
-					}
-				}
-			}
-		);
 
 		startupTimer.dumpToLog();
 	}
