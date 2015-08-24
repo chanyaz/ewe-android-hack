@@ -27,12 +27,12 @@ import com.expedia.vm.HotelCouponViewModel
 import com.squareup.otto.Subscribe
 import rx.Observer
 import rx.subjects.PublishSubject
-import javax.inject.Inject
 import kotlin.properties.Delegates
 
 public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
-    var hotelServices: HotelServices? = null
-        @Inject set
+    val hotelServices: HotelServices by Delegates.lazy() {
+        Ui.getApplication(getContext()).hotelComponent().hotelServices()
+    }
 
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
     var hotelCheckoutSummaryWidget: HotelCheckoutSummaryWidget by Delegates.notNull()
@@ -42,7 +42,6 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
     val couponCardView = CouponWidget(context, attr)
 
     init {
-        Ui.getApplication(getContext()).hotelComponent().inject(this)
         couponCardView.viewmodel = HotelCouponViewModel(getContext(), hotelServices)
     }
 
@@ -93,7 +92,7 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         val numberOfAdults = hotelSearchParams.adults
         val childAges = hotelSearchParams.children
         val qualifyAirAttach = false
-        hotelServices?.createTrip(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges), downloadListener)
+        hotelServices.createTrip(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges), downloadListener)
     }
 
     val applyCouponObservable: Observer<String> = endlessObserver { coupon ->
@@ -147,7 +146,7 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         })
     }
 
-    override  fun isCheckoutButtonEnabled(): Boolean {
+    override fun isCheckoutButtonEnabled(): Boolean {
         return true
     }
 }

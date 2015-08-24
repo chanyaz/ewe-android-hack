@@ -10,7 +10,7 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class HotelCouponViewModel(val context: Context, val hotelServices: HotelServices?) {
+class HotelCouponViewModel(val context: Context, val hotelServices: HotelServices) {
 
     val applyObservable = PublishSubject.create<String>()
     val couponObservable = PublishSubject.create<HotelCreateTripResponse>()
@@ -20,7 +20,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     init {
         couponParamsObservable.subscribe { params ->
             applyObservable.onNext(params.tripId)
-            hotelServices?.applyCoupon(params, getCouponObserver())
+            hotelServices.applyCoupon(params, getCouponObserver())
         }
     }
 

@@ -88,7 +88,12 @@ public class ApiError extends RuntimeException {
 	}
 
 	public ApiError() {
+		// ignore
+	}
 
+	@Override
+	public String toString() {
+		return Strings.toPrettyString(this);
 	}
 
 	@Override
