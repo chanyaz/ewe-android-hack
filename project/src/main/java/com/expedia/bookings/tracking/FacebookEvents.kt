@@ -373,7 +373,7 @@ fun getLoyaltyTier(user: User?): String {
 
 fun addCommonHotelParams(parameters: Bundle, searchParams: HotelSearchParams, location: Location) {
     val dtf = ISODateTimeFormat.date()
-    parameters.putString("LOB", "Hotels")
+    parameters.putString("LOB", "Hotel")
     val regionId = searchParams.getRegionId()
     val formattedAddressCityState = StrUtils.formatAddressCityState(location)
     parameters.putString("region_id", regionId ?: "")
