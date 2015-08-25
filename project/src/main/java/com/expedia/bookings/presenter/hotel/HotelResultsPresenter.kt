@@ -11,11 +11,9 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format
 import android.util.AttributeSet
-import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
-import android.view.animation.OvershootInterpolator
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -34,12 +32,13 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.HotelMarkerPreviewRecycler
-import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.createHotelMarker
+import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.HotelMarkerPreviewAdapter
+import com.expedia.bookings.widget.HotelMarkerPreviewRecycler
 import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.util.endlessObserver
+import com.expedia.vm.HotelDetailViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -81,6 +80,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var mHotelList = ArrayList<MarkerDistance>()
 
     val hotelSubject = PublishSubject.create<Hotel>()
+    val headerClickedSubject = PublishSubject.create<Unit>()
 
     val layoutManager = LinearLayoutManager(context)
 
@@ -95,8 +95,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val mapFab: FloatingActionButton by bindView(R.id.map_fab)
     val listFab: FloatingActionButton by bindView(R.id.list_fab)
-
-    var showMapFab: Boolean = false
 
     var fabAnim : Animation? = null
 
@@ -121,9 +119,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val listResultsObserver: Observer<HotelSearchResponse> = object : Observer<HotelSearchResponse> {
         override fun onNext(response: HotelSearchResponse) {
-            recyclerView.setAdapter(HotelListAdapter(response.hotelList, hotelSubject))
+            response.hotelList.add(0, Hotel())
+            recyclerView.setAdapter(HotelListAdapter(response.hotelList, hotelSubject, headerClickedSubject, screenHeight))
             listOffset = (screenHeight - (screenHeight / 2.7f)).toInt()
-            layoutManager.scrollToPositionWithOffset(1, listOffset)
+            layoutManager.scrollToPositionWithOffset(2, listOffset)
             show(ResultsList())
         }
 
@@ -136,10 +135,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    val mapResultsObserver: Observer<HotelSearchResponse> = object : Observer<HotelSearchResponse> {
-        override fun onNext(response: HotelSearchResponse) {
-            val map = googleMap
-            map ?: return
+    val mapResultsObserver: Observer<HotelSearchResponse> = endlessObserver { response ->
+        val map = googleMap
+        if (map != null) {
 
             map.clear()
 
@@ -157,34 +155,40 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
             val allHotelsBox = LatLngBounds.Builder()
 
+            var skipFirstHotel = true
+
             for (hotel in response.hotelList) {
-                // Add markers for all hotels
-                val marker: Marker = map.addMarker(MarkerOptions()
-                        .position(LatLng(hotel.latitude, hotel.longitude))
-                        .icon(createHotelMarker(getResources(), hotel, false)))
+                if (!skipFirstHotel) {
+                    // Add markers for all hotels
+                    val marker: Marker = map.addMarker(MarkerOptions()
+                            .position(LatLng(hotel.latitude, hotel.longitude))
+                            .icon(createHotelMarker(getResources(), hotel, false)))
 
-                val markerDistance = MarkerDistance(marker, -1f, hotel)
-                mHotelList.add(markerDistance)
+                    val markerDistance = MarkerDistance(marker, -1f, hotel)
+                    mHotelList.add(markerDistance)
 
-                allHotelsBox.include(LatLng(hotel.latitude, hotel.longitude))
+                    allHotelsBox.include(LatLng(hotel.latitude, hotel.longitude))
 
-                // Determine which neighbourhood is closest to current location
-                if (hotel.locationId != null) {
-                    var a = Location("a")
-                    a.setLatitude(currentLat)
-                    a.setLongitude(currentLong)
+                    // Determine which neighbourhood is closest to current location
+                    if (hotel.locationId != null) {
+                        var a = Location("a")
+                        a.setLatitude(currentLat)
+                        a.setLongitude(currentLong)
 
-                    var b = Location("b")
-                    b.setLatitude(hotel.latitude)
-                    b.setLongitude(hotel.longitude)
+                        var b = Location("b")
+                        b.setLatitude(hotel.latitude)
+                        b.setLongitude(hotel.longitude)
 
-                    var distanceBetween = a.distanceTo(b)
+                        var distanceBetween = a.distanceTo(b)
 
-                    if (distanceBetween <= closestToCurrentLocationVal) {
-                        closestToCurrentLocationVal = distanceBetween
-                        closestHotel = hotel
+                        if (distanceBetween <= closestToCurrentLocationVal) {
+                            closestToCurrentLocationVal = distanceBetween
+                            closestHotel = hotel
+                        }
                     }
                 }
+
+                skipFirstHotel = false
             }
 
             var mostInterestingNeighborhood: HotelSearchResponse.Neighborhood?
@@ -228,17 +232,12 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 hotelMarkerPreview.addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
                 hotelMarkerPreview.setAdapter(HotelMarkerPreviewAdapter(mHotelList, closestMarker.marker, hotelSubject))
             }
-
-            Log.d("Hotel Results Next")
         }
+        Log.d("Hotel Results Next")
+    }
 
-        override fun onCompleted() {
-            Log.d("Hotel Results Completed")
-        }
-
-        override fun onError(e: Throwable?) {
-            Log.d("Hotel Results Error", e)
-        }
+    val mapSelectedObserver: Observer<Unit> = endlessObserver {
+        show(ResultsMap())
     }
 
     init {
@@ -247,6 +246,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         resultsSubject.subscribe(listResultsObserver)
         resultsSubject.subscribe(mapResultsObserver)
+        headerClickedSubject.subscribe(mapSelectedObserver)
 
         fabAnim = AnimationUtils.loadAnimation(getContext(), R.anim.fab_in)
     }
@@ -261,7 +261,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
 
         addDefaultTransition(defaultTransition)
-        addTransition(mapTransition)
+        addTransition(fabTransition)
         mapView.getMapAsync(this)
 
         markerPreviewLayout.setVisibility(View.INVISIBLE)
@@ -289,22 +289,20 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         toolbar.getMenu().findItem(R.id.menu_filter).setActionView(button)
 
-        resetToolbar()
-
         toolbar.setNavigationOnClickListener { view ->
             val activity = getContext() as AppCompatActivity
             activity.onBackPressed()
-            resetToolbar()
+            show(ResultsList())
         }
 
         mapFab.setOnClickListener { view ->
-            changeToolbar()
+            show(ResultsMap())
         }
 
         listFab.setOnClickListener { view ->
             val activity = getContext() as AppCompatActivity
             activity.onBackPressed()
-            resetToolbar()
+            show(ResultsList())
         }
 
     }
@@ -337,7 +335,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
 
-        resetToolbar()
+        show(ResultsList())
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
@@ -376,17 +374,16 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             if (halfway == 0 && threshold == 0) {
-                halfway = recyclerView.getChildAt(0).getTop()
-                threshold = halfway + recyclerView.getChildAt(0).getHeight()
+                halfway = recyclerView.getChildAt(1).getTop()
+                threshold = halfway + recyclerView.getChildAt(1).getHeight()
             }
 
-            val topOffset = recyclerView.getChildAt(0).getTop()
+            val topOffset = recyclerView.getChildAt(1).getTop()
 
             if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset >= threshold) {
-                changeToolbar()
                 show(ResultsMap())
             } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset >= halfway) {
-                resetToolbar()
+                show(ResultsList())
                 recyclerView.setTranslationY(0f)
                 recyclerView.smoothScrollBy(0, topOffset - halfway)
             }
@@ -403,106 +400,97 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 mapView.setTranslationY(y)
             }
 
-            val topOffset = recyclerView.getChildAt(0).getTop()
-            if (topOffset <= 0) {
-                showMapFab = true
-            } else {
-                showMapFab = false
+            var linearLayoutManager : LinearLayoutManager = recyclerView.getLayoutManager() as LinearLayoutManager
+            if (linearLayoutManager.findFirstVisibleItemPosition() > 0 && mapFab.getVisibility() == View.INVISIBLE) {
+                mapFab.setVisibility(View.VISIBLE)
+                mapFab.startAnimation(fabAnim)
+            } else if (linearLayoutManager.findFirstVisibleItemPosition() == 0 && mapFab.getVisibility() == View.VISIBLE) {
+                mapFab.setVisibility(View.INVISIBLE)
             }
-            resetToolbar()
         }
-    }
-
-    fun resetToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
-        toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
-        toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
-        toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
-        toolbar.setSubtitle(subtitle)
-
-        menu?.setVisible(true)
-
-        recyclerView.setVisibility(View.VISIBLE)
-        markerPreviewLayout.setVisibility(View.INVISIBLE)
-
-        listFab.setVisibility(View.INVISIBLE)
-
-        if (showMapFab && mapFab.getVisibility() == View.INVISIBLE) {
-            mapFab.setVisibility(View.VISIBLE)
-            mapFab.startAnimation(fabAnim)
-
-        } else if (!showMapFab && mapFab.getVisibility() == View.VISIBLE) {
-            mapFab.setVisibility(View.INVISIBLE)
-        }
-
-        mapView.setTranslationY(0f)
-    }
-
-    fun changeToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp)
-        toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
-        toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
-        toolbar.setSubtitle(null)
-
-        menu?.setVisible(true)
-
-        recyclerView.setVisibility(View.INVISIBLE)
-        markerPreviewLayout.setVisibility(View.VISIBLE)
-
-        listFab.setVisibility(View.VISIBLE)
-        listFab.startAnimation(fabAnim)
-
-        mapFab.setVisibility(View.INVISIBLE)
-
-        mapView.setTranslationY(0f)
     }
 
     private val layoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             getViewTreeObserver().removeOnGlobalLayoutListener(this)
             screenHeight = if (ExpediaBookingApp.isAutomation()) { 0 } else { getHeight() }
-            recyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, screenHeight, 0, false))
+            recyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, 0, false))
         }
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(javaClass<ResultsList>().getName()) {
         override fun finalizeTransition(forward: Boolean) {
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+            toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
+            toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
+            toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
+            toolbar.setSubtitle(subtitle)
             recyclerView.setTranslationY(0f)
             mapView.setTranslationY(0f)
+
+            menu?.setVisible(true)
+
+            recyclerView.setVisibility(View.VISIBLE)
+            markerPreviewLayout.setVisibility(View.INVISIBLE)
+
+            listFab.setVisibility(View.INVISIBLE)
+
+            if (recyclerView.getVisibility() == View.INVISIBLE && mapFab.getVisibility() == View.INVISIBLE && listFab.getVisibility() == View.INVISIBLE) {
+                mapFab.setVisibility(View.VISIBLE)
+                mapFab.startAnimation(fabAnim)
+            } else {
+                mapFab.setVisibility(View.INVISIBLE)
+            }
         }
     }
 
-    private val mapTransition = object : Presenter.Transition(javaClass<ResultsList>(), javaClass<ResultsMap>(), DecelerateInterpolator(), 500) {
+    private val fabTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), 500) {
+        override fun finalizeTransition(forward: Boolean) {
+            toolbar.setNavigationIcon(if (forward) R.drawable.ic_arrow_back_white_24dp else R.drawable.ic_close_white_24dp)
+            toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
+            toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
+            toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
+            toolbar.setSubtitle(if (forward) subtitle else null)
+
+            menu?.setVisible(true)
+
+            recyclerView.setVisibility(if (forward) View.VISIBLE else View.INVISIBLE )
+            markerPreviewLayout.setVisibility(if (forward) View.INVISIBLE else View.VISIBLE)
+
+            listFab.setVisibility(if (forward) View.INVISIBLE else View.VISIBLE)
+
+            if (recyclerView.getVisibility() == View.INVISIBLE && mapFab.getVisibility() == View.INVISIBLE && listFab.getVisibility() == View.INVISIBLE) {
+                mapFab.setVisibility(View.VISIBLE)
+                mapFab.startAnimation(fabAnim)
+            } else {
+                mapFab.setVisibility(View.INVISIBLE)
+            }
+
+            mapView.setTranslationY(0f)
+            if (forward) {
+                recyclerView.setTranslationY(0f)
+                layoutManager.scrollToPositionWithOffset(2, listOffset)
+            } else {
+                recyclerView.setTranslationY(screenHeight.toFloat())
+            }
+            mapTransitionRunning = false
+        }
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             mapTransitionRunning = true
-            if (!forward) {
-                layoutManager.scrollToPositionWithOffset(1, listOffset)
+            if (forward) {
+                layoutManager.scrollToPositionWithOffset(2, listOffset)
             }
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
-            var distance: Float = 0f
 
-            if (forward) {
-                distance = (screenHeight * f)
-            }
-
-            recyclerView.setTranslationY(distance)
-        }
-
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
-            mapView.setTranslationY(0f)
             if (!forward) {
-                recyclerView.setTranslationY(0f)
-                layoutManager.scrollToPositionWithOffset(1, listOffset)
-            } else {
-                recyclerView.setTranslationY(screenHeight.toFloat())
+                var distance = (screenHeight * f)
+                recyclerView.setTranslationY(distance)
             }
-            mapTransitionRunning = false
         }
     }
 
