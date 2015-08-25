@@ -45,4 +45,5 @@ public class DummyFiletoHandleKotlinLintError {
 	private static final int HOTEL_COUPON_WIDGET = R.layout.coupon_widget;
 	private static final int SAVED_COUPON_STRING = R.string.saved_coupon;
 	private static final int COUPON_TITLE_STRING = R.string.coupon_promo_title;
+	private static final int RESORT_FEES_WIDGET = R.layout.resort_fee_widget;
 }

@@ -51,7 +51,7 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
     HANDICAPPED_PARKING(20, R.raw.ic_amenity_handicap_parking, R.string.AmenityHandicappedParking),
     IN_ROOM_ACCESSIBILITY(21, R.raw.ic_amenity_accessible_room, R.string.AmenityInRoomAccessibility),
     DEAF_ACCESSIBILITY_EQUIPMENT(22, R.raw.ic_amenity_deaf_access, R.string.AmenityDeafAccessibilityEquipment),
-    BRAILLE_SIGNAGE(23, R.raw.ic_amenity_braille_signs, R.string.AmenityBrailleSignage)
+    BRAILLE_SIGNAGE(23, R.raw.ic_amenity_braille_signs, R.string.AmenityBrailleSignage);
 
 
     // static helper method to add amenities

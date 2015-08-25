@@ -6,6 +6,7 @@ import android.net.Uri
 import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -16,11 +17,15 @@ import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.util.endlessObserver
+import com.mobiata.android.FormatUtils
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.Subscription
 import rx.subjects.BehaviorSubject
+import java.math.BigDecimal
+import java.util.ArrayList
+import java.util.Locale
 import kotlin.properties.Delegates
 
 class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices) : RecyclerGallery.GalleryItemListener {
@@ -43,6 +48,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val showReadMoreObservable = BehaviorSubject.create<Boolean>()
     val galleryObservable = BehaviorSubject.create<List<HotelMedia>>()
 
+    val commonAmenityTextObservable = BehaviorSubject.create<CharSequence>()
     val amenityHeaderTextObservable = BehaviorSubject.create<String>()
     val amenityTextObservable = BehaviorSubject.create<String>()
 
@@ -50,6 +56,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val amenityTitleTextObservable = BehaviorSubject.create<String>()
     var roomResponseListObservable = BehaviorSubject.create<List<HotelOffersResponse.HotelRoomResponse>>()
 
+    val hotelResortFeeObservable = BehaviorSubject.create<String>(null)
     val hotelNameObservable = BehaviorSubject.create<String>()
     val hotelRatingObservable = BehaviorSubject.create<Float>()
     val pricePerNightObservable = BehaviorSubject.create<String>()
@@ -127,6 +134,35 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         else amenityTitle = context.getResources().getString(R.string.AmenityTitle)
         amenityTitleTextObservable.onNext(amenityTitle)
 
+        // getting common amenities text
+        var rateCount = hotelOffersResponse.hotelRoomResponse.size()
+        if (rateCount > 0) {
+            var list: List<String> = getCommonAdListForRate(hotelOffersResponse.hotelRoomResponse.get(0))
+            if (!list.isEmpty()) {
+                for (index in 0..rateCount - 1) {
+                    list.toArrayList().retainAll(getCommonAdListForRate(hotelOffersResponse.hotelRoomResponse.get(index)))
+                }
+                if (list.size() > 0) {
+                    val text = Html.fromHtml(context.getString(R.string.common_value_add_template, FormatUtils.series(context, list, ",", FormatUtils.Conjunction.AND).toLowerCase(Locale.getDefault())));
+                    commonAmenityTextObservable.onNext(text)
+                }
+            }
+        }
+
+        if (hotelOffersResponse.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo.showResortFeeMessage) {
+            val rate = hotelOffersResponse.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo
+            val hotelResortFee = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), rate.currencyCode)
+            hotelResortFeeObservable.onNext(hotelResortFee.getFormattedMoney(Money.F_NO_DECIMAL))
+        }
+    }
+
+    private fun getCommonAdListForRate(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse): List<String> {
+        if (hotelRoomResponse.valueAdds == null) return emptyList()
+        var commonlist = ArrayList<String>(hotelRoomResponse.valueAdds.size())
+        for (index in 0..hotelRoomResponse.valueAdds.size() - 1) {
+            commonlist.add(hotelRoomResponse.valueAdds.get(index).description)
+        }
+        return commonlist
     }
 
     public fun expandSection(untruncated: String, sectionBody: String) {
