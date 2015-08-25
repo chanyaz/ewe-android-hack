@@ -92,11 +92,6 @@ public class ApiError extends RuntimeException {
 	}
 
 	@Override
-	public String toString() {
-		return Strings.toPrettyString(this);
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof ApiError) {
 			ApiError other = ((ApiError) obj);
