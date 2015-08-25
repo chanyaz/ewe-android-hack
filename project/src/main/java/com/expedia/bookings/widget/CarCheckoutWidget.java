@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.ApiError;
@@ -199,7 +200,9 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		int sliderMessage = carProduct.checkoutRequiresCard ? R.string.your_card_will_be_charged_TEMPLATE
 			: R.string.amount_due_today_TEMPLATE;
 		sliderTotalText.setText(getResources()
-			.getString(sliderMessage, carProduct.detailedFare.totalDueToday.formattedPrice));
+			.getString(sliderMessage, Money
+				.getFormattedMoneyFromAmountAndCurrencyCode(carProduct.detailedFare.totalDueToday.getAmount(),
+					carProduct.detailedFare.totalDueToday.getCurrency())));
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);
