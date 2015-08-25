@@ -397,4 +397,12 @@ public class CarFilterWidget extends LinearLayout {
 			doneButton.setAlpha(1.0f);
 		}
 	}
+
+	public boolean isFilteredToZeroResults() {
+		return isFilteredToZeroResults;
+	}
+
+	public DynamicFeedbackWidget getDynamicFeedbackWidget() {
+		return dynamicFeedbackWidget;
+	}
 }
