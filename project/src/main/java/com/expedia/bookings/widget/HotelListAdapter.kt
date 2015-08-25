@@ -12,7 +12,6 @@ import android.widget.RatingBar
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
-import com.expedia.bookings.tracking.context
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribe
@@ -50,7 +49,7 @@ public class HotelListAdapter(val hotels: List<Hotel>, val hotelSubject: Publish
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         if (viewType == HEADER_VIEW) {
-            val newView = View(context)
+            val newView = View(parent.getContext())
             var lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             lp.height = screenHeight
             newView.setLayoutParams(lp)

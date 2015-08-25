@@ -15,7 +15,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 
 public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 
-	public void testCarPhoneHappyPath() throws Throwable {
+	public void testNewHotelPhoneHappyPath() throws Throwable {
 		doSearch();
 		selectHotel();
 		selectRoom();
