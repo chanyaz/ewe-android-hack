@@ -173,7 +173,7 @@ public final class CarSearchPresenterTest {
 		//Test with invalid airport code we dont show calendar
 		CarScreen.pickupLocation().perform(typeText("AAAA"));
 		CarScreen.searchButton().perform(click());
-		CarScreen.didNotshowCalendar();
+		CarScreen.showCalendar();
 	}
 
 	@Test
