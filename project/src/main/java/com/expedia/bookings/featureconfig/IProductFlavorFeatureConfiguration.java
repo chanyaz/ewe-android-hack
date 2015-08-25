@@ -112,4 +112,9 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isTrackWithFlightTrackEnabled();
 
 	boolean isItinDisabled();
+	/**
+	 * return the static image resID to show staic loading image on flight search loading screen
+	 * return 0 to enable Plane window view animation on flight search loading screen, currently its enabled only for Samsung and Expedia
+	 */
+	int getFlightSearchProgressImageResId();
 }

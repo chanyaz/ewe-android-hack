@@ -76,7 +76,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getSearchProgressImageResId() {
-		return R.id.search_progress_image_lm;
+		return 0;
 	}
 
 	@Override
@@ -218,7 +218,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isHangTagProgressBarEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -294,6 +294,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean isItinDisabled() {
 		return false;
+	}
+
+	@Override
+	public int getFlightSearchProgressImageResId() {
+		return 0;
 	}
 }
 

@@ -291,4 +291,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isItinDisabled() {
 		return false;
 	}
+
+	@Override
+	public int getFlightSearchProgressImageResId() {
+		return 0;
+	}
 }
