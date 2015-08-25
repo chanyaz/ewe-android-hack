@@ -173,7 +173,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isTuneEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
