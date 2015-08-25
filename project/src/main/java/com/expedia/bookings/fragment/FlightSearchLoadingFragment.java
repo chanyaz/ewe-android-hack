@@ -1,28 +1,36 @@
-package com.expedia.bookings.fragment.base;
+package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.widget.PlaneWindowView;
 import com.mobiata.android.util.Ui;
 
-public abstract class AbsFlightSearchLoadingFragment extends android.support.v4.app.Fragment {
+public class FlightSearchLoadingFragment extends android.support.v4.app.Fragment
+	implements PlaneWindowView.PlaneWindowListener {
 
 	private static final String INSTANCE_TEXT = "INSTANCE_TEXT";
 	private static final String INSTANCE_IS_GROUNDED = "INSTANCE_IS_GROUNDED";
 
-	public static final String TAG = AbsFlightSearchLoadingFragment.class.toString();
+	public static final String TAG = FlightSearchLoadingFragment.class.toString();
 
 	protected TextView mMessageTextView;
 	protected View mCoverUpView;
 
 	protected CharSequence mText;
 	protected boolean mIsGrounded;
+
+	private PlaneWindowView mPlaneWindowView;
+	private boolean showDefaultPlaneWindowAnimation;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,8 @@ public abstract class AbsFlightSearchLoadingFragment extends android.support.v4.
 			mText = savedInstanceState.getCharSequence(INSTANCE_TEXT);
 			mIsGrounded = savedInstanceState.getBoolean(INSTANCE_IS_GROUNDED);
 		}
+		showDefaultPlaneWindowAnimation =
+			ProductFlavorFeatureConfiguration.getInstance().getFlightSearchProgressImageResId() == 0;
 	}
 
 	@Override
@@ -42,6 +52,26 @@ public abstract class AbsFlightSearchLoadingFragment extends android.support.v4.
 
 		mMessageTextView = Ui.findView(v, R.id.message_text_view);
 		mCoverUpView = Ui.findView(v, R.id.cover_up_view);
+		mPlaneWindowView = Ui.findView(v, R.id.plane_window_view);
+
+		if (!showDefaultPlaneWindowAnimation) {
+			ImageView flightSearchView = Ui.findView(v, R.id.search_progress_flight);
+			flightSearchView
+				.setImageResource(ProductFlavorFeatureConfiguration.getInstance().getFlightSearchProgressImageResId());
+			mPlaneWindowView.setVisibility(View.GONE);
+			flightSearchView.setVisibility(View.VISIBLE);
+
+			RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mMessageTextView.getLayoutParams();
+			layoutParams.addRule(RelativeLayout.ABOVE, R.id.search_progress_flight);
+			mMessageTextView.setLayoutParams(layoutParams);
+
+			flightSearchView.bringToFront();
+			mMessageTextView.bringToFront();
+		}
+		else {
+			mPlaneWindowView.setListener(this);
+		}
+		displayStatus();
 
 		return v;
 	}
@@ -49,7 +79,18 @@ public abstract class AbsFlightSearchLoadingFragment extends android.support.v4.
 	@Override
 	public void onStart() {
 		super.onStart();
+		if (showDefaultPlaneWindowAnimation) {
+			mPlaneWindowView.setRendering(true);
+		}
 		OmnitureTracking.trackPageLoadFlightSearchResultsPlaneLoadingFragment(getActivity());
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		if (showDefaultPlaneWindowAnimation) {
+			mPlaneWindowView.setRendering(false);
+		}
 	}
 
 	@Override
@@ -74,6 +115,9 @@ public abstract class AbsFlightSearchLoadingFragment extends android.support.v4.
 		if (mMessageTextView != null) {
 			mMessageTextView.setText(mText);
 		}
+		if (showDefaultPlaneWindowAnimation && mPlaneWindowView != null) {
+			mPlaneWindowView.setGrounded(mIsGrounded);
+		}
 	}
 
 	public void showLoading(CharSequence loadingText) {
@@ -95,4 +139,13 @@ public abstract class AbsFlightSearchLoadingFragment extends android.support.v4.
 		displayStatus();
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// PlaneWindowListener
+
+	@Override
+	public void onFirstRender() {
+		if (showDefaultPlaneWindowAnimation) {
+			setCoverEnabled(false);
+		}
+	}
 }

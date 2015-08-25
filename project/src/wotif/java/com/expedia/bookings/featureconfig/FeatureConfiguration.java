@@ -279,4 +279,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isAppCrossSellInFlightShareContentEnabled() {
 		return true;
 	}
+
+	@Override
+	public int getFlightSearchProgressImageResId() {
+		return R.drawable.search_progress_static_flight_wotif;
+	}
 }

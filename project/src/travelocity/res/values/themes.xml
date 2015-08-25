@@ -30,7 +30,6 @@
         <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_travelocity_logo_small</item>
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_travelocity</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
-        <item name="skin_flightLoadingMessagePosition">@id/search_progress_flight_tvly</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_tvly_white_logo_small</item>
         <item name="skin_bgFindItineraryButton">@drawable/btn_find_tvly</item>
 
