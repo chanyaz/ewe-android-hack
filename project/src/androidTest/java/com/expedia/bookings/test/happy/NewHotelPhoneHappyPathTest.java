@@ -40,7 +40,7 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 
 	private void selectHotel() throws Throwable {
 		screenshot("Hotel_Search_Results");
-		HotelScreen.selectHotel(0);
+		HotelScreen.selectHotel(1);
 		ScreenActions.delay(1);
 	}
 
