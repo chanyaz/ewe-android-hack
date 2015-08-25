@@ -280,5 +280,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
-
+	@Override
+	public int getFlightSearchProgressImageResId() {
+		return R.drawable.search_progress_static_flight_tvly;
+	}
 }

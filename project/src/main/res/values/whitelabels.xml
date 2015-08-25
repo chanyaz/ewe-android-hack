@@ -137,10 +137,6 @@
     <attr name="skin_aboutAppNameString" format="reference|string" />
     <attr name="skin_aboutAppLogoDrawable" format="reference" />
 
-    <!-- Flight loading screen message position -->
-    <attr name="skin_flightLoadingMessagePosition" format="reference" />
-
-
     <!-- for traveller_info_page logo-->
     <attr name="skin_travellerInfoPageLogo" format="reference"/>
     <attr name="skin_travellerInfoPageLogoDisabled" format="reference"/>
