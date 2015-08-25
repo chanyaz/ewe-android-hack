@@ -68,4 +68,10 @@
     <color name="lx_ripple_color">#A1266C</color>
     <color name="lx_secondary_color_disabled">#A1266C</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
+
+    <!--Account Lib Colors -->
+    <color name="acct__btn_sign_in_text_lm">#FFFFFF</color>
+    <color name="acct__bg_input_text_error_lm">#FFFFFF</color>
+    <color name="acct__bg_input_text_good_lm">#EEEEEE</color>
+
 </resources>

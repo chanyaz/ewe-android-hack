@@ -268,7 +268,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isSigninEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
