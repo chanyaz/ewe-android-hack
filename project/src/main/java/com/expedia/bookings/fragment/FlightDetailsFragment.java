@@ -89,8 +89,6 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.fragment_flight_details, container, false);
 
-		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, false);
-
 		final FlightTrip trip = getFlightTrip();
 		FlightLeg leg = getFlightLeg();
 
