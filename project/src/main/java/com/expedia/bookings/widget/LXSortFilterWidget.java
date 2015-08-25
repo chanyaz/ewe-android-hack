@@ -67,7 +67,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		toolbar.setTitle(getResources().getString(R.string.filter));
+		toolbar.setTitle(getResources().getString(R.string.lx_sort_filter));
 		toolbar.setTitleTextAppearance(getContext(), R.style.LXToolbarTitleTextAppearance);
 		toolbar.setTitleTextColor(getResources().getColor(R.color.lx_actionbar_text_color));
 		toolbar.inflateMenu(R.menu.cars_lx_filter_menu);
