@@ -50,7 +50,6 @@
                     android:id="@+id/offer_dates_scroll_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/lx_dates_container_background"
                     android:scrollbars="none">
 
                     <RadioGroup
