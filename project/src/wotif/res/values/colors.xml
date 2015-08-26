@@ -61,6 +61,7 @@
 
     <!-- Cars and LX -->
     <color name="cars_primary_color_wotif">#7AC231</color>
+    <color name="cars_primary_color">#7AC231</color>
     <color name="cars_unchecked_toggle_text_color_wotif">#B3FFFFFF</color>
     <color name="lx_primary_color_wotif">#7AC231</color>
     <color name="lx_ripple_color_wotif">#599027</color>
