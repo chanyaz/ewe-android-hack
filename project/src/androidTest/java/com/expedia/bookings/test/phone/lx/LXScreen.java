@@ -222,6 +222,10 @@ public class LXScreen {
 		return onView(withId(R.id.lx_offer_title_text));
 	}
 
+	public static ViewInteraction checkoutActivityTitle() {
+		return onView(withId(R.id.lx_activity_title_text));
+	}
+
 	public static ViewInteraction checkoutGroupText() {
 		return onView(withId(R.id.lx_group_text));
 	}
