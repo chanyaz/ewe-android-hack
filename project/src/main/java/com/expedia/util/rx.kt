@@ -7,6 +7,7 @@ import android.widget.ToggleButton
 import com.mobiata.android.Log
 import rx.Observable
 import rx.Observer
+import rx.exceptions.OnErrorNotImplementedException
 
 public fun <T> endlessObserver(body: (in T) -> Unit) : Observer<T> {
     return object : Observer<T> {
@@ -15,11 +16,11 @@ public fun <T> endlessObserver(body: (in T) -> Unit) : Observer<T> {
         }
 
         override fun onCompleted() {
-            // ignore - it is endless afterall
+            throw OnErrorNotImplementedException(RuntimeException("Cannot call completed on endless observer"))
         }
 
         override fun onError(e: Throwable?) {
-            Log.e("I wasn't expecting an error", e)
+            throw OnErrorNotImplementedException(e)
         }
     }
 }
