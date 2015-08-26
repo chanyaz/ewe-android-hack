@@ -69,7 +69,7 @@ public class DateFormatUtils {
 	private static final long DATE_RANGE_BUFFER = DateUtils.HOUR_IN_MILLIS;
 
 	// Called by the formatDateRange methods below
-	private static String formatDateRange(Context context, LocalDate startDate, LocalDate endDate, int flags) {
+	public static String formatDateRange(Context context, LocalDate startDate, LocalDate endDate, int flags) {
 		final long start = startDate.toDateTimeAtStartOfDay().getMillis();
 		final long end = endDate.toDateTimeAtStartOfDay().getMillis() + DATE_RANGE_BUFFER;
 		return DateUtils.formatDateRange(context, start, end, flags);

@@ -2204,6 +2204,10 @@
     <string name="flights_to_TEMPLATE">Flights to %s</string>
     <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
     <string name="stay_summary_TEMPLATE">%1$s, %2$s</string>
+    <!-- Hotel confirmation directions text -->
+    <string name="hotel_confirmation_directions">Directions to Hotel</string>
+    <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
+    <string name="rent_a_car_TEMPLATE">Rent a car in %1$s</string>
 
     <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->

@@ -73,7 +73,7 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 
 	private void confirmation() throws Throwable {
 		screenshot("Hotel_Confirmation");
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.itin_text_view, "174113329733");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.itin_text_view, "Itinerary #174113329733");
 	}
 
 }
