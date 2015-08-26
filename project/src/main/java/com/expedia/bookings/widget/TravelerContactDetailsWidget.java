@@ -18,6 +18,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
@@ -130,6 +131,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			sectionTravelerInfo.bind(traveler);
 			lastName.setNextFocusRightId(phoneNumber.getId());
 			lastName.setNextFocusDownId(phoneNumber.getId());
+			FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
 			enterDetailsText.setText(traveler.getFullName());
 			travelerPhoneText.setText(traveler.getPhoneNumber());
 			travelerPhoneText.setVisibility(VISIBLE);
@@ -146,6 +148,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		}
 
 		if (TextUtils.isEmpty(traveler.getFullName())) {
+			FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_REGULAR);
 			enterDetailsText.setText(Ui.obtainThemeResID(getContext(), R.attr.traveler_details_text));
 			travelerPhoneText.setText("");
 			travelerPhoneText.setVisibility(GONE);
