@@ -100,7 +100,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:text="@string/desk_and_vehicle_terminal"
                 android:textColor="@color/cars_checkout_text_color"
                 android:textSize="12sp"
                 android:textStyle="bold" />
