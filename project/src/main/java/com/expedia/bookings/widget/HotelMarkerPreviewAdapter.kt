@@ -100,7 +100,6 @@ public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresent
 
                 PicassoHelper.Builder(hotelPreviewImage)
                         .setError(R.drawable.cars_fallback)
-                        .fade()
                         .build()
                         .load(imageUrl)
             }
