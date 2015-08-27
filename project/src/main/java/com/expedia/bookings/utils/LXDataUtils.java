@@ -285,10 +285,10 @@ public class LXDataUtils {
 
 	public static LXSearchParams buildLXSearchParamsFromDeeplink(Uri data, Set<String> queryData) {
 		LXSearchParams searchParams = new LXSearchParams();
-		if (queryData.contains("startDate")) {
-			LocalDate startDate = DateUtils.yyyyMMddToLocalDate(data.getQueryParameter("startDate"));
-			searchParams.startDate(DateUtils.ensureDateIsTodayOrInFuture(startDate));
-		}
+
+		LocalDate startDate = DateUtils.yyyyMMddToLocalDateSafe(data.getQueryParameter("startDate"), LocalDate.now());
+		searchParams.startDate(DateUtils.ensureDateIsTodayOrInFuture(startDate));
+
 		if (queryData.contains("location")) {
 			searchParams.location(data.getQueryParameter("location"));
 		}

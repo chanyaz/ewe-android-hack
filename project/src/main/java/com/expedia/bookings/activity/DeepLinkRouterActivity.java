@@ -209,6 +209,9 @@ public class DeepLinkRouterActivity extends Activity {
 			if (carSearchParams != null) {
 				NavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
 			}
+			else {
+				NavUtils.goToCars(this, null);
+			}
 		}
 		else {
 			NavUtils.goToLaunchScreen(this, false, LineOfBusiness.CARS);
