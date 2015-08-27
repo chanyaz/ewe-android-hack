@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RuntimeEnvironment;
@@ -109,6 +110,23 @@ public class LXDataUtilsTest {
 		assertEquals(expectedLxSearchParams.location, obtainedLxSearchParams.location);
 		assertEquals(expectedLxSearchParams.filters, obtainedLxSearchParams.filters);
 		assertEquals(expectedLxSearchParams.startDate, obtainedLxSearchParams.startDate);
+	}
+
+	@Test
+	public void testBuildLXSearchParamsEmptyURL() {
+		// URL with no params
+		final String emptyParamsURL = "expda://activitySearch";
+
+		// URL with no date.
+		final String missingDateURL = "expda://activitySearch?location=San Francisco";
+
+		LXSearchParams searchParamsFromEmptyParamsURL = getLxSearchParamsFromDeeplink(emptyParamsURL);
+		LXSearchParams searchParamsFromMissingDateURL = getLxSearchParamsFromDeeplink(missingDateURL);
+
+
+		// Default to today's date, in case of an incorrect URL.
+		assertEquals(searchParamsFromEmptyParamsURL.startDate, LocalDate.now());
+		assertEquals(searchParamsFromMissingDateURL.startDate, LocalDate.now());
 	}
 
 	private LXSearchParams getLxSearchParamsFromDeeplink(String expectedURL) {
