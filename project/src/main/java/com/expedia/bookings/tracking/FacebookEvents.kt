@@ -30,6 +30,7 @@ import com.expedia.bookings.data.lx.LXSearchParams
 import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.facebook.AppEventsConstants
@@ -281,8 +282,11 @@ class FacebookEvents() {
 
         addCommonLXParams(parameters, startDate, lxSearchResponse.regionId, lxSearchResponse.destination)
         parameters.putString("Search_String", searchParams.location ?: "")
-        parameters.putString("LowestSearch_Value", lxSearchResponse.getLowestPriceActivity()
-                .price.getAmount().toString())
+
+        if (CollectionUtils.isNotEmpty(lxSearchResponse.activities)) {
+            parameters.putString("LowestSearch_Value", lxSearchResponse.getLowestPriceActivity()
+                    .price.getAmount().toString())
+        }
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
