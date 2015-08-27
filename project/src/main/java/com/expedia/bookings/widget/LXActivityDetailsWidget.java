@@ -205,6 +205,10 @@ public class LXActivityDetailsWidget extends ScrollView {
 			cancellationPolicyText, 0);
 		cancellation.setVisibility(View.VISIBLE);
 
+		int datesScrollerDrawable =
+			CollectionUtils.isNotEmpty(activityDetailsResponse.highlights) ? R.drawable.lx_dates_container_background
+				: R.drawable.lx_dates_container_background_no_top_border;
+		offerDatesScrollView.setBackground(getResources().getDrawable(datesScrollerDrawable));
 	}
 
 	// Not all activities have all the sections. Reset before building details.
