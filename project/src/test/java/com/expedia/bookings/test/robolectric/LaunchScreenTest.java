@@ -44,8 +44,7 @@ public class LaunchScreenTest {
 		rate.priceToShowUsers = 1;
 		rate.strikethroughPriceToShowUsers = 1;
 		rate.totalMandatoryFees = 1;
-		rate.totalPriceMandatoryFees = 1;
-		rate.formattedTotalPriceMandatoryFees = "1";
+		rate.totalPriceWithMandatoryFees = 1;
 		rate.userPriceType = "";
 		rate.checkoutPriceType = "";
 		rate.roomTypeCode = "";

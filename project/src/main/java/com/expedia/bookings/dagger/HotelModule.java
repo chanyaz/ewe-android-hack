@@ -46,4 +46,3 @@ public final class HotelModule {
 		return new ReviewsServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 }
-

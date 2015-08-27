@@ -23,23 +23,28 @@ import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
 import com.expedia.util.endlessObserver
+import com.expedia.util.notNullAndObservable
+import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.expedia.vm.HotelCouponViewModel
+import com.expedia.vm.HotelCreateTripViewModel
 import com.squareup.otto.Subscribe
 import rx.Observer
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
-    val hotelServices: HotelServices by Delegates.lazy() {
-        Ui.getApplication(getContext()).hotelComponent().hotelServices()
-    }
-
+public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
     var hotelCheckoutSummaryWidget: HotelCheckoutSummaryWidget by Delegates.notNull()
-
     var offer: HotelOffersResponse.HotelRoomResponse by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val couponCardView = CouponWidget(context, attr)
+    var viewmodel: HotelCreateTripViewModel by notNullAndObservable {
+        viewmodel.tripResponseObservable.subscribe(createTripResponseListener)
+    }
+
+    val hotelServices: HotelServices by Delegates.lazy() {
+        Ui.getApplication(getContext()).hotelComponent().hotelServices()
+    }
 
     init {
         couponCardView.viewmodel = HotelCouponViewModel(getContext(), hotelServices)
@@ -51,7 +56,9 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
 
     override fun onFinishInflate() {
         super<CheckoutBasePresenter>.onFinishInflate()
+        Ui.getApplication(getContext()).hotelComponent().inject(this)
         hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(getContext(), null)
+        hotelCheckoutSummaryWidget.viewmodel = HotelCheckoutSummaryViewModel(getContext())
         summaryContainer.addView(hotelCheckoutSummaryWidget)
 
         mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
@@ -61,13 +68,12 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         container.addView(couponCardView, container.getChildCount() - 2)
         couponCardView.setToolbarListener(toolbarListener)
         couponCardView.viewmodel.applyObservable.subscribe(applyCouponObservable)
-        couponCardView.viewmodel.couponObservable.subscribe(downloadListener)
+        couponCardView.viewmodel.couponObservable.subscribe(createTripResponseListener)
         val params = couponCardView.getLayoutParams() as LinearLayout.LayoutParams
         params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, getResources().getDisplayMetrics()).toInt(), 0, 0);
     }
 
     fun bind() {
-        hotelCheckoutSummaryWidget.setHotelImage(offer)
         mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details))
         paymentInfoCardView.setCreditCardRequired(true)
         mainContactInfoCardView.setExpanded(false)
@@ -92,15 +98,16 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         val numberOfAdults = hotelSearchParams.adults
         val childAges = hotelSearchParams.children
         val qualifyAirAttach = false
-        hotelServices.createTrip(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges), downloadListener)
+        viewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
     }
 
     val applyCouponObservable: Observer<String> = endlessObserver { coupon ->
         show(CheckoutBasePresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
     }
 
-    val downloadListener: Observer<HotelCreateTripResponse> = endlessObserver { hotelCreateTripResponse ->
-        Db.getTripBucket().add(TripBucketItemHotelV2(hotelCreateTripResponse))
+    val createTripResponseListener: Observer<HotelCreateTripResponse> = endlessObserver { trip ->
+        Db.getTripBucket().add(TripBucketItemHotelV2(trip))
+        hotelCheckoutSummaryWidget.viewmodel.rateObserver.onNext(trip.newHotelProductResponse)
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
     }
@@ -117,7 +124,7 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
     }
 
     override fun onSlideAllTheWay() {
-        slideAllTheWayObservable.onCompleted()
+        slideAllTheWayObservable.onNext(Unit)
     }
 
     override fun onSlideAbort() {
@@ -150,4 +157,3 @@ public class HotelCheckoutWidget(context: Context, attr: AttributeSet) : Checkou
         return true
     }
 }
-

@@ -2,6 +2,8 @@ package com.expedia.bookings.data.hotels;
 
 import java.util.List;
 
+import com.expedia.bookings.utils.Strings;
+
 public class HotelOffersResponse {
 
 	public String airAttachExpirationTimeSeconds;
@@ -43,8 +45,10 @@ public class HotelOffersResponse {
 		public List<BedTypes> bedTypes;
 		public String cancellationPolicy;
 		public Boolean hasFreeCancellation;
-		public Boolean isPayLater;
-		public PayLaterOffer payLaterOffer;
+		public String freeCancellationWindowDate;
+		public HotelRoomResponse payLaterOffer;
+		public Boolean immediateChargeRequired;
+		public Boolean nonRefundable;
 		public String productKey;
 		public Boolean rateChange;
 		public String rateDescription;
@@ -53,26 +57,16 @@ public class HotelOffersResponse {
 		public String roomLongDescription;
 		public String roomThumbnailUrl;
 		public List<ValueAdds> valueAdds;
+		public String supplierType;
+
+		public boolean isMerchant() {
+			return Strings.equals(supplierType, "E") || Strings.equals(supplierType, "MERCHANT");
+		}
 	}
 
 	public static class BedTypes {
 		public String id;
 		public String description;
-	}
-
-	public static class PayLaterOffer {
-		public List<BedTypes> bedTypes;
-		public String cancellationPolicy;
-		public Boolean hasFreeCancellation;
-		public String freeCancellationWindowDate;
-		public Boolean immediateChargeRequired;
-		public Boolean isPayLater;
-		public Boolean nonRefundable;
-		public String productKey;
-		public Boolean rateChange;
-		public String rateDescription;
-		public RateInfo rateInfo;
-		public String supplierType;
 	}
 
 	public static class RateInfo {

@@ -1,7 +1,6 @@
 package com.expedia.bookings.data.hotels;
 
 public class HotelRate {
-
 	public float maxNightlyRate;
 	public float averageRate;
 	public String taxStatusType;
@@ -17,8 +16,7 @@ public class HotelRate {
 	public float priceToShowUsers;
 	public float strikethroughPriceToShowUsers;
 	public float totalMandatoryFees;
-	public float totalPriceMandatoryFees;
-	public String formattedTotalPriceMandatoryFees;
+	public float totalPriceWithMandatoryFees;
 	public String userPriceType;
 	public String checkoutPriceType;
 	public boolean airAttached;
