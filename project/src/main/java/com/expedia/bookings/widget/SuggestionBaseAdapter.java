@@ -1,7 +1,9 @@
 package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -105,8 +107,10 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 			else {
 				// Default to show nearby and recent history
 				suggestions.clear();
-				suggestions.addAll(nearbySuggestions);
-				suggestions.addAll(recentHistory);
+				Set<Suggestion> suggestionsSet = new LinkedHashSet<Suggestion>();
+				suggestionsSet.addAll(nearbySuggestions);
+				suggestionsSet.addAll(recentHistory);
+				suggestions.addAll(suggestionsSet);
 			}
 
 			results.count = suggestions.size();

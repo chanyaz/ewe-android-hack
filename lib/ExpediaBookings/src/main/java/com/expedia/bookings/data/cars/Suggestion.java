@@ -60,4 +60,17 @@ public class Suggestion implements Cloneable {
 	public boolean isMajorAirport() {
 		return Strings.isNotEmpty(regionType) && regionType.toLowerCase(Locale.US).equals("airport") && !isMinorAirport;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Suggestion) {
+			return ((Suggestion) obj).id.equals(this.id);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
 }
