@@ -62,6 +62,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val pricePerNightObservable = BehaviorSubject.create<String>()
     val searchInfoObservable = BehaviorSubject.create<String>()
     val userRatingObservable = BehaviorSubject.create<String>()
+    val reviewsObservable = BehaviorSubject.create<Hotel>()
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
     val downloadListener: Observer<HotelOffersResponse> = object : Observer<HotelOffersResponse> {
@@ -92,6 +93,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         val uri = "geo:" + hotel.latitude + "," + hotel.longitude
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
         context.startActivity(intent)
+    }
+
+    val reviewsClickObserver: Observer<Unit> = endlessObserver {
+        reviewsObservable.onNext(hotel)
     }
 
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->

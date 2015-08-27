@@ -300,7 +300,7 @@
     <!-- Dimensions For LX Toolbar dropshadow height -->
     <dimen name="toolbar_dropshadow_height">5dp</dimen>
 
-    <!--Dimesnion for room rate margin -->
+    <!--Dimension for room rate margin -->
     <dimen name="hotel_room_list_container_margin">9dp</dimen>
 
     <!-- Dimensions for Hotel Results -->
@@ -309,6 +309,25 @@
     <dimen name="hotel_preview_margin_small">4dp</dimen>
     <dimen name="hotel_marker_padding_width">20dp</dimen>
     <dimen name="hotel_marker_padding_height">14dp</dimen>
+
+    <!--Dimensions for hotel review row-->
+    <!--Text size of review title-->
+    <dimen name="hotel_review_title">13dp</dimen>
+    <!--Text size of review date-->
+    <dimen name="hotel_review_date">12dp</dimen>
+    <!--Text size of review content-->
+    <dimen name="hotel_review_body">12dp</dimen>
+    <!--Text size of reviewer-->
+    <dimen name="hotel_reviewer">12dp</dimen>
+    <!--Margin for one row-->
+    <dimen name="hotel_review_row_margin">10dp</dimen>
+    <!--Top margin for a review detail item-->
+    <dimen name="hotel_review_detail_margin_top">2dp</dimen>
+    <!--Bottom margin for a review detail item-->
+    <dimen name="hotel_review_detail_margin_bottom">3dp</dimen>
+    <!--Review row divider height-->
+    <dimen name="hotel_review_divider_height">1dp</dimen>
+
 
     <!-- Approx height of car & lx suggestion's row -->
     <dimen name="suggestion_list_height">60dp</dimen>

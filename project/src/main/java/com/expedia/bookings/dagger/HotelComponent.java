@@ -5,6 +5,7 @@ import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter;
 import com.expedia.bookings.presenter.hotel.HotelPresenter;
 import com.expedia.bookings.presenter.hotel.HotelResultsPresenter;
 import com.expedia.bookings.services.HotelServices;
+import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 
 import dagger.Component;
@@ -17,4 +18,5 @@ public interface HotelComponent {
 	void inject(HotelCheckoutPresenter presenter);
 	SuggestionV4Services suggestionsService();
 	HotelServices hotelServices();
+	ReviewsServices reviewsServices();
 }

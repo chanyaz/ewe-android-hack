@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.RatingBar
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -48,6 +49,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val priceContainer : ViewGroup by bindView(R.id.price_widget)
     val pricePerNight: TextView by bindView(R.id.price_per_night)
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
+    val ratingContainer: LinearLayout by bindView(R.id.rating_container)
     val selectRoomButton: Button by bindView(R.id.select_room_button)
     val userRating: TextView by bindView(R.id.user_rating)
     val numberOfReviews: TextView by bindView(R.id.number_of_reviews)
@@ -124,7 +126,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             }
 
         }
-
+        ratingContainer.subscribeOnClick(vm.reviewsClickObserver)
         mapClickContainer.subscribeOnClick(vm.mapClickContainer)
         hotelDescription.subscribeOnClick(vm.readMore)
         readMoreView.subscribeOnClick(vm.readMore)

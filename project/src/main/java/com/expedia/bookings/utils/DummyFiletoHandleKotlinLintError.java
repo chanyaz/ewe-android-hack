@@ -48,5 +48,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.coupon_promo_title,
 		R.layout.resort_fee_widget,
 		R.layout.hotel_loading_cell,
+		R.layout.hotel_review_row,
+		R.layout.hotel_reviews_page_widget,
+		R.layout.widget_hotel_reviews,
+		R.layout.widget_hotel_reviews_toolbar
 	};
 }

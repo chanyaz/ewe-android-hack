@@ -16,6 +16,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.RoomSelected
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
+import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.mobiata.android.Log
 import rx.Observer
@@ -35,6 +36,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val detailPresenter: HotelDetailPresenter by bindView(R.id.widget_hotel_detail)
     val checkoutPresenter: HotelCheckoutPresenter by bindView(R.id.hotel_checkout_presenter)
     val confirmationPresenter: HotelConfirmationPresenter by bindView(R.id.hotel_confirmation_presenter)
+    val reviewsPresenter: HotelReviewsPresenter by bindView(R.id.hotel_reviews_presenter)
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
@@ -47,6 +49,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(resultsToDetail)
         addTransition(detailsToCheckout)
         addTransition(checkoutToConfirmation)
+        addTransition(detailsToReview)
         addDefaultTransition(defaultTransition)
         show(searchPresenter)
         searchPresenter.viewmodel = HotelSearchViewModel(getContext())
@@ -67,6 +70,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val resultsToDetail = LeftToRightTransition(this, javaClass<HotelResultsPresenter>(), javaClass<HotelDetailPresenter>())
     private val detailsToCheckout = LeftToRightTransition(this, javaClass<HotelDetailPresenter>(), javaClass<HotelCheckoutPresenter>())
     private val checkoutToConfirmation = LeftToRightTransition(this, javaClass<HotelCheckoutPresenter>(), javaClass<HotelConfirmationPresenter>())
+    private val detailsToReview = LeftToRightTransition(this, javaClass<HotelDetailPresenter>(),javaClass<HotelReviewsPresenter>())
 
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
         resultsPresenter.doSearch(params)
@@ -79,8 +83,15 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailPresenter.hotelDetailView.viewmodel = HotelDetailViewModel(getContext(), hotelServices)
         detailPresenter.hotelDetailView.viewmodel.searchObserver.onNext(hotelSearchParams)
         detailPresenter.hotelDetailView.viewmodel.hotelObserver.onNext(hotel)
+        detailPresenter.hotelDetailView.viewmodel.reviewsObservable.subscribe(reviewsObserver)
         detailPresenter.hotelDetailView.viewmodel.getDetail()
         show(detailPresenter)
+    }
+
+    val reviewsObserver: Observer<Hotel> = endlessObserver { hotel ->
+        reviewsPresenter.viewModel = HotelReviewsViewModel(getContext())
+        reviewsPresenter.viewModel.hotelObserver.onNext(hotel)
+        show(reviewsPresenter)
     }
 
     val checkoutObserver = object : Observer<HotelOffersResponse.HotelRoomResponse> {

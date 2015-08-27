@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/hotel_review_background_color">
+
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/hotel_review_row_margin"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/review_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/hotel_review_title_color"
+                android:textSize="@dimen/hotel_review_title"
+                android:textStyle="bold" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/hotel_review_date_color"
+                android:textSize="@dimen/hotel_review_date"
+                android:textStyle="italic" />
+
+        </RelativeLayout>
+
+
+        <RatingBar
+            android:id="@+id/user_rating_bar"
+            style="@style/RatingBar.UserReview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/hotel_review_detail_margin_bottom"
+            android:layout_marginTop="@dimen/hotel_review_detail_margin_top"
+            android:numStars="5"
+            android:stepSize=".5" />
+
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/hotel_review_detail_margin_bottom"
+            android:layout_marginTop="@dimen/hotel_review_detail_margin_top"
+            android:textColor="@color/hotel_review_body_color"
+            android:textSize="@dimen/hotel_review_body" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/reviewer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/hotel_review_detail_margin_top"
+            android:textColor="@color/hotel_review_reviewer_color"
+            android:textSize="@dimen/hotel_reviewer"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hotel_review_divider_height"
+        android:layout_below="@+id/root"
+        android:background="@color/hotel_reviews_row_divider_color" />
+
+</RelativeLayout>

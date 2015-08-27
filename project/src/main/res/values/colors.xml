@@ -96,6 +96,14 @@
     <color name="hotel_cell_gray_text">#888888</color>
     <color name="hotel_cell_light_gray_text">#D7D7D7</color>
 
+    <!-- Hotel reviews colors -->
+    <color name="hotel_review_background_color">#FAFAFA</color>
+    <color name="hotel_review_title_color">#686868</color>
+    <color name="hotel_review_date_color">#A5A5A5</color>
+    <color name="hotel_review_body_color">#686868</color>
+    <color name="hotel_review_reviewer_color">#A5A5A5</color>
+    <color name="hotel_reviews_row_divider_color">#E2E2E2</color>
+
     <!-- Login -->
     <color name="login_text_hotels">#FFFFFF</color>
     <color name="login_text_tablet">#363636</color>
