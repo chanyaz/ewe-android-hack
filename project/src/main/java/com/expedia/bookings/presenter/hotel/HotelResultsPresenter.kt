@@ -223,7 +223,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 mostInterestingNeighborhood = response.allNeighborhoodsInSearchRegion.reduce { left, right -> if (left.score >= right.score) left else right }
             }
 
-            if (mostInterestingNeighborhood != null) {
+            if (mostInterestingNeighborhood != null && mostInterestingNeighborhood.hotels.size() > 0) {
                 val neighborhoodBox = LatLngBounds.Builder()
                 for (hotel in mostInterestingNeighborhood.hotels) {
                     neighborhoodBox.include(LatLng(hotel.latitude, hotel.longitude))
