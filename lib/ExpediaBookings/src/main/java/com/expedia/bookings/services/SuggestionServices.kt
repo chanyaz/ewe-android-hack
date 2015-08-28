@@ -40,7 +40,7 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
         adapter.create<SuggestApi>(javaClass<SuggestApi>())
     }
 
-    private val MAX_NEARBY_SUGGESTIONS = 2
+    private val MAX_NEARBY_SUGGESTIONS = 1
 
     public fun getCarSuggestions(query: String, locale: String, observer: Observer<MutableList<Suggestion>>): Subscription {
         val type = getTypeForCarSuggestions()
