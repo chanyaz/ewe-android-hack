@@ -102,16 +102,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAdXEnabled() {
-		return true;
-	}
-
-	@Override
-	public int getAdXPosIdentifier() {
-		return 2601;
-	}
-
-	@Override
 	public String getOmnitureReportSuiteIds() {
 		if (BuildConfig.RELEASE) {
 			return "expediaglobalapp";
@@ -251,11 +241,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public String getClientShortName() {
 		return "expedia";
-	}
-
-	@Override
-	public String getAdXKey() {
-		return "f2d75b7e-ed66-4f96-cf66-870f4c6b723e";
 	}
 
 	@Override

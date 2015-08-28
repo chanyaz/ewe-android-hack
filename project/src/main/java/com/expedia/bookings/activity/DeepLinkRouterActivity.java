@@ -37,7 +37,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -91,7 +90,6 @@ public class DeepLinkRouterActivity extends Activity {
 		Log.d(TAG, "Got deeplink: " + host + "/" + dataString);
 		Set<String> queryData = StrUtils.getQueryParameterNames(data);
 
-		AdX.trackDeepLinkLaunch(data);
 		OmnitureTracking.parseAndTrackDeepLink(data, queryData);
 
 		/*

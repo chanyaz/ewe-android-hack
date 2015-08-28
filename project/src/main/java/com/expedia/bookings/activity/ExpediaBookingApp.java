@@ -44,7 +44,6 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
-import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
@@ -227,11 +226,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 				LeanPlumUtils.init(this);
 				startupTimer.addSplit("LeanPlum started.");
-			}
-
-			if (ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled()) {
-				AdX.initialize(this);
-				startupTimer.addSplit("AdX started.");
 			}
 
 			if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled()) {

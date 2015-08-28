@@ -100,23 +100,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAdXEnabled() {
-		return true;
-	}
-
-	@Override
-	public int getAdXPosIdentifier() {
-		int adXPosIdentifier = 13292;
-
-		// For Travelocity canada setting a separate ID.
-		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.TRAVELOCITY_CA) {
-			adXPosIdentifier = 14776;
-		}
-
-		return adXPosIdentifier;
-	}
-
-	@Override
 	public String getOmnitureReportSuiteIds() {
 		if (BuildConfig.RELEASE) {
 			return "expediaglobalapp,tvlglobalapp";
@@ -253,11 +236,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public String getClientShortName() {
 		return "tvly";
-	}
-
-	@Override
-	public String getAdXKey() {
-		return "65bcdbdb-8841-4d72-b792-4123773d5725";
 	}
 
 	@Override
