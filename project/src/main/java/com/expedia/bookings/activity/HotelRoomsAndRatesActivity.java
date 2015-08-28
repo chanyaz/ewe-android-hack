@@ -21,6 +21,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelRoomsAndRatesFragment;
 import com.expedia.bookings.fragment.HotelRoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.server.CrossContextHelper;
@@ -110,7 +111,8 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		locationView.setText(StrUtils.formatAddressShort(property.getLocation()));
 
 		RatingBar hotelRating;
-		if (property.shouldShowCircles()) {
+
+		if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
 			hotelRating = Ui.findView(this, R.id.hotel_rating_bar_circles);
 		}
 		else {
