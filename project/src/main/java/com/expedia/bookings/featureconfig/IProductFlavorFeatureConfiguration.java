@@ -43,10 +43,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	PointOfSaleId getDefaultPOS();
 
-	boolean isAdXEnabled();
-
-	int getAdXPosIdentifier();
-
 	String getOmnitureReportSuiteIds();
 
 	String getOmnitureTrackingServer();
@@ -96,8 +92,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isETPEnabled();
 
 	String getClientShortName();
-
-	String getAdXKey();
 
 	boolean isAppSupportUrlEnabled();
 
