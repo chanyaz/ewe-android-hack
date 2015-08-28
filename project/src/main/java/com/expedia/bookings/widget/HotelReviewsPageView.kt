@@ -11,6 +11,7 @@ import com.expedia.bookings.utils.bindView
 public class HotelReviewsPageView(context: Context) : LinearLayout(context) {
 
     val reviewsTable: TableLayout by bindView(R.id.reviews_table)
+    val summaryContainer: LinearLayout by bindView(R.id.summary_container)
 
     init {
         View.inflate(getContext(), R.layout.hotel_reviews_page_widget, this)

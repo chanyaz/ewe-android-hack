@@ -49,6 +49,8 @@ public class HotelReviewsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     init {
         View.inflate(context, R.layout.widget_hotel_reviews, this)
+        //Allow retaining of all the tab views
+        viewPager.setOffscreenPageLimit(Integer.MAX_VALUE)
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
             val color = getContext().getResources().getColor(R.color.hotels_primary_color)

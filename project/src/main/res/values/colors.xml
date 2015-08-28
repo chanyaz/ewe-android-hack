@@ -102,9 +102,12 @@
     <color name="hotel_review_background_color">#FAFAFA</color>
     <color name="hotel_review_title_color">#686868</color>
     <color name="hotel_review_date_color">#A5A5A5</color>
+    <color name="hotel_review_summary_rating_color">#686868</color>
+    <color name="hotel_overall_rating_background_color">#787878</color>
     <color name="hotel_review_body_color">#686868</color>
     <color name="hotel_review_reviewer_color">#A5A5A5</color>
     <color name="hotel_reviews_row_divider_color">#E2E2E2</color>
+    <color name="hotel_reviews_summary_background_color">#FFFFFF</color>
 
     <!-- Login -->
     <color name="login_text_hotels">#FFFFFF</color>

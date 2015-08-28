@@ -1,0 +1,68 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/overall_rating"
+            style="@style/widgetHotelReviewsSummaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/hotel_overall_rating_background"
+            android:textColor="@color/hotel_reviews_summary_background_color"
+            android:textStyle="bold" />
+
+        <com.expedia.bookings.widget.TextView
+            style="@style/widgetHotelReviewsSummaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hotel_guest_recommend"
+            android:textSize="@dimen/hotel_review_summary_text_size" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/room_cleanliness"
+            style="@style/widgetHotelReviewsSummaryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/room_comfort"
+
+            style="@style/widgetHotelReviewsSummaryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/service_staff"
+            style="@style/widgetHotelReviewsSummaryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/hotel_condition"
+            style="@style/widgetHotelReviewsSummaryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+</merge>
