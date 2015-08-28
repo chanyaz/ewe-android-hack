@@ -18,12 +18,11 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.util.endlessObserver
 import com.mobiata.android.FormatUtils
-import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.Subscription
-import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.Locale
@@ -36,7 +35,6 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     }
 
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
-    var downloadSubscription: Subscription? = null
     val INTRO_PARAGRAPH_CUTOFF = 120
     var sectionBody: String by Delegates.notNull()
     var untruncated: String by Delegates.notNull()
@@ -72,7 +70,9 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     }
 
     fun getDetail() {
-        downloadSubscription = hotelServices.details(hotelSearchParams, hotel.hotelId, downloadListener)
+        val subject = PublishSubject.create<HotelOffersResponse>()
+        subject.subscribe { downloadListener.onNext(it) }
+        hotelServices.details(hotelSearchParams, hotel.hotelId, subject)
     }
 
     val readMore: Observer<Unit> = endlessObserver {
