@@ -41,6 +41,7 @@ import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -206,7 +207,7 @@ public class DeepLinkRouterActivity extends Activity {
 			}
 
 			CarSearchParams carSearchParams = CarDataUtils.fromDeepLink(data, queryData);
-			if (carSearchParams != null) {
+			if (carSearchParams != null && JodaUtils.isBeforeOrEquals(carSearchParams.startDateTime, carSearchParams.endDateTime)) {
 				NavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
 			}
 			else {

@@ -8,6 +8,7 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 
 public class CarsDeeplinkTest extends PhoneTestCase {
 
@@ -21,6 +22,7 @@ public class CarsDeeplinkTest extends PhoneTestCase {
 			"com.expedia.bookings.activity.DeepLinkRouterActivity"));
 		getApplication().startActivity(intent);
 
+		ScreenActions.delay(3);
 		EspressoUtils.assertViewIsDisplayed(R.id.widget_car_params);
 	}
 
@@ -34,6 +36,7 @@ public class CarsDeeplinkTest extends PhoneTestCase {
 			"com.expedia.bookings.activity.DeepLinkRouterActivity"));
 		getApplication().startActivity(intent);
 
+		ScreenActions.delay(3);
 		EspressoUtils.assertViewIsDisplayed(R.id.widget_car_params);
 	}
 }

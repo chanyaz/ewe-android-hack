@@ -8,6 +8,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadableInstant;
 import org.joda.time.ReadablePartial;
+import org.joda.time.base.AbstractInstant;
 import org.joda.time.base.AbstractPartial;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -30,6 +31,10 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 	}
 
 	public static boolean isBeforeOrEquals(AbstractPartial first, AbstractPartial second) {
+		return first.isBefore(second) || first.isEqual(second);
+	}
+
+	public static boolean isBeforeOrEquals(AbstractInstant first, AbstractInstant second) {
 		return first.isBefore(second) || first.isEqual(second);
 	}
 
