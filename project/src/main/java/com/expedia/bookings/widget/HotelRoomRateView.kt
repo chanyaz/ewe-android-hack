@@ -2,13 +2,13 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
 import android.widget.*
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.Images
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -17,7 +17,6 @@ import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelRoomRateViewModel
 import rx.Observer
-import kotlin.properties.Delegates
 
 public class HotelRoomRateView(context: Context, val container: TableLayout, val selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : LinearLayout(context) {
 
@@ -39,6 +38,7 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
     val roomInfoHeader: TextView by bindView(R.id.room_info_header_text)
 
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
+        expandedAmenity.setVisibility(View.GONE)
         viewRoom.subscribeOnCheckChanged(vm.expandCollapseRoomRate)
         vm.roomSelectedObservable.subscribe(selectedRoomObserver)
         roomInfoHeader.subscribeOnClick(vm.expandCollapseRoomRateInfo)
@@ -48,6 +48,15 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
         vm.roomTypeObservable.subscribe(roomType)
         vm.collapsedBedTypeObservable.subscribe(collapsedBedType)
         vm.expandedBedTypeObservable.subscribe(expandedBedType)
+        vm.expandedAmenityObservable.subscribe { text ->
+            expandedAmenity.setVisibility(View.VISIBLE)
+            expandedAmenity.setText(text)
+        }
+
+        vm.expandedMessageObservable.subscribe { expandedMessagePair ->
+            freeCancellation.setText(expandedMessagePair.first)
+            freeCancellation.setCompoundDrawablesWithIntrinsicBounds(expandedMessagePair.second, null, null, null)
+        }
         vm.dailyPricePerNightObservable.subscribe(dailyPricePerNight)
         vm.roomHeaderImageObservable.subscribe { imageUrl ->
             val margin = getContext().getResources().getDimension(R.dimen.hotel_room_list_container_margin) * 2 // margin from left and right
@@ -60,7 +69,7 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
             roomInfoContainer.setVisibility(if (expand) View.VISIBLE else View.GONE)
             collapsedBedType.setVisibility(if (expand) View.GONE else View.VISIBLE)
             expandedBedType.setVisibility(if (expand) View.VISIBLE else View.GONE)
-            expandedAmenity.setVisibility(if (expand) View.VISIBLE else View.GONE)
+            expandedAmenity.setVisibility(if (expand && Strings.isNotEmpty(expandedAmenity.getText())) View.VISIBLE else View.GONE)
             freeCancellation.setVisibility(if (expand) View.VISIBLE else View.GONE)
             totalPricePerNight.setVisibility(if (expand) View.VISIBLE else View.GONE)
             roomHeaderImage.setVisibility(if (expand) View.VISIBLE else View.GONE)

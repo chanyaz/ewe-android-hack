@@ -105,7 +105,16 @@
             "roomTypeDescription": "${hotelId}_0",
             "smokingPreferences": "NS",
             "supplierType": "MERCHANT",
-            "valueAdds": []
+            "valueAdds": [
+                {
+                    "id": "128",
+                    "description": "Free Parking"
+                },
+                {
+                    "id": "32768",
+                    "description": "Free Airport Shuttle"
+                }
+            ]
         },
         {
             "bedTypes": [
@@ -218,7 +227,16 @@
             "roomTypeDescription": "happypath_2_night_stay_0",
             "smokingPreferences": "NS",
             "supplierType": "MERCHANT",
-            "valueAdds": []
+            "valueAdds": [
+                {
+                    "id": "2",
+                    "description": "Continental Breakfast"
+                },
+                {
+                    "id": "32768",
+                    "description": "Free Airport Shuttle"
+                }
+            ]
         }
     ],
     "hotelStarRating": "4.0",

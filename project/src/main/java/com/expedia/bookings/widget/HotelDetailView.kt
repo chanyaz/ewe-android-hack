@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.text.Html
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -25,14 +26,18 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.mobiata.android.FormatUtils
 import rx.Observer
+import java.util.*
 import kotlin.properties.Delegates
 
 object RoomSelected {
     var observer: Observer<HotelOffersResponse.HotelRoomResponse> by Delegates.notNull()
 }
+
 //scroll animation duration for select room button
 val ANIMATION_DURATION = 500L
+
 public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
 
     val MAP_ZOOM_LEVEL = 12f
@@ -45,7 +50,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val gallery: RecyclerGallery by bindView(R.id.images_gallery)
     val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
 
-    val priceContainer : ViewGroup by bindView(R.id.price_widget)
+    val priceContainer: ViewGroup by bindView(R.id.price_widget)
     val pricePerNight: TextView by bindView(R.id.price_per_night)
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
     val ratingContainer: LinearLayout by bindView(R.id.rating_container)
@@ -59,21 +64,18 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val etpRadioGroup: SlidingRadioGroup by bindView(R.id.radius_pay_options)
     val etpInfoContainer: View by bindView(R.id.etp_info_container)
     val etpContainer: HotelEtpStickyHeaderLayout by bindView(R.id.etp_placeholder)
-    val renovationContainer : ViewGroup by bindView(R.id.renovation_container)
-    val shareHotelTextView : TextView by bindView(R.id.share_hotel_text)
-    val shareHotelContainer : ViewGroup by bindView(R.id.share_hotel_container)
+    val renovationContainer: ViewGroup by bindView(R.id.renovation_container)
+    val shareHotelTextView: TextView by bindView(R.id.share_hotel_text)
+    val shareHotelContainer: ViewGroup by bindView(R.id.share_hotel_container)
 
     val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
     val amenityTitleText: TextView by bindView(R.id.amenities_none_text)
 
-    val resortFeeWidget : ResortFeeWidget by bindView(R.id.resort_fee_widget)
-
-    val commonAmenityContainer : ViewGroup by bindView(R.id.common_amenities_container)
-    val commonAmenityText : TextView by bindView(R.id.common_amenities_text)
+    val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
+    val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
 
     val roomContainer: TableLayout by bindView(R.id.room_container)
-    val amenities_text: TextView by bindView(R.id.amenities_text)
-    val amenities_text_header: TextView by bindView(R.id.amenities_text_header)
+    val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
 
     val detailContainer: ScrollView by bindView(R.id.detail_container)
     val mainContainer: ViewGroup by bindView(R.id.main_container)
@@ -100,15 +102,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             Amenity.addAmenity(amenityContainer, amenityList)
         }
         vm.commonAmenityTextObservable.subscribe { text ->
-            commonAmenityContainer.setVisibility(View.VISIBLE)
-            commonAmenityText.setText(text)
+            commonAmenityText.setVisibility(View.VISIBLE)
+            commonAmenityText.setText(Html.fromHtml(text))
         }
 
         vm.renovationObservable.subscribe { renovationContainer.setVisibility(View.VISIBLE) }
         vm.hotelResortFeeObservable.subscribe(resortFeeWidget.resortFeeText)
 
-        vm.amenityHeaderTextObservable.subscribe(amenities_text_header)
-        vm.amenityTextObservable.subscribe(amenities_text)
         vm.sectionBodyObservable.subscribe(hotelDescription)
         vm.hotelNameObservable.subscribe(toolbarTitle)
         vm.hotelRatingObservable.subscribe(toolBarRating)
@@ -118,11 +118,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.numberOfReviewsObservable.subscribe(numberOfReviews)
         vm.hotelLatLngObservable.subscribe { values -> hotelLatLng = values }
 
-        vm.roomResponseListObservable.subscribe { roomList ->
+        vm.roomResponseListObservable.subscribe { roomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             roomContainer.removeAllViews()
-            roomList.forEachIndexed { roomResponseIndex, room ->
+            roomList.first.forEachIndexed { roomResponseIndex, room ->
                 val view = HotelRoomRateView(getContext(), roomContainer, RoomSelected.observer)
-                view.viewmodel = HotelRoomRateViewModel(getContext(), roomList.get(roomResponseIndex), roomResponseIndex)
+                view.viewmodel = HotelRoomRateViewModel(getContext(), roomList.first.get(roomResponseIndex), roomResponseIndex, roomList.second.get(roomResponseIndex))
                 roomContainer.addView(view)
             }
             //setting first room in expanded state as some etp hotel offers are less compared to pay now offers
@@ -134,25 +134,38 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             etpInfoContainer.setVisibility(View.VISIBLE)
         }
 
-        vm.etpRoomResponseListObservable.subscribe { etpRoomList ->
+        vm.etpRoomResponseListObservable.subscribe { etpRoomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             roomContainer.removeAllViews()
-            etpRoomList.forEachIndexed { roomResponseIndex, room ->
+            etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
                 val view = HotelRoomRateView(getContext(), roomContainer, RoomSelected.observer)
-                view.viewmodel = HotelRoomRateViewModel(getContext(), etpRoomList.get(roomResponseIndex), roomResponseIndex)
+                view.viewmodel = HotelRoomRateViewModel(getContext(), etpRoomList.first.get(roomResponseIndex), roomResponseIndex, etpRoomList.second.get(roomResponseIndex))
                 view.viewmodel.payLaterObserver.onNext(Unit)
                 roomContainer.addView(view)
             }
             //setting first room in expanded state as some etp hotel offers are less compared to pay now offers
             lastExpanded = 0
         }
+        
         ratingContainer.subscribeOnClick(vm.reviewsClickedSubject)
         mapClickContainer.subscribeOnClick(vm.mapClickedSubject)
         hotelDescription.subscribeOnClick(vm.readMore)
         etpRadioGroup.subscribeOnCheckedChange(etpContainerObserver)
-        renovationContainer.subscribeOnClick(vm.renovationClickContainerObserver)
+        renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
+        etpInfoContainer.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
+
         shareHotelContainer.subscribeOnClick(vm.shareHotelClickedSubject)
 
         vm.startMapWithIntentObservable.subscribe { intent -> getContext().startActivity(intent) }
+
+        vm.propertyInfoListObservable.subscribe { infoList ->
+            propertyTextContainer.removeAllViews()
+            for (info in infoList) {
+                val view = HotelInfoView(getContext())
+                view.setText(info.name, info.content)
+                propertyTextContainer.addView(view)
+            }
+
+        }
 
         //getting the map
         mapView.onCreate(null)
@@ -168,16 +181,16 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         toolBarBackground.setAlpha(0f)
         priceViewAlpha(1f)
         resortFeeWidget.setVisibility(View.GONE)
-        commonAmenityContainer.setVisibility(View.GONE)
+        commonAmenityText.setVisibility(View.GONE)
     }
 
     val etpContainerObserver: Observer<Int> = endlessObserver { checkedId ->
         if (checkedId == R.id.radius_pay_now) {
             //pay now show all the offers
-            viewmodel.roomResponseListObservable.onNext(viewmodel.hotelOffersResponse.hotelRoomResponse)
+            viewmodel.roomResponseListObservable.onNext(Pair(viewmodel.hotelOffersResponse.hotelRoomResponse, viewmodel.uniqueValueAddForRooms))
         } else {
             //pay later show only etp offers
-            viewmodel.etpRoomResponseListObservable.onNext(viewmodel.etpOffersList)
+            viewmodel.etpRoomResponseListObservable.onNext(Pair(viewmodel.etpOffersList, viewmodel.etpUniqueValueAddForRooms))
         }
     }
 
@@ -205,8 +218,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             priceContainer.getLocationOnScreen(priceContainerLocation)
             if (priceContainerLocation[1] <= 0) {
                 toolBarBackground.setAlpha(1.0f)
-            }
-            else {
+            } else {
                 toolBarBackground.setAlpha(0f)
             }
 
@@ -215,8 +227,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
             if (shouldShowResortView()) {
                 resortFeeWidget.setVisibility(View.VISIBLE)
-            }
-            else {
+            } else {
                 resortFeeWidget.setVisibility(View.GONE)
             }
         }
