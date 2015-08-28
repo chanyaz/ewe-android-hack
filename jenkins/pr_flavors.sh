@@ -10,7 +10,6 @@ TERM=dumb
 build() {
     ./gradlew --no-daemon -PrunProguard=false \
         "clean" \
-        "assembleExpediaDebug" "assembleExpediaDebugAndroidTest" \
         "assembleTravelocityDebug" \
         "assembleAirAsiaGoDebug" \
         "assembleVoyagesDebug" \
