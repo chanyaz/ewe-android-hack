@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center|left"
                 android:singleLine="true"
+                android:textColor="@color/cars_lx_checkout_button_text_color"
                 android:textSize="16sp"
                 app:textStyle="medium" />
 
@@ -40,8 +41,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center|left"
                 android:singleLine="true"
-                android:text=""
-                android:textSize="13sp" />
+                android:textColor="@color/cars_lx_checkout_button_text_color"
+                android:textSize="13sp"
+                app:textStyle="normal" />
         </LinearLayout>
 
         <com.expedia.bookings.widget.ContactDetailsCompletenessStatusImageView

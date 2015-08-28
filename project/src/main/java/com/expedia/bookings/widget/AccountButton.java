@@ -178,7 +178,7 @@ public class AccountButton extends LinearLayout {
 			mLoginContainer.setBackgroundResource(R.drawable.card_background);
 			mLoginTextView.setBackgroundResource(bgResourceId);
 			mLoginTextView.setGravity(Gravity.LEFT);
-			mLoginTextView.setTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
+			mLoginTextView.setTextColor(getResources().getColor(R.color.cars_lx_checkout_button_text_color));
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.expedia, 0, 0, 0);
 			int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
 			mLoginTextView.setPadding(padding, padding, padding, padding);
