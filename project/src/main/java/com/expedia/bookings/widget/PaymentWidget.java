@@ -58,10 +58,10 @@ public class PaymentWidget extends ExpandableCardView {
 	ViewGroup paymentOptionsContainer;
 
 	@InjectView(R.id.payment_option_credit_debit)
-	Button paymentOptionCreditDebitCard;
+	TextView paymentOptionCreditDebitCard;
 
 	@InjectView(R.id.payment_option_google_wallet)
-	Button paymentOptionGoogleWallet;
+	TextView paymentOptionGoogleWallet;
 
 	@InjectView(R.id.section_billing_info)
 	public SectionBillingInfo sectionBillingInfo;

@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.hotels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.expedia.bookings.utils.Strings;
@@ -60,6 +61,18 @@ public class HotelOffersResponse {
 
 		public boolean isMerchant() {
 			return Strings.equals(supplierType, "E") || Strings.equals(supplierType, "MERCHANT");
+		}
+
+		public String getFormattedBedNames() {
+			ArrayList<String> bedNames = new ArrayList<String>();
+
+			if (bedTypes != null) {
+				for (BedTypes bed : bedTypes) {
+					bedNames.add(bed.description);
+				}
+			}
+
+			return Strings.joinWithoutEmpties(", ", bedNames);
 		}
 	}
 

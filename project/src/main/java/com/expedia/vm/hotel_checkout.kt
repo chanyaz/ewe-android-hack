@@ -104,7 +104,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             val currencyCode = room.rateInfo.chargeableRateInfo.currencyCode
 
             roomDescriptions.onNext(room.roomTypeDescription)
-            bedDescriptions.onNext(room.rateDescription)
+            bedDescriptions.onNext(room.getFormattedBedNames())
 
             numNights.onNext(context.getResources().getQuantityString(R.plurals.number_of_nights, it.numberOfNights.toInt(), it.numberOfNights.toInt()))
             numGuests.onNext(context.getResources().getQuantityString(R.plurals.number_of_guests, it.adultCount.toInt(), it.adultCount.toInt()))
