@@ -63,12 +63,13 @@ public class HotelListAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         if (viewType == HEADER_VIEW) {
-            val newView = View(parent.getContext())
-            var lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.height = if (ExpediaBookingApp.isAutomation()) { 0 } else { parent.getHeight() }
-            newView.setLayoutParams(lp)
-            parent.addView(newView)
-            return HeaderViewHolder(newView)
+            val header = View(parent.getContext())
+
+            var lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            lp.height = if (ExpediaBookingApp.isAutomation()) 0 else parent.getHeight()
+            header.setLayoutParams(lp)
+
+            return HeaderViewHolder(header)
         } else if (viewType == LOADING_VIEW) {
             val view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_loading_cell, parent, false)
             return LoadingViewHolder(view)
@@ -125,15 +126,15 @@ public class HotelListAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         }
 
         override fun onBitmapLoaded() {
-
+            // ignore
         }
 
         override fun onBitmapFailed() {
-
+            // ignore
         }
 
         override fun onPrepareLoad() {
-
+            // ignore
         }
     }
 

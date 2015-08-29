@@ -13,7 +13,7 @@ public class HotelOffersResponse {
 	public String firstHotelOverview;
 	public String hotelAddress;
 	public List<HotelAmenities> hotelAmenities;
-	public HotelAmenitiesText hotelAmenitiesText;
+	public HotelText hotelAmenitiesText;
 	public String hotelCity;
 	public String hotelCountry;
 	public Double hotelGuestRating;
@@ -22,7 +22,6 @@ public class HotelOffersResponse {
 	public List<HotelRoomResponse> hotelRoomResponse;
 
 	public Double hotelStarRating;
-	public String longDescription;
 
 	public Integer totalReviews;
 	public Integer totalRecommendations;
@@ -36,7 +35,7 @@ public class HotelOffersResponse {
 		public String description;
 	}
 
-	public static class HotelAmenitiesText {
+	public static class HotelText {
 		public String content;
 		public String name;
 	}

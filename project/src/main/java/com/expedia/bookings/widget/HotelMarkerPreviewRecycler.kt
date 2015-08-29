@@ -24,17 +24,21 @@ public class HotelMarkerPreviewRecycler(context: Context, attrs: AttributeSet) :
     }
 
     override fun fling(velocityX: Int, velocityY: Int): Boolean {
-        snapTo(velocityX)
 
-        val sortedHotelList: ArrayList<HotelResultsPresenter.MarkerDistance> = (getAdapter() as HotelMarkerPreviewAdapter).sortedHotelList
-        var position : Int = 0
-        // Fling right, else left
+        var position : Int
+
         if (velocityX < 0) {
             position: Int = layoutManager.findFirstVisibleItemPosition()
         } else {
             position: Int = layoutManager.findLastVisibleItemPosition()
         }
 
+        val nextView: View? = layoutManager.findViewByPosition(position)
+        if (nextView != null) {
+            smoothScrollBy(nextView.getLeft(), 0)
+        }
+
+        val sortedHotelList: ArrayList<HotelResultsPresenter.MarkerDistance> = (getAdapter() as HotelMarkerPreviewAdapter).sortedHotelList
         val marker = sortedHotelList.get(position).marker
 
         // Reset markers
@@ -47,26 +51,4 @@ public class HotelMarkerPreviewRecycler(context: Context, attrs: AttributeSet) :
 
         return true
     }
-
-    private fun snapTo(velocityX: Int) {
-        val position: Int
-        val v: View?
-
-        if (velocityX < 0) {
-            position = layoutManager.findFirstVisibleItemPosition()
-            v = layoutManager.findViewByPosition(position)
-            if (v == null) {
-                return
-            }
-        } else {
-            position = layoutManager.findLastVisibleItemPosition()
-            v = layoutManager.findViewByPosition(position)
-            if (v == null) {
-                return
-            }
-        }
-
-        smoothScrollBy(v.getLeft(), 0)
-    }
-
 }

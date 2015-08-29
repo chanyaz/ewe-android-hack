@@ -77,7 +77,6 @@ public class Property implements JSONable {
 	private String mName;
 	private String mPropertyId;
 	private Location mLocation;
-	private String mDescriptionText;
 	private HotelMedia mThumbnail;
 	private List<HotelMedia> mHotelMedia;
 	private String mLocalPhone;
@@ -197,18 +196,6 @@ public class Property implements JSONable {
 
 	public void setLocation(Location location) {
 		this.mLocation = location;
-	}
-
-	public String getDescriptionText() {
-		return mDescriptionText;
-	}
-
-	public void setDescriptionText(String descriptionText) {
-		this.mDescriptionText = descriptionText;
-	}
-
-	public boolean hasDescriptionText() {
-		return this.mDescriptionText != null && this.mDescriptionText.length() > 0;
 	}
 
 	public boolean isFromSearchByHotel() {
@@ -577,12 +564,6 @@ public class Property implements JSONable {
 		if (property.hasAmenitiesSet()) {
 			this.setAmenityMask(property.getAmenityMask());
 		}
-		if (property.getDescriptionText() != null) {
-			if (this.mDescriptionText == null
-					|| this.mDescriptionText.length() < property.getDescriptionText().length()) {
-				this.setDescriptionText(property.getDescriptionText());
-			}
-		}
 		if (property.getMediaList() != null) {
 			this.setMediaList(property.getMediaList());
 		}
@@ -616,7 +597,6 @@ public class Property implements JSONable {
 		mLocation.setLatitude(offer.latitude);
 		mLocation.setLongitude(offer.longitude);
 
-		mDescriptionText = offer.shortDescription;
 		String thumbnailUrl = offer.largeThumbnailUrl;
 		if (!TextUtils.isEmpty(thumbnailUrl) && !thumbnailUrl.startsWith("http://")) {
 			mThumbnail = new HotelMedia(Images.getMediaHost() + thumbnailUrl);
@@ -660,7 +640,6 @@ public class Property implements JSONable {
 			obj.putOpt("name", mName);
 			obj.putOpt("propertyId", mPropertyId);
 			JSONUtils.putJSONable(obj, "location", mLocation);
-			obj.putOpt("description", mDescriptionText);
 			JSONUtils.putJSONable(obj, "thumbnail", mThumbnail);
 			JSONUtils.putJSONableList(obj, "media", mHotelMedia);
 			obj.putOpt("localPhone", mLocalPhone);
@@ -712,7 +691,6 @@ public class Property implements JSONable {
 		mName = obj.optString("name", null);
 		mPropertyId = obj.optString("propertyId", null);
 		mLocation = JSONUtils.getJSONable(obj, "location", Location.class);
-		mDescriptionText = obj.optString("description", null);
 		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", HotelMedia.class);
 		mHotelMedia = JSONUtils.getJSONableList(obj, "media", HotelMedia.class);
 		mLocalPhone = obj.optString("localPhone", null);
