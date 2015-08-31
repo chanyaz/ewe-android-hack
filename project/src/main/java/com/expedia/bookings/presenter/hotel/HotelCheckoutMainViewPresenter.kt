@@ -1,12 +1,14 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
+import android.content.Intent
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripBucketItemHotelV2
@@ -15,6 +17,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
@@ -81,6 +84,13 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         couponCardView.setExpanded(false)
         slideWidget.resetSlider()
         slideToContainer.setVisibility(View.INVISIBLE)
+        legalInformationText.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement())
+        legalInformationText.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+                val intent = Intent(getContext(), javaClass<HotelRulesActivity>())
+                getContext().startActivity(intent)
+            }
+        })
         if (User.isLoggedIn(getContext())) {
             loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness())
         } else {
