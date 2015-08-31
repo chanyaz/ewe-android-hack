@@ -37,13 +37,28 @@
                 android:id="@+id/children_minus"
                 style="@style/HotelTravelerIcon.Minus" />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/children"
+            <LinearLayout
+                android:id="@+id/children_container"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/hotel_traveler_plus_minus_size"
                 android:layout_weight="5"
                 android:gravity="center"
-                android:textColor="@color/cars_actionbar_text_color" />
+                android:orientation="vertical">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/children"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/cars_actionbar_text_color" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/children_age_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/children_age_label"
+                    android:textSize="12sp"
+                    android:textColor="@color/hotel_cell_secondary_text_color" />
+            </LinearLayout>
 
             <ImageButton
                 android:id="@+id/children_plus"
