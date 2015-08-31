@@ -15,6 +15,7 @@ import android.view.View;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TravelocityLocaleChangeReceiver;
+import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
@@ -295,5 +296,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public int getFlightSearchProgressImageResId() {
 		return R.drawable.search_progress_static_flight_tvly;
+	}
+
+	@Override
+	public HotelFilter.Sort getDefaultSort() {
+		return HotelFilter.Sort.POPULAR;
 	}
 }

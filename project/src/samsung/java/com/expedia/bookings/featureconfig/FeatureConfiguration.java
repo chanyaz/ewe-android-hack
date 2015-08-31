@@ -17,6 +17,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AppIntroActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
@@ -295,5 +296,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public int getFlightSearchProgressImageResId() {
 		return 0;
+	}
+
+	@Override
+	public HotelFilter.Sort getDefaultSort() {
+		return HotelFilter.Sort.DEALS;
 	}
 }

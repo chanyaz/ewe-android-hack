@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import android.content.Context;
 import android.view.View;
 
+import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
 import com.mobiata.android.fragment.AboutSectionFragment;
@@ -140,4 +141,6 @@ public interface IProductFlavorFeatureConfiguration {
 	 * return 0 to enable Plane window view animation on flight search loading screen, currently its enabled only for Samsung and Expedia
 	 */
 	int getFlightSearchProgressImageResId();
+
+	HotelFilter.Sort getDefaultSort();
 }
