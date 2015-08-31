@@ -322,8 +322,6 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		JSONObject chargeableRateInfo = rateInfo.optJSONObject("chargeableRateInfo");
 
 		rate.setRateKey(jsonRate.getString("productKey"));
-		rate.setRatePlanCode(jsonRate.optString("rateCode", null));
-		rate.setRoomTypeCode(jsonRate.optString("roomTypeCode", null));
 		rate.setAirAttached(chargeableRateInfo.optBoolean("airAttached", false));
 		rate.setRoomDescription(JSONUtils.getNormalizedString(jsonRate, "roomTypeDescription"));
 		rate.setRoomLongDescription(JSONUtils.optNormalizedString(jsonRate, "roomLongDescription", null));
@@ -331,7 +329,6 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		rate.setIsPayLater(jsonRate.optBoolean("isPayLater", false));
 		rate.setRateChange(rateInfo.optBoolean("rateChange", false));
 		rate.setNumRoomsLeft(jsonRate.optInt("currentAllotment", 0));
-		rate.setNumberOfNights(numberOfNights);
 
 		rate.setHasFreeCancellation(jsonRate.optBoolean("hasFreeCancellation", false));
 		if (jsonRate.has("freeCancellationWindowDate")) {
@@ -351,10 +348,6 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		// The rate info passed to merchant vs. agent hotels is very different, so
 		// handle the parsing separately here
 		Money averageRate = ParserUtils.createMoney(chargeableRateInfo.getString("averageRate"), currencyCode);
-		rate.setDailyAmountBeforeTax(averageRate);
-		rate.setAverageRate(averageRate);
-		rate.setAverageBaseRate(ParserUtils.createMoney(chargeableRateInfo.getString("averageBaseRate"),
-			currencyCode));
 		rate.setDiscountPercent(chargeableRateInfo.getDouble("discountPercent"));
 
 		Money totalMandatoryFees = ParserUtils.createMoney(
@@ -371,7 +364,6 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		Money totalBeforeTax = total.copy();
 		totalBeforeTax.subtract(surchargeTotalForEntireStay);
 
-		rate.setTotalAmountBeforeTax(totalBeforeTax);
 		rate.setTotalAmountAfterTax(total);
 		rate.setTotalSurcharge(surchargeTotalForEntireStay);
 
@@ -396,11 +388,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		rate.setDepositAmount(depositAmount);
 		rate.setDepositToShowUsers(depositToShowUsers);
 		rate.setPriceToShowUsers(priceToShowUsers);
-		rate.setStrikethroughPriceToShowUsers(strikethroughPriceToShowUsers);
-
-		if (jsonRate.has("taxRate")) {
-			rate.setTaxesAndFeesPerRoom(ParserUtils.createMoney(jsonRate.optString("taxRate"), currencyCode));
-		}
+		rate.setStrikeThroughPriceToShowUsers(strikethroughPriceToShowUsers);
 
 		JSONArray nightlyRates = chargeableRateInfo.optJSONArray("nightlyRatesPerRoom");
 		if (mSearchParams != null && nightlyRates != null) {

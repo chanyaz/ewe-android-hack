@@ -149,7 +149,7 @@ public class CarPresenter extends Presenter {
 	@Subscribe
 	public void onShowParamsOverlay(Events.CarsGoToOverlay event) {
 		show(new ParamsOverlayState());
-		OmnitureTracking.trackAppCarSearchBox(getContext());
+		OmnitureTracking.trackAppCarSearchBox();
 	}
 
 	@Subscribe

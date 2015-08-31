@@ -148,7 +148,7 @@ public class ItinCardFragment extends Fragment implements PopupMenu.OnMenuItemCl
 
 	@Override
 	public void onShareTargetSelected(ShareView view, Intent intent) {
-		OmnitureTracking.trackItinShareNew(getActivity(), mCurrentData.getTripComponentType(), intent);
+		OmnitureTracking.trackItinShareNew(mCurrentData.getTripComponentType(), intent);
 	}
 
 }

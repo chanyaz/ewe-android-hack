@@ -218,7 +218,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 			TripBucketItem item = (mLob == LineOfBusiness.FLIGHTS ? Db.getTripBucket().getFlight() : Db.getTripBucket().getHotel());
 			if (item != null) {
 				tripBucketItemRemoved(item);
-				OmnitureTracking.trackTripBucketItemRemoval(getActivity(), mLob);
+				OmnitureTracking.trackTripBucketItemRemoval(mLob);
 			}
 		}
 	};
@@ -286,7 +286,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	public void onUndo(Parcelable token) {
 		// Get item's LOB
 		LineOfBusiness itemLob = JSONUtils.getEnum((Bundle) token, "lob", LineOfBusiness.class);
-		OmnitureTracking.trackTripBucketItemUndoRemoval(getActivity(), itemLob);
+		OmnitureTracking.trackTripBucketItemUndoRemoval(itemLob);
 		// Add item back
 		if (itemLob == LineOfBusiness.FLIGHTS) {
 			TripBucketItemFlight flight = JSONUtils.getJSONable((Bundle) token, "item", TripBucketItemFlight.class);

@@ -207,7 +207,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		@Override
 		public void onClick(View v) {
 			Events.post(new Events.LaunchSeeAllButtonPressed(AnimUtils.createActivityScaleBundle(v)));
-			OmnitureTracking.trackNewLaunchScreenSeeAllClick(v.getContext());
+			OmnitureTracking.trackNewLaunchScreenSeeAllClick();
 		}
 	};
 
@@ -323,7 +323,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 
 		private void bindHotelData(Hotel hotel, Context context, boolean fullWidth) {
-			title.setText(hotel.name);
+			title.setText(hotel.localizedName);
 			subtitle.setVisibility(View.GONE);
 			ratingInfo.setVisibility(View.VISIBLE);
 			noRatingText.setVisibility(View.GONE);
@@ -422,7 +422,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		public void onClick(View view) {
 			Hotel selectedHotel = (Hotel) view.getTag();
 			Events.post(new Events.LaunchListItemSelected(selectedHotel));
-			OmnitureTracking.trackNewLaunchScreenTileClick(view.getContext(), false);
+			OmnitureTracking.trackNewLaunchScreenTileClick(false);
 		}
 
 		@Override
@@ -501,7 +501,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			Bundle animOptions = AnimUtils.createActivityScaleBundle(view);
 			CollectionLocation location = (CollectionLocation) view.getTag();
 			Events.post(new Events.LaunchCollectionItemSelected(location, animOptions));
-			OmnitureTracking.trackNewLaunchScreenTileClick(view.getContext(), true);
+			OmnitureTracking.trackNewLaunchScreenTileClick(true);
 		}
 
 		@Override

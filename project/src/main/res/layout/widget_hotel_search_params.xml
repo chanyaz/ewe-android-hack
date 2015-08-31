@@ -67,9 +67,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ToggleButton
+                <Button
                     android:id="@+id/select_date"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_below="@id/location_container"
                     android:layout_margin="0dp"
@@ -80,26 +80,30 @@
                     android:gravity="left|center_vertical"
                     android:paddingLeft="20dp"
                     android:textAllCaps="false"
-                    android:textColor="@drawable/cars_text_selector"
-                    android:textOff="@string/select_dates_proper_case"
-                    android:textOn="@string/select_dates_proper_case"
+                    android:text="@string/select_dates"
+                    android:textColor="#FFFFFF"
                     android:textSize="15sp"
-                    android:textStyle="normal" />
+                    android:textStyle="normal" >
+                </Button>
+            </LinearLayout>
 
-                <ToggleButton
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
                     android:id="@+id/select_traveler"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="?android:attr/selectableItemBackground"
                     android:drawableLeft="@drawable/traveler"
                     android:drawablePadding="24dp"
                     android:gravity="left|center_vertical"
                     android:paddingLeft="20dp"
-                    android:paddingRight="16dp"
                     android:textAllCaps="false"
-                    android:textColor="@drawable/cars_text_selector"
-                    android:textOff="1 Adult"
-                    android:textOn="1 Adult"
+                    android:text="@string/hotel_search_guest_default_text"
+                    android:textColor="#FFFFFF"
                     android:textSize="15sp"
                     android:textStyle="normal" />
             </LinearLayout>

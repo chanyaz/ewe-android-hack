@@ -19,6 +19,7 @@ import android.widget.ToggleButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.RateTerm;
@@ -39,6 +40,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.subjects.PublishSubject;
 
 public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.ViewHolder> {
 	// Design stuff
@@ -58,8 +60,10 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 	private int mLastExpanded = 0;
 	private static final int NONE_EXPANDED = -1;
 	private static final float MAP_ZOOM_LEVEL = 12;
+	PublishSubject<SearchCarOffer> subject;
 
-	public CarOffersAdapter(Context context) {
+	public CarOffersAdapter(Context context, PublishSubject<SearchCarOffer> subject) {
+		this.subject = subject;
 		sideExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
 		topExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
 		sideCollapsed = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
@@ -178,11 +182,14 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 				ratePrice.setText(
 					mContext.getString(R.string.car_details_TEMPLATE,
 						CarDataUtils.getStringTemplateForRateTerm(mContext, offer.fare.rateTerm),
-						offer.fare.rate.getFormattedMoney()));
+						Money.getFormattedMoneyFromAmountAndCurrencyCode(offer.fare.rate.amount,
+							offer.fare.rate.getCurrency(), offer.fare.rate.F_NO_DECIMAL)));
 				ratePrice.setVisibility(View.VISIBLE);
 			}
 			totalPrice.setText(
-				totalPrice.getContext().getString(R.string.cars_total_template, offer.fare.total.getFormattedMoney()));
+				totalPrice.getContext().getString(R.string.cars_total_template,
+					Money.getFormattedMoneyFromAmountAndCurrencyCode(offer.fare.total.amount,
+						offer.fare.total.getCurrency(), Money.F_NO_DECIMAL)));
 			addressLineOne.setText(offer.pickUpLocation.getAddressLine1());
 			addressLineTwo.setText(offer.pickUpLocation.getAddressLine2());
 			mapText.setText(offer.pickUpLocation.airportInstructions);
@@ -199,7 +206,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 					else {
 						offer.isToggled = false;
 						onItemExpanded(getAdapterPosition());
-						OmnitureTracking.trackAppCarViewDetails(mContext);
+						OmnitureTracking.trackAppCarViewDetails();
 					}
 				}
 			});
@@ -245,6 +252,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			if (isChecked) {
 				mapView.onCreate(null);
 				mapView.getMapAsync(this);
+				subject.onNext(offer);
 			}
 		}
 
@@ -271,7 +279,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 						offer.pickUpLocation.longitude);
 					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
 					mContext.startActivity(intent);
-					OmnitureTracking.trackAppCarMapClick(mContext);
+					OmnitureTracking.trackAppCarMapClick();
 				}
 			});
 		}

@@ -191,7 +191,6 @@ public class LocalizationTests extends AndroidTestCase {
 			testPlural("number_of_nights");
 
 			// AndroidUtils
-			testString("MailChimpFailureReasonTemplate", "Failure reason");
 			testString("ts_minutes", 5);
 			testString("ts_hours", 5);
 			testString("ts_days", 5);

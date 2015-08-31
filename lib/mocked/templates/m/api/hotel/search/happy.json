@@ -21,6 +21,7 @@
             "latitude": "37.78458",
             "locationDescription": "Union Square - Convention Center",
             "longitude": "-122.40854",
+            "locationId":"800129",
             "lowRateInfo": {
                 "averageBaseRate": "109.00",
                 "averageRate": "109.00",
@@ -78,6 +79,7 @@
             "latitude": "37.78458",
             "locationDescription": "Union Square - Convention Center",
             "longitude": "-122.40854",
+            "locationId":"800129",
             "lowRateInfo": {
                 "averageBaseRate": "1029.00",
                 "averageRate": "1029.00",
@@ -133,6 +135,7 @@
             "latitude": "37.726088",
             "locationDescription": "Union Square",
             "longitude": "-122.198956",
+            "locationId":"800129",
             "lowRateInfo": {
                 "averageBaseRate": "209.00",
                 "averageRate": "209.00",
@@ -187,6 +190,7 @@
             "latitude": "37.78458",
             "locationDescription": "Union Square - Convention Center",
             "longitude": "-122.40854",
+            "locationId":"800129",
             "lowRateInfo": {
                 "averageBaseRate": "109.00",
                 "averageRate": "109.00",
@@ -241,6 +245,7 @@
             "latitude": "37.78458",
             "locationDescription": "Union Square - Convention Center",
             "longitude": "-122.40854",
+            "locationId":"800129",
             "lowRateInfo": {
                 "averageBaseRate": "109.00",
                 "averageRate": "109.00",
@@ -295,6 +300,7 @@
             "latitude": "37.78458",
             "locationDescription": "Union Square - Convention Center",
             "longitude": "-122.40854",
+            "locationId":"800129",
             "lowRateInfo": {
                 "averageBaseRate": "109.00",
                 "averageRate": "109.00",
@@ -349,6 +355,7 @@
             "latitude": "37.78458",
             "locationDescription": "Union Square - Convention Center",
             "longitude": "-122.40854",
+            "locationId":"800129",
             "lowRateInfo": {
                 "averageBaseRate": "109.00",
                 "averageRate": "109.00",
@@ -403,6 +410,7 @@
             "latitude": "37.78458",
             "locationDescription": "Union Square - Convention Center",
             "longitude": "-122.40854",
+            "locationId":"800129",
             "lowRateInfo": {
                 "averageBaseRate": "284.40",
                 "averageRate": "241.40",
@@ -463,6 +471,7 @@
             "latitude": "37.78458",
             "locationDescription": "Union Square - Convention Center",
             "longitude": "-122.40854",
+            "locationId":"800129",
             "lowRateInfo": {
                 "averageBaseRate": "109.00",
                 "averageRate": "109.00",
@@ -517,6 +526,7 @@
             "latitude": "37.78458",
             "locationDescription": "Union Square - Convention Center",
             "longitude": "-122.40854",
+            "locationId":"800129",
             "lowRateInfo": {
                 "averageBaseRate": "109.00",
                 "averageRate": "109.00",
@@ -550,6 +560,62 @@
             "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_n.jpg",
             "totalRecommendations": "0",
             "totalReviews": "100"
+        },
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": false,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "hotel_renovation_notice",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "109.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "hotel_renovation_notice",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_n.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100"
         }
-    ]
+    ],
+    "allNeighborhoodsInSearchRegion":[{"name":"San Francisco (QSF-All Airports)","id":6139039}]
 }

@@ -19,4 +19,41 @@
         android:layout_gravity="top"
         android:minHeight="?attr/actionBarSize" />
 
+    <LinearLayout
+        android:id="@+id/preview_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/preview_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@drawable/map_shadow" />
+
+        <com.expedia.bookings.widget.HotelMarkerPreviewRecycler
+            android:id="@+id/hotel_marker_preview"
+            android:layout_width="match_parent"
+            android:layout_height="90dp" />
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/map_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/fab_map" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/list_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="106dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/fab_list" />
+
 </merge>

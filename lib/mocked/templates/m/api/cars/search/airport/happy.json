@@ -48,7 +48,7 @@
                 "childCapacity": 0,
                 "drive": "TWO_WHEEL_DRIVE",
                 "fuel": "UNKNOWN",
-                "hasAirConditioning": true,
+                "hasAirConditioning": false,
                 "largeLuggageCapacity": 2,
                 "makes": [
                     "Toyota Yaris"

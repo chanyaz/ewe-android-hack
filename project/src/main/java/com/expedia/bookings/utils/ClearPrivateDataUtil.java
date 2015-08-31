@@ -12,7 +12,6 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.model.DismissedItinButton;
-import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.mobiata.android.Log;
@@ -49,9 +48,6 @@ public class ClearPrivateDataUtil {
 
 		// Clear suggestions from tablet search
 		SuggestionProvider.clearRecents(context);
-
-		// Clear previous hotel searches
-		Search.deleteAll();
 
 		// Tablet launch tile stuff
 		Sp.clear(context);

@@ -4,9 +4,9 @@ import android.app.Instrumentation;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -14,8 +14,8 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -27,12 +27,24 @@ public class CheckoutViewModel {
 		return onView(withId(R.id.main_contact_info_card_view));
 	}
 
+	public static ViewInteraction summaryView() {
+		return onView(withId(R.id.summary_container));
+	}
+
+	public static ViewInteraction paymentInfo() {
+		return onView(withId(R.id.payment_info_card_view));
+	}
+
+	public static ViewInteraction scrollView() {
+		return onView(withId(R.id.checkout_scroll));
+	}
+
 	public static void clickDriverInfo() {
 		driverInfo().perform(scrollTo(), click());
 	}
 
 	public static void clickPaymentInfo() {
-		onView(withId(R.id.payment_info_card_view)).perform(scrollTo(), click());
+		paymentInfo().perform(scrollTo(), click());
 	}
 
 	public static ViewInteraction userName() {
@@ -125,6 +137,10 @@ public class CheckoutViewModel {
 
 	public static void clickDone() {
 		onView(withId(R.id.menu_done)).perform(click());
+	}
+
+	public static void clickCheckout() {
+		onView(withId(R.id.menu_checkout)).perform(click());
 	}
 
 	public static void enterLoginDetails() {

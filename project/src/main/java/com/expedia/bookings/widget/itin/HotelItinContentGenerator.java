@@ -23,6 +23,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.FailedUrlCache;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripHotel;
@@ -148,8 +149,10 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 			vh = new TitleViewHolder();
 			vh.mHotelNameTextView = Ui.findView(convertView, R.id.hotel_name_text_view);
-			vh.mHotelRatingBar = Ui.findView(convertView, R.id.hotel_rating_bar);
+			boolean shouldShowCircleForRatings = PointOfSale.getPointOfSale().shouldShowCircleForRatings();
+			vh.mHotelRatingBar = Ui.findView(convertView, shouldShowCircleForRatings ? R.id.hotel_rating_bar_circles :  R.id.hotel_rating_bar);
 
+			vh.mHotelRatingBar.setVisibility(View.VISIBLE);
 			convertView.setTag(vh);
 		}
 		else {
@@ -334,7 +337,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 						final Intent intent = getItinCardData().getDirectionsIntent();
 						if (intent != null) {
 							NavUtils.startActivitySafe(getContext(), intent);
-							OmnitureTracking.trackItinHotelDirections(getContext());
+							OmnitureTracking.trackItinHotelDirections();
 						}
 					}
 				});
@@ -352,7 +355,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			public void onClick(final View v) {
 				if (phone != null) {
 					SocialUtils.call(getContext(), phone);
-					OmnitureTracking.trackItinHotelCall(getContext());
+					OmnitureTracking.trackItinHotelCall();
 				}
 			}
 		};

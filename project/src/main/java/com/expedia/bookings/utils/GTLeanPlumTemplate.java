@@ -67,7 +67,7 @@ public class GTLeanPlumTemplate extends BaseMessageDialog {
 							AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.MyThemeLeamPLum));
 							LayoutInflater inflater = activity.getLayoutInflater();
 
-							OmnitureTracking.trackLeanPlumInAppMessage(activity, actionContext.stringNamed(CAMPAIGN_TEXT));
+							OmnitureTracking.trackLeanPlumInAppMessage(actionContext.stringNamed(CAMPAIGN_TEXT));
 							// Inflate and set the layout for the dialog
 							// Pass null as the parent view because its going in the dialog layout
 							View view = inflater.inflate(R.layout.gt_leanplum_dialog, null);

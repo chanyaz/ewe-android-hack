@@ -1,10 +1,15 @@
 package com.expedia.bookings.section;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,15 +18,17 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 
 public class CountrySpinnerAdapter extends BaseAdapter {
-	private CountryNameData[] mCountries;
+	private List<CountryNameData> mCountries;
 	private CountryDisplayType mDisplayType;
 
 	private Context mContext;
 	private int mItemResId = View.NO_ID;
 	private int mDropDownResId = View.NO_ID;
+	private boolean mShowEmptyRow = false;
 
 	public enum CountryDisplayType {
 		FULL_NAME,
@@ -34,18 +41,19 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 	}
 
 	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int itemResId) {
-		this(context, displayType, itemResId, View.NO_ID);
+		this(context, displayType, itemResId, View.NO_ID, false);
 	}
 
-	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int itemResId, int dropdownresource) {
+	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int itemResId, int dropdownresource, boolean showEmptyRow) {
 		super();
-		init(context, displayType, itemResId, dropdownresource);
+		init(context, displayType, itemResId, dropdownresource, showEmptyRow);
 	}
 
-	private void init(Context context, CountryDisplayType displayType, int itemResId, int dropDownResId) {
+	private void init(Context context, CountryDisplayType displayType, int itemResId, int dropDownResId, boolean showEmptyRow) {
 		mContext = context;
 		mItemResId = itemResId;
 		mDropDownResId = dropDownResId;
+		mShowEmptyRow = showEmptyRow;
 		setDisplayType(displayType);
 	}
 
@@ -62,15 +70,18 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		mCountries = buildCountriesDataSet(countryNames, twoLetterCountryCodes, threeLetterCountryCodes);
 
 		CountryNameDataComparator comparator = new CountryNameDataComparator(displayType);
-		Arrays.sort(mCountries, comparator);
+		Collections.sort(mCountries, comparator);
+		if (mShowEmptyRow) {
+			mCountries.add(0, new CountryNameData("", "", ""));
+		}
 	}
 
-	protected CountryNameData[] buildCountriesDataSet(String[] countryNames, String[] twoLetterCountryCodes,
+	protected List<CountryNameData> buildCountriesDataSet(String[] countryNames, String[] twoLetterCountryCodes,
 		String[] threeLetterCountryCodes) {
-		int countriesLength = countryNames.length;
-		CountryNameData[] mCountries = new CountryNameData[countriesLength];
-		for (int i = 0; i < countriesLength; i++) {
-			mCountries[i] = new CountryNameData(countryNames[i], twoLetterCountryCodes[i], threeLetterCountryCodes[i]);
+		List<CountryNameData> mCountries = new ArrayList<CountryNameData>();
+		for (int i = 0; i < countryNames.length; i++) {
+			mCountries.add(new CountryNameData(countryNames[i], twoLetterCountryCodes[i],
+				threeLetterCountryCodes[i]));
 		}
 
 		return mCountries;
@@ -78,7 +89,7 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mCountries.length;
+		return mCountries.size();
 	}
 
 	@Override
@@ -93,12 +104,40 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		return getViewImpl(getItem(position), convertView, parent, mItemResId);
+		View viewImpl = getViewImpl(mShowEmptyRow ? getEmptyText(getItem(position)) : getItem(position), convertView, parent, mItemResId);
+
+		boolean noCountrySelected = (position == 0);
+		if (mShowEmptyRow) {
+			drawErrorIcon(viewImpl, noCountrySelected);
+		}
+		return viewImpl;
+	}
+
+	private CharSequence getEmptyText(String text) {
+		SpannableBuilder span = new SpannableBuilder();
+		span.append(mContext.getResources().getString(R.string.passport_country), new ForegroundColorSpan(0xFF808080));
+		span.append(" ");
+		span.append(text);
+		return span.build();
+	}
+
+	private void drawErrorIcon(View view, boolean noCountrySelected) {
+		android.widget.TextView textView = ((CountrySpinnerAdapter.ViewHolder) view.getTag()).text;
+		if (noCountrySelected) {
+			Drawable errorIcon = textView.getContext().getResources().getDrawable(R.drawable.ic_error_blue);
+			errorIcon.setBounds(new Rect(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight()));
+			Drawable[] compounds = textView.getCompoundDrawables();
+			textView.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], errorIcon, compounds[3]);
+		}
+		else {
+			Drawable[] compounds = textView.getCompoundDrawables();
+			textView.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], null, compounds[3]);
+		}
 	}
 
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
-		if (mDropDownResId == View.NO_ID) {
+		if (mDropDownResId == View.NO_ID && !mShowEmptyRow) {
 			return getView(position, convertView, parent);
 		}
 
@@ -129,12 +168,12 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 	}
 
 	public String getItemValue(int position, CountryDisplayType displayType) {
-		return mCountries[position].getValue(displayType);
+		return mCountries.get(position).getValue(displayType);
 	}
 
 	public int getPositionByCountryName(String countryName) {
-		for (int i = 0; i < mCountries.length; i++) {
-			if (mCountries[i].mName.compareToIgnoreCase(countryName) == 0) {
+		for (int i = 0; i < mCountries.size(); i++) {
+			if (mCountries.get(i).mName.compareToIgnoreCase(countryName) == 0) {
 				return i;
 			}
 		}
@@ -142,8 +181,8 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 	}
 
 	public int getPositionByCountryThreeLetterCode(String countryCode) {
-		for (int i = 0; i < mCountries.length; i++) {
-			if (mCountries[i].mThreeLetter.compareToIgnoreCase(countryCode) == 0) {
+		for (int i = 0; i < mCountries.size(); i++) {
+			if (mCountries.get(i).mThreeLetter.compareToIgnoreCase(countryCode) == 0) {
 				return i;
 			}
 		}

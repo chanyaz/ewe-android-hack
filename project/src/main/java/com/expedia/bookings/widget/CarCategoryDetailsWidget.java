@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
@@ -20,6 +21,7 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.subjects.PublishSubject;
 
 public class CarCategoryDetailsWidget extends FrameLayout {
 
@@ -40,6 +42,7 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	private static final int LIST_DIVIDER_HEIGHT = 0;
 	private float headerHeight;
 	private float offset;
+	private PublishSubject<SearchCarOffer> searchCarOfferPublishSubject = PublishSubject.create();
 
 	@Override
 	public void onFinishInflate() {
@@ -59,7 +62,7 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, (int) headerHeight, toolbarSize, true));
 		offerList.setHasFixedSize(true);
 
-		adapter = new CarOffersAdapter(getContext());
+		adapter = new CarOffersAdapter(getContext(), searchCarOfferPublishSubject);
 		offerList.setAdapter(adapter);
 	}
 
@@ -111,7 +114,7 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 			.build()
 			.load(url);
 
-		OmnitureTracking.trackAppCarRateDetails(getContext(), bucket.offers.get(0));
+		OmnitureTracking.trackAppCarRateDetails(bucket.offers.get(0));
 	}
 
 	public float parallaxScrollHeader() {
@@ -127,4 +130,7 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 		backgroundHeader.setTranslationY(0);
 	}
 
+	public PublishSubject<SearchCarOffer> getSearchCarOfferPublishSubject() {
+		return searchCarOfferPublishSubject;
+	}
 }

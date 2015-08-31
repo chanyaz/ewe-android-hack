@@ -71,6 +71,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -82,7 +83,6 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.squareup.phrase.Phrase;
@@ -215,7 +215,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	@Override
 	protected void onResume() {
 		super.onResume();
-		OmnitureTracking.onResume(this);
 		if (mMenu != null) {
 			setMenusEnabled(true);
 		}
@@ -257,8 +256,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		if (mCurrentAnimator != null && mCurrentAnimator.isRunning()) {
 			mCurrentAnimator.end();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -575,6 +572,10 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (isFinishing()) {
+			return false;
+		}
+
 		// Either show standard action bar options, or just show the custom
 		// flight details action view, depending on whether flight details
 		// are currently visible
@@ -681,7 +682,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			filter.notifyFilterChanged();
 			item.setChecked(true);
 
-			OmnitureTracking.trackLinkFlightSort(mContext, filter.getSort().name());
+			OmnitureTracking.trackLinkFlightSort(filter.getSort().name());
 
 			return true;
 		case R.id.menu_search: {
@@ -717,7 +718,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		Intent intent = new Intent(this, FlightSearchOverlayActivity.class);
 		startActivityForResult(intent, REQUEST_CODE_SEARCH_PARAMS);
 
-		OmnitureTracking.trackLinkFlightRefine(mContext, mLegPosition);
+		OmnitureTracking.trackLinkFlightRefine(mLegPosition);
 		OmnitureTracking.setPageLoadTrackingFromFSRAEnabled(false);
 	}
 
@@ -806,7 +807,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			if (response == null) {
 				response = new FlightSearchResponse();
 				ServerError error = new ServerError(ApiMethod.FLIGHT_SEARCH);
-				if (!NetUtils.isOnline(mContext)) {
+				if (!ExpediaNetUtils.isOnline(mContext)) {
 					// 821: If we get a null response and the user is offline,
 					// we can assume it was a lack of internet that caused the problem.
 					error.setPresentationMessage(getString(R.string.error_no_internet));

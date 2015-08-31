@@ -317,7 +317,7 @@ public class AdX {
 				}
 				else {
 					Log.d("Got AdX referral string: " + referral);
-					OmnitureTracking.trackAdXReferralLink(context, referral);
+					OmnitureTracking.trackAdXReferralLink(referral);
 				}
 			}
 		}).start();

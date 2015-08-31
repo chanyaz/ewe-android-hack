@@ -17,7 +17,7 @@
         android:paddingLeft="9dp" />
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/display_name_textView"
+        android:id="@+id/title_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/lx_dropdown_imageView"
@@ -27,8 +27,8 @@
         android:id="@+id/city_name_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/display_name_textView"
-        android:layout_below="@+id/display_name_textView"
+        android:layout_alignLeft="@+id/title_textview"
+        android:layout_below="@+id/title_textview"
         android:textColor="?attr/skin_lxPrimaryColor"
         android:textSize="12sp"/>
 

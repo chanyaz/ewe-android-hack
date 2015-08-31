@@ -7,14 +7,15 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Space;
 
 import com.expedia.bookings.R;
@@ -44,7 +45,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	@InjectView(R.id.checkout_scroll)
-	ScrollView scrollView;
+	public ScrollView scrollView;
 
 	@InjectView(R.id.checkout_toolbar)
 	Toolbar toolbar;
@@ -56,16 +57,15 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public PaymentWidget paymentInfoCardView;
 
 	@InjectView(R.id.slide_to_purchase_layout)
-	ViewGroup slideToContainer;
+	public ViewGroup slideToContainer;
 
 	@InjectView(R.id.summary_container)
-	CardView summaryContainer;
+	public FrameLayout summaryContainer;
 
-	@InjectView(R.id.summary_progress_layout)
-	View mSummaryProgressLayout;
+	public View mSummaryProgressLayout;
 
 	@InjectView(R.id.login_widget)
-	AccountButton loginWidget;
+	public AccountButton loginWidget;
 
 	@InjectView(R.id.hint_container)
 	ViewGroup hintContainer;
@@ -80,15 +80,16 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	TextView sliderTotalText;
 
 	@InjectView(R.id.spacer)
-	Space space;
+	public Space space;
 
+	MenuItem menuCheckout;
 	MenuItem menuNext;
 	MenuItem menuDone;
 
 	ExpandableCardView lastExpandedCard;
 	ExpandableCardView currentExpandedCard;
 
-	private UserAccountRefresher userAccountRefresher;
+	protected UserAccountRefresher userAccountRefresher;
 
 	@Override
 	protected void onFinishInflate() {
@@ -117,10 +118,21 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				return true;
 			}
 		});
+
 		if (ExpediaBookingApp.isAutomation()) {
 			//Espresso hates progress bars
 			mSummaryProgressLayout = new View(getContext(), null);
+
 		}
+		else {
+			mSummaryProgressLayout = new ProgressBar(getContext(), null);
+			FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+			lp.gravity = Gravity.CENTER;
+			mSummaryProgressLayout.setLayoutParams(lp);
+			((ProgressBar) mSummaryProgressLayout).setIndeterminate(true);
+		}
+		summaryContainer.addView(mSummaryProgressLayout);
 		userAccountRefresher = new UserAccountRefresher(getContext(), getLineOfBusiness(), this);
 	}
 
@@ -137,6 +149,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
 		toolbar.inflateMenu(R.menu.cars_checkout_menu);
 
+		menuCheckout = toolbar.getMenu().findItem(R.id.menu_checkout);
+		menuCheckout.setVisible(isCheckoutButtonEnabled());
+
 		menuNext = toolbar.getMenu().findItem(R.id.menu_next);
 		menuNext.setVisible(false);
 
@@ -149,8 +164,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				switch (menuItem.getItemId()) {
 				case R.id.menu_checkout:
 					Ui.hideKeyboard(CheckoutBasePresenter.this);
-					menuItem.setVisible(false);
-					slideToContainer.setVisibility(View.VISIBLE);
+					scrollView.fullScroll(View.FOCUS_DOWN);
 					return true;
 				case R.id.menu_next:
 					currentExpandedCard.setNextFocus();
@@ -236,6 +250,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			mainContactInfoCardView.setVisibility(GONE);
 			paymentInfoCardView.setVisibility(GONE);
 			legalInformationText.setVisibility(GONE);
+			menuCheckout.setVisible(false);
 			updateSpacerHeight();
 		}
 	};
@@ -245,13 +260,13 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void startTransition(boolean forward) {
 			super.startTransition(forward);
 			loginWidget.setVisibility(forward ? VISIBLE : INVISIBLE);
-			hintContainer.setVisibility(forward ? VISIBLE : INVISIBLE);
+			hintContainer.setVisibility(forward ? User.isLoggedIn(getContext()) ? GONE : VISIBLE : INVISIBLE);
 			mainContactInfoCardView.setVisibility(forward ? VISIBLE : INVISIBLE);
 			if (paymentInfoCardView.isCreditCardRequired()) {
 				paymentInfoCardView.setVisibility(forward ? VISIBLE : INVISIBLE);
 			}
 			legalInformationText.setVisibility(forward ? VISIBLE : INVISIBLE);
-
+			menuCheckout.setVisible(forward && isCheckoutButtonEnabled());
 		}
 
 		@Override
@@ -267,6 +282,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			updateSpacerHeight();
 		}
 	};
+
+	protected boolean isCheckoutButtonEnabled() {
+		return false;
+	}
 
 	protected void updateSpacerHeight() {
 		float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
@@ -324,7 +343,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			Drawable nav = getResources().getDrawable(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp).mutate();
 			nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 			toolbar.setNavigationIcon(nav);
-			menuNext.setVisible(forward ? true : false);
+			menuNext.setVisible(forward);
 			menuDone.setVisible(false);
 		}
 
@@ -332,11 +351,18 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void finalizeTransition(boolean forward) {
 			if (forward) {
 				slideToContainer.setVisibility(INVISIBLE);
+				// Space to avoid keyboard hiding the view behind.
+				int spacerHeight = (int) getResources().getDimension(R.dimen.car_expanded_space_height);
+				ViewGroup.LayoutParams params = space.getLayoutParams();
+				params.height = spacerHeight;
+				space.setLayoutParams(params);
 			}
 			else {
 				isCheckoutComplete();
+				updateSpacerHeight();
 			}
-			updateSpacerHeight();
+			menuCheckout.setVisible(!forward && isCheckoutButtonEnabled());
+
 		}
 	};
 
@@ -397,7 +423,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		mainContactInfoCardView.onLogin();
 		paymentInfoCardView.onLogin();
 		hintContainer.setVisibility(GONE);
-		OmnitureTracking.trackCheckoutLoginSuccess(getLineOfBusiness(), getContext());
+		OmnitureTracking.trackCheckoutLoginSuccess(getLineOfBusiness());
 		showCheckout();
 	}
 

@@ -247,8 +247,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		Events.register(this);
 		mTripBucketFrag.bindToDb();
 		if (!showHotels) {
-			OmnitureTracking.trackTabletSearchResultsPageLoad(this, Sp.getParams());
-			OmnitureTracking.onResume(this);
+			OmnitureTracking.trackTabletSearchResultsPageLoad(Sp.getParams());
 		}
 	}
 
@@ -258,7 +257,6 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		Sp.saveSearchParamsToDisk(this);
 		Sp.getBus().unregister(this);
 		Events.unregister(this);
-		OmnitureTracking.onPause();
 	}
 
 	@Override

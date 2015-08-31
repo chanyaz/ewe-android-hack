@@ -287,7 +287,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 				FlightPriceChangeDialogFragment fragment = FlightPriceChangeDialogFragment.newInstance(currentOffer, newOffer);
 				fragment.show(getFragmentManager(), FlightPriceChangeDialogFragment.TAG);
-				OmnitureTracking.trackErrorPageLoadFlightPriceChangeTicket(getActivity());
+				OmnitureTracking.trackErrorPageLoadFlightPriceChangeTicket();
 				return;
 			}
 			break;
@@ -305,7 +305,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		case INVALID_INPUT: {
 
 			if (firstError.getErrorCode() == ErrorCode.PAYMENT_FAILED && lob == LineOfBusiness.FLIGHTS) {
-				OmnitureTracking.trackErrorPageLoadFlightPaymentFailed(getActivity());
+				OmnitureTracking.trackErrorPageLoadFlightPaymentFailed();
 			}
 
 			if (hasPaymentError) {
@@ -315,7 +315,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 				frag.show(getFragmentManager(), "badPaymentDialog");
 
 				if (lob == LineOfBusiness.FLIGHTS) {
-					OmnitureTracking.trackErrorPageLoadFlightIncorrectCVV(getActivity());
+					OmnitureTracking.trackErrorPageLoadFlightIncorrectCVV();
 				}
 				return;
 			}
@@ -367,7 +367,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			else {
 				showBookingUnavailableErrorDialog(lob);
 			}
-			OmnitureTracking.trackErrorPageLoadFlightSoldOut(getActivity());
+			OmnitureTracking.trackErrorPageLoadFlightSoldOut();
 		case SESSION_TIMEOUT:
 			if (ExpediaBookingApp.useTabletInterface(getActivity())) {
 				Events.post(new Events.BookingUnavailable(lob));
@@ -376,7 +376,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 				showBookingUnavailableErrorDialog(lob);
 			}
 			if (lob == LineOfBusiness.FLIGHTS) {
-				OmnitureTracking.trackErrorPageLoadFlightSearchExpired(getActivity());
+				OmnitureTracking.trackErrorPageLoadFlightSearchExpired();
 			}
 			return;
 		case CANNOT_BOOK_WITH_MINOR: {
@@ -394,7 +394,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			return;
 		default:
 			if (lob == LineOfBusiness.FLIGHTS) {
-				OmnitureTracking.trackErrorPageLoadFlightCheckout(getActivity());
+				OmnitureTracking.trackErrorPageLoadFlightCheckout();
 			}
 			break;
 		}

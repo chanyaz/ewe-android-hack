@@ -63,14 +63,6 @@
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
-        <item name="airPickerBackground">@android:color/white</item>
-        <item name="airPickerHeaderBackground">@android:color/white</item>
-        <item name="airPickerTextColor">@android:color/black</item>
-        <item name="airPickerMessageTextColor">@android:color/black</item>
-        <item name="airPickerActionTextColor">@android:color/black</item>
-        <item name="rowDividerBackground">@android:color/black</item>
-        <item name="rowBackground">@android:color/white</item>
-        <item name="rowHeaderBackground">@android:color/white</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_flights_travelocity</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/FlightActionBarTravelocity</item>

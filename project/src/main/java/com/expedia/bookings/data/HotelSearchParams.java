@@ -15,7 +15,6 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
-import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -239,13 +238,11 @@ public class HotelSearchParams implements JSONable {
 		}
 	}
 
-	public void fillFromSearch(Search search) {
-		setSearchType(SearchType.valueOf(search.getSearchType()));
-		setQuery(search.getQuery());
-		setRegionId(search.getRegionId());
-		if (search.hasLatLng()) {
-			setSearchLatLon(search.getLatitude(), search.getLongitude());
-		}
+	public void fillFromHotelSearchParams(HotelSearchParams hotelSearchParams) {
+		setSearchType(hotelSearchParams.getSearchType());
+		setQuery(hotelSearchParams.getQuery());
+		setRegionId(hotelSearchParams.getRegionId());
+		setSearchLatLon(hotelSearchParams.getSearchLatitude(), hotelSearchParams.getSearchLongitude());
 	}
 
 	public boolean hasValidCheckInDate() {

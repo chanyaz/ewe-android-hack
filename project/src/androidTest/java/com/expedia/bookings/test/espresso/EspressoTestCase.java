@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.espresso;
 
-import java.net.URL;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -18,12 +17,9 @@ import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Settings;
-import com.expedia.bookings.utils.AndroidFileOpener;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.mocke3.ExpediaDispatcher;
-import com.mobiata.mocke3.FileOpener;
-import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	public EspressoTestCase() {
@@ -39,8 +35,6 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	static final int PORTRAIT = 0;
 	static final int LANDSCAPE = 1;
 
-	protected MockWebServer mMockWebServer;
-	protected FileOpener mFileOpener;
 	protected Resources mRes;
 	protected String mLanguage;
 	protected String mCountry;
@@ -60,16 +54,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			mCountry = config.country;
 		}
 		else {
-			mMockWebServer = new MockWebServer();
-			mMockWebServer.start();
-			mFileOpener = new AndroidFileOpener(getInstrumentation().getTargetContext());
-			mDispatcher = new ExpediaDispatcher(mFileOpener);
-			mMockWebServer.setDispatcher(mDispatcher);
-
-			//get mock web server address
-			URL mockUrl = mMockWebServer.getUrl("");
-			String server = mockUrl.getHost() + ":" + mockUrl.getPort();
-			Settings.setCustomServer(getInstrumentation(), server);
+			Settings.setMockModeEndPoint(getInstrumentation());
 		}
 
 		mRes = getInstrumentation().getTargetContext().getResources();
@@ -98,13 +83,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 
 	@Override
 	protected void tearDown() throws Exception {
-		if (mMockWebServer != null) {
-			mMockWebServer.shutdown();
-			mMockWebServer = null;
-		}
-
 		getApplication().setLXTestComponent(null);
-
 		super.tearDown();
 	}
 

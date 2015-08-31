@@ -129,10 +129,10 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 
 	private void trackMerEmailOptInOut() {
 		if (mIsMerEmailOptIn) {
-			OmnitureTracking.trackHotelsGuestMerEmailOptIn(getActivity());
+			OmnitureTracking.trackHotelsGuestMerEmailOptIn();
 		}
 		else {
-			OmnitureTracking.trackHotelsGuestMerEmailOptOut(getActivity());
+			OmnitureTracking.trackHotelsGuestMerEmailOptOut();
 		}
 	}
 
@@ -150,7 +150,7 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsTravelerEditInfo(getActivity());
+		OmnitureTracking.trackPageLoadHotelsTravelerEditInfo();
 	}
 
 	@Override

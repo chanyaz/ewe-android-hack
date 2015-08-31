@@ -23,6 +23,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportFilterWidget;
@@ -117,6 +118,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			mFilter.notifyFilterChanged();
 		}
 		bindAll();
+		AdTracker.trackFilteredFlightSearch(mLegNumber);
 	}
 
 	public boolean requiredDataInDb() {
@@ -236,7 +238,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			if (group.getId() == R.id.flight_filter_control) {
 				int newStops = FlightFilter.getStopsValueFromStopsViewId(checkedId);
 				if (mFilter.getStops() != newStops) {
-					OmnitureTracking.trackNumStopsFlightFilter(getActivity(), newStops);
+					OmnitureTracking.trackNumStopsFlightFilter(newStops);
 				}
 				mFilter.setStops(newStops);
 			}
@@ -250,7 +252,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
 			String airlineCode = (String) view.getTag();
 			mFilter.setPreferredAirline(airlineCode, isChecked);
-			OmnitureTracking.trackLinkFlightFilter(getActivity(), "Airline");
+			OmnitureTracking.trackLinkFlightFilter("Airline");
 			onFilterChanged();
 		}
 	};
@@ -267,7 +269,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			else {
 				mFilter.removeAirport(departureAirport, airportCode);
 			}
-			OmnitureTracking.trackLinkFlightFilter(getActivity(), "Airport");
+			OmnitureTracking.trackLinkFlightFilter("Airport");
 			onFilterChanged();
 		}
 	};
@@ -297,7 +299,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			if (sort != null) {
 				if (mFilter.getSort() != sort) {
 					mFilter.setSort(sort);
-					OmnitureTracking.trackLinkFlightSort(getActivity(), sort.toString());
+					OmnitureTracking.trackLinkFlightSort(sort.toString());
 				}
 			}
 

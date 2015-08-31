@@ -58,8 +58,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 		getActivity().registerReceiver(broadcastReceiver, filter);
-		OmnitureTracking.onResume(getActivity());
-		OmnitureTracking.trackPageLoadLaunchScreen(getActivity());
+		OmnitureTracking.trackPageLoadLaunchScreen();
 	}
 
 	@Override
@@ -73,7 +72,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		}
 		getActivity().unregisterReceiver(broadcastReceiver);
 		Events.unregister(this);
-		OmnitureTracking.onPause();
 	}
 
 	private void onReactToUserActive() {
@@ -91,7 +89,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				findLocation();
 			}
 			signalAirAttachState();
-			OmnitureTracking.trackPageLoadAbacusTestResults(getActivity());
+			OmnitureTracking.trackPageLoadAbacusTestResults();
 		}
 	}
 

@@ -14,7 +14,6 @@ import com.expedia.bookings.data.Activity;
 import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CarVendor;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightLeg;
@@ -98,8 +97,7 @@ public class TripParser {
 
 		// Parse air attach qualification
 		if (tripJson.has("airAttachQualificationInfo")) {
-			AirAttach airAttach = new AirAttach(tripJson.optJSONObject("airAttachQualificationInfo"));
-			Db.getTripBucket().setAirAttach(airAttach);
+			trip.setAirAttach(new AirAttach(tripJson.optJSONObject("airAttachQualificationInfo")));
 		}
 
 		return trip;
