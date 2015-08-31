@@ -35,6 +35,10 @@ public class CheckoutViewModel {
 		return onView(withId(R.id.payment_info_card_view));
 	}
 
+	public static ViewInteraction addCreditCard() {
+		return onView(withId(R.id.payment_option_credit_debit));
+	}
+
 	public static ViewInteraction scrollView() {
 		return onView(withId(R.id.checkout_scroll));
 	}
@@ -45,6 +49,10 @@ public class CheckoutViewModel {
 
 	public static void clickPaymentInfo() {
 		paymentInfo().perform(scrollTo(), click());
+	}
+
+	public static void clickAddCreditCard() {
+		addCreditCard().perform(scrollTo(), click());
 	}
 
 	public static ViewInteraction userName() {
@@ -169,6 +177,19 @@ public class CheckoutViewModel {
 		ScreenActions.delay(2);
 		CheckoutViewModel.clickPaymentInfo();
 		ScreenActions.delay(1);
+		enterPaymentDetails();
+	}
+
+	public static void enterPaymentInfoHotels() {
+		ScreenActions.delay(2);
+		CheckoutViewModel.clickPaymentInfo();
+		ScreenActions.delay(1);
+		CheckoutViewModel.clickAddCreditCard();
+		ScreenActions.delay(1);
+		enterPaymentDetails();
+	}
+
+	private static void enterPaymentDetails() {
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		//Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		CardInfoScreen.clickOnExpirationDateButton();

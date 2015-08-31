@@ -58,6 +58,31 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/section_payment_options_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/payment_option_credit_debit"
+            style="@style/HotelPaymentOption"
+            android:drawableLeft="@drawable/hotel_credit_card_tint"
+            android:text="@string/checkout_payment_option_credit_debit_label" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="#E0E0E0" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/payment_option_google_wallet"
+            style="@style/HotelPaymentOption"
+            android:drawableLeft="@drawable/ic_hotel_google_wallet"
+            android:text="@string/checkout_payment_option_google_wallet_label" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/section_billing_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

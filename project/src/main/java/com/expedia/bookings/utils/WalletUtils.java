@@ -28,6 +28,8 @@ import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
+import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.google.android.gms.wallet.Address;
 import com.google.android.gms.wallet.Cart;
@@ -572,6 +574,111 @@ public class WalletUtils {
 		for (int i = 0; i < cart.getLineItems().size(); i++) {
 			Log.d("buildHotelCart: cart.getLineItems().get(" + i + ").getTotalPrice():"
 					+ cart.getLineItems().get(i).getTotalPrice());
+		}
+
+		return cart;
+	}
+
+	public static Cart buildHotelV2Cart(Context context) {
+		HotelCreateTripResponse hotel = Db.getTripBucket().getHotelV2().mHotelTripResponse;
+
+		HotelRate originalRate = hotel.originalHotelProductResponse.hotelRoomResponse == null ? hotel.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo : hotel.originalHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo;
+		HotelRate couponRate = hotel.originalHotelProductResponse.hotelRoomResponse == null ? null : hotel.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo;
+
+		Money total = new Money(new BigDecimal((double) originalRate.totalPriceWithMandatoryFees), originalRate.currencyCode);
+		Money nightlyRate = null;
+		Money discount = null;
+		Money surcharge = null;
+		Money extraGuestFee = null;
+
+		nightlyRate = new Money(new BigDecimal((double) originalRate.nightlyRateTotal), originalRate.currencyCode);
+
+		// Discount
+		if (couponRate != null) {
+			discount = new Money(couponRate.getPriceAdjustments());
+			discount.negate();
+		}
+		// Taxes & Fees
+		if (originalRate.surchargeTotal != 0f) {
+			surcharge = new Money(new BigDecimal((double) originalRate.surchargeTotal), originalRate.currencyCode);
+		}
+		// Extra guest fees
+		if (originalRate.getExtraGuestFees() != null) {
+			extraGuestFee = new Money(originalRate.getExtraGuestFees());
+		}
+
+		//Here we determine what the total value of the line items is
+		Money lineItemTotal = new Money(nightlyRate);
+		if (discount != null) {
+			lineItemTotal.add(discount);
+		}
+		if (surcharge != null) {
+			lineItemTotal.add(surcharge);
+		}
+		if (extraGuestFee != null) {
+			lineItemTotal.add(extraGuestFee);
+		}
+
+		//Now we know the total line item value, lets make sure it matches our total value
+		//and adjust our least significant line item if need be
+		Money remainder = new Money(total);
+		remainder.subtract(lineItemTotal);
+		if (!remainder.isZero()) {
+			Log.d("buildHotelCart: Our total:" + total.getFormattedMoney() + " and our line item total:"
+				+ lineItemTotal.getFormattedMoney() + " do not match. Remainder:"
+				+ remainder.getFormattedMoney());
+			if (surcharge != null) {
+				Log.d("buildHotelCart: adjusting surcharge:" + surcharge.getFormattedMoney() + " by remainder:"
+					+ remainder.getFormattedMoney());
+				surcharge.add(remainder);
+			}
+			else if (discount != null) {
+				Log.d("buildHotelCart: adjusting discount:" + discount.getFormattedMoney() + " by remainder:"
+					+ remainder.getFormattedMoney());
+				discount.add(remainder);
+			}
+			else {
+				//I don't think this case is possible, but better safe than sorry.
+				Log.d("buildHotelCart: we have no fees, but our total doesnt work. Lets pretend we have fees in the form of a "
+					+ remainder.getFormattedMoney() + " extraGuestFee.");
+				extraGuestFee = new Money(remainder);
+			}
+		}
+
+		//We have altered our fees such that they now add up to the correct total. Lets add our line items
+		Cart.Builder cartBuilder = Cart.newBuilder();
+		cartBuilder.setCurrencyCode(total.getCurrency());
+		cartBuilder.setTotalPrice(WalletUtils.formatAmount(total));
+		cartBuilder.addLineItem(WalletUtils.createLineItem(nightlyRate, hotel.newHotelProductResponse.localizedHotelName, LineItem.Role.REGULAR));
+
+		if (discount != null) {
+			cartBuilder.addLineItem(WalletUtils.createLineItem(discount, hotel.newHotelProductResponse.localizedHotelName, LineItem.Role.REGULAR));
+		}
+		if (surcharge != null) {
+			cartBuilder.addLineItem(WalletUtils.createLineItem(surcharge, context.getString(R.string.taxes_and_fees),
+				LineItem.Role.TAX));
+		}
+		if (extraGuestFee != null) {
+			cartBuilder.addLineItem(WalletUtils.createLineItem(extraGuestFee,
+				context.getString(R.string.extra_guest_charge), LineItem.Role.TAX));
+		}
+
+		//Sometimes we want to fake a google wallet error, so we created a dev setting
+		if (BuildConfig.DEBUG
+			&& SettingUtils.get(context,
+			context.getString(R.string.preference_fake_invalid_google_wallet_line_item), false)) {
+			Money fakeFee = new Money(total);
+			fakeFee.setAmount(new BigDecimal(100.00));
+			cartBuilder.addLineItem(WalletUtils.createLineItem(fakeFee, "Fake Tax", LineItem.Role.TAX));
+		}
+
+		//Generate the cart
+		Cart cart = cartBuilder.build();
+
+		Log.d("buildHotelCart: cart.getTotalPrice():" + cart.getTotalPrice());
+		for (int i = 0; i < cart.getLineItems().size(); i++) {
+			Log.d("buildHotelCart: cart.getLineItems().get(" + i + ").getTotalPrice():"
+				+ cart.getLineItems().get(i).getTotalPrice());
 		}
 
 		return cart;

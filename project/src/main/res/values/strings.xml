@@ -64,6 +64,8 @@
     <string name="cars_driver_details_text">Driver details</string>
     <!-- Text for payment details toolbar-->
     <string name="cars_payment_details_text">Payment details</string>
+    <!-- Text for payment options toolbar-->
+    <string name="cars_payment_options_text">Payment options</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Enter driver details</string>
     <!-- Text for select saved contacts-->
@@ -184,6 +186,11 @@
     <string name="successful_checkout_email_label">Itinerary sent to</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Directions to %1$s</string>
+
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_credit_debit_label">Credit Card/Debit Card</string>
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -1847,9 +1854,9 @@
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Please enter a valid email address</string>
     <!-- Row header for when we show resort fees as its own line item -->
-    <string name="fees_paid_at_hotel">Fees Paid at Hotel:</string>
+    <string name="fees_paid_at_hotel">Fees paid at hotel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
-    <string name="due_to_brand_today_TEMPLATE">Due to {brand} Today:</string>
+    <string name="due_to_brand_today_TEMPLATE">Due to {brand}</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">The &lt;b&gt;%1$s&lt;/b&gt; resort fee will be collected at the hotel. The total price for your stay will be &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->

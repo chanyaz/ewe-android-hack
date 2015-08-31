@@ -1,11 +1,15 @@
 package com.expedia.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.PaymentWidget
 import com.google.android.gms.maps.MapView
 import kotlin.properties.Delegates
 
@@ -41,6 +45,24 @@ public class HotelActivity : AppCompatActivity() {
     override fun onResume() {
         mapView.onResume()
         super.onResume()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            PaymentWidget.REQUEST_CODE_GOOGLE_WALLET_ACTIVITY -> when (resultCode) {
+                Activity.RESULT_OK -> {
+                    if (Db.getBillingInfo() != null) {
+                        hotelPresenter.checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.bind(Db.getBillingInfo())
+                        hotelPresenter.checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.setExpanded(false)
+                        hotelPresenter.checkoutPresenter.hotelCheckoutWidget.mainContactInfoCardView.bindGoogleWalletTraveler(Db.getGoogleWalletTraveler())
+                        hotelPresenter.checkoutPresenter.hotelCheckoutWidget.mainContactInfoCardView.setExpanded(false)
+                    }
+                    return
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

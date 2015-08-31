@@ -55,7 +55,7 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 		CheckoutViewModel.clickCheckout();
 		CheckoutViewModel.enterTravelerInfo();
 		CheckoutViewModel.clickCheckout();
-		CheckoutViewModel.enterPaymentInfo();
+		CheckoutViewModel.enterPaymentInfoHotels();
 		CheckoutViewModel.pressClose();
 	}
 

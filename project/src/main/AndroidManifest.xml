@@ -407,6 +407,9 @@
         </receiver>
 
         <!-- Google Wallet optimization -->
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
 
         <receiver
             android:name="com.google.android.gms.wallet.EnableWalletOptimizationReceiver"

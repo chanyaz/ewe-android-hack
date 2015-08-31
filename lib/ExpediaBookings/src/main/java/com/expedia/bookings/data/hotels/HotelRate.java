@@ -1,5 +1,9 @@
 package com.expedia.bookings.data.hotels;
 
+import java.util.List;
+
+import com.expedia.bookings.data.Money;
+
 public class HotelRate {
 	public float maxNightlyRate;
 	public float averageRate;
@@ -24,4 +28,36 @@ public class HotelRate {
 	public String ratePlanCode;
 	public boolean showResortFeeMessage;
 	public boolean resortFeeInclusion;
+	public List<PriceAdjustments> priceAdjustments;
+	public List<SurchargesForEntireStay> surchargesForEntireStay;
+
+	public static class PriceAdjustments {
+		public String amount;
+	}
+
+	public static class SurchargesForEntireStay {
+		public String type;
+		public String amount;
+	}
+
+	public Money getPriceAdjustments() {
+		Money totalAdjustments = new Money();
+		totalAdjustments.setAmount("0");
+		for (PriceAdjustments adj : priceAdjustments) {
+			totalAdjustments.add(new Money(adj.amount, currencyCode));
+		}
+		return totalAdjustments;
+	}
+
+	public Money getExtraGuestFees() {
+		Money surcharges = null;
+		for (SurchargesForEntireStay charge : surchargesForEntireStay) {
+			if (charge.type.equals("EXTRA")) {
+				surcharges = new Money(charge.amount, currencyCode);
+				break;
+			}
+		}
+		return surcharges;
+	}
+
 }
