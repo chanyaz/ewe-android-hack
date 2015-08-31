@@ -64,6 +64,8 @@
     <string name="cars_driver_details_text">Driver details</string>
     <!-- Text for payment details toolbar-->
     <string name="cars_payment_details_text">Payment details</string>
+    <!-- Text for payment options toolbar-->
+    <string name="cars_payment_options_text">Payment option</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Enter driver details</string>
     <!-- Text for select saved contacts-->
@@ -184,6 +186,11 @@
     <string name="successful_checkout_email_label">Itinerary sent to</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Directions to %1$s</string>
+
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_credit_debit_label">Credit Card/Debit Card</string>
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->

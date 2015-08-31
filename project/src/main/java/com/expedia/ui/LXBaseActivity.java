@@ -4,7 +4,7 @@ import org.joda.time.LocalDate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 
 import com.expedia.bookings.R;
@@ -27,7 +27,7 @@ import butterknife.InjectView;
 import rx.Observable;
 import rx.Subscription;
 
-public class LXBaseActivity extends ActionBarActivity {
+public class LXBaseActivity extends AppCompatActivity {
 
 	@InjectView(R.id.lx_base_presenter)
 	LXPresenter lxPresenter;

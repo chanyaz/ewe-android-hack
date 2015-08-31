@@ -25,6 +25,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.expedia.bookings.activity.GoogleWalletActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/V2.Theme.Transparent"
+            android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>

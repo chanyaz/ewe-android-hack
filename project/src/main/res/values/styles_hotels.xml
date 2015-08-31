@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <style name="V2.Theme.Hotels" parent="Whitelabel.HotelTheme.Base" />
+
+    <style name="V2.Theme.Transparent" parent="Whitelabel.HotelTheme.Base">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
 
     <!--
         Override this theme in whitelabels to provide whitelabel specific theme values.
@@ -48,6 +58,18 @@
 
     <style name="HotelTravelerIcon.Minus">
         <item name="android:src">@drawable/lx_minus_icon</item>
+    </style>
+
+    <style name="HotelPaymentOption">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">18dp</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:drawablePadding">24dp</item>
+        <item name="android:textColor">@color/cars_actionbar_text_color</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16dp</item>
     </style>
 
 </resources>

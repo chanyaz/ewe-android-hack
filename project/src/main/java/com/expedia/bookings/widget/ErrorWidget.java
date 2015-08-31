@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
@@ -184,7 +184,7 @@ public class ErrorWidget extends FrameLayout {
 		errorButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((ActionBarActivity) getContext()).onBackPressed();
+				((AppCompatActivity) getContext()).onBackPressed();
 			}
 		});
 	}

@@ -10,7 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.StringRes;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
@@ -109,7 +109,7 @@ public class LXDetailsPresenter extends Presenter {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
-					((ActionBarActivity) getContext()).onBackPressed();
+					((AppCompatActivity) getContext()).onBackPressed();
 				}
 			})
 			.show();

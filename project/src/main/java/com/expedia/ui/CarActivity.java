@@ -4,7 +4,7 @@ import org.joda.time.DateTimeZone;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ViewTreeObserver;
 
 import com.expedia.bookings.R;
@@ -22,7 +22,7 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CarActivity extends ActionBarActivity {
+public class CarActivity extends AppCompatActivity {
 
 	@InjectView(R.id.car_presenter)
 	CarPresenter carsPresenter;

@@ -1,7 +1,8 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.GoogleWalletActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
@@ -38,6 +40,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class PaymentWidget extends ExpandableCardView {
+	public static final int REQUEST_CODE_GOOGLE_WALLET_ACTIVITY = 1989;
 
 	private boolean isZipValidationRequired;
 
@@ -50,6 +53,15 @@ public class PaymentWidget extends ExpandableCardView {
 
 	@InjectView(R.id.section_billing_info_container)
 	ViewGroup billingInfoContainer;
+
+	@InjectView(R.id.section_payment_options_container)
+	ViewGroup paymentOptionsContainer;
+
+	@InjectView(R.id.payment_option_credit_debit)
+	Button paymentOptionCreditDebitCard;
+
+	@InjectView(R.id.payment_option_google_wallet)
+	Button paymentOptionGoogleWallet;
 
 	@InjectView(R.id.section_billing_info)
 	public SectionBillingInfo sectionBillingInfo;
@@ -109,6 +121,14 @@ public class PaymentWidget extends ExpandableCardView {
 		return isCreditCardRequired;
 	}
 
+	@OnClick(R.id.stored_card_container)
+	public void onStoredCardClicked() {
+		StoredCreditCard storedCard = Db.getBillingInfo().getStoredCard();
+		if (storedCard != null && storedCard.isGoogleWallet()) {
+			openGoogleWallet();
+		}
+
+	}
 	@OnClick(R.id.remove_stored_card_button)
 	public void onStoredCardRemoved() {
 		StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
@@ -145,11 +165,25 @@ public class PaymentWidget extends ExpandableCardView {
 		sectionBillingInfo.addInvalidCharacterListener(new InvalidCharacterHelper.InvalidCharacterListener() {
 			@Override
 			public void onInvalidCharacterEntered(CharSequence text, InvalidCharacterHelper.Mode mode) {
-				ActionBarActivity activity = (ActionBarActivity) getContext();
+				AppCompatActivity activity = (AppCompatActivity) getContext();
 				InvalidCharacterHelper.showInvalidCharacterPopup(activity.getSupportFragmentManager(), mode);
 			}
 		});
 		sectionBillingInfo.addChangeListener(mValidFormsOfPaymentListener);
+		paymentOptionCreditDebitCard.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showCreditCardDetails();
+				mToolbarListener.setActionBarTitle(getActionBarTitle());
+			}
+		});
+
+		paymentOptionGoogleWallet.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openGoogleWallet();
+			}
+		});
 	}
 
 	public void setLineOfBusiness(LineOfBusiness lineOfBusiness) {
@@ -229,12 +263,15 @@ public class PaymentWidget extends ExpandableCardView {
 			cardInfoExpiration.setVisibility(GONE);
 		}
 		if (cardType != null) {
-			cardInfoIcon.setImageDrawable(getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(cardType)));
-			storedCardImageView.setImageDrawable(getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(cardType)));
+			cardInfoIcon.setImageDrawable(
+				getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(cardType)));
+			storedCardImageView.setImageDrawable(
+				getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(cardType)));
 		}
 		else {
 			cardInfoIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.cars_checkout_cc_default_icon));
-			storedCardImageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.cars_checkout_cc_default_icon));
+			storedCardImageView.setImageDrawable(
+				getContext().getResources().getDrawable(R.drawable.cars_checkout_cc_default_icon));
 		}
 	}
 
@@ -243,46 +280,73 @@ public class PaymentWidget extends ExpandableCardView {
 		if (!isCreditCardRequired) {
 			return;
 		}
+
 		super.setExpanded(expand, animate);
-		if (expand && mToolbarListener != null) {
-			mToolbarListener.setActionBarTitle(getActionBarTitle());
-		}
+
 		if (expand) {
-			cardInfoContainer.setVisibility(GONE);
-			billingInfoContainer.setVisibility(VISIBLE);
-			if (User.isLoggedIn(getContext())) {
-				paymentButton.setVisibility(VISIBLE);
-				if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
-					storedCardContainer.setVisibility(VISIBLE);
-					sectionBillingInfo.setVisibility(GONE);
-					mToolbarListener.onEditingComplete();
-				}
-				else {
-					storedCardContainer.setVisibility(GONE);
-					sectionBillingInfo.setVisibility(VISIBLE);
-					creditCardNumber.requestFocus();
-					Ui.showKeyboard(creditCardNumber, null);
-				}
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2 && !goToCreditCardDetails()) {
+				cardInfoContainer.setVisibility(GONE);
+				paymentOptionsContainer.setVisibility(VISIBLE);
+				billingInfoContainer.setVisibility(GONE);
 			}
 			else {
-				paymentButton.setVisibility(GONE);
-				storedCardContainer.setVisibility(GONE);
-				sectionBillingInfo.setVisibility(VISIBLE);
-				creditCardNumber.requestFocus();
-				Ui.showKeyboard(creditCardNumber, null);
+				showCreditCardDetails();
 			}
-			bind();
-			paymentButton.bind();
-			mValidFormsOfPaymentListener.onChange();
-			OmnitureTracking.trackCheckoutPayment(lineOfBusiness);
 		}
 		else {
-			cardInfoContainer.setVisibility(VISIBLE);
-			billingInfoContainer.setVisibility(GONE);
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				cardInfoContainer.setVisibility(VISIBLE);
+				paymentOptionsContainer.setVisibility(GONE);
+				billingInfoContainer.setVisibility(GONE);
+			}
+			else {
+				cardInfoContainer.setVisibility(VISIBLE);
+				paymentOptionsContainer.setVisibility(GONE);
+				billingInfoContainer.setVisibility(GONE);
+			}
 			bind();
 			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 			paymentButton.dismissPopup();
 		}
+		if (expand && mToolbarListener != null) {
+			mToolbarListener.setActionBarTitle(getActionBarTitle());
+		}
+	}
+
+	private boolean goToCreditCardDetails() {
+		boolean isFilled = isFilled();
+		boolean isBillingInfoValid = isFilled && sectionBillingInfo.performValidation();
+		boolean isPostalCodeValid = isFilled && sectionLocation.performValidation();
+
+		return
+			// User is logged in and has a stored card
+			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()
+			// Card info user entered is valid
+			|| (isBillingInfoValid && isPostalCodeValid)
+			// Card info partially entered & not valid
+			|| (isFilled && (!isBillingInfoValid || !isPostalCodeValid));
+	}
+
+	private void showCreditCardDetails() {
+		boolean hasStoredCard = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard();
+		cardInfoContainer.setVisibility(GONE);
+		paymentOptionsContainer.setVisibility(GONE);
+		billingInfoContainer.setVisibility(VISIBLE);
+		paymentButton.setVisibility(User.isLoggedIn(getContext()) || hasStoredCard ? VISIBLE : GONE);
+		storedCardContainer.setVisibility(hasStoredCard ? VISIBLE : GONE);
+		sectionBillingInfo.setVisibility(hasStoredCard ? GONE : VISIBLE);
+		if (hasStoredCard) {
+			mToolbarListener.onEditingComplete();
+		}
+		else {
+			creditCardNumber.requestFocus();
+			Ui.showKeyboard(creditCardNumber, null);
+		}
+
+		bind();
+		paymentButton.bind();
+		mValidFormsOfPaymentListener.onChange();
+		OmnitureTracking.trackCheckoutPayment(lineOfBusiness);
 	}
 
 	@Override
@@ -295,7 +359,12 @@ public class PaymentWidget extends ExpandableCardView {
 
 	@Override
 	public String getActionBarTitle() {
-		return getResources().getString(R.string.cars_payment_details_text);
+		if (paymentOptionsContainer.getVisibility() == VISIBLE) {
+			return getResources().getString(R.string.cars_payment_options_text);
+		}
+		else {
+			return getResources().getString(R.string.cars_payment_details_text);
+		}
 	}
 
 	@Override
@@ -404,5 +473,10 @@ public class PaymentWidget extends ExpandableCardView {
 
 	public void setZipValidationRequired(boolean zipValidationRequired) {
 		this.isZipValidationRequired = zipValidationRequired;
+	}
+
+	private void openGoogleWallet() {
+		Intent i = new Intent(getContext(), GoogleWalletActivity.class);
+		((AppCompatActivity)getContext()).startActivityForResult(i, REQUEST_CODE_GOOGLE_WALLET_ACTIVITY);
 	}
 }

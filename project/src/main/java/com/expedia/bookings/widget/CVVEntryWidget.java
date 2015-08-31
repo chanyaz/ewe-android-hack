@@ -5,7 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.InputFilter;
@@ -258,7 +258,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 
 	// Special case for the subprompt ("see back of card"), if it's in the ActionBar (for phone)
 	private void updateActionBar() {
-		if (!(getContext() instanceof ActionBarActivity)) {
+		if (!(getContext() instanceof AppCompatActivity)) {
 			return;
 		}
 
