@@ -84,7 +84,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 			@Override
 			public void onClick(View v) {
-				OmnitureTracking.trackAddHotelClick(getActivity());
+				OmnitureTracking.trackAddHotelClick();
 
 				HotelSearchParams hotelSearchParams = HotelSearchParams.fromFlightParams(Db.getTripBucket().getFlight());
 				HotelCrossSellUtils.deepLinkHotels(getActivity(), hotelSearchParams);
@@ -197,7 +197,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 		SocialUtils.email(getActivity(), subject, body);
 
-		OmnitureTracking.trackFlightConfirmationShareEmail(getActivity());
+		OmnitureTracking.trackFlightConfirmationShareEmail();
 	}
 
 	@Override
@@ -208,7 +208,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 			startActivity(intent);
 		}
 
-		OmnitureTracking.trackFlightConfirmationAddToCalendar(getActivity());
+		OmnitureTracking.trackFlightConfirmationAddToCalendar();
 	}
 
 	@SuppressLint("NewApi")

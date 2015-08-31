@@ -50,6 +50,8 @@ public class HotelOffersResponse {
 		public String rateDescription;
 		public RateInfo rateInfo;
 		public String roomTypeDescription;
+		public String roomLongDescription;
+		public String roomThumbnailUrl;
 	}
 
 	public static class BedTypes {

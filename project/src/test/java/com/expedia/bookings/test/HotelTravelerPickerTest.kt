@@ -28,7 +28,7 @@ public class HotelTravelerPickerTest {
     @Test
     fun defaults() {
         val testSubscriber = TestSubscriber<HotelTravelerParams>(1)
-        vm.updateObservable.subscribe(testSubscriber)
+        vm.travelerParamsObservable.subscribe(testSubscriber)
 
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValues(HotelTravelerParams(1, emptyList()))
@@ -39,7 +39,7 @@ public class HotelTravelerPickerTest {
         val testSubscriber = TestSubscriber<HotelTravelerParams>()
         val expected = arrayListOf<HotelTravelerParams>()
 
-        vm.updateObservable.subscribe(testSubscriber)
+        vm.travelerParamsObservable.subscribe(testSubscriber)
         expected.add(HotelTravelerParams(1, emptyList()))
 
         vm.incrementAdultsObserver.onNext(Unit)
@@ -63,7 +63,7 @@ public class HotelTravelerPickerTest {
         val testSubscriber = TestSubscriber<HotelTravelerParams>()
         val expected = arrayListOf<HotelTravelerParams>()
 
-        vm.updateObservable.subscribe(testSubscriber)
+        vm.travelerParamsObservable.subscribe(testSubscriber)
         expected.add(HotelTravelerParams(1, emptyList()))
 
         // Don't fire events
@@ -79,7 +79,7 @@ public class HotelTravelerPickerTest {
         val testSubscriber = TestSubscriber<HotelTravelerParams>()
         val expected = arrayListOf<HotelTravelerParams>()
 
-        vm.updateObservable.subscribe(testSubscriber)
+        vm.travelerParamsObservable.subscribe(testSubscriber)
         expected.add(HotelTravelerParams(1, emptyList()))
 
         for (i in 2..6) {
@@ -105,7 +105,7 @@ public class HotelTravelerPickerTest {
         val testSubscriber = TestSubscriber<HotelTravelerParams>()
         val expected = arrayListOf<HotelTravelerParams>()
 
-        vm.updateObservable.subscribe(testSubscriber)
+        vm.travelerParamsObservable.subscribe(testSubscriber)
         expected.add(HotelTravelerParams(1, emptyList()))
 
         // Max children is 4
@@ -123,6 +123,32 @@ public class HotelTravelerPickerTest {
 
         // But no more adults
         vm.incrementAdultsObserver.onNext(Unit)
+
+        testSubscriber.requestMore(LOTS_MORE)
+        testSubscriber.assertReceivedOnNext(expected)
+    }
+
+    @Test
+    fun childrenAgeChange() {
+        val testSubscriber = TestSubscriber<HotelTravelerParams>()
+        val expected = arrayListOf<HotelTravelerParams>()
+
+        vm.travelerParamsObservable.subscribe(testSubscriber)
+        expected.add(HotelTravelerParams(1, emptyList()))
+
+        for (i in 1..2) {
+            vm.incrementChildrenObserver.onNext(Unit)
+            expected.add(HotelTravelerParams(1, Array(i, { 10 }).toList()))
+        }
+
+        // Change age of first child
+        vm.childAgeSelectedObserver.onNext(Pair(0, 1))
+        expected.add(HotelTravelerParams(1, listOf(1, 10)))
+
+        // Change age of second child
+        vm.childAgeSelectedObserver.onNext(Pair(1, 5))
+        expected.add(HotelTravelerParams(1, listOf(1, 5)))
+
 
         testSubscriber.requestMore(LOTS_MORE)
         testSubscriber.assertReceivedOnNext(expected)

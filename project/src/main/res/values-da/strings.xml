@@ -1894,10 +1894,6 @@
     <string name="enter_traveler_info">Oplysninger om rejsende</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Oplysninger om den primære rejsende</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">Indtast oplysninger om den primære rejsende</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate2">Den primære rejsende</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Gemt</string>
     <!-- Edit button for traveler/payment -->
@@ -2563,6 +2559,7 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="guest_recommend">af gæster anbefaler</string>
+    <string name="hotel_guest_recommend">af 5 - gæstebedømmelse</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->

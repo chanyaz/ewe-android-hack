@@ -33,12 +33,12 @@ import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TouchableFrameLayout;
-import com.mobiata.android.util.NetUtils;
 
 /**
  * A large search fragment only suitable for tablet sizes.
@@ -331,7 +331,7 @@ public class TabletWaypointFragment extends Fragment
 
 	@Override
 	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
-		if (!NetUtils.isOnline(getActivity())) {
+		if (!ExpediaNetUtils.isOnline(getActivity())) {
 			Events.post(new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_SEARCH));
 		}
 		else {

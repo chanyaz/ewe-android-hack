@@ -14,7 +14,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.Images;
@@ -70,21 +69,12 @@ public class FlightConfirmationActivity extends FragmentActivity {
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
 	protected void onPause() {
 		super.onPause();
 
 		if (isFinishing()) {
 			Db.setBillingInfo(null);
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override

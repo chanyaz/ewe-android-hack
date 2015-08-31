@@ -110,7 +110,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 					mListener.setMode(YoYoMode.YOYO);
 					mListener.moveForward();
 
-					OmnitureTracking.trackLinkHotelsCheckoutPaymentEnterManually(getActivity());
+					OmnitureTracking.trackLinkHotelsCheckoutPaymentEnterManually();
 				}
 			}
 		});
@@ -172,7 +172,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 							else {
 								onStoredCardSelected(storedCard);
 
-								OmnitureTracking.trackLinkHotelsCheckoutPaymentSelectExisting(getActivity());
+								OmnitureTracking.trackLinkHotelsCheckoutPaymentSelectExisting();
 							}
 						}
 					});
@@ -205,7 +205,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentSelect(getActivity());
+		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentSelect();
 	}
 
 	@Override

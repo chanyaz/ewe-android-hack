@@ -222,6 +222,12 @@
         <item name="android:maxHeight">14dp</item>
     </style>
 
+    <style name="RatingBar.UserReview.Material.Yellow">
+        <item name="android:progressDrawable">@drawable/ratingbar_star_material_yellow</item>
+        <item name="android:minHeight">14dp</item>
+        <item name="android:maxHeight">14dp</item>
+    </style>
+
     <style name="RatingBar.UserReview.Yellow" />
 
     <style name="RatingBar.UserReview.White">
@@ -776,7 +782,7 @@
         <item name="android:background">@drawable/itin_login_ripple</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:paddingLeft">12dp</item>
@@ -1114,6 +1120,11 @@
         <item name="sluggishness">150</item>
         <item name="unselectedDividerColor">#40999999</item>
         <item name="unselectedDrawable">@color/itin_white_text</item>
+    </style>
+
+    <!-- Borderless button for "Enter Itinerary Number" in login screen -->
+    <style name="Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
     </style>
 
 </resources>

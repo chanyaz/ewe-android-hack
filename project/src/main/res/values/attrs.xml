@@ -180,11 +180,6 @@
         <attr name="sluggishness" format="integer" />
     </declare-styleable>
 
-    <!-- ImageRadioButton -->
-    <declare-styleable name="ImageRadioButton">
-        <attr name="image" format="reference" />
-    </declare-styleable>
-
     <!-- RoundedCornerFrameLayout -->
     <declare-styleable name="RoundedCornerFrameLayout">
         <attr name="radius" format="dimension" />

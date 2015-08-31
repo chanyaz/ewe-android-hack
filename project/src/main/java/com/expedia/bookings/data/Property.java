@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
@@ -603,7 +603,7 @@ public class Property implements JSONable {
 	}
 
 	public void updateFrom(final Hotel offer) {
-		mName = offer.name;
+		mName = offer.localizedName;
 		mPropertyId = offer.hotelId;
 
 		mLocation = new Location();
@@ -636,7 +636,6 @@ public class Property implements JSONable {
 		mTotalRecommendations = offer.totalRecommendations;
 		mAverageExpediaRating = offer.hotelGuestRating;
 		mLowestRate = new Rate();
-		mLowestRate.setPromoDescription(offer.discountMessage);
 		mLowestRate.setNumRoomsLeft(offer.roomsLeftAtThisRate);
 		mLowestRate.setThumbnail(mThumbnail);
 		mLowestRate.setIsPayLater(offer.isPaymentChoiceAvailable);

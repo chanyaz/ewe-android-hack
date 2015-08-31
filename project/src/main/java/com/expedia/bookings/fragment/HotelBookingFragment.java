@@ -370,7 +370,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			break;
 		case COUPON_REMOVE:
 			startRemoveCouponDownloader();
-			OmnitureTracking.trackHotelCouponRemoved(getActivity());
+			OmnitureTracking.trackHotelCouponRemoved();
 			break;
 		case CHECKOUT:
 			doBooking();
@@ -546,7 +546,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 				Db.getTripBucket().getHotel().setCouponRate(response.getNewRate());
 				Db.saveTripBucket(getActivity());
 
-				OmnitureTracking.trackHotelCouponApplied(getActivity(), mCouponCode);
+				OmnitureTracking.trackHotelCouponApplied(mCouponCode);
 				Events.post(new Events.CouponApplyDownloadSuccess(response.getNewRate()));
 			}
 		}
@@ -601,7 +601,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 				Db.getTripBucket().getHotel().setCreateTripResponse(response);
 				Db.getTripBucket().getHotel().setCouponRate(null);
 				Db.saveTripBucket(getActivity());
-				OmnitureTracking.trackHotelCouponRemoved(getActivity());
+				OmnitureTracking.trackHotelCouponRemoved();
 				Events.post(new Events.CouponRemoveDownloadSuccess(response.getNewRate()));
 			}
 		}
@@ -648,7 +648,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		else {
 			ServerError serverError = response.getErrors().get(0);
 			errorMessage = serverError.getCouponErrorMessage(getActivity());
-			OmnitureTracking.trackHotelCouponFail(getActivity(), mCouponCode, serverError.getCouponErrorType());
+			OmnitureTracking.trackHotelCouponFail(mCouponCode, serverError.getCouponErrorType());
 		}
 
 		DialogFragment df = SimpleDialogFragment.newInstance(null, errorMessage);

@@ -12,6 +12,7 @@ public class LXSearchParams {
 	public LocalDate endDate;
 	public SearchType searchType = SearchType.EXPLICIT_SEARCH;
 	public String filters;
+	public String activityId;
 
 	public LXSearchParams location(String location) {
 		this.location = location;
@@ -37,6 +38,12 @@ public class LXSearchParams {
 		this.filters = filters;
 		return this;
 	}
+
+	public LXSearchParams activityId(String activityId) {
+		this.activityId = activityId;
+		return this;
+	}
+
 	public boolean hasLocation() {
 		return Strings.isNotEmpty(location);
 	}

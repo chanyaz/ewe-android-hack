@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
+<Button android:id="@+id/search_btn"
     style="@style/CarRobotoFont"
-    android:id="@+id/search_btn"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
     android:background="?android:attr/selectableItemBackground"
     android:drawableLeft="@drawable/ic_check_white_24dp"
+    android:drawablePadding="10dp"
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
-    android:drawablePadding="10dp"
-    android:textAllCaps="true"
     android:text="@string/search"
+    android:textAllCaps="true"
     android:textSize="14sp" />

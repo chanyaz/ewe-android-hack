@@ -17,14 +17,14 @@ else
 fi
 
 # Cars
-add_test "com.expedia.bookings.test.phone.cars.CarSearchPresenterTests"
-add_test "com.expedia.bookings.test.phone.cars.CarSearchErrorTests"
-add_test "com.expedia.bookings.test.phone.cars.CarCreateTripErrorTests"
-add_test "com.expedia.bookings.test.phone.cars.CarCheckoutErrorTests"
-add_test "com.expedia.bookings.test.phone.cars.CarFilterTests"
-add_test "com.expedia.bookings.test.phone.cars.CarCreditCardTests"
-add_test "com.expedia.bookings.test.phone.cars.CarDetailsTests"
-add_test "com.expedia.bookings.test.phone.cars.CarCheckoutViewTests"
+add_test "com.expedia.bookings.test.phone.cars.CarSearchPresenterTest"
+add_test "com.expedia.bookings.test.phone.cars.CarSearchErrorTest"
+add_test "com.expedia.bookings.test.phone.cars.CarCreateTripErrorTest"
+add_test "com.expedia.bookings.test.phone.cars.CarCheckoutErrorTest"
+add_test "com.expedia.bookings.test.phone.cars.CarFilterTest"
+add_test "com.expedia.bookings.test.phone.cars.CarCreditCardTest"
+add_test "com.expedia.bookings.test.phone.cars.CarDetailsTest"
+add_test "com.expedia.bookings.test.phone.cars.CarCheckoutViewTest"
 
 java \
     -jar "jars/spoon-runner-1.1.3-EXP-jar-with-dependencies.jar" \

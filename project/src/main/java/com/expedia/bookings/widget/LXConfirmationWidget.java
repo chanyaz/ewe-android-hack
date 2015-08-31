@@ -115,12 +115,13 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 	@Subscribe
 	public void onCheckoutSuccess(Events.LXCheckoutSucceeded event) {
-		OmnitureTracking.trackAppLXCheckoutConfirmation(getContext(), event.checkoutResponse, lxState.activity.id,
+		OmnitureTracking.trackAppLXCheckoutConfirmation(event.checkoutResponse, lxState.activity.id,
 			DateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),
 			lxState.selectedTicketsCount());
 		AdTracker.trackLXBooked(lxState.activity.location, lxState.latestTotalPrice(),
-			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate,
-			lxState.activity.categories, event.checkoutResponse.orderId, lxState.activity.title);
+			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate, lxState.activity.categories,
+			event.checkoutResponse.orderId, lxState.activity.title, lxState.activity.id, lxState.searchParams.startDate,
+			lxState.activity.regionId, lxState.selectedTicketsCount(), lxState.selectedChildTicketsCount());
 
 		final Resources res = getResources();
 		List<String> imageURLs = Images

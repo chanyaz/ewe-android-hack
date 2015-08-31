@@ -1502,6 +1502,10 @@ public class ItineraryManager implements JSONable {
 							mTripsRefreshed++;
 						}
 
+						if (trip.getAirAttach() != null && !trip.isShared()) {
+							Db.getTripBucket().setAirAttach(trip.getAirAttach());
+						}
+
 						currentTrips.remove(tripKey);
 					}
 
@@ -1651,6 +1655,10 @@ public class ItineraryManager implements JSONable {
 					mTripsRefreshed++;
 
 					mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_FLIGHT_STATUS, sharedTrip));
+				}
+
+				if (trip.getAirAttach() != null && !trip.isShared()) {
+					Db.getTripBucket().setAirAttach(trip.getAirAttach());
 				}
 
 				// Note: In the future, we may be getting these parameters from the URL. Currently, we do not, thus we just

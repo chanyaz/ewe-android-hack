@@ -22,7 +22,6 @@ import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
@@ -118,18 +117,6 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 			.getString(STATE_TAG_START_LAST_NAME) : "";
 
 		super.onRestoreInstanceState(savedInstanceState);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
 	}
 
 	@Override

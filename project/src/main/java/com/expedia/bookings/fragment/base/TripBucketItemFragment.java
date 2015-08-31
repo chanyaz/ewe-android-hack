@@ -729,7 +729,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		setSelected(true);
 		if (getTripBucketBookClickedListener() != null) {
 			getTripBucketBookClickedListener().onTripBucketBookClicked(lob);
-			OmnitureTracking.trackTabletCheckoutPageLoad(getActivity(), lob);
+			OmnitureTracking.trackTabletCheckoutPageLoad(lob);
 		}
 	}
 

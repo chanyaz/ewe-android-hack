@@ -28,7 +28,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
 import com.expedia.bookings.tracking.AdTracker;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.MockModeShim;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
@@ -107,18 +106,6 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 
 		// By default, assume nothing changed
 		setResult(RESULT_NO_CHANGES);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
 	}
 
 	@Override

@@ -97,7 +97,8 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 
 		freeCancellationText.setVisibility(lxState.offer.freeCancellation ? VISIBLE : GONE);
 
-		tripTotalText.setText(latestPrice.getFormattedMoney());
+		tripTotalText.setText(
+			latestPrice.getFormattedMoneyFromAmountAndCurrencyCode(latestPrice.getAmount(), latestPrice.getCurrency()));
 
 		// Price change
 		isInPriceChangeFlow = (originalPrice != null);
@@ -127,7 +128,9 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.lx_cost_breakdown_due_today),
-			lxState.latestTotalPrice().getFormattedMoney()));
+			lxState.latestTotalPrice()
+				.getFormattedMoneyFromAmountAndCurrencyCode(lxState.latestTotalPrice().getAmount(),
+					lxState.latestTotalPrice().getCurrency())));
 
 		String currencyCode = tickets.get(0).money.getCurrency();
 		for (Ticket ticket : lxBookableItem.tickets) {
@@ -147,7 +150,9 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		ll.addView(addDisclaimerRow(context, currencyCode));
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.checkout_breakdown_total_price),
-			lxState.latestTotalPrice().getFormattedMoney()));
+			lxState.latestTotalPrice()
+				.getFormattedMoneyFromAmountAndCurrencyCode(lxState.latestTotalPrice().getAmount(),
+					lxState.latestTotalPrice().getCurrency())));
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);

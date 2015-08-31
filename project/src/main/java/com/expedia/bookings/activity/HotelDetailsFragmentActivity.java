@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import org.joda.time.DateTime;
 
-import android.animation.AnimatorSet;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
@@ -64,11 +63,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	// This is the position in the list that the hotel had when the user clicked on it
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
 
-	// Flag set in the intent if this activity was opened from the widget
-	public static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
-
 	private Context mContext;
-	private ExpediaBookingApp mApp;
 
 	private HotelDetailsMiniGalleryFragment mGalleryFragment;
 	private HotelDetailsPricePromoFragment mPricePromoFragment;
@@ -79,9 +74,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	private TextView mBookByPhoneButton;
 
 	private DateTime mLastSearchTime;
-
-	// In case you try to toggle too quickly
-	private AnimatorSet mGalleryToggleAnimator;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
@@ -118,7 +110,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		super.onCreate(savedInstanceState);
 
 		mContext = this;
-		mApp = (ExpediaBookingApp) getApplicationContext();
 
 		Intent intent = getIntent();
 
@@ -202,8 +193,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			}
 			mLastSearchTime = DateTime.now();
 		}
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -229,8 +218,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		else {
 			bd.unregisterDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD);
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -313,8 +300,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	//----------------------------------
 
 	private void setupHotelActivity(Bundle savedInstanceState) {
-		final Intent intent = getIntent();
-
 		setContentView(R.layout.hotel_details_main);
 		getWindow().setBackgroundDrawable(null);
 
@@ -372,7 +357,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	}
 
 	private void doOmnitureTracking() {
-		OmnitureTracking.trackPageLoadHotelsInfosite(mContext, getIntent().getIntExtra(EXTRA_POSITION, -1));
+		OmnitureTracking.trackPageLoadHotelsInfosite(mContext);
 		AdTracker.trackHotelInfoSite();
 	}
 
@@ -438,7 +423,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 				return;
 			}
 			else if (response.hasErrors()) {
-				String message = "";
+				String message;
 				if (response.isHotelUnavailable()) {
 					message = Phrase.from(mContext, R.string.error_hotel_is_now_sold_out_TEMPLATE)
 						.put("brand", BuildConfig.brand).format().toString();
@@ -477,10 +462,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		}
 	};
 
-	private void showErrorDialog(int messageResId) {
-		showErrorDialog(getResources().getString(messageResId));
-	}
-
 	private void showErrorDialog(String message) {
 		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
 		dialog.setMessage(message);
@@ -502,15 +483,12 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// HotelMiniGalleryFragmentListener implementation
 
-	boolean isGalleryFullscreen = false;
-
 	@Override
 	public void onGalleryItemClicked(Object item) {
 		// Do this if in portrait
 		HotelDetailsScrollView scrollView = (HotelDetailsScrollView) findViewById(R.id.hotel_details_portrait);
 		if (scrollView != null) {
 			scrollView.toggleFullScreenGallery();
-			return;
 		}
 	}
 }

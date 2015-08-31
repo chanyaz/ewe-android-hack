@@ -37,19 +37,7 @@ public class HotelRulesActivity extends FragmentActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsCheckoutWarsaw(this);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
+		OmnitureTracking.trackPageLoadHotelsCheckoutWarsaw();
 	}
 
 	@Override

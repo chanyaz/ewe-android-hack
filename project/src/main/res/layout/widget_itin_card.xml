@@ -123,7 +123,7 @@
                             android:id="@+id/header_image_container"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/itin_card_expanded_image_height"
-                            app:scrollMin="-80dp" >
+                            app:scrollMin="@dimen/itin_card_expanded_parallax_slop" >
 
                             <com.expedia.bookings.widget.OptimizedImageView
                                 android:id="@+id/header_image_view"
