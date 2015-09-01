@@ -50,6 +50,7 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 		goToCheckout();
 
 		LXScreen.checkoutWidget().check(matches(isDisplayed()));
+		LXScreen.checkoutActivityTitle().check(matches(withText("happy")));
 		LXScreen.checkoutOfferTitle().check(matches(withText("2-Day New York Pass")));
 		LXScreen.checkoutGroupText().check(matches(withText("3 Adults, 1 Child")));
 		LXScreen.checkoutOfferLocation().check(matches(withText("New York, United States")));
