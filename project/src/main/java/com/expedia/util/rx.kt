@@ -3,7 +3,12 @@ package com.expedia.util
 import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
-import android.widget.*
+import android.widget.RadioGroup
+import android.widget.CheckBox
+import android.widget.RatingBar
+import android.widget.TextView
+import android.widget.ToggleButton
+import com.mobiata.android.Log
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
@@ -33,6 +38,12 @@ public fun View.subscribeOnClick(observer: Observer<Unit>) {
 public fun RadioGroup.subscribeOnCheckedChange(observer: Observer<Int>) {
     this.setOnCheckedChangeListener { radioGroup, checkedId ->
         observer.onNext(checkedId)
+    }
+}
+
+public fun CheckBox.subscribeOnChecked(observer: Observer<Boolean>) {
+    this.setOnClickListener {
+        observer.onNext(this.isChecked())
     }
 }
 

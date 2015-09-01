@@ -101,6 +101,10 @@ public class HotelScreen {
 		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(hasSibling(withId(R.id.search_container)))));
 	}
 
+	public static ViewInteraction filterButton() {
+		return onView(allOf(withId(R.id.filter_btn), isDescendantOfA(hasSibling(withId(R.id.toolbar)))));
+	}
+
 	public static ViewInteraction hotelResultsList() {
 		return onView(withId(R.id.list_view));
 	}

@@ -38,6 +38,7 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelCarouselRecycler
+import com.expedia.bookings.widget.HotelFilterView
 import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.HotelListRecyclerView
 import com.expedia.bookings.widget.HotelMarkerPreviewAdapter
@@ -45,6 +46,7 @@ import com.expedia.bookings.widget.createHotelMarker
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelResultsViewModel
+import com.expedia.vm.HotelFilterViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -75,6 +77,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
     val mapView: MapView by bindView(R.id.map_view)
+    val filterView : HotelFilterView by bindView(R.id.filter_view)
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle by Delegates.lazy { toolbar.getChildAt(2) }
     val toolbarSubtitle by Delegates.lazy { toolbar.getChildAt(3) }
@@ -100,6 +103,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val fab: FloatingActionButton by bindView(R.id.fab)
 
     var adapter : HotelListAdapter by Delegates.notNull()
+    val filterBtn: Button by bindView(R.id.filter_btn)
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
@@ -172,6 +176,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             adapter.notifyDataSetChanged()
             resetListOffset()
             AdImpressionTracking.trackAdClickOrImpression(getContext(), response.pageViewBeaconPixelUrl, null)
+            showHotelList(response)
         }
 
         override fun onCompleted() {
@@ -193,59 +198,73 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val mapResultsObserver: Observer<HotelSearchResponse> = endlessObserver { response ->
         val map = googleMap
         if (map != null) {
-
             clearAllMapMarkers()
             map.setMyLocationEnabled(true)
+            renderMarkers(map, response, false)
+        }
+        Log.d("Hotel Results Next")
+    }
 
-            // Determine current location
-            val MINIMUM_TIME_AGO = format.DateUtils.HOUR_IN_MILLIS
-            val minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO
-            val loc = LocationServices.getLastBestLocation(context, minTime)
-            val currentLat = loc?.getLatitude() ?: 0.0
-            val currentLong = loc?.getLongitude() ?: 0.0
+    fun renderMarkers(map: GoogleMap, response: HotelSearchResponse, isFilter: Boolean) {
+        if (!isFilter) {
+            filterView.viewmodel.setHotelList(response)
+        }
 
-            var closestHotel: Hotel? = null
-            var closestToCurrentLocationVal: Float = Float.MAX_VALUE
+        map.clear()
+        mHotelList.clear()
 
-            val allHotelsBox = LatLngBounds.Builder()
+        map.setMyLocationEnabled(true)
 
-            var skipFirstHotel = true
+        // Determine current location
+        val MINIMUM_TIME_AGO = format.DateUtils.HOUR_IN_MILLIS
+        val minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO
+        val loc = LocationServices.getLastBestLocation(getContext(), minTime)
+        val currentLat = loc?.getLatitude() ?: 0.0
+        val currentLong = loc?.getLongitude() ?: 0.0
 
-            for (hotel in response.hotelList) {
-                if (!skipFirstHotel) {
-                    // Add markers for all hotels
-                    val marker: Marker = map.addMarker(MarkerOptions()
-                            .position(LatLng(hotel.latitude, hotel.longitude))
-                            .icon(createHotelMarker(getResources(), hotel, false)))
-                    markerList.add(marker)
+        var closestHotel: Hotel? = null
+        var closestToCurrentLocationVal: Float = Float.MAX_VALUE
 
-                    val markerDistance = MarkerDistance(marker, -1f, hotel)
-                    mHotelList.add(markerDistance)
+        val allHotelsBox = LatLngBounds.Builder()
 
-                    allHotelsBox.include(LatLng(hotel.latitude, hotel.longitude))
+        var skipFirstHotel = true
 
-                    // Determine which neighbourhood is closest to current location
-                    if (hotel.locationId != null) {
-                        var a = Location("a")
-                        a.setLatitude(currentLat)
-                        a.setLongitude(currentLong)
+        for (hotel in response.hotelList) {
+            if (!skipFirstHotel) {
+                // Add markers for all hotels
+                val marker: Marker = map.addMarker(MarkerOptions()
+                        .position(LatLng(hotel.latitude, hotel.longitude))
+                        .icon(createHotelMarker(getResources(), hotel, false)))
+                markerList.add(marker)
 
-                        var b = Location("b")
-                        b.setLatitude(hotel.latitude)
-                        b.setLongitude(hotel.longitude)
+                val markerDistance = MarkerDistance(marker, -1f, hotel)
+                mHotelList.add(markerDistance)
 
-                        var distanceBetween = a.distanceTo(b)
+                allHotelsBox.include(LatLng(hotel.latitude, hotel.longitude))
 
-                        if (distanceBetween <= closestToCurrentLocationVal) {
-                            closestToCurrentLocationVal = distanceBetween
-                            closestHotel = hotel
-                        }
+                // Determine which neighbourhood is closest to current location
+                if (hotel.locationId != null) {
+                    var a = Location("a")
+                    a.setLatitude(currentLat)
+                    a.setLongitude(currentLong)
+
+                    var b = Location("b")
+                    b.setLatitude(hotel.latitude)
+                    b.setLongitude(hotel.longitude)
+
+                    var distanceBetween = a.distanceTo(b)
+
+                    if (distanceBetween <= closestToCurrentLocationVal) {
+                        closestToCurrentLocationVal = distanceBetween
+                        closestHotel = hotel
                     }
                 }
-
-                skipFirstHotel = false
             }
 
+            skipFirstHotel = false
+        }
+
+        if (mHotelList.size() > 0) {
             var mostInterestingNeighborhood: HotelSearchResponse.Neighborhood?
 
             var anyPointsIncludedInAllHotelsBox = if (skipFirstHotel) (response.hotelList.size() > 1) else (response.hotelList.size() > 0)
@@ -289,12 +308,23 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 mapCarouselRecycler.setAdapter(HotelMarkerPreviewAdapter(mHotelList, closestMarker.marker, hotelSubject))
             }
         }
-        Log.d("Hotel Results Next")
     }
 
     val mapSelectedObserver: Observer<Unit> = endlessObserver {
         if (!shouldBlockTransition()) {
             show(ResultsMap())
+        }
+    }
+
+    val filterObserver: Observer<List<Hotel>> = endlessObserver {
+        if (filterView.viewmodel.filteredResponse.hotelList.size() > 1) {
+            showHotelList(filterView.viewmodel.filteredResponse)
+            show(ResultsList())
+            val map = googleMap
+            val response = filterView.viewmodel.filteredResponse
+            if (map != null && response != null) {
+                renderMarkers(map, response, true)
+            }
         }
     }
 
@@ -304,6 +334,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         headerClickedSubject.subscribe(mapSelectedObserver)
         adapter = HotelListAdapter(ArrayList<Hotel>(), HotelRate.UserPriceType.UNKNOWN, hotelSubject, headerClickedSubject)
         recyclerView.setAdapter(adapter)
+        filterView.subscribe(filterObserver)
+        filterView.viewmodel = HotelFilterViewModel(getContext())
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.setNavigationIcon(navIcon)
@@ -323,6 +355,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         addDefaultTransition(defaultTransition)
         addTransition(fabTransition)
+        addTransition(listFilterTransition)
+        addTransition(mapFilterTransition)
         mapView.getMapAsync(this)
 
         mapCarouselContainer.setVisibility(View.INVISIBLE)
@@ -369,7 +403,18 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         }
 
+
         show(ResultsList())
+
+        filterBtn.setOnClickListener { view ->
+            if (filterView.getVisibility() != View.VISIBLE) {
+                filterView.setVisibility(View.VISIBLE)
+                show(ResultsFilter())
+            } else {
+                filterView.setVisibility(View.INVISIBLE)
+            }
+        }
+
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
@@ -509,6 +554,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             } else {
                 fab.setVisibility(View.INVISIBLE)
             }
+
+            filterView.setVisibility(View.GONE)
         }
     }
 
@@ -695,6 +742,51 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
+    private val listFilterTransition = object : Presenter.Transition(javaClass<ResultsList>(), javaClass<ResultsFilter>(), DecelerateInterpolator(), 500) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+        }
+
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            if (forward) {
+                filterView.setVisibility(View.VISIBLE)
+                recyclerView.setVisibility(View.INVISIBLE)
+                //mapFab.setVisibility(View.INVISIBLE)
+            } else {
+                filterView.setVisibility(View.GONE)
+                recyclerView.setVisibility(View.VISIBLE)
+            }
+        }
+    }
+
+    private val mapFilterTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsFilter>(), DecelerateInterpolator(), 500) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+        }
+
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            if (forward) {
+                filterView.setVisibility(View.VISIBLE)
+                mapCarouselContainer.setVisibility(View.INVISIBLE)
+                //listFab.setVisibility(View.INVISIBLE)
+            } else {
+                filterView.setVisibility(View.GONE)
+                mapCarouselContainer.setVisibility(View.VISIBLE)
+                //listFab.setVisibility(View.VISIBLE)
+            }
+        }
+    }
+
     val touchListener = object : RecyclerView.OnItemTouchListener {
         override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
 
@@ -776,4 +868,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     public class ResultsList
 
     public class ResultsMap
+
+    public class ResultsFilter
+
+    fun showHotelList(response: HotelSearchResponse) {
+        adapter.setData(response.hotelList, response.userPriceType, false)
+        adapter.notifyDataSetChanged()
+        resetListOffset()
+        recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(adapterListener)
+    }
 }
