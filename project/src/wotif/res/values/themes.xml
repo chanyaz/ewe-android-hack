@@ -72,7 +72,7 @@
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_wotif</item>
         <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_wotif_logo_small</item>
-        <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights_wotif</item>
+        <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_wotif</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color_wotif</item>
