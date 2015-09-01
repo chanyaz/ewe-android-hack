@@ -113,4 +113,7 @@ public interface IProductFlavorFeatureConfiguration {
 	 */
 	int getFlightSearchProgressImageResId();
 	boolean isLOBIconCenterAligned();
+
+	//return 0 if logo is not required on launch screen
+	int getLaunchScreenActionLogo();
 }

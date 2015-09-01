@@ -282,4 +282,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isLOBIconCenterAligned() {
 		return false;
 	}
+
+	@Override
+	public int getLaunchScreenActionLogo() {
+		return 0;
+	}
 }
