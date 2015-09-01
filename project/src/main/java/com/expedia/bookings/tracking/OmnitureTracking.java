@@ -2680,6 +2680,13 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", link, null, null);
 	}
 
+	public static void trackGroundTransportTest() {
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppSplitGTandActivities);
+		s.track();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Tracking events for new launch screen
 	//
@@ -2695,6 +2702,7 @@ public class OmnitureTracking {
 	private static final String FLIGHT_LOB_NAVIGATION = "Flight";
 	private static final String CAR_LOB_NAVIGATION = "Car";
 	private static final String LX_LOB_NAVIGATION = "LX";
+	private static final String TRANSPORT_LOB_NAVIGATION = "Transport";
 
 	public static void trackNewLaunchScreenLobNavigation(LineOfBusiness lob) {
 
@@ -2711,6 +2719,9 @@ public class OmnitureTracking {
 			break;
 		case LX:
 			lobString = LX_LOB_NAVIGATION;
+			break;
+		case TRANSPORT:
+			lobString = TRANSPORT_LOB_NAVIGATION;
 			break;
 		}
 		String link = LAUNCH_SCREEN_LOB_NAVIGATION + "." + lobString;

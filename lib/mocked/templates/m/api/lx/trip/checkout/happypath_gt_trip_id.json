@@ -1,0 +1,16 @@
+{ 
+   "newTrip":{
+      "itineraryNumber":"7672544863",
+      "travelRecordLocator":"15287751",
+      "tripId":"happypath_trip_id"
+   },
+   "orderId":"8140386189907",
+   "currencyCode":"USD",
+   "totalCharges":"139.40",
+   "totalChargesPrice":{
+      "amount":"139.40",
+      "formattedPrice":"$139.40",
+      "formattedWholePrice":"$139"
+   },
+   "activityId":"806478cd-067a-4c9d-99b3-9eb8df2e3ccc"
+}

@@ -293,12 +293,19 @@
     <declare-styleable name="PhoneLaunchButton">
         <!-- Button text -->
         <attr name="btn_text" format="string" />
+        <!-- Button text size -->
+        <attr name="btn_text_size" format="string" />
         <!--Button color -->
         <attr name="btn_bg" format="color"/>
         <!-- Button icon -->
         <attr name="btn_icon" format="reference"/>
         <!-- Minimum scale factor for icon -->
         <attr name="icon_min_scale" format="float" />
+        <!-- Background card height for launch button -->
+        <attr name="bg_card_height" format="dimension" />
+        <!-- Background card top padding for launch button -->
+        <attr name="bg_icon_padding_top" format="dimension" />
+        <attr name="refernce_container_height" format="dimension" />
     </declare-styleable>
 
 </resources>

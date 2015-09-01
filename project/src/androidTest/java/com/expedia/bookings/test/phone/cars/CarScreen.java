@@ -25,6 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.setVisibility;
 import static org.hamcrest.Matchers.allOf;
@@ -130,6 +131,11 @@ public final class CarScreen {
 
 	public static ViewInteraction searchErrorToolbarBack() {
 		return onView(allOf(isAssignableFrom(ImageButton.class), isDescendantOfA(allOf(withId(R.id.error_toolbar), isDescendantOfA(withId(R.id.car_results_presenter))))));
+	}
+
+	public static ViewInteraction searchWidgetToolbarBack() {
+		return onView(allOf(withParent(withParent(withId(R.id.widget_car_params))), withParent(withId(R.id.toolbar)),
+			isAssignableFrom(ImageButton.class)));
 	}
 
 	//Filters

@@ -236,6 +236,13 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
+	public static void goToTransport(Context context, Bundle animOptions) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, LXBaseActivity.class);
+		intent.putExtra(LXBaseActivity.EXTRA_IS_GROUND_TRANSPORT, true);
+		startActivity(context, intent, animOptions);
+	}
+
 	public static void goToFlights(Context context, boolean usePresetSearchParams) {
 		goToFlights(context, usePresetSearchParams, null);
 	}

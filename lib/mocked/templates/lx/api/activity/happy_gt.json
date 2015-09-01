@@ -1,0 +1,716 @@
+{
+  "id": "${activityId}",
+  "title": "Train (BART): San Francisco Airport (SFO)",
+  "description": "<p>BART is a fast, easy, low cost round trip service to any BART station between SFO and downtown San Francisco or to any one of 4 downtown stations. These conveniently located stations are within walking distance to most downtown hotels: Civic Center (upper Market), Powell (Union Sq.), Montgomery (Moscone Center), Embarcadero (lower Market).Trains depart 3-4 times per hour to San Francisco and East Bay cities.</p>\n<p>For transfers to and from San Francisco International Airport, the areas to select from include:</p>\n<p><strong>Any East Bay City</strong>\n<br  />Select this option for hotels in any East Bay Cities.</p>\n<p><strong>San Francisco</strong>\n<br  />Select this option for hotels in San Francisco.</p>",
+  "images": [
+    {
+      "url": "//a.travel-assets.com/mediavault.le/media/47ffa36d0749794c96e4585286272f78e320ba6e.jpeg",
+      "large": "//a.travel-assets.com/mediavault.le/media/a591d98822c61a843ac9b791d5375f1c7fc98bd7.jpeg",
+      "thumbnail": "//a.travel-assets.com/mediavault.le/media/fe6fcf25ca96be7212d3b5948d846cbb561d43b7.jpeg",
+      "caption": "BART Train Transportation",
+      "creditString": "",
+      "isImage": true
+    }
+  ],
+  "termsAndConditions": "<p>Rate is per person and is valid for shared transfers between San Francisco International Airport and San Francisco or any East Bay BART train station only. Partial cancellation is not available for roundtrip transfers.</p>\n<p>Photographs are meant to illustrate vehicle type only; your vehicle may differ from what is pictured.</p>",
+  "fromPrice": "$20",
+  "fromPriceValue": "19.25",
+  "fromPriceLabel": "per traveler",
+  "currencyCode": "USD",
+  "fromOriginalPrice": "",
+  "fromOriginalPriceValue": "",
+  "fromPriceTicketType": "traveler",
+  "fromPriceTicketCode": "Traveler",
+  "startDate": "2015-08-20",
+  "endDate": "2015-09-03",
+  "duration": "30m+",
+  "durationInMillis": 1800000,
+  "cancellationPolicyText": "72 hours",
+  "knowBeforeYouBook": [
+    "<p>Partial cancellation is not available for roundtrip transfers.</p>",
+    "<p>The last SFO BART train departs at 11:50 PM every night.</p>",
+    "<p>BART hours of operation: Mon.–Fri.: 4 AM to midnight; Sat.: 6 AM to midnight; Sun.; 8 AM to midnight</p>",
+    "<p>The first train on Sunday from downtown (Powell) to SFO departs at 8:00 AM</p>",
+    "<p>Vouchers can only be redeemed at SFO Voucher desk from 8:30 AM to 10:30 PM daily.</p>",
+    "<p>Vouchers cannot, under any circumstance be redeemed at a BART station.</p>",
+    "<p>Wheelchair-accessible service</p>"
+  ],
+  "freeCancellation": true,
+  "discountPercentage": 0,
+  "location": "San Francisco, United States",
+  "latLng": "37.615223,-122.389979",
+  "regionId": "178305",
+  "destination": "San Francisco",
+  "fullName": "San Francisco (and vicinity), California, United States of America",
+  "omnitureJson": "{\"accountName\":\"expedia1\",\"omnitureProperties\":{\"server\":\"www.expedia.com\",\"authChannel\":\"SIGNIN_FORM\",\"eVar6\":\"14\",\"eVar5\":\"0\",\"eVar4\":\"D\\u003dc4\",\"eVar2\":\"D\\u003dc2\",\"channel\":\"local expert\",\"pageName\":\"page.LX.Infosite.Information\",\"products\":\"LX;Merchant LX:201959\",\"activityId\":\"f2a2414e-342d-48f0-9019-2520a564734d\",\"prop30\":\"1033\",\"prop11\":\"null\",\"prop13\":\"0\",\"prop12\":\"e2da56b4-f5cc-4a27-9ba2-d80e2ab5ccae\",\"prop34\":\"D\\u003dl1\",\"events\":\"event3\",\"charSet\":\"UTF-8\",\"eVar34\":\"D\\u003dl1\",\"eVar56\":\"notRewardsMember\",\"eVar55\":\"unknown\",\"eVar54\":\"1033\",\"eVar18\":\"D\\u003dpageName\",\"eVar17\":\"D\\u003dpageName\",\"prop6\":\"2015-09-03\",\"prop5\":\"2015-08-20\",\"prop4\":\"178305\",\"list1\":\"8193.1|7426.1|8006.1|7462.0|8135.1|8364.0|8365.0|7438.0|6960.0|7190.0|8024.1|8345.1|8025.1|5242.0|8155.0|8317.0|6271.1\",\"prop2\":\"local expert\",\"prop1\":\"2\",\"userType\":\"ANONYMOUS\"}}",
+  "offersDetail": {
+    "offers": [
+      {
+        "id": "218366",
+        "title": "Roundtrip to San Francisco",
+        "description": "",
+        "freeCancellation": true,
+        "duration": "30m",
+        "durationInMillis": 1800000,
+        "discountPercentage": null,
+        "directionality": "Roundtrip",
+        "defaultTicketCountPrice": "$19.25",
+        "direction": "ROUND_TRIP",
+        "availabilityInfo": [
+          {
+            "availabilities": {
+              "displayDate": "Fri, Aug 21",
+              "valueDate": "${startDate}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$19.25",
+                "originalPrice": "",
+                "amount": "19.25",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Sat, Aug 22",
+              "valueDate": "${startDatePlus2}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$19.25",
+                "originalPrice": "",
+                "amount": "19.25",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Sun, Aug 23",
+              "valueDate": "${startDatePlus3}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$19.25",
+                "originalPrice": "",
+                "amount": "19.25",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Mon, Aug 24",
+              "valueDate": "${startDatePlus4}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$19.25",
+                "originalPrice": "",
+                "amount": "19.25",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Tue, Aug 25",
+              "valueDate": "${startDatePlus5}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$19.25",
+                "originalPrice": "",
+                "amount": "19.25",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Wed, Aug 26",
+              "valueDate": "${startDatePlus6}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$19.25",
+                "originalPrice": "",
+                "amount": "19.25",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Thu, Aug 27",
+              "valueDate": "${startDatePlus7}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$19.25",
+                "originalPrice": "",
+                "amount": "19.25",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Fri, Aug 28",
+              "valueDate": "${startDatePlus8}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$19.25",
+                "originalPrice": "",
+                "amount": "19.25",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Sat, Aug 29",
+              "valueDate": "${startDatePlus9}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$19.25",
+                "originalPrice": "",
+                "amount": "19.25",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Sun, Aug 30",
+              "valueDate": "${startDatePlus10}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$19.25",
+                "originalPrice": "",
+                "amount": "19.25",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Mon, Aug 31",
+              "valueDate": "${startDatePlus11}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$19.25",
+                "originalPrice": "",
+                "amount": "19.25",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Tue, Sep 1",
+              "valueDate": "${startDatePlus12}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$19.25",
+                "originalPrice": "",
+                "amount": "19.25",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "218362",
+        "title": "Roundtrip to Any East Bay City",
+        "description": "",
+        "freeCancellation": true,
+        "duration": "50m",
+        "durationInMillis": 3000000,
+        "discountPercentage": null,
+        "directionality": "Roundtrip",
+        "defaultTicketCountPrice": "$25",
+        "direction": "ROUND_TRIP",
+        "availabilityInfo": [
+          {
+            "availabilities": {
+              "displayDate": "Fri, Aug 21",
+              "valueDate": "${startDate}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$25",
+                "originalPrice": "",
+                "amount": "25.00",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Sat, Aug 22",
+              "valueDate": "${startDatePlus2}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$25",
+                "originalPrice": "",
+                "amount": "25.00",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Sun, Aug 23",
+              "valueDate": "${startDatePlus3}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$25",
+                "originalPrice": "",
+                "amount": "25.00",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Mon, Aug 24",
+              "valueDate": "${startDatePlus4}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$25",
+                "originalPrice": "",
+                "amount": "25.00",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Tue, Aug 25",
+              "valueDate": "${startDatePlus5}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$25",
+                "originalPrice": "",
+                "amount": "25.00",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Wed, Aug 26",
+              "valueDate": "${startDatePlus6}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$25",
+                "originalPrice": "",
+                "amount": "25.00",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Thu, Aug 27",
+              "valueDate": "${startDatePlus7}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$25",
+                "originalPrice": "",
+                "amount": "25.00",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Fri, Aug 28",
+              "valueDate": "${startDatePlus8}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$25",
+                "originalPrice": "",
+                "amount": "25.00",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Sat, Aug 29",
+              "valueDate": "${startDatePlus9}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$25",
+                "originalPrice": "",
+                "amount": "25.00",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Sun, Aug 30",
+              "valueDate": "${startDatePlus10}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$25",
+                "originalPrice": "",
+                "amount": "25.00",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Mon, Aug 31",
+              "valueDate": "${startDatePlus11}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$25",
+                "originalPrice": "",
+                "amount": "25.00",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          },
+          {
+            "availabilities": {
+              "displayDate": "Tue, Sep 1",
+              "valueDate": "${startDatePlus12}",
+              "allDayActivity": true
+            },
+            "tickets": [
+              {
+                "code": "Traveler",
+                "ticketId": "7921",
+                "name": "Traveler",
+                "lowerCaseName": "traveler",
+                "restrictionText": "",
+                "restriction": {
+                  "type": "Age - Years",
+                  "max": 255,
+                  "min": 0
+                },
+                "price": "$25",
+                "originalPrice": "",
+                "amount": "25.00",
+                "displayName": null,
+                "defaultTicketCount": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "priceFootnote": "*Taxes included",
+    "sameDateSearch": false
+  },
+  "dateAdjusted": false,
+  "typeGT": true,
+  "passengers": "",
+  "bags": "4",
+  "metaDescription": "BART is a fast, easy, low cost round trip service to any BART station between SFO and downtown San Francisco or to any one of 4 downtown stations.",
+  "metaKeywords": "Train (BART): San Francisco Airport (SFO), San Francisco, United States, San Francisco Shared Transfers, San Francisco Activities, San Francisco Things To Do , Book San Francisco Activities , Book San Francisco Things To Do , Activities, Things To Do",
+  "pageTitle": "Train (BART): San Francisco Airport (SFO)",
+  "category": "Shared Transfers",
+  "status": "passed",
+  "freeCancellationMinHours": 72,
+  "supplierName": "Bay Area Rapid Transit (BART)",
+  "redemptionType": "Print"
+}

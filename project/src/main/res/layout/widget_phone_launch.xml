@@ -32,6 +32,12 @@
         android:layout_height="@dimen/launch_lob_double_row_container_height"
         android:layout_marginTop="?attr/actionBarSize" />
 
+    <com.expedia.bookings.widget.LaunchFiveLobDoubleRowWidget
+        android:id="@+id/double_row_five_lob_selector"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/launch_lob_double_row_container_height"
+        android:layout_marginTop="?attr/actionBarSize" />
+
     <include
         android:id="@+id/air_attach_banner"
         layout="@layout/widget_launch_air_attach_banner"

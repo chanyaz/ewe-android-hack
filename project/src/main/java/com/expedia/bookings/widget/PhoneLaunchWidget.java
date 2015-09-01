@@ -31,6 +31,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.collections.Collection;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -84,6 +85,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@InjectView(R.id.double_row_lob_selector)
 	LaunchLobDoubleRowWidget doubleRowLobSelectorWidget;
 
+	@InjectView(R.id.double_row_five_lob_selector)
+	LaunchFiveLobDoubleRowWidget doubleRowFiveLobSelectorWidget;
+
 	@InjectView(R.id.launch_list_widget)
 	LaunchListWidget launchListWidget;
 
@@ -101,6 +105,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	float lobHeight;
 	boolean doubleRowLob;
+	boolean doubleRowFiveLob;
 
 	@Override
 	public void onFinishInflate() {
@@ -249,6 +254,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 				if (doubleRowLob) {
 					doubleRowLobSelectorWidget.transformButtons(squashInput);
 				}
+				else if (doubleRowFiveLob) {
+					doubleRowFiveLobSelectorWidget.transformButtons(squashInput);
+				}
 				else {
 					lobSelectorWidget.transformButtons(squashInput);
 				}
@@ -257,6 +265,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 			else if (currentPos > squashedHeaderHeight) {
 				if (doubleRowLob) {
 					doubleRowLobSelectorWidget.transformButtons(1 - (Math.min(currentPos, squashedHeaderHeight) / lobHeight));
+				}
+				else if (doubleRowFiveLob) {
+					doubleRowFiveLobSelectorWidget.transformButtons(1 - (Math.min(currentPos, squashedHeaderHeight) / lobHeight));
 				}
 				else {
 					lobSelectorWidget.transformButtons(1 - (Math.min(currentPos, squashedHeaderHeight) / lobHeight));
@@ -459,21 +470,44 @@ public class PhoneLaunchWidget extends FrameLayout {
 		int listHeaderPaddingTop;
 		initLaunchListScroll();
 		PointOfSale currentPointOfSale = PointOfSale.getPointOfSale();
-		if (currentPointOfSale.supports(LineOfBusiness.CARS) && currentPointOfSale.supports(
-			LineOfBusiness.LX)) {
-			doubleRowLob = true;
+
+		boolean isCarsEnabled = currentPointOfSale.supports(LineOfBusiness.CARS);
+		boolean isLXEnabled = currentPointOfSale.supports(LineOfBusiness.LX);
+		boolean isTransportExperimentAvailable = false;
+
+		if (isLXEnabled) {
+			isTransportExperimentAvailable = Db.getAbacusResponse()
+				.isUserBucketedForTest(AbacusUtils.EBAndroidAppSplitGTandActivities);
+			OmnitureTracking.trackGroundTransportTest();
+		}
+
+		if (isCarsEnabled && isLXEnabled) {
 			lobHeight = getResources().getDimension(R.dimen.launch_lob_double_row_container_height);
 			lobSelectorWidget.setVisibility(View.GONE);
-			doubleRowLobSelectorWidget.transformButtons(1.0f);
-			doubleRowLobSelectorWidget.setVisibility(View.VISIBLE);
+			if (isTransportExperimentAvailable) {
+				doubleRowFiveLob = true;
+				doubleRowLob = false;
+				doubleRowLobSelectorWidget.setVisibility(View.GONE);
+				doubleRowFiveLobSelectorWidget.transformButtons(1.0f);
+				doubleRowFiveLobSelectorWidget.setVisibility(View.VISIBLE);
+			}
+			else {
+				doubleRowLob = true;
+				doubleRowFiveLob = false;
+				doubleRowFiveLobSelectorWidget.setVisibility(View.GONE);
+				doubleRowLobSelectorWidget.transformButtons(1.0f);
+				doubleRowLobSelectorWidget.setVisibility(View.VISIBLE);
+			}
 			listHeaderPaddingTop = R.dimen.launch_header_double_row_top_space;
 		}
 		else {
 			doubleRowLob = false;
+			doubleRowFiveLob = false;
 			lobHeight = getResources().getDimension(R.dimen.launch_lob_container_height);
 			lobSelectorWidget.transformButtons(1.0f);
 			lobSelectorWidget.setVisibility(View.VISIBLE);
 			doubleRowLobSelectorWidget.setVisibility(View.GONE);
+			doubleRowFiveLobSelectorWidget.setVisibility(View.GONE);
 			listHeaderPaddingTop = R.dimen.launch_header_top_space;
 			lobSelectorWidget.updateView();
 		}

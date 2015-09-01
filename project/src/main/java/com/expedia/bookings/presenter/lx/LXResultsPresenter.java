@@ -91,6 +91,9 @@ public class LXResultsPresenter extends Presenter {
 
 	private SearchResultFilterObserver searchResultFilterObserver = new SearchResultFilterObserver();
 
+	private boolean isGroundTransport;
+	private static final String GT_FILTERS = "Shared Transfers|Private Transfers";
+
 	@OnClick(R.id.sort_filter_button)
 	public void onSortFilterClicked() {
 		show(sortFilterWidget);
@@ -194,7 +197,9 @@ public class LXResultsPresenter extends Presenter {
 			searchResultsWidget.bind(lxSearchResponse.activities);
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 			sortFilterWidget.bind(lxSearchResponse.filterCategories);
-			sortFilterButton.setVisibility(View.VISIBLE);
+			if (!isGroundTransport) {
+				sortFilterButton.setVisibility(View.VISIBLE);
+			}
 			sortFilterButton.showNumberOfFilters(0);
 			AdTracker.trackLXSearchResults(lxState.searchParams, lxSearchResponse);
 
@@ -216,8 +221,13 @@ public class LXResultsPresenter extends Presenter {
 		@Override
 		public void onNext(LXSearchResponse lxSearchResponse) {
 			Events.post(new Events.LXSearchFilterResultsReady(lxSearchResponse.activities, lxSearchResponse.filterCategories));
+			if (!lxSearchResponse.isFromCachedResponse) {
+				Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
+			}
 			sortFilterWidget.bind(lxSearchResponse.filterCategories);
-			sortFilterButton.setVisibility(View.VISIBLE);
+			if (!isGroundTransport) {
+				sortFilterButton.setVisibility(View.VISIBLE);
+			}
 			sortFilterButton.showNumberOfFilters(sortFilterWidget.getNumberOfSelectedFilters());
 		}
 	};
@@ -257,13 +267,22 @@ public class LXResultsPresenter extends Presenter {
 		searchResultObserver.searchType = event.lxSearchParams.searchType;
 		searchResultFilterObserver.searchType = event.lxSearchParams.searchType;
 
-		boolean areExternalFiltersSupplied = Strings.isNotEmpty(event.lxSearchParams.filters);
+		String filters = null;
+		boolean areExternalFiltersSupplied = false;
+		if (isGroundTransport) {
+			filters = GT_FILTERS;
+			areExternalFiltersSupplied = true;
+		}
+		else if (Strings.isNotEmpty(event.lxSearchParams.filters)) {
+			filters = event.lxSearchParams.filters;
+			areExternalFiltersSupplied = true;
+		}
 		searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams,
-			areExternalFiltersSupplied ? new LXSortFilterMetadata(event.lxSearchParams.filters) : null,
+			areExternalFiltersSupplied ? new LXSortFilterMetadata(filters) : null,
 			areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver);
 
 		if (areExternalFiltersSupplied) {
-			sortFilterWidget.setSelectedFilterCategories(event.lxSearchParams.filters);
+			sortFilterWidget.setSelectedFilterCategories(filters);
 		}
 	}
 
@@ -377,4 +396,8 @@ public class LXResultsPresenter extends Presenter {
 			}
 		}
 	};
+
+	public void setIsFromGroundTransport(boolean isGroundTransport) {
+		this.isGroundTransport = isGroundTransport;
+	}
 }

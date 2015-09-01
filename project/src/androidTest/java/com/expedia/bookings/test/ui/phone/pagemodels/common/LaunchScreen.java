@@ -31,6 +31,10 @@ public class LaunchScreen extends LaunchActionBar {
 		return onView(allOf(withId(R.id.activities_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
+	public static ViewInteraction groundTransportLaunchButton() {
+		return onView(allOf(withId(R.id.transport_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+	}
+
 	public static ViewInteraction tripsButton() {
 		return onView(withText(R.string.Your_Trips));
 	}
@@ -55,6 +59,10 @@ public class LaunchScreen extends LaunchActionBar {
 		lxLaunchButton().perform(click());
 	}
 
+	public static void launchGroundTransport() {
+		groundTransportLaunchButton().perform(click());
+	}
+
 	public static ViewInteraction carLaunchButtonInDoubleRow() {
 		return onView(allOf(withId(R.id.cars_button), isDescendantOfA(withId(R.id.double_row_lob_selector))));
 	}
@@ -68,7 +76,7 @@ public class LaunchScreen extends LaunchActionBar {
 	}
 
 	public static ViewInteraction lxLaunchButtonInSingleRow() {
-		return onView(allOf(withId(R.id.lx_button), isDescendantOfA(withId(R.id.lob_selector))));
+		return onView(allOf(withId(R.id.activities_button), isDescendantOfA(withId(R.id.lob_selector))));
 	}
 
 	public static ViewInteraction lobSingleRowWidget() {
