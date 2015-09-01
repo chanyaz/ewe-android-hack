@@ -151,7 +151,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			return;
 		}
 
-		OmnitureTracking.trackPageLoadFlightCheckoutPaymentCid(this);
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentCid();
 	}
 
 	@Override
@@ -163,8 +163,6 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		}
 
 		setCvvErrorMode(mCvvErrorModeEnabled);
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -181,8 +179,6 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		if (shouldBail()) {
 			return;
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -471,7 +467,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			AdTracker.trackFlightBooked();
 			launchConfirmationActivity();
 
-			OmnitureTracking.trackPageLoadFlightCheckoutConfirmation(mContext);
+			OmnitureTracking.trackPageLoadFlightCheckoutConfirmation();
 		}
 	}
 

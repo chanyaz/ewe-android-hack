@@ -719,7 +719,6 @@ public class PointOfSale {
 	public boolean shouldShowCircleForRatings() {
 		return shouldShowCircleForRatings;
 	}
-
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1085,6 +1084,7 @@ public class PointOfSale {
 		pos.mShowFlightsFreeCancellation = data.optBoolean("shouldShowFlightsFreeCancellation", false);
 		pos.mMarketingOptIn = MarketingOptIn
 			.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
+		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 

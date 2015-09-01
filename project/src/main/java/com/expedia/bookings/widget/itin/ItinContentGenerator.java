@@ -468,7 +468,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				ClipboardUtils.setText(getContext(), text);
 				Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
 				if (isConfNumber && getItinCardData().getTripComponent().getType() == Type.FLIGHT) {
-					OmnitureTracking.trackItinFlightCopyPNR(getContext());
+					OmnitureTracking.trackItinFlightCopyPNR();
 				}
 			}
 		});
@@ -519,7 +519,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 						builder.setAttemptForceMobileSite(true);
 						getContext().startActivity(builder.getIntent());
 
-						OmnitureTracking.trackItinInfoClicked(getContext(), getItinCardData().getTripComponent()
+						OmnitureTracking.trackItinInfoClicked(getItinCardData().getTripComponent()
 							.getType());
 					}
 
@@ -545,7 +545,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 						reloadImageView.setVisibility(View.INVISIBLE);
 					}
 
-					OmnitureTracking.trackItinReload(getContext(), getType());
+					OmnitureTracking.trackItinReload(getType());
 				}
 			});
 

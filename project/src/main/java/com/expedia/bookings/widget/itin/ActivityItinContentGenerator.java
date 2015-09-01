@@ -210,7 +210,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 					Context context = getContext();
 					Intent intent = getItinCardData().buildRedeemIntent(context);
 					context.startActivity(intent);
-					OmnitureTracking.trackItinActivityRedeem(context);
+					OmnitureTracking.trackItinActivityRedeem();
 				}
 			});
 	}
@@ -232,7 +232,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 				@Override
 				public void onClick(View v) {
 					SocialUtils.call(getContext(), finalPhoneNumber);
-					OmnitureTracking.trackItinActivitySupport(getContext());
+					OmnitureTracking.trackItinActivitySupport();
 				}
 			});
 	}

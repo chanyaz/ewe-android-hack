@@ -77,10 +77,19 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 		return valid;
 	}
 
-
 	public void setValidationIndicatorState(boolean valid) {
 		for (SectionField<?, T> field : mFields) {
 			if (field instanceof SectionFieldValidIndicator && field.hasBoundField()) {
+				((SectionFieldValidIndicator) field)
+					.onPostValidate(((SectionFieldValidIndicator) field).getField(), valid, true);
+			}
+		}
+	}
+
+	public void setValidationIndicatorState(int currentFieldId, boolean valid) {
+		for (SectionField<?, T> field : mFields) {
+			if ((field instanceof SectionFieldValidIndicator && field.hasBoundField()
+				&& field.getFieldId() == currentFieldId)) {
 				((SectionFieldValidIndicator) field)
 					.onPostValidate(((SectionFieldValidIndicator) field).getField(), valid, true);
 			}

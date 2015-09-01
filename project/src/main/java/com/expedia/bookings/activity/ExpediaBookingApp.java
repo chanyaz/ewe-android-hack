@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -56,6 +57,7 @@ import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.WalletUtils;
+import com.facebook.AppLinkData;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
@@ -71,10 +73,9 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import io.fabric.sdk.android.Fabric;
 import rx.Observer;
 
-public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler,
-	AdvertisingIdUtils.OnIDFALoaded {
+public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
 	// Don't change the actual string, updated identifier for clarity
-	private static final String PREF_FIRST_LAUNCH_OCCURED = "PREF_FIRST_LAUNCH";
+	private static final String PREF_FIRST_LAUNCH = "PREF_FIRST_LAUNCH";
 
 	// For logged in backward compatibility with AccountManager
 	private static final String PREF_UPGRADED_TO_ACCOUNT_MANAGER = "PREF_UPGRADED_TO_ACCOUNT_MANAGER";
@@ -169,8 +170,8 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		// Pull down advertising ID
 		if (!isAutomation()) {
-			AdvertisingIdUtils.loadIDFA(this, this);
-			startupTimer.addSplit("IDFA wireup");
+			AdvertisingIdUtils.loadIDFA(this, null);
+			startupTimer.addSplit("Load Advertising Id");
 		}
 
 		// Init required for Omniture tracking
@@ -221,15 +222,34 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
 
-		// We need to run this for automation right now until leanplum fixes a crash
-		if (!isRobolectric()) {
-			if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
-				LeanPlumUtils.init(this, isAutomation());
-				startupTimer.addSplit("LeanPlum started.");
+		AppLinkData.fetchDeferredAppLinkData(this,
+			new AppLinkData.CompletionHandler() {
+				@Override
+				public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
+					// applinkData is null in case it is not a deferred deeplink.
+					if (appLinkData != null && appLinkData.getTargetUri() != null) {
+						Log.v("Facebook Deferred Deeplink: ", appLinkData.getTargetUri().toString());
+						Intent intent = new Intent();
+						intent.setData(appLinkData.getTargetUri());
+						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						intent.setComponent(new ComponentName(BuildConfig.APPLICATION_ID,
+							"com.expedia.bookings.activity.DeepLinkRouterActivity"));
+						startActivity(intent);
+					}
+				}
 			}
-		}
+		);
 
 		if (!isAutomation()) {
+			AdTracker.init(getApplicationContext());
+			startupTimer.addSplit("AdTracker started.");
+
+			if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+				LeanPlumUtils.init(this);
+				startupTimer.addSplit("LeanPlum started.");
+			}
+
 			if (ProductFlavorFeatureConfiguration.getInstance().isAdXEnabled()) {
 				AdX.initialize(this);
 				startupTimer.addSplit("AdX started.");
@@ -246,7 +266,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		// We also don't want to bother if the user has never launched the app before
 		if (BuildConfig.RELEASE
 			&& !SettingUtils.get(this, PREF_UPGRADED_TO_PRODUCTION_PUSH, false)
-			&& SettingUtils.get(this, PREF_FIRST_LAUNCH_OCCURED, false)) {
+			&& SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
 
 			final String testPushServer = PushNotificationUtils.REGISTRATION_URL_TEST;
 			final String regId = GCMRegistrationKeeper.getInstance(this).getRegistrationId(this);
@@ -261,14 +281,14 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("Push server unregistered (if needed)");
 
-		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH_OCCURED, false)) {
-			SettingUtils.save(this, PREF_FIRST_LAUNCH_OCCURED, true);
+		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
+			SettingUtils.save(this, PREF_FIRST_LAUNCH, true);
 			AdTracker.trackFirstLaunch();
 			startupTimer.addSplit("AdTracker first launch tracking");
 		}
 
 		// 2249: We don't need to unregister if this is the user's first launch
-		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH_OCCURED, false)) {
+		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
 			SettingUtils.save(ExpediaBookingApp.this, PREF_UPGRADED_TO_PRODUCTION_PUSH, true);
 		}
 
@@ -320,7 +340,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		// Call the original exception handler - probably crashlytics
 		mOriginalUncaughtExceptionHandler.uncaughtException(thread, ex);
 
-		OmnitureTracking.trackCrash(this, ex);
+		OmnitureTracking.trackCrash(ex);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -489,34 +509,24 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 	}
 
-	@Override
-	public void onIDFALoaded(String idfa) {
-		// ignore
-	}
-
-	@Override
-	public void onIDFAFailed() {
-		// ignore
-	}
-
 	private Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
 		@Override
 		public void onCompleted() {
-			Log.d("AbacusReponse - onCompleted");
+			Log.d("AbacusResponse - onCompleted");
 		}
 
 		@Override
 		public void onError(Throwable e) {
-			// onError is called during debuging & cannot connect to dev endpoint
+			// onError is called during debugging & cannot connect to dev endpoint
 			// but we still want to modify the tests for debugging and QA purposes
 			updateAbacus(new AbacusResponse());
-			Log.d("AbacusReponse - onError", e);
+			Log.d("AbacusResponse - onError", e);
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
 			updateAbacus(abacusResponse);
-			Log.d("AbacusReponse - onNext");
+			Log.d("AbacusResponse - onNext");
 		}
 	};
 

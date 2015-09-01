@@ -34,7 +34,7 @@ public class DebugInfoUtils {
 		body.append(context.getPackageName());
 		body.append("\n");
 		body.append("VERSION: ");
-		body.append(AndroidUtils.getAppVersion(context));
+		body.append(BuildConfig.VERSION_NAME);
 		body.append("\n");
 		body.append("CODE: ");
 		body.append(AndroidUtils.getAppCode(context));

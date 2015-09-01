@@ -82,7 +82,7 @@ public class FlightSearchLoadingFragment extends android.support.v4.app.Fragment
 		if (showDefaultPlaneWindowAnimation) {
 			mPlaneWindowView.setRendering(true);
 		}
-		OmnitureTracking.trackPageLoadFlightSearchResultsPlaneLoadingFragment(getActivity());
+		OmnitureTracking.trackPageLoadFlightSearchResultsPlaneLoadingFragment();
 	}
 
 	@Override

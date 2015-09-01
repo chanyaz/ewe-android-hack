@@ -43,7 +43,7 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 	}
 
 	public static class LxSuggestionViewHolder {
-		@InjectView(R.id.display_name_textView)
+		@InjectView(R.id.title_textview)
 		TextView displayName;
 
 		@InjectView(R.id.lx_dropdown_imageView)

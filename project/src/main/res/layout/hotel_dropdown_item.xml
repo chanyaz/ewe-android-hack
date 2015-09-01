@@ -8,16 +8,15 @@
     android:paddingTop="10dp">
 
     <ImageView
-        android:id="@+id/cars_dropdown_imageView"
+        android:id="@+id/icon_imageview"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="11dp"
-        android:paddingLeft="9dp"
-        android:src="@drawable/ic_suggest_current_location" />
+        android:paddingLeft="9dp" />
 
     <ImageView
-        android:id="@+id/hotel_group_imageView"
+        android:id="@+id/hierarchy_imageview"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_gravity="center_vertical"
@@ -28,7 +27,7 @@
         android:src="@drawable/neighborhood_arrow" />
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/display_name_textView"
+        android:id="@+id/title_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

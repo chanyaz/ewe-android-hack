@@ -242,11 +242,11 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 				String tripId = Db.getTripBucket().getFlight().getItinerary().getTripId();
 				args = AccountLibActivity.createArgumentsBundle(getLob(), new UserToTripAssocLoginExtender(
 					tripId));
-				OmnitureTracking.trackPageLoadFlightLogin(getActivity());
+				OmnitureTracking.trackPageLoadFlightLogin();
 			}
 			else if (getLob() == LineOfBusiness.HOTELS) {
 				args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
-				OmnitureTracking.trackPageLoadHotelsLogin(getActivity());
+				OmnitureTracking.trackPageLoadHotelsLogin();
 			}
 
 			User.signIn(getActivity(), args);

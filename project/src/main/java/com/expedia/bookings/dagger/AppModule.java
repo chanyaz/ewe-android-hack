@@ -138,6 +138,7 @@ public class AppModule {
 			@Override
 			public void intercept(RequestFacade request) {
 				request.addHeader("User-Agent", ServicesUtil.generateUserAgentString(context));
+				request.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(context));
 				request.addEncodedQueryParam("clientid", ServicesUtil.generateClientId(context));
 				request.addEncodedQueryParam("sourceType", ServicesUtil.generateSourceType());
 

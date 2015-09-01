@@ -171,7 +171,7 @@ public class Events {
 		public LaunchLocation selectedLocation;
 
 		public LaunchCollectionsAvailable(List<LaunchCollection> collections, LaunchCollection selectedCollection,
-										  LaunchLocation selectedLocation) {
+			LaunchLocation selectedLocation) {
 			this.collections = collections;
 			this.selectedCollection = selectedCollection;
 			this.selectedLocation = selectedLocation;
@@ -641,7 +641,8 @@ public class Events {
 		public CreateTripCarOffer newCreateTripOffer;
 		public String tripId;
 
-		public CarsUpdateCheckoutSummaryAfterPriceChange(CreateTripCarOffer originalOffer, CreateTripCarOffer newOffer, String tripId) {
+		public CarsUpdateCheckoutSummaryAfterPriceChange(CreateTripCarOffer originalOffer, CreateTripCarOffer newOffer,
+			String tripId) {
 			this.originalCreateTripOffer = originalOffer;
 			this.newCreateTripOffer = newOffer;
 			this.tripId = tripId;
@@ -783,8 +784,10 @@ public class Events {
 			lxSearchParams = params;
 		}
 
-		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, SearchType searchType) {
-			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate).searchType(searchType);
+		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate,
+			SearchType searchType) {
+			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate)
+				.searchType(searchType);
 		}
 
 		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate) {
@@ -792,7 +795,15 @@ public class Events {
 		}
 
 		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, String filters) {
-			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate).searchType(SearchType.EXPLICIT_SEARCH).filters(filters);
+			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate)
+				.searchType(SearchType.EXPLICIT_SEARCH).filters(
+					filters);
+		}
+
+		public LXNewSearchParamsAvailable(String activityId, String locationName, LocalDate startDate,
+			LocalDate endDate) {
+			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate)
+				.searchType(SearchType.EXPLICIT_SEARCH).activityId(activityId);
 		}
 	}
 
@@ -826,7 +837,8 @@ public class Events {
 		public List<LXActivity> filteredActivities;
 		public Map<String, LXCategoryMetadata> filterCategories;
 
-		public LXSearchFilterResultsReady(List<LXActivity> filteredActivities,  Map<String, LXCategoryMetadata> filterCategories) {
+		public LXSearchFilterResultsReady(List<LXActivity> filteredActivities,
+			Map<String, LXCategoryMetadata> filterCategories) {
 			this.filteredActivities = filteredActivities;
 			this.filterCategories = filterCategories;
 		}
@@ -1059,6 +1071,7 @@ public class Events {
 
 	public static class MemoryTestInput {
 		public int viewId;
+
 		public MemoryTestInput(int viewId) {
 			this.viewId = viewId;
 		}

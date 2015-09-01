@@ -27,7 +27,6 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -89,9 +88,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 		Car car = getItinCardData().getCar();
 
-		final String url = new Akeakamai(Images.getCarRental(car, getResources().getDimension(R.dimen.car_image_width))) //
-			.resizeExactly(width, height) //
-			.build();
+		String url = Images.getCarRental(car, getResources().getDimension(R.dimen.car_image_width));
 
 		new PicassoHelper.Builder(getContext())
 			.setPlaceholder(getHeaderImagePlaceholderResId())
@@ -278,7 +275,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 						if (intent != null) {
 							NavUtils.startActivitySafe(getContext(), intent);
 
-							OmnitureTracking.trackItinCarDirections(getContext());
+							OmnitureTracking.trackItinCarDirections();
 						}
 					}
 				});
@@ -293,7 +290,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 				public void onClick(View v) {
 					SocialUtils.call(getContext(), vendorPhone);
 
-					OmnitureTracking.trackItinCarCall(getContext());
+					OmnitureTracking.trackItinCarCall();
 				}
 			});
 		}

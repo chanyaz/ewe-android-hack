@@ -1,9 +1,6 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.hotels.NearbyHotelParams
+import com.expedia.bookings.data.hotels.*
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import org.joda.time.DateTime
@@ -43,20 +40,42 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			.subscribe(observer)
 	}
 
-	public fun suggestHotels(params: HotelSearchParams, observer: Observer<List<Hotel>>): Subscription {
-		return hotelApi.suggestionHotelSearch(params.city.regionNames.shortName, params.checkIn.toString(), params.checkOut.toString(),
+	public fun regionSearch(params: HotelSearchParams, observer: Observer<HotelSearchResponse>): Subscription {
+		return hotelApi.regionSearch(params.suggestion.gaiaId, params.checkIn.toString(), params.checkOut.toString(),
 				params.getGuestString())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
-				.map { response -> response.hotelList }
+				.doOnNext { response -> response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }}
+				.doOnNext { response -> response.hotelList.map { hotel ->
+					if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
+						response.neighborhoodsMap.get(hotel.locationId)?.hotels?.add(hotel)
+					}
+				}}
+				.doOnNext { response -> response.allNeighborhoodsInSearchRegion.map {
+					it.score = it.hotels.map { 1 }.sum()
+				}}
 				.subscribe(observer)
 	}
 
-    public fun getHotelDetails(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
-        return hotelApi.getHotelDetails(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
+    public fun details(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
+        return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
                 hotelSearchParams.getGuestString(), hotelId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)
     }
+
+	public fun createTrip(body: HotelCreateTripParams, observer: Observer<HotelCreateTripResponse>): Subscription {
+		return hotelApi.createTrip(body.toQueryMap())
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+				.subscribe(observer)
+	}
+
+	public fun checkout(params: HotelCheckoutParams, observer: Observer<HotelCheckoutResponse>): Subscription {
+		return hotelApi.checkout(params.toQueryMap())
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+				.subscribe(observer)
+	}
 }

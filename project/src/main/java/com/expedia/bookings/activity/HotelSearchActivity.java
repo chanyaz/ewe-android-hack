@@ -97,13 +97,13 @@ import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
 import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
-import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -127,7 +127,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -609,8 +608,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			downloader.unregisterDownloadCallback(KEY_HOTEL_SEARCH);
 			downloader.unregisterDownloadCallback(KEY_HOTEL_INFO);
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -712,8 +709,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 
 		mIsActivityResumed = true;
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -786,16 +781,12 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			AlertDialog.Builder builder = new Builder(this);
 			builder.setTitle(R.string.ChooseLocation);
 			builder.setItems(freeformLocations, new Dialog.OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					Address address = mAddresses.get(which);
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
 					HotelSearchParams searchParams = getCurrentSearchParams();
 					SearchType searchType = SearchUtils.isExactLocation(address) ? SearchType.ADDRESS : SearchType.CITY;
-
-					// The user found a better version of the search they ran,
-					// so we'll replace it from startSearchDownloader
-					Search.delete(HotelSearchActivity.this, searchParams);
-
 					searchParams.setQuery(formattedAddress);
 					setSearchEditViews();
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
@@ -808,12 +799,14 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				}
 			});
 			builder.setNegativeButton(R.string.cancel, new Dialog.OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					simulateErrorResponse(getString(R.string.NoGeocodingResults, getCurrentSearchParams().getQuery()));
 				}
 			});
 			builder.setOnCancelListener(new OnCancelListener() {
+				@Override
 				public void onCancel(DialogInterface dialog) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					simulateErrorResponse(getString(R.string.NoGeocodingResults, getCurrentSearchParams().getQuery()));
@@ -826,6 +819,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			final ServerError error = Db.getHotelSearch().getSearchResponse().getErrors().get(0);
 			builder.setMessage(error.getExtra("message"));
 			builder.setPositiveButton(R.string.upgrade, new OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					SocialUtils.openSite(HotelSearchActivity.this, error.getExtra("url"));
 				}
@@ -837,6 +831,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			AlertDialog.Builder builder = new Builder(this);
 			builder.setMessage(R.string.EnableLocationSettings);
 			builder.setPositiveButton(R.string.ok, new Dialog.OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 					if (NavUtils.isIntentAvailable(mContext, intent)) {
@@ -963,27 +958,27 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 
 		case R.id.menu_select_sort_popularity:
-			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_POPULAR);
+			OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_POPULAR);
 			mSortOptionSelectedId = item.getItemId();
 			rebuildFilter = true;
 			break;
 		case R.id.menu_select_sort_deals:
-			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_DEALS);
+			OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_DEALS);
 			mSortOptionSelectedId = item.getItemId();
 			rebuildFilter = true;
 			break;
 		case R.id.menu_select_sort_price:
-			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_PRICE);
+			OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_PRICE);
 			mSortOptionSelectedId = item.getItemId();
 			rebuildFilter = true;
 			break;
 		case R.id.menu_select_sort_user_rating:
-			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_RATING);
+			OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_RATING);
 			mSortOptionSelectedId = item.getItemId();
 			rebuildFilter = true;
 			break;
 		case R.id.menu_select_sort_distance:
-			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_DISTANCE);
+			OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_DISTANCE);
 			mSortOptionSelectedId = item.getItemId();
 			rebuildFilter = true;
 			break;
@@ -1128,7 +1123,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	//----------------------------------
 
 	private void findLocation() {
-		if (!NetUtils.isOnline(mContext)) {
+		if (!ExpediaNetUtils.isOnline(mContext)) {
 			simulateErrorResponse(R.string.error_no_internet);
 			return;
 		}
@@ -1148,7 +1143,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			public void onError() {
 				mFindingLocation = false;
 				simulateErrorResponse(R.string.ProviderDisabled);
-				OmnitureTracking.trackErrorPage(mContext, "LocationServicesNotAvailable");
+				OmnitureTracking.trackErrorPage("LocationServicesNotAvailable");
 			}
 		});
 	}
@@ -1266,7 +1261,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mAdultsNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
 		mChildrenNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
 	}
-	
+
 	private void setCircleDrawableForRatingRadioBtnBackground() {
 		RadioButton ratingLowButton = (RadioButton) mRatingButtonGroup.findViewById(R.id.rating_low_button);
 		RadioButton ratingMediumButton = (RadioButton) mRatingButtonGroup.findViewById(R.id.rating_medium_button);
@@ -1521,7 +1516,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		searchParams.setUserQuery(searchParams.getQuery());
 
-		if (!NetUtils.isOnline(this)) {
+		if (!ExpediaNetUtils.isOnline(this)) {
 			simulateErrorResponse(R.string.error_no_internet);
 			return;
 		}
@@ -1532,15 +1527,17 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	}
 
 	private final Download<List<Address>> mGeocodeDownload = new Download<List<Address>>() {
+		@Override
 		public List<Address> doDownload() {
 			return LocationServices.geocodeGoogle(mContext, Db.getHotelSearch().getSearchParams().getQuery());
 		}
 	};
 
 	private final OnDownloadComplete<List<Address>> mGeocodeCallback = new OnDownloadComplete<List<Address>>() {
+		@Override
 		public void onDownload(List<Address> results) {
 			if (results == null || results.size() == 0) {
-				OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "LocationNotFound");
+				OmnitureTracking.trackErrorPage("LocationNotFound");
 				simulateErrorResponse(R.string.geolocation_failed);
 			}
 			else {
@@ -1560,11 +1557,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
 					HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 					SearchType searchType = SearchUtils.isExactLocation(address) ? SearchType.ADDRESS : SearchType.CITY;
-
-					// The user found a better version of the search they ran,
-					// so we'll replace it from startSearchDownloader
-					Search.delete(HotelSearchActivity.this, searchParams);
-
 					searchParams.setQuery(formattedAddress);
 					setSearchEditViews();
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
@@ -1597,15 +1589,9 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		commitEditedSearchParams();
 
-		if (!NetUtils.isOnline(this)) {
+		if (!ExpediaNetUtils.isOnline(this)) {
 			simulateErrorResponse(R.string.error_no_internet);
 			return;
-		}
-
-		SearchType type = Db.getHotelSearch().getSearchParams().getSearchType();
-		if (type != SearchType.MY_LOCATION && type != SearchType.VISIBLE_MAP_AREA
-			&& (type != SearchType.HOTEL || !getIntent().getBooleanExtra(Codes.FROM_DEEPLINK, false))) {
-			Search.add(this, Db.getHotelSearch().getSearchParams());
 		}
 
 		Log.d("Resetting filter...");
@@ -1766,7 +1752,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				// Deprecated client version
 				showDialog(DIALOG_CLIENT_DEPRECATED);
 
-				OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "OutdatedVersion");
+				OmnitureTracking.trackErrorPage("OutdatedVersion");
 
 				showLoading(true /*isErrorMsg*/, false /*dontShowProgress*/, errorOne.getExtra("message"));
 			}
@@ -1777,7 +1763,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 
 		if (!handledError) {
-			OmnitureTracking.trackErrorPage(HotelSearchActivity.this, "HotelListRequestFailed");
+			OmnitureTracking.trackErrorPage("HotelListRequestFailed");
 			showLoading(true /*isErrorMsg*/, false /*dontShowProgress*/, LayoutUtils.noHotelsFoundMessage(mContext, Db.getHotelSearch().getSearchParams()));
 		}
 	}
@@ -1933,7 +1919,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 		else {
 			newFragmentTag = getString(R.string.tag_hotel_list);
-			OmnitureTracking.trackAppHotelsSearch(this);
+			OmnitureTracking.trackAppHotelsSearch();
 		}
 
 		showFragment(newFragmentTag);
@@ -2114,6 +2100,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		// showing up for a split second for reason I'm not entirely sure of.  ~dlew
 		if (ProductFlavorFeatureConfiguration.getInstance().isHangTagProgressBarEnabled() && !ExpediaBookingApp.isAutomation()) {
 			mProgressBar.postDelayed(new Runnable() {
+				@Override
 				public void run() {
 					mProgressBar.setVisibility(View.GONE);
 				}
@@ -2195,6 +2182,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	public void onDrawStarted() {
 		mGLProgressBarStarted = true;
 		mProgressBarHider.postDelayed(new Runnable() {
+			@Override
 			public void run() {
 				mProgressBarHider.setVisibility(View.GONE);
 			}
@@ -2452,9 +2440,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			}
 			else {
 				Object o = AutocompleteProvider.extractSearchOrString(suggestion);
-
-				if (o instanceof Search) {
-					mEditedSearchParams.fillFromSearch((Search) o);
+				if (o instanceof HotelSearchParams) {
+					mEditedSearchParams.fillFromHotelSearchParams((HotelSearchParams) o);
 				}
 				else {
 					mEditedSearchParams.setSearchType(SearchType.FREEFORM);
@@ -2499,21 +2486,23 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 	private void trackGuestCountChange(int oldCount, int newCount, String travelerType) {
 		if (oldCount < newCount) {
-			OmnitureTracking.trackAddTravelerLink(getBaseContext(), OmnitureTracking.PICKER_TRACKING_BASE_HOTELS, travelerType);
+			OmnitureTracking.trackAddTravelerLink(OmnitureTracking.PICKER_TRACKING_BASE_HOTELS, travelerType);
 		}
 		else if (oldCount > newCount) {
-			OmnitureTracking.trackRemoveTravelerLink(getBaseContext(), OmnitureTracking.PICKER_TRACKING_BASE_HOTELS, travelerType);
+			OmnitureTracking.trackRemoveTravelerLink(OmnitureTracking.PICKER_TRACKING_BASE_HOTELS, travelerType);
 		}
 	}
 
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 
+		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			List<ChildTraveler> children = getCurrentSearchParams().getChildren();
 			GuestsPickerUtils.setChildrenFromSpinners(HotelSearchActivity.this, mChildAgesLayout, children);
 			GuestsPickerUtils.updateDefaultChildTravelers(HotelSearchActivity.this, children);
 		}
 
+		@Override
 		public void onNothingSelected(AdapterView<?> parent) {
 			// Do nothing.
 		}
@@ -2558,7 +2547,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			mVipAccessFilterButton.setSelected(vipAccessEnabled);
 			buildFilter();
 
-			OmnitureTracking.trackLinkHotelRefineVip(mContext, vipAccessEnabled);
+			OmnitureTracking.trackLinkHotelRefineVip(vipAccessEnabled);
 		}
 	};
 
@@ -2570,8 +2559,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			// 1574: It seems that the cursor is null if we are still finding location
 			if (suggestion != null) {
 				Object o = AutocompleteProvider.extractSearchOrString(suggestion);
-				if (o instanceof Search) {
-					mEditedSearchParams.fillFromSearch((Search) o);
+				if (o instanceof HotelSearchParams) {
+					mEditedSearchParams.fillFromHotelSearchParams((HotelSearchParams) o);
 				}
 				startSearch();
 				return true;
@@ -2727,41 +2716,42 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private void onSearchResultsChanged() {
 
 		// Start actually tracking the search result change
-		OmnitureTracking.trackAppHotelsSearch(this);
+		OmnitureTracking.trackAppHotelsSearch();
 		AdTracker.trackHotelSearch();
 	}
 
 	private void onOpenFilterPanel() {
-		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Refine", null, null);
+		OmnitureTracking.trackSimpleEvent("App.Hotels.Search.Refine", null, null);
 	}
 
 	private void onSwitchToMap() {
-		OmnitureTracking.trackHotelSearchMapSwitch(this);
+		OmnitureTracking.trackHotelSearchMapSwitch();
 	}
 
 	// HotelFilter tracking
 
 	private void onFilterClosed() {
-		OmnitureTracking.trackLinkHotelRefineName(this, mFilterHotelNameEditText.getText().toString());
+		OmnitureTracking.trackLinkHotelRefineName(mFilterHotelNameEditText.getText().toString());
+		AdTracker.trackFilteredHotelSearch();
 	}
 
 	private void onPriceFilterChanged() {
 		switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.price_cheap_button: {
-			OmnitureTracking.trackLinkHotelRefinePriceRange(this, PriceRange.CHEAP);
+			OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.CHEAP);
 			break;
 		}
 		case R.id.price_moderate_button: {
-			OmnitureTracking.trackLinkHotelRefinePriceRange(this, PriceRange.MODERATE);
+			OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.MODERATE);
 			break;
 		}
 		case R.id.price_expensive_button: {
-			OmnitureTracking.trackLinkHotelRefinePriceRange(this, PriceRange.EXPENSIVE);
+			OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.EXPENSIVE);
 			break;
 		}
 		case R.id.price_all_button:
 		default: {
-			OmnitureTracking.trackLinkHotelRefinePriceRange(this, PriceRange.ALL);
+			OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.ALL);
 			break;
 		}
 		}
@@ -2770,20 +2760,20 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private void onRadiusFilterChanged() {
 		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.radius_small_button: {
-			OmnitureTracking.trackLinkHotelRefineSearchRadius(this, SearchRadius.SMALL);
+			OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.SMALL);
 			break;
 		}
 		case R.id.radius_medium_button: {
-			OmnitureTracking.trackLinkHotelRefineSearchRadius(this, SearchRadius.MEDIUM);
+			OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.MEDIUM);
 			break;
 		}
 		case R.id.radius_large_button: {
-			OmnitureTracking.trackLinkHotelRefineSearchRadius(this, SearchRadius.LARGE);
+			OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.LARGE);
 			break;
 		}
 		case R.id.radius_all_button:
 		default: {
-			OmnitureTracking.trackLinkHotelRefineSearchRadius(this, SearchRadius.ALL);
+			OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.ALL);
 			break;
 		}
 		}
@@ -2792,20 +2782,20 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	private void onRatingFilterChanged() {
 		switch (mRatingButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.rating_low_button: {
-			OmnitureTracking.trackLinkHotelRefineRating(this, "3Stars");
+			OmnitureTracking.trackLinkHotelRefineRating("3Stars");
 			break;
 		}
 		case R.id.rating_medium_button: {
-			OmnitureTracking.trackLinkHotelRefineRating(this, "4Stars");
+			OmnitureTracking.trackLinkHotelRefineRating("4Stars");
 			break;
 		}
 		case R.id.rating_high_button: {
-			OmnitureTracking.trackLinkHotelRefineRating(this, "5Stars");
+			OmnitureTracking.trackLinkHotelRefineRating("5Stars");
 			break;
 		}
 		case R.id.rating_all_button:
 		default: {
-			OmnitureTracking.trackLinkHotelRefineRating(this, "AllStars");
+			OmnitureTracking.trackLinkHotelRefineRating("AllStars");
 			break;
 		}
 		}
@@ -2847,7 +2837,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		Db.getHotelSearch().setSelectedProperty(property);
 		if (property.isSponsored()) {
 			AdImpressionTracking.trackAdClickOrImpression(mContext, property.getClickTrackingUrl(), null);
-			OmnitureTracking.trackHotelSponsoredListingClick(mContext);
+			OmnitureTracking.trackHotelSponsoredListingClick();
 		}
 		Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
 		startActivity(intent);

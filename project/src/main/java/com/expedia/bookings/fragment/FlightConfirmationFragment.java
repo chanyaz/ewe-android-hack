@@ -131,7 +131,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 					@Override
 					public void onClick(View v) {
 						searchForHotels();
-						OmnitureTracking.trackAddHotelClick(getActivity());
+						OmnitureTracking.trackAddHotelClick();
 					}
 				});
 				// Set air attach expiration date
@@ -142,7 +142,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 				expirationDateTv.setText(getResources().getQuantityString(R.plurals.days_from_now, daysRemaining, daysRemaining));
 
 
-				OmnitureTracking.trackFlightConfirmationAirAttach(getActivity());
+				OmnitureTracking.trackFlightConfirmationAirAttach();
 			}
 			else {
 				Ui.findView(v, R.id.hotels_action_text_view).setVisibility(View.VISIBLE);
@@ -152,7 +152,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 					@Override
 					public void onClick(View v) {
 						searchForHotels();
-						OmnitureTracking.trackCrossSellFlightToHotel(getActivity());
+						OmnitureTracking.trackCrossSellFlightToHotel();
 					}
 				});
 			}
@@ -174,7 +174,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 				@Override
 				public void onClick(View v) {
 					searchForCars();
-					OmnitureTracking.trackAddCarClick(getActivity());
+					OmnitureTracking.trackAddCarClick();
 				}
 			});
 		}
@@ -190,7 +190,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 				@Override
 				public void onClick(View v) {
 					searchForActivities();
-					OmnitureTracking.trackAddLxClick(getActivity());
+					OmnitureTracking.trackAddLxClick();
 				}
 			});
 		}
@@ -302,7 +302,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 		SocialUtils.email(getActivity(), subject, body);
 
-		OmnitureTracking.trackFlightConfirmationShareEmail(getActivity());
+		OmnitureTracking.trackFlightConfirmationShareEmail();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -315,7 +315,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 			startActivity(intent);
 		}
 
-		OmnitureTracking.trackFlightConfirmationAddToCalendar(getActivity());
+		OmnitureTracking.trackFlightConfirmationAddToCalendar();
 	}
 
 	@SuppressLint("NewApi")

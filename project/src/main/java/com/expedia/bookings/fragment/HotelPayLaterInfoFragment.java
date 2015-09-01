@@ -61,7 +61,7 @@ public class HotelPayLaterInfoFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackAppHotelsETPInfoPage(getActivity());
+		OmnitureTracking.trackAppHotelsETPInfoPage();
 	}
 
 	/**

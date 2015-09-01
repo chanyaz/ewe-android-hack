@@ -143,6 +143,10 @@ public class Strings {
 	}
 
 	public static int cutAtWordBarrier(CharSequence body, int cutoffLimit) {
+		if (cutoffLimit >= body.length()) {
+			return body.length();
+		}
+
 		int before = cutoffLimit;
 		for (int i = cutoffLimit; i > 0; i--) {
 			char c = body.charAt(i);

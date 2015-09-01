@@ -68,6 +68,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		summaryContainer.addView(summaryWidget);
 		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.lx_enter_contact_details));
 		paymentInfoCardView.setLineOfBusiness(LineOfBusiness.LX);
+		paymentInfoCardView.setZipValidationRequired(false);
 	}
 
 	@Subscribe
@@ -192,14 +193,16 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 			Db.getTripBucket().clearLX();
 			Db.getTripBucket().add(new TripBucketItemLX(response));
 			showProgress(false);
-			OmnitureTracking.trackAppLXCheckoutPayment(getContext(), lxState.activity.id,
+			OmnitureTracking.trackAppLXCheckoutPayment(lxState.activity.id,
 				DateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),
 				lxState.selectedTicketsCount(), lxState.latestTotalPrice().getAmount().setScale(2).toString());
 			Money tripTotalPrice = response.hasPriceChange() ? response.newTotalPrice : lxState.latestTotalPrice();
 			// We don't support multiple ticket booking as of now, passing only the first bookable item.
 			bind(response.tripId, response.originalPrice, tripTotalPrice, response.lxProduct.lxBookableItems.get(0));
 			AdTracker.trackLXCheckoutStarted(lxState.activity.destination, tripTotalPrice,
-				lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate, lxState.activity.categories, lxState.selectedTicketsCount(), lxState.activity.title);
+				lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate, lxState.activity.categories,
+				lxState.selectedTicketsCount(), lxState.activity.title, lxState.activity.regionId, lxState.activity.id,
+				lxState.searchParams.startDate, lxState.selectedChildTicketsCount());
 			show(new Ready(), FLAG_CLEAR_BACKSTACK);
 			Events.post(new Events.LXCreateTripSucceeded(response, lxState.activity));
 		}

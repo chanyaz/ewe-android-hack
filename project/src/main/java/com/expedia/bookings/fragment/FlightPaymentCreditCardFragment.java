@@ -123,7 +123,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditCard(getActivity());
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditCard();
 	}
 
 	@Override

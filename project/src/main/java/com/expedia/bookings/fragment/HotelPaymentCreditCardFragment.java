@@ -94,7 +94,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditCard(getActivity());
+		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditCard();
 	}
 
 	@Override

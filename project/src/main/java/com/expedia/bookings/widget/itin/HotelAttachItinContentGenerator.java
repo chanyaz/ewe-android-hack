@@ -54,7 +54,7 @@ public class HotelAttachItinContentGenerator extends ItinButtonContentGenerator<
 			@Override
 			public void onClick(View v) {
 				HotelCrossSellUtils.deepLinkHotels(v.getContext(), getItinCardData().getSearchParams());
-				OmnitureTracking.trackCrossSellItinToHotel(v.getContext());
+				OmnitureTracking.trackCrossSellItinToHotel();
 			}
 		};
 	}

@@ -210,15 +210,15 @@ public class WebViewFragment extends DialogFragment {
 		if (mTrackingName != null) {
 			switch (mTrackingName) {
 			case BaggageFeeOneWay: {
-				OmnitureTracking.trackPageLoadFlightBaggageFeeOneWay(getActivity());
+				OmnitureTracking.trackPageLoadFlightBaggageFeeOneWay();
 				break;
 			}
 			case BaggageFeeOutbound: {
-				OmnitureTracking.trackPageLoadFlightBaggageFeeOutbound(getActivity());
+				OmnitureTracking.trackPageLoadFlightBaggageFeeOutbound();
 				break;
 			}
 			case BaggageFeeInbound: {
-				OmnitureTracking.trackPageLoadFlightBaggageFeeInbound(getActivity());
+				OmnitureTracking.trackPageLoadFlightBaggageFeeInbound();
 				break;
 			}
 			}

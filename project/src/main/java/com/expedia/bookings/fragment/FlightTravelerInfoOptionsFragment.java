@@ -127,7 +127,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
 
-				OmnitureTracking.trackLinkFlightCheckoutTravelerEnterManually(getActivity());
+				OmnitureTracking.trackLinkFlightCheckoutTravelerEnterManually();
 			}
 		});
 
@@ -217,7 +217,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightTravelerSelect(getActivity());
+		OmnitureTracking.trackPageLoadFlightTravelerSelect();
 	}
 
 	@Override
@@ -319,7 +319,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 								mTravelerDetailsCallback);
 						}
 
-						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting(getActivity());
+						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting();
 					}
 				}
 			});

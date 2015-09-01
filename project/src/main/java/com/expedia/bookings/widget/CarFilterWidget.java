@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -33,11 +34,13 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import rx.subjects.PublishSubject;
 
 public class CarFilterWidget extends LinearLayout {
 
 	private CarFilter filter = new CarFilter();
 	private boolean isFilteredToZeroResults = false;
+	private PublishSubject filterDonePublishSubject;
 
 	public CarFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -87,6 +90,9 @@ public class CarFilterWidget extends LinearLayout {
 	@InjectView(R.id.dynamic_feedback_container)
 	DynamicFeedbackWidget dynamicFeedbackWidget;
 
+	@InjectView(R.id.toolbar_dropshadow)
+	View toolbarDropshadow;
+
 	private Button doneButton;
 
 	@OnClick(R.id.transmission_filter_all)
@@ -97,7 +103,7 @@ public class CarFilterWidget extends LinearLayout {
 		filter.carTransmissionType = null;
 		postCarFilterEvent();
 
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "All");
+		OmnitureTracking.trackAppCarFilterUsage("All");
 	}
 
 	@OnClick(R.id.transmission_filter_manual)
@@ -108,7 +114,7 @@ public class CarFilterWidget extends LinearLayout {
 		filter.carTransmissionType = Transmission.MANUAL_TRANSMISSION;
 		postCarFilterEvent();
 
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Manual");
+		OmnitureTracking.trackAppCarFilterUsage("Manual");
 
 	}
 
@@ -120,35 +126,35 @@ public class CarFilterWidget extends LinearLayout {
 		filter.carTransmissionType = Transmission.AUTOMATIC_TRANSMISSION;
 		postCarFilterEvent();
 
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Auto");
+		OmnitureTracking.trackAppCarFilterUsage("Auto");
 
 	}
 
 	@OnClick(R.id.ac_filter)
 	public void onAirConditioningFilterClick() {
 		airConditioningCheckbox.setChecked(!airConditioningCheckbox.isChecked());
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Air");
+		OmnitureTracking.trackAppCarFilterUsage("Air");
 
 	}
 
 	@OnClick(R.id.unlimited_mileage_filter)
 	public void onMileageFilterClick() {
 		unlimitedMileageCheckbox.setChecked(!unlimitedMileageCheckbox.isChecked());
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Unlimited");
+		OmnitureTracking.trackAppCarFilterUsage("Unlimited");
 	}
 
 	@OnCheckedChanged(R.id.ac_filter_checkbox)
 	public void onACFilterCheckedChanged(boolean checked) {
 		filter.hasAirConditioning = checked;
 		postCarFilterEvent();
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Air");
+		OmnitureTracking.trackAppCarFilterUsage("Air");
 	}
 
 	@OnCheckedChanged(R.id.unlimited_mileage_filter_checkbox)
 	public void onMileageFilterCheckedChanged(boolean checked) {
 		filter.hasUnlimitedMileage = checked;
 		postCarFilterEvent();
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Unlimited");
+		OmnitureTracking.trackAppCarFilterUsage("Unlimited");
 	}
 
 	@Override
@@ -177,7 +183,18 @@ public class CarFilterWidget extends LinearLayout {
 				return true;
 			}
 		});
+
+		scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+			@Override
+			public void onScrollChanged() {
+				int scrollY = scrollView.getScrollY();
+				float ratio = (float) (scrollY) / 100;
+				toolbarDropshadow.setAlpha(ratio);
+			}
+		});
+
 	}
+
 
 	@Override
 	protected void onAttachedToWindow() {
@@ -199,6 +216,7 @@ public class CarFilterWidget extends LinearLayout {
 			@Override
 			public void onClick(View v) {
 				if (!isFilteredToZeroResults) {
+					filterDonePublishSubject.onNext(null);
 					((Activity) getContext()).onBackPressed();
 				}
 				else {
@@ -248,7 +266,8 @@ public class CarFilterWidget extends LinearLayout {
 		}
 	}
 
-	public void bind(CarSearch search) {
+	public void bind(CarSearch search, PublishSubject filterDonePublishSubject) {
+		this.filterDonePublishSubject = filterDonePublishSubject;
 		List<CategorizedCarOffers> categories = search.categories;
 
 		filter = new CarFilter();
@@ -320,7 +339,7 @@ public class CarFilterWidget extends LinearLayout {
 		}
 
 		postCarFilterEvent();
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Category");
+		OmnitureTracking.trackAppCarFilterUsage("Category");
 	}
 
 	@Subscribe
@@ -333,7 +352,7 @@ public class CarFilterWidget extends LinearLayout {
 		}
 
 		postCarFilterEvent();
-		OmnitureTracking.trackAppCarFilterUsage(getContext(), "Vendor");
+		OmnitureTracking.trackAppCarFilterUsage("Vendor");
 	}
 
 	@Subscribe

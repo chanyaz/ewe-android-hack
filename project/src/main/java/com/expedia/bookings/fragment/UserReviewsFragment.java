@@ -26,13 +26,13 @@ import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsAdapter;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.Ui;
 
 public class UserReviewsFragment extends ListFragment implements OnScrollListener {
@@ -400,7 +400,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			String emptyText;
 			TextView emptyTextView = Ui.findView(view, R.id.user_review_empty_text_view);
 
-			if (!NetUtils.isOnline(getActivity())) {
+			if (!ExpediaNetUtils.isOnline(getActivity())) {
 				emptyText = getString(R.string.widget_error_no_internet);
 			}
 			else {

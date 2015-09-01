@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.RateBreakdownItem;
@@ -93,7 +94,8 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		categoryTitleText.setText(offer.vehicleInfo.carCategoryDisplayLabel);
 		carModelText.setText(CarDataUtils.getMakeName(getContext(), offer.vehicleInfo.makes));
 		airportText.setText(offer.pickUpLocation.locationDescription);
-		tripTotalText.setText(offer.detailedFare.grandTotal.formattedPrice);
+		tripTotalText.setText(Money.getFormattedMoneyFromAmountAndCurrencyCode(offer.detailedFare.grandTotal.amount,
+			offer.detailedFare.grandTotal.getCurrency()));
 		dateTimeText.setText(DateFormatUtils
 			.formatCarDateTimeRange(getContext(), offer.getPickupTime(), offer.getDropOffTime()));
 
@@ -194,7 +196,8 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 				else {
 					ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 						CarDataUtils.getFareBreakdownType(context, item.type),
-						item.price.formattedPrice));
+						Money.getFormattedMoneyFromAmountAndCurrencyCode(item.price.getAmount(),
+							item.price.getCurrency())));
 				}
 			}
 		}
@@ -209,16 +212,20 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 				else {
 					ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 						CarDataUtils.getFareBreakdownType(context, item.type),
-						item.price.formattedPrice));
+						Money.getFormattedMoneyFromAmountAndCurrencyCode(item.price.getAmount(),
+							item.price.getCurrency())));
 				}
 			}
 		}
 
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context, context.getString(R.string.car_cost_breakdown_due_today),
-			offer.detailedFare.totalDueToday.formattedPrice));
+			Money.getFormattedMoneyFromAmountAndCurrencyCode(offer.detailedFare.totalDueToday.getAmount(),
+				offer.detailedFare.totalDueToday.getCurrency())));
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context, context.getString(R.string.car_cost_breakdown_total_due),
-			offer.detailedFare.totalDueAtPickup.formattedPrice));
-		ll.addView(addDisclaimerRow(context, offer.pickUpLocation.countryCode, CarDataUtils.areTaxesAndFeesIncluded(rateBreakdownDueAtPickup)));
+			Money.getFormattedMoneyFromAmountAndCurrencyCode(offer.detailedFare.totalDueAtPickup.getAmount(),
+				offer.detailedFare.totalDueAtPickup.getCurrency())));
+		ll.addView(addDisclaimerRow(context, offer.pickUpLocation.countryCode,
+			CarDataUtils.areTaxesAndFeesIncluded(rateBreakdownDueAtPickup)));
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);

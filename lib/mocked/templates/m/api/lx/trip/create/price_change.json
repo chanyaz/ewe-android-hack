@@ -1,68 +1,98 @@
 {
-  "errors":[
+  "errors": [
     {
-      "errorCode":"PRICE_CHANGE",
-      "errorInfo":{
-        "summary":"Detected price change, no fa/coupon applied."
+      "errorCode": "PRICE_CHANGE",
+      "errorInfo": {
+        "summary": "Detected price change, no fa/coupon applied."
       },
-      "diagnosticId":0
+      "diagnosticId": 0
     }
   ],
-  "tripId":"4b255826-5541-430a-a47c-54df149a935a",
-  "itineraryNumber":11552159469,
-  "newTotalPrice":{
-    "amount":"25.64",
-    "currencyCode":"USD"
+  "tripId": "52b1f6a4-9fc0-46a8-bf66-46cab3326218",
+  "itineraryNumber": 11593364684,
+  "newTotalPrice": {
+    "amount": "185.00",
+    "formattedPrice": "$185.00",
+    "formattedWholePrice": "$185",
+    "currencyCode": "USD"
   },
-  "activityId":"3603886a-e4f1-46ce-b4d2-b3c5e6159f4c",
-  "lxProduct":{
-    "totalPrice":{
-      "amount":"25.64",
-      "currencyCode":"USD"
+  "activityId": "5575e7f8-c647-4a27-b2d9-fc66d56bca94",
+  "lxProduct": {
+    "totalPrice": {
+      "amount": "185.00",
+      "formattedPrice": "$185.00",
+      "formattedWholePrice": "$185",
+      "currencyCode": "USD"
     },
-    "lxBookableItems":[
+    "lxBookableItems": [
       {
-        "activityDate":{
-          "raw":"2015-04-23T00:00:00-07:00",
-          "localized":"Apr 23, 2015 12:00:00 AM",
-          "epochSeconds":1429772400,
-          "timeZoneOffsetSeconds":-25200,
-          "localizedShortDate":"Thu, 23 Apr"
-        },
-        "activityId":"213358",
-        "activityItemId":"213364",
-        "amount":"25.64",
-        "allDayActivity":true,
-        "tickets":[
+        "tickets": [
           {
-            "count":1,
-            "code":"Adult",
-            "ticketId":"116032"
+            "priceBreakdownItemList": [
+              {
+                "type": "PER_PASSENGER_TOTAL",
+                "price": {
+                  "amount": "185.00",
+                  "formattedPrice": "$185.00",
+                  "formattedWholePrice": "$185",
+                  "currencyCode": "USD"
+                }
+              },
+              {
+                "type": "PER_CATEGORY_TOTAL",
+                "price": {
+                  "amount": "185.00",
+                  "formattedPrice": "$185.00",
+                  "formattedWholePrice": "$185",
+                  "currencyCode": "USD"
+                }
+              }
+            ],
+            "count": 1,
+            "code": "Adult",
+            "ticketId": "4074"
           }
         ],
-        "regionId":"180000"
+        "activityDate": {
+          "raw": "2015-07-31T00:00:00-07:00",
+          "localized": "Jul 31, 2015 12:00:00 AM",
+          "epochSeconds": 1438326000,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "Fri, 31 Jul"
+        },
+        "activityId": "181752",
+        "activityItemId": "182075",
+        "amount": "185.00",
+        "allDayActivity": true,
+        "regionId": "800001"
       }
     ],
-    "tripName":"Old Delhi, India"
+    "tripName": "My Lx Trip"
   },
-  "validFormsOfPayment":[
+  "validFormsOfPayment": [
     {
-      "name":"AmericanExpress"
+      "name": "AmericanExpress"
     },
     {
-      "name":"Diner's Club International"
+      "name": "Diner's Club International"
     },
     {
-      "name":"Discover"
+      "name": "Discover"
     },
     {
-      "name":"JCB"
+      "name": "JCB"
     },
     {
-      "name":"MasterCard"
+      "name": "MasterCard"
     },
     {
-      "name":"Visa"
+      "name": "Visa"
     }
-  ]
+  ],
+  "expediaRewards": {
+    "totalPointsToEarn": 740,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "guestUserPromoEmailOptInStatus": "ALWAYS"
 }

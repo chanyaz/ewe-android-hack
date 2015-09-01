@@ -175,7 +175,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 			}
 		});
 
-		OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), mLegPosition);
+		OmnitureTracking.trackPageLoadFlightSearchResults(mLegPosition);
 		AdTracker.trackPageLoadFlightSearchResults(mLegPosition);
 
 		return v;
@@ -212,7 +212,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		FlightLeg leg = trip.getLeg(mLegPosition);
 		mListener.onFlightLegClick(trip, leg, mLegPosition);
 
-		OmnitureTracking.trackLinkFlightSearchSelect(getActivity(), position - numHeaderViews + 1, mLegPosition);
+		OmnitureTracking.trackLinkFlightSearchSelect(position - numHeaderViews + 1, mLegPosition);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

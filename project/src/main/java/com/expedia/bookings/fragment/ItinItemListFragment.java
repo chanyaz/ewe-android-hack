@@ -325,7 +325,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public synchronized void startAddGuestItinActivity() {
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
-		OmnitureTracking.trackFindItin(getActivity());
+		OmnitureTracking.trackFindItin();
 		startActivity(intent);
 	}
 
@@ -508,7 +508,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public void onTripUpdated(Trip trip) {
-		OmnitureTracking.trackItinAdd(getActivity(), trip);
+		OmnitureTracking.trackItinAdd(trip);
 	}
 
 	@Override
@@ -586,7 +586,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 				}
 				else {
 					if (trackEmpty) {
-						OmnitureTracking.trackItinEmpty(getActivity());
+						OmnitureTracking.trackItinEmpty();
 					}
 				}
 

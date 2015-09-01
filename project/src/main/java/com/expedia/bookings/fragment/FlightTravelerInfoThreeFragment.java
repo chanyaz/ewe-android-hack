@@ -55,7 +55,7 @@ public class FlightTravelerInfoThreeFragment extends Fragment implements Validat
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightTravelerEditPassport(getActivity());
+		OmnitureTracking.trackPageLoadFlightTravelerEditPassport();
 	}
 
 	@Override

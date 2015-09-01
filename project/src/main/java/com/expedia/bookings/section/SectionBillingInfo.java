@@ -80,7 +80,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 	private void init(Context context) {
 		mContext = context;
-
 		//Display fields
 		mFields.add(this.mDisplayCreditCardBrandIconGrey);
 		mFields.add(this.mDisplayCreditCardBrandIconBlack);
@@ -172,6 +171,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 	public void resetValidation() {
 		mFields.setValidationIndicatorState(true);
+	}
+
+	public void resetValidation(int fieldID, boolean status) {
+		mFields.setValidationIndicatorState(fieldID, status);
 	}
 
 	public void onChange() {
@@ -803,6 +806,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		public static interface OnSetExpirationListener {
 			public void onExpirationSet(int month, int year);
+			public void resetValidationOnExpiryField();
 		}
 
 		public static ExpirationPickerFragment newInstance(LocalDate expDate, OnSetExpirationListener listener) {
@@ -833,6 +837,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					mMonth = month;
 					mYear = year;
 					listener.onExpirationSet(month, year);
+				}
+
+				@Override
+				public void resetValidationOnExpiryField() {
+					listener.resetValidationOnExpiryField();
 				}
 			};
 			mListener = tListener;
@@ -894,7 +903,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				@Override
 				public void onClick(View v) {
 					mListener.onExpirationSet(mMonth, mYear);
+					mListener.resetValidationOnExpiryField();
 					ExpirationPickerFragment.this.dismiss();
+
 				}
 
 			});
@@ -923,8 +934,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		private final static String TAG_EXPR_DATE_PICKER = "TAG_EXPR_DATE_PICKER";
 
 		@Override
-		public void setChangeListener(TextView field) {
-
+		public void setChangeListener(final TextView field) {
 			if (mContext instanceof FragmentActivity) {
 				final FragmentActivity fa = (FragmentActivity) mContext;
 				final OnSetExpirationListener listener = new OnSetExpirationListener() {
@@ -936,6 +946,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							refreshText();
 							onChange(SectionBillingInfo.this);
 						}
+					}
+
+					@Override
+					public void resetValidationOnExpiryField() {
+						resetValidation(field.getId(),true);
 					}
 				};
 
@@ -958,7 +973,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 						ExpirationPickerFragment datePickerFragment = Ui.findSupportFragment(fa, TAG_EXPR_DATE_PICKER);
 						if (datePickerFragment == null) {
-							datePickerFragment = ExpirationPickerFragment.newInstance(expDate, listener);
+							datePickerFragment = ExpirationPickerFragment
+								.newInstance(expDate, listener);
 						}
 						datePickerFragment.show(fa.getSupportFragmentManager(), TAG_EXPR_DATE_PICKER);
 					}
@@ -1036,7 +1052,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		if (info == null || info.getCardType() == null) {
 			return false;
 		}
-
+		if (lob == LineOfBusiness.HOTELSV2) {
+			return Db.getTripBucket().getHotelV2() != null &&
+				Db.getTripBucket().getHotelV2().isCardTypeSupported(info.getCardType());
+		}
 		if (lob == LineOfBusiness.HOTELS) {
 			return Db.getTripBucket().getHotel() != null &&
 				Db.getTripBucket().getHotel().isCardTypeSupported(info.getCardType());
@@ -1056,5 +1075,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		throw new RuntimeException("Line of business required");
 	}
-
 }
+
+

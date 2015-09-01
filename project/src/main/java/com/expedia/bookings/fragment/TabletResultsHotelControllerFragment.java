@@ -684,7 +684,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		ResultsHotelsState state = mHotelsStateManager.getState();
 		if (state == ResultsHotelsState.HOTEL_LIST_UP) {
 			setHotelsState(ResultsHotelsState.HOTEL_LIST_AND_FILTERS, true);
-			OmnitureTracking.trackTabletHotelsSortAndFilterOpen(getActivity());
+			OmnitureTracking.trackTabletHotelsSortAndFilterOpen();
 		}
 		else if (state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 			setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
@@ -712,7 +712,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		else {
 			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
 		}
-		OmnitureTracking.trackPageLoadHotelsInfosite(getActivity(), -1);
+		OmnitureTracking.trackPageLoadHotelsInfosite(getActivity());
 		AdTracker.trackHotelInfoSite();
 	}
 
@@ -745,7 +745,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	@Override
 	public void onHotelReviewsClicked() {
 		setHotelsState(ResultsHotelsState.REVIEWS, true);
-		OmnitureTracking.trackPageLoadHotelsDetailsReviews(getActivity());
+		OmnitureTracking.trackPageLoadHotelsDetailsReviews();
 	}
 
 	/*
@@ -843,7 +843,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mMapFragment.hideBallon(property);
 		}
 		onPropertyClicked(property);
-		OmnitureTracking.trackLinkHotelPinClick(getActivity());
+		OmnitureTracking.trackLinkHotelPinClick();
 	}
 
 	@Override
@@ -1430,7 +1430,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setRoomsAndRatesShownPercentage(0f);
 				if (mHotelsDeepLink) {
 					mHotelsDeepLink = false;
-					OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
+					OmnitureTracking.trackTabletSearchResultsPageLoad(Sp.getParams());
 				}
 				break;
 			case HOTEL_LIST_UP:
@@ -1438,7 +1438,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
 				setRoomsAndRatesShownPercentage(0f);
-				OmnitureTracking.trackTabletHotelListOpen(getActivity(), Db.getHotelSearch().getSearchParams(),
+				OmnitureTracking.trackTabletHotelListOpen(Db.getHotelSearch().getSearchParams(),
 					Db.getHotelSearch().getSearchResponse());
 				break;
 			case MAP:
@@ -1720,7 +1720,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	 */
 	@Override
 	public void onItemAddedToBucket() {
-		OmnitureTracking.trackAddAirAttachHotel(getActivity());
+		OmnitureTracking.trackAddAirAttachHotel();
 
 		// TODO: EVENTUALLY WE WANT TO ANIMATE THIS THING!
 		setHotelsState(ResultsHotelsState.ADDING_HOTEL_TO_TRIP, false);
@@ -1780,5 +1780,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	public void onFilterDoneClicked() {
 		mMapFragment.reset();
 		mMapFragment.notifyFilterChanged();
+		AdTracker.trackFilteredHotelSearch();
 	}
 }

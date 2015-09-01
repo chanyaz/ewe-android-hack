@@ -207,7 +207,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		// Go to flights
 		NavUtils.goToFlights(getActivity(), true);
 
-		OmnitureTracking.trackHotelConfirmationFlightsXSell(getActivity());
+		OmnitureTracking.trackHotelConfirmationFlightsXSell();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -233,7 +233,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		SocialUtils.email(context, subject, body);
 
-		OmnitureTracking.trackHotelConfirmationShareEmail(getActivity());
+		OmnitureTracking.trackHotelConfirmationShareEmail();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -244,7 +244,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		startActivity(generateHotelCalendarIntent(false));
 		startActivity(generateHotelCalendarIntent(true));
 
-		OmnitureTracking.trackHotelConfirmationAddToCalendar(getActivity());
+		OmnitureTracking.trackHotelConfirmationAddToCalendar();
 	}
 
 	private Intent generateHotelCalendarIntent(boolean checkIn) {
