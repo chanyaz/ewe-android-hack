@@ -70,7 +70,6 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val container = scrollView.findViewById(R.id.scroll_content) as LinearLayout
         container.addView(couponCardView, container.getChildCount() - 2)
         couponCardView.setToolbarListener(toolbarListener)
-        couponCardView.viewmodel.applyObservable.subscribe(applyCouponObservable)
         couponCardView.viewmodel.couponObservable.subscribe(createTripResponseListener)
         val params = couponCardView.getLayoutParams() as LinearLayout.LayoutParams
         params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, getResources().getDisplayMetrics()).toInt(), 0, 0);
@@ -109,10 +108,6 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val childAges = hotelSearchParams.children
         val qualifyAirAttach = false
         viewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
-    }
-
-    val applyCouponObservable: Observer<String> = endlessObserver { coupon ->
-        show(CheckoutBasePresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
     }
 
     val createTripResponseListener: Observer<HotelCreateTripResponse> = endlessObserver { trip ->

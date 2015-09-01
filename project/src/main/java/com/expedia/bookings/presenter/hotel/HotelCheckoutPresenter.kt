@@ -5,10 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.vm.HotelCreateTripViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.services.HotelServices
@@ -19,8 +17,8 @@ import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.ErrorWidget
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelCheckoutViewModel
+import com.expedia.vm.HotelCreateTripViewModel
 import org.joda.time.format.ISODateTimeFormat
-import rx.Observer
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -43,7 +41,6 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         addTransition(checkoutToError)
         addTransition(cvvToError)
         addDefaultTransition(defaultCheckoutTransition)
-        hotelCheckoutWidget.couponCardView.viewmodel.errorObservable.subscribe(errorListener)
         hotelCheckoutWidget.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
         hotelCheckoutWidget.viewmodel = HotelCreateTripViewModel(hotelServices)
         cvv.setCVVEntryListener(this)
@@ -75,10 +72,6 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
     }
 
     private val cvvToError = VisibilityTransition(this, javaClass<CVVEntryWidget>(), javaClass<ErrorWidget>())
-
-    val errorListener: Observer<ApiError> = endlessObserver { error ->
-        show(errorScreen)
-    }
 
     val checkoutSliderSlidObserver = endlessObserver<Unit> {
         val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.getBillingInfo()
