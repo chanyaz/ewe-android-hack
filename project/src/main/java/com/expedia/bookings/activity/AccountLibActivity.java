@@ -6,14 +6,12 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.expedia.account.AccountView;
 import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
 import com.expedia.account.PanningImageView;
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
@@ -24,18 +22,15 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.TextView;
-import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 public class AccountLibActivity extends AppCompatActivity
 	implements UserAccountRefresher.IUserAccountRefreshListener, LoginExtenderListener {
@@ -60,43 +55,6 @@ public class AccountLibActivity extends AppCompatActivity
 	private UserAccountRefresher userAccountRefresher;
 	private boolean loginWithFacebook = false;
 	private Listener listener = new Listener();
-
-	/** Facebook garbage **/
-
-	@InjectView(R.id.login_status_textview)
-	public TextView statusText;
-
-	@InjectView(R.id.facebook_button_container)
-	public LinearLayout faceBookLinkContainer;
-
-	@InjectView(R.id.link_password_edit_text)
-	public EditText linkPassword;
-
-	@InjectView(R.id.user_denied_permission_email_message)
-	public TextView userDeniedPermissionEmailMessage;
-
-	@InjectView(R.id.facebook_email_denied_container)
-	public LinearLayout facebookEmailDeniedContainer;
-
-	@OnClick(R.id.link_accounts_button)
-	public void onLinkFacebook() {
-		// waiting for accountlib to support facebook
-	}
-
-	@OnClick(R.id.cancel_link_accounts_button)
-	public void onCancelLinkFacebook() {
-		// waiting for accountlib to support facebook
-	}
-
-	@OnClick(R.id.try_facebook_again)
-	public void onTryFacebookAgain() {
-		// waiting for accountlib to support facebook
-	}
-
-	@OnClick(R.id.try_facebook_again_cancel)
-	public void onTryFacebookAgainCancel() {
-		// waiting for accountlib to support facebook
-	}
 
 	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, AccountLibActivity.class);
@@ -153,12 +111,12 @@ public class AccountLibActivity extends AppCompatActivity
 		ButterKnife.inject(this);
 
 		int statusBarHeight = Ui.getStatusBarHeight(this);
-		accountView.setPadding(accountView.getPaddingLeft(), statusBarHeight, accountView.getPaddingRight(), accountView.getPaddingBottom());
-		facebookEmailDeniedContainer.setPadding(facebookEmailDeniedContainer.getPaddingLeft(), statusBarHeight, facebookEmailDeniedContainer.getPaddingRight(), facebookEmailDeniedContainer.getPaddingBottom());
-		faceBookLinkContainer.setPadding(faceBookLinkContainer.getPaddingLeft(), statusBarHeight, faceBookLinkContainer.getPaddingRight(), faceBookLinkContainer.getPaddingBottom());
+		accountView.setPadding(accountView.getPaddingLeft(), statusBarHeight, accountView.getPaddingRight(),
+			accountView.getPaddingBottom());
 
 		int backgroundDrawableResId = Ui.obtainThemeResID(this, R.attr.skin_accountCreationBackgroundDrawable);
-		new PicassoHelper.Builder(background).setPlaceholder(backgroundDrawableResId).build().load(backgroundDrawableResId);
+		new PicassoHelper.Builder(background).setPlaceholder(backgroundDrawableResId).build().load(
+			backgroundDrawableResId);
 
 		accountView.configure(Config.build()
 				.setEndpoint(Ui.getApplication(this).appComponent().okHttpClient(),
@@ -175,20 +133,21 @@ public class AccountLibActivity extends AppCompatActivity
 				.setTOSText(StrUtils.generateAccountCreationLegalLink(this))
 				.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
 				.setAnalyticsListener(analyticsListener)
+				.setFacebookAppId(getString(R.string.facebook_app_id))
 		);
 
 		userAccountRefresher = new UserAccountRefresher(this, lob, this);
 
-		linkPassword.setHint(Phrase.from(this, R.string.brand_password_hint_TEMPLATE)
-			.put("brand", BuildConfig.brand)
-			.format());
+		// TODO: branding around Facebook messages
+//		linkPassword.setHint(Phrase.from(this, R.string.brand_password_hint_TEMPLATE)
+//			.put("brand", BuildConfig.brand)
+//			.format());
+//
+//		userDeniedPermissionEmailMessage.setText(
+//			Phrase.from(this, R.string.user_denied_permission_email_message_TEMPLATE)
+//				.put("brand", BuildConfig.brand)
+//				.format());
 
-		userDeniedPermissionEmailMessage.setText(
-			Phrase.from(this, R.string.user_denied_permission_email_message_TEMPLATE)
-				.put("brand", BuildConfig.brand)
-				.format());
-
-		FontCache.setTypeface(statusText, FontCache.Font.ROBOTO_REGULAR);
 		OmnitureTracking.trackLoginScreen();
 	}
 
@@ -197,6 +156,14 @@ public class AccountLibActivity extends AppCompatActivity
 		if (!accountView.back()) {
 			super.onBackPressed();
 		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		// Required for Facebook
+		accountView.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
