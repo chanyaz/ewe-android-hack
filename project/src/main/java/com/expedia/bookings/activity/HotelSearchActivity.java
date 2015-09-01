@@ -446,7 +446,8 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				buildFilter();
 			}
 			// #9773: Show distance sort initially, if user entered street address-level search params
-			else if (mShowDistance) {
+			else if (mShowDistance && ProductFlavorFeatureConfiguration.getInstance()
+				.sortByDistanceForCurrentLocation()) {
 				mSortOptionSelectedId = R.id.menu_select_sort_distance;
 				buildFilter();
 			}

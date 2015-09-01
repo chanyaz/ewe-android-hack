@@ -302,4 +302,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public HotelFilter.Sort getDefaultSort() {
 		return HotelFilter.Sort.DEALS;
 	}
+
+	@Override
+	public boolean sortByDistanceForCurrentLocation() {
+		return false;
+	}
 }

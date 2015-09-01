@@ -143,4 +143,6 @@ public interface IProductFlavorFeatureConfiguration {
 	int getFlightSearchProgressImageResId();
 
 	HotelFilter.Sort getDefaultSort();
+
+	boolean sortByDistanceForCurrentLocation();
 }
