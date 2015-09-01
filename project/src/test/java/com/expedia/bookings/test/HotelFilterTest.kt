@@ -41,4 +41,20 @@ public class HotelFilterTest {
         Assert.assertEquals(1.0f, vm.filterToggles.hotelStarRating)
     }
 
+    @Test
+    fun filterName() {
+        val str = "Hilton"
+        vm.filterHotelNameObserver.onNext(str)
+        Assert.assertEquals(str, vm.filterToggles.name)
+    }
+
+    @Test
+    fun clearFilters() {
+        vm.filterToggles.hotelStarRating = null
+        vm.oneStarFilterObserver.onNext(Unit)
+
+        vm.clearObservable.onNext(Unit)
+
+        Assert.assertEquals(null, vm.filterToggles.hotelStarRating)
+    }
 }
