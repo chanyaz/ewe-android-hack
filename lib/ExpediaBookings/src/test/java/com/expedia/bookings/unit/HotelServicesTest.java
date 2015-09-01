@@ -91,7 +91,7 @@ public class HotelServicesTest {
 		givenCreateTripCarOffer();
 		givenCouponParams("hotel_coupon_errors_expired");
 
-		service.applyCoupon(couponParams, observer);
+		service.applyCoupon(couponParams).subscribe(observer);
 		observer.awaitTerminalEvent();
 		observer.assertCompleted();
 		ApiError apiError = observer.getOnNextEvents().get(0).getFirstError();

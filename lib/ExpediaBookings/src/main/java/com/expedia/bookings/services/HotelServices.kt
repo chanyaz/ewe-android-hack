@@ -8,6 +8,7 @@ import retrofit.RequestInterceptor
 import retrofit.RestAdapter
 import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
+import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
@@ -72,11 +73,10 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 				.subscribe(observer)
 	}
 
-	public fun applyCoupon(body: HotelApplyCouponParams, observer: Observer<HotelCreateTripResponse>): Subscription {
+	public fun applyCoupon(body: HotelApplyCouponParams): Observable<HotelCreateTripResponse> {
 		return hotelApi.applyCoupon(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
-				.subscribe(observer)
 	}
 
 	public fun checkout(params: HotelCheckoutParams, observer: Observer<HotelCheckoutResponse>): Subscription {
