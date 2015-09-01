@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.Marker
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-public class HotelMarkerPreviewRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
+public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 
     val mapSubject = PublishSubject.create<Marker>()
 

@@ -16,6 +16,7 @@ import com.expedia.bookings.widget.RoomSelected
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelDetailViewModel
+import com.expedia.vm.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
 import rx.Observer
@@ -52,7 +53,11 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         show(searchPresenter)
         searchPresenter.viewmodel = HotelSearchViewModel(getContext())
         searchPresenter.viewmodel.searchParamsObservable.subscribe(searchObserver)
+
+        resultsPresenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices)
+        searchPresenter.viewmodel.searchParamsObservable.subscribe(resultsPresenter.viewmodel.paramsSubject)
         resultsPresenter.hotelSubject.subscribe(hotelSelectedObserver)
+
         RoomSelected.observer = selectedRoomObserver
 
         checkoutPresenter.viewmodel = HotelCheckoutViewModel(hotelServices)
@@ -76,7 +81,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val detailsToReview = LeftToRightTransition(this, javaClass<HotelDetailPresenter>(),javaClass<HotelReviewsPresenter>())
 
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
-        resultsPresenter.doSearch(params)
         hotelSearchParams = params
         checkoutPresenter.hotelCheckoutWidget.setSearchParams(params)
         show(resultsPresenter)

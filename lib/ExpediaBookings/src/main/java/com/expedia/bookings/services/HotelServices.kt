@@ -1,6 +1,14 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.hotels.*
+import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelApplyCouponParams
+import com.expedia.bookings.data.hotels.HotelCheckoutParams
+import com.expedia.bookings.data.hotels.HotelCreateTripParams
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import org.joda.time.DateTime
@@ -41,7 +49,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			.subscribe(observer)
 	}
 
-	public fun regionSearch(params: HotelSearchParams, observer: Observer<HotelSearchResponse>): Subscription {
+	public fun regionSearch(params: HotelSearchParams): Observable<HotelSearchResponse> {
 		return hotelApi.regionSearch(params.suggestion.gaiaId, params.checkIn.toString(), params.checkOut.toString(),
 				params.getGuestString())
 				.observeOn(observeOn)
@@ -55,7 +63,6 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 				.doOnNext { response -> response.allNeighborhoodsInSearchRegion.map {
 					it.score = it.hotels.map { 1 }.sum()
 				}}
-				.subscribe(observer)
 	}
 
     public fun details(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {

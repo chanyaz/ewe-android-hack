@@ -11,34 +11,34 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format
 import android.util.AttributeSet
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.view.animation.DecelerateInterpolator
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.createHotelMarker
 import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.HotelMarkerPreviewAdapter
-import com.expedia.bookings.widget.HotelMarkerPreviewRecycler
+import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.RecyclerDividerDecoration
+import com.expedia.bookings.widget.createHotelMarker
 import com.expedia.util.endlessObserver
-import com.expedia.vm.HotelDetailViewModel
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribe
+import com.expedia.vm.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -52,21 +52,15 @@ import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import rx.Observer
-import rx.Subscription
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 import java.util.ArrayList
-import javax.inject.Inject
 import kotlin.properties.Delegates
 
 public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
 
-    var hotelServices: HotelServices by Delegates.notNull()
-        @Inject set
-
-    var downloadSubscription: Subscription? = null
     var screenHeight: Int = 0
     var mapTransitionRunning: Boolean = false
 
@@ -74,15 +68,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val mapView: MapView by bindView(R.id.map_view)
     val toolbar: Toolbar by bindView(R.id.toolbar)
 
-    val hotelMarkerPreview: HotelMarkerPreviewRecycler by bindView(R.id.hotel_marker_preview)
-    val markerPreviewLayout: View by bindView(R.id.preview_layout)
+    val mapCarouselContainer: View by bindView(R.id.hotel_carousel_container)
+    val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
 
     var mHotelList = ArrayList<MarkerDistance>()
 
     val hotelSubject = PublishSubject.create<Hotel>()
     val headerClickedSubject = PublishSubject.create<Unit>()
 
-    val layoutManager = LinearLayoutManager(context)
+    val listLayoutManager = LinearLayoutManager(context)
 
     var googleMap: GoogleMap? = null
     var subtitle: CharSequence? = null
@@ -99,6 +93,26 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var fabAnim : Animation? = null
 
     var adapter : HotelListAdapter by Delegates.notNull()
+
+    var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
+        vm.hotelResultsObservable.subscribe(listResultsObserver)
+        vm.hotelResultsObservable.subscribe(mapResultsObserver)
+
+        vm.paramsSubject.subscribe { params ->
+            showLoading()
+
+            vm.titleSubject.subscribe {
+                toolbar.setTitle(it)
+            }
+
+            vm.subtitleSubject.subscribe {
+                toolbar.setSubtitle(it)
+            }
+
+            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
+            show(ResultsList())
+        }
+    }
 
     public class MarkerDistance(marker: Marker, distance: Float, hotel: Hotel) : Comparable<MarkerDistance> {
         override fun compareTo(other: MarkerDistance): Int {
@@ -127,7 +141,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     private fun resetListOffset() {
         listOffset = (getHeight() - (getHeight() / 2.7f)).toInt()
-        layoutManager.scrollToPositionWithOffset(2, listOffset)
+        listLayoutManager.scrollToPositionWithOffset(2, listOffset)
     }
 
     // Create list to show cards for loading animation
@@ -138,8 +152,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
         return elements
     }
-
-    val resultsSubject: PublishSubject<HotelSearchResponse> = PublishSubject.create()
 
     val listResultsObserver: Observer<HotelSearchResponse> = object : Observer<HotelSearchResponse> {
         override fun onNext(response: HotelSearchResponse) {
@@ -252,9 +264,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             if (closestMarker != null) {
                 closestMarker.marker.showInfoWindow()
                 closestMarker.marker.setIcon(createHotelMarker(getResources(), closestMarker.hotel, true))
-                markerPreviewLayout.setVisibility(View.INVISIBLE)
-                hotelMarkerPreview.addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
-                hotelMarkerPreview.setAdapter(HotelMarkerPreviewAdapter(mHotelList, closestMarker.marker, hotelSubject))
+                mapCarouselContainer.setVisibility(View.INVISIBLE)
+                mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
+                mapCarouselRecycler.setAdapter(HotelMarkerPreviewAdapter(mHotelList, closestMarker.marker, hotelSubject))
             }
         }
         Log.d("Hotel Results Next")
@@ -265,11 +277,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     init {
-        Ui.getApplication(getContext()).hotelComponent().inject(this)
         View.inflate(getContext(), R.layout.widget_hotel_results, this)
 
-        resultsSubject.subscribe(listResultsObserver)
-        resultsSubject.subscribe(mapResultsObserver)
         headerClickedSubject.subscribe(mapSelectedObserver)
         adapter = HotelListAdapter(emptyList(), hotelSubject, headerClickedSubject)
         recyclerView.setAdapter(adapter)
@@ -289,17 +298,17 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         addTransition(fabTransition)
         mapView.getMapAsync(this)
 
-        markerPreviewLayout.setVisibility(View.INVISIBLE)
+        mapCarouselContainer.setVisibility(View.INVISIBLE)
         val screen = Ui.getScreenSize(getContext())
-        var lp = hotelMarkerPreview.getLayoutParams()
+        var lp = mapCarouselRecycler.getLayoutParams()
         lp.width = screen.x
 
-        recyclerView.setLayoutManager(layoutManager)
+        recyclerView.setLayoutManager(listLayoutManager)
         recyclerView.addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
         recyclerView.addOnScrollListener(scrollListener)
         recyclerView.addOnItemTouchListener(touchListener)
         recyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, 0, false))
-        hotelMarkerPreview.mapSubject.subscribe(markerObserver)
+        mapCarouselRecycler.mapSubject.subscribe(markerObserver)
 
         toolbar.inflateMenu(R.menu.menu_filter_item)
         menu = toolbar.getMenu().findItem(R.id.menu_filter)
@@ -334,32 +343,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         show(ResultsList())
     }
 
-    fun doSearch(params: HotelSearchParams) {
-        showLoading()
-        show(ResultsList())
-        downloadSubscription = hotelServices.regionSearch(params, object : Observer<HotelSearchResponse> {
-            override fun onNext(response: HotelSearchResponse?) {
-                resultsSubject.onNext(response)
-            }
-
-            override fun onCompleted() {
-                // ignore
-            }
-
-            override fun onError(e: Throwable?) {
-                Log.d("Hotel Results Error", e)
-            }
-        })
-
-        toolbar.setTitle(params.suggestion.regionNames.shortName)
-        subtitle = Phrase.from(getContext(), R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(params.checkIn)).put("enddate", DateUtils.localDateToMMMd(params.checkOut)).put("guests", params.children.size() + 1).format()
-        toolbar.setSubtitle(subtitle)
-
-        googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
-
-        show(ResultsList())
-    }
-
     override fun onMapReady(googleMap: GoogleMap?) {
         this.googleMap = googleMap
 
@@ -381,11 +364,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
                 marker.showInfoWindow()
 
-                markerPreviewLayout.setVisibility(View.VISIBLE)
+                mapCarouselContainer.setVisibility(View.VISIBLE)
 
-                hotelMarkerPreview.addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
+                mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
 
-                hotelMarkerPreview.setAdapter(HotelMarkerPreviewAdapter(mHotelList, marker, hotelSubject))
+                mapCarouselRecycler.setAdapter(HotelMarkerPreviewAdapter(mHotelList, marker, hotelSubject))
 
                 return true
             }
@@ -451,7 +434,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             menu?.setVisible(true)
 
             recyclerView.setVisibility(View.VISIBLE)
-            markerPreviewLayout.setVisibility(View.INVISIBLE)
+            mapCarouselContainer.setVisibility(View.INVISIBLE)
 
             listFab.setVisibility(View.INVISIBLE)
 
@@ -482,7 +465,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             menu?.setVisible(true)
 
             recyclerView.setVisibility(if (forward) View.VISIBLE else View.INVISIBLE)
-            markerPreviewLayout.setVisibility(if (forward) View.INVISIBLE else View.VISIBLE)
+            mapCarouselContainer.setVisibility(if (forward) View.INVISIBLE else View.VISIBLE)
 
             listFab.setVisibility(if (forward) View.INVISIBLE else View.VISIBLE)
 
@@ -496,7 +479,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             mapView.setTranslationY(0f)
             if (forward) {
                 recyclerView.setTranslationY(0f)
-                layoutManager.scrollToPositionWithOffset(2, listOffset)
+                listLayoutManager.scrollToPositionWithOffset(2, listOffset)
             } else {
                 recyclerView.setTranslationY(screenHeight.toFloat())
             }
@@ -507,7 +490,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             super.startTransition(forward)
             mapTransitionRunning = true
             if (forward) {
-                layoutManager.scrollToPositionWithOffset(2, listOffset)
+                listLayoutManager.scrollToPositionWithOffset(2, listOffset)
             }
         }
 
