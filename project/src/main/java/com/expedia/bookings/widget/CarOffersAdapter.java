@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.subjects.PublishSubject;
 
 public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.ViewHolder> {
 	// Design stuff
@@ -59,8 +60,10 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 	private int mLastExpanded = 0;
 	private static final int NONE_EXPANDED = -1;
 	private static final float MAP_ZOOM_LEVEL = 12;
+	PublishSubject<SearchCarOffer> subject;
 
-	public CarOffersAdapter(Context context) {
+	public CarOffersAdapter(Context context, PublishSubject<SearchCarOffer> subject) {
+		this.subject = subject;
 		sideExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
 		topExpanded = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
 		sideCollapsed = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
@@ -249,6 +252,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			if (isChecked) {
 				mapView.onCreate(null);
 				mapView.getMapAsync(this);
+				subject.onNext(offer);
 			}
 		}
 

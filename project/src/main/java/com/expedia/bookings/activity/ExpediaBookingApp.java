@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -55,6 +56,7 @@ import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.WalletUtils;
+import com.facebook.AppLinkData;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
@@ -218,6 +220,25 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			SettingUtils.save(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, true);
 		}
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
+
+		AppLinkData.fetchDeferredAppLinkData(this,
+			new AppLinkData.CompletionHandler() {
+				@Override
+				public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
+					// applinkData is null in case it is not a deferred deeplink.
+					if (appLinkData != null && appLinkData.getTargetUri() != null) {
+						Log.v("Facebook Deferred Deeplink: ", appLinkData.getTargetUri().toString());
+						Intent intent = new Intent();
+						intent.setData(appLinkData.getTargetUri());
+						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						intent.setComponent(new ComponentName(BuildConfig.APPLICATION_ID,
+							"com.expedia.bookings.activity.DeepLinkRouterActivity"));
+						startActivity(intent);
+					}
+				}
+			}
+		);
 
 		if (!isAutomation()) {
 			AdTracker.init(getApplicationContext());

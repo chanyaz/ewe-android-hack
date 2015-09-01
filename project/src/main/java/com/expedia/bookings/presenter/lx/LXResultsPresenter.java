@@ -90,6 +90,7 @@ public class LXResultsPresenter extends Presenter {
 	private SearchResultObserver searchResultObserver = new SearchResultObserver();
 
 	private SearchResultFilterObserver searchResultFilterObserver = new SearchResultFilterObserver();
+	private LXSearchResponse searchResponse;
 
 	private boolean isGroundTransport;
 	private static final String GT_FILTERS = "Shared Transfers|Private Transfers";
@@ -190,6 +191,7 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void onNext(LXSearchResponse lxSearchResponse) {
+			searchResponse = lxSearchResponse;
 			// Search Results Omniture Tracking on load of search screen.
 			OmnitureTracking.trackAppLXSearch(lxState.searchParams, lxSearchResponse);
 			AdTracker.trackLXSearch(lxState.searchParams);
@@ -302,6 +304,7 @@ public class LXResultsPresenter extends Presenter {
 	@Subscribe
 	public void onLXFilterDoneClicked(Events.LXFilterDoneClicked event) {
 		show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
+		AdTracker.trackFilteredLXSearchResults(lxState.searchParams, searchResponse);
 	}
 
 	private void setupToolbar() {

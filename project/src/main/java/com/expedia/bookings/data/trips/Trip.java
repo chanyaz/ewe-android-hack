@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.utils.JodaUtils;
@@ -54,6 +55,7 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 	private BookingStatus mBookingStatus;
 
 	private CustomerSupport mCustomerSupport;
+	private AirAttach mAirAttach;
 
 	private List<TripComponent> mTripComponents = new ArrayList<TripComponent>();
 	private List<Insurance> mTripInsurance = new ArrayList<Insurance>();
@@ -93,6 +95,14 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 
 	public String getTripId() {
 		return mTripId;
+	}
+
+	public AirAttach getAirAttach() {
+		return mAirAttach;
+	}
+
+	public void setAirAttach(AirAttach airAttach) {
+		mAirAttach = airAttach;
 	}
 
 	public void setTripId(String tripId) {

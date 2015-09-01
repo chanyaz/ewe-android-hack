@@ -238,6 +238,13 @@ public class HotelSearchParams implements JSONable {
 		}
 	}
 
+	public void fillFromHotelSearchParams(HotelSearchParams hotelSearchParams) {
+		setSearchType(hotelSearchParams.getSearchType());
+		setQuery(hotelSearchParams.getQuery());
+		setRegionId(hotelSearchParams.getRegionId());
+		setSearchLatLon(hotelSearchParams.getSearchLatitude(), hotelSearchParams.getSearchLongitude());
+	}
+
 	public boolean hasValidCheckInDate() {
 		// #1562 - Check for null
 		if (mCheckInDate == null) {

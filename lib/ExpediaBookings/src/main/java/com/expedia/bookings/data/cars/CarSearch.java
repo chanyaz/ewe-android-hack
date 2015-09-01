@@ -29,4 +29,15 @@ public class CarSearch {
 
 		throw new RuntimeException("Tried to find a category that does not exist displayLabel=" + displayLabel);
 	}
+
+	public SearchCarOffer getLowestTotalPriceOffer() {
+		SearchCarOffer lowestTotalPriceOffer = null;
+		for (CategorizedCarOffers category : categories) {
+			if (lowestTotalPriceOffer == null
+				|| category.getLowestTotalPriceOffer().fare.total.compareTo(lowestTotalPriceOffer.fare.total) < 0) {
+				lowestTotalPriceOffer = category.getLowestTotalPriceOffer();
+			}
+		}
+		return lowestTotalPriceOffer;
+	}
 }

@@ -105,10 +105,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/grand_total_text"
+            android:layout_gravity="right"
             android:drawablePadding="6dp"
             android:drawableRight="@drawable/info"
-            android:layout_gravity="right"
-            android:maxLines="1"
+            android:gravity="right"
+            android:maxLines="3"
             android:textColor="@color/lx_checkout_text_color"
             android:textSize="16sp"
             app:textStyle="medium" />
