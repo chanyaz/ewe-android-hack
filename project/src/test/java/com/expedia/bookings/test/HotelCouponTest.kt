@@ -11,10 +11,8 @@ import org.junit.Test
 import org.mockito.Matchers
 import org.mockito.Mockito
 import rx.observers.TestSubscriber
-import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
-import kotlin.test.assertTrue
 
 public class HotelCouponTest {
 
@@ -38,13 +36,25 @@ public class HotelCouponTest {
         val testSubscriber = TestSubscriber<ApiError>(2)
         val expected = arrayListOf<ApiError>()
 
-        vm.errorObservable.take(2).subscribe(testSubscriber)
+        vm.errorObservable.take(6).subscribe(testSubscriber)
 
         vm.couponParamsObservable.onNext(HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", "hotel_coupon_errors_expired"))
         expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "Expired"))
 
         vm.couponParamsObservable.onNext(HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", "hotel_coupon_errors_duplicate"))
         expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "Duplicate"))
+
+        vm.couponParamsObservable.onNext(HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", "hotel_coupon_errors_not_active"))
+        expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "NotActive"))
+
+        vm.couponParamsObservable.onNext(HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", "hotel_coupon_errors_not_exists"))
+        expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "DoesNotExist"))
+
+        vm.couponParamsObservable.onNext(HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", "hotel_coupon_errors_not_configured"))
+        expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "CampaignIsNotConfigured"))
+
+        vm.couponParamsObservable.onNext(HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", "hotel_coupon_errors_product_missing"))
+        expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "PackageProductMissing"))
 
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testSubscriber.assertCompleted()

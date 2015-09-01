@@ -61,6 +61,10 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
             put("InvalidAveragePrice", R.string.coupon_error_invalid_average_price)
             put("InvalidStayDates", R.string.coupon_error_invalid_stay_dates)
             put("ExceededEarnLimit", R.string.coupon_error_exceeded_earn_limit)
+            put("NotActive", R.string.coupon_error_not_active)
+            put("DoesNotExist", R.string.coupon_error_unknown)
+            put("CampaignIsNotConfigured", R.string.coupon_error_unknown)
+            put("PackageProductMissing", R.string.coupon_error_invalid_booking)
         }
     }
 

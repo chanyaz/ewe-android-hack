@@ -1,0 +1,13 @@
+{
+    "activityId": "58b6be8a-d533-4eb0-aaa6-0228e000056c",
+    "errors": [
+        {
+            "diagnosticId": 13103,
+            "errorCode": "APPLY_COUPON_ERROR",
+            "errorInfo": {
+                "couponErrorType": "DoesNotExist",
+                "summary": "Unable to apply the coupon code to the hotel product."
+            }
+        }
+    ]
+}
