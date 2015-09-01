@@ -55,8 +55,7 @@ public class CarCheckoutSummaryWidgetTest {
 		carInfo.carCategoryDisplayLabel = "Category Display";
 
 		CreateTripCarFare fare = new CreateTripCarFare();
-		Money totalFare = new Money();
-		totalFare.formattedPrice = "$50";
+		Money totalFare = new Money("50", "USD");
 		fare.grandTotal = totalFare;
 
 		carProduct.pickUpLocation = pickup;

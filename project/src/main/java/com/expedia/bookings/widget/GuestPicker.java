@@ -135,7 +135,7 @@ public class GuestPicker extends LinearLayout {
 			mAdultCount++;
 			mListener.onGuestsChanged(mAdultCount, mChildren);
 			bindViews();
-			OmnitureTracking.trackAddTravelerLink(getContext(), trackingBase, OmnitureTracking.PICKER_ADULT);
+			OmnitureTracking.trackAddTravelerLink(trackingBase, OmnitureTracking.PICKER_ADULT);
 		}
 	}
 
@@ -144,7 +144,7 @@ public class GuestPicker extends LinearLayout {
 			mAdultCount--;
 			mListener.onGuestsChanged(mAdultCount, mChildren);
 			bindViews();
-			OmnitureTracking.trackRemoveTravelerLink(getContext(), trackingBase, OmnitureTracking.PICKER_ADULT);
+			OmnitureTracking.trackRemoveTravelerLink(trackingBase, OmnitureTracking.PICKER_ADULT);
 		}
 	}
 
@@ -153,7 +153,7 @@ public class GuestPicker extends LinearLayout {
 			mChildren.add(new ChildTraveler(10, false));
 			mListener.onGuestsChanged(mAdultCount, mChildren);
 			bindViews();
-			OmnitureTracking.trackAddTravelerLink(getContext(), trackingBase, OmnitureTracking.PICKER_CHILD);
+			OmnitureTracking.trackAddTravelerLink(trackingBase, OmnitureTracking.PICKER_CHILD);
 		}
 	}
 
@@ -162,7 +162,7 @@ public class GuestPicker extends LinearLayout {
 			mChildren.remove(mChildren.size() - 1);
 			mListener.onGuestsChanged(mAdultCount, mChildren);
 			bindViews();
-			OmnitureTracking.trackRemoveTravelerLink(getContext(), trackingBase, OmnitureTracking.PICKER_CHILD);
+			OmnitureTracking.trackRemoveTravelerLink(trackingBase, OmnitureTracking.PICKER_CHILD);
 		}
 	}
 

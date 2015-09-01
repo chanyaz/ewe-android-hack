@@ -89,7 +89,7 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 	@Override
 	protected void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightSearch(this);
+		OmnitureTracking.trackPageLoadFlightSearch();
 	}
 
 	@Override
@@ -109,15 +109,6 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 			mSearchParamsFragment.setSearchParams(new FlightSearchParams(Db.getFlightSearch().getSearchParams()));
 			mUpdateOnResume = false;
 		}
-
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override

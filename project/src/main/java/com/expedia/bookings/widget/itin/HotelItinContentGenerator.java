@@ -337,7 +337,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 						final Intent intent = getItinCardData().getDirectionsIntent();
 						if (intent != null) {
 							NavUtils.startActivitySafe(getContext(), intent);
-							OmnitureTracking.trackItinHotelDirections(getContext());
+							OmnitureTracking.trackItinHotelDirections();
 						}
 					}
 				});
@@ -355,7 +355,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			public void onClick(final View v) {
 				if (phone != null) {
 					SocialUtils.call(getContext(), phone);
-					OmnitureTracking.trackItinHotelCall(getContext());
+					OmnitureTracking.trackItinHotelCall();
 				}
 			}
 		};

@@ -1319,34 +1319,6 @@ public class ExpediaServices implements DownloadListener {
 	// The calls to facebook itself are handled by the FB sdk, and currently happen in LoginFragment.java
 
 	/**
-	 * We want to user our production facebbok app id for hitting prod, otherwise use our dev one.
-	 *
-	 * @param context
-	 * @return
-	 */
-	public static String getFacebookAppId(Context context) {
-		ExpediaServices services = new ExpediaServices(context);
-		EndPoint endPoint = services.mEndpointProvider.getEndPoint();
-		String appId = null;
-		switch (endPoint) {
-		case INTEGRATION:
-		case DEV:
-		case TRUNK:
-		case PUBLIC_INTEGRATION:
-		case MOCK_MODE:
-		case CUSTOM_SERVER:
-			appId = context.getString(R.string.facebook_dev_app_id);
-			break;
-		case PRODUCTION:
-		default:
-			appId = context.getString(R.string.facebook_app_id);
-			break;
-		}
-		return appId;
-
-	}
-
-	/**
 	 * Login to expedia using facebook credentials
 	 *
 	 * @param facebookUserId
@@ -1578,6 +1550,7 @@ public class ExpediaServices implements DownloadListener {
 			base = createHttpPost(serverUrl, params);
 		}
 
+		base.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(mContext));
 		// Some logging before passing the request along
 		Log.d(TAG_REQUEST, "Request: " + serverUrl + "?" + NetUtils.getParamsForLogging(params));
 

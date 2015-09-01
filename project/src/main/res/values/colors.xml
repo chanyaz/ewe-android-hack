@@ -94,6 +94,8 @@
     <color name="hotel_filter_spinner_text_color">#393E43</color>
     <color name="etp_text_color">#29a653</color>
     <color name="room_rate_refundable_cancellation_text_color">#008C5D</color>
+    <color name="hotel_cell_gray_text">#888888</color>
+    <color name="hotel_cell_light_gray_text">#D7D7D7</color>
 
     <!-- Login -->
     <color name="login_text_hotels">#FFFFFF</color>
@@ -307,5 +309,10 @@
     <color name="mer_email_checkbox_unchecked_color">#F7F8FA</color>
     <color name="mer_email_checkbox_checked_color">#00B9E6</color>
     <color name="mer_email_text_color">#F7F8FA</color>
+
+    <!-- Signed in user tier colors -->
+    <color name="sign_in_user_tier_blue">#0085c9</color>
+    <color name="sign_in_user_tier_silver">#808080</color>
+    <color name="sign_in_user_tier_gold">#e7b40d</color>
 
 </resources>

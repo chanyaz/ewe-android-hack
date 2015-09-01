@@ -3,43 +3,35 @@ package com.expedia.bookings.presenter.hotel
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.v7.widget.Toolbar
-import android.text.Html
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ToggleButton
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.services.HotelServices
-import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.FontCache
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
 import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.HotelTravelerPickerView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.HotelSearchViewModel
 import com.expedia.util.subscribe
 import com.expedia.util.subscribeOnClick
+import com.expedia.vm.HotelSearchViewModel
+import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelTravelerPickerViewModel
 import com.mobiata.android.time.widget.CalendarPicker
 import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
-import org.joda.time.YearMonth
-import rx.subjects.PublishSubject
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.properties.Delegates
@@ -47,8 +39,8 @@ import kotlin.properties.Delegates
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val searchLocation: AlwaysFilterAutoCompleteTextView by bindView(R.id.hotel_location)
-    val selectDate: ToggleButton by bindView(R.id.select_date)
-    val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
+    val selectDate: Button by bindView(R.id.select_date)
+    val selectTraveler: Button by bindView(R.id.select_traveler)
     val calendar: CalendarPicker by bindView(R.id.calendar)
     val monthView: MonthView by bindView(R.id.month)
     val traveler: HotelTravelerPickerView by bindView(R.id.traveler_view)
@@ -62,7 +54,8 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         button.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
         button.setTextColor(getResources().getColor(android.R.color.white))
-
+        // Disable search button initially
+        button.setAlpha(0.15f)
         toolbar.getMenu().findItem(R.id.menu_check).setActionView(button)
 
         button
@@ -70,7 +63,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     private val hotelSuggestionAdapter by Delegates.lazy {
         val service = Ui.getApplication(getContext()).hotelComponent().suggestionsService()
-        HotelSuggestionAdapter(service)
+        HotelSuggestionAdapter(HotelSuggestionAdapterViewModel(service))
     }
 
     var viewmodel: HotelSearchViewModel by notNullAndObservable { vm ->
@@ -78,6 +71,9 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_hotel_stay))
         calendar.setDateChangedListener { start, end ->
             vm.datesObserver.onNext(Pair(start, end))
+        }
+        calendar.setYearMonthDisplayedChangedListener {
+            calendar.hideToolTip()
         }
 
         vm.calendarTooltipTextObservable.subscribe(endlessObserver { p ->
@@ -91,6 +87,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             traveler.setVisibility(View.GONE)
         }
 
+        traveler.viewmodel.travelerParamsObservable.subscribe(vm.travelersObserver)
         traveler.viewmodel.guestsTextObservable.subscribe(selectTraveler)
         selectTraveler.setOnClickListener {
             calendar.setVisibility(View.GONE)
@@ -101,13 +98,20 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         searchLocation.setAdapter(hotelSuggestionAdapter)
         searchLocation.setOnItemClickListener {
             adapterView, view, position, l ->
-            var suggestion: SuggestionV4 = hotelSuggestionAdapter.getItem(position)
-            vm.locationObserver.onNext(suggestion)
+            vm.suggestionObserver.onNext(hotelSuggestionAdapter.getItem(position))
             com.mobiata.android.util.Ui.hideKeyboard(this)
         }
+
         vm.locationTextObservable.subscribe(searchLocation)
 
         searchButton.subscribeOnClick(vm.searchObserver)
+        vm.searchButtonObservable.subscribe { enable ->
+            if (enable) {
+                searchButton.setAlpha(1.0f)
+            } else {
+                searchButton.setAlpha(0.15f)
+            }
+        }
         vm.errorNoOriginObservable.subscribe {
             AnimUtils.doTheHarlemShake(searchLocation)
         }

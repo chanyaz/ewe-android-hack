@@ -41,6 +41,7 @@ import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -109,13 +110,8 @@ public class DeepLinkRouterActivity extends Activity {
 			finish();
 			return;
 		}
-		else if (dataString.contains("activitySearch")) {
-			handleActivitySearch(data, queryData);
-			finish();
-			return;
-		}
-		else if (dataString.contains("carSearch")) {
-			handleCarsSearch(data, queryData);
+		else if (dataString.contains("signIn")) {
+			handleSignIn();
 			finish();
 			return;
 		}
@@ -157,6 +153,10 @@ public class DeepLinkRouterActivity extends Activity {
 			break;
 		case "activitySearch":
 			handleActivitySearch(data, queryData);
+			finish = true;
+			break;
+		case "carSearch":
+			handleCarsSearch(data, queryData);
 			finish = true;
 			break;
 		case "destination":
@@ -207,8 +207,11 @@ public class DeepLinkRouterActivity extends Activity {
 			}
 
 			CarSearchParams carSearchParams = CarDataUtils.fromDeepLink(data, queryData);
-			if (carSearchParams != null) {
+			if (carSearchParams != null && JodaUtils.isBeforeOrEquals(carSearchParams.startDateTime, carSearchParams.endDateTime)) {
 				NavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
+			}
+			else {
+				NavUtils.goToCars(this, null);
 			}
 		}
 		else {
@@ -237,10 +240,14 @@ public class DeepLinkRouterActivity extends Activity {
 	 * This will search for an activity with location, start date & Activity filters applied, i.e. Adventures & Attractions.
 	 * expda://activitySearch?startDate=2015-08-08&location=San+Francisco&filters=Adventures|Attractions
 	 * <p/>
+	 *
+	 *  <p/>
+	 * Example: Activity details search.
+	 * This will search for an activity with location, start date & activityID applied, i.e. 219796.
+	 * expda://activitySearch?startDate=2015-08-14&location=San+Francisco&activityId=219796
+	 * <p/>
 	 */
 	private boolean handleActivitySearch(Uri data, Set<String> queryData) {
-
-
 
 		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
 			LXSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
@@ -673,6 +680,10 @@ public class DeepLinkRouterActivity extends Activity {
 			Log.w(TAG, "Could not decode destination", e);
 			NavUtils.goToLaunchScreen(this);
 		}
+	}
+
+	private void handleSignIn() {
+		NavUtils.goToSignIn(this);
 	}
 
 	@Override

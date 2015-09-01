@@ -14,7 +14,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
-import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
@@ -22,6 +21,7 @@ import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
+import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
@@ -95,10 +95,10 @@ public class LXServices {
 		}
 	};
 
-	public Subscription lxDetails(final LXActivity lxActivity, String location, LocalDate startDate, LocalDate endDate,
+	public Subscription lxDetails(String activityId, String location, LocalDate startDate, LocalDate endDate,
 		Observer<ActivityDetailsResponse> observer) {
 		return lxApi
-			.activityDetails(lxActivity.id, location, DateUtils.convertToLXDate(startDate),
+			.activityDetails(activityId, location, DateUtils.convertToLXDate(startDate),
 				DateUtils.convertToLXDate(endDate))
 			.observeOn(this.observeOn)
 			.subscribeOn(this.subscribeOn)

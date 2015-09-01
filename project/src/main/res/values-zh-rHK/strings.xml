@@ -187,7 +187,7 @@
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_time_out">您還在嗎？您已逾時登出。請重新搜尋。</string>
     <!-- Shown to user when they try to book something already booked -->
-    <string name="reservation_already_exists">但是，您似乎已預訂此行程。請查看您的行程或電郵。</string>
+    <string name="reservation_already_exists">嗯，您似乎已預訂此行程。請查看您的行程或電郵。</string>
     <!-- Show to user when the price of a car they are trying to book has changed -->
     <string name="reservation_price_change">您的車輛價格已變更。請確認新的價格以繼續。</string>
     <!-- Show to user when the their traveler information is invalid -->
@@ -1894,10 +1894,6 @@
     <string name="enter_traveler_info">旅客資料</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">主要旅客資料</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">輸入主要旅客資料</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate2">主要旅客</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">已儲存</string>
     <!-- Edit button for traveler/payment -->
@@ -2563,6 +2559,7 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="guest_recommend">房客推薦</string>
+    <string name="hotel_guest_recommend">/ 5 - 旅客評分</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
@@ -3313,7 +3310,7 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Google 電子錢包優惠券條款及細則</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">優惠：酒店住宿即減 $50。預訂金額滿 $200 方可獲享折扣優惠。換領方法：選擇合資格的酒店住宿。於付款頁按「使用 Google 電子錢包購買」來結帳。優惠券必須於 2014 年 12 月 31 日 11:59 PM (太平洋時間) 或之前在 Expedia Android App 內換領，並於即日起至 2015 年 3 月 31 日期間住宿。限時優惠：可能隨時更改。每個使用者帳戶和每次合資格酒店訂房限用一 (1) 張優惠券。此優惠由 Expedia.com 提供並只適用於 Expedia.com 美國 Android App 客戶。此優惠不適用於參與 Expedia 旅行社聯盟計劃的顧客。此優惠券只適用於合資格的 Expedia 優惠價酒店。預訂視乎供應而定，並受所有適用條款及細則約束。優惠券不可與其他優惠券、推廣或特別優惠一同使用。優惠券不可用作扣減稅項、供應商收費、取消或更改手續費、行政費或其他雜費，客戶須自行承擔上述費用。優惠券於完成一次合資格預訂後即視為已完全使用，並不可重用。預訂的任何部分一經更改或取消，優惠券將不可用於已更改的行程。此優惠券的條款及細則經已列明，其不可由任何未經授權人士 (包括 Expedia, Inc. 的僱員) 以任何方式修改。優惠券不可轉讓亦不可兌換現金。Expedia, Inc. 可隨時取消或更改此優惠。受法律禁止地區無效。</string>
+    <string name="wallet_promo_tc_message">優惠：酒店住宿即減 $50。預訂金額滿 $200 方可獲享折扣優惠。換領方法：選擇合資格的酒店住宿。於付款頁按「使用 Google 電子錢包購買」來結帳。優惠券必須於 2014 年 12 月 31 日 23:59 (太平洋時間) 或之前在 Expedia Android App 內換領，並於即日起至 2015 年 3 月 31 日期間住宿。限時優惠：可能隨時更改。每個使用者帳戶和每次合資格酒店訂房限用一 (1) 張優惠券。此優惠由 Expedia.com 提供並只適用於 Expedia.com 美國 Android App 客戶。此優惠不適用於參與 Expedia 旅行社聯盟計劃的顧客。此優惠券只適用於合資格的 Expedia 優惠價酒店。預訂視乎供應而定，並受所有適用條款及細則約束。優惠券不可與其他優惠券、推廣或特別優惠一同使用。優惠券不可用作扣減稅項、供應商收費、取消或更改手續費、行政費或其他雜費，客戶須自行承擔上述費用。優惠券於完成一次合資格預訂後即視為已完全使用，並不可重用。預訂的任何部分一經更改或取消，優惠券將不可用於已更改的行程。此優惠券的條款及細則經已列明，其不可由任何未經授權人士 (包括 Expedia, Inc. 的僱員) 以任何方式修改。優惠券不可轉讓亦不可兌換現金。Expedia, Inc. 可隨時取消或更改此優惠。受法律禁止地區無效。</string>
     <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
     <string name="wallet_coupon_not_applied_manually">選擇 Google 電子錢包作為付款方法方可使用此優惠券。</string>
 

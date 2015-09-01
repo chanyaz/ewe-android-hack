@@ -569,7 +569,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">No se han obtenido resultados. Cambia los criterios de búsqueda.</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">No hemos podido determinar tu ubicación, por lo que no es posible mostrarte las actividades más cercanas.</string> 
+    <string name="error_lx_current_location_search_message">No hemos podido determinar tu ubicación para mostrarte las actividades más cercanas.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Se ha producido un error</string>
     <!-- Text for error toolbar-->
@@ -1894,10 +1894,6 @@
     <string name="enter_traveler_info">Datos del viajero</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Datos del viajero principal</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">Introduce los datos del viajero principal</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate2">Viajero principal</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Guardado</string>
     <!-- Edit button for traveler/payment -->
@@ -2563,6 +2559,7 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="guest_recommend">de los clientes lo recomiendan</string>
+    <string name="hotel_guest_recommend">de 5 - Puntuación de los huéspedes</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->

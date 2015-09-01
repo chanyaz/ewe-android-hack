@@ -80,7 +80,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				case R.id.tvly_hotels: {
 					if (!mLaunchingActivity) {
 						mLaunchingActivity = true;
-						OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
+						OmnitureTracking.trackLinkLaunchScreenToHotels();
 						NavUtils.goToHotels(getActivity(), animOptions);
 					}
 					break;
@@ -88,7 +88,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				case R.id.tvly_flights: {
 					if (!mLaunchingActivity) {
 						mLaunchingActivity = true;
-						OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
+						OmnitureTracking.trackLinkLaunchScreenToFlights();
 						NavUtils.goToFlights(getActivity(), animOptions);
 					}
 					break;
@@ -96,7 +96,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				case R.id.tvly_cars: {
 					if (!mLaunchingActivity) {
 						mLaunchingActivity = true;
-						OmnitureTracking.trackNewLaunchScreenLobNavigation(getActivity(), LineOfBusiness.CARS);
+						OmnitureTracking.trackNewLaunchScreenLobNavigation(LineOfBusiness.CARS);
 						NavUtils.goToCars(getActivity(), animOptions);
 					}
 					break;
@@ -104,7 +104,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				case R.id.tvly_activities: {
 					if (!mLaunchingActivity) {
 						mLaunchingActivity = true;
-						OmnitureTracking.trackNewLaunchScreenLobNavigation(getActivity(), LineOfBusiness.LX);
+						OmnitureTracking.trackNewLaunchScreenLobNavigation(LineOfBusiness.LX);
 						NavUtils.goToActivities(getActivity(), animOptions);
 					}
 					break;

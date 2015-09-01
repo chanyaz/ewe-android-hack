@@ -133,7 +133,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 					if (getState() == CheckoutTripBucketState.SHOWING) {
 						other = CheckoutTripBucketState.OPEN;
 					}
-					OmnitureTracking.trackTripBucketPortraitToggle(getActivity(), getLob(), other);
+					OmnitureTracking.trackTripBucketPortraitToggle(getLob(), other);
 					setState(other, true);
 				}
 			});

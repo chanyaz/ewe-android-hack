@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -18,18 +17,21 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
+import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.LeftToRightTransition;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
@@ -49,8 +51,11 @@ import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscription;
 import rx.exceptions.OnErrorNotImplementedException;
+import rx.subjects.PublishSubject;
 
 public class CarResultsPresenter extends Presenter {
+
+	private ArrowXDrawable navIcon;
 
 	public CarResultsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -74,6 +79,9 @@ public class CarResultsPresenter extends Presenter {
 
 	@InjectView(R.id.sort_toolbar)
 	FilterButtonWithCountWidget filterToolbar;
+
+	@InjectView(R.id.toolbar_dropshadow)
+	View toolbarDropshadow;
 
 	@InjectView(R.id.filter)
 	CarFilterWidget filter;
@@ -99,6 +107,8 @@ public class CarResultsPresenter extends Presenter {
 	private CarSearch unfilteredSearch = new CarSearch();
 	private int searchTop;
 	private String lastState;
+	private CarSearch filteredSearch = new CarSearch();
+	PublishSubject filterDonePublishSubject = PublishSubject.create();
 
 	@Override
 	protected void onFinishInflate() {
@@ -112,7 +122,8 @@ public class CarResultsPresenter extends Presenter {
 		addTransition(detailsToFilter);
 		addDefaultTransition(setUpLoading);
 
-		Drawable navIcon = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
+		navIcon = ArrowXDrawableUtil
+			.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
 		toolbar.setTitleTextColor(Color.WHITE);
@@ -145,6 +156,9 @@ public class CarResultsPresenter extends Presenter {
 		toolbarBackground.getLayoutParams().height += statusBarHeight;
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 		filterToolbar.setFilterText(getResources().getString(R.string.filter));
+		details.getSearchCarOfferPublishSubject().subscribe(carOfferObserver);
+		filterDonePublishSubject.subscribe(filterDoneObserver);
+
 	}
 
 	@Override
@@ -189,7 +203,7 @@ public class CarResultsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
-			OmnitureTracking.trackAppCarNoResults(getContext(), e.getMessage());
+			OmnitureTracking.trackAppCarNoResults(e.getMessage());
 			Log.e("CarSearch - onError", e);
 
 			if (RetrofitUtils.isNetworkError(e)) {
@@ -227,6 +241,7 @@ public class CarResultsPresenter extends Presenter {
 
 		@Override
 		public void onNext(CarSearch filteredCarSearch) {
+			filteredSearch = filteredCarSearch;
 			CategorizedCarOffers filteredBucket = null;
 
 			if (selectedCategorizedCarOffers != null) {
@@ -244,18 +259,34 @@ public class CarResultsPresenter extends Presenter {
 		}
 	};
 
+	private Observer<CarSearch> filterDoneObserver = new Observer<CarSearch>() {
+		@Override
+		public void onCompleted() {
+			cleanup();
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(CarSearch carSearch) {
+			AdTracker.trackFilteredCarResult(filteredSearch, searchedParams);
+		}
+	};
+
 	private void handleCarSearchResults(CarSearch carSearch) {
 		unfilteredSearch = carSearch;
 		filterToolbar.setVisibility(View.VISIBLE);
 		filterToolbar.showNumberOfFilters(0);
 		show(categories, FLAG_CLEAR_TOP);
 		bindFilter(carSearch);
-		OmnitureTracking.trackAppCarSearch(getContext(), searchedParams, unfilteredSearch.categories.size());
+		OmnitureTracking.trackAppCarSearch(searchedParams, unfilteredSearch.categories.size());
 		AdTracker.trackCarSearch(searchedParams);
 	}
 
 	private void bindFilter(CarSearch carSearch) {
-		filter.bind(carSearch);
+		filter.bind(carSearch, filterDonePublishSubject);
 	}
 
 	/* handle CAR_SEARCH_WINDOW_VIOLATION detail errors and show default error screen
@@ -386,6 +417,7 @@ public class CarResultsPresenter extends Presenter {
 			lastState = forward ? CarCategoryDetailsWidget.class.getName() : CarCategoryListWidget.class.getName();
 			toolbarBackground.setVisibility(VISIBLE);
 			toolbarBackground.setAlpha(1f);
+			toolbarDropshadow.setAlpha(1f);
 
 			filterToolbar.setTranslationY(0);
 			filterToolbar.showNumberOfFilters(filter.getNumCheckedFilters(forward));
@@ -417,6 +449,7 @@ public class CarResultsPresenter extends Presenter {
 			toolbarBackground.setVisibility(VISIBLE);
 			toolbarBackground.setTranslationX(0);
 			toolbarBackground.setAlpha(forward ? 0f : 1f);
+			toolbarDropshadow.setAlpha(forward ? 0f : 1f);
 
 			details.reset();
 
@@ -484,10 +517,10 @@ public class CarResultsPresenter extends Presenter {
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
 
 			if (!forward) {
-				OmnitureTracking.trackAppCarSearch(getContext(), searchedParams, unfilteredSearch.categories.size());
+				OmnitureTracking.trackAppCarSearch(searchedParams, unfilteredSearch.categories.size());
 			}
 			else {
-				OmnitureTracking.trackAppCarFilter(getContext());
+				OmnitureTracking.trackAppCarFilter();
 			}
 		}
 	};
@@ -516,7 +549,7 @@ public class CarResultsPresenter extends Presenter {
 			filter.setVisibility(forward ? VISIBLE : GONE);
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
 			if (forward) {
-				OmnitureTracking.trackAppCarFilter(getContext());
+				OmnitureTracking.trackAppCarFilter();
 			}
 		}
 	};
@@ -603,16 +636,23 @@ public class CarResultsPresenter extends Presenter {
 		float yTrans = forward ?  - (searchTop * -f) : (searchTop * (1 - f));
 		toolBarDetailText.setTranslationY(yTrans);
 		toolBarSubtitleText.setTranslationY(yTrans);
+		navIcon.setParameter(Math.abs(1 - alphaD));
+		errorScreen.animationUpdate(Math.abs(1 - alphaD));
 	}
 
 	public void animationFinalize(boolean forward) {
 		toolbarBackground.setAlpha(
 			Strings.equals(getCurrentState(), CarCategoryDetailsWidget.class.getName()) ? toolbarBackground.getAlpha()
 				: 1f);
+		toolbarDropshadow.setAlpha(
+			Strings.equals(getCurrentState(), CarCategoryDetailsWidget.class.getName()) ? toolbarBackground.getAlpha()
+				: 1f);
 		toolbar.setVisibility(VISIBLE);
 		toolbarBackground.setVisibility(VISIBLE);
 		toolBarDetailText.setTranslationY(0);
 		toolBarSubtitleText.setTranslationY(0);
+		navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType());
+		errorScreen.animationUpdate(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType());
 	}
 
 	RecyclerView.OnScrollListener recyclerScrollListener = new RecyclerView.OnScrollListener() {
@@ -638,6 +678,7 @@ public class CarResultsPresenter extends Presenter {
 			if (recyclerView == details.offerList && details.offerList.getChildAt(0) != null) {
 				float ratio = details.parallaxScrollHeader();
 				toolbarBackground.setAlpha(ratio);
+				toolbarDropshadow.setAlpha(ratio);
 			}
 
 			int heightOfButton = filterToolbar.getHeight();
@@ -649,6 +690,21 @@ public class CarResultsPresenter extends Presenter {
 				scrolledDistance = Math.max(0, scrolledDistance + dy);
 				filterToolbar.setTranslationY(Math.min(scrolledDistance, 0));
 			}
+		}
+	};
+
+	private Observer<SearchCarOffer> carOfferObserver = new Observer<SearchCarOffer>() {
+		@Override
+		public void onCompleted() {
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(SearchCarOffer searchCarOffer) {
+			AdTracker.trackCarDetails(searchedParams, searchCarOffer);
 		}
 	};
 }

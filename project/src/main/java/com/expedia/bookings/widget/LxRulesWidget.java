@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
@@ -81,12 +80,8 @@ public class LxRulesWidget extends LinearLayout {
 	}
 
 	private void showLegalPage(String legalPageUrl, int titleResId) {
-		final int themeId = ExpediaBookingApp.useTabletInterface(getContext()) ?
-			R.style.FlightTheme : R.style.HotelWebViewTheme;
-
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
 		builder.setInjectExpediaCookies(true);
-		builder.setTheme(themeId);
 		builder.setTitle(titleResId);
 		builder.setUrl(legalPageUrl);
 		getContext().startActivity(builder.getIntent());

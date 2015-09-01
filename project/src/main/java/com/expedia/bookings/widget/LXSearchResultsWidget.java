@@ -82,7 +82,7 @@ public class LXSearchResultsWidget extends FrameLayout {
 
 	@Subscribe
 	public void onLXSearchError(Events.LXShowSearchError event) {
-		OmnitureTracking.trackAppLXNoSearchResults(getContext(), event.error);
+		OmnitureTracking.trackAppLXNoSearchResults(event.error);
 		recyclerView.setVisibility(View.GONE);
 		errorScreen.bind(event.error, event.searchType);
 		errorScreen.setVisibility(View.VISIBLE);

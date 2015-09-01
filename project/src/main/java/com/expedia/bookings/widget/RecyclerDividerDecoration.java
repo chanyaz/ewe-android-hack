@@ -33,7 +33,8 @@ public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 		// Default constructor
 	}
 
-	public RecyclerDividerDecoration(Context context, int left, int top, int right, int bottom, int header, int footer, boolean drawDivider) {
+	public RecyclerDividerDecoration(Context context, int left, int top, int right, int bottom, int header, int footer,
+		boolean drawDivider) {
 		mPaint = new Paint();
 		mPaint.setAntiAlias(true);
 		mPaint.setStyle(Paint.Style.STROKE);
@@ -73,7 +74,7 @@ public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 	}
 
 	@Override
-	public void onDrawOver (Canvas c, RecyclerView parent, RecyclerView.State state) {
+	public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
 		if (!shouldDrawDivider) {
 			return;
 		}

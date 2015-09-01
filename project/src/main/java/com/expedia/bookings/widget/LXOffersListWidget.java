@@ -15,6 +15,7 @@ import com.expedia.bookings.data.lx.Offer;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.subjects.PublishSubject;
 
 public class LXOffersListWidget extends android.widget.LinearLayout {
 	public LXOffersListWidget(Context context, AttributeSet attrs) {
@@ -30,6 +31,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 	@InjectView(R.id.show_more_widget)
 	ShowMoreWithCountWidget showMoreWithCountWidget;
 
+	private PublishSubject<Offer> lxOfferSubject = PublishSubject.create();
 	private LXOffersListAdapter adapter = new LXOffersListAdapter();
 	private List<Offer> availableOffers;
 
@@ -51,7 +53,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 			}
 		}
 
-		adapter.setOffers(availableOffers);
+		adapter.setOffers(availableOffers, lxOfferSubject);
 
 		offerContainer.removeAllViews();
 
@@ -79,5 +81,9 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 			offerContainer.addView(offerRow);
 		}
 		showMoreContainer.setVisibility(GONE);
+	}
+
+	public PublishSubject<Offer> getOfferPublishSubject() {
+		return lxOfferSubject;
 	}
 }

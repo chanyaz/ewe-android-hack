@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Hotels -->
+    <!-- Hotels Calendar Strings -->
+    <!-- Hotels calendar tooltip bottom line after a single date is selected -->
+    <string name="hotel_calendar_tooltip_bottom">Next: Select check out date</string>
+    <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
+    <string name="select_checkout_date_TEMPLATE">%1$s - Select check out date</string>
+    <!-- Search form text hotels nights. %$s = formatted nights string. E.g. (3 nights) -->
+    <string name="nights_count_TEMPLATE">(%1$s)</string>
+    <!-- Hotels search form default text for number of guests -->
+    <string name="hotel_search_guest_default_text">1 Guest</string>
+
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
@@ -569,7 +580,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Your search returned no results. Please retry your search with different criteria.</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">We couldn’t determine your current location to find activities around you.</string> 
+    <string name="error_lx_current_location_search_message">We couldn\&apos;t determine your current location to find activities around you.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Error</string>
     <!-- Text for error toolbar-->
@@ -2561,6 +2572,7 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="guest_recommend">of guests recommend</string>
+    <string name="hotel_guest_recommend">of 5 - guest rating</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
@@ -2894,8 +2906,6 @@
     <string name="dialog_title_cleared_private_data">Private data cleared</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">All saved billing and contact information has been removed.</string>
-    <!-- Action button label to Subscribe to our mailing list -->
-    <string name="Subscribe">Subscribe</string>
     <!-- Action button label to follow on twitter -->
     <string name="Follow">Follow</string>
     <!-- Action button label to like on facebook -->

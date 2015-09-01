@@ -125,7 +125,7 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 					mListener.setMode(YoYoMode.YOYO);
 					mListener.moveForward();
 
-					OmnitureTracking.trackLinkFlightCheckoutPaymentEnterManually(getActivity());
+					OmnitureTracking.trackLinkFlightCheckoutPaymentEnterManually();
 				}
 			}
 		});
@@ -206,7 +206,7 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 							else {
 								onStoredCardSelected(storedCard);
 
-								OmnitureTracking.trackLinkFlightCheckoutPaymentSelectExisting(getActivity());
+								OmnitureTracking.trackLinkFlightCheckoutPaymentSelectExisting();
 							}
 						}
 					});
@@ -240,7 +240,7 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightCheckoutPaymentSelect(getActivity());
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentSelect();
 	}
 
 	@Override

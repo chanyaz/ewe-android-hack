@@ -33,6 +33,7 @@ import com.expedia.bookings.section.FlightSegmentSection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FlightUtils;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -88,6 +89,10 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.fragment_flight_details, container, false);
+
+		if (FragmentBailUtils.shouldBail(getActivity())) {
+			return v;
+		}
 
 		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, false);
 
@@ -195,8 +200,8 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(getActivity(),
-				getArguments().getInt(ARG_LEG_POSITION, 0));
+		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(
+			getArguments().getInt(ARG_LEG_POSITION, 0));
 	}
 
 	public FlightTripLeg getFlightTripLeg() {

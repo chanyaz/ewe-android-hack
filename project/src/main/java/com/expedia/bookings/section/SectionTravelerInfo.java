@@ -1019,7 +1019,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		protected void onFieldBind() {
 			super.onFieldBind();
 			if (hasBoundField()) {
-				mCountryAdapter = new PassportCountrySpinnerAdapter(mContext);
+				mCountryAdapter = new CountrySpinnerAdapter(mContext, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME, android.R.layout.simple_list_item_1, android.R.layout.simple_list_item_1, true);
 				getField().setAdapter(mCountryAdapter);
 			}
 		}

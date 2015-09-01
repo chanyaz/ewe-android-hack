@@ -111,7 +111,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		locationView.setText(StrUtils.formatAddressShort(property.getLocation()));
 
 		RatingBar hotelRating;
-
 		if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
 			hotelRating = Ui.findView(this, R.id.hotel_rating_bar_circles);
 		}
@@ -141,7 +140,7 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 	protected void onStart() {
 		super.onStart();
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		OmnitureTracking.trackAppHotelsRoomsRates(this, property, null);
+		OmnitureTracking.trackAppHotelsRoomsRates(this, property);
 	}
 
 	@Override
@@ -159,8 +158,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		else {
 			getHotelOffers();
 		}
-
-		OmnitureTracking.onResume(this);
 	}
 
 	private void getHotelOffers() {
@@ -200,8 +197,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		else {
 			BackgroundDownloader.getInstance().cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -256,7 +251,7 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		Intent intent = new Intent(this, HotelOverviewActivity.class);
 		startActivity(intent);
 
-		OmnitureTracking.trackAddAirAttachHotel(this);
+		OmnitureTracking.trackAddAirAttachHotel();
 	}
 
 	@Override

@@ -59,6 +59,7 @@ public class LXPresenter extends Presenter {
 		addTransition(detailsToCheckout);
 		addTransition(detailsToSearch);
 		addTransition(checkoutToConfirmation);
+		addTransition(checkoutToResults);
 		show(resultsPresenter);
 		resultsPresenter.setVisibility(VISIBLE);
 
@@ -205,6 +206,8 @@ public class LXPresenter extends Presenter {
 
 	private Transition checkoutToConfirmation = new VisibilityTransition(this, LXCheckoutPresenter.class, LXConfirmationWidget.class);
 
+	private Transition checkoutToResults = new VisibilityTransition(this, LXCheckoutPresenter.class, LXResultsPresenter.class);
+
 	@Subscribe
 	public void onNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
 		show(resultsPresenter, FLAG_CLEAR_TOP);
@@ -239,7 +242,7 @@ public class LXPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowParamsOverlayOnResults(Events.LXSearchParamsOverlay event) {
-		OmnitureTracking.trackAppLXSearchBox(getContext());
+		OmnitureTracking.trackAppLXSearchBox();
 		show(new LXParamsOverlay());
 	}
 

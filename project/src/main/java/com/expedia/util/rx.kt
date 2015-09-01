@@ -1,13 +1,12 @@
 package com.expedia.util
 
 import android.view.View
+import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.ToggleButton
 import com.mobiata.android.Log
 import rx.Observable
 import rx.Observer
-import rx.subjects.PublishSubject
-import rx.subjects.Subject
 
 public fun <T> endlessObserver(body: (in T) -> Unit) : Observer<T> {
     return object : Observer<T> {
@@ -31,8 +30,18 @@ public fun View.subscribeOnClick(observer: Observer<Unit>) {
     }
 }
 
-public fun Observable<String>.subscribe(textview: TextView) {
+public fun ToggleButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
+    this.setOnClickListener {
+        observer.onNext(this.isChecked())
+    }
+}
+
+public fun <T : CharSequence> Observable<T>.subscribe(textview: TextView) {
     this.subscribe { text -> textview.setText(text) }
+}
+
+public fun Observable<Float>.subscribe(ratingBar: RatingBar) {
+    this.subscribe { text -> ratingBar.setRating(text) }
 }
 
 public fun Observable<String>.subscribe(togglebutton: ToggleButton) {
