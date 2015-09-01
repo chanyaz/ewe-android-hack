@@ -96,6 +96,7 @@
     <color name="room_rate_refundable_cancellation_text_color">#008C5D</color>
     <color name="hotel_cell_gray_text">#888888</color>
     <color name="hotel_cell_light_gray_text">#D7D7D7</color>
+    <color name="hotel_cell_secondary_text_color">#9A9A9A</color>
 
     <!-- Hotel reviews colors -->
     <color name="hotel_review_background_color">#FAFAFA</color>
