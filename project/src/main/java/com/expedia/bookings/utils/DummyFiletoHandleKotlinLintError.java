@@ -27,6 +27,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.hotel_ellipsize_text_template,
 		R.string.view_room_button_text,
 		R.drawable.hotel_tooltip,
+		R.drawable.details_share,
 		R.drawable.hotel_tooltip_blue,
 		R.layout.hotel_marker_preview_cell,
 		R.drawable.hotel_marker_preview_background,
@@ -47,12 +48,14 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.coupon_widget,
 		R.string.saved_coupon,
 		R.string.coupon_promo_title,
+		R.string.share_via,
 		R.layout.resort_fee_widget,
 		R.layout.hotel_loading_cell,
 		R.layout.hotel_review_row,
 		R.layout.hotel_reviews_page_widget,
 		R.layout.widget_hotel_reviews,
 		R.layout.widget_hotel_reviews_toolbar,
-		R.layout.wallet_layout
+		R.layout.wallet_layout,
+		R.layout.widget_special_notice
 	};
 }

@@ -35,7 +35,7 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
     val roomInfoContainer: RelativeLayout by bindView(R.id.room_info_container)
     val row: View  by bindView(R.id.root)
     val expandedAmenity: TextView by bindView(R.id.expanded_amenity_text_view)
-    val freeCancellation: TextView by bindView(R.id.expanded_free_cancellation__text_view)
+    val freeCancellation: TextView by bindView(R.id.expanded_free_cancellation_text_view)
     val roomInfoHeader: TextView by bindView(R.id.room_info_header_text)
 
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
@@ -79,7 +79,7 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
             val collapsedBedType = row.findViewById (R.id.collapsed_bed_type_text_view) as TextView
             val expandedBedType = row.findViewById (R.id.expanded_bed_type_text_view) as TextView
             val expandedAmenity = row.findViewById (R.id.expanded_amenity_text_view) as TextView
-            val freeCancellation = row.findViewById (R.id.expanded_free_cancellation__text_view) as TextView
+            val freeCancellation = row.findViewById (R.id.expanded_free_cancellation_text_view) as TextView
             val totalPricePerNight = row.findViewById(R.id.total_price_per_night) as TextView
 
             Ui.setViewBackground(row.findViewById(R.id.root), null)

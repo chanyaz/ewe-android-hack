@@ -17,6 +17,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -63,6 +64,10 @@ public class HotelScreen {
 		hotelResultsList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
 	}
 
+	public static void selectHotelWithName(String name) {
+		hotelResultsList().perform(RecyclerViewActions.actionOnItem(withChild(withChild((withText(name)))), click()));
+	}
+
 	public static ViewInteraction addRoom() {
 		return onView(
 			allOf(
@@ -76,4 +81,7 @@ public class HotelScreen {
 		addRoom().perform(scrollTo(), click());
 	}
 
+	public static void clickPayLater() {
+		onView(withId(R.id.radius_pay_later)).perform(click());
+	}
 }

@@ -88,6 +88,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailPresenter.hotelDetailView.viewmodel.hotelObserver.onNext(hotel)
         detailPresenter.hotelDetailView.viewmodel.reviewsObservable.subscribe(reviewsObserver)
         detailPresenter.hotelDetailView.viewmodel.getDetail()
+        detailPresenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(detailPresenter.hotelRenovationObserver)
+        detailPresenter.showDefault()
         show(detailPresenter)
     }
 

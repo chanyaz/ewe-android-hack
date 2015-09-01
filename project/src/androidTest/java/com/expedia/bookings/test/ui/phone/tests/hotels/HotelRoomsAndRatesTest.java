@@ -82,7 +82,7 @@ public class HotelRoomsAndRatesTest extends PhoneTestCase {
 		/*Display renovation notice if the hotel has one
 		*/
 		initiateSearch();
-		HotelsSearchScreen.clickHotelWithName("hotel_renovation_notice");
+		HotelsSearchScreen.clickHotelWithName("hotel_etp_renovation_resort");
 		HotelsDetailsScreen.clickSelectButton();
 		screenshot("renovation_notice");
 		onView(withId(R.id.construction_top_text)).check(matches(withText("Renovation Notice")));

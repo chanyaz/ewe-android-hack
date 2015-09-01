@@ -6,4 +6,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <com.expedia.bookings.widget.SpecialNoticeWidget
+        android:id="@+id/hotel_detail_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </merge>

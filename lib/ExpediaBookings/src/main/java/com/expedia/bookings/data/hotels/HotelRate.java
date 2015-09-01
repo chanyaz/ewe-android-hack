@@ -60,4 +60,5 @@ public class HotelRate {
 		return surcharges;
 	}
 
+	public String depositAmountToShowUsers;
 }

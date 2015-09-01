@@ -357,12 +357,12 @@ public final class ViewActions {
 		return new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
-				return Matchers.allOf(isAssignableFrom(AdapterView.class));
+				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
 			}
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				count.set(((AdapterView) view).getChildCount());
+				count.set(((ViewGroup) view).getChildCount());
 			}
 
 			@Override
