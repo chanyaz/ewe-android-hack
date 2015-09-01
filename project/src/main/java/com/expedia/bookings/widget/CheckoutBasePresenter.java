@@ -75,7 +75,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	ViewGroup hintContainer;
 
 	@InjectView(R.id.legal_information_text_view)
-	TextView legalInformationText;
+	public TextView legalInformationText;
 
 	@InjectView(R.id.slide_to_purchase_widget)
 	public SlideToWidgetLL slideWidget;
