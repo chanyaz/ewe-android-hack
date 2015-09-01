@@ -297,6 +297,7 @@ public class TuneUtils {
 			withTuidAndMembership(event)
 				.withAttribute2(isUserLoggedIn())
 				.withEventItems(Arrays.asList(eventItem))
+				.withSearchString("flight")
 				.withDate1(departureDate);
 
 			trackEvent(event);
@@ -343,6 +344,7 @@ public class TuneUtils {
 			withTuidAndMembership(event)
 				.withAttribute2(isUserLoggedIn())
 				.withEventItems(Arrays.asList(eventItem))
+				.withSearchString("flight")
 				.withDate1(departureDate);
 
 			trackEvent(event);
@@ -412,6 +414,7 @@ public class TuneUtils {
 				.withAttribute2(isUserLoggedIn())
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate2(params.startDateTime.toDate())
+				.withSearchString("car")
 				.withDate1(params.endDateTime.toDate());
 
 			trackEvent(event);

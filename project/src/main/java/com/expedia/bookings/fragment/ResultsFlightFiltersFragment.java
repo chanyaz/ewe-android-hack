@@ -23,6 +23,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportFilterWidget;
@@ -117,6 +118,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			mFilter.notifyFilterChanged();
 		}
 		bindAll();
+		AdTracker.trackFilteredFlightSearch(mLegNumber);
 	}
 
 	public boolean requiredDataInDb() {

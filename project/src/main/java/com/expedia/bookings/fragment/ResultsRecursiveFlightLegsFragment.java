@@ -311,6 +311,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		Log.d("onTripAdded mLegNumber:" + mLegNumber + " legNumber:" + legNumber);
 		if (legNumber == mLegNumber) {
 			if (isLastLeg()) {
+				AdTracker.trackTabletFlightViewContent();
 				// Set the Db properly
 				Db.getTripBucket().clearFlight();
 				Db.getTripBucket().add(Db.getFlightSearch());

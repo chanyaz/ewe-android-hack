@@ -2,6 +2,8 @@ package com.expedia.bookings.tracking;
 
 import java.util.List;
 
+import org.joda.time.LocalDate;
+
 import android.content.Context;
 
 import com.expedia.bookings.data.Db;
@@ -15,6 +17,7 @@ import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -26,6 +29,7 @@ public class AdTracker {
 	public static void init(Context context) {
 		TrackingPackage.setContext(context.getApplicationContext());
 		TrackingPackage.setFacebookLogger(AppEventsLogger.newLogger(context));
+		TrackingPackage.setContext(context);
 	}
 
 	public static void trackFirstLaunch() {
@@ -40,7 +44,7 @@ public class AdTracker {
 
 	public static void trackLogin() {
 		// Other
-		LeanPlumUtils.tracking("Sign In");
+		LeanPlumUtils.tracking("Sign In Success");
 		TuneUtils.trackLogin();
 	}
 
@@ -111,6 +115,7 @@ public class AdTracker {
 	public static void trackCarBooked(CarCheckoutResponse carCheckoutResponse) {
 		LeanPlumUtils.trackCarBooked(carCheckoutResponse);
 		TuneUtils.trackCarConfirmation(carCheckoutResponse);
+		new FacebookEvents().trackCarConfirmation(carCheckoutResponse);
 	}
 
 	public static void trackHotelCheckoutStarted() {
@@ -140,25 +145,46 @@ public class AdTracker {
 
 	public static void trackLXSearchResults(LXSearchParams searchParams, LXSearchResponse searchResponse) {
 		TuneUtils.trackLXSearch(searchParams, searchResponse);
+		new FacebookEvents().trackLXSearch(searchParams, searchResponse);
+	}
+
+	public static void trackFilteredLXSearchResults(LXSearchParams searchParams, LXSearchResponse searchResponse) {
+		new FacebookEvents().trackLXSearch(searchParams, searchResponse);
+	}
+
+	public static void trackLXDetails(String activityId, String destination, LocalDate startDate, String regionId,
+		String currencyCode, String activityValue) {
+		new FacebookEvents().trackLXDetail(activityId, destination, startDate, regionId, currencyCode, activityValue);
 	}
 
 	public static void trackLXCheckoutStarted(String lxActivityLocation, Money totalPrice, String lxOfferSelectedDate,
-		List<String> lxActivityCategories, int selectedTicketCount, String lxActivityTitle) {
+		List<String> lxActivityCategories, int selectedTicketCount, String lxActivityTitle, String regionId,
+		String activityId, LocalDate startDate, int selectedChildTicketCount) {
 		LeanPlumUtils.trackLXCheckoutStarted(lxActivityLocation, totalPrice, lxOfferSelectedDate, lxActivityCategories);
 		TuneUtils
 			.trackLXDetails(lxActivityLocation, totalPrice, lxOfferSelectedDate, selectedTicketCount, lxActivityTitle);
+		new FacebookEvents()
+			.trackLXCheckout(activityId, lxActivityLocation, startDate, regionId, totalPrice, selectedTicketCount,
+				selectedChildTicketCount);
 	}
 
 	public static void trackCarCheckoutStarted(CreateTripCarOffer carOffer) {
 		LeanPlumUtils.trackCarCheckoutStarted(carOffer);
 		TuneUtils.trackCarRateDetails(carOffer);
+		new FacebookEvents().trackCarCheckout(carOffer);
 	}
 
 	public static void trackHotelSearch() {
 		if (Db.getHotelSearch() != null) {
-			new FacebookEvents().trackHotelSearch(Db.getHotelSearch());
 			LeanPlumUtils.trackHotelSearch();
 			TuneUtils.trackHotelSearchResults();
+			new FacebookEvents().trackHotelSearch(Db.getHotelSearch());
+		}
+	}
+
+	public static void trackFilteredHotelSearch() {
+		if (Db.getHotelSearch() != null) {
+			new FacebookEvents().trackHotelSearch(Db.getHotelSearch());
 		}
 	}
 
@@ -174,13 +200,23 @@ public class AdTracker {
 		}
 	}
 
+	public static void trackFilteredFlightSearch(int legNumber) {
+		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchParams() != null) {
+			new FacebookEvents().trackFilteredFlightSearch(Db.getFlightSearch(), legNumber);
+		}
+	}
+
 	public static void trackPageLoadFlightSearchResults(int legPosition) {
 		TuneUtils.trackPageLoadFlightSearchResults(legPosition);
 	}
 
 	public static void trackFlightRateDetailOverview() {
 		TuneUtils.trackFlightRateDetailOverview();
-		new FacebookEvents().trackFlightDetail(Db.getFlightSearch(), Db.getFlightSearch().getSelectedFlightTrip());
+		new FacebookEvents().trackFlightDetail(Db.getFlightSearch());
+	}
+
+	public static void trackTabletFlightViewContent() {
+		new FacebookEvents().trackFlightDetail(Db.getFlightSearch());
 	}
 
 	public static void updatePOS() {
@@ -193,12 +229,24 @@ public class AdTracker {
 
 	public static void trackCarResult(CarSearch search, CarSearchParams params) {
 		TuneUtils.trackCarSearch(search, params);
+		new FacebookEvents().trackCarSearch(params, search);
+	}
+
+	public static void trackFilteredCarResult(CarSearch search, CarSearchParams params) {
+		new FacebookEvents().trackCarSearch(params, search);
+	}
+
+	public static void trackCarDetails(CarSearchParams searchParams, SearchCarOffer searchCarOffer) {
+		new FacebookEvents().trackCarDetail(searchParams, searchCarOffer);
 	}
 
 	public static void trackLXBooked(String lxActivityLocation, Money totalPrice, String lxActivityStartDate,
-		List<String> lxActivityCategories, String orderId, String lxActivityTitle) {
+		List<String> lxActivityCategories, String orderId, String lxActivityTitle, String activityId,
+		LocalDate startDate, String regionId, int selectedTicketCount, int selectedChildTicketCount) {
 		LeanPlumUtils.trackLXBooked(lxActivityLocation, totalPrice, lxActivityStartDate, lxActivityCategories);
 		TuneUtils.trackLXConfirmation(lxActivityLocation, totalPrice, lxActivityStartDate,
 			orderId, lxActivityTitle);
+		new FacebookEvents().trackLXConfirmation(activityId, lxActivityLocation, startDate, regionId, totalPrice,
+			selectedTicketCount, selectedChildTicketCount);
 	}
 }

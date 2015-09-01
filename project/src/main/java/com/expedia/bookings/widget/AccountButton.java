@@ -324,13 +324,13 @@ public class AccountButton extends LinearLayout {
 		int rewardsBgResId = 0;
 		switch (membershipTier) {
 		case BLUE:
-			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_blue_normal;
+			rewardsBgResId = R.drawable.bg_checkout_info_bottom_blue;
 			break;
 		case SILVER:
-			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_silver_normal;
+			rewardsBgResId = R.drawable.bg_checkout_info_bottom_silver;
 			break;
 		case GOLD:
-			rewardsBgResId = R.drawable.bg_checkout_information_bottom_tab_gold_normal;
+			rewardsBgResId = R.drawable.bg_checkout_info_bottom_gold;
 			break;
 		}
 

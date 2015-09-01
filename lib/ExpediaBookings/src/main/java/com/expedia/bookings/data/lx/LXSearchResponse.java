@@ -13,6 +13,7 @@ public class LXSearchResponse {
 	public boolean searchFailure;
 	public String currencyCode;
 	public boolean isFromCachedResponse;
+	public String destination;
 
 	// Utility Members - Required for Filtering
 	public transient List<LXActivity> unFilteredActivities = new ArrayList<>();
@@ -24,5 +25,16 @@ public class LXSearchResponse {
 			}
 		}
 		return null;
+	}
+
+	public LXActivity getLowestPriceActivity() {
+		LXActivity lowestPriceActivity = null;
+		for (LXActivity activity : activities) {
+			if (lowestPriceActivity == null
+				|| activity.price.getAmount().compareTo(lowestPriceActivity.price.getAmount()) < 0) {
+				lowestPriceActivity = activity;
+			}
+		}
+		return lowestPriceActivity;
 	}
 }

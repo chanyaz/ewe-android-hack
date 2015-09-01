@@ -572,6 +572,10 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (isFinishing()) {
+			return false;
+		}
+
 		// Either show standard action bar options, or just show the custom
 		// flight details action view, depending on whether flight details
 		// are currently visible

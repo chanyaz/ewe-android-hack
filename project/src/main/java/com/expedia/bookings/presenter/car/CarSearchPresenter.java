@@ -237,8 +237,11 @@ public class CarSearchPresenter extends Presenter
 			}
 
 			setPickUpLocation(suggestion, false);
-			calendar.setSelectedDates(carSearchParams.startDateTime.toLocalDate(),
-				carSearchParams.endDateTime.toLocalDate());
+
+			if (carSearchParams.startDateTime.compareTo(carSearchParams.endDateTime) <= 0) {
+				calendar.setSelectedDates(carSearchParams.startDateTime.toLocalDate(),
+					carSearchParams.endDateTime.toLocalDate());
+			}
 			calendarContainer.setPickupTime(carSearchParams.startDateTime);
 			calendarContainer.setDropoffTime(carSearchParams.endDateTime);
 		}
