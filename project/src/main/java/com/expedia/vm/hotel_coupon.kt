@@ -7,7 +7,8 @@ import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.services.HotelServices
-import rx.Observer
+import com.expedia.util.endlessObserver
+import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.HashMap
@@ -20,35 +21,25 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val errorMessageObservable = PublishSubject.create<String>()
     val couponParamsObservable = BehaviorSubject.create<HotelApplyCouponParams>()
 
+    private val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()
+    private val createTripObservable = Observable.concat(createTripDownloadsObservable)
+
     init {
         couponParamsObservable.subscribe { params ->
             applyObservable.onNext(params.tripId)
-            hotelServices.applyCoupon(params, getCouponObserver())
+            val observable = hotelServices.applyCoupon(params)
+            createTripDownloadsObservable.onNext(observable)
         }
-    }
-
-    fun getCouponObserver(): Observer<HotelCreateTripResponse> {
-        return object: Observer<HotelCreateTripResponse> {
-            override fun onNext(trip: HotelCreateTripResponse) {
-                if (trip.hasErrors()) {
-                    val error = trip.getFirstError()
-                    val text = context.getResources().getString(couponErrorMap.get(error.errorInfo.couponErrorType))
-                    errorMessageObservable.onNext(text)
-                    errorObservable.onNext(error)
-                } else {
-                    couponObservable.onNext(trip)
-                }
+        createTripObservable.subscribe(endlessObserver { trip ->
+            if (trip.hasErrors()) {
+                val error = trip.getFirstError()
+                val text = context.getResources().getString(couponErrorMap.get(error.errorInfo.couponErrorType))
+                errorMessageObservable.onNext(text)
+                errorObservable.onNext(error)
+            } else {
+                couponObservable.onNext(trip)
             }
-
-            override fun onError(e: Throwable?) {
-                // FIXME
-            }
-
-            override fun onCompleted() {
-                // ignore
-            }
-        }
-
+        })
     }
 
     private val couponErrorMap = object : HashMap<String, Int>() {
