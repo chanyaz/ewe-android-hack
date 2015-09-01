@@ -1,6 +1,7 @@
 package com.expedia.bookings.test
 
 import android.content.Context
+import android.content.res.Resources
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
 import com.expedia.bookings.services.HotelServices
@@ -12,6 +13,7 @@ import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Matchers
 import org.mockito.Mockito
 import retrofit.RequestInterceptor
 import retrofit.RestAdapter
@@ -36,6 +38,9 @@ public class HotelCouponTest {
     @Before
     fun before() {
         val context = Mockito.mock(javaClass<Context>())
+        val resources = Mockito.mock(javaClass<Resources>())
+        Mockito.`when`(context.getResources()).thenReturn(resources)
+        Mockito.`when`(resources.getQuantityString(Matchers.anyInt(), Matchers.anyInt(), Matchers.anyInt())).thenReturn("")
         val emptyInterceptor = object : RequestInterceptor {
             override fun intercept(request: RequestInterceptor.RequestFacade) {
                 // ignore

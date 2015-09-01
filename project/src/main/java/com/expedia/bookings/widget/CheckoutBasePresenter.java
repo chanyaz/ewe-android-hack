@@ -104,7 +104,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		addTransition(defaultToExpanded);
 		addTransition(defaultToReady);
 		addTransition(defaultToCheckoutFailed);
-		addTransition(expandedToDefault);
 		addDefaultTransition(defaultTransition);
 
 		slideWidget.addSlideToListener(this);
@@ -375,30 +374,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				isCheckoutComplete();
 				updateSpacerHeight();
 			}
-		}
-	};
-
-	private Presenter.Transition expandedToDefault = new Presenter.Transition(WidgetExpanded.class,
-		CheckoutDefault.class) {
-
-		@Override
-		public void finalizeTransition(boolean forward) {
-			toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
-			menuCheckout.setVisible(isCheckoutButtonEnabled());
-			menuNext.setVisible(false);
-			menuDone.setVisible(false);
-			showProgress(true);
-			paymentInfoCardView.setCreditCardRequired(false);
-			for (int i = 0; i < checkoutContent.getChildCount(); i ++) {
-				View v = checkoutContent.getChildAt(i);
-				if (v instanceof ExpandableCardView) {
-					((ExpandableCardView) v).setExpanded(false, false);
-				}
-				v.setVisibility(GONE);
-			}
-			summaryContainer.setVisibility(VISIBLE);
-			slideToContainer.setVisibility(INVISIBLE);
-			updateSpacerHeight();
 		}
 	};
 
