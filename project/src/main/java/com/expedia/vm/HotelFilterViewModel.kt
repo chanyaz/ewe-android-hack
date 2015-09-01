@@ -45,8 +45,6 @@ class HotelFilterViewModel(val context: Context) {
                 processFilters(hotel)
             }
 
-            resetToggles()
-
             // Passes the new list to the results
             filterObservable.onNext(filteredResponse.hotelList)
         }
@@ -149,6 +147,7 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     fun setHotelList(response : HotelSearchResponse) {
+        response.hotelList.remove(0)
         originalResponse = response
     }
 
