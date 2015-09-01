@@ -288,5 +288,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isLOBIconCenterAligned() {
 		return true;
 	}
+
+	@Override
+	public int getLaunchScreenActionLogo() {
+		return R.drawable.ic_ab_lm_logo;
+	}
 }
 
