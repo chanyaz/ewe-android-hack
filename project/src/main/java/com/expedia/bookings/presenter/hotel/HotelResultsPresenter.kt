@@ -1,8 +1,13 @@
 package com.expedia.bookings.presenter.hotel
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.TransitionDrawable
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
@@ -16,13 +21,13 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
@@ -60,9 +65,11 @@ import kotlin.properties.Delegates
 public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
+    private val DEFAULT_FAB_ANIM_DURATION = 500L
 
     var screenHeight: Int = 0
     var mapTransitionRunning: Boolean = false
+    var hideFabAnimationRunning: Boolean = false
 
     val recyclerView: RecyclerView by bindView(R.id.list_view)
     val mapView: MapView by bindView(R.id.map_view)
@@ -93,10 +100,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var threshold = 0
     var totalDistance = 0
 
-    val mapFab: FloatingActionButton by bindView(R.id.map_fab)
-    val listFab: FloatingActionButton by bindView(R.id.list_fab)
-
-    var fabAnim : Animation? = null
+    val fab: FloatingActionButton by bindView(R.id.fab)
 
     var adapter : HotelListAdapter by Delegates.notNull()
 
@@ -141,6 +145,14 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         listOffset = (getHeight() - (getHeight() / 2.7f)).toInt()
         listLayoutManager.scrollToPositionWithOffset(adapter.numHeaderItemsInHotelsList() + 1, listOffset)
         totalDistance = halfway;
+    }
+
+    private fun fabShouldBeHiddenOnList(): Boolean {
+        return listLayoutManager.findFirstVisibleItemPosition() == 0
+    }
+
+    private fun shouldBlockTransition(): Boolean {
+        return (mapTransitionRunning || (recyclerView.getAdapter() as HotelListAdapter).isLoading())
     }
 
     // Create list to show cards for loading animation
@@ -271,7 +283,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val mapSelectedObserver: Observer<Unit> = endlessObserver {
-        show(ResultsMap())
+        if (!shouldBlockTransition()) {
+            show(ResultsMap())
+        }
     }
 
     init {
@@ -280,7 +294,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         headerClickedSubject.subscribe(mapSelectedObserver)
         adapter = HotelListAdapter(ArrayList<Hotel>(), HotelRate.UserPriceType.UNKNOWN, hotelSubject, headerClickedSubject)
         recyclerView.setAdapter(adapter)
-        fabAnim = AnimationUtils.loadAnimation(getContext(), R.anim.fab_in)
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.setNavigationIcon(navIcon)
@@ -331,14 +344,20 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             show(ResultsList())
         }
 
-        mapFab.setOnClickListener { view ->
-            show(ResultsMap())
-        }
+        val fabDrawable: TransitionDrawable? = (fab.getDrawable() as? TransitionDrawable)
+        // Enabling crossfade prevents the icon ending up with a weird mishmash of both icons.
+        fabDrawable?.setCrossFadeEnabled(true)
 
-        listFab.setOnClickListener { view ->
-            val activity = getContext() as AppCompatActivity
-            activity.onBackPressed()
-            show(ResultsList())
+        fab.setOnClickListener { view ->
+            if (recyclerView.getVisibility() == View.VISIBLE) {
+                show(ResultsMap())
+            }
+            else {
+                val activity = getContext() as AppCompatActivity
+                activity.onBackPressed()
+                show(ResultsList())
+            }
+
         }
 
         show(ResultsList())
@@ -405,7 +424,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             totalDistance += -dy
-            if (mapTransitionRunning || (recyclerView.getAdapter() as HotelListAdapter).isLoading() || getCurrentState().equals(javaClass<ResultsMap>().getName())) {
+            if (shouldBlockTransition() || getCurrentState()?.equals(javaClass<ResultsMap>().getName()) ?: false) {
                 return
             }
 
@@ -415,7 +434,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 mapView.setTranslationY(y)
             }
 
-            var linearLayoutManager : LinearLayoutManager = recyclerView.getLayoutManager() as LinearLayoutManager
             if (currentState == RecyclerView.SCROLL_STATE_SETTLING && totalDistance >= halfway) {
                 show(ResultsList())
                 mapView.setTranslationY(0f)
@@ -423,11 +441,19 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 resetListOffset()
             }
 
-            if (linearLayoutManager.findFirstVisibleItemPosition() > 0 && mapFab.getVisibility() == View.INVISIBLE) {
-                mapFab.setVisibility(View.VISIBLE)
-                mapFab.startAnimation(fabAnim)
-            } else if (linearLayoutManager.findFirstVisibleItemPosition() == 0 && mapFab.getVisibility() == View.VISIBLE) {
-                mapFab.setVisibility(View.INVISIBLE)
+            if (!fabShouldBeHiddenOnList() && fab.getVisibility() == View.INVISIBLE) {
+                fab.setVisibility(View.VISIBLE)
+                getFabAnimIn().start()
+            } else if (fabShouldBeHiddenOnList() && fab.getVisibility() == View.VISIBLE && !hideFabAnimationRunning) {
+                hideFabAnimationRunning = true
+                val outAnim = getFabAnimOut()
+                outAnim.addListener(object: AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animator: Animator) {
+                        fab.setVisibility(View.INVISIBLE)
+                        hideFabAnimationRunning = false
+                    }
+                })
+                outAnim.start()
             }
         }
     }
@@ -453,13 +479,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             recyclerView.setVisibility(View.VISIBLE)
             mapCarouselContainer.setVisibility(View.INVISIBLE)
 
-            listFab.setVisibility(View.INVISIBLE)
-
-            if (recyclerView.getVisibility() == View.INVISIBLE && mapFab.getVisibility() == View.INVISIBLE && listFab.getVisibility() == View.INVISIBLE) {
-                mapFab.setVisibility(View.VISIBLE)
-                mapFab.startAnimation(fabAnim)
+            if (recyclerView.getVisibility() == View.INVISIBLE) {
+                fab.setVisibility(View.VISIBLE)
+                getFabAnimIn().start()
             } else {
-                mapFab.setVisibility(View.INVISIBLE)
+                fab.setVisibility(View.INVISIBLE)
             }
         }
     }
@@ -467,11 +491,65 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     private val adapterListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this)
+            screenHeight = if (ExpediaBookingApp.isAutomation()) { 0 } else { getHeight() }
             resetListOffset()
         }
     }
 
-    private val fabTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), 500) {
+    private val fabTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), DEFAULT_FAB_ANIM_DURATION.toInt()) {
+
+        var fabShouldVisiblyMove: Boolean = true
+        var mapTranslationStart: Float = 0f
+
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            mapTransitionRunning = true
+            recyclerView.setVisibility(View.VISIBLE)
+            fabShouldVisiblyMove = if (forward) !fabShouldBeHiddenOnList() else (fab.getVisibility() == View.VISIBLE)
+            mapTranslationStart = mapView.getTranslationY()
+            if (forward) {
+                //If the fab is visible we want to do the transition - but if we're just hiding it, don't confuse the
+                // user with an unnecessary icon swap
+                if (fabShouldVisiblyMove) {
+                    (fab.getDrawable() as? TransitionDrawable)?.reverseTransition(duration)
+                } else {
+                    listLayoutManager.scrollToPositionWithOffset(2, listOffset)
+                    //Let's start hiding the fab
+                    getFabAnimOut().setDuration(duration.toLong()).start()
+                }
+            }
+            else {
+                if (fabShouldVisiblyMove) {
+                    (fab.getDrawable() as? TransitionDrawable)?.startTransition(duration)
+                } else {
+                    //Since we're not moving it manually, let's jump it to where it belongs,
+                    // and let's get it showing the right thing
+                    fab.setTranslationY(-mapCarouselContainer.getHeight().toFloat())
+                    (fab.getDrawable() as? TransitionDrawable)?.startTransition(0)
+                    fab.setVisibility(View.VISIBLE)
+                    getFabAnimIn().setDuration(duration.toLong()).start()
+                }
+            }
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            val hotelListDistance = if (forward) (screenHeight * (1 - f)) else (screenHeight * f);
+            recyclerView.setTranslationY(hotelListDistance)
+            navIcon.setParameter(if (forward) Math.abs(1 - f) else f)
+            if (forward) {
+                mapView.setTranslationY(-screenHeight * f * .5f)
+            }
+            else {
+                mapView.setTranslationY((1-f) * mapTranslationStart)
+            }
+
+            if (fabShouldVisiblyMove) {
+                val fabDistance = if (forward) -(1 - f) * mapCarouselContainer.getHeight() else -f * mapCarouselContainer.getHeight()
+                fab.setTranslationY(fabDistance)
+            }
+        }
+
         override fun finalizeTransition(forward: Boolean) {
             navIcon.setParameter(if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK.getType().toFloat() else ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType().toFloat())
             toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
@@ -484,40 +562,18 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             recyclerView.setVisibility(if (forward) View.VISIBLE else View.INVISIBLE)
             mapCarouselContainer.setVisibility(if (forward) View.INVISIBLE else View.VISIBLE)
 
-            listFab.setVisibility(if (forward) View.INVISIBLE else View.VISIBLE)
-
-            if (recyclerView.getVisibility() == View.INVISIBLE && mapFab.getVisibility() == View.INVISIBLE && listFab.getVisibility() == View.INVISIBLE) {
-                mapFab.setVisibility(View.VISIBLE)
-                mapFab.startAnimation(fabAnim)
-            } else {
-                mapFab.setVisibility(View.INVISIBLE)
-            }
-
-            mapView.setTranslationY(0f)
             if (forward) {
+                if (!fabShouldVisiblyMove) {
+                    fab.setTranslationY(0f)
+                    (fab.getDrawable() as? TransitionDrawable)?.reverseTransition(0)
+                    fab.setVisibility(View.INVISIBLE)
+                }
                 recyclerView.setTranslationY(0f)
-                resetListOffset()
             } else {
+                mapView.setTranslationY(0f)
                 recyclerView.setTranslationY(screenHeight.toFloat())
             }
             mapTransitionRunning = false
-        }
-
-        override fun startTransition(forward: Boolean) {
-            super.startTransition(forward)
-            mapTransitionRunning = true
-            if (forward) {
-                resetListOffset()
-            }
-        }
-
-        override fun updateTransition(f: Float, forward: Boolean) {
-            super.updateTransition(f, forward)
-            if (!forward) {
-                var distance = (screenHeight * f)
-                recyclerView.setTranslationY(distance)
-            }
-            navIcon.setParameter(if (forward) Math.abs(1 - f) else f)
         }
     }
 
@@ -572,6 +628,30 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     fun animationFinalize() {
         recyclerTempBackground.setVisibility(View.GONE)
         navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType().toFloat())
+    }
+
+    //We use ObjectAnimators instead of Animation because Animation mucks with settings values outside of it, and Object
+    // Animator lets us do that.
+    fun getFabAnimIn(): Animator {
+        val set = AnimatorSet()
+        set.playTogether(
+                ObjectAnimator.ofFloat(fab, "scaleX", 0f, 1f),
+                ObjectAnimator.ofFloat(fab, "scaleY", 0f, 1f)
+        )
+        set.setDuration(DEFAULT_FAB_ANIM_DURATION)
+        set.setInterpolator(DecelerateInterpolator())
+        return set
+    }
+
+    fun getFabAnimOut(): Animator {
+        val set = AnimatorSet()
+        set.playTogether(
+                ObjectAnimator.ofFloat(fab, "scaleX", 1f, 0f),
+                ObjectAnimator.ofFloat(fab, "scaleY", 1f, 0f)
+        )
+        set.setInterpolator(AccelerateInterpolator())
+        set.setDuration(DEFAULT_FAB_ANIM_DURATION)
+        return set
     }
 
     // Classes for state

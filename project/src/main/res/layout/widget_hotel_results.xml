@@ -6,25 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <View
-        android:id="@+id/recycler_view_temp_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#eaeaea" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize" />
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:minHeight="?attr/actionBarSize" />
-
     <LinearLayout
         android:id="@+id/hotel_carousel_container"
         android:layout_width="match_parent"
@@ -44,22 +25,32 @@
             android:layout_height="90dp" />
     </LinearLayout>
 
+    <View
+        android:id="@+id/recycler_view_temp_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eaeaea" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:minHeight="?attr/actionBarSize" />
+
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/map_fab"
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
-        android:src="@drawable/fab_map" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/list_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_marginBottom="106dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/fab_list" />
+        android:src="@drawable/ic_transition_map_list_fab" />
 
 </merge>
