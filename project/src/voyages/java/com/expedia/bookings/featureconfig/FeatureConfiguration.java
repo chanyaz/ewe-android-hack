@@ -339,4 +339,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getFlightSearchProgressImageResId() {
 		return R.drawable.search_progress_static_flight_vsc;
 	}
+	public boolean isLOBIconCenterAligned() {
+		return false;
+	}
+
+	@Override
+	public int getLaunchScreenActionLogo() {
+		return 0;
+	}
 }
