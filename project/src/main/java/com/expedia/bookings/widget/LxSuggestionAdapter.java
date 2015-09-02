@@ -64,6 +64,8 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 			}
 			else if (suggestion.iconType == Suggestion.IconType.CURRENT_LOCATION_ICON) {
 				dropdownImage.setImageResource(R.drawable.ic_suggest_current_location);
+				displayName.setText(displayName.getContext().getString(R.string.current_location));
+				cityName.setVisibility(View.GONE);
 			}
 			else {
 				dropdownImage.setImageResource(R.drawable.search_type_icon);

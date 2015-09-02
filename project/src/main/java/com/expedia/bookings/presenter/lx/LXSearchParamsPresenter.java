@@ -181,7 +181,9 @@ public class LXSearchParamsPresenter extends Presenter
 	};
 
 	private void setSearchLocation(final Suggestion suggestion) {
-		location.setText(StrUtils.formatCityName(suggestion.fullName));
+		location.setText(suggestion.iconType == Suggestion.IconType.CURRENT_LOCATION_ICON ? getContext()
+			.getString(R.string.current_location)
+			: StrUtils.formatCityName(suggestion.fullName));
 		searchParams.location(suggestion.fullName);
 		searchParamsChanged();
 
