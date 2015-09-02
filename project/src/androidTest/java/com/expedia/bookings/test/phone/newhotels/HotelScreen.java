@@ -1,14 +1,17 @@
 package com.expedia.bookings.test.phone.newhotels;
 
+import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
+import com.expedia.bookings.test.phone.AppScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -83,5 +86,13 @@ public class HotelScreen {
 
 	public static void clickPayLater() {
 		onView(withId(R.id.radius_pay_later)).perform(click());
+	}
+
+	public static void waitForResultsDisplayed() {
+		AppScreen.waitForViewToDisplay(hotelResultsList());
+	}
+
+	public static ViewInteraction resultsListItemView(Matcher<View> identifyingMatcher) {
+		return AppScreen.recyclerItemView(identifyingMatcher, R.id.list_view);
 	}
 }

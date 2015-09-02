@@ -8,7 +8,6 @@ import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
@@ -24,6 +23,7 @@ import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
+import com.expedia.bookings.test.phone.AppScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.widget.LXResultsListAdapter;
 
@@ -103,12 +103,6 @@ public class LXScreen {
 
 	public static Matcher<View> recyclerView(int viewId) {
 		return allOf(isAssignableFrom(RecyclerView.class), withId(viewId));
-	}
-
-	public static ViewInteraction recyclerItemView(Matcher<View> identifyingMatcher, int recyclerViewId) {
-		Matcher<View> itemView = allOf(withParent(recyclerView(recyclerViewId)),
-			withChild(identifyingMatcher));
-		return Espresso.onView(itemView);
 	}
 
 	public static ViewInteraction progressDetails() {
@@ -344,7 +338,7 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction getTile(String activityTitle) {
-		return recyclerItemView(
+		return AppScreen.recyclerItemView(
 			withChild(withChild(withText(activityTitle))),
 			R.id.lx_search_results_list);
 	}
@@ -361,5 +355,9 @@ public class LXScreen {
 				description.appendText("The total number of results must match");
 			}
 		};
+	}
+
+	public static ViewInteraction resultsListItemView(Matcher<View> identifyingMatcher) {
+		return AppScreen.recyclerItemView(identifyingMatcher, R.id.lx_search_results_list);
 	}
 }
