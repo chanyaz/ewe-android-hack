@@ -285,5 +285,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getFlightSearchProgressImageResId() {
 		return 0;
 	}
+	public boolean isLOBIconCenterAligned() {
+		return true;
+	}
 }
 
