@@ -206,7 +206,7 @@
 
     <style name="HotelToggleButton">
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@drawable/hotel_toggle_text</item>
         <item name="android:textOff">"View Room"</item>
         <item name="android:textOn">"Book"</item>
         <item name="android:textSize">17sp</item>

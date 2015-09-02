@@ -25,7 +25,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.cars.CarCategory;
-import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
@@ -484,34 +483,6 @@ public class ShareUtils {
 		String longMsg = String.format(template, travelerFirstName, hotelName, departureDateStr, sharableDetailsURL);
 		hotelName = clipHotelName(longMsg.length(), hotelName);
 		return String.format(template, travelerFirstName, hotelName, departureDateStr, sharableDetailsURL);
-	}
-
-	private static String getChildString(HotelSearchParams hotelSearchParams) {
-		String childString = "";
-		for (int index : hotelSearchParams.getChildren()) {
-			childString += index + ",";
-		}
-		return childString.substring(0, childString.length() - 1);
-	}
-
-	public static String generateDeepLink(String hotelId, HotelSearchParams hotelSearchParams) {
-		String shareText =
-			"expda://hotelSearch?hotelId=" + hotelId + "&checkInDate=" + hotelSearchParams.getCheckIn().toString()
-				+ "&checkOutDate=" + hotelSearchParams.getCheckOut().toString() + "&numAdults=" + hotelSearchParams
-				.getAdults();
-		if (!hotelSearchParams.getChildren().isEmpty()) {
-			shareText += "&childAges=" + getChildString(hotelSearchParams);
-		}
-		return shareText;
-	}
-
-	public static Intent generateShareIntent(Context context, String hotelId, HotelSearchParams hotelSearchParams) {
-		Intent intent = new Intent(Intent.ACTION_SEND);
-		intent.setType("text/plain");
-		intent.putExtra(android.content.Intent.EXTRA_SUBJECT,
-			context.getResources().getString(R.string.share_hotel_listing));
-		intent.putExtra(android.content.Intent.EXTRA_TEXT, ShareUtils.generateDeepLink(hotelId, hotelSearchParams));
-		return intent;
 	}
 
 	public static String clipHotelName(int longMsgLength, String hotelName) {

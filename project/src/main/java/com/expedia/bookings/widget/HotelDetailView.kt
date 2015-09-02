@@ -14,8 +14,8 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.*
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.presenter.hotel.HotelResultsPresenter
 import com.expedia.bookings.utils.Amenity
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.*
@@ -58,7 +58,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val selectRoomButton: Button by bindView(R.id.select_room_button)
     val userRating: TextView by bindView(R.id.user_rating)
     val numberOfReviews: TextView by bindView(R.id.number_of_reviews)
+    val readMoreView : ImageButton by bindView(R.id.read_more)
     val hotelDescription: TextView by bindView(R.id.body_text)
+    val hotelDescriptionContainer : ViewGroup by bindView(R.id.hotel_description_container)
     val mapView: MapView by bindView(R.id.map_view)
     val mapClickContainer: FrameLayout by bindView(R.id.map_click_container)
 
@@ -68,15 +70,16 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val freeCancellation: TextView by bindView(R.id.free_cancellation)
     val horizontalDividerBwEtpAndFreeCancellation: View by bindView(R.id.horizontal_divider_bw_etp_and_free_cancellation)
     val etpContainer: HotelEtpStickyHeaderLayout by bindView(R.id.etp_placeholder)
-    val renovationContainer: ViewGroup by bindView(R.id.renovation_container)
-    val shareHotelTextView: TextView by bindView(R.id.share_hotel_text)
-    val shareHotelContainer: ViewGroup by bindView(R.id.share_hotel_container)
+    val renovationContainer : ViewGroup by bindView(R.id.renovation_container)
+    val payByPhoneTextView: TextView by bindView(R.id.book_by_phone_text)
+    val payByPhoneContainer: ViewGroup by bindView(R.id.book_by_phone_container)
 
     val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
-    val amenityTitleText: TextView by bindView(R.id.amenities_none_text)
+    val noAmenityText: TextView by bindView(R.id.amenities_none_text)
 
     val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
     val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
+    val commonAmenityDivider : View by bindView(R.id.common_amenities_divider)
 
     val roomContainer: TableLayout by bindView(R.id.room_container)
     val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
@@ -101,13 +104,17 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             gallery.startFlipping()
         }
 
-        vm.amenityTitleTextObservable.subscribe(amenityTitleText)
+        vm.noAmenityTextObservable.subscribe{ text ->
+            noAmenityText.setVisibility(View.VISIBLE)
+            noAmenityText.setText(text)
+        }
         vm.amenitiesListObservable.subscribe { amenityList ->
             Amenity.addAmenity(amenityContainer, amenityList)
         }
         vm.commonAmenityTextObservable.subscribe { text ->
             commonAmenityText.setVisibility(View.VISIBLE)
             commonAmenityText.setText(Html.fromHtml(text))
+            commonAmenityDivider.setVisibility(View.VISIBLE)
         }
 
         vm.renovationObservable.subscribe { renovationContainer.setVisibility(View.VISIBLE) }
@@ -121,6 +128,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.userRatingObservable.subscribe(userRating)
         vm.numberOfReviewsObservable.subscribe(numberOfReviews)
         vm.hotelLatLngObservable.subscribe { values -> hotelLatLng = values }
+        vm.showBookByPhoneObservable.subscribe{showPayByPhone ->
+            if(showPayByPhone) payByPhoneContainer.setVisibility(View.VISIBLE) else payByPhoneContainer.setVisibility(View.GONE)
+        }
 
         vm.roomResponseListObservable.subscribe { roomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             roomContainer.removeAllViews()
@@ -156,12 +166,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         
         ratingContainer.subscribeOnClick(vm.reviewsClickedSubject)
         mapClickContainer.subscribeOnClick(vm.mapClickedSubject)
-        hotelDescription.subscribeOnClick(vm.readMore)
         etpRadioGroup.subscribeOnCheckedChange(etpContainerObserver)
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
-        etpAndFreeCancellationMessagingContainer.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
-
-        shareHotelContainer.subscribeOnClick(vm.shareHotelClickedSubject)
+        etpInfoText.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
 
         vm.startMapWithIntentObservable.subscribe { intent -> getContext().startActivity(intent) }
 
@@ -174,6 +181,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             }
 
         }
+        vm.sectionImageObservable.subscribe{isExpanded ->
+          if(isExpanded) AnimUtils.rotate(readMoreView) else AnimUtils.reverseRotate(readMoreView)
+        }
+        hotelDescriptionContainer.subscribeOnClick(vm.hotelDescriptionContainerObserver)
+        etpRadioGroup.subscribeOnCheckedChange(etpContainerObserver)
+        renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
+        payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
 
         //getting the map
         mapView.onCreate(null)
@@ -190,6 +204,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         priceViewAlpha(1f)
         resortFeeWidget.setVisibility(View.GONE)
         commonAmenityText.setVisibility(View.GONE)
+        commonAmenityDivider.setVisibility(View.GONE)
+        noAmenityText.setVisibility(View.GONE)
     }
 
     val etpContainerObserver: Observer<Int> = endlessObserver { checkedId ->
@@ -221,7 +237,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
         override fun onScrollChanged() {
             var yoffset = detailContainer.getScrollY()
-            mapView.setTranslationY(yoffset * 0.1f)
+            mapView.setTranslationY(yoffset * 0.15f)
+            galleryContainer.setTranslationY(yoffset * 0.5f)
 
             priceContainer.getLocationOnScreen(priceContainerLocation)
             if (priceContainerLocation[1] <= 0) {
@@ -272,9 +289,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             activity.onBackPressed()
         }
         //share hotel listing text view set up drawable
-        val shareIconDrawable = getResources().getDrawable(R.drawable.details_share).mutate()
-        shareIconDrawable.setColorFilter(getResources().getColor(R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
-        shareHotelTextView.setCompoundDrawablesWithIntrinsicBounds(shareIconDrawable, null, null, null)
+        val phoneIconDrawable = getResources().getDrawable(R.drawable.detail_phone).mutate()
+        phoneIconDrawable.setColorFilter(getResources().getColor(R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
+        payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
         selectRoomButton.setOnClickListener {
             val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.getScrollY(), roomContainer.getTop() + statusBarHeight)
             smoothScrollAnimation.setDuration(ANIMATION_DURATION)

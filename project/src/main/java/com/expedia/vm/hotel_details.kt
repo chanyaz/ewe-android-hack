@@ -9,9 +9,12 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.DateUtils
@@ -20,6 +23,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.util.endlessObserver
 import com.mobiata.android.FormatUtils
+import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
@@ -27,8 +31,6 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.ArrayList
-import java.util.HashSet
-import java.util.LinkedHashSet
 import java.util.Locale
 import kotlin.properties.Delegates
 
@@ -43,17 +45,18 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val INTRO_PARAGRAPH_CUTOFF = 120
     var sectionBody: String by Delegates.notNull()
     var untruncated: String by Delegates.notNull()
-    var amenityTitle: String by Delegates.notNull()
     var commonList: ArrayList<String> = ArrayList<String>()
 
     var isSectionExpanded = false
     val sectionBodyObservable = BehaviorSubject.create<String>()
+    val sectionImageObservable = BehaviorSubject.create<Boolean>()
+    val showBookByPhoneObservable = BehaviorSubject.create<Boolean>()
     val galleryObservable = BehaviorSubject.create<List<HotelMedia>>()
 
     val commonAmenityTextObservable = BehaviorSubject.create<String>()
 
     val amenitiesListObservable = BehaviorSubject.create<List<Amenity>>()
-    val amenityTitleTextObservable = BehaviorSubject.create<String>()
+    val noAmenityTextObservable = BehaviorSubject.create<String>()
 
     var hasETPObservable = BehaviorSubject.create<Boolean>(false)
     var hasFreeCancellationObservable = BehaviorSubject.create<Boolean>(false)
@@ -121,9 +124,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         val amenityList: List<Amenity> = Amenity.amenitiesToShow(response.hotelAmenities)
         //Here have to pass the list of amenities which we want to show
         amenitiesListObservable.onNext(amenityList)
-        if (amenityList.isEmpty()) amenityTitle = context.getResources().getString(R.string.AmenityNone)
-        else amenityTitle = context.getResources().getString(R.string.AmenityTitle)
-        amenityTitleTextObservable.onNext(amenityTitle)
+        if (amenityList.isEmpty()) {
+            val noAmenityText = context.getResources().getString(R.string.AmenityNone)
+            noAmenityTextObservable.onNext(noAmenityText)
+        }
 
         // common amenities text
         if (response.hotelRoomResponse.size() > 0) {
@@ -168,10 +172,26 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             val hotelResortFee = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), rate.currencyCode)
             hotelResortFeeObservable.onNext(hotelResortFee.getFormattedMoney(Money.F_NO_DECIMAL))
         }
+
+        showBookByPhoneObservable.onNext(isAvailable() && (response.deskTopOverrideNumber != null && !response.deskTopOverrideNumber)
+                && !Strings.isEmpty(response.telesalesNumber))
     }
 
-    val readMore: Observer<Unit> = endlessObserver {
+    val hotelDescriptionContainerObserver: Observer<Unit> = endlessObserver {
         expandSection(untruncated, sectionBody)
+    }
+
+    val bookByPhoneContainerClickObserver: Observer<Unit> = endlessObserver {
+        val number = when (User.getLoggedInLoyaltyMembershipTier(context)) {
+            Traveler.LoyaltyMembershipTier.SILVER -> PointOfSale.getPointOfSale().getSupportPhoneNumberSilver()
+            Traveler.LoyaltyMembershipTier.GOLD -> PointOfSale.getPointOfSale().getSupportPhoneNumberGold()
+            else -> hotelOffersResponse.telesalesNumber
+        }
+        SocialUtils.call(context, number)
+    }
+
+    fun isAvailable(): Boolean {
+        return hotelOffersResponse.hotelRoomResponse.size() > 0
     }
 
     val mapClickedSubject = PublishSubject.create<Unit>()
@@ -252,6 +272,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             sectionBodyObservable.onNext(sectionBody)
             isSectionExpanded = false
         }
+        sectionImageObservable.onNext(isSectionExpanded)
     }
 
     init {
@@ -269,7 +290,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
             userRatingObservable.onNext(hotel.hotelGuestRating.toString())
 
-            numberOfReviewsObservable.onNext(context.getResources().getQuantityString(R.plurals.number_of_reviews, hotel.totalReviews, hotel.totalReviews))
+            numberOfReviewsObservable.onNext(context.getResources().getQuantityString(R.plurals.hotel_number_of_reviews, hotel.totalReviews, hotel.totalReviews))
 
             hotelLatLngObservable.onNext(doubleArrayOf(hotel.latitude, hotel.longitude))
         }
@@ -291,6 +312,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 }
 
 var lastExpanded: Int = 0
+val ROOMS_LEFT_CUTOFF = 5
+
 
 public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, val index: Int, val amenity: String) {
 
@@ -305,6 +328,7 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
     val expandedBedTypeObservable = BehaviorSubject.create<String>()
     val expandedAmenityObservable = BehaviorSubject.create<String>()
     val expandedMessageObservable = BehaviorSubject.create<Pair<String, Drawable>>()
+    val collapsedUrgencyObservable = BehaviorSubject.create<String>()
     val currencyCode = hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode
 
     var dailyPricePerNightObservable = BehaviorSubject.create<String>()
@@ -355,12 +379,20 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
             expandedBedTypeObservable.onNext(bedTypes)
             var expandedPair: Pair<String, Drawable>
             if (hotelRoom.hasFreeCancellation) {
-                expandedPair = Pair(context.getResources().getString(R.string.free_cancellation), context.getResources().getDrawable(R.drawable.check))
+                expandedPair = Pair(context.getResources().getString(R.string.free_cancellation), context.getResources().getDrawable(R.drawable.room_checkmark))
             } else {
                 expandedPair = Pair(context.getResources().getString(R.string.non_refundable), context.getResources().getDrawable(R.drawable.room_non_refundable))
             }
 
             expandedMessageObservable.onNext(expandedPair)
+
+            val roomLeft = hotelRoom.currentAllotment.toInt()
+            if (hotelRoom.currentAllotment != null && roomLeft < ROOMS_LEFT_CUTOFF) {
+                collapsedUrgencyObservable.onNext(context.getResources().getQuantityString(R.plurals.num_rooms_left, roomLeft, roomLeft))
+            } else {
+                collapsedUrgencyObservable.onNext(expandedPair.first)
+            }
+
         }
 
         if (Strings.isNotEmpty(amenity)) expandedAmenityObservable.onNext(amenity)
