@@ -13,4 +13,8 @@ public interface ToolbarListener {
 	public void onWidgetClosed();
 
 	public void onEditingComplete();
+
+	public void enableRightActionButton(boolean enable);
+
+	public void showRightActionButton(boolean show);
 }

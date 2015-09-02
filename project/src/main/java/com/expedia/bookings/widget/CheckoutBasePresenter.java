@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -153,6 +154,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				((Activity) getContext()).onBackPressed();
 			}
 		});
+
 		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
 		toolbar.inflateMenu(R.menu.cars_checkout_menu);
 
@@ -160,7 +162,13 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		menuCheckout.setVisible(isCheckoutButtonEnabled());
 
 		menuNext = toolbar.getMenu().findItem(R.id.menu_next);
-		menuNext.setVisible(false);
+		if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
+			menuCheckout.setVisible(false);
+			menuNext.setVisible(true);
+		}
+		else {
+			menuNext.setVisible(false);
+		}
 
 		menuDone = toolbar.getMenu().findItem(R.id.menu_done);
 		menuDone.setVisible(false);
@@ -174,7 +182,14 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					scrollView.fullScroll(View.FOCUS_DOWN);
 					return true;
 				case R.id.menu_next:
-					currentExpandedCard.setNextFocus();
+					if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
+						Ui.hideKeyboard(CheckoutBasePresenter.this);
+						scrollView.smoothScrollTo(0, loginWidget.getTop() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics()));
+						menuNext.setVisible(false);
+					}
+					else {
+						currentExpandedCard.setNextFocus();
+					}
 					return true;
 				case R.id.menu_done:
 					currentExpandedCard.onDonePressed();
@@ -204,6 +219,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void onWidgetExpanded(ExpandableCardView cardView) {
 			lastExpandedCard = currentExpandedCard;
 			currentExpandedCard = cardView;
+			menuDone.setTitle(currentExpandedCard.getDoneButtonTitle());
 			show(new WidgetExpanded());
 		}
 
@@ -216,6 +232,22 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void onEditingComplete() {
 			menuNext.setVisible(false);
 			menuDone.setVisible(true);
+		}
+
+		@Override
+		public void enableRightActionButton(boolean enable) {
+			if (menuDone.isVisible()) {
+				menuDone.setVisible(enable);
+			}
+			else if (menuNext.isVisible()) {
+				menuNext.setVisible(enable);
+			}
+		}
+
+		@Override
+		public void showRightActionButton(boolean show) {
+			menuDone.setVisible(show);
+			menuNext.setVisible(show);
 		}
 	};
 

@@ -32,6 +32,7 @@ import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CreditCardUtils;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
@@ -258,8 +259,10 @@ public class PaymentWidget extends ExpandableCardView {
 		if (!TextUtils.isEmpty(cardExpiration)) {
 			cardInfoExpiration.setText(getResources().getString(R.string.selected_card_template, cardExpiration));
 			cardInfoExpiration.setVisibility(VISIBLE);
+			FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR);
 		}
 		else {
+			FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_REGULAR);
 			cardInfoExpiration.setText("");
 			cardInfoExpiration.setVisibility(GONE);
 		}
@@ -268,6 +271,8 @@ public class PaymentWidget extends ExpandableCardView {
 				getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(cardType)));
 			storedCardImageView.setImageDrawable(
 				getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(cardType)));
+			FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM);
+			FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR);
 		}
 		else {
 			cardInfoIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.cars_checkout_cc_default_icon));
@@ -358,6 +363,11 @@ public class PaymentWidget extends ExpandableCardView {
 			return creditCardName.hasFocus();
 		}
 		return false;
+	}
+
+	@Override
+	public String getDoneButtonTitle() {
+		return getResources().getString(R.string.Done);
 	}
 
 	@Override

@@ -143,6 +143,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			}
 			sectionTravelerInfo.refreshOnLoginStatusChange();
 			sectionTravelerInfo.bind(traveler);
+			FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
 			lastName.setNextFocusRightId(emailAddress.getId());
 			lastName.setNextFocusDownId(emailAddress.getId());
 		}
@@ -210,6 +211,11 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			return phoneNumber.hasFocus();
 		}
 		return false;
+	}
+
+	@Override
+	public String getDoneButtonTitle() {
+		return getResources().getString(R.string.Done);
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
@@ -46,6 +48,21 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         }
     }
 
+    val textWatcher: TextWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable) {
+            mToolbarListener.showRightActionButton(s.length() > 3)
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+        }
+
+    }
+
     init {
         View.inflate(getContext(), R.layout.coupon_widget, this)
         //Tests hates progress bars
@@ -59,6 +76,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
             progress.setLayoutParams(lp)
             (progress as ProgressBar).setIndeterminate(true)
         }
+        couponCode.addTextChangedListener(textWatcher)
         expanded.addView(progress)
         showProgress(false)
     }
@@ -78,6 +96,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
             unexpanded.setVisibility(View.GONE)
             if (mToolbarListener != null) {
                 mToolbarListener.onEditingComplete()
+                mToolbarListener.showRightActionButton(false)
             }
         } else {
             setBackgroundResource(R.drawable.card_background)
@@ -112,5 +131,9 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
 
     private fun showError(show: Boolean) {
         error.setVisibility(if (show) { View.VISIBLE } else { View.INVISIBLE })
+    }
+
+    override fun getDoneButtonTitle(): String? {
+       return "Submit"
     }
 }

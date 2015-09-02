@@ -78,6 +78,7 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 		if (mToolbarListener != null) {
 			if (expand) {
 				mToolbarListener.onWidgetExpanded(this);
+				mToolbarListener.showRightActionButton(false);
 			}
 			else {
 				mToolbarListener.onWidgetClosed();
@@ -87,6 +88,9 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 
 	// Is the user focus on the last edittext?
 	public abstract boolean getDoneButtonFocus();
+
+	// Title to set on the Done button
+	public abstract String getDoneButtonTitle();
 
 	// Title to set on the toolbar once the widget opens
 	public abstract String getActionBarTitle();
