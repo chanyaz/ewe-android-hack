@@ -284,4 +284,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getFlightSearchProgressImageResId() {
 		return R.drawable.search_progress_static_flight_tvly;
 	}
+	public boolean isLOBIconCenterAligned() {
+		return false;
+	}
+
 }

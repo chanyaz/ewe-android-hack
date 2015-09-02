@@ -40,6 +40,7 @@
     <dimen name="launch_tile_margin_side">10dp</dimen>
     <dimen name="launch_tile_margin_middle">4dp</dimen>
     <dimen name="launch_list_corner_radius">2dp</dimen>
+    <dimen name="launch_lob_margin_left">10dp</dimen>
 
     <!-- Itinerary dimens -->
     <dimen name="itin_card_collapsed_height">138.5dp</dimen>
