@@ -1,8 +1,10 @@
 package com.expedia.bookings.data.hotels;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.utils.Strings;
 
 public class HotelRate {
 	public float maxNightlyRate;
@@ -30,6 +32,13 @@ public class HotelRate {
 	public boolean resortFeeInclusion;
 	public List<PriceAdjustments> priceAdjustments;
 	public List<SurchargesForEntireStay> surchargesForEntireStay;
+	public List<NightlyRatesPerRoom> nightlyRatesPerRoom;
+
+	public static class NightlyRatesPerRoom {
+		public boolean promo;
+		public String baseRate;
+		public String rate;
+	}
 
 	public static class PriceAdjustments {
 		public String amount;
@@ -58,6 +67,15 @@ public class HotelRate {
 			}
 		}
 		return surcharges;
+	}
+
+	public Money getDisplayTotalPrice() {
+		if (Strings.equals(checkoutPriceType, "totalPriceWithMandatoryFees")) {
+			return new Money(new BigDecimal(totalPriceWithMandatoryFees), currencyCode);
+		}
+		else {
+			return new Money(new BigDecimal(total), currencyCode);
+		}
 	}
 
 	public String depositAmountToShowUsers;

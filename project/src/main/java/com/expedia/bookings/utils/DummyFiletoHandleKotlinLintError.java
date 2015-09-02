@@ -56,6 +56,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.widget_hotel_reviews,
 		R.layout.widget_hotel_reviews_toolbar,
 		R.layout.wallet_layout,
-		R.layout.widget_special_notice
+		R.layout.widget_special_notice,
+		R.layout.hotel_breakdown,
+		R.layout.hotel_cost_summary_row
 	};
 }
