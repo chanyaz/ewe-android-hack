@@ -25,7 +25,6 @@ import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
-import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelConfirmationViewModel
 import rx.Observer

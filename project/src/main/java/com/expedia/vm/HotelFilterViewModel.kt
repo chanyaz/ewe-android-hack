@@ -2,7 +2,6 @@ package com.expedia.vm
 
 import android.content.Context
 import android.text.TextUtils
-//import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -15,24 +14,18 @@ import java.util.ArrayList
 import java.util.regex.Pattern
 
 class HotelFilterViewModel(val context: Context) {
-    // Click
     val doneObservable = PublishSubject.create<Unit>()
-
-    // Output
+    val clearObservable = PublishSubject.create<Unit>()
     val filterObservable = PublishSubject.create<List<Hotel>>()
 
     var originalResponse : HotelSearchResponse? = null
     var filteredResponse : HotelSearchResponse = HotelSearchResponse()
 
     val hotelStarRatingBar = BehaviorSubject.create<Int>()
+    val updateDynamicFeedbackWidget = BehaviorSubject.create<Int>()
+    val finishClear = BehaviorSubject.create<Unit>()
 
-    class FilterToggles(isVipAccess : Boolean?, hotelStarRating : Float?, name : String?, price : Float?, neighborhoods : List<String>?) {
-        var isVipAccess = isVipAccess
-        var hotelStarRating = hotelStarRating
-        var name = name
-        var price = price
-        var neighborhoods = neighborhoods
-    }
+    data class FilterToggles(var isVipAccess : Boolean? = null, var hotelStarRating : Float? = null, var name : String? = null, var price : Float? = null, var neighborhoods : List<String>? = null)
 
     val filterToggles = FilterToggles(null, null, null, null, null)
 
@@ -40,14 +33,27 @@ class HotelFilterViewModel(val context: Context) {
         doneObservable.subscribe { params ->
             filteredResponse.hotelList = ArrayList<Hotel>()
             filteredResponse.allNeighborhoodsInSearchRegion = originalResponse?.allNeighborhoodsInSearchRegion
-
-            for (hotel in originalResponse?.hotelList.orEmpty()) {
-                processFilters(hotel)
-            }
-
-            // Passes the new list to the results
             filterObservable.onNext(filteredResponse.hotelList)
         }
+
+        clearObservable.subscribe {params ->
+            resetToggles()
+            handleFiltering()
+            finishClear.onNext(Unit)
+        }
+    }
+
+    fun handleFiltering() {
+        filteredResponse.hotelList = ArrayList<Hotel>()
+        filteredResponse.hotelList.add(0, Hotel())
+        filteredResponse.allNeighborhoodsInSearchRegion = originalResponse?.allNeighborhoodsInSearchRegion
+
+        for (hotel in originalResponse?.hotelList.orEmpty()) {
+            processFilters(hotel)
+        }
+
+        val size = filteredResponse.hotelList.size()-1
+        updateDynamicFeedbackWidget.onNext(size)
     }
 
     fun resetToggles() {
@@ -80,7 +86,7 @@ class HotelFilterViewModel(val context: Context) {
         if (filterToggles.name != null) {
             namePattern = Pattern.compile(".*" + filterToggles.name + ".*", Pattern.CASE_INSENSITIVE)
         }
-        return namePattern == null || namePattern.matcher(hotel.name).find()
+        return namePattern == null || namePattern.matcher(hotel.localizedName).find()
     }
 
     fun filterPrice(hotel: Hotel) : Boolean {
@@ -94,6 +100,8 @@ class HotelFilterViewModel(val context: Context) {
         } else {
             filterToggles.isVipAccess = false
         }
+
+        handleFiltering()
     }
 
     val oneStarFilterObserver: Observer<Unit> = endlessObserver {
@@ -104,6 +112,8 @@ class HotelFilterViewModel(val context: Context) {
             filterToggles.hotelStarRating = null
             hotelStarRatingBar.onNext(6)
         }
+
+        handleFiltering()
     }
 
     val twoStarFilterObserver: Observer<Unit> = endlessObserver {
@@ -114,6 +124,8 @@ class HotelFilterViewModel(val context: Context) {
             filterToggles.hotelStarRating = null
             hotelStarRatingBar.onNext(6)
         }
+
+        handleFiltering()
     }
 
     val threeStarFilterObserver: Observer<Unit> = endlessObserver {
@@ -124,6 +136,8 @@ class HotelFilterViewModel(val context: Context) {
             filterToggles.hotelStarRating = null
             hotelStarRatingBar.onNext(6)
         }
+
+        handleFiltering()
     }
 
     val fourStarFilterObserver: Observer<Unit> = endlessObserver {
@@ -134,6 +148,8 @@ class HotelFilterViewModel(val context: Context) {
             filterToggles.hotelStarRating = null
             hotelStarRatingBar.onNext(6)
         }
+
+        handleFiltering()
     }
 
     val fiveStarFilterObserver: Observer<Unit> = endlessObserver {
@@ -144,15 +160,17 @@ class HotelFilterViewModel(val context: Context) {
             filterToggles.hotelStarRating = null
             hotelStarRatingBar.onNext(6)
         }
+
+        handleFiltering()
+    }
+
+    val filterHotelNameObserver = endlessObserver<CharSequence> { s ->
+        filterToggles.name = s.toString()
+        handleFiltering()
     }
 
     fun setHotelList(response : HotelSearchResponse) {
         response.hotelList.remove(0)
         originalResponse = response
     }
-
-    val filterHotelNameObserver = endlessObserver<CharSequence> { s ->
-        filterToggles.name = s.toString()
-    }
-
 }

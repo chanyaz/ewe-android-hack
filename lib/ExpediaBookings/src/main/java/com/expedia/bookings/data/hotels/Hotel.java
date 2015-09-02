@@ -4,7 +4,6 @@ import java.util.List;
 
 public class Hotel {
 
-	public String name;
 	public String hotelId;
 	public String localizedName;
 	public String address;

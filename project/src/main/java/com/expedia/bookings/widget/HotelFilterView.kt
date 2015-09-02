@@ -1,26 +1,26 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.Spinner
 import android.widget.TextView
+import butterknife.InjectView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.presenter.hotel.HotelResultsPresenter
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnChecked
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelFilterViewModel
-import com.mobiata.android.util.Ui
 import rx.Observer
-import java.util.*
+import java.util.ArrayList
+import java.util.Arrays
 import kotlin.properties.Delegates
 
 public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -32,11 +32,12 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val filterStarThree: Button by bindView(R.id.filter_hotel_star_rating_three)
     val filterStarFour: Button by bindView(R.id.filter_hotel_star_rating_four)
     val filterStarFive: Button by bindView(R.id.filter_hotel_star_rating_five)
-    val mSortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
+    val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
     val filterHotelName: TextView by bindView(R.id.filter_hotel_name_edit_text)
+    val dynamicFeedbackWidget : DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)
+    val dynamicFeedbackClearButton : TextView by bindView(R.id.dynamic_feedback_clear_button)
 
     var subject: Observer<List<Hotel>> by Delegates.notNull()
-
 
     fun subscribe(subject: Observer<List<Hotel>>) {
         this.subject = subject
@@ -49,7 +50,14 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         filterStarThree.subscribeOnClick(vm.threeStarFilterObserver)
         filterStarFour.subscribeOnClick(vm.fourStarFilterObserver)
         filterStarFive.subscribeOnClick(vm.fiveStarFilterObserver)
+
+        dynamicFeedbackClearButton.subscribeOnClick(vm.clearObservable)
+
         vm.filterObservable.subscribe(subject)
+
+        vm.finishClear.subscribe {
+            resetStars()
+        }
 
         vm.hotelStarRatingBar.subscribe {
             resetStars()
@@ -66,6 +74,12 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             } else if (it == 5) {
                 filterStarFive.setBackgroundColor(highlightStar)
             }
+        }
+
+        vm.updateDynamicFeedbackWidget.subscribe {
+            dynamicFeedbackWidget.showDynamicFeedback()
+            dynamicFeedbackWidget.animateDynamicFeedbackWidget()
+            dynamicFeedbackWidget.setDynamicCounterText(it)
         }
 
         filterHotelName.addTextChangedListener(object : TextWatcher {
@@ -90,25 +104,25 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     init {
         View.inflate(getContext(), R.layout.widget_hotel_filter, this)
 
+        dynamicFeedbackWidget.hideDynamicFeedback()
+
         val sortOptions = ArrayList<String>()
         sortOptions.addAll(Arrays.asList(*getResources().getStringArray(R.array.sort_options_hotels)))
         sortOptions.add(getContext().getString(R.string.distance))
 
-
         val adapter = ArrayAdapter(getContext(), R.layout.spinner_sort_item, sortOptions)
         adapter.setDropDownViewResource(R.layout.spinner_sort_dropdown_item)
 
-        mSortByButtonGroup.setAdapter(adapter)
-
+        sortByButtonGroup.setAdapter(adapter)
     }
 
     fun resetStars() {
-        filterStarOne.setBackgroundColor(android.R.attr.selectableItemBackground)
-        filterStarTwo.setBackgroundColor(android.R.attr.selectableItemBackground)
-        filterStarThree.setBackgroundColor(android.R.attr.selectableItemBackground)
-        filterStarFour.setBackgroundColor(android.R.attr.selectableItemBackground)
-        filterStarFive.setBackgroundColor(android.R.attr.selectableItemBackground)
+        val background = android.R.attr.selectableItemBackground
+        filterStarOne.setBackgroundColor(background)
+        filterStarTwo.setBackgroundColor(background)
+        filterStarThree.setBackgroundColor(background)
+        filterStarFour.setBackgroundColor(background)
+        filterStarFive.setBackgroundColor(background)
     }
-
 
 }
