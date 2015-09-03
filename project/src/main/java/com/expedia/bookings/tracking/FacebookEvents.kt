@@ -81,7 +81,7 @@ class FacebookEvents() {
         val parameters = Bundle()
         addCommonHotelParams(parameters, searchParams, location)
         parameters.putString("Search_String", location.getCity() ?: "")
-        parameters.putString("LowestSearch_Value", calculateLowestRateHotels(properties)?.getDisplayPrice()?.getAmount().toString() ?: "")
+        parameters.putString("LowestSearch_Value", calculateLowestRateHotels(properties)?.getDisplayPrice()?.getAmount()?.toString() ?: "")
         parameters.putInt("Num_Rooms", 1)
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
@@ -94,7 +94,7 @@ class FacebookEvents() {
 
         val parameters = Bundle()
         addCommonHotelParams(parameters, searchParams, location)
-        parameters.putString("Room_Value", getLowestRate(property)?.getDisplayPrice()?.getAmount().toString() ?: "")
+        parameters.putString("Room_Value", getLowestRate(property)?.getDisplayPrice()?.getAmount()?.toString() ?: "")
         parameters.putString("Currency", getLowestRate(property)?.getDisplayPrice()?.currencyCode ?: "")
         parameters.putInt("Num_Rooms", 1)
         parameters.putString("Content_ID", property.getPropertyId())
@@ -343,14 +343,13 @@ fun calculateLowestRateHotels(properties: List<Property>): Rate? {
     if (properties.size() == 0) return null
 
     var minPropertyRate = properties.get(0).getLowestRate()
+
     for (property in properties) {
         var propertyRate = property.getLowestRate()
-        if (propertyRate == null)
+        if (propertyRate == null || minPropertyRate == null)
             continue
-        else {
-            if (propertyRate.getDisplayPrice().getAmount() < minPropertyRate.getDisplayPrice().getAmount()) {
-                minPropertyRate = propertyRate
-            }
+        else if (propertyRate.getDisplayPrice().getAmount() < minPropertyRate.getDisplayPrice().getAmount()) {
+            minPropertyRate = propertyRate
         }
     }
     return minPropertyRate
