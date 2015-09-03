@@ -261,11 +261,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAppSupportUrlEnabled() {
-		return false;
-	}
-
-	@Override
 	public boolean isSigninEnabled() {
 		return true;
 	}

@@ -96,9 +96,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 			builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT);
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isAppSupportUrlEnabled()) {
-				builder.addRow(getResources().getString(R.string.app_support), ROW_APP_SUPPORT);
-			}
+			builder.addRow(getResources().getString(R.string.app_support), ROW_APP_SUPPORT);
 
 			builder.addRow(
 				Phrase.from(this, R.string.website_TEMPLATE).put("brand", BuildConfig.brand).format().toString(),
