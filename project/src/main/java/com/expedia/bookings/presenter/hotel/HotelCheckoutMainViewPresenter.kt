@@ -140,8 +140,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         hotelSearchParams = params
     }
 
-    Subscribe
-    public fun onLogin(event: Events.LoggedInSuccessful) {
+    @Subscribe fun onLogin(@suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccessful()
     }
 

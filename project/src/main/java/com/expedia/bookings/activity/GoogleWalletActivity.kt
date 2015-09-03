@@ -42,10 +42,6 @@ public class GoogleWalletActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super<AppCompatActivity>.onActivityResult(requestCode, resultCode, data)
-        var errorCode = -1;
-        if (data != null) {
-            errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
-        }
         when (requestCode) {
             REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET -> when (resultCode) {
                 Activity.RESULT_OK -> {
