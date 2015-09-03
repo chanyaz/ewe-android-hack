@@ -1,6 +1,8 @@
 package com.expedia.bookings.widget
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -11,8 +13,10 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribe
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.HotelBreakDownViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.squareup.phrase.Phrase
+import kotlin.properties.Delegates
 
 public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs), HeaderBitmapDrawable.CallbackListener {
 
@@ -31,6 +35,19 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?) 
     val amountDueTodayLabel: android.widget.TextView by bindView(R.id.amount_due_today_label)
     val bestPriceGuarantee: android.widget.TextView by bindView(R.id.best_price_guarantee)
     val saleMessage: android.widget.TextView by bindView(R.id.sale_text)
+    val info: android.widget.TextView by bindView(R.id.total_tax_label)
+    val breakdown = HotelBreakDownView(context, null)
+    val dialog: AlertDialog by Delegates.lazy {
+        val builder = AlertDialog.Builder(context)
+        builder.setView(breakdown)
+        builder.setTitle(R.string.cost_summary)
+        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface, which: Int) {
+                dialog.dismiss()
+            }
+        })
+        builder.create()
+    }
 
     var viewmodel: HotelCheckoutSummaryViewModel by notNullAndObservable { vm ->
         vm.hotelName.subscribe(hotelName)
@@ -53,13 +70,15 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?) 
 
     init {
         setOrientation(LinearLayout.VERTICAL)
-
         View.inflate(getContext(), R.layout.hotel_checkout_summary_widget, this)
-
+        breakdown.viewmodel = HotelBreakDownViewModel(context)
         val amountDueLabel = Phrase.from(getContext(), R.string.due_to_brand_today_TEMPLATE)
                 .put("brand", BuildConfig.brand)
                 .format()
         amountDueTodayLabel.setText(amountDueLabel)
+        info.setOnClickListener {
+            dialog.show()
+        }
     }
 
     override fun onBitmapLoaded() {
