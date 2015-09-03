@@ -33,7 +33,11 @@ class HotelFilterViewModel(val context: Context) {
         doneObservable.subscribe { params ->
             filteredResponse.hotelList = ArrayList<Hotel>()
             filteredResponse.allNeighborhoodsInSearchRegion = originalResponse?.allNeighborhoodsInSearchRegion
-            filterObservable.onNext(filteredResponse.hotelList)
+            if (filteredResponse.hotelList == null) {
+                filterObservable.onNext(originalResponse?.hotelList)
+            } else {
+                filterObservable.onNext(filteredResponse.hotelList)
+            }
         }
 
         clearObservable.subscribe {params ->
@@ -77,7 +81,7 @@ class HotelFilterViewModel(val context: Context) {
 
     fun filterHotelStarRating(hotel: Hotel) : Boolean {
         if (filterToggles.hotelStarRating == null) return true
-        return filterToggles.hotelStarRating == hotel.hotelStarRating
+        return filterToggles.hotelStarRating == Math.floor(hotel.hotelStarRating.toDouble()).toFloat()
     }
 
     fun filterName(hotel: Hotel) : Boolean {

@@ -207,6 +207,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     fun renderMarkers(map: GoogleMap, response: HotelSearchResponse, isFilter: Boolean) {
         if (!isFilter) {
+            response.hotelList.add(0, Hotel())
             filterView.viewmodel.setHotelList(response)
         }
 
@@ -325,6 +326,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             if (map != null && response != null) {
                 renderMarkers(map, response, true)
             }
+        } else if (it == filterView.viewmodel.originalResponse?.hotelList) {
+            show(ResultsList())
         }
     }
 

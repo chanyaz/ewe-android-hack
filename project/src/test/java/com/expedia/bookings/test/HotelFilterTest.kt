@@ -54,7 +54,12 @@ public class HotelFilterTest {
         vm.oneStarFilterObserver.onNext(Unit)
 
         vm.clearObservable.onNext(Unit)
-
         Assert.assertEquals(null, vm.filterToggles.hotelStarRating)
+    }
+
+    @Test
+    fun emptyFilters() {
+        vm.doneObservable.onNext(Unit)
+        Assert.assertEquals(null, vm.filteredResponse.hotelList)
     }
 }
