@@ -11,6 +11,7 @@ import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PaymentWidget
 import com.google.android.gms.maps.MapView
+import com.mobiata.android.Log
 import kotlin.properties.Delegates
 
 public class HotelActivity : AppCompatActivity() {
@@ -40,6 +41,10 @@ public class HotelActivity : AppCompatActivity() {
     override fun onPause() {
         mapView.onPause()
         super.onPause()
+
+        if (isFinishing()) {
+            clearCCNumber()
+        }
     }
 
     override fun onResume() {
@@ -78,6 +83,16 @@ public class HotelActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
         mapView.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState, outPersistentState)
+    }
+
+    public fun clearCCNumber() {
+        try {
+            Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setNumber(null)
+            Db.getBillingInfo().setNumber(null)
+        } catch (ex: Exception) {
+            Log.e("Error clearing billingInfo card number", ex)
+        }
+
     }
 
 }

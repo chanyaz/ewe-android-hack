@@ -137,6 +137,7 @@ public class PaymentWidget extends ExpandableCardView {
 		}
 		Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(null);
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+		sectionBillingInfo.getBillingInfo().setStoredCard(null);
 		storedCardContainer.setVisibility(GONE);
 		sectionBillingInfo.setVisibility(VISIBLE);
 	}
@@ -207,17 +208,16 @@ public class PaymentWidget extends ExpandableCardView {
 	public void bind() {
 		// Should not perform validation unless the form has information in it
 		boolean isFilled = isFilled();
+		boolean hasStoredCard = hasStoredCard();
 		boolean isBillingInfoValid = isFilled && sectionBillingInfo.performValidation();
 		boolean isPostalCodeValid = isFilled && sectionLocation.performValidation();
 		// User is logged in and has a stored card
-		if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
-			StoredCreditCard card = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard();
+		if (hasStoredCard) {
+			StoredCreditCard card = sectionBillingInfo.getBillingInfo().getStoredCard();
 			String cardName = card.getDescription();
 			CreditCardType cardType = card.getType();
 			bindCard(cardType, cardName, null);
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.COMPLETE);
-			// let's bind sectionBillingInfo & sectionLocation to a new one. So next time around we start afresh.
-			reset();
 		}
 		// Card info user entered is valid
 		else if (isBillingInfoValid && isPostalCodeValid) {
@@ -320,7 +320,7 @@ public class PaymentWidget extends ExpandableCardView {
 
 		return
 			// User is logged in and has a stored card
-			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()
+			hasStoredCard()
 			// Card info user entered is valid
 			|| (isBillingInfoValid && isPostalCodeValid)
 			// Card info partially entered & not valid
@@ -328,7 +328,7 @@ public class PaymentWidget extends ExpandableCardView {
 	}
 
 	private void showCreditCardDetails() {
-		boolean hasStoredCard = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard();
+		boolean hasStoredCard = hasStoredCard();
 		cardInfoContainer.setVisibility(GONE);
 		paymentOptionsContainer.setVisibility(GONE);
 		billingInfoContainer.setVisibility(VISIBLE);
@@ -369,7 +369,7 @@ public class PaymentWidget extends ExpandableCardView {
 
 	@Override
 	public void onDonePressed() {
-		boolean hasStoredCard = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard();
+		boolean hasStoredCard = hasStoredCard();
 		boolean billingIsValid = !hasStoredCard && sectionBillingInfo.performValidation();
 		boolean postalIsValid = !hasStoredCard && sectionLocation.performValidation();
 		if (hasStoredCard || (billingIsValid && postalIsValid)) {
@@ -395,9 +395,10 @@ public class PaymentWidget extends ExpandableCardView {
 		}
 
 		@Override
-		public void onStoredCreditCardChosen() {
+		public void onStoredCreditCardChosen(StoredCreditCard card) {
 			storedCardContainer.setVisibility(VISIBLE);
 			sectionBillingInfo.setVisibility(GONE);
+			sectionBillingInfo.getBillingInfo().setStoredCard(card);
 			setExpanded(false);
 		}
 	};
@@ -413,7 +414,7 @@ public class PaymentWidget extends ExpandableCardView {
 			return true;
 		}
 		// If payment is required check to see if the entered/selected stored CC is valid.
-		else if (isCreditCardRequired && (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard())) {
+		else if (isCreditCardRequired && (hasStoredCard())) {
 			return true;
 		}
 		else if (isCreditCardRequired && (isFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
@@ -424,8 +425,8 @@ public class PaymentWidget extends ExpandableCardView {
 	}
 
 	public CreditCardType getCardType() {
-		if (isCreditCardRequired && (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard())) {
-			return Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard().getType();
+		if (isCreditCardRequired && hasStoredCard()) {
+			return sectionBillingInfo.getBillingInfo().getStoredCard().getType();
 		}
 		else if (isCreditCardRequired && (isFilled() && sectionBillingInfo.performValidation() && sectionLocation
 			.performValidation())) {
@@ -478,5 +479,9 @@ public class PaymentWidget extends ExpandableCardView {
 	private void openGoogleWallet() {
 		Intent i = new Intent(getContext(), GoogleWalletActivity.class);
 		((AppCompatActivity)getContext()).startActivityForResult(i, REQUEST_CODE_GOOGLE_WALLET_ACTIVITY);
+	}
+	
+	private boolean hasStoredCard() {
+		return sectionBillingInfo.getBillingInfo() != null && sectionBillingInfo.getBillingInfo().hasStoredCard();
 	}
 }

@@ -51,7 +51,7 @@ public class PaymentButton extends LinearLayout {
 
 	public interface IPaymentButtonListener {
 		public void onAddNewCreditCardSelected();
-		public void onStoredCreditCardChosen();
+		public void onStoredCreditCardChosen(StoredCreditCard card);
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class PaymentButton extends LinearLayout {
 							Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(card);
 							Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 							mStoredCardPopup.dismiss();
-							mPaymentButtonListener.onStoredCreditCardChosen();
+							mPaymentButtonListener.onStoredCreditCardChosen(card);
 						}
 					}
 				}
