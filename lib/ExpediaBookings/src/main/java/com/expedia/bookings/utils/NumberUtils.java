@@ -14,9 +14,4 @@ public class NumberUtils {
 			return null;
 		}
 	}
-
-	public static double roundOff(float number, int dp) {
-		double factor = Math.pow(10, dp);
-		return Math.round(number * factor) / factor;
-	}
 }
