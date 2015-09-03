@@ -17,9 +17,9 @@ public class HotelCreateTripResponse extends BaseApiResponse {
 	public String guestUserPromoEmailOptInStatus;
 
 	public static class ExpediaRewards {
-		String totalPointsToEarn;
-		boolean isActiveRewardsMember;
-		String rewardsMembershipTierName;
+		public String totalPointsToEarn;
+		public boolean isActiveRewardsMember;
+		public String rewardsMembershipTierName;
 	}
 
 	public static class HotelProductResponse {
