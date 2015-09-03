@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ToggleButton
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.SuggestionV4
@@ -20,6 +21,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
 import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.HotelTravelerPickerView
@@ -41,8 +43,8 @@ import java.util.Locale
 import kotlin.properties.Delegates
 
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
-
     val searchLocation: AlwaysFilterAutoCompleteTextView by bindView(R.id.hotel_location)
+    val clearLocationButton: ImageView by bindView(R.id.clear_location_button)
     val selectDate: ToggleButton by bindView(R.id.select_date)
     val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
     val calendar: CalendarPicker by bindView(R.id.calendar)
@@ -101,7 +103,6 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.enableDateObservable.subscribe { enable ->
             if (enable) {
                 selectDate.setChecked(true)
-                com.mobiata.android.util.Ui.hideKeyboard(this)
                 searchLocation.clearFocus()
                 calendar.setVisibility(View.VISIBLE)
                 traveler.setVisibility(View.GONE)
@@ -116,7 +117,6 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.enableTravelerObservable.subscribe { enable ->
             if (enable) {
                 selectTraveler.setChecked(true)
-                com.mobiata.android.util.Ui.hideKeyboard(this)
                 searchLocation.clearFocus()
                 calendar.setVisibility(View.GONE)
                 traveler.setVisibility(View.VISIBLE)
@@ -127,21 +127,25 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         }
 
         searchLocation.setAdapter(hotelSuggestionAdapter)
-        searchLocation.setSelectAllOnFocus(true)
         searchLocation.setOnFocusChangeListener { view, isFocused ->
             if (isFocused) {
                 searchLocation.showDropDown()
+                clearLocationButton.setVisibility(View.VISIBLE)
+            } else{
+                clearLocationButton.setVisibility(View.GONE)
+                com.mobiata.android.util.Ui.hideKeyboard(this)
             }
         }
 
         searchLocation.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
             }
-
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                clearLocationButton.setVisibility(if (Strings.isEmpty(s)) View.GONE else View.VISIBLE)
+
                 if (selectDate.isChecked()) {
                     vm.suggestionTextChangedObserver.onNext(Unit)
                     selectDate.setChecked(false)
@@ -159,14 +163,16 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             selectDate.setChecked(true)
             selectTraveler.setChecked(true)
 
-            com.mobiata.android.util.Ui.hideKeyboard(this)
             searchLocation.clearFocus()
-            searchLocation.setSelected(false)
             calendar.setVisibility(View.VISIBLE)
             traveler.setVisibility(View.GONE)
         }
 
         vm.locationTextObservable.subscribe(searchLocation)
+
+        clearLocationButton.setOnClickListener { view ->
+            searchLocation.setText(null)
+        }
 
         searchButton.subscribeOnClick(vm.searchObserver)
         vm.searchButtonObservable.subscribe { enable ->
