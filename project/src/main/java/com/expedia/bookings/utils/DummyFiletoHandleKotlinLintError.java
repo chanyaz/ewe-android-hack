@@ -65,6 +65,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.hotel_rating_service_and_staff,
 		R.string.hotel_rating_room_comfort,
 		R.string.hotel_rating_summary_Template,
-		R.string.hotel_discount_percent_Template
+		R.string.hotel_discount_percent_Template,
+		R.layout.hotel_results_pricing_structure_header_cell,
+		R.string.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE,
+		R.string.hotel_results_pricing_header_total_price_for_stay_TEMPLATE
 	};
 }

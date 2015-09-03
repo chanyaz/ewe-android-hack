@@ -10,6 +10,7 @@ public class HotelSearchResponse {
 	public List<Neighborhood> allNeighborhoodsInSearchRegion;
 
 	public transient Map<String, Neighborhood> neighborhoodsMap = new HashMap<>();
+	public transient HotelRate.UserPriceType userPriceType = HotelRate.UserPriceType.UNKNOWN;
 
 	public static class Neighborhood {
 		public String name;
@@ -18,4 +19,5 @@ public class HotelSearchResponse {
 		public transient List<Hotel> hotels = new ArrayList<>();
 		public transient int score;
 	}
+
 }

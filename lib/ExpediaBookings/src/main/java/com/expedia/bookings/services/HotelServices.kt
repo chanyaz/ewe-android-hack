@@ -1,14 +1,7 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.hotels.HotelApplyCouponParams
-import com.expedia.bookings.data.hotels.HotelCheckoutParams
-import com.expedia.bookings.data.hotels.HotelCreateTripParams
-import com.expedia.bookings.data.hotels.HotelCreateTripResponse
-import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.data.hotels.NearbyHotelParams
+import com.expedia.bookings.data.hotels.*
+import com.expedia.bookings.utils.Strings
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import org.joda.time.DateTime
@@ -54,6 +47,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 				params.getGuestString())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
+				.doOnNext { response -> response.userPriceType = getUserPriceType(response.hotelList) }
 				.doOnNext { response -> response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }}
 				.doOnNext { response -> response.hotelList.map { hotel ->
 					if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
@@ -91,5 +85,17 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.subscribe(observer)
+	}
+
+	private fun getUserPriceType(hotels: List<Hotel>?): HotelRate.UserPriceType {
+		if (hotels != null) {
+			for (hotel in hotels) {
+				val rate = hotel.lowRateInfo
+				if (rate != null && Strings.isNotEmpty(rate.userPriceType)) {
+					return HotelRate.UserPriceType.toEnum(rate.userPriceType)
+				}
+			}
+		}
+		return HotelRate.UserPriceType.UNKNOWN
 	}
 }
