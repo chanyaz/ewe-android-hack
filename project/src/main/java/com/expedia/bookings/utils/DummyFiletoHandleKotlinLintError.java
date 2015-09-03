@@ -58,6 +58,12 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.wallet_layout,
 		R.layout.widget_special_notice,
 		R.layout.hotel_breakdown,
-		R.layout.hotel_cost_summary_row
+		R.layout.hotel_cost_summary_row,
+		R.layout.hotel_reviews_summary_widget,
+		R.string.hotel_rating_room_cleanliness,
+		R.string.hotel_rating_hotel_condition,
+		R.string.hotel_rating_service_and_staff,
+		R.string.hotel_rating_room_comfort,
+		R.string.hotel_rating_summary_Template
 	};
 }

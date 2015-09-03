@@ -14,12 +14,19 @@ import rx.Observer
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.Review
+import com.expedia.bookings.data.hotels.HotelReviewsResponse.ReviewSummary
 
 class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: ReviewsServices) {
 
     private val paramsBuilder = HotelReviewsParams.Builder()
 
-    val reviewsObservable = PublishSubject.create<ReviewWrapper>()
+    val reviewsSummaryObservable = PublishSubject.create<ReviewSummary>()
+
+    val favorableReviewsObservable = PublishSubject.create<List<Review>>()
+
+    val criticalReviewsObservable = PublishSubject.create<List<Review>>()
+
+    val newestReviewsObservable = PublishSubject.create<List<Review>>()
 
     val reviewsObserver = endlessObserver<ReviewSort> { reviewSort ->
         // TO-DO: Loading only top 25 reviews for now.
@@ -33,10 +40,17 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
     private fun generateReviewsServiceCallback(reviewSort: ReviewSort): Observer<HotelReviewsResponse> {
         return object : Observer<HotelReviewsResponse> {
             override fun onNext(reviewsResponse: HotelReviewsResponse) {
-                val reviewWrapper = ReviewWrapper()
-                reviewWrapper.reviews = reviewsResponse.reviewDetails.reviewCollection.review
-                reviewWrapper.reviewSort = reviewSort
-                reviewsObservable.onNext(reviewWrapper)
+                val reviews = reviewsResponse.reviewDetails.reviewCollection.review
+                val summary = reviewsResponse.reviewDetails.reviewSummaryCollection.reviewSummary.get(0)
+                reviewsSummaryObservable.onNext(summary)
+                // The reviews summary should be observed only once, since it does not change.
+                reviewsSummaryObservable.onCompleted()
+                when (reviewSort) {
+                    ReviewSort.NEWEST_REVIEW_FIRST -> newestReviewsObservable.onNext(reviews)
+                    ReviewSort.HIGHEST_RATING_FIRST -> favorableReviewsObservable.onNext(reviews)
+                    ReviewSort.LOWEST_RATING_FIRST -> criticalReviewsObservable.onNext(reviews)
+                }
+
             }
 
             override fun onCompleted() {
@@ -48,9 +62,4 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
             }
         }
     }
-}
-
-class ReviewWrapper {
-    var reviews: List<Review>? = null
-    var reviewSort: ReviewSort? = null
 }

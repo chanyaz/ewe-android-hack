@@ -334,7 +334,10 @@
     <dimen name="hotel_review_detail_margin_bottom">3dp</dimen>
     <!--Review row divider height-->
     <dimen name="hotel_review_divider_height">1dp</dimen>
-
+    <!--Review summary rating text size-->
+    <dimen name="hotel_review_summary_text_size">12dp</dimen>
+    <!--Review summary rating padding size-->
+    <dimen name="hotel_review_summary_padding_size">4dp</dimen>
 
     <!-- Approx height of car & lx suggestion's row -->
     <dimen name="suggestion_list_height">60dp</dimen>

@@ -30,6 +30,7 @@ public class HotelReviewsResponse {
 		public float hotelCondition;
 		public float convenienceOfLocation;
 		public float neighborhoodSatisfaction;
+		public float roomComfort;
 	}
 
 	public class ReviewCollection {

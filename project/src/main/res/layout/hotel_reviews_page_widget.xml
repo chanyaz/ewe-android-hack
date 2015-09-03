@@ -3,20 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
+    android:background="@color/hotel_reviews_summary_background_color"
     android:orientation="vertical">
 
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scrollbars="none">
 
-        <TableLayout
-            android:id="@+id/reviews_table"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/summary_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp" />
 
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hotel_review_divider_height"
+                android:background="@color/hotel_reviews_row_divider_color" />
+
+            <TableLayout
+                android:id="@+id/reviews_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
     </ScrollView>
 
 

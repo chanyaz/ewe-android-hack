@@ -14,6 +14,18 @@
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="hotel_calendar_bottom_drag_to_modify">Drag to modify</string>
 
+    <!-- Hotels Reviews Strings -->
+    <!-- Hotels summary rating template-->
+    <string name="hotel_rating_summary_Template">{rating} - {attribute}</string>
+    <!-- Hotels rating room cleanliness string -->
+    <string name="hotel_rating_room_cleanliness">Room cleanliness</string>
+    <!-- Hotels rating room comfort string -->
+    <string name="hotel_rating_room_comfort">Room comfort</string>
+    <!-- Hotels rating service and staff string -->
+    <string name="hotel_rating_service_and_staff">Service &amp; staff</string>
+    <!-- Hotels rating hotel condition string -->
+    <string name="hotel_rating_hotel_condition">Hotel condition</string>
+
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
