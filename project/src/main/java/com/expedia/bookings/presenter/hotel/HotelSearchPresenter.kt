@@ -72,6 +72,16 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         HotelSuggestionAdapter(HotelSuggestionAdapterViewModel(service))
     }
 
+    // Classes for state
+    public class HotelParamsDefault
+
+    public class HotelParamsCalendar
+
+    override fun onFinishInflate() {
+        addTransition(defaultToCal)
+        show(HotelParamsDefault())
+    }
+
     var viewmodel: HotelSearchViewModel by notNullAndObservable { vm ->
         val maxDate = LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range))
         calendar.setSelectableDateRange(LocalDate.now(), maxDate)
@@ -106,6 +116,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
                 searchLocation.clearFocus()
                 calendar.setVisibility(View.VISIBLE)
                 traveler.setVisibility(View.GONE)
+                show(HotelParamsCalendar(), Presenter.FLAG_CLEAR_BACKSTACK)
             } else {
                 vm.errorNoOriginObservable.onNext(Unit)
             }
@@ -166,6 +177,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             searchLocation.clearFocus()
             calendar.setVisibility(View.VISIBLE)
             traveler.setVisibility(View.GONE)
+            show(HotelParamsCalendar(), Presenter.FLAG_CLEAR_BACKSTACK)
         }
 
         vm.locationTextObservable.subscribe(searchLocation)
@@ -203,7 +215,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         View.inflate(context, R.layout.widget_hotel_search_params, this)
         traveler.viewmodel = HotelTravelerPickerViewModel(getContext())
         searchLocation.requestFocus();
-        calendar.setVisibility(View.GONE)
+        calendar.setVisibility(View.INVISIBLE)
         traveler.setVisibility(View.GONE)
         selectDate.setChecked(false)
         selectTraveler.setChecked(false)
@@ -238,4 +250,36 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT))
         monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM))
     }
+
+    private val defaultToCal = object : Presenter.Transition(javaClass<HotelParamsDefault>(), javaClass<HotelParamsCalendar>()) {
+        private var calendarHeight: Int = 0
+
+        override fun startTransition(forward: Boolean) {
+            val parentHeight = getHeight()
+            calendarHeight = calendar.getHeight()
+            val pos = (if (forward) parentHeight + calendarHeight else calendarHeight).toFloat()
+            calendar.setTranslationY(pos)
+            calendar.setVisibility(View.VISIBLE)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            val pos = if (forward) calendarHeight + (-f * calendarHeight) else (f * calendarHeight)
+            calendar.setTranslationY(pos)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            calendar.setTranslationY((if (forward) 0 else calendarHeight).toFloat())
+        }
+
+        override fun finalizeTransition(forward: Boolean) {
+            calendar.setTranslationY((if (forward) 0 else calendarHeight).toFloat())
+            if (forward) {
+                com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenter)
+                searchLocation.clearFocus()
+                calendar.hideToolTip()
+            }
+            calendar.setVisibility(View.VISIBLE)
+        }
+    }
+
 }
