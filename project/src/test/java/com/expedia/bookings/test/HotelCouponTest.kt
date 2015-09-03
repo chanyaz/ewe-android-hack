@@ -4,35 +4,23 @@ import android.content.Context
 import android.content.res.Resources
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
-import com.expedia.bookings.services.HotelServices
 import com.expedia.vm.HotelCouponViewModel
-import com.mobiata.mocke3.ExpediaDispatcher
-import com.mobiata.mocke3.FileSystemOpener
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Matchers
 import org.mockito.Mockito
-import retrofit.RequestInterceptor
-import retrofit.RestAdapter
 import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
-import java.io.File
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
-import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 public class HotelCouponTest {
-    private var LOTS_MORE: Long = 100
 
-    public var server: MockWebServerRule = MockWebServerRule()
+    public var service: HotelServicesRule = HotelServicesRule()
     @Rule get
 
-    private var service: HotelServices by Delegates.notNull()
     private var vm: HotelCouponViewModel by Delegates.notNull()
 
     @Before
@@ -41,26 +29,16 @@ public class HotelCouponTest {
         val resources = Mockito.mock(javaClass<Resources>())
         Mockito.`when`(context.getResources()).thenReturn(resources)
         Mockito.`when`(resources.getQuantityString(Matchers.anyInt(), Matchers.anyInt(), Matchers.anyInt())).thenReturn("")
-        val emptyInterceptor = object : RequestInterceptor {
-            override fun intercept(request: RequestInterceptor.RequestFacade) {
-                // ignore
-            }
-        }
-        service = HotelServices("http://localhost:" + server.getPort(), OkHttpClient(), emptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
-        vm = HotelCouponViewModel(context, service)
+
+        vm = HotelCouponViewModel(context, service.hotelServices())
     }
 
     @Test
     fun couponErrors() {
-        val root = File("../lib/mocked/templates").getCanonicalPath()
-        val opener = FileSystemOpener(root)
-        server.get().setDispatcher(ExpediaDispatcher(opener))
-        val latch = CountDownLatch(2)
-        vm.errorObservable.subscribe { latch.countDown() }
-
         val testSubscriber = TestSubscriber<ApiError>(2)
         val expected = arrayListOf<ApiError>()
-        vm.errorObservable.subscribe(testSubscriber)
+
+        vm.errorObservable.take(2).subscribe(testSubscriber)
 
         vm.couponParamsObservable.onNext(HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", "hotel_coupon_errors_expired"))
         expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "Expired"))
@@ -68,11 +46,9 @@ public class HotelCouponTest {
         vm.couponParamsObservable.onNext(HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", "hotel_coupon_errors_duplicate"))
         expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "Duplicate"))
 
-        assertTrue(latch.await(10, TimeUnit.SECONDS))
-        vm.errorObservable.onCompleted()
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        testSubscriber.assertCompleted()
         testSubscriber.assertReceivedOnNext(expected)
-        testSubscriber.unsubscribe()
     }
 
     fun makeErrorInfo(code : ApiError.Code, message : String): ApiError {

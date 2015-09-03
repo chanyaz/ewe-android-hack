@@ -145,12 +145,14 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             //setting first room in expanded state as some etp hotel offers are less compared to pay now offers
             lastExpanded = 0
         }
-        ratingContainer.subscribeOnClick(vm.reviewsClickObserver)
-        mapClickContainer.subscribeOnClick(vm.mapClickContainer)
+        ratingContainer.subscribeOnClick(vm.reviewsClickedSubject)
+        mapClickContainer.subscribeOnClick(vm.mapClickedSubject)
         hotelDescription.subscribeOnClick(vm.readMore)
         etpRadioGroup.subscribeOnCheckedChange(etpContainerObserver)
         renovationContainer.subscribeOnClick(vm.renovationClickContainerObserver)
-        shareHotelContainer.subscribeOnClick(vm.shareClickContainerObserver)
+        shareHotelContainer.subscribeOnClick(vm.shareHotelClickedSubject)
+
+        vm.startMapWithIntentObservable.subscribe { intent -> getContext().startActivity(intent) }
 
         //getting the map
         mapView.onCreate(null)
