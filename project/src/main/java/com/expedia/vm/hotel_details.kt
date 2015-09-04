@@ -55,7 +55,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val amenitiesListObservable = BehaviorSubject.create<List<Amenity>>()
     val amenityTitleTextObservable = BehaviorSubject.create<String>()
 
-    var etpHolderObservable = BehaviorSubject.create<Unit>()
+    var hasETPObservable = BehaviorSubject.create<Boolean>(false)
+    var hasFreeCancellationObservable = BehaviorSubject.create<Boolean>(false)
     var renovationObservable = BehaviorSubject.create<Unit>()
     val hotelRenovationObservable = BehaviorSubject.create<Pair<String, String>>()
     val hotelPayLaterInfoObservable = BehaviorSubject.create<String>()
@@ -147,13 +148,16 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             }
         }
 
-        if (hasEtpOffer(response)) {
-            etpHolderObservable.onNext(Unit)
+        val hasETPOffer = hasEtpOffer(response)
+        if (hasETPOffer) {
             etpOffersList = hotelOffersResponse.hotelRoomResponse
                     .filter { it.payLaterOffer != null }.toArrayList()
 
             etpUniqueValueAddForRooms = getValueAdd(etpOffersList)
         }
+
+        hasETPObservable.onNext(hasETPOffer)
+        hasFreeCancellationObservable.onNext(hasFreeCancellation(response))
 
         uniqueValueAddForRooms = getValueAdd(response.hotelRoomResponse)
         roomResponseListObservable.onNext(Pair(response.hotelRoomResponse, uniqueValueAddForRooms))
@@ -233,6 +237,11 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             }
         }
         return list
+    }
+
+    private fun hasFreeCancellation(response: HotelOffersResponse): Boolean {
+        return response.hotelRoomResponse
+                .any { it.hasFreeCancellation == true }
     }
 
     private fun expandSection(untruncated: String, sectionBody: String) {
