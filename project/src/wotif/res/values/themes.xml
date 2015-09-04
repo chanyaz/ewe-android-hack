@@ -258,6 +258,7 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
         <item name="acct__logo_text_drawable_margin_left">-36dp</item>
         <item name="acct__logo_text_drawable_margin_top">20dp</item>
+        <item name="acct__welcome_text_color">@color/acct__welcome_text_color</item>
     </style>
 
 </resources>

@@ -79,5 +79,6 @@
     <color name="acct__btn_sign_in_text_wotif">#FFFFFF</color>
     <color name="acct__bg_input_text_error_wotif">#FFFFFF</color>
     <color name="acct__bg_input_text_good_wotif">#EEEEEE</color>
+    <color name="acct__welcome_text_color">#FFFFFF</color>
 
 </resources>
