@@ -75,8 +75,12 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
 
     val checkoutSliderSlidObserver = endlessObserver<Unit> {
         val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.getBillingInfo()
-        cvv.bind(billingInfo)
-        show(cvv)
+        if (billingInfo.getStoredCard() != null && billingInfo.getStoredCard().isGoogleWallet()) {
+            onBook(billingInfo.getSecurityCode())
+        } else {
+            cvv.bind(billingInfo)
+            show(cvv)
+        }
     }
 
     override fun onBook(cvv: String) {
@@ -99,12 +103,17 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         hotelCheckoutParams.checkInDate = dtf.print(Db.getHotelSearch().getSearchParams().getCheckInDate())
         hotelCheckoutParams.checkOutDate = dtf.print(Db.getHotelSearch().getSearchParams().getCheckOutDate())
         hotelCheckoutParams.cvv = cvv
-        // TODO: Support saved credit cards
-        hotelCheckoutParams.nameOnCard = billingInfo.getNameOnCard()
-        hotelCheckoutParams.creditCardNumber = billingInfo.getNumber()
-        hotelCheckoutParams.expirationDateYear = JodaUtils.format(billingInfo.getExpirationDate(), "yyyy")
-        hotelCheckoutParams.expirationDateMonth = JodaUtils.format(billingInfo.getExpirationDate(), "MM")
-        hotelCheckoutParams.postalCode = billingInfo.getLocation().getPostalCode()
+
+        if (billingInfo.getStoredCard() == null || billingInfo.getStoredCard().isGoogleWallet()) {
+            hotelCheckoutParams.creditCardNumber = billingInfo.getNumber()
+            hotelCheckoutParams.expirationDateYear = JodaUtils.format(billingInfo.getExpirationDate(), "yyyy")
+            hotelCheckoutParams.expirationDateMonth = JodaUtils.format(billingInfo.getExpirationDate(), "MM")
+            hotelCheckoutParams.nameOnCard = billingInfo.getNameOnCard()
+            hotelCheckoutParams.postalCode = billingInfo.getLocation().getPostalCode()
+        } else {
+            hotelCheckoutParams.storedCreditCardId = billingInfo.getStoredCard().getId()
+            hotelCheckoutParams.nameOnCard = billingInfo.getFirstName() + " " + billingInfo.getLastName()
+        }
 
         viewmodel.checkoutParams.onNext(hotelCheckoutParams)
     }

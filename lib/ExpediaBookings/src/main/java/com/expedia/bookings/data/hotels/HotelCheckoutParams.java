@@ -21,10 +21,11 @@ public class HotelCheckoutParams {
 	@NotNull public String checkOutDate;
 	@NotNull public String nameOnCard;
 	@NotNull public String cvv;
-	@NotNull public String expirationDateYear;
-	@NotNull public String expirationDateMonth;
-	@NotNull public String creditCardNumber;
-	@NotNull public String postalCode;
+	public String expirationDateYear;
+	public String expirationDateMonth;
+	public String storedCreditCardId;
+	public String creditCardNumber;
+	public String postalCode;
 
 	@NotNull
 	public Map<String, Object> toQueryMap() {
@@ -48,6 +49,7 @@ public class HotelCheckoutParams {
 		queryMap.put("checkOutDate", checkOutDate);
 		queryMap.put("cvv", cvv);
 		queryMap.put("nameOnCard", nameOnCard);
+		queryMap.put("storedCreditCardId", storedCreditCardId);
 		queryMap.put("creditCardNumber", creditCardNumber);
 		queryMap.put("expirationDateYear", expirationDateYear);
 		queryMap.put("expirationDateMonth", expirationDateMonth);
