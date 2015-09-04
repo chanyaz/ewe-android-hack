@@ -35,10 +35,23 @@ public class HotelFilterTest {
 
     @Test
     fun filterStar() {
-        vm.filterToggles.hotelStarRating = null
+        vm.filterToggles.hotelStarRating.one = false
         vm.oneStarFilterObserver.onNext(Unit)
 
-        Assert.assertEquals(1.0f, vm.filterToggles.hotelStarRating)
+        Assert.assertEquals(true, vm.filterToggles.hotelStarRating.one)
+    }
+
+    @Test
+    fun filterStars() {
+        vm.filterToggles.hotelStarRating.one = false
+        vm.oneStarFilterObserver.onNext(Unit)
+
+        Assert.assertEquals(true, vm.filterToggles.hotelStarRating.one)
+
+        vm.filterToggles.hotelStarRating.two = false
+        vm.twoStarFilterObserver.onNext(Unit)
+
+        Assert.assertEquals(true, vm.filterToggles.hotelStarRating.two)
     }
 
     @Test
@@ -49,12 +62,12 @@ public class HotelFilterTest {
     }
 
     @Test
-    fun clearFilters() {
-        vm.filterToggles.hotelStarRating = null
+    fun clearStar() {
+        vm.filterToggles.hotelStarRating.one = true
         vm.oneStarFilterObserver.onNext(Unit)
 
         vm.clearObservable.onNext(Unit)
-        Assert.assertEquals(null, vm.filterToggles.hotelStarRating)
+        Assert.assertEquals(false, vm.filterToggles.hotelStarRating.one)
     }
 
     @Test

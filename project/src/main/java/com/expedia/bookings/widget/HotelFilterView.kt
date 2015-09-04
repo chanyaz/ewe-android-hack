@@ -52,6 +52,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         button
     }
     val toolbarDropshadow: View by bindView(R.id.toolbar_dropshadow)
+    val background = android.R.attr.selectableItemBackground
 
     var subject: Observer<List<Hotel>> by Delegates.notNull()
 
@@ -76,19 +77,31 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         vm.hotelStarRatingBar.subscribe {
-            resetStars()
-
             val highlightStar = getResources().getColor(android.R.color.darker_gray)
             if (it == 1) {
                 filterStarOne.setBackgroundColor(highlightStar)
-            } else if (it == 2) {
+            } else if (it == 6) {
+                filterStarOne.setBackgroundColor(background)
+            }
+            if (it == 2) {
                 filterStarTwo.setBackgroundColor(highlightStar)
-            } else if (it == 3) {
+            } else if (it == 7) {
+                filterStarTwo.setBackgroundColor(background)
+            }
+            if (it == 3) {
                 filterStarThree.setBackgroundColor(highlightStar)
-            } else if (it == 4) {
+            } else if (it == 8) {
+                filterStarThree.setBackgroundColor(background)
+            }
+            if (it == 4) {
                 filterStarFour.setBackgroundColor(highlightStar)
-            } else if (it == 5) {
+            } else if (it == 9) {
+                filterStarFour.setBackgroundColor(background)
+            }
+            if (it == 5) {
                 filterStarFive.setBackgroundColor(highlightStar)
+            } else if (it == 10) {
+                filterStarFive.setBackgroundColor(background)
             }
         }
 
@@ -157,7 +170,6 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     fun resetStars() {
-        val background = android.R.attr.selectableItemBackground
         filterStarOne.setBackgroundColor(background)
         filterStarTwo.setBackgroundColor(background)
         filterStarThree.setBackgroundColor(background)

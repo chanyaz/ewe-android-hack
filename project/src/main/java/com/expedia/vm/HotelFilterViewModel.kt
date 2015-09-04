@@ -25,9 +25,10 @@ class HotelFilterViewModel(val context: Context) {
     val updateDynamicFeedbackWidget = BehaviorSubject.create<Int>()
     val finishClear = BehaviorSubject.create<Unit>()
 
-    data class FilterToggles(var isVipAccess : Boolean? = null, var hotelStarRating : Float? = null, var name : String? = null, var price : Float? = null, var neighborhoods : List<String>? = null)
+    data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
+    data class FilterToggles(var isVipAccess : Boolean? = null, var hotelStarRating : StarRatings = StarRatings(), var name : String? = null, var price : Float? = null, var neighborhoods : List<String>? = null)
 
-    val filterToggles = FilterToggles(null, null, null, null, null)
+    val filterToggles = FilterToggles()
 
     init {
         doneObservable.subscribe { params ->
@@ -62,7 +63,7 @@ class HotelFilterViewModel(val context: Context) {
 
     fun resetToggles() {
         filterToggles.isVipAccess = null
-        filterToggles.hotelStarRating = null
+        filterToggles.hotelStarRating = StarRatings()
         filterToggles.name = null
         filterToggles.price = null
         filterToggles.neighborhoods = null
@@ -80,8 +81,16 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     fun filterHotelStarRating(hotel: Hotel) : Boolean {
-        if (filterToggles.hotelStarRating == null) return true
-        return filterToggles.hotelStarRating == Math.floor(hotel.hotelStarRating.toDouble()).toFloat()
+        if (!filterToggles.hotelStarRating.one &&
+                !filterToggles.hotelStarRating.two &&
+                !filterToggles.hotelStarRating.three &&
+                !filterToggles.hotelStarRating.four && !filterToggles.hotelStarRating.five) return true
+
+        return (1.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && filterToggles.hotelStarRating.one) ||
+                (2.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && filterToggles.hotelStarRating.two) ||
+                (3.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && filterToggles.hotelStarRating.three) ||
+                (4.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && filterToggles.hotelStarRating.four) ||
+                (5.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && filterToggles.hotelStarRating.five)
     }
 
     fun filterName(hotel: Hotel) : Boolean {
@@ -109,11 +118,11 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     val oneStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (filterToggles.hotelStarRating != 1.0f) {
-            filterToggles.hotelStarRating = 1.0f
+        if (!filterToggles.hotelStarRating.one) {
+            filterToggles.hotelStarRating.one = true
             hotelStarRatingBar.onNext(1)
         } else {
-            filterToggles.hotelStarRating = null
+            filterToggles.hotelStarRating.one = false
             hotelStarRatingBar.onNext(6)
         }
 
@@ -121,48 +130,48 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     val twoStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (filterToggles.hotelStarRating != 2.0f) {
-            filterToggles.hotelStarRating = 2.0f
+        if (!filterToggles.hotelStarRating.two) {
+            filterToggles.hotelStarRating.two = true
             hotelStarRatingBar.onNext(2)
         } else {
-            filterToggles.hotelStarRating = null
-            hotelStarRatingBar.onNext(6)
+            filterToggles.hotelStarRating.two = false
+            hotelStarRatingBar.onNext(7)
         }
 
         handleFiltering()
     }
 
     val threeStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (filterToggles.hotelStarRating != 3.0f) {
-            filterToggles.hotelStarRating = 3.0f
+        if (!filterToggles.hotelStarRating.three) {
+            filterToggles.hotelStarRating.three = true
             hotelStarRatingBar.onNext(3)
         } else {
-            filterToggles.hotelStarRating = null
-            hotelStarRatingBar.onNext(6)
+            filterToggles.hotelStarRating.three = false
+            hotelStarRatingBar.onNext(8)
         }
 
         handleFiltering()
     }
 
     val fourStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (filterToggles.hotelStarRating != 4.0f) {
-            filterToggles.hotelStarRating = 4.0f
+        if (!filterToggles.hotelStarRating.four) {
+            filterToggles.hotelStarRating.four = true
             hotelStarRatingBar.onNext(4)
         } else {
-            filterToggles.hotelStarRating = null
-            hotelStarRatingBar.onNext(6)
+            filterToggles.hotelStarRating.four = false
+            hotelStarRatingBar.onNext(9)
         }
 
         handleFiltering()
     }
 
     val fiveStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (filterToggles.hotelStarRating != 5.0f) {
-            filterToggles.hotelStarRating = 5.0f
+        if (!filterToggles.hotelStarRating.five) {
+            filterToggles.hotelStarRating.five = true
             hotelStarRatingBar.onNext(5)
         } else {
-            filterToggles.hotelStarRating = null
-            hotelStarRatingBar.onNext(6)
+            filterToggles.hotelStarRating.five = false
+            hotelStarRatingBar.onNext(10)
         }
 
         handleFiltering()
