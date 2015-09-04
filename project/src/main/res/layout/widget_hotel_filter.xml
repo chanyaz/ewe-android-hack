@@ -2,376 +2,379 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.expedia.bookings.widget.ScrollView
-        android:id="@+id/filter_container"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ffffff">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <com.expedia.bookings.widget.ScrollView
+            android:id="@+id/filter_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="40dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:text="@string/Sort_and_Filter" />
-
-                    <Button
-                        android:id="@+id/filter_done"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center_vertical"
-                        android:text="@string/done" />
-                </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/filter_hotel_name_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/car_hotel"
-                        android:tint="#000" />
-
-                    <com.expedia.bookings.widget.CustomEditText
-                        android:id="@+id/filter_hotel_name_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/edit_text_holo_light"
-                        android:hint="@string/filter_hotel_name_hint"
-                        android:inputType="textFilter|textNoSuggestions"
-                        android:singleLine="true"
-                        android:textSize="18sp"
-                        app:clearFieldDrawable="@drawable/ic_clear_edittext_dark"
-                        app:touchAreaPadding="25dp" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginTop="19dp"
-                    android:text="@string/Sort_By"
-                    android:textAllCaps="true"
-                    android:textColor="@color/hotels_primary_color" />
-
-                <Spinner
-                    android:id="@+id/sort_by_selection_spinner"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/spinner_sort"
-                    android:dropDownWidth="match_parent" />
-
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_weight="1"
-                android:background="@color/divider_grey" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
-
-                <TextView
-                    android:id="@+id/price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Price"
-                    android:textColor="@color/hotels_primary_color" />
-
-                <com.expedia.bookings.widget.SeekBar
-                    android:id="@+id/dropoff_time_seek_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/price"
-                    android:max="47"
-                    android:maxHeight="6dp"
-                    android:progressDrawable="@drawable/cars_slider_progress" />
-
-                <TextView
-                    android:id="@+id/star_rating_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:text="Star Rating"
-                    android:textColor="@color/hotels_primary_color" />
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp">
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="10dp"
-                    app:cardCornerRadius="3dp"
-                    app:cardElevation="1dp">
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="40dp">
 
                     <LinearLayout
+                        android:id="@+id/filter_hotel_name_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <Button
-                            android:id="@+id/filter_hotel_star_rating_one"
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1 star"
-                            android:layout_weight="1"
-                            android:textColor="@color/hotels_primary_color"
-                            android:background="?android:attr/selectableItemBackground" />
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/car_hotel"
+                            android:tint="#000" />
 
-                        <View
-                            android:layout_width="1px"
-                            android:layout_height="match_parent"
-                            android:background="@color/divider_grey" />
-
-                        <Button
-                            android:id="@+id/filter_hotel_star_rating_two"
-                            android:layout_width="wrap_content"
+                        <com.expedia.bookings.widget.CustomEditText
+                            android:id="@+id/filter_hotel_name_edit_text"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="2 star"
-                            android:layout_weight="1"
-                            android:textColor="@color/hotels_primary_color"
-                            android:background="?android:attr/selectableItemBackground" />
-
-                        <View
-                            android:layout_width="1px"
-                            android:layout_height="match_parent"
-                            android:background="@color/divider_grey" />
-
-                        <Button
-                            android:id="@+id/filter_hotel_star_rating_three"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="3 star"
-                            android:layout_weight="1"
-                            android:textColor="@color/hotels_primary_color"
-                            android:background="?android:attr/selectableItemBackground" />
-
-                        <View
-                            android:layout_width="1px"
-                            android:layout_height="match_parent"
-                            android:background="@color/divider_grey" />
-
-                        <Button
-                            android:id="@+id/filter_hotel_star_rating_four"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4 star"
-                            android:layout_weight="1"
-                            android:textColor="@color/hotels_primary_color"
-                            android:background="?android:attr/selectableItemBackground" />
-
-                        <View
-                            android:layout_width="1px"
-                            android:layout_height="match_parent"
-                            android:background="@color/divider_grey" />
-
-                        <Button
-                            android:id="@+id/filter_hotel_star_rating_five"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="5 star"
-                            android:layout_weight="1"
-                            android:textColor="@color/hotels_primary_color"
-                            android:background="?android:attr/selectableItemBackground" />
-
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/edit_text_holo_light"
+                            android:hint="@string/filter_hotel_name_hint"
+                            android:inputType="textFilter|textNoSuggestions"
+                            android:singleLine="true"
+                            android:textSize="18sp"
+                            app:clearFieldDrawable="@drawable/ic_clear_edittext_dark"
+                            app:touchAreaPadding="25dp" />
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
-            </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/vip_badge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:text="+VIP"
-                    android:textColor="@color/hotels_primary_color" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:text="@string/filter_vip_access" />
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginTop="19dp"
+                        android:text="@string/Sort_By"
+                        android:textAllCaps="true"
+                        android:textColor="@color/hotels_primary_color" />
 
-                    <CheckBox
-                        android:id="@+id/filter_hotel_vip"
-                        android:layout_width="wrap_content"
+                    <Spinner
+                        android:id="@+id/sort_by_selection_spinner"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center_vertical" />
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/spinner_sort"
+                        android:dropDownWidth="match_parent" />
 
-                </RelativeLayout>
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/amenities_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:text="Amenities"
-                    android:textColor="@color/hotels_primary_color" />
 
-                <android.support.v7.widget.CardView
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:background="@color/divider_grey" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="10dp"
-                    app:cardCornerRadius="3dp"
-                    app:cardElevation="1dp">
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
 
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Price"
+                        android:textColor="@color/hotels_primary_color" />
 
-                    <LinearLayout
+                    <com.expedia.bookings.widget.SeekBar
+                        android:id="@+id/dropoff_time_seek_bar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_below="@+id/price"
+                        android:max="47"
+                        android:maxHeight="6dp"
+                        android:progressDrawable="@drawable/cars_slider_progress" />
 
-                        <Button
-                            android:id="@+id/filter_accessible"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:text="Accessible"
-                            android:textColor="@color/hotels_primary_color" />
-
-                        <Button
-                            android:id="@+id/filter_business_center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:text="Business Center"
-                            android:textColor="@color/hotels_primary_color" />
-
-                        <Button
-                            android:id="@+id/filter_room_service"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:text="Room Service"
-                            android:textColor="@color/hotels_primary_color" />
-
-                        <Button
-                            android:id="@+id/filter_gym"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:text="Gym"
-                            android:textColor="@color/hotels_primary_color" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/star_rating_bar"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:paddingTop="20dp"
+                        android:text="Star Rating"
+                        android:textColor="@color/hotels_primary_color" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/filter_accessible"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:gravity="center_horizontal"
-                            android:text="Accessible"
-                            android:textColor="@color/hotels_primary_color" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/filter_business_center"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:gravity="center_horizontal"
-                            android:text="Business Center"
-                            android:textColor="@color/hotels_primary_color" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/filter_room_service"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:gravity="center_horizontal"
-                            android:text="Room Service"
-                            android:textColor="@color/hotels_primary_color" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/filter_gym"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:gravity="center_horizontal"
-                            android:text="Gym"
-                            android:textColor="@color/hotels_primary_color" />
-                    </LinearLayout>
-
-                <TextView
-                    android:id="@+id/neighborhoods"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:text="Neighborhoods"
-                    android:textColor="@color/hotels_primary_color" />
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp">
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="10dp"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/filter_hotel_star_rating_one"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1 star"
+                                android:layout_weight="1"
+                                android:textColor="@color/hotels_primary_color"
+                                android:background="?android:attr/selectableItemBackground" />
+
+                            <View
+                                android:layout_width="1px"
+                                android:layout_height="match_parent"
+                                android:background="@color/divider_grey" />
+
+                            <Button
+                                android:id="@+id/filter_hotel_star_rating_two"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2 star"
+                                android:layout_weight="1"
+                                android:textColor="@color/hotels_primary_color"
+                                android:background="?android:attr/selectableItemBackground" />
+
+                            <View
+                                android:layout_width="1px"
+                                android:layout_height="match_parent"
+                                android:background="@color/divider_grey" />
+
+                            <Button
+                                android:id="@+id/filter_hotel_star_rating_three"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="3 star"
+                                android:layout_weight="1"
+                                android:textColor="@color/hotels_primary_color"
+                                android:background="?android:attr/selectableItemBackground" />
+
+                            <View
+                                android:layout_width="1px"
+                                android:layout_height="match_parent"
+                                android:background="@color/divider_grey" />
+
+                            <Button
+                                android:id="@+id/filter_hotel_star_rating_four"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="4 star"
+                                android:layout_weight="1"
+                                android:textColor="@color/hotels_primary_color"
+                                android:background="?android:attr/selectableItemBackground" />
+
+                            <View
+                                android:layout_width="1px"
+                                android:layout_height="match_parent"
+                                android:background="@color/divider_grey" />
+
+                            <Button
+                                android:id="@+id/filter_hotel_star_rating_five"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5 star"
+                                android:layout_weight="1"
+                                android:textColor="@color/hotels_primary_color"
+                                android:background="?android:attr/selectableItemBackground" />
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+                </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/vip_badge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="20dp"
+                        android:text="+VIP"
+                        android:textColor="@color/hotels_primary_color" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/filter_vip_access" />
+
+                        <CheckBox
+                            android:id="@+id/filter_hotel_vip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:gravity="center_vertical" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/amenities_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="20dp"
+                        android:text="Amenities"
+                        android:textColor="@color/hotels_primary_color" />
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="10dp"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="1dp">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/filter_accessible"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:text="Accessible"
+                                android:textColor="@color/hotels_primary_color" />
+
+                            <Button
+                                android:id="@+id/filter_business_center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:text="Business Center"
+                                android:textColor="@color/hotels_primary_color" />
+
+                            <Button
+                                android:id="@+id/filter_room_service"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:text="Room Service"
+                                android:textColor="@color/hotels_primary_color" />
+
+                            <Button
+                                android:id="@+id/filter_gym"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:text="Gym"
+                                android:textColor="@color/hotels_primary_color" />
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/filter_accessible"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:gravity="center_horizontal"
+                                android:text="Accessible"
+                                android:textColor="@color/hotels_primary_color" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/filter_business_center"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:gravity="center_horizontal"
+                                android:text="Business Center"
+                                android:textColor="@color/hotels_primary_color" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/filter_room_service"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:gravity="center_horizontal"
+                                android:text="Room Service"
+                                android:textColor="@color/hotels_primary_color" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/filter_gym"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:gravity="center_horizontal"
+                                android:text="Gym"
+                                android:textColor="@color/hotels_primary_color" />
+                        </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/neighborhoods"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="20dp"
+                        android:text="Neighborhoods"
+                        android:textColor="@color/hotels_primary_color" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </com.expedia.bookings.widget.ScrollView>
 
-    </com.expedia.bookings.widget.ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/filter_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:titleTextAppearance="@style/CarsToolbarTitleTextAppearance">
+        </android.support.v7.widget.Toolbar>
+
+        <View
+            android:id="@+id/toolbar_dropshadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_dropshadow_height"
+            android:background="@drawable/tb_shadow" />
+    </LinearLayout>
 
     <com.expedia.bookings.widget.DynamicFeedbackWidget
         android:id="@+id/dynamic_feedback_container"
@@ -382,5 +385,7 @@
         android:clickable="true"
         app:cardPreventCornerOverlap="false"
         android:layout_gravity="bottom" />
+
+    </FrameLayout>
 
 </merge>

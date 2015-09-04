@@ -57,6 +57,9 @@
     <!-- Hotel listing Sort by price icon -->
     <attr name="skin_hotelListingSortPriceDrawable" format="reference" />
 
+    <!-- Hotel filters Background -->
+    <attr name="skin_hotelFilterBackground" format="reference|color" />
+
     <!-- Hotel filters button style, for SegmentedControlGroups -->
     <attr name="skin_hotelListingFilterGroupStyle" format="reference" />
 

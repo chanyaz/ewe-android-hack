@@ -1,18 +1,24 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.Spinner
 import android.widget.TextView
-import butterknife.InjectView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnChecked
@@ -25,7 +31,7 @@ import kotlin.properties.Delegates
 
 public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
-    val filterDone: Button by bindView(R.id.filter_done)
+    val toolbar: Toolbar by bindView(R.id.filter_toolbar)
     val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
     val filterStarOne: Button by bindView(R.id.filter_hotel_star_rating_one)
     val filterStarTwo: Button by bindView(R.id.filter_hotel_star_rating_two)
@@ -36,6 +42,16 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val filterHotelName: TextView by bindView(R.id.filter_hotel_name_edit_text)
     val dynamicFeedbackWidget : DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)
     val dynamicFeedbackClearButton : TextView by bindView(R.id.dynamic_feedback_clear_button)
+    val filterContainer: ViewGroup by bindView(R.id.filter_container)
+    val doneButton:Button by Delegates.lazy {
+        val button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_checkmark_item, null) as Button
+        val navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate()
+        navIcon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN)
+        button.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
+        toolbar.getMenu().findItem(R.id.apply_check).setActionView(button)
+        button
+    }
+    val toolbarDropshadow: View by bindView(R.id.toolbar_dropshadow)
 
     var subject: Observer<List<Hotel>> by Delegates.notNull()
 
@@ -43,7 +59,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         this.subject = subject
     }
     var viewmodel: HotelFilterViewModel by notNullAndObservable { vm ->
-        filterDone.subscribeOnClick(vm.doneObservable)
+        doneButton.subscribeOnClick(vm.doneObservable)
         filterHotelVip.subscribeOnChecked(vm.vipFilteredObserver)
         filterStarOne.subscribeOnClick(vm.oneStarFilterObserver)
         filterStarTwo.subscribeOnClick(vm.twoStarFilterObserver)
@@ -114,6 +130,30 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         adapter.setDropDownViewResource(R.layout.spinner_sort_dropdown_item)
 
         sortByButtonGroup.setAdapter(adapter)
+
+        val statusBarHeight = Ui.getStatusBarHeight(getContext())
+        if (statusBarHeight > 0) {
+            val color = getContext().getResources().getColor(R.color.hotels_primary_color)
+            val statusBar = Ui.setUpStatusBar(getContext(), toolbar, filterContainer, color)
+            addView(statusBar)
+        }
+
+        toolbar.inflateMenu(R.menu.cars_lx_filter_menu)
+        toolbar.setTitle(getResources().getString(R.string.Sort_and_Filter))
+        toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
+        toolbar.setTitleTextColor(getResources().getColor(R.color.cars_actionbar_text_color))
+
+        doneButton.setText(R.string.done)
+        doneButton.setTextColor(getResources().getColor(R.color.cars_actionbar_text_color))
+
+        filterContainer.getViewTreeObserver().addOnScrollChangedListener(object : ViewTreeObserver.OnScrollChangedListener {
+            override fun onScrollChanged() {
+                val scrollY = filterContainer.getScrollY()
+                val ratio = (scrollY).toFloat() / 100
+                toolbarDropshadow.setAlpha(ratio)
+            }
+        })
+
     }
 
     fun resetStars() {

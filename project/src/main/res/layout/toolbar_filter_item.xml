@@ -12,3 +12,4 @@
     android:text="@string/filter"
     android:textAllCaps="true"
     android:textSize="14sp" />
+
