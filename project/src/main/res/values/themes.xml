@@ -332,6 +332,7 @@
         <item name="acct__input_text_default_color">@color/acct__bg_input_text_default</item>
         <item name="acct__toolbar_icon_color">@color/toolbar_icon</item>
         <item name="acct__user_info_text_color">@color/acct__user_info_text_color</item>
+        <item name="acct__welcome_text_color">@color/acct__user_info_text_color</item>
     </style>
 
     <style name="LaunchOverflowStyle" parent="Widget.AppCompat.ActionButton.Overflow">
