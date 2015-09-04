@@ -1,6 +1,5 @@
 package com.expedia.vm
 
-import com.expedia.bookings.data.ReviewSort
 import com.expedia.bookings.data.hotels.HotelReviewsParams
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.Review
@@ -9,8 +8,11 @@ import com.expedia.bookings.services.ReviewsServices
 import com.expedia.util.endlessObserver
 import rx.Observable
 import rx.subjects.PublishSubject
+import com.expedia.bookings.data.hotels.ReviewSort
 
 class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: ReviewsServices, val locale: String) {
+    
+    private val reviewsPageNumber = IntArray(3)
 
     val MIN_FAVORABLE_RATING = 3
 
@@ -24,10 +26,9 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
     private val reviewsObservable = PublishSubject.create<Pair<ReviewSort, HotelReviewsResponse>>()
 
     val reviewsObserver = endlessObserver<ReviewSort> { reviewSort ->
-        // TODO: Loading only top 25 reviews for now.
         val params = HotelReviewsParams.Builder()
                 .hotelId(hotelId)
-                .pageNumber(0)
+                .pageNumber(reviewsPageNumber[reviewSort.value]++)
                 .numReviewsPerPage(25)
                 .sortBy(reviewSort.sortByApiParam)
                 .languageSort(locale)

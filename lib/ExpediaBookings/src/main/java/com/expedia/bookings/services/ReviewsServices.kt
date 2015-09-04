@@ -56,7 +56,7 @@ public class ReviewsServices(endPoint: String, client: OkHttpClient, private val
     }
 
     public fun reviews(reviewsParams: HotelReviewsParams): Observable<HotelReviewsResponse> {
-        return reviewsApi.hotelReviews(reviewsParams.hotelId, reviewsParams.sortBy, reviewsParams.pageNumber, reviewsParams.numReviewsPerPage, reviewsParams.languageSort)
+        return reviewsApi.hotelReviews(reviewsParams.hotelId, reviewsParams.sortBy, reviewsParams.pageNumber * reviewsParams.numReviewsPerPage, reviewsParams.numReviewsPerPage, reviewsParams.languageSort)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
