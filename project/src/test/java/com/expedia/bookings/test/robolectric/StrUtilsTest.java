@@ -126,4 +126,14 @@ public class StrUtilsTest {
 		String formattedString = StrUtils.formatAirportName(displayNameResponse);
 		assertEquals(formattedString, "NYC-All Airports");
 	}
+
+	@Test
+	public void testRoundOff() {
+		float testNumber = 4.0481f;
+		assertEquals("4", StrUtils.roundOff(testNumber, 0));
+		assertEquals("4.0", StrUtils.roundOff(testNumber, 1));
+		assertEquals("4.05", StrUtils.roundOff(testNumber, 2));
+		assertEquals("4.048", StrUtils.roundOff(testNumber, 3));
+	}
+
 }

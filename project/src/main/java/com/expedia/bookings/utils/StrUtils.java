@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -536,5 +537,17 @@ public class StrUtils {
 			str = res.getQuantityString(R.plurals.child_age, age, age);
 		}
 		return Html.fromHtml(str).toString();
+	}
+
+	public static String roundOff(float number, int decimalPlaces) {
+		StringBuilder formatBuilder = new StringBuilder("#");
+		if (decimalPlaces > 0) {
+			formatBuilder.append(".");
+			//Add 0s equal to the number of decimal places
+			for (int i = 0; i < decimalPlaces; i++) {
+				formatBuilder.append('0');
+			}
+		}
+		return new DecimalFormat(formatBuilder.toString()).format(number);
 	}
 }

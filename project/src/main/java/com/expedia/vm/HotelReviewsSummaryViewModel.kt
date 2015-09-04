@@ -7,7 +7,7 @@ import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.utils.FontCache
-import com.expedia.bookings.utils.NumberUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TypefaceSpan
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
@@ -43,6 +43,6 @@ public class HotelReviewsSummaryViewModel(val context: Context) {
     }
 
     private fun getDisplayRating(rating: Float): String {
-        return NumberUtils.roundOff(rating, 1).toString()
+        return StrUtils.roundOff(rating, 1)
     }
 }
