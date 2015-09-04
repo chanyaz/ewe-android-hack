@@ -101,6 +101,11 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
             return dispatchTravelAd("/ads/hooklogic")
         }
 
+        // Hotel Reviews
+        if (request.getPath().startsWith("/api/hotelreviews")) {
+            return dispatchReviews()
+        }
+
         return make404()
     }
 
@@ -234,6 +239,10 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         }
         travelAdRequests.put(endPoint, count + 1)
         return makeEmptyResponse();
+    }
+
+    private fun dispatchReviews(): MockResponse {
+        return makeResponse("api/hotelreviews/hotel/happy.json")
     }
 
     public fun numOfTravelAdRequests(key: String): Int {
