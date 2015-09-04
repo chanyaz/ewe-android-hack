@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribe
+import com.expedia.util.subscribeVisibility
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
@@ -101,6 +102,7 @@ public class HotelListAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         val guestRatingPercentage: TextView by root.bindView(R.id.guest_rating_percentage)
         val topAmenityTitle: TextView by root.bindView(R.id.top_amenity_title)
         val starRating: RatingBar by root.bindView(R.id.hotel_rating_bar)
+        val discountPercentage: TextView by root.bindView(R.id.discount_percentage)
 
         public fun bind(viewModel: HotelViewModel) {
             viewModel.hotelLargeThumbnailUrlObservable.subscribe { url ->
@@ -112,7 +114,11 @@ public class HotelListAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             viewModel.pricePerNightObservable.subscribe(pricePerNight)
             viewModel.guestRatingPercentageObservable.subscribe(guestRatingPercentage)
             viewModel.topAmenityTitleObservable.subscribe(topAmenityTitle)
-
+            viewModel.hotelDiscountPercentageObservable.subscribe(discountPercentage)
+            viewModel.hotelStrikeThroughPriceObservable.subscribe(strikeThroughPricePerNight)
+            viewModel.hasDiscountObservable.subscribeVisibility(strikeThroughPricePerNight)
+            viewModel.hasDiscountObservable.subscribeVisibility(discountPercentage)
+            
             strikeThroughPricePerNight.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG)
 
             viewModel.hotelStarRatingObservable.subscribe {

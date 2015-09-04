@@ -53,6 +53,7 @@ add_test "HotelFieldValidationTest"
 add_test "HotelDateAcrossMonthsTest"
 add_test "HotelCouponErrorTest"
 add_test "HotelCheckoutPriceChangeTest"
+add_test "HotelResultsPresenterTests"
 
 #LX tests
 add_test "LXCurrentLocationErrorTest"

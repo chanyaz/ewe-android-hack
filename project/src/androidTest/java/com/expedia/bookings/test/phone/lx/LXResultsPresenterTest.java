@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
@@ -55,10 +57,10 @@ public class LXResultsPresenterTest {
 		LXScreen.searchResultsWidget().perform(waitFor(isDisplayed(), 10L, TimeUnit.SECONDS));
 		LXScreen.searchResultsWidget().check(matches(isDisplayed()));
 		LXScreen.searchList().check(matches(isDisplayed()));
-		ViewInteraction searchResultItem = LXScreen.recyclerItemView(allOf
-				(hasDescendant(withText(startsWith("happy"))),
-					hasDescendant(withText("$130"))),
-			R.id.lx_search_results_list);
+		Matcher<View> identifyingMatcher = allOf
+			(hasDescendant(withText(startsWith("happy"))),
+				hasDescendant(withText("$130")));
+		ViewInteraction searchResultItem = LXScreen.resultsListItemView(identifyingMatcher);
 
 		searchResultItem.check(matches(isDisplayed()));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_title))));

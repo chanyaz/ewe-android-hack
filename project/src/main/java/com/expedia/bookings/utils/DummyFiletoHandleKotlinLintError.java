@@ -64,6 +64,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.hotel_rating_hotel_condition,
 		R.string.hotel_rating_service_and_staff,
 		R.string.hotel_rating_room_comfort,
-		R.string.hotel_rating_summary_Template
+		R.string.hotel_rating_summary_Template,
+		R.string.hotel_discount_percent_Template
 	};
 }
