@@ -325,7 +325,7 @@ public class CarSearchPresenter extends Presenter
 		suggestionAdapter.updateRecentHistory(mRecentCarsLocationsSearches);
 
 		selectDateButton.setChecked(true);
-		show(new CarParamsCalendar());
+		show(new CarParamsCalendar(), FLAG_CLEAR_BACKSTACK);
 
 		setUpSearchButton();
 	}

@@ -44,6 +44,10 @@ public final class CarScreen {
 		calendar().check(matches(not(isDisplayed())));
 	}
 
+	public static void showCalendar() {
+		calendar().check(matches((isDisplayed())));
+	}
+
 	public static ViewInteraction calendar() {
 		return onView(withId(R.id.calendar));
 	}
