@@ -77,4 +77,6 @@
     <color name="acct__bg_input_text_error_lm">#FFFFFF</color>
     <color name="acct__bg_input_text_good_lm">#EEEEEE</color>
 
+    <color name="launch_discount">#006E8C</color>
+
 </resources>
