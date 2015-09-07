@@ -17,9 +17,11 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -94,5 +96,9 @@ public class HotelScreen {
 
 	public static ViewInteraction resultsListItemView(Matcher<View> identifyingMatcher) {
 		return AppScreen.recyclerItemView(identifyingMatcher, R.id.list_view);
+	}
+
+	public static void showCalendar() {
+		calendar().check(matches((isDisplayed())));
 	}
 }
