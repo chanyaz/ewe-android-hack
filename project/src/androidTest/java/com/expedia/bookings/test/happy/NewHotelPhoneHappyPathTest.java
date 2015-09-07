@@ -40,7 +40,7 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 
 	private void selectHotel() throws Throwable {
 		screenshot("Hotel_Search_Results");
-		HotelScreen.selectHotel(1);
+		HotelScreen.selectHotel(2);
 		ScreenActions.delay(1);
 	}
 
@@ -54,7 +54,6 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 		screenshot("Hotel_Checkout");
 		CheckoutViewModel.clickCheckout();
 		CheckoutViewModel.enterTravelerInfo();
-		CheckoutViewModel.clickCheckout();
 		CheckoutViewModel.enterPaymentInfoHotels();
 		CheckoutViewModel.pressClose();
 	}

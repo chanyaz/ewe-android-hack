@@ -34,6 +34,24 @@ public class HotelRate {
 	public List<SurchargesForEntireStay> surchargesForEntireStay;
 	public List<NightlyRatesPerRoom> nightlyRatesPerRoom;
 
+	// The types of display rates
+	public enum UserPriceType {
+		RATE_FOR_WHOLE_STAY_WITH_TAXES,
+		PER_NIGHT_RATE_NO_TAXES,
+		UNKNOWN;
+
+		public static UserPriceType toEnum(String value) {
+			if ("RateForWholeStayWithTaxes".equals(value)) {
+				return UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES;
+			}
+			else if ("PerNightRateNoTaxes".equals(value)) {
+				return UserPriceType.PER_NIGHT_RATE_NO_TAXES;
+			}
+
+			return UserPriceType.UNKNOWN;
+		}
+	}
+
 	public static class NightlyRatesPerRoom {
 		public boolean promo;
 		public String baseRate;

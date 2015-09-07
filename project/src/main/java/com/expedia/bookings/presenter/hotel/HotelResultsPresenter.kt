@@ -24,6 +24,7 @@ import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.presenter.Presenter
@@ -116,38 +117,30 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     public class MarkerDistance(marker: Marker, distance: Float, hotel: Hotel) : Comparable<MarkerDistance> {
         override fun compareTo(other: MarkerDistance): Int {
-            if ( this.distance < other.distance ) {
-                return -1
-            } else if (this.distance > other.distance ) {
-                return 1
-            } else {
-                return 0
-            }
+            return this.distance.compareTo(other.distance)
         }
 
         val marker: Marker = marker
         var distance: Float = distance
         val hotel: Hotel = hotel
-
     }
 
     fun showLoading() {
         val elements = createDummyListForAnimation()
-        adapter.setData(elements)
-        adapter.loadingState = true
+        adapter.setData(elements, HotelRate.UserPriceType.UNKNOWN, true)
         adapter.notifyDataSetChanged()
         recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(adapterListener)
     }
 
     private fun resetListOffset() {
         listOffset = (getHeight() - (getHeight() / 2.7f)).toInt()
-        listLayoutManager.scrollToPositionWithOffset(2, listOffset)
+        listLayoutManager.scrollToPositionWithOffset(adapter.numHeaderItemsInHotelsList() + 1, listOffset)
     }
 
     // Create list to show cards for loading animation
     private fun createDummyListForAnimation(): List<Hotel> {
-        val elements = ArrayList<Hotel>(3)
-        for (i in 0..2) {
+        val elements = ArrayList<Hotel>(2)
+        for (i in 0..1) {
             elements.add(Hotel())
         }
         return elements
@@ -155,9 +148,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val listResultsObserver: Observer<HotelSearchResponse> = object : Observer<HotelSearchResponse> {
         override fun onNext(response: HotelSearchResponse) {
-            response.hotelList.add(0, Hotel())
-            adapter.setData(response.hotelList)
-            adapter.loadingState = false
+            adapter.setData(response.hotelList, response.userPriceType, false)
             adapter.notifyDataSetChanged()
             resetListOffset()
         }
@@ -280,7 +271,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         View.inflate(getContext(), R.layout.widget_hotel_results, this)
 
         headerClickedSubject.subscribe(mapSelectedObserver)
-        adapter = HotelListAdapter(emptyList(), hotelSubject, headerClickedSubject)
+        adapter = HotelListAdapter(ArrayList<Hotel>(), HotelRate.UserPriceType.UNKNOWN, hotelSubject, headerClickedSubject)
         recyclerView.setAdapter(adapter)
         fabAnim = AnimationUtils.loadAnimation(getContext(), R.anim.fab_in)
     }
@@ -401,7 +392,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            if (mapTransitionRunning || (recyclerView.getAdapter() as HotelListAdapter).loadingState || getCurrentState().equals(javaClass<ResultsMap>().getName())) {
+            if (mapTransitionRunning || (recyclerView.getAdapter() as HotelListAdapter).isLoading() || getCurrentState().equals(javaClass<ResultsMap>().getName())) {
                 return
             }
 

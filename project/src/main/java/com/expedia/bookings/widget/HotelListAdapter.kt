@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.res.Resources
+import android.graphics.Color
 import android.graphics.Paint
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -11,35 +12,72 @@ import android.widget.LinearLayout
 import android.widget.RatingBar
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.Rate
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribe
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
+import com.squareup.phrase.Phrase
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.util.*
 import kotlin.properties.Delegates
 
-public class HotelListAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>, val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    val HEADER_VIEW = 0
-    val HOTEL_VIEW = 1
-    val LOADING_VIEW = 2
+public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<Hotel>, private var userPriceType: HotelRate.UserPriceType, val hotelSubject: PublishSubject<Hotel>, val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    val MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW = 0
+    val PRICING_STRUCTURE_HEADER_VIEW = 1
+    val HOTEL_VIEW = 2
+    val LOADING_VIEW = 3
 
-    var loadingState: Boolean = false
+    private var isLoading: Boolean = false
+    private var numHotelsExcludingAnyDummyItems: Int = 0
 
-    fun setData(data: List<Hotel>) {
-        hotels = data
+    fun isLoading(): Boolean {
+        return isLoading
+    }
+
+    fun setData(hotels: List<Hotel>, priceType: HotelRate.UserPriceType, loading: Boolean) {
+        numHotelsExcludingAnyDummyItems = hotels.size()
+        hotelsListWithDummyItems = ArrayList(hotels)
+        userPriceType = priceType
+        isLoading = loading
+
+        //Dummy Item - Transparent Header View for Intercepting Clicks to switch to Map View
+        hotelsListWithDummyItems.add(0, Hotel())
+
+        if (!isLoading && canDisplayPricingStructureHeader()) {
+            //Dummy Item - Hotel Results Pricing Structure Header
+            hotelsListWithDummyItems.add(1, Hotel())
+        }
+    }
+
+    fun canDisplayPricingStructureHeader(): Boolean {
+        return hotelsListWithDummyItems.size() > 0
+    }
+
+    fun numHeaderItemsInHotelsList(): Int {
+        if (!isLoading && canDisplayPricingStructureHeader())
+            return 2
+        else
+            return 1
     }
 
     override fun getItemCount(): Int {
-        return hotels.size()
+        return hotelsListWithDummyItems.size()
     }
 
     override fun getItemViewType(position: Int): Int {
         if (position == 0) {
-            return HEADER_VIEW
-        } else if (loadingState) {
+            return MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW
+        } else if (position == 1 && !isLoading && canDisplayPricingStructureHeader()) {
+            return PRICING_STRUCTURE_HEADER_VIEW
+        } else if (isLoading) {
             return LOADING_VIEW
         } else {
             return HOTEL_VIEW
@@ -47,12 +85,16 @@ public class HotelListAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
     }
 
     override fun onBindViewHolder(given: RecyclerView.ViewHolder, position: Int) {
-        if (given.getItemViewType() == HEADER_VIEW) {
-            val holder: HeaderViewHolder = given as HeaderViewHolder
+        if (given.getItemViewType() == MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW) {
+            val holder: MapSwitchClickInterceptorTransparentHeaderViewHolder = given as MapSwitchClickInterceptorTransparentHeaderViewHolder
             holder.itemView.setOnClickListener(holder)
+        } else if (given.getItemViewType() == PRICING_STRUCTURE_HEADER_VIEW) {
+            val holder: HotelResultsPricingStructureHeaderViewHolder = given as HotelResultsPricingStructureHeaderViewHolder
+            val viewModel = HotelResultsPricingStructureHeaderViewModel(holder.pricingStructureHeader.getResources(), numHotelsExcludingAnyDummyItems, userPriceType)
+            holder.bind(viewModel)
         } else if (given.getItemViewType() == HOTEL_VIEW) {
             val holder: HotelViewHolder = given as HotelViewHolder
-            val viewModel = HotelViewModel(hotels.get(position), holder.resources)
+            val viewModel = HotelViewModel(hotelsListWithDummyItems.get(position), holder.resources)
             holder.bind(viewModel)
             holder.itemView.setOnClickListener(holder)
         } else if (given.getItemViewType() == LOADING_VIEW) {
@@ -63,17 +105,19 @@ public class HotelListAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
-        if (viewType == HEADER_VIEW) {
+        if (viewType == MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW) {
             val header = View(parent.getContext())
-
             var lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             lp.height = if (ExpediaBookingApp.isAutomation()) 0 else parent.getHeight()
             header.setLayoutParams(lp)
 
-            return HeaderViewHolder(header)
+            return MapSwitchClickInterceptorTransparentHeaderViewHolder(header)
         } else if (viewType == LOADING_VIEW) {
             val view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_loading_cell, parent, false)
             return LoadingViewHolder(view)
+        } else if (viewType == PRICING_STRUCTURE_HEADER_VIEW) {
+            val view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_results_pricing_structure_header_cell, parent, false)
+            return HotelResultsPricingStructureHeaderViewHolder(view as TextView)
         } else {
             val view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_cell, parent, false)
             return HotelViewHolder(view as ViewGroup, parent.getWidth())
@@ -127,7 +171,7 @@ public class HotelListAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         }
 
         override fun onClick(view: View) {
-            val hotel: Hotel = hotels.get(getAdapterPosition())
+            val hotel: Hotel = hotelsListWithDummyItems.get(getAdapterPosition())
             hotelSubject.onNext(hotel)
         }
 
@@ -144,10 +188,16 @@ public class HotelListAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         }
     }
 
-    public inner class HeaderViewHolder(root: View) : RecyclerView.ViewHolder(root), View.OnClickListener {
+    public inner class HotelResultsPricingStructureHeaderViewHolder(val pricingStructureHeader: TextView) : RecyclerView.ViewHolder(pricingStructureHeader) {
+        public fun bind(viewModel: HotelResultsPricingStructureHeaderViewModel) {
+            viewModel.pricingStructureHeaderObservable.subscribe(pricingStructureHeader)
+        }
+    }
+
+    public inner class MapSwitchClickInterceptorTransparentHeaderViewHolder(root: View) : RecyclerView.ViewHolder(root), View.OnClickListener {
 
         override fun onClick(view: View) {
-            if (getItemViewType() == HEADER_VIEW) {
+            if (getItemViewType() == MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW) {
                 headerSubject.onNext(Unit)
             }
         }
