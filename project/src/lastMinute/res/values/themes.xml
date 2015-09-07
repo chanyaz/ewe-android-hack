@@ -115,6 +115,8 @@
     </style>
 
     <style name="LaunchTheme" parent="Theme.AppCompat">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:logo">@drawable/ic_ab_lm_logo</item>
         <item name="actionBarTabStyle">@style/ActionBarTabBar</item>
         <item name="actionBarTabBarStyle">@style/ActionBarTabBar</item>
@@ -148,8 +150,8 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_lm</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_lm</item>
-        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
-        <item name="skin_launchActionBarBackgroundColor">@color/cars_launch_actionbar_color</item>
+        <item name="skin_launchTabIndicatorColor">@color/actionbar_text_lm</item>
+        <item name="skin_launchActionBarBackgroundColor">@color/action_bar_bg_color</item>
     </style>
 
     <style name="FlightActionBarlm" parent="FlightActionBar">

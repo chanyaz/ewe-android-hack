@@ -4,8 +4,11 @@
     <color name="action_bar_text_color">#FFFFFF</color>
     <color name="action_bar_selected_tab_underline_color">#FFFFFF</color>
 
-    <color name="launch_lob_bg">#2D2D2D</color>
-
+    <color name="lob_btn_color">#006e8c</color>
+    <color name="hotel_lob_btn">@color/lob_btn_color</color>
+    <color name="flights_lob_btn">@color/lob_btn_color</color>
+    <color name="cars_lob_btn">@color/lob_btn_color</color>
+    <color name="lx_lob_btn">@color/lob_btn_color</color>
     <!-- Lob box shadow gradient -->
     <color name="lob_box_shadow_start_color">#FF000000</color>
     <color name="lob_box_shadow_center_color">#99000000</color>
