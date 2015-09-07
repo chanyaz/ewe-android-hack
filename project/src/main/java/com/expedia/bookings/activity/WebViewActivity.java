@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.WebViewFragment;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -167,6 +168,11 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 		}
 		else {
 			mFragment = Ui.findSupportFragment(this, WebViewFragment.TAG);
+		}
+
+		int actionBarLogo = ProductFlavorFeatureConfiguration.getInstance().updatePOSSpecificActionBarLogo();
+		if (actionBarLogo != 0) {
+			getActionBar().setLogo(actionBarLogo);
 		}
 	}
 

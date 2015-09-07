@@ -47,7 +47,7 @@
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_tvly</item>
         <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size_travelocity</item>
-        <item name="skin_tablet_ab_launch_text1_base">@string/brand_name</item>
+        <item name="skin_tablet_ab_launch_text1_base">@string/app_name</item>
         <item name="skin_tablet_ab_launch_text2_pin_detail">@string/Destination</item>
         <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen_tvly</item>
         <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_travelocity</item>

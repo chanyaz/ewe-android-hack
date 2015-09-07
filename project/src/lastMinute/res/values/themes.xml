@@ -253,7 +253,7 @@
         <item name="acct__sign_in_button_text_color">@color/acct__btn_sign_in_text_lm</item>
         <item name="acct__logo_small_drawable">@android:color/transparent</item>
         <item name="acct__logo_large_drawable">@drawable/acct__logo_large_lm</item>
-        <item name="acct__logo_text_drawable">@drawable/acct__logo_text_lm</item>
+        <item name="acct__logo_text_drawable">@drawable/acct__logo_large_lm</item>
         <item name="acct__checkmark_good_drawable">@drawable/acct__ic_checkmark_lm</item>
         <item name="acct__checkmark_warning_drawable">@drawable/acct__ic_warning_lm</item>
         <item name="skin_accountCreationBackgroundDrawable">@drawable/bg_mtfuji_crop_lm</item>
