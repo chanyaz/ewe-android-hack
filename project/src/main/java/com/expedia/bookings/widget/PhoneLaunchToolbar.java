@@ -24,6 +24,10 @@ public class PhoneLaunchToolbar extends Toolbar {
 		super(context, attrs);
 		LayoutInflater.from(getContext()).inflate(R.layout.toolbar_phone_launch, this);
 		ButterKnife.inject(this);
+		updateActionBarLogo();
+	}
+
+	public void updateActionBarLogo() {
 		int actionBarLogoResId = ProductFlavorFeatureConfiguration.getInstance().getLaunchScreenActionLogo();
 		if (actionBarLogoResId != 0) {
 			setNavigationIcon(actionBarLogoResId);

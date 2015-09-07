@@ -27,6 +27,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.MockModeShim;
 import com.mobiata.android.Log;
@@ -92,6 +93,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				PointOfSale.onPointOfSaleChanged(ExpediaBookingPreferenceActivity.this);
 				configurePointOfSalePreferenceSummary();
+				updateActionBar();
 
 				AdTracker.updatePOS();
 				setResult(RESULT_CHANGED_PREFS);
@@ -108,13 +110,27 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 		setResult(RESULT_NO_CHANGES);
 	}
 
+	private void updateActionBar() {
+		ActionBar actionBar = getActionBar();
+		int actionBarLogo = ProductFlavorFeatureConfiguration.getInstance().updatePOSSpecificActionBarLogo();
+		if (actionBar != null && actionBarLogo != 0) {
+			actionBar.setLogo(actionBarLogo);
+		}
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		ActionBar ab = getActionBar();
+
 		// ab is null on tablet
 		if (ab != null) {
 			ab.setDisplayHomeAsUpEnabled(true);
 			ab.setDisplayShowTitleEnabled(false);
+
+			int actionBarLogo = ProductFlavorFeatureConfiguration.getInstance().updatePOSSpecificActionBarLogo();
+			if (actionBarLogo != 0) {
+				ab.setLogo(actionBarLogo);
+			}
 		}
 		return true;
 	}
