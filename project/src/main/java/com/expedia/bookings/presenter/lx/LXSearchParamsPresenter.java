@@ -131,6 +131,7 @@ public class LXSearchParamsPresenter extends Presenter
 		location.setOnItemClickListener(mLocationListListener);
 		location.setOnEditorActionListener(this);
 		location.setOnFocusChangeListener(mLocationFocusListener);
+		location.setOnClickListener(mLocationClickListener);
 		location.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		selectDates.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		onDateCheckedChanged(false);
@@ -161,6 +162,13 @@ public class LXSearchParamsPresenter extends Presenter
 			Suggestion suggestion = suggestionAdapter.getItem(position);
 			setSearchLocation(suggestion);
 			setUpSearchButton();
+		}
+	};
+
+	private OnClickListener mLocationClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			location.showDropDown();
 		}
 	};
 

@@ -28,16 +28,20 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		CarSuggestionViewHolder holder;
+		View itemView = super.getView(position, convertView, parent);
+		if (itemView != null) {
+			return itemView;
+		}
 
+		CarSuggestionViewHolder holder;
 		if (convertView == null) {
-			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.car_dropdown_item, parent, false);
+			convertView = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.car_dropdown_item, parent, false);
 			convertView.setTag(new CarSuggestionViewHolder(convertView));
 		}
 
 		holder = (CarSuggestionViewHolder) convertView.getTag();
 		holder.bind(getItem(position));
-
 		return convertView;
 	}
 

@@ -187,7 +187,8 @@ public class CarSearchPresenter extends Presenter
 
 		pickUpLocation.setAdapter(suggestionAdapter);
 		pickUpLocation.setOnItemClickListener(mPickupListListener);
-		pickUpLocation.setOnFocusChangeListener(mPickupClickListener);
+		pickUpLocation.setOnFocusChangeListener(mPickupFocusListener);
+		pickUpLocation.setOnClickListener(mPickupClickListener);
 		pickUpLocation.setOnEditorActionListener(this);
 		pickUpLocation.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		selectDateButton.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
@@ -400,7 +401,14 @@ public class CarSearchPresenter extends Presenter
 		}
 	};
 
-	private OnFocusChangeListener mPickupClickListener = new OnFocusChangeListener() {
+	private OnClickListener mPickupClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			pickUpLocation.showDropDown();
+		}
+	};
+
+	private OnFocusChangeListener mPickupFocusListener = new OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
