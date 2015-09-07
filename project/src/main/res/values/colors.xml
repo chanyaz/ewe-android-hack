@@ -305,6 +305,7 @@
     <color name="acct__bg_input_text_good">#4a90e2</color>
     <color name="acct__flavor_text">#ffffff</color>
     <color name="acct__user_info_text_color">#ffffff</color>
+    <color name="acct__welcome_text_color">#ffffff</color>
     <color name="toolbar_icon">#ffffff</color>
 
     <!-- MER Email Opt checkbox color -->
