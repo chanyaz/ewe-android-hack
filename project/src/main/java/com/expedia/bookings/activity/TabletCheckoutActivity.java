@@ -19,6 +19,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.BookingUnavailableFragment.BookingUnavailableFragmentListener;
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
 import com.expedia.bookings.fragment.TabletCheckoutTripBucketControllerFragment;
@@ -96,6 +97,11 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 		ab.setCustomView(R.layout.actionbar_tablet_title);
 		TextView title = com.mobiata.android.util.Ui.findView(ab.getCustomView(), R.id.text1);
 		title.setText(R.string.Checkout);
+
+		int actionBarLogo = ProductFlavorFeatureConfiguration.getInstance().getLaunchScreenActionLogo();
+		if (actionBarLogo != 0) {
+			getActionBar().setLogo(actionBarLogo);
+		}
 	}
 
 	@Override
