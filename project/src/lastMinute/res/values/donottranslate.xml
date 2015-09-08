@@ -15,4 +15,6 @@
     <string name="tune_sdk_app_advertiser_id">188640</string>
     <string name="tune_sdk_app_conversion_key">5906feacf85426428e9b508640b6bb69</string>
 
+    <string name="lastminute_au">lastminute.com.au</string>
+    <string name="lastminute_nz">lastminute.co.nz</string>
 </resources>
