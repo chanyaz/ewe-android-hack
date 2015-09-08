@@ -88,10 +88,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         detailPresenter.hotelDetailView.viewmodel = HotelDetailViewModel(getContext(), hotelServices)
-        detailPresenter.hotelDetailView.viewmodel.searchObserver.onNext(hotelSearchParams)
-        detailPresenter.hotelDetailView.viewmodel.hotelObserver.onNext(hotel)
-        detailPresenter.hotelDetailView.viewmodel.reviewsObservable.subscribe(reviewsObserver)
-        detailPresenter.hotelDetailView.viewmodel.getDetail()
+        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(hotelSearchParams)
+        detailPresenter.hotelDetailView.viewmodel.hotelSelectedSubject.onNext(hotel)
+        detailPresenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
         detailPresenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(detailPresenter.hotelRenovationObserver)
         detailPresenter.showDefault()
         show(detailPresenter)
