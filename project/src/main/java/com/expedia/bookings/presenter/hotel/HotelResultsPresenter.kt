@@ -68,6 +68,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     private val DEFAULT_FAB_ANIM_DURATION = 500L
 
     var screenHeight: Int = 0
+    var screenWidth: Float = 0f
     var mapTransitionRunning: Boolean = false
     var hideFabAnimationRunning: Boolean = false
 
@@ -492,66 +493,170 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun onGlobalLayout() {
             recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this)
             screenHeight = if (ExpediaBookingApp.isAutomation()) { 0 } else { getHeight() }
+            screenWidth = if (ExpediaBookingApp.isAutomation()) { 0f } else { getWidth().toFloat() }
             resetListOffset()
         }
     }
 
     private val fabTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), DEFAULT_FAB_ANIM_DURATION.toInt()) {
 
-        var fabShouldVisiblyMove: Boolean = true
-        var mapTranslationStart: Float = 0f
+        private val listTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), DEFAULT_FAB_ANIM_DURATION.toInt()) {
+
+            var fabShouldVisiblyMove: Boolean = true
+            var mapTranslationStart: Float = 0f
+
+            override fun startTransition(forward: Boolean) {
+                super.startTransition(forward)
+                recyclerView.setVisibility(View.VISIBLE)
+                fabShouldVisiblyMove = if (forward) !fabShouldBeHiddenOnList() else (fab.getVisibility() == View.VISIBLE)
+                mapTranslationStart = mapView.getTranslationY()
+                if (forward) {
+                    //If the fab is visible we want to do the transition - but if we're just hiding it, don't confuse the
+                    // user with an unnecessary icon swap
+                    if (fabShouldVisiblyMove) {
+                        (fab.getDrawable() as? TransitionDrawable)?.reverseTransition(duration)
+                    } else {
+                        listLayoutManager.scrollToPositionWithOffset(3, listOffset)
+
+                        //Let's start hiding the fab
+                        getFabAnimOut().setDuration(duration.toLong()).start()
+                    }
+                }
+                else {
+                    if (fabShouldVisiblyMove) {
+                        (fab.getDrawable() as? TransitionDrawable)?.startTransition(duration)
+                    } else {
+                        //Since we're not moving it manually, let's jump it to where it belongs,
+                        // and let's get it showing the right thing
+                        fab.setTranslationY(-mapCarouselContainer.getHeight().toFloat())
+                        (fab.getDrawable() as? TransitionDrawable)?.startTransition(0)
+                        fab.setVisibility(View.VISIBLE)
+                        getFabAnimIn().setDuration(duration.toLong()).start()
+                    }
+                }
+            }
+
+            override fun updateTransition(f: Float, forward: Boolean) {
+                val hotelListDistance = if (forward) (screenHeight * (1 - f)) else (screenHeight * f);
+                recyclerView.setTranslationY(hotelListDistance)
+                if (forward) {
+                    mapView.setTranslationY(-screenHeight * f * .5f)
+                }
+                else {
+                    mapView.setTranslationY((1-f) * mapTranslationStart)
+                }
+
+                if (fabShouldVisiblyMove) {
+                    val fabDistance = if (forward) -(1 - f) * mapCarouselContainer.getHeight() else -f * mapCarouselContainer.getHeight()
+                    fab.setTranslationY(fabDistance)
+                }
+            }
+
+            override fun finalizeTransition(forward: Boolean) {
+                toolbar.setNavigationIcon(if (forward) R.drawable.ic_arrow_back_white_24dp else R.drawable.ic_close_white_24dp)
+                toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
+                toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
+                toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
+                toolbar.setSubtitle(if (forward) subtitle else null)
+
+                menu?.setVisible(true)
+
+                recyclerView.setVisibility(if (forward) View.VISIBLE else View.INVISIBLE)
+                mapCarouselContainer.setVisibility(if (forward) View.INVISIBLE else View.VISIBLE)
+
+                if (forward) {
+                    if (!fabShouldVisiblyMove) {
+                        fab.setTranslationY(0f)
+                        (fab.getDrawable() as? TransitionDrawable)?.reverseTransition(0)
+                        fab.setVisibility(View.INVISIBLE)
+                    }
+                    recyclerView.setTranslationY(0f)
+                } else {
+                    mapView.setTranslationY(0f)
+                    recyclerView.setTranslationY(screenHeight.toFloat())
+                }
+            }
+        }
+
+        private val carouselTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), DEFAULT_FAB_ANIM_DURATION.toInt()) {
+
+
+            override fun startTransition(forward: Boolean) {
+                mapCarouselContainer.setVisibility(View.VISIBLE)
+                if (forward) {
+                    mapCarouselContainer.setTranslationX(0f)
+                }
+                else {
+                    mapCarouselContainer.setTranslationX(screenWidth)
+                }
+            }
+
+            override fun updateTransition(f: Float, forward: Boolean) {
+                mapCarouselContainer.setTranslationX((if (forward) f else 1 - f) * screenWidth)
+            }
+
+            override fun finalizeTransition(forward: Boolean) {
+                if (forward) {
+                    mapCarouselContainer.setTranslationX(screenWidth)
+                    mapCarouselContainer.setVisibility(View.INVISIBLE)
+                }
+                else {
+                    mapCarouselContainer.setTranslationX(0f)
+                }
+            }
+        }
+
+        var secondTransitionStartTime = .33f
+        var currentTransition = 0
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            currentTransition = 0
             mapTransitionRunning = true
-            recyclerView.setVisibility(View.VISIBLE)
-            fabShouldVisiblyMove = if (forward) !fabShouldBeHiddenOnList() else (fab.getVisibility() == View.VISIBLE)
-            mapTranslationStart = mapView.getTranslationY()
             if (forward) {
-                //If the fab is visible we want to do the transition - but if we're just hiding it, don't confuse the
-                // user with an unnecessary icon swap
-                if (fabShouldVisiblyMove) {
-                    (fab.getDrawable() as? TransitionDrawable)?.reverseTransition(duration)
-                } else {
-                    listLayoutManager.scrollToPositionWithOffset(3, listOffset)
-
-                    //Let's start hiding the fab
-                    getFabAnimOut().setDuration(duration.toLong()).start()
-                }
+                //Let's be explicit despite it being the default
+                secondTransitionStartTime = .33f
+                carouselTransition.startTransition(forward)
             }
             else {
-                if (fabShouldVisiblyMove) {
-                    (fab.getDrawable() as? TransitionDrawable)?.startTransition(duration)
-                } else {
-                    //Since we're not moving it manually, let's jump it to where it belongs,
-                    // and let's get it showing the right thing
-                    fab.setTranslationY(-mapCarouselContainer.getHeight().toFloat())
-                    (fab.getDrawable() as? TransitionDrawable)?.startTransition(0)
-                    fab.setVisibility(View.VISIBLE)
-                    getFabAnimIn().setDuration(duration.toLong()).start()
-                }
+                secondTransitionStartTime = .66f
+                listTransition.startTransition(forward)
             }
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
-            val hotelListDistance = if (forward) (screenHeight * (1 - f)) else (screenHeight * f);
-            recyclerView.setTranslationY(hotelListDistance)
             navIcon.setParameter(if (forward) Math.abs(1 - f) else f)
             if (forward) {
-                mapView.setTranslationY(-screenHeight * f * .5f)
+                if (f < secondTransitionStartTime) {
+                    carouselTransition.updateTransition(f / secondTransitionStartTime, forward)
+                }
+                else {
+                    if (currentTransition == 0) {
+                        currentTransition = 1
+                        carouselTransition.finalizeTransition(forward)
+                        listTransition.startTransition(forward)
+                    }
+                    listTransition.updateTransition((f - secondTransitionStartTime) / (1 - secondTransitionStartTime), forward)
+                }
             }
             else {
-                mapView.setTranslationY((1-f) * mapTranslationStart)
-            }
-
-            if (fabShouldVisiblyMove) {
-                val fabDistance = if (forward) -(1 - f) * mapCarouselContainer.getHeight() else -f * mapCarouselContainer.getHeight()
-                fab.setTranslationY(fabDistance)
+                if (f < secondTransitionStartTime) {
+                    listTransition.updateTransition(f / secondTransitionStartTime, forward)
+                }
+                else {
+                    if (currentTransition == 0) {
+                        currentTransition = 1
+                        listTransition.finalizeTransition(forward)
+                        carouselTransition.startTransition(forward)
+                    }
+                    carouselTransition.updateTransition((f - secondTransitionStartTime) / (1 - secondTransitionStartTime), forward)
+                }
             }
         }
 
         override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
             navIcon.setParameter(if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK.getType().toFloat() else ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType().toFloat())
             toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
             toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
@@ -560,22 +665,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
             menu?.setVisible(true)
 
-            recyclerView.setVisibility(if (forward) View.VISIBLE else View.INVISIBLE)
-            mapCarouselContainer.setVisibility(if (forward) View.INVISIBLE else View.VISIBLE)
-
             if (forward) {
-                if (!fabShouldVisiblyMove) {
-                    fab.setTranslationY(0f)
-                    (fab.getDrawable() as? TransitionDrawable)?.reverseTransition(0)
-                    fab.setVisibility(View.INVISIBLE)
-                }
-                recyclerView.setTranslationY(0f)
-            } else {
-                mapView.setTranslationY(0f)
-                recyclerView.setTranslationY(screenHeight.toFloat())
+                listTransition.finalizeTransition(forward)
+            }
+            else {
+                carouselTransition.finalizeTransition(forward)
             }
             mapTransitionRunning = false
         }
+
     }
 
     val touchListener = object : RecyclerView.OnItemTouchListener {
