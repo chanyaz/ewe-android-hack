@@ -10,6 +10,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.RoomSelected
@@ -86,6 +87,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
+        if (hotel.isSponsoredListing) AdImpressionTracking.trackAdClickOrImpression(getContext(), hotel.clickTrackingUrl, null)
         detailPresenter.hotelDetailView.viewmodel = HotelDetailViewModel(getContext(), hotelServices)
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(hotelSearchParams)
         detailPresenter.hotelDetailView.viewmodel.hotelSelectedSubject.onNext(hotel)

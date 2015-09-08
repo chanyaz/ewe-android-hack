@@ -25,20 +25,18 @@ import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.HotelMarkerPreviewAdapter
-import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.bookings.widget.createHotelMarker
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribe
 import com.expedia.vm.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -50,7 +48,6 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mobiata.android.LocationServices
 import com.mobiata.android.Log
-import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
@@ -151,6 +148,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             adapter.setData(response.hotelList, response.userPriceType, false)
             adapter.notifyDataSetChanged()
             resetListOffset()
+            AdImpressionTracking.trackAdClickOrImpression(getContext(), response.pageViewBeaconPixelUrl, null)
         }
 
         override fun onCompleted() {

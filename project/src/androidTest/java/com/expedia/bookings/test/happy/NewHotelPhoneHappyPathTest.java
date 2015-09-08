@@ -9,6 +9,8 @@ import com.expedia.bookings.test.phone.newhotels.HotelScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.utils.MockModeShim;
+import com.mobiata.mocke3.ExpediaDispatcher;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -23,6 +25,7 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 		slideToPurchase();
 		enterCVV();
 		confirmation();
+		verifyTravelAdTracking();
 	}
 
 	private void doSearch() throws Throwable {
@@ -75,4 +78,11 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.itin_text_view, "Itinerary #174113329733");
 	}
 
+	private void verifyTravelAdTracking() {
+		ExpediaDispatcher dispatcher = MockModeShim.getDispatcher();
+		assertEquals(1, dispatcher.numOfTravelAdRequests("/travel"));
+		assertEquals(1, dispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdImpression"));
+		assertEquals(1, dispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdClick"));
+		assertEquals(1, dispatcher.numOfTravelAdRequests("/ads/hooklogic"));
+	}
 }

@@ -8,6 +8,7 @@ public class HotelCheckoutResponse {
 
 		public String itineraryNumber;
 		public String email;
+		public String tripId;
 	}
 
 	public static class CheckoutResponse {

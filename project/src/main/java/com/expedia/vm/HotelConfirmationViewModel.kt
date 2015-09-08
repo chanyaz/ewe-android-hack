@@ -9,6 +9,7 @@ import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder
 import com.expedia.bookings.services.HotelCheckoutResponse
+import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.NavUtils
@@ -66,6 +67,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             location.setStateCode(product.hotelStateProvince)
             location.addStreetAddressLine(product.hotelAddress)
             hotelLocation.onNext(location)
+            AdImpressionTracking.trackAdConversion(context, hotelCheckoutResponse.checkoutResponse.bookingResponse.tripId)
         })
     }
 

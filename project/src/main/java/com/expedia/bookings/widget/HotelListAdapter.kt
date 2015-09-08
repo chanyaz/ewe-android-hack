@@ -94,7 +94,7 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
             holder.bind(viewModel)
         } else if (given.getItemViewType() == HOTEL_VIEW) {
             val holder: HotelViewHolder = given as HotelViewHolder
-            val viewModel = HotelViewModel(hotelsListWithDummyItems.get(position), holder.resources)
+            val viewModel = HotelViewModel(hotelsListWithDummyItems.get(position), holder.itemView.getContext())
             holder.bind(viewModel)
             holder.itemView.setOnClickListener(holder)
         } else if (given.getItemViewType() == LOADING_VIEW) {
@@ -162,7 +162,6 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
             viewModel.hotelStrikeThroughPriceObservable.subscribe(strikeThroughPricePerNight)
             viewModel.hasDiscountObservable.subscribeVisibility(strikeThroughPricePerNight)
             viewModel.hasDiscountObservable.subscribeVisibility(discountPercentage)
-            
             strikeThroughPricePerNight.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG)
 
             viewModel.hotelStarRatingObservable.subscribe {
