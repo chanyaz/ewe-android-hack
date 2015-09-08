@@ -32,8 +32,6 @@ class HotelFilterViewModel(val context: Context) {
 
     init {
         doneObservable.subscribe { params ->
-            filteredResponse.hotelList = ArrayList<Hotel>()
-            filteredResponse.allNeighborhoodsInSearchRegion = originalResponse?.allNeighborhoodsInSearchRegion
             if (filteredResponse.hotelList == null) {
                 filterObservable.onNext(originalResponse?.hotelList)
             } else {
@@ -50,15 +48,13 @@ class HotelFilterViewModel(val context: Context) {
 
     fun handleFiltering() {
         filteredResponse.hotelList = ArrayList<Hotel>()
-        filteredResponse.hotelList.add(0, Hotel())
         filteredResponse.allNeighborhoodsInSearchRegion = originalResponse?.allNeighborhoodsInSearchRegion
 
         for (hotel in originalResponse?.hotelList.orEmpty()) {
             processFilters(hotel)
         }
 
-        val size = filteredResponse.hotelList.size()-1
-        updateDynamicFeedbackWidget.onNext(size)
+        updateDynamicFeedbackWidget.onNext(filteredResponse.hotelList.size())
     }
 
     fun resetToggles() {
@@ -183,7 +179,6 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     fun setHotelList(response : HotelSearchResponse) {
-        response.hotelList.remove(0)
         originalResponse = response
     }
 }

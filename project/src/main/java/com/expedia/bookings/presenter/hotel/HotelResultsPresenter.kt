@@ -207,7 +207,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     fun renderMarkers(map: GoogleMap, response: HotelSearchResponse, isFilter: Boolean) {
         if (!isFilter) {
-            response.hotelList.add(0, Hotel())
             filterView.viewmodel.setHotelList(response)
         }
 
@@ -227,9 +226,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         var closestToCurrentLocationVal: Float = Float.MAX_VALUE
 
         val allHotelsBox = LatLngBounds.Builder()
-
-        var skipFirstHotel = true
-
+        
         for (hotel in response.hotelList) {
             if (!skipFirstHotel) {
                 // Add markers for all hotels
@@ -261,8 +258,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     }
                 }
             }
-
-            skipFirstHotel = false
         }
 
         if (mHotelList.size() > 0) {
@@ -318,7 +313,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val filterObserver: Observer<List<Hotel>> = endlessObserver {
-        if (filterView.viewmodel.filteredResponse.hotelList.size() > 1) {
+        if (filterView.viewmodel.filteredResponse.hotelList != null && filterView.viewmodel.filteredResponse.hotelList.size() > 0) {
             showHotelList(filterView.viewmodel.filteredResponse)
             show(ResultsList())
             val map = googleMap
