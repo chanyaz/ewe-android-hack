@@ -3,16 +3,21 @@ package com.expedia.bookings.presenter.hotel
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.DecelerateInterpolator
+import butterknife.InjectView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.lx.LXDetailsPresenter
+import com.expedia.bookings.presenter.lx.LXResultsPresenter
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.RoomSelected
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelCheckoutViewModel
@@ -23,6 +28,7 @@ import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelConfirmationViewModel
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
+import rx.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -38,6 +44,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val checkoutPresenter: HotelCheckoutPresenter by bindView(R.id.hotel_checkout_presenter)
     val confirmationPresenter: HotelConfirmationPresenter by bindView(R.id.hotel_confirmation_presenter)
     val reviewsPresenter: HotelReviewsPresenter by bindView(R.id.hotel_reviews_presenter)
+    val loadingOverlay : LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
+    val ANIMATION_DURATION = 400
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
@@ -65,6 +73,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         checkoutPresenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         })
+
+        loadingOverlay.setBackground(R.color.hotels_primary_color)
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(javaClass<HotelSearchPresenter>().getName()) {
@@ -72,6 +82,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             searchPresenter.setVisibility(View.VISIBLE)
             resultsPresenter.setVisibility(View.GONE)
             detailPresenter.setVisibility(View.GONE)
+            loadingOverlay.setVisibility(View.GONE)
         }
     }
     private val searchToResults = object : Presenter.Transition(javaClass<HotelSearchPresenter>(), javaClass<HotelResultsPresenter>()) {
@@ -98,7 +109,38 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.animationFinalize()
         }
     }
-    private val resultsToDetail = LeftToRightTransition(this, javaClass<HotelResultsPresenter>(), javaClass<HotelDetailPresenter>())
+    private val resultsToDetail = object : Presenter.Transition(javaClass<HotelResultsPresenter>().getName(), javaClass<HotelDetailPresenter>().getName(), DecelerateInterpolator(), ANIMATION_DURATION) {
+        private var detailsHeight: Int = 0
+
+        override fun startTransition(forward: Boolean) {
+            val parentHeight = getHeight()
+            detailsHeight = parentHeight - Ui.getStatusBarHeight(getContext())
+            val pos = (if (forward) parentHeight + detailsHeight else detailsHeight).toFloat()
+            detailPresenter.setTranslationY(pos)
+            detailPresenter.setVisibility(View.VISIBLE)
+            detailPresenter.animationStart(!forward)
+            resultsPresenter.setVisibility(View.VISIBLE)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            val pos = if (forward) detailsHeight + (-f * detailsHeight) else (f * detailsHeight)
+            detailPresenter.setTranslationY(pos)
+            detailPresenter.animationUpdate(f, !forward)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            detailPresenter.setTranslationY((if (forward) 0 else detailsHeight).toFloat())
+        }
+
+        override fun finalizeTransition(forward: Boolean) {
+            detailPresenter.setTranslationY((if (forward) 0 else detailsHeight).toFloat())
+            detailPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
+            resultsPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
+            loadingOverlay.setVisibility(View.GONE)
+            detailPresenter.animationFinalize(!forward)
+        }
+    }
+
     private val detailsToCheckout = LeftToRightTransition(this, javaClass<HotelDetailPresenter>(), javaClass<HotelCheckoutPresenter>())
     private val checkoutToConfirmation = LeftToRightTransition(this, javaClass<HotelCheckoutPresenter>(), javaClass<HotelConfirmationPresenter>())
     private val detailsToReview = LeftToRightTransition(this, javaClass<HotelDetailPresenter>(),javaClass<HotelReviewsPresenter>())
@@ -107,18 +149,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         hotelSearchParams = params
         checkoutPresenter.hotelCheckoutWidget.setSearchParams(params)
         show(resultsPresenter)
-    }
-
-    val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
-        if (hotel.isSponsoredListing) AdImpressionTracking.trackAdClickOrImpression(getContext(), hotel.clickTrackingUrl, null)
-        detailPresenter.hotelDetailView.viewmodel = HotelDetailViewModel(getContext(), hotelServices)
-        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(hotelSearchParams)
-        detailPresenter.hotelDetailView.viewmodel.hotelSelectedSubject.onNext(hotel)
-        detailPresenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
-        detailPresenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(detailPresenter.hotelRenovationObserver)
-        detailPresenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe(detailPresenter.hotelPayLaterInfoObserver)
-        detailPresenter.showDefault()
-        show(detailPresenter)
     }
 
     val reviewsObserver: Observer<Hotel> = endlessObserver { hotel ->
@@ -141,4 +171,30 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             throw OnErrorNotImplementedException(e)
         }
     }
+
+    val downloadListener: Observer<HotelOffersResponse> = endlessObserver { response ->
+        loadingOverlay.setVisibility(View.GONE)
+        loadingOverlay.animate(false)
+        detailPresenter.hotelDetailView.viewmodel.hotelOffersResponse = response
+        detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(response)
+        detailPresenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
+        detailPresenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(detailPresenter.hotelRenovationObserver)
+        detailPresenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe(detailPresenter.hotelPayLaterInfoObserver)
+        detailPresenter.showDefault()
+        show(detailPresenter)
+    }
+
+    val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
+        loadingOverlay.setVisibility(View.VISIBLE)
+        loadingOverlay.animate(true)
+        if (hotel.isSponsoredListing) AdImpressionTracking.trackAdClickOrImpression(getContext(), hotel.clickTrackingUrl, null)
+        detailPresenter.hotelDetailView.viewmodel = HotelDetailViewModel(getContext(), hotelServices)
+        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(hotelSearchParams)
+        detailPresenter.hotelDetailView.viewmodel.hotelSelectedSubject.onNext(hotel)
+
+        val subject = PublishSubject.create<HotelOffersResponse>()
+        subject.subscribe { downloadListener.onNext(it) }
+        hotelServices.details(hotelSearchParams, hotel.hotelId, subject)
+    }
+
 }
