@@ -65,7 +65,7 @@ import kotlin.properties.Delegates
 public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
-    private val DEFAULT_FAB_ANIM_DURATION = 500L
+    private val DEFAULT_FAB_ANIM_DURATION = 750L
 
     var screenHeight: Int = 0
     var screenWidth: Float = 0f
@@ -509,7 +509,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 super.startTransition(forward)
                 recyclerView.setVisibility(View.VISIBLE)
                 fabShouldVisiblyMove = if (forward) !fabShouldBeHiddenOnList() else (fab.getVisibility() == View.VISIBLE)
-                mapTranslationStart = mapView.getTranslationY()
                 if (forward) {
                     //If the fab is visible we want to do the transition - but if we're just hiding it, don't confuse the
                     // user with an unnecessary icon swap
@@ -523,6 +522,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     }
                 }
                 else {
+                    mapTranslationStart = mapView.getTranslationY()
                     if (fabShouldVisiblyMove) {
                         (fab.getDrawable() as? TransitionDrawable)?.startTransition(duration)
                     } else {
@@ -540,7 +540,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 val hotelListDistance = if (forward) (screenHeight * (1 - f)) else (screenHeight * f);
                 recyclerView.setTranslationY(hotelListDistance)
                 if (forward) {
-                    mapView.setTranslationY(-screenHeight * f * .5f)
+                    mapView.setTranslationY(f * mapTranslationStart)
                 }
                 else {
                     mapView.setTranslationY((1-f) * mapTranslationStart)
@@ -571,7 +571,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                         fab.setVisibility(View.INVISIBLE)
                     }
                     recyclerView.setTranslationY(0f)
-                } else {
+                    mapView.setTranslationY(mapTranslationStart)
+                }
+                else {
                     mapView.setTranslationY(0f)
                     recyclerView.setTranslationY(screenHeight.toFloat())
                 }
@@ -579,7 +581,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
 
         private val carouselTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), DEFAULT_FAB_ANIM_DURATION.toInt()) {
-
 
             override fun startTransition(forward: Boolean) {
                 mapCarouselContainer.setVisibility(View.VISIBLE)
