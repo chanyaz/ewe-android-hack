@@ -513,7 +513,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 if (fabShouldVisiblyMove) {
                     (fab.getDrawable() as? TransitionDrawable)?.reverseTransition(duration)
                 } else {
-                    listLayoutManager.scrollToPositionWithOffset(2, listOffset)
+                    listLayoutManager.scrollToPositionWithOffset(3, listOffset)
+
                     //Let's start hiding the fab
                     getFabAnimOut().setDuration(duration.toLong()).start()
                 }
