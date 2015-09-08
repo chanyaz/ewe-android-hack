@@ -147,6 +147,7 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
         val topAmenityTitle: TextView by root.bindView(R.id.top_amenity_title)
         val starRating: RatingBar by root.bindView(R.id.hotel_rating_bar)
         val discountPercentage: TextView by root.bindView(R.id.discount_percentage)
+        val hotelAmenityOrDistanceFromLocation: TextView by root.bindView(R.id.hotel_amenity_or_distance_from_location)
 
         public fun bind(viewModel: HotelViewModel) {
             viewModel.hotelLargeThumbnailUrlObservable.subscribe { url ->
@@ -162,6 +163,8 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
             viewModel.hotelStrikeThroughPriceObservable.subscribe(strikeThroughPricePerNight)
             viewModel.hasDiscountObservable.subscribeVisibility(strikeThroughPricePerNight)
             viewModel.hasDiscountObservable.subscribeVisibility(discountPercentage)
+            viewModel.distanceFromCurrentLocationObservable.subscribe(hotelAmenityOrDistanceFromLocation)
+
             strikeThroughPricePerNight.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG)
 
             viewModel.hotelStarRatingObservable.subscribe {
