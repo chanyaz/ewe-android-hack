@@ -110,6 +110,7 @@ class HotelSearchViewModel(val context: Context) {
         if (start != null && end != null) {
             val nightCount = JodaUtils.daysBetween(start, end)
             val nightsString = context.getResources().getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
+            sb.append(" ");
             sb.append(context.getResources().getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
         }
         return sb.build()
