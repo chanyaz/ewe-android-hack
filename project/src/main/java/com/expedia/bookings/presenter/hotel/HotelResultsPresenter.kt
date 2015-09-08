@@ -92,6 +92,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     var halfway = 0
     var threshold = 0
+    var totalDistance = 0
 
     val mapFab: FloatingActionButton by bindView(R.id.map_fab)
     val listFab: FloatingActionButton by bindView(R.id.list_fab)
@@ -140,6 +141,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     private fun resetListOffset() {
         listOffset = (getHeight() - (getHeight() / 2.7f)).toInt()
         listLayoutManager.scrollToPositionWithOffset(adapter.numHeaderItemsInHotelsList() + 1, listOffset)
+        totalDistance = halfway;
     }
 
     // Create list to show cards for loading animation
@@ -376,31 +378,34 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
-
+        var currentState = RecyclerView.SCROLL_STATE_IDLE
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            currentState = newState
+
+            val view = recyclerView.getChildAt(0)
+            view ?: return
+
             if (halfway == 0 && threshold == 0) {
                 halfway = recyclerView.getChildAt(1).getTop()
-                threshold = halfway + recyclerView.getChildAt(1).getHeight()
+                totalDistance = halfway
+                threshold = halfway + recyclerView.getChildAt(1).getHeight() + recyclerView.getChildAt(2).getHeight()
             }
 
-            val view = recyclerView.getChildAt(1)
+            val topOffset = totalDistance
 
-            if (view == null) {
-                return
-            }
-
-            val topOffset = recyclerView.getChildAt(1).getTop()
-
-            if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset >= threshold) {
+            if (newState == RecyclerView.SCROLL_STATE_SETTLING ) {
+                //ignore
+            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset >= threshold) {
                 show(ResultsMap())
             } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset >= halfway) {
                 show(ResultsList())
                 recyclerView.setTranslationY(0f)
-                recyclerView.smoothScrollBy(0, topOffset - halfway)
+                resetListOffset()
             }
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            totalDistance += -dy
             if (mapTransitionRunning || (recyclerView.getAdapter() as HotelListAdapter).isLoading() || getCurrentState().equals(javaClass<ResultsMap>().getName())) {
                 return
             }
@@ -412,6 +417,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
 
             var linearLayoutManager : LinearLayoutManager = recyclerView.getLayoutManager() as LinearLayoutManager
+            if (currentState == RecyclerView.SCROLL_STATE_SETTLING && totalDistance >= halfway) {
+                show(ResultsList())
+                mapView.setTranslationY(0f)
+                recyclerView.setTranslationY(0f)
+                resetListOffset()
+            }
+
             if (linearLayoutManager.findFirstVisibleItemPosition() > 0 && mapFab.getVisibility() == View.INVISIBLE) {
                 mapFab.setVisibility(View.VISIBLE)
                 mapFab.startAnimation(fabAnim)
@@ -485,7 +497,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             mapView.setTranslationY(0f)
             if (forward) {
                 recyclerView.setTranslationY(0f)
-                listLayoutManager.scrollToPositionWithOffset(2, listOffset)
+                resetListOffset()
             } else {
                 recyclerView.setTranslationY(screenHeight.toFloat())
             }
@@ -496,7 +508,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             super.startTransition(forward)
             mapTransitionRunning = true
             if (forward) {
-                listLayoutManager.scrollToPositionWithOffset(2, listOffset)
+                resetListOffset()
             }
         }
 
