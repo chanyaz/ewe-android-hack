@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.PointF;
@@ -9,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.OverScroller;
 
 import com.expedia.bookings.R;
 
@@ -19,7 +18,7 @@ import com.expedia.bookings.R;
  * @author doug@mobiata.com
  *
  */
-public class HotelDetailsScrollView extends CustomScrollerScrollView {
+public class HotelDetailsScrollView extends GalleryScrollView {
 
 	public interface HotelDetailsMiniMapClickedListener {
 		public void onHotelDetailsMiniMapClicked();
@@ -36,8 +35,6 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	private int mIntroOffset = 0;
 	private boolean mHasBeenTouched = false;
 
-	ValueAnimator mAnimator;
-
 	SegmentedLinearInterpolator mIGalleryScroll, mIGalleryScale, mIMapScroll;
 
 	private HotelDetailsMiniMapClickedListener mListener;
@@ -47,12 +44,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	}
 
 	public HotelDetailsScrollView(Context context, AttributeSet attrs) {
-		this(context, attrs, android.R.attr.scrollViewStyle);
-	}
-
-	public HotelDetailsScrollView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-
+		super(context, attrs);
 		mIntroOffset = getResources().getDimensionPixelSize(R.dimen.hotel_details_intro_offset);
 	}
 
@@ -209,17 +201,6 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		animateScrollY(from, to);
 	}
 
-	private void animateScrollY(int from, int to) {
-		if (mAnimator != null && mAnimator.isRunning()) {
-			return;
-		}
-		if (from == to) {
-			return;
-		}
-
-		mAnimator = ObjectAnimator.ofInt(this, "scrollY", from, to).setDuration(200);
-		mAnimator.start();
-	}
 
 	@TargetApi(11)
 	private void galleryCounterscroll(int parentScroll) {
@@ -285,40 +266,12 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	}
 
 	@Override
-	public Object initScroller() {
-		return new HotelDetailsOverScroller(this);
+	protected OverScroller initScroller() {
+		return new FullscreenGalleryOverScroller(this);
 	}
 
 	public int getInitialScrollTop() {
 		return mInitialScrollTop;
-	}
-
-	/**
-	 * Created with a number of points to be interpreted as a segmented linear function.
-	 * Will return the expected y value for any passed x value. If the "x" value passed
-	 * in is outside the range of the given x values, then the first and last segments
-	 * will be extended to meet that value.
-	 *
-	 */
-	private static class SegmentedLinearInterpolator {
-		PointF[] mPoints;
-
-		public SegmentedLinearInterpolator(PointF... points) {
-			mPoints = points;
-		}
-
-		public float get(float x) {
-			for (int i = 0; i <= mPoints.length - 2; i++) {
-				float x1 = mPoints[i].x;
-				float x2 = mPoints[i + 1].x;
-				float y1 = mPoints[i].y;
-				float y2 = mPoints[i + 1].y;
-				if (x >= x1 && x <= x2 || (i == 0 && x < x1) || (i == mPoints.length - 2 && x > x2)) {
-					return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
-				}
-			}
-			return 0f;
-		}
 	}
 
 }

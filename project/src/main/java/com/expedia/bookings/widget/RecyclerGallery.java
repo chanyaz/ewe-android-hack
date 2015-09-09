@@ -25,10 +25,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.PicassoTarget;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.bitmaps.IMedia;
-import com.expedia.bookings.data.Property;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.squareup.picasso.Picasso;
@@ -221,9 +219,8 @@ public class RecyclerGallery extends RecyclerView {
 
 			@Override
 			public void onClick(View v) {
-				Property selected = Db.getHotelSearch().getSelectedProperty();
 
-				if (mListener != null && selected != null) {
+				if (mListener != null ) {
 					mListener.onGalleryItemClicked(mMedia.get(getAdapterPosition()));
 				}
 			}
@@ -347,7 +344,7 @@ public class RecyclerGallery extends RecyclerView {
 
 		private int getPadding() {
 			if (mMode == MODE_FILL) {
-				return 1;
+				return 0;
 			}
 			else {
 				Point screen = Ui.getScreenSize(getContext());
@@ -456,4 +453,5 @@ public class RecyclerGallery extends RecyclerView {
 	public void setOnItemClickListener(GalleryItemListener listener) {
 		mListener = listener;
 	}
+
 }

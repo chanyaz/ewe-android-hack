@@ -480,11 +480,14 @@ public final class ViewActions {
 	}
 
 	public static ViewAction customScroll() {
+		return customScroll(90);
+	}
+
+	public static ViewAction customScroll(final int minimumAreaPercentageDisplayedRequired) {
 		return new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
 				return Matchers.allOf(new Matcher[] {
-					ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
 					ViewMatchers.isDescendantOfA(
 						Matchers.anyOf(new Matcher[] {
 							ViewMatchers.isAssignableFrom(ScrollView.class),
@@ -500,7 +503,7 @@ public final class ViewActions {
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				if (!ViewMatchers.isDisplayingAtLeast(90).matches(view)) {
+				if (!ViewMatchers.isDisplayingAtLeast(minimumAreaPercentageDisplayedRequired).matches(view)) {
 					Rect rect = new Rect();
 					view.getDrawingRect(rect);
 					if (!view.requestRectangleOnScreen(rect, true)) {

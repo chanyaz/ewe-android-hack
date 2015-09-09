@@ -4,24 +4,25 @@ import java.lang.ref.WeakReference;
 
 import android.widget.OverScroller;
 
-public class HotelDetailsOverScroller extends OverScroller {
-	private WeakReference<HotelDetailsScrollView> mScrollViewRef;
+public class FullscreenGalleryOverScroller<T extends GalleryScrollView> extends OverScroller {
+	private WeakReference<T> mScrollViewRef;
 
-	public HotelDetailsOverScroller(HotelDetailsScrollView view) {
+	public FullscreenGalleryOverScroller(T view) {
 		super(view.getContext());
-		mScrollViewRef = new WeakReference<HotelDetailsScrollView>(view);
+		mScrollViewRef = new WeakReference<T>(view);
 	}
 
 	@Override
 	public void fling(int startX, int startY, int velocityX, int velocityY, int minX, int maxX, int minY, int maxY,
 			int overX, int overY) {
 
-		HotelDetailsScrollView view = mScrollViewRef.get();
+		int initialScrollTop = 0;
+		GalleryScrollView view = mScrollViewRef.get();
 		if (view == null) {
 			return;
 		}
 
-		int initialScrollTop = view.getInitialScrollTop();
+		initialScrollTop = view.getInitialScrollTop();
 		int modifiedMinY = minY;
 		int modifiedMaxY = maxY;
 
