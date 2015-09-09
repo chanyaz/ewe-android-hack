@@ -23,6 +23,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
 import com.expedia.account.graphics.ArrowXDrawable
@@ -498,7 +499,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    private val fabTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), 750) {
+    private val fabTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), LinearInterpolator(), 750) {
 
         private val listTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), duration * 2/3) {
 
@@ -632,7 +633,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             navIcon.setParameter(if (forward) Math.abs(1 - f) else f)
             if (forward) {
                 if (f < secondTransitionStartTime) {
-                    carouselTransition.updateTransition(f / secondTransitionStartTime, forward)
+                    carouselTransition.updateTransition(carouselTransition.interpolator.getInterpolation(f / secondTransitionStartTime), forward)
                 }
                 else {
                     if (currentTransition == 0) {
@@ -640,12 +641,12 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                         carouselTransition.finalizeTransition(forward)
                         listTransition.startTransition(forward)
                     }
-                    listTransition.updateTransition((f - secondTransitionStartTime) / (1 - secondTransitionStartTime), forward)
+                    listTransition.updateTransition(listTransition.interpolator.getInterpolation((f - secondTransitionStartTime) / (1 - secondTransitionStartTime)), forward)
                 }
             }
             else {
                 if (f < secondTransitionStartTime) {
-                    listTransition.updateTransition(f / secondTransitionStartTime, forward)
+                    listTransition.updateTransition(listTransition.interpolator.getInterpolation(f / secondTransitionStartTime), forward)
                 }
                 else {
                     if (currentTransition == 0) {
@@ -653,7 +654,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                         listTransition.finalizeTransition(forward)
                         carouselTransition.startTransition(forward)
                     }
-                    carouselTransition.updateTransition((f - secondTransitionStartTime) / (1 - secondTransitionStartTime), forward)
+                    carouselTransition.updateTransition(carouselTransition.interpolator.getInterpolation((f - secondTransitionStartTime) / (1 - secondTransitionStartTime)), forward)
                 }
             }
         }
