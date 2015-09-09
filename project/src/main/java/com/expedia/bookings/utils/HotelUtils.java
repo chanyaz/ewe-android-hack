@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.format.DateUtils;
@@ -260,7 +261,7 @@ public class HotelUtils {
 
 	// Distance formatting
 
-	public static String formatDistanceForNearby(Context context, Hotel offer, boolean abbreviated) {
+	public static String formatDistanceForNearby(Resources resources, Hotel offer, boolean abbreviated) {
 		boolean isMiles = offer.distanceUnit.equals("Miles");
 		double distance = Double.valueOf(isMiles ? offer.proximityDistanceInMiles : offer.proximityDistanceInKiloMeters);
 		NumberFormat nf = NumberFormat.getInstance();
@@ -278,7 +279,7 @@ public class HotelUtils {
 			unitStrId = abbreviated ? R.string.unit_miles : R.string.unit_miles_full;
 		}
 		int templateResId = (abbreviated) ? R.string.distance_template_short : R.string.distance_template;
-		return context.getString(templateResId, nf.format(distance), context.getString(unitStrId));
+		return resources.getString(templateResId, nf.format(distance), resources.getString(unitStrId));
 	}
 
 	public static float getDiscountPercent(HotelRate rate) {

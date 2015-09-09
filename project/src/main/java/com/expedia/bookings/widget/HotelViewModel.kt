@@ -1,10 +1,10 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.content.res.Resources
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.tracking.AdImpressionTracking
+import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
@@ -24,11 +24,17 @@ public class HotelViewModel(private val hotel: Hotel, private val context: Conte
     val hotelStarRatingObservable = BehaviorSubject.create(hotel.hotelStarRating)
     val hotelLargeThumbnailUrlObservable = BehaviorSubject.create(Images.getMediaHost() + hotel.largeThumbnailUrl)
     val hotelDiscountPercentageObservable = BehaviorSubject.create(Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo.discountPercent.toInt()).format().toString())
+    val distanceFromCurrentLocationObservable: BehaviorSubject<kotlin.String> = BehaviorSubject.create<String>()
 
     init {
         if (hotel.isSponsoredListing && !hotel.hasShownImpression) {
             hotel.hasShownImpression = true
             AdImpressionTracking.trackAdClickOrImpression(context, hotel.impressionTrackingUrl, null)
+        }
+
+        if (hotel.proximityDistanceInMiles > 0) {
+            val isAbbreviated = true
+            distanceFromCurrentLocationObservable.onNext(HotelUtils.formatDistanceForNearby(resources, hotel, isAbbreviated))
         }
     }
 }
