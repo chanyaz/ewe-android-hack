@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget
 
 import android.content.res.Resources
-import android.graphics.Color
 import android.graphics.Paint
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -12,10 +11,8 @@ import android.widget.LinearLayout
 import android.widget.RatingBar
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.data.Rate
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Images
@@ -23,10 +20,8 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribe
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
-import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.*
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<Hotel>, private var userPriceType: HotelRate.UserPriceType, val hotelSubject: PublishSubject<Hotel>, val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -51,21 +46,12 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
         //Dummy Item - Transparent Header View for Intercepting Clicks to switch to Map View
         hotelsListWithDummyItems.add(0, Hotel())
 
-        if (!isLoading && canDisplayPricingStructureHeader()) {
-            //Dummy Item - Hotel Results Pricing Structure Header
-            hotelsListWithDummyItems.add(1, Hotel())
-        }
-    }
-
-    fun canDisplayPricingStructureHeader(): Boolean {
-        return hotelsListWithDummyItems.size() > 0
+        //Dummy Item - Hotel Results Pricing Structure Header
+        hotelsListWithDummyItems.add(1, Hotel())
     }
 
     fun numHeaderItemsInHotelsList(): Int {
-        if (!isLoading && canDisplayPricingStructureHeader())
-            return 2
-        else
-            return 1
+        return 2
     }
 
     override fun getItemCount(): Int {
@@ -75,7 +61,7 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
     override fun getItemViewType(position: Int): Int {
         if (position == 0) {
             return MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW
-        } else if (position == 1 && !isLoading && canDisplayPricingStructureHeader()) {
+        } else if (position == 1) {
             return PRICING_STRUCTURE_HEADER_VIEW
         } else if (isLoading) {
             return LOADING_VIEW
@@ -90,7 +76,7 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
             holder.itemView.setOnClickListener(holder)
         } else if (given.getItemViewType() == PRICING_STRUCTURE_HEADER_VIEW) {
             val holder: HotelResultsPricingStructureHeaderViewHolder = given as HotelResultsPricingStructureHeaderViewHolder
-            val viewModel = HotelResultsPricingStructureHeaderViewModel(holder.pricingStructureHeader.getResources(), numHotelsExcludingAnyDummyItems, userPriceType)
+            val viewModel = HotelResultsPricingStructureHeaderViewModel(holder.pricingStructureHeader.getResources(), numHotelsExcludingAnyDummyItems, userPriceType, isLoading)
             holder.bind(viewModel)
         } else if (given.getItemViewType() == HOTEL_VIEW) {
             val holder: HotelViewHolder = given as HotelViewHolder
@@ -117,7 +103,7 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
             return LoadingViewHolder(view)
         } else if (viewType == PRICING_STRUCTURE_HEADER_VIEW) {
             val view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_results_pricing_structure_header_cell, parent, false)
-            return HotelResultsPricingStructureHeaderViewHolder(view as TextView)
+            return HotelResultsPricingStructureHeaderViewHolder(view as ViewGroup)
         } else {
             val view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_cell, parent, false)
             return HotelViewHolder(view as ViewGroup, parent.getWidth())
@@ -190,7 +176,9 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
         }
     }
 
-    public inner class HotelResultsPricingStructureHeaderViewHolder(val pricingStructureHeader: TextView) : RecyclerView.ViewHolder(pricingStructureHeader) {
+    public inner class HotelResultsPricingStructureHeaderViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(root) {
+        val pricingStructureHeader: TextView by root.bindView(R.id.pricing_structure_header)
+
         public fun bind(viewModel: HotelResultsPricingStructureHeaderViewModel) {
             viewModel.pricingStructureHeaderObservable.subscribe(pricingStructureHeader)
         }
