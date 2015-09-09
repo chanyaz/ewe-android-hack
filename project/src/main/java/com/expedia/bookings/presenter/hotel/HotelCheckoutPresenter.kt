@@ -29,7 +29,8 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
     val hotelCheckoutWidget: HotelCheckoutMainViewPresenter by bindView(R.id.checkout)
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
     val errorScreen: ErrorWidget by bindView(R.id.checkout_error_widget)
-    var viewmodel: HotelCheckoutViewModel by Delegates.notNull()
+    var hotelCheckoutViewModel: HotelCheckoutViewModel by Delegates.notNull()
+        @Inject set
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
@@ -115,6 +116,6 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
             hotelCheckoutParams.nameOnCard = billingInfo.getFirstName() + " " + billingInfo.getLastName()
         }
 
-        viewmodel.checkoutParams.onNext(hotelCheckoutParams)
+        hotelCheckoutViewModel.checkoutParams.onNext(hotelCheckoutParams)
     }
 }

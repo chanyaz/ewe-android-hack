@@ -19,6 +19,7 @@ import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
+import com.expedia.vm.HotelConfirmationViewModel
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import javax.inject.Inject
@@ -60,9 +61,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         RoomSelected.observer = selectedRoomObserver
 
-        checkoutPresenter.viewmodel = HotelCheckoutViewModel(hotelServices)
-        checkoutPresenter.viewmodel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
-            confirmationPresenter.bind(checkoutResponse)
+        checkoutPresenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         })
     }
