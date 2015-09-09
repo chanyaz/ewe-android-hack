@@ -2878,6 +2878,8 @@
     <string name="coupon_removing_dialog">Removing coupon</string>
 
     <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't known -->
+    <string name="coupon_error_unknown">Sorry, but this isn\&apos;t a known coupon code.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">Sorry, but this isn\&apos;t a valid coupon code.</string>
     <!-- Error when applying coupon - the coupon has expired -->
@@ -2904,6 +2906,8 @@
     <string name="coupon_error_hotel_excluded">Sorry, but this hotel doesn\&apos;t accept coupons.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">Sorry, but the coupon cannot be applied to this hotel.</string>
+    <!-- Error when applying coupon - the package does not accept coupons -->
+    <string name="coupon_error_invalid_booking">Sorry, but the coupon cannot be applied to this booking.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Sorry, but we cannot process coupons currently. Please try again.</string>
     <!-- Error when applying coupon - session timeout -->
@@ -2916,6 +2920,8 @@
     <string name="coupon_error_invalid_average_price">Sorry, but the average price per night doesn\&apos;t meet the minimum for this coupon.</string>
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">Coupons cannot be applied to Pay Later rooms, please select a Pay Now room.</string>
+    <!-- Error when applying coupon - Not Active -->
+    <string name="coupon_error_not_active">Sorry, but this coupon is no longer active.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
