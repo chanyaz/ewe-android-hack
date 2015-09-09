@@ -2,7 +2,6 @@ package com.expedia.bookings.test.phone.newhotels;
 
 import org.joda.time.DateTime;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
@@ -13,13 +12,12 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.not;
 
 public class NewHotelDetailTest extends HotelTestCase {
 
-	public void testNonETPHotel() throws Throwable {
+	public void testNonETPHotelWithoutFreeCancellation() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
 		HotelScreen.location().perform(typeText("SFO"));
@@ -27,18 +25,12 @@ public class NewHotelDetailTest extends HotelTestCase {
 		HotelScreen.selectDateButton().perform(click());
 		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 		HotelScreen.searchButton().perform(click());
-		HotelScreen.selectHotel(1);
+		HotelScreen.selectHotel(2);
 
-		screenshot("Non_ETP_Hotel");
-		//etp info not displayed for non etp hotel
-		onView(withId(R.id.etp_info_container)).check(matches(not(isDisplayed())));
-
-		//pay later and pay now options is not displayed for non etp hotel
-		onView(withText("View Room")).perform(scrollTo());
-		onView(withId(R.id.radius_pay_options)).check(matches(not(isDisplayed())));
+		assertViewsBasedOnETPAndFreeCancellation(false, false, "Non_ETP_Hotel_Without_Free_Cancellation");
 	}
 
-	public void testETPHotel() throws Throwable {
+	public void testNonETPHotelWithFreeCancellation() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
 		HotelScreen.location().perform(typeText("SFO"));
@@ -46,9 +38,40 @@ public class NewHotelDetailTest extends HotelTestCase {
 		HotelScreen.selectDateButton().perform(click());
 		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 		HotelScreen.searchButton().perform(click());
-		HotelScreen.selectHotel(11);
+		HotelScreen.selectHotel(14);
 
-		assertViewsForETPHotel();
+		assertViewsBasedOnETPAndFreeCancellation(false, true, "Non_ETP_Hotel_With_Free_Cancellation");
+	}
+
+	public void testETPHotelWithoutFreeCancellationHavingRenovation() throws Throwable {
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		final DateTime endDateTime = startDateTime.plusDays(3);
+		HotelScreen.location().perform(typeText("SFO"));
+		HotelScreen.selectLocation("San Francisco, CA");
+		HotelScreen.selectDateButton().perform(click());
+		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		HotelScreen.searchButton().perform(click());
+		HotelScreen.selectHotel(12);
+
+		assertViewsBasedOnETPAndFreeCancellation(true, false, "ETP_Hotel_Without_Free_Cancellation");
+		assertPayLaterPayNowRooms();
+
+		//renovation notice shows up in the end
+		HotelScreen.renovationContainer().perform(scrollTo()).check(matches(isDisplayed()));
+		screenshot("Hotel_details_bottom_scrolled");
+	}
+
+	public void testETPHotelWithFreeCancellation() throws Throwable {
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		final DateTime endDateTime = startDateTime.plusDays(3);
+		HotelScreen.location().perform(typeText("SFO"));
+		HotelScreen.selectLocation("San Francisco, CA");
+		HotelScreen.selectDateButton().perform(click());
+		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		HotelScreen.searchButton().perform(click());
+		HotelScreen.selectHotel(13);
+
+		assertViewsBasedOnETPAndFreeCancellation(true, true, "ETP_Hotel_With_Free_Cancellation");
 		assertPayLaterPayNowRooms();
 	}
 
@@ -56,36 +79,39 @@ public class NewHotelDetailTest extends HotelTestCase {
 		//pay now view should show all the rooms and
 		//pay later view should only show the rooms with pay later offer
 
-		int numberOfPayNowRooms = EspressoUtils.getListChildCount(onView(withId(R.id.room_container)));
+		int numberOfPayNowRooms = EspressoUtils.getListChildCount(HotelScreen.roomsContainer());
 
 		HotelScreen.clickPayLater();
-		int numberOfPayLaterRooms = EspressoUtils.getListChildCount(onView(withId(R.id.room_container)));
+		int numberOfPayLaterRooms = EspressoUtils.getListChildCount(HotelScreen.roomsContainer());
 		screenshot("Pay_Later_Rooms");
 
 		assertTrue(numberOfPayNowRooms > numberOfPayLaterRooms);
 	}
 
-	private void assertViewsForETPHotel() throws Throwable {
-		screenshot("ETP_Hotel");
-		//etp info displayed for etp hotel
-		onView(withId(R.id.etp_info_container)).check(matches(isDisplayed()));
+	private void assertViewsBasedOnETPAndFreeCancellation(boolean hasETP, boolean hasFreeCancellation, String screenshotTitle) throws Throwable {
+		screenshot(screenshotTitle);
 
 		//resort fees view not displayed,it is only displayed when you scroll down
-		onView(withId(R.id.resort_fees_text)).check(matches(not(isDisplayed())));
-
-		//pay later and pay now options is displayed for etp hotel
-		onView(withId(R.id.radius_pay_options)).perform(scrollTo()).check(matches(isDisplayed()));
+		HotelScreen.resortFeesText().check(matches(not(isDisplayed())));
 
 		//common amenities text is displayed
-		onView(withId(R.id.common_amenities_text)).perform(scrollTo()).check(matches(isDisplayed()));
+		if (hasETP) {
+			HotelScreen.commonAmenitiesText().perform(scrollTo()).check(matches(isDisplayed()));
+		}
+
+		HotelScreen.etpAndFreeCancellationMessagingContainer().check(
+			matches((hasETP || hasFreeCancellation) ? isDisplayed() : not(isDisplayed())));
+		HotelScreen.etpInfoText().check(matches(hasETP ? isDisplayed() : not(isDisplayed())));
+		HotelScreen.freeCancellation().check(matches(hasFreeCancellation ? isDisplayed() : not(isDisplayed())));
+		HotelScreen.horizontalDividerBwEtpAndFreeCancellation().check(
+			matches((hasETP && hasFreeCancellation) ? isDisplayed() : not(isDisplayed())));
+
+		onView(withText("View Room")).perform(scrollTo());
+		ScreenActions.delay(1);
+		HotelScreen.etpPlaceholder().check(matches(hasETP ? isDisplayed() : not(isDisplayed())));
+		HotelScreen.payNowAndLaterOptions().check(matches(hasETP ? isDisplayed() : not(isDisplayed())));
 
 		//is displayed after scrolling down
-		onView(withText("View Room")).perform(scrollTo());
-		ScreenActions.delay(2);
-		onView(withId(R.id.resort_fees_text)).check(matches(isDisplayed()));
-
-		//renovation notice shows up in the end
-		onView(withId(R.id.renovation_container)).perform(scrollTo()).check(matches(isDisplayed()));
-		screenshot("Hotel_details_bottom_scrolled");
+		HotelScreen.resortFeesText().check(matches(isDisplayed()));
 	}
 }

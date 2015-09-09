@@ -55,6 +55,7 @@ add_test "HotelCouponErrorTest"
 add_test "HotelCheckoutPriceChangeTest"
 add_test "HotelResultsPresenterTests"
 add_test "HotelSearchPresenterTests"
+add_test "NewHotelDetailTest"
 
 #LX tests
 add_test "LXCurrentLocationErrorTest"
