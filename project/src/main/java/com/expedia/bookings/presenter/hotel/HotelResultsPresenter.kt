@@ -65,7 +65,7 @@ import kotlin.properties.Delegates
 public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
-    private val DEFAULT_FAB_ANIM_DURATION = 750L
+    private val DEFAULT_FAB_ANIM_DURATION = 200L
 
     var screenHeight: Int = 0
     var screenWidth: Float = 0f
@@ -498,9 +498,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    private val fabTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), DEFAULT_FAB_ANIM_DURATION.toInt()) {
+    private val fabTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), 750) {
 
-        private val listTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), DEFAULT_FAB_ANIM_DURATION.toInt()) {
+        private val listTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), duration * 2/3) {
 
             var fabShouldVisiblyMove: Boolean = true
             var mapTranslationStart: Float = 0f
@@ -518,7 +518,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                         listLayoutManager.scrollToPositionWithOffset(3, listOffset)
 
                         //Let's start hiding the fab
-                        getFabAnimOut().setDuration(duration.toLong()).start()
+                        getFabAnimOut().start()
                     }
                 }
                 else {
@@ -531,7 +531,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                         fab.setTranslationY(-mapCarouselContainer.getHeight().toFloat())
                         (fab.getDrawable() as? TransitionDrawable)?.startTransition(0)
                         fab.setVisibility(View.VISIBLE)
-                        getFabAnimIn().setDuration(duration.toLong()).start()
+                        getFabAnimIn().start()
                     }
                 }
             }
@@ -580,7 +580,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
         }
 
-        private val carouselTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), DEFAULT_FAB_ANIM_DURATION.toInt()) {
+        private val carouselTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), duration/3) {
 
             override fun startTransition(forward: Boolean) {
                 mapCarouselContainer.setVisibility(View.VISIBLE)
@@ -614,6 +614,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             super.startTransition(forward)
             currentTransition = 0
             mapTransitionRunning = true
+
+
             if (forward) {
                 //Let's be explicit despite it being the default
                 secondTransitionStartTime = .33f
@@ -674,7 +676,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
             mapTransitionRunning = false
         }
-
     }
 
     val touchListener = object : RecyclerView.OnItemTouchListener {
