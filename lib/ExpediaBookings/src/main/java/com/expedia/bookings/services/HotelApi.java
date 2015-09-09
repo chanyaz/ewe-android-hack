@@ -25,7 +25,7 @@ public interface HotelApi {
 		@Query("sortOrder") String sortOrder,
 		@Query("filterUnavailable") String filterUnavailable);
 
-	@GET("/m/api/hotel/search?sourceType=mobileApp&sortOrder=ExpertPicks&resultsPerPage=50&pageIndex=0&filterUnavailable=true&enableSponsoredListings=true")
+	@GET("/m/api/hotel/search?sortOrder=ExpertPicks&resultsPerPage=200&pageIndex=0&filterUnavailable=true&enableSponsoredListings=true")
 	Observable<HotelSearchResponse> regionSearch(
 		@Query("regionId") String regionId,
 		@Query("checkInDate") String checkInDate,

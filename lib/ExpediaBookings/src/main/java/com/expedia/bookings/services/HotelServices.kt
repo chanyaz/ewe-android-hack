@@ -1,6 +1,15 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.hotels.*
+import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelApplyCouponParams
+import com.expedia.bookings.data.hotels.HotelCheckoutParams
+import com.expedia.bookings.data.hotels.HotelCreateTripParams
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.utils.Strings
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
@@ -42,22 +51,35 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			.subscribe(observer)
 	}
 
-	public fun regionSearch(params: HotelSearchParams): Observable<HotelSearchResponse> {
-		return hotelApi.regionSearch(params.suggestion.gaiaId, params.checkIn.toString(), params.checkOut.toString(),
-				params.getGuestString())
-				.observeOn(observeOn)
-				.subscribeOn(subscribeOn)
-				.doOnNext { response -> response.userPriceType = getUserPriceType(response.hotelList) }
-				.doOnNext { response -> response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }}
-				.doOnNext { response -> response.hotelList.map { hotel ->
-					if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
-						response.neighborhoodsMap.get(hotel.locationId)?.hotels?.add(hotel)
-					}
-				}}
-				.doOnNext { response -> response.allNeighborhoodsInSearchRegion.map {
-					it.score = it.hotels.map { 1 }.sum()
-				}}
-	}
+    public fun regionSearch(params: HotelSearchParams): Observable<HotelSearchResponse> {
+        return hotelApi.regionSearch(params.suggestion.gaiaId, params.checkIn.toString(), params.checkOut.toString(),
+                params.getGuestString())
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .doOnNext { response -> response.userPriceType = getUserPriceType(response.hotelList) }
+                .doOnNext { response -> response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) } }
+                .doOnNext { response ->
+                    response.hotelList.map { hotel ->
+                        if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
+                            response.neighborhoodsMap.get(hotel.locationId)?.hotels?.add(hotel)
+                        }
+                    }
+                }
+                .doOnNext { response ->
+                    response.allNeighborhoodsInSearchRegion.map {
+                        it.score = it.hotels.map { 1 }.sum()
+                    }
+                }
+                .doOnNext { response ->
+                    val (sponsored, nonSponsored) = response.hotelList.partition { it.isSponsoredListing }
+                    val firstChunk = sponsored.take(1)
+                    val secondChunk = nonSponsored.take(49)
+                    val thirdChunk = sponsored.drop(1)
+                    val rest = nonSponsored.drop(49)
+
+                    response.hotelList = firstChunk + secondChunk + thirdChunk + rest
+                }
+    }
 
     public fun details(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
         return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),

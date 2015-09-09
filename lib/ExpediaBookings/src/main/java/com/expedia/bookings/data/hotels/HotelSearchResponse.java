@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class HotelSearchResponse {
+	public String pageViewBeaconPixelUrl;
 	public List<Hotel> hotelList;
 	public List<Neighborhood> allNeighborhoodsInSearchRegion;
 

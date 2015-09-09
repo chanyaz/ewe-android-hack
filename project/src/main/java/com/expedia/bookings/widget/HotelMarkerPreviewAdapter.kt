@@ -36,7 +36,7 @@ public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresent
     override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
         val holder: HotelViewHolder = given as HotelViewHolder
 
-        val viewModel = HotelViewModel(sortedHotelList.get(position).hotel, holder.resources)
+        val viewModel = HotelViewModel(sortedHotelList.get(position).hotel, holder.itemView.getContext())
 
         holder.bind(viewModel)
         holder.itemView.setOnClickListener(holder)

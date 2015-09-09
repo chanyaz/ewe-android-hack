@@ -34,6 +34,9 @@ public class Hotel {
 	public boolean isSameDayDRR;
 	public boolean isHotelAvailable;
 	public boolean isSponsoredListing;
+	public transient boolean hasShownImpression;
+	public String clickTrackingUrl;
+	public String impressionTrackingUrl;
 	public boolean hasFreeCancellation;
 	public String distanceUnit;
 	public boolean isVipAccess;
