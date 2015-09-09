@@ -37,11 +37,17 @@ public class HotelResultsViewModel(private val context: Context, private val hot
     }
 }
 
-public class HotelResultsPricingStructureHeaderViewModel(private val resources: Resources, private val hotelResultsCount: Int, private val priceType: HotelRate.UserPriceType) {
-    val pricingStructureHeaderObservable = BehaviorSubject.create(Phrase.from(resources,
-            if (priceType == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
-                R.string.hotel_results_pricing_header_total_price_for_stay_TEMPLATE
-            else
-                R.string.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE)
-            .put("count", hotelResultsCount).format().toString())
+public class HotelResultsPricingStructureHeaderViewModel(private val resources: Resources, private val hotelResultsCount: Int, private val priceType: HotelRate.UserPriceType, private val loading: Boolean) {
+    val pricingStructureHeaderObservable =
+            BehaviorSubject.create(if (loading) {
+                resources.getString(R.string.progress_searching_hotels_hundreds)
+            } else {
+                Phrase.from(resources,
+                        if (priceType == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
+                            R.string.hotel_results_pricing_header_total_price_for_stay_TEMPLATE
+                        else
+                            R.string.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE)
+                        .put("count", hotelResultsCount).format().toString()
+            })
+
 }

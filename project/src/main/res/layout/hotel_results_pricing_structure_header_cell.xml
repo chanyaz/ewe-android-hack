@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/pricing_structure_header"
-    android:gravity="center"
-    android:background="#eaeaea"
-    android:paddingTop="12dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/drop_shadow" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/pricing_structure_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eaeaea"
+        android:gravity="center"
+        android:paddingTop="12dp" />
+
+</LinearLayout>
