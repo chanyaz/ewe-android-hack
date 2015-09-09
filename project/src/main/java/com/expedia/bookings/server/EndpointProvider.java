@@ -131,11 +131,14 @@ public class EndpointProvider {
 
 	public String getReviewsEndpointUrl() {
 		EndPoint endPoint = getEndPoint();
-		String endPointURL = TEST_REVIEWS_BASE_URL;
-		if (endPoint == EndPoint.PRODUCTION) {
-			endPointURL = PROD_REVIEWS_BASE_URL;
+		switch (endPoint) {
+		case MOCK_MODE:
+			return getCustomServerAddress();
+		case INTEGRATION:
+			return TEST_REVIEWS_BASE_URL;
+		default:
+			return PROD_REVIEWS_BASE_URL;
 		}
-		return endPointURL;
 	}
 
 
