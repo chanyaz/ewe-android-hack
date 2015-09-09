@@ -16,45 +16,20 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class HotelCouponErrorTest extends PhoneTestCase {
-
-	private static final String TAG = HotelCouponErrorTest.class.getSimpleName();
 
 	public void testHotelCouponErrors() throws Exception {
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
-		ScreenActions.enterLog(TAG, "Setting hotel search city to: " + "New York, NY");
 		HotelsSearchScreen.enterSearchText("New York, NY");
 		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
 		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickSelectButton();
-		try {
-			onView(withText("OK")).perform(click());
-		}
-		catch (Exception e) {
-			ScreenActions.enterLog(TAG, "Not available right now");
-		}
-		ScreenActions.enterLog(TAG, "Selecting first room listed for this hotel.");
 		HotelsRoomsRatesScreen.selectRoomItem(0);
 		HotelsCheckoutScreen.clickCheckoutButton();
 
-		verifyCouponErrors();
-	}
-
-	private static class TestData {
-		public String coupon;
-		public String expected;
-
-		public TestData(String coupon, String expected) {
-			this.coupon = coupon;
-			this.expected = expected;
-		}
-	}
-
-	private void verifyCouponErrors() {
 		ArrayList<TestData> tests = new ArrayList<>();
 		tests.add(new TestData("hotel_coupon_errors_duplicate", "Sorry, but this coupon code has already been used."));
 		tests.add(new TestData("hotel_coupon_errors_expired", "Sorry, but this coupon has expired."));
@@ -78,6 +53,7 @@ public class HotelCouponErrorTest extends PhoneTestCase {
 
 		for (TestData test : tests) {
 			HotelsCheckoutScreen.couponButton().perform(click());
+			ScreenActions.delay(1);
 			onView(withId(R.id.coupon_edit_text)).perform(typeText(test.coupon));
 			onView(withId(android.R.id.button1)).perform(click());
 			ScreenActions.delay(1);
@@ -86,4 +62,15 @@ public class HotelCouponErrorTest extends PhoneTestCase {
 			ScreenActions.delay(1);
 		}
 	}
+
+	private static class TestData {
+		public String coupon;
+		public String expected;
+
+		public TestData(String coupon, String expected) {
+			this.coupon = coupon;
+			this.expected = expected;
+		}
+	}
+
 }
