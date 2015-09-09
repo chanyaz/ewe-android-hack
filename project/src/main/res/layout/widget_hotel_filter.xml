@@ -96,14 +96,11 @@
                         android:text="Price"
                         android:textColor="@color/hotels_primary_color" />
 
-                    <com.expedia.bookings.widget.SeekBar
-                        android:id="@+id/dropoff_time_seek_bar"
+                    <LinearLayout
+                        android:id="@+id/price_range_bar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/price"
-                        android:max="47"
-                        android:maxHeight="6dp"
-                        android:progressDrawable="@drawable/cars_slider_progress" />
+                        android:orientation="vertical" />
 
                     <TextView
                         android:id="@+id/star_rating_bar"

@@ -1,12 +1,12 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +14,11 @@ import android.view.ViewTreeObserver
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.AdapterView
+import com.expedia.bookings.widget.RangeSeekBar
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.Ui
@@ -25,6 +27,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnChecked
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelFilterViewModel
+import org.joda.time.DateTime
 import rx.Observer
 import java.util.ArrayList
 import java.util.Arrays
@@ -32,7 +35,18 @@ import kotlin.properties.Delegates
 import com.expedia.vm.HotelFilterViewModel.Sort
 
 
-public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), SeekBar.OnSeekBarChangeListener {
+    override fun onStartTrackingTouch(p0: SeekBar?) {
+        throw UnsupportedOperationException()
+    }
+
+    override fun onStopTrackingTouch(p0: SeekBar) {
+        throw UnsupportedOperationException()
+    }
+
+    override fun onProgressChanged(p0: SeekBar, p1: Int, p2: Boolean) {
+        throw UnsupportedOperationException()
+    }
 
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
     val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
@@ -56,6 +70,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     }
     val toolbarDropshadow: View by bindView(R.id.toolbar_dropshadow)
     val background = android.R.attr.selectableItemBackground
+    val priceRangeBar : ViewGroup by bindView(R.id.price_range_bar)
 
     var subject: Observer<List<Hotel>> by Delegates.notNull()
 
@@ -63,6 +78,16 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         this.subject = subject
     }
     var viewmodel: HotelFilterViewModel by notNullAndObservable { vm ->
+        val min = 20
+        val max = 1000
+        val hotelPriceRange : RangeSeekBar<Int> = RangeSeekBar(min, max, context)
+        hotelPriceRange.setOnRangeSeekBarChangeListener(object: RangeSeekBar.OnRangeSeekBarChangeListener<Int> {
+            override fun onRangeSeekBarValuesChanged(bar: RangeSeekBar<*>, minValue: Int, maxValue: Int) {
+                System.out.println("User selected new range values: MIN=" + minValue + ", MAX=" + maxValue)
+            }
+        })
+        priceRangeBar.addView(hotelPriceRange);
+
         doneButton.subscribeOnClick(vm.doneObservable)
         filterHotelVip.subscribeOnChecked(vm.vipFilteredObserver)
         filterStarOne.subscribeOnClick(vm.oneStarFilterObserver)

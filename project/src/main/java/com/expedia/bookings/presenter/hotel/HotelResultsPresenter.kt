@@ -26,6 +26,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
 import com.expedia.account.graphics.ArrowXDrawable
+import android.widget.SeekBar
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
@@ -47,6 +48,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelResultsViewModel
 import com.expedia.vm.HotelFilterViewModel
+import com.expedia.vm.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -755,7 +757,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             if (forward) {
                 filterView.setVisibility(View.VISIBLE)
                 recyclerView.setVisibility(View.INVISIBLE)
-                //mapFab.setVisibility(View.INVISIBLE)
             } else {
                 filterView.setVisibility(View.GONE)
                 recyclerView.setVisibility(View.VISIBLE)
@@ -777,11 +778,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             if (forward) {
                 filterView.setVisibility(View.VISIBLE)
                 mapCarouselContainer.setVisibility(View.INVISIBLE)
-                //listFab.setVisibility(View.INVISIBLE)
             } else {
                 filterView.setVisibility(View.GONE)
                 mapCarouselContainer.setVisibility(View.VISIBLE)
-                //listFab.setVisibility(View.VISIBLE)
             }
         }
     }
