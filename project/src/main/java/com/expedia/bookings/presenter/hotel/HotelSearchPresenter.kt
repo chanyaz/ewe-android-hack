@@ -11,13 +11,17 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ToggleButton
+import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -49,11 +53,19 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
     val calendar: CalendarPicker by bindView(R.id.calendar)
     val monthView: MonthView by bindView(R.id.month)
+    val monthSelectionView by Delegates.lazy {
+       findViewById(R.id.previous_month).getParent() as LinearLayout
+    }
     val traveler: HotelTravelerPickerView by bindView(R.id.traveler_view)
     val dayOfWeek: DaysOfWeekView by bindView(R.id.days_of_week)
+    var navIcon: ArrowXDrawable
+    var searchParamsContainerHeight: Int = 0
 
     val searchContainer: ViewGroup by bindView(R.id.search_container)
+    val searchParamsContainer: ViewGroup by bindView(R.id.search_params_container)
+
     val toolbar: Toolbar by bindView(R.id.toolbar)
+    val toolbarTitle by Delegates.lazy { toolbar.getChildAt(0) }
     val searchButton: Button by Delegates.lazy {
         val button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_checkmark_item, null) as Button
         val navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate()
@@ -227,6 +239,9 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             addView(statusBar)
         }
 
+        navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+        toolbar.setNavigationIcon(navIcon)
         toolbar.inflateMenu(R.menu.cars_search_menu)
 
         monthView.setTextEqualDatesColor(Color.WHITE)
@@ -242,6 +257,13 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
                 DaysOfWeekView.DayOfWeekRenderer.DEFAULT.renderDayOfWeek(dayOfWeek)
             }
         }
+
+        searchContainer.getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                searchContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this)
+                searchParamsContainerHeight = searchParamsContainer.getMeasuredHeight()
+            }
+        })
 
         selectDate.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
         selectTraveler.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
@@ -282,4 +304,36 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         }
     }
 
+    var toolbarTitleTop = 0
+    fun animationStart(forward : Boolean) {
+        calendar.setTranslationY((if (forward) calendar.getHeight() else 0).toFloat())
+        traveler.setTranslationY((if (forward) traveler.getHeight() else 0).toFloat())
+        searchContainer.setBackgroundColor(Color.TRANSPARENT)
+        toolbarTitleTop = toolbarTitle.getHeight() - toolbarTitle.getTop()
+
+    }
+
+    fun animationUpdate(f : Float, forward : Boolean) {
+        val translationCalendar = if (forward) calendar.getHeight() * (1 - f) else calendar.getHeight() * f
+        val layoutParams = searchParamsContainer.getLayoutParams()
+        layoutParams.height = if (forward) (f * (searchParamsContainerHeight)).toInt() else (Math.abs(f - 1) * (searchParamsContainerHeight)).toInt()
+        searchParamsContainer.setLayoutParams(layoutParams)
+
+        calendar.setTranslationY(translationCalendar)
+        traveler.setTranslationY(translationCalendar)
+        val factor: Float = if (forward) f else Math.abs(1 - f)
+        toolbar.setAlpha(factor)
+        traveler.setAlpha(factor)
+        monthView.setAlpha(factor)
+        dayOfWeek.setAlpha(factor)
+        monthSelectionView.setAlpha(factor)
+        navIcon.setParameter(factor)
+
+        toolbarTitle.setTranslationY((if (forward) Math.abs(1 - f) else f) * -toolbarTitleTop)
+    }
+
+    fun animationFinalize() {
+        searchContainer.setBackgroundColor(Color.WHITE)
+        navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType().toFloat())
+    }
 }

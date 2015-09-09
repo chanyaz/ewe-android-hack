@@ -74,7 +74,30 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             detailPresenter.setVisibility(View.GONE)
         }
     }
-    private val searchToResults = LeftToRightTransition(this, javaClass<HotelSearchPresenter>(), javaClass<HotelResultsPresenter>())
+    private val searchToResults = object : Presenter.Transition(javaClass<HotelSearchPresenter>(), javaClass<HotelResultsPresenter>()) {
+
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            searchPresenter.setVisibility(View.VISIBLE)
+            resultsPresenter.setVisibility(View.VISIBLE)
+            searchPresenter.animationStart(!forward)
+            resultsPresenter.animationStart()
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            searchPresenter.animationUpdate(f, !forward)
+            resultsPresenter.animationUpdate(f, !forward)
+        }
+
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            searchPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
+            resultsPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
+            searchPresenter.animationFinalize()
+            resultsPresenter.animationFinalize()
+        }
+    }
     private val resultsToDetail = LeftToRightTransition(this, javaClass<HotelResultsPresenter>(), javaClass<HotelDetailPresenter>())
     private val detailsToCheckout = LeftToRightTransition(this, javaClass<HotelDetailPresenter>(), javaClass<HotelCheckoutPresenter>())
     private val checkoutToConfirmation = LeftToRightTransition(this, javaClass<HotelCheckoutPresenter>(), javaClass<HotelConfirmationPresenter>())

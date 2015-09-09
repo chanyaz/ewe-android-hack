@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
+import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.hotels.Hotel
@@ -28,6 +29,8 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.AdImpressionTracking
+import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelCarouselRecycler
@@ -65,6 +68,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val recyclerView: RecyclerView by bindView(R.id.list_view)
     val mapView: MapView by bindView(R.id.map_view)
     val toolbar: Toolbar by bindView(R.id.toolbar)
+    val toolbarTitle by Delegates.lazy { toolbar.getChildAt(2) }
+    val toolbarSubtitle by Delegates.lazy { toolbar.getChildAt(3) }
+    val recyclerTempBackground: View by bindView(R.id.recycler_view_temp_background)
+
+    var navIcon: ArrowXDrawable
 
     val mapCarouselContainer: View by bindView(R.id.hotel_carousel_container)
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
@@ -96,16 +104,16 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapResultsObserver)
 
+        vm.titleSubject.subscribe {
+            toolbar.setTitle(it)
+        }
+
+        vm.subtitleSubject.subscribe {
+            toolbar.setSubtitle(it)
+        }
+
         vm.paramsSubject.subscribe { params ->
             showLoading()
-
-            vm.titleSubject.subscribe {
-                toolbar.setTitle(it)
-            }
-
-            vm.subtitleSubject.subscribe {
-                toolbar.setSubtitle(it)
-            }
 
             googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
             show(ResultsList())
@@ -272,6 +280,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         adapter = HotelListAdapter(ArrayList<Hotel>(), HotelRate.UserPriceType.UNKNOWN, hotelSubject, headerClickedSubject)
         recyclerView.setAdapter(adapter)
         fabAnim = AnimationUtils.loadAnimation(getContext(), R.anim.fab_in)
+        navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
+        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+        toolbar.setNavigationIcon(navIcon)
     }
 
     override fun onFinishInflate() {
@@ -411,8 +422,14 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(javaClass<ResultsList>().getName()) {
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            navIcon.setParameter(if (forward) Math.abs(1 - f) else f)
+        }
+
         override fun finalizeTransition(forward: Boolean) {
-            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+            navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType().toFloat())
             toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
             toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
             toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
@@ -445,7 +462,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     private val fabTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), 500) {
         override fun finalizeTransition(forward: Boolean) {
-            toolbar.setNavigationIcon(if (forward) R.drawable.ic_arrow_back_white_24dp else R.drawable.ic_close_white_24dp)
+            navIcon.setParameter(if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK.getType().toFloat() else ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType().toFloat())
             toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
             toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
             toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
@@ -485,11 +502,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
-
             if (!forward) {
                 var distance = (screenHeight * f)
                 recyclerView.setTranslationY(distance)
             }
+            navIcon.setParameter(if (forward) Math.abs(1 - f) else f)
         }
     }
 
@@ -513,6 +530,37 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val markerObserver: Observer<Marker> = endlessObserver { marker ->
         val map = googleMap
         map?.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), map.getCameraPosition().zoom))
+    }
+
+    var yTranslationRecyclerTempBackground = 0f
+    var yTranslationRecyclerView = 0f
+    var toolbarTitleTop = 0
+    var toolbarSubtitleTop = 0
+
+    fun animationStart() {
+        recyclerTempBackground.setVisibility(View.VISIBLE)
+    }
+
+    fun animationUpdate(f : Float, forward : Boolean) {
+        if (yTranslationRecyclerTempBackground == 0f && recyclerView.getChildAt(1) != null) {
+            yTranslationRecyclerTempBackground = (recyclerView.getChildAt(0).getHeight() + recyclerView.getChildAt(0).getTop() + toolbar.getHeight()).toFloat()
+            yTranslationRecyclerView = (recyclerView.getChildAt(0).getHeight() + recyclerView.getChildAt(0).getTop()).toFloat()
+            recyclerTempBackground.setTranslationY(yTranslationRecyclerTempBackground)
+            toolbarTitleTop =  (toolbarTitle.getHeight() - toolbarTitle.getTop())/2
+            toolbarSubtitleTop = (toolbarSubtitle.getTop() - toolbarSubtitle.getHeight())/2
+            toolbarTitle.setTranslationY(toolbarTitleTop.toFloat())
+            toolbarSubtitle.setTranslationY(toolbarSubtitleTop.toFloat())
+        }
+        var factor = if (forward) f else Math.abs(1 - f)
+        recyclerView.setTranslationY(factor * yTranslationRecyclerView)
+        navIcon.setParameter(factor)
+        toolbarTitle.setTranslationY(factor * toolbarTitleTop)
+        toolbarSubtitle.setTranslationY(factor * toolbarSubtitleTop)
+    }
+
+    fun animationFinalize() {
+        recyclerTempBackground.setVisibility(View.GONE)
+        navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType().toFloat())
     }
 
     // Classes for state
