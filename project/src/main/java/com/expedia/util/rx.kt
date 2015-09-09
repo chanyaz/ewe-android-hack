@@ -1,11 +1,9 @@
 package com.expedia.util
 
+import android.graphics.drawable.Drawable
+import android.view.Gravity
 import android.view.View
-import android.widget.RadioGroup
-import android.widget.RatingBar
-import android.widget.TextView
-import android.widget.ToggleButton
-import com.mobiata.android.Log
+import android.widget.*
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
@@ -46,6 +44,14 @@ public fun ToggleButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
 
 public fun <T : CharSequence> Observable<T>.subscribe(textview: TextView) {
     this.subscribe { text -> textview.setText(text) }
+}
+
+public fun Observable<Drawable?>.subscribe(imageView: ImageView) {
+    this.subscribe { drawable -> imageView.setImageDrawable(drawable) }
+}
+
+public fun Observable<Int>.subscribeBackgroundColor(view: View) {
+    this.subscribe { color -> view.setBackgroundColor(color) }
 }
 
 public fun Observable<Float>.subscribe(ratingBar: RatingBar) {

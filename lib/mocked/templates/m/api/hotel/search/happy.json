@@ -8,6 +8,7 @@
             "countryCode": "USA",
             "distanceUnit": "Miles",
             "hasFreeCancellation": false,
+            "isSponsoredListing":true,
             "highestSurveyPriceAsPrice": {
                 "amount": 249,
                 "currency": {
@@ -49,7 +50,7 @@
             "postalCode": "94102",
             "proximityDistanceInKiloMeters": "0.0",
             "proximityDistanceInMiles": "0.0",
-            "roomsLeftAtThisRate": "40",
+            "roomsLeftAtThisRate": "4",
             "shortDescription": "SHORT_DESCRIPTION",
             "stateProvinceCode": "CA",
             "supplierType": "MERCHANT",
@@ -66,7 +67,9 @@
             "city": "San Francisco",
             "countryCode": "USA",
             "distanceUnit": "Miles",
-            "hasFreeCancellation": false,
+            "isSponsoredListing":false,
+            "hasFreeCancellation": true,
+            "isSameDayDRR": true,
             "highestSurveyPriceAsPrice": {
                 "amount": 249,
                 "currency": {
@@ -122,8 +125,12 @@
             "city": "San Francisco",
             "countryCode": "USA",
             "distanceUnit": "Miles",
+            "isSponsoredListing":false,
             "hasFreeCancellation": false,
-            "highestSurveyPriceAsPrice": {
+            "isSameDayDRR": false,
+            "isShowEtpChoice": true,
+            "isDiscountRestrictedToCurrentSourceType": true,
+          "highestSurveyPriceAsPrice": {
                 "amount": 279,
                 "currency": {
                     "currencyCode": "USD"
@@ -422,7 +429,7 @@
                 "averageBaseRate": "284.40",
                 "averageRate": "241.40",
                 "currencyCode": "USD",
-                "discountPercent": 12,
+                "discountPercent": -12,
                 "maxNightlyRate": "262.50",
                 "nightlyRateTotal": "482.80",
                 "nightlyRatesPerRoom": [

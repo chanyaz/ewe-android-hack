@@ -2,6 +2,9 @@ package com.expedia.bookings.test.phone.newhotels;
 
 import org.hamcrest.CoreMatchers;
 import org.joda.time.DateTime;
+import org.junit.Test;
+
+import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.HotelTestCase;
@@ -12,6 +15,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.IsNot.not;
 
 public class HotelResultsPresenterTest extends HotelTestCase {
@@ -27,6 +31,46 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		assertViewIsDisplayedAtPosition(2, R.id.guest_rating_percentage);
 		assertViewNotDisplayedAtPosition(2, R.id.discount_percentage);
 		assertViewNotDisplayedAtPosition(2, R.id.strike_through_price);
+	}
+
+	@Test
+	public void testMobileUrgencyMessage() throws Throwable {
+		doSearch();
+
+		assertViewWithTextIsDisplayedAtPosition(2, R.id.urgency_message, "4 Rooms Left");
+
+		assertViewWithTextIsDisplayedAtPosition(3, R.id.urgency_message, "Tonight Only!");
+
+		assertViewWithTextIsDisplayedAtPosition(4, R.id.urgency_message, "Mobile Exclusive");
+	}
+
+	@Test
+	public void testAirAttach() throws Throwable {
+		doSearch();
+
+		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(9));
+		assertViewIsDisplayedAtPosition(9, R.id.air_attach_layout);
+		assertViewWithTextIsDisplayedAtPosition(9,R.id.air_attach_discount,"-12%");
+
+	}
+
+	@Test
+	public void testVIP() throws Throwable {
+		doSearch();
+
+		assertViewWithTextIsDisplayedAtPosition(4, R.id.vip_message, "+VIP");
+	}
+
+	@Test
+	public void testTopAmenity() throws Throwable {
+		doSearch();
+
+		assertViewWithTextIsDisplayedAtPosition(2, R.id.top_amenity_title, "Sponsored");
+
+		assertViewWithTextIsDisplayedAtPosition(3, R.id.top_amenity_title, "Free Cancellation");
+
+		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(4));
+		assertViewWithTextIsDisplayedAtPosition(4, R.id.top_amenity_title, "Book Now, Pay Later");
 	}
 
 	private void doSearch() throws Throwable {
@@ -50,5 +94,11 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		HotelScreen.hotelResultsList().check(
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
 				CoreMatchers.allOf(withId(id), isDisplayed()))));
+	}
+
+	private void assertViewWithTextIsDisplayedAtPosition(int position, int id, String text) {
+		HotelScreen.hotelResultsList().check(
+			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
+				CoreMatchers.allOf(withId(id), isDisplayed(), withText(text)))));
 	}
 }

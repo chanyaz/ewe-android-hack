@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Lollipop / Material specific styles-->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="V2.Theme.Hotels" parent="Whitelabel.HotelTheme.Base" />
+
+    <style name="UrgencyMessage">
+        <item name="android:paddingRight">9dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingLeft">9dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:elevation">2dp</item>
+    </style>
+
+</resources>

@@ -2584,6 +2584,8 @@
     <string name="filter_vip_access">Only +VIP Access Hotels</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="VIP_Access_Only">+VIP Access Only</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">+VIP</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">ON</string>
     <string name="switch_off">OFF</string>
