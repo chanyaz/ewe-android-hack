@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
@@ -36,6 +37,7 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?) 
     val bestPriceGuarantee: android.widget.TextView by bindView(R.id.best_price_guarantee)
     val saleMessage: android.widget.TextView by bindView(R.id.sale_text)
     val info: android.widget.TextView by bindView(R.id.total_tax_label)
+    val costSummary: RelativeLayout by bindView(R.id.cost_summary)
     val breakdown = HotelBreakDownView(context, null)
     val dialog: AlertDialog by Delegates.lazy {
         val builder = AlertDialog.Builder(context)
@@ -76,7 +78,7 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?) 
                 .put("brand", BuildConfig.brand)
                 .format()
         amountDueTodayLabel.setText(amountDueLabel)
-        info.setOnClickListener {
+        costSummary.setOnClickListener {
             dialog.show()
         }
     }

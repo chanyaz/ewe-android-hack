@@ -5,6 +5,7 @@ import android.content.res.Resources
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.services.HotelServices
+import com.expedia.vm.Breakdown
 import com.expedia.vm.HotelBreakDownViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
@@ -62,12 +63,12 @@ public class HotelBreakdownTest {
 
         val latch = CountDownLatch(1)
         vm.addRows.subscribe { latch.countDown() }
-        val testSubscriber = TestSubscriber<List<Pair<String, String>>>()
-        val expected = arrayListOf<List<Pair<String, String>>>()
+        val testSubscriber = TestSubscriber<List<Breakdown>>()
+        val expected = arrayListOf<List<Breakdown>>()
         vm.addRows.subscribe(testSubscriber)
 
         vm.tripObserver.onNext(createTripResponse)
-        expected.add(arrayListOf(Pair("", "$119"), Pair("3/23/2013", "$119.00"), Pair("", "$20.00"), Pair("", "$16.81"), Pair("", "$135.81")))
+        expected.add(arrayListOf(Breakdown("", "$119", false), Breakdown("3/23/2013", "$119.00", true), Breakdown("", "$20.00", false), Breakdown("", "$16.81", false), Breakdown("", "$135.81", false)))
 
         assertTrue(latch.await(10, TimeUnit.SECONDS))
         vm.addRows.onCompleted()

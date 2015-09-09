@@ -30,7 +30,6 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelCarouselRecycler
@@ -382,22 +381,22 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             currentState = newState
 
-            val view = recyclerView.getChildAt(0)
+            val view = recyclerView.getChildAt(1)
             view ?: return
 
             if (halfway == 0 && threshold == 0) {
-                halfway = recyclerView.getChildAt(1).getTop()
+                halfway = view.getTop()
                 totalDistance = halfway
-                threshold = halfway + recyclerView.getChildAt(1).getHeight() + recyclerView.getChildAt(2).getHeight()
+                threshold = halfway + view.getHeight() + recyclerView.getChildAt(2).getHeight()
             }
 
-            val topOffset = totalDistance
+            val topOffset = view.getTop()
 
             if (newState == RecyclerView.SCROLL_STATE_SETTLING ) {
                 //ignore
             } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset >= threshold) {
                 show(ResultsMap())
-            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset >= halfway) {
+            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset <= threshold && topOffset >= halfway) {
                 show(ResultsList())
                 recyclerView.setTranslationY(0f)
                 resetListOffset()

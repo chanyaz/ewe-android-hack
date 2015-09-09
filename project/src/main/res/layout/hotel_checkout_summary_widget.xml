@@ -93,10 +93,11 @@
         android:background="@color/hotelsv2_checkout_divider_color" />
 
     <RelativeLayout
+        android:id="@+id/cost_summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/hotel_booking_summary"
-        android:background="@drawable/hotel_checkout_pattern_bg"
+        android:background="@drawable/cost_breakdown"
         android:orientation="horizontal"
         android:paddingBottom="9dp"
         android:paddingLeft="14dp"

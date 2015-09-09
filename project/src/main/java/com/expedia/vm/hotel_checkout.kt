@@ -130,19 +130,21 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     }
 }
 
+data class Breakdown(val title: String, val cost: String, val isDate: Boolean)
+
 class HotelBreakDownViewModel(val context: Context) {
     val tripObserver = BehaviorSubject.create<HotelCreateTripResponse>()
 
-    val addRows = BehaviorSubject.create<List<Pair<String, String>>>()
+    val addRows = BehaviorSubject.create<List<Breakdown>>()
 
     init {
         tripObserver.subscribe { hotel ->
-            var pairs = arrayListOf<Pair<String, String>>()
+            var breakdowns = arrayListOf<Breakdown>()
             val originalRate = if (hotel.originalHotelProductResponse.hotelRoomResponse == null) hotel.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo else hotel.originalHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
 
             val nights = context.getResources().getQuantityString(R.plurals.number_of_nights, hotel.newHotelProductResponse.numberOfNights.toInt(), hotel.newHotelProductResponse.numberOfNights.toInt())
             val nightlyRate = Money(BigDecimal(originalRate.nightlyRateTotal.toDouble()), originalRate.currencyCode)
-            pairs.add(Pair(nights, nightlyRate.getFormattedMoney()))
+            breakdowns.add(Breakdown(nights, nightlyRate.getFormattedMoney(), false))
 
             var count = 0;
             val checkIn = DateUtils.yyyyMMddToLocalDate(hotel.newHotelProductResponse.checkInDate)
@@ -156,13 +158,13 @@ class HotelBreakDownViewModel(val context: Context) {
                 else
                     amount.getFormattedMoney()
 
-                pairs.add(Pair(date, amountStr))
+                breakdowns.add(Breakdown(date, amountStr, true))
             }
 
             // Discount
             val couponRate = if (hotel.originalHotelProductResponse.hotelRoomResponse == null) null else hotel.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
             if (couponRate != null && !couponRate.getPriceAdjustments().isZero()) {
-                pairs.add(Pair(context.getString(R.string.discount), couponRate.getPriceAdjustments().getFormattedMoney()))
+                breakdowns.add(Breakdown(context.getString(R.string.discount), couponRate.getPriceAdjustments().getFormattedMoney(), false))
             }
 
             // Taxes & Fees
@@ -177,12 +179,12 @@ class HotelBreakDownViewModel(val context: Context) {
                     else
                         surchargeTotal.getFormattedMoney()
                 }
-                pairs.add(Pair(context.getString(R.string.taxes_and_fees), surcharge))
+                breakdowns.add(Breakdown(context.getString(R.string.taxes_and_fees), surcharge, false))
             }
 
             // Extra guest fees
             if (originalRate.getExtraGuestFees() != null && !originalRate.getExtraGuestFees().isZero()) {
-                pairs.add(Pair(context.getString(R.string.extra_guest_charge), originalRate.getExtraGuestFees().getFormattedMoney()))
+                breakdowns.add(Breakdown(context.getString(R.string.extra_guest_charge), originalRate.getExtraGuestFees().getFormattedMoney(), false))
             }
 
             val total: Money
@@ -193,20 +195,20 @@ class HotelBreakDownViewModel(val context: Context) {
             if (resortCase ) {
                 val dueToday = Money(BigDecimal(rateWeCareAbout.total.toDouble()), originalRate.currencyCode)
                 val dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
-                pairs.add(Pair(dueTodayText, dueToday.getFormattedMoney()))
+                breakdowns.add(Breakdown(dueTodayText, dueToday.getFormattedMoney(), false))
             }
 
             if (resortCase) {
                 total = Money(BigDecimal(rateWeCareAbout.totalPriceWithMandatoryFees.toDouble()), originalRate.currencyCode)
                 var rate = Money(BigDecimal(rateWeCareAbout.totalMandatoryFees.toDouble()), originalRate.currencyCode)
-                pairs.add(Pair(context.getString(R.string.fees_paid_at_hotel), rate.getFormattedMoney()))
+                breakdowns.add(Breakdown(context.getString(R.string.fees_paid_at_hotel), rate.getFormattedMoney(), false))
             } else {
                 total = rateWeCareAbout.getDisplayTotalPrice()
             }
 
             // Total
-            pairs.add(Pair(context.getString(R.string.total_price_label), total.getFormattedMoney()))
-            addRows.onNext(pairs)
+            breakdowns.add(Breakdown(context.getString(R.string.total_price_label), total.getFormattedMoney(), false))
+            addRows.onNext(breakdowns)
         }
     }
 }
