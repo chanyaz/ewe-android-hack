@@ -10,6 +10,8 @@ import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.util.Collections
+import java.util.Comparator
 import java.util.ArrayList
 import java.util.regex.Pattern
 
@@ -181,4 +183,119 @@ class HotelFilterViewModel(val context: Context) {
     fun setHotelList(response : HotelSearchResponse) {
         originalResponse = response
     }
+
+    public enum class Sort private constructor(public val descriptionResId: Int) {
+        POPULAR(R.string.sort_description_popular),
+        PRICE(R.string.sort_description_price),
+        DEALS(R.string.sort_description_deals),
+        RATING(R.string.sort_description_rating),
+        DISTANCE(R.string.sort_description_distance)
+    }
+
+    val sortObserver = endlessObserver<Sort> { sort ->
+        var preSortHotelList = if (filteredResponse.hotelList == null) originalResponse?.hotelList else filteredResponse.hotelList
+
+        when (sort) {
+            Sort.PRICE -> Collections.sort(preSortHotelList, price_comparator)
+            Sort.RATING -> Collections.sort(preSortHotelList, rating_comparator)
+            Sort.DEALS -> Collections.sort(preSortHotelList, deals_comparator)
+            Sort.DISTANCE -> Collections.sort(preSortHotelList,distance_comparator)
+            else -> Collections.sort(preSortHotelList, popular_comparator)
+
+        }
+    }
+
+
+    private val name_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
+        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
+            return hotel1.localizedName.compareTo(hotel2.localizedName)
+        }
+    }
+
+    private val price_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
+        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
+            val lowRate1 = hotel1.lowRateInfo?.getDisplayTotalPrice()
+            val lowRate2 = hotel2.lowRateInfo?.getDisplayTotalPrice()
+
+            if (lowRate1 == null && lowRate2 == null) {
+                return name_comparator.compare(hotel1, hotel2)
+            } else if (lowRate1 == null) {
+                return -1
+            } else if (lowRate2 == null) {
+                return 1
+            }
+
+            // Compare rates
+            return lowRate1.getAmount().compareTo(lowRate2.getAmount())
+        }
+    }
+
+    private val deals_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
+        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
+            val deal1 = hotel1.lowRateInfo
+            val deal2 = hotel2.lowRateInfo
+
+            if (deal1.discountPercent == deal2.discountPercent) {
+                return 0
+            } else if (deal1.discountPercent < deal2.discountPercent) {
+                // We want to show larger percentage discounts first
+                return -1
+            } else {
+                return 1
+            }
+        }
+    }
+
+    private val rating_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
+        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
+            val rating1 = hotel1.hotelGuestRating
+            val rating2 = hotel2.hotelGuestRating
+
+            if (rating1 == rating2) {
+                return price_comparator.compare(hotel1, hotel2)
+            } else if (rating1 > rating2) {
+                return -1
+            } else {
+                return 1
+            }
+        }
+    }
+
+    private val distance_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
+        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
+            val distance1 = hotel1.proximityDistanceInMiles
+            val distance2 = hotel2.proximityDistanceInMiles
+
+            if (distance1 == null && distance2 == null) {
+                return price_comparator.compare(hotel1, hotel2)
+            } else if (distance1 == null) {
+                return -1
+            } else if (distance2 == null) {
+                return 1
+            }
+
+            val cmp = distance1!!.compareTo(distance2)
+            if (cmp == 0) {
+                return name_comparator.compare(hotel1, hotel2)
+            } else {
+                return cmp
+            }
+        }
+    }
+
+    private val popular_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
+        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
+            val index1 = hotel1.sortIndex
+            val index2 = hotel2.sortIndex
+
+            if (index1.toInt() < index2.toInt()) {
+                return -1
+            } else {
+                return 1
+            }
+        }
+    }
+
 }
+
+

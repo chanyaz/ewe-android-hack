@@ -82,6 +82,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.hotel_results_pricing_header_total_price_for_stay_TEMPLATE,
 		R.layout.hotel_cost_summary_date_row,
 		R.drawable.hotels_pin,
-		R.layout.widget_hotel_filter
+		R.layout.widget_hotel_filter,
+		R.array.sort_options_material_hotels
 	};
 }

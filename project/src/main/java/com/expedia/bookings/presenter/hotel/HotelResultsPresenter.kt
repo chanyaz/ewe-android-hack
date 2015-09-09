@@ -322,6 +322,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 renderMarkers(map, response, true)
             }
         } else if (it == filterView.viewmodel.originalResponse?.hotelList) {
+            showHotelList(filterView.viewmodel.originalResponse!!)
             show(ResultsList())
         }
     }

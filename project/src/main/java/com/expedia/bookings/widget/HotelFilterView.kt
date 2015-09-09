@@ -16,6 +16,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.AdapterView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.Ui
@@ -28,6 +29,8 @@ import rx.Observer
 import java.util.ArrayList
 import java.util.Arrays
 import kotlin.properties.Delegates
+import com.expedia.vm.HotelFilterViewModel.Sort
+
 
 public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
@@ -128,6 +131,18 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                 com.mobiata.android.util.Ui.hideKeyboard(this)
             }
         }
+
+        sortByButtonGroup.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                val sort = Sort.values()[position]
+                vm.sortObserver.onNext(sort)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
+        })
+
     }
 
     init {
@@ -136,7 +151,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         dynamicFeedbackWidget.hideDynamicFeedback()
 
         val sortOptions = ArrayList<String>()
-        sortOptions.addAll(Arrays.asList(*getResources().getStringArray(R.array.sort_options_hotels)))
+        sortOptions.addAll(Arrays.asList(*getResources().getStringArray(R.array.sort_options_material_hotels)))
         sortOptions.add(getContext().getString(R.string.distance))
 
         val adapter = ArrayAdapter(getContext(), R.layout.spinner_sort_item, sortOptions)
