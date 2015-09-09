@@ -46,7 +46,7 @@
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_lm</item>
-        <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_lm_logo</item>
+        <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_lm_logo_small</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/ic_launcher</item>
         <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_lm_logo_small</item>
