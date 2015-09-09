@@ -7,6 +7,7 @@ import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.Log
+import java.util.ArrayList
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -28,15 +29,23 @@ class HotelSuggestionAdapterViewModel(val suggestionsService: SuggestionV4Servic
         if (query.isNotBlank() && query.length() >= 3) {
             suggestionsService.getHotelSuggestionsV4(query, generateSuggestionServiceCallback())
         } else {
-            suggestionsObservable.onNext(emptyList())
+            suggestionsObservable.onNext(suggestionsListWithDummyAutofillItem())
         }
+    }
+
+    private fun suggestionsListWithDummyAutofillItem(): MutableList<SuggestionV4> {
+        var suggestionsWithDummyAutofillItem: MutableList<SuggestionV4> = ArrayList()
+        suggestionsWithDummyAutofillItem.add(SuggestionV4())
+        return suggestionsWithDummyAutofillItem
     }
 
     // Utility
     private fun generateSuggestionServiceCallback(): Observer<List<SuggestionV4>> {
         return object : Observer<List<SuggestionV4>> {
             override fun onNext(suggestions: List<SuggestionV4>) {
-                suggestionsObservable.onNext(suggestions)
+                val suggestionsWithDummyAutofillItem: MutableList<SuggestionV4> = suggestionsListWithDummyAutofillItem()
+                suggestionsWithDummyAutofillItem.addAll(suggestions)
+                suggestionsObservable.onNext(suggestionsWithDummyAutofillItem)
             }
 
             override fun onCompleted() {
