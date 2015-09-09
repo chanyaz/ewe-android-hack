@@ -14,13 +14,16 @@ public class HotelOffersResponse {
 	public String firstHotelOverview;
 	public String hotelAddress;
 	public List<HotelAmenities> hotelAmenities;
-	public HotelText hotelAmenitiesText;
 	public String hotelCity;
 	public String hotelCountry;
 	public Double hotelGuestRating;
 	public String hotelId;
 	public String hotelName;
 	public List<HotelRoomResponse> hotelRoomResponse;
+	public List<HotelText> hotelOverviewText;
+	public HotelText hotelAmenitiesText;
+	public HotelText hotelPoliciesText;
+	public HotelText hotelFeesText;
 
 	public Double hotelStarRating;
 

@@ -136,4 +136,10 @@ public class StrUtilsTest {
 		assertEquals("4.048", StrUtils.roundOff(testNumber, 3));
 	}
 
+	public void testContentFormatting() {
+		String content = "<p>A complimentary breakfast is offered.</p><p>eStone Villa Inn San Mateo is a smoke-free property.</p><ul><li>24-hour front desk</li></ul>";
+		String formattedString = StrUtils.getFormattedContent(getContext(), content);
+		assertEquals("A complimentary breakfast is offered.eStone Villa Inn San Mateo is a smoke-free property.<br/><br/>• 24-hour front desk<br/>", formattedString);
+	}
+
 }
