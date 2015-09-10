@@ -176,7 +176,6 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 	private final Observer<List<Suggestion>> suggestionsObserver = new Observer<List<Suggestion>>() {
 		@Override
 		public void onCompleted() {
-			filter.publishResults("", null);
 			cleanup();
 		}
 
@@ -199,6 +198,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 			}
 
 			updateSuggestionsBackingList(combinedSuggestionsList);
+			filter.publishResults("", null);
 		}
 	};
 
