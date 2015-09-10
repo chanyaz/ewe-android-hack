@@ -164,7 +164,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isLeanPlumEnabled() {
-		return true;
+		return false;
 	}
 
 	public boolean isKahunaEnabled() {
@@ -305,6 +305,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean sortByDistanceForCurrentLocation() {
+		return false;
+	}
+
+	@Override
+	public boolean isAbacusTestEnabled() {
 		return false;
 	}
 }
