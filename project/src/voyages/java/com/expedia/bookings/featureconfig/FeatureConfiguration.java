@@ -370,4 +370,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean sortByDistanceForCurrentLocation() {
 		return true;
 	}
+
+	@Override
+	public boolean isAbacusTestEnabled() {
+		return false;
+	}
 }

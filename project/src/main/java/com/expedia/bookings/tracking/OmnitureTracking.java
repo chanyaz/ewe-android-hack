@@ -1576,7 +1576,7 @@ public class OmnitureTracking {
 	}
 
 	private static void trackAbacusTest(Context context, ADMS_Measurement s, AbacusTest test) {
-		if (test == null) {
+		if (test == null || !ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			return;
 		}
 		// Adds piping for multivariate AB Tests.

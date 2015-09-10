@@ -145,4 +145,6 @@ public interface IProductFlavorFeatureConfiguration {
 	HotelFilter.Sort getDefaultSort();
 
 	boolean sortByDistanceForCurrentLocation();
+
+	boolean isAbacusTestEnabled();
 }
