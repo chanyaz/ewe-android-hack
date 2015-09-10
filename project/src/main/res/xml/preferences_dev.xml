@@ -303,6 +303,14 @@
             android:summary="Select a test group"
             android:title="Integration AA Test" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="8624"
+            android:summary="Select a test group"
+            android:title="Hotels AB Test" />
+        
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >
