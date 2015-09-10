@@ -10,11 +10,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingBottom="4dp"
-        android:paddingLeft="12dp"
+        android:paddingLeft="20dp"
         android:paddingRight="12dp"
         android:paddingTop="4dp"
-        android:textColor="@color/cars_actionbar_text_color"
-        android:textSize="14sp" />
+        android:textColor="#A6A6A6"
+        android:textSize="12sp" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/price_text_view"
@@ -26,6 +26,6 @@
         android:paddingRight="12dp"
         android:paddingTop="4dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/cars_actionbar_text_color"
-        android:textSize="14sp" />
+        android:textColor="#A6A6A6"
+        android:textSize="12sp" />
 </LinearLayout>
