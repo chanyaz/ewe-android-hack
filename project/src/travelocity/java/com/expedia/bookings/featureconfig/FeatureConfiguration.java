@@ -294,4 +294,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isFacebookTrackingEnabled() {
 		return true;
 	}
+
+	public boolean isAbacusTestEnabled() {
+		return false;
+	}
 }
