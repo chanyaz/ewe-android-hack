@@ -626,6 +626,121 @@
             "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_n.jpg",
             "totalRecommendations": "0",
             "totalReviews": "100"
+        },
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": true,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "hotel_etp_renovation_resort_with_free_cancellation",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "109.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "hotel_etp_renovation_resort_with_free_cancellation",
+            "localizedName": "hotel_etp_renovation_resort_with_free_cancellation",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_n.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100"
+        },
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": true,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "hotel_non_etp_with_free_cancellation",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "109.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "hotel_non_etp_with_free_cancellation",
+            "localizedName": "hotel_non_etp_with_free_cancellation",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_n.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100",
+            "isSponsoredListing" : true,
+            "clickTrackingUrl" : "http://dev2.travelhook.com/TravelAdsService/v3/Hotels/TravelAdClick?trackingData=Cmp-veg1Zklu4QZw14XjlOXAAUa/3/zzGaWy4dEI/FLvxMPrrOebJMa00oKwedqmxuN7CQrDjJbwanz19CvKZb1vQ0LGZXxc7RESdaNOKQ6Ye1CSlerzpEtQrvQzULMODT4WHm5fMXLM/6QOcTmUqkUlPDa7jK5kriGYHiI2Y9EVmR57jfOZ0+A6SAwwozP/M5JOzM1hDM3qKLNtLxnHVryX3IcVxuSrvEcwR6TKDobKSDI912wwlq6eP/PFXxjLdg7rKPEaxgElTnc1ATK9tfzZgxzdUTnkYu2E0LCEa3u6iW44MeM/bOSYOKGVwyw5kHnhwB+G62oIbaaysPQEhqC7bj7ZwWjEr60+r2kYa29yuMXVL0UPWF/cx/dmvRWES7QaIENtRqk6p7xJWMhg/MGPOfLAKYyifzrwXJHhzzBqfjMKZ7uiBddYzbJE3Hw+gPpInpWLA3DVi/fIouMiAi2QhtRS2qruYx/ouk9FGcVPWWg6MRyA8efHGhZLAQRlmRXJRS9HN9koi/yj6r7T1P5QIfrUVOT+caxpA2uEmZRBc+u63eHTTwAUUs2Emf7JcNQBOw8nB2DX6nqqfsxNOnYG1kp+kHbWerTeY1kKPAxws8QvRuxCoAdrsehrupuXtJuFsEr2O2jQqQRxPM9IWki8j23QxwDtmV7/eXpOYcYFvwyF9vVG1QqvZDReib8IQl6IfUkUsy8njenQXoVq0f7cN8RGigGTyVQVfRlBd5SZM9iky2w8tbPAfGy4CrH2Y5PBWVqY/otUXV16x/0kdBAROWzWDei8ITZkSZ8wsPfwCEYri6J+xJbwUZ8EK0j3pDVcedJrRu3FUsWaC6wA16S4AG/SNWrkwMo1uP2pVlGd6kcRgAJTpcPZM0GQLCET9819W/U/A/G2la+8ws+OgQG+tICs8n+UjL9RVyJmJDnvpll0KvlFFrFqCaz1KPbs3q8Oa9PExXwCuQwYPhyiJVAw28rDqc37w4fIlpFOR1MsFD6gNp9wCPTRvs7Bqwk9/9EWuZnWYyYv68+ji+mafRwk2Jc8rppUWKxNV4+Ffge9lKyHZnS/ppfLLqzAfQbXrAR9olshZq8OKsVvukH5LmLwLmvK0duL+PslUYgeb0oAcR8FPnEa0UTh/w==&rank=1&testVersionOverride=%5BtestVersionOverride%5D&candidateHmGuid=33e4e688-a866-4c66-950a-a6a5d6af0971&beaconIssued=2015-05-22T18:12:38",
+            "impressionTrackingUrl" : "http://dev2.travelhook.com/TravelAdsService/v3/Hotels/TravelAdImpression?trackingData=Cmp-veg1Zklu4QZw14XjlOXAAUa/3/zzGaWy4dEI/FLvxMPrrOebJMa00oKwedqmxuN7CQrDjJbwanz19CvKZb1vQ0LGZXxc7RESdaNOKQ6Ye1CSlerzpEtQrvQzULMODT4WHm5fMXLM/6QOcTmUqkUlPDa7jK5kriGYHiI2Y9EVmR57jfOZ0+A6SAwwozP/M5JOzM1hDM3qKLNtLxnHVryX3IcVxuSrvEcwR6TKDobKSDI912wwlq6eP/PFXxjLdg7rKPEaxgElTnc1ATK9tfzZgxzdUTnkYu2E0LCEa3u6iW44MeM/bOSYOKGVwyw5kHnhwB+G62oIbaaysPQEhqC7bj7ZwWjEr60+r2kYa29yuMXVL0UPWF/cx/dmvRWES7QaIENtRqk6p7xJWMhg/MGPOfLAKYyifzrwXJHhzzBqfjMKZ7uiBddYzbJE3Hw+gPpInpWLA3DVi/fIouMiAi2QhtRS2qruYx/ouk9FGcVPWWg6MRyA8efHGhZLAQRlmRXJRS9HN9koi/yj6r7T1P5QIfrUVOT+caxpA2uEmZRBc+u63eHTTwAUUs2Emf7JcNQBOw8nB2DX6nqqfsxNOnYG1kp+kHbWerTeY1kKPAxws8QvRuxCoAdrsehrupuXtJuFsEr2O2jQqQRxPM9IWki8j23QxwDtmV7/eXpOYcYFvwyF9vVG1QqvZDReib8IQl6IfUkUsy8njenQXoVq0f7cN8RGigGTyVQVfRlBd5SZM9iky2w8tbPAfGy4CrH2Y5PBWVqY/otUXV16x/0kdBAROWzWDei8ITZkSZ8wsPfwCEYri6J+xJbwUZ8EK0j3pDVcedJrRu3FUsWaC6wA16S4AG/SNWrkwMo1uP2pVlGd6kcRgAJTpcPZM0GQLCET9819W/U/A/G2la+8ws+OgQG+tICs8n+UjL9RVyJmJDnvpll0KvlFFrFqCaz1KPbs3q8Oa9PExXwCuQwYPhyiJVAw28rDqc37w4fIlpFOR1MsFD6gNp9wCPTRvs7Bqwk9/9EWuZnWYyYv68+ji+mafRwk2Jc8rppUWKxNV4+Ffge9lKyHZnS/ppfLLqzAfQbXrAR9olshZq8OKsVvukH5LmLwLmvK0duL+PslUYgeb0oAcR8FPnEa0UTh/w==&rank=1&testVersionOverride=%5BtestVersionOverride%5D&candidateHmGuid=33e4e688-a866-4c66-950a-a6a5d6af0971&beaconIssued=2015-05-22T18:12:38 "
         }
     ],
     "allNeighborhoodsInSearchRegion":[{"name":"San Francisco (QSF-All Airports)","id":6139039}]

@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mobiata.android.FormatUtils
+import rx.Observable
 import rx.Observer
 import java.util.*
 import kotlin.properties.Delegates
@@ -62,7 +63,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val mapClickContainer: FrameLayout by bindView(R.id.map_click_container)
 
     val etpRadioGroup: SlidingRadioGroup by bindView(R.id.radius_pay_options)
-    val etpInfoContainer: View by bindView(R.id.etp_info_container)
+    val etpAndFreeCancellationMessagingContainer: View by bindView(R.id.etp_and_free_cancellation_messaging_container)
+    val etpInfoText: TextView by bindView(R.id.etp_info_text)
+    val freeCancellation: TextView by bindView(R.id.free_cancellation)
+    val horizontalDividerBwEtpAndFreeCancellation: View by bindView(R.id.horizontal_divider_bw_etp_and_free_cancellation)
     val etpContainer: HotelEtpStickyHeaderLayout by bindView(R.id.etp_placeholder)
     val renovationContainer: ViewGroup by bindView(R.id.renovation_container)
     val shareHotelTextView: TextView by bindView(R.id.share_hotel_text)
@@ -129,10 +133,14 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             lastExpanded = 0
         }
 
-        vm.etpHolderObservable.subscribe {
-            etpContainer.setVisibility(View.VISIBLE)
-            etpInfoContainer.setVisibility(View.VISIBLE)
-        }
+        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, {hasETP, hasFreeCancellation -> hasETP && hasFreeCancellation})
+                .subscribeVisibility(horizontalDividerBwEtpAndFreeCancellation)
+        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, {hasETP, hasFreeCancellation -> hasETP || hasFreeCancellation})
+                .subscribeVisibility(etpAndFreeCancellationMessagingContainer)
+        vm.hasETPObservable.subscribeVisibility(etpInfoText)
+        vm.hasFreeCancellationObservable.subscribeVisibility(freeCancellation)
+
+        vm.hasETPObservable.subscribeVisibility(etpContainer)
 
         vm.etpRoomResponseListObservable.subscribe { etpRoomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             roomContainer.removeAllViews()
@@ -151,7 +159,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         hotelDescription.subscribeOnClick(vm.readMore)
         etpRadioGroup.subscribeOnCheckedChange(etpContainerObserver)
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
-        etpInfoContainer.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
+        etpAndFreeCancellationMessagingContainer.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
 
         shareHotelContainer.subscribeOnClick(vm.shareHotelClickedSubject)
 
@@ -176,7 +184,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         renovationContainer.setVisibility(View.GONE)
         etpRadioGroup.check(R.id.radius_pay_now)
         etpContainer.setVisibility(View.GONE)
-        etpInfoContainer.setVisibility(View.GONE)
+        etpAndFreeCancellationMessagingContainer.setVisibility(View.GONE)
         detailContainer.scrollTo(0, 0)
         toolBarBackground.setAlpha(0f)
         priceViewAlpha(1f)

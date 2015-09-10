@@ -44,6 +44,46 @@ public class HotelScreen {
 		return onView(withId(R.id.hotel_location));
 	}
 
+	public static ViewInteraction etpAndFreeCancellationMessagingContainer() {
+		return onView(withId(R.id.etp_and_free_cancellation_messaging_container));
+	}
+
+	public static ViewInteraction etpInfoText() {
+		return onView(withId(R.id.etp_info_text));
+	}
+
+	public static ViewInteraction freeCancellation() {
+		return onView(withId(R.id.free_cancellation));
+	}
+
+	public static ViewInteraction horizontalDividerBwEtpAndFreeCancellation() {
+		return onView(withId(R.id.horizontal_divider_bw_etp_and_free_cancellation));
+	}
+
+	public static ViewInteraction etpPlaceholder() {
+		return onView(withId(R.id.etp_placeholder));
+	}
+
+	public static ViewInteraction payNowAndLaterOptions() {
+		return onView(withId(R.id.radius_pay_options));
+	}
+
+	public static ViewInteraction roomsContainer() {
+		return onView(withId(R.id.room_container));
+	}
+
+	public static ViewInteraction resortFeesText() {
+		return onView(withId(R.id.resort_fees_text));
+	}
+
+	public static ViewInteraction commonAmenitiesText() {
+		return onView(withId(R.id.common_amenities_text));
+	}
+
+	public static ViewInteraction renovationContainer() {
+		return onView(withId(R.id.renovation_container));
+	}
+
 	public static void selectLocation(String hotel) throws Throwable {
 		ScreenActions.delay(1);
 		onView(withText(hotel))
