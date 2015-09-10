@@ -1,8 +1,10 @@
 package com.expedia.bookings.presenter.hotel
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.Rect
 import android.os.Build
 import android.support.v7.widget.Toolbar
 import android.text.Editable
@@ -18,6 +20,7 @@ import android.widget.LinearLayout
 import android.widget.ToggleButton
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AnimUtils
@@ -48,6 +51,7 @@ import kotlin.properties.Delegates
 
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val searchLocation: AlwaysFilterAutoCompleteTextView by bindView(R.id.hotel_location)
+    val dropdownAnchor: View by bindView(R.id.drop_down_anchor)
     val clearLocationButton: ImageView by bindView(R.id.clear_location_button)
     val selectDate: ToggleButton by bindView(R.id.select_date)
     val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
@@ -92,6 +96,31 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     override fun onFinishInflate() {
         addTransition(defaultToCal)
         show(HotelParamsDefault())
+
+        //Adjust height of Dropdown according to height available (depending on keyboard visibility)
+        val mRootWindow = (getContext() as Activity).getWindow()
+        val mRootView = mRootWindow.getDecorView().findViewById(android.R.id.content)
+        mRootView.getViewTreeObserver().addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val decorView = mRootWindow.getDecorView()
+                val windowVisibleDisplayFrameRect = Rect()
+                decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
+                searchLocation.setDropDownHeight(windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - dropdownAnchor.getY().toInt() - 100)
+                //Invalidate the Dropdown so it redraws itself
+                hotelSuggestionAdapter.notifyDataSetChanged()
+            }
+        })
+
+        //Focus to search location after a delay
+        postDelayed(object : Runnable {
+            override fun run() {
+                if (ExpediaBookingApp.isAutomation()) {
+                    return
+                }
+                searchLocation.requestFocus()
+                com.mobiata.android.util.Ui.showKeyboard(searchLocation, null)
+            }
+        }, 300)
     }
 
     var viewmodel: HotelSearchViewModel by notNullAndObservable { vm ->
@@ -150,9 +179,12 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         }
 
         searchLocation.setAdapter(hotelSuggestionAdapter)
+        searchLocation.setOnClickListener { view ->
+            searchLocation.showDropDown()
+        }
         searchLocation.setOnFocusChangeListener { view, isFocused ->
             if (isFocused) {
-                searchLocation.showDropDown()
+                searchLocation.setText(searchLocation.getText() ?: "")
                 clearLocationButton.setVisibility(View.VISIBLE)
             } else{
                 clearLocationButton.setVisibility(View.GONE)
@@ -226,7 +258,6 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     init {
         View.inflate(context, R.layout.widget_hotel_search_params, this)
         traveler.viewmodel = HotelTravelerPickerViewModel(getContext())
-        searchLocation.requestFocus();
         calendar.setVisibility(View.INVISIBLE)
         traveler.setVisibility(View.GONE)
         selectDate.setChecked(false)

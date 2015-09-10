@@ -1,8 +1,10 @@
 package com.expedia.bookings.widget
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
@@ -16,6 +18,9 @@ import com.expedia.vm.HotelSuggestionViewModel
 import java.util.concurrent.CountDownLatch
 
 public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewModel) : BaseAdapter(), Filterable {
+    private val DEFAULT_AUTOFILL_ITEM_VIEW = 0
+    private val SUGGESTION_ITEM_VIEW = 1
+    private val ITEM_VIEW_TYPE_COUNT = 2
 
     private val filter = object : Filter() {
         override public fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
@@ -38,6 +43,41 @@ public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewMod
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
+        val itemViewType = getItemViewType(position)
+
+        var view: View? = null
+        when (itemViewType) {
+            DEFAULT_AUTOFILL_ITEM_VIEW -> view = getDefaultAutofillItemView(parent.getContext(), convertView)
+
+            SUGGESTION_ITEM_VIEW -> view = getSuggestionItemView(position, convertView, parent)
+        }
+
+        return view
+    }
+
+    override fun getCount(): Int {
+        return viewmodel.suggestions.size()
+    }
+
+    override fun getViewTypeCount(): Int {
+        return ITEM_VIEW_TYPE_COUNT
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0) DEFAULT_AUTOFILL_ITEM_VIEW else SUGGESTION_ITEM_VIEW
+    }
+
+    private fun getDefaultAutofillItemView(context: Context, convertView: View?): View {
+        var view = convertView
+        if (view == null) {
+            view = View(context)
+            view.setLayoutParams(AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0))
+        }
+
+        return view
+    }
+
+    private fun getSuggestionItemView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view = convertView
 
         if (view == null) {
@@ -49,10 +89,6 @@ public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewMod
         holder.viewmodel.suggestionObserver.onNext(getItem(position))
 
         return view
-    }
-
-    override fun getCount(): Int {
-        return viewmodel.suggestions.size()
     }
 
     override fun getFilter(): Filter? {
