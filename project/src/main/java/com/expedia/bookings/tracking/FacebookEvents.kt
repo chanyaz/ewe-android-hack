@@ -43,9 +43,9 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import kotlin.List
 
-val TAG = "FacebookTracking"
-var context: Context? = null
-var facebookLogger: AppEventsLogger? = null
+private val TAG = "FacebookTracking"
+private var context: Context? = null
+private var facebookLogger: AppEventsLogger? = null
 
 fun track(event: String, parameters: Bundle) {
     val keys = parameters.keySet()
