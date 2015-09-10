@@ -169,9 +169,9 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	AbacusServices provideAbacus(OkHttpClient client, EndpointProvider endpointProvider, RestAdapter.LogLevel loglevel) {
+	AbacusServices provideAbacus(OkHttpClient client, EndpointProvider endpointProvider, RequestInterceptor interceptor, RestAdapter.LogLevel loglevel) {
 		final String endpoint = endpointProvider.getAbacusEndpointUrl();
-		return new AbacusServices(client, endpoint, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
+		return new AbacusServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
 	}
 
 	@Provides

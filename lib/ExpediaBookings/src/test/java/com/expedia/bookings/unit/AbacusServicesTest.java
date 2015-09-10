@@ -17,6 +17,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
 
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
@@ -35,8 +36,14 @@ public class AbacusServicesTest {
 
 	@Before
 	public void before() {
-		service = new AbacusServices(new OkHttpClient(),
-			"http://localhost:" + server.getPort(),
+		service = new AbacusServices("http://localhost:" + server.getPort(),
+			new OkHttpClient(),
+			new RequestInterceptor() {
+				@Override
+				public void intercept(RequestFacade request) {
+					// ignore
+				}
+			},
 			Schedulers.immediate(),
 			Schedulers.immediate(),
 			RestAdapter.LogLevel.FULL);
