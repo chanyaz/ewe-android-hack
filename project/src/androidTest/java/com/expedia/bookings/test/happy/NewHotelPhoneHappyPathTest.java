@@ -2,6 +2,7 @@ package com.expedia.bookings.test.happy;
 
 import org.joda.time.DateTime;
 
+import android.support.test.espresso.Espresso;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
@@ -9,6 +10,7 @@ import com.expedia.bookings.test.phone.newhotels.HotelScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsReviewsScreen;
 import com.expedia.bookings.utils.MockModeShim;
 import com.mobiata.mocke3.ExpediaDispatcher;
 
@@ -20,12 +22,24 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 	public void testNewHotelPhoneHappyPath() throws Throwable {
 		doSearch();
 		selectHotel();
+		reviews();
 		selectRoom();
 		checkout();
 		slideToPurchase();
 		enterCVV();
 		confirmation();
 		verifyTravelAdTracking();
+	}
+
+	private void reviews() throws Throwable {
+		HotelScreen.clickRatingContainer();
+		ScreenActions.delay(1);
+		screenshot("Hotel_Reviews");
+		HotelsReviewsScreen.clickCriticalTab();
+		HotelsReviewsScreen.clickFavorableTab();
+		HotelsReviewsScreen.clickRecentTab();
+		// TO-DO: Change to close button once the functionality is implemented.
+		Espresso.pressBack();
 	}
 
 	private void doSearch() throws Throwable {
