@@ -497,7 +497,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     private val fabTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), LinearInterpolator(), 750) {
 
-        private val listTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), duration * 2/3) {
+        private val listTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(2f), duration * 2/3) {
 
             var fabShouldVisiblyMove: Boolean = true
             var mapTranslationStart: Float = 0f
@@ -577,7 +577,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
         }
 
-        private val carouselTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(), duration/3) {
+        private val carouselTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(2f), duration/3) {
 
             override fun startTransition(forward: Boolean) {
                 mapCarouselContainer.setVisibility(View.VISIBLE)
