@@ -3753,16 +3753,6 @@
 
     <string name="lob_not_supported_error_message">Maaf, pemesanan {lob} saat ini belum tersedia untuk kawasan Anda.</string>
 
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_an_Expedia_account">Buat akun Expedia</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Expedia">Selamat datang di Expedia</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Expedia_account_already_exists">Sudah ada akun Expedia yang terdaftar dengan email ini</string>
-    <!-- Children age label on hotel search -->
-    <string name="children_age_label">(0-17 tahun)</string>
-
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Kawasan</string>
     <string name="amenities">Fasilitas</string>

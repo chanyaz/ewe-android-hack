@@ -3753,16 +3753,6 @@
 
     <string name="lob_not_supported_error_message">很抱歉，您的所在地點尚未提供{lob}預訂。</string>
 
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_an_Expedia_account">註冊 Expedia 帳戶</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Expedia">歡迎使用 Expedia</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Expedia_account_already_exists">此電子郵件地址已經有一個 Expedia 帳戶</string>
-    <!-- Children age label on hotel search -->
-    <string name="children_age_label">(0-17 歲)</string>
-
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">鄰近地區</string>
     <string name="amenities">設施服務</string>

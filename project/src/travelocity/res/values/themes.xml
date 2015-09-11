@@ -189,9 +189,6 @@
         <item name="acct__checkmark_good_drawable">@drawable/acct__ic_checkmark_tvly</item>
         <item name="acct__checkmark_warning_drawable">@drawable/acct__ic_warning_tvly</item>
         <item name="skin_accountCreationBackgroundDrawable">@drawable/bg_mtfuji_crop_tvly</item>
-        <item name="acct__create_account_prompt_string">@string/acct_Create_a_Travelocity_account</item>
-        <item name="acct__welcome_message_string">@string/acct_Welcome_to_Travelocity</item>
-        <item name="acct__account_already_exists_string">@string/acct_Travelocity_account_already_exists</item>
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
         <item name="acct__logo_text_drawable_margin_left">0dp</item>
         <item name="acct__logo_text_drawable_margin_top">20dp</item>

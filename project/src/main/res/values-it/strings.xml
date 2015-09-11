@@ -3753,16 +3753,6 @@
 
     <string name="lob_not_supported_error_message">Siamo spiacenti, la prenotazione di {lob} non è al momento disponibile nella località in cui ti trovi.</string>
 
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_an_Expedia_account">Crea un account Expedia</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Expedia">Benvenuto su Expedia</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Expedia_account_already_exists">Questo indirizzo e-mail è già associato a un account Expedia</string>
-    <!-- Children age label on hotel search -->
-    <string name="children_age_label">(0-17 anni)</string>
-
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Quartieri</string>
     <string name="amenities">Servizi</string>
