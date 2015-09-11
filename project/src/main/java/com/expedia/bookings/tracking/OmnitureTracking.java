@@ -2832,34 +2832,6 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	// Documentation: https://confluence/display/Omniture/Ad-X+Campaign+Measurement
-
-	private static final String ADX_EVENT = "Ad-X Download";
-	private static final String ADX_ORGANIC_EVENT = "Ad-X Organic";
-	private static final String ORGANIC_ADX_DOWNLOAD_REFERRAL_STRING = "Mob :: Brand";
-
-	public static void trackAdXReferralLink(String referral) {
-		if (ORGANIC_ADX_DOWNLOAD_REFERRAL_STRING.equals(referral)) {
-			Log.d(TAG, "Tracking \"" + ADX_ORGANIC_EVENT + "\"");
-
-			ADMS_Measurement s = getFreshTrackingObject();
-
-			s.setEvar(8, referral);
-
-			s.trackLink(null, "o", ADX_ORGANIC_EVENT, null, null);
-		}
-		else {
-			Log.d(TAG, "Tracking \"" + ADX_EVENT + "\"");
-
-			ADMS_Measurement s = getFreshTrackingObject();
-
-			s.setEvar(8, referral);
-			s.setEvents("event20");
-
-			s.trackLink(null, "o", ADX_EVENT, null, null);
-		}
-	}
-
 	public static void trackGooglePlayReferralLink(Context context, Intent intent) {
 		ADMS_ReferrerHandler handler = new ADMS_ReferrerHandler();
 		handler.processIntent(context, intent);
