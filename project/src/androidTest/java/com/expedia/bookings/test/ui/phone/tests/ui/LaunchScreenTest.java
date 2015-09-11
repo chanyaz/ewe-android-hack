@@ -3,25 +3,32 @@ package com.expedia.bookings.test.ui.phone.tests.ui;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.Statement;
 
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.not;
 
 /**
@@ -38,6 +45,9 @@ public class LaunchScreenTest {
 	*/
 	@Rule
 	public ActivityTestRule<PhoneLaunchActivity> activityRule = new ActivityTestRule<>(PhoneLaunchActivity.class);
+
+	@Rule
+	public TestName name = new TestName();
 
 	@Rule
 	public TestRule posRule = new TestRule() {
@@ -82,6 +92,12 @@ public class LaunchScreenTest {
 					for (PointOfSaleId pos : pointsOfSale) {
 						setPOS(pos);
 						base.evaluate();
+						if (name.getMethodName().contains("GT") && PointOfSale.getPointOfSale()
+							.supports(LineOfBusiness.CARS)) {
+							AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppSplitGTandActivities,
+								AbacusUtils.DefaultVariate.BUCKETED.ordinal());
+						}
+
 					}
 				}
 			};
@@ -113,6 +129,16 @@ public class LaunchScreenTest {
 			.check(matches(((carsEnabled && lxEnabled) ? isDisplayed() : not(isDisplayed()))));
 		LaunchScreen.lxLaunchButtonInDoubleRow()
 			.check(matches(((carsEnabled && lxEnabled) ? isDisplayed() : not(isDisplayed()))));
+	}
+
+	@Test
+	public void testGTSupport() {
+		boolean carsEnabled = PointOfSale.getPointOfSale().supports(LineOfBusiness.CARS);
+
+		LaunchScreen.fiveLOBDoubleRowWidget().check(matches((carsEnabled) ? withEffectiveVisibility(
+			ViewMatchers.Visibility.VISIBLE) : withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+		LaunchScreen.fiveLOBDoubleRowWidget().check(matches((carsEnabled) ? hasDescendant(withId(R.id.transport_button))
+			: hasDescendant(withId(R.id.activities_button))));
 	}
 
 
