@@ -241,7 +241,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
             var mostInterestingNeighborhood: HotelSearchResponse.Neighborhood?
 
-            if (allHotelsBox.build().contains(LatLng(currentLat, currentLong)) && closestHotel != null && closestHotel.locationId != null) {
+            var anyPointsIncludedInAllHotelsBox = if (skipFirstHotel) (response.hotelList.size() > 1) else (response.hotelList.size() > 0)
+            if (anyPointsIncludedInAllHotelsBox && allHotelsBox.build().contains(LatLng(currentLat, currentLong)) && closestHotel != null && closestHotel.locationId != null) {
                 mostInterestingNeighborhood = response.neighborhoodsMap.get(closestHotel.locationId)
             } else {
                 mostInterestingNeighborhood = response.allNeighborhoodsInSearchRegion.reduce { left, right -> if (left.score >= right.score) left else right }
