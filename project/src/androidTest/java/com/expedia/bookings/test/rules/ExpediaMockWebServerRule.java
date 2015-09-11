@@ -8,7 +8,7 @@ import org.junit.runners.model.Statement;
 
 import android.support.test.InstrumentationRegistry;
 
-import com.expedia.bookings.test.ui.tablet.pagemodels.Settings;
+import com.expedia.bookings.test.tablet.pagemodels.Settings;
 import com.expedia.bookings.utils.AndroidFileOpener;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileOpener;

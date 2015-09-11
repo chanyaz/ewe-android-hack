@@ -6,9 +6,9 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.LxTestCase;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
+import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.tablet.pagemodels.Common;
 import com.expedia.bookings.utils.LXDataUtils;
 
 import static android.support.test.espresso.Espresso.onView;

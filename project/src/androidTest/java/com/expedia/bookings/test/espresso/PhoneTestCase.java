@@ -1,6 +1,6 @@
 package com.expedia.bookings.test.espresso;
 
-import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
+import com.expedia.bookings.test.tablet.pagemodels.Common;
 
 public class PhoneTestCase extends EspressoTestCase {
 

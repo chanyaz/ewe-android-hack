@@ -14,7 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.test.ui.tablet.pagemodels.Settings;
+import com.expedia.bookings.test.tablet.pagemodels.Settings;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
