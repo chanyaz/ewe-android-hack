@@ -11,7 +11,6 @@ import android.graphics.drawable.TransitionDrawable
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format
@@ -21,8 +20,8 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
-import android.view.animation.DecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
@@ -40,8 +39,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.HotelListAdapter
+import com.expedia.bookings.widget.HotelListRecyclerView
 import com.expedia.bookings.widget.HotelMarkerPreviewAdapter
-import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.bookings.widget.createHotelMarker
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
@@ -73,7 +72,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var mapTransitionRunning: Boolean = false
     var hideFabAnimationRunning: Boolean = false
 
-    val recyclerView: RecyclerView by bindView(R.id.list_view)
+    val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
     val mapView: MapView by bindView(R.id.map_view)
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle by Delegates.lazy { toolbar.getChildAt(2) }
@@ -89,8 +88,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val hotelSubject = PublishSubject.create<Hotel>()
     val headerClickedSubject = PublishSubject.create<Unit>()
-
-    val listLayoutManager = LinearLayoutManager(context)
 
     var googleMap: GoogleMap? = null
     var subtitle: CharSequence? = null
@@ -145,12 +142,12 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     private fun resetListOffset() {
         listOffset = (getHeight() - (getHeight() / 2.7f)).toInt()
-        listLayoutManager.scrollToPositionWithOffset(adapter.numHeaderItemsInHotelsList() + 1, listOffset)
+        recyclerView.layoutManager.scrollToPositionWithOffset(adapter.numHeaderItemsInHotelsList() + 1, listOffset)
         totalDistance = halfway;
     }
 
     private fun fabShouldBeHiddenOnList(): Boolean {
-        return listLayoutManager.findFirstVisibleItemPosition() == 0
+        return recyclerView.layoutManager.findFirstVisibleItemPosition() == 0
     }
 
     private fun shouldBlockTransition(): Boolean {
@@ -320,11 +317,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         var lp = mapCarouselRecycler.getLayoutParams()
         lp.width = screen.x
 
-        recyclerView.setLayoutManager(listLayoutManager)
-        recyclerView.addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
         recyclerView.addOnScrollListener(scrollListener)
         recyclerView.addOnItemTouchListener(touchListener)
-        recyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, 0, false))
         mapCarouselRecycler.mapSubject.subscribe(markerObserver)
 
         toolbar.inflateMenu(R.menu.menu_filter_item)
@@ -404,21 +398,22 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             currentState = newState
 
             val view = recyclerView.getChildAt(1)
-            view ?: return
+            val holder = recyclerView.findViewHolderForAdapterPosition(2)
+            view ?: holder ?: return
 
-            if (halfway == 0 && threshold == 0) {
+            if (halfway == 0 && threshold == 0 && holder is HotelListAdapter.HotelViewHolder) {
                 halfway = view.getTop()
                 totalDistance = halfway
-                threshold = halfway + view.getHeight() + recyclerView.getChildAt(2).getHeight()
+                threshold = halfway + view.getHeight() + holder.imageView.getHeight()
             }
 
-            val topOffset = view.getTop()
+            val topOffset = totalDistance
 
             if (newState == RecyclerView.SCROLL_STATE_SETTLING ) {
                 //ignore
             } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset >= threshold) {
                 show(ResultsMap())
-            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset <= threshold && topOffset >= halfway) {
+            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset >= halfway) {
                 show(ResultsList())
                 recyclerView.setTranslationY(0f)
                 resetListOffset()
@@ -517,7 +512,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     if (fabShouldVisiblyMove) {
                         (fab.getDrawable() as? TransitionDrawable)?.reverseTransition(duration)
                     } else {
-                        listLayoutManager.scrollToPositionWithOffset(3, listOffset)
+                        resetListOffset()
 
                         //Let's start hiding the fab
                         getFabAnimOut().start()
