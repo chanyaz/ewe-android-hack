@@ -267,6 +267,7 @@
     "shortDescription": "Just off Market Street, downtown San Francisco's major thoroughfare, this contemporary 32-story hotel is 1 block from San Francisco Centre shops and 3 blocks from the Moscone Convention Center.",
     "signedMapUrl": "http://maps.googleapis.com/maps/api/staticmap?client=gme-expedia&center=37.78458,-122.40854&maptype=mobile&zoom=16&size=480x400&sensor=false&hl=false&signature=LYrk5MKD7KH2jhIXDQXAMCmf4xE=",
     "telesalesNumber": "1-800-766-6658",
+    "deskTopOverrideNumber": "false",
     "timeZoneUTCOffsetMinutes": "-480",
     "totalRecommendations": "2013",
     "totalReviews": "1843"

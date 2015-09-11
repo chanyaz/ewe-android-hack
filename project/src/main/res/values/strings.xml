@@ -2574,8 +2574,7 @@
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now_ab_test">Select Room</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
-    <string name="book_by_phone">Book by Phone</string>
-
+    <string name="book_by_phone">Book by phone</string>
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
@@ -2697,6 +2696,15 @@
         <item quantity="many">%d Reviews</item>
         <item quantity="other">%d Reviews</item>
     </plurals>
+
+    <!-- HOtel V2A number of reviews -->
+    <plurals name="hotel_number_of_reviews">
+        <item quantity="zero">No Reviews</item>
+        <item quantity="one">View %d Review</item>
+        <item quantity="two">View %d Reviews</item>
+        <item quantity="many">View %d Reviews</item>
+        <item quantity="other">View %d Reviews</item>
+    </plurals>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -2752,6 +2760,8 @@
         <item quantity="many">Only %d rooms left!</item>
         <item quantity="other">Only %d rooms left!</item>
     </plurals>
+    <!-- The text we use to show room info for expanded room -->
+    <string name="room_information">Room Information</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Non-refundable</string>
     <!-- Label for free nights -->
@@ -2775,8 +2785,6 @@
     <!-- View Room button text -->
     <string name="view_room_button_text">View Room</string>
 
-    <!-- Share hotel Listing -->
-    <string name="share_hotel_listing">Share Hotel Listing</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Share via</string>
     <!-- Renovation Notice -->

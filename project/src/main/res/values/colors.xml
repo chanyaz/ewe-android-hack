@@ -97,6 +97,8 @@
     <color name="hotel_cell_gray_text">#888888</color>
     <color name="hotel_cell_light_gray_text">#D7D7D7</color>
     <color name="hotel_cell_secondary_text_color">#9A9A9A</color>
+    <color name="hotel_cell_disabled_text">#7D7D7D</color>
+    <color name="hotel_detail_divider">#CACACA</color>
 
     <!-- Hotel reviews colors -->
     <color name="hotel_review_background_color">#FAFAFA</color>

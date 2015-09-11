@@ -19,8 +19,7 @@ public class HotelInfoView(context: Context) : LinearLayout(context) {
     }
 
     fun setText(header: String, info: String) {
-        infoHeader.setText(header)
-        infoText.setBackgroundColor(Color.TRANSPARENT)
+        infoHeader.setText(Html.fromHtml(header))
         infoText.setText(Html.fromHtml(StrUtils.getFormattedContent(getContext(), info)))
     }
 

@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.newhotels;
 
 import org.joda.time.DateTime;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
@@ -12,7 +13,10 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
 
 public class NewHotelDetailTest extends HotelTestCase {
@@ -74,6 +78,32 @@ public class NewHotelDetailTest extends HotelTestCase {
 		assertViewsBasedOnETPAndFreeCancellation(true, true, "ETP_Hotel_With_Free_Cancellation");
 		assertPayLaterPayNowRooms();
 	}
+
+	public void testCurrentAllotmentMessage() throws Throwable {
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		final DateTime endDateTime = startDateTime.plusDays(3);
+		HotelScreen.location().perform(typeText("SFO"));
+		HotelScreen.selectLocation("San Francisco, CA");
+		HotelScreen.selectDateButton().perform(click());
+		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		HotelScreen.searchButton().perform(click());
+		HotelScreen.selectHotel(12);
+
+		//if current allotment < 5, we show number of rooms left on "collapsed room container"
+		//otherwise we just show free cancellation message
+
+		onView(withText("View Room")).perform(scrollTo());
+		ScreenActions.delay(2);
+
+		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(withId(R.id.collapsed_container)), isDisplayed()))
+			.check(matches(withText("1 Room Left!")));
+
+		onView(withText("View Room")).perform(click());
+
+		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(withId(R.id.collapsed_container)), isDisplayed()))
+			.check(matches(withText("Non-refundable")));
+	}
+
 
 	private void assertPayLaterPayNowRooms() throws Throwable {
 		//pay now view should show all the rooms and

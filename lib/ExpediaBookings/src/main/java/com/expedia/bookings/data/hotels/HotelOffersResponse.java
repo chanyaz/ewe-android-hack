@@ -48,6 +48,7 @@ public class HotelOffersResponse {
 	public static class HotelRoomResponse {
 		public List<BedTypes> bedTypes;
 		public String cancellationPolicy;
+		public String currentAllotment;
 		public Boolean hasFreeCancellation;
 		public String freeCancellationWindowDate;
 		public HotelRoomResponse payLaterOffer;
@@ -75,7 +76,6 @@ public class HotelOffersResponse {
 					bedNames.add(bed.description);
 				}
 			}
-
 			return Strings.joinWithoutEmpties(", ", bedNames);
 		}
 	}
