@@ -75,7 +75,7 @@ public class HotelValueAddsTest {
         val expected = arrayListOf<String>()
         vm.commonAmenityTextObservable.subscribe(testSubscriber)
 
-        vm.downloadListener.onNext(offerResponse)
+        vm.hotelOffersSubject.onNext(offerResponse)
         expected.add("All rooms include free airport shuttle")
 
         testSubscriber.assertReceivedOnNext(expected)
@@ -89,7 +89,7 @@ public class HotelValueAddsTest {
         observer.assertCompleted()
 
         val offerResponse = observer.getOnNextEvents().get(0)
-        vm.downloadListener.onNext(offerResponse)
+        vm.hotelOffersSubject.onNext(offerResponse)
         var uniqueAmenityForEachRoom = vm.getValueAdd(offerResponse.hotelRoomResponse)
         assertEquals("Includes free parking", uniqueAmenityForEachRoom.get(0))
         assertEquals("Includes continental breakfast", uniqueAmenityForEachRoom.get(1))

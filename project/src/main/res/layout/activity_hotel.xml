@@ -18,6 +18,12 @@
         android:layout_height="match_parent"
         android:visibility="visible"/>
 
+    <com.expedia.bookings.widget.LoadingOverlayWidget
+        android:id="@+id/details_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <com.expedia.bookings.presenter.hotel.HotelDetailPresenter
         android:id="@+id/widget_hotel_detail"
         android:layout_width="match_parent"

@@ -18,6 +18,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     val hotelDetailView: HotelDetailView by bindView(R.id.hotel_detail)
     val hotelRenovationDesc: SpecialNoticeWidget by bindView(R.id.hotel_detail_desc)
     val hotelPayLaterInfo : PayLaterInfoWidget by bindView(R.id.hotel_pay_later_info)
+    var searchTop = 0
 
     init {
         View.inflate(context, R.layout.widget_hotel_detail_presenter, this)
@@ -68,4 +69,27 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     fun showDefault() {
         show(hotelDetailView)
     }
+
+    public fun animationStart(forward: Boolean): Float {
+        searchTop = hotelDetailView.getTop()
+
+        hotelDetailView.toolbar.setVisibility(View.VISIBLE)
+        hotelDetailView.toolbarTitle.setTranslationY(searchTop.toFloat())
+        hotelDetailView.toolBarRating.setTranslationY(searchTop.toFloat())
+        return hotelDetailView.toolbar.getAlpha()
+    }
+
+    public fun animationUpdate(f: Float, forward: Boolean) {
+        val yTrans = if (forward) -(searchTop * -f) else (searchTop * (1 - f))
+        hotelDetailView.toolbarTitle.setTranslationY(yTrans)
+        hotelDetailView.toolBarRating.setTranslationY(yTrans)
+    }
+
+    public fun animationFinalize(forward: Boolean) {
+        hotelDetailView.toolbar.setVisibility(View.VISIBLE)
+        hotelDetailView.toolbar.setVisibility(View.VISIBLE)
+        hotelDetailView.toolbarTitle.setTranslationY(0f)
+        hotelDetailView.toolBarRating.setTranslationY(0f)
+    }
+
 }

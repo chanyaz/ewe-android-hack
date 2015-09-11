@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -12,11 +13,11 @@ import com.expedia.bookings.utils.Ui;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class LXLoadingOverlayWidget extends LinearLayout {
+public class LoadingOverlayWidget extends LinearLayout {
 
-	public LXLoadingOverlayWidget(Context context, AttributeSet attrs) {
+	public LoadingOverlayWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		inflate(context, R.layout.lx_loading_overlay, this);
+		inflate(context, R.layout.loading_overlay, this);
 	}
 
 	@InjectView(R.id.overlay_loading_text)
@@ -46,5 +47,13 @@ public class LXLoadingOverlayWidget extends LinearLayout {
 		else {
 			AnimUtils.slideDown(loadingText);
 		}
+	}
+
+	public void setBackground(int id) {
+		overlayTitleContainer.setBackgroundResource(id);
+	}
+
+	public void setBackgroundAttr(Drawable id) {
+		overlayTitleContainer.setBackground(id);
 	}
 }

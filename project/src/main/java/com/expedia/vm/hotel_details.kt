@@ -39,7 +39,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     override fun onGalleryItemClicked(item: Any) {
         throw UnsupportedOperationException()
     }
-
+    val hotelOffersSubject = BehaviorSubject.create<HotelOffersResponse>()
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
     var etpOffersList = ArrayList<HotelOffersResponse.HotelRoomResponse>()
     val INTRO_PARAGRAPH_CUTOFF = 120
@@ -81,8 +81,9 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val userRatingObservable = BehaviorSubject.create<String>()
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
-    val downloadListener: Observer<HotelOffersResponse> = endlessObserver { response ->
-        hotelOffersResponse = response
+
+    private fun bindDetails(response: HotelOffersResponse) {
+    hotelOffersResponse = response
         if (response.hotelRenovationText?.content != null) renovationObservable.onNext(Unit)
         galleryObservable.onNext(Images.getHotelImages(response))
 
@@ -295,18 +296,17 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             hotelLatLngObservable.onNext(doubleArrayOf(hotel.latitude, hotel.longitude))
         }
 
-        Observable.combineLatest(paramsSubject, hotelSelectedSubject, { p, h -> Pair(p, h) }).subscribe { data ->
-            val (params, hotel) = data
-
-            val subject = PublishSubject.create<HotelOffersResponse>()
-            subject.subscribe { downloadListener.onNext(it) }
-            hotelServices.details(params, hotel.hotelId, subject)
-
+        paramsSubject.subscribe { params ->
             searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
                     DateUtils.localDateToMMMd(params.checkIn)).put("enddate",
                     DateUtils.localDateToMMMd(params.checkOut)).put("guests",
                     params.getGuestString()).format().toString())
         }
+
+        hotelOffersSubject.subscribe { response ->
+            bindDetails(response)
+        }
+
     }
 
 }
