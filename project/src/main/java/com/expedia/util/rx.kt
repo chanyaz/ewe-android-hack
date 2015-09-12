@@ -17,11 +17,11 @@ public fun <T> endlessObserver(body: (in T) -> Unit) : Observer<T> {
         }
 
         override fun onCompleted() {
-            throw OnErrorNotImplementedException(RuntimeException("Cannot call completed on endless observer"))
+            throw OnErrorNotImplementedException(RuntimeException("Cannot call completed on endless observer " + body.javaClass))
         }
 
         override fun onError(e: Throwable?) {
-            throw OnErrorNotImplementedException(e)
+            throw OnErrorNotImplementedException("Error at " + body.javaClass, e)
         }
     }
 }
