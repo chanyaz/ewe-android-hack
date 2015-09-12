@@ -12,7 +12,7 @@ import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
-import com.expedia.bookings.test.tablet.pagemodels.Common;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;

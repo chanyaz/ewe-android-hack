@@ -20,13 +20,13 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		doSearch();
 
 		// Happy Path : First Item.
-		assertViewIsDisplayedAtPosition(1, R.id.hotel_name_text_view);
-		assertViewIsDisplayedAtPosition(1, R.id.price_per_night);
-		assertViewIsDisplayedAtPosition(1, R.id.background);
-		assertViewIsDisplayedAtPosition(1, R.id.hotel_rating_bar);
-		assertViewIsDisplayedAtPosition(1, R.id.guest_rating_percentage);
-		assertViewNotDisplayedAtPosition(1, R.id.discount_percentage);
-		assertViewNotDisplayedAtPosition(1, R.id.strike_through_price);
+		assertViewIsDisplayedAtPosition(2, R.id.hotel_name_text_view);
+		assertViewIsDisplayedAtPosition(2, R.id.price_per_night);
+		assertViewIsDisplayedAtPosition(2, R.id.background);
+		assertViewIsDisplayedAtPosition(2, R.id.hotel_rating_bar);
+		assertViewIsDisplayedAtPosition(2, R.id.guest_rating_percentage);
+		assertViewNotDisplayedAtPosition(2, R.id.discount_percentage);
+		assertViewNotDisplayedAtPosition(2, R.id.strike_through_price);
 	}
 
 	private void doSearch() throws Throwable {

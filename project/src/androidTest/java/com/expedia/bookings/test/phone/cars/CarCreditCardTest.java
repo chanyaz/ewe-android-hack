@@ -7,7 +7,7 @@ import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
-import com.expedia.bookings.test.tablet.pagemodels.Common;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CarTestCase;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.google.android.gms.maps.model.LatLng;

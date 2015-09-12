@@ -17,7 +17,7 @@ import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.tablet.pagemodels.Checkout;
-import com.expedia.bookings.test.tablet.pagemodels.Common;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 
@@ -206,8 +206,8 @@ public class HotelCreditCardsInfoEditTest extends PhoneTestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		if (Common.isPhone(getInstrumentation())) {
-			Common.pressBackOutOfApp(getInstrumentation());
+		if (Common.isPhone()) {
+			Common.pressBackOutOfApp();
 		}
 	}
 }

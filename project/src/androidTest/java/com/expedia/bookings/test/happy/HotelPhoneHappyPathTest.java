@@ -12,7 +12,7 @@ import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsConfirmationScree
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
-import com.expedia.bookings.test.tablet.pagemodels.Common;
+import com.expedia.bookings.test.espresso.Common;
 
 public class HotelPhoneHappyPathTest extends PhoneTestCase {
 

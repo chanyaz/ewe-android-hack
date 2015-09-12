@@ -5,7 +5,7 @@ import org.joda.time.LocalDate;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.phone.pagemodels.common.ConfirmationScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
-import com.expedia.bookings.test.tablet.pagemodels.Common;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;

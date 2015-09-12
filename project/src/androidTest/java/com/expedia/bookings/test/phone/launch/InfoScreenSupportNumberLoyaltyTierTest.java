@@ -24,7 +24,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.phone.pagemodels.common.InfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
-import com.expedia.bookings.test.tablet.pagemodels.Common;
+import com.expedia.bookings.test.espresso.Common;
 import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.intent.Intents.intended;

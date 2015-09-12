@@ -3,6 +3,7 @@ package com.expedia.bookings.test.tablet.pagemodels;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 
 import static android.support.test.espresso.Espresso.onView;

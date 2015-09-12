@@ -3,7 +3,7 @@ package com.expedia.bookings.test.tablet.sweep;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.test.tablet.pagemodels.Checkout;
-import com.expedia.bookings.test.tablet.pagemodels.Common;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.tablet.pagemodels.Launch;
 import com.expedia.bookings.test.tablet.pagemodels.Results;
 import com.expedia.bookings.test.tablet.pagemodels.Search;

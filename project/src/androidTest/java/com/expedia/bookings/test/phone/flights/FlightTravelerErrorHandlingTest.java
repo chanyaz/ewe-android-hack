@@ -16,7 +16,7 @@ import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsSc
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerPicker;
-import com.expedia.bookings.test.tablet.pagemodels.Common;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 

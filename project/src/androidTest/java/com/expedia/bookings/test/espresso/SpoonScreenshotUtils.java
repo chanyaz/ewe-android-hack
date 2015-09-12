@@ -15,7 +15,7 @@ import com.squareup.spoon.Spoon;
 
 public class SpoonScreenshotUtils {
 
-	public static void screenshot(String tag, Instrumentation instrumentation) throws Throwable {
+	public static void screenshot(String tag, Instrumentation instrumentation) {
 		Activity a = getCurrentActivity();
 		Spoon.screenshot(a, instrumentation, tag);
 	}
@@ -29,18 +29,18 @@ public class SpoonScreenshotUtils {
 	}
 
 	//Helper method to get current activity for spoon screenshot
-	public static Activity getCurrentActivity() throws Throwable {
+	public static Activity getCurrentActivity() {
 		List<Activity> activities = getResumedActivities();
 
 		if (activities.size() == 1) {
 			return activities.get(0);
 		}
 		else {
-			throw new RuntimeException("Expected exactly 1 activitiy, got: " + activities.size());
+			throw new RuntimeException("Expected exactly 1 activity, got: " + activities.size());
 		}
 	}
 
-	private static List<Activity> getResumedActivities() throws Throwable {
+	private static List<Activity> getResumedActivities() {
 		Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
 		final AtomicReference<List<Activity>> ref = new AtomicReference<>();
 		ref.set(new ArrayList<Activity>());
@@ -59,7 +59,7 @@ public class SpoonScreenshotUtils {
 		return ref.get();
 	}
 
-	public static boolean hasActiveActivity() throws Throwable {
+	public static boolean hasActiveActivity() {
 		List<Activity> activities = getResumedActivities();
 		return activities.size() > 0;
 	}

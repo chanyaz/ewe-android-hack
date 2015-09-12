@@ -2,24 +2,14 @@ package com.expedia.bookings.test.espresso;
 
 import java.util.Locale;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
-import android.view.Display;
-import android.view.WindowManager;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.RouterActivity;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.tablet.pagemodels.Settings;
-import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.SettingUtils;
-import com.mobiata.mocke3.ExpediaDispatcher;
 
 public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	public EspressoTestCase() {
@@ -32,13 +22,10 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 
 	static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";
 	static final String TEST_CASE_METHOD = "runMethod";
-	static final int PORTRAIT = 0;
-	static final int LANDSCAPE = 1;
 
 	protected Resources mRes;
 	protected String mLanguage;
 	protected String mCountry;
-	protected ExpediaDispatcher mDispatcher;
 
 	@Override
 	public void runTest() throws Throwable {
@@ -88,7 +75,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	}
 
 	public ExpediaBookingApp getApplication() {
-		return Ui.getApplication(getInstrumentation().getTargetContext());
+		return Common.getApplication();
 	}
 
 	// Returns the test class element by looking at the method InstrumentationTestCase invokes.
@@ -117,45 +104,12 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 		SpoonScreenshotUtils.screenshot(cleanTag, getInstrumentation());
 	}
 
-	public void rotateScreenTwice() throws Throwable {
-		rotateScreen();
-
-		//to rotate it back to original orientation
-		rotateScreen();
-	}
-
-	public void rotateScreen() throws Throwable {
-		Activity currentActivity = SpoonScreenshotUtils.getCurrentActivity();
-		Display display = ((WindowManager) currentActivity.getSystemService(getInstrumentation().getTargetContext().WINDOW_SERVICE)).getDefaultDisplay();
-		int orientation = display.getOrientation();
-
-		switch (orientation) {
-		case PORTRAIT:
-			currentActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-			break;
-		case LANDSCAPE:
-			currentActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-			break;
-		}
-
-		try {
-			// Wait just a little for frames to settle
-			Thread.sleep(1000);
-		}
-		catch (Exception e) {
-			// ignore
-		}
-	}
-
 	public void setLocale(Locale loc) throws Throwable {
-		Configuration conf = mRes.getConfiguration();
-		ExpediaBookingApp app = (ExpediaBookingApp) getInstrumentation().getTargetContext().getApplicationContext();
-		app.handleConfigurationChanged(conf, loc);
+		Common.setLocale(loc);
 	}
 
 	public void setPOS(PointOfSaleId pos) {
-		SettingUtils.save(getInstrumentation().getTargetContext(), R.string.PointOfSaleKey, String.valueOf(pos.getId()));
-		PointOfSale.onPointOfSaleChanged(getInstrumentation().getTargetContext());
+		Common.setPOS(pos);
 	}
 
 	public Locale getLocale() {

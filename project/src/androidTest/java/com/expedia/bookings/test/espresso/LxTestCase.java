@@ -2,7 +2,6 @@ package com.expedia.bookings.test.espresso;
 
 import com.expedia.ui.LXBaseActivity;
 import com.expedia.bookings.test.espresso.IdlingResources.LxIdlingResource;
-import com.expedia.bookings.test.tablet.pagemodels.Common;
 
 public class LxTestCase extends PhoneTestCase {
 
@@ -18,7 +17,7 @@ public class LxTestCase extends PhoneTestCase {
 
 	@Override
 	public void runTest() throws Throwable {
-		if (Common.isPhone(getInstrumentation())) {
+		if (Common.isPhone()) {
 			mLxIdlingResource = new LxIdlingResource();
 			mLxIdlingResource.register();
 		}
@@ -27,7 +26,7 @@ public class LxTestCase extends PhoneTestCase {
 
 	@Override
 	public void tearDown() throws Exception {
-		if (Common.isPhone(getInstrumentation())) {
+		if (Common.isPhone()) {
 			mLxIdlingResource.unregister();
 			mLxIdlingResource = null;
 		}

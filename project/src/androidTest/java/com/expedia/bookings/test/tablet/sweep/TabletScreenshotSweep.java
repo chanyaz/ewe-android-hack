@@ -6,7 +6,7 @@ import android.view.KeyEvent;
 
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.tablet.pagemodels.Checkout;
-import com.expedia.bookings.test.tablet.pagemodels.Common;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.tablet.pagemodels.HotelDetails;
 import com.expedia.bookings.test.tablet.pagemodels.Launch;
 import com.expedia.bookings.test.tablet.pagemodels.Results;
