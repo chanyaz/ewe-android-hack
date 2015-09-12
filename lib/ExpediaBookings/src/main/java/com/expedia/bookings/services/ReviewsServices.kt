@@ -13,13 +13,13 @@ import retrofit.RequestInterceptor
 import retrofit.RestAdapter
 import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
+import rx.Observable
 import rx.Observer
 import rx.Scheduler
-import rx.Subscription
 import java.io.IOException
 import kotlin.properties.Delegates
 
-public class ReviewsServices(endPoint: String, private val client: OkHttpClient, private val observeOn: Scheduler, private val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+public class ReviewsServices(endPoint: String, client: OkHttpClient, private val observeOn: Scheduler, private val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
     val reviewsApi: ReviewsApi by Delegates.lazy {
         val acceptJsonInterceptor: RequestInterceptor = object : RequestInterceptor {
@@ -27,6 +27,7 @@ public class ReviewsServices(endPoint: String, private val client: OkHttpClient,
                 request.addHeader("Accept", "application/json")
             }
         }
+
         val gson = GsonBuilder()
                 .registerTypeAdapter(javaClass<DateTime>(), object : TypeAdapter<DateTime>() {
 
@@ -37,25 +38,26 @@ public class ReviewsServices(endPoint: String, private val client: OkHttpClient,
                     }
 
                     throws(IOException::class)
-                    override fun read(`in`: JsonReader): DateTime? {
-                        return DateTime.parse(`in`.nextString())
+                    override fun read(input: JsonReader): DateTime? {
+                        return DateTime.parse(input.nextString())
                     }
                 })
                 .create()
+
         val adapter = RestAdapter.Builder()
                 .setEndpoint(endPoint)
                 .setLogLevel(logLevel)
                 .setRequestInterceptor(acceptJsonInterceptor)
                 .setConverter(GsonConverter(gson))
-                .setClient(OkClient(this.client))
+                .setClient(OkClient(client))
                 .build()
+
         adapter.create(javaClass<ReviewsApi>())
     }
 
-    public fun reviews(reviewsParams: HotelReviewsParams, observer: Observer<HotelReviewsResponse>): Subscription {
+    public fun reviews(reviewsParams: HotelReviewsParams): Observable<HotelReviewsResponse> {
         return reviewsApi.hotelReviews(reviewsParams.hotelId, reviewsParams.sortBy, reviewsParams.pageNumber, reviewsParams.numReviewsPerPage)
-                .observeOn(this.observeOn)
-                .subscribeOn(this.subscribeOn)
-                .subscribe(observer)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
     }
 }

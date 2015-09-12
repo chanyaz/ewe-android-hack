@@ -9,11 +9,11 @@ import rx.Observable
 
 public interface ReviewsApi {
 
-    GET("/api/hotelreviews/hotel/{hotelId}")
-    Headers("Cache-Control: no-cache")
-    public fun hotelReviews(Path("hotelId") hotelId: String,
-                            Query("sortBy") sort: String,
-                            Query("start") start: Int,
-                            Query("items") items: Int): Observable<HotelReviewsResponse>
+    @GET("/api/hotelreviews/hotel/{hotelId}")
+    @Headers("Cache-Control: no-cache")
+    public fun hotelReviews(@Path("hotelId") hotelId: String,
+                            @Query("sortBy") sort: String,
+                            @Query("start") start: Int,
+                            @Query("items") items: Int): Observable<HotelReviewsResponse>
 
 }

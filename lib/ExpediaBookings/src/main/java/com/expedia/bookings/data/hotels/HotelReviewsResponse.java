@@ -9,37 +9,31 @@ public class HotelReviewsResponse {
 
 	public ReviewDetails reviewDetails;
 
-	public class ReviewDetails {
-		public int startIndex;
-		public int numberOfReviewsInThisPage;
+	public static class ReviewDetails {
 		public ReviewSummaryCollection reviewSummaryCollection;
 		public ReviewCollection reviewCollection;
 	}
 
-	public class ReviewSummaryCollection {
-		public List<ReviewSummary> reviewSummary = new ArrayList<ReviewSummary>();
+	public static class ReviewSummaryCollection {
+		public List<ReviewSummary> reviewSummary = new ArrayList<>();
 	}
 
-	public class ReviewSummary {
+	public static class ReviewSummary {
 		public String id;
 		public String hotelId;
-		public int totalReviewCnt;
 		public float avgOverallRating;
 		public float cleanliness;
 		public float serviceAndStaff;
 		public float hotelCondition;
-		public float convenienceOfLocation;
-		public float neighborhoodSatisfaction;
 		public float roomComfort;
 	}
 
-	public class ReviewCollection {
-		public List<Review> review = new ArrayList<Review>();
+	public static class ReviewCollection {
+		public List<Review> review = new ArrayList<>();
 	}
 
-	public class Review {
+	public static class Review {
 		public String hotelId;
-		public String reviewId;
 		public int ratingOverall;
 		public String userDisplayName;
 		public String title;
