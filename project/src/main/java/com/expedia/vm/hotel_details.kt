@@ -387,7 +387,7 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
             expandedMessageObservable.onNext(expandedPair)
 
             val roomLeft = hotelRoom.currentAllotment.toInt()
-            if (hotelRoom.currentAllotment != null && roomLeft < ROOMS_LEFT_CUTOFF) {
+            if (hotelRoom.currentAllotment != null && roomLeft > 0 && roomLeft <= ROOMS_LEFT_CUTOFF) {
                 collapsedUrgencyObservable.onNext(context.getResources().getQuantityString(R.plurals.num_rooms_left, roomLeft, roomLeft))
             } else {
                 collapsedUrgencyObservable.onNext(expandedPair.first)

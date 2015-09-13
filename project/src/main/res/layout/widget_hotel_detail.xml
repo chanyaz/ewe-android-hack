@@ -426,6 +426,7 @@
                     android:background="@drawable/spinner_ripple"
                     android:orientation="vertical"
                     android:paddingBottom="20dp"
+                    android:layout_marginBottom="40dp"
                     android:paddingTop="19dp">
 
                     <com.expedia.bookings.widget.TextView
@@ -450,6 +451,24 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:gravity="bottom"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/sticky_select_room"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@color/hotels_primary_color"
+        android:gravity="center"
+        android:paddingBottom="12dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:paddingTop="12dp"
+        android:text="@string/select_a_room_instruction"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
         android:visibility="gone" />
 
     <View
