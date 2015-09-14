@@ -352,7 +352,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             else {
                 val activity = getContext() as AppCompatActivity
                 activity.onBackPressed()
-                show(ResultsList())
             }
 
         }
