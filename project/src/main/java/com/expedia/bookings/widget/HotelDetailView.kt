@@ -26,10 +26,8 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.mobiata.android.FormatUtils
 import rx.Observable
 import rx.Observer
-import java.util.*
 import kotlin.properties.Delegates
 
 object RoomSelected {
@@ -56,6 +54,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
     val ratingContainer: LinearLayout by bindView(R.id.rating_container)
     val selectRoomButton: Button by bindView(R.id.select_room_button)
+    val stickySelectRoomButton : Button by bindView(R.id.sticky_select_room)
     val userRating: TextView by bindView(R.id.user_rating)
     val numberOfReviews: TextView by bindView(R.id.number_of_reviews)
     val readMoreView : ImageButton by bindView(R.id.read_more)
@@ -230,7 +229,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     public fun addMarker(googleMap: GoogleMap) {
         val marker = MarkerOptions()
         marker.position(LatLng(hotelLatLng[0], hotelLatLng[1]))
-        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.cars_pin))
+        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.hotels_pin))
         googleMap.addMarker(marker)
     }
 
@@ -249,6 +248,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
             var ratio = (priceContainerLocation[1]) / offset
             priceViewAlpha(ratio * 1.5f)
+
+            shouldShowStickySelectRoomView()
 
             if (shouldShowResortView()) {
                 resortFeeWidget.setVisibility(View.VISIBLE)
@@ -271,6 +272,31 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         else return false
     }
 
+    public fun shouldShowStickySelectRoomView() {
+        roomContainer.getLocationOnScreen(roomContainerPosition)
+        if (roomContainerPosition[1] + roomContainer.getHeight() < offset) stickySelectRoomButton.setVisibility(View.VISIBLE)
+        else stickySelectRoomButton.setVisibility(View.GONE)
+    }
+
+    public fun scrollToRoom() {
+        roomContainer.getLocationOnScreen(roomContainerPosition)
+
+        var scrollTo = roomContainerPosition[1] - offset + detailContainer.getScrollY()
+        if (etpContainer.getVisibility() == View.VISIBLE) scrollTo -= etpContainer.getHeight()
+        val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.getScrollY(), scrollTo.toInt())
+        smoothScrollAnimation.setDuration(ANIMATION_DURATION)
+        smoothScrollAnimation.setInterpolator(DecelerateInterpolator())
+        smoothScrollAnimation.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
+            override fun onAnimationUpdate(animation: ValueAnimator) {
+                val scrollTo = animation.getAnimatedValue() as Int
+                detailContainer.scrollTo(0, scrollTo)
+            }
+        })
+
+        smoothScrollAnimation.start()
+    }
+
+
     init {
         View.inflate(getContext(), R.layout.widget_hotel_detail, this)
         statusBarHeight = Ui.getStatusBarHeight(getContext())
@@ -292,19 +318,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         val phoneIconDrawable = getResources().getDrawable(R.drawable.detail_phone).mutate()
         phoneIconDrawable.setColorFilter(getResources().getColor(R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
-        selectRoomButton.setOnClickListener {
-            val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.getScrollY(), roomContainer.getTop() + statusBarHeight)
-            smoothScrollAnimation.setDuration(ANIMATION_DURATION)
-            smoothScrollAnimation.setInterpolator(DecelerateInterpolator())
-            smoothScrollAnimation.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
-                override fun onAnimationUpdate(animation: ValueAnimator) {
-                    val scrollTo = animation.getAnimatedValue() as Int
-                    detailContainer.scrollTo(0, scrollTo)
-                }
-            })
-
-            smoothScrollAnimation.start()
-        }
+        selectRoomButton.setOnClickListener { scrollToRoom() }
+        stickySelectRoomButton.setOnClickListener { scrollToRoom() }
 
     }
 

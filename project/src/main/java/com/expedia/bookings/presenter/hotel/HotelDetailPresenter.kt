@@ -71,8 +71,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     public fun animationStart(forward: Boolean): Float {
-        searchTop = hotelDetailView.getTop()
-
+        searchTop = hotelDetailView.toolbarTitle.getTop()
         hotelDetailView.toolbar.setVisibility(View.VISIBLE)
         hotelDetailView.toolbarTitle.setTranslationY(searchTop.toFloat())
         hotelDetailView.toolBarRating.setTranslationY(searchTop.toFloat())
