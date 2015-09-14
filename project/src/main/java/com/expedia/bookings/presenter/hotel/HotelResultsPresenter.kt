@@ -21,12 +21,12 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateInterpolator
+import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
 import com.expedia.account.graphics.ArrowXDrawable
-import android.widget.SeekBar
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
@@ -46,7 +46,6 @@ import com.expedia.bookings.widget.HotelMarkerPreviewAdapter
 import com.expedia.bookings.widget.createHotelMarker
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.HotelResultsViewModel
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -76,6 +75,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var mapTransitionRunning: Boolean = false
     var hideFabAnimationRunning: Boolean = false
     var markerList = ArrayList<Marker>()
+    var previousWasList : Boolean = true
 
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
     val mapView: MapView by bindView(R.id.map_view)
@@ -228,7 +228,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         var closestToCurrentLocationVal: Float = Float.MAX_VALUE
 
         val allHotelsBox = LatLngBounds.Builder()
-        
+
+        var skipFirstHotel = true
+
         for (hotel in response.hotelList) {
             if (!skipFirstHotel) {
                 // Add markers for all hotels
@@ -260,6 +262,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     }
                 }
             }
+
+            skipFirstHotel = false
         }
 
         if (mHotelList.size() > 0) {
@@ -301,7 +305,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             if (closestMarker != null) {
                 closestMarker.marker.showInfoWindow()
                 closestMarker.marker.setIcon(createHotelMarker(getResources(), closestMarker.hotel, true))
-                mapCarouselContainer.setVisibility(View.INVISIBLE)
                 mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
                 mapCarouselRecycler.setAdapter(HotelMarkerPreviewAdapter(mHotelList, closestMarker.marker, hotelSubject))
             }
@@ -315,9 +318,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val filterObserver: Observer<List<Hotel>> = endlessObserver {
-        if (filterView.viewmodel.filteredResponse.hotelList != null && filterView.viewmodel.filteredResponse.hotelList.size() > 0) {
+        if (filterView.viewmodel.filteredResponse.hotelList != null && filterView.viewmodel.filteredResponse.hotelList.size() > 1) {
             showHotelList(filterView.viewmodel.filteredResponse)
-            show(ResultsList())
+            if (previousWasList) {
+                show(ResultsList())
+            } else {
+                show(ResultsMap())
+            }
             val map = googleMap
             val response = filterView.viewmodel.filteredResponse
             if (map != null && response != null) {
@@ -325,7 +332,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
         } else if (it == filterView.viewmodel.originalResponse?.hotelList) {
             showHotelList(filterView.viewmodel.originalResponse!!)
-            show(ResultsList())
+            if (previousWasList) {
+                show(ResultsList())
+            } else {
+                show(ResultsMap())
+            }
         }
     }
 
@@ -396,10 +407,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         fab.setOnClickListener { view ->
             if (recyclerView.getVisibility() == View.VISIBLE) {
                 show(ResultsMap())
-            }
-            else {
-                val activity = getContext() as AppCompatActivity
-                activity.onBackPressed()
+            } else {
+                show(ResultsList())
             }
 
         }
@@ -411,8 +420,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             if (filterView.getVisibility() != View.VISIBLE) {
                 filterView.setVisibility(View.VISIBLE)
                 show(ResultsFilter())
-            } else {
-                filterView.setVisibility(View.INVISIBLE)
             }
         }
 
@@ -579,6 +586,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             override fun startTransition(forward: Boolean) {
                 super.startTransition(forward)
                 recyclerView.setVisibility(View.VISIBLE)
+                previousWasList = forward
                 fabShouldVisiblyMove = if (forward) !fabShouldBeHiddenOnList() else (fab.getVisibility() == View.VISIBLE)
                 if (forward) {
                     //If the fab is visible we want to do the transition - but if we're just hiding it, don't confuse the
@@ -756,10 +764,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             super.finalizeTransition(forward)
             if (forward) {
                 filterView.setVisibility(View.VISIBLE)
-                recyclerView.setVisibility(View.INVISIBLE)
             } else {
                 filterView.setVisibility(View.GONE)
-                recyclerView.setVisibility(View.VISIBLE)
             }
         }
     }
@@ -776,11 +782,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             if (forward) {
+                fab.setVisibility(View.GONE)
                 filterView.setVisibility(View.VISIBLE)
-                mapCarouselContainer.setVisibility(View.INVISIBLE)
             } else {
+                fab.setVisibility(View.VISIBLE)
                 filterView.setVisibility(View.GONE)
-                mapCarouselContainer.setVisibility(View.VISIBLE)
             }
         }
     }

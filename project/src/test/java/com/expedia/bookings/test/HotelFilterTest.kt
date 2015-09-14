@@ -131,8 +131,6 @@ public class HotelFilterTest {
         }
     }
 
-
-
     private fun fakeFilteredResponse() : HotelSearchResponse {
         var filteredResponse = HotelSearchResponse()
         filteredResponse.hotelList = ArrayList<Hotel>()
@@ -161,6 +159,4 @@ public class HotelFilterTest {
 
         return filteredResponse
     }
-
-
 }
