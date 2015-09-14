@@ -14,7 +14,6 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.presenter.hotel.HotelResultsPresenter
-import com.expedia.bookings.utils.Akeakamai
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -35,9 +34,7 @@ public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresent
 
     override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
         val holder: HotelViewHolder = given as HotelViewHolder
-
         val viewModel = HotelViewModel(sortedHotelList.get(position).hotel, holder.itemView.getContext())
-
         holder.bind(viewModel)
         holder.itemView.setOnClickListener(holder)
     }
@@ -95,13 +92,11 @@ public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresent
         val hotelPreviewRating: RatingBar by bindView(R.id.hotel_preview_rating)
 
         public fun bind(viewModel: HotelViewModel) {
-            viewModel.hotelThumbnailUrlObservable.subscribe { url ->
-                val imageUrl = Akeakamai(url).resizeExactly(100, 100).build()
-
+            viewModel.hotelLargeThumbnailUrlObservable.subscribe {
                 PicassoHelper.Builder(hotelPreviewImage)
                         .setError(R.drawable.cars_fallback)
                         .build()
-                        .load(imageUrl)
+                        .load(it)
             }
 
             viewModel.hotelNameObservable.subscribe(hotelPreviewText)
