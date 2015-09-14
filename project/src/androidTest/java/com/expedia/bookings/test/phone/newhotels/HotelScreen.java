@@ -194,4 +194,20 @@ public class HotelScreen {
 	public static void showCalendar() {
 		calendar().check(matches((isDisplayed())));
 	}
+
+	public static ViewInteraction guestPicker() {
+		return onView(withId(R.id.select_traveler));
+	}
+
+	public static ViewInteraction adultPicker() {
+		return onView(withId(R.id.adult));
+	}
+
+	public static ViewInteraction childPicker() {
+		return onView(withId(R.id.children));
+	}
+
+	public static ViewInteraction childAgeLabel() {
+		return onView(withId(R.id.children_age_label));
+	}
 }
