@@ -386,9 +386,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         menu?.setIcon(drawable)
 
         val button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_filter_item, null) as Button
-        val navIcon = getResources().getDrawable(R.drawable.sort).mutate()
-        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        button.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
+        val icon = getResources().getDrawable(R.drawable.sort).mutate()
+        icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+        button.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         button.setTextColor(getResources().getColor(android.R.color.white))
 
         toolbar.getMenu().findItem(R.id.menu_filter).setActionView(button)
@@ -617,6 +617,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             override fun updateTransition(f: Float, forward: Boolean) {
                 val hotelListDistance = if (forward) (screenHeight * (1 - f)) else (screenHeight * f);
                 recyclerView.setTranslationY(hotelListDistance)
+                navIcon.setParameter(if (forward) Math.abs(1 - f) else f)
                 if (forward) {
                     mapView.setTranslationY(f * mapTranslationStart)
                 }
@@ -631,8 +632,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
 
             override fun finalizeTransition(forward: Boolean) {
-                toolbar.setNavigationIcon(if (forward) R.drawable.ic_arrow_back_white_24dp else R.drawable.ic_close_white_24dp)
                 toolbarSubtitle.setVisibility(if (forward) View.VISIBLE else View.GONE)
+                navIcon.setParameter((if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK else ArrowXDrawableUtil.ArrowDrawableType.CLOSE).getType().toFloat())
 
                 menu?.setVisible(true)
 
@@ -704,7 +705,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
-            navIcon.setParameter(if (forward) Math.abs(1 - f) else f)
             if (forward) {
                 if (f < secondTransitionStartTime) {
                     carouselTransition.updateTransition(carouselTransition.interpolator.getInterpolation(f / secondTransitionStartTime), forward)
