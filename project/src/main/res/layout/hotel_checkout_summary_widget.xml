@@ -173,4 +173,30 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/price_change_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f2f2f2"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#D5D5D5" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/price_change_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/cars_checkout_text_color"
+            android:textSize="14sp"
+            app:textStyle="light" />
+
+    </LinearLayout>
+
 </merge>

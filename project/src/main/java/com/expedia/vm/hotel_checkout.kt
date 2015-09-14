@@ -76,8 +76,8 @@ public class HotelCreateTripViewModel(val hotelServices: HotelServices) {
 
 class HotelCheckoutSummaryViewModel(val context: Context) {
     // input
-    val rateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
-
+    val newRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
+    val originalRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
     // output
     val hotelName = BehaviorSubject.create<String>()
     val checkinDates = BehaviorSubject.create<String>()
@@ -93,9 +93,10 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     val feePrices = BehaviorSubject.create<String>()
     val isBestPriceGuarantee = BehaviorSubject.create<Boolean>()
     val discounts = BehaviorSubject.create<Float?>()
-
+    val priceChange = BehaviorSubject.create<String>()
+    val isPriceChange = BehaviorSubject.create<Boolean>()
     init {
-        rateObserver.subscribe {
+        newRateObserver.subscribe {
             val room = it.hotelRoomResponse
 
             hotelName.onNext(it.localizedHotelName)
@@ -126,6 +127,19 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             feePrices.onNext(fees.getFormattedMoney())
 
             isBestPriceGuarantee.onNext(room.isMerchant())
+        }
+
+        originalRateObserver.subscribe {
+            val room = it.hotelRoomResponse
+            val hasPriceChange = room != null
+            if (hasPriceChange) {
+                val currencyCode = room.rateInfo.chargeableRateInfo.currencyCode
+                val totalPrice = Money(BigDecimal(room.rateInfo.chargeableRateInfo.total.toDouble()), currencyCode)
+                priceChange.onNext(context.getString(R.string.price_changed_from_TEMPLATE,
+                        totalPrice.getFormattedMoney()))
+
+            }
+            isPriceChange.onNext(hasPriceChange)
         }
     }
 }
