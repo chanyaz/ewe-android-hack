@@ -216,6 +216,16 @@ public class OmnitureTracking {
 	public static final String HOTELS_COUPON_REMOVE = "App.CKO.Coupon.Remove";
 	public static final String HOTELS_COUPON_FAIL = "App.CKO.Coupon.Fail";
 
+	public static final String HOTELS = "App.Hotels";
+
+	public static void trackHotelsABTest() {
+		Log.d(TAG, "Tracking \"" + HOTELS + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		// TO-Do: Adding specs for tracking
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsABTest);
+		s.track();
+	}
+
 	public static void trackAppHotelsSearch() {
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();

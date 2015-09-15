@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.hotel.HotelPresenter
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PaymentWidget
 import com.google.android.gms.maps.MapView
@@ -30,6 +31,9 @@ public class HotelActivity : AppCompatActivity() {
         setContentView(R.layout.activity_hotel)
         Ui.showTransparentStatusBar(this)
         mapView.onCreate(savedInstanceState)
+        if (savedInstanceState == null) {
+            OmnitureTracking.trackHotelsABTest()
+        }
     }
 
     override fun onBackPressed() {
