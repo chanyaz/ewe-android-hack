@@ -79,7 +79,7 @@ public class AdTracker {
 		final String currency = rate.getDisplayPrice().getCurrency();
 		final Double displayPrice = rate.getDisplayPrice().getAmount().doubleValue();
 		final Double totalPrice = rate.getTotalAmountAfterTax().getAmount().doubleValue();
-		final Double pricePerNight = Db.getTripBucket().getHotel().getRate().getNightlyRateTotal().getAmount().doubleValue();
+		final Double pricePerNight = rate.getNightlyRateTotal().getAmount().doubleValue();
 
 		// Other
 		HotelBookingResponse response = Db.getTripBucket().getHotel().getBookingResponse();
@@ -95,14 +95,15 @@ public class AdTracker {
 		try {
 			if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getFlightTrip() != null) {
 				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-				Money money = trip.getTotalFare();
-				if (money != null) {
+				Money totalFare = trip.getTotalFare();
+				Money averageTotalFare = trip.getAverageTotalFare();
+				if (totalFare != null) {
 					String orderNumber = Db.getTripBucket().getFlight().getCheckoutResponse() != null ?
 						Db.getTripBucket().getFlight().getCheckoutResponse().getOrderId() : "";
 					LeanPlumUtils.trackFlightBooked(Db.getTripBucket().getFlight(), orderNumber,
-						money.getCurrency(), money.getAmount().doubleValue());
+						totalFare.getCurrency(), totalFare.getAmount().doubleValue());
 					TuneUtils.trackFlightBooked(Db.getTripBucket().getFlight(), orderNumber,
-						money.getCurrency(), money.getAmount().doubleValue());
+						totalFare.getCurrency(), totalFare.getAmount().doubleValue(), averageTotalFare.getAmount().doubleValue());
 					new FacebookEvents().trackFlightConfirmation(Db.getTripBucket().getFlight());
 				}
 			}
@@ -240,11 +241,11 @@ public class AdTracker {
 		new FacebookEvents().trackCarDetail(searchParams, searchCarOffer);
 	}
 
-	public static void trackLXBooked(String lxActivityLocation, Money totalPrice, String lxActivityStartDate,
+	public static void trackLXBooked(String lxActivityLocation, Money totalPrice, Money ticketPrice, String lxActivityStartDate,
 		List<String> lxActivityCategories, String orderId, String lxActivityTitle, String activityId,
 		LocalDate startDate, String regionId, int selectedTicketCount, int selectedChildTicketCount) {
 		LeanPlumUtils.trackLXBooked(lxActivityLocation, totalPrice, lxActivityStartDate, lxActivityCategories);
-		TuneUtils.trackLXConfirmation(lxActivityLocation, totalPrice, lxActivityStartDate,
+		TuneUtils.trackLXConfirmation(lxActivityLocation, totalPrice, ticketPrice, lxActivityStartDate,
 			orderId, lxActivityTitle);
 		new FacebookEvents().trackLXConfirmation(activityId, lxActivityLocation, startDate, regionId, totalPrice,
 			selectedTicketCount, selectedChildTicketCount);

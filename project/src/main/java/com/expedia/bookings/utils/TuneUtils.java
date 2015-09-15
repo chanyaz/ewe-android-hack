@@ -199,6 +199,7 @@ public class TuneUtils {
 			int stayDuration = hotel.getHotelSearchParams().getStayDuration();
 			eventItem.withQuantity(stayDuration)
 				.withAttribute1(hotel.getProperty().getLocation().getCity())
+				.withUnitPrice(nightlyRate)
 				.withRevenue(nightlyRate);
 
 			Date checkInDate = hotel.getHotelSearchParams().getCheckInDate().toDate();
@@ -352,12 +353,13 @@ public class TuneUtils {
 	}
 
 	public static void trackFlightBooked(TripBucketItemFlight tripBucketItemFlight, String orderId, String currency,
-		double totalPrice) {
+		double totalPrice, double averagePrice) {
 		if (initialized) {
 			MATEvent event = new MATEvent("flight_confirmation");
 			MATEventItem eventItem = new MATEventItem("flight_confirmation_item");
 			eventItem.withQuantity(tripBucketItemFlight.getFlightSearchParams().getNumTravelers())
 				.withRevenue(totalPrice)
+				.withUnitPrice(averagePrice)
 				.withAttribute2(tripBucketItemFlight.getFlightSearchParams().getDepartureLocation().getDestinationId())
 				.withAttribute3(tripBucketItemFlight.getFlightSearchParams().getArrivalLocation().getDestinationId())
 				.withAttribute4(tripBucketItemFlight.getFlightTrip().getLeg(0).getFirstAirlineCode());
@@ -531,15 +533,17 @@ public class TuneUtils {
 		}
 	}
 
-	public static void trackLXConfirmation(String lxActivityLocation, Money totalPrice, String lxActivityStartDate,
+	public static void trackLXConfirmation(String lxActivityLocation, Money totalPrice, Money ticketPrice, String lxActivityStartDate,
 		String orderId, String lxActivityTitle) {
 		if (initialized) {
 			MATEvent event = new MATEvent("lx_confirmation");
 			MATEventItem eventItem = new MATEventItem("lx_confirmation_item");
 			double revenue = totalPrice.getAmount().doubleValue();
+			double ticketPriceAmt = ticketPrice.getAmount().doubleValue();
 
 			eventItem.withQuantity(1)
 				.withRevenue(revenue)
+				.withUnitPrice(ticketPriceAmt)
 				.withAttribute2(lxActivityLocation)
 				.withAttribute3(lxActivityTitle);
 
