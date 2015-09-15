@@ -40,6 +40,9 @@ class HotelFilterViewModel(val context: Context) {
             if (filteredResponse.hotelList == null) {
                 filterObservable.onNext(originalResponse?.hotelList)
             } else {
+                if (userFilterChoices.userSort != Sort.POPULAR) {
+                    sortObserver.onNext(userFilterChoices.userSort)
+                }
                 filterObservable.onNext(filteredResponse.hotelList)
             }
         }
