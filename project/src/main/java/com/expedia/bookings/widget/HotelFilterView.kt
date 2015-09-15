@@ -2,23 +2,23 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.graphics.PorterDuff
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.RatingBar
 import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.AdapterView
-import com.expedia.bookings.widget.RangeSeekBar
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.Ui
@@ -27,12 +27,11 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelFilterViewModel
-import org.joda.time.DateTime
+import com.expedia.vm.HotelFilterViewModel.Sort
 import rx.Observer
 import java.util.ArrayList
 import java.util.Arrays
 import kotlin.properties.Delegates
-import com.expedia.vm.HotelFilterViewModel.Sort
 
 
 public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), SeekBar.OnSeekBarChangeListener {
@@ -50,11 +49,11 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
     val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
-    val filterStarOne: Button by bindView(R.id.filter_hotel_star_rating_one)
-    val filterStarTwo: Button by bindView(R.id.filter_hotel_star_rating_two)
-    val filterStarThree: Button by bindView(R.id.filter_hotel_star_rating_three)
-    val filterStarFour: Button by bindView(R.id.filter_hotel_star_rating_four)
-    val filterStarFive: Button by bindView(R.id.filter_hotel_star_rating_five)
+    val filterStarOne: RatingBar by bindView(R.id.filter_hotel_star_rating_one)
+    val filterStarTwo: RatingBar by bindView(R.id.filter_hotel_star_rating_two)
+    val filterStarThree: RatingBar by bindView(R.id.filter_hotel_star_rating_three)
+    val filterStarFour: RatingBar by bindView(R.id.filter_hotel_star_rating_four)
+    val filterStarFive: RatingBar by bindView(R.id.filter_hotel_star_rating_five)
     val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
     val filterHotelName: TextView by bindView(R.id.filter_hotel_name_edit_text)
     val dynamicFeedbackWidget : DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)
@@ -69,7 +68,6 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         button
     }
     val toolbarDropshadow: View by bindView(R.id.toolbar_dropshadow)
-    val background = android.R.attr.selectableItemBackground
     val priceRangeBar : ViewGroup by bindView(R.id.price_range_bar)
 
     var subject: Observer<List<Hotel>> by Delegates.notNull()
@@ -105,31 +103,40 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         vm.hotelStarRatingBar.subscribe {
-            val highlightStar = getResources().getColor(android.R.color.darker_gray)
             if (it == 1) {
-                filterStarOne.setBackgroundColor(highlightStar)
+                var starDrawable = filterStarOne.getProgressDrawable()
+                DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.text_black))
             } else if (it == 6) {
-                filterStarOne.setBackgroundColor(background)
+                var starDrawable = filterStarOne.getProgressDrawable()
+                DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.hotels_primary_color))
             }
             if (it == 2) {
-                filterStarTwo.setBackgroundColor(highlightStar)
+                var starDrawable = filterStarTwo.getProgressDrawable()
+                DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.text_black))
             } else if (it == 7) {
-                filterStarTwo.setBackgroundColor(background)
+                var starDrawable = filterStarTwo.getProgressDrawable()
+                DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.hotels_primary_color))
             }
             if (it == 3) {
-                filterStarThree.setBackgroundColor(highlightStar)
+                var starDrawable = filterStarThree.getProgressDrawable()
+                DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.text_black))
             } else if (it == 8) {
-                filterStarThree.setBackgroundColor(background)
+                var starDrawable = filterStarThree.getProgressDrawable()
+                DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.hotels_primary_color))
             }
             if (it == 4) {
-                filterStarFour.setBackgroundColor(highlightStar)
+                var starDrawable = filterStarFour.getProgressDrawable()
+                DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.text_black))
             } else if (it == 9) {
-                filterStarFour.setBackgroundColor(background)
+                var starDrawable = filterStarFour.getProgressDrawable()
+                DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.hotels_primary_color))
             }
             if (it == 5) {
-                filterStarFive.setBackgroundColor(highlightStar)
+                var starDrawable = filterStarFive.getProgressDrawable()
+                DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.text_black))
             } else if (it == 10) {
-                filterStarFive.setBackgroundColor(background)
+                var starDrawable = filterStarFive.getProgressDrawable()
+                DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.hotels_primary_color))
             }
         }
 
@@ -207,14 +214,25 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             }
         })
 
+        resetStars()
     }
 
     fun resetStars() {
-        filterStarOne.setBackgroundColor(background)
-        filterStarTwo.setBackgroundColor(background)
-        filterStarThree.setBackgroundColor(background)
-        filterStarFour.setBackgroundColor(background)
-        filterStarFive.setBackgroundColor(background)
+        filterStarOne.setRating(1f)
+        var starDrawable = filterStarOne.getProgressDrawable()
+        DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.hotels_primary_color))
+        filterStarTwo.setRating(2f)
+        starDrawable = filterStarTwo.getProgressDrawable()
+        DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.hotels_primary_color))
+        filterStarThree.setRating(3f)
+        starDrawable = filterStarThree.getProgressDrawable()
+        DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.hotels_primary_color))
+        filterStarFour.setRating(4f)
+        starDrawable = filterStarFour.getProgressDrawable()
+        DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.hotels_primary_color))
+        filterStarFive.setRating(5f)
+        starDrawable = filterStarFive.getProgressDrawable()
+        DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.hotels_primary_color))
     }
 
 }
