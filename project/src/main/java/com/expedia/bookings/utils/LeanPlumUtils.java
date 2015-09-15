@@ -298,7 +298,7 @@ public class LeanPlumUtils {
 
 			if (Db.getHotelSearch().getSearchResponse() != null
 				&& Db.getHotelSearch().getSearchResponse().getPropertiesCount() > 0) {
-				Location location = Db.getHotelSearch().getSearchResponse().getProperty(0).getLocation();
+				Location location = Db.getHotelSearch().getSearchResponse().getProperties().get(0).getLocation();
 				if (location != null) {
 					addCommonProductRetargeting(eventParams, location.getCity(), location.getStateCode(),
 						location.getCountryCode());
