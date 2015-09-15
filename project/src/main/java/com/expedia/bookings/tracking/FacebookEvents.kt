@@ -75,7 +75,7 @@ fun track(event: String, parameters: Bundle) {
 class FacebookEvents() {
     fun trackHotelSearch(search: HotelSearch) {
         val searchParams = search.getSearchParams()
-        val location: Location? = search.getSearchResponse()?.getProperty(0)?.getLocation()
+        val location: Location? = search.getSearchResponse()?.getProperties()?.firstOrNull()?.getLocation()
         val properties = search.getSearchResponse().getFilteredAndSortedProperties(Db.getHotelSearch().getSearchParams())
 
         val parameters = Bundle()
@@ -90,7 +90,7 @@ class FacebookEvents() {
     fun trackHotelInfosite(search: HotelSearch) {
 
         val searchParams = search.getSearchParams()
-        val location: Location? = search.getSearchResponse()?.getProperty(0)?.getLocation()
+        val location: Location? = search.getSearchResponse()?.getProperties()?.firstOrNull()?.getLocation()
         val property = search.getSelectedProperty()
 
         val parameters = Bundle()

@@ -150,7 +150,7 @@ public class TuneUtils {
 			int propertiesCount = Db.getHotelSearch().getSearchResponse().getPropertiesCount();
 			if (Db.getHotelSearch().getSearchResponse() != null && propertiesCount >= 0) {
 				for (int i = 0; (i < 5 && i < propertiesCount); i++) {
-					Property property = Db.getHotelSearch().getSearchResponse().getProperty(i);
+					Property property = Db.getHotelSearch().getSearchResponse().getProperties().get(i);
 					topFiveHotelIdsBuilder.append(property.getPropertyId());
 					String hotelId = property.getPropertyId();
 					String hotelName = property.getName();
@@ -174,7 +174,7 @@ public class TuneUtils {
 			}
 			if (propertiesCount > 0) {
 				eventItem
-					.withAttribute1(Db.getHotelSearch().getSearchResponse().getProperty(0).getLocation().getCity());
+					.withAttribute1(Db.getHotelSearch().getSearchResponse().getProperties().get(0).getLocation().getCity());
 			}
 			eventItem.withAttribute4(topFiveHotelIdsBuilder.toString());
 			eventItem.withAttribute5(sb.toString());
