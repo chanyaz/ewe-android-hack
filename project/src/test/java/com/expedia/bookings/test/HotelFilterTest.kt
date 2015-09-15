@@ -73,25 +73,13 @@ public class HotelFilterTest {
     }
 
     @Test
-    fun sortByPopularity(){
-        vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.POPULAR)
-
-        for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
-            val current = vm.filteredResponse.hotelList.elementAt(i).sortIndex
-            val previous = vm.filteredResponse.hotelList.elementAt(i-1).sortIndex
-            assertTrue(current >= previous)
-        }
-    }
-
-    @Test
     fun sortByPrice(){
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.PRICE)
 
         for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
-            val current = vm.filteredResponse.hotelList.elementAt(i).sortIndex
-            val previous = vm.filteredResponse.hotelList.elementAt(i-1).sortIndex
+            val current = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.getDisplayTotalPrice()
+            val previous = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.getDisplayTotalPrice()
             assertTrue(current >= previous)
         }
     }
@@ -142,7 +130,6 @@ public class HotelFilterTest {
         hotel1.lowRateInfo.currencyCode = "USD"
         hotel1.lowRateInfo.discountPercent = -10f
         hotel1.hotelGuestRating = 4.5f
-        hotel1.sortIndex = "1"
         hotel1.proximityDistanceInMiles = 1.2
 
         val hotel2 = Hotel()
@@ -151,7 +138,6 @@ public class HotelFilterTest {
         hotel2.lowRateInfo.currencyCode = "USD"
         hotel2.lowRateInfo.discountPercent = -15f
         hotel2.hotelGuestRating = 5f
-        hotel2.sortIndex = "5"
         hotel2.proximityDistanceInMiles = 2.0
 
         filteredResponse.hotelList.add(hotel1)

@@ -28,12 +28,15 @@ class HotelFilterViewModel(val context: Context) {
     val finishClear = BehaviorSubject.create<Unit>()
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
-    data class UserFilterChoices(var isVipAccess : Boolean? = null, var hotelStarRating : StarRatings = StarRatings(), var name : String? = null, var price : Float? = null, var neighborhoods : List<String>? = null)
+    data class UserFilterChoices(var userSort: Sort = Sort.POPULAR, var isVipAccess : Boolean? = null, var hotelStarRating : StarRatings = StarRatings(), var name : String? = null, var price : Float? = null, var neighborhoods : List<String>? = null)
 
     val userFilterChoices = UserFilterChoices()
 
     init {
         doneObservable.subscribe { params ->
+            if (userFilterChoices.userSort != Sort.POPULAR) {
+                sortObserver.onNext(userFilterChoices.userSort)
+            }
             if (filteredResponse.hotelList == null) {
                 filterObservable.onNext(originalResponse?.hotelList)
             } else {
@@ -195,8 +198,6 @@ class HotelFilterViewModel(val context: Context) {
             Sort.RATING -> Collections.sort(preSortHotelList, rating_comparator_fallback_price)
             Sort.DEALS -> Collections.sort(preSortHotelList, deals_comparator)
             Sort.DISTANCE -> Collections.sort(preSortHotelList, distance_comparator_fallback_name)
-            else -> Collections.sort(preSortHotelList, popular_comparator)
-
         }
     }
 
@@ -260,12 +261,6 @@ class HotelFilterViewModel(val context: Context) {
             } else {
                 return cmp
             }
-        }
-    }
-
-    private val popular_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
-        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
-            return hotel1.sortIndex.compareTo(hotel2.sortIndex)
         }
     }
 

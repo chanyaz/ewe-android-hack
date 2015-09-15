@@ -160,7 +160,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         sortByButtonGroup.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 val sort = Sort.values()[position]
-                vm.sortObserver.onNext(sort)
+                vm.userFilterChoices.userSort = sort
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
