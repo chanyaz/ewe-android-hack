@@ -28,9 +28,9 @@ class HotelFilterViewModel(val context: Context) {
     val finishClear = BehaviorSubject.create<Unit>()
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
-    data class FilterToggles(var isVipAccess : Boolean? = null, var hotelStarRating : StarRatings = StarRatings(), var name : String? = null, var price : Float? = null, var neighborhoods : List<String>? = null)
+    data class UserFilterChoices(var isVipAccess : Boolean? = null, var hotelStarRating : StarRatings = StarRatings(), var name : String? = null, var price : Float? = null, var neighborhoods : List<String>? = null)
 
-    val filterToggles = FilterToggles()
+    val userFilterChoices = UserFilterChoices()
 
     init {
         doneObservable.subscribe { params ->
@@ -42,7 +42,7 @@ class HotelFilterViewModel(val context: Context) {
         }
 
         clearObservable.subscribe {params ->
-            resetToggles()
+            resetUserFilters()
             handleFiltering()
             finishClear.onNext(Unit)
         }
@@ -59,12 +59,12 @@ class HotelFilterViewModel(val context: Context) {
         updateDynamicFeedbackWidget.onNext(filteredResponse.hotelList.size())
     }
 
-    fun resetToggles() {
-        filterToggles.isVipAccess = null
-        filterToggles.hotelStarRating = StarRatings()
-        filterToggles.name = null
-        filterToggles.price = null
-        filterToggles.neighborhoods = null
+    fun resetUserFilters() {
+        userFilterChoices.isVipAccess = null
+        userFilterChoices.hotelStarRating = StarRatings()
+        userFilterChoices.name = null
+        userFilterChoices.price = null
+        userFilterChoices.neighborhoods = null
     }
 
     fun processFilters(hotel : Hotel) {
@@ -74,53 +74,48 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     fun filterIsVipAccess(hotel : Hotel) : Boolean {
-        if (filterToggles.isVipAccess == null) return true
-        return filterToggles.isVipAccess == hotel.isVipAccess
+        if (userFilterChoices.isVipAccess == null) return true
+        return userFilterChoices.isVipAccess == hotel.isVipAccess
     }
 
     fun filterHotelStarRating(hotel: Hotel) : Boolean {
-        if (!filterToggles.hotelStarRating.one &&
-                !filterToggles.hotelStarRating.two &&
-                !filterToggles.hotelStarRating.three &&
-                !filterToggles.hotelStarRating.four && !filterToggles.hotelStarRating.five) return true
+        if (!userFilterChoices.hotelStarRating.one &&
+                !userFilterChoices.hotelStarRating.two &&
+                !userFilterChoices.hotelStarRating.three &&
+                !userFilterChoices.hotelStarRating.four && !userFilterChoices.hotelStarRating.five) return true
 
-        return (1.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && filterToggles.hotelStarRating.one) ||
-                (2.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && filterToggles.hotelStarRating.two) ||
-                (3.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && filterToggles.hotelStarRating.three) ||
-                (4.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && filterToggles.hotelStarRating.four) ||
-                (5.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && filterToggles.hotelStarRating.five)
+        return (1.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && userFilterChoices.hotelStarRating.one) ||
+                (2.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && userFilterChoices.hotelStarRating.two) ||
+                (3.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && userFilterChoices.hotelStarRating.three) ||
+                (4.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && userFilterChoices.hotelStarRating.four) ||
+                (5.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && userFilterChoices.hotelStarRating.five)
     }
 
     fun filterName(hotel: Hotel) : Boolean {
-        if (filterToggles.name.isNullOrEmpty()) return true
+        if (userFilterChoices.name.isNullOrEmpty()) return true
         var namePattern: Pattern? = null
-        if (filterToggles.name != null) {
-            namePattern = Pattern.compile(".*" + filterToggles.name + ".*", Pattern.CASE_INSENSITIVE)
+        if (userFilterChoices.name != null) {
+            namePattern = Pattern.compile(".*" + userFilterChoices.name + ".*", Pattern.CASE_INSENSITIVE)
         }
         return namePattern == null || namePattern.matcher(hotel.localizedName).find()
     }
 
     fun filterPrice(hotel: Hotel) : Boolean {
-        if (filterToggles.price == null) return true
-        return filterToggles.price == hotel.lowRateInfo.priceToShowUsers
+        if (userFilterChoices.price == null) return true
+        return userFilterChoices.price == hotel.lowRateInfo.priceToShowUsers
     }
 
     val vipFilteredObserver: Observer<Boolean> = endlessObserver {
-        if (it) {
-            filterToggles.isVipAccess = true
-        } else {
-            filterToggles.isVipAccess = false
-        }
-
+        userFilterChoices.isVipAccess = it
         handleFiltering()
     }
 
     val oneStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (!filterToggles.hotelStarRating.one) {
-            filterToggles.hotelStarRating.one = true
+        if (!userFilterChoices.hotelStarRating.one) {
+            userFilterChoices.hotelStarRating.one = true
             hotelStarRatingBar.onNext(1)
         } else {
-            filterToggles.hotelStarRating.one = false
+            userFilterChoices.hotelStarRating.one = false
             hotelStarRatingBar.onNext(6)
         }
 
@@ -128,11 +123,11 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     val twoStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (!filterToggles.hotelStarRating.two) {
-            filterToggles.hotelStarRating.two = true
+        if (!userFilterChoices.hotelStarRating.two) {
+            userFilterChoices.hotelStarRating.two = true
             hotelStarRatingBar.onNext(2)
         } else {
-            filterToggles.hotelStarRating.two = false
+            userFilterChoices.hotelStarRating.two = false
             hotelStarRatingBar.onNext(7)
         }
 
@@ -140,11 +135,11 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     val threeStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (!filterToggles.hotelStarRating.three) {
-            filterToggles.hotelStarRating.three = true
+        if (!userFilterChoices.hotelStarRating.three) {
+            userFilterChoices.hotelStarRating.three = true
             hotelStarRatingBar.onNext(3)
         } else {
-            filterToggles.hotelStarRating.three = false
+            userFilterChoices.hotelStarRating.three = false
             hotelStarRatingBar.onNext(8)
         }
 
@@ -152,11 +147,11 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     val fourStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (!filterToggles.hotelStarRating.four) {
-            filterToggles.hotelStarRating.four = true
+        if (!userFilterChoices.hotelStarRating.four) {
+            userFilterChoices.hotelStarRating.four = true
             hotelStarRatingBar.onNext(4)
         } else {
-            filterToggles.hotelStarRating.four = false
+            userFilterChoices.hotelStarRating.four = false
             hotelStarRatingBar.onNext(9)
         }
 
@@ -164,11 +159,11 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     val fiveStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (!filterToggles.hotelStarRating.five) {
-            filterToggles.hotelStarRating.five = true
+        if (!userFilterChoices.hotelStarRating.five) {
+            userFilterChoices.hotelStarRating.five = true
             hotelStarRatingBar.onNext(5)
         } else {
-            filterToggles.hotelStarRating.five = false
+            userFilterChoices.hotelStarRating.five = false
             hotelStarRatingBar.onNext(10)
         }
 
@@ -176,7 +171,7 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     val filterHotelNameObserver = endlessObserver<CharSequence> { s ->
-        filterToggles.name = s.toString()
+        userFilterChoices.name = s.toString()
         handleFiltering()
     }
 
@@ -197,9 +192,9 @@ class HotelFilterViewModel(val context: Context) {
 
         when (sort) {
             Sort.PRICE -> Collections.sort(preSortHotelList, price_comparator)
-            Sort.RATING -> Collections.sort(preSortHotelList, rating_comparator)
+            Sort.RATING -> Collections.sort(preSortHotelList, rating_comparator_fallback_price)
             Sort.DEALS -> Collections.sort(preSortHotelList, deals_comparator)
-            Sort.DISTANCE -> Collections.sort(preSortHotelList,distance_comparator)
+            Sort.DISTANCE -> Collections.sort(preSortHotelList, distance_comparator_fallback_name)
             else -> Collections.sort(preSortHotelList, popular_comparator)
 
         }
@@ -235,33 +230,18 @@ class HotelFilterViewModel(val context: Context) {
             val deal1 = hotel1.lowRateInfo
             val deal2 = hotel2.lowRateInfo
 
-            if (deal1.discountPercent == deal2.discountPercent) {
-                return 0
-            } else if (deal1.discountPercent < deal2.discountPercent) {
-                // We want to show larger percentage discounts first
-                return -1
-            } else {
-                return 1
-            }
+            return hotel1.lowRateInfo.discountPercent.compareTo(hotel2.lowRateInfo.discountPercent)
         }
     }
 
-    private val rating_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
+    private val rating_comparator_fallback_price: Comparator<Hotel> = object : Comparator<Hotel> {
         override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
-            val rating1 = hotel1.hotelGuestRating
-            val rating2 = hotel2.hotelGuestRating
-
-            if (rating1 == rating2) {
-                return price_comparator.compare(hotel1, hotel2)
-            } else if (rating1 > rating2) {
-                return -1
-            } else {
-                return 1
-            }
+            val comparison = hotel2.hotelGuestRating.compareTo(hotel1.hotelGuestRating)
+            return if (comparison != 0) comparison else price_comparator.compare(hotel1, hotel2)
         }
     }
 
-    private val distance_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
+    private val distance_comparator_fallback_name: Comparator<Hotel> = object : Comparator<Hotel> {
         override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
             val distance1 = hotel1.proximityDistanceInMiles
             val distance2 = hotel2.proximityDistanceInMiles
@@ -285,14 +265,7 @@ class HotelFilterViewModel(val context: Context) {
 
     private val popular_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
         override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
-            val index1 = hotel1.sortIndex
-            val index2 = hotel2.sortIndex
-
-            if (index1.toInt() < index2.toInt()) {
-                return -1
-            } else {
-                return 1
-            }
+            return hotel1.sortIndex.compareTo(hotel2.sortIndex)
         }
     }
 

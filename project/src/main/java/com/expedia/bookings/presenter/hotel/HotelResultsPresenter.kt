@@ -763,6 +763,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             if (forward) {
+                fab.setVisibility(View.GONE)
                 filterView.setVisibility(View.VISIBLE)
             } else {
                 filterView.setVisibility(View.GONE)

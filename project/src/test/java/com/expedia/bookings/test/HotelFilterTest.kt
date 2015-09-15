@@ -31,39 +31,39 @@ public class HotelFilterTest {
     @Test
     fun filterVip() {
         vm.vipFilteredObserver.onNext(true)
-        Assert.assertEquals(true, vm.filterToggles.isVipAccess)
+        Assert.assertEquals(true, vm.userFilterChoices.isVipAccess)
 
         vm.vipFilteredObserver.onNext(false)
-        Assert.assertEquals(false, vm.filterToggles.isVipAccess)
+        Assert.assertEquals(false, vm.userFilterChoices.isVipAccess)
     }
 
     @Test
     fun filterStars() {
-        vm.filterToggles.hotelStarRating.one = false
+        vm.userFilterChoices.hotelStarRating.one = false
         vm.oneStarFilterObserver.onNext(Unit)
 
-        Assert.assertEquals(true, vm.filterToggles.hotelStarRating.one)
+        Assert.assertEquals(true, vm.userFilterChoices.hotelStarRating.one)
 
-        vm.filterToggles.hotelStarRating.two = false
+        vm.userFilterChoices.hotelStarRating.two = false
         vm.twoStarFilterObserver.onNext(Unit)
 
-        Assert.assertEquals(true, vm.filterToggles.hotelStarRating.two)
+        Assert.assertEquals(true, vm.userFilterChoices.hotelStarRating.two)
     }
 
     @Test
     fun filterName() {
         val str = "Hilton"
         vm.filterHotelNameObserver.onNext(str)
-        Assert.assertEquals(str, vm.filterToggles.name)
+        Assert.assertEquals(str, vm.userFilterChoices.name)
     }
 
     @Test
     fun clearStar() {
-        vm.filterToggles.hotelStarRating.one = true
+        vm.userFilterChoices.hotelStarRating.one = true
         vm.oneStarFilterObserver.onNext(Unit)
 
         vm.clearObservable.onNext(Unit)
-        Assert.assertEquals(false, vm.filterToggles.hotelStarRating.one)
+        Assert.assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
     }
 
     @Test

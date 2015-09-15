@@ -24,7 +24,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnChecked
+import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelFilterViewModel
 import org.joda.time.DateTime
@@ -89,7 +89,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         priceRangeBar.addView(hotelPriceRange);
 
         doneButton.subscribeOnClick(vm.doneObservable)
-        filterHotelVip.subscribeOnChecked(vm.vipFilteredObserver)
+        filterHotelVip.subscribeOnCheckChanged(vm.vipFilteredObserver)
         filterStarOne.subscribeOnClick(vm.oneStarFilterObserver)
         filterStarTwo.subscribeOnClick(vm.twoStarFilterObserver)
         filterStarThree.subscribeOnClick(vm.threeStarFilterObserver)
