@@ -75,12 +75,12 @@ fun track(event: String, parameters: Bundle) {
 class FacebookEvents() {
     fun trackHotelSearch(search: HotelSearch) {
         val searchParams = search.getSearchParams()
-        val location = search.getSearchResponse().getProperty(0).getLocation()
+        val location: Location? = search.getSearchResponse()?.getProperty(0)?.getLocation()
         val properties = search.getSearchResponse().getFilteredAndSortedProperties(Db.getHotelSearch().getSearchParams())
 
         val parameters = Bundle()
         addCommonHotelParams(parameters, searchParams, location)
-        parameters.putString("Search_String", location.getCity() ?: "")
+        parameters.putString("Search_String", location?.getCity() ?: "")
         parameters.putString("LowestSearch_Value", calculateLowestRateHotels(properties)?.getDisplayPrice()?.getAmount()?.toString() ?: "")
         parameters.putInt("Num_Rooms", 1)
 
@@ -88,8 +88,9 @@ class FacebookEvents() {
     }
 
     fun trackHotelInfosite(search: HotelSearch) {
+
         val searchParams = search.getSearchParams()
-        val location = search.getSearchResponse().getProperty(0).getLocation()
+        val location: Location? = search.getSearchResponse()?.getProperty(0)?.getLocation()
         val property = search.getSelectedProperty()
 
         val parameters = Bundle()
@@ -374,7 +375,7 @@ fun getLoyaltyTier(user: User?): String {
     return loyaltyTier
 }
 
-fun addCommonHotelParams(parameters: Bundle, searchParams: HotelSearchParams, location: Location) {
+fun addCommonHotelParams(parameters: Bundle, searchParams: HotelSearchParams, location: Location?) {
     val dtf = ISODateTimeFormat.date()
     parameters.putString("LOB", "Hotel")
     val regionId = searchParams.getRegionId()
@@ -420,13 +421,10 @@ fun addCommonFlightParams(parameters: Bundle, searchParams: FlightSearchParams, 
     parameters.putString("POS", PointOfSale.getPointOfSale().getTwoLetterCountryCode())
 }
 
-fun addCommonLocationEvents(parameters: Bundle, location: Location) {
-    val city = location.getCity()
-    val stateCode = location.getStateCode()
-    val countryCode = location.getCountryCode()
-    parameters.putString("destination_city", city ?: "")
-    parameters.putString("destination_state", stateCode ?: "")
-    parameters.putString("destination_country", countryCode ?: "")
+fun addCommonLocationEvents(parameters: Bundle, location: Location?) {
+    parameters.putString("destination_city", location?.getCity() ?: "")
+    parameters.putString("destination_state", location?.getStateCode() ?: "")
+    parameters.putString("destination_country", location?.getCountryCode() ?: "")
 }
 
 /**
