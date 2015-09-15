@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Expedia</string>
+    <string name="app_name">Expedia for Samsung</string>
 
     <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Samsung</string>
+    <string name="merchant_name">Expedia for Samsung</string>
 
     <!-- App Support URL -->
     <string name="app_support_url">http://www.mobiata.com/support/expedia/samsung</string>
