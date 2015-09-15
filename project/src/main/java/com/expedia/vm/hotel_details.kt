@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.RecyclerGallery
+import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.endlessObserver
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
@@ -81,6 +82,11 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val userRatingObservable = BehaviorSubject.create<String>()
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
+    val discountPercentageObservable = BehaviorSubject.create<String>()
+    val hasDiscountPercentageObservable = BehaviorSubject.create<Boolean>()
+    val hasVipAccessObservable = BehaviorSubject.create<Boolean>()
+    val promoMessageObservable = BehaviorSubject.create<String>()
+    val strikeThroughPriceObservable = BehaviorSubject.create<String>()
 
     private fun bindDetails(response: HotelOffersResponse) {
     hotelOffersResponse = response
@@ -294,6 +300,14 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             numberOfReviewsObservable.onNext(context.getResources().getQuantityString(R.plurals.hotel_number_of_reviews, hotel.totalReviews, hotel.totalReviews))
 
             hotelLatLngObservable.onNext(doubleArrayOf(hotel.latitude, hotel.longitude))
+
+            var discountPercentage : Int? = hotel.lowRateInfo?.discountPercent?.toInt()
+            discountPercentageObservable.onNext(Phrase.from(context.getResources(), R.string.hotel_discount_percent_Template)
+                    .put("discount", discountPercentage ?: 0).format().toString())
+            hasDiscountPercentageObservable.onNext(discountPercentage ?: 0 < 0)
+            hasVipAccessObservable.onNext(hotel.isVipAccess)
+            promoMessageObservable.onNext(getPromoText(hotel))
+            strikeThroughPriceObservable.onNext(priceFormatter(hotel, true))
         }
 
         paramsSubject.subscribe { params ->
@@ -308,6 +322,12 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         }
 
     }
+
+    private fun getPromoText(hotel: Hotel):String {
+        if (hotel.isDiscountRestrictedToCurrentSourceType) return context.getResources().getString(R.string.mobile_exclusive)
+        else if (hotel.isSameDayDRR) return context.getResources().getString(R.string.tonight_only)
+        else return ""
+        }
 
 }
 

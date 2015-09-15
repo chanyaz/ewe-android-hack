@@ -124,6 +124,7 @@ public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresent
 }
 
 public fun priceFormatter(hotel: Hotel, strikeThrough: Boolean): String {
+    if (hotel.lowRateInfo == null) return ""
     var hotelPrice = if (strikeThrough)
         Money(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers).toString(), hotel.lowRateInfo.currencyCode)
     else Money(Math.round(hotel.lowRateInfo.priceToShowUsers).toString(), hotel.lowRateInfo.currencyCode)

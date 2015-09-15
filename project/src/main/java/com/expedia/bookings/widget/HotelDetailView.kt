@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -11,18 +12,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
-import android.widget.*
+import android.widget
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.RatingBar
+import android.widget.TableLayout
+import android.widget.TableRow
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.*
+import com.expedia.util.endlessObserver
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribe
+import com.expedia.util.subscribeOnCheckedChange
+import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.lastExpanded
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -51,6 +68,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     val priceContainer: ViewGroup by bindView(R.id.price_widget)
     val pricePerNight: TextView by bindView(R.id.price_per_night)
+    val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
     val ratingContainer: LinearLayout by bindView(R.id.rating_container)
     val selectRoomButton: Button by bindView(R.id.select_room_button)
@@ -62,6 +80,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val hotelDescriptionContainer : ViewGroup by bindView(R.id.hotel_description_container)
     val mapView: MapView by bindView(R.id.map_view)
     val mapClickContainer: FrameLayout by bindView(R.id.map_click_container)
+
+    val hotelMessagingContainer: LinearLayout by bindView(R.id.promo_messaging_container)
+    val discountPercentage: widget.TextView by bindView(R.id.discount_percentage)
+    val vipAccessMessage: widget.TextView by bindView(R.id.vip_access_message)
+    val promoMessage: widget.TextView by bindView(R.id.promo_text)
 
     val etpRadioGroup: SlidingRadioGroup by bindView(R.id.radius_pay_options)
     val etpAndFreeCancellationMessagingContainer: View by bindView(R.id.etp_and_free_cancellation_messaging_container)
@@ -123,6 +146,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.hotelNameObservable.subscribe(toolbarTitle)
         vm.hotelRatingObservable.subscribe(toolBarRating)
         vm.pricePerNightObservable.subscribe(pricePerNight)
+        vm.strikeThroughPriceObservable.subscribe(strikeThroughPrice)
+        vm.hasDiscountPercentageObservable.subscribeVisibility(strikeThroughPrice)
         vm.searchInfoObservable.subscribe(searchInfo)
         vm.userRatingObservable.subscribe(userRating)
         vm.numberOfReviewsObservable.subscribe(numberOfReviews)
@@ -130,6 +155,14 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.showBookByPhoneObservable.subscribe{showPayByPhone ->
             if(showPayByPhone) payByPhoneContainer.setVisibility(View.VISIBLE) else payByPhoneContainer.setVisibility(View.GONE)
         }
+        vm.discountPercentageObservable.subscribe(discountPercentage)
+        vm.hasDiscountPercentageObservable.subscribeVisibility(discountPercentage)
+        vm.hasVipAccessObservable.subscribeVisibility(vipAccessMessage)
+        vm.promoMessageObservable.subscribe(promoMessage)
+        Observable.zip(vm.hasDiscountPercentageObservable, vm.hasVipAccessObservable, vm.promoMessageObservable,
+                {
+                    hasDiscount, hasVipAccess, promoMessage -> hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage)
+                }).subscribeVisibility(hotelMessagingContainer)
 
         vm.roomResponseListObservable.subscribe { roomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             roomContainer.removeAllViews()
@@ -320,7 +353,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
         selectRoomButton.setOnClickListener { scrollToRoom() }
         stickySelectRoomButton.setOnClickListener { scrollToRoom() }
-
+        strikeThroughPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG)
     }
 
 }
