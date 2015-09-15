@@ -139,8 +139,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             detailPresenter.setTranslationY((if (forward) 0 else detailsHeight).toFloat())
             detailPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
             resultsPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
-            loadingOverlay.setVisibility(View.GONE)
             detailPresenter.animationFinalize(!forward)
+            loadingOverlay.setVisibility(View.GONE)
         }
     }
 
@@ -176,7 +176,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val downloadListener: Observer<HotelOffersResponse> = endlessObserver { response ->
-        loadingOverlay.setVisibility(View.GONE)
         loadingOverlay.animate(false)
         detailPresenter.hotelDetailView.viewmodel.hotelOffersResponse = response
         detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(response)

@@ -152,10 +152,12 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
                             initial
                         })
 
-                val commonValueAddsString = context.getString(R.string.common_value_add_template, FormatUtils.series(context, commonValueAdds, ",", FormatUtils.Conjunction.AND)
-                        .toLowerCase(Locale.getDefault()))
+                if(!commonValueAdds.isEmpty()) {
+                    val commonValueAddsString = context.getString(R.string.common_value_add_template, FormatUtils.series(context, commonValueAdds, ",", FormatUtils.Conjunction.AND)
+                            .toLowerCase(Locale.getDefault()))
 
-                commonAmenityTextObservable.onNext(commonValueAddsString)
+                    commonAmenityTextObservable.onNext(commonValueAddsString)
+                }
             }
         }
 
@@ -288,12 +290,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
             hotelRatingObservable.onNext(hotel.hotelStarRating)
 
-            val pricePerNight = Phrase.from(context.getResources(), R.string.per_nt_TEMPLATE)
-                    .put("price", hotel.lowRateInfo?.nightlyRateTotal.toString())
-                    .format()
-                    .toString()
-
-            pricePerNightObservable.onNext(pricePerNight)
+            if (hotel.lowRateInfo != null) {
+                val dailyPrice = Money(BigDecimal(hotel.lowRateInfo.nightlyRateTotal.toDouble()), hotel.lowRateInfo.currencyCode)
+                pricePerNightObservable.onNext(dailyPrice.getFormattedMoney(Money.F_NO_DECIMAL))
+            }
 
             userRatingObservable.onNext(hotel.hotelGuestRating.toString())
 
@@ -354,8 +354,9 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
     val currencyCode = hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode
 
     var dailyPricePerNightObservable = BehaviorSubject.create<String>()
+    var perNightObservable =  BehaviorSubject.create<Boolean>()
 
-    val totalPricePerNightObservable = BehaviorSubject.create<String>(context.getResources().getString(R.string.cars_total_template, currencyCode + hotelRoomResponse.rateInfo.chargeableRateInfo.total))
+    val totalPricePerNightObservable = BehaviorSubject.create<String>(context.getResources().getString(R.string.cars_total_template, Money.getFormattedMoneyFromAmountAndCurrencyCode(BigDecimal(hotelRoomResponse.rateInfo.chargeableRateInfo.total.toDouble()), currencyCode, Money.F_NO_DECIMAL)))
     val roomHeaderImageObservable = BehaviorSubject.create<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
     val expandRoomObservable = BehaviorSubject.create<Boolean>()
     val collapseRoomObservable = BehaviorSubject.create<Int>()
@@ -385,6 +386,7 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
         val depositAmountMoney = Money(BigDecimal(depositAmount), currencyCode)
         val payLaterText = depositAmountMoney.getFormattedMoney() + " " + context.getResources().getString(R.string.room_rate_pay_later_due_now)
         dailyPricePerNightObservable.onNext(payLaterText)
+        perNightObservable.onNext(false)
     }
 
     val expandCollapseRoomRateInfo: Observer<Unit> = endlessObserver {
@@ -394,7 +396,8 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
 
     init {
         val dailyPrice = Money(BigDecimal(hotelRoomResponse.rateInfo.chargeableRateInfo.priceToShowUsers.toDouble()), currencyCode)
-        dailyPricePerNightObservable.onNext(dailyPrice.getFormattedMoney() + context.getResources().getString(R.string.per_night))
+        dailyPricePerNightObservable.onNext(dailyPrice.getFormattedMoney())
+        perNightObservable.onNext(true)
         rateObservable.subscribe { hotelRoom ->
             val bedTypes = hotelRoom.bedTypes.map { it.description }.join("")
             collapsedBedTypeObservable.onNext(bedTypes)
