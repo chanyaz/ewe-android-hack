@@ -6,7 +6,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -25,7 +24,6 @@ public class HotelDetailsTest extends PhoneTestCase {
 	/*
 	* #206 eb_tp plan
 	 */
-	private static final String TAG = HotelDetailsTest.class.getName();
 
 	// Verify that the correct dialog appears after clicking the VIP Access image in
 	// on the image gallery
@@ -43,9 +41,9 @@ public class HotelDetailsTest extends PhoneTestCase {
 		HotelsSearchScreen.filterMenu().clickVIPAccessFilterButton();
 		Espresso.pressBack();
 
-		HotelsSearchScreen.clickListItem(1);
-		String hotelName = EspressoUtils.getText(R.id.title);
-		ScreenActions.enterLog(TAG, "Verifying VIP Dialog for hotel: " + hotelName);
+		HotelsSearchScreen.clickHotelWithName("vip_hotel");
+
+		//Verifying VIP Dialog for vip_hotel
 		HotelsDetailsScreen.clickVIPImageView();
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.vip_access_message));
 		CVVEntryScreen.clickOkButton();
@@ -65,26 +63,24 @@ public class HotelDetailsTest extends PhoneTestCase {
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 
-		for (int i = 1; i < 5; i++) {
-			DataInteraction searchResultRow = HotelsSearchScreen.hotelListItem().atPosition(i);
-			String rowHotelName = EspressoUtils.getListItemValues(searchResultRow, R.id.name_text_view);
-			searchResultRow.perform(click());
-			ScreenActions.enterLog(TAG, "Verifying UI elements for details of: " + rowHotelName);
-			if (!rowHotelName.isEmpty() && !rowHotelName.contains("...")) {
-				String detailHotelsName = EspressoUtils.getText(R.id.title);
-				assertEquals(rowHotelName, detailHotelsName);
-			}
+		DataInteraction searchResultRow = HotelsSearchScreen.hotelListItem().atPosition(1);
+		String rowHotelName = EspressoUtils.getListItemValues(searchResultRow, R.id.name_text_view);
+		searchResultRow.perform(click());
 
-			HotelsDetailsScreen.hotelGallery().check(matches(isDisplayed()));
+		//Verifying UI elements on details screen matches the views on results screen
+		String detailHotelsName = EspressoUtils.getText(R.id.title);
+		assertEquals(rowHotelName, detailHotelsName);
 
-			HotelsDetailsScreen.ratingBar().check(matches(isDisplayed()));
+		HotelsDetailsScreen.hotelGallery().check(matches(isDisplayed()));
 
-			EspressoUtils.assertViewIsDisplayed(R.id.rate_text_view);
+		HotelsDetailsScreen.ratingBar().check(matches(isDisplayed()));
 
-			HotelsDetailsScreen.bookNowButton().perform(scrollTo()).check(matches(isDisplayed()));
+		EspressoUtils.assertViewIsDisplayed(R.id.rate_text_view);
 
-			Espresso.pressBack();
-		}
+		HotelsDetailsScreen.bookNowButton().perform(scrollTo()).check(matches(isDisplayed()));
+
+		Espresso.pressBack();
+
 	}
 
 	public void testBookingInfoUSPOS() throws Throwable {
