@@ -7,10 +7,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.phone.newhotels.HotelScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
-import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsReviewsScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsReviewsScreen;
 import com.expedia.bookings.utils.MockModeShim;
 import com.mobiata.mocke3.ExpediaDispatcher;
 

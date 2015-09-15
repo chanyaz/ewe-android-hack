@@ -7,7 +7,7 @@ import com.expedia.bookings.dagger.DaggerLXTestComponent;
 import com.expedia.bookings.dagger.LXFakeCurrentLocationSuggestionModule;
 import com.expedia.bookings.dagger.LXTestComponent;
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.espresso.LxTestCase;
 
 import static android.support.test.espresso.action.ViewActions.click;

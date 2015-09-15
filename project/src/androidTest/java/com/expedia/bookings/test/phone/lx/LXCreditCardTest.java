@@ -6,9 +6,9 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
-import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.LxTestCase;
 

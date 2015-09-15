@@ -3,9 +3,9 @@ package com.expedia.bookings.test.happy;
 import android.support.test.espresso.DataInteraction;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.LogInScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.TripsScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.TripsScreen;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
