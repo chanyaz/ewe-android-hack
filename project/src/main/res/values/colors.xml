@@ -87,6 +87,7 @@
     <color name="actionbar_text_disabled">#505c69</color>
     <color name="amenity_text_color_large">#79848f</color>
     <color name="amenity_icon_color">#717880</color>
+    <color name="new_amenity_icon_color">#7E7E7E</color>
     <color name="hotel_filter_spinner_dropdown_color">#FFFFFF</color>
     <color name="hotel_filter_spinner_dropdown_color_selected">#878F94</color>
     <color name="hotel_filter_spinner_color">#DFE0E2</color>>
@@ -337,6 +338,9 @@
     <!-- Hotels V2 Checkout Colors -->
     <color name="hotelsv2_checkout_text_color">#676767</color>
     <color name="hotelsv2_checkout_divider_color">#DFDFDF</color>
+
+    <!-- Hotels V2 Detail star color -->
+    <color name="hotelsv2_detail_star_color">#F1B906</color>
 
     <!-- Signed in user tier colors -->
     <color name="sign_in_user_tier_blue">#0085c9</color>

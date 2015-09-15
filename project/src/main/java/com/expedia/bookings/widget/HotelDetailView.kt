@@ -3,7 +3,9 @@ package com.expedia.bookings.widget
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Paint
+import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.Html
@@ -135,7 +137,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             noAmenityText.setText(text)
         }
         vm.amenitiesListObservable.subscribe { amenityList ->
-            Amenity.addAmenity(amenityContainer, amenityList)
+            Amenity.addHotelAmenity(amenityContainer, amenityList)
         }
         vm.commonAmenityTextObservable.subscribe { text ->
             commonAmenityText.setVisibility(View.VISIBLE)
@@ -363,6 +365,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         toolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent))
         toolBarBackground.getLayoutParams().height += statusBarHeight
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
+        DrawableCompat.setTint(toolBarRating.getProgressDrawable(), getResources().getColor(R.color.hotelsv2_detail_star_color))
         offset = statusBarHeight.toFloat() + toolBarHeight
         toolbar.setNavigationOnClickListener { view ->
             val activity = getContext() as AppCompatActivity

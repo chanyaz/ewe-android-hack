@@ -305,7 +305,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rating_divider"
-                    android:background="#EAEAEA"
+                    android:scrollbarSize="3dp"
+                    android:background="#EEEEEE"
                     android:fillViewport="true">
 
                     <TableLayout
@@ -456,7 +457,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/map_click_container"
-                    android:background="#EAEAEA"
+                    android:background="#EEEEEE"
                     android:padding="12dp">
 
                     <com.expedia.bookings.widget.SlidingRadioGroup
@@ -578,7 +579,7 @@
 
                 <RatingBar
                     android:id="@+id/hotel_star_rating_bar"
-                    style="@style/RatingBar.UserReview.Material.Yellow"
+                    style="@style/RatingBar.UserReview.Material.Detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"

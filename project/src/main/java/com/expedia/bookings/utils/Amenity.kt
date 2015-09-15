@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils
 
-import android.content.Context
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -8,15 +7,13 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget
+import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.larvalabs.svgandroid.widget.SVGView
 import java.util.ArrayList
 import java.util.Comparator
-import java.util.HashMap
 import java.util.TreeSet
-import kotlin.properties.Delegates
 
 /**
  * Created by mohsharma on 8/12/15.
@@ -24,42 +21,42 @@ import kotlin.properties.Delegates
 
 // preference number tells order we want to show in hotel details. if we change the preference number it will change.
 enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
-    POOL(0, R.raw.ic_amenity_pool, R.string.AmenityPool),
-    POOL_INDOOR(0, R.raw.ic_amenity_pool, R.string.AmenityPoolIndoor),
-    POOL_OUTDOOR(0, R.raw.ic_amenity_pool, R.string.AmenityPoolOutdoor),
-    INTERNET(1, R.raw.ic_amenity_internet, R.string.AmenityInternet),
-    BREAKFAST(2, R.raw.ic_amenity_breakfast, R.string.AmenityBreakfast),
-    PARKING(3, R.raw.ic_amenity_parking, R.string.AmenityParking),
-    EXTENDED_PARKING(3, R.raw.ic_amenity_parking, R.string.AmenityParking),
-    FREE_PARKING(3, R.raw.ic_amenity_parking, R.string.AmenityParking),
-    PETS_ALLOWED(4, R.raw.ic_amenity_pets, R.string.AmenityPetsAllowed),
-    RESTAURANT(5, R.raw.ic_amenity_restaurant, R.string.AmenityRestaurant),
-    FITNESS_CENTER(6, R.raw.ic_amenity_fitness_center, R.string.AmenityFitnessCenter),
-    ROOM_SERVICE(7, R.raw.ic_amenity_room_service, R.string.AmenityRoomService),
-    SPA(8, R.raw.ic_amenity_spa, R.string.AmenitySpa),
-    BUSINESS_CENTER(9, R.raw.ic_amenity_business, R.string.AmenityBusinessCenter),
-    FREE_AIRPORT_SHUTTLE(10, R.raw.ic_amenity_airport_shuttle, R.string.AmenityFreeAirportShuttle),
-    ACCESSIBLE_BATHROOM(11, R.raw.ic_amenity_accessible_bathroom, R.string.AmenityAccessibleBathroom),
-    HOT_TUB(12, R.raw.ic_amenity_hot_tub, R.string.AmenityHotTub),
-    JACUZZI(13, R.raw.ic_amenity_jacuzzi, R.string.AmenityJacuzzi),
-    WHIRLPOOL_BATH(14, R.raw.ic_amenity_whirl_pool, R.string.AmenityWhirlpoolBath),
-    KITCHEN(15, R.raw.ic_amenity_kitchen, R.string.AmenityKitchen),
-    KIDS_ACTIVITIES(16, R.raw.ic_amenity_children_activities, R.string.AmenityKidsActivities),
-    BABYSITTING(17, R.raw.ic_amenity_baby_sitting, R.string.AmenityBabysitting),
-    ACCESSIBLE_PATHS(18, R.raw.ic_amenity_accessible_ramp, R.string.AmenityAccessiblePaths),
-    ROLL_IN_SHOWER(19, R.raw.ic_amenity_accessible_shower, R.string.AmenityAccessibleBathroom),
-    HANDICAPPED_PARKING(20, R.raw.ic_amenity_handicap_parking, R.string.AmenityHandicappedParking),
-    IN_ROOM_ACCESSIBILITY(21, R.raw.ic_amenity_accessible_room, R.string.AmenityInRoomAccessibility),
-    DEAF_ACCESSIBILITY_EQUIPMENT(22, R.raw.ic_amenity_deaf_access, R.string.AmenityDeafAccessibilityEquipment),
-    BRAILLE_SIGNAGE(23, R.raw.ic_amenity_braille_signs, R.string.AmenityBrailleSignage);
+    POOL(0, R.drawable.ic_amenity_pool, R.string.AmenityPool),
+    POOL_INDOOR(0, R.drawable.ic_amenity_pool, R.string.AmenityPoolIndoor),
+    POOL_OUTDOOR(0, R.drawable.ic_amenity_pool, R.string.AmenityPoolOutdoor),
+    INTERNET(1, R.drawable.ic_amenity_internet, R.string.AmenityInternet),
+    BREAKFAST(2, R.drawable.ic_amenity_breakfast, R.string.AmenityBreakfast),
+    PARKING(3, R.drawable.ic_amenity_parking, R.string.AmenityParking),
+    EXTENDED_PARKING(3, R.drawable.ic_amenity_parking, R.string.AmenityParking),
+    FREE_PARKING(3, R.drawable.ic_amenity_parking, R.string.AmenityParking),
+    PETS_ALLOWED(4, R.drawable.ic_amenity_pets, R.string.AmenityPetsAllowed),
+    RESTAURANT(5, R.drawable.ic_amenity_restaurant, R.string.AmenityRestaurant),
+    FITNESS_CENTER(6, R.drawable.ic_amenity_fitness_center, R.string.AmenityFitnessCenter),
+    ROOM_SERVICE(7, R.drawable.ic_amenity_room_service, R.string.AmenityRoomService),
+    SPA(8, R.drawable.ic_amenity_spa, R.string.AmenitySpa),
+    BUSINESS_CENTER(9, R.drawable.ic_amenity_business, R.string.AmenityBusinessCenter),
+    FREE_AIRPORT_SHUTTLE(10, R.drawable.ic_amenity_airport_shuttle, R.string.AmenityFreeAirportShuttle),
+    ACCESSIBLE_BATHROOM(11, R.drawable.ic_amenity_accessible_bathroom, R.string.AmenityAccessibleBathroom),
+    HOT_TUB(12, R.drawable.ic_amenity_hot_tub, R.string.AmenityHotTub),
+    JACUZZI(13, R.drawable.ic_amenity_jacuzzi, R.string.AmenityJacuzzi),
+    WHIRLPOOL_BATH(14, R.drawable.ic_amenity_whirl_pool, R.string.AmenityWhirlpoolBath),
+    KITCHEN(15, R.drawable.ic_amenity_kitchen, R.string.AmenityKitchen),
+    KIDS_ACTIVITIES(16, R.drawable.ic_amenity_children_activities, R.string.AmenityKidsActivities),
+    BABYSITTING(17, R.drawable.ic_amenity_baby_sitting, R.string.AmenityBabysitting),
+    ACCESSIBLE_PATHS(18, R.drawable.ic_amenity_accessible_ramp, R.string.AmenityAccessiblePaths),
+    ROLL_IN_SHOWER(19, R.drawable.ic_amenity_accessible_shower, R.string.AmenityAccessibleBathroom),
+    HANDICAPPED_PARKING(20, R.drawable.ic_amenity_handicap_parking, R.string.AmenityHandicappedParking),
+    IN_ROOM_ACCESSIBILITY(21, R.drawable.ic_amenity_accessible_room, R.string.AmenityInRoomAccessibility),
+    DEAF_ACCESSIBILITY_EQUIPMENT(22, R.drawable.ic_amenity_deaf_access, R.string.AmenityDeafAccessibilityEquipment),
+    BRAILLE_SIGNAGE(23, R.drawable.ic_amenity_braille_signs, R.string.AmenityBrailleSignage);
 
 
     // static helper method to add amenities
     companion object {
 
-        fun addAmenity(viewGroup: ViewGroup, amenityList: List<Amenity>) {
+        fun addHotelAmenity(viewGroup: ViewGroup, amenityList: List<Amenity>) {
             viewGroup.removeAllViews()
-            val srcColor = viewGroup.getContext().getResources().getColor(R.color.amenity_icon_color)
+            val srcColor = viewGroup.getContext().getResources().getColor(R.color.hotelsv2_checkout_text_color)
             val mode = PorterDuff.Mode.SRC_ATOP
             val filter = PorterDuffColorFilter(srcColor, mode)
             val paint = Paint()
@@ -70,18 +67,18 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
 
             for (index in 0..amenityList.size() - 1) {
 
-                val amenityLayout = com.mobiata.android.util.Ui.inflate<LinearLayout>(R.layout.snippet_amenity, viewGroup, false);
-                val amenityTextView = amenityLayout.findViewById(R.id.label) as widget.TextView
-                val amenityIconView = amenityLayout.findViewById(R.id.icon) as SVGView
+                val amenityLayout = com.mobiata.android.util.Ui.inflate<LinearLayout>(R.layout.new_amenity_row, viewGroup, false);
+                val amenityTextView = amenityLayout.findViewById(R.id.amenity_label) as widget.TextView
+                val amenityIconView = amenityLayout.findViewById(R.id.amenity_icon) as ImageView
                 amenityIconView.setLayerType(View.LAYER_TYPE_SOFTWARE, paint)
                 val amenityStr = viewGroup.getContext().getString(amenityList.get(index).strId)
                 val measuredWidthOfStr = amenityTextView.getPaint().measureText(viewGroup.getContext().getString(amenityList.get(index).strId))
                 if (amenityStr.contains(" ") || measuredWidthOfStr > acceptableWidth) {
-                    amenityTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, viewGroup.getContext().getResources().getDimension(R.dimen.amenity_text_size_small))
+                    amenityTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, viewGroup.getContext().getResources().getDimension(R.dimen.hotelsv2_amenity_text_size_small))
                 }
 
                 amenityTextView.setText(amenityStr)
-                amenityIconView.setSVG(amenityList.get(index).resId)
+                amenityIconView.setImageDrawable(viewGroup.getContext().getResources().getDrawable(amenityList.get(index).resId))
                 viewGroup.addView(amenityLayout)
             }
             viewGroup.scheduleLayoutAnimation()
