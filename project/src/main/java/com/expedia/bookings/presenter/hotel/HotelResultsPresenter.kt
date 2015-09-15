@@ -90,7 +90,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val headerClickedSubject = PublishSubject.create<Unit>()
 
     var googleMap: GoogleMap? = null
-    var subtitle: CharSequence? = null
 
     var listOffset: Int = 0
     var menu: MenuItem? = null
@@ -297,6 +296,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.setNavigationIcon(navIcon)
+        toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
+        toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
+        toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
     }
 
     override fun onFinishInflate() {
@@ -464,10 +466,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         override fun finalizeTransition(forward: Boolean) {
             navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType().toFloat())
-            toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
-            toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
-            toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
-            toolbar.setSubtitle(subtitle)
             recyclerView.setTranslationY(0f)
             mapView.setTranslationY(0f)
 
@@ -550,10 +548,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
             override fun finalizeTransition(forward: Boolean) {
                 toolbar.setNavigationIcon(if (forward) R.drawable.ic_arrow_back_white_24dp else R.drawable.ic_close_white_24dp)
-                toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
-                toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
-                toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
-                toolbar.setSubtitle(if (forward) subtitle else null)
+                toolbarSubtitle.setVisibility(if (forward) View.VISIBLE else View.GONE)
 
                 menu?.setVisible(true)
 
@@ -657,10 +652,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             navIcon.setParameter(if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK.getType().toFloat() else ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType().toFloat())
-            toolbar.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
-            toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
-            toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
-            toolbar.setSubtitle(if (forward) subtitle else null)
+            toolbarSubtitle.setVisibility(if (forward) View.VISIBLE else View.GONE)
 
             menu?.setVisible(true)
 
