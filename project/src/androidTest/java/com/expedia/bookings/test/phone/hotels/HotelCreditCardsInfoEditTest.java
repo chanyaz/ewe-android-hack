@@ -20,6 +20,7 @@ import com.expedia.bookings.test.tablet.pagemodels.Checkout;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.mobiata.android.Log;
 
 public class HotelCreditCardsInfoEditTest extends PhoneTestCase {
 
@@ -85,7 +86,7 @@ public class HotelCreditCardsInfoEditTest extends PhoneTestCase {
 			*/
 			try {
 				EspressoUtils.assertContainsImageDrawable(R.id.display_credit_card_brand_icon_white, testData.getDrawableId());
-				Common.enterLog(TAG, "Credit card brand logo is correctly displayed for " + testData.getTestName());
+				Log.v(TAG, "Credit card brand logo is correctly displayed for " + testData.getTestName());
 
 			}
 			catch (Exception e) {
@@ -101,11 +102,13 @@ public class HotelCreditCardsInfoEditTest extends PhoneTestCase {
 
 			if (testData.getTestName().equals("Amex")) {
 				EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.See_front_of_card));
-				Common.enterLog(TAG, "CVV sub prompt text (See front of the card) is correctly displayed for " + testData.getTestName());
+				Log.v(TAG,
+					"CVV sub prompt text (See front of the card) is correctly displayed for " + testData.getTestName());
 			}
 			else {
 				EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.See_back_of_card));
-				Common.enterLog(TAG, "CVV sub prompt text (See back of the card) is correctly displayed for " + testData.getTestName());
+				Log.v(TAG,
+					"CVV sub prompt text (See back of the card) is correctly displayed for " + testData.getTestName());
 			}
 
 			/*
@@ -113,7 +116,7 @@ public class HotelCreditCardsInfoEditTest extends PhoneTestCase {
 			*/
 
 			EspressoUtils.assertContains(CVVEntryScreen.cvvSignatureText(), "M. Auto");
-			Common.enterLog(TAG, " Security Code correctly shows the cardholders name for " + testData.getTestName());
+			Log.v(TAG, " Security Code correctly shows the cardholders name for " + testData.getTestName());
 
 			//go back for next test data
 			Common.pressBack();

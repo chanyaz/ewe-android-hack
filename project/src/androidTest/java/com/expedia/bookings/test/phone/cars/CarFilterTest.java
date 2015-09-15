@@ -6,7 +6,6 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CarTestCase;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -32,7 +31,7 @@ public class CarFilterTest extends CarTestCase {
 	public void testCarsFilters() throws Throwable {
 		enterSearchParams("SFO", "San Francisco, CA");
 		CarScreen.searchButton().perform(click());
-		ScreenActions.delay(1);
+		Common.delay(1);
 		int unifilterdCategoryNumber = EspressoUtils.getListCount(CarScreen.carCategoryList());
 
 		screenshot("Car_Search_Results");
@@ -65,7 +64,7 @@ public class CarFilterTest extends CarTestCase {
 //when user go back to car categories and filters applied on Details screen are reflected on Categories screen
 		Common.pressBack();
 		assertCorrectCategoryShownAfterApplyingFilters(filterdCategoryNumber, CATEGORY);
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		CarScreen.selectCarCategory(CATEGORY);
 		assertCorrectOfferShownAfterApplyingFilters(filterdOffersNumber, "NoCCRequired");
@@ -84,7 +83,7 @@ public class CarFilterTest extends CarTestCase {
 		enterSearchParams("SFO", "San Francisco, CA");
 		CarScreen.searchButton().perform(click());
 
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		int unifilterdCategoryNumber = EspressoUtils.getListCount(CarScreen.carCategoryList());
 		screenshot("Car_Search_Results");
@@ -107,7 +106,7 @@ public class CarFilterTest extends CarTestCase {
 		enterSearchParams("SFO", "San Francisco, CA");
 		CarScreen.searchButton().perform(click());
 
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		CarScreen.searchFilter().perform(click());
 		CarScreen.selectSupplierFilter("NoCCRequired");
@@ -126,7 +125,7 @@ public class CarFilterTest extends CarTestCase {
 		screenshot("Car_Search_Results");
 		int unfilteredOfferNumber = countOffers(unifilterdCategoryNumber);
 
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		CarScreen.searchFilter().perform(click());
 		onView(withId(R.id.ac_filter_checkbox)).perform(click());
@@ -147,7 +146,7 @@ public class CarFilterTest extends CarTestCase {
 		screenshot("Car_Search_Results");
 		int unfilteredOfferNumber = countOffers(unifilterdCategoryNumber);
 
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		CarScreen.searchFilter().perform(click());
 		onView(withId(R.id.unlimited_mileage_filter_checkbox)).perform(click());
@@ -168,7 +167,7 @@ public class CarFilterTest extends CarTestCase {
 		screenshot("Car_Search_Results");
 		int unfilteredOfferNumber = countOffers(unifilterdCategoryNumber);
 
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		CarScreen.searchFilter().perform(click());
 		onView(withId(R.id.transmission_filter_manual)).perform(click());
@@ -216,7 +215,7 @@ public class CarFilterTest extends CarTestCase {
 	public void assertSupplierInsideFilteredCategories(int numberOfCategories, String supplierName) {
 		for (int i = 0; i < numberOfCategories; i++) {
 			CarScreen.carCategoryList().perform(RecyclerViewActions.actionOnItemAtPosition(i, click()));
-			ScreenActions.delay(1);
+			Common.delay(1);
 
 			int numberOfOffers = EspressoUtils.getListCount(CarScreen.carOfferList());
 
@@ -239,9 +238,9 @@ public class CarFilterTest extends CarTestCase {
 	public int countOffers(int numberOfCategories) {
 		int numberOfOffers = 0;
 		for (int i = 0; i < numberOfCategories; i++) {
-			ScreenActions.delay(1);
+			Common.delay(1);
 			CarScreen.carCategoryList().perform(RecyclerViewActions.actionOnItemAtPosition(i, click()));
-			ScreenActions.delay(1);
+			Common.delay(1);
 
 			numberOfOffers = numberOfOffers + EspressoUtils.getListCount(CarScreen.carOfferList());
 			Common.pressBack();

@@ -11,7 +11,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.anything;
 
-public class TripsScreen extends LaunchActionBar {
+public class TripsScreen {
 	private static final int LOG_IN_BUTTON_ID = R.id.login_button;
 
 	public static ViewInteraction logInButton() {

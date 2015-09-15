@@ -8,7 +8,6 @@ import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
@@ -17,6 +16,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelsUserData;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.mobiata.android.Log;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -38,7 +38,7 @@ public class HotelCheckoutUserInfoTest extends PhoneTestCase {
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
-		ScreenActions.enterLog(TAG, "Setting hotel search city to: " + "New York, NY");
+		Log.v(TAG, "Setting hotel search city to: " + "New York, NY");
 		HotelsSearchScreen.enterSearchText("New York, NY");
 		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
 		HotelsSearchScreen.clickListItem(1);
@@ -47,9 +47,9 @@ public class HotelCheckoutUserInfoTest extends PhoneTestCase {
 			onView(withText("OK")).perform(click());
 		}
 		catch (Exception e) {
-			ScreenActions.enterLog(TAG, "Not available right now");
+			Log.v(TAG, "Not available right now");
 		}
-		ScreenActions.enterLog(TAG, "Selecting first room listed for this hotel.");
+		Log.v(TAG, "Selecting first room listed for this hotel.");
 		HotelsRoomsRatesScreen.selectRoomItem(0);
 		HotelsCheckoutScreen.clickCheckoutButton();
 		verifyRulesAndRestrictionsButton();
@@ -71,7 +71,7 @@ public class HotelCheckoutUserInfoTest extends PhoneTestCase {
 	private void verifyMissingTravelerInformationAlerts() {
 		HotelsCheckoutScreen.clickGuestDetails();
 		CommonTravelerInformationScreen.clickDoneButton();
-		ScreenActions.enterLog(TAG, "Verifying all fields show error icon when empty and 'DONE' is pressed");
+		Log.v(TAG, "Verifying all fields show error icon when empty and 'DONE' is pressed");
 		CommonTravelerInformationScreen.firstNameEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CommonTravelerInformationScreen.lastNameEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CommonTravelerInformationScreen.middleNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
@@ -81,7 +81,7 @@ public class HotelCheckoutUserInfoTest extends PhoneTestCase {
 		CommonTravelerInformationScreen.firstNameEditText().perform(click());
 		CommonTravelerInformationScreen.enterFirstName("Expedia");
 		CommonTravelerInformationScreen.clickDoneButton();
-		ScreenActions.enterLog(TAG, "Verifying all field but first and middle name fields show error when 'Done' is pressed.");
+		Log.v(TAG, "Verifying all field but first and middle name fields show error when 'Done' is pressed.");
 		CommonTravelerInformationScreen.firstNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CommonTravelerInformationScreen.lastNameEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CommonTravelerInformationScreen.middleNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
@@ -90,7 +90,8 @@ public class HotelCheckoutUserInfoTest extends PhoneTestCase {
 
 		CommonTravelerInformationScreen.enterLastName("Mobile");
 		CommonTravelerInformationScreen.clickDoneButton();
-		ScreenActions.enterLog(TAG, "Verifying all field but first, middle, last name fields show error when 'Done' is pressed and they are empty.");
+		Log.v(TAG,
+			"Verifying all field but first, middle, last name fields show error when 'Done' is pressed and they are empty.");
 		CommonTravelerInformationScreen.firstNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CommonTravelerInformationScreen.lastNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CommonTravelerInformationScreen.middleNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
@@ -99,7 +100,7 @@ public class HotelCheckoutUserInfoTest extends PhoneTestCase {
 
 		CommonTravelerInformationScreen.enterPhoneNumber(mUser.phoneNumber);
 		CommonTravelerInformationScreen.clickDoneButton();
-		ScreenActions.enterLog(TAG, "Verifying email address edit text shows error when 'Done' is pressed and it is empty.");
+		Log.v(TAG, "Verifying email address edit text shows error when 'Done' is pressed and it is empty.");
 		CommonTravelerInformationScreen.firstNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CommonTravelerInformationScreen.lastNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CommonTravelerInformationScreen.middleNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
@@ -109,7 +110,7 @@ public class HotelCheckoutUserInfoTest extends PhoneTestCase {
 		CommonTravelerInformationScreen.enterEmailAddress("expedia@mobiata.com");
 		CommonTravelerInformationScreen.clickDoneButton();
 		HotelsCheckoutScreen.logInButton().check(matches(isDisplayed()));
-		ScreenActions.enterLog(TAG, "After all traveler info was entered, the test was able to return to the checkout screen");
+		Log.v(TAG, "After all traveler info was entered, the test was able to return to the checkout screen");
 	}
 
 	private void verifyMissingCardInfoAlerts() {
@@ -119,7 +120,7 @@ public class HotelCheckoutUserInfoTest extends PhoneTestCase {
 		CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.expirationDateButton().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.postalCodeEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		ScreenActions.enterLog(TAG, "CC, name on card, expiration date, email address views all have error icon");
+		Log.v(TAG, "CC, name on card, expiration date, email address views all have error icon");
 
 		CardInfoScreen.typeTextCreditCardEditText(mUser.creditCardNumber);
 		CardInfoScreen.clickOnDoneButton();
@@ -127,31 +128,31 @@ public class HotelCheckoutUserInfoTest extends PhoneTestCase {
 		CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.expirationDateButton().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.postalCodeEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		ScreenActions.enterLog(TAG, "Name on card edit text,expiration date, email address displays error icon when data isn't entered.");
+		Log.v(TAG, "Name on card edit text,expiration date, email address displays error icon when data isn't entered.");
 
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
-		ScreenActions.enterLog(TAG, "Clicking on set button");
+		Log.v(TAG, "Clicking on set button");
 		CardInfoScreen.clickSetButton();
-		ScreenActions.enterLog(TAG, "Clicked on set button");
+		Log.v(TAG, "Clicked on set button");
 		CardInfoScreen.clickOnDoneButton();
-		ScreenActions.enterLog(TAG, "Clicked on Done button");
+		Log.v(TAG, "Clicked on Done button");
 		CardInfoScreen.creditCardNumberEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.expirationDateButton().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.postalCodeEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		ScreenActions.enterLog(TAG, "name on card edit text both display error icon when data isn't entered.");
+		Log.v(TAG, "name on card edit text both display error icon when data isn't entered.");
 
 		CardInfoScreen.typeTextNameOnCardEditText(mUser.firstName + mUser.lastName);
 		CardInfoScreen.clickOnDoneButton();
 		HotelsCheckoutScreen.logInButton().check(matches(isDisplayed()));
-		ScreenActions.enterLog(TAG, "After all card info was added, the test was able to return to the checkout screen");
+		Log.v(TAG, "After all card info was added, the test was able to return to the checkout screen");
 	}
 
 	private void verifyLoginButtonNotAppearing() throws Exception {
 		HotelsCheckoutScreen.clickLogInButton();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		LogInScreen.typeTextEmailEditText(mUser.email);
 		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
@@ -159,7 +160,7 @@ public class HotelCheckoutUserInfoTest extends PhoneTestCase {
 		HotelsCheckoutScreen.clickCheckoutButton();
 		onView(withId(R.id.account_logout_container)).perform(scrollTo());
 		EspressoUtils.assertViewWithTextIsDisplayed(mUser.email);
-		ScreenActions.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
+		Log.v(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
 		HotelsCheckoutScreen.clickLogOutButton();
 		onView(withText(mRes.getString(R.string.sign_out))).perform(click());
 		try {
@@ -169,7 +170,7 @@ public class HotelCheckoutUserInfoTest extends PhoneTestCase {
 			//
 		}
 		HotelsCheckoutScreen.logInButton().check(matches(isDisplayed()));
-		ScreenActions.enterLog(TAG, "Log out button was visible and clickable. Email address no longer visible on checkout screen");
+		Log.v(TAG, "Log out button was visible and clickable. Email address no longer visible on checkout screen");
 		Common.pressBack();
 		Common.pressBack();
 	}

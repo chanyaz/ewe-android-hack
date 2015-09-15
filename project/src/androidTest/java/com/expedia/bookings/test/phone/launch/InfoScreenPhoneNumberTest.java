@@ -23,7 +23,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.phone.pagemodels.common.InfoScreen;
-import com.expedia.bookings.test.espresso.Common;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.intent.Intents.intended;
@@ -96,7 +96,7 @@ public class InfoScreenPhoneNumberTest {
 		}
 
 		private void setPOS(PointOfSaleId pos) {
-			Common.enterLog(TAG, "POS Set:" + pos.toString());
+			Log.v(TAG, "POS Set:" + pos.toString());
 			SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.PointOfSaleKey,
 				String.valueOf(pos.getId()));
 			PointOfSale.onPointOfSaleChanged(InstrumentationRegistry.getTargetContext());

@@ -4,12 +4,12 @@ import android.support.test.espresso.Espresso;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.mobiata.android.Log;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -25,12 +25,12 @@ public class HotelCheckoutPriceChangeTest extends PhoneTestCase {
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
-		ScreenActions.enterLog(TAG, "Setting hotel search city to: " + "New York, NY");
+		Log.v(TAG, "Setting hotel search city to: " + "New York, NY");
 		HotelsSearchScreen.enterSearchText("New York, NY");
 		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
 		HotelsSearchScreen.clickHotelWithName("hotel_price_change");
 		HotelsDetailsScreen.clickSelectButton();
-		ScreenActions.enterLog(TAG, "Selecting first room listed for this hotel.");
+		Log.v(TAG, "Selecting first room listed for this hotel.");
 		HotelsRoomsRatesScreen.selectRoomItemWithPriceChange(0);
 		verifyPriceChangeDecrease();
 		HotelsRoomsRatesScreen.dismissPriceChange();

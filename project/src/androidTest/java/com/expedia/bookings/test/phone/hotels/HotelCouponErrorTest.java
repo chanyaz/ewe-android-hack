@@ -3,10 +3,10 @@ package com.expedia.bookings.test.phone.hotels;
 import java.util.ArrayList;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
@@ -53,13 +53,13 @@ public class HotelCouponErrorTest extends PhoneTestCase {
 
 		for (TestData test : tests) {
 			HotelsCheckoutScreen.couponButton().perform(click());
-			ScreenActions.delay(1);
+			Common.delay(1);
 			onView(withId(R.id.coupon_edit_text)).perform(typeText(test.coupon));
 			onView(withId(android.R.id.button1)).perform(click());
-			ScreenActions.delay(1);
+			Common.delay(1);
 			EspressoUtils.assertViewWithTextIsDisplayed(android.R.id.message, test.expected);
 			onView(withId(android.R.id.button3)).perform(click());
-			ScreenActions.delay(1);
+			Common.delay(1);
 		}
 	}
 

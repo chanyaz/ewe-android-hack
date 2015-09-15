@@ -18,13 +18,13 @@ public class TestConfiguration {
 	private static final String CONFIG_FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
 	private static final String CONFIG_FILE_NAME = "config.json";
 
-	public class Config {
+	public static class Config {
 		public String server;
 		public String language;
 		public String country;
 	}
 
-	public static boolean doesConfigFileExist() {
+	public static boolean exists() {
 		return new File(CONFIG_FILE_PATH, CONFIG_FILE_NAME).exists();
 	}
 

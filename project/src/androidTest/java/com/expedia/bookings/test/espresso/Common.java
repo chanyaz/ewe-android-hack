@@ -13,19 +13,18 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 public class Common {
 	public static void closeSoftKeyboard(ViewInteraction v) {
 		v.perform(ViewActions.closeSoftKeyboard());
-		ScreenActions.delay(1);
-	}
-
-	public static void enterLog(String tag, String logText) {
-		Log.v(tag, logText);
+		delay(1);
 	}
 
 	public static boolean isTablet() {
@@ -79,5 +78,19 @@ public class Common {
 
 	public static ExpediaBookingApp getApplication() {
 		return Ui.getApplication(InstrumentationRegistry.getTargetContext());
+	}
+
+	public static void clickOkString() {
+		onView(withText(R.string.ok)).perform(click());
+	}
+
+	public static void delay(int seconds) {
+		seconds = seconds * 1000;
+		try {
+			Thread.sleep(seconds);
+		}
+		catch (InterruptedException e) {
+			//ignore
+		}
 	}
 }

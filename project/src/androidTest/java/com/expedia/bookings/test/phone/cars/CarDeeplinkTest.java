@@ -6,9 +6,9 @@ import android.net.Uri;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 
 public class CarDeeplinkTest extends PhoneTestCase {
 
@@ -22,7 +22,7 @@ public class CarDeeplinkTest extends PhoneTestCase {
 			"com.expedia.bookings.activity.DeepLinkRouterActivity"));
 		getApplication().startActivity(intent);
 
-		ScreenActions.delay(3);
+		Common.delay(3);
 		EspressoUtils.assertViewIsDisplayed(R.id.widget_car_params);
 	}
 
@@ -36,7 +36,7 @@ public class CarDeeplinkTest extends PhoneTestCase {
 			"com.expedia.bookings.activity.DeepLinkRouterActivity"));
 		getApplication().startActivity(intent);
 
-		ScreenActions.delay(3);
+		Common.delay(3);
 		EspressoUtils.assertViewIsDisplayed(R.id.widget_car_params);
 	}
 }

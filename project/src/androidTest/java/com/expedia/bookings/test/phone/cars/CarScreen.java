@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.TabletViewActions;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 
@@ -65,7 +65,7 @@ public final class CarScreen {
 	}
 
 	public static void selectPickupLocation(String airportCode) throws Throwable {
-		ScreenActions.delay(1);
+		Common.delay(1);
 		onView(withText(airportCode))
 			.inRoot(withDecorView(
 				not(is(SpoonScreenshotUtils.getCurrentActivity(
@@ -195,7 +195,7 @@ public final class CarScreen {
 		}
 		onView(allOf(isDescendantOfA(withId(R.id.offer_list)), withId(R.id.reserve_now), withText("Reserve")))
 			.perform(click());
-		ScreenActions.delay(1);
+		Common.delay(1);
 	}
 
 	// Checkout

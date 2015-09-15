@@ -135,7 +135,7 @@ public class CheckoutViewModel {
 
 	public static void pressDoLogin() {
 		Common.closeSoftKeyboard(CheckoutViewModel.password());
-		ScreenActions.delay(1);
+		Common.delay(1);
 		onView(withId(R.id.sign_in_button)).perform(click());
 	}
 
@@ -158,34 +158,34 @@ public class CheckoutViewModel {
 	}
 
 	public static void enterTravelerInfo() {
-		ScreenActions.delay(2);
+		Common.delay(2);
 		clickDriverInfo();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		enterFirstName("FiveStar");
 		enterLastName("Bear");
 		Common.closeSoftKeyboard(CheckoutViewModel.lastName());
-		ScreenActions.delay(1);
+		Common.delay(1);
 		enterEmail("noah@mobiata.com");
 		Common.closeSoftKeyboard(CheckoutViewModel.email());
-		ScreenActions.delay(1);
+		Common.delay(1);
 		enterPhoneNumber("4158675309");
 		clickDone();
-		ScreenActions.delay(2);
+		Common.delay(2);
 	}
 
 	public static void enterPaymentInfo() {
-		ScreenActions.delay(2);
+		Common.delay(2);
 		CheckoutViewModel.clickPaymentInfo();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		enterPaymentDetails();
 	}
 
 	public static void enterPaymentInfoHotels() {
-		ScreenActions.delay(2);
+		Common.delay(2);
 		CheckoutViewModel.clickPaymentInfo();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		CheckoutViewModel.clickAddCreditCard();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		enterPaymentDetails();
 	}
 
@@ -198,6 +198,6 @@ public class CheckoutViewModel {
 		CardInfoScreen.clickSetButton();
 		CardInfoScreen.typeTextPostalCode("666");
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
-		ScreenActions.delay(2);
+		Common.delay(2);
 	}
 }

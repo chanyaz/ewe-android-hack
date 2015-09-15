@@ -34,7 +34,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 		Settings.setFakeCurrentLocation(getInstrumentation(), "0", "0");
 		// Get server value from config file deployed in devices,
 		// if not defined in config defaults to MockWebServer.
-		if (TestConfiguration.doesConfigFileExist()) {
+		if (TestConfiguration.exists()) {
 			TestConfiguration.Config config = new TestConfiguration().getConfiguration();
 			Settings.setServer(getInstrumentation(), config.server);
 			mLanguage = config.language;

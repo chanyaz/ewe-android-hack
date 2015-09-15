@@ -9,9 +9,9 @@ import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.cars.CarScreen;
 import com.expedia.bookings.test.phone.lx.LXScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.espresso.Common;
+import com.mobiata.android.Log;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -37,16 +37,16 @@ public class LaunchScreenUIElementsTest extends PhoneTestCase {
 		screenshot("POS_US_Hotels_Launch");
 		EspressoUtils.assertViewIsDisplayed(R.id.hotel_list_container);
 		Common.pressBack();
-		Common.enterLog(TAG, "Hotels button on Launch screen is displayed and works");
+		Log.v(TAG, "Hotels button on Launch screen is displayed and works");
 
 		EspressoUtils.assertTextWithChildrenIsDisplayed(R.id.flights_button, mRes.getString(R.string.nav_flights));
 		LaunchScreen.launchFlights();
 		screenshot("POS_US_Flights_Launch");
 		EspressoUtils.assertViewIsDisplayed(R.id.departure_airport_edit_text);
 		Common.closeSoftKeyboard(FlightsSearchScreen.arrivalEditText());
-		ScreenActions.delay(2);
+		Common.delay(2);
 		FlightsSearchScreen.actionBarUp().perform(click());
-		Common.enterLog(TAG, "Flights button on Launch screen is displayed and works");
+		Log.v(TAG, "Flights button on Launch screen is displayed and works");
 
 		EspressoUtils.assertTextWithChildrenIsDisplayed(R.id.cars_button, mRes.getString(R.string.nav_cars));
 		LaunchScreen.launchCars();
@@ -54,7 +54,7 @@ public class LaunchScreenUIElementsTest extends PhoneTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.pickup_location);
 		Common.closeSoftKeyboard(onView(withId(R.id.pickup_location)));
 		CarScreen.searchWidgetToolbarBack().perform(click());
-		Common.enterLog(TAG, "Cars button on Launch screen is displayed and works");
+		Log.v(TAG, "Cars button on Launch screen is displayed and works");
 
 		EspressoUtils.assertTextWithChildrenIsDisplayed(R.id.activities_button, mRes.getString(R.string.nav_lx));
 		LaunchScreen.launchActivities();
@@ -65,14 +65,14 @@ public class LaunchScreenUIElementsTest extends PhoneTestCase {
 		Common.closeSoftKeyboard(onView(withId(R.id.search_location)));
 		LXScreen.searchWidgetToolbarNavigation().perform(click());
 		LXScreen.resultsPresenterToolbarNavigation().perform(click());
-		Common.enterLog(TAG, "LX button on Launch screen is displayed and works");
+		Log.v(TAG, "LX button on Launch screen is displayed and works");
 
 		LaunchScreen.tripsButton().perform(click());
 		EspressoUtils.assertViewIsDisplayed(R.id.login_button);
-		Common.enterLog(TAG, "Trips button on Launch screen is displayed and works");
+		Log.v(TAG, "Trips button on Launch screen is displayed and works");
 
 		LaunchScreen.shopButton().perform(click());
-		Common.enterLog(TAG, "Shop button on Launch screen is displayed ");
+		Log.v(TAG, "Shop button on Launch screen is displayed ");
 	}
 
 	public void testLaunchButtonsForGroundTransport() throws Throwable {
@@ -85,7 +85,7 @@ public class LaunchScreenUIElementsTest extends PhoneTestCase {
 		Common.closeSoftKeyboard(onView(withId(R.id.search_location)));
 		LXScreen.searchWidgetToolbarNavigation().perform(click());
 		LXScreen.resultsPresenterToolbarNavigation().perform(click());
-		Common.enterLog(TAG, "LX button on Launch screen is displayed and works");
+		Log.v(TAG, "LX button on Launch screen is displayed and works");
 
 		EspressoUtils.assertTextWithChildrenIsDisplayed(R.id.transport_button, mRes.getString(R.string.nav_transport));
 		LaunchScreen.launchGroundTransport();
@@ -93,7 +93,7 @@ public class LaunchScreenUIElementsTest extends PhoneTestCase {
 		LXScreen.searchButtonInSRPToolbar().perform(click());
 		screenshot("POS_US_GT_Launch_Edit_Search");
 		EspressoUtils.assertViewIsDisplayed(R.id.search_location);
-		Common.enterLog(TAG, "GT button on Launch screen is displayed and works");
+		Log.v(TAG, "GT button on Launch screen is displayed and works");
 	}
 
 	@Override

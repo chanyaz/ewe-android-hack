@@ -8,7 +8,6 @@ import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.SettingsScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsConfirmationScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
@@ -97,6 +96,6 @@ public class HotelFieldValidationTest extends PhoneTestCase {
 
 	private void assertPopup() {
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.please_use_the_roman_alphabet));
-		SettingsScreen.clickOkString();
+		Common.clickOkString();
 	}
 }
