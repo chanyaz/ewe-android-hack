@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.os.Build
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
@@ -273,6 +274,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.setNavigationIcon(navIcon)
+        toolbar.setNavigationOnClickListener {
+            val activity = getContext() as AppCompatActivity
+            activity.onBackPressed()
+        }
         toolbar.inflateMenu(R.menu.cars_search_menu)
 
         monthView.setTextEqualDatesColor(Color.WHITE)
