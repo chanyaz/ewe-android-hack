@@ -7,6 +7,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.bookings.widget.PayLaterInfoWidget
@@ -96,4 +97,11 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         hotelDetailView.toolBarRating.translationY = 0f
     }
 
+    override fun back(): Boolean {
+        if (hotelDetailView.navIcon.getParameter().toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
+            hotelDetailView.toggleFullScreenGallery()
+            return true
+        }
+        return super.back()
+    }
 }

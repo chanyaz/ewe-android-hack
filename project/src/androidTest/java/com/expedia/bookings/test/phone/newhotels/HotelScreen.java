@@ -172,7 +172,7 @@ public class HotelScreen {
 	}
 
 	public static void clickRatingContainer() {
-		onView(withId(R.id.rating_container)).perform(click());
+		onView(withId(R.id.rating_container)).perform(scrollTo(), click());
 	}
 
 	public static void waitForResultsDisplayed() {
