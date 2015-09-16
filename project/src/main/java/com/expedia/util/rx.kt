@@ -1,14 +1,14 @@
 package com.expedia.util
 
 import android.graphics.drawable.Drawable
-import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
-import android.widget.RadioGroup
 import android.widget.CheckBox
+import android.widget.ImageView
+import android.widget.RadioGroup
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.ToggleButton
-import com.mobiata.android.Log
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
@@ -32,6 +32,15 @@ public fun <T> endlessObserver(body: (in T) -> Unit) : Observer<T> {
 public fun View.subscribeOnClick(observer: Observer<Unit>) {
     this.setOnClickListener {
         observer.onNext(Unit)
+    }
+}
+
+public fun RatingBar.subscribeOnTouch(observer: Observer<Unit>) {
+    this.setOnTouchListener { view, event ->
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            observer.onNext(Unit)
+        }
+        true
     }
 }
 

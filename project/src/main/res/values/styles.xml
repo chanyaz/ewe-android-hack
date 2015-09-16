@@ -225,7 +225,7 @@
     <style name="RatingBar.UserReview.Material.Yellow">
         <item name="android:progressDrawable">@drawable/ratingbar_star_material_yellow</item>
         <item name="android:minHeight">14dp</item>
-        <item name="android:maxHeight">14dp</item>
+
     </style>
 
     <style name="RatingBar.UserReview.Material.Green">

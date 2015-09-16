@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format
+import android.text.format.DateUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -21,7 +22,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Button
@@ -218,14 +218,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         map.setMyLocationEnabled(true)
 
         // Determine current location
-        val MINIMUM_TIME_AGO = format.DateUtils.HOUR_IN_MILLIS
-        val minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO
+        val minTime = DateTime.now().getMillis() - DateUtils.HOUR_IN_MILLIS
         val loc = LocationServices.getLastBestLocation(getContext(), minTime)
         val currentLat = loc?.getLatitude() ?: 0.0
         val currentLong = loc?.getLongitude() ?: 0.0
 
         var closestHotel: Hotel? = null
-        var closestToCurrentLocationVal: Float = Float.MAX_VALUE
+        var closestToCurrentLocationVal = Float.MAX_VALUE
 
         val allHotelsBox = LatLngBounds.Builder()
 

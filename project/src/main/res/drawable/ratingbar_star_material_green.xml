@@ -9,7 +9,6 @@
         android:drawable="@android:color/transparent"/>
     <item
         android:id="@android:id/progress"
-        android:background="@android:color/transparent"
-        android:drawable="@drawable/ic_hotel_star_rating" />
+        android:drawable="@drawable/ratingbar_star_white_full" />
 
 </layer-list>
