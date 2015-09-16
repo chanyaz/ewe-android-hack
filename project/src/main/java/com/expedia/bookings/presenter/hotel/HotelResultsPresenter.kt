@@ -71,6 +71,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var screenWidth: Float = 0f
     var mapTransitionRunning: Boolean = false
     var hideFabAnimationRunning: Boolean = false
+    var markerList = ArrayList<Marker>()
 
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
     val mapView: MapView by bindView(R.id.map_view)
@@ -182,12 +183,18 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
+    /**
+     * Alternative to map.clear() to avoid undesired exceptions
+     */
+    public fun clearAllMapMarkers() {
+        markerList.clear()
+    }
+
     val mapResultsObserver: Observer<HotelSearchResponse> = endlessObserver { response ->
         val map = googleMap
         if (map != null) {
 
-            map.clear()
-
+            clearAllMapMarkers()
             map.setMyLocationEnabled(true)
 
             // Determine current location
@@ -210,6 +217,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     val marker: Marker = map.addMarker(MarkerOptions()
                             .position(LatLng(hotel.latitude, hotel.longitude))
                             .icon(createHotelMarker(getResources(), hotel, false)))
+                    markerList.add(marker)
 
                     val markerDistance = MarkerDistance(marker, -1f, hotel)
                     mHotelList.add(markerDistance)
