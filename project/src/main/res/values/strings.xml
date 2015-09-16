@@ -2598,7 +2598,6 @@
     <!-- new material Hotel results cell guest rating -->
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
-    <string name="guest_recommend">of guests recommend</string>
     <string name="hotel_guest_recommend">of 5 - guest rating</string>
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>

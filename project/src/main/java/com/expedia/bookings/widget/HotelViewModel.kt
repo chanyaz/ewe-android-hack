@@ -25,7 +25,6 @@ public class HotelViewModel(private val hotel: Hotel, private val context: Conte
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating.toString())
     val hotelPreviewRatingObservable = BehaviorSubject.create<Float>(hotel.hotelStarRating)
     val pricePerNightObservable = BehaviorSubject.create(priceFormatter(hotel, false))
-    val guestRatingPercentageObservable = BehaviorSubject.create(Phrase.from(resources, R.string.customer_rating_percent_Template).put("rating", hotel.percentRecommended.toInt()).put("percent", "%").format().toString())
 
     val urgencyMessageObservable = BehaviorSubject.create(getMostApplicableUrgencyMessage(hotel, resources)).filter { it != null }
     val urgencyMessageVisibilityObservable = urgencyMessageObservable.map { it!!.visibility }
