@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.util.AttributeSet
 import android.view.View
 import android.widget
@@ -37,6 +38,8 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Li
     val childMinus: ImageButton by bindView(R.id.children_minus)
 
     val DEFAULT_CHILD_AGE = 10
+    val enabledColor = getResources().getColor(R.color.hotel_guest_selector_enabled_color)
+    val disabledColor = getResources().getColor(R.color.hotel_guest_selector_disabled_color)
 
     var viewmodel: HotelTravelerPickerViewModel by notNullAndObservable { vm ->
         adultPlus.subscribeOnClick(vm.incrementAdultsObserver)
@@ -47,6 +50,23 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Li
 
         vm.adultTextObservable.subscribe(adultText)
         vm.childTextObservable.subscribe(childText)
+
+        vm.adultPlusObservable.subscribe {
+            adultPlus.setEnabled(it)
+            adultPlus.setImageButtonColorFilter(it)
+        }
+        vm.adultMinusObservable.subscribe {
+            adultMinus.setEnabled(it)
+            adultMinus.setImageButtonColorFilter(it)
+        }
+        vm.childPlusObservable.subscribe {
+            childPlus.setEnabled(it)
+            childPlus.setImageButtonColorFilter(it)
+        }
+        vm.childMinusObservable.subscribe {
+            childMinus.setEnabled(it)
+            childMinus.setImageButtonColorFilter(it)
+        }
 
         for (i in childSpinners.indices) {
             val spinner = childSpinners[i]
@@ -81,5 +101,12 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Li
 
     init {
         View.inflate(context, R.layout.widget_traveler_picker, this)
+    }
+
+    fun ImageButton.setImageButtonColorFilter(enabled: Boolean) {
+        if (enabled)
+            this.setColorFilter(enabledColor, PorterDuff.Mode.SRC_IN)
+        else
+            this.setColorFilter(disabledColor, PorterDuff.Mode.SRC_IN)
     }
 }
