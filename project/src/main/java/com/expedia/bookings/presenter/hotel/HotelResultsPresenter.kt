@@ -366,6 +366,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     override fun onMapReady(googleMap: GoogleMap?) {
         this.googleMap = googleMap
+        val uiSettings = googleMap?.getUiSettings()
+        //Explicitly disallow map-cluttering ui (but keep the gestures)
+        if (uiSettings != null) {
+            uiSettings.setCompassEnabled(false)
+            uiSettings.setMapToolbarEnabled(false)
+            uiSettings.setZoomControlsEnabled(false)
+            uiSettings.setMyLocationButtonEnabled(false)
+            uiSettings.setIndoorLevelPickerEnabled(false)
+        }
 
         googleMap?.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
             override fun onMarkerClick(marker: Marker): Boolean {
