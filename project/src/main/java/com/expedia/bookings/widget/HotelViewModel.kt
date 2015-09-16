@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.tracking.AdImpressionTracking
+import com.expedia.bookings.utils.Akeakamai
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
 import com.squareup.phrase.Phrase
@@ -23,7 +24,6 @@ public class HotelViewModel(private val hotel: Hotel, private val context: Conte
     val hasDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.discountPercent < 0 && !hotel.lowRateInfo.airAttached)
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating.toString())
     val hotelPreviewRatingObservable = BehaviorSubject.create<Float>(hotel.hotelStarRating)
-    val hotelThumbnailUrlObservable = BehaviorSubject.create(Images.getMediaHost() + hotel.thumbnailUrl)
     val pricePerNightObservable = BehaviorSubject.create(priceFormatter(hotel, false))
     val guestRatingPercentageObservable = BehaviorSubject.create(Phrase.from(resources, R.string.customer_rating_percent_Template).put("rating", hotel.percentRecommended.toInt()).put("percent", "%").format().toString())
 
@@ -39,7 +39,7 @@ public class HotelViewModel(private val hotel: Hotel, private val context: Conte
     val topAmenityVisibilityObservable = topAmenityTitleObservable.map { !(it=="")}
 
     val hotelStarRatingObservable = BehaviorSubject.create(hotel.hotelStarRating)
-    val hotelLargeThumbnailUrlObservable = BehaviorSubject.create(Images.getMediaHost() + hotel.largeThumbnailUrl)
+    val hotelLargeThumbnailUrlObservable = BehaviorSubject.create(Images.getMediaHost() + hotel.largeThumbnailUrl).map { Akeakamai(it).resizeExactly(100, 100).build() }
     val hotelDiscountPercentageObservable = BehaviorSubject.create(Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo.discountPercent.toInt()).format().toString())
     val distanceFromCurrentLocationObservable: BehaviorSubject<kotlin.String> = BehaviorSubject.create<String>()
 

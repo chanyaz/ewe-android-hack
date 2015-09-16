@@ -9,14 +9,23 @@ import com.expedia.bookings.presenter.hotel.HotelResultsPresenter
 import com.expedia.bookings.widget.createHotelMarker
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
+import com.mobiata.android.util.AndroidUtils
 import rx.subjects.PublishSubject
 import java.util.ArrayList
+import kotlin.properties.Delegates
 
 public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 
     val mapSubject = PublishSubject.create<Marker>()
+    val sortedHotelList by Delegates.lazy { (getAdapter() as HotelMarkerPreviewAdapter).sortedHotelList }
+    val sortedHotelMarkerList by Delegates.lazy { Array(sortedHotelList.size(), {createHotelMarker(getResources(), sortedHotelList.elementAt(it).hotel, false)}) }
+    var lastDisplayedItemPosition:Int = 0
 
-    val layoutManager = LinearLayoutManager(getContext())
+    val layoutManager = object: LinearLayoutManager(getContext()) {
+        override protected fun getExtraLayoutSpace(state: RecyclerView.State): Int {
+            return AndroidUtils.getScreenSize(context).x
+        }
+    }
 
     init {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL)
@@ -24,31 +33,23 @@ public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : Recy
     }
 
     override fun fling(velocityX: Int, velocityY: Int): Boolean {
-
-        var position : Int
-
-        if (velocityX < 0) {
-            position: Int = layoutManager.findFirstVisibleItemPosition()
-        } else {
-            position: Int = layoutManager.findLastVisibleItemPosition()
-        }
+        var position = if (velocityX < 0) layoutManager.findFirstVisibleItemPosition() else layoutManager.findLastVisibleItemPosition()
 
         val nextView: View? = layoutManager.findViewByPosition(position)
         if (nextView != null) {
             smoothScrollBy(nextView.getLeft(), 0)
         }
 
-        val sortedHotelList: ArrayList<HotelResultsPresenter.MarkerDistance> = (getAdapter() as HotelMarkerPreviewAdapter).sortedHotelList
-        val marker = sortedHotelList.get(position).marker
+        mapSubject.onNext(sortedHotelList.get(position).marker)
 
-        // Reset markers
-        for (item in sortedHotelList) {
-            item.marker.setIcon(createHotelMarker(getResources(), item.hotel, false))
+        sortedHotelMarkerList[lastDisplayedItemPosition] = createHotelMarker(getResources(), sortedHotelList.get(lastDisplayedItemPosition).hotel, false)
+        sortedHotelMarkerList[position] = createHotelMarker(getResources(), sortedHotelList.get(position).hotel, true)
+
+        post {
+            (0..sortedHotelList.size() - 1).forEach { sortedHotelList.elementAt(it).marker.setIcon(sortedHotelMarkerList.elementAt(it)) }
         }
 
-        marker.setIcon(createHotelMarker(getResources(), sortedHotelList.get(position).hotel, true))
-        mapSubject.onNext(marker)
-
+        lastDisplayedItemPosition = position
         return true
     }
 }
