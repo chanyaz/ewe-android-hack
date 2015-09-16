@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.GoogleWalletActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
@@ -131,15 +132,29 @@ public class PaymentWidget extends ExpandableCardView {
 	}
 	@OnClick(R.id.remove_stored_card_button)
 	public void onStoredCardRemoved() {
-		StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
-		if (currentCC != null) {
-			BookingInfoUtils.resetPreviousCreditCardSelectState(getContext(), currentCC);
-		}
+		StoredCreditCard currentCC = sectionBillingInfo.getBillingInfo().getStoredCard();
+		BookingInfoUtils.resetPreviousCreditCardSelectState(getContext(), currentCC);
 		Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(null);
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
-		sectionBillingInfo.getBillingInfo().setStoredCard(null);
+		reset();
 		storedCardContainer.setVisibility(GONE);
-		sectionBillingInfo.setVisibility(VISIBLE);
+		if (User.isLoggedIn(getContext())) {
+			sectionBillingInfo.setVisibility(VISIBLE);
+		}
+		else {
+			setExpanded(true, false);
+		}
+	}
+
+	@OnClick(R.id.payment_option_credit_debit)
+	public void creditCardClicked() {
+		showCreditCardDetails();
+		mToolbarListener.setActionBarTitle(getActionBarTitle());
+	}
+
+	@OnClick(R.id.payment_option_google_wallet)
+	public void googleWalletClicked() {
+		openGoogleWallet();
 	}
 
 	@Override
@@ -171,20 +186,6 @@ public class PaymentWidget extends ExpandableCardView {
 			}
 		});
 		sectionBillingInfo.addChangeListener(mValidFormsOfPaymentListener);
-		paymentOptionCreditDebitCard.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				showCreditCardDetails();
-				mToolbarListener.setActionBarTitle(getActionBarTitle());
-			}
-		});
-
-		paymentOptionGoogleWallet.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				openGoogleWallet();
-			}
-		});
 	}
 
 	public void setLineOfBusiness(LineOfBusiness lineOfBusiness) {
@@ -332,7 +333,7 @@ public class PaymentWidget extends ExpandableCardView {
 		cardInfoContainer.setVisibility(GONE);
 		paymentOptionsContainer.setVisibility(GONE);
 		billingInfoContainer.setVisibility(VISIBLE);
-		paymentButton.setVisibility(User.isLoggedIn(getContext()) || hasStoredCard ? VISIBLE : GONE);
+		paymentButton.setVisibility(User.isLoggedIn(getContext()) ? VISIBLE : GONE);
 		storedCardContainer.setVisibility(hasStoredCard ? VISIBLE : GONE);
 		sectionBillingInfo.setVisibility(hasStoredCard ? GONE : VISIBLE);
 		if (hasStoredCard) {
@@ -346,7 +347,9 @@ public class PaymentWidget extends ExpandableCardView {
 		bind();
 		paymentButton.bind();
 		mValidFormsOfPaymentListener.onChange();
-		OmnitureTracking.trackCheckoutPayment(lineOfBusiness);
+		if (!ExpediaBookingApp.isAutomation()) {
+			OmnitureTracking.trackCheckoutPayment(lineOfBusiness);
+		}
 	}
 
 	@Override
