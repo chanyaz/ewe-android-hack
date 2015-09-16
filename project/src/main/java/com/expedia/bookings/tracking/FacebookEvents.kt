@@ -379,11 +379,11 @@ fun addCommonHotelParams(parameters: Bundle, searchParams: HotelSearchParams, lo
     val dtf = ISODateTimeFormat.date()
     parameters.putString("LOB", "Hotel")
     val regionId = searchParams.getRegionId()
-    val formattedAddressCityState = StrUtils.formatAddressCityState(location)
+    val formattedAddressCityState = if (location != null) StrUtils.formatAddressCityState(location) else ""
     parameters.putString("region_id", regionId ?: "")
     addCommonLocationEvents(parameters, location)
 
-    parameters.putString("destination_name", formattedAddressCityState ?: "")
+    parameters.putString("destination_name", formattedAddressCityState)
     parameters.putString("Checkin_Date", dtf.print(searchParams.getCheckInDate()))
     parameters.putString("Checkout_Date", dtf.print(searchParams.getCheckOutDate()))
     parameters.putInt("Booking_Window", getBookingWindow(searchParams.getCheckInDate()))
