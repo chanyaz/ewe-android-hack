@@ -3,10 +3,12 @@ package com.expedia.bookings.test.phone.newhotels;
 import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
+import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -14,12 +16,14 @@ import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
 import com.expedia.bookings.test.espresso.ViewActions;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
@@ -27,6 +31,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -42,6 +47,10 @@ public class HotelScreen {
 
 	public static ViewInteraction location() {
 		return onView(withId(R.id.hotel_location));
+	}
+
+	public static ViewInteraction clearButton() {
+		return onView(withId(R.id.clear_location_button));
 	}
 
 	public static ViewInteraction etpAndFreeCancellationMessagingContainer() {
@@ -91,6 +100,12 @@ public class HotelScreen {
 				not(is(SpoonScreenshotUtils.getCurrentActivity(
 				).getWindow().getDecorView()))))
 			.perform(click());
+	}
+
+	public static DataInteraction suggestionView() throws Throwable {
+		return onData(anything())
+			.inAdapterView(isAssignableFrom(ListView.class))
+			.inRoot(withDecorView(not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))));
 	}
 
 	public static void selectDates(LocalDate start, LocalDate end) {
