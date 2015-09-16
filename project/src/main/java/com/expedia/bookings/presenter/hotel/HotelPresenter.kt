@@ -11,6 +11,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.lx.LXDetailsPresenter
 import com.expedia.bookings.presenter.lx.LXResultsPresenter
 import com.expedia.bookings.services.HotelServices
@@ -85,6 +86,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             loadingOverlay.setVisibility(View.GONE)
         }
     }
+
     private val searchToResults = object : Presenter.Transition(javaClass<HotelSearchPresenter>(), javaClass<HotelResultsPresenter>()) {
 
         override fun startTransition(forward: Boolean) {
@@ -109,6 +111,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.animationFinalize()
         }
     }
+
     private val resultsToDetail = object : Presenter.Transition(javaClass<HotelResultsPresenter>().getName(), javaClass<HotelDetailPresenter>().getName(), DecelerateInterpolator(), ANIMATION_DURATION) {
         private var detailsHeight: Int = 0
 
@@ -141,9 +144,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private val detailsToCheckout = LeftToRightTransition(this, javaClass<HotelDetailPresenter>(), javaClass<HotelCheckoutPresenter>())
-    private val checkoutToConfirmation = LeftToRightTransition(this, javaClass<HotelCheckoutPresenter>(), javaClass<HotelConfirmationPresenter>())
-    private val detailsToReview = LeftToRightTransition(this, javaClass<HotelDetailPresenter>(),javaClass<HotelReviewsPresenter>())
+    private val detailsToCheckout = ScaleTransition(this, javaClass<HotelDetailPresenter>(), javaClass<HotelCheckoutPresenter>())
+    private val checkoutToConfirmation = ScaleTransition(this, javaClass<HotelCheckoutPresenter>(), javaClass<HotelConfirmationPresenter>())
+    private val detailsToReview = ScaleTransition(this, javaClass<HotelDetailPresenter>(),javaClass<HotelReviewsPresenter>())
 
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
         hotelSearchParams = params
