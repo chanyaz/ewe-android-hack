@@ -100,6 +100,10 @@
     <color name="hotel_cell_disabled_text">#7D7D7D</color>
     <color name="hotel_detail_divider">#CACACA</color>
 
+    <color name="hotel_urgency_message_color">#E2934A</color>
+    <color name="hotel_tonight_only_color">#4A90E2</color>
+    <color name="hotel_mobile_exclusive_color">#E2624A</color>
+
     <!-- Hotel reviews colors -->
     <color name="hotel_review_background_color">#FAFAFA</color>
     <color name="hotel_review_title_color">#686868</color>

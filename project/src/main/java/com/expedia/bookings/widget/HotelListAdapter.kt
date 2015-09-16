@@ -18,6 +18,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribe
+import com.expedia.util.subscribeBackgroundColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
 import rx.subjects.PublishSubject
@@ -130,10 +131,17 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
         val pricePerNight: TextView by root.bindView(R.id.price_per_night)
         val strikeThroughPricePerNight: TextView by root.bindView(R.id.strike_through_price)
         val guestRatingPercentage: TextView by root.bindView(R.id.guest_rating_percentage)
-        val topAmenityTitle: TextView by root.bindView(R.id.top_amenity_title)
         val starRating: RatingBar by root.bindView(R.id.hotel_rating_bar)
         val discountPercentage: TextView by root.bindView(R.id.discount_percentage)
         val hotelAmenityOrDistanceFromLocation: TextView by root.bindView(R.id.hotel_amenity_or_distance_from_location)
+
+        val urgencyMessageContainer: LinearLayout by root.bindView (R.id.urgency_message_layout)
+        val topAmenityTitle: TextView by root.bindView(R.id.top_amenity_title)
+        val urgencyIcon: ImageView by root.bindView(R.id.urgency_icon)
+        val urgencyMessageBox: TextView by root.bindView(R.id.urgency_message)
+        val vipMessage: TextView by root.bindView(R.id.vip_message)
+        val airAttachDiscount: TextView by root.bindView(R.id.air_attach_discount)
+        val airAttachContainer: LinearLayout by root.bindView(R.id.air_attach_layout)
 
         public fun bind(viewModel: HotelViewModel) {
             viewModel.hotelLargeThumbnailUrlObservable.subscribe { url ->
@@ -144,7 +152,6 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
             viewModel.hotelNameObservable.subscribe(hotelName)
             viewModel.pricePerNightObservable.subscribe(pricePerNight)
             viewModel.guestRatingPercentageObservable.subscribe(guestRatingPercentage)
-            viewModel.topAmenityTitleObservable.subscribe(topAmenityTitle)
             viewModel.hotelDiscountPercentageObservable.subscribe(discountPercentage)
             viewModel.hotelStrikeThroughPriceObservable.subscribe(strikeThroughPricePerNight)
             viewModel.hasDiscountObservable.subscribeVisibility(strikeThroughPricePerNight)
@@ -152,6 +159,16 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
             viewModel.distanceFromCurrentLocationObservable.subscribe(hotelAmenityOrDistanceFromLocation)
 
             strikeThroughPricePerNight.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG)
+
+            viewModel.topAmenityVisibilityObservable.subscribeVisibility(topAmenityTitle)
+            viewModel.topAmenityTitleObservable.subscribe(topAmenityTitle)
+            viewModel.urgencyIconObservable.subscribe(urgencyIcon)
+            viewModel.urgencyMessageVisibilityObservable.subscribeVisibility(urgencyMessageContainer)
+            viewModel.urgencyMessageBackgroundObservable.subscribeBackgroundColor(urgencyMessageContainer)
+            viewModel.urgencyMessageBoxObservable.subscribe(urgencyMessageBox)
+            viewModel.vipMessageVisibilityObservable.subscribeVisibility(vipMessage)
+            viewModel.airAttachVisibilityObservable.subscribeVisibility(airAttachContainer)
+            viewModel.hotelDiscountPercentageObservable.subscribe(airAttachDiscount)
 
             viewModel.hotelStarRatingObservable.subscribe {
                 starRating.setRating(it)
