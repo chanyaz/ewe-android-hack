@@ -139,7 +139,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     private fun resetListOffset() {
-        var listOffset = (getHeight() / 2.7).toInt()
+        var listOffset = (getHeight() / 3.1).toInt()
         val view = recyclerView.getChildAt(adapter.numHeaderItemsInHotelsList())
         if (view != null) {
             var distance = view.getTop() - listOffset;
@@ -415,43 +415,30 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
         var currentState = RecyclerView.SCROLL_STATE_IDLE
-        var totalDistance = 0
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             currentState = newState
 
-
             val view = recyclerView.getChildAt(1)
-            val holder = recyclerView.findViewHolderForAdapterPosition(2)
-            view ?: return
+            val topOffset = if (view == null) { 0 } else {view.getTop() }
 
-            if (halfway == 0 && threshold == 0 && holder != null && holder is HotelListAdapter.HotelViewHolder) {
+            if (halfway == 0 && threshold == 0 && view != null) {
                 halfway = view.getTop()
-                totalDistance = halfway
-                threshold = halfway + view.getHeight() + holder.imageView.getHeight()
+                threshold = view.getTop() + (view.getBottom() / 1.9).toInt()
             }
 
-            val topOffset = totalDistance
-
-            if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                //ignore
-            } else if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
-                //ignore
-            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset == halfway) {
-                //view is at the top, reset total distance scrolled
-                totalDistance = halfway;
-            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset >= threshold) {
+            if (newState == RecyclerView.SCROLL_STATE_IDLE && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
                 //view has passed threshold, show map
                 show(ResultsMap())
-            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway) {
+            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway && isHeaderVisible()) {
                 //view is between threshold and halfway, reset the list
                 show(ResultsList())
                 recyclerView.setTranslationY(0f)
                 resetListOffset()
             }
+
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            totalDistance += -dy
             if (shouldBlockTransition() || getCurrentState()?.equals(javaClass<ResultsMap>().getName()) ?: false) {
                 return
             }
@@ -462,11 +449,16 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 mapView.setTranslationY(y)
             }
 
-            if (currentState == RecyclerView.SCROLL_STATE_SETTLING && totalDistance >= halfway) {
+            val view = recyclerView.getChildAt(1)
+            val topOffset = if (view == null) { 0 } else {view.getTop() }
+
+            if (currentState == RecyclerView.SCROLL_STATE_SETTLING && topOffset < threshold && topOffset > halfway && isHeaderVisible()) {
                 show(ResultsList())
                 mapView.setTranslationY(0f)
                 recyclerView.setTranslationY(0f)
                 resetListOffset()
+            } else if (currentState == RecyclerView.SCROLL_STATE_SETTLING && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
+                show(ResultsMap())
             }
 
             if (!fabShouldBeHiddenOnList() && fab.getVisibility() == View.INVISIBLE) {
@@ -483,6 +475,14 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 })
                 outAnim.start()
             }
+        }
+
+        fun isHeaderVisible(): Boolean {
+            return recyclerView.layoutManager.findFirstVisibleItemPosition() == 0
+        }
+
+        fun isHeaderCompletelyVisible(): Boolean {
+            return recyclerView.layoutManager.findFirstCompletelyVisibleItemPosition() == 0
         }
     }
 
