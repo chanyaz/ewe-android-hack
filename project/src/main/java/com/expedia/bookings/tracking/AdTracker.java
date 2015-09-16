@@ -190,7 +190,7 @@ public class AdTracker {
 
 	public static void trackHotelInfoSite() {
 		TuneUtils.trackHotelInfoSite(Db.getHotelSearch().getSelectedProperty());
-		new FacebookEvents().trackHotelInfosite(Db.getHotelSearch());
+		new FacebookEvents().trackHotelInfoSite(Db.getHotelSearch());
 	}
 
 	public static void trackFlightSearch() {
