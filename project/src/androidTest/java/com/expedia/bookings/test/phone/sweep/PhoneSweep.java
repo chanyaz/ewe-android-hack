@@ -12,8 +12,6 @@ import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
-import com.expedia.bookings.test.phone.pagemodels.common.SettingsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
@@ -67,7 +65,7 @@ public class PhoneSweep extends PhoneTestCase {
 		screenshot("Log_in_screen");
 		Common.closeSoftKeyboard(LogInScreen.logInButton());
 		Common.pressBack();
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		clickTravelerDetails();
 		screenshot("Traveler_Details");
@@ -176,7 +174,7 @@ public class PhoneSweep extends PhoneTestCase {
 		HotelsRoomsRatesScreen.selectETPRoomItem(1);
 		screenshot("Hotel_checkout");
 		try {
-			SettingsScreen.clickOkString();
+			Common.clickOkString();
 		}
 		catch (Exception e) {
 			//No Great news pop-up
@@ -186,7 +184,7 @@ public class PhoneSweep extends PhoneTestCase {
 		screenshot("Log_in");
 		Common.closeSoftKeyboard(LogInScreen.logInButton());
 		Common.pressBack();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		HotelsCheckoutScreen.clickGuestDetails();
 		try {
 			HotelsCheckoutScreen.clickEnterInfoButton();

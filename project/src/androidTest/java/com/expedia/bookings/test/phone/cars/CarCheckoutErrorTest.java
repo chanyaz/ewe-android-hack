@@ -6,9 +6,9 @@ import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.espresso.CarTestCase;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.google.gson.Gson;
@@ -153,7 +153,7 @@ public class CarCheckoutErrorTest extends CarTestCase {
 			carCreateTripResponse.searchCarOffer = searchCarOffer;
 		}
 		Events.post(new Events.CarsShowCheckout(searchCarOffer.productKey, searchCarOffer.fare.total, searchCarOffer.isInsuranceIncluded, new LatLng(searchCarOffer.pickUpLocation.latitude, searchCarOffer.pickUpLocation.longitude)));
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		CarScreen.travelerWidget().perform(click());
 		CarScreen.firstName().perform(typeText(firstName));
@@ -168,7 +168,7 @@ public class CarCheckoutErrorTest extends CarTestCase {
 			enterCVV("111");
 		}
 		else {
-			ScreenActions.delay(1);
+			Common.delay(1);
 			CheckoutViewModel.performSlideToPurchase();
 		}
 	}

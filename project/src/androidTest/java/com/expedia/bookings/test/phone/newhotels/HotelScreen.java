@@ -9,10 +9,10 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
-import com.expedia.bookings.test.phone.AppScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -85,7 +85,7 @@ public class HotelScreen {
 	}
 
 	public static void selectLocation(String hotel) throws Throwable {
-		ScreenActions.delay(1);
+		Common.delay(1);
 		onView(withText(hotel))
 			.inRoot(withDecorView(
 				not(is(SpoonScreenshotUtils.getCurrentActivity(
@@ -135,11 +135,11 @@ public class HotelScreen {
 	}
 
 	public static void waitForResultsDisplayed() {
-		AppScreen.waitForViewToDisplay(hotelResultsList());
+		ViewActions.waitForViewToDisplay(hotelResultsList());
 	}
 
 	public static ViewInteraction resultsListItemView(Matcher<View> identifyingMatcher) {
-		return AppScreen.recyclerItemView(identifyingMatcher, R.id.list_view);
+		return ViewActions.recyclerItemView(identifyingMatcher, R.id.list_view);
 	}
 
 	public static void showCalendar() {

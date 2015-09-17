@@ -16,8 +16,6 @@ import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonPaymentMethodScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
-import com.expedia.bookings.test.phone.pagemodels.common.SettingsScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsConfirmationScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
@@ -30,6 +28,7 @@ import com.expedia.bookings.test.espresso.HotelsUserData;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.MockModeShim;
+import com.mobiata.android.Log;
 import com.mobiata.mocke3.ExpediaDispatcher;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -70,20 +69,20 @@ public class HotelConfirmationTest extends PhoneTestCase {
 		int numberOfRooms = EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList()) - 1;
 		HotelsRoomsRatesScreen.selectRoomItem(0);
 		try {
-			SettingsScreen.clickOkString();
+			Common.clickOkString();
 			if (numberOfRooms > 1) {
 				HotelsRoomsRatesScreen.selectRoomItem(1);
 			}
 		}
 		catch (Exception e) {
-			ScreenActions.enterLog(TAG, "No popup");
+			Log.v(TAG, "No popup");
 		}
 	}
 
 	public void testLoggedInBookingConfirmation() throws Exception {
 		mUser = new HotelsUserData();
 
-		ScreenActions.enterLog(TAG, "START: Testing confirmation screen after logged-in booking");
+		Log.v(TAG, "START: Testing confirmation screen after logged-in booking");
 		getToCheckout();
 		HotelsCheckoutScreen.clickCheckoutButton();
 		HotelsCheckoutScreen.clickLogInButton();
@@ -92,18 +91,18 @@ public class HotelConfirmationTest extends PhoneTestCase {
 		LogInScreen.clickOnLoginButton();
 
 		HotelsCheckoutScreen.clickSelectPaymentButton();
-		ScreenActions.enterLog(TAG, "Using new credit card");
+		Log.v(TAG, "Using new credit card");
 		try {
 			CommonPaymentMethodScreen.clickOnAddNewCardTextView();
 		}
 		catch (Exception e) {
-			ScreenActions.enterLog(TAG, "No Add New Card button. Proceeding anyway.");
+			Log.v(TAG, "No Add New Card button. Proceeding anyway.");
 		}
 		CardInfoScreen.typeTextCreditCardEditText(mUser.creditCardNumber);
 		BillingAddressScreen.typeTextPostalCode(mUser.zipcode);
 		CardInfoScreen.typeTextNameOnCardEditText(mUser.firstName + " " + mUser.lastName);
 		CardInfoScreen.clickOnExpirationDateButton();
-		ScreenActions.enterLog(TAG, "Incrementing credit card exp. month and year by 1");
+		Log.v(TAG, "Incrementing credit card exp. month and year by 1");
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
 		CardInfoScreen.clickSetButton();
@@ -123,7 +122,7 @@ public class HotelConfirmationTest extends PhoneTestCase {
 	}
 
 	private void setGuests(int adults, int children) {
-		ScreenActions.enterLog(TAG, "Setting adults to: " + adults + " and children to: " + children);
+		Log.v(TAG, "Setting adults to: " + adults + " and children to: " + children);
 		for (int i = 6; i >= 1; i--) {
 			HotelsGuestPicker.decrementAdultsButton();
 		}
@@ -152,7 +151,7 @@ public class HotelConfirmationTest extends PhoneTestCase {
 			int adultCount = rand.nextInt(6 - childCount) + 1;
 			Pair<Integer, Integer> newPair = new Pair<Integer, Integer>(adultCount, childCount);
 			returnableList.add(newPair);
-			ScreenActions.enterLog(TAG, "Added pair: " + newPair.first + ", " + newPair.second);
+			Log.v(TAG, "Added pair: " + newPair.first + ", " + newPair.second);
 		}
 		return returnableList;
 	}

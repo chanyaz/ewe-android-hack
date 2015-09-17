@@ -6,7 +6,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CarTestCase;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -28,9 +27,9 @@ public class CarCreditCardTest extends CarTestCase {
 
 	private void verifiyInvalidCardMessaging() throws Throwable {
 		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
-		ScreenActions.delay(1);
+		Common.delay(1);
 		CheckoutViewModel.clickPaymentInfo();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		CardInfoScreen.typeTextCreditCardEditText("6711111111111111");
 		EspressoUtils.assertViewIsDisplayed(R.id.invalid_payment_container);
 		CardInfoScreen.creditCardNumberEditText().perform(clearText());
@@ -48,11 +47,11 @@ public class CarCreditCardTest extends CarTestCase {
 
 	private void verifiyCreditCardCleared() throws Throwable {
 		Common.pressBack();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		goToCheckout();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		CheckoutViewModel.clickPaymentInfo();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "");
 	}
 

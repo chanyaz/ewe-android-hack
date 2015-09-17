@@ -22,9 +22,9 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -128,7 +128,7 @@ public class LXResultsPresenterTest {
 		searchParams.endDate = LocalDate.now().plusDays(14);
 		searchParams.searchType = SearchType.EXPLICIT_SEARCH;
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
-		ScreenActions.delay(2);
+		Common.delay(2);
 		LXScreen.searchFailed().check(matches(isDisplayed()));
 		LXScreen.searchFailed().check(matches(hasDescendant(withText(R.string.error_car_search_message))));
 	}

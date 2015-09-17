@@ -13,7 +13,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
-public class LaunchScreen extends LaunchActionBar {
+public class LaunchScreen {
 
 	public static ViewInteraction hotelLaunchButton() {
 		return onView(allOf(withId(R.id.hotels_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));

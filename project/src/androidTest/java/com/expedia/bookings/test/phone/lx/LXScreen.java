@@ -20,11 +20,11 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
-import com.expedia.bookings.test.phone.AppScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.widget.LXResultsListAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -58,7 +58,7 @@ public class LXScreen {
 	}
 
 	public static void selectLocation(String location) throws Throwable {
-		ScreenActions.delay(1);
+		Common.delay(1);
 		onView(withText(location))
 			.inRoot(withDecorView(
 				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
@@ -114,7 +114,7 @@ public class LXScreen {
 	}
 
 	public static void waitForDetailsDisplayed() {
-		ScreenActions.delay(1);
+		Common.delay(1);
 		onView(withId(R.id.offers)).perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
 	}
 
@@ -338,7 +338,7 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction getTile(String activityTitle) {
-		return AppScreen.recyclerItemView(
+		return ViewActions.recyclerItemView(
 			withChild(withChild(withText(activityTitle))),
 			R.id.lx_search_results_list);
 	}
@@ -358,6 +358,6 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction resultsListItemView(Matcher<View> identifyingMatcher) {
-		return AppScreen.recyclerItemView(identifyingMatcher, R.id.lx_search_results_list);
+		return ViewActions.recyclerItemView(identifyingMatcher, R.id.lx_search_results_list);
 	}
 }

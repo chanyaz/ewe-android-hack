@@ -7,7 +7,6 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.LxTestCase;
@@ -42,17 +41,17 @@ public class LXCreditCardTest extends LxTestCase {
 		LXInfositeScreen.ticketAddButton(ticketName, "Adult").perform(scrollTo(), click());
 		LXInfositeScreen.bookNowButton(ticketName).perform(scrollTo());
 		LXInfositeScreen.bookNowButton(ticketName).perform(click());
-		ScreenActions.delay(1);
+		Common.delay(1);
 		screenshot("LX Checkout Started");
 		CheckoutViewModel.enterPaymentInfo();
 		CheckoutViewModel.clickDone();
 		screenshot("LX Checkout Ready");
 		Common.pressBack();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		LXInfositeScreen.bookNowButton(ticketName).perform(click());
-		ScreenActions.delay(1);
+		Common.delay(1);
 		CheckoutViewModel.clickPaymentInfo();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "");
 	}
 }

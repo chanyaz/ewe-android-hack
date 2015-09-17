@@ -5,8 +5,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -35,21 +35,21 @@ public class FlightsTravelerInfoScreen extends CommonTravelerInformationScreen {
 	}
 
 	public static void clickEmptyTravelerDetails(int index) {
-		ScreenActions.delay(2);
+		Common.delay(2);
 		final AtomicReference<String> value = new AtomicReference<String>();
 		onView(withId(R.id.traveler_container)).perform(getEmptyTravelerViewLayout(index, value));
 		String filterValue = value.get();
 		onView(withText(filterValue)).perform(click());
-		ScreenActions.delay(2);
+		Common.delay(2);
 	}
 
 	public static void clickPopulatedTravelerDetails(int index) {
-		ScreenActions.delay(2);
+		Common.delay(2);
 		final AtomicReference<String> value = new AtomicReference<String>();
 		onView(withId(R.id.traveler_container)).perform(getPopulatedTravelerViewLayout(index, value));
 		String filterValue = value.get();
 		onView(withText(filterValue)).perform(click());
-		ScreenActions.delay(2);
+		Common.delay(2);
 	}
 
 	public static void clickEditTravelerInfo() {

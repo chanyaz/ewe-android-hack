@@ -3,11 +3,11 @@ package com.expedia.bookings.test.happy;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.cars.CarScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 
@@ -34,20 +34,20 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 
 		screenshot("Car_Search_Params_Entered");
 		CarScreen.searchButton().perform(click());
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		screenshot("Car_Search_Results");
 		CarScreen.selectCarCategory(CATEGORY);
-		ScreenActions.delay(1);
+		Common.delay(1);
 	}
 
 	private void doLogin() throws Throwable {
 		EspressoUtils.assertViewIsDisplayed(R.id.login_widget);
 		CheckoutViewModel.enterLoginDetails();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		screenshot("Car_LoginScreen");
 		CheckoutViewModel.pressDoLogin();
-		ScreenActions.delay(1);
+		Common.delay(1);
 		screenshot("Car_Login_Success");
 	}
 
@@ -62,7 +62,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 	private void slideToPurchase() throws Throwable {
 		screenshot("Car_Checkout_Ready_To_Purchase");
 		CheckoutViewModel.performSlideToPurchase();
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		screenshot("Car_Confirmation");
 	}

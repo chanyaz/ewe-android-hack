@@ -12,12 +12,12 @@ import android.support.test.runner.AndroidJUnit4;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerPicker;
+import com.mobiata.android.Log;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -96,7 +96,7 @@ public class FlightChildTravelersTest {
 		FlightsTravelerPicker.isChildDecrementButtonIsDisabled();
 		incrementChildCountBy(4);
 		FlightsTravelerPicker.isChildIncrementButtonIsDisabled();
-		ScreenActions.enterLog(TAG, "Flights supports max of 4 children");
+		Log.v(TAG, "Flights supports max of 4 children");
 	}
 
 	@Test
@@ -106,7 +106,7 @@ public class FlightChildTravelersTest {
 		FlightsTravelerPicker.isAdultButtonDecrementDisabled();
 		incrementAdultCountBy(5);
 		FlightsTravelerPicker.isAdultButtonIncrementDisabled();
-		ScreenActions.enterLog(TAG, "Flights supports max of 6 adults");
+		Log.v(TAG, "Flights supports max of 6 adults");
 	}
 
 	@Test
@@ -135,7 +135,7 @@ public class FlightChildTravelersTest {
 		incrementChildCountBy(1);
 		checkIncrementButtonDisabled();
 
-		ScreenActions.enterLog(TAG, "Flights supports max of 6 travelers");
+		Log.v(TAG, "Flights supports max of 6 travelers");
 	}
 
 	private void checkIncrementButtonDisabled() {

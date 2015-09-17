@@ -10,7 +10,6 @@ import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.ConfirmationScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.SettingsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
@@ -128,6 +127,6 @@ public class FlightFieldValidationTest extends PhoneTestCase {
 
 	private void assertPopup() {
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.please_use_the_roman_alphabet));
-		SettingsScreen.clickOkString();
+		Common.clickOkString();
 	}
 }

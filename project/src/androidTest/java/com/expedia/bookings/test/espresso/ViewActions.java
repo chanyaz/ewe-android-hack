@@ -8,9 +8,11 @@ import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
 import android.graphics.Rect;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.PerformException;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.CoordinatesProvider;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.action.GeneralSwipeAction;
@@ -39,6 +41,11 @@ import com.mobiata.android.Log;
 import com.mobiata.android.widget.CalendarDatePicker;
 
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static com.expedia.bookings.test.phone.lx.LXScreen.recyclerView;
+import static org.hamcrest.Matchers.allOf;
 
 public final class ViewActions {
 
@@ -142,7 +149,7 @@ public final class ViewActions {
 
 	// View Action for manipulating a seek bar
 
-	public static ViewAction setSeekbarTo(final int progress) {
+	public static ViewAction setSeekBarTo(final int progress) {
 		return new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
@@ -157,7 +164,7 @@ public final class ViewActions {
 			@Override
 			public void perform(UiController uiController, View view) {
 				SeekBar seekBar = (SeekBar) view;
-				((SeekBar) view).setProgress(progress);
+				seekBar.setProgress(progress);
 			}
 		};
 	}
@@ -394,8 +401,8 @@ public final class ViewActions {
 			}
 		};
 	}
-//View Action to type multibyte characters
 
+	//View Action to type multibyte characters
 	public static ViewAction setText(final String multiByte) {
 		return new ViewAction() {
 			@Override
@@ -430,7 +437,8 @@ public final class ViewActions {
 
 			@Override
 			public String getDescription() {
-				return String.format("Waiting for view to match given matcher, max wait time is: %d seconds", timeoutSeconds);
+				return String.format("Waiting for view to match given matcher, max wait time is: %d seconds",
+					timeoutSeconds);
 			}
 
 			@Override
@@ -456,6 +464,10 @@ public final class ViewActions {
 					.build();
 			}
 		};
+	}
+
+	public static void waitForViewToDisplay(ViewInteraction viewInteraction) {
+		viewInteraction.perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
 	}
 
 	// View action to set visibility of a view
@@ -487,13 +499,14 @@ public final class ViewActions {
 		return new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
-				return Matchers.allOf(new Matcher[] {
+				return Matchers.allOf(
 					ViewMatchers.isDescendantOfA(
-						Matchers.anyOf(new Matcher[] {
+						Matchers.anyOf(
 							ViewMatchers.isAssignableFrom(ScrollView.class),
 							ViewMatchers.isAssignableFrom(HorizontalScrollView.class)
-						}))
-				});
+						)
+					)
+				);
 			}
 
 			@Override
@@ -516,5 +529,11 @@ public final class ViewActions {
 				}
 			}
 		};
+	}
+
+	public static ViewInteraction recyclerItemView(Matcher<View> identifyingMatcher, int recyclerViewId) {
+		Matcher<View> itemView = allOf(withParent(recyclerView(recyclerViewId)),
+			withChild(identifyingMatcher));
+		return Espresso.onView(itemView);
 	}
 }

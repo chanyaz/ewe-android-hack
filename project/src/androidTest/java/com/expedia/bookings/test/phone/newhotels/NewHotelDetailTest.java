@@ -3,9 +3,9 @@ package com.expedia.bookings.test.phone.newhotels;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
-import com.expedia.bookings.test.phone.pagemodels.common.ScreenActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -93,7 +93,7 @@ public class NewHotelDetailTest extends HotelTestCase {
 		//otherwise we just show free cancellation message
 
 		onView(withText("View Room")).perform(scrollTo());
-		ScreenActions.delay(2);
+		Common.delay(2);
 
 		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(withId(R.id.collapsed_container)), isDisplayed()))
 			.check(matches(withText("1 Room Left!")));
@@ -137,7 +137,7 @@ public class NewHotelDetailTest extends HotelTestCase {
 			matches((hasETP && hasFreeCancellation) ? isDisplayed() : not(isDisplayed())));
 
 		onView(withText("View Room")).perform(scrollTo());
-		ScreenActions.delay(1);
+		Common.delay(1);
 		HotelScreen.etpPlaceholder().check(matches(hasETP ? isDisplayed() : not(isDisplayed())));
 		HotelScreen.payNowAndLaterOptions().check(matches(hasETP ? isDisplayed() : not(isDisplayed())));
 

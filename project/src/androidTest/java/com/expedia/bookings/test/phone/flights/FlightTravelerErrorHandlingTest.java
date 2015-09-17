@@ -10,7 +10,6 @@ import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.ConfirmationScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.SettingsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
@@ -69,7 +68,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 
 		screenshot("Adult_Traveler_Age_Error");
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.invalid_birthdate_message));
-		SettingsScreen.clickOkString();
+		Common.clickOkString();
 
 		//enter the correct date of birth and complete the checkout
 		FlightsTravelerInfoScreen.clickBirthDateButton();
@@ -108,7 +107,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 
 		screenshot("Child_Traveler_Age_Error");
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.invalid_birthdate_message));
-		SettingsScreen.clickOkString();
+		Common.clickOkString();
 
 		//enter the correct date of birth and complete the checkout
 		FlightsTravelerInfoScreen.clickBirthDateButton();
@@ -163,7 +162,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 
 		screenshot("Adult_Traveler_Age_Error");
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.invalid_birthdate_message));
-		SettingsScreen.clickOkString();
+		Common.clickOkString();
 
 		//enter the correct date of birth and complete the checkout
 		FlightsTravelerInfoScreen.clickBirthDateButton();
@@ -203,7 +202,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 
 		screenshot("Infant_Traveler_Age_Error");
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.invalid_birthdate_message));
-		SettingsScreen.clickOkString();
+		Common.clickOkString();
 
 		//incorrect dob - enter child age for an infant
 		FlightsTravelerInfoScreen.clickBirthDateButton();
@@ -218,7 +217,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 
 		screenshot("Infant1_Traveler_Age_Error");
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.invalid_birthdate_message));
-		SettingsScreen.clickOkString();
+		Common.clickOkString();
 
 		//enter the correct date of birth and complete the checkout
 		FlightsTravelerInfoScreen.clickBirthDateButton();
