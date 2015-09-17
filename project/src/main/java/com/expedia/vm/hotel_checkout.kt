@@ -6,6 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripBucketItemHotelV2
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -26,12 +27,18 @@ public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
     val checkoutParams = PublishSubject.create<HotelCheckoutParams>()
 
     val checkoutResponseObservable = BehaviorSubject.create<HotelCheckoutResponse>()
+    val priceChangeResponseObservable = BehaviorSubject.create<HotelCreateTripResponse>()
 
     init {
         checkoutParams.subscribe { params ->
             hotelServices.checkout(params, object : Observer<HotelCheckoutResponse> {
-                override fun onNext(t: HotelCheckoutResponse) {
-                    checkoutResponseObservable.onNext(t)
+                override fun onNext(checkout: HotelCheckoutResponse) {
+                    if (checkout.hasErrors() && checkout.getFirstError().errorCode == ApiError.Code.PRICE_CHANGE) {
+                        val hotelCreateTripResponse = Db.getTripBucket().getHotelV2().updateHotelProducts(checkout.checkoutResponse.jsonPriceChangeResponse)
+                        priceChangeResponseObservable.onNext(hotelCreateTripResponse)
+                    } else {
+                        checkoutResponseObservable.onNext(checkout)
+                    }
                 }
 
                 override fun onError(e: Throwable) {

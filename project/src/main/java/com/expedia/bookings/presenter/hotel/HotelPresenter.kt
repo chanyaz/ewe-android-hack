@@ -6,7 +6,9 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import butterknife.InjectView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.LeftToRightTransition
@@ -73,6 +75,12 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         checkoutPresenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
+        })
+
+        checkoutPresenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(checkoutPresenter.hotelCheckoutWidget.createTripResponseListener)
+        checkoutPresenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(endlessObserver { createTripResponse ->
+            show(checkoutPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
+            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_BACKSTACK)
         })
 
         loadingOverlay.setBackground(R.color.hotels_primary_color)

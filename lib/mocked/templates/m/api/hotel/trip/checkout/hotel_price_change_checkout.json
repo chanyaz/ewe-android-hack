@@ -1,0 +1,380 @@
+{
+    "errors": [
+        {
+            "errorCode": "PRICE_CHANGE",
+            "errorInfo": {
+                "summary": "Detected price change, no fa/coupon applied."
+            },
+            "diagnosticId": 0
+        }
+    ],
+    "activityId": "1c2eda34-7937-4444-89e2-4453d2fd168f",
+    "checkoutResponse": {
+        "jsonPriceChangeResponse": {
+            "oldProduct": {
+                "checkInDate": "2015-12-16",
+                "checkOutDate": "2015-12-18",
+                "adultCount": "2",
+                "numberOfNights": "2",
+                "numberOfRooms": "1",
+                "hotelId": "1769973",
+                "hotelName": "The Palazzo Resort Hotel & Casino",
+                "localizedHotelName": "The Palazzo Resort Hotel & Casino",
+                "nonLocalizedHotelName": "The Palazzo Resort Hotel & Casino",
+                "largeThumbnailUrl": "/hotels/2000000/1770000/1770000/1769973/1769973_137_d.jpg",
+                "thumbnailUrl": "/hotels/2000000/1770000/1770000/1769973/1769973_137_n.jpg",
+                "hotelAddress": "3325 Las Vegas Blvd. South",
+                "hotelCity": "Las Vegas",
+                "hotelStateProvince": "NV",
+                "hotelCountry": "USA",
+                "hotelStarRating": "5.0",
+                "hotelRoomResponse": {
+                    "productKey": "adce63a8-9bd9-4c0c-8583-70eba9311735_V3",
+                    "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. The Palazzo Resort Hotel & Casino charges the following cancellation and change fees.</p><p><span class=\"rr-bold\">The room type and rate selected are non-refundable.</span> Should you change or cancel this reservation for any reason, your payment will not be refunded.</p><p>No refunds will be issued for late check-in or early check-out.</p><p>Stay extensions require a new reservation.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+                    "rateDescription": "Luxury 1 King Suite - 15% OFF 60-Day Advance Purchase",
+                    "roomTypeDescription": "Luxury 1 King Suite - 15% OFF 60-Day Advance Purchase",
+                    "supplierType": "MERCHANT",
+                    "rateChange": false,
+                    "nonRefundable": true,
+                    "hasFreeCancellation": false,
+                    "guaranteeRequired": false,
+                    "depositRequired": true,
+                    "immediateChargeRequired": true,
+                    "currentAllotment": "0",
+                    "promoDescription": "",
+                    "isDiscountRestrictedToCurrentSourceType": false,
+                    "isSameDayDRR": false,
+                    "smokingPreferences": "E",
+                    "rateOccupancyPerRoom": "7",
+                    "bedTypes": [
+                        {
+                            "id": "67",
+                            "description": "1 king and 1 sofa bed"
+                        }
+                    ],
+                    "rateInfo": {
+                        "priceBreakdown": true,
+                        "promo": true,
+                        "rateChange": false,
+                        "chargeableRateInfo": {
+                            "maxNightlyRate": "160.66",
+                            "averageRate": "160.66",
+                            "taxStatusType": "ESTIMATED",
+                            "surchargeTotal": "177.26",
+                            "surchargeTotalForEntireStay": "354.52",
+                            "averageBaseRate": "160.66",
+                            "nightlyRateTotal": "321.32",
+                            "discountPercent": 0,
+                            "total": "675.81",
+                            "currencyCode": "USD",
+                            "currencySymbol": "$",
+                            "surcharges": [
+                                {
+                                    "amount": "61.05",
+                                    "type": "TAX_ALL"
+                                },
+                                {
+                                    "amount": "23.43",
+                                    "type": "TAX_VAT"
+                                },
+                                {
+                                    "amount": "37.62",
+                                    "type": "TAX_OTHER"
+                                },
+                                {
+                                    "amount": "116.21",
+                                    "type": "FEE_ALL"
+                                },
+                                {
+                                    "amount": "100.70",
+                                    "type": "FEE_SERVICE"
+                                },
+                                {
+                                    "amount": "15.51",
+                                    "type": "FEE_MISC"
+                                }
+                            ],
+                            "surchargesForEntireStay": [
+                                {
+                                    "amount": "122.10",
+                                    "type": "TAX_ALL"
+                                },
+                                {
+                                    "amount": "46.86",
+                                    "type": "TAX_VAT"
+                                },
+                                {
+                                    "amount": "75.24",
+                                    "type": "TAX_OTHER"
+                                },
+                                {
+                                    "amount": "232.42",
+                                    "type": "FEE_ALL"
+                                },
+                                {
+                                    "amount": "201.40",
+                                    "type": "FEE_SERVICE"
+                                },
+                                {
+                                    "amount": "31.02",
+                                    "type": "FEE_MISC"
+                                }
+                            ],
+                            "nightlyRatesPerRoom": [
+                                {
+                                    "promo": "false",
+                                    "baseRate": "160.66",
+                                    "rate": "160.66"
+                                },
+                                {
+                                    "promo": "false",
+                                    "baseRate": "160.66",
+                                    "rate": "160.66"
+                                }
+                            ],
+                            "priceToShowUsers": "161",
+                            "strikethroughPriceToShowUsers": "161",
+                            "strikethroughPriceWithTaxesAndFeesToShowUsers": "676",
+                            "totalMandatoryFees": "64.96",
+                            "totalPriceWithMandatoryFees": "740.77",
+                            "formattedTotalPriceWithMandatoryFees": "$ 740.77",
+                            "userPriceType": "PerNightRateNoTaxes",
+                            "priceAdjustments": [
+
+                            ],
+                            "checkoutPriceType": "totalPriceWithMandatoryFees",
+                            "airAttached": false,
+                            "roomTypeCode": "339879",
+                            "ratePlanCode": "204699502",
+                            "showResortFeeMessage": true,
+                            "resortFeeInclusion": true,
+                            "dailyMandatoryFee": "32.48"
+                        }
+                    },
+                    "quotedOccupancy": "4",
+                    "minGuestAge": "0",
+                    "roomTypeCode": "339879",
+                    "ratePlanCode": "204699502",
+                    "isPayLater": false
+                },
+                "supplierType": "MERCHANT",
+                "accessibilityAmenities": [
+                    {
+                        "id": "2424",
+                        "description": "Accessibility equipment for the deaf"
+                    },
+                    {
+                        "id": "2425",
+                        "description": "Braille or raised signage"
+                    },
+                    {
+                        "id": "2419",
+                        "description": "Accessible path of travel"
+                    },
+                    {
+                        "id": "2420",
+                        "description": "Accessible bathroom"
+                    },
+                    {
+                        "id": "2421",
+                        "description": "Roll-in shower"
+                    },
+                    {
+                        "id": "2422",
+                        "description": "Accessible parking"
+                    },
+                    {
+                        "id": "2423",
+                        "description": "In-room accessibility"
+                    }
+                ],
+                "isVipAccess": false,
+                "tealeafTransactionId": "47a58db9915042d1a72362a60e38b2c9",
+                "bigImageUrl": "/hotels/2000000/1770000/1770000/1769973/1769973_137_b.jpg",
+                "regionId": "800045"
+            },
+            "newProduct": {
+                "checkInDate": "2015-12-16",
+                "checkOutDate": "2015-12-18",
+                "adultCount": "2",
+                "numberOfNights": "2",
+                "numberOfRooms": "1",
+                "hotelId": "1769973",
+                "hotelName": "The Palazzo Resort Hotel & Casino",
+                "localizedHotelName": "The Palazzo Resort Hotel & Casino",
+                "nonLocalizedHotelName": "The Palazzo Resort Hotel & Casino",
+                "largeThumbnailUrl": "/hotels/2000000/1770000/1770000/1769973/1769973_137_d.jpg",
+                "thumbnailUrl": "/hotels/2000000/1770000/1770000/1769973/1769973_137_n.jpg",
+                "hotelAddress": "3325 Las Vegas Blvd. South",
+                "hotelCity": "Las Vegas",
+                "hotelStateProvince": "NV",
+                "hotelCountry": "USA",
+                "hotelStarRating": "5.0",
+                "hotelRoomResponse": {
+                    "productKey": "adce63a8-9bd9-4c0c-8583-70eba9311735_V3",
+                    "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. The Palazzo Resort Hotel & Casino charges the following cancellation and change fees.</p><p><span class=\"rr-bold\">The room type and rate selected are non-refundable.</span> Should you change or cancel this reservation for any reason, your payment will not be refunded.</p><p>No refunds will be issued for late check-in or early check-out.</p><p>Stay extensions require a new reservation.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+                    "rateDescription": "Luxury 1 King Suite - 15% OFF 60-Day Advance Purchase",
+                    "roomTypeDescription": "Luxury 1 King Suite - 15% OFF 60-Day Advance Purchase",
+                    "supplierType": "MERCHANT",
+                    "rateChange": false,
+                    "nonRefundable": true,
+                    "hasFreeCancellation": false,
+                    "guaranteeRequired": false,
+                    "depositRequired": true,
+                    "immediateChargeRequired": true,
+                    "currentAllotment": "0",
+                    "promoDescription": "",
+                    "isDiscountRestrictedToCurrentSourceType": false,
+                    "isSameDayDRR": false,
+                    "smokingPreferences": "E",
+                    "rateOccupancyPerRoom": "7",
+                    "bedTypes": [
+                        {
+                            "id": "67",
+                            "description": "1 king and 1 sofa bed"
+                        }
+                    ],
+                    "rateInfo": {
+                        "priceBreakdown": true,
+                        "promo": true,
+                        "rateChange": false,
+                        "chargeableRateInfo": {
+                            "maxNightlyRate": "160.66",
+                            "averageRate": "160.66",
+                            "taxStatusType": "ESTIMATED",
+                            "surchargeTotal": "177.26",
+                            "surchargeTotalForEntireStay": "354.52",
+                            "averageBaseRate": "160.66",
+                            "nightlyRateTotal": "321.32",
+                            "discountPercent": 0,
+                            "total": "675.81",
+                            "currencyCode": "USD",
+                            "currencySymbol": "$",
+                            "surcharges": [
+                                {
+                                    "amount": "61.05",
+                                    "type": "TAX_ALL"
+                                },
+                                {
+                                    "amount": "23.43",
+                                    "type": "TAX_VAT"
+                                },
+                                {
+                                    "amount": "37.62",
+                                    "type": "TAX_OTHER"
+                                },
+                                {
+                                    "amount": "116.21",
+                                    "type": "FEE_ALL"
+                                },
+                                {
+                                    "amount": "100.70",
+                                    "type": "FEE_SERVICE"
+                                },
+                                {
+                                    "amount": "15.51",
+                                    "type": "FEE_MISC"
+                                }
+                            ],
+                            "surchargesForEntireStay": [
+                                {
+                                    "amount": "122.10",
+                                    "type": "TAX_ALL"
+                                },
+                                {
+                                    "amount": "46.86",
+                                    "type": "TAX_VAT"
+                                },
+                                {
+                                    "amount": "75.24",
+                                    "type": "TAX_OTHER"
+                                },
+                                {
+                                    "amount": "232.42",
+                                    "type": "FEE_ALL"
+                                },
+                                {
+                                    "amount": "201.40",
+                                    "type": "FEE_SERVICE"
+                                },
+                                {
+                                    "amount": "31.02",
+                                    "type": "FEE_MISC"
+                                }
+                            ],
+                            "nightlyRatesPerRoom": [
+                                {
+                                    "promo": "false",
+                                    "baseRate": "160.66",
+                                    "rate": "160.66"
+                                },
+                                {
+                                    "promo": "false",
+                                    "baseRate": "160.66",
+                                    "rate": "160.66"
+                                }
+                            ],
+                            "priceToShowUsers": "161",
+                            "strikethroughPriceToShowUsers": "161",
+                            "strikethroughPriceWithTaxesAndFeesToShowUsers": "676",
+                            "totalMandatoryFees": "64.96",
+                            "totalPriceWithMandatoryFees": "740.77",
+                            "formattedTotalPriceWithMandatoryFees": "$ 740.77",
+                            "userPriceType": "PerNightRateNoTaxes",
+                            "priceAdjustments": [
+
+                            ],
+                            "checkoutPriceType": "totalPriceWithMandatoryFees",
+                            "airAttached": false,
+                            "roomTypeCode": "339879",
+                            "ratePlanCode": "204699502",
+                            "showResortFeeMessage": true,
+                            "resortFeeInclusion": true,
+                            "dailyMandatoryFee": "32.48"
+                        }
+                    },
+                    "quotedOccupancy": "4",
+                    "minGuestAge": "0",
+                    "roomTypeCode": "339879",
+                    "ratePlanCode": "204699502",
+                    "isPayLater": false
+                },
+                "supplierType": "MERCHANT",
+                "accessibilityAmenities": [
+                    {
+                        "id": "2424",
+                        "description": "Accessibility equipment for the deaf"
+                    },
+                    {
+                        "id": "2425",
+                        "description": "Braille or raised signage"
+                    },
+                    {
+                        "id": "2419",
+                        "description": "Accessible path of travel"
+                    },
+                    {
+                        "id": "2420",
+                        "description": "Accessible bathroom"
+                    },
+                    {
+                        "id": "2421",
+                        "description": "Roll-in shower"
+                    },
+                    {
+                        "id": "2422",
+                        "description": "Accessible parking"
+                    },
+                    {
+                        "id": "2423",
+                        "description": "In-room accessibility"
+                    }
+                ],
+                "isVipAccess": false,
+                "tealeafTransactionId": "5f0d3ec2f06c4bf0909decc06cf18f56",
+                "bigImageUrl": "/hotels/2000000/1770000/1770000/1769973/1769973_137_b.jpg",
+                "regionId": "800045"
+            }
+        }
+    }
+}
