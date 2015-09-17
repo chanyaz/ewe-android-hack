@@ -731,8 +731,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             yTranslationRecyclerTempBackground = (recyclerView.getChildAt(0).getHeight() + recyclerView.getChildAt(0).getTop() + toolbar.getHeight()).toFloat()
             yTranslationRecyclerView = (recyclerView.getChildAt(0).getHeight() + recyclerView.getChildAt(0).getTop()).toFloat()
             recyclerTempBackground.setTranslationY(yTranslationRecyclerTempBackground)
-            toolbarTitleTop =  (toolbarTitle.getHeight() - toolbarTitle.getTop())/2
-            toolbarSubtitleTop = (toolbarSubtitle.getTop() - toolbarSubtitle.getHeight())/2
+            toolbarTitleTop =  (toolbarTitle.getBottom() - toolbarTitle.getTop())/2
+            toolbarSubtitleTop = (toolbarSubtitle.getBottom() - toolbarSubtitle.getTop())/2
             toolbarTitle.setTranslationY(toolbarTitleTop.toFloat())
             toolbarSubtitle.setTranslationY(toolbarSubtitleTop.toFloat())
         }

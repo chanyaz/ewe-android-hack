@@ -345,8 +345,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         calendar.setTranslationY((if (forward) calendar.getHeight() else 0).toFloat())
         traveler.setTranslationY((if (forward) traveler.getHeight() else 0).toFloat())
         searchContainer.setBackgroundColor(Color.TRANSPARENT)
-        toolbarTitleTop = toolbarTitle.getHeight() - toolbarTitle.getTop()
-
+        toolbarTitleTop = (toolbarTitle.getBottom() - toolbarTitle.getTop())/3
     }
 
     fun animationUpdate(f : Float, forward : Boolean) {
