@@ -22,14 +22,14 @@ import android.widget.ToggleButton
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.Codes
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
 import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.HotelTravelerPickerView
@@ -114,16 +114,6 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             }
         })
 
-        //Focus to search location after a delay
-        postDelayed(object : Runnable {
-            override fun run() {
-                if (ExpediaBookingApp.isAutomation()) {
-                    return
-                }
-                searchLocationEditText.requestFocus()
-                com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
-            }
-        }, 300)
     }
 
     var viewmodel: HotelSearchViewModel by notNullAndObservable { vm ->
@@ -150,6 +140,18 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             val (top, bottom) = p
             calendar.setToolTipText(top, bottom)
         })
+
+        if (vm.externalSearchParamsObservable.getValue()) {
+            postDelayed(object : Runnable {
+                override fun run() {
+                    if (ExpediaBookingApp.isAutomation()) {
+                        return
+                    }
+                    searchLocationEditText.requestFocus()
+                    com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
+                }
+            }, 300)
+        }
 
         vm.dateTextObservable.subscribeToggleButton(selectDate)
 

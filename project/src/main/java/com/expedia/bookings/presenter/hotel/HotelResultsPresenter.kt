@@ -120,8 +120,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         vm.paramsSubject.subscribe { params ->
             showLoading()
-
-            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
+            if (params.suggestion.coordinates != null) {
+                googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
+            }
             show(ResultsList())
         }
     }
@@ -291,6 +292,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     neighborhoodBox.include(LatLng(hotel.latitude, hotel.longitude))
                 }
                 map.animateCamera(CameraUpdateFactory.newLatLngBounds(neighborhoodBox.build(), getResources().getDisplayMetrics().density.toInt() * 50))
+            } else {
+                //in case we don't get any neighborhood from response
+                map.animateCamera(CameraUpdateFactory.newLatLngBounds(allHotelsBox.build(), getResources().getDisplayMetrics().density.toInt() * 50))
             }
 
             var closestMarker: MarkerDistance? = null

@@ -6,11 +6,14 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PaymentWidget
+import com.expedia.vm.HotelTravelerParams
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
 import kotlin.properties.Delegates
@@ -33,6 +36,10 @@ public class HotelActivity : AppCompatActivity() {
         mapView.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             OmnitureTracking.trackHotelsABTest()
+        }
+
+        if (getIntent().hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
+            handleNavigationViaDeepLink()
         }
     }
 
@@ -96,6 +103,17 @@ public class HotelActivity : AppCompatActivity() {
         } catch (ex: Exception) {
             Log.e("Error clearing billingInfo card number", ex)
         }
+
+    }
+
+    fun handleNavigationViaDeepLink() {
+        val hotelSearchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(getIntent().getStringExtra("hotelSearchParams"))
+        hotelPresenter.searchPresenter.viewmodel.suggestionObserver.onNext(hotelSearchParams?.suggestion)
+        hotelPresenter.searchPresenter.viewmodel.enableDateObserver.onNext(Unit)
+        hotelPresenter.searchPresenter.traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList()))
+        val dates = Pair (hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
+        hotelPresenter.searchPresenter.viewmodel.datesObserver.onNext(dates)
+        hotelPresenter.searchPresenter.calendar.setSelectedDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
 
     }
 

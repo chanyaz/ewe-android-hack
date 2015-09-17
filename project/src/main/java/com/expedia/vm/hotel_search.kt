@@ -1,10 +1,11 @@
 package com.expedia.vm
 
+import android.app.Activity
 import android.content.Context
 import android.text.Html
-import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.utils.DateUtils
@@ -13,17 +14,16 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
-import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.ArrayList
 
 class HotelSearchViewModel(val context: Context) {
     private val paramsBuilder = HotelSearchParams.Builder()
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
+    val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
     val dateTextObservable = PublishSubject.create<CharSequence>()
     val calendarTooltipTextObservable = PublishSubject.create<Pair<String,String>>()
     val locationTextObservable = PublishSubject.create<String>()
@@ -133,6 +133,11 @@ class HotelSearchViewModel(val context: Context) {
                 else R.string.hotel_calendar_bottom_drag_to_modify
         val instructions = context.getResources().getString(resource)
         return Pair(computeTopTextForToolTip(start, end), instructions)
+    }
+
+    init {
+        val intent = (context as Activity).getIntent()
+        externalSearchParamsObservable.onNext(!intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS))
     }
 }
 
