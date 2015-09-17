@@ -146,7 +146,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         vm.calendarTooltipTextObservable.subscribe(endlessObserver { p ->
             val (top, bottom) = p
-            calendar.setToolTipText(top, bottom, true)
+            calendar.setToolTipText(top, bottom)
         })
 
         vm.dateTextObservable.subscribeToggleButton(selectDate)

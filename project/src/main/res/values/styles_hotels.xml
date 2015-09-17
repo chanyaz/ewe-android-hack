@@ -30,6 +30,7 @@
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
+        <item name="skin_hotelFilterBackground">@color/hotel_filter_background_color</item>
     </style>
 
     <!--
