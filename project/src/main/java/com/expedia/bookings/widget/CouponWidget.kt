@@ -81,7 +81,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         showProgress(false)
     }
 
-    override fun getDoneButtonFocus(): Boolean {
+    override fun getMenuDoneButtonFocus(): Boolean {
         if (couponCode.getText().length() > 0) {
             return true
         }
@@ -109,7 +109,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         return getContext().getString(R.string.coupon_promo_title)
     }
 
-    override fun onDonePressed() {
+    override fun onMenuButtonPressed() {
         viewmodel.couponParamsObservable.onNext(HotelApplyCouponParams(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId, couponCode.getText().toString()))
     }
 
@@ -133,7 +133,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         error.setVisibility(if (show) { View.VISIBLE } else { View.INVISIBLE })
     }
 
-    override fun getDoneButtonTitle(): String? {
-       return "Submit"
+    override fun getMenuButtonTitle(): String? {
+       return getResources().getString(R.string.coupon_submit_button)
     }
 }

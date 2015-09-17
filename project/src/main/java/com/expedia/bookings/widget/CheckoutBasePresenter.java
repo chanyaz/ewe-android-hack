@@ -90,8 +90,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@InjectView(R.id.spacer)
 	public Space space;
 
-	MenuItem menuCheckout;
-	MenuItem menuNext;
 	MenuItem menuDone;
 
 	ExpandableCardView lastExpandedCard;
@@ -158,42 +156,27 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
 		toolbar.inflateMenu(R.menu.cars_checkout_menu);
 
-		menuCheckout = toolbar.getMenu().findItem(R.id.menu_checkout);
-		menuCheckout.setVisible(isCheckoutButtonEnabled());
-
-		menuNext = toolbar.getMenu().findItem(R.id.menu_next);
-		if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
-			menuCheckout.setVisible(false);
-			menuNext.setVisible(true);
-		}
-		else {
-			menuNext.setVisible(false);
-		}
-
 		menuDone = toolbar.getMenu().findItem(R.id.menu_done);
-		menuDone.setVisible(false);
+		resetMenuButton();
 
 		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem menuItem) {
 				switch (menuItem.getItemId()) {
-				case R.id.menu_checkout:
-					Ui.hideKeyboard(CheckoutBasePresenter.this);
-					scrollView.fullScroll(View.FOCUS_DOWN);
-					return true;
-				case R.id.menu_next:
-					if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
-						Ui.hideKeyboard(CheckoutBasePresenter.this);
-						scrollView.smoothScrollTo(0, loginWidget.getTop() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics()));
-						menuNext.setVisible(false);
-					}
-					else {
-						currentExpandedCard.setNextFocus();
-					}
-					return true;
 				case R.id.menu_done:
-					currentExpandedCard.onDonePressed();
-					Ui.hideKeyboard(CheckoutBasePresenter.this);
+					if (menuItem.getTitle().equals(getResources().getString(R.string.done)) || menuItem.getTitle().equals(getResources().getString(R.string.coupon_submit_button))) {
+						currentExpandedCard.onMenuButtonPressed();
+						Ui.hideKeyboard(CheckoutBasePresenter.this);
+					}
+					else if (menuItem.getTitle().equals(getResources().getString(R.string.next))) {
+						if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && currentExpandedCard == null) {
+							scrollToEnterDetails();
+							menuDone.setVisible(false);
+						}
+						else {
+							currentExpandedCard.setNextFocus();
+						}
+					}
 					return true;
 				}
 
@@ -208,6 +191,21 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 	}
 
+	public void resetMenuButton() {
+		if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
+			menuDone.setVisible(true);
+			menuDone.setTitle(R.string.next);
+		}
+		else {
+			menuDone.setVisible(false);
+		}
+	}
+
+	private void scrollToEnterDetails() {
+		Ui.hideKeyboard(CheckoutBasePresenter.this);
+		scrollView.smoothScrollTo(0, loginWidget.getTop() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics()));
+	}
+
 	// Listener to update the toolbar status when a widget(Login, Driver Info, Payment) is being interacted with
 	public ToolbarListener toolbarListener = new ToolbarListener() {
 		@Override
@@ -219,7 +217,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void onWidgetExpanded(ExpandableCardView cardView) {
 			lastExpandedCard = currentExpandedCard;
 			currentExpandedCard = cardView;
-			menuDone.setTitle(currentExpandedCard.getDoneButtonTitle());
+			menuDone.setTitle(currentExpandedCard.getMenuButtonTitle());
 			show(new WidgetExpanded());
 		}
 
@@ -230,24 +228,17 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		@Override
 		public void onEditingComplete() {
-			menuNext.setVisible(false);
 			menuDone.setVisible(true);
 		}
 
 		@Override
-		public void enableRightActionButton(boolean enable) {
-			if (menuDone.isVisible()) {
-				menuDone.setVisible(enable);
-			}
-			else if (menuNext.isVisible()) {
-				menuNext.setVisible(enable);
-			}
+		public void setMenuLabel(String label) {
+			menuDone.setTitle(label);
 		}
 
 		@Override
 		public void showRightActionButton(boolean show) {
 			menuDone.setVisible(show);
-			menuNext.setVisible(show);
 		}
 	};
 
@@ -346,10 +337,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 	};
 
-	protected boolean isCheckoutButtonEnabled() {
-		return false;
-	}
-
 	protected void updateSpacerHeight() {
 		float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
 		if (scrollViewActualHeight - legalInformationText.getBottom() < slideToContainer.getHeight()) {
@@ -399,7 +386,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					}
 				}
 
-
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
 			}
 
@@ -408,8 +394,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			Drawable nav = getResources().getDrawable(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp).mutate();
 			nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 			toolbar.setNavigationIcon(nav);
-			menuCheckout.setVisible(!forward && isCheckoutButtonEnabled());
-			menuNext.setVisible(forward);
 			menuDone.setVisible(false);
 		}
 
@@ -426,6 +410,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			else {
 				checkoutFormWasUpdated();
 				updateSpacerHeight();
+			}
+			if (!forward && !menuDone.isVisible()) {
+				scrollToEnterDetails();
 			}
 		}
 	};

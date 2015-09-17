@@ -3,16 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_checkout"
-        app:showAsAction="withText|always"
-        android:title="@string/Checkout" />
-
-    <item
-        android:id="@+id/menu_next"
-        app:showAsAction="withText|always"
-        android:title="@string/next" />
-
-    <item
         android:id="@+id/menu_done"
         app:showAsAction="withText|always"
         android:title="@string/Done" />

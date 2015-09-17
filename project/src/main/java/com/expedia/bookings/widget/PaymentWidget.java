@@ -233,12 +233,22 @@ public class PaymentWidget extends ExpandableCardView {
 		}
 		// Card info partially entered & not valid
 		else if (isFilled() && (!isBillingInfoValid || !isPostalCodeValid)) {
-			bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				bindCard(null, getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line1), "");
+			}
+			else {
+				bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+			}
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.INCOMPLETE);
 		}
 		// Default all fields are empty
 		else {
-			bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				bindCard(null, getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line1), "");
+			}
+			else {
+				bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+			}
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			reset();
 		}
@@ -263,8 +273,14 @@ public class PaymentWidget extends ExpandableCardView {
 		}
 		else {
 			FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_REGULAR);
-			cardInfoExpiration.setText("");
-			cardInfoExpiration.setVisibility(GONE);
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				cardInfoExpiration.setVisibility(VISIBLE);
+				cardInfoExpiration.setText(getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line2));
+				FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM);
+			}
+			else {
+				cardInfoExpiration.setVisibility(GONE);
+			}
 		}
 		if (cardType != null) {
 			cardInfoIcon.setImageDrawable(
@@ -358,7 +374,7 @@ public class PaymentWidget extends ExpandableCardView {
 	}
 
 	@Override
-	public boolean getDoneButtonFocus() {
+	public boolean getMenuDoneButtonFocus() {
 		if (creditCardName != null) {
 			return creditCardName.hasFocus();
 		}
@@ -366,7 +382,7 @@ public class PaymentWidget extends ExpandableCardView {
 	}
 
 	@Override
-	public String getDoneButtonTitle() {
+	public String getMenuButtonTitle() {
 		return getResources().getString(R.string.Done);
 	}
 
@@ -381,7 +397,7 @@ public class PaymentWidget extends ExpandableCardView {
 	}
 
 	@Override
-	public void onDonePressed() {
+	public void onMenuButtonPressed() {
 		boolean hasStoredCard = hasStoredCard();
 		boolean billingIsValid = !hasStoredCard && sectionBillingInfo.performValidation();
 		boolean postalIsValid = !hasStoredCard && sectionLocation.performValidation();
