@@ -84,6 +84,16 @@ public class PaymentWidgetFlowTest {
 			public void onEditingComplete() {
 
 			}
+
+			@Override
+			public void setMenuLabel(String label) {
+
+			}
+
+			@Override
+			public void showRightActionButton(boolean show) {
+
+			}
 		};
 	}
 
