@@ -78,10 +78,12 @@ public class HotelRate {
 
 	public Money getExtraGuestFees() {
 		Money surcharges = null;
-		for (SurchargesForEntireStay charge : surchargesForEntireStay) {
-			if (charge.type.equals("EXTRA")) {
-				surcharges = new Money(charge.amount, currencyCode);
-				break;
+		if (surchargesForEntireStay != null) {
+			for (SurchargesForEntireStay charge : surchargesForEntireStay) {
+				if (charge.type.equals("EXTRA")) {
+					surcharges = new Money(charge.amount, currencyCode);
+					break;
+				}
 			}
 		}
 		return surcharges;
