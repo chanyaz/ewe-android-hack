@@ -2,21 +2,18 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget
+import android.widget.AdapterView
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.Spinner
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribe
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelTravelerPickerViewModel
-import com.expedia.vm.HotelTravelerParams
-import rx.Observable
-import rx.subjects.PublishSubject
-import java.util.ArrayList
 import kotlin.properties.Delegates
 
 public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
