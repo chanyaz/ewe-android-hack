@@ -4,13 +4,14 @@ import java.util.Collection;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,11 +38,13 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
+import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.mobiata.android.app.SimpleDialogFragment;
+import com.mobiata.android.util.AndroidUtils;
 
 public class ItinItemListFragment extends Fragment implements LoginConfirmLogoutDialogFragment.DoLogoutListener,
 		ItinerarySyncListener {
@@ -304,6 +307,10 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		syncItinManager(false, false);
 	}
 
+	public void disableLoadItins() {
+		mAllowLoadItins = false;
+	}
+
 	public synchronized void startAddGuestItinActivity() {
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
 		OmnitureTracking.trackFindItin(getActivity());
@@ -375,6 +382,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			@Override
 			public void onSignOutComplete() {
 				syncItinManager(true, false);
+				LeanPlumUtils.updateLoggedInStatus();
 			}
 		});
 
@@ -440,7 +448,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	// Animations
 
 	private AnimatorSet getCollapseAnimatorSet() {
-		final int actionBarHeight = getSupportActionBar().getHeight();
+		final int actionBarHeight = getSupportActionBarHeight();
 
 		mSpacerView.setVisibility(View.VISIBLE);
 
@@ -455,7 +463,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	private AnimatorSet getExpandAnimatorSet() {
-		final int actionBarHeight = getSupportActionBar().getHeight();
+		final int actionBarHeight = getSupportActionBarHeight();
 
 		mSpacerView.setVisibility(View.GONE);
 
@@ -478,8 +486,17 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		}
 	}
 
-	private ActionBar getSupportActionBar() {
-		return ((FragmentActivity) getActivity()).getActionBar();
+	private int getSupportActionBarHeight() {
+		int ret;
+		// Tablet's ItineraryActivity is not an ActionBarActivity yet.
+		if (AndroidUtils.isTablet(getActivity())) {
+			ret = getActivity().getActionBar() == null ? 0 : getActivity().getActionBar().getHeight();
+		}
+		else {
+			ActionBar ab = ((ActionBarActivity) getActivity()).getSupportActionBar();
+			ret = ab == null ? 0 : ab.getHeight();
+		}
+		return ret;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -566,8 +583,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			Context context = getActivity();
 			if (context != null) {
 				if (trips.size() > 0) {
-					OmnitureTracking.trackItin(getActivity(), mItinListView.getItinCardDataAdapter()
-							.getTrackingLocalExpertDestinations());
+					OmnitureTracking.trackItin(getActivity());
 				}
 				else {
 					if (trackEmpty) {

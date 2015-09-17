@@ -9,12 +9,13 @@ buildscript {
         classpath 'io.fabric.tools:gradle:1.14.4'
         classpath 'com.android.tools.build:gradle:1.0.0'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
     }
 }
 
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions
 
-ext.supportLibVersion="21.0.0"
+ext.supportLibVersion="21.0.3"
 ext.googlePlayServicesVersion="6.5.87"
 
 ext.compileSdkVersion=21

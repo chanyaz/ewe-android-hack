@@ -22,11 +22,10 @@ import android.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.data.cars.CarDb;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
-import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -41,10 +40,6 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 
 	private static final int DIALOG_CLEAR_DATA = 0;
 	private static final int DIALOG_CLEAR_DATA_SIGNED_OUT = 1;
-
-	// We cannot assign the CarServices endpoint in the change listener because
-	// the value has not necessarily been set in preference at that point.
-	boolean mApiChanged = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +56,6 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			apiPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
 					ClearPrivateDataUtil.clear(ExpediaBookingPreferenceActivity.this);
-					mApiChanged = true;
 					return true;
 				}
 			});
@@ -77,12 +71,36 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 					return true;
 				}
 			});
+
+
+			ListPreference aaPreference = (ListPreference) findPreference(
+				getString(R.string.preference_aa_test));
+			aaPreference.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference etpPreference = (ListPreference) findPreference(
+				getString(R.string.preference_etp_test));
+			etpPreference.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference bookPreference = (ListPreference) findPreference(
+				getString(R.string.preference_book_above_fold));
+			bookPreference.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference hotelFreeCancellationPreference = (ListPreference) findPreference(
+				getString(R.string.preference_hotel_free_cancellation));
+			hotelFreeCancellationPreference.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference photoPreference = (ListPreference) findPreference(
+				getString(R.string.preference_hotel_photo_treatment));
+			photoPreference.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference flightFreeCancellationPreference = (ListPreference) findPreference(
+				getString(R.string.preference_flight_free_cancellation));
+			flightFreeCancellationPreference.setOnPreferenceChangeListener(abacusPrefListener);
+			ListPreference searchInfluencePreference = (ListPreference) findPreference(
+				getString(R.string.preference_hotel_search_influence_messaging));
+			searchInfluencePreference.setOnPreferenceChangeListener(abacusPrefListener);
 		}
 
 		String clearPrivateDateKey = getString(R.string.preference_clear_private_data_key);
 		String pointOfSaleKey = getString(R.string.PointOfSaleKey);
 
-		ClearPrivateDataDialogPreference clearPrivateDataPreference = (ClearPrivateDataDialogPreference) findPreference(clearPrivateDateKey);
+		ClearPrivateDataDialogPreference clearPrivateDataPreference = (ClearPrivateDataDialogPreference) findPreference(
+			clearPrivateDateKey);
 		ListPreference pointOfSalePref = (ListPreference) findPreference(pointOfSaleKey);
 
 		clearPrivateDataPreference.setClearPrivateDataListener(this);
@@ -116,12 +134,6 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 	protected void onPause() {
 		super.onPause();
 		OmnitureTracking.onPause();
-		if (mApiChanged) {
-			CarDb.setServicesEndpoint(
-				EndPoint.getE3EndpointUrl(getApplicationContext(), true),
-				AndroidUtils.isRelease(getApplicationContext()));
-			mApiChanged = false;
-		}
 	}
 
 	@Override
@@ -232,4 +244,13 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 
 		setResult(RESULT_CHANGED_PREFS);
 	}
+
+	private OnPreferenceChangeListener abacusPrefListener = new OnPreferenceChangeListener() {
+		@Override
+		public boolean onPreferenceChange(Preference preference, Object newValue) {
+			int value = Integer.valueOf(newValue.toString());
+			Db.getAbacusResponse().updateABTestForDebug(preference.getKey(), value);
+			return true;
+		}
+	};
 }

@@ -32,7 +32,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
@@ -202,6 +201,15 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mFields.setFieldEnabled(mEditPhoneNumberCountryCodeSpinner, enabled);
 		mFields.setFieldEnabled(mDisplayPhoneNumberWithCountryCode, enabled);
 		setPhoneContainerVisibility(enabled ? View.VISIBLE : View.GONE);
+	}
+
+	public void refreshOnLoginStatusChange() {
+		if (User.isLoggedIn(mContext)) {
+			mFields.removeField(mEditEmailAddress);
+		}
+		else {
+			mFields.setFieldEnabled(mEditEmailAddress, true);
+		}
 	}
 
 	private void setPhoneContainerVisibility(int visibility) {
@@ -449,8 +457,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionTravelerInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -488,8 +496,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionTravelerInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -544,8 +552,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionTravelerInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -576,8 +584,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this, Mode.EMAIL));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionTravelerInfo.this, Mode.EMAIL);
 		}
 
 		@Override
@@ -1204,10 +1212,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			else {
 				String targetCountry = mContext.getString(PointOfSale.getPointOfSale()
 					.getCountryNameResId());
-				// 1597. VSC Explicity set phone country code to France.
-				if (ExpediaBookingApp.IS_VSC) {
-					targetCountry = mContext.getString(R.string.country_fr);
-				}
 				for (int i = 0; i < adapter.getCount(); i++) {
 					if (targetCountry.equalsIgnoreCase(adapter.getCountryName(i))) {
 						field.setSelection(i);
@@ -1430,6 +1434,22 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
 			return null;
 		}
+
 	};
 
+	public void setFirstNameValid(boolean valid) {
+		setFieldValid(mValidFirstName, valid);
+	}
+
+	public void setLastNameValid(boolean valid) {
+		setFieldValid(mValidLastName, valid);
+	}
+
+	public void setPhoneValid(boolean valid) {
+		setFieldValid(mValidPhoneNumber, valid);
+	}
+
+	private void setFieldValid(SectionFieldValidIndicator mValidFirstName,boolean isValid) {
+		mValidFirstName.onPostValidate(mValidFirstName.getField(), isValid, true);
+	}
 }

@@ -77,16 +77,18 @@
                     android:text="@string/air_attach_potential_savings" />
 
                 <LinearLayout
+                    android:id="@+id/air_attach_countdown_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="visible">
 
 
                     <TextView
                         android:id="@+id/itin_air_attach_expires_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#9e9d9d"
+                        android:textColor="@color/air_attach_expiration_text_color"
                         android:textSize="11dp"
                         android:text="@string/air_attach_expires" />
 
@@ -102,6 +104,15 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/air_attach_expires_today_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/air_attach_expires_today"
+                    android:textColor="@color/price_change_air_attach"
+                    android:textSize="11dp"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
             <ImageView
@@ -111,7 +122,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="centerInside"
                 android:gravity="top"
-                android:src="@drawable/ic_action_overflow_white"
+                android:src="@drawable/ic_itin_action_overflow_white"
                 android:visibility="gone" />
 
         </LinearLayout>

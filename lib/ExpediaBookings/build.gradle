@@ -15,10 +15,10 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okio:okio:1.2.0'
     compile 'io.reactivex:rxjava:1.0.4'
+    compile 'org.json:json:20140107'
 
     testCompile 'com.squareup.okhttp:mockwebserver:2.2.0'
     testCompile 'junit:junit:4.11'
-    testCompile 'org.json:json:20140107'
     testCompile (project(':lib:mocke3:mocke3')) {
         transitive = false
     }

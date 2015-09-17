@@ -28,14 +28,13 @@
     <!-- QA Automation ids -->
     <item name="preference_suppress_hotel_booking_checkbox" type="id"/>
     <item name="preference_suppress_flight_booking_checkbox" type="id"/>
+    <item name="preference_suppress_car_booking_checkbox" type="id"/>
+    <item name="preference_suppress_lx_booking_checkbox" type="id"/>
 
     <item name="plane_window_view" type="id"/>
 
     <!-- Tvly tvly itin label text -->
     <item name="tvly_itinerary" type="string"/>
-
-    <!-- adding tvly_hotel_error string id, to avoid errors in Expedia app compilation -->
-    <item name="e3_error_hotel_offers_hotel_service_failure_tvly" type="string"/>
 
     <!-- AirAsiaGo Flight loading screen progress msg textColor -->
     <item name="flight_list_progress_text_color" type="color"/>
@@ -46,17 +45,8 @@
     <!-- AirAsiaGo Hotel Loading Screen Image-->
     <item name="search_progress_image_aag" type="id"/>
 
-    <!-- adding aag_hotel_error string id, to avoid errors in Expedia app compilation -->
-    <item name="e3_error_hotel_offers_hotel_service_failure_aag" type="string"/>
-    <item name="e3_error_hotel_offers_hotel_service_failure_vsc" type="string"/>
-
     <!-- AirAsiaGo itin label text -->
     <item name="aag_itinerary" type="string"/>
-
-    <!-- adding aag and tvly checkout_booking_succeeded_with_errors string id, to avoid errors in Expedia app compilation -->
-    <item name="e3_error_checkout_booking_succeeded_with_errors_aag" type="string"/>
-    <item name="e3_error_checkout_booking_succeeded_with_errors_tvly" type="string"/>
-    <item name="e3_error_checkout_booking_succeeded_with_errors_vsc" type="string"/>
 
     <item name="ic_stat_aag" type="drawable"/>
 

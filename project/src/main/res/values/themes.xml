@@ -205,7 +205,6 @@
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
         <item name="skin_calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE</item>
         <item name="skin_calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
-        <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
         <item name="skin_sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_expedia</item>
         <item name="skin_errorHotelOffersHotelServiceFailureString">@string/e3_error_hotel_offers_hotel_service_failure</item>
@@ -217,6 +216,15 @@
         <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen</item>
         <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text</item>
         <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
+        <item name="skin_HotelCheckout_CreditCardEditTextStyle">@style/CreditCardEditText</item>
+        <item name="skin_HotelCheckout_PostalCodeSectionStyle">@style/PostalCodeSection</item>
+        <item name="skin_HotelCheckout_couponEditTextStyle">@style/CouponEditText</item>
+        <item name="skin_hotelRulesActionBarLogo">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_flightRulesActionBarLogo">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_flightLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
+        <item name="skin_etp_pay_now_charges_text">@string/etp_pay_now_charges_text</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -252,12 +260,25 @@
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 
-    <style name="LaunchTheme" parent="@android:style/Theme.Holo">
+    <style name="LaunchTheme" parent="Theme.AppCompat">
         <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
-        <item name="android:actionBarStyle">@style/LaunchActionBar</item>
+        <item name="actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
+        <item name="actionBarTabBarStyle">@style/LaunchActionBarTabBarStyle</item>
+        <item name="actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
+        <item name="android:actionBarTabBarStyle">@style/LaunchActionBarTabBarStyle</item>
+        <item name="android:actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
+        <item name="android:actionBarStyle">@style/LaunchActionBar</item>
+        <item name="actionBarStyle">@style/LaunchActionBar</item>
+        <item name="android:selectableItemBackground">@drawable/selectable_item_background</item>
+        <item name="selectableItemBackground">@drawable/selectable_item_background</item>
+
+        <item name="android:actionBarDivider">@null</item>
+        <item name="actionBarDivider">@null</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
-        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow.White</item>
+        <item name="android:colorPrimaryDark">#3A464F</item>
+        <item name="android:colorPrimary">#495863</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
@@ -307,13 +328,26 @@
         <item name="skin_itineraryNumberString">@string/expedia_itinerary</item>
     </style>
 
-    <style name="LaunchActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:displayOptions">showHome|useLogo</item>
-        <item name="android:background">@drawable/bg_launch_ab</item>
+    <style name="LaunchActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:displayOptions">showHome|showTitle</item>
+        <item name="android:background">@color/cars_launch_actionbar_color</item>
+        <item name="background">@color/cars_launch_actionbar_color</item>
     </style>
 
-    <style name="LaunchActionBarTabStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
+    <style name="LaunchActionBarTabStyle" parent="@style/Widget.AppCompat.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_launch</item>
+    </style>
+
+    <style name="LaunchActionBarTabBarStyle" parent="@style/Widget.AppCompat.ActionBar.TabBar">
+        <item name="android:paddingTop">8dp</item>
+    </style>
+
+    <style name="LaunchActionBarTabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textColor">@drawable/tab_text_selector</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <!-- Temporary theme for flights -->
@@ -414,8 +448,27 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
     </style>
 
-    <style name="TerminalMapTheme" parent="@style/LaunchTheme">
+    <style name="TerminalMapActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="android:background">@drawable/bg_launch_ab</item>
+    </style>
+
+    <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
+        <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
+        <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="android:windowBackground">@android:color/white</item>
+
+        <!-- PopupMenu -->
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
+    </style>
+
+    <style name="FlightTheme.Rules">
+        <item name="android:logo">?attr/skin_flightRulesActionBarLogo</item>
+    </style>
+
+    <style name="Theme.Phone.Rules">
+        <item name="android:logo">?attr/skin_hotelRulesActionBarLogo</item>
     </style>
 
 </resources>

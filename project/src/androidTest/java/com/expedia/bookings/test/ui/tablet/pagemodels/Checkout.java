@@ -1,19 +1,30 @@
 package com.expedia.bookings.test.ui.tablet.pagemodels;
 
-import com.expedia.bookings.R;
+import java.util.concurrent.atomic.AtomicReference;
+
+import android.app.Instrumentation;
 import android.support.test.espresso.ViewInteraction;
 
-import static com.expedia.bookings.test.ui.espresso.ViewActions.swipeRight;
+import com.expedia.bookings.R;
+import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.getNameMatchWarningView;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.swipeRight;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 public class Checkout {
 	public static void clickOnEmptyTravelerDetails() {
@@ -22,6 +33,17 @@ public class Checkout {
 
 	public static void clickOnTravelerDetails() {
 		onView(withId(R.id.traveler_section_container)).perform(click());
+	}
+
+	public static void clickOnTravelerEditDetails() {
+		onView(withId(R.id.edit_traveler_button)).perform(click());
+	}
+
+	public static ViewInteraction nameMustMatchTextView() {
+		final AtomicReference<String> value = new AtomicReference<String>();
+		onView(allOf(withId(R.id.header_container), withParent(withParent(withParent(withId(R.id.traveler_form_container)))))).perform(getNameMatchWarningView(value));
+		String filterValue = value.get();
+		return onView(allOf(withId(R.id.header_name_match_message), hasSibling(withText(filterValue))));
 	}
 
 	public static ViewInteraction loginButton() {
@@ -112,6 +134,55 @@ public class Checkout {
 
 	public static void clickOnEnterPaymentInformation() {
 		onView(withId(R.id.payment_info_btn)).perform(scrollTo(), click());
+	}
+
+	public static void clickOnEmptyStoredCCSpinnerButton() {
+		onView(withId(R.id.empty_saved_creditcard_fake_spinner)).perform(click());
+	}
+
+	public static void clickOnEmptyStoredCCEditButton() {
+		onView(withId(R.id.empty_edit_creditcard_button)).perform(click());
+	}
+
+	public static void clickOnStoredCCSpinnerButton() {
+		onView(withId(R.id.stored_creditcard_fake_spinner)).perform(click());
+	}
+
+	public static void clickOnStoredCCEditButton() {
+		onView(withId(R.id.stored_creditcard_edit_button)).perform(click());
+	}
+
+	public static void clickOnManualCCSpinnerButton() {
+		onView(withId(R.id.new_creditcard_fake_spinner)).perform(click());
+	}
+
+	public static void clickOnManualCCEditButton() {
+		onView(withId(R.id.new_creditcard_edit_button)).perform(click());
+	}
+
+	public static void clickOnRemoveStoredCCButton() {
+		onView(withId(R.id.remove_stored_card_button)).perform(click());
+	}
+
+	public static void clickOnEmptyStoredTravelerSpinnerButton() {
+		onView(withId(R.id.empty_saved_creditcard_fake_spinner)).perform(click());
+	}
+
+	public static void clickOnStoredTravelerSpinnerButton() {
+		onView(allOf(withId(R.id.saved_traveler_fake_spinner), hasSibling(withChild(withId(R.id.display_full_name))))).perform(click());
+	}
+	public static void selectStoredCard(Instrumentation instrumentation, String cardname) throws Throwable {
+		onView(withText(cardname))
+			.inRoot(withDecorView(
+				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
+			.perform(click());
+	}
+
+	public static void selectStoredTraveler(Instrumentation instrumentation, String travelername) throws Throwable {
+		onView(withText(travelername))
+			.inRoot(withDecorView(
+				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
+			.perform(click());
 	}
 
 	public static ViewInteraction creditCardNumber() {
@@ -272,6 +343,10 @@ public class Checkout {
 
 	public static void clickOKButton() {
 		onView(withId(android.R.id.button3)).perform(click());
+	}
+
+	public static void clickNegativeButton() {
+		onView(withId(android.R.id.button2)).perform(click());
 	}
 
 	public static ViewInteraction tripDateRange() {

@@ -27,6 +27,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.cars.Suggestion;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
@@ -37,6 +38,8 @@ public class StrUtils {
 	private static final Pattern CITY_STATE_PATTERN = Pattern.compile("^([^,]+,[^,]+)");
 	// e.g. Kuantan, Malaysia (KUA-Sultan Haji Ahmad Shah) -> Kuantan, Malyasia
 	private static final Pattern CITY_COUNTRY_PATTERN = Pattern.compile("^([^,]+,[^,]+(?= \\(.*\\)))");
+	// e.g. Kuantan, Malaysia (KUA-Sultan Haji Ahmad Shah) -> KUA-Sultan Haji Ahmad Shah
+	private static final Pattern AIRPORT_CODE_PATTERN = Pattern.compile("\\((.*?)\\)");
 	/**
 	 * Formats the display of how many adults and children are picked currently.
 	 * This will display 0 adults or children.
@@ -259,6 +262,20 @@ public class StrUtils {
 		return waypoint.mAirportCode;
 	}
 
+	public static String getWaypointCodeOrCityStateString(Waypoint waypoint) {
+		Airport airport = waypoint.getAirport();
+		if (airport == null || Strings.isEmpty(airport.mCity)) {
+			return waypoint.mAirportCode;
+		}
+		StringBuilder builder = new StringBuilder();
+		builder.append(airport.mCity);
+		if (Strings.isNotEmpty(airport.mStateCode)) {
+			builder.append(", ");
+			builder.append(airport.mStateCode);
+		}
+		return builder.toString();
+	}
+
 	public static String getLocationCityOrCode(Location location) {
 		String city = location.getCity();
 		if (!TextUtils.isEmpty(location.getCity())) {
@@ -334,6 +351,12 @@ public class StrUtils {
 		if (TextUtils.isEmpty(city)) {
 			city = Html.fromHtml(suggestion.getDisplayName()).toString();
 		}
+		return formatCityName(city);
+	}
+
+	public static String formatCityName(String suggestion) {
+		String city = suggestion;
+
 		Matcher cityCountryMatcher = CITY_COUNTRY_PATTERN.matcher(city);
 		if (cityCountryMatcher.find()) {
 			city = cityCountryMatcher.group(1);
@@ -343,6 +366,25 @@ public class StrUtils {
 			if (cityStateMatcher.find()) {
 				city = cityStateMatcher.group(1);
 			}
+		}
+		return city;
+	}
+
+	public static String formatAirport(Suggestion suggestion) {
+		String airportName = formatAirportName(suggestion.fullName);
+		if (!airportName.equals(suggestion.airportCode)) {
+			return airportName;
+		}
+		else {
+			return formatCityName(suggestion.fullName);
+		}
+	}
+
+	public static String formatAirportName(String suggestion) {
+		String city = suggestion;
+		Matcher cityCountryMatcher = AIRPORT_CODE_PATTERN.matcher(city);
+		if (cityCountryMatcher.find()) {
+			city = cityCountryMatcher.group(1);
 		}
 		return city;
 	}

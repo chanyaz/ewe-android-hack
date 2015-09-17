@@ -190,9 +190,6 @@
     <dimen name="hotel_row_price_text_size">25sp</dimen>
     <dimen name="hotel_row_proximity_text_size">16sp</dimen>
 
-    <!-- LocalExpert -->
-    <dimen name="attraction_bubble_start_text_size">76dp</dimen>
-
     <!-- Ripped from ABS -->
     <!-- The platform's desired minimum size for a dialog's width when it
          is along the major axis (that is the screen is landscape).  This may

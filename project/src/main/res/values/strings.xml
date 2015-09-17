@@ -2,6 +2,100 @@
 <resources>
 
     <!-- Cars -->
+    <!-- Cars Calendar Strings -->
+    <!-- Tooltip description for selecting the start date -->
+    <string name="cars_calendar_start_date_label">Next: Select return date</string>
+    <!-- Tooltip description when both start and end dates are selected -->
+    <string name="cars_calendar_end_date_label">Drag to modify</string>
+    <!-- SeekBar tooltip description for pick up time-->
+    <string name="cars_time_slider_pick_up_label">Pick up time</string>
+    <!-- SeekBar tooltip description for drop off time-->
+    <string name="cars_time_slider_drop_off_label">Drop off time</string>
+    <!-- Cars price templates-->
+    <string name="cars_hourly_text">Hourly</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_text">Daily</string>
+    <!-- Cars checkout price breakdown for POS same as pickup location templates-->
+    <string name="cars_checkout_breakdown_us_text">Rates quoted in %s dollars.</string>
+    <!-- Cars checkout price breakdown for pickup location different than POS templates-->
+    <string name="cars_checkout_breakdown_non_us_text">Rates quoted in %1$s dollars. All taxes or fees due at pick-up will be settled in the local currency (%2$s).</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_weekly_text">Weekly</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_monthly_text">Monthly</string>
+    <!-- Cars price templates-->
+    <string name="cars_total_template">Total %s</string>
+    <!-- Text for cars promo codes-->
+    <string name="cars_promo_code">Promo Code</string>
+    <!-- Text for cars sort and filter-->
+    <string name="cars_sort_filter">Sort &amp; Filter</string>
+    <!-- Slide to reserve -->
+    <string name="cars_slider_text">Slide to reserve</string>
+    <!-- Text for checkout toolbar-->
+    <string name="cars_checkout_text">Checkout</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_dupe_trip_text">Duplicate Trip</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_session_timeout_text">Session Timeout</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_price_change_text">Price Changed</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_payment_failed_text">Payment Failed</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_invalid_input_text">Invalid Info</string>
+    <!-- Text for generic error toolbar-->
+    <string name="cars_error_text">Error</string>
+    <!-- Text for reserving car-->
+    <string name="cars_reserve_text">Reserve</string>
+    <!-- Text for viewing details-->
+    <string name="cars_view_details_text">View Details</string>
+    <!-- Text for driver details toolbar-->
+    <string name="cars_driver_details_text">Driver details</string>
+    <!-- Text for payment details toolbar-->
+    <string name="cars_payment_details_text">Payment details</string>
+    <!-- Text for enter driver details-->
+    <string name="enter_driver_details">Enter driver details</string>
+    <!-- Text for select saved contacts-->
+    <string name="cars_saved_contacts_text">Select saved contacts</string>
+    <!-- Text for enter payment details-->
+    <string name="enter_payment_details">Enter payment details</string>
+    <!-- Template for selected credit card-->
+    <string name="selected_card_template">Expires %s</string>
+    <!-- Template for car offer detail-->
+    <string name="car_offer_template">%s or similar</string>
+    <!-- Car doors text-->
+    <string name="car_doors_text">Doors</string>
+    <!-- Car bags text-->
+    <string name="car_bags_text">Bags</string>
+    <!-- Car automatic transmission text-->
+    <string name="car_auto_tran_text">Automatic Transmission</string>
+    <!-- Car manual transmission text-->
+    <string name="car_man_tran_text">Manual Transmission</string>
+    <!-- Log in Text-->
+    <string name="cars_login_text">Log in with Expedia</string>
+
+    <!-- car result -->
+    <!-- car door range -->
+    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
+    <!-- car details template -->
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
+    <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="car_legal_TEMPLATE">By completing this booking I agree that I have read and accept the %1$s, the %2$s, and the %3$s.</string>
+
+    <!-- Cars Confirmation Screen -->
+    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
+    <string name="calendar_car_title_TEMPLATE">Pick-up Location %1$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
+    <string name="calendar_car_location_TEMPLATE">%1$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_car_desc_itinerary_TEMPLATE">Expedia Itinerary #: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
+    <string name="calendar_car_desc_support_TEMPLATE">Expedia Customer Support: %1$s and %2$s</string>
+    <!-- Showing local phone number in  car confirmation screen  -->
+    <string name="car_confirmation_local_support_TEMPLATE">Local number : %s</string>
+    <!-- Showing toll free phone number in  car confirmation screen  -->
+    <string name="car_confirmation_toll_free_support_TEMPLATE">Toll free number : %s</string>
+
     <!-- Car search label for pick-up time -->
     <string name="pick_up_time">Pick-up time</string>
     <!-- Car search label for drop-off time-->
@@ -11,7 +105,7 @@
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
     <string name="same_as_pick_up">Same as pick-up</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">Dates and Location</string>
+    <string name="dates_and_location">Dates &amp; Location</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Select pick-up and drop-off dates</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
@@ -21,20 +115,104 @@
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">Drop-off</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">Drop-off location must be the same as pick-up location</string>
+    <string name="drop_off_same_as_pick_up">Coming soon! We\'re working hard to add one way bookings in an upcoming version.</string>
     <!-- Error messge for missing Origin in search form -->
     <string name="error_missing_origin_param">Origin missing</string>
     <!-- Error messge for missing Start date in search form -->
     <string name="error_missing_start_date_param">Start Date missing</string>
     <!-- Error messge for missing End date date in search form -->
     <string name="error_missing_end_date_param">End Date missing</string>
+    <!-- Temporary String for general error message -->
+    <string name="error_car">There was some error. Check search params.</string>
+    <!-- Car search error -->
+    <string name="error_car_search_message">Your search returned no results. Please retry your search with different criteria.</string>
+    <!-- Checkout -->
+    <!-- Car model templates-->
+    <string name="car_model_name_template">%1$s or similar</string>
+    <string name="car_model_unknown_template">Exact model N/A</string>
+
+    <string name="preparing_checkout_message">Preparing checkout&#8230;</string>
+    <!-- Desk & vehicle at terminal -->
+    <string name="desk_and_vehicle_terminal">Desk &amp; vehicle at terminal</string>
+    <!-- Car checkout cost breakdown total due today -->
+    <string name="car_cost_breakdown_due_today">Due today</string>
+    <!-- Car checkout cost breakdown total due at pick up -->
+    <string name="car_cost_breakdown_total_due">Due at pick-up</string>
+    <!-- Car checkout cost breakdown for alert button -->
+    <string name="car_cost_breakdown_button_text">Done</string>
+    <!-- Car checkout rental fare breakdown types -->
+    <!--Cost breakdown type base -->
+    <string name="car_rental_breakdown_base">Car rental</string>
+    <!--Cost breakdown type taxes and fees -->
+    <string name="car_rental_breakdown_taxes_and_fees">Estimated taxes and fees</string>
+    <!--Cost breakdown type insurance -->
+    <string name="car_rental_breakdown_insurance">Insurance</string>
+    <!--Cost breakdown type drop off charge -->
+    <string name="car_rental_breakdown_drop_off_charges">Drop off charge</string>
+    <!-- Unlimited mileage -->
+    <string name="unlimited_mileage">Unlimited mileage</string>
+    <!-- Checkout confirmation message (temporary) -->
+    <string name="successful_checkout_TEMPLATE">Itinerary #%1$s</string>
+    <!-- Error message for some missing checkout params -->
+    <string name="error_missing_checkout_params">Missing checkout params.</string>
+    <!--Adding hotel from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_hotel">Hotels in %1$s</string>
+    <!--Adding flight from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_flight">Flights to %1$s</string>
+    <!-- Car confirmation screen label -->
+    <string name="successful_checkout_pickup_label">Pick-up at</string>
+    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
+    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s to</string>
+    <!-- Car confirmation itin text -->
+    <string name="successful_checkout_email_label">Itinerary sent to</string>
+    <!-- Car confirmation directions text -->
+    <string name="car_confirmation_directions">Directions to %1$s</string>
+    <!-- Button label for calling customer support -->
+    <string name="call_customer_support">Call Customer Support</string>
+
+    <!-- Car error strings -->
+    <!-- Message for user that to verify pick-up date."  -->
+    <string name="pick_up_date_error">Please verify your pick-up date.</string>
+    <!-- Message for user that pick-up time is too early."  -->
+    <string name="pick_up_time_error">Please adjust your pick-up or drop-off times.</string>
+    <!-- Message for user that to verify drop-off date."  -->
+    <string name="drop_off_date_error">Please verify your drop-off date.</string>
+    <!-- Message for user  to choose a closer date.""  -->
+    <string name="drop_off_too_far_error">This date is too far out, please choose a closer date.</string>
+    <!-- Message for user that date is too far out."  -->
+    <string name="date_out_of_range">This date is too far out, please choose a closer date.</string>
+    <!-- Message for user that increase your reservation duration. -->
+    <string name="reservation_time_too_short">Please increase your reservation duration.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_time_out">Still there? Your session has expired. Please try your search again.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">Hmm. Looks like you already booked this trip. Please check your trips or email.</string>
+    <!-- Show to user when the price of a car they are trying to book has changed -->
+    <string name="reservation_price_change">The price of your car has changed. Please confirm the new price to continue.</string>
+    <!-- Show to user when the their traveler information is invalid -->
+    <string name="reservation_invalid_name">Names must not contain numbers or special characters.</string>
+    <!-- Show to user when their phone number is invalid -->
+    <string name="reservation_invalid_phone">Phone number length must be between 1 and 20.</string>
+
+    <!-- Shown to a user when there is an issue with their credit card -->
+    <string name="reservation_payment_failed">Hmm&#8230;Your payment didn\'t go through. Please double check your payment details and try again.</string>
+    <!-- Payment failed button text that takes you back to checkout -->
+    <string name="payment_failed">Payment failed.</string>
+    <!-- Price changed button text that takes you back to checkout -->
+    <string name="view_price_change">View Price Change</string>
+    <!-- My Trips button that takes you to Itins -->
+    <string name="my_trips">My Trips</string>
+    <!-- Button text that takes you back to the payment widget to edit your payment -->
+    <string name="edit_payment">Edit Payment</string>
+    <!-- Button text that takes you back to the traveler info widget to edit your driver information -->
+    <string name="edit_info">Edit Info</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Enter your destination</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Fly from %1$s</string>
-    <!-- Fly from... -->
+    <!-- Fly from… -->
     <string name="Fly_from_dot_dot_dot">Fly from…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Select dates</string>
@@ -58,6 +236,149 @@
     <string name="trip_end_optional">Optional</string>
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">Select Airport</string>
+
+    <!-- LX -->
+    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- Search widget header text -->
+    <string name="search_widget_heading">Search For Things To Do</string>
+    <!-- Search widget location hint -->
+    <string name="search_location_hint">Enter location</string>
+    <!-- Error messge for missing Location in LX search form -->
+    <string name="lx_error_missing_location">Location missing</string>
+    <!-- Error messge for missing start date in LX search form -->
+    <string name="lx_error_missing_start_date">Date missing</string>
+    <!-- Button to show calendar and selected dates -->
+    <string name="select_lx_search_dates">Select date</string>
+    <!-- Activity details highlights heading -->
+    <string name="highlights_activity_details">Highlights</string>
+    <!-- Activity details description heading -->
+    <string name="description_activity_details">Description</string>
+    <!-- Activity details location heading -->
+    <string name="location_activity_details">Location</string>
+    <!-- Free cancellation message for LX activity -->
+    <string name="activity_free_cancellation">Free cancellation</string>
+    <!-- Template for ticket details -->
+    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket selection summary -->
+    <string name="offer_book_now_TEMPLATE">Book Now %1$s</string>
+    <!-- Template for tickets type and count  summary -->
+    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <!-- LX Ticket type names -->
+    <string name="ticket_type_traveler">Traveler</string>
+    <string name="ticket_type_adult">Adult</string>
+    <string name="ticket_type_child">Child</string>
+    <string name="ticket_type_infant">Infant</string>
+    <string name="ticket_type_youth">Youth</string>
+    <string name="ticket_type_senior">Senior</string>
+    <string name="ticket_type_group">Group</string>
+    <string name="ticket_type_couple">Couple</string>
+    <string name="ticket_type_two_adults">2 adults</string>
+    <string name="ticket_type_military">Military</string>
+    <string name="ticket_type_student">Student</string>
+    <string name="ticket_type_sedan">Sedan</string>
+    <string name="ticket_type_minivan">Minivan</string>
+    <string name="ticket_type_water_taxi">Water taxi</string>
+    <string name="ticket_type_suv">SUV</string>
+    <string name="ticket_type_executive_car">Executive car</string>
+    <string name="ticket_type_luxury_car">Luxury car</string>
+    <string name="ticket_type_limousine">Limousine</string>
+    <string name="ticket_type_towncar">TownCar</string>
+    <string name="ticket_type_vehicle_parking_spot">Vehicle Parking Spot</string>
+    <string name="ticket_type_book">Book</string>
+    <string name="ticket_type_guide">Guide</string>
+    <string name="ticket_type_travel_card">Travel Card</string>
+    <string name="ticket_type_boat">Boat</string>
+    <string name="ticket_type_motorcycle">Motorcycle</string>
+    <string name="ticket_type_ceremony">Ceremony</string>
+    <string name="ticket_type_calling_card">Calling Card</string>
+    <string name="ticket_type_pass">Pass</string>
+    <string name="ticket_type_minibus">Minibus</string>
+    <string name="ticket_type_helicopter">Helicopter</string>
+    <string name="ticket_type_device">Device</string>
+    <string name="ticket_type_room">Room</string>
+    <string name="ticket_type_carriage">Carriage</string>
+    <string name="ticket_type_buggy">Buggy</string>
+    <string name="ticket_type_atv">ATV</string>
+    <string name="ticket_type_jet_ski">Jet Ski</string>
+    <string name="ticket_type_scooter">Scooter</string>
+    <string name="ticket_type_scooter_car">Scooter Car</string>
+    <string name="ticket_type_snowmobile">Snowmobile</string>
+    <string name="ticket_type_day">Day</string>
+    <string name="ticket_type_bike">Bike</string>
+    <string name="ticket_type_week">week</string>
+    <string name="ticket_type_subscription">subscription</string>
+    <string name="ticket_type_electric_bike">electric bike</string>
+    <string name="ticket_type_segway">segway</string>
+    <string name="ticket_type_vehicle">vehicle</string>
+    <!-- Activity search results per ticket type -->
+    <string name="per_ticket_type_traveler">per traveler</string>
+    <string name="per_ticket_type_adult">per adult</string>
+    <string name="per_ticket_type_child">per child</string>
+    <string name="per_ticket_type_infant">per infant</string>
+    <string name="per_ticket_type_youth">per youth</string>
+    <string name="per_ticket_type_senior">per senior</string>
+    <string name="per_ticket_type_group">per group</string>
+    <string name="per_ticket_type_couple">per couple</string>
+    <string name="per_ticket_type_two_adults">per 2 adults</string>
+    <string name="per_ticket_type_military">per military</string>
+    <string name="per_ticket_type_student">per student</string>
+    <string name="per_ticket_type_sedan">per sedan</string>
+    <string name="per_ticket_type_minivan">per minivan</string>
+    <string name="per_ticket_type_water_taxi">per water taxi</string>
+    <string name="per_ticket_type_suv">per SUV</string>
+    <string name="per_ticket_type_executive_car">per executive car</string>
+    <string name="per_ticket_type_luxury_car">per luxury car</string>
+    <string name="per_ticket_type_limousine">per limousine</string>
+    <string name="per_ticket_type_towncar">per TownCar</string>
+    <string name="per_ticket_type_vehicle_parking_spot">per vehicle parking spot</string>
+    <string name="per_ticket_type_book">per book</string>
+    <string name="per_ticket_type_guide">per guide</string>
+    <string name="per_ticket_type_travel_card">per travel card</string>
+    <string name="per_ticket_type_boat">per boat</string>
+    <string name="per_ticket_type_motorcycle">per motorcycle</string>
+    <string name="per_ticket_type_ceremony">per ceremony</string>
+    <string name="per_ticket_type_calling_card">per calling card</string>
+    <string name="per_ticket_type_pass">per pass</string>
+    <string name="per_ticket_type_minibus">per minibus</string>
+    <string name="per_ticket_type_helicopter">per helicopter</string>
+    <string name="per_ticket_type_device">per device</string>
+    <string name="per_ticket_type_room">per room</string>
+    <string name="per_ticket_type_carriage">per carriage</string>
+    <string name="per_ticket_type_buggy">per buggy</string>
+    <string name="per_ticket_type_atv">per ATV</string>
+    <string name="per_ticket_type_jet_ski">per jet ski</string>
+    <string name="per_ticket_type_scooter">per scooter</string>
+    <string name="per_ticket_type_scooter_car">per scooter car</string>
+    <string name="per_ticket_type_snowmobile">per snowmobile</string>
+    <string name="per_ticket_type_day">per day</string>
+    <string name="per_ticket_type_bike">per bike</string>
+    <string name="per_ticket_type_week">per week</string>
+    <string name="per_ticket_type_subscription">per subscription</string>
+    <string name="per_ticket_type_electric_bike">per electric bike</string>
+    <string name="per_ticket_type_segway">per segway</string>
+    <string name="per_ticket_type_vehicle">per vehicle</string>
+
+    <!-- LX Strings -->
+    <!-- Slide to book -->
+    <string name="lx_slider_text">Slide to book</string>
+    <!-- Text for checkout toolbar-->
+    <string name="lx_checkout_text">Checkout</string>
+    <!-- Free cancellation -->
+    <string name="lx_free_cancellation">Free cancellation</string>
+    <!-- Total with tax -->
+    <string name="lx_total_with_tax">Total with Tax</string>
+    <!-- Contact Details Toolbar -->
+    <string name="lx_contact_details">Contact details</string>
+    <!-- Enter contact details-->
+    <string name="lx_enter_contact_details">Enter contact details</string>
+    <!-- LX search error -->
+    <string name="error_lx_search_message">Your search returned no results. Please retry your search with different criteria.</string> 	<!-- Offers show more string -->
+    <string name="lx_show_more_offers">Show More</string>
+    <!-- Text for traveler details toolbar-->
+    <string name="lx_traveler_details_text">Traveler details</string>
+    <!-- Text for enter traveler details-->
+    <string name="lx_traveler_enter_details_text">Enter traveler details</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -137,6 +458,8 @@
     <string name="tablet_search_results_hotels_unavailable_tonight">Sorry, no hotels are \n available for tonight.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Sorry, no flights are \n currently available.</string>
+    <!-- Tablet search results, no flights available due to invalid start date -->
+    <string name="flight_search_range_error_TEMPLATE">We\&apos;re sorry, but we are unable to search for flights more than %1$s days from today.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">Removed</string>
     <!-- Label indicating how many items are being booked for the current trip -->
@@ -312,6 +635,8 @@
     <string name="unable_to_log_into_facebook">Unable to log in to Facebook.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">Login failed. If your email and password are correct, confirm that your app\'s Country setting is correct.</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">We need you to create a new, international sign in for all Expedia sites.&lt;br>Please reset your password using the ‘Forgot your password?\&apos; link below.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia Password</string>
     <!-- Link accounts -->
@@ -344,6 +669,27 @@
     <string name="nav_flights">Flights</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hotels</string>
+    <!-- Cars -->
+    <string name="nav_cars">Cars</string>
+
+    <!-- New launch screen -->
+    <!-- Shop travel label -->
+    <string name="shop_travel">Shop travel</string>
+    <!-- Top deals tonight -->
+    <string name="nearby_deals_title">Popular Hotels Tonight</string>
+    <!-- See all nearby deals -->
+    <string name="nearby_deals_expand">See more</string>
+    <!-- Percent off template, e.g. 50% off -->
+    <string name="percent_off_TEMPLATE">-%2.0f%%</string>
+    <!-- List loading header -->
+    <string name="loading_header">Loading&#8230;</string>
+    <!-- Hotel list rating text -->
+    <string name="hotel_rating_text">of 5 &#8211; guest rating</string>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="launch_mobile_exclusive">mobile only!</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="launch_tonight_only">tonight only!</string>
+
 
     <!-- Launch screen -->
     <!-- Label for launch screen hotel button secondary text -->
@@ -413,6 +759,7 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Your %s ticket can be redeemed starting tomorrow.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">Itinerary ready</string>
+
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -652,71 +999,6 @@
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">Add a hotel</string>
 
-
-    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">Talk to a Local Expert</string>
-
-    <!-- Local Expert Sites -->
-    <!-- Name of Hawaii (for local expert) -->
-    <string name="site_hawaii">Hawaii</string>
-    <!-- Name of Orlando, FL (for local expert) -->
-    <string name="site_orlando">Orlando</string>
-    <!-- Name of Las Vegas (for local expert) -->
-    <string name="site_las_vegas">Las Vegas</string>
-
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
-    <string name="local_expert_title_TEMPLATE">Enjoy %1$s</string>
-    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">Your Local Expert concierge is just a call\naway for any in-trip planning needs.</string>
-    <!-- Text for the button on Local Expert pages, to call the concierge -->
-    <string name="local_expert_call_button_text">Give them a call</string>
-
-    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_first">Amazing</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_second">creatures</string>
-    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_first">See the best</string>
-    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_second">theme parks</string>
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Find the best</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_second">beaches</string>
-    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_first">Ride in a</string>
-    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_second">helicopter</string>
-    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_first">Jump in &amp; go</string>
-    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_second">scuba diving</string>
-    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_first">World class</string>
-    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_second">casinos</string>
-    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_first">Drive a</string>
-    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_second">ferrari</string>
-    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_first">Activities for</string>
-    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_second">families</string>
-    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_first">Experience great</string>
-    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_second">food</string>
-    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">Find the best</string>
-    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_second">entertainment</string>
-    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_first">Find local</string>
-    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_second">music</string>
-
     <!-- Car category -->
     <!-- Car category: mini -->
     <string name="car_category_mini">Mini Car</string>
@@ -754,6 +1036,44 @@
     <string name="car_category_special">Special Car</string>
     <!-- Car category: oversize -->
     <string name="car_category_oversize">Oversize Car</string>
+
+    <!-- Car category for results and details screen -->
+    <!-- Car category: mini -->
+    <string name="car_category_result_mini">Mini</string>
+    <!-- Car category: economy -->
+    <string name="car_category_result_economy">Economy</string>
+    <!-- Car category: compact -->
+    <string name="car_category_result_compact">Compact</string>
+    <!-- Car category: midize -->
+    <string name="car_category_result_midsize">Mid-size</string>
+    <!-- Car category: standard -->
+    <string name="car_category_result_standard">Standard</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_result_fullsize">Full-size</string>
+    <!-- Car category: premium -->
+    <string name="car_category_result_premium">Premium</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_result_luxury">Luxury</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_result_mini_elite">Mini Elite</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_result_economy_elite">Economy Elite</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_result_compact_elite">Compact Elite</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_result_midsize_elite">Mid-size Elite</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_result_standard_elite">Standard Elite</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_result_fullsize_elite">Full-size Elite</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_result_premium_elite">Premium Elite</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_result_luxury_elite">Luxury Elite</string>
+    <!-- Car category: special -->
+    <string name="car_category_result_special">Special</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_result_oversize">Oversize</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">Two Door Car</string>
@@ -1240,6 +1560,8 @@
     <string name="slide_to_book_flight">slide to book flight</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
+    <!-- Cars amount due today without a required credit card -->
+    <string name="amount_due_today_TEMPLATE">Amount due today: %1$s</string>
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">Amount to be paid now: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -1292,6 +1614,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">The total for your trip, including &lt;b&gt;%1$s&lt;/b&gt; resort fee, will be &lt;b&gt;%2$s&lt;/b&gt;. You\'ll pay the hotel the total cost of your booking (in the hotel\'s local currency) during your stay.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">The total for your trip, including &lt;b&gt;%1$s&lt;/b&gt; resort fee, will be &lt;b&gt;%2$s&lt;/b&gt;. You\'ll pay the hotel the remaining cost of your booking (in the hotel\'s local currency) during your stay.</string>
+    <!-- Flights AB Test Free Cancellation-->
+    <string name="ab_test_flights_free_cancellation">Free cancellation within 24 hours</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1399,6 +1723,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Credit Card number</string>
+    <!-- Security code (CVV) hint -->
+    <string name="cvv_hint">CVV</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Expiration Date</string>
     <!-- Set expiration date button -->
@@ -1455,6 +1781,8 @@
     <string name="middle_name">Middle Name</string>
     <!-- Last name label -->
     <string name="last_name">Last Name</string>
+    <!-- First and Last Name label -->
+    <string name="first_and_last_name">First and Last Name</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Date of Birth</string>
     <!-- male -->
@@ -1574,6 +1902,8 @@
     <string name="air_attach_expires">Offer expires in</string>
     <!-- Air attach offer expiration date -->
     <string name="air_attach_expiration_date_TEMPLATE">%d days</string>
+    <!-- Air attach expires today alert -->
+    <string name="air_attach_expires_today">Offer expires today</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">Add Hotel</string>
     <!-- Air attach add hotel button subtitle -->
@@ -1866,6 +2196,12 @@
     <string name="progress_finding_location">Finding Current Location…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Searching for Hotels…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_message">Searching!</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_working_hard">We\&apos;re working hard to find you the best hotel deals.</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_hundreds">Searching hundreds of hotels for you!</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">Searching for the Hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1918,6 +2254,8 @@
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">Book Now</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now_ab_test">Select Room</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Book by Phone</string>
 
@@ -2244,29 +2582,29 @@
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Sorry, but this isn’t a valid coupon code.</string>
+    <string name="coupon_error_unrecognized">Sorry, but this isn\&apos;t a valid coupon code.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Sorry, but this coupon has expired.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Sorry, but we’re having a problem. Please try again.</string>
+    <string name="coupon_error_not_redeemed">Sorry, but we\&apos;re having a problem. Please try again.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">Sorry, but this coupon code has already been used.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Sorry, but we’re having a problem. Please try again.</string>
+    <string name="coupon_error_fallback">Sorry, but we\&apos;re having a problem. Please try again.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">The booking cost changed, so we didn’t apply the coupon. Please review and try again.</string>
+    <string name="coupon_error_price_change">The booking cost changed, so we didn\&apos;t apply the coupon. Please review and try again.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">Sorry, but this coupon code is for a different country.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met"> Sorry, but you didn’t select the minimum number of nights.</string>
+    <string name="coupon_error_min_stay_not_met">Sorry, but you didn\&apos;t select the minimum number of nights.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Sorry, but this coupon isn’t valid for these dates.</string>
+    <string name="coupon_error_invalid_travel_dates">Sorry, but this coupon isn\&apos;t valid for these dates.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Sorry, but this hotel doesn’t accept coupons.</string>
+    <string name="coupon_error_invalid_product">Sorry, but this hotel doesn\&apos;t accept coupons.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Sorry, but this doesn’t meet the minimum cost requirement.</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Sorry, but this doesn\&apos;t meet the minimum cost requirement.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_hotel_excluded">Sorry, but this hotel doesn’t accept coupons.</string>
+    <string name="coupon_error_hotel_excluded">Sorry, but this hotel doesn\&apos;t accept coupons.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">Sorry, but the coupon cannot be applied to this hotel.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
@@ -2278,7 +2616,7 @@
     <!-- Error when applying coupon - Exceeded Earn Limit -->
     <string name="coupon_error_exceeded_earn_limit">Sorry, this coupon has been used too many times and can no longer be applied.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
-    <string name="coupon_error_invalid_average_price">Sorry, but the average price per night doesn’t meet the minimum for this coupon.</string>
+    <string name="coupon_error_invalid_average_price">Sorry, but the average price per night doesn\&apos;t meet the minimum for this coupon.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2742,7 +3080,7 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Google Wallet Coupon Terms &amp; Conditions</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Offer: Receive an instant $50 coupon discount off a hotel stay. The price of the qualifying booking must be at least $200. How to redeem: Select a qualifying hotel stay. On the checkout page, use “Buy with Google” to check out. Coupon must be redeemed in the Expedia Android app by 11:59 PM (Pacific Time) on December 31, 2014 for travel between now and March 31, 2015. Limited time offer: subject to change. Limit one (1) coupon per user account and per qualifying hotel booking. This offer is from Expedia.com and is valid for Expedia.com U.S. Android app customers only. Customers affiliated with Expedia’s Travel Agent Affiliate Program are not eligible for offer. Coupon valid for eligible Expedia Rate Hotels only . Bookings subject to availability and all applicable terms and conditions. Coupon may not be used with other coupons, promotions or special offers. Coupon discount cannot be applied against taxes, supplier-charged fees, cancellation or change penalties, administrative fees or other miscellaneous charges, which are the sole responsibility of the customer. A coupon will be deemed fully used once a qualifying booking has been made and may not be reused. In the event that you change or cancel any part of your booking, the coupon will not apply to the changed travel schedule. Terms and conditions of this coupon are as written and cannot be changed by any representation of any unauthorized person, including employees of Expedia, Inc. Coupon is not transferable and is not redeemable for cash. Expedia, Inc. may revoke or change this offer at any time. Void where prohibited by law.</string>
+    <string name="wallet_promo_tc_message">Offer: Receive an instant $50 coupon discount off a hotel stay. The price of the qualifying booking must be at least $200. How to redeem: Select a qualifying hotel stay. On the checkout page, use “Buy with Google” to check out. Coupon must be redeemed in the Expedia Android app by 11:59 PM (Pacific Time) on December 31, 2014 for travel between now and March 31, 2015. Limited time offer: subject to change. Limit one (1) coupon per user account and per qualifying hotel booking. This offer is from Expedia.com and is valid for Expedia.com U.S. Android app customers only. Customers affiliated with Expedia\&apos;s Travel Agent Affiliate Program are not eligible for offer. Coupon valid for eligible Expedia Rate Hotels only . Bookings subject to availability and all applicable terms and conditions. Coupon may not be used with other coupons, promotions or special offers. Coupon discount cannot be applied against taxes, supplier-charged fees, cancellation or change penalties, administrative fees or other miscellaneous charges, which are the sole responsibility of the customer. A coupon will be deemed fully used once a qualifying booking has been made and may not be reused. In the event that you change or cancel any part of your booking, the coupon will not apply to the changed travel schedule. Terms and conditions of this coupon are as written and cannot be changed by any representation of any unauthorized person, including employees of Expedia, Inc. Coupon is not transferable and is not redeemable for cash. Expedia, Inc. may revoke or change this offer at any time. Void where prohibited by law.</string>
     <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
     <string name="wallet_coupon_not_applied_manually">This coupon may only be applied when selecting Google Wallet as your form of payment.</string>
 
@@ -3144,5 +3482,8 @@
 
     <!-- Mail intent chooser dialog title -->
     <string name="mailto_title">Send email…</string>
+
+    <!-- Template for generating textview clicks -->
+    <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
 
 </resources>

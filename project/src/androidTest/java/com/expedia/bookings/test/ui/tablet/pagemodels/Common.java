@@ -1,21 +1,18 @@
 package com.expedia.bookings.test.ui.tablet.pagemodels;
 
 import android.app.Instrumentation;
-
-import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
-
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 
+import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
 import com.mobiata.android.Log;
-
-import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
 
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-
+import static com.expedia.bookings.test.ui.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.CoreMatchers.not;
 
 public class Common {
@@ -60,13 +57,20 @@ public class Common {
 		}
 	}
 
-	public static void pressBackOutOfApp() {
+	public static void pressBackOutOfApp(Instrumentation inst) {
 		try {
-			while (true) {
+			if (!SpoonScreenshotUtils.hasActiveActivity(inst)) {
+				Log.v("No activity to back out of");
+				return;
+			}
+
+			for (int i = 0; i < 30; i++) {
 				Espresso.pressBack();
 			}
+
+			throw new RuntimeException("Backed out 30 times but app didn't close!");
 		}
-		catch (Exception e) {
+		catch (Throwable e) {
 			Log.v("Pressed back a bunch of times: ", e);
 		}
 	}

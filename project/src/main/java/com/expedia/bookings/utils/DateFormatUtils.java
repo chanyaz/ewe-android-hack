@@ -11,6 +11,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.lx.LXSearchParams;
 
 /**
  */
@@ -75,7 +76,7 @@ public class DateFormatUtils {
 		return DateUtils.formatDateRange(context, start, end, flags);
 	}
 
-	private static String formatDateTimeRange(Context context, DateTime startDateTime, DateTime endDateTime, int flags) {
+	public static String formatDateTimeRange(Context context, DateTime startDateTime, DateTime endDateTime, int flags) {
 		// We are adding an arbitrary second to the endDateTime. The DateIntervalFormat class, from Android, assigns
 		// a date set exactly at Midnight to the day before. This is done arbitrarily and without exact cause.
 		// See source here: https://android.googlesource.com/platform/libcore/+/master/luni/src/main/java/libcore/icu/DateIntervalFormat.java
@@ -122,6 +123,10 @@ public class DateFormatUtils {
 
 		String dateRange = DateUtils.formatDateRange(context, params.startDateTime.getMillis(), params.startDateTime.getMillis(), flags);
 		return context.getResources().getString(R.string.select_return_date_TEMPLATE, dateRange);
+	}
+
+	public static String formatLXDateRange(Context context, LXSearchParams params, int flags) {
+		return formatDateRange(context, params.startDate, params.endDate, flags);
 	}
 
 	/**

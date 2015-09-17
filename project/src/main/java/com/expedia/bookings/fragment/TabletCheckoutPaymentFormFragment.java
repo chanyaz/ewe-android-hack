@@ -33,6 +33,7 @@ import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.CreditCardUtils;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -181,8 +182,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 					if (mBillingInfo.getCardType() != null) {
 						TripBucketItem item = Db.getTripBucket().getFlight();
 						if (!item.isCardTypeSupported(mBillingInfo.getCardType())) {
-							String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, mBillingInfo
-								.getCardType().getHumanReadableName(getActivity()));
+							String cardName = CreditCardUtils.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
+							String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName);
 							updateCardMessageText(message);
 							toggleCardMessage(true, true);
 						}
@@ -206,8 +207,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 					if (mBillingInfo.getCardType() != null) {
 						TripBucketItem item = Db.getTripBucket().getHotel();
 						if (!item.isCardTypeSupported(mBillingInfo.getCardType())) {
-							String message = getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, mBillingInfo
-								.getCardType().getHumanReadableName(getActivity()));
+							String cardName = CreditCardUtils.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
+							String message = getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName);
 							updateCardMessageText(message);
 							toggleCardMessage(true, true);
 						}
@@ -399,7 +400,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				// Let's reset the selectable/clickable state (in the stored card picker, checkout overview screen) of the currentCC
 				StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
 				if (currentCC != null) {
-					BookingInfoUtils.resetPreviousCreditCardSelectState(getActivity(), currentCC);
+					BookingInfoUtils.resetPreviousCreditCardSelectState(getParentFragment().getActivity(), currentCC);
 				}
 				Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
 				Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setLocation(new Location());

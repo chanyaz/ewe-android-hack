@@ -32,6 +32,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -102,10 +103,7 @@ public class DeepLinkRouterActivity extends Activity {
 			finish();
 			return;
 		}
-		else if ("e.xpda.co".equalsIgnoreCase(host)
-			|| "a.aago.co".equalsIgnoreCase(host)
-			|| "t.tvly.co".equalsIgnoreCase(host)
-			|| "v.vygs.co".equalsIgnoreCase(host)) {
+		else if (ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl().equalsIgnoreCase(host)) {
 			final String shortUrl = dataString;
 			final ExpediaServices services = new ExpediaServices(this);
 			new Thread(new Runnable() {
@@ -189,7 +187,7 @@ public class DeepLinkRouterActivity extends Activity {
 				startDate = LocalDate.parse(checkInDateStr);
 				Log.d(TAG, "Set hotel check in date: " + startDate);
 			}
-			catch (TimeFormatException e) {
+			catch (TimeFormatException | IllegalArgumentException e) {
 				Log.w(TAG, "Could not parse check in date: " + checkInDateStr, e);
 			}
 		}
@@ -200,7 +198,7 @@ public class DeepLinkRouterActivity extends Activity {
 				endDate = LocalDate.parse(checkOutDateStr);
 				Log.d(TAG, "Set hotel check out date: " + endDate);
 			}
-			catch (TimeFormatException e) {
+			catch (TimeFormatException | IllegalArgumentException e) {
 				Log.w(TAG, "Could not parse check out date: " + checkOutDateStr, e);
 			}
 		}
@@ -393,7 +391,7 @@ public class DeepLinkRouterActivity extends Activity {
 			try {
 				startDate = LocalDate.parse(departureDateStr);
 			}
-			catch (TimeFormatException e) {
+			catch (TimeFormatException | IllegalArgumentException e) {
 				Log.w(TAG, "Could not parse flight departure date: " + departureDateStr, e);
 			}
 		}
@@ -402,7 +400,7 @@ public class DeepLinkRouterActivity extends Activity {
 			try {
 				endDate = LocalDate.parse(returnDateStr);
 			}
-			catch (TimeFormatException e) {
+			catch (TimeFormatException | IllegalArgumentException e) {
 				Log.w(TAG, "Could not parse flight return date: " + returnDateStr, e);
 			}
 		}

@@ -2,6 +2,96 @@
 <resources>
 
     <!-- Cars -->
+    <!-- Cars Calendar Strings -->
+    <!-- Tooltip description for selecting the start date -->
+    <string name="cars_calendar_start_date_label">Välj datum för återresa</string>
+    <!-- Tooltip description when both start and end dates are selected -->
+    <string name="cars_calendar_end_date_label">Dra för att ändra</string>
+    <!-- SeekBar tooltip description for pick up time-->
+    <string name="cars_time_slider_pick_up_label">Tid för hämtning</string>
+    <!-- SeekBar tooltip description for drop off time-->
+    <string name="cars_time_slider_drop_off_label">Tid för avlämning</string>
+    <!-- Cars price templates-->
+    <string name="cars_hourly_text">per timme</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_text">per dag</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_weekly_text">per vecka</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_monthly_text">per månad</string>
+    <!-- Cars price templates-->
+    <string name="cars_total_template">Totalt %s</string>
+    <!-- Text for cars promo codes-->
+    <string name="cars_promo_code">Kampanjkod</string>
+    <!-- Text for cars sort and filter-->
+    <string name="cars_sort_filter">Sortera och filtrera</string>
+    <!-- Slide to reserve -->
+    <string name="cars_slider_text">Dra för att boka</string>
+    <!-- Text for checkout toolbar-->
+    <string name="cars_checkout_text">Betalning</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_dupe_trip_text">Dubbelbokad resa</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_session_timeout_text">Sessionen har gått ut</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_price_change_text">Priset har ändrats</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_payment_failed_text">Betalningen misslyckades</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_invalid_input_text">Ogiltig info</string>
+    <!-- Text for generic error toolbar-->
+    <string name="cars_error_text">Det uppstod ett fel</string>
+    <!-- Text for reserving car-->
+    <string name="cars_reserve_text">Boka</string>
+    <!-- Text for viewing details-->
+    <string name="cars_view_details_text">Se info</string>
+    <!-- Text for driver details toolbar-->
+    <string name="cars_driver_details_text">Förarens uppgifter</string>
+    <!-- Text for payment details toolbar-->
+    <string name="cars_payment_details_text">Betalningsuppgifter</string>
+    <!-- Text for enter driver details-->
+    <string name="enter_driver_details">Ange förarens uppgifter</string>
+    <!-- Text for select saved contacts-->
+    <string name="cars_saved_contacts_text">Välj sparade kontakter</string>
+    <!-- Text for enter payment details-->
+    <string name="enter_payment_details">Ange betalningsuppgifter</string>
+    <!-- Template for selected credit card-->
+    <string name="selected_card_template">Förfaller %s</string>
+    <!-- Template for car offer detail-->
+    <string name="car_offer_template">%s eller liknande</string>
+    <!-- Car doors text-->
+    <string name="car_doors_text">Dörrar</string>
+    <!-- Car bags text-->
+    <string name="car_bags_text">Väskor</string>
+    <!-- Car automatic transmission text-->
+    <string name="car_auto_tran_text">Automatisk växellåda</string>
+    <!-- Car manual transmission text-->
+    <string name="car_man_tran_text">Manuell växellåda</string>
+    <!-- Log in Text-->
+    <string name="cars_login_text">Logga in med Expedia</string>
+
+    <!-- car result -->
+    <!-- car door range -->
+    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
+    <!-- car details template -->
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
+    <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="car_legal_TEMPLATE">Genom att slutföra bokningen bekräftar jag att jag har läst och godkänt %1$s, %2$s och %3$s.</string>
+
+    <!-- Cars Confirmation Screen -->
+    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
+    <string name="calendar_car_title_TEMPLATE">Plats för hämtning %1$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
+    <string name="calendar_car_location_TEMPLATE">%1$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_car_desc_itinerary_TEMPLATE">Expedias resplansnummer: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
+    <string name="calendar_car_desc_support_TEMPLATE">Expedias kundtjänst: %1$s och %2$s</string>
+    <!-- Showing local phone number in  car confirmation screen  -->
+    <string name="car_confirmation_local_support_TEMPLATE">Lokalt nummer: %s</string>
+    <!-- Showing toll free phone number in  car confirmation screen  -->
+    <string name="car_confirmation_toll_free_support_TEMPLATE">Avgiftsfritt nummer: %s</string>
+
     <!-- Car search label for pick-up time -->
     <string name="pick_up_time">Hämtningstid</string>
     <!-- Car search label for drop-off time-->
@@ -9,7 +99,7 @@
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Plats för hämtning</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="same_as_pick_up">Samma som vid hätning</string>
+    <string name="same_as_pick_up">Samma som vid hämtning</string>
     <!-- Label for Car Search Screen header -->
     <string name="dates_and_location">Datum och plats</string>
     <!-- Label for Cars date button -->
@@ -21,13 +111,97 @@
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">Avlämning</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">Plats för avlämning måste vara densamma som vid hämtning</string>
+    <string name="drop_off_same_as_pick_up">Kommer snart! Vi jobbar på att lägga till enkelresor i vår kommande version.</string>
     <!-- Error messge for missing Origin in search form -->
     <string name="error_missing_origin_param">Avreseort saknas</string>
     <!-- Error messge for missing Start date in search form -->
     <string name="error_missing_start_date_param">Startdatum saknas</string>
     <!-- Error messge for missing End date date in search form -->
     <string name="error_missing_end_date_param">Slutdatum saknas</string>
+    <!-- Temporary String for general error message -->
+    <string name="error_car">Det uppstod ett fel. Kontrollera sökparametrarna.</string>
+    <!-- Car search error -->
+    <string name="error_car_search_message">Din sökning gav inga resultat. Prova att söka igen med andra kriterier.</string>
+    <!-- Checkout -->
+    <!-- Car model templates-->
+    <string name="car_model_name_template">%1$s eller liknande</string>
+    <string name="car_model_unknown_template">Exakt biltyp inte tillgänglig</string>
+
+    <string name="preparing_checkout_message">Förbereder betalning…</string>
+    <!-- Desk & vehicle at terminal -->
+    <string name="desk_and_vehicle_terminal">Disk och fordon i terminalen</string>
+    <!-- Car checkout cost breakdown total due today -->
+    <string name="car_cost_breakdown_due_today">Att betala idag</string>
+    <!-- Car checkout cost breakdown total due at pick up -->
+    <string name="car_cost_breakdown_total_due">Att betala vid hämtning</string>
+    <!-- Car checkout cost breakdown for alert button -->
+    <string name="car_cost_breakdown_button_text">Klar</string>
+    <!-- Car checkout rental fare breakdown types -->
+    <!--Cost breakdown type base -->
+    <string name="car_rental_breakdown_base">Hyrbil</string>
+    <!--Cost breakdown type taxes and fees -->
+    <string name="car_rental_breakdown_taxes_and_fees">Ungefärliga skatter och avgifter</string>
+    <!--Cost breakdown type insurance -->
+    <string name="car_rental_breakdown_insurance">Försäkring</string>
+    <!--Cost breakdown type drop off charge -->
+    <string name="car_rental_breakdown_drop_off_charges">Kostnad för avlämning</string>
+    <!-- Unlimited mileage -->
+    <string name="unlimited_mileage">Obegränsad körsträcka</string>
+    <!-- Checkout confirmation message (temporary) -->
+    <string name="successful_checkout_TEMPLATE">Resplansnummer %1$s</string>
+    <!-- Error message for some missing checkout params -->
+    <string name="error_missing_checkout_params">Betalningsparametrar saknas.</string>
+    <!--Adding hotel from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_hotel">Hotell i %1$s</string>
+    <!--Adding flight from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_flight">Flyg till %1$s</string>
+    <!-- Car confirmation screen label -->
+    <string name="successful_checkout_pickup_label">Hämtning vid</string>
+    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
+    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s till</string>
+    <!-- Car confirmation itin text -->
+    <string name="successful_checkout_email_label">Resplan skickades till</string>
+    <!-- Car confirmation directions text -->
+    <string name="car_confirmation_directions">Vägbeskrivning till %1$s</string>
+    <!-- Button label for calling customer support -->
+    <string name="call_customer_support">Ring kundtjänst</string>
+
+    <!-- Car error strings -->
+    <!-- Message for user that to verify pick-up date."  -->
+    <string name="pick_up_date_error">Bekräfta ditt hämtningsdatum.</string>
+    <!-- Message for user that pick-up time is too early."  -->
+    <string name="pick_up_time_error">Ändra dina tider för hämtning eller avlämning.</string>
+    <!-- Message for user that to verify drop-off date."  -->
+    <string name="drop_off_date_error">Bekräfta ditt avlämningsdatum.</string>
+    <!-- Message for user  to choose a closer date.""  -->
+    <string name="drop_off_too_far_error">Datumet är för sent, välj ett tidigare datum.</string>
+    <!-- Message for user that date is too far out."  -->
+    <string name="date_out_of_range">Datumet är för sent, välj ett tidigare datum.</string>
+    <!-- Message for user that increase your reservation duration. -->
+    <string name="reservation_time_too_short">Förläng bokningen.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_time_out">Är du kvar? Sessionen har gått ut. Försök med din sökning igen.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">Hmm. Det verkar som om du redan har bokat den här resan. Kontrollera dina resor eller din e-post.</string>
+    <!-- Show to user when the price of a car they are trying to book has changed -->
+    <string name="reservation_price_change">Priset för din bil har ändrats. Bekräfta det nya priset för att fortsätta.</string>
+    <!-- Show to user when the their traveler information is invalid -->
+    <string name="reservation_invalid_name">Namn får inte innehålla siffror eller specialtecken.</string>
+    <!-- Show to user when their phone number is invalid -->
+    <string name="reservation_invalid_phone">Telefonnummer måste bestå av 1-20 siffror.</string>
+
+    <!-- Shown to a user when there is an issue with their credit card -->
+    <string name="reservation_payment_failed">Hmm…Din betalning gick inte igenom. Kontrollera dina betalningsuppgifter och försök igen.</string>
+    <!-- Payment failed button text that takes you back to checkout -->
+    <string name="payment_failed">Betalningen misslyckades.</string>
+    <!-- Price changed button text that takes you back to checkout -->
+    <string name="view_price_change">Se prisändring</string>
+    <!-- My Trips button that takes you to Itins -->
+    <string name="my_trips">Mina resor</string>
+    <!-- Button text that takes you back to the payment widget to edit your payment -->
+    <string name="edit_payment">Redigera betalning</string>
+    <!-- Button text that takes you back to the traveler info widget to edit your driver information -->
+    <string name="edit_info">Ändra uppgifter</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -58,6 +232,149 @@
     <string name="trip_end_optional">Valfritt</string>
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">Välj flygplats</string>
+
+    <!-- LX -->
+    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- Search widget header text -->
+    <string name="search_widget_heading">Sök efter saker att göra</string>
+    <!-- Search widget location hint -->
+    <string name="search_location_hint">Ange plats</string>
+    <!-- Error messge for missing Location in LX search form -->
+    <string name="lx_error_missing_location">Plats saknas</string>
+    <!-- Error messge for missing start date in LX search form -->
+    <string name="lx_error_missing_start_date">Datum saknas</string>
+    <!-- Button to show calendar and selected dates -->
+    <string name="select_lx_search_dates">Välj datum</string>
+    <!-- Activity details highlights heading -->
+    <string name="highlights_activity_details">Höjdpunkter</string>
+    <!-- Activity details description heading -->
+    <string name="description_activity_details">Beskrivning</string>
+    <!-- Activity details location heading -->
+    <string name="location_activity_details">Plats</string>
+    <!-- Free cancellation message for LX activity -->
+    <string name="activity_free_cancellation">Gratis avbokning</string>
+    <!-- Template for ticket details -->
+    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket selection summary -->
+    <string name="offer_book_now_TEMPLATE">Boka nu %1$s</string>
+    <!-- Template for tickets type and count  summary -->
+    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <!-- LX Ticket type names -->
+    <string name="ticket_type_traveler">Resenär</string>
+    <string name="ticket_type_adult">Vuxen</string>
+    <string name="ticket_type_child">Barn</string>
+    <string name="ticket_type_infant">Spädbarn</string>
+    <string name="ticket_type_youth">Ungdom</string>
+    <string name="ticket_type_senior">Pensionär</string>
+    <string name="ticket_type_group">Grupp</string>
+    <string name="ticket_type_couple">Par</string>
+    <string name="ticket_type_two_adults">2 vuxna</string>
+    <string name="ticket_type_military">Militär</string>
+    <string name="ticket_type_student">Student</string>
+    <string name="ticket_type_sedan">Sedan</string>
+    <string name="ticket_type_minivan">Minivan</string>
+    <string name="ticket_type_water_taxi">Båttaxi</string>
+    <string name="ticket_type_suv">Stadsjeep</string>
+    <string name="ticket_type_executive_car">Executivebil</string>
+    <string name="ticket_type_luxury_car">Lyxbil</string>
+    <string name="ticket_type_limousine">Limousine</string>
+    <string name="ticket_type_towncar">Towncar</string>
+    <string name="ticket_type_vehicle_parking_spot">Parkeringsplats för fordon</string>
+    <string name="ticket_type_book">Boka</string>
+    <string name="ticket_type_guide">Guide</string>
+    <string name="ticket_type_travel_card">Resekort</string>
+    <string name="ticket_type_boat">Båt</string>
+    <string name="ticket_type_motorcycle">Motorcykel</string>
+    <string name="ticket_type_ceremony">Ceremoni</string>
+    <string name="ticket_type_calling_card">Telefonkort</string>
+    <string name="ticket_type_pass">Pass</string>
+    <string name="ticket_type_minibus">Minibuss</string>
+    <string name="ticket_type_helicopter">Helikopter</string>
+    <string name="ticket_type_device">Enhet</string>
+    <string name="ticket_type_room">Rum</string>
+    <string name="ticket_type_carriage">Vagn</string>
+    <string name="ticket_type_buggy">Buggy</string>
+    <string name="ticket_type_atv">Fyrhjuling</string>
+    <string name="ticket_type_jet_ski">Jetski</string>
+    <string name="ticket_type_scooter">Skoter</string>
+    <string name="ticket_type_scooter_car">Skoterbil</string>
+    <string name="ticket_type_snowmobile">Snöskoter</string>
+    <string name="ticket_type_day">Dag</string>
+    <string name="ticket_type_bike">Cykel</string>
+    <string name="ticket_type_week">vecka</string>
+    <string name="ticket_type_subscription">prenumeration</string>
+    <string name="ticket_type_electric_bike">electrisk cykel</string>
+    <string name="ticket_type_segway">segway</string>
+    <string name="ticket_type_vehicle">fordon</string>
+    <!-- Activity search results per ticket type -->
+    <string name="per_ticket_type_traveler">per resenär</string>
+    <string name="per_ticket_type_adult">per vuxen</string>
+    <string name="per_ticket_type_child">per barn</string>
+    <string name="per_ticket_type_infant">per spädbarn</string>
+    <string name="per_ticket_type_youth">per ungdom</string>
+    <string name="per_ticket_type_senior">per pensionär</string>
+    <string name="per_ticket_type_group">per grupp</string>
+    <string name="per_ticket_type_couple">per par</string>
+    <string name="per_ticket_type_two_adults">per 2 vuxna</string>
+    <string name="per_ticket_type_military">per militär</string>
+    <string name="per_ticket_type_student">per student</string>
+    <string name="per_ticket_type_sedan">per sedan</string>
+    <string name="per_ticket_type_minivan">per minivan</string>
+    <string name="per_ticket_type_water_taxi">per båttaxi</string>
+    <string name="per_ticket_type_suv">per stadsjeep</string>
+    <string name="per_ticket_type_executive_car">per executivebil</string>
+    <string name="per_ticket_type_luxury_car">per lyxbil</string>
+    <string name="per_ticket_type_limousine">per limousine</string>
+    <string name="per_ticket_type_towncar">per Towncar</string>
+    <string name="per_ticket_type_vehicle_parking_spot">per parkeringsplats för fordon</string>
+    <string name="per_ticket_type_book">per bok</string>
+    <string name="per_ticket_type_guide">per guide</string>
+    <string name="per_ticket_type_travel_card">per resekort</string>
+    <string name="per_ticket_type_boat">per båt</string>
+    <string name="per_ticket_type_motorcycle">per motorcykel</string>
+    <string name="per_ticket_type_ceremony">per ceremoni</string>
+    <string name="per_ticket_type_calling_card">per telefonkort</string>
+    <string name="per_ticket_type_pass">per pass</string>
+    <string name="per_ticket_type_minibus">per minibuss</string>
+    <string name="per_ticket_type_helicopter">per helikopter</string>
+    <string name="per_ticket_type_device">per enhet</string>
+    <string name="per_ticket_type_room">per rum</string>
+    <string name="per_ticket_type_carriage">per vagn</string>
+    <string name="per_ticket_type_buggy">per buggy</string>
+    <string name="per_ticket_type_atv">per fyrhjuling</string>
+    <string name="per_ticket_type_jet_ski">per jetski</string>
+    <string name="per_ticket_type_scooter">per skoter</string>
+    <string name="per_ticket_type_scooter_car">per skoterbil</string>
+    <string name="per_ticket_type_snowmobile">per snöskoter</string>
+    <string name="per_ticket_type_day">per dag</string>
+    <string name="per_ticket_type_bike">per cykel</string>
+    <string name="per_ticket_type_week">per vecka</string>
+    <string name="per_ticket_type_subscription">per prenumeration</string>
+    <string name="per_ticket_type_electric_bike">per elektrisk cykel</string>
+    <string name="per_ticket_type_segway">per segway</string>
+    <string name="per_ticket_type_vehicle">per fordon</string>
+
+    <!-- LX Strings -->
+    <!-- Slide to book -->
+    <string name="lx_slider_text">Dra för att boka</string>
+    <!-- Text for checkout toolbar-->
+    <string name="lx_checkout_text">Betalning</string>
+    <!-- Free cancellation -->
+    <string name="lx_free_cancellation">Gratis avbokning</string>
+    <!-- Total with tax -->
+    <string name="lx_total_with_tax">Totalt med skatter</string>
+    <!-- Contact Details Toolbar -->
+    <string name="lx_contact_details">Kontaktuppgifter</string>
+    <!-- Enter contact details-->
+    <string name="lx_enter_contact_details">Ange kontaktuppgifter</string>
+    <!-- LX search error -->
+    <string name="error_lx_search_message">Din sökning gav inga resultat. Prova att söka igen med andra kriterier.</string> 	<!-- Offers show more string -->
+    <string name="lx_show_more_offers">Se mer</string>
+    <!-- Text for traveler details toolbar-->
+    <string name="lx_traveler_details_text">Resenärsinformation</string>
+    <!-- Text for enter traveler details-->
+    <string name="lx_traveler_enter_details_text">Ange resenärens uppgifter</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -137,6 +454,8 @@
     <string name="tablet_search_results_hotels_unavailable_tonight">Tyvärr är inga hotell \n tillgängliga ikväll.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Tyvärr är inga flyg \n tillgängliga just nu.</string>
+    <!-- Tablet search results, no flights available due to invalid start date -->
+    <string name="flight_search_range_error_TEMPLATE">Vi beklagar, men vi kan inte söka efter flyg som är längre fram i tiden än %1$s dagar fr.o.m. idag.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">Borttagen</string>
     <!-- Label indicating how many items are being booked for the current trip -->
@@ -312,6 +631,8 @@
     <string name="unable_to_log_into_facebook">Inloggningen på Facebook misslyckades.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">Inloggningen misslyckades. Om din e-postadress och ditt lösenord stämmer ber vi dig bekräfta att din app är inställd på rätt land.</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga Expediasidor.&lt;br&gt;Återställ ditt lösenord genom att använda länken \&apos;Har du glömt ditt lösenord?\&apos; nedan.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Lösenord för Expedia</string>
     <!-- Link accounts -->
@@ -344,6 +665,27 @@
     <string name="nav_flights">Flyg</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hotell</string>
+    <!-- Cars -->
+    <string name="nav_cars">Hyrbil</string>
+
+    <!-- New launch screen -->
+    <!-- Shop travel label -->
+    <string name="shop_travel">Boka resor</string>
+    <!-- Top deals tonight -->
+    <string name="nearby_deals_title">Populära hotell ikväll</string>
+    <!-- See all nearby deals -->
+    <string name="nearby_deals_expand">Se mer</string>
+    <!-- Percent off template, e.g. 50% off -->
+    <string name="percent_off_TEMPLATE">-%2.0f%%</string>
+    <!-- List loading header -->
+    <string name="loading_header">Hämtar…</string>
+    <!-- Hotel list rating text -->
+    <string name="hotel_rating_text">av 5 – gästbetyg</string>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="launch_mobile_exclusive">endast mobil!</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="launch_tonight_only">endast ikväll!</string>
+
 
     <!-- Launch screen -->
     <!-- Label for launch screen hotel button secondary text -->
@@ -413,6 +755,7 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Din %s-biljett kan lösas in från och med imorgon.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">Resplan redo</string>
+
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -652,71 +995,6 @@
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">Lägg till hotell</string>
 
-
-    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">Tala med en lokal expert</string>
-
-    <!-- Local Expert Sites -->
-    <!-- Name of Hawaii (for local expert) -->
-    <string name="site_hawaii">Hawaii</string>
-    <!-- Name of Orlando, FL (for local expert) -->
-    <string name="site_orlando">Orlando</string>
-    <!-- Name of Las Vegas (for local expert) -->
-    <string name="site_las_vegas">Las Vegas</string>
-
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
-    <string name="local_expert_title_TEMPLATE">Ha så kul i %1$s</string>
-    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">Din lokala expertconcierge är bara ett samtal\nbort om du behöver hjälp att planera och boka något under resans gång.</string>
-    <!-- Text for the button on Local Expert pages, to call the concierge -->
-    <string name="local_expert_call_button_text">Slå dem en signal</string>
-
-    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_first">Fantastiska</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_second">djur</string>
-    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_first">Se de bästa</string>
-    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_second">nöjesparkerna</string>
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Hitta de bästa</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_second">stränderna</string>
-    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_first">Ge dig ut på</string>
-    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_second">en helikopterfärd</string>
-    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_first">Hoppa i och</string>
-    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_second">prova på dykning</string>
-    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_first">Kasinon</string>
-    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_second">i världsklass</string>
-    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_first">Provkör</string>
-    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_second">en Ferrari</string>
-    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_first">Aktiviteter för</string>
-    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_second">hela familjen</string>
-    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_first">Fantastiska</string>
-    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_second">kulinariska upplevelser</string>
-    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">Hitta den bästa</string>
-    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_second">underhållningen</string>
-    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_first">Upptäck lokala</string>
-    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_second">musikartister</string>
-
     <!-- Car category -->
     <!-- Car category: mini -->
     <string name="car_category_mini">Minibil</string>
@@ -754,6 +1032,44 @@
     <string name="car_category_special">Specialbil</string>
     <!-- Car category: oversize -->
     <string name="car_category_oversize">Stor bil</string>
+
+    <!-- Car category for results and details screen -->
+    <!-- Car category: mini -->
+    <string name="car_category_result_mini">Mini</string>
+    <!-- Car category: economy -->
+    <string name="car_category_result_economy">Ekonomi</string>
+    <!-- Car category: compact -->
+    <string name="car_category_result_compact">Kompakt</string>
+    <!-- Car category: midize -->
+    <string name="car_category_result_midsize">Mellanstor</string>
+    <!-- Car category: standard -->
+    <string name="car_category_result_standard">Standard</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_result_fullsize">Normalstor</string>
+    <!-- Car category: premium -->
+    <string name="car_category_result_premium">Premium</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_result_luxury">Lyx</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_result_mini_elite">Mini elit</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_result_economy_elite">Ekonomi elit</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_result_compact_elite">Kompakt elit</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_result_midsize_elite">Mellanstor elit</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_result_standard_elite">Standard elit</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_result_fullsize_elite">Normalstor elit</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_result_premium_elite">Premium elit</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_result_luxury_elite">Lyx elit</string>
+    <!-- Car category: special -->
+    <string name="car_category_result_special">Special</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_result_oversize">Stor</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">2-dörrarsbil</string>
@@ -1240,6 +1556,8 @@
     <string name="slide_to_book_flight">dra för att boka flyg</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Ditt kort kommer att debiteras %1$s</string>
+    <!-- Cars amount due today without a required credit card -->
+    <string name="amount_due_today_TEMPLATE">Belopp att betala idag: %1$s</string>
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">Belopp att betala nu: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -1292,6 +1610,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">Totalbeloppet för din resa, inklusive resortavgiften på &lt;b&gt;%1$s&lt;/b&gt;, blir &lt;b&gt;%2$s&lt;/b&gt;. Du betalar hotellet den totala kostnaden för din bokning (i hotellets lokala valuta) under din vistelse.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Totalbeloppet för din resa, inklusive resortavgiften på &lt;b&gt;%1$s&lt;/b&gt;, blir &lt;b&gt;%2$s&lt;/b&gt;. Du betalar hotellet den resterande kostnaden för din bokning (i hotellets lokala valuta) under din vistelse.</string>
+    <!-- Flights AB Test Free Cancellation-->
+    <string name="ab_test_flights_free_cancellation">Gratis avbokning inom 24 timmar</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1399,6 +1719,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Kreditkortsnummer</string>
+    <!-- Security code (CVV) hint -->
+    <string name="cvv_hint">CVV</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Utgångsdatum</string>
     <!-- Set expiration date button -->
@@ -1455,6 +1777,8 @@
     <string name="middle_name">Mellannamn</string>
     <!-- Last name label -->
     <string name="last_name">Efternamn</string>
+    <!-- First and Last Name label -->
+    <string name="first_and_last_name">Förnamn och efternamn</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Födelsedatum</string>
     <!-- male -->
@@ -1574,6 +1898,8 @@
     <string name="air_attach_expires">Erbjudandet går ut om</string>
     <!-- Air attach offer expiration date -->
     <string name="air_attach_expiration_date_TEMPLATE">%d dagar</string>
+    <!-- Air attach expires today alert -->
+    <string name="air_attach_expires_today">Erbjudandet går ut idag</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">Lägg till hotell</string>
     <!-- Air attach add hotel button subtitle -->
@@ -1866,6 +2192,12 @@
     <string name="progress_finding_location">Söker nuvarande plats…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Söker hotell…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_message">Söker…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_working_hard">Vi letar upp de bästa hotellerbjudandena åt dig.</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_hundreds">Söker bland hundratals hotell åt dig…</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">Söker efter hotellet…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1918,6 +2250,8 @@
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">Boka nu</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now_ab_test">Välj rum</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Boka per telefon</string>
 
@@ -2864,7 +3198,7 @@
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
     <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, din bokning bokning är bekräftad! Se den i appen.</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
-    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">Din bokning bokning är nu bekräftad. Se den i appen.</string>
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">Din bokning är nu bekräftad. Se den i appen.</string>
 
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
@@ -3144,5 +3478,8 @@
 
     <!-- Mail intent chooser dialog title -->
     <string name="mailto_title">Skicka e-post…</string>
+
+    <!-- Template for generating textview clicks -->
+    <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
 
 </resources>

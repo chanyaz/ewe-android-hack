@@ -9,4 +9,24 @@
 
     <style name="RatingBar.UserReview.VSC"/>
 
+    <!-- Credit Card Edit Text on hotel checkout(textNoSuggestions) -->
+    <style name="CreditCardEditText">
+        <item name="android:hint">@string/name_on_card_hint</item>
+        <item name="android:inputType">textNoSuggestions</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Postal Code Section on hotel checkout(Invisible for VSC) -->
+    <style name="PostalCodeSection">
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="CouponEditText">
+        <item name="android:hint">@string/optional</item>
+        <item name="android:inputType">textFilter|textCapCharacters</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>

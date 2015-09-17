@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -149,11 +149,11 @@ public class HotelReceipt extends LinearLayout {
 		headerBitmapDrawable.setCornerRadius(getResources().getDimensionPixelSize(R.dimen.itin_card_corner_radius));
 		mHeaderImageView.setImageDrawable(headerBitmapDrawable);
 
-		Media media = HotelUtils.getRoomMedia(hotel);
+		HotelMedia hotelMedia = HotelUtils.getRoomMedia(hotel);
 		int placeholderResId = Ui.obtainThemeResID((Activity) getContext(), R.attr.skin_hotelImagePlaceHolderDrawable);
-		if (media != null) {
+		if (hotelMedia != null) {
 			new PicassoHelper.Builder(getContext()).setPlaceholder(placeholderResId)
-				.setTarget(headerBitmapDrawable.getCallBack()).build().load(media.getHighResUrls());
+				.setTarget(headerBitmapDrawable.getCallBack()).build().load(hotelMedia.getHighResUrls());
 		}
 		else {
 			headerBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), placeholderResId));
@@ -309,7 +309,7 @@ public class HotelReceipt extends LinearLayout {
 		else {
 			HotelReceiptExtraSection dueToExpediaRow = Ui
 				.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
-			String totalDueToExpediaToday = getResources().getString(R.string.total_due_to_expedia_today);
+			String totalDueToExpediaToday = getResources().getString(R.string.total_due_to_our_brand_today);
 			dueToExpediaRow.bind(totalDueToExpediaToday, rate.getTotalAmountAfterTax().getFormattedMoney());
 			mExtrasLayout.addView(dueToExpediaRow);
 		}
@@ -321,7 +321,7 @@ public class HotelReceipt extends LinearLayout {
 
 		HotelReceiptExtraSection dueToOurBrandRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
 		String totalDueToOurBrandToday = getResources().getString(R.string.total_due_to_our_brand_today);
-		dueToOurBrandRow.bind(totalDueToOurBrandToday, rate.getTotalAmountAfterTax().getFormattedMoney());
+		dueToOurBrandRow.bind(totalDueToOurBrandToday, rate.getDepositAmount().getFormattedMoney());
 
 		if (rate.getDepositAmount().isZero()) {
 			TextView labelView = (TextView) dueToOurBrandRow.findViewById(R.id.price_title);

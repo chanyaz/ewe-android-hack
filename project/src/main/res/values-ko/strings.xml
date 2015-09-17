@@ -2,6 +2,96 @@
 <resources>
 
     <!-- Cars -->
+    <!-- Cars Calendar Strings -->
+    <!-- Tooltip description for selecting the start date -->
+    <string name="cars_calendar_start_date_label">다음 단계: 반납 날짜 선택</string>
+    <!-- Tooltip description when both start and end dates are selected -->
+    <string name="cars_calendar_end_date_label">수정하려면 드래그하세요.</string>
+    <!-- SeekBar tooltip description for pick up time-->
+    <string name="cars_time_slider_pick_up_label">인수 시간</string>
+    <!-- SeekBar tooltip description for drop off time-->
+    <string name="cars_time_slider_drop_off_label">반납 시간</string>
+    <!-- Cars price templates-->
+    <string name="cars_hourly_text">시간당</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_text">일별</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_weekly_text">주별</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_monthly_text">월별</string>
+    <!-- Cars price templates-->
+    <string name="cars_total_template">총 합계 %s</string>
+    <!-- Text for cars promo codes-->
+    <string name="cars_promo_code">프로모션 코드</string>
+    <!-- Text for cars sort and filter-->
+    <string name="cars_sort_filter">정렬 및 필터</string>
+    <!-- Slide to reserve -->
+    <string name="cars_slider_text">밀어서 예약하기</string>
+    <!-- Text for checkout toolbar-->
+    <string name="cars_checkout_text">결제</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_dupe_trip_text">중복된 여행</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_session_timeout_text">세션 시간 초과</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_price_change_text">가격 변동됨</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_payment_failed_text">결제 실패함</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_invalid_input_text">잘못된 정보</string>
+    <!-- Text for generic error toolbar-->
+    <string name="cars_error_text">오류</string>
+    <!-- Text for reserving car-->
+    <string name="cars_reserve_text">예약</string>
+    <!-- Text for viewing details-->
+    <string name="cars_view_details_text">세부 정보 보기</string>
+    <!-- Text for driver details toolbar-->
+    <string name="cars_driver_details_text">운전자 정보</string>
+    <!-- Text for payment details toolbar-->
+    <string name="cars_payment_details_text">결제 정보</string>
+    <!-- Text for enter driver details-->
+    <string name="enter_driver_details">운전자 정보 입력</string>
+    <!-- Text for select saved contacts-->
+    <string name="cars_saved_contacts_text">저장된 연락처 선택</string>
+    <!-- Text for enter payment details-->
+    <string name="enter_payment_details">결제 정보 입력</string>
+    <!-- Template for selected credit card-->
+    <string name="selected_card_template">만료일: %s</string>
+    <!-- Template for car offer detail-->
+    <string name="car_offer_template">%s 또는 동급 차량</string>
+    <!-- Car doors text-->
+    <string name="car_doors_text">도어</string>
+    <!-- Car bags text-->
+    <string name="car_bags_text">짐</string>
+    <!-- Car automatic transmission text-->
+    <string name="car_auto_tran_text">자동 변속기</string>
+    <!-- Car manual transmission text-->
+    <string name="car_man_tran_text">수동 변속기</string>
+    <!-- Log in Text-->
+    <string name="cars_login_text">익스피디아에 로그인</string>
+
+    <!-- car result -->
+    <!-- car door range -->
+    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
+    <!-- car details template -->
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
+    <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="car_legal_TEMPLATE">이 예약을 완료함으로써 본인은 %1$s, %2$s 및 %3$s을 읽었으며 이를 수락하는 데 동의합니다.</string>
+
+    <!-- Cars Confirmation Screen -->
+    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
+    <string name="calendar_car_title_TEMPLATE">인수 위치 %1$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
+    <string name="calendar_car_location_TEMPLATE">%1$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_car_desc_itinerary_TEMPLATE">익스피디아 일정 번호: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
+    <string name="calendar_car_desc_support_TEMPLATE">익스피디아 고객 지원: %1$s 및 %2$s</string>
+    <!-- Showing local phone number in  car confirmation screen  -->
+    <string name="car_confirmation_local_support_TEMPLATE">현지 번호: %s</string>
+    <!-- Showing toll free phone number in  car confirmation screen  -->
+    <string name="car_confirmation_toll_free_support_TEMPLATE">무료 번호: %s</string>
+
     <!-- Car search label for pick-up time -->
     <string name="pick_up_time">인수 시간</string>
     <!-- Car search label for drop-off time-->
@@ -21,13 +111,97 @@
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">반납</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">반납 위치가 인수 위치와 같아야 합니다.</string>
+    <string name="drop_off_same_as_pick_up">제공 예정! 다음 버전에서는 타지점 반납의 편도 예약을 추가하도록 지금 열심히 준비 중입니다.</string>
     <!-- Error messge for missing Origin in search form -->
     <string name="error_missing_origin_param">출발지가 없습니다.</string>
     <!-- Error messge for missing Start date in search form -->
     <string name="error_missing_start_date_param">시작일이 없습니다.</string>
     <!-- Error messge for missing End date date in search form -->
     <string name="error_missing_end_date_param">완료일이 없습니다.</string>
+    <!-- Temporary String for general error message -->
+    <string name="error_car">오류가 발생했습니다. 검색 매개변수를 확인해 주세요.</string>
+    <!-- Car search error -->
+    <string name="error_car_search_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
+    <!-- Checkout -->
+    <!-- Car model templates-->
+    <string name="car_model_name_template">%1$s 또는 동급 차량</string>
+    <string name="car_model_unknown_template">정확한 모델 없음</string>
+
+    <string name="preparing_checkout_message">결제 준비 중…</string>
+    <!-- Desk & vehicle at terminal -->
+    <string name="desk_and_vehicle_terminal">터미널 내 데스크 및 차량</string>
+    <!-- Car checkout cost breakdown total due today -->
+    <string name="car_cost_breakdown_due_today">오늘 결제할 금액</string>
+    <!-- Car checkout cost breakdown total due at pick up -->
+    <string name="car_cost_breakdown_total_due">인수 시 결제할 금액</string>
+    <!-- Car checkout cost breakdown for alert button -->
+    <string name="car_cost_breakdown_button_text">완료</string>
+    <!-- Car checkout rental fare breakdown types -->
+    <!--Cost breakdown type base -->
+    <string name="car_rental_breakdown_base">렌터카</string>
+    <!--Cost breakdown type taxes and fees -->
+    <string name="car_rental_breakdown_taxes_and_fees">세금 및 수수료 예상액</string>
+    <!--Cost breakdown type insurance -->
+    <string name="car_rental_breakdown_insurance">보험</string>
+    <!--Cost breakdown type drop off charge -->
+    <string name="car_rental_breakdown_drop_off_charges">반납 요금</string>
+    <!-- Unlimited mileage -->
+    <string name="unlimited_mileage">무제한 마일리지</string>
+    <!-- Checkout confirmation message (temporary) -->
+    <string name="successful_checkout_TEMPLATE">일정 번호 %1$s</string>
+    <!-- Error message for some missing checkout params -->
+    <string name="error_missing_checkout_params">체크아웃 매개변수가 없습니다.</string>
+    <!--Adding hotel from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_hotel">%1$s 호텔</string>
+    <!--Adding flight from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_flight">%1$s행 항공편</string>
+    <!-- Car confirmation screen label -->
+    <string name="successful_checkout_pickup_label">인수 위치:</string>
+    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
+    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s -</string>
+    <!-- Car confirmation itin text -->
+    <string name="successful_checkout_email_label">일정이 전송된 수신 주소:</string>
+    <!-- Car confirmation directions text -->
+    <string name="car_confirmation_directions">%1$s까지의 길 안내</string>
+    <!-- Button label for calling customer support -->
+    <string name="call_customer_support">고객 지원에 연락</string>
+
+    <!-- Car error strings -->
+    <!-- Message for user that to verify pick-up date."  -->
+    <string name="pick_up_date_error">인수 날짜를 확인해 주세요.</string>
+    <!-- Message for user that pick-up time is too early."  -->
+    <string name="pick_up_time_error">인수 또는 반납 시간을 조정해 주세요.</string>
+    <!-- Message for user that to verify drop-off date."  -->
+    <string name="drop_off_date_error">반납 날짜를 확인해 주세요.</string>
+    <!-- Message for user  to choose a closer date.""  -->
+    <string name="drop_off_too_far_error">이 날짜는 너무 멉니다. 좀 더 가까운 날짜를 선택해 주세요.</string>
+    <!-- Message for user that date is too far out."  -->
+    <string name="date_out_of_range">이 날짜는 너무 멉니다. 좀 더 가까운 날짜를 선택해 주세요.</string>
+    <!-- Message for user that increase your reservation duration. -->
+    <string name="reservation_time_too_short">예약 기간을 늘려주세요.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_time_out">아직 계시나요? 세션이 초과되었습니다. 다시 검색해 주세요.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">잠시만요, 이 여행은 이미 예약하신 것 같네요. 여행 일정 또는 이메일을 확인해 보세요.</string>
+    <!-- Show to user when the price of a car they are trying to book has changed -->
+    <string name="reservation_price_change">고객님의 렌터카 가격이 변동되었습니다. 계속하려면 새 가격을 확인해 주세요.</string>
+    <!-- Show to user when the their traveler information is invalid -->
+    <string name="reservation_invalid_name">이름에는 숫자나 특수 문자가 포함되면 안 됩니다.</string>
+    <!-- Show to user when their phone number is invalid -->
+    <string name="reservation_invalid_phone">전화번호는 1~20자 길이여야 합니다.</string>
+
+    <!-- Shown to a user when there is an issue with their credit card -->
+    <string name="reservation_payment_failed">잠시만요… 결제가 제대로 되지 않았어요. 결제 세부 정보를 확인하고 다시 시도해 주세요.</string>
+    <!-- Payment failed button text that takes you back to checkout -->
+    <string name="payment_failed">결제하지 못했습니다.</string>
+    <!-- Price changed button text that takes you back to checkout -->
+    <string name="view_price_change">가격 변동 보기</string>
+    <!-- My Trips button that takes you to Itins -->
+    <string name="my_trips">내 여행</string>
+    <!-- Button text that takes you back to the payment widget to edit your payment -->
+    <string name="edit_payment">결제 정보 수정</string>
+    <!-- Button text that takes you back to the traveler info widget to edit your driver information -->
+    <string name="edit_info">정보 수정</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -59,9 +233,152 @@
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">공항 선택</string>
 
+    <!-- LX -->
+    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- Search widget header text -->
+    <string name="search_widget_heading">즐길거리 검색</string>
+    <!-- Search widget location hint -->
+    <string name="search_location_hint">위치 입력</string>
+    <!-- Error messge for missing Location in LX search form -->
+    <string name="lx_error_missing_location">위치 정보가 누락되었습니다.</string>
+    <!-- Error messge for missing start date in LX search form -->
+    <string name="lx_error_missing_start_date">날짜가 누락되었습니다.</string>
+    <!-- Button to show calendar and selected dates -->
+    <string name="select_lx_search_dates">날짜 선택</string>
+    <!-- Activity details highlights heading -->
+    <string name="highlights_activity_details">하이라이트</string>
+    <!-- Activity details description heading -->
+    <string name="description_activity_details">설명</string>
+    <!-- Activity details location heading -->
+    <string name="location_activity_details">위치</string>
+    <!-- Free cancellation message for LX activity -->
+    <string name="activity_free_cancellation">무료 취소</string>
+    <!-- Template for ticket details -->
+    <string name="ticket_details_template">%1$s, %2$s(%3$s)</string>
+    <!-- Template for ticket selection summary -->
+    <string name="offer_book_now_TEMPLATE">지금 예약! %1$s</string>
+    <!-- Template for tickets type and count  summary -->
+    <string name="ticket_summary_type_count_TEMPLATE">%2$s %1$s</string>
+    <!-- LX Ticket type names -->
+    <string name="ticket_type_traveler">여행객</string>
+    <string name="ticket_type_adult">어른</string>
+    <string name="ticket_type_child">아동</string>
+    <string name="ticket_type_infant">유아</string>
+    <string name="ticket_type_youth">청소년</string>
+    <string name="ticket_type_senior">고령자</string>
+    <string name="ticket_type_group">단체</string>
+    <string name="ticket_type_couple">커플</string>
+    <string name="ticket_type_two_adults">어른 2명</string>
+    <string name="ticket_type_military">군인</string>
+    <string name="ticket_type_student">학생</string>
+    <string name="ticket_type_sedan">세단</string>
+    <string name="ticket_type_minivan">미니밴</string>
+    <string name="ticket_type_water_taxi">수상 택시</string>
+    <string name="ticket_type_suv">SUV</string>
+    <string name="ticket_type_executive_car">이그제큐티브 차량</string>
+    <string name="ticket_type_luxury_car">럭셔리 차량</string>
+    <string name="ticket_type_limousine">리무진</string>
+    <string name="ticket_type_towncar">타운카</string>
+    <string name="ticket_type_vehicle_parking_spot">주차 공간</string>
+    <string name="ticket_type_book">책</string>
+    <string name="ticket_type_guide">가이드</string>
+    <string name="ticket_type_travel_card">관광 카드</string>
+    <string name="ticket_type_boat">보트</string>
+    <string name="ticket_type_motorcycle">오토바이</string>
+    <string name="ticket_type_ceremony">행사</string>
+    <string name="ticket_type_calling_card">전화 카드</string>
+    <string name="ticket_type_pass">패스</string>
+    <string name="ticket_type_minibus">미니버스</string>
+    <string name="ticket_type_helicopter">헬리콥터</string>
+    <string name="ticket_type_device">기기</string>
+    <string name="ticket_type_room">객실</string>
+    <string name="ticket_type_carriage">마차</string>
+    <string name="ticket_type_buggy">버기카</string>
+    <string name="ticket_type_atv">ATV</string>
+    <string name="ticket_type_jet_ski">제트스키</string>
+    <string name="ticket_type_scooter">스쿠터</string>
+    <string name="ticket_type_scooter_car">스쿠터카</string>
+    <string name="ticket_type_snowmobile">스노모빌</string>
+    <string name="ticket_type_day">일별</string>
+    <string name="ticket_type_bike">자전거</string>
+    <string name="ticket_type_week">주별</string>
+    <string name="ticket_type_subscription">구독</string>
+    <string name="ticket_type_electric_bike">전기자전거</string>
+    <string name="ticket_type_segway">세그웨이</string>
+    <string name="ticket_type_vehicle">차량</string>
+    <!-- Activity search results per ticket type -->
+    <string name="per_ticket_type_traveler">여행객 1명당</string>
+    <string name="per_ticket_type_adult">어른 1명당</string>
+    <string name="per_ticket_type_child">아동 1명당</string>
+    <string name="per_ticket_type_infant">유아 1명당</string>
+    <string name="per_ticket_type_youth">청소년 1명당</string>
+    <string name="per_ticket_type_senior">고령자 1명당</string>
+    <string name="per_ticket_type_group">단체 1팀당</string>
+    <string name="per_ticket_type_couple">커플 1쌍당</string>
+    <string name="per_ticket_type_two_adults">어른 2명당</string>
+    <string name="per_ticket_type_military">군인 1명당</string>
+    <string name="per_ticket_type_student">학생 1명당</string>
+    <string name="per_ticket_type_sedan">세단 1대당</string>
+    <string name="per_ticket_type_minivan">미니밴 1대당</string>
+    <string name="per_ticket_type_water_taxi">수상 택시 1대당</string>
+    <string name="per_ticket_type_suv">SUV 1대당</string>
+    <string name="per_ticket_type_executive_car">이그제큐티브 차량 1대당</string>
+    <string name="per_ticket_type_luxury_car">럭셔리 차량 1대당</string>
+    <string name="per_ticket_type_limousine">리무진 1대당</string>
+    <string name="per_ticket_type_towncar">타운카 1대당</string>
+    <string name="per_ticket_type_vehicle_parking_spot">주차 공간 1개당</string>
+    <string name="per_ticket_type_book">책 1권당</string>
+    <string name="per_ticket_type_guide">가이드 1명당</string>
+    <string name="per_ticket_type_travel_card">관광 카드 1개당</string>
+    <string name="per_ticket_type_boat">보트 1대당</string>
+    <string name="per_ticket_type_motorcycle">오토바이 1대당</string>
+    <string name="per_ticket_type_ceremony">행사 1회당</string>
+    <string name="per_ticket_type_calling_card">전화 카드 1개당</string>
+    <string name="per_ticket_type_pass">패스 1개당</string>
+    <string name="per_ticket_type_minibus">미니버스 1대당</string>
+    <string name="per_ticket_type_helicopter">헬리콥터 1대당</string>
+    <string name="per_ticket_type_device">기기 1개당</string>
+    <string name="per_ticket_type_room">객실 1개당</string>
+    <string name="per_ticket_type_carriage">마차 1대당</string>
+    <string name="per_ticket_type_buggy">버기카 1대당</string>
+    <string name="per_ticket_type_atv">ATV 1대당</string>
+    <string name="per_ticket_type_jet_ski">제트스키 1대당</string>
+    <string name="per_ticket_type_scooter">스쿠터 1대당</string>
+    <string name="per_ticket_type_scooter_car">스쿠터카 1대당</string>
+    <string name="per_ticket_type_snowmobile">스노모빌 1대당</string>
+    <string name="per_ticket_type_day">일당</string>
+    <string name="per_ticket_type_bike">자전거 1대당</string>
+    <string name="per_ticket_type_week">주당</string>
+    <string name="per_ticket_type_subscription">구독 1건당</string>
+    <string name="per_ticket_type_electric_bike">전기자전거 1대당</string>
+    <string name="per_ticket_type_segway">세그웨이 1대당</string>
+    <string name="per_ticket_type_vehicle">차량 1대당</string>
+
+    <!-- LX Strings -->
+    <!-- Slide to book -->
+    <string name="lx_slider_text">밀어서 예약하기</string>
+    <!-- Text for checkout toolbar-->
+    <string name="lx_checkout_text">예약하기</string>
+    <!-- Free cancellation -->
+    <string name="lx_free_cancellation">무료 취소</string>
+    <!-- Total with tax -->
+    <string name="lx_total_with_tax">세금 포함 총계</string>
+    <!-- Contact Details Toolbar -->
+    <string name="lx_contact_details">연락처 정보</string>
+    <!-- Enter contact details-->
+    <string name="lx_enter_contact_details">연락처 정보 입력</string>
+    <!-- LX search error -->
+    <string name="error_lx_search_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string> 	<!-- Offers show more string -->
+    <string name="lx_show_more_offers">더 보기</string>
+    <!-- Text for traveler details toolbar-->
+    <string name="lx_traveler_details_text">여행객 정보</string>
+    <!-- Text for enter traveler details-->
+    <string name="lx_traveler_enter_details_text">여행객 정보 입력</string>
+
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
-    <string name="Sort_and_Filter">정렬 &amp; 필터</string>
+    <string name="Sort_and_Filter">정렬 및 필터</string>
     <!-- "Done" list header label -->
     <string name="Done">완료</string>
     <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
@@ -137,6 +454,8 @@
     <string name="tablet_search_results_hotels_unavailable_tonight">죄송합니다. \n오늘밤 이용 가능한 호텔이 없습니다.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">죄송합니다. \n현재 이용 가능한 항공편이 없습니다.</string>
+    <!-- Tablet search results, no flights available due to invalid start date -->
+    <string name="flight_search_range_error_TEMPLATE">죄송합니다. 오늘을 기준으로 %1$s일을 초과하는 항공편은 검색할 수 없습니다.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">삭제됨</string>
     <!-- Label indicating how many items are being booked for the current trip -->
@@ -312,6 +631,8 @@
     <string name="unable_to_log_into_facebook">Facebook으로 로그인할 수 없습니다.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">로그인하지 못했습니다. 이메일과 비밀번호가 올바른 경우 앱의 국가 설정이 올바른지 확인해 주세요.</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">모든 익스피디아 사이트에 사용할 새로운 계정을 만들어 주세요.&lt;br&gt;아래의 \&apos;비밀번호를 잊으셨나요?\&apos; 링크를 이용해 비밀번호를 재설정해 주세요.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">익스피디아 비밀번호</string>
     <!-- Link accounts -->
@@ -344,6 +665,27 @@
     <string name="nav_flights">항공</string>
     <!-- Hotels -->
     <string name="nav_hotels">호텔</string>
+    <!-- Cars -->
+    <string name="nav_cars">렌터카</string>
+
+    <!-- New launch screen -->
+    <!-- Shop travel label -->
+    <string name="shop_travel">여행 예약</string>
+    <!-- Top deals tonight -->
+    <string name="nearby_deals_title">오늘 밤 인기 호텔</string>
+    <!-- See all nearby deals -->
+    <string name="nearby_deals_expand">더 보기</string>
+    <!-- Percent off template, e.g. 50% off -->
+    <string name="percent_off_TEMPLATE">-%2.0f%%</string>
+    <!-- List loading header -->
+    <string name="loading_header">로드 중…</string>
+    <!-- Hotel list rating text -->
+    <string name="hotel_rating_text">(5점 만점 – 고객 평점)</string>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="launch_mobile_exclusive">모바일 전용!</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="launch_tonight_only">오늘 밤 한정!</string>
+
 
     <!-- Launch screen -->
     <!-- Label for launch screen hotel button secondary text -->
@@ -413,6 +755,7 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">고객님의 %s 티켓은 내일부터 이용하실 수 있습니다.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">일정 준비 완료</string>
+
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -652,71 +995,6 @@
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">호텔 추가</string>
 
-
-    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">Local Expert에 문의</string>
-
-    <!-- Local Expert Sites -->
-    <!-- Name of Hawaii (for local expert) -->
-    <string name="site_hawaii">하와이</string>
-    <!-- Name of Orlando, FL (for local expert) -->
-    <string name="site_orlando">올랜도</string>
-    <!-- Name of Las Vegas (for local expert) -->
-    <string name="site_las_vegas">라스베이거스</string>
-
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
-    <string name="local_expert_title_TEMPLATE">%1$s 100배 즐기기!</string>
-    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">여행 계획과 관련하여 어떤 문제든지 전화 한 통이면 쉽게\nLocal Expert의 도움을 받으실 수 있습니다.</string>
-    <!-- Text for the button on Local Expert pages, to call the concierge -->
-    <string name="local_expert_call_button_text">언제든지 전화주세요!</string>
-
-    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_first">놀라운</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_second">자연의 세계</string>
-    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_first">지상 최고의</string>
-    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_second">테마파크</string>
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">지상 최고의</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_second">해변</string>
-    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_first">짜릿한</string>
-    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_second">헬리콥터 탑승</string>
-    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_first">신비한 바닷속</string>
-    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_second">스쿠버 다이빙</string>
-    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_first">행운 예감</string>
-    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_second">카지노</string>
-    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_first">럭셔리 라이드</string>
-    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_second">페라리</string>
-    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_first">함께하는</string>
-    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_second">온 가족 즐길거리</string>
-    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_first">꼭 맛봐야 하는</string>
-    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_second">현지 음식</string>
-    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">지상 최고의</string>
-    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_second">엔터테인먼트</string>
-    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_first">매력적인</string>
-    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_second">현지 음악</string>
-
     <!-- Car category -->
     <!-- Car category: mini -->
     <string name="car_category_mini">미니</string>
@@ -754,6 +1032,44 @@
     <string name="car_category_special">스페셜</string>
     <!-- Car category: oversize -->
     <string name="car_category_oversize">특대형</string>
+
+    <!-- Car category for results and details screen -->
+    <!-- Car category: mini -->
+    <string name="car_category_result_mini">미니</string>
+    <!-- Car category: economy -->
+    <string name="car_category_result_economy">소형</string>
+    <!-- Car category: compact -->
+    <string name="car_category_result_compact">중소형</string>
+    <!-- Car category: midize -->
+    <string name="car_category_result_midsize">중형</string>
+    <!-- Car category: standard -->
+    <string name="car_category_result_standard">표준</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_result_fullsize">대형</string>
+    <!-- Car category: premium -->
+    <string name="car_category_result_premium">프리미엄</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_result_luxury">고급대형</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_result_mini_elite">미니 엘리트</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_result_economy_elite">소형 엘리트</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_result_compact_elite">중소형 엘리트</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_result_midsize_elite">중형 엘리트</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_result_standard_elite">표준 엘리트</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_result_fullsize_elite">대형 엘리트</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_result_premium_elite">프리미엄 엘리트</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_result_luxury_elite">고급대형 엘리트</string>
+    <!-- Car category: special -->
+    <string name="car_category_result_special">스페셜</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_result_oversize">특대형</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">2도어 차량</string>
@@ -1240,6 +1556,8 @@
     <string name="slide_to_book_flight">밀어서 항공 예약하기</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">고객님의 신용카드로 %1$s의 금액이 청구됩니다.</string>
+    <!-- Cars amount due today without a required credit card -->
+    <string name="amount_due_today_TEMPLATE">오늘 결제할 금액: %1$s</string>
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">지금 결제할 금액: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -1292,6 +1610,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 포함하여 고객님 여행의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 총 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 포함하여 고객님 여행의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 나머지 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
+    <!-- Flights AB Test Free Cancellation-->
+    <string name="ab_test_flights_free_cancellation">예약 후 24시간 이내 무료 취소</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1399,6 +1719,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">신용카드 번호</string>
+    <!-- Security code (CVV) hint -->
+    <string name="cvv_hint">CVC</string>
     <!-- Expiration date label -->
     <string name="expiration_date">만료일</string>
     <!-- Set expiration date button -->
@@ -1455,6 +1777,8 @@
     <string name="middle_name">중간 이름(영문)</string>
     <!-- Last name label -->
     <string name="last_name">성(영문)</string>
+    <!-- First and Last Name label -->
+    <string name="first_and_last_name">이름 및 성</string>
     <!-- date of birth label -->
     <string name="date_of_birth">생년월일</string>
     <!-- male -->
@@ -1574,6 +1898,8 @@
     <string name="air_attach_expires">혜택 만료까지 남은 시간:</string>
     <!-- Air attach offer expiration date -->
     <string name="air_attach_expiration_date_TEMPLATE">%d일</string>
+    <!-- Air attach expires today alert -->
+    <string name="air_attach_expires_today">혜택이 오늘 만료됩니다!</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">호텔 추가</string>
     <!-- Air attach add hotel button subtitle -->
@@ -1866,6 +2192,12 @@
     <string name="progress_finding_location">현재 위치 찾는 중…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">호텔 검색 중…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_message">찾는 중이에요!</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_working_hard">고객님에게 딱 맞는 특가 호텔을 찾고 있어요.</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_hundreds">수백 개 호텔 중에서 찾는 중이에요!</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">호텔 검색 중…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1918,6 +2250,8 @@
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">지금 예약</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now_ab_test">객실 선택</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">전화로 예약</string>
 
@@ -3144,5 +3478,8 @@
 
     <!-- Mail intent chooser dialog title -->
     <string name="mailto_title">이메일 전송하기…</string>
+
+    <!-- Template for generating textview clicks -->
+    <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
 
 </resources>

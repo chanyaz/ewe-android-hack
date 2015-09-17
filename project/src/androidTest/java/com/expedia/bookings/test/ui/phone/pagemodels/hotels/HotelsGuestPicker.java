@@ -3,17 +3,21 @@ package com.expedia.bookings.test.ui.phone.pagemodels.hotels;
 import java.util.concurrent.atomic.AtomicReference;
 
 import android.content.res.Resources;
-
-import static com.expedia.bookings.test.ui.espresso.ViewActions.getString;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
-import static org.hamcrest.Matchers.allOf;
+import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
-import android.support.test.espresso.ViewInteraction;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.ui.espresso.ViewActions.getString;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Created by dmadan on 4/10/14.
@@ -22,8 +26,9 @@ public class HotelsGuestPicker extends ScreenActions {
 
 	private static final int SEARCH_BUTTON_ID = R.id.search_button;
 	private static final int INCREMENT_BUTTON_ID = R.id.increment;
-	private static final int ADULT_PICKER_VIEW_ID = R.id.adults_number_picker;
-	private static final int CHILD_PICKER_VIEW_ID = R.id.children_number_picker;
+	private static final int DECREMENT_BUTTON_ID = R.id.decrement;
+	public static final int ADULT_PICKER_VIEW_ID = R.id.adults_number_picker;
+	public static final int CHILD_PICKER_VIEW_ID = R.id.children_number_picker;
 	private static final int SELECT_CHILD_AGE_PLURAL_ID = R.plurals.select_each_childs_age;
 	private static final int NUMBER_OF_ADULTS_PLURAL_ID = R.plurals.number_of_adults_TEMPLATE;
 	private static final int NUMBER_OF_CHILDREN_PLURAL_ID = R.plurals.number_of_children;
@@ -44,11 +49,11 @@ public class HotelsGuestPicker extends ScreenActions {
 	}
 
 	public static void decrementChildrenButton() {
-		onView(allOf(withId(R.id.decrement), withParent(withId(R.id.children_number_picker)))).perform(click());
+		onView(allOf(withId(DECREMENT_BUTTON_ID), withParent(withId(R.id.children_number_picker)))).perform(click());
 	}
 
 	public static void decrementAdultsButton() {
-		onView(allOf(withId(R.id.decrement), withParent(withId(R.id.adults_number_picker)))).perform(click());
+		onView(allOf(withId(DECREMENT_BUTTON_ID), withParent(withId(R.id.adults_number_picker)))).perform(click());
 	}
 
 	public static String selectChildAgePlural(int quantity, Resources res) {
@@ -70,9 +75,37 @@ public class HotelsGuestPicker extends ScreenActions {
 		return stringValue;
 	}
 
+	public static void childPickerIncrementIsDisabled() {
+		onView(allOf(withId(INCREMENT_BUTTON_ID), withParent(withId(CHILD_PICKER_VIEW_ID)))).check(matches(
+			not(isEnabled())));
+	}
+
+	public static void adultPickerIncrementIsDisabled() {
+		onView(allOf(withId(INCREMENT_BUTTON_ID), withParent(withId(ADULT_PICKER_VIEW_ID)))).check(matches(
+			not(isEnabled())));
+	}
+
+	public static void childPickerDecrementIsDisabled() {
+		onView(allOf(withId(DECREMENT_BUTTON_ID), withParent(withId(CHILD_PICKER_VIEW_ID)))).check(matches(
+			not(isEnabled())));
+	}
+
+	public static void adultPickerDecrementIsDisabled() {
+		onView(allOf(withId(DECREMENT_BUTTON_ID), withParent(withId(ADULT_PICKER_VIEW_ID)))).check(matches(
+			not(isEnabled())));
+	}
+
+	public static void guestsIndicatorTextMatches(String expectedCount) {
+		onView(withId(R.id.guests_text_view)).check(matches(withText(expectedCount)));
+	}
+
+	public static ViewInteraction guestLayout() {
+		return onView(withId(R.id.refinements_layout));
+	}
+
 	// Object interaction
 
-	public void clickOnSearchButton() {
+	public static void clickOnSearchButton() {
 		(searchButton()).perform(click());
 	}
 }

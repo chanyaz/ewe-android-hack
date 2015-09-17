@@ -19,7 +19,9 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.leanplum.Leanplum;
@@ -60,6 +62,12 @@ public class LeanPlumUtils {
 		String deviceType = ExpediaBookingApp.useTabletInterface(mContext) ? "Tablet" : "Phone";
 		mUserAtrributes.put("DeviceType", deviceType);
 
+		boolean isUserLoggedIn = User.isLoggedIn(mContext);
+		mUserAtrributes.put("isUserLoggedIn", isUserLoggedIn);
+		if (isUserLoggedIn) {
+			mUserAtrributes.put("membershipTier", User.getLoggedInLoyaltyMembershipTier(mContext).toString());
+		}
+
 		LeanplumPushService.setGcmSenderId(PushNotificationUtils.SENDER_ID);
 		LeanplumPushService.setCustomizer(new LeanplumPushService.NotificationCustomizer() {
 			@Override
@@ -71,7 +79,6 @@ public class LeanPlumUtils {
 		});
 
 		Leanplum.setApplicationContext(mContext);
-		Leanplum.setUpdateCheckingEnabledInDevelopmentMode(false);
 		LeanplumActivityHelper.enableLifecycleCallbacks(app);
 		Leanplum.start(mContext, mUserAtrributes);
 		Parser.parseVariablesForClasses(LeanPlumFlags.class);
@@ -81,7 +88,7 @@ public class LeanPlumUtils {
 
 
 	public static void updatePOS() {
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			PointOfSale pos = PointOfSale.getPointOfSale();
 			mUserAtrributes.put("PosLocale", pos.getLocaleIdentifier());
 			mUserAtrributes.put("CountryCode", pos.getTwoLetterCountryCode());
@@ -93,20 +100,34 @@ public class LeanPlumUtils {
 		}
 	}
 
+	public static void updateLoggedInStatus() {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
+			boolean isUserLoggedIn = User.isLoggedIn(mContext);
+			mUserAtrributes.put("isUserLoggedIn", isUserLoggedIn);
+			if (isUserLoggedIn) {
+				mUserAtrributes.put("membershipTier", User.getLoggedInLoyaltyMembershipTier(mContext).toString());
+			}
+			Leanplum.setUserAttributes(mUserAtrributes);
+		}
+	}
+
 	public static void tracking(String eventName) {
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			Leanplum.track(eventName);
+			if (eventName.equalsIgnoreCase("Login")) {
+				updateLoggedInStatus();
+			}
 		}
 	}
 
 	private static void tracking(String eventName, HashMap eventParams) {
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			Leanplum.track(eventName, eventParams);
 		}
 	}
 
 	public static void trackHotelBooked(HotelSearchParams params, Property property, String orderNumber, String currency, double totalPrice, double avgPrice) {
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			String eventName = "Sale Hotel";
 			Log.i("LeanPlum hotel booking event currency=" + currency + " total=" + totalPrice);
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
@@ -131,7 +152,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void trackFlightBooked(FlightSearch search, String orderId, String currency, double totalPrice) {
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			FlightSearchParams params = search.getSearchParams();
 			String eventName = "Sale Flight";
 			Log.i("LeanPlum flight booking event currency=" + currency + " total=" + totalPrice);
@@ -166,7 +187,7 @@ public class LeanPlumUtils {
 
 	public static void trackHotelCheckoutStarted(HotelSearchParams params, Property property, String currency,
 		double totalPrice) {
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			String eventName = "Checkout Hotel Started";
 			Log.i("LeanPlum hotel checkout started currency=" + currency + " total=" + totalPrice);
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
@@ -189,7 +210,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void trackFlightCheckoutStarted(FlightSearch search, String currency, double totalPrice) {
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 
 			String eventName = "Checkout Flight Started";
 			Log.i("LeanPlum flight checkout started currency=" + currency + " total=" + totalPrice);
@@ -222,7 +243,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void trackHotelSearch() {
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 			String eventName = "Search Hotel";
 			Log.i("LeanPlum hotel search");
@@ -250,7 +271,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void trackFlightSearch() {
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
 			FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 			String destinationAirport = params.getArrivalLocation().getDestinationId();
 			String eventName = "Search Flight";
@@ -306,4 +327,3 @@ public class LeanPlumUtils {
 	};
 
 }
-

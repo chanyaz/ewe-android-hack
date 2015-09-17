@@ -71,7 +71,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	@Override
 	public int getViewTypeCount() {
-		return RowType.values().length;
+		return 1;
 	}
 
 	@Override

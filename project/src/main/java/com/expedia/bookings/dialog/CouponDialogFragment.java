@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
@@ -72,12 +71,6 @@ public class CouponDialogFragment extends DialogFragment {
 		View view = Ui.inflate(getActivity(), R.layout.dialog_coupon, null);
 		mProgressContainer = Ui.findView(view, R.id.progress_container);
 		mCouponEditText = Ui.findView(view, R.id.coupon_edit_text);
-
-		//1753. VSC Default to all caps character.
-		if (ExpediaBookingApp.IS_VSC) {
-			mCouponEditText.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER
-					| InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-		}
 
 		mCouponEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override

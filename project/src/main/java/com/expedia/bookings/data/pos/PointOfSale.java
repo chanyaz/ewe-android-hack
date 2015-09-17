@@ -33,7 +33,10 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.ResourceUtils;
@@ -115,6 +118,9 @@ public class PointOfSale {
 	// Flag for whether GDE is enabled
 	private boolean mSupportsGDE;
 
+	// Whether to show cars on this POS
+	private boolean mSupportsCars;
+
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
 
@@ -145,8 +151,14 @@ public class PointOfSale {
 	// Does this POS require FTC warnings to be shown on checkout?
 	private boolean mShouldShowFTCResortRegulations;
 
+	// Used to determine if this POS is disabled in Production App
+	private boolean mDisableForProduction;
+
 	// EAPID value and is used
 	private int mEAPID;
+
+	// Should we show strikethrough prices on half-width launch tiles for this POS?
+	private boolean mShowHalfTileStrikethroughPrice;
 
 	/**
 	 * There can be multiple different locales for a given POS.
@@ -326,6 +338,13 @@ public class PointOfSale {
 		return mSupportsGDE;
 	}
 
+	public boolean supportsCars() {
+		return mSupportsCars;
+	}
+
+	public boolean supportsStrikethroughPrice() {
+		return mShowHalfTileStrikethroughPrice;
+	}
 	/**
 	 * Helper method to determine if flights are enabled and if we need to even
 	 * kick off a flight search - TABLETS ONLY.
@@ -430,11 +449,16 @@ public class PointOfSale {
 	}
 
 	public boolean shouldShowAirAttach() {
-		return mShouldShowAirAttach;
+		// Show Air Attach on all POS that allow hotel cross-sell
+		return mShowHotelCrossSell;
 	}
 
 	public boolean shouldShowRewards() {
 		return mShouldShowRewards;
+	}
+
+	public boolean isDisabledForProduction() {
+		return mDisableForProduction;
 	}
 
 	/**
@@ -450,9 +474,8 @@ public class PointOfSale {
 	 * Return the hotel booking statement with all hyperlinks underlined and bolded.
 	 *
 	 * @param keepHyperLinks - If this is false, the hyperlinks will no longer be URLSpan types
-	 *
 	 * @return Stylized CharSequence
-	 **/
+	 */
 	public CharSequence getStylizedHotelBookingStatement(boolean keepHyperLinks) {
 		return getStylizedStatement(getPosLocale().mHotelBookingStatement, keepHyperLinks);
 	}
@@ -470,9 +493,8 @@ public class PointOfSale {
 	 * Return the flight booking statement with all hyperlinks underlined and bolded.
 	 *
 	 * @param keepHyperLinks - If this is false, the hyperlinks will no longer be URLSpan types
-	 *
 	 * @return Stylized CharSequence
-	 **/
+	 */
 	public CharSequence getStylizedFlightBookingStatement(boolean keepHyperLinks) {
 		if (!TextUtils.isEmpty(getPosLocale().mFlightBookingStatement)) {
 			return getStylizedStatement(getPosLocale().mFlightBookingStatement, keepHyperLinks);
@@ -582,48 +604,38 @@ public class PointOfSale {
 
 		String posSetting = SettingUtils.get(context, context.getString(R.string.PointOfSaleKey), null);
 		if (posSetting == null) {
-			// VSC default
-			if (ExpediaBookingApp.IS_VSC) {
-				sCachedPOS = PointOfSaleId.VSC;
-				savePos = true;
-			}
-			else {
-				// Get the default POS.  This is rare, thus we can excuse this excessive code.
-				Locale locale = Locale.getDefault();
-				String country = locale.getCountry().toLowerCase(Locale.ENGLISH);
-				String language = locale.getLanguage().toLowerCase(Locale.ENGLISH);
+			// Get the default POS.  This is rare, thus we can excuse this excessive code.
+			Locale locale = Locale.getDefault();
+			String country = locale.getCountry().toLowerCase(Locale.ENGLISH);
+			String language = locale.getLanguage().toLowerCase(Locale.ENGLISH);
 
-				for (PointOfSale posInfo : sPointOfSale.values()) {
-					for (String defaultLocale : posInfo.mDefaultLocales) {
-						defaultLocale = defaultLocale.toLowerCase(Locale.ENGLISH);
-						if (defaultLocale.endsWith(country) || defaultLocale.equals(language)) {
-							sCachedPOS = posInfo.mPointOfSale;
-							break;
-						}
-					}
+			EndPoint endPoint = Ui.getApplication(context).appComponent().endpointProvider().getEndPoint();
+			for (PointOfSale posInfo : sPointOfSale.values()) {
+				//Skip Non-Prod POS, if we are in PROD Environment
+				if (endPoint == EndPoint.PRODUCTION && posInfo.isDisabledForProduction()) {
+					continue;
+				}
 
-					if (sCachedPOS != null) {
+				for (String defaultLocale : posInfo.mDefaultLocales) {
+					defaultLocale = defaultLocale.toLowerCase(Locale.ENGLISH);
+					if (defaultLocale.endsWith(country) || defaultLocale.equals(language)) {
+						sCachedPOS = posInfo.mPointOfSale;
 						break;
 					}
 				}
 
-				// Default to US POS if nothing matches the user's locale && IS_TRAVELOCITY
-				if (sCachedPOS == null && ExpediaBookingApp.IS_TRAVELOCITY) {
-					sCachedPOS = PointOfSaleId.TRAVELOCITY;
+				if (sCachedPOS != null) {
+					break;
 				}
-				// Default to MY POS if nothing matches the user's locale && IS_AAG
-				else if (sCachedPOS == null && ExpediaBookingApp.IS_AAG) {
-					sCachedPOS = PointOfSaleId.AIRASIAGO_MALAYSIA;
-				}
-				// Default to UK POS if nothing matches the user's locale
-				else if (sCachedPOS == null) {
-					sCachedPOS = PointOfSaleId.UNITED_KINGDOM;
-				}
-
-				savePos = true;
-
-				Log.i("No POS set yet, chose " + sCachedPOS + " based on current locale: " + locale.toString());
 			}
+
+			if (sCachedPOS == null) {
+				sCachedPOS = ProductFlavorFeatureConfiguration.getInstance().getDefaultPOS();
+			}
+
+			savePos = true;
+
+			Log.i("No POS set yet, chose " + sCachedPOS + " based on current locale: " + locale.toString());
 		}
 		else {
 			try {
@@ -742,27 +754,15 @@ public class PointOfSale {
 		sPointOfSale.clear();
 
 		try {
-			InputStream is;
-			if (ExpediaBookingApp.IS_VSC) {
-				is = context.getAssets().open("ExpediaSharedData/VSCPointOfSaleConfig.json");
-			}
-			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				is = context.getAssets().open("ExpediaSharedData/TravelocityPointOfSaleConfig.json");
-			}
-			else if (ExpediaBookingApp.IS_AAG) {
-				is = context.getAssets().open("ExpediaSharedData/AirAsiaGoPointOfSaleConfig.json");
-			}
-			else {
-				is = context.getAssets().open("ExpediaSharedData/ExpediaPointOfSaleConfig.json");
-			}
+			InputStream is = context.getAssets()
+				.open(ProductFlavorFeatureConfiguration.getInstance().getPOSConfigurationPath());
 			String data = IoUtils.convertStreamToString(is);
 			JSONObject posData = new JSONObject(data);
 			Iterator<String> keys = posData.keys();
 			while (keys.hasNext()) {
 				String posName = keys.next();
-				PointOfSale pos = parsePointOfSale(context, posData.optJSONObject(posName));
+				PointOfSale pos = parsePointOfSale(context, posName, posData.optJSONObject(posName));
 				if (pos != null) {
-					pos.mTwoLetterCountryCode = posName.toLowerCase(Locale.ENGLISH);
 					sPointOfSale.put(pos.mPointOfSale, pos);
 
 					// For backwards compatibility
@@ -779,7 +779,7 @@ public class PointOfSale {
 		Log.i("Loaded POS data in " + (System.nanoTime() - start) / 1000000 + " ms");
 	}
 
-	private static PointOfSale parsePointOfSale(Context context, JSONObject data) throws JSONException {
+	private static PointOfSale parsePointOfSale(Context context, String posName, JSONObject data) throws JSONException {
 
 		PointOfSaleId pointOfSaleFromId = PointOfSaleId.getPointOfSaleFromId(data.optInt("pointOfSaleId"));
 		if (pointOfSaleFromId == null) {
@@ -791,6 +791,9 @@ public class PointOfSale {
 		// POS data
 		pos.mThreeLetterCountryCode = data.optString("countryCode", null);
 
+		//By default the POS Key represents Two Letter Country Code
+		//with provision of override via the "twoLetterCountryCode" element
+		pos.mTwoLetterCountryCode = (data.optString("twoLetterCountryCode", posName).toLowerCase(Locale.ENGLISH));
 		// Server access
 		pos.mUrl = data.optString("url", null);
 		pos.mTPID = data.optInt("TPID");
@@ -812,6 +815,7 @@ public class PointOfSale {
 		pos.mHideMiddleName = data.optBoolean("shouldHideMiddleName");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
 		pos.mSupportsGDE = data.optBoolean("gdeFlightsEnabled");
+		pos.mSupportsCars = data.optBoolean("carsEnabled");
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
@@ -820,6 +824,8 @@ public class PointOfSale {
 		pos.mShouldShowAirAttach = data.optBoolean("shouldShowAirAttach", false);
 		pos.mShouldShowRewards = data.optBoolean("shouldShowRewards", false);
 		pos.mShouldShowFTCResortRegulations = data.optBoolean("shouldShowFTCResortRegulations", false);
+		pos.mDisableForProduction = data.optBoolean("disableForProduction", false);
+		pos.mShowHalfTileStrikethroughPrice = data.optBoolean("launchScreenStrikethroughEnabled", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

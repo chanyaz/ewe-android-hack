@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.data.Money;
-import com.mobiata.android.json.JSONUtils;
+import com.expedia.bookings.utils.GsonUtil;
 
 public class TripPackage extends TripComponent {
 
@@ -54,7 +54,7 @@ public class TripPackage extends TripComponent {
 
 		try {
 			TripUtils.putTripComponents(obj, mTripComponents);
-			JSONUtils.putJSONable(obj, "total", mTotal);
+			GsonUtil.putForJsonable(obj, "total", mTotal);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -70,7 +70,7 @@ public class TripPackage extends TripComponent {
 		mTripComponents.addAll(TripUtils.getTripComponents(obj));
 		associatePackageWithComponents();
 
-		mTotal = JSONUtils.getJSONable(obj, "total", Money.class);
+		mTotal = GsonUtil.getForJsonable(obj, "total", Money.class);
 
 		return true;
 	}

@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -43,8 +44,6 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.LocalExpertSite;
-import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
@@ -54,16 +53,28 @@ import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.cars.CarCheckoutResponse;
+import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarTrackingData;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -231,7 +242,8 @@ public class OmnitureTracking {
 			}
 		}
 
-		trackAATest(s);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHSearchInfluenceMessagingTest);
 
 		// Send the tracking data
 		s.track();
@@ -249,12 +261,15 @@ public class OmnitureTracking {
 		// Promo description
 		s.setEvar(9, internalGenerateDRRString(context, property));
 
-		if (ExpediaBookingApp.IS_EXPEDIA && property.hasEtpOffer()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isETPEnabled() && property.hasEtpOffer()) {
 			s.setEvents("event5");
 		}
 
 		// Products
 		addProducts(s, property);
+
+		// Abacus ETP Test
+		trackAbacusTest(s, AbacusUtils.EBAndroidETPTest);
 
 		// Send the tracking data
 		s.track();
@@ -343,6 +358,15 @@ public class OmnitureTracking {
 
 		String drrString = internalGenerateDRRString(context, property);
 		s.setEvar(9, drrString);
+
+		// Abacus Hotel Book Now button placement
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHISBookAboveFoldTest);
+
+		// Abacus Hotel Info site Free cancellation confidence placement test
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHISFreeCancellationTest);
+
+		// Abacus Hotel Info site swipeable photos test
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHISSwipablePhotosTest);
 
 		// Send the tracking data
 		s.track();
@@ -1147,6 +1171,123 @@ public class OmnitureTracking {
 		createTrackLinkEvent(context, FLIGHT_INFANT_ALERT).track();
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// LX tracking
+	//
+	// Official Spec : https://confluence/display/Omniture/Mobile+App%3A+Local+Expert
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final String LX_LOB = "local expert";
+	public static final String LX_SEARCH = "App.LX.Search";
+	public static final String LX_DESTINATION_SEARCH = "App.LX.Dest-Search";
+	public static final String LX_INFOSITE_INFORMATION = "App.LX.Infosite.Information";
+	public static final String LX_CHECKOUT = "App.LX.Checkout.Payment";
+	public static final String LX_TICKET_SELECT = "App.LX.Ticket.Select";
+	public static final String LX_CHANGE_DATE = "App.LX.Info.DateChange";
+	public static final String LX_INFO = "LX_INFO";
+	public static final String LX_TICKET = "App.LX.Ticket.";
+
+	public static void trackAppLXSearch(Context context, LXSearchParams lxSearchParams, LXSearchResponse lxSearchResponse) {
+		// Start actually tracking the search result change
+		Log.d(TAG, "Tracking \"" + LX_SEARCH + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(context, LX_SEARCH);
+
+		// Destination
+		s.setProp(4, lxSearchResponse.regionId);
+		s.setEvar(4, "D=c4");
+
+		// Success event for Product Search, Local Expert Search
+		s.setEvents("event30,event56");
+
+		// prop and evar 5, 6
+		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
+
+		// Freeform location
+		if (!TextUtils.isEmpty(lxSearchParams.location)) {
+			s.setEvar(48, lxSearchParams.location);
+		}
+
+		// Number of search results
+		if (lxSearchResponse.activities.size() > 0) {
+			s.setProp(1, Integer.toString(lxSearchResponse.activities.size()));
+		}
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackAppLXSearchBox(Context context) {
+		Log.d(TAG, "Tracking \"" + LX_DESTINATION_SEARCH + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(context, LX_DESTINATION_SEARCH);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackAppLXProductInformation(Context context, ActivityDetailsResponse activityDetailsResponse, LXSearchParams lxSearchParams) {
+		Log.d(TAG, "Tracking \"" + LX_INFOSITE_INFORMATION + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(context, LX_INFOSITE_INFORMATION);
+
+		s.setEvents("event32");
+
+		s.setProducts("LX;Merchant LX:" + activityDetailsResponse.id);
+
+		// Destination
+		s.setProp(4, activityDetailsResponse.regionId);
+		s.setEvar(4, "D=c4");
+
+		// prop and evar 5, 6
+		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackLinkLXChangeDate(Context context) {
+		trackLinkLX(context, LX_CHANGE_DATE);
+	}
+
+	public static void trackLinkLXSelectTicket(Context context) {
+		trackLinkLX(context, LX_TICKET_SELECT);
+	}
+
+	public static void trackLinkLXAddRemoveTicket(Context context, String rffr) {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(LX_TICKET);
+		sb.append(rffr);
+		trackLinkLX(context, sb.toString());
+	}
+
+	public static void trackLinkLX(Context context, String rffr) {
+		Log.d(TAG, "Tracking \"" + LX_CHANGE_DATE + "\" Link..." + "RFFR : " + rffr);
+
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		s.setEvar(28, rffr);
+		s.setProp(16, rffr);
+		s.trackLink(null, "o", LX_INFO, null, null);
+	}
+
+	public static ADMS_Measurement internalTrackAppLX(Context context, String pageName) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.setAppState(pageName);
+		s.setEvar(17, pageName);
+
+		// LOB Search
+		s.setEvar(2, LX_LOB);
+		s.setProp(2, "D=c2");
+		return s;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Tablet-Specific Tracking
 	//
@@ -1213,15 +1354,15 @@ public class OmnitureTracking {
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
 
-		trackAATest(s);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
 
 		s.track();
 	}
 
-	private static void trackAATest(ADMS_Measurement s) {
-		boolean isTestLive = Db.getAbacusResponse().isTestLive(AbacusResponse.EBAndroidAATest);
-		String analyticsString = Db.getAbacusResponse().getAnalyticsString(AbacusResponse.EBAndroidAATest);
-		if (!TextUtils.isEmpty(analyticsString) && isTestLive) {
+	private static void trackAbacusTest(ADMS_Measurement s, String testKey) {
+		// Adds piping for multivariate AB Tests.
+		String analyticsString = AbacusResponse.appendString(s.getProp(34)) + Db.getAbacusResponse().getAnalyticsString(testKey);
+		if (!TextUtils.isEmpty(analyticsString)) {
 			s.setEvar(34, analyticsString);
 			s.setProp(34, analyticsString);
 		}
@@ -1719,7 +1860,6 @@ public class OmnitureTracking {
 	private static final String ITIN_ACTIVITY_INFO = "App.Itinerary.Activity.Info.Additional";
 	private static final String ITIN_ACTIVITY_SHARE_PREFIX = "App.Itinerary.Activity.Share.";
 	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
-	private static final String ITIN_LOCAL_EXPERT = "App.Itinerary.LocalExpert";
 
 	public static void trackItinEmpty(Context context) {
 		internalTrackPageLoadEventStandard(context, ITIN_EMPTY);
@@ -1871,19 +2011,11 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static void trackItin(Context context, String localExpertDests) {
+	public static void trackItin(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN);
 
 		addEvent15And16Maybe(context, s);
-
-		if (!TextUtils.isEmpty(localExpertDests)) {
-			s.setEvents(s.getEvents() + ",event6");
-
-			String rfrrId = "App.Itinerary.LocalExpert." + localExpertDests;
-			s.setProp(16, rfrrId);
-			s.setEvar(28, rfrrId);
-		}
 
 		s.track();
 	}
@@ -1988,38 +2120,6 @@ public class OmnitureTracking {
 
 	public static void trackItinActivityInfo(Context context) {
 		internalTrackLink(context, ITIN_ACTIVITY_INFO);
-	}
-
-	public static void trackItinLocalExpertHide(Context context, Destination destination) {
-		internalTrackLink(context, "App.Itinerary.LocalExpert." + destination.getTrackingId() + ".Hide");
-	}
-
-	public static void trackItinLocalExpertHideForever(Context context, Destination destination) {
-		internalTrackLink(context, "App.Itinerary.LocalExpert." + destination.getTrackingId() + ".NeverShowAgain");
-	}
-
-	public static void trackItinLocalExpertHideCancel(Context context, Destination destination) {
-		internalTrackLink(context, "App.Itinerary.LocalExpert." + destination.getTrackingId() + ".Cancel");
-	}
-
-	public static void trackLocalExpert(Context context, LocalExpertSite site) {
-		Log.d(TAG, "Tracking \"" + ITIN_LOCAL_EXPERT + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN_LOCAL_EXPERT);
-
-		s.setEvents("event7");
-
-		String rfrrId = "App.Itinerary.LocalExpert." + site.getTrackingId();
-		s.setProp(16, rfrrId);
-		s.setEvar(28, rfrrId);
-
-		s.track();
-	}
-
-	public static void trackLocalExpertCall(Context context, LocalExpertSite site) {
-		ADMS_Measurement s = createTrackLinkEvent(context, "App.Itinerary.LocalExpert." + site.getTrackingId()
-				+ ".Call");
-		s.setEvents("event8");
-		internalTrackLink(s);
 	}
 
 	private static void addEvent15And16Maybe(Context context, ADMS_Measurement s) {
@@ -2213,6 +2313,94 @@ public class OmnitureTracking {
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Tracking events for new launch screen
+	//
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String LAUNCH_SCREEN_LOB_NAVIGATION = "App.LS.Srch";
+	private static final String LAUNCH_SEARCH = "Launch.Search";
+	private static final String LAUNCH_DEALS_TILE = "App.LS.Promo";
+	private static final String LAUNCH_MESSAGING = "Launch.TopDeals.Hotel";
+	private static final String LAUNCH_GLOBAL = "App.Global";
+
+	private static final String HOTEL_LOB_NAVIGATION = "Hotel";
+	private static final String FLIGHT_LOB_NAVIGATION = "Flight";
+	private static final String CAR_LOB_NAVIGATION = "Car";
+
+	public static void trackNewLaunchScreenLobNavigation(Context context, LineOfBusiness lob) {
+		String lobString = "";
+		if (lob == LineOfBusiness.HOTELS) {
+			lobString = HOTEL_LOB_NAVIGATION;
+		}
+		else if (lob == LineOfBusiness.FLIGHTS) {
+			lobString = FLIGHT_LOB_NAVIGATION;
+		}
+		else if (lob == LineOfBusiness.CARS) {
+			lobString = CAR_LOB_NAVIGATION;
+		}
+		String link = LAUNCH_SCREEN_LOB_NAVIGATION + "." + lobString;
+
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		addStandardFields(context, s);
+
+		s.setEvar(12, LAUNCH_SEARCH + "." + lobString);
+		s.setEvar(28, link);
+		s.setProp(16, link);
+
+		s.trackLink(null, "o", "App Landing", null, null);
+	}
+
+	public static void trackNewLaunchScreenSeeAllClick(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addCommonLaunchScreenFields(context, s, LAUNCH_MESSAGING, "SeeAll");
+
+		s.trackLink(null, "o", "App Landing", null, null);
+	}
+
+	public static void trackNewLaunchScreenTileClick(Context context, boolean isLaunchCollection) {
+		String launchMessage = "";
+		if (isLaunchCollection) {
+			launchMessage = "Launch.StaffPick.Hotel";
+		}
+		else {
+			launchMessage = "Launch.TopDeals.Hotel";
+		}
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addCommonLaunchScreenFields(context, s, launchMessage, "DealTile");
+
+		s.trackLink(null, "o", "App Landing", null, null);
+	}
+
+	public static void trackNewLaunchScreenShopClick(Context context) {
+		trackNewLaunchScreenGlobalNavigation(context, "Shop");
+	}
+
+	public static void trackNewLaunchScreenTripsClick(Context context) {
+		trackNewLaunchScreenGlobalNavigation(context, "Trips");
+	}
+
+	private static void trackNewLaunchScreenGlobalNavigation(Context context, String type) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		addStandardFields(context, s);
+
+		s.setEvar(28, LAUNCH_GLOBAL + "." + type);
+		s.setProp(16, LAUNCH_GLOBAL + "." + type);
+		s.trackLink(null, "o", "App Landing", null, null);
+	}
+
+	private static void addCommonLaunchScreenFields(Context context, ADMS_Measurement s, String launchMessage,
+		String tileType) {
+		addStandardFields(context, s);
+
+		s.setEvar(28, LAUNCH_DEALS_TILE + "." + tileType);
+		s.setProp(16, LAUNCH_DEALS_TILE + "." + tileType);
+		s.setEvar(12, launchMessage);
 	}
 
 	public static void trackCrash(Context context, Throwable ex) {
@@ -2454,6 +2642,7 @@ public class OmnitureTracking {
 			s.setProp(9, priceChange);
 		}
 
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightCKOFreeCancelationTest);
 		return s;
 	}
 
@@ -2538,6 +2727,7 @@ public class OmnitureTracking {
 		String email = null;
 		String expediaId = null;
 		String rewardsStatus = null;
+		String tuid = null;
 		// If the user is logged in, we want to send their email address along with request
 		if (User.isLoggedIn(context)) {
 			// Load the user into the Db if it has not been done (which will most likely be the case on app launch)
@@ -2548,8 +2738,14 @@ public class OmnitureTracking {
 				email = Db.getUser().getPrimaryTraveler().getEmail();
 				expediaId = Db.getUser().getExpediaUserId();
 				rewardsStatus = getRewardsStatusString(Db.getUser());
+				tuid = Db.getUser().getTuidString();
 			}
 		}
+
+		if (!TextUtils.isEmpty(tuid)) {
+			s.setProp(14, tuid);
+		}
+
 		if (TextUtils.isEmpty(rewardsStatus)) {
 			rewardsStatus = "notRewardsMember";
 		}
@@ -2674,45 +2870,17 @@ public class OmnitureTracking {
 	}
 
 	private static String getReportSuiteIds(Context context) {
-		String id = "";
-		if (AndroidUtils.isRelease(context)) {
-			//for Travelocity we will only send data to 1 Omniture Report Suite
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				id = "tvlglobalapp";
-			}
-			//For Travelocity, VSC and AirAsiaGo
-			else {
-				id = "expediaglobalapp";
-			}
-
-			if (ExpediaBookingApp.IS_VSC) {
-				id += ",expedia7androidapp";
-			}
-		}
-		else {
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				id = "tvlglobalappdev";
-			}
-			else {
-				id = "expediaglobalappdev";
-			}
-
-			if (ExpediaBookingApp.IS_VSC) {
-				id += ",expedia7androidappdev";
-			}
-		}
-		return id;
+		return ProductFlavorFeatureConfiguration.getInstance().getOmnitureReportSuiteIds(context);
 	}
 
 	private static String getTrackingServer(Context context) {
-		if (EndPoint.getEndPoint(context) == EndPoint.CUSTOM_SERVER) {
+		EndPoint endpoint = Ui.getApplication(context).appComponent().endpointProvider().getEndPoint();
+		if (endpoint == EndPoint.CUSTOM_SERVER) {
 			return SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address), "localhost:3000");
 		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			return "om.travelocity.com";
+		else {
+			return ProductFlavorFeatureConfiguration.getInstance().getOmnitureTrackingServer();
 		}
-
-		return "om.expedia.com";
 	}
 
 	private static String md5(String s) {
@@ -2812,4 +2980,264 @@ public class OmnitureTracking {
 
 		return "Unknown";
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Car Tracking
+	//
+	// Spec: https://confluence/display/Omniture/Mobile+App%3A+Cars
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String CAR_LOB = "cars";
+	private static final String CAR_DATE_FORMAT = "HHmm";
+
+	private static final String CAR_DEST_SEARCH = "App.Cars.Dest-Search";
+	private static final String CAR_NO_RESULT = "App.Cars.NoResults";
+	private static final String CAR_SEARCH = "App.Cars.Search";
+	private static final String CAR_RATE_DETAIL = "App.Cars.RateDetails";
+	private static final String CAR_VIEW_DETAILS = "App.Cars.RD.ViewDetails";
+	private static final String CAR_VIEW_MAP = "App.Cars.RD.ViewMap";
+	private static final String CAR_CHECKOUT_PAGE = "App.Cars.Checkout.Info";
+	private static final String CAR_CHECKOUT_LOGIN = "App.Cars.Checkout.Login";
+	private static final String CAR_CHECKOUT_LOGIN_SUCCESS = "App.Cars.Checkout.Login.Success";
+	private static final String CAR_CHECKOUT_LOGIN_ERROR = "App.Cars.Checkout.Login.Error";
+	private static final String CAR_CHECKOUT_TRAVELER_INFO = "App.Cars.Checkout.Traveler.Edit.Info";
+	private static final String CAR_CHECKOUT_PAYMENT_INFO = "App.Cars.Checkout.Payment.Edit.Info";
+	private static final String CAR_CHECKOUT_SLIDE_TO_PURCHASE = "App.Cars.Checkout.SlideToPurchase";
+	private static final String CAR_CHECKOUT_CVV_SCREEN = "App.Cars.Checkout.Payment.CID";
+	private static final String CAR_CHECKOUT_CONFIRMATION = "App.Cars.Checkout.Confirmation";
+	private static final String CAR_CHECKOUT_CONFIRMATION_CROSS_SELL = "App.Cars.CKO.Confirm.Xsell";
+
+	public static void trackAppCarSearchBox(Context context) {
+		Log.d(TAG, "Tracking \"" + CAR_DEST_SEARCH + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(context, CAR_DEST_SEARCH);
+		s.track();
+	}
+
+	public static void trackAppCarNoResults(Context context, String errorMessage) {
+		Log.d(TAG, "Tracking \"" + CAR_NO_RESULT + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(context, CAR_NO_RESULT);
+		s.setProp(36, errorMessage);
+		s.track();
+	}
+
+	public static void trackAppCarSearch(Context context, CarSearchParams carSearchParams, int resultSize) {
+		Log.d(TAG, "Tracking \"" + CAR_SEARCH + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(context, CAR_SEARCH);
+
+		// Success event for Product Search, Local Expert Search
+		s.setEvents("event30,event54");
+
+		//Number of results
+		s.setProp(1, Integer.toString(resultSize));
+
+		//Search Origin
+		s.setEvar(3, "D=c3");
+		s.setProp(3, "CAR:" + carSearchParams.origin);
+
+		//Search Destination
+		s.setProp(4, "CAR:" + carSearchParams.origin);
+		s.setEvar(4, "D=c4");
+
+		setDateValues(s, carSearchParams.startDateTime.toLocalDate(), carSearchParams.endDateTime.toLocalDate());
+
+		s.setEvar(47, getEvar47String(carSearchParams));
+		s.setEvar(48, carSearchParams.originDescription);
+
+		s.track();
+	}
+
+	public static void trackAppCarRateDetails(Context context, SearchCarOffer mOffer) {
+		Log.d(TAG, "Tracking \"" + CAR_RATE_DETAIL + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(context, CAR_RATE_DETAIL);
+
+		s.setEvents("event4");
+		String evar38String = Strings.capitalizeFirstLetter(mOffer.vehicleInfo.category.toString()) + ":" + Strings
+			.capitalizeFirstLetter(mOffer.vehicleInfo.type.toString().replaceAll("_"," "));
+
+		s.setEvar(38, evar38String);
+
+		s.track();
+	}
+
+	public static void trackAppCarViewDetails(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.setEvar(28, CAR_VIEW_DETAILS);
+		s.setProp(16, CAR_VIEW_DETAILS);
+		s.trackLink(null, "o", "Car Details", null, null);
+	}
+
+	public static void trackAppCarMapClick(Context context) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.setEvar(28, CAR_VIEW_MAP);
+		s.setProp(16, CAR_VIEW_MAP);
+		s.trackLink(null, "o", "Car Details", null, null);
+	}
+
+	public static void trackAppCarCheckoutPage(Context context, CreateTripCarOffer carOffer) {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_PAGE + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(context, CAR_CHECKOUT_PAGE);
+
+		s.setEvents("event73");
+		s.setCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency());
+		s.track();
+	}
+
+	public static void trackAppCarLoginPage(Context context) {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_LOGIN + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		s.setAppState(CAR_CHECKOUT_LOGIN);
+		s.setEvar(18, CAR_CHECKOUT_LOGIN);
+		s.track();
+	}
+
+	public static void trackAppCarCheckoutLoginSuccess(Context context) {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_LOGIN_SUCCESS + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+
+		s.setEvar(28, CAR_CHECKOUT_LOGIN_SUCCESS);
+		s.setProp(16, CAR_CHECKOUT_LOGIN_SUCCESS);
+		s.setEvents("event26");
+
+		s.trackLink(null, "o", "User Login", null, null);
+
+	}
+
+	public static void trackAppCarCheckoutLoginError(Context context, String errorMessage) {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_LOGIN_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+
+		s.setEvar(28, CAR_CHECKOUT_LOGIN_ERROR);
+		s.setProp(16, CAR_CHECKOUT_LOGIN_ERROR);
+		s.setProp(36, "error");
+
+		s.trackLink(null, "o", "User Login", null, null);
+
+	}
+
+	public static void trackAppCarCheckoutTraveler(Context context) {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setAppState(CAR_CHECKOUT_TRAVELER_INFO);
+		s.track();
+
+	}
+
+	public static void trackAppCarCheckoutPayment(Context context) {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_PAYMENT_INFO + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		s.setAppState(CAR_CHECKOUT_PAYMENT_INFO);
+		s.setEvar(18, CAR_CHECKOUT_PAYMENT_INFO);
+		s.track();
+
+	}
+
+	public static void trackAppCarCheckoutSlideToPurchase(Context context, CreditCardType creditCardType) {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setAppState(CAR_CHECKOUT_SLIDE_TO_PURCHASE);
+		s.setEvar(18, CAR_CHECKOUT_SLIDE_TO_PURCHASE);
+		s.setEvar(37,
+			creditCardType != CreditCardType.UNKNOWN ? Strings.capitalizeFirstLetter(creditCardType.toString())
+				: context.getString(R.string.car_omniture_checkout_no_credit_card));
+		s.track();
+
+	}
+
+	public static void trackAppCarCheckoutCvvScreen(Context context) {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_CVV_SCREEN + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		s.setAppState(CAR_CHECKOUT_CVV_SCREEN);
+		s.setEvar(18, CAR_CHECKOUT_CVV_SCREEN);
+
+		s.track();
+
+	}
+
+	public static void trackAppCarCheckoutConfirmation(Context context, CarCheckoutResponse carCheckoutResponse) {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_CONFIRMATION + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(context, CAR_CHECKOUT_CONFIRMATION);
+		addStandardFields(context, s);
+
+		s.setEvents("purchase");
+		s.setCurrencyCode(carCheckoutResponse.totalChargesPrice.currencyCode);
+		s.setPurchaseID("onum" + carCheckoutResponse.orderId);
+		addProducts(s, carCheckoutResponse.newCarProduct, carCheckoutResponse.trackingData);
+		setEvar30(s, carCheckoutResponse);
+
+		s.setProp(71, carCheckoutResponse.newTrip.travelRecordLocator);
+		s.setProp(72, carCheckoutResponse.orderId);
+		s.track();
+
+	}
+
+	public static void trackAppCarCheckoutConfirmationCrossSell(Context context, LineOfBusiness lob) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.setEvar(12,
+			lob == LineOfBusiness.HOTELS ? "CrossSell.Cars.Confirm.Hotels" : "CrossSell.Cars.Confirm.Flights");
+		s.setEvar(28, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
+		s.setProp(16, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
+		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
+	}
+
+	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer, CarTrackingData carTrackingData) {
+		String duration = Integer
+			.toString(JodaUtils.daysBetween(carOffer.getPickupTime(), carOffer.getDropOffTime()) + 1);
+		s.setProducts(
+			"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackingData.sippCode + ";" + duration + ";"
+				+ carOffer.detailedFare.grandTotal.amount);
+	}
+
+	private static String getEvar47String(CarSearchParams params) {
+		StringBuilder sb = new StringBuilder("CAR|RT|");
+		SimpleDateFormat sdf = new SimpleDateFormat(CAR_DATE_FORMAT, Locale.US);
+		sb.append(sdf.format(params.startDateTime.toDate()));
+		sb.append("|");
+		sb.append(sdf.format(params.endDateTime.toDate()));
+		return sb.toString();
+	}
+
+	private static void setEvar30(ADMS_Measurement s, CarCheckoutResponse carCheckoutResponse) {
+		String pickUpLocation = carCheckoutResponse.newCarProduct.pickUpLocation.locationCode;
+		String dropOffLocation = carCheckoutResponse.newCarProduct.dropOffLocation.locationCode;
+
+		StringBuilder sb = new StringBuilder("Car: ");
+		sb.append(pickUpLocation).append('-');
+		sb.append(dropOffLocation);
+		sb.append(':');
+		sb.append(carCheckoutResponse.newCarProduct.getPickupTime().toLocalDate().toString(EVAR30_DATE_FORMAT));
+		sb.append('-')
+			.append(carCheckoutResponse.newCarProduct.getDropOffTime().toLocalDate().toString(EVAR30_DATE_FORMAT));
+
+
+		s.setEvar(30, sb.toString());
+	}
+
+	private static ADMS_Measurement internalTrackAppCar(Context context, String pageName) {
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+
+		s.setAppState(pageName);
+		s.setEvar(18, pageName);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, CAR_LOB);
+		return s;
+	}
+
 }

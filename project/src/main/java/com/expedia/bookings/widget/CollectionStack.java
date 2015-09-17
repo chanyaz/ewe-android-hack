@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.LaunchCollection;
@@ -181,31 +180,12 @@ public class CollectionStack extends FrameLayout {
 			int color = palette.getVibrantColor(R.color.transparent_dark);
 			mHeaderBitmapDrawable.setBitmap(bitmap);
 
-			int textColor;
-			int fullColor;
-			ColorBuilder fullColorBuilder;
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				fullColorBuilder = new ColorBuilder(
-					Ui.obtainThemeColor(getContext(), R.attr.skin_collection_overlay_static_color));
-				textColor = fullColorBuilder
-					.setOpacity(0.8f)
-					.setAlpha(224)
-					.build();
-				fullColor = fullColorBuilder.setAlpha(0.3f).build();
-			}
-			else {
-				fullColorBuilder = new ColorBuilder(color)
-					.darkenBy(0.3f);
-					textColor = new ColorBuilder(color)
-						.darkenBy(0.4f)
-						.setAlpha(224)
-						.build();
-					fullColor = fullColorBuilder.setAlpha(217).build();
-			}
+			ColorBuilder fullColorBuilder = new ColorBuilder(color).darkenBy(0.3f);
+			int fullColor = fullColorBuilder.setAlpha(217).build();
 
 			GradientDrawable textViewBackground = (GradientDrawable) getResources()
 				.getDrawable(R.drawable.bg_collection_title);
-			textViewBackground.setColor(textColor);
+			textViewBackground.setColor(fullColor);
 			GradientDrawable checkMarkViewBackground = (GradientDrawable) getResources()
 				.getDrawable(R.drawable.selected_tile_overlay);
 			checkMarkViewBackground.setColor(fullColor);

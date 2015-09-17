@@ -10,8 +10,10 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.support.test.espresso.matcher.BoundedMatcher;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,7 +21,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.data.Property;
-import android.support.test.espresso.matcher.BoundedMatcher;
 
 import static com.android.support.test.deps.guava.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.equalTo;
@@ -159,4 +160,24 @@ public class CustomMatchers {
 			}
 		};
 	}
+
+	public static Matcher<View> withFirstChildOf(final Matcher<View> parentMatcher) {
+		return new TypeSafeMatcher<View>() {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("with first child view of type parentMatcher");
+			}
+
+			@Override
+			public boolean matchesSafely(View view) {
+				if (!(view.getParent() instanceof ViewGroup)) {
+					return parentMatcher.matches(view.getParent());
+				}
+				ViewGroup group = (ViewGroup) view.getParent();
+				return parentMatcher.matches(view.getParent()) && group.getChildAt(0).equals(view);
+
+			}
+		};
+	}
+
 }

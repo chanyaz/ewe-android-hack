@@ -15,7 +15,7 @@ public class CarVendor implements JSONable {
 	private String mTollFreePhone;
 	private String mLocalPhone;
 
-	private Media mLogo;
+	private HotelMedia mLogo;
 
 	public String getCode() {
 		return mCode;
@@ -41,11 +41,11 @@ public class CarVendor implements JSONable {
 		mLongName = longName;
 	}
 
-	public Media getLogo() {
+	public HotelMedia getLogo() {
 		return mLogo;
 	}
 
-	public void setLogo(Media logo) {
+	public void setLogo(HotelMedia logo) {
 		mLogo = logo;
 	}
 
@@ -96,7 +96,7 @@ public class CarVendor implements JSONable {
 		mTollFreePhone = obj.optString("tollFreePhone", null);
 		mLocalPhone = obj.optString("localPhone", null);
 
-		mLogo = JSONUtils.getJSONable(obj, "logo", Media.class);
+		mLogo = JSONUtils.getJSONable(obj, "logo", HotelMedia.class);
 
 		return true;
 	}

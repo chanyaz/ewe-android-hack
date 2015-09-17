@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +35,13 @@ public class AboutWebViewActivity extends WebViewActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
 
+		if (shouldBail()) {
+			return;
+		}
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
 
@@ -78,6 +85,10 @@ public class AboutWebViewActivity extends WebViewActivity {
 
 	private void sendSupportEmail() {
 		SocialUtils.email(this, getString(R.string.email_app_support), "", DebugInfoUtils.generateEmailBody(this));
+	}
+
+	private boolean shouldBail() {
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 }

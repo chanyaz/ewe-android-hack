@@ -63,6 +63,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
+	private static final String INSTANCE_WAS_LOGGED_IN = "INSTANCE_WAS_LOGGED_IN";
 
 	private BillingInfo mBillingInfo;
 
@@ -83,18 +84,23 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	//When we last refreshed user data.
 	private long mRefreshedUserTime = 0L;
+	private boolean mWasLoggedIn = false;
 
 	private CheckoutInformationListener mListener;
+	private LoginFragment.LogInListener mLogInListener;
 
 	public static FlightCheckoutFragment newInstance() {
 		return new FlightCheckoutFragment();
 	}
+
+
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		if (activity instanceof CheckoutInformationListener) {
 			mListener = (CheckoutInformationListener) activity;
+			mLogInListener = (LoginFragment.LogInListener) activity;
 		}
 		else {
 			throw new RuntimeException(
@@ -108,10 +114,12 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		if (savedInstanceState != null) {
 			mRefreshedUserTime = savedInstanceState.getLong(INSTANCE_REFRESHED_USER_TIME);
+			mWasLoggedIn = savedInstanceState.getBoolean(INSTANCE_WAS_LOGGED_IN);
 		}
 		else {
 			// Reset Google Wallet state each time we get here
 			Db.clearGoogleWallet();
+			mWasLoggedIn = User.isLoggedIn(getActivity());
 		}
 	}
 
@@ -218,6 +226,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		super.onSaveInstanceState(outState);
 
 		outState.putLong(INSTANCE_REFRESHED_USER_TIME, mRefreshedUserTime);
+		outState.putBoolean(INSTANCE_WAS_LOGGED_IN, mWasLoggedIn);
 	}
 
 	@Override
@@ -278,6 +287,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 					if (!bd.isDownloading(KEY_REFRESH_USER)) {
 						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
 					}
+				}
+				Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
+				if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+					Db.getTripBucket().getFlight().getFlightTrip().setRewardsPoints("");
 				}
 				mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.FLIGHTS);
 			}
@@ -612,18 +625,26 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			Db.getTripBucket().getFlight().getFlightTrip().setShowFareWithCardFee(false);
 		}
 		mListener.onBillingInfoChange();
+		mWasLoggedIn = false;
 	}
 
 	public void onLoginCompleted() {
-		mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.FLIGHTS);
-		mRefreshedUserTime = System.currentTimeMillis();
+		Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
+		if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+			mLogInListener.onLoginCompleted();
+			mWasLoggedIn = true;
+		}
+		else {
+			mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.FLIGHTS);
+			mRefreshedUserTime = System.currentTimeMillis();
 
-		populateTravelerData();
-		populatePaymentDataFromUser();
-		BookingInfoUtils.populateTravelerDataFromUser(getActivity(), LineOfBusiness.FLIGHTS);
-		buildTravelerBox();
-		bindAll();
-		updateViewVisibilities();
+			populateTravelerData();
+			populatePaymentDataFromUser();
+			BookingInfoUtils.populateTravelerDataFromUser(getActivity(), LineOfBusiness.FLIGHTS);
+			buildTravelerBox();
+			bindAll();
+			updateViewVisibilities();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

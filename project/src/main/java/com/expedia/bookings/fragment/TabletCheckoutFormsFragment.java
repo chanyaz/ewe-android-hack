@@ -77,7 +77,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	IStateProvider<CheckoutFormState>,
 	ICheckoutDataListener,
 	IFragmentAvailabilityProvider,
-	CheckoutLoginButtonsFragment.ILoginStateChangedListener,
 	IWalletButtonStateChangedListener,
 	TabletCheckoutDataFormFragment.ICheckoutDataFormListener,
 	CheckoutLoginButtonsFragment.IWalletCouponListener,
@@ -900,7 +899,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mStateListeners.unRegisterStateListener(listener);
 	}
 
-	@Override
 	public void onLoginStateChanged() {
 		mTravelerForm.onLoginStateChanged();
 		mPaymentForm.onLoginStateChanged();

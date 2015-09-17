@@ -28,6 +28,7 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -134,7 +135,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 							msg = R.string.hotel_card_not_supported_TEMPLATE;
 						}
 
-						String typeName = type.getHumanReadableName(mContext);
+						String typeName = CreditCardUtils.getHumanReadableName(mContext, type);
 						text = mContext.getString(msg, typeName);
 					}
 					else {
@@ -266,7 +267,8 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 							if (mLob == LineOfBusiness.HOTELS) {
 								msg = R.string.hotel_card_fee_select_TEMPLATE;
 							}
-							String text = mContext.getString(msg, feeText, CreditCardType.getHumanReadableCardTypeName(mContext, type));
+							String cardName = CreditCardUtils.getHumanReadableCardTypeName(mContext, type);
+							String text = mContext.getString(msg, feeText, cardName);
 
 							FragmentActivity fa = (FragmentActivity) mContext;
 							SimpleSupportDialogFragment df = SimpleSupportDialogFragment.newInstance(null, text);

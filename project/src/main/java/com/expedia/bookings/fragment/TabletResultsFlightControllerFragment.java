@@ -40,6 +40,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
@@ -213,6 +214,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 		else if (mFlightsStateManager != null && mFlightsStateManager.getState() == ResultsFlightsState.ZERO_RESULT) {
 			return ResultsFlightsState.ZERO_RESULT;
+		}
+		else if (mFlightsStateManager != null && mFlightsStateManager.getState() == ResultsFlightsState.INVALID_START_DATE) {
+			return ResultsFlightsState.INVALID_START_DATE;
 		}
 		else if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
 			return ResultsFlightsState.FLIGHT_LIST_DOWN;
@@ -867,6 +871,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			flightResponse.addError(serverError);
 		}
 
+		if (!FlightUtils.dateRangeSupportsFlightSearch(getActivity())) {
+			setFlightsState(ResultsFlightsState.INVALID_START_DATE, false);
+			return;
+		}
 		Db.getFlightSearch().setSearchResponse(flightResponse);
 
 		boolean isBadResponse = flightResponse.hasErrors();

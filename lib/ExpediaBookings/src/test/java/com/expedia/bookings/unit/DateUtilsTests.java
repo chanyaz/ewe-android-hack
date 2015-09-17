@@ -1,5 +1,6 @@
 package com.expedia.bookings.unit;
 
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -64,4 +65,23 @@ public class DateUtilsTests {
 		assertEquals("2014/12/31 04:15", DateUtils.convertMilliSecondsForLogging(data));
 	}
 
+	@Test
+	public void testyyyyMMddToLocalDate() {
+		String localDateStringRepresentation = "2015-01-31";
+		LocalDate localDateExpected = new LocalDate(2015, 1, 31);
+
+		LocalDate obtained = DateUtils.yyyyMMddToLocalDate(localDateStringRepresentation);
+
+		assertEquals(obtained, localDateExpected);
+	}
+
+	@Test
+	public void testyyyyMMddHHmmssToLocalDate() {
+		String localDateStringRepresentation = "2015-01-31 10:00:00";
+		LocalDate localDateExpected = new LocalDate(2015, 1, 31);
+
+		LocalDate obtained = DateUtils.yyyyMMddHHmmssToLocalDate(localDateStringRepresentation);
+
+		assertEquals(obtained, localDateExpected);
+	}
 }

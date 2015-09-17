@@ -25,7 +25,9 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.dialog.HotelErrorDialog;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
@@ -64,6 +66,8 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		super.onAttach(activity);
 
 		mListener = Ui.findFragmentListener(this, RoomsAndRatesFragmentListener.class);
+		mLastCheckedItem = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidETPTest) ?
+			R.id.radius_pay_later : R.id.radius_pay_now;
 	}
 
 	@Override
@@ -125,9 +129,11 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 
 		mListener.onRateSelected(getItem(position));
 
-		// Track room clicked with the type of payment i.e. pay now/later.
-		Rate rate = getItem(position);
-		OmnitureTracking.trackHotelETPRoomSelected(getActivity(), rate.isPayLater());
+		// Track room clicked with the type of payment i.e. pay now/later. and fire only if user have the option
+		if (mPayGroup.getVisibility() == View.VISIBLE) {
+			Rate rate = getItem(position);
+			OmnitureTracking.trackHotelETPRoomSelected(getActivity(), rate.isPayLater());
+		}
 
 		mAdapter.setSelectedPosition(position);
 		mAdapter.notifyDataSetChanged();
@@ -241,9 +247,9 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		}
 
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		boolean isETPAvailable = ExpediaBookingApp.IS_EXPEDIA && property.hasEtpOffer();
+		boolean isETPAvailable = ProductFlavorFeatureConfiguration.getInstance().isETPEnabled() && property.hasEtpOffer();
 		mPayGroup.setVisibility(isETPAvailable ? View.VISIBLE : View.GONE);
-		mPayGroup.check(mLastCheckedItem);
+		mPayGroup.check(mLastCheckedItem = isETPAvailable ? mLastCheckedItem : R.id.radius_pay_now);
 
 		//Set up sticky header
 		isStickyHeader = renovationNoticeDisplayed && resortFeesNoticeDisplayed;
@@ -251,7 +257,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		mNoticeContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				mNoticeContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				Ui.removeOnGlobalLayoutListener(mNoticeContainer, this);
 				LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mHeaderPlaceholder.getLayoutParams();
 				params.height = mNoticeContainer.getHeight() + mStickyHeader.getHeight();
 				mHeaderPlaceholder.setLayoutParams(params);

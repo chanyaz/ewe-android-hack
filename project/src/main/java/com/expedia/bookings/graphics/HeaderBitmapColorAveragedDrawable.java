@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.graphics.Palette;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.utils.ColorBuilder;
 import com.squareup.picasso.Picasso;
@@ -16,6 +15,7 @@ public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 	private boolean mOverlayEnabled = false;
 	private float mOverlayAlpha = 1f;
 	private ColorDrawable mOverlay;
+	private int mDefaultOverlayColor;
 
 	public HeaderBitmapColorAveragedDrawable() {
 		super();
@@ -30,6 +30,10 @@ public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 	public void disableOverlay() {
 		mOverlayEnabled = false;
 		setOverlayDrawable(null);
+	}
+
+	public void setDefaultOverlayColor(int defaultOverlayColor) {
+		mDefaultOverlayColor = defaultOverlayColor;
 	}
 
 	/**
@@ -60,9 +64,10 @@ public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 
 			if (bitmap != null) {
 				Palette palette = Palette.generate(bitmap);
-				int avgColor = palette.getVibrantColor(R.color.transparent_dark);
-				ColorBuilder builder = new ColorBuilder(avgColor).darkenBy(0.2f);
-				mOverlay = new ColorDrawable(builder.build());
+				int mutedColor = palette.getMutedColor(mDefaultOverlayColor);
+				int color = new ColorBuilder(mutedColor).darkenBy(0.3f).build();
+
+				mOverlay = new ColorDrawable(color);
 				setOverlayAlpha(mOverlayAlpha);
 				setOverlayDrawable(mOverlayEnabled ? mOverlay : null);
 			}

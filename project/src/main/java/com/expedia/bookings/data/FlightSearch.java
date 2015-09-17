@@ -340,6 +340,7 @@ public class FlightSearch implements JSONable {
 					}
 				}
 				mNumberOfStops = new ArrayList<Integer>(stopsSet);
+				Collections.sort(mNumberOfStops);
 
 				// Filter results (if user called for it)
 				FlightFilter filter = getFilter(mLegPosition);

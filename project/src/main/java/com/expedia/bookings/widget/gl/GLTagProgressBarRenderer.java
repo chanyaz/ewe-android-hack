@@ -735,19 +735,8 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 			gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_REPLACE);
 
-			InputStream is = context.getResources().openRawResource(resourceId);
-			Bitmap bitmap;
-			try {
-				bitmap = BitmapFactory.decodeStream(is, null, sBitmapOptions);
-			}
-			finally {
-				try {
-					is.close();
-				}
-				catch (IOException e) {
-					// Ignore.
-				}
-			}
+			// use decodeResource since we use scaledDensity everywhere for calculations
+			Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, sBitmapOptions);
 
 			GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 

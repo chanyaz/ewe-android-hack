@@ -34,6 +34,10 @@ public class HotelsDetailsScreen extends ScreenActions {
 		return onView(withId(BOOK_NOW_BUTTON_ID));
 	}
 
+	public static ViewInteraction bookByPhoneButton() {
+		return onView(withId(R.id.book_by_phone_button));
+	}
+
 	public static ViewInteraction reviewsTitle() {
 		return onView(withId(REVIEWS_TITLE_VIEW_ID));
 	}
@@ -82,6 +86,10 @@ public class HotelsDetailsScreen extends ScreenActions {
 
 	public static void clickVIPImageView() {
 		(vipImageView()).perform(click());
+	}
+
+	public static void clickBookNowPayLater() {
+		onView(withId(R.id.pay_later_info_text)).perform(click());
 	}
 
 }

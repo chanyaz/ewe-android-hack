@@ -2,6 +2,96 @@
 <resources>
 
     <!-- Cars -->
+    <!-- Cars Calendar Strings -->
+    <!-- Tooltip description for selecting the start date -->
+    <string name="cars_calendar_start_date_label">Tiếp: Chọn ngày trả xe</string>
+    <!-- Tooltip description when both start and end dates are selected -->
+    <string name="cars_calendar_end_date_label">Kéo để thay đổi</string>
+    <!-- SeekBar tooltip description for pick up time-->
+    <string name="cars_time_slider_pick_up_label">Giờ nhận xe</string>
+    <!-- SeekBar tooltip description for drop off time-->
+    <string name="cars_time_slider_drop_off_label">Giờ trả xe</string>
+    <!-- Cars price templates-->
+    <string name="cars_hourly_text">mỗi giờ</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_text">mỗi ngày</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_weekly_text">mỗi tuần</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_monthly_text">mỗi tháng</string>
+    <!-- Cars price templates-->
+    <string name="cars_total_template">Tổng cộng %s</string>
+    <!-- Text for cars promo codes-->
+    <string name="cars_promo_code">Mã giảm giá</string>
+    <!-- Text for cars sort and filter-->
+    <string name="cars_sort_filter">Sắp xếp &amp; Lọc</string>
+    <!-- Slide to reserve -->
+    <string name="cars_slider_text">Kéo để đặt</string>
+    <!-- Text for checkout toolbar-->
+    <string name="cars_checkout_text">Thanh toán</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_dupe_trip_text">Chuyến đi trùng</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_session_timeout_text">Hết hạn truy cập phiên</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_price_change_text">Giá thay đổi</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_payment_failed_text">Thanh toán không thành công</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_invalid_input_text">Thông tin không hợp lệ</string>
+    <!-- Text for generic error toolbar-->
+    <string name="cars_error_text">Lỗi</string>
+    <!-- Text for reserving car-->
+    <string name="cars_reserve_text">Đặt</string>
+    <!-- Text for viewing details-->
+    <string name="cars_view_details_text">Xem chi tiết</string>
+    <!-- Text for driver details toolbar-->
+    <string name="cars_driver_details_text">Thông tin người lái xe</string>
+    <!-- Text for payment details toolbar-->
+    <string name="cars_payment_details_text">Chi tiết thanh toán</string>
+    <!-- Text for enter driver details-->
+    <string name="enter_driver_details">Nhập thông tin người lái xe</string>
+    <!-- Text for select saved contacts-->
+    <string name="cars_saved_contacts_text">Chọn từ thông tin đã lưu</string>
+    <!-- Text for enter payment details-->
+    <string name="enter_payment_details">Nhập chi tiết thanh toán</string>
+    <!-- Template for selected credit card-->
+    <string name="selected_card_template">Hết hạn %s</string>
+    <!-- Template for car offer detail-->
+    <string name="car_offer_template">%s hoặc tương tự</string>
+    <!-- Car doors text-->
+    <string name="car_doors_text">Cửa</string>
+    <!-- Car bags text-->
+    <string name="car_bags_text">Túi</string>
+    <!-- Car automatic transmission text-->
+    <string name="car_auto_tran_text">Số tự động</string>
+    <!-- Car manual transmission text-->
+    <string name="car_man_tran_text">Số tay (số sàn)</string>
+    <!-- Log in Text-->
+    <string name="cars_login_text">Đăng nhập Expedia</string>
+
+    <!-- car result -->
+    <!-- car door range -->
+    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
+    <!-- car details template -->
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
+    <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="car_legal_TEMPLATE">Bằng việc hoàn tất quy trình đặt, tôi đồng ý mình đã đọc và chấp thuận %1$s, %2$s và %3$s.</string>
+
+    <!-- Cars Confirmation Screen -->
+    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
+    <string name="calendar_car_title_TEMPLATE">Địa điểm nhận xe %1$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
+    <string name="calendar_car_location_TEMPLATE">%1$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_car_desc_itinerary_TEMPLATE">Số lịch trình Expedia: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
+    <string name="calendar_car_desc_support_TEMPLATE">Hỗ trợ khách hàng Expedia: %1$s &amp; %2$s</string>
+    <!-- Showing local phone number in  car confirmation screen  -->
+    <string name="car_confirmation_local_support_TEMPLATE">Số nội vùng: %s</string>
+    <!-- Showing toll free phone number in  car confirmation screen  -->
+    <string name="car_confirmation_toll_free_support_TEMPLATE">Số điện thoại miễn phí : %s</string>
+
     <!-- Car search label for pick-up time -->
     <string name="pick_up_time">Giờ nhận xe</string>
     <!-- Car search label for drop-off time-->
@@ -11,23 +101,107 @@
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
     <string name="same_as_pick_up">Cùng địa điểm nhận xe</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">Ngày và địa điểm</string>
+    <string name="dates_and_location">Ngày &amp; Địa điểm</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Chọn ngày nhận và trả xe</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">%1$s – Chọn ngày trở về</string>
+    <string name="select_return_date_TEMPLATE">%1$s – Chọn ngày trả xe</string>
     <!-- Label for pick-up time picker -->
     <string name="pick_up_time_label">Nhận xe</string>
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">Trả xe</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">Nơi trả xe phải cùng nơi nhận xe</string>
+    <string name="drop_off_same_as_pick_up">Sắp ra mắt! Chúng tôi đang nỗ lực hết sức để thêm tính năng đặt thuê xe một chiều trong phiên bản sắp ra mắt.</string>
     <!-- Error messge for missing Origin in search form -->
     <string name="error_missing_origin_param">Thiếu bắt đầu</string>
     <!-- Error messge for missing Start date in search form -->
     <string name="error_missing_start_date_param">Thiếu ngày khởi hành</string>
     <!-- Error messge for missing End date date in search form -->
     <string name="error_missing_end_date_param">Thiếu ngày kết thúc</string>
+    <!-- Temporary String for general error message -->
+    <string name="error_car">Đã có lỗi. Kiểm tra lại dữ liệu tìm kiếm.</string>
+    <!-- Car search error -->
+    <string name="error_car_search_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string>
+    <!-- Checkout -->
+    <!-- Car model templates-->
+    <string name="car_model_name_template">%1$s hoặc tương tự</string>
+    <string name="car_model_unknown_template">Không biết model xe chính xách</string>
+
+    <string name="preparing_checkout_message">Chuẩn bị trang thanh toán…</string>
+    <!-- Desk & vehicle at terminal -->
+    <string name="desk_and_vehicle_terminal">Bàn &amp; xe trong ga</string>
+    <!-- Car checkout cost breakdown total due today -->
+    <string name="car_cost_breakdown_due_today">Thanh toán hôm nay</string>
+    <!-- Car checkout cost breakdown total due at pick up -->
+    <string name="car_cost_breakdown_total_due">Thanh toán khi nhận xe</string>
+    <!-- Car checkout cost breakdown for alert button -->
+    <string name="car_cost_breakdown_button_text">Hoàn tất</string>
+    <!-- Car checkout rental fare breakdown types -->
+    <!--Cost breakdown type base -->
+    <string name="car_rental_breakdown_base">Thuê xe</string>
+    <!--Cost breakdown type taxes and fees -->
+    <string name="car_rental_breakdown_taxes_and_fees">Thuế và phí ước tính</string>
+    <!--Cost breakdown type insurance -->
+    <string name="car_rental_breakdown_insurance">Bảo hiểm</string>
+    <!--Cost breakdown type drop off charge -->
+    <string name="car_rental_breakdown_drop_off_charges">Phí trả xe</string>
+    <!-- Unlimited mileage -->
+    <string name="unlimited_mileage">Không giới hạn dặm</string>
+    <!-- Checkout confirmation message (temporary) -->
+    <string name="successful_checkout_TEMPLATE">Lịch trình số %1$s</string>
+    <!-- Error message for some missing checkout params -->
+    <string name="error_missing_checkout_params">Thiếu thông tin.</string>
+    <!--Adding hotel from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_hotel">Khách sạn tại %1$s</string>
+    <!--Adding flight from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_flight">Chuyến bay đến %1$s</string>
+    <!-- Car confirmation screen label -->
+    <string name="successful_checkout_pickup_label">Nhận xe:</string>
+    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
+    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s đến</string>
+    <!-- Car confirmation itin text -->
+    <string name="successful_checkout_email_label">Lịch trình được gửi đến</string>
+    <!-- Car confirmation directions text -->
+    <string name="car_confirmation_directions">Hướng dẫn đến %1$s</string>
+    <!-- Button label for calling customer support -->
+    <string name="call_customer_support">Gọi bộ phận Dịch vụ Khách hàng</string>
+
+    <!-- Car error strings -->
+    <!-- Message for user that to verify pick-up date."  -->
+    <string name="pick_up_date_error">Vui lòng xác nhận ngày nhận xe.</string>
+    <!-- Message for user that pick-up time is too early."  -->
+    <string name="pick_up_time_error">Vui lòng điều chỉnh giờ nhận xe hoặc trả xe.</string>
+    <!-- Message for user that to verify drop-off date."  -->
+    <string name="drop_off_date_error">Vui lòng xác nhận ngày trả xe.</string>
+    <!-- Message for user  to choose a closer date.""  -->
+    <string name="drop_off_too_far_error">Ngày này quá xa trong tương lai, vui lòng chọn ngày gần hơn.</string>
+    <!-- Message for user that date is too far out."  -->
+    <string name="date_out_of_range">Ngày này quá xa trong tương lai, vui lòng chọn ngày gần hơn.</string>
+    <!-- Message for user that increase your reservation duration. -->
+    <string name="reservation_time_too_short">Vui lòng tăng thời gian đặt của quý vị.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_time_out">Vẫn đang tìm? Phiên truy cập của quý vị đã hết hạn. Vui lòng tìm lại.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">Hmm. Có vẻ quý vị đã đặt chuyến đi này. Vui lòng kiểm tra lại chuyến đi hoặc email.</string>
+    <!-- Show to user when the price of a car they are trying to book has changed -->
+    <string name="reservation_price_change">Giá xe thuê vừa thay đổi. Vui lòng xác nhận giá mới trước khi tiếp tục.</string>
+    <!-- Show to user when the their traveler information is invalid -->
+    <string name="reservation_invalid_name">Không được nhập số hoặc ký tự vào trường tên.</string>
+    <!-- Show to user when their phone number is invalid -->
+    <string name="reservation_invalid_phone">Số điện thoại phải từ 1-20 chữ số.</string>
+
+    <!-- Shown to a user when there is an issue with their credit card -->
+    <string name="reservation_payment_failed">Hmm…Thanh toán không thành công. Vui lòng kiểm tra thông tin thanh toán và thử lại.</string>
+    <!-- Payment failed button text that takes you back to checkout -->
+    <string name="payment_failed">Thanh toán không thành công.</string>
+    <!-- Price changed button text that takes you back to checkout -->
+    <string name="view_price_change">Xem thay đổi giá</string>
+    <!-- My Trips button that takes you to Itins -->
+    <string name="my_trips">Chuyến đi của tôi</string>
+    <!-- Button text that takes you back to the payment widget to edit your payment -->
+    <string name="edit_payment">Chỉnh sửa thanh toán</string>
+    <!-- Button text that takes you back to the traveler info widget to edit your driver information -->
+    <string name="edit_info">Chỉnh sửa thông tin</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -58,6 +232,149 @@
     <string name="trip_end_optional">Tùy chọn</string>
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">Chọn sân bay</string>
+
+    <!-- LX -->
+    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- Search widget header text -->
+    <string name="search_widget_heading">Tìm hoạt động giải trí</string>
+    <!-- Search widget location hint -->
+    <string name="search_location_hint">Nhập địa điểm</string>
+    <!-- Error messge for missing Location in LX search form -->
+    <string name="lx_error_missing_location">Thiếu địa điểm</string>
+    <!-- Error messge for missing start date in LX search form -->
+    <string name="lx_error_missing_start_date">Thiếu ngày</string>
+    <!-- Button to show calendar and selected dates -->
+    <string name="select_lx_search_dates">Chọn ngày</string>
+    <!-- Activity details highlights heading -->
+    <string name="highlights_activity_details">Nổi bật</string>
+    <!-- Activity details description heading -->
+    <string name="description_activity_details">Mô tả</string>
+    <!-- Activity details location heading -->
+    <string name="location_activity_details">Địa điểm</string>
+    <!-- Free cancellation message for LX activity -->
+    <string name="activity_free_cancellation">Hủy miễn phí</string>
+    <!-- Template for ticket details -->
+    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket selection summary -->
+    <string name="offer_book_now_TEMPLATE">Đặt ngay %1$s</string>
+    <!-- Template for tickets type and count  summary -->
+    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <!-- LX Ticket type names -->
+    <string name="ticket_type_traveler">Khách</string>
+    <string name="ticket_type_adult">Người lớn</string>
+    <string name="ticket_type_child">Trẻ em</string>
+    <string name="ticket_type_infant">Trẻ sơ sinh</string>
+    <string name="ticket_type_youth">Thiếu niên</string>
+    <string name="ticket_type_senior">Người cao tuổi</string>
+    <string name="ticket_type_group">Nhóm</string>
+    <string name="ticket_type_couple">Cặp đôi</string>
+    <string name="ticket_type_two_adults">2 người lớn</string>
+    <string name="ticket_type_military">Quân nhân</string>
+    <string name="ticket_type_student">Sinh viên</string>
+    <string name="ticket_type_sedan">Sedan</string>
+    <string name="ticket_type_minivan">Minivan</string>
+    <string name="ticket_type_water_taxi">Taxi nước</string>
+    <string name="ticket_type_suv">SUV</string>
+    <string name="ticket_type_executive_car">Xe Executive</string>
+    <string name="ticket_type_luxury_car">Xe hạng sang</string>
+    <string name="ticket_type_limousine">Limousine</string>
+    <string name="ticket_type_towncar">TownCar</string>
+    <string name="ticket_type_vehicle_parking_spot">Chỗ đậu xe</string>
+    <string name="ticket_type_book">Sách</string>
+    <string name="ticket_type_guide">Hướng dẫn</string>
+    <string name="ticket_type_travel_card">Travel Card</string>
+    <string name="ticket_type_boat">Thuyền</string>
+    <string name="ticket_type_motorcycle">Xe máy</string>
+    <string name="ticket_type_ceremony">Buổi lễ</string>
+    <string name="ticket_type_calling_card">Thẻ điện thoại</string>
+    <string name="ticket_type_pass">Pass</string>
+    <string name="ticket_type_minibus">Xe buýt mini</string>
+    <string name="ticket_type_helicopter">Trực thăng</string>
+    <string name="ticket_type_device">Thiết bị</string>
+    <string name="ticket_type_room">Phòng</string>
+    <string name="ticket_type_carriage">Xe ngựa</string>
+    <string name="ticket_type_buggy">Xe đua đồi cát</string>
+    <string name="ticket_type_atv">ATV</string>
+    <string name="ticket_type_jet_ski">Jet Ski</string>
+    <string name="ticket_type_scooter">Scooter</string>
+    <string name="ticket_type_scooter_car">Xe Scooter</string>
+    <string name="ticket_type_snowmobile">Xe trượt tuyết</string>
+    <string name="ticket_type_day">Ngày</string>
+    <string name="ticket_type_bike">Xe đạp</string>
+    <string name="ticket_type_week">tuần</string>
+    <string name="ticket_type_subscription">đăng ký</string>
+    <string name="ticket_type_electric_bike">xe điện</string>
+    <string name="ticket_type_segway">segway</string>
+    <string name="ticket_type_vehicle">phương tiện</string>
+    <!-- Activity search results per ticket type -->
+    <string name="per_ticket_type_traveler">/ 1 khách</string>
+    <string name="per_ticket_type_adult">/ 1 người lớn</string>
+    <string name="per_ticket_type_child">/ 1 trẻ em</string>
+    <string name="per_ticket_type_infant">/ 1 trẻ sơ sinh</string>
+    <string name="per_ticket_type_youth">/ 1 thiếu niên</string>
+    <string name="per_ticket_type_senior">/ 1 người cao tuổi</string>
+    <string name="per_ticket_type_group">/ 1 nhóm</string>
+    <string name="per_ticket_type_couple">/ 1 cặp đôi</string>
+    <string name="per_ticket_type_two_adults">/ 2 người lớn</string>
+    <string name="per_ticket_type_military">/ 1 quân nhân</string>
+    <string name="per_ticket_type_student">/ 1 sinh viên</string>
+    <string name="per_ticket_type_sedan">/ 1 sedan</string>
+    <string name="per_ticket_type_minivan">/ 1 minivan</string>
+    <string name="per_ticket_type_water_taxi">/ 1 taxi nước</string>
+    <string name="per_ticket_type_suv">/ 1 SUV</string>
+    <string name="per_ticket_type_executive_car">/ 1 xe executive</string>
+    <string name="per_ticket_type_luxury_car">/ 1 xe hạng sang</string>
+    <string name="per_ticket_type_limousine">/ 1 limousin</string>
+    <string name="per_ticket_type_towncar">/ 1 TownCar</string>
+    <string name="per_ticket_type_vehicle_parking_spot">/ 1 chỗ đậu xe</string>
+    <string name="per_ticket_type_book">/ 1 quyển sách</string>
+    <string name="per_ticket_type_guide">/ 1 hướng dẫn</string>
+    <string name="per_ticket_type_travel_card">/ 1 travel card</string>
+    <string name="per_ticket_type_boat">/ 1 thuyền</string>
+    <string name="per_ticket_type_motorcycle">/ 1 xe</string>
+    <string name="per_ticket_type_ceremony">/ 1 buổi lễ</string>
+    <string name="per_ticket_type_calling_card">/ 1 thẻ điện thoại</string>
+    <string name="per_ticket_type_pass">/ 1 pass</string>
+    <string name="per_ticket_type_minibus">/ 1 buýt mini</string>
+    <string name="per_ticket_type_helicopter">/ 1 trực thăng</string>
+    <string name="per_ticket_type_device">/ 1 thiết bị</string>
+    <string name="per_ticket_type_room">/ 1 phòng</string>
+    <string name="per_ticket_type_carriage">/ 1 xe ngựa</string>
+    <string name="per_ticket_type_buggy">/ 1 xe đua đồi cát</string>
+    <string name="per_ticket_type_atv">/ 1 ATV</string>
+    <string name="per_ticket_type_jet_ski">/ 1 jet ski</string>
+    <string name="per_ticket_type_scooter">/ 1 scooter</string>
+    <string name="per_ticket_type_scooter_car">/ 1 xe scooter</string>
+    <string name="per_ticket_type_snowmobile">/ 1 xe trượt tuyết</string>
+    <string name="per_ticket_type_day">/ 1 ngày</string>
+    <string name="per_ticket_type_bike">/ 1 xe</string>
+    <string name="per_ticket_type_week">/ 1 tuần</string>
+    <string name="per_ticket_type_subscription">/ 1 đăng ký</string>
+    <string name="per_ticket_type_electric_bike">/ 1 xe điện</string>
+    <string name="per_ticket_type_segway">/ 1 segway</string>
+    <string name="per_ticket_type_vehicle">/ 1 phương tiện</string>
+
+    <!-- LX Strings -->
+    <!-- Slide to book -->
+    <string name="lx_slider_text">Trượt để đặt</string>
+    <!-- Text for checkout toolbar-->
+    <string name="lx_checkout_text">Thanh toán</string>
+    <!-- Free cancellation -->
+    <string name="lx_free_cancellation">Hủy miễn phí</string>
+    <!-- Total with tax -->
+    <string name="lx_total_with_tax">Tổng gồm thuế</string>
+    <!-- Contact Details Toolbar -->
+    <string name="lx_contact_details">Chi tiết liên hệ</string>
+    <!-- Enter contact details-->
+    <string name="lx_enter_contact_details">Nhập chi tiết liên hệ</string>
+    <!-- LX search error -->
+    <string name="error_lx_search_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string> 	<!-- Offers show more string -->
+    <string name="lx_show_more_offers">Hiển thị thêm</string>
+    <!-- Text for traveler details toolbar-->
+    <string name="lx_traveler_details_text">Chi tiết khách</string>
+    <!-- Text for enter traveler details-->
+    <string name="lx_traveler_enter_details_text">Nhập thông tin khách</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -137,6 +454,8 @@
     <string name="tablet_search_results_hotels_unavailable_tonight">Rất tiếc, không có khách sạn \ntối nay.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Rất tiếc, hiện không có \nchuyến bay.</string>
+    <!-- Tablet search results, no flights available due to invalid start date -->
+    <string name="flight_search_range_error_TEMPLATE">Rất tiếc, chúng tôi không thể tìm chuyến bay quá %1$s ngày tính từ hôm nay.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">Đã xóa</string>
     <!-- Label indicating how many items are being booked for the current trip -->
@@ -312,6 +631,8 @@
     <string name="unable_to_log_into_facebook">Không thể đăng nhập Facebook.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">Không đăng nhập được. Nếu đã nhập đúng địa chỉ email và mật khẩu, vui lòng kiểm tra xác nhận cài đặt quốc gia trên app của quý vị chính xác.</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Vui lòng tạo một tài khoản mới dùng chung cho tất cả các trang web Expedia.&lt;br&gt;Vui lòng thiết lập lại mật khẩu bằng cách bấm vào ‘Quên mật khẩu?\&apos; dưới đây.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Mật khẩu Expedia</string>
     <!-- Link accounts -->
@@ -344,6 +665,27 @@
     <string name="nav_flights">Chuyến\nbay</string>
     <!-- Hotels -->
     <string name="nav_hotels">Khách\nsạn</string>
+    <!-- Cars -->
+    <string name="nav_cars">Xe</string>
+
+    <!-- New launch screen -->
+    <!-- Shop travel label -->
+    <string name="shop_travel">Tìm và đặt</string>
+    <!-- Top deals tonight -->
+    <string name="nearby_deals_title">Khách sạn nổi bật đêm nay</string>
+    <!-- See all nearby deals -->
+    <string name="nearby_deals_expand">Xem thêm</string>
+    <!-- Percent off template, e.g. 50% off -->
+    <string name="percent_off_TEMPLATE">-%2.0f%%</string>
+    <!-- List loading header -->
+    <string name="loading_header">Đang tải…</string>
+    <!-- Hotel list rating text -->
+    <string name="hotel_rating_text">/5 – đánh giá của khách</string>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="launch_mobile_exclusive">Chỉ trên di động!</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="launch_tonight_only">Chỉ tối nay!</string>
+
 
     <!-- Launch screen -->
     <!-- Label for launch screen hotel button secondary text -->
@@ -413,6 +755,7 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Quý vị đã có thể đổi vé %s để sử dụng từ ngày mai.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">Lịch trình đã sẵn sàng</string>
+
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -652,71 +995,6 @@
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">Thêm khách sạn</string>
 
-
-    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">Tham vấn một Local Expert</string>
-
-    <!-- Local Expert Sites -->
-    <!-- Name of Hawaii (for local expert) -->
-    <string name="site_hawaii">Hawaii</string>
-    <!-- Name of Orlando, FL (for local expert) -->
-    <string name="site_orlando">Orlando</string>
-    <!-- Name of Las Vegas (for local expert) -->
-    <string name="site_las_vegas">Las Vegas</string>
-
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
-    <string name="local_expert_title_TEMPLATE">Hãy tận hưởng %1$s</string>
-    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">Chuyên viên hỗ trợ Local Expert chỉ cách quý vị\nmột cuộc điện thoại cho mọi nhu cầu tham vấn suốt chuyến đi.</string>
-    <!-- Text for the button on Local Expert pages, to call the concierge -->
-    <string name="local_expert_call_button_text">Hãy gọi họ</string>
-
-    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_first">Ngắm</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_second">những sinh vật tuyệt vời</string>
-    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_first">Tham quan</string>
-    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_second">những công viên giải trí tuyệt nhất</string>
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Tìm</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_second">bãi biển tốt nhất</string>
-    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_first">Bay</string>
-    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_second">trực thăng</string>
-    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_first">Nhảy ùm vào và đi</string>
-    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_second">lặn biển</string>
-    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_first">Thử vận may tại</string>
-    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_second">những sòng bạc đẳng cấp thế giới</string>
-    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_first">Lái</string>
-    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_second">Ferrari</string>
-    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_first">Hoạt động giải trí cho</string>
-    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_second">cả gia đình</string>
-    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_first">Thưởng thức</string>
-    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_second">những món ăn tuyệt vời</string>
-    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">Tìm</string>
-    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_second">những trò giải trí vui nhất</string>
-    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_first">Tìm đến với</string>
-    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_second">âm nhạc bản địa</string>
-
     <!-- Car category -->
     <!-- Car category: mini -->
     <string name="car_category_mini">Xe cỡ nhỏ</string>
@@ -754,6 +1032,44 @@
     <string name="car_category_special">Xe đặc biệt</string>
     <!-- Car category: oversize -->
     <string name="car_category_oversize">Xe ngoại cỡ</string>
+
+    <!-- Car category for results and details screen -->
+    <!-- Car category: mini -->
+    <string name="car_category_result_mini">Mini</string>
+    <!-- Car category: economy -->
+    <string name="car_category_result_economy">Phổ thông</string>
+    <!-- Car category: compact -->
+    <string name="car_category_result_compact">Hạng nhỏ</string>
+    <!-- Car category: midize -->
+    <string name="car_category_result_midsize">Hạng trung</string>
+    <!-- Car category: standard -->
+    <string name="car_category_result_standard">Tiêu chuẩn</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_result_fullsize">Hạng lớn</string>
+    <!-- Car category: premium -->
+    <string name="car_category_result_premium">Cao cấp</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_result_luxury">Hạng sang</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_result_mini_elite">Elite cỡ nhỏ</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_result_economy_elite">Elite hạng tiêu chuẩn</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_result_compact_elite">Elite hạng nhỏ</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_result_midsize_elite">Elite hạng trung</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_result_standard_elite">Elite tiêu chuẩn</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_result_fullsize_elite">Elite hạng lớn</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_result_premium_elite">Elite cao cấp</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_result_luxury_elite">Elite hạng sang</string>
+    <!-- Car category: special -->
+    <string name="car_category_result_special">Đặc biệt</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_result_oversize">Ngoại cỡ</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">Xe 2 cửa</string>
@@ -1240,6 +1556,8 @@
     <string name="slide_to_book_flight">trượt để đặt chuyến bay</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Thẻ của quý vị sẽ được tính phí %1$s</string>
+    <!-- Cars amount due today without a required credit card -->
+    <string name="amount_due_today_TEMPLATE">Thanh toán hôm nay: %1$s</string>
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">Số tiền cần thanh toán ngay: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -1292,6 +1610,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">Tổng giá chuyến đi, bao gồm phí resort &lt;b&gt;%1$s&lt;/b&gt;, là &lt;b&gt;%2$s&lt;/b&gt;. Quý vị sẽ thanh toán tiền phòng với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Tổng giá chuyến đi, bao gồm phí resort &lt;b&gt;%1$s&lt;/b&gt;, là &lt;b&gt;%2$s&lt;/b&gt;. Quý vị sẽ thanh toán phần còn lại với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
+    <!-- Flights AB Test Free Cancellation-->
+    <string name="ab_test_flights_free_cancellation">Hủy miễn phí trong vòng 24 giờ sau khi đặt</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1399,6 +1719,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Số thẻ tín dụng</string>
+    <!-- Security code (CVV) hint -->
+    <string name="cvv_hint">CVV</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Ngày hết hạn</string>
     <!-- Set expiration date button -->
@@ -1455,6 +1777,8 @@
     <string name="middle_name">Tên đệm</string>
     <!-- Last name label -->
     <string name="last_name">Họ</string>
+    <!-- First and Last Name label -->
+    <string name="first_and_last_name">Họ tên</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Ngày sinh</string>
     <!-- male -->
@@ -1574,6 +1898,8 @@
     <string name="air_attach_expires">Ưu đãi hết hạn vào</string>
     <!-- Air attach offer expiration date -->
     <string name="air_attach_expiration_date_TEMPLATE">%d ngày</string>
+    <!-- Air attach expires today alert -->
+    <string name="air_attach_expires_today">Ưu đãi hết hạn hôm nay</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">Thêm khách sạn</string>
     <!-- Air attach add hotel button subtitle -->
@@ -1866,6 +2192,12 @@
     <string name="progress_finding_location">Đang tìm địa điểm hiện tại…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Đang tìm khách sạn…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_message">Đang tìm!</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_working_hard">Chúng tôi đang nỗ lực tìm ưu đãi khách sạn tốt nhất cho quý vị.</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_hundreds">Đang tìm hàng trăm khách sạn cho quý vị!</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">Đang tìm khách sạn…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1918,6 +2250,8 @@
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">Đặt ngay</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now_ab_test">Chọn phòng</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Đặt qua điện thoại</string>
 
@@ -3144,5 +3478,8 @@
 
     <!-- Mail intent chooser dialog title -->
     <string name="mailto_title">Gửi email…</string>
+
+    <!-- Template for generating textview clicks -->
+    <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
 
 </resources>

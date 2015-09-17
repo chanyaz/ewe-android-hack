@@ -19,7 +19,8 @@
 
     <!-- Launch dimens -->
     <dimen name="launch_tile_space_width">2dp</dimen>
-    <dimen name="launch_header_height">100dp</dimen>
+    <dimen name="launch_header_height">48dp</dimen>
+    <dimen name="launch_header_top_space">127dp</dimen>
     <dimen name="launch_header_primary_text_margin">8dp</dimen>
     <dimen name="launch_header_secondary_text_margin">2dp</dimen>
     <dimen name="launch_header_primary_text_size">24sp</dimen>
@@ -30,7 +31,14 @@
     <dimen name="launch_tile_height_flight">260dp</dimen>
     <dimen name="launch_tile_hotel_sale_horizontal_padding">6dp</dimen>
     <dimen name="launch_tile_hotel_sale_vertical_padding">4dp</dimen>
-    <dimen name="launch_tile_hotel_sale_drawable_padding">3dp</dimen>
+    <dimen name="launch_tile_hotel_sale_drawable_padding">5dp</dimen>
+    <dimen name="launch_tile_hotel_sale_right_margin">12dp</dimen>
+    <dimen name="launch_lob_width">110dp</dimen>
+    <dimen name="launch_lob_height">103dp</dimen>
+    <dimen name="launch_lob_container_height">140dp</dimen>
+    <dimen name="launch_lob_squashed_height">80dp</dimen>
+    <dimen name="launch_lob_margin">8dp</dimen>
+    <dimen name="launch_list_corner_radius">2dp</dimen>
 
     <!-- Itinerary dimens -->
     <dimen name="itin_card_collapsed_height">138.5dp</dimen>
@@ -49,9 +57,6 @@
     <dimen name="itin_card_flight_vertical_offset">-48dp</dimen>
     <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
     <dimen name="itin_map_bounds_padding">24dp</dimen>
-
-    <!-- LocalExpert -->
-    <dimen name="attraction_bubble_start_text_size">36dp</dimen>
 
     <!-- Dialog title height -->
     <dimen name="alert_dialog_title_height">64dip</dimen>
@@ -251,8 +256,32 @@
 
     <!-- CVV Screen -->
     <dimen name="cvv_text_view_right_margin_amex">20dp</dimen>
-    <dimen name="cvv_text_view_right_margin_other">82dp</dimen>
+    <dimen name="cvv_text_view_right_margin_other">0dp</dimen>
     <dimen name="cvv_text_view_top_margin_amex">-10dp</dimen>
     <dimen name="cvv_text_view_top_margin_other">-15dp</dimen>
 
+    <!-- LX Dimens -->
+    <dimen name="search_widget_calendar_height">220dp</dimen>
+    <dimen name="lx_calendar_month_view_max_text_size">12dp</dimen>
+    <dimen name="gallery_height">270dp</dimen>
+    <dimen name="price_info_container_height">60dp</dimen>
+    <dimen name="price_info_container_top_margin">-60dp</dimen>
+
+    <!-- Car Search  -->
+    <dimen name="car_calendar_month_view_max_text_size">12dp</dimen>
+    <dimen name="car_time_slider_rectangle_width">70dp</dimen>
+    <dimen name="car_time_slider_rectangle_height">25dp</dimen>
+    <dimen name="car_time_slider_thumbnail_radius">25dp</dimen>
+    <dimen name="car_time_slider_corner_radius">15dp</dimen>
+    <dimen name="car_time_slider_text_size">12dp</dimen>
+    <dimen name="car_time_slider_text_container">110dp</dimen>
+    <dimen name="car_checkout_scrollview_padding">200dp</dimen>
+    <dimen name="car_search_dropdown_padding">0dp</dimen>
+    <dimen name="car_search_toggle_button_padding">10dp</dimen>
+    <!-- Car Confirmation Slide to reserve -->
+    <dimen name="car_slide_to_purchase_price_text_size">13dp</dimen>
+    <dimen name="car_slide_to_purchase_padding">50dp</dimen>
+    <dimen name="car_image_width">300dp</dimen>
+    <dimen name="car_unexpanded_space_height">125dp</dimen>
+    <dimen name="car_expanded_space_height">350dp</dimen>
 </resources>

@@ -5,7 +5,6 @@ import java.util.Locale;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
@@ -35,13 +34,22 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	private String mFilterStr;
 	private int mTravelerNumber = -1;
 
+	private boolean isAddTravelerEnabled = true;
+	private int mTravelerBackgroundDrawable = R.drawable.traveler_circle;
+
 	public TravelerAutoCompleteAdapter(Context context) {
 		super(context, R.layout.traveler_autocomplete_row);
 	}
 
+	public TravelerAutoCompleteAdapter(Context context, boolean addTravelerEnabled, int travelerDrawable) {
+		super(context, R.layout.traveler_autocomplete_row);
+		isAddTravelerEnabled = addTravelerEnabled;
+		mTravelerBackgroundDrawable = travelerDrawable;
+	}
+
 	@Override
 	public int getCount() {
-		return getAvailableTravelers().size() + 2;
+		return getAvailableTravelers().size() + (isAddTravelerEnabled ? 2 : 1);
 	}
 
 	@Override
@@ -83,44 +91,66 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 		return null;
 	}
 
+	private static class ViewHolder {
+		TextView tv;
+		TextView initials;
+		ImageView icon;
+		public ViewHolder(View v) {
+			tv = Ui.findView(v, R.id.text1);
+			icon = Ui.findView(v, R.id.icon);
+			initials = Ui.findView(v, R.id.initials);
+		}
+	}
+
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final int itemType = getItemViewType(position);
+		Traveler trav = getItem(position);
+		ViewHolder vh;
 		View retView = convertView;
-		TextView tv;
-		ImageView icon;
-		switch(itemType) {
+
+		switch (itemType) {
 		case ITEM_VIEW_TYPE_SELECT_CONTACT:
-			retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
-			tv = Ui.findView(retView, R.id.text1);
-			icon = Ui.findView(retView, R.id.icon);
-			tv.setText(R.string.select_traveler);
-			icon.setBackgroundResource(R.drawable.select_contact);
+			if (retView == null) {
+				retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
+				vh = new ViewHolder(retView);
+				retView.setTag(vh);
+			}
+			else {
+				vh = (ViewHolder) retView.getTag();
+			}
+			vh.tv.setText(R.string.select_traveler);
+			vh.icon.setBackgroundResource(R.drawable.select_contact);
 			retView.setEnabled(false);
 			break;
 		case ITEM_VIEW_TYPE_TRAVELER:
-			Traveler trav = getItem(position);
 			if (retView == null) {
 				retView = View.inflate(getContext(), R.layout.traveler_autocomplete_row, null);
+				vh = new ViewHolder(retView);
+				retView.setTag(vh);
 			}
-			tv = Ui.findView(retView, android.R.id.text1);
-			icon = Ui.findView(retView, android.R.id.icon);
-			tv.setText(trav.getFullName());
-			retView.setEnabled(trav.isSelectable());
-
-			//TODO: This might be sort of heavy because we are generating a new bitmap every time...
-			icon.setImageBitmap(TravelerIconUtils.generateInitialIcon(getContext(), trav.getFullName(),
-				Color.parseColor("#FF373F4A"), true));
+			else {
+				vh = (ViewHolder) retView.getTag();
+			}
+			vh.tv.setText(trav.getFullName());
+			vh.initials.setBackgroundResource(mTravelerBackgroundDrawable);
+			vh.initials.setText(TravelerIconUtils.getInitialsFromDisplayName(trav.getFullName()));
 			break;
 		case ITEM_VIEW_TYPE_ADD_TRAVELER:
-			retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
-			tv = Ui.findView(retView, R.id.text1);
-			icon = Ui.findView(retView, R.id.icon);
-			tv.setText(R.string.add_new_traveler);
-			icon.setBackgroundResource(R.drawable.add_plus);
+			if (retView == null) {
+				retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
+				vh = new ViewHolder(retView);
+				retView.setTag(vh);
+			}
+			else {
+				vh = (ViewHolder) retView.getTag();
+			}
+			vh.tv.setText(R.string.add_new_traveler);
+			vh.icon.setBackgroundResource(R.drawable.add_plus);
 			break;
 		}
+
 		return retView;
 	}
 
@@ -131,7 +161,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 	@Override
 	public int getItemViewType(int position) {
-		if (position == getCount() - 1) {
+		if (isAddTravelerEnabled && position == getCount() - 1) {
 			return ITEM_VIEW_TYPE_ADD_TRAVELER;
 		}
 		else if (position == 0) {
@@ -143,9 +173,6 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	}
 
 	private ArrayList<Traveler> getAvailableTravelers() {
-		boolean removeWorkingTraveler = true;
-		boolean removeDbTravelers = true;
-
 		if (User.isLoggedIn(getContext()) && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
 			ArrayList<Traveler> availableTravelers = new ArrayList<Traveler>(Db.getUser().getAssociatedTravelers());
 			availableTravelers.add(Db.getUser().getPrimaryTraveler());
@@ -153,27 +180,11 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 				Traveler trav = availableTravelers.get(i);
 
 				//Remove the working traveler from the list of available travelers
-				if (removeWorkingTraveler && Db.getWorkingTravelerManager() != null
+				if (Db.getWorkingTravelerManager() != null
 					&& Db.getWorkingTravelerManager().getWorkingTraveler() != null) {
 					Traveler workingTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 					if (trav.compareNameTo(workingTraveler) == 0) {
 						availableTravelers.get(i).setIsSelectable(false);
-						continue;
-					}
-				}
-
-				//Remove the travelers already in Db from the list of available travelers
-				if (removeDbTravelers && Db.getTravelers() != null) {
-					boolean removed = false;
-					for (int j = 0; j < Db.getTravelers().size(); j++) {
-						Traveler dbTrav = Db.getTravelers().get(j);
-						if ((!removeWorkingTraveler || j != mTravelerNumber) && dbTrav.compareNameTo(trav) == 0) {
-							availableTravelers.get(i).setIsSelectable(false);
-							removed = true;
-							break;
-						}
-					}
-					if (removed) {
 						continue;
 					}
 				}

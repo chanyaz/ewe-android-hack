@@ -22,13 +22,13 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
@@ -305,7 +305,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 	public boolean canTrackWithFlightTrack() {
 		//Track with Flight track only for expedia.
-		return ExpediaBookingApp.IS_EXPEDIA ? NavUtils.isIntentAvailable(getActivity(), getFlightTrackIntent()) : false;
+		return ProductFlavorFeatureConfiguration.getInstance().isTrackingWithFlightTrackEnabled() ? NavUtils
+			.isIntentAvailable(getActivity(), getFlightTrackIntent()) : false;
 	}
-
 }

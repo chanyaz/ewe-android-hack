@@ -114,6 +114,10 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		return mFields.hasValidInput();
 	}
 
+	public void resetValidation() {
+		mFields.setValidationIndicatorState(true);
+	}
+
 	@Override
 	public void onChange() {
 		for (SectionChangeListener listener : mChangeListeners) {
@@ -260,8 +264,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -322,8 +326,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -390,8 +394,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -434,8 +438,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -516,8 +520,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field ,SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -569,6 +573,11 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		if (mLineOfBusiness == LineOfBusiness.HOTELS) {
 			// #1056. Postal code for hotels is always optional, regardless of POS or country of billing.
 			return false;
+		}
+
+		if (mLineOfBusiness == LineOfBusiness.CARS) {
+			// TODO Check with product for CARS lob postal code restrictions.
+			return true;
 		}
 
 		return false;

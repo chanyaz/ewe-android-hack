@@ -37,7 +37,7 @@ public class AirAttachCheckoutTest extends TabletTestCase {
 
 		// Add Flight to trip bucket
 		Results.swipeUpFlightList();
-		Results.clickFlightAtIndex(6);
+		Results.clickFlightAtIndex(7);
 		Results.clickAddFlight();
 
 		Results.clickBookFlight();

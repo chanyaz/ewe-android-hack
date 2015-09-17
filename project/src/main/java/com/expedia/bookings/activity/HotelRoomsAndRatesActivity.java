@@ -28,6 +28,7 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -72,6 +73,11 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// If we don't have the prerequisites to show rooms and rates, bail.
+		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
+			return;
+		}
 
 		mKillReceiver = new ActivityKillReceiver(this);
 		mKillReceiver.onCreate();

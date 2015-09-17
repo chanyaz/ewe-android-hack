@@ -16,10 +16,30 @@ public class AbacusTest {
 	public String treatmentId;
 
 	public boolean isUserInBucket() {
+		return getBucketVariate() != 0;
+	}
+
+	public int getBucketVariate() {
 		if (setting != null) {
-			return setting.value != 0;
+			return setting.value;
 		}
-		return false;
+		return AbacusUtils.DefaultVariate.CONTROL.ordinal();
+	}
+
+	/**
+	 * This method copies all AbacusTest properties but defaults the bucket to IGNORE
+	 * Retains the analytics key to report to Omniture dev instance.
+	 */
+	public AbacusTest copyForDebug() {
+		AbacusTest test = new AbacusTest();
+		test.name = name;
+		test.isLive = isLive;
+		test.locale = locale;
+		test.setting = setting.copyForDebug();
+		test.experimentId = experimentId;
+		test.instanceId = instanceId;
+		test.treatmentId = treatmentId;
+		return test;
 	}
 
 }

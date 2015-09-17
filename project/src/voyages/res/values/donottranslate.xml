@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- VSC app name for the about screen-->
-    <string name="vsc_full_app_name">Agence Voyages-sncf Hôtel &amp; Vol</string>
+    <string name="vsc_full_app_name">Agence Voyages-sncf Hôtel</string>
 
-    <string name="app_name">Hôtel &amp; Vol Voyages-sncf</string>
+    <string name="app_name">Hôtel Voyages-sncf</string>
     <string name="app_vsc_info_url">http://www.voyages-sncf.com</string>
 
     <!-- The PointOfSale code looks this identifier up with reflection, do not remove! -->

@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -9,15 +10,21 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.Window;
+import android.view.WindowManager;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -120,6 +127,13 @@ public class Ui extends com.mobiata.android.util.Ui {
 	 */
 	public static boolean isAdded(Fragment fragment) {
 		return fragment != null && fragment.isAdded();
+	}
+
+	/**
+	 * Utility method to get the application instance from the given context
+	 */
+	public static ExpediaBookingApp getApplication(Context context) {
+		return (ExpediaBookingApp) context.getApplicationContext();
 	}
 
 	/**
@@ -253,6 +267,15 @@ public class Ui extends com.mobiata.android.util.Ui {
 		if (AndroidUtils.getSdkVersion() >= 18) {
 			vto.addOnWindowAttachListener(Api18ViewTreeObserverLogger.getInstance());
 			vto.addOnWindowFocusChangeListener(Api18ViewTreeObserverLogger.getInstance());
+		}
+	}
+
+	public static void removeOnGlobalLayoutListener(View v, OnGlobalLayoutListener listener) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+			v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
+		}
+		else {
+			v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
 		}
 	}
 
@@ -419,4 +442,64 @@ public class Ui extends com.mobiata.android.util.Ui {
 
 		return bitmap;
 	}
+
+	@TargetApi(Build.VERSION_CODES.KITKAT)
+	public static void showTransparentStatusBar(Context ctx) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			Window w = ((Activity) ctx).getWindow();
+			w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+		}
+	}
+
+	@TargetApi(Build.VERSION_CODES.KITKAT)
+	public static int getStatusBarHeight(Context ctx) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+			return 0;
+		}
+		int result = 0;
+		int resourceId = ctx.getResources().getIdentifier("status_bar_height", "dimen", "android");
+		if (resourceId > 0) {
+			result = ctx.getResources().getDimensionPixelSize(resourceId);
+		}
+		return result;
+	}
+
+	public static void setViewBackground(View v, Drawable bg) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+			v.setBackgroundDrawable(bg);
+		}
+		else {
+			v.setBackground(bg);
+		}
+	}
+
+	/**
+	 * Sets the color for status bar when status bar is transparent and also give padding to container and toolbar.
+	 *
+	 * @param toolbar   toolbar of view
+	 * @param viewGroup main container of layout not root container
+	 * @param color     of status bar
+	 */
+
+	public static View setUpStatusBar(Context ctx, android.support.v7.widget.Toolbar toolbar,
+		ViewGroup viewGroup, int color) {
+		View v = new View(ctx);
+		ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+			ViewGroup.LayoutParams.WRAP_CONTENT);
+		int statusBarHeight = getStatusBarHeight(ctx);
+		lp.height = statusBarHeight;
+		v.setLayoutParams(lp);
+		v.setBackgroundColor(color);
+		toolbar.setPadding(0, statusBarHeight, 0, 0);
+
+		TypedValue typedValue = new TypedValue();
+		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
+		TypedArray a = ctx.obtainStyledAttributes(typedValue.data, textSizeAttr);
+		int toolbarSize = (int) a.getDimension(0, 44);
+		viewGroup.setPadding(0, toolbarSize + statusBarHeight, 0, 0);
+
+		return v;
+	}
+
 }

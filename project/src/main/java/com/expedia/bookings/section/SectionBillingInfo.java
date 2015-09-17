@@ -37,6 +37,7 @@ import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListe
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.OnSetExpirationListener;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
@@ -169,6 +170,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		return mFields.hasValidInput();
 	}
 
+	public void resetValidation() {
+		mFields.setValidationIndicatorState(true);
+	}
+
 	public void onChange() {
 		for (SectionChangeListener listener : mChangeListeners) {
 			listener.onChange();
@@ -220,7 +225,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		R.id.display_creditcard_generic_name) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			String cardName = data.getCardType().getHumanReadableName(getContext());
+			String cardName = CreditCardUtils.getHumanReadableName(getContext(), data.getCardType());
 			String last4Digits = data.getNumber().substring(data.getNumber().length() - 4);
 			field.setText(getContext().getString(R.string.x_card_ending_in_y_digits_TEMPLATE, cardName, last4Digits));
 		}
@@ -435,7 +440,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					field.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							String card = CreditCardType.getHumanReadableCardTypeName(mContext, type);
+							String card = CreditCardUtils.getHumanReadableCardTypeName(mContext, type);
 							String text = mContext.getString(R.string.airline_card_fee_select_TEMPLATE, feeText, card);
 							SimpleSupportDialogFragment.newInstance(null, text).show(fa.getSupportFragmentManager(),
 								"lccDialog");
@@ -584,8 +589,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -629,8 +634,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -674,8 +679,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -714,8 +719,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.EMAIL));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.EMAIL);
 		}
 
 		@Override
@@ -1039,6 +1044,14 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		if (lob == LineOfBusiness.FLIGHTS) {
 			return Db.getTripBucket().getFlight() != null
 				&& Db.getTripBucket().getFlight().isCardTypeSupported(info.getCardType());
+		}
+		if (lob == LineOfBusiness.CARS) {
+			return Db.getTripBucket().getCar() != null
+				&& Db.getTripBucket().getCar().isCardTypeSupported(info.getCardType());
+		}
+		if (lob == LineOfBusiness.LX) {
+			return Db.getTripBucket().getLX() != null
+				&& Db.getTripBucket().getLX().isCardTypeSupported(info.getCardType());
 		}
 
 		throw new RuntimeException("Line of business required");

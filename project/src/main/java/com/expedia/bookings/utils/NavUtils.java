@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ActivityKillReceiver;
+import com.expedia.bookings.activity.CarActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightSearchResultsActivity;
@@ -34,6 +35,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
@@ -83,13 +85,20 @@ public class NavUtils {
 			context.startActivity(intent);
 		}
 		else {
-			Intent intent = new Intent(context, PhoneLaunchActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			Intent intent = null;
 
-			if (forceShowWaterfall) {
-				intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+			if (ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
+				intent = new Intent(context, PhoneLaunchActivity.class);
+
+				if (forceShowWaterfall) {
+					intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+				}
+			}
+			else {
+				intent = new Intent(context, HotelSearchActivity.class);
 			}
 
+			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			sendKillActivityBroadcast(context);
 			context.startActivity(intent);
 		}
@@ -197,6 +206,10 @@ public class NavUtils {
 		goToFlights(context, false, animOptions);
 	}
 
+	public static void goToFlightsUsingSearchParams(Context context) {
+		goToFlights(context, true, null);
+	}
+
 	public static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions) {
 		goToFlights(context, usePresetSearchParams, animOptions, 0);
 	}
@@ -218,6 +231,12 @@ public class NavUtils {
 			}
 			startActivity(context, intent, animOptions);
 		}
+	}
+
+	public static void goToCars(Context context, Bundle animOptions) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, CarActivity.class);
+		startActivity(context, intent, animOptions);
 	}
 
 	// Assumes we are already searching in flights, but are not on the flight

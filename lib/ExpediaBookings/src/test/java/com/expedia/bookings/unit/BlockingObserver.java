@@ -10,6 +10,7 @@ public class BlockingObserver<T> implements Observer<T> {
 	private final CountDownLatch mLatch;
 	private final ArrayList<T> mItems = new ArrayList<>();
 	private final ArrayList<Throwable> mErrors = new ArrayList<>();
+	private boolean mCompleted = false;
 
 	public BlockingObserver(int count) {
 		mLatch = new CountDownLatch(count);
@@ -17,6 +18,7 @@ public class BlockingObserver<T> implements Observer<T> {
 
 	@Override
 	public void onCompleted() {
+		mCompleted = true;
 		mLatch.countDown();
 	}
 
@@ -42,5 +44,9 @@ public class BlockingObserver<T> implements Observer<T> {
 
 	public ArrayList<Throwable> getErrors() {
 		return mErrors;
+	}
+
+	public boolean completed() {
+		return mCompleted;
 	}
 }

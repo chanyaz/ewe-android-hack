@@ -97,6 +97,28 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Cars" >
+
+        <com.expedia.bookings.widget.CheckBoxPreference
+            app:id="@id/preference_suppress_car_booking_checkbox"
+            android:defaultValue="true"
+            android:key="@string/preference_suppress_car_bookings"
+            android:summary="Do car bookings, but suppress any actual booking from going through"
+            android:title="Suppress Car Bookings" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="LX" >
+
+        <com.expedia.bookings.widget.CheckBoxPreference
+            app:id="@id/preference_suppress_lx_booking_checkbox"
+            android:defaultValue="true"
+            android:key="@string/preference_suppress_lx_bookings"
+            android:summary="Do LX bookings, but suppress any actual booking from going through"
+            android:title="Suppress LX Bookings" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="Flights" >
 
         <com.expedia.bookings.widget.CheckBoxPreference
@@ -125,6 +147,66 @@
             android:key="@string/preference_force_passenger_category_error"
             android:summary="Force the main passenger's passenger category to be 'ADULT_CHILD' instead of 'ADULT'"
             android:title="Force a PassengerCategory error" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Abacus" >
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_aa_test"
+            android:summary="Select a test group"
+            android:title="AA Abacus Test" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_etp_test"
+            android:summary="Select a test group"
+            android:title="ETP Pay Now vs Pay Later Default" />
+
+        <ListPreference
+            android:entries="@array/abacus_book_choices"
+            android:entryValues="@array/abacus_book_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_book_above_fold"
+            android:summary="Select a test group"
+            android:title="Book Above the Fold and Book Language Test" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_hotel_free_cancellation"
+            android:summary="Select a test group"
+            android:title="Hotel Info Site Free Cancellation" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_hotel_photo_treatment"
+            android:summary="Select a test group"
+            android:title="Hotel Info Site Photo Swipe Treatment" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_flight_free_cancellation"
+            android:summary="Select a test group"
+            android:title="Flight Free Cancellation Messaging" />
+
+        <ListPreference
+            android:entries="@array/abacus_search_influence_choices"
+            android:entryValues="@array/abacus_search_influence_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="@string/preference_hotel_search_influence_messaging"
+            android:summary="Select a test group"
+            android:title="Hotel Search Influence Messaging" />
 
     </PreferenceCategory>
 

@@ -2,6 +2,96 @@
 <resources>
 
     <!-- Cars -->
+    <!-- Cars Calendar Strings -->
+    <!-- Tooltip description for selecting the start date -->
+    <string name="cars_calendar_start_date_label">Berikutnya: Pilih tanggal pengembalian</string>
+    <!-- Tooltip description when both start and end dates are selected -->
+    <string name="cars_calendar_end_date_label">Tarik untuk mengubah</string>
+    <!-- SeekBar tooltip description for pick up time-->
+    <string name="cars_time_slider_pick_up_label">Waktu pengambilan</string>
+    <!-- SeekBar tooltip description for drop off time-->
+    <string name="cars_time_slider_drop_off_label">Waktu pengembalian</string>
+    <!-- Cars price templates-->
+    <string name="cars_hourly_text">Per jam</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_text">Per hari</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_weekly_text">Per minggu</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_monthly_text">Per bulan</string>
+    <!-- Cars price templates-->
+    <string name="cars_total_template">Total %s</string>
+    <!-- Text for cars promo codes-->
+    <string name="cars_promo_code">Kode Promo</string>
+    <!-- Text for cars sort and filter-->
+    <string name="cars_sort_filter">Urutkan &amp; Filter</string>
+    <!-- Slide to reserve -->
+    <string name="cars_slider_text">Geser untuk memesan</string>
+    <!-- Text for checkout toolbar-->
+    <string name="cars_checkout_text">Pembayaran</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_dupe_trip_text">Ulangi Perjalanan</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_session_timeout_text">Waktu Habis</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_price_change_text">Perubahan Harga</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_payment_failed_text">Pembayaran Tidak Berhasil</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_invalid_input_text">Informasi Tidak Valid</string>
+    <!-- Text for generic error toolbar-->
+    <string name="cars_error_text">Kesalahan</string>
+    <!-- Text for reserving car-->
+    <string name="cars_reserve_text">Pesan</string>
+    <!-- Text for viewing details-->
+    <string name="cars_view_details_text">Lihat Rincian</string>
+    <!-- Text for driver details toolbar-->
+    <string name="cars_driver_details_text">Rincian pengemudi</string>
+    <!-- Text for payment details toolbar-->
+    <string name="cars_payment_details_text">Rincian pembayaran</string>
+    <!-- Text for enter driver details-->
+    <string name="enter_driver_details">Masukkan rincian pengemudi</string>
+    <!-- Text for select saved contacts-->
+    <string name="cars_saved_contacts_text">Pilih kontak tersimpan</string>
+    <!-- Text for enter payment details-->
+    <string name="enter_payment_details">Masukkan rincian pembayaran</string>
+    <!-- Template for selected credit card-->
+    <string name="selected_card_template">Kedaluwarsa %s</string>
+    <!-- Template for car offer detail-->
+    <string name="car_offer_template">%s atau serupa</string>
+    <!-- Car doors text-->
+    <string name="car_doors_text">Pintu</string>
+    <!-- Car bags text-->
+    <string name="car_bags_text">Bagasi</string>
+    <!-- Car automatic transmission text-->
+    <string name="car_auto_tran_text">Transmisi Matic</string>
+    <!-- Car manual transmission text-->
+    <string name="car_man_tran_text">Transimi Manual</string>
+    <!-- Log in Text-->
+    <string name="cars_login_text">Masuk dengan akun Expedia</string>
+
+    <!-- car result -->
+    <!-- car door range -->
+    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
+    <!-- car details template -->
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
+    <!-- car checkout legal text ex: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="car_legal_TEMPLATE">Dengan menyelesaikan pemesanan ini, saya menyatakan bahwa saya telah membaca dan menerima %1$s, %2$s, dan %3$s.</string>
+
+    <!-- Cars Confirmation Screen -->
+    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
+    <string name="calendar_car_title_TEMPLATE">Lokasi Pengambilan %1$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
+    <string name="calendar_car_location_TEMPLATE">%1$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_car_desc_itinerary_TEMPLATE">No. Itinerary Expedia: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
+    <string name="calendar_car_desc_support_TEMPLATE">Layanan Pelanggan Expedia: %1$s dan %2$s</string>
+    <!-- Showing local phone number in  car confirmation screen  -->
+    <string name="car_confirmation_local_support_TEMPLATE">Nomor lokal: %s</string>
+    <!-- Showing toll free phone number in  car confirmation screen  -->
+    <string name="car_confirmation_toll_free_support_TEMPLATE">Nomor bebas pulsa: %s</string>
+
     <!-- Car search label for pick-up time -->
     <string name="pick_up_time">Waktu pengambilan</string>
     <!-- Car search label for drop-off time-->
@@ -11,7 +101,7 @@
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
     <string name="same_as_pick_up">Sama seperti pengambilan</string>
     <!-- Label for Car Search Screen header -->
-    <string name="dates_and_location">Tanggal dan Lokasi</string>
+    <string name="dates_and_location">Tanggal &amp; Lokasi</string>
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Pilih tanggal pengambilan dan pengembalian</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
@@ -21,13 +111,97 @@
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">Pengembalian</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">Lokasi pengembalian harus sama seperti lokasi pengambilan</string>
+    <string name="drop_off_same_as_pick_up">Segera hadir! Di versi berikutnya, kami akan mencoba mengusahakan Anda bisa mengembalikan mobil di lokasi yang berbeda.</string>
     <!-- Error messge for missing Origin in search form -->
     <string name="error_missing_origin_param">Kota asal belum diisi</string>
     <!-- Error messge for missing Start date in search form -->
     <string name="error_missing_start_date_param">Tanggal awal belum diisi</string>
     <!-- Error messge for missing End date date in search form -->
     <string name="error_missing_end_date_param">Tanggal akhir belum diisi</string>
+    <!-- Temporary String for general error message -->
+    <string name="error_car">Terjadi kesalahan. Periksa parameter pencarian.</string>
+    <!-- Car search error -->
+    <string name="error_car_search_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string>
+    <!-- Checkout -->
+    <!-- Car model templates-->
+    <string name="car_model_name_template">%1$s atau serupa</string>
+    <string name="car_model_unknown_template">Model sama persis nil</string>
+
+    <string name="preparing_checkout_message">Mempersiapkan pembayaran…</string>
+    <!-- Desk & vehicle at terminal -->
+    <string name="desk_and_vehicle_terminal">Konter &amp; kendaraan di terminal</string>
+    <!-- Car checkout cost breakdown total due today -->
+    <string name="car_cost_breakdown_due_today">Dibayar hari ini</string>
+    <!-- Car checkout cost breakdown total due at pick up -->
+    <string name="car_cost_breakdown_total_due">Dibayar saat pengambilan</string>
+    <!-- Car checkout cost breakdown for alert button -->
+    <string name="car_cost_breakdown_button_text">Selesai</string>
+    <!-- Car checkout rental fare breakdown types -->
+    <!--Cost breakdown type base -->
+    <string name="car_rental_breakdown_base">Rental mobil</string>
+    <!--Cost breakdown type taxes and fees -->
+    <string name="car_rental_breakdown_taxes_and_fees">Perkiraan pajak dan biaya</string>
+    <!--Cost breakdown type insurance -->
+    <string name="car_rental_breakdown_insurance">Asuransi</string>
+    <!--Cost breakdown type drop off charge -->
+    <string name="car_rental_breakdown_drop_off_charges">Biaya pengembalian</string>
+    <!-- Unlimited mileage -->
+    <string name="unlimited_mileage">Jarak tempuh tak terbatas</string>
+    <!-- Checkout confirmation message (temporary) -->
+    <string name="successful_checkout_TEMPLATE">No. Itinerary %1$s</string>
+    <!-- Error message for some missing checkout params -->
+    <string name="error_missing_checkout_params">Tidak ditemukan parameter pembayaran.</string>
+    <!--Adding hotel from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_hotel">Hotel di %1$s</string>
+    <!--Adding flight from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_flight">Penerbangan ke %1$s</string>
+    <!-- Car confirmation screen label -->
+    <string name="successful_checkout_pickup_label">Pengambilan di</string>
+    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
+    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s ke</string>
+    <!-- Car confirmation itin text -->
+    <string name="successful_checkout_email_label">Itinerary telah dikirim ke</string>
+    <!-- Car confirmation directions text -->
+    <string name="car_confirmation_directions">Petunjuk arah ke %1$s</string>
+    <!-- Button label for calling customer support -->
+    <string name="call_customer_support">Telepon Layanan Pelanggan</string>
+
+    <!-- Car error strings -->
+    <!-- Message for user that to verify pick-up date."  -->
+    <string name="pick_up_date_error">Harap konfirmasikan tanggal pengambilan.</string>
+    <!-- Message for user that pick-up time is too early."  -->
+    <string name="pick_up_time_error">Harap sesuaikan waktu pengambilan dan pengembalian Anda.</string>
+    <!-- Message for user that to verify drop-off date."  -->
+    <string name="drop_off_date_error">Harap konfirmasikan tanggal pengembalian.</string>
+    <!-- Message for user  to choose a closer date.""  -->
+    <string name="drop_off_too_far_error">Harap pilih tanggal yang lebih dekat.</string>
+    <!-- Message for user that date is too far out."  -->
+    <string name="date_out_of_range">Harap pilih tanggal yang lebih dekat.</string>
+    <!-- Message for user that increase your reservation duration. -->
+    <string name="reservation_time_too_short">Harap tambahkan durasi penyewaan.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_time_out">Halo? Anda masih di sana? Waktu Anda sudah habis. Coba lagi pencarian Anda.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">Hmm. Sepertinya Anda sudah pernah memesan perjalanan ini. Harap periksa lagi perjalanan atau email Anda.</string>
+    <!-- Show to user when the price of a car they are trying to book has changed -->
+    <string name="reservation_price_change">Harga mobil Anda sudah berubah. Harap konfirmasikan harga yang baru ini sebelum berlanjut.</string>
+    <!-- Show to user when the their traveler information is invalid -->
+    <string name="reservation_invalid_name">Nama tidak bisa diisi dengan angka atau karakter spesial.</string>
+    <!-- Show to user when their phone number is invalid -->
+    <string name="reservation_invalid_phone">Nomor telepon harus terdiri dari 1-20 karakter.</string>
+
+    <!-- Shown to a user when there is an issue with their credit card -->
+    <string name="reservation_payment_failed">Hmm… pembayaran Anda tidak berhasil. Harap periksa kembali rincian pembayaran, lalu cobalah lagi.</string>
+    <!-- Payment failed button text that takes you back to checkout -->
+    <string name="payment_failed">Pembayaran tidak berhasil.</string>
+    <!-- Price changed button text that takes you back to checkout -->
+    <string name="view_price_change">Lihat Perubahan Harga</string>
+    <!-- My Trips button that takes you to Itins -->
+    <string name="my_trips">Perjalanan Saya</string>
+    <!-- Button text that takes you back to the payment widget to edit your payment -->
+    <string name="edit_payment">Ubah Pembayaran</string>
+    <!-- Button text that takes you back to the traveler info widget to edit your driver information -->
+    <string name="edit_info">Edit Info</string>
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
@@ -58,6 +232,149 @@
     <string name="trip_end_optional">Opsional</string>
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">Pilih Bandara</string>
+
+    <!-- LX -->
+    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- Search widget header text -->
+    <string name="search_widget_heading">Lihat Objek Wisata</string>
+    <!-- Search widget location hint -->
+    <string name="search_location_hint">Masukkan lokasi</string>
+    <!-- Error messge for missing Location in LX search form -->
+    <string name="lx_error_missing_location">Lokasi belum dimasukkan</string>
+    <!-- Error messge for missing start date in LX search form -->
+    <string name="lx_error_missing_start_date">Tanggal belum diisi</string>
+    <!-- Button to show calendar and selected dates -->
+    <string name="select_lx_search_dates">Pilih tanggal</string>
+    <!-- Activity details highlights heading -->
+    <string name="highlights_activity_details">Sorotan</string>
+    <!-- Activity details description heading -->
+    <string name="description_activity_details">Deskripsi</string>
+    <!-- Activity details location heading -->
+    <string name="location_activity_details">Lokasi</string>
+    <!-- Free cancellation message for LX activity -->
+    <string name="activity_free_cancellation">Pembatalan gratis</string>
+    <!-- Template for ticket details -->
+    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket selection summary -->
+    <string name="offer_book_now_TEMPLATE">Pesan Sekarang%1$s</string>
+    <!-- Template for tickets type and count  summary -->
+    <string name="ticket_summary_type_count_TEMPLATE">%1$s %2$s</string>
+    <!-- LX Ticket type names -->
+    <string name="ticket_type_traveler">Pelancong</string>
+    <string name="ticket_type_adult">Dewasa</string>
+    <string name="ticket_type_child">Anak</string>
+    <string name="ticket_type_infant">Bayi</string>
+    <string name="ticket_type_youth">Balita</string>
+    <string name="ticket_type_senior">Manula</string>
+    <string name="ticket_type_group">Rombongan</string>
+    <string name="ticket_type_couple">Pasangan</string>
+    <string name="ticket_type_two_adults">2 Dewasa</string>
+    <string name="ticket_type_military">Militer</string>
+    <string name="ticket_type_student">Pelajar</string>
+    <string name="ticket_type_sedan">Sedan</string>
+    <string name="ticket_type_minivan">Minivan</string>
+    <string name="ticket_type_water_taxi">Taksi Air</string>
+    <string name="ticket_type_suv">SUV</string>
+    <string name="ticket_type_executive_car">Mobil Eksekutif</string>
+    <string name="ticket_type_luxury_car">Mobil Mewah</string>
+    <string name="ticket_type_limousine">Limosin</string>
+    <string name="ticket_type_towncar">Towncar</string>
+    <string name="ticket_type_vehicle_parking_spot">Tempat Parkir Kendaraan</string>
+    <string name="ticket_type_book">Pesan</string>
+    <string name="ticket_type_guide">Panduan</string>
+    <string name="ticket_type_travel_card">Kartu Kendaraan Umum</string>
+    <string name="ticket_type_boat">Kapal</string>
+    <string name="ticket_type_motorcycle">Sepeda Motor</string>
+    <string name="ticket_type_ceremony">Upacara</string>
+    <string name="ticket_type_calling_card">Kartu Telepon</string>
+    <string name="ticket_type_pass">Tiket</string>
+    <string name="ticket_type_minibus">Minibus</string>
+    <string name="ticket_type_helicopter">Helikopter</string>
+    <string name="ticket_type_device">Perangkat</string>
+    <string name="ticket_type_room">Kamar</string>
+    <string name="ticket_type_carriage">Gerbong</string>
+    <string name="ticket_type_buggy">Kereta Buggy</string>
+    <string name="ticket_type_atv">ATV</string>
+    <string name="ticket_type_jet_ski">Jet Ski</string>
+    <string name="ticket_type_scooter">Skuter</string>
+    <string name="ticket_type_scooter_car">Mobil Skuter</string>
+    <string name="ticket_type_snowmobile">Snowmobile</string>
+    <string name="ticket_type_day">Hari</string>
+    <string name="ticket_type_bike">Sepeda</string>
+    <string name="ticket_type_week">minggu</string>
+    <string name="ticket_type_subscription">langganan</string>
+    <string name="ticket_type_electric_bike">Sepeda Listrik</string>
+    <string name="ticket_type_segway">Segway</string>
+    <string name="ticket_type_vehicle">kendaraan:</string>
+    <!-- Activity search results per ticket type -->
+    <string name="per_ticket_type_traveler">per traveler</string>
+    <string name="per_ticket_type_adult">per dewasa</string>
+    <string name="per_ticket_type_child">per anak</string>
+    <string name="per_ticket_type_infant">per bayi</string>
+    <string name="per_ticket_type_youth">per balita</string>
+    <string name="per_ticket_type_senior">per manula</string>
+    <string name="per_ticket_type_group">per rombongan</string>
+    <string name="per_ticket_type_couple">per pasangan</string>
+    <string name="per_ticket_type_two_adults">per 2 dewasa</string>
+    <string name="per_ticket_type_military">per anggota militer</string>
+    <string name="per_ticket_type_student">per pelajar</string>
+    <string name="per_ticket_type_sedan">per sedan</string>
+    <string name="per_ticket_type_minivan">per minivan</string>
+    <string name="per_ticket_type_water_taxi">per taksi air</string>
+    <string name="per_ticket_type_suv">per SUV</string>
+    <string name="per_ticket_type_executive_car">per mobil eksekutif</string>
+    <string name="per_ticket_type_luxury_car">per mobil mewah</string>
+    <string name="per_ticket_type_limousine">per limosin</string>
+    <string name="per_ticket_type_towncar">per towncar</string>
+    <string name="per_ticket_type_vehicle_parking_spot">per tempat parkir</string>
+    <string name="per_ticket_type_book">per buku</string>
+    <string name="per_ticket_type_guide">per panduan</string>
+    <string name="per_ticket_type_travel_card">per kartu kendaraan</string>
+    <string name="per_ticket_type_boat">per kapal</string>
+    <string name="per_ticket_type_motorcycle">per sepeda motor</string>
+    <string name="per_ticket_type_ceremony">per upacara</string>
+    <string name="per_ticket_type_calling_card">per kartu telepon</string>
+    <string name="per_ticket_type_pass">per tiket</string>
+    <string name="per_ticket_type_minibus">per minibus</string>
+    <string name="per_ticket_type_helicopter">per helikopter</string>
+    <string name="per_ticket_type_device">per perangkat</string>
+    <string name="per_ticket_type_room">per kamar</string>
+    <string name="per_ticket_type_carriage">per gerbong</string>
+    <string name="per_ticket_type_buggy">per buggy</string>
+    <string name="per_ticket_type_atv">per ATV</string>
+    <string name="per_ticket_type_jet_ski">per jet ski</string>
+    <string name="per_ticket_type_scooter">per skuter</string>
+    <string name="per_ticket_type_scooter_car">per mobil skuter</string>
+    <string name="per_ticket_type_snowmobile">per snowmobile</string>
+    <string name="per_ticket_type_day">per hari</string>
+    <string name="per_ticket_type_bike">per sepeda</string>
+    <string name="per_ticket_type_week">per minggu</string>
+    <string name="per_ticket_type_subscription">per langganan</string>
+    <string name="per_ticket_type_electric_bike">per sepeda listrik</string>
+    <string name="per_ticket_type_segway">per segway</string>
+    <string name="per_ticket_type_vehicle">per kendaraan</string>
+
+    <!-- LX Strings -->
+    <!-- Slide to book -->
+    <string name="lx_slider_text">Geser untuk memesan</string>
+    <!-- Text for checkout toolbar-->
+    <string name="lx_checkout_text">Pembayaran</string>
+    <!-- Free cancellation -->
+    <string name="lx_free_cancellation">Pembatalan gratis</string>
+    <!-- Total with tax -->
+    <string name="lx_total_with_tax">Total dengan Pajak</string>
+    <!-- Contact Details Toolbar -->
+    <string name="lx_contact_details">Rincian kontak</string>
+    <!-- Enter contact details-->
+    <string name="lx_enter_contact_details">Masukkan rincian kontak</string>
+    <!-- LX search error -->
+    <string name="error_lx_search_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string> 	<!-- Offers show more string -->
+    <string name="lx_show_more_offers">Tampilkan Lainnya</string>
+    <!-- Text for traveler details toolbar-->
+    <string name="lx_traveler_details_text">Rincian traveler</string>
+    <!-- Text for enter traveler details-->
+    <string name="lx_traveler_enter_details_text">Masukkan rincian traveler</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -137,6 +454,8 @@
     <string name="tablet_search_results_hotels_unavailable_tonight">Maaf, tidak ada hotel \n yang tersedia untuk malam ini.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Maaf, saat ini tak ada \n penerbangan yang tersedia</string>
+    <!-- Tablet search results, no flights available due to invalid start date -->
+    <string name="flight_search_range_error_TEMPLATE">Maaf, kami tidak bisa mencarikan tiket untuk penerbangan %1$s hari dari sekarang.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">Dihapus</string>
     <!-- Label indicating how many items are being booked for the current trip -->
@@ -312,6 +631,8 @@
     <string name="unable_to_log_into_facebook">Tidak bisa masuk ke Facebook.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">Login tak berhasil. Jika email dan kata sandi Anda sudah benar, periksa apakah pengaturan Negara pada aplikasi Anda juga sudah benar.</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs Expedia.&lt;br&gt;Harap reset kata sandi Anda menggunakan link \&apos;Lupa kata sandi?\&apos; di bawah ini.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Kata Sandi Expedia</string>
     <!-- Link accounts -->
@@ -344,6 +665,27 @@
     <string name="nav_flights">Penerbangan</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hotel</string>
+    <!-- Cars -->
+    <string name="nav_cars">Mobil</string>
+
+    <!-- New launch screen -->
+    <!-- Shop travel label -->
+    <string name="shop_travel">Pesan perjalanan</string>
+    <!-- Top deals tonight -->
+    <string name="nearby_deals_title">Hotel Populer Malam Ini</string>
+    <!-- See all nearby deals -->
+    <string name="nearby_deals_expand">Lihat Lainnya</string>
+    <!-- Percent off template, e.g. 50% off -->
+    <string name="percent_off_TEMPLATE">-%2.0f%%</string>
+    <!-- List loading header -->
+    <string name="loading_header">Memuat…</string>
+    <!-- Hotel list rating text -->
+    <string name="hotel_rating_text">dari 5: skor tamu</string>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="launch_mobile_exclusive">khusus-mobile!</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="launch_tonight_only">hanya malam ini!</string>
+
 
     <!-- Launch screen -->
     <!-- Label for launch screen hotel button secondary text -->
@@ -413,6 +755,7 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Tiket %s Anda bisa ditukarkan mulai besok.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">Itinerary Anda sudah siap!</string>
+
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -652,71 +995,6 @@
     <!-- Button label to add a hotel in the air attach case. -->
     <string name="add_hotel_air_attach">Tambahkan hotel</string>
 
-
-    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">Bicarakan dengan Local Expert</string>
-
-    <!-- Local Expert Sites -->
-    <!-- Name of Hawaii (for local expert) -->
-    <string name="site_hawaii">Hawaii</string>
-    <!-- Name of Orlando, FL (for local expert) -->
-    <string name="site_orlando">Orlando</string>
-    <!-- Name of Las Vegas (for local expert) -->
-    <string name="site_las_vegas">Las Vegas</string>
-
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
-    <string name="local_expert_title_TEMPLATE">Nikmati %1$s</string>
-    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">Local Expert Concierge Anda bisa dihubungi kapan saja melalui telepon\nuntuk membantu kebutuhan perjalanan Anda.</string>
-    <!-- Text for the button on Local Expert pages, to call the concierge -->
-    <string name="local_expert_call_button_text">Telepon sekarang</string>
-
-    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_first">Mengagumkan</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_second">hewan-hewan</string>
-    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_first">Lihat</string>
-    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_second">theme park terbaik</string>
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Temukan</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_second">pantai terbaik</string>
-    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_first">Naik</string>
-    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_second">helikopter</string>
-    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_first">Pergi</string>
-    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_second">scuba diving</string>
-    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_first">Kasino</string>
-    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_second">kelas dunia</string>
-    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_first">Kendarai</string>
-    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_second">ferrari</string>
-    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_first">Aktivitas untuk</string>
-    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_second">keluarga</string>
-    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_first">Cicipi</string>
-    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_second">hidangan lezat</string>
-    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">Temukan</string>
-    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_second">hiburan terbaik</string>
-    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_first">Dengarkan</string>
-    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_second">musik setempat</string>
-
     <!-- Car category -->
     <!-- Car category: mini -->
     <string name="car_category_mini">Mobil Mini</string>
@@ -754,6 +1032,44 @@
     <string name="car_category_special">Mobil Khusus</string>
     <!-- Car category: oversize -->
     <string name="car_category_oversize">Mobil Ukuran Ekstra Besar</string>
+
+    <!-- Car category for results and details screen -->
+    <!-- Car category: mini -->
+    <string name="car_category_result_mini">Mini</string>
+    <!-- Car category: economy -->
+    <string name="car_category_result_economy">Ekonomi</string>
+    <!-- Car category: compact -->
+    <string name="car_category_result_compact">Compact</string>
+    <!-- Car category: midize -->
+    <string name="car_category_result_midsize">Mid-size</string>
+    <!-- Car category: standard -->
+    <string name="car_category_result_standard">Standar</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_result_fullsize">Full-size</string>
+    <!-- Car category: premium -->
+    <string name="car_category_result_premium">Premium</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_result_luxury">Mewah</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_result_mini_elite">Mini Elite</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_result_economy_elite">Economy Elite</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_result_compact_elite">Compact Elite</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_result_midsize_elite">Mid-size Elite</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_result_standard_elite">Standard Elite</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_result_fullsize_elite">Full-size Elite</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_result_premium_elite">Premium Elite</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_result_luxury_elite">Luxury Elite</string>
+    <!-- Car category: special -->
+    <string name="car_category_result_special">Khusus</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_result_oversize">Ukuran besar</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">Mobil Dua Pintu</string>
@@ -1240,6 +1556,8 @@
     <string name="slide_to_book_flight">geser untuk memesan penerbangan</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Kartu kredit Anda akan dikenai %1$s</string>
+    <!-- Cars amount due today without a required credit card -->
+    <string name="amount_due_today_TEMPLATE">Dibayar hari ini: %1$s</string>
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">Jumlah harus dibayar sekarang: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -1292,6 +1610,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">Total biaya perjalanan Anda, termasuk &lt;b&gt;%1$s&lt;/b&gt; untuk biaya resor, akan menjadi &lt;b&gt;%2$s&lt;/b&gt;. Anda akan membayar total biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Total biaya perjalanan Anda, termasuk &lt;b&gt;%1$s&lt;/b&gt; untuk biaya resor, akan menjadi &lt;b&gt;%2$s&lt;/b&gt;. Anda akan membayar sisa biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
+    <!-- Flights AB Test Free Cancellation-->
+    <string name="ab_test_flights_free_cancellation">Pembatalan gratis dalam 24 jam</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1399,6 +1719,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Nomor Kartu Kredit</string>
+    <!-- Security code (CVV) hint -->
+    <string name="cvv_hint">CVV</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Tanggal Kedaluwarsa</string>
     <!-- Set expiration date button -->
@@ -1455,6 +1777,8 @@
     <string name="middle_name">Nama Tengah</string>
     <!-- Last name label -->
     <string name="last_name">Nama Belakang</string>
+    <!-- First and Last Name label -->
+    <string name="first_and_last_name">Nama depan dan belakang</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Tanggal Lahir</string>
     <!-- male -->
@@ -1574,6 +1898,8 @@
     <string name="air_attach_expires">Penawaran berakhir dalam</string>
     <!-- Air attach offer expiration date -->
     <string name="air_attach_expiration_date_TEMPLATE">%d hari</string>
+    <!-- Air attach expires today alert -->
+    <string name="air_attach_expires_today">Promo berakhir hari ini</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">Tambahkan Hotel</string>
     <!-- Air attach add hotel button subtitle -->
@@ -1866,6 +2192,12 @@
     <string name="progress_finding_location">Mencari Lokasi Saat Ini…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Mencari Hotel…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_message">Sedang mencari…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_working_hard">Kami sedang mencarikan penawaran hotel terbaik untuk Anda.</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_hundreds">Sedang memilih dari ratusan hotel yang tepat untuk Anda.</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">Mencari Hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1918,6 +2250,8 @@
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">Pesan Sekarang</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now_ab_test">Pilih Kamar</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Pesan lewat Telepon</string>
 
@@ -3144,5 +3478,8 @@
 
     <!-- Mail intent chooser dialog title -->
     <string name="mailto_title">Mengirim email…</string>
+
+    <!-- Template for generating textview clicks -->
+    <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
 
 </resources>

@@ -376,6 +376,7 @@ public class SuggestionProvider extends ContentProvider {
 		suggestion.setMultiCityRegionId(c.getInt(COL_MULTI_CITY_REGION_ID));
 		suggestion.setRegionId(c.getInt(COL_REGION_ID));
 		suggestion.setAirportCode(c.getString(COL_AIRPORT_CODE));
+		suggestion.setIcon(c.getInt(COL_ICON_1));
 
 		return suggestion;
 	}

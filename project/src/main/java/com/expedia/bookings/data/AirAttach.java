@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.server.DateTimeParser;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
@@ -13,20 +14,20 @@ public class AirAttach implements JSONable {
 	private boolean mAirAttachQualified;
 	private DateTime mExpirationDate;
 
-	public boolean isAirAttachQualified() {
-		return mAirAttachQualified;
+	public AirAttach() {
+		// Default constructor for JSONable
 	}
 
-	public void setAirAttachQualified(boolean airAttachQualified) {
-		mAirAttachQualified = airAttachQualified;
+	public AirAttach(JSONObject obj) {
+		fromJson(obj);
+	}
+
+	public boolean isAirAttachQualified() {
+		return mAirAttachQualified && mExpirationDate != null;
 	}
 
 	public DateTime getExpirationDate() {
 		return mExpirationDate;
-	}
-
-	public void setExpirationDate(DateTime expirationDate) {
-		mExpirationDate = expirationDate;
 	}
 
 	@Override
@@ -34,7 +35,7 @@ public class AirAttach implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			obj.put("airAttachQualified", mAirAttachQualified);
-			JodaUtils.putDateTimeInJson(obj, "expirationDate", mExpirationDate);
+			JodaUtils.putDateTimeInJson(obj, "offerExpires", mExpirationDate);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -46,7 +47,7 @@ public class AirAttach implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mAirAttachQualified = obj.optBoolean("airAttachQualified", false);
-		mExpirationDate = JodaUtils.getDateTimeFromJsonBackCompat(obj, "expirationDate", "");
+		mExpirationDate = DateTimeParser.parseDateTime(obj.opt("offerExpires"));
 		return true;
 	}
 }

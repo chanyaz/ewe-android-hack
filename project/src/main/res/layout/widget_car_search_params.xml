@@ -1,125 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.CarSearchParamsWidget xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.presenter.CarSearchPresenter xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clickable="true">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/search_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <FrameLayout
-            android:id="@+id/search_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/backout_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:src="@drawable/ic_action_bar_back_arrow"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:layout_gravity="center"
-                android:text="@string/dates_and_location"/>
-
-            <ImageButton
-                android:id="@+id/search_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:src="@drawable/ic_action_bar_checkmark"/>
-        </FrameLayout>
+        android:orientation="vertical"
+        android:background="#F9F9F9"
+        android:paddingTop="?attr/actionBarSize"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/location_container"
+            android:clipToPadding="false"
+            android:clipChildren="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/search_header"
+            android:paddingBottom="@dimen/car_search_dropdown_padding"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_alignParentTop="true"
             android:orientation="horizontal">
 
-            <EditText
+            <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
                 android:id="@+id/pickup_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CarAutocomplete"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
+                android:completionThreshold="1"
+                android:dropDownAnchor="@+id/location_container"
+                android:dropDownSelector="#FFFFFF"
                 android:hint="@string/pick_up_location"
-                android:singleLine="true"/>
+                android:imeOptions="actionDone"
+                android:inputType="textNoSuggestions" />
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/dropoff_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CarAutocomplete"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:hint="@string/same_as_pick_up"/>
+                android:gravity="center_vertical"
+                android:hint="@string/same_as_pick_up"
+                android:textColor="@color/cars_dropdown_disabled_stroke"
+                android:textColorHint="@color/cars_dropdown_disabled_stroke"
+                app:textStyle="normal" />
         </LinearLayout>
 
-        <Button
+        <ToggleButton
             android:id="@+id/select_date"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="46dp"
             android:layout_below="@id/location_container"
-            android:text="@string/select_pickup_and_dropoff_dates"/>
-    </RelativeLayout>
+            android:layout_marginTop="@dimen/car_search_toggle_button_padding"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/cars_button_background_selector"
+            android:drawableLeft="@drawable/cars_button_circle"
+            android:drawablePadding="12dp"
+            android:textAllCaps="false"
+            android:paddingLeft="13dp"
+            android:gravity="left|center_vertical"
+            android:paddingRight="5dp"
+            android:textColor="@drawable/cars_text_selector"
+            android:textOff="@string/select_pickup_and_dropoff_dates"
+            android:textOn="@string/select_pickup_and_dropoff_dates"
+            android:textSize="14sp" />
 
-    <LinearLayout
-        android:id="@+id/calendar_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="vertical">
-
-        <com.mobiata.android.time.widget.CalendarPicker
-            android:id="@+id/calendar"
+        <include
+            android:id="@+id/calendar_container"
+            layout="@layout/widget_car_date_time"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:layout_gravity="bottom"/>
+            android:layout_height="10dp"
+            android:layout_weight="1" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="12dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="18sp"
-                android:text="@string/pick_up_time_label"/>
-
-            <SeekBar
-                android:id="@+id/pickup_time_seek_bar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:max="47"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="12dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/drop_off_time_label"
-                android:textSize="18sp"
-                android:layout_weight="1"/>
-
-            <SeekBar
-                android:id="@+id/dropoff_time_seek_bar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:max="47" />
-        </LinearLayout>
     </LinearLayout>
 
-</com.expedia.bookings.widget.CarSearchParamsWidget>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_gravity="top"
+        android:minHeight="?attr/actionBarSize" />
+
+</com.expedia.bookings.presenter.CarSearchPresenter>

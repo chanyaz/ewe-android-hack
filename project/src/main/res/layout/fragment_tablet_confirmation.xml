@@ -66,11 +66,11 @@
                 </LinearLayout>
 
                 <!-- TabletConfirmationFragment will inflate the rest of the actions here -->
-                <LinearLayout
+                <com.wefika.flowlayout.FlowLayout
                     android:id="@+id/custom_actions_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
+                    android:gravity="center|top" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/confirmation_itinerary_text_view"

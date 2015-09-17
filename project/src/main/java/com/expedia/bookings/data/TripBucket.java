@@ -72,6 +72,13 @@ public class TripBucket implements JSONable {
 	}
 
 	/**
+	 * Convenience method to remove all LX Activities from this TripBucket.
+	 */
+	public void clearLX() {
+		clear(LineOfBusiness.LX);
+	}
+
+	/**
 	 * Convenience method to determine when we really need to refresh this TripBucket.
 	 * @return
 	 */
@@ -124,6 +131,21 @@ public class TripBucket implements JSONable {
 		checkForMismatchedItems();
 	}
 
+	public void add(TripBucketItemCar car) {
+		mLastLOBAdded = LineOfBusiness.CARS;
+		mRefreshCount++;
+		mItems.add(car);
+
+		checkForMismatchedItems();
+	}
+
+	public void add(TripBucketItemLX lx) {
+		mLastLOBAdded = LineOfBusiness.LX;
+		mRefreshCount++;
+		mItems.add(lx);
+
+		checkForMismatchedItems();
+	}
 	/**
 	 * Adds a Flight to the trip bucket.
 	 */
@@ -147,6 +169,27 @@ public class TripBucket implements JSONable {
 	public boolean isEmpty() {
 		return mItems.size() < 1;
 	}
+
+	/**
+	 * Returns the first car found in the bucket, or null if not found.
+	 *
+	 * @return
+	 */
+	public TripBucketItemCar getCar() {
+		int index = getIndexOf(LineOfBusiness.CARS);
+		return index == -1 ? null : (TripBucketItemCar) mItems.get(index);
+	}
+
+	/**
+	 * Returns the first LX found in the bucket, or null if not found.
+	 *
+	 * @return
+	 */
+	public TripBucketItemLX getLX() {
+		int index = getIndexOf(LineOfBusiness.LX);
+		return index == -1 ? null : (TripBucketItemLX) mItems.get(index);
+	}
+
 
 	/**
 	 * Returns the first hotel found in the bucket, or null if not found.
@@ -310,8 +353,23 @@ public class TripBucket implements JSONable {
 		return mAirAttach;
 	}
 
-	public void setAirAttach(AirAttach airAttach) {
-		mAirAttach = airAttach;
+	/**
+	 * Set a new global air attach state if
+	 * 	1) we don't have one or
+	 * 	2) the existing air attach qualification is outdated
+	 * @param airAttach
+	 * @return whether or not air attach was updated
+	 */
+	public boolean setAirAttach(AirAttach airAttach) {
+		if (mAirAttach == null || !mAirAttach.isAirAttachQualified() || mAirAttach.getExpirationDate().isBefore(airAttach.getExpirationDate())) {
+			mAirAttach = airAttach;
+			return true;
+		}
+		return false;
+	}
+
+	public void clearAirAttach() {
+		mAirAttach = null;
 	}
 
 	public boolean isUserAirAttachQualified() {

@@ -9,6 +9,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.FlightUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -82,7 +83,7 @@ public class FlightSearchDownloadFragment extends Fragment {
 	private final Download<FlightSearchResponse> mSearchDownload = new Download<FlightSearchResponse>() {
 		@Override
 		public FlightSearchResponse doDownload() {
-			if (getActivity() != null) {
+			if (getActivity() != null && FlightUtils.dateRangeSupportsFlightSearch(getActivity())) {
 				ExpediaServices services = new ExpediaServices(getActivity());
 				return services.flightSearch(mSearchParams, 0);
 			}

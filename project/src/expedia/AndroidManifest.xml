@@ -14,7 +14,7 @@
         <!-- Deep link routing activity -->
         <activity
             android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"
-            android:theme="@android:style/Theme.NoDisplay" >
+            android:theme="@android:style/Theme.NoDisplay" android:launchMode="singleTask" >
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

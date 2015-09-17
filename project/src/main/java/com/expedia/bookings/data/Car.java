@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
+import com.expedia.bookings.utils.GsonUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -65,7 +66,7 @@ public class Car implements JSONable {
 	private CarVendor mVendor;
 
 	private CarCategory mCategory;
-	private Media mCategoryImage;
+	private HotelMedia mCategoryImage;
 
 	private CarType mType;
 
@@ -141,11 +142,11 @@ public class Car implements JSONable {
 		mCategory = category;
 	}
 
-	public Media getCategoryImage() {
+	public HotelMedia getCategoryImage() {
 		return mCategoryImage;
 	}
 
-	public void setCategoryImage(Media categoryImage) {
+	public void setCategoryImage(HotelMedia categoryImage) {
 		mCategoryImage = categoryImage;
 	}
 
@@ -169,7 +170,7 @@ public class Car implements JSONable {
 
 			obj.putOpt("confNumber", mConfNumber);
 
-			JSONUtils.putJSONable(obj, "price", mPrice);
+			GsonUtil.putForJsonable(obj, "price", mPrice);
 			JodaUtils.putDateTimeInJson(obj, "pickupJodaDateTime", mPickUpDateTime);
 			JSONUtils.putJSONable(obj, "pickupLocation", mPickUpLocation);
 			JodaUtils.putDateTimeInJson(obj, "dropoffJodaDateTime", mDropOffDateTime);
@@ -195,7 +196,7 @@ public class Car implements JSONable {
 
 		mConfNumber = obj.optString("confNumber", null);
 
-		mPrice = JSONUtils.getJSONable(obj, "price", Money.class);
+		mPrice = GsonUtil.getForJsonable(obj, "price", Money.class);
 		mPickUpDateTime = JodaUtils.getDateTimeFromJsonBackCompat(obj, "pickupJodaDateTime", "pickupDateTime");
 		mPickUpLocation = JSONUtils.getJSONable(obj, "pickupLocation", Location.class);
 		mPickUpDateTime = JodaUtils.getDateTimeFromJsonBackCompat(obj, "dropoffJodaDateTime", "dropoffDateTime");
@@ -204,7 +205,7 @@ public class Car implements JSONable {
 		mVendor = JSONUtils.getJSONable(obj, "vendor", CarVendor.class);
 
 		mCategory = JSONUtils.getEnum(obj, "category", CarCategory.class);
-		mCategoryImage = JSONUtils.getJSONable(obj, "categoryImage", Media.class);
+		mCategoryImage = JSONUtils.getJSONable(obj, "categoryImage", HotelMedia.class);
 
 		mType = JSONUtils.getEnum(obj, "type", CarType.class);
 

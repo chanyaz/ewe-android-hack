@@ -12,7 +12,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
@@ -38,7 +38,7 @@ public class ParserUtils {
 	 * Often times when parsing URLs are not prefixed with the Expedia URL,
 	 * which is good but we need to fix it.
 	 */
-	public static Media parseUrl(String url) {
+	public static HotelMedia parseUrl(String url) {
 		if (TextUtils.isEmpty(url)) {
 			return null;
 		}
@@ -47,7 +47,7 @@ public class ParserUtils {
 			url = ExpediaBookingApp.MEDIA_URL + url;
 		}
 
-		return new Media(url);
+		return new HotelMedia(url);
 	}
 
 	/**
