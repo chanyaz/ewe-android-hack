@@ -33,6 +33,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
 import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.HotelTravelerPickerView
+import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribe
@@ -51,7 +52,8 @@ import java.util.Locale
 import kotlin.properties.Delegates
 
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
-    val searchLocation: AlwaysFilterAutoCompleteTextView by bindView(R.id.hotel_location)
+    val searchLocationTextView: TextView by bindView(R.id.hotel_location)
+    val searchLocationEditText: AlwaysFilterAutoCompleteTextView by bindView(R.id.hotel_location_autocomplete)
     val dropdownAnchor: View by bindView(R.id.drop_down_anchor)
     val clearLocationButton: ImageView by bindView(R.id.clear_location_button)
     val selectDate: ToggleButton by bindView(R.id.select_date)
@@ -59,7 +61,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     val calendar: CalendarPicker by bindView(R.id.calendar)
     val monthView: MonthView by bindView(R.id.month)
     val monthSelectionView by Delegates.lazy {
-       findViewById(R.id.previous_month).getParent() as LinearLayout
+        findViewById(R.id.previous_month).getParent() as LinearLayout
     }
     val traveler: HotelTravelerPickerView by bindView(R.id.traveler_view)
     val dayOfWeek: DaysOfWeekView by bindView(R.id.days_of_week)
@@ -101,12 +103,12 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         //Adjust height of Dropdown according to height available (depending on keyboard visibility)
         val mRootWindow = (getContext() as Activity).getWindow()
         val mRootView = mRootWindow.getDecorView().findViewById(android.R.id.content)
-        mRootView.getViewTreeObserver().addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
+        mRootView.getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 val decorView = mRootWindow.getDecorView()
                 val windowVisibleDisplayFrameRect = Rect()
                 decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
-                searchLocation.setDropDownHeight(windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - dropdownAnchor.getY().toInt() - 100)
+                searchLocationEditText.setDropDownHeight(windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - dropdownAnchor.getY().toInt() - 100)
                 //Invalidate the Dropdown so it redraws itself
                 hotelSuggestionAdapter.notifyDataSetChanged()
             }
@@ -118,8 +120,8 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
                 if (ExpediaBookingApp.isAutomation()) {
                     return
                 }
-                searchLocation.requestFocus()
-                com.mobiata.android.util.Ui.showKeyboard(searchLocation, null)
+                searchLocationEditText.requestFocus()
+                com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
             }
         }, 300)
     }
@@ -155,7 +157,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.enableDateObservable.subscribe { enable ->
             if (enable) {
                 selectDate.setChecked(true)
-                searchLocation.clearFocus()
+                searchLocationEditText.clearFocus()
                 calendar.setVisibility(View.VISIBLE)
                 traveler.setVisibility(View.GONE)
                 show(HotelParamsCalendar(), Presenter.FLAG_CLEAR_BACKSTACK)
@@ -170,7 +172,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.enableTravelerObservable.subscribe { enable ->
             if (enable) {
                 selectTraveler.setChecked(true)
-                searchLocation.clearFocus()
+                searchLocationEditText.clearFocus()
                 calendar.setVisibility(View.GONE)
                 traveler.setVisibility(View.VISIBLE)
                 calendar.hideToolTip()
@@ -179,21 +181,34 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             }
         }
 
-        searchLocation.setAdapter(hotelSuggestionAdapter)
-        searchLocation.setOnClickListener { view ->
-            searchLocation.showDropDown()
-        }
-        searchLocation.setOnFocusChangeListener { view, isFocused ->
-            if (isFocused) {
-                searchLocation.setText(searchLocation.getText() ?: "")
-                clearLocationButton.setVisibility(View.VISIBLE)
-            } else{
-                clearLocationButton.setVisibility(View.GONE)
-                com.mobiata.android.util.Ui.hideKeyboard(this)
+        searchLocationEditText.setAdapter(hotelSuggestionAdapter)
+
+        searchLocationTextView.setOnFocusChangeListener { view, isFocussed ->
+            if (isFocussed) {
+                searchLocationTextView.setVisibility(View.GONE)
+                searchLocationEditText.setVisibility(View.VISIBLE)
+                searchLocationEditText.requestFocus()
+                searchLocationEditText.setSelection(searchLocationEditText.getText().length())
+                searchLocationEditText.showDropDown()
             }
         }
 
-        searchLocation.addTextChangedListener(object : TextWatcher {
+        searchLocationEditText.setOnFocusChangeListener { view, isFocused ->
+            if (isFocused) {
+                searchLocationEditText.setText(searchLocationEditText.getText() ?: "")
+                clearLocationButton.setVisibility(View.VISIBLE)
+            } else {
+                searchLocationTextView.setText(searchLocationEditText.getText())
+                searchLocationEditText.setVisibility(View.GONE)
+                clearLocationButton.setVisibility(View.GONE)
+                com.mobiata.android.util.Ui.hideKeyboard(this)
+
+                searchLocationEditText.clearFocus()
+                searchLocationTextView.setVisibility(View.VISIBLE)
+            }
+        }
+
+        searchLocationEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
             }
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -213,22 +228,23 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             }
         })
 
-        searchLocation.setOnItemClickListener {
+        searchLocationEditText.setOnItemClickListener {
             adapterView, view, position, l ->
             vm.suggestionObserver.onNext(hotelSuggestionAdapter.getItem(position))
+            searchLocationEditText.clearFocus()
+
             selectDate.setChecked(true)
             selectTraveler.setChecked(true)
 
-            searchLocation.clearFocus()
             calendar.setVisibility(View.VISIBLE)
             traveler.setVisibility(View.GONE)
             show(HotelParamsCalendar(), Presenter.FLAG_CLEAR_BACKSTACK)
         }
 
-        vm.locationTextObservable.subscribe(searchLocation)
+        vm.locationTextObservable.subscribe(searchLocationEditText)
 
         clearLocationButton.setOnClickListener { view ->
-            searchLocation.setText(null)
+            searchLocationEditText.setText(null)
         }
 
         searchButton.subscribeOnClick(vm.searchObserver)
@@ -242,7 +258,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.errorNoOriginObservable.subscribe {
             selectDate.setChecked(false)
             selectTraveler.setChecked(false)
-            AnimUtils.doTheHarlemShake(searchLocation)
+            AnimUtils.doTheHarlemShake(searchLocationEditText)
         }
         vm.errorNoDatesObservable.subscribe {
             if (calendar.getVisibility() == View.VISIBLE) {
@@ -333,7 +349,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             calendar.setTranslationY((if (forward) 0 else calendarHeight).toFloat())
             if (forward) {
                 com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenter)
-                searchLocation.clearFocus()
+                searchLocationEditText.clearFocus()
                 calendar.hideToolTip()
             }
             calendar.setVisibility(View.VISIBLE)

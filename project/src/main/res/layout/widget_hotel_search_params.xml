@@ -41,8 +41,18 @@
                     android:src="@drawable/location"
                     android:tint="#FFFFFF" />
 
-                <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/hotel_location"
+                    style="@style/CarAutocomplete"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_toEndOf="@id/location_image_view"
+                    android:layout_weight="1"
+                    android:textColorHighlight="#12AD9F"
+                    android:visibility="gone" />
+
+                <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
+                    android:id="@+id/hotel_location_autocomplete"
                     style="@style/CarAutocomplete"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -61,7 +71,7 @@
                     android:id="@+id/clear_location_button"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:layout_alignRight="@id/hotel_location"
+                    android:layout_alignRight="@id/hotel_location_autocomplete"
                     android:layout_centerVertical="true"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"

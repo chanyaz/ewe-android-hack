@@ -46,7 +46,7 @@ public class HotelScreen {
 	}
 
 	public static ViewInteraction location() {
-		return onView(withId(R.id.hotel_location));
+		return onView(withId(R.id.hotel_location_autocomplete));
 	}
 
 	public static ViewInteraction clearButton() {
