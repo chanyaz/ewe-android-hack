@@ -83,6 +83,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_cost_summary_date_row,
 		R.drawable.hotels_pin,
 		R.layout.widget_hotel_filter,
-		R.array.sort_options_material_hotels
+		R.array.sort_options_material_hotels,
+		R.layout.section_hotel_neighborhood_row
 	};
 }

@@ -364,12 +364,21 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/neighborhoods"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="20dp"
                         android:text="@string/neighborhoods"
                         android:textColor="@color/hotels_primary_color" />
+
+                    <LinearLayout
+                        android:id="@+id/neighborhoods"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp" />
 
                 </LinearLayout>
 
