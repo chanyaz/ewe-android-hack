@@ -3,9 +3,12 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TableLayout
+import android.widget.ToggleButton
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
@@ -14,11 +17,12 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribe
 import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelRoomRateViewModel
 import rx.Observer
+import com.expedia.util.subscribe
 
 public class HotelRoomRateView(context: Context, val container: TableLayout, val selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : LinearLayout(context) {
 
@@ -31,6 +35,7 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
     val expandedBedType: TextView by bindView(R.id.expanded_bed_type_text_view)
     val dailyPricePerNight: TextView by bindView(R.id.daily_price_per_night)
     val totalPricePerNight: TextView by bindView(R.id.total_price_per_night)
+    val perNight : TextView by bindView(R.id.per_night)
     val viewRoom: ToggleButton by bindView (R.id.view_room_button)
     val roomHeaderImage: ImageView by bindView(R.id.room_header_image)
     val roomInformationText: TextView by bindView(R.id.room_info_description_text)
@@ -39,7 +44,7 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
     val expandedAmenity: TextView by bindView(R.id.expanded_amenity_text_view)
     val freeCancellation: TextView by bindView(R.id.expanded_free_cancellation_text_view)
     val roomInfoHeader: TextView by bindView(R.id.room_info_header_text)
-    val divider : View by bindView(R.id.divider)
+    val divider : View by bindView(R.id.room_info_divider)
 
 
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
@@ -65,6 +70,7 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
         }
 
         vm.dailyPricePerNightObservable.subscribe(dailyPricePerNight)
+        vm.perNightObservable.subscribeVisibility(perNight)
         vm.roomHeaderImageObservable.subscribe { imageUrl ->
             val drawable = Images.makeHotelBitmapDrawable(getContext(), emptyPicassoCallback, roomHeaderImage.getMaxWidth(), imageUrl, PICASSO_HOTEL_ROOM)
             roomHeaderImage.setImageDrawable(drawable)
@@ -83,10 +89,14 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
             if (expand) {
                 dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
                 dailyPricePerNight.setTextColor(getResources().getColor(R.color.hotels_primary_color))
+                perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+                perNight.setTextColor(getResources().getColor(R.color.hotels_primary_color))
                 divider.setVisibility(View.VISIBLE)
             } else {
                 dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
                 dailyPricePerNight.setTextColor(getResources().getColor(R.color.hotel_cell_disabled_text))
+                perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+                perNight.setTextColor(getResources().getColor(R.color.hotel_cell_disabled_text))
                 divider.setVisibility(View.GONE)
             }
 
@@ -108,7 +118,7 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
             val expandedAmenity = row.findViewById (R.id.expanded_amenity_text_view) as TextView
             val freeCancellation = row.findViewById (R.id.expanded_free_cancellation_text_view) as TextView
             val totalPricePerNight = row.findViewById(R.id.total_price_per_night) as TextView
-            val divider = row.findViewById(R.id.divider)
+            val divider = row.findViewById(R.id.room_info_divider)
             Ui.setViewBackground(row.findViewById(R.id.root), null)
 
             viewRoom.setChecked(false)

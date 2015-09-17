@@ -67,8 +67,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
 
     val priceContainer: ViewGroup by bindView(R.id.price_widget)
-    val pricePerNight: TextView by bindView(R.id.price_per_night)
     val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
+    val price: TextView by bindView(R.id.price)
+
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
     val ratingContainer: LinearLayout by bindView(R.id.rating_container)
     val selectRoomButton: Button by bindView(R.id.select_room_button)
@@ -80,6 +81,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val hotelDescriptionContainer : ViewGroup by bindView(R.id.hotel_description_container)
     val mapView: MapView by bindView(R.id.map_view)
     val mapClickContainer: FrameLayout by bindView(R.id.map_click_container)
+    val gradientHeight = context.getResources().getDimension(R.dimen.hotel_detail_gradient_height)
 
     val hotelMessagingContainer: LinearLayout by bindView(R.id.promo_messaging_container)
     val discountPercentage: widget.TextView by bindView(R.id.discount_percentage)
@@ -98,6 +100,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
     val noAmenityText: TextView by bindView(R.id.amenities_none_text)
+    val etpDivider : View by bindView(R.id.etp_divider)
 
     val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
     val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
@@ -111,6 +114,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var statusBarHeight = 0
     var toolBarHeight = 0
     val toolBarBackground: View by bindView(R.id.toolbar_background)
+    val toolBarGradient : View by bindView(R.id.hotel_details_gradient)
     var hotelLatLng: DoubleArray by Delegates.notNull()
     var offset: Float by Delegates.notNull()
     var priceContainerLocation = IntArray(2)
@@ -145,15 +149,21 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.sectionBodyObservable.subscribe(hotelDescription)
         vm.hotelNameObservable.subscribe(toolbarTitle)
         vm.hotelRatingObservable.subscribe(toolBarRating)
-        vm.pricePerNightObservable.subscribe(pricePerNight)
         vm.strikeThroughPriceObservable.subscribe(strikeThroughPrice)
         vm.hasDiscountPercentageObservable.subscribeVisibility(strikeThroughPrice)
+        vm.pricePerNightObservable.subscribe(price)
         vm.searchInfoObservable.subscribe(searchInfo)
         vm.userRatingObservable.subscribe(userRating)
         vm.numberOfReviewsObservable.subscribe(numberOfReviews)
         vm.hotelLatLngObservable.subscribe { values -> hotelLatLng = values }
-        vm.showBookByPhoneObservable.subscribe{showPayByPhone ->
-            if(showPayByPhone) payByPhoneContainer.setVisibility(View.VISIBLE) else payByPhoneContainer.setVisibility(View.GONE)
+        vm.showBookByPhoneObservable.subscribe { showPayByPhone ->
+            if (showPayByPhone) {
+                payByPhoneContainer.setVisibility(View.VISIBLE)
+                marginForSelectRoom(payByPhoneContainer)
+            } else {
+                payByPhoneContainer.setVisibility(View.GONE)
+                marginForSelectRoom(propertyTextContainer)
+            }
         }
         vm.discountPercentageObservable.subscribe(discountPercentage)
         vm.hasDiscountPercentageObservable.subscribeVisibility(discountPercentage)
@@ -198,8 +208,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         
         ratingContainer.subscribeOnClick(vm.reviewsClickedSubject)
         mapClickContainer.subscribeOnClick(vm.mapClickedSubject)
-        etpRadioGroup.subscribeOnCheckedChange(etpContainerObserver)
-        renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         etpInfoText.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
 
         vm.startMapWithIntentObservable.subscribe { intent -> getContext().startActivity(intent) }
@@ -233,11 +241,19 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         etpAndFreeCancellationMessagingContainer.setVisibility(View.GONE)
         detailContainer.scrollTo(0, 0)
         toolBarBackground.setAlpha(0f)
+        toolBarGradient.setTranslationY(0f)
         priceViewAlpha(1f)
         resortFeeWidget.setVisibility(View.GONE)
         commonAmenityText.setVisibility(View.GONE)
         commonAmenityDivider.setVisibility(View.GONE)
         noAmenityText.setVisibility(View.GONE)
+    }
+
+    fun marginForSelectRoom(viewGroup: ViewGroup) {
+        val bottomMargin = stickySelectRoomButton.getHeight()
+        val layoutParams = viewGroup.getLayoutParams() as ViewGroup.MarginLayoutParams
+        layoutParams.bottomMargin = bottomMargin
+        viewGroup.setLayoutParams(layoutParams)
     }
 
     val etpContainerObserver: Observer<Int> = endlessObserver { checkedId ->
@@ -279,6 +295,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 toolBarBackground.setAlpha(0f)
             }
 
+            if(priceContainerLocation[1] < gradientHeight){
+                toolBarGradient.setTranslationY(-(gradientHeight-priceContainerLocation[1]))
+            }
+
             var ratio = (priceContainerLocation[1]) / offset
             priceViewAlpha(ratio * 1.5f)
 
@@ -293,7 +313,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     fun priceViewAlpha(ratio: Float) {
-        pricePerNight.setAlpha(ratio)
+        price.setAlpha(ratio)
         searchInfo.setAlpha(ratio)
         selectRoomButton.setAlpha(ratio)
     }
@@ -316,6 +336,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         var scrollTo = roomContainerPosition[1] - offset + detailContainer.getScrollY()
         if (etpContainer.getVisibility() == View.VISIBLE) scrollTo -= etpContainer.getHeight()
+        if (commonAmenityText.getVisibility() == View.VISIBLE) scrollTo -= (commonAmenityText.getHeight() + getResources().getDimension(R.dimen.hotel_detail_divider_margin))
         val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.getScrollY(), scrollTo.toInt())
         smoothScrollAnimation.setDuration(ANIMATION_DURATION)
         smoothScrollAnimation.setInterpolator(DecelerateInterpolator())

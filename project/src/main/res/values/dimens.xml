@@ -341,4 +341,8 @@
 
     <!-- Approx height of car & lx suggestion's row -->
     <dimen name="suggestion_list_height">60dp</dimen>
+    <!-- gradient height in hotel details -->
+    <dimen name="hotel_detail_gradient_height">120dp</dimen>
+    <!-- hotel Detail divider margin -->
+    <dimen name="hotel_detail_divider_margin">10dp</dimen>
 </resources>
