@@ -163,7 +163,6 @@ class HotelBreakDownViewModel(val context: Context) {
             var count = 0;
             val checkIn = DateUtils.yyyyMMddToLocalDate(hotel.newHotelProductResponse.checkInDate)
             for (rate in originalRate.nightlyRatesPerRoom) {
-                count++
                 var dtf = DateTimeFormat.forPattern("M/dd/yyyy");
                 val date = dtf.print(checkIn.plusDays(count))
                 val amount = Money(BigDecimal(rate.rate), originalRate.currencyCode)
@@ -173,6 +172,7 @@ class HotelBreakDownViewModel(val context: Context) {
                     amount.getFormattedMoney()
 
                 breakdowns.add(Breakdown(date, amountStr, true))
+                count++
             }
 
             // Discount
