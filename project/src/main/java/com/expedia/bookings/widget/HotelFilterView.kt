@@ -19,6 +19,7 @@ import android.widget.RatingBar
 import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.Ui
@@ -55,14 +56,15 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val filterContainer: ViewGroup by bindView(R.id.filter_container)
     val doneButton:Button by Delegates.lazy {
         val button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_checkmark_item, null) as Button
-        val navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate()
-        navIcon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN)
-        button.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
+        val icon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate()
+        icon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN)
+        button.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         toolbar.getMenu().findItem(R.id.apply_check).setActionView(button)
         button
     }
     val toolbarDropshadow: View by bindView(R.id.toolbar_dropshadow)
     val priceRangeBar : ViewGroup by bindView(R.id.price_range_bar)
+    val neighborhoodContainer: LinearLayout by bindView(R.id.neighborhoods)
 
     var subject: Observer<List<Hotel>> by Delegates.notNull()
 
@@ -94,6 +96,15 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         vm.finishClear.subscribe {
             resetStars()
+
+            filterHotelVip.setChecked(false)
+
+            for (i in 0 .. neighborhoodContainer.getChildCount() -1){
+                val v = neighborhoodContainer.getChildAt(i)
+                if (v is HotelsNeighborhoodFilter) {
+                    v.neighborhoodCheckBox.setChecked(false)
+                }
+            }
         }
 
         vm.hotelStarRatingBar.subscribe {
@@ -158,6 +169,18 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             }
 
         })
+
+        vm.neighborhoodListObservable.subscribe { list ->
+            neighborhoodContainer.removeAllViews()
+            if (list != null){
+                for (neighborhood in list){
+                    val neighborhoodView = LayoutInflater.from(getContext()).inflate(R.layout.section_hotel_neighborhood_row, null) as HotelsNeighborhoodFilter
+                    neighborhoodView.bind(neighborhood,vm)
+                    neighborhoodView.subscribeOnClick(neighborhoodView.checkObserver)
+                    neighborhoodContainer.addView(neighborhoodView)
+                }
+            }
+        }
 
     }
 
