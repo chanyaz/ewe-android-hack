@@ -1,9 +1,9 @@
 package com.mobiata.mocke3
 
-import com.squareup.okhttp.mockwebserver.Dispatcher
 import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
-import java.util.regex.Matcher
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import java.util.regex.Pattern
 
 public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener: FileOpener) {
@@ -34,7 +34,7 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
                 val productKey = params.get("productKey") ?: return make404()
                 val isHotelCouponError = HotelRequestMatcher.doesItMatch("^hotel_coupon_errors$", productKey)
                 val fileName = if (!isHotelCouponError) productKey else "hotel_coupon_errors"
-
+                injectDates(params)
                 return getMockResponse("m/api/hotel/trip/create/" + fileName + ".json", params)
             }
 
@@ -50,6 +50,14 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
 
             else -> make404()
         }
+    }
+
+    private fun injectDates(params: MutableMap<String, String> ) {
+        var dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+        val checkIn = DateTime.now()
+        val checkOut = checkIn.plusDays(2)
+        params.put("checkInDate", dtf.print(checkIn))
+        params.put("checkOutDate", dtf.print(checkOut))
     }
 }
 
