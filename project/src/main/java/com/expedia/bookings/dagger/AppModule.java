@@ -14,6 +14,7 @@ import android.content.Context;
 
 import com.expedia.account.server.ExpediaAccountApi;
 import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.AbacusServices;
@@ -138,7 +139,9 @@ public class AppModule {
 			@Override
 			public void intercept(RequestFacade request) {
 				request.addHeader("User-Agent", ServicesUtil.generateUserAgentString(context));
-				request.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(context));
+				if (!ExpediaBookingApp.isAutomation()) {
+					request.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(context));
+				}
 				request.addEncodedQueryParam("clientid", ServicesUtil.generateClientId(context));
 				request.addEncodedQueryParam("sourceType", ServicesUtil.generateSourceType());
 

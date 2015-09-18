@@ -35,6 +35,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.ChildTraveler;
@@ -1550,7 +1551,9 @@ public class ExpediaServices implements DownloadListener {
 			base = createHttpPost(serverUrl, params);
 		}
 
-		base.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(mContext));
+		if (!ExpediaBookingApp.isAutomation()) {
+			base.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(mContext));
+		}
 		// Some logging before passing the request along
 		Log.d(TAG_REQUEST, "Request: " + serverUrl + "?" + NetUtils.getParamsForLogging(params));
 
