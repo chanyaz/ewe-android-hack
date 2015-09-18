@@ -581,9 +581,18 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
             var fabShouldVisiblyMove: Boolean = true
             var mapTranslationStart: Float = 0f
+            var toolbarTextOrigin: Float = 0f
+            var toolbarTextGoal: Float = 0f
 
             override fun startTransition(forward: Boolean) {
                 super.startTransition(forward)
+                toolbarTextOrigin = toolbarTitle.getTranslationY()
+
+                if (forward) {
+                    toolbarTextGoal = 0f //
+                } else {
+                    toolbarTextGoal = toolbarSubtitleTop.toFloat()
+                }
                 recyclerView.setVisibility(View.VISIBLE)
                 previousWasList = forward
                 fabShouldVisiblyMove = if (forward) !fabShouldBeHiddenOnList() else (fab.getVisibility() == View.VISIBLE)
@@ -629,10 +638,14 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     val fabDistance = if (forward) -(1 - f) * mapCarouselContainer.getHeight() else -f * mapCarouselContainer.getHeight()
                     fab.setTranslationY(fabDistance)
                 }
+                //Title transition
+                val toolbarYTransStep = toolbarTextOrigin + (f * (toolbarTextGoal - toolbarTextOrigin))
+                toolbarTitle.setTranslationY(toolbarYTransStep)
+                toolbarSubtitle.setTranslationY(toolbarYTransStep)
+                toolbarSubtitle.setAlpha(if (forward) f else (1-f))
             }
 
             override fun finalizeTransition(forward: Boolean) {
-                toolbarSubtitle.setVisibility(if (forward) View.VISIBLE else View.GONE)
                 navIcon.setParameter((if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK else ArrowXDrawableUtil.ArrowDrawableType.CLOSE).getType().toFloat())
 
                 menu?.setVisible(true)
@@ -688,6 +701,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            setupToolbarMeasurements()
             currentTransition = 0
             mapTransitionRunning = true
 
@@ -735,8 +749,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
-            navIcon.setParameter(if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK.getType().toFloat() else ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType().toFloat())
-            toolbarSubtitle.setVisibility(if (forward) View.VISIBLE else View.GONE)
 
             menu?.setVisible(true)
 
@@ -818,11 +830,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var toolbarTitleTop = 0
     var toolbarSubtitleTop = 0
 
-    fun animationStart() {
-        recyclerTempBackground.setVisibility(View.VISIBLE)
-    }
-
-    fun animationUpdate(f : Float, forward : Boolean) {
+    fun setupToolbarMeasurements() {
         if (yTranslationRecyclerTempBackground == 0f && recyclerView.getChildAt(1) != null) {
             yTranslationRecyclerTempBackground = (recyclerView.getChildAt(0).getHeight() + recyclerView.getChildAt(0).getTop() + toolbar.getHeight()).toFloat()
             yTranslationRecyclerView = (recyclerView.getChildAt(0).getHeight() + recyclerView.getChildAt(0).getTop()).toFloat()
@@ -832,6 +840,14 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             toolbarTitle.setTranslationY(toolbarTitleTop.toFloat())
             toolbarSubtitle.setTranslationY(toolbarSubtitleTop.toFloat())
         }
+    }
+
+    fun animationStart() {
+        recyclerTempBackground.setVisibility(View.VISIBLE)
+    }
+
+    fun animationUpdate(f : Float, forward : Boolean) {
+        setupToolbarMeasurements()
         var factor = if (forward) f else Math.abs(1 - f)
         recyclerView.setTranslationY(factor * yTranslationRecyclerView)
         navIcon.setParameter(factor)
