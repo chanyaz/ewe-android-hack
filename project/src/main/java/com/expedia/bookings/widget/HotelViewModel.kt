@@ -39,7 +39,7 @@ public class HotelViewModel(private val hotel: Hotel, private val context: Conte
     val topAmenityVisibilityObservable = topAmenityTitleObservable.map { !(it=="")}
 
     val hotelStarRatingObservable = BehaviorSubject.create(hotel.hotelStarRating)
-    val hotelLargeThumbnailUrlObservable = BehaviorSubject.create(Images.getMediaHost() + hotel.largeThumbnailUrl).map { Akeakamai(it).resizeExactly(100, 100).build() }
+    val hotelLargeThumbnailUrlObservable = BehaviorSubject.create(Images.getMediaHost() + hotel.largeThumbnailUrl)
     val hotelDiscountPercentageObservable = BehaviorSubject.create(Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo.discountPercent.toInt()).format().toString())
     val distanceFromCurrentLocationObservable: BehaviorSubject<kotlin.String> = BehaviorSubject.create<String>()
 
