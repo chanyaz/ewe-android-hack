@@ -24,7 +24,9 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
             hotelReviewsSummaryViewModel.reviewsSummaryObserver.onNext(reviewsSummary)
             for (reviewSort: ReviewSort in ReviewSort.values()) {
                 val hotelReviewsView = viewPager.findViewWithTag(reviewSort) as HotelReviewsPageView
-                hotelReviewsView.summaryContainer.addView(HotelReviewsSummaryWidget(context, hotelReviewsSummaryViewModel))
+                if (hotelReviewsView.summaryContainer.getChildCount() == 0) {
+                    hotelReviewsView.summaryContainer.addView(HotelReviewsSummaryWidget(context, hotelReviewsSummaryViewModel))
+                }
             }
         }
 

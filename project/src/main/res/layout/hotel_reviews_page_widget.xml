@@ -21,7 +21,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp" />
+                android:paddingLeft="@dimen/hotel_reviews_padding_left"
+                android:paddingRight="@dimen/hotel_reviews_padding_right"
+                android:paddingBottom="@dimen/hotel_reviews_summary_padding_bottom"
+                android:paddingTop="@dimen/hotel_review_row_padding_top" />
 
             <View
                 android:id="@+id/divider"
@@ -32,7 +35,8 @@
             <TableLayout
                 android:id="@+id/reviews_table"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@color/hotel_review_background_color" />
 
         </LinearLayout>
     </ScrollView>
