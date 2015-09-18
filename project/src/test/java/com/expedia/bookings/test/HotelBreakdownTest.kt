@@ -68,7 +68,7 @@ public class HotelBreakdownTest {
         vm.addRows.subscribe(testSubscriber)
 
         vm.tripObserver.onNext(createTripResponse)
-        expected.add(arrayListOf(Breakdown("", "$119", false), Breakdown("3/22/2013", "$119.00", true), Breakdown("", "$20.00", false), Breakdown("", "$16.81", false), Breakdown("", "$135.81", false)))
+        expected.add(arrayListOf(Breakdown("", "$119.00", false), Breakdown("3/22/2013", "$119.00", true), Breakdown("", "$20.00", false), Breakdown("", "$16.81", false), Breakdown("", "$135.81", false)))
 
         assertTrue(latch.await(10, TimeUnit.SECONDS))
         vm.addRows.onCompleted()
