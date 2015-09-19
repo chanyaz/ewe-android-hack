@@ -386,9 +386,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         menu?.setIcon(drawable)
 
         val button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_filter_item, null) as Button
-        val navIcon = getResources().getDrawable(R.drawable.sort).mutate()
-        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        button.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
+        val icon = getResources().getDrawable(R.drawable.sort).mutate()
+        icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+        button.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         button.setTextColor(getResources().getColor(android.R.color.white))
 
         toolbar.getMenu().findItem(R.id.menu_filter).setActionView(button)
@@ -581,9 +581,18 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
             var fabShouldVisiblyMove: Boolean = true
             var mapTranslationStart: Float = 0f
+            var toolbarTextOrigin: Float = 0f
+            var toolbarTextGoal: Float = 0f
 
             override fun startTransition(forward: Boolean) {
                 super.startTransition(forward)
+                toolbarTextOrigin = toolbarTitle.getTranslationY()
+
+                if (forward) {
+                    toolbarTextGoal = 0f //
+                } else {
+                    toolbarTextGoal = toolbarSubtitleTop.toFloat()
+                }
                 recyclerView.setVisibility(View.VISIBLE)
                 previousWasList = forward
                 fabShouldVisiblyMove = if (forward) !fabShouldBeHiddenOnList() else (fab.getVisibility() == View.VISIBLE)
@@ -617,6 +626,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             override fun updateTransition(f: Float, forward: Boolean) {
                 val hotelListDistance = if (forward) (screenHeight * (1 - f)) else (screenHeight * f);
                 recyclerView.setTranslationY(hotelListDistance)
+                navIcon.setParameter(if (forward) Math.abs(1 - f) else f)
                 if (forward) {
                     mapView.setTranslationY(f * mapTranslationStart)
                 }
@@ -628,11 +638,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     val fabDistance = if (forward) -(1 - f) * mapCarouselContainer.getHeight() else -f * mapCarouselContainer.getHeight()
                     fab.setTranslationY(fabDistance)
                 }
+                //Title transition
+                val toolbarYTransStep = toolbarTextOrigin + (f * (toolbarTextGoal - toolbarTextOrigin))
+                toolbarTitle.setTranslationY(toolbarYTransStep)
+                toolbarSubtitle.setTranslationY(toolbarYTransStep)
+                toolbarSubtitle.setAlpha(if (forward) f else (1-f))
             }
 
             override fun finalizeTransition(forward: Boolean) {
-                toolbar.setNavigationIcon(if (forward) R.drawable.ic_arrow_back_white_24dp else R.drawable.ic_close_white_24dp)
-                toolbarSubtitle.setVisibility(if (forward) View.VISIBLE else View.GONE)
+                navIcon.setParameter((if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK else ArrowXDrawableUtil.ArrowDrawableType.CLOSE).getType().toFloat())
 
                 menu?.setVisible(true)
 
@@ -687,6 +701,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            setupToolbarMeasurements()
             currentTransition = 0
             mapTransitionRunning = true
 
@@ -704,7 +719,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
-            navIcon.setParameter(if (forward) Math.abs(1 - f) else f)
             if (forward) {
                 if (f < secondTransitionStartTime) {
                     carouselTransition.updateTransition(carouselTransition.interpolator.getInterpolation(f / secondTransitionStartTime), forward)
@@ -735,8 +749,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
-            navIcon.setParameter(if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK.getType().toFloat() else ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType().toFloat())
-            toolbarSubtitle.setVisibility(if (forward) View.VISIBLE else View.GONE)
 
             menu?.setVisible(true)
 
@@ -818,11 +830,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var toolbarTitleTop = 0
     var toolbarSubtitleTop = 0
 
-    fun animationStart() {
-        recyclerTempBackground.setVisibility(View.VISIBLE)
-    }
-
-    fun animationUpdate(f : Float, forward : Boolean) {
+    fun setupToolbarMeasurements() {
         if (yTranslationRecyclerTempBackground == 0f && recyclerView.getChildAt(1) != null) {
             yTranslationRecyclerTempBackground = (recyclerView.getChildAt(0).getHeight() + recyclerView.getChildAt(0).getTop() + toolbar.getHeight()).toFloat()
             yTranslationRecyclerView = (recyclerView.getChildAt(0).getHeight() + recyclerView.getChildAt(0).getTop()).toFloat()
@@ -832,6 +840,14 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             toolbarTitle.setTranslationY(toolbarTitleTop.toFloat())
             toolbarSubtitle.setTranslationY(toolbarSubtitleTop.toFloat())
         }
+    }
+
+    fun animationStart() {
+        recyclerTempBackground.setVisibility(View.VISIBLE)
+    }
+
+    fun animationUpdate(f : Float, forward : Boolean) {
+        setupToolbarMeasurements()
         var factor = if (forward) f else Math.abs(1 - f)
         recyclerView.setTranslationY(factor * yTranslationRecyclerView)
         navIcon.setParameter(factor)
