@@ -137,8 +137,22 @@ public class HotelScreen {
 		);
 	}
 
+	public static ViewInteraction viewRoom(String roomName) {
+		return onView(
+			allOf(
+				withId(R.id.view_room_button), allOf(withText("View Room")),
+				isDescendantOfA(allOf(withId(R.id.collapsed_container),
+					withChild(allOf(withId(R.id.room_type_text_view), withText(roomName))))),
+				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+		);
+	}
+
 	public static void clickAddRoom() {
 		addRoom().perform(scrollTo(), click());
+	}
+
+	public static void clickViewRoom(String roomName) {
+		viewRoom(roomName).perform(scrollTo(), click());
 	}
 
 	public static void clickPayLater() {

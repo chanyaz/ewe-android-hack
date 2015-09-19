@@ -1,6 +1,9 @@
 package com.expedia.bookings.services;
 
-public class HotelCheckoutResponse {
+import com.expedia.bookings.data.cars.BaseApiResponse;
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
+
+public class HotelCheckoutResponse extends BaseApiResponse {
 
 	public CheckoutResponse checkoutResponse;
 
@@ -15,6 +18,7 @@ public class HotelCheckoutResponse {
 
 		public BookingResponse bookingResponse;
 		public ProductResponse productResponse;
+		public PriceChangeResponse jsonPriceChangeResponse;
 	}
 
 	public static class ProductResponse {
@@ -29,4 +33,8 @@ public class HotelCheckoutResponse {
 		public String bigImageUrl;
 	}
 
+	public static class PriceChangeResponse {
+		public HotelCreateTripResponse.HotelProductResponse oldProduct;
+		public HotelCreateTripResponse.HotelProductResponse newProduct;
+	}
 }
