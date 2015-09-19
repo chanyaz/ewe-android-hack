@@ -13,8 +13,10 @@
         android:id="@+id/pricing_structure_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#eaeaea"
+        android:background="#EEEEEE"
         android:gravity="center"
-        android:paddingTop="12dp" />
+        android:paddingBottom="9dp"
+        android:paddingTop="8dp"
+        android:textColor="#8C8C8C" />
 
 </LinearLayout>
