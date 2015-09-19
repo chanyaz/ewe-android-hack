@@ -157,13 +157,12 @@ class HotelBreakDownViewModel(val context: Context) {
             val originalRate = if (hotel.originalHotelProductResponse.hotelRoomResponse == null) hotel.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo else hotel.originalHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
 
             val nights = context.getResources().getQuantityString(R.plurals.number_of_nights, hotel.newHotelProductResponse.numberOfNights.toInt(), hotel.newHotelProductResponse.numberOfNights.toInt())
-            val nightlyRate = Money(BigDecimal(originalRate.nightlyRateTotal.toDouble()), originalRate.currencyCode)
+            val nightlyRate = Money(BigDecimal(originalRate.nightlyRateTotal.toString()), originalRate.currencyCode)
             breakdowns.add(Breakdown(nights, nightlyRate.getFormattedMoney(), false))
 
             var count = 0;
             val checkIn = DateUtils.yyyyMMddToLocalDate(hotel.newHotelProductResponse.checkInDate)
             for (rate in originalRate.nightlyRatesPerRoom) {
-                count++
                 var dtf = DateTimeFormat.forPattern("M/dd/yyyy");
                 val date = dtf.print(checkIn.plusDays(count))
                 val amount = Money(BigDecimal(rate.rate), originalRate.currencyCode)
@@ -173,6 +172,7 @@ class HotelBreakDownViewModel(val context: Context) {
                     amount.getFormattedMoney()
 
                 breakdowns.add(Breakdown(date, amountStr, true))
+                count++
             }
 
             // Discount
@@ -182,7 +182,7 @@ class HotelBreakDownViewModel(val context: Context) {
             }
 
             // Taxes & Fees
-            val surchargeTotal = Money(BigDecimal(originalRate.surchargeTotalForEntireStay.toDouble()), originalRate.currencyCode)
+            val surchargeTotal = Money(BigDecimal(originalRate.surchargeTotalForEntireStay.toString()), originalRate.currencyCode)
             if (!surchargeTotal.isZero()) {
                 val surcharge: String
                 if (originalRate.taxStatusType != null && originalRate.taxStatusType.equals("UNKNOWN")) {
@@ -207,14 +207,14 @@ class HotelBreakDownViewModel(val context: Context) {
 
             // Show amount to be paid today in resort or ETP cases
             if (resortCase ) {
-                val dueToday = Money(BigDecimal(rateWeCareAbout.total.toDouble()), originalRate.currencyCode)
+                val dueToday = Money(BigDecimal(rateWeCareAbout.total.toString()), originalRate.currencyCode)
                 val dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
                 breakdowns.add(Breakdown(dueTodayText, dueToday.getFormattedMoney(), false))
             }
 
             if (resortCase) {
-                total = Money(BigDecimal(rateWeCareAbout.totalPriceWithMandatoryFees.toDouble()), originalRate.currencyCode)
-                var rate = Money(BigDecimal(rateWeCareAbout.totalMandatoryFees.toDouble()), originalRate.currencyCode)
+                total = Money(BigDecimal(rateWeCareAbout.totalPriceWithMandatoryFees.toString()), originalRate.currencyCode)
+                var rate = Money(BigDecimal(rateWeCareAbout.totalMandatoryFees.toString()), originalRate.currencyCode)
                 breakdowns.add(Breakdown(context.getString(R.string.fees_paid_at_hotel), rate.getFormattedMoney(), false))
             } else {
                 total = rateWeCareAbout.getDisplayTotalPrice()
