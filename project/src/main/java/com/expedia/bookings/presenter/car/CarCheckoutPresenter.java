@@ -175,7 +175,7 @@ public class CarCheckoutPresenter extends Presenter {
 			super.finalizeTransition(forward);
 			if (!forward) {
 				checkout.slideWidget.resetSlider();
-				checkout.isCheckoutComplete();
+				checkout.checkoutFormWasUpdated();
 			}
 		}
 	};
