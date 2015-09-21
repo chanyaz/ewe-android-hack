@@ -8,6 +8,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.vm.HotelDetailViewModel
 import com.squareup.phrase.Phrase
@@ -69,19 +70,30 @@ public class HotelDetailsTest {
         lowRateInfo.currencyCode = "USD"
         hotel.lowRateInfo = lowRateInfo
 
-        var searchBuilder = HotelSearchParams.Builder()
+        val checkIn = LocalDate.now();
+        val checkOut = checkIn.plusDays(1)
+        val searchBuilder = HotelSearchParams.Builder()
                 .suggestion(SuggestionV4())
                 .adults(2)
                 .children(listOf(10,10,10))
-                .checkIn(LocalDate.now())
-                .checkOut(LocalDate.now().plusDays(1))
+                .checkIn(checkIn)
+                .checkOut(checkOut)
+
+        val searchParams = searchBuilder.build();
 
         vm.hotelSelectedSubject.onNext(hotel)
+        vm.paramsSubject.onNext(searchParams)
 
-        vm.paramsSubject.onNext(searchBuilder.build())
+        val string = Phrase.from(activity, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
+                DateUtils.localDateToMMMd(checkIn)).put("enddate",
+                DateUtils.localDateToMMMd(checkOut)).put("guests",
+                activity.resources.getQuantityString(R.plurals.number_of_guests, searchParams.children.size() + searchParams.adults, searchParams.children.size() + searchParams.adults))
+                .format()
+                .toString()
 
         assertEquals("$300", hotelDetailView.price.getText())
-        assertEquals("Sep 22 - Sep 23, 5 Guests", hotelDetailView.searchInfo.getText())
+
+        assertEquals(string, hotelDetailView.searchInfo.getText())
     }
 
     @Test
