@@ -4,14 +4,13 @@ import java.io.File
 import java.net.InetAddress
 
 import com.squareup.okhttp.mockwebserver.MockWebServer
-import kotlin.platform.platformStatic
 
 public object RunMockWebServer {
-	@throws(Throwable::class)
-	platformStatic public fun main(args: Array<String>) {
+	@Throws(Throwable::class)
+	@JvmStatic public fun main(args: Array<String>) {
 		val server = MockWebServer()
 
-		val root = File("../templates").getCanonicalPath()
+		val root = File("../templates").canonicalPath
 		println("Template path: " + root)
 		val opener = FileSystemOpener(root)
 

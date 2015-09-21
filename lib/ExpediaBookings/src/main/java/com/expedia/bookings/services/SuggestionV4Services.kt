@@ -30,7 +30,7 @@ public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, 
                 .setRequestInterceptor(acceptJsonInterceptor)
                 .build()
 
-        adapter.create<SuggestApi>(javaClass<SuggestApi>())
+        adapter.create<SuggestApi>(SuggestApi::class.java)
     }
 
     public fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>): Subscription {

@@ -1,20 +1,17 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.text.TextUtils
-import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.presenter.hotel.HotelResultsPresenter
 import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.util.ArrayList
 import java.util.Collections
 import java.util.Comparator
-import java.util.ArrayList
-import java.util.regex.Pattern
 import java.util.HashSet
+import java.util.regex.Pattern
 
 class HotelFilterViewModel(val context: Context) {
     val doneObservable = PublishSubject.create<Unit>()
@@ -193,12 +190,12 @@ class HotelFilterViewModel(val context: Context) {
         neighborhoodListObservable.onNext(response.allNeighborhoodsInSearchRegion)
     }
 
-    public enum class Sort private constructor(public val descriptionResId: Int) {
-        POPULAR(R.string.sort_description_popular),
-        PRICE(R.string.sort_description_price),
-        DEALS(R.string.sort_description_deals),
-        RATING(R.string.sort_description_rating),
-        DISTANCE(R.string.sort_description_distance)
+    public enum class Sort {
+        POPULAR,
+        PRICE,
+        DEALS,
+        RATING,
+        DISTANCE,
     }
 
     val sortObserver = endlessObserver<Sort> { sort ->
@@ -239,9 +236,6 @@ class HotelFilterViewModel(val context: Context) {
 
     private val deals_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
         override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
-            val deal1 = hotel1.lowRateInfo
-            val deal2 = hotel2.lowRateInfo
-
             return hotel1.lowRateInfo.discountPercent.compareTo(hotel2.lowRateInfo.discountPercent)
         }
     }
@@ -258,15 +252,7 @@ class HotelFilterViewModel(val context: Context) {
             val distance1 = hotel1.proximityDistanceInMiles
             val distance2 = hotel2.proximityDistanceInMiles
 
-            if (distance1 == null && distance2 == null) {
-                return price_comparator.compare(hotel1, hotel2)
-            } else if (distance1 == null) {
-                return -1
-            } else if (distance2 == null) {
-                return 1
-            }
-
-            val cmp = distance1!!.compareTo(distance2)
+            val cmp = distance1.compareTo(distance2)
             if (cmp == 0) {
                 return name_comparator.compare(hotel1, hotel2)
             } else {

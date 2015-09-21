@@ -37,7 +37,7 @@ public class HotelReviewsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
 
-    val reviewServices: ReviewsServices by Delegates.lazy() {
+    val reviewServices: ReviewsServices by lazy() {
         Ui.getApplication(context).hotelComponent().reviewsServices()
     }
 

@@ -22,8 +22,8 @@ public class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLa
     val payNowCurrencyText: TextView by bindView(R.id.etp_pay_now_currency_text)
     val payLaterCurrencyText: TextView by bindView(R.id.etp_pay_later_currency_text)
 
-    val statusBarHeight by Delegates.lazy { Ui.getStatusBarHeight(context) }
-    val toolBarHeight by Delegates.lazy { Ui.getToolbarSize(context) }
+    val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
+    val toolBarHeight by lazy { Ui.getToolbarSize(context) }
 
     init {
         View.inflate(getContext(), R.layout.widget_pay_later_info, this)

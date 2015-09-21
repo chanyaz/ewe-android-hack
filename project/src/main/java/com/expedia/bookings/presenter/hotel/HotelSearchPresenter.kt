@@ -60,7 +60,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
     val calendar: CalendarPicker by bindView(R.id.calendar)
     val monthView: MonthView by bindView(R.id.month)
-    val monthSelectionView by Delegates.lazy {
+    val monthSelectionView by lazy {
         findViewById(R.id.previous_month).getParent() as LinearLayout
     }
     val traveler: HotelTravelerPickerView by bindView(R.id.traveler_view)
@@ -72,8 +72,8 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     val searchParamsContainer: ViewGroup by bindView(R.id.search_params_container)
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
-    val toolbarTitle by Delegates.lazy { toolbar.getChildAt(0) }
-    val searchButton: Button by Delegates.lazy {
+    val toolbarTitle by lazy { toolbar.getChildAt(0) }
+    val searchButton: Button by lazy {
         val button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_checkmark_item, null) as Button
         val navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate()
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
@@ -86,7 +86,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         button
     }
 
-    private val hotelSuggestionAdapter by Delegates.lazy {
+    private val hotelSuggestionAdapter by lazy {
         val service = Ui.getApplication(getContext()).hotelComponent().suggestionsService()
         HotelSuggestionAdapter(HotelSuggestionAdapterViewModel(service))
     }
@@ -329,7 +329,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM))
     }
 
-    private val defaultToCal = object : Presenter.Transition(javaClass<HotelParamsDefault>(), javaClass<HotelParamsCalendar>()) {
+    private val defaultToCal = object : Presenter.Transition(HotelParamsDefault::class.java, HotelParamsCalendar::class.java) {
         private var calendarHeight: Int = 0
 
         override fun startTransition(forward: Boolean) {

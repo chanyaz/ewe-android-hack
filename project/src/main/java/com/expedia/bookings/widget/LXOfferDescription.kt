@@ -15,11 +15,11 @@ import kotlin.properties.Delegates
 
 public class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), View.OnClickListener {
 
-    val offerDescription: TextView by Delegates.lazy {
+    val offerDescription: TextView by lazy {
         findViewById(R.id.description) as TextView
     }
 
-    val readMore : ImageButton by Delegates.lazy {
+    val readMore : ImageButton by lazy {
         findViewById(R.id.read_more) as ImageButton
     }
 
@@ -39,7 +39,7 @@ public class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearL
         offerDescription.setText(description)
     }
 
-    @Subscribe fun onOfferExpanded(@suppress("UNUSED_PARAMETER") event : Events.LXOfferExpanded) {
+    @Subscribe fun onOfferExpanded(@Suppress("UNUSED_PARAMETER") event : Events.LXOfferExpanded) {
         readMore.clearAnimation()
         setClickable(false)
 

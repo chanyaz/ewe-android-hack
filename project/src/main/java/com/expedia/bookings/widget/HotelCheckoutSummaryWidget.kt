@@ -41,7 +41,7 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?) 
     val priceChangeLayout: LinearLayout by bindView(R.id.price_change_container)
     val priceChange: android.widget.TextView by bindView(R.id.price_change_text)
     val breakdown = HotelBreakDownView(context, null)
-    val dialog: AlertDialog by Delegates.lazy {
+    val dialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)
         builder.setView(breakdown)
         builder.setTitle(R.string.cost_summary)

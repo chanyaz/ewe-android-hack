@@ -6,7 +6,7 @@ import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import java.util.regex.Pattern
 
-public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener: FileOpener) {
+public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
 

@@ -23,8 +23,8 @@ public class HotelCouponTest {
 
     @Before
     fun before() {
-        val context = Mockito.mock(javaClass<Context>())
-        val resources = Mockito.mock(javaClass<Resources>())
+        val context = Mockito.mock(Context::class.java)
+        val resources = Mockito.mock(Resources::class.java)
         Mockito.`when`(context.getResources()).thenReturn(resources)
         Mockito.`when`(resources.getQuantityString(Matchers.anyInt(), Matchers.anyInt(), Matchers.anyInt())).thenReturn("")
 

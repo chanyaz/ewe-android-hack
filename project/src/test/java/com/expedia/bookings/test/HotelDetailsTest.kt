@@ -3,28 +3,21 @@ package com.expedia.bookings.test
 import android.app.Activity
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.vm.HotelDetailViewModel
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule
 import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import retrofit.RequestInterceptor
-import retrofit.RestAdapter
-import rx.schedulers.Schedulers
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
-RunWith(RobolectricRunner::class)
+@RunWith(RobolectricRunner::class)
 public class HotelDetailsTest {
     public var service: HotelServicesRule = HotelServicesRule()
         @Rule get
@@ -35,7 +28,7 @@ public class HotelDetailsTest {
 
     @Before
     fun before() {
-        activity = Robolectric.buildActivity(javaClass<Activity>()).create().get()
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
         hotelDetailView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_details_widget, null) as HotelDetailView
         vm = HotelDetailViewModel(activity.getApplicationContext(), service.hotelServices())
         hotelDetailView.viewmodel = vm

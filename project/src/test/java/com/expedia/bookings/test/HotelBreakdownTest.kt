@@ -35,8 +35,8 @@ public class HotelBreakdownTest {
 
     @Before
     fun before() {
-        val context = Mockito.mock(javaClass<Context>())
-        val resources = Mockito.mock(javaClass<Resources>())
+        val context = Mockito.mock(Context::class.java)
+        val resources = Mockito.mock(Resources::class.java)
         Mockito.`when`(context.getResources()).thenReturn(resources)
         Mockito.`when`(resources.getQuantityString(Matchers.anyInt(), Matchers.anyInt(), Matchers.anyInt())).thenReturn("")
         Mockito.`when`(context.getString(Matchers.anyInt())).thenReturn("")
@@ -45,7 +45,7 @@ public class HotelBreakdownTest {
                 // ignore
             }
         }
-        service = HotelServices("http://localhost:" + server.getPort(), OkHttpClient(), emptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
+        service = HotelServices("http://localhost:" + server.port, OkHttpClient(), emptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
         vm = HotelBreakDownViewModel(context)
     }
 

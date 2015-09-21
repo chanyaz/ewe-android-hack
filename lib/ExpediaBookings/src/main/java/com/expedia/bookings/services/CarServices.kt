@@ -38,7 +38,7 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
                 .setClient(OkClient(okHttpClient))
                 .build()
 
-        adapter.create(javaClass<CarApi>())
+        adapter.create(CarApi::class.java)
     }
 
     public fun carSearch(params: CarSearchParams, observer: Observer<CarSearch>): Subscription {
@@ -184,8 +184,8 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
     public companion object {
 
         platformStatic public fun generateGson(): Gson {
-            return GsonBuilder().registerTypeAdapter(javaClass<DateTime>(), DateTimeTypeAdapter())
-                    .registerTypeAdapter(javaClass<RateTerm>(), RateTermDeserializer()).create()
+            return GsonBuilder().registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
+                    .registerTypeAdapter(RateTerm::class.java, RateTermDeserializer()).create()
         }
     }
 }

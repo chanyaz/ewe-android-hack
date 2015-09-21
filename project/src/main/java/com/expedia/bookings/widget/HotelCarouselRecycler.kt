@@ -17,8 +17,8 @@ import kotlin.properties.Delegates
 public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 
     val mapSubject = PublishSubject.create<Marker>()
-    val sortedHotelList by Delegates.lazy { (getAdapter() as HotelMarkerPreviewAdapter).sortedHotelList }
-    val sortedHotelMarkerList by Delegates.lazy { Array(sortedHotelList.size(), {createHotelMarker(getResources(), sortedHotelList.elementAt(it).hotel, false)}) }
+    val sortedHotelList by lazy { (getAdapter() as HotelMarkerPreviewAdapter).sortedHotelList }
+    val sortedHotelMarkerList by lazy { Array(sortedHotelList.size(), {createHotelMarker(getResources(), sortedHotelList.elementAt(it).hotel, false)}) }
     var lastDisplayedItemPosition:Int = 0
 
     val layoutManager = object: LinearLayoutManager(getContext()) {

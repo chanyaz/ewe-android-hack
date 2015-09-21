@@ -27,7 +27,7 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
     }
 
     val suggestApi: SuggestApi by Delegates.lazy {
-        val gson = GsonBuilder().registerTypeAdapter(javaClass<SuggestionResponse>(), SuggestionResponse()).create()
+        val gson = GsonBuilder().registerTypeAdapter(SuggestionResponse::class.java, SuggestionResponse()).create()
 
         val adapter = RestAdapter.Builder()
                 .setEndpoint(endpoint)
@@ -37,7 +37,7 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
                 .setRequestInterceptor(acceptJsonInterceptor)
                 .build()
 
-        adapter.create<SuggestApi>(javaClass<SuggestApi>())
+        adapter.create<SuggestApi>(SuggestApi::class.java)
     }
 
     private val MAX_NEARBY_SUGGESTIONS = 1

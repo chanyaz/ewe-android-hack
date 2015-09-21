@@ -1,8 +1,7 @@
-package com.expedia.bookings.test
+package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
-import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.HotelSearchViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -12,7 +11,7 @@ import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 
-RunWith(RobolectricRunner::class)
+@RunWith(RobolectricRunner::class)
 public class HotelSearchTest {
     public var vm: HotelSearchViewModel by Delegates.notNull()
     private var LOTS_MORE: Long = 100

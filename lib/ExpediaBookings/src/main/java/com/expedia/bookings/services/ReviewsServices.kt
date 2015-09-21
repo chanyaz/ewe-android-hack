@@ -29,7 +29,7 @@ public class ReviewsServices(endPoint: String, client: OkHttpClient, private val
         }
 
         val gson = GsonBuilder()
-                .registerTypeAdapter(javaClass<DateTime>(), object : TypeAdapter<DateTime>() {
+                .registerTypeAdapter(DateTime::class.java, object : TypeAdapter<DateTime>() {
 
                     throws(IOException::class)
                     override fun write(out: JsonWriter, value: DateTime) {
@@ -52,7 +52,7 @@ public class ReviewsServices(endPoint: String, client: OkHttpClient, private val
                 .setClient(OkClient(client))
                 .build()
 
-        adapter.create(javaClass<ReviewsApi>())
+        adapter.create(ReviewsApi::class.java)
     }
 
     public fun reviews(reviewsParams: HotelReviewsParams): Observable<HotelReviewsResponse> {

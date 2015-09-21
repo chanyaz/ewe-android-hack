@@ -24,12 +24,10 @@ import retrofit.RestAdapter
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
-import java.util.ArrayList
-import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
-RunWith(RobolectricRunner::class)
+@RunWith(RobolectricRunner::class)
 public class HotelValueAddsTest {
     public var server: MockWebServerRule = MockWebServerRule()
         @Rule get
@@ -39,8 +37,8 @@ public class HotelValueAddsTest {
 
     @Before
     fun before() {
-        val activity = Robolectric.buildActivity(javaClass<Activity>()).create().get()
-        val context = Mockito.mock(javaClass<Context>())
+        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        val context = Mockito.mock(Context::class.java)
         val resources = activity.getResources()
         Mockito.`when`(context.getResources()).thenReturn(resources)
         val emptyInterceptor = object : RequestInterceptor {

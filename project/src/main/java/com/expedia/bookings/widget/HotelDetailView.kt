@@ -59,7 +59,7 @@ val ANIMATION_DURATION = 500L
 public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
 
     val MAP_ZOOM_LEVEL = 12f
-    val screenSize by Delegates.lazy { Ui.getScreenSize(context) }
+    val screenSize by lazy { Ui.getScreenSize(context) }
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle: TextView by bindView(R.id.hotel_name_text)
@@ -351,10 +351,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     public fun scrollToRoom() {
         roomContainer.getLocationOnScreen(roomContainerPosition)
 
-        var scrollTo = roomContainerPosition[1] - offset + detailContainer.getScrollY()
-        if (etpContainer.getVisibility() == View.VISIBLE) scrollTo -= etpContainer.getHeight()
-        if (commonAmenityText.getVisibility() == View.VISIBLE) scrollTo -= (commonAmenityText.getHeight() + getResources().getDimension(R.dimen.hotel_detail_divider_margin))
-        val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.getScrollY(), scrollTo.toInt())
+        var scrollToAmount = roomContainerPosition[1] - offset + detailContainer.getScrollY()
+        if (etpContainer.getVisibility() == View.VISIBLE) scrollToAmount -= etpContainer.getHeight()
+        if (commonAmenityText.getVisibility() == View.VISIBLE) scrollToAmount -= (commonAmenityText.getHeight() + getResources().getDimension(R.dimen.hotel_detail_divider_margin))
+        val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.getScrollY(), scrollToAmount.toInt())
         smoothScrollAnimation.setDuration(ANIMATION_DURATION)
         smoothScrollAnimation.setInterpolator(DecelerateInterpolator())
         smoothScrollAnimation.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {

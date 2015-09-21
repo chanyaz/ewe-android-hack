@@ -17,11 +17,11 @@ import kotlin.properties.Delegates
 
 public class HotelActivity : AppCompatActivity() {
 
-    val hotelPresenter: HotelPresenter by Delegates.lazy {
+    val hotelPresenter: HotelPresenter by lazy {
         findViewById(R.id.hotel_presenter) as HotelPresenter
     }
 
-    val mapView: MapView by Delegates.lazy {
+    val mapView: MapView by lazy {
         hotelPresenter.findViewById(R.id.widget_hotel_results).findViewById(R.id.map_view) as MapView
     }
 

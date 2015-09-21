@@ -46,7 +46,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         viewmodel.tripResponseObservable.subscribe(createTripResponseListener)
     }
 
-    val hotelServices: HotelServices by Delegates.lazy() {
+    val hotelServices: HotelServices by lazy() {
         Ui.getApplication(getContext()).hotelComponent().hotelServices()
     }
 
@@ -59,7 +59,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     }
 
     override fun onFinishInflate() {
-        super<CheckoutBasePresenter>.onFinishInflate()
+        super.onFinishInflate()
         Ui.getApplication(getContext()).hotelComponent().inject(this)
         hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(getContext(), null)
         hotelCheckoutSummaryWidget.viewmodel = HotelCheckoutSummaryViewModel(getContext())
@@ -87,7 +87,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         legalInformationText.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement())
         legalInformationText.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
-                val intent = Intent(getContext(), javaClass<HotelRulesActivity>())
+                val intent = Intent(getContext(), HotelRulesActivity::class.java)
                 getContext().startActivity(intent)
             }
         })
@@ -142,7 +142,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         hotelSearchParams = params
     }
 
-    @Subscribe fun onLogin(@suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
+    @Subscribe fun onLogin(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccessful()
     }
 

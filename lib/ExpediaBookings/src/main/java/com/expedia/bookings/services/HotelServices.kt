@@ -28,7 +28,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 
 	val hotelApi: HotelApi by Delegates.lazy {
 		val gson = GsonBuilder()
-			.registerTypeAdapter(javaClass<DateTime>(), DateTimeTypeAdapter())
+			.registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
 			.create()
 
 		val adapter = RestAdapter.Builder()
@@ -39,7 +39,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			.setClient(OkClient(okHttpClient))
 			.build()
 
-		adapter.create(javaClass<HotelApi>())
+		adapter.create(HotelApi::class.java)
 	}
 
 	public fun nearbyHotels(params: NearbyHotelParams, observer: Observer<MutableList<Hotel>>): Subscription {
