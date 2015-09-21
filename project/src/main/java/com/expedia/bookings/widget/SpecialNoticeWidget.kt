@@ -11,14 +11,13 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import kotlin.properties.Delegates
 
 public class SpecialNoticeWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val description: TextView by bindView(R.id.content_description)
     val container: ViewGroup by bindView(R.id.container)
-    val statusBarHeight by Delegates.lazy { Ui.getStatusBarHeight(context) }
-    val toolBarHeight by Delegates.lazy { Ui.getToolbarSize(context) }
+    val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
+    val toolBarHeight by lazy { Ui.getToolbarSize(context) }
 
     init {
         View.inflate(getContext(), R.layout.widget_special_notice, this)
@@ -33,7 +32,7 @@ public class SpecialNoticeWidget(context: Context, attrs: AttributeSet) : FrameL
     }
 
     fun setText(text: Pair<String, String>) {
-        toolbar.setTitle(text.first)
-        description.setText(Html.fromHtml(StrUtils.getFormattedContent(getContext(), text.second)))
+        toolbar.title = text.first
+        description.text = Html.fromHtml(StrUtils.getFormattedContent(context, text.second))
     }
 }

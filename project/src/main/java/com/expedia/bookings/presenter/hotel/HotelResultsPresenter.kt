@@ -81,8 +81,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val mapView: MapView by bindView(R.id.map_view)
     val filterView : HotelFilterView by bindView(R.id.filter_view)
     val toolbar: Toolbar by bindView(R.id.toolbar)
-    val toolbarTitle by Delegates.lazy { toolbar.getChildAt(2) }
-    val toolbarSubtitle by Delegates.lazy { toolbar.getChildAt(3) }
+    val toolbarTitle by lazy { toolbar.getChildAt(2) }
+    val toolbarSubtitle by lazy { toolbar.getChildAt(3) }
     val recyclerTempBackground: View by bindView(R.id.recycler_view_temp_background)
 
     var navIcon: ArrowXDrawable
@@ -491,7 +491,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            if (shouldBlockTransition() || getCurrentState()?.equals(javaClass<ResultsMap>().getName()) ?: false) {
+            if (shouldBlockTransition() || getCurrentState()?.equals(ResultsMap::class.java.getName()) ?: false) {
                 return
             }
 
@@ -538,7 +538,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    private val defaultTransition = object : Presenter.DefaultTransition(javaClass<ResultsList>().getName()) {
+    private val defaultTransition = object : Presenter.DefaultTransition(ResultsList::class.java.getName()) {
 
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
@@ -575,9 +575,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    private val fabTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), LinearInterpolator(), 750) {
+    private val fabTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsList::class.java, LinearInterpolator(), 750) {
 
-        private val listTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(2f), duration * 2/3) {
+        private val listTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsList::class.java, DecelerateInterpolator(2f), duration * 2/3) {
 
             var fabShouldVisiblyMove: Boolean = true
             var mapTranslationStart: Float = 0f
@@ -669,7 +669,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
         }
 
-        private val carouselTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsList>(), DecelerateInterpolator(2f), duration/3) {
+        private val carouselTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsList::class.java, DecelerateInterpolator(2f), duration/3) {
 
             override fun startTransition(forward: Boolean) {
                 mapCarouselContainer.setVisibility(View.VISIBLE)
@@ -762,7 +762,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    private val listFilterTransition = object : Presenter.Transition(javaClass<ResultsList>(), javaClass<ResultsFilter>(), DecelerateInterpolator(), 500) {
+    private val listFilterTransition = object : Presenter.Transition(ResultsList::class.java, ResultsFilter::class.java, DecelerateInterpolator(), 500) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
         }
@@ -782,7 +782,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    private val mapFilterTransition = object : Presenter.Transition(javaClass<ResultsMap>(), javaClass<ResultsFilter>(), DecelerateInterpolator(), 500) {
+    private val mapFilterTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsFilter::class.java, DecelerateInterpolator(), 500) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
         }

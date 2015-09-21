@@ -7,7 +7,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.regex.Pattern
 
-public class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener: FileOpener) {
+public class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         val urlPath = request.getPath()
@@ -32,7 +32,7 @@ public class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispat
 class FlightApiMockResponseGenerator() {
     companion object {
         fun getSearchResponseFilePath(params: MutableMap<String, String>): String {
-            val isReturnFlightSearch = params.containsKey("returnDate") ?: throw UnsupportedOperationException("Expected returnDate parameter")
+            val isReturnFlightSearch = params.containsKey("returnDate")
             val departureDate = params.get("departureDate")
             val filename = if (isReturnFlightSearch) "happy_roundtrip" else "happy_oneway"
 

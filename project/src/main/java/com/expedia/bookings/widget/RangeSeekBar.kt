@@ -52,7 +52,7 @@ public class RangeSeekBar<T : Number>
  * @throws IllegalArgumentException
  * *             Will be thrown if min/max value type is not one of Long, Double, Integer, Float, Short, Byte or BigDecimal.
  */
-@throws(IllegalArgumentException::class)
+@Throws(IllegalArgumentException::class)
 constructor(public val absoluteMinValue: Int, public val absoluteMaxValue: Int, context: Context) : ImageView(context) {
     private var textPaint: Paint? = null
     private var canvasPaint: Paint? = null
@@ -619,12 +619,11 @@ constructor(public val absoluteMinValue: Int, public val absoluteMaxValue: Int, 
                 BYTE -> return value.toByte()
                 BIG_DECIMAL -> return BigDecimal(value)
             }
-            throw InstantiationError("can't convert " + this + " to a Number object")
         }
 
         companion object {
 
-            throws(IllegalArgumentException::class)
+            @Throws(IllegalArgumentException::class)
             public fun <E : Number> fromNumber(value: E): NumberType {
                 if (value is Long) {
                     return LONG
@@ -660,18 +659,7 @@ constructor(public val absoluteMinValue: Int, public val absoluteMaxValue: Int, 
 
         // Localized constants from MotionEvent for compatibility
         // with API < 8 "Froyo".
-        public val ACTION_POINTER_UP: Int = 6
         public val ACTION_POINTER_INDEX_MASK: Int = 65280
         public val ACTION_POINTER_INDEX_SHIFT: Int = 8
     }
 }
-/**
- * Returns the absolute minimum value of the range that has been set at construction time.
-
- * @return The absolute minimum value of the range.
- */
-/**
- * Returns the absolute maximum value of the range that has been set at construction time.
-
- * @return The absolute maximum value of the range.
- */

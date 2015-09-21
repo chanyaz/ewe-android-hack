@@ -3,7 +3,7 @@ package com.expedia.bookings.presenter
 import android.view.View
 import kotlin.properties.Delegates
 
-public class ScaleTransition(val presenter: Presenter, val left: Class<*>, val right: Class<*>): Presenter.Transition(left: Class<*>, right: Class<*>) {
+public class ScaleTransition(val presenter: Presenter, val left: Class<*>, val right: Class<*>): Presenter.Transition(left, right) {
 
     val xScale = 0.75f
     val yScale = 0.75f

@@ -53,16 +53,16 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         hotelCheckoutWidget.showCheckout(offer)
     }
 
-    private val defaultCheckoutTransition = object : Presenter.DefaultTransition(javaClass<HotelCheckoutMainViewPresenter>().getName()) {
+    private val defaultCheckoutTransition = object : Presenter.DefaultTransition(HotelCheckoutMainViewPresenter::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
             hotelCheckoutWidget.setVisibility(View.VISIBLE)
             cvv.setVisibility(View.GONE)
             errorScreen.setVisibility(View.GONE)
         }
     }
-    private val checkoutToCvv = VisibilityTransition(this, javaClass<HotelCheckoutMainViewPresenter>(), javaClass<CVVEntryWidget>())
+    private val checkoutToCvv = VisibilityTransition(this, HotelCheckoutMainViewPresenter::class.java, CVVEntryWidget::class.java)
 
-    private val checkoutToError = object : VisibilityTransition(this, javaClass<HotelCheckoutMainViewPresenter>(), javaClass<ErrorWidget>()) {
+    private val checkoutToError = object : VisibilityTransition(this, HotelCheckoutMainViewPresenter::class.java, ErrorWidget::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             if (!forward) {
@@ -72,7 +72,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         }
     }
 
-    private val cvvToError = VisibilityTransition(this, javaClass<CVVEntryWidget>(), javaClass<ErrorWidget>())
+    private val cvvToError = VisibilityTransition(this, CVVEntryWidget::class.java, ErrorWidget::class.java)
 
     val checkoutSliderSlidObserver = endlessObserver<Unit> {
         val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.getBillingInfo()

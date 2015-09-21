@@ -122,7 +122,7 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
 
         val PICASSO_TAG = "HOTEL_RESULTS_LIST"
 
-        val resources: Resources by Delegates.lazy {
+        val resources: Resources by lazy {
             itemView.getResources()
         }
 

@@ -26,7 +26,7 @@ public class CollectionServices(endpoint: String, okHttpClient: OkHttpClient, re
                 .setConverter(GsonConverter(gson))
                 .setClient(OkClient(okHttpClient))
                 .build()
-        adapter.create(javaClass<CollectionApi>())
+        adapter.create(CollectionApi::class.java)
     }
 
     // On tablet, we want to get all of the collections at once.

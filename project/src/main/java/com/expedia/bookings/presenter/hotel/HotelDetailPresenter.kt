@@ -31,7 +31,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         showDefault()
     }
 
-    val default = object : Presenter.DefaultTransition(javaClass<HotelDetailView>().getName()) {
+    val default = object : Presenter.DefaultTransition(HotelDetailView::class.java.getName()) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             hotelRenovationDesc.setVisibility(View.GONE)
@@ -40,7 +40,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         }
     }
 
-    val detailToDescription = object : VisibilityTransition(this, javaClass<HotelDetailView>(), javaClass<SpecialNoticeWidget>()) {
+    val detailToDescription = object : VisibilityTransition(this, HotelDetailView::class.java, SpecialNoticeWidget::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             hotelRenovationDesc.setVisibility(if (forward) View.VISIBLE else View.GONE)
@@ -53,7 +53,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         show(hotelRenovationDesc)
     }
 
-    val detailToPayLaterInfo = object : VisibilityTransition(this, javaClass<HotelDetailView>(), javaClass<PayLaterInfoWidget>()) {
+    val detailToPayLaterInfo = object : VisibilityTransition(this, HotelDetailView::class.java, PayLaterInfoWidget::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             hotelPayLaterInfo.setVisibility(if (forward) View.VISIBLE else View.GONE)
@@ -70,7 +70,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         show(hotelDetailView)
     }
 
-    public fun animationStart(forward: Boolean): Float {
+    public fun animationStart(): Float {
         searchTop = hotelDetailView.toolbarTitle.getTop()
         hotelDetailView.toolbar.setVisibility(View.VISIBLE)
         hotelDetailView.toolbarTitle.setTranslationY(searchTop.toFloat())
@@ -84,7 +84,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         hotelDetailView.toolBarRating.setTranslationY(yTrans)
     }
 
-    public fun animationFinalize(forward: Boolean) {
+    public fun animationFinalize() {
         hotelDetailView.toolbar.setVisibility(View.VISIBLE)
         hotelDetailView.toolbar.setVisibility(View.VISIBLE)
         hotelDetailView.toolbarTitle.setTranslationY(0f)

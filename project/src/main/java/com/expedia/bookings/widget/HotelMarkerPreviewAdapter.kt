@@ -74,7 +74,7 @@ public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresent
 
     public inner class HotelViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
 
-        val resources: Resources by Delegates.lazy {
+        val resources: Resources by lazy {
             itemView.getResources()
         }
 

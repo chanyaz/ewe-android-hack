@@ -54,7 +54,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val dynamicFeedbackWidget : DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)
     val dynamicFeedbackClearButton : TextView by bindView(R.id.dynamic_feedback_clear_button)
     val filterContainer: ViewGroup by bindView(R.id.filter_container)
-    val doneButton:Button by Delegates.lazy {
+    val doneButton:Button by lazy {
         val button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_checkmark_item, null) as Button
         val icon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate()
         icon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN)

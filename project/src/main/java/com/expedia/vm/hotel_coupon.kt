@@ -32,40 +32,39 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
         }
         createTripObservable.subscribe(endlessObserver { trip ->
             if (trip.hasErrors()) {
-                val error = trip.getFirstError()
-                val text = context.getResources().getString(couponErrorMap.get(error.errorInfo.couponErrorType))
+                val errorType = trip.firstError.errorInfo.couponErrorType
+                val stringId = couponErrorMap.get(errorType) ?: R.string.coupon_error_fallback
+                val text = context.resources.getString(stringId)
+
                 errorMessageObservable.onNext(text)
-                errorObservable.onNext(error)
+                errorObservable.onNext(trip.firstError)
             } else {
                 couponObservable.onNext(trip)
             }
         })
     }
 
-    private val couponErrorMap = object : HashMap<String, Int>() {
-        init {
-            put("Duplicate", R.string.coupon_error_duplicate)
-            put("Expired", R.string.coupon_error_expired)
-            put("FallBack", R.string.coupon_error_fallback)
-            put("HotelExcluded", R.string.coupon_error_hotel_excluded)
-            put("InvalidHotel", R.string.coupon_error_invalid_hotel)
-            put("InvalidProduct", R.string.coupon_error_invalid_product)
-            put("InvalidRegion", R.string.coupon_error_invalid_region)
-            put("InvalidTravelDates", R.string.coupon_error_invalid_travel_dates)
-            put("MinPurchaseAmountNotMet", R.string.coupon_error_min_purchase_amount_not_met)
-            put("MinStayNotMet", R.string.coupon_error_min_stay_not_met)
-            put("NotRedeemed", R.string.coupon_error_not_redeemed)
-            put("PriceChange", R.string.coupon_error_price_change)
-            put("ServiceDown", R.string.coupon_error_service_down)
-            put("Unrecognized", R.string.coupon_error_unrecognized)
-            put("InvalidAveragePrice", R.string.coupon_error_invalid_average_price)
-            put("InvalidStayDates", R.string.coupon_error_invalid_stay_dates)
-            put("ExceededEarnLimit", R.string.coupon_error_exceeded_earn_limit)
-            put("NotActive", R.string.coupon_error_not_active)
-            put("DoesNotExist", R.string.coupon_error_unknown)
-            put("CampaignIsNotConfigured", R.string.coupon_error_unknown)
-            put("PackageProductMissing", R.string.coupon_error_invalid_booking)
-        }
-    }
-
+    private val couponErrorMap: Map<String, Int> = mapOf(
+            "Duplicate" to R.string.coupon_error_duplicate,
+            "Expired" to R.string.coupon_error_expired,
+            "FallBack" to R.string.coupon_error_fallback,
+            "HotelExcluded" to R.string.coupon_error_hotel_excluded,
+            "InvalidHotel" to R.string.coupon_error_invalid_hotel,
+            "InvalidProduct" to R.string.coupon_error_invalid_product,
+            "InvalidRegion" to R.string.coupon_error_invalid_region,
+            "InvalidTravelDates" to R.string.coupon_error_invalid_travel_dates,
+            "MinPurchaseAmountNotMet" to R.string.coupon_error_min_purchase_amount_not_met,
+            "MinStayNotMet" to R.string.coupon_error_min_stay_not_met,
+            "NotRedeemed" to R.string.coupon_error_not_redeemed,
+            "PriceChange" to R.string.coupon_error_price_change,
+            "ServiceDown" to R.string.coupon_error_service_down,
+            "Unrecognized" to R.string.coupon_error_unrecognized,
+            "InvalidAveragePrice" to R.string.coupon_error_invalid_average_price,
+            "InvalidStayDates" to R.string.coupon_error_invalid_stay_dates,
+            "ExceededEarnLimit" to R.string.coupon_error_exceeded_earn_limit,
+            "NotActive" to R.string.coupon_error_not_active,
+            "DoesNotExist" to R.string.coupon_error_unknown,
+            "CampaignIsNotConfigured" to R.string.coupon_error_unknown,
+            "PackageProductMissing" to R.string.coupon_error_invalid_booking
+    )
 }

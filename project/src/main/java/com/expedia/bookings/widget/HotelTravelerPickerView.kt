@@ -28,7 +28,7 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Li
     val spinner3: Spinner by bindView(R.id.child_spinner_3)
     val spinner4: Spinner by bindView(R.id.child_spinner_4)
 
-    val childSpinners by Delegates.lazy {
+    val childSpinners by lazy {
         listOf(spinner1, spinner2, spinner3, spinner4)
     }
 

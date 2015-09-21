@@ -86,7 +86,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         loadingOverlay.setBackground(R.color.hotels_primary_color)
     }
 
-    private val defaultTransition = object : Presenter.DefaultTransition(javaClass<HotelSearchPresenter>().getName()) {
+    private val defaultTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.getName()) {
         override fun finalizeTransition(forward: Boolean) {
             searchPresenter.setVisibility(View.VISIBLE)
             resultsPresenter.setVisibility(View.GONE)
@@ -95,7 +95,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private val searchToResults = object : Presenter.Transition(javaClass<HotelSearchPresenter>(), javaClass<HotelResultsPresenter>()) {
+    private val searchToResults = object : Presenter.Transition(HotelSearchPresenter::class.java, HotelResultsPresenter::class.java) {
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
@@ -120,7 +120,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private val resultsToDetail = object : Presenter.Transition(javaClass<HotelResultsPresenter>().getName(), javaClass<HotelDetailPresenter>().getName(), DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val resultsToDetail = object : Presenter.Transition(HotelResultsPresenter::class.java.getName(), HotelDetailPresenter::class.java.getName(), DecelerateInterpolator(), ANIMATION_DURATION) {
         private var detailsHeight: Int = 0
 
         override fun startTransition(forward: Boolean) {
@@ -129,7 +129,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             val pos = (if (forward) parentHeight + detailsHeight else detailsHeight).toFloat()
             detailPresenter.setTranslationY(pos)
             detailPresenter.setVisibility(View.VISIBLE)
-            detailPresenter.animationStart(!forward)
+            detailPresenter.animationStart()
             resultsPresenter.setVisibility(View.VISIBLE)
         }
 
@@ -147,14 +147,14 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             detailPresenter.setTranslationY((if (forward) 0 else detailsHeight).toFloat())
             detailPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
             resultsPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
-            detailPresenter.animationFinalize(!forward)
+            detailPresenter.animationFinalize()
             loadingOverlay.setVisibility(View.GONE)
         }
     }
 
-    private val detailsToCheckout = ScaleTransition(this, javaClass<HotelDetailPresenter>(), javaClass<HotelCheckoutPresenter>())
-    private val checkoutToConfirmation = ScaleTransition(this, javaClass<HotelCheckoutPresenter>(), javaClass<HotelConfirmationPresenter>())
-    private val detailsToReview = ScaleTransition(this, javaClass<HotelDetailPresenter>(),javaClass<HotelReviewsPresenter>())
+    private val detailsToCheckout = ScaleTransition(this, HotelDetailPresenter::class.java, HotelCheckoutPresenter::class.java)
+    private val checkoutToConfirmation = ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java)
+    private val detailsToReview = ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsPresenter::class.java)
 
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
         hotelSearchParams = params

@@ -16,30 +16,27 @@ fun unUrlEscape(str: String): String {
 }
 
 fun parseYearMonthDay(ymd: String?, hour: Int, minute: Int): Calendar {
-	val parts = ymd!!.splitBy("-")
-	val year = Integer.parseInt(parts[0])
-	val month = Integer.parseInt(parts[1]) - 1
-	val day = Integer.parseInt(parts[2])
+	val (year, month, day) = ymd!!.split("-").map { Integer.parseInt(it) }
 	val cal = Calendar.getInstance()
-	cal.set(year, month, day, hour, minute)
+	cal.set(year, month - 1, day, hour, minute)
 	return cal
 }
 
 fun parseRequest(request: RecordedRequest): MutableMap<String, String> {
 	if ("GET" == request.getMethod() && request.getRequestLine().contains("?")) {
-		var requestLine = request.getRequestLine().splitBy("?")[1]
+		var requestLine = request.getRequestLine().split("?")[1]
 		// Replace "HTTP version" from request line.
 		requestLine = requestLine.substring(0, requestLine.lastIndexOf(" "))
 		return constructParamsFromVarArray(requestLine)
 	}
 	else if ("POST" == request.getMethod()) {
-		return constructParamsFromVarArray(request.getUtf8Body())
+		return constructParamsFromVarArray(request.body.readUtf8())
 	}
 	return LinkedHashMap()
 }
 
 fun constructParamsFromVarArray(requestStr: String): MutableMap<String, String> {
-	val requestVariablePairs = requestStr.splitBy("&")
+	val requestVariablePairs = requestStr.split("&")
 	val params = LinkedHashMap<String, String>()
 	for (pair in requestVariablePairs) {
         if (pair.isBlank()) {
@@ -113,7 +110,7 @@ fun makeResponse(filePath: String, params: Map<String, String>?, fileOpener: Fil
 }
 
 // Read the json responses from the FileOpener
-@throws(IOException::class)
+@Throws(IOException::class)
 private fun getResponse(filename: String, fileOpener: FileOpener): String {
 	val inputStream = fileOpener.openFile(filename)
 	val br = BufferedReader(InputStreamReader(inputStream))
