@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelReviewsAdapter
@@ -32,7 +33,7 @@ public class HotelReviewsPresenter(context: Context, attrs: AttributeSet) : Pres
             toolbar.setSubtitle(subtitle)
         }
         vm.hotelReviewsObservable.subscribe() { hotel ->
-            hotelReviewsAdapterViewModel = HotelReviewsAdapterViewModel(hotel.hotelId, reviewServices)
+            hotelReviewsAdapterViewModel = HotelReviewsAdapterViewModel(hotel.hotelId, reviewServices, PointOfSale.getPointOfSale().getLocaleIdentifier())
         }
     }
 

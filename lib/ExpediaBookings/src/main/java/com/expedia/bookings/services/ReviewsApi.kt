@@ -14,6 +14,7 @@ public interface ReviewsApi {
     public fun hotelReviews(@Path("hotelId") hotelId: String,
                             @Query("sortBy") sort: String,
                             @Query("start") start: Int,
-                            @Query("items") items: Int): Observable<HotelReviewsResponse>
+                            @Query("items") items: Int,
+                            @Query("languageSort") languageSort: String): Observable<HotelReviewsResponse>
 
 }
