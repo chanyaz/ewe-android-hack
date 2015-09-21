@@ -2949,6 +2949,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Booking Support</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">Support Request</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">Contact {brand} Via…</string>
     <!-- Contact Expedia via phone -->
