@@ -2569,6 +2569,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">From %s</string>
     <string name="From_x_per_night_template">From %s/night</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">Search this area</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
