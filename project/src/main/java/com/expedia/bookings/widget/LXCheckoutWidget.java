@@ -103,7 +103,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		String e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
 		String rulesAndRestrictionsURL = LXDataUtils.getRulesRestrictionsUrl(e3EndpointUrl, tripId);
 		legalInformationText.setText(StrUtils.generateLegalClickableLink(getContext(), rulesAndRestrictionsURL));
-		isCheckoutComplete();
+		checkoutFormWasUpdated();
 		if (User.isLoggedIn(getContext())) {
 			loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness());
 		}

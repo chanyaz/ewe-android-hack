@@ -32,6 +32,7 @@ import com.expedia.vm.HotelCouponViewModel
 import com.expedia.vm.HotelCreateTripViewModel
 import com.squareup.otto.Subscribe
 import rx.Observer
+import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
@@ -161,5 +162,31 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
 
     override fun isCheckoutButtonEnabled(): Boolean {
         return true
+    }
+
+    override fun checkoutFormWasUpdated() {
+        if (mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete()) {
+
+            if (PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox()) {
+                acceptTermsWidget.vm.acceptedTermsObservable.subscribe(object : Observer<Unit> {
+                    override fun onCompleted() { }
+
+                    override fun onError(e: Throwable) {
+                        throw OnErrorNotImplementedException(e)
+                    }
+
+                    override fun onNext(unit: Unit) {
+                        acceptTermsWidget.setVisibility(View.INVISIBLE)
+                        animateInSlideToPurchase(true)
+                    }
+                })
+                acceptTermsWidget.setVisibility(View.VISIBLE)
+            } else {
+                animateInSlideToPurchase(true)
+            }
+        } else {
+            acceptTermsWidget.setVisibility(View.INVISIBLE)
+            animateInSlideToPurchase(false)
+        }
     }
 }

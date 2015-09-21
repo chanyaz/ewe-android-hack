@@ -67,7 +67,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
             super.finalizeTransition(forward)
             if (!forward) {
                 hotelCheckoutWidget.slideWidget.resetSlider()
-                hotelCheckoutWidget.isCheckoutComplete()
+                hotelCheckoutWidget.checkoutFormWasUpdated()
             }
         }
     }

@@ -12,6 +12,7 @@ import android.widget.ToggleButton
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
+import rx.subjects.PublishSubject
 
 public fun <T> endlessObserver(body: (in T) -> Unit) : Observer<T> {
     return object : Observer<T> {
@@ -32,6 +33,12 @@ public fun <T> endlessObserver(body: (in T) -> Unit) : Observer<T> {
 public fun View.subscribeOnClick(observer: Observer<Unit>) {
     this.setOnClickListener {
         observer.onNext(Unit)
+    }
+}
+
+public fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
+    this.setOnClickListener {
+        publishSubject.onNext(Unit)
     }
 }
 

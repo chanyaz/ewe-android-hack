@@ -77,6 +77,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@InjectView(R.id.legal_information_text_view)
 	public TextView legalInformationText;
 
+	@InjectView(R.id.layout_confirm_tos)
+	public AcceptTermsWidget acceptTermsWidget;
+
 	@InjectView(R.id.slide_to_purchase_widget)
 	public SlideToWidgetLL slideWidget;
 
@@ -216,19 +219,37 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 	};
 
-	public void isCheckoutComplete() {
-		if (mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete()) {
-			animateInSlideTo(true);
+	public void animateInSlideToPurchase(boolean visible) {
+		// If its already in position, don't do it again
+		if (slideToContainer.getVisibility() == (visible ? VISIBLE : INVISIBLE)) {
+			return;
+		}
+
+		slideToContainer.setTranslationY(visible ? slideToContainer.getHeight() : 0);
+		slideToContainer.setVisibility(VISIBLE);
+		ObjectAnimator animator = ObjectAnimator
+			.ofFloat(slideToContainer, "translationY", visible ? 0 : slideToContainer.getHeight());
+		animator.setDuration(300);
+		animator.start();
+
+		if (visible) {
 			scrollView.post(new Runnable() {
 				@Override
 				public void run() {
 					scrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				}
 			});
-			OmnitureTracking.trackCheckoutSlideToPurchase(getLineOfBusiness(), getContext(), paymentInfoCardView.getCardType());
+			OmnitureTracking.trackCheckoutSlideToPurchase(getLineOfBusiness(), getContext(),
+				paymentInfoCardView.getCardType());
+		}
+	}
+
+	public void checkoutFormWasUpdated() {
+		if (mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete()) {
+			animateInSlideToPurchase(true);
 		}
 		else {
-			animateInSlideTo(false);
+			animateInSlideToPurchase(false);
 		}
 	}
 
@@ -284,10 +305,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			super.finalizeTransition(forward);
 			showProgress(!forward);
 			if (forward) {
-				isCheckoutComplete();
+				checkoutFormWasUpdated();
 			}
 			else {
-				animateInSlideTo(false);
+				animateInSlideToPurchase(false);
 			}
 			updateSpacerHeight();
 		}
@@ -371,25 +392,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				space.setLayoutParams(params);
 			}
 			else {
-				isCheckoutComplete();
+				checkoutFormWasUpdated();
 				updateSpacerHeight();
 			}
 		}
 	};
-
-	private void animateInSlideTo(boolean visible) {
-		// If its already in position, don't do it again
-		if (slideToContainer.getVisibility() == (visible ? VISIBLE : INVISIBLE)) {
-			return;
-		}
-
-		slideToContainer.setTranslationY(visible ? slideToContainer.getHeight() : 0);
-		slideToContainer.setVisibility(VISIBLE);
-		ObjectAnimator animator = ObjectAnimator
-			.ofFloat(slideToContainer, "translationY", visible ? 0 : slideToContainer.getHeight());
-		animator.setDuration(300);
-		animator.start();
-	}
 
 	public void clearCCNumber() {
 		try {
