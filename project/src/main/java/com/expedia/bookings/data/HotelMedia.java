@@ -208,7 +208,7 @@ public class HotelMedia implements JSONable, IMedia {
 
 	@Override
 	public void loadImage(ImageView imageView, PicassoTarget target, int defaultResId) {
-		new PicassoHelper.Builder(imageView).setPlaceholder(defaultResId).setTarget(target).build().load(getHighResUrls());
+		fillImageView(imageView, defaultResId, target);
 	}
 
 	@Override

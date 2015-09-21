@@ -29,6 +29,7 @@ import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.squareup.picasso.Picasso;
 
 public class RecyclerGallery extends RecyclerView {
@@ -163,7 +164,12 @@ public class RecyclerGallery extends RecyclerView {
 		mDecoration = new SpaceDecoration();
 		addItemDecoration(mDecoration);
 
-		mLayoutManager = new LinearLayoutManager(getContext());
+		mLayoutManager = new LinearLayoutManager(getContext()) {
+			@Override
+			protected int getExtraLayoutSpace(State state) {
+				return AndroidUtils.getScreenSize(getContext()).x;
+			}
+		};
 		mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 		setLayoutManager(mLayoutManager);
 
@@ -277,7 +283,6 @@ public class RecyclerGallery extends RecyclerView {
 			IMedia media = mMedia.get(position);
 			media.loadImage(holder.mImageView, holder.callback,
 				mMode == MODE_CENTER ? Ui.obtainThemeResID(getContext(), R.attr.skin_HotelRowThumbPlaceHolderDrawable) : 0);
-			preFetchImages(position);
 		}
 
 		@Override
@@ -290,32 +295,6 @@ public class RecyclerGallery extends RecyclerView {
 			notifyDataSetChanged();
 		}
 
-		private void preFetchImages(int position) {
-			int left = position;
-			int right = position;
-			int loaded = 1;
-			int len = mMedia.size();
-			boolean hasMore = true;
-
-			while (mContext != null && loaded < MAX_IMAGES_LOADED && hasMore) {
-				hasMore = false;
-				if (left > 0) {
-					left--;
-					mMedia.get(left).preloadImage(mContext);
-					loaded++;
-					hasMore = true;
-				}
-				if (loaded == MAX_IMAGES_LOADED) {
-					break;
-				}
-				if (right < len - 1) {
-					right++;
-					mMedia.get(right).preloadImage(mContext);
-					loaded++;
-					hasMore = true;
-				}
-			}
-		}
 	}
 
 	public int getSelectedItem() {
