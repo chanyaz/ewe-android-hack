@@ -75,7 +75,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
     val ratingContainer: LinearLayout by bindView(R.id.rating_container)
     val selectRoomButton: Button by bindView(R.id.select_room_button)
-    val stickySelectRoomButton : Button by bindView(R.id.sticky_select_room)
+    val stickySelectRoomButton: Button by bindView(R.id.sticky_select_room)
+    val stickySelectRoomShadow: View by bindView(R.id.sticky_select_room_shadow)
     val userRating: TextView by bindView(R.id.user_rating)
     val numberOfReviews: TextView by bindView(R.id.number_of_reviews)
     val readMoreView : ImageButton by bindView(R.id.read_more)
@@ -223,9 +224,18 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             }
 
         }
-        vm.sectionImageObservable.subscribe{isExpanded ->
-          if(isExpanded) AnimUtils.rotate(readMoreView) else AnimUtils.reverseRotate(readMoreView)
+
+        vm.sectionImageObservable.subscribe { isExpanded ->
+            if (isExpanded) {
+                hotelDescription.setMaxLines(Int.MAX_VALUE)
+                AnimUtils.rotate(readMoreView)
+            } else {
+                AnimUtils.reverseRotate(readMoreView)
+                hotelDescription.setMaxLines(2)
+            }
+
         }
+
         hotelDescriptionContainer.subscribeOnClick(vm.hotelDescriptionContainerObserver)
         etpRadioGroup.subscribeOnCheckedChange(etpContainerObserver)
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
@@ -329,8 +339,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     public fun shouldShowStickySelectRoomView() {
         roomContainer.getLocationOnScreen(roomContainerPosition)
-        if (roomContainerPosition[1] + roomContainer.getHeight() < offset) stickySelectRoomButton.setVisibility(View.VISIBLE)
-        else stickySelectRoomButton.setVisibility(View.GONE)
+        if (roomContainerPosition[1] + roomContainer.getHeight() < offset) {
+            stickySelectRoomButton.setVisibility(View.VISIBLE)
+            stickySelectRoomShadow.setVisibility(View.VISIBLE)
+        } else {
+            stickySelectRoomButton.setVisibility(View.GONE)
+            stickySelectRoomShadow.setVisibility(View.GONE)
+        }
     }
 
     public fun scrollToRoom() {
