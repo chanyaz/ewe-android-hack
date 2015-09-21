@@ -183,6 +183,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         searchLocationEditText.setAdapter(hotelSuggestionAdapter)
 
+        searchLocationEditText.setOnClickListener {
+            searchLocationEditText.showDropDown()
+        }
+
         searchLocationTextView.setOnFocusChangeListener { view, isFocussed ->
             if (isFocussed) {
                 searchLocationTextView.setVisibility(View.GONE)
