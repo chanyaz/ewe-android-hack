@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
+import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -144,15 +145,17 @@ public class HotelTravelerPickerViewModel(val context: Context) {
     private val MAX_CHILDREN = 4
     private val DEFAULT_CHILD_AGE = 10
 
-    private var numberOfAdults = 1
-    private var numberOfChildren = 0
     private var childAges = arrayListOf(DEFAULT_CHILD_AGE, DEFAULT_CHILD_AGE, DEFAULT_CHILD_AGE, DEFAULT_CHILD_AGE)
 
     // Outputs
-    val travelerParamsObservable = BehaviorSubject.create(HotelTravelerParams(numberOfAdults, emptyList()))
+    val travelerParamsObservable = BehaviorSubject.create(HotelTravelerParams(1, emptyList()))
     val guestsTextObservable = BehaviorSubject.create<CharSequence>()
     val adultTextObservable = BehaviorSubject.create<String>()
     val childTextObservable = BehaviorSubject.create<String>()
+    val adultPlusObservable = BehaviorSubject.create<Boolean>()
+    val adultMinusObservable = BehaviorSubject.create<Boolean>()
+    val childPlusObservable = BehaviorSubject.create<Boolean>()
+    val childMinusObservable = BehaviorSubject.create<Boolean>()
 
     init {
         travelerParamsObservable.subscribe { travelers ->
@@ -168,63 +171,49 @@ public class HotelTravelerPickerViewModel(val context: Context) {
             childTextObservable.onNext(
                     context.getResources().getQuantityString(R.plurals.number_of_children, travelers.children.size(), travelers.children.size())
             )
+
+            adultPlusObservable.onNext(total < MAX_GUESTS)
+            childPlusObservable.onNext(total < MAX_GUESTS && travelers.children.size() < MAX_CHILDREN)
+            adultMinusObservable.onNext(travelers.numberOfAdults > MIN_ADULTS)
+            childMinusObservable.onNext(travelers.children.size() > MIN_CHILDREN)
         }
     }
 
     // Inputs
     val incrementAdultsObserver: Observer<Unit> = endlessObserver {
-        if (allowed(adultChange = 1, childChange = 0)) {
-            numberOfAdults++
-            update()
+        if (adultPlusObservable.getValue()) {
+            val hotelTravelerParams = travelerParamsObservable.getValue()
+            travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults + 1, hotelTravelerParams.children))
         }
     }
 
     val decrementAdultsObserver: Observer<Unit> = endlessObserver {
-        if (allowed(adultChange = -1, childChange = 0)) {
-            numberOfAdults--
-            update()
+        if (adultMinusObservable.getValue()) {
+            val hotelTravelerParams = travelerParamsObservable.getValue()
+            travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults - 1, hotelTravelerParams.children))
         }
     }
 
     val incrementChildrenObserver: Observer<Unit> = endlessObserver {
-        if (allowed(adultChange = 0, childChange = 1)) {
-            numberOfChildren++
-            update()
+        if (childPlusObservable.getValue()) {
+            val hotelTravelerParams = travelerParamsObservable.getValue()
+            travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.children.plus(10)))
         }
     }
 
     val decrementChildrenObserver: Observer<Unit> = endlessObserver {
-        if (allowed(adultChange = 0, childChange = -1)) {
-            numberOfChildren--
-            update()
+        if (childMinusObservable.getValue()) {
+            val hotelTravelerParams = travelerParamsObservable.getValue()
+            travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.children.subList(0, hotelTravelerParams.children.size() - 1)))
         }
     }
 
     val childAgeSelectedObserver: Observer<Pair<Int, Int>> = endlessObserver { p ->
         val (which, age) = p
         childAges[which] = age
-        update()
+
+        val hotelTravelerParams = travelerParamsObservable.getValue()
+        travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults, (0..hotelTravelerParams.children.size() - 1).map { childAges[it] }))
     }
 
-    // Helpers
-    private fun update() {
-        val ages = ArrayList<Int>()
-        for (i in 0..numberOfChildren - 1) {
-            ages.add(childAges[i])
-        }
-        travelerParamsObservable.onNext(HotelTravelerParams(numberOfAdults, ages.toList()))
-    }
-
-    fun allowed(adultChange: Int, childChange: Int): Boolean {
-        val adults = numberOfAdults + adultChange
-        val childs = numberOfChildren + childChange
-
-        if (adults < MIN_ADULTS) return false
-        if (childs < MIN_CHILDREN) return false
-
-        if (childs > MAX_CHILDREN) return false
-        if (adults + childs > MAX_GUESTS) return false
-
-        return true
-    }
 }
