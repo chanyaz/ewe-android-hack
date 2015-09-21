@@ -192,7 +192,7 @@
                 android:id="@+id/room_info_header_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/ic_expand"
+                android:drawableRight="@drawable/read_more"
                 android:text="@string/room_information"
                 android:textColor="#808080"
                 android:textSize="13sp"

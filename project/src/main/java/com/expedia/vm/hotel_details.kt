@@ -43,7 +43,6 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val hotelOffersSubject = BehaviorSubject.create<HotelOffersResponse>()
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
     var etpOffersList = ArrayList<HotelOffersResponse.HotelRoomResponse>()
-    val INTRO_PARAGRAPH_CUTOFF = 120
     var sectionBody: String by Delegates.notNull()
     var untruncated: String by Delegates.notNull()
     var commonList: ArrayList<String> = ArrayList<String>()
@@ -95,13 +94,6 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
         if (response.firstHotelOverview != null) {
             sectionBody = Html.fromHtml(response.firstHotelOverview).toString()
-
-            //add read more if hotel intro is too long
-            if (sectionBody.length() > INTRO_PARAGRAPH_CUTOFF) {
-                untruncated = sectionBody
-                sectionBody = Phrase.from(context, R.string.hotel_ellipsize_text_template).put("text",
-                        sectionBody.substring(0, Strings.cutAtWordBarrier(sectionBody, INTRO_PARAGRAPH_CUTOFF))).format().toString()
-            }
             sectionBodyObservable.onNext(sectionBody)
         }
 
@@ -187,7 +179,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     }
 
     val hotelDescriptionContainerObserver: Observer<Unit> = endlessObserver {
-        expandSection(untruncated, sectionBody)
+        expandSection()
     }
 
     val bookByPhoneContainerClickObserver: Observer<Unit> = endlessObserver {
@@ -273,12 +265,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
                 .any { it.hasFreeCancellation == true }
     }
 
-    private fun expandSection(untruncated: String, sectionBody: String) {
+    private fun expandSection() {
         if (!isSectionExpanded) {
-            sectionBodyObservable.onNext(untruncated)
             isSectionExpanded = true
         } else {
-            sectionBodyObservable.onNext(sectionBody)
             isSectionExpanded = false
         }
         sectionImageObservable.onNext(isSectionExpanded)
