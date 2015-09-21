@@ -35,6 +35,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.HotelFilterView
 import com.expedia.bookings.widget.HotelListAdapter
@@ -104,11 +105,16 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     var googleMap: GoogleMap? = null
 
-    var menu: MenuItem? = null
+    val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
+    val searchMenuItem by lazy { toolbar.menu.findItem(R.id.menu_open_search) }
+    val searchOverlaySubject = PublishSubject.create<Unit>()
 
     var halfway = 0
     var threshold = 0
+
     var currentlySelectedMarkerData: MarkerData? = null
+
+    val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
@@ -134,6 +140,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     fun showLoading() {
         adapter.showLoading()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
+        filterBtnWithCountWidget.visibility = View.GONE
     }
 
     private fun resetListOffset() {
@@ -169,6 +176,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val listResultsObserver = endlessObserver<HotelSearchResponse> {
         adapter.resultsSubject.onNext(it)
         resetListOffset()
+        filterBtnWithCountWidget.visibility = View.VISIBLE
     }
 
     /**
@@ -378,12 +386,12 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         recyclerView.addOnScrollListener(scrollListener)
         recyclerView.addOnItemTouchListener(touchListener)
         mapCarouselRecycler.mapSubject.subscribe(markerObserver)
+        filterView.viewmodel.filterCountObservable.subscribe(filterCountObserver)
 
         toolbar.inflateMenu(R.menu.menu_filter_item)
-        menu = toolbar.menu.findItem(R.id.menu_filter)
         var drawable = resources.getDrawable(R.drawable.sort).mutate()
         drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        menu?.setIcon(drawable)
+        filterMenuItem.setIcon(drawable)
 
         val button = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as Button
         val icon = resources.getDrawable(R.drawable.sort).mutate()
@@ -396,7 +404,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         toolbar.setNavigationOnClickListener { view ->
             val activity = context as AppCompatActivity
             activity.onBackPressed()
-            show(ResultsList())
         }
 
         val fabDrawable: TransitionDrawable? = (fab.drawable as? TransitionDrawable)
@@ -421,6 +428,23 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
         }
 
+        filterBtnWithCountWidget.setOnClickListener {
+            show(ResultsFilter())
+        }
+
+        searchMenuItem.setOnMenuItemClickListener(object : MenuItem.OnMenuItemClickListener {
+            override fun onMenuItemClick(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    R.id.menu_open_search -> {
+                        searchOverlaySubject.onNext(Unit)
+                        return true
+                    }
+                }
+                return false
+            }
+        })
+
+        filterMenuItem.setVisible(false)
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
@@ -466,6 +490,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
         var currentState = RecyclerView.SCROLL_STATE_IDLE
+        var scrolledDistance = 0
+        val heightOfButton = resources.getDimension(R.dimen.lx_sort_filter_container_height).toInt()
+
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             currentState = newState
 
@@ -490,6 +517,16 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 recyclerView.translationY = 0f
                 resetListOffset()
             }
+
+            // Filter button translation
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                if (scrolledDistance > heightOfButton / 2) {
+                    filterBtnWithCountWidget.animate().translationY(heightOfButton.toFloat()).setInterpolator(DecelerateInterpolator()).start()
+                } else {
+                    filterBtnWithCountWidget.animate().translationY(0f).setInterpolator(DecelerateInterpolator()).start()
+                }
+            }
+
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -532,6 +569,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 })
                 outAnim.start()
             }
+
+            // Filter button translation
+            if (scrolledDistance > 0) {
+                scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy)
+                filterBtnWithCountWidget.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
+            } else {
+                scrolledDistance = Math.max(0, scrolledDistance + dy)
+                filterBtnWithCountWidget.translationY = Math.min(scrolledDistance, 0).toFloat()
+            }
         }
 
         fun isHeaderVisible(): Boolean {
@@ -554,8 +600,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
             recyclerView.translationY = 0f
             mapView.translationY = -halfway.toFloat()
-
-            menu?.setVisible(true)
 
             recyclerView.visibility = View.VISIBLE
             mapCarouselContainer.visibility = View.INVISIBLE
@@ -662,7 +706,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             override fun finalizeTransition(forward: Boolean) {
                 navIcon.parameter = (if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK else ArrowXDrawableUtil.ArrowDrawableType.CLOSE).type.toFloat()
 
-                menu?.setVisible(true)
+                searchMenuItem.setVisible(forward)
+                filterMenuItem.setVisible(!forward)
+                filterBtnWithCountWidget.visibility = if (forward) View.VISIBLE else View.GONE
 
                 recyclerView.visibility = if (forward) View.VISIBLE else View.INVISIBLE
                 mapCarouselContainer.visibility = if (forward) View.INVISIBLE else View.VISIBLE
@@ -760,8 +806,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
 
-            menu?.setVisible(true)
-
             if (forward) {
                 listTransition.finalizeTransition(forward)
             } else {
@@ -774,41 +818,38 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     private val listFilterTransition = object : Presenter.Transition(ResultsList::class.java, ResultsFilter::class.java, DecelerateInterpolator(), 500) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            filterView.visibility = View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
+            val translatePercentage = if (forward) 1 - f else f
+            filterView.translationY = filterView.getHeight() * translatePercentage
         }
 
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
-            if (forward) {
-                fab.visibility = View.GONE
-                filterView.visibility = View.VISIBLE
-            } else {
-                filterView.visibility = View.GONE
-            }
+            filterView.visibility = if (forward) View.VISIBLE else View.GONE
+            filterView.translationY = (if (forward) 0 else filterView.getHeight()).toFloat()
         }
     }
 
     private val mapFilterTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsFilter::class.java, DecelerateInterpolator(), 500) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            fab.visibility = if (forward) View.GONE else View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
+            val translatePercentage = if (forward) 1 - f else f
+            filterView.translationY = filterView.height * translatePercentage
         }
 
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
-            if (forward) {
-                fab.visibility = View.GONE
-                filterView.visibility = View.VISIBLE
-            } else {
-                fab.visibility = View.VISIBLE
-                filterView.visibility = View.GONE
-            }
+            filterView.visibility = if (forward) View.VISIBLE else View.GONE
+            filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
         }
     }
 
@@ -833,6 +874,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         val map = googleMap
         map?.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, map.cameraPosition.zoom))
     }
+
+    val filterCountObserver: Observer<Int> = endlessObserver { filterBtnWithCountWidget.showNumberOfFilters(it) }
 
     var yTranslationRecyclerTempBackground = 0f
     var yTranslationRecyclerView = 0f

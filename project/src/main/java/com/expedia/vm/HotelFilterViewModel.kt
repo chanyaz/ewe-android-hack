@@ -24,6 +24,7 @@ class HotelFilterViewModel(val context: Context) {
     val hotelStarRatingBar = BehaviorSubject.create<Int>()
     val updateDynamicFeedbackWidget = BehaviorSubject.create<Int>()
     val finishClear = BehaviorSubject.create<Unit>()
+    val filterCountObservable = BehaviorSubject.create<Int>()
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
     data class UserFilterChoices(var userSort: Sort = Sort.POPULAR, var isVipOnlyAccess: Boolean = false, var hotelStarRating : StarRatings = StarRatings(), var name : String? = null, var price : Float? = null, var neighborhoods : HashSet<String> = HashSet<String>())
@@ -62,6 +63,7 @@ class HotelFilterViewModel(val context: Context) {
         }
 
         updateDynamicFeedbackWidget.onNext(filteredResponse.hotelList.size())
+        filterCountObservable.onNext(getFilterCount())
     }
 
     fun resetUserFilters() {
@@ -271,6 +273,18 @@ class HotelFilterViewModel(val context: Context) {
         handleFiltering()
     }
 
+    fun getFilterCount() : Int {
+        var count = 0
+        if (userFilterChoices.hotelStarRating.one ||
+                userFilterChoices.hotelStarRating.two ||
+                userFilterChoices.hotelStarRating.three ||
+                userFilterChoices.hotelStarRating.four || userFilterChoices.hotelStarRating.five) count++
+        if (userFilterChoices.isVipOnlyAccess == true) count++
+        if (!userFilterChoices.name.isNullOrEmpty()) count++
+        if (userFilterChoices.neighborhoods.isNotEmpty()) count++
+        if (userFilterChoices.price != null) count++
+        return count
+    }
 }
 
 

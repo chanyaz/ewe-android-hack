@@ -56,6 +56,14 @@
             android:background="@drawable/tb_shadow" />
     </LinearLayout>
 
+    <com.expedia.bookings.widget.FilterButtonWithCountWidget
+        android:id="@+id/sort_filter_button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:visibility="gone"/>
+
     <com.expedia.bookings.widget.HotelFilterView
         android:id="@+id/filter_view"
         android:layout_width="match_parent"
