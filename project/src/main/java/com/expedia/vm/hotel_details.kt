@@ -304,7 +304,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
                     DateUtils.localDateToMMMd(params.checkIn)).put("enddate",
                     DateUtils.localDateToMMMd(params.checkOut)).put("guests",
-                    context.getResources().getQuantityString(R.plurals.number_of_guests, params.children.size() + 1, params.children.size() + 1))
+                    context.getResources().getQuantityString(R.plurals.number_of_guests, params.children.size() + params.adults, params.children.size() + params.adults))
                     .format()
                     .toString())
         }
