@@ -59,13 +59,14 @@ public class NewHotelDetailTest extends HotelTestCase {
 
 		HotelScreen.clickPayNow();
 		onView(allOf(withId(R.id.room_header_image),isDisplayed())).perform(swipeUp());
-		Common.delay(2);
+		Common.delay(1);
 		onView(withText("View Room")).perform(scrollTo());
 		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(withId(R.id.collapsed_container)), isDisplayed()))
 			.check(matches(withText("1 Room Left!")));
 
 		onView(withText("View Room")).perform(click());
 
+		Common.delay(1);
 		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(withId(R.id.collapsed_container)), isDisplayed()))
 			.check(matches(withText("Non-refundable")));
 	}

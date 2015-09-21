@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/hotel_room_list_container_margin"
         android:layout_marginRight="@dimen/hotel_room_list_container_margin"
-        android:animateLayoutChanges="true"
         android:background="@drawable/hotel_detail_ripple"
         android:orientation="vertical">
 
@@ -172,24 +171,23 @@
             android:id="@+id/room_info_divider"
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_below="@+id/view_room_button"
             android:paddingTop="12dp"
-            android:visibility="gone"
+            android:paddingBottom="12dp"
             android:background="@color/hotel_detail_divider" />
 
         <RelativeLayout
             android:id="@+id/room_info_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/divider"
             android:background="?attr/selectableItemBackground"
             android:paddingBottom="15dp"
+            android:paddingTop="12dp"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="12dp">
+            android:paddingRight="15dp">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/room_info_header_text"
+                android:paddingBottom="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/read_more"
@@ -205,8 +203,7 @@
                 android:layout_below="@+id/room_info_header_text"
                 android:textColor="@color/hotelsv2_checkout_text_color"
                 android:paddingTop="8dp"
-                android:textSize="11sp"
-                android:visibility="gone" />
+                android:textSize="11sp" />
         </RelativeLayout>
     </LinearLayout>
 
