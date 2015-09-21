@@ -102,7 +102,9 @@
         <item name="android:titleTextStyle" tools:targetApi="11">@style/FlightActionBarTextAppearance</item>
     </style>
 
-    <style name="LaunchTheme" parent="@android:style/Theme.Holo">
+    <style name="LaunchTheme" parent="Theme.AppCompat">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_airasiago_logo</item>
         <item name="android:actionBarStyle">@style/LaunchActionBarAirAsiaGo</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabAirAsiaGoStyle</item>
