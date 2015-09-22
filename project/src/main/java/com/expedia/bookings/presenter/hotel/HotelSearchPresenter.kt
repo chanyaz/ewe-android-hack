@@ -22,7 +22,7 @@ import android.widget.ToggleButton
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.data.Codes
+import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -49,7 +49,6 @@ import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlin.properties.Delegates
 
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val searchLocationTextView: TextView by bindView(R.id.hotel_location)
@@ -88,7 +87,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     private val hotelSuggestionAdapter by lazy {
         val service = Ui.getApplication(getContext()).hotelComponent().suggestionsService()
-        HotelSuggestionAdapter(HotelSuggestionAdapterViewModel(service))
+        HotelSuggestionAdapter(HotelSuggestionAdapterViewModel(getContext(), service, CurrentLocationObservable.create(getContext())))
     }
 
     // Classes for state
