@@ -11,7 +11,7 @@
         android:padding="16dp"
         android:text="@string/enter_coupon_promo_code"
         android:textSize="16sp"
-        app:textStyle="medium" />
+        app:textStyle="normal" />
 
     <LinearLayout
         android:id="@+id/expanded"
@@ -19,8 +19,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingBottom="12dp"
-        android:paddingLeft="9dp"
         android:paddingRight="9dp"
+        android:paddingLeft="3dp"
         android:paddingTop="12dp"
         android:visibility="gone">
 
@@ -28,7 +28,7 @@
             android:id="@+id/icon"
             android:layout_width="31dp"
             android:layout_height="31dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="13dp"
             android:padding="5dp"
             android:scaleType="center"
             android:src="@drawable/coupon" />
@@ -44,7 +44,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_coupon_code"
-                android:inputType="textCapCharacters"
                 android:singleLine="true" />
 
             <com.expedia.bookings.widget.TextView

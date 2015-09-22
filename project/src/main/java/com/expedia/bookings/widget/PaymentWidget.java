@@ -32,6 +32,7 @@ import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CreditCardUtils;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
@@ -232,12 +233,22 @@ public class PaymentWidget extends ExpandableCardView {
 		}
 		// Card info partially entered & not valid
 		else if (isFilled() && (!isBillingInfoValid || !isPostalCodeValid)) {
-			bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				bindCard(null, getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line1), "");
+			}
+			else {
+				bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+			}
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.INCOMPLETE);
 		}
 		// Default all fields are empty
 		else {
-			bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				bindCard(null, getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line1), "");
+			}
+			else {
+				bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+			}
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			reset();
 		}
@@ -258,16 +269,26 @@ public class PaymentWidget extends ExpandableCardView {
 		if (!TextUtils.isEmpty(cardExpiration)) {
 			cardInfoExpiration.setText(getResources().getString(R.string.selected_card_template, cardExpiration));
 			cardInfoExpiration.setVisibility(VISIBLE);
+			FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR);
 		}
 		else {
-			cardInfoExpiration.setText("");
-			cardInfoExpiration.setVisibility(GONE);
+			FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_REGULAR);
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				cardInfoExpiration.setVisibility(VISIBLE);
+				cardInfoExpiration.setText(getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line2));
+				FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM);
+			}
+			else {
+				cardInfoExpiration.setVisibility(GONE);
+			}
 		}
 		if (cardType != null) {
 			cardInfoIcon.setImageDrawable(
 				getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(cardType)));
 			storedCardImageView.setImageDrawable(
 				getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(cardType)));
+			FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM);
+			FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR);
 		}
 		else {
 			cardInfoIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.cars_checkout_cc_default_icon));
@@ -353,11 +374,16 @@ public class PaymentWidget extends ExpandableCardView {
 	}
 
 	@Override
-	public boolean getDoneButtonFocus() {
+	public boolean getMenuDoneButtonFocus() {
 		if (creditCardName != null) {
 			return creditCardName.hasFocus();
 		}
 		return false;
+	}
+
+	@Override
+	public String getMenuButtonTitle() {
+		return getResources().getString(R.string.Done);
 	}
 
 	@Override
@@ -371,7 +397,7 @@ public class PaymentWidget extends ExpandableCardView {
 	}
 
 	@Override
-	public void onDonePressed() {
+	public void onMenuButtonPressed() {
 		boolean hasStoredCard = hasStoredCard();
 		boolean billingIsValid = !hasStoredCard && sectionBillingInfo.performValidation();
 		boolean postalIsValid = !hasStoredCard && sectionLocation.performValidation();

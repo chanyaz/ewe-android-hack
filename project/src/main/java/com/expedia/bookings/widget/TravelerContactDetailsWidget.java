@@ -143,15 +143,25 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			}
 			sectionTravelerInfo.refreshOnLoginStatusChange();
 			sectionTravelerInfo.bind(traveler);
+			FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
 			lastName.setNextFocusRightId(emailAddress.getId());
 			lastName.setNextFocusDownId(emailAddress.getId());
 		}
 
 		if (TextUtils.isEmpty(traveler.getFullName())) {
-			FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_REGULAR);
-			enterDetailsText.setText(Ui.obtainThemeResID(getContext(), R.attr.traveler_details_text));
-			travelerPhoneText.setText("");
-			travelerPhoneText.setVisibility(GONE);
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
+				enterDetailsText.setText(getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line1));
+				travelerPhoneText.setVisibility(VISIBLE);
+				travelerPhoneText.setText(getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line2));
+			}
+			else {
+				FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_REGULAR);
+				enterDetailsText.setText(Ui.obtainThemeResID(getContext(), R.attr.traveler_details_text));
+				travelerPhoneText.setText("");
+				travelerPhoneText.setVisibility(GONE);
+			}
+
 			driverCheckoutStatusLeftImageView.setTraveler(null);
 			driverCheckoutStatusLeftImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			driverCheckoutStatusRightImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
@@ -205,11 +215,16 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	}
 
 	@Override
-	public boolean getDoneButtonFocus() {
+	public boolean getMenuDoneButtonFocus() {
 		if (phoneNumber != null) {
 			return phoneNumber.hasFocus();
 		}
 		return false;
+	}
+
+	@Override
+	public String getMenuButtonTitle() {
+		return getResources().getString(R.string.Done);
 	}
 
 	@Override
@@ -218,7 +233,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	}
 
 	@Override
-	public void onDonePressed() {
+	public void onMenuButtonPressed() {
 		if (sectionTravelerInfo.performValidation()) {
 			setExpanded(false);
 		}

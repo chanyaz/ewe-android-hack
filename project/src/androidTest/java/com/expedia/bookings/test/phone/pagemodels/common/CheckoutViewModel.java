@@ -147,10 +147,6 @@ public class CheckoutViewModel {
 		onView(withId(R.id.menu_done)).perform(click());
 	}
 
-	public static void clickCheckout() {
-		onView(withId(R.id.menu_checkout)).perform(click());
-	}
-
 	public static void enterLoginDetails() {
 		clickLogin();
 		enterUsername("username@gmail.com");

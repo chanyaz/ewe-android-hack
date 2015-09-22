@@ -68,7 +68,7 @@ public class HotelPriceChangeTest extends HotelTestCase {
 
 	private void checkout() throws Throwable {
 		screenshot("Hotel_Checkout");
-		CheckoutViewModel.clickCheckout();
+		CheckoutViewModel.clickDone();
 		CheckoutViewModel.enterTravelerInfo();
 		CheckoutViewModel.enterPaymentInfoHotels();
 		CheckoutViewModel.pressClose();

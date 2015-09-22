@@ -171,17 +171,26 @@ public class AccountButton extends LinearLayout {
 			mLoginTextView.setCompoundDrawablePadding(getResources().getDimensionPixelSize(R.dimen.card_icon_padding));
 		}
 		else {
+			int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
 			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
 			lp.height = LayoutParams.WRAP_CONTENT;
 			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
-			lpt.width = LayoutParams.MATCH_PARENT;
-			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
-			int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
-			mLoginContainer.setBackgroundResource(R.drawable.card_background);
+			if (lob == LineOfBusiness.HOTELSV2) {
+				lpt.width = LayoutParams.WRAP_CONTENT;
+				lpt.gravity = Gravity.CENTER;
+				mLoginContainer.setBackgroundResource(R.drawable.bg_hotelsv2_account_button);
+				mLoginTextView.setTextColor(getResources().getColor(android.R.color.white));
+				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.expedia_white, 0, 0, 0);
+			}
+			else {
+				lpt.width = LayoutParams.MATCH_PARENT;
+				lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
+				mLoginContainer.setBackgroundResource(R.drawable.card_background);
+				mLoginTextView.setTextColor(getResources().getColor(R.color.cars_lx_checkout_button_text_color));
+				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.expedia, 0, 0, 0);
+			}
 			mLoginTextView.setBackgroundResource(bgResourceId);
 			mLoginTextView.setGravity(Gravity.LEFT);
-			mLoginTextView.setTextColor(getResources().getColor(R.color.cars_lx_checkout_button_text_color));
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.expedia, 0, 0, 0);
 			int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
 			mLoginTextView.setPadding(padding, padding, padding, padding);
 		}

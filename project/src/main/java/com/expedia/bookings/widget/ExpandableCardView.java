@@ -45,8 +45,15 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 	public void onFocusChange(View v, boolean hasFocus) {
 		mCurrentEditText = (EditText) v;
 
-		if (getDoneButtonFocus() && mToolbarListener != null) {
-			mToolbarListener.onEditingComplete();
+		if (mToolbarListener != null) {
+			if (getMenuDoneButtonFocus()) {
+				mToolbarListener.setMenuLabel(getResources().getString(R.string.done));
+				mToolbarListener.onEditingComplete();
+			}
+			else {
+				mToolbarListener.showRightActionButton(true);
+				mToolbarListener.setMenuLabel(getResources().getString(R.string.next));
+			}
 		}
 
 	}
@@ -78,6 +85,7 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 		if (mToolbarListener != null) {
 			if (expand) {
 				mToolbarListener.onWidgetExpanded(this);
+				mToolbarListener.showRightActionButton(false);
 			}
 			else {
 				mToolbarListener.onWidgetClosed();
@@ -86,13 +94,16 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 	}
 
 	// Is the user focus on the last edittext?
-	public abstract boolean getDoneButtonFocus();
+	public abstract boolean getMenuDoneButtonFocus();
+
+	// Title to set on the Done button
+	public abstract String getMenuButtonTitle();
 
 	// Title to set on the toolbar once the widget opens
 	public abstract String getActionBarTitle();
 
 	// Actions to perform once the user presses done on the toolbar
-	public abstract void onDonePressed();
+	public abstract void onMenuButtonPressed();
 
 	// Actions to perform once the user has logged in
 	public abstract void onLogin();

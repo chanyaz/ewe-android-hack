@@ -160,10 +160,6 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         })
     }
 
-    override fun isCheckoutButtonEnabled(): Boolean {
-        return true
-    }
-
     override fun checkoutFormWasUpdated() {
         if (mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete()) {
 

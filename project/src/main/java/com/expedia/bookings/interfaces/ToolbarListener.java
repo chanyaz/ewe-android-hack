@@ -13,4 +13,8 @@ public interface ToolbarListener {
 	public void onWidgetClosed();
 
 	public void onEditingComplete();
+
+	public void setMenuLabel(String label);
+
+	public void showRightActionButton(boolean show);
 }
