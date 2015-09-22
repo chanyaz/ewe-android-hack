@@ -9,13 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_margin="@dimen/hotel_review_row_margin"
         android:animateLayoutChanges="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/hotel_review_row_padding_bottom"
+        android:paddingLeft="@dimen/hotel_reviews_padding_left"
+        android:paddingRight="@dimen/hotel_reviews_padding_right"
+        android:paddingTop="@dimen/hotel_review_row_padding_top">
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/hotel_review_padding_bottom">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/review_title"
@@ -32,8 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/hotel_review_date_color"
-                android:textSize="@dimen/hotel_review_date"
-                android:textStyle="italic" />
+                android:textSize="@dimen/hotel_review_date" />
 
         </RelativeLayout>
 
@@ -43,9 +46,8 @@
             style="@style/RatingBar.UserReview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/hotel_review_detail_margin_bottom"
-            android:layout_marginTop="@dimen/hotel_review_detail_margin_top"
             android:numStars="5"
+            android:paddingBottom="@dimen/hotel_review_padding_bottom"
             android:stepSize=".5" />
 
 
@@ -53,8 +55,8 @@
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/hotel_review_detail_margin_bottom"
-            android:layout_marginTop="@dimen/hotel_review_detail_margin_top"
+            android:lineSpacingExtra="@dimen/hotel_review_content_line_spacing"
+            android:paddingBottom="@dimen/hotel_review_padding_bottom"
             android:textColor="@color/hotel_review_body_color"
             android:textSize="@dimen/hotel_review_body" />
 
@@ -62,7 +64,6 @@
             android:id="@+id/reviewer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/hotel_review_detail_margin_top"
             android:textColor="@color/hotel_review_reviewer_color"
             android:textSize="@dimen/hotel_reviewer"
             android:textStyle="italic" />

@@ -1,9 +1,11 @@
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/hotel_reviews_summary_padding_bottom">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/overall_rating"
@@ -11,15 +13,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/hotel_overall_rating_background"
+            android:paddingBottom="@dimen/hotel_reviews_rating_padding_bottom"
+            android:paddingLeft="@dimen/hotel_reviews_rating_padding_left"
+            android:paddingRight="@dimen/hotel_reviews_rating_padding_right"
             android:textColor="@color/hotel_reviews_summary_background_color"
-            android:textStyle="bold" />
+            app:textStyle="medium" />
 
         <com.expedia.bookings.widget.TextView
             style="@style/widgetHotelReviewsSummaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
             android:text="@string/hotel_guest_recommend"
-            android:textSize="@dimen/hotel_review_summary_text_size" />
+            android:textSize="@dimen/hotel_reviews_summary_text_size" />
 
     </LinearLayout>
 
@@ -27,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingBottom="@dimen/hotel_reviews_summary_padding_bottom"
         android:weightSum="2">
 
         <com.expedia.bookings.widget.TextView
@@ -38,7 +45,6 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/room_comfort"
-
             style="@style/widgetHotelReviewsSummaryText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,6 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingBottom="@dimen/hotel_reviews_summary_padding_bottom"
         android:weightSum="2">
 
         <com.expedia.bookings.widget.TextView
