@@ -14,6 +14,7 @@ public class DummyFiletoHandleKotlinLintError {
 	private static final int[] USED_RESOURCES = {
 		R.drawable.hotel_suggest,
 		R.drawable.airport_suggest,
+		R.drawable.room_fallback,
 		R.layout.hotel_dropdown_item,
 		R.string.calendar_instructions_date_range_with_guests_TEMPLATE,
 		R.string.per_nt_TEMPLATE,

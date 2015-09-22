@@ -73,6 +73,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val priceContainer: ViewGroup by bindView(R.id.price_widget)
     val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
     val price: TextView by bindView(R.id.price)
+    val perNight: TextView by bindView(R.id.per_night)
 
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
     val ratingContainer: LinearLayout by bindView(R.id.rating_container)
@@ -123,6 +124,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var hotelLatLng: DoubleArray by Delegates.notNull()
     var offset: Float by Delegates.notNull()
     var priceContainerLocation = IntArray(2)
+    var urgencyContainerLocation = IntArray(2)
     var roomContainerPosition = IntArray(2)
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
 
@@ -270,6 +272,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         toolBarBackground.setAlpha(0f)
         toolBarGradient.setTranslationY(0f)
         priceViewAlpha(1f)
+        urgencyViewAlpha(1f)
         resortFeeWidget.setVisibility(View.GONE)
         commonAmenityText.setVisibility(View.GONE)
         commonAmenityDivider.setVisibility(View.GONE)
@@ -315,35 +318,47 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             galleryContainer.setTranslationY(yoffset * 0.5f)
 
             priceContainer.getLocationOnScreen(priceContainerLocation)
-            if (priceContainerLocation[1] <= 0) {
-                toolBarBackground.setAlpha(1.0f)
-                toolbarShadow.setVisibility(View.VISIBLE)
+            hotelMessagingContainer.getLocationOnScreen(urgencyContainerLocation)
+
+            if (priceContainerLocation[1] + priceContainer.height <= offset) {
+                toolBarBackground.alpha = 1.0f
+                toolbarShadow.visibility = View.VISIBLE
             } else {
-                toolBarBackground.setAlpha(0f)
-                toolbarShadow.setVisibility(View.GONE)
+                toolBarBackground.alpha = 0f
+                toolbarShadow.visibility = View.GONE
             }
 
             if(priceContainerLocation[1] < gradientHeight){
-                toolBarGradient.setTranslationY(-(gradientHeight-priceContainerLocation[1]))
+                toolBarGradient.translationY = (-(gradientHeight-priceContainerLocation[1]))
             }
 
-            var ratio = (priceContainerLocation[1]) / offset
+            var ratio = (priceContainerLocation[1] - (offset/2)) / offset
             priceViewAlpha(ratio * 1.5f)
 
+            var urgencyRatio = (urgencyContainerLocation[1] - (offset/2)) /offset
+            urgencyViewAlpha(urgencyRatio * 1.5f)
             shouldShowStickySelectRoomView()
 
             if (shouldShowResortView()) {
-                resortFeeWidget.setVisibility(View.VISIBLE)
+                resortFeeWidget.visibility = View.VISIBLE
             } else {
-                resortFeeWidget.setVisibility(View.GONE)
+                resortFeeWidget.visibility = View.GONE
             }
         }
     }
 
     fun priceViewAlpha(ratio: Float) {
-        price.setAlpha(ratio)
-        searchInfo.setAlpha(ratio)
-        selectRoomButton.setAlpha(ratio)
+        perNight.alpha = ratio
+        price.alpha = ratio
+        searchInfo.alpha = ratio
+        selectRoomButton.alpha = ratio
+        strikeThroughPrice.alpha = ratio
+    }
+
+    fun urgencyViewAlpha(ratio : Float) {
+        discountPercentage.alpha = ratio
+        vipAccessMessage.alpha = ratio
+        promoMessage.alpha = ratio
     }
 
     public fun shouldShowResortView(): Boolean {

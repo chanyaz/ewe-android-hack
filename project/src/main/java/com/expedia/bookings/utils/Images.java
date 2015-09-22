@@ -144,13 +144,13 @@ public class Images {
 		return headerBitmapDrawable;
 	}
 
-	public static HeaderBitmapDrawable makeHotelBitmapDrawable(Context context, HeaderBitmapDrawable.CallbackListener listener, int width, String url, String tag) {
+	public static HeaderBitmapDrawable makeHotelBitmapDrawable(Context context, HeaderBitmapDrawable.CallbackListener listener, int width, String url, String tag, int fallbackImage) {
 		HeaderBitmapDrawable headerBitmapDrawable = makeLaunchListBitmapDrawable(context);
 		headerBitmapDrawable.setCallbackListener(listener);
 		HotelMedia hotelMedia = new HotelMedia(url);
 
 		new PicassoHelper.Builder(context)
-			.setPlaceholder(R.drawable.results_list_placeholder)
+			.setPlaceholder(fallbackImage)
 			.setTarget(headerBitmapDrawable.getCallBack())
 			.setTag(tag)
 			.build()
