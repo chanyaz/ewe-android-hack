@@ -41,7 +41,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getAppSupportUrl(Context context) {
-		return PointOfSale.getPointOfSale().getAppSupportUrl();
+		return context.getString(R.string.app_support_url_wotif);
 	}
 
 	@Override
