@@ -64,6 +64,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle: TextView by bindView(R.id.hotel_name_text)
     val toolBarRating: RatingBar by bindView(R.id.hotel_star_rating_bar)
+    val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
 
     val gallery: RecyclerGallery by bindView(R.id.images_gallery)
     val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
@@ -303,8 +304,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             priceContainer.getLocationOnScreen(priceContainerLocation)
             if (priceContainerLocation[1] <= 0) {
                 toolBarBackground.setAlpha(1.0f)
+                toolbarShadow.setVisibility(View.VISIBLE)
             } else {
                 toolBarBackground.setAlpha(0f)
+                toolbarShadow.setVisibility(View.GONE)
             }
 
             if(priceContainerLocation[1] < gradientHeight){
