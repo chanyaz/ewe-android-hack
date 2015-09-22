@@ -13,7 +13,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.text.format
 import android.text.format.DateUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -145,6 +144,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     private fun resetListOffset() {
+        val mover = ObjectAnimator.ofFloat(mapView, "translationY", mapView.getTranslationY(), -halfway.toFloat());
+        mover.setDuration(300);
+        mover.start();
+
         var listOffset = (getHeight() / 3.1).toInt()
         val view = recyclerView.getChildAt(adapter.numHeaderItemsInHotelsList())
         if (view != null) {
@@ -153,6 +156,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         } else {
             recyclerView.layoutManager.scrollToPositionWithOffset(adapter.numHeaderItemsInHotelsList(), listOffset)
         }
+    }
+
+    private fun adjustGoogleMapLogo() {
+        val view = recyclerView.getChildAt(1)
+        val topOffset = if (view == null) { 0 } else {view.getTop() }
+        val bottom = recyclerView.getHeight() - topOffset
+        googleMap?.setPadding(0, 0, 0, (bottom + mapView.getTranslationY()).toInt())
     }
 
     private fun fabShouldBeHiddenOnList(): Boolean {
@@ -473,11 +483,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             val view = recyclerView.getChildAt(1)
             val topOffset = if (view == null) { 0 } else {view.getTop() }
 
-            if (halfway == 0 && threshold == 0 && view != null) {
-                halfway = view.getTop()
-                threshold = view.getTop() + (view.getBottom() / 1.9).toInt()
-            }
-
             if (newState == RecyclerView.SCROLL_STATE_IDLE && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
                 //view has passed threshold, show map
                 show(ResultsMap())
@@ -487,7 +492,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 recyclerView.setTranslationY(0f)
                 resetListOffset()
             }
-
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -495,18 +499,16 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 return
             }
 
-            val y = mapView.getTranslationY() + (-dy * .5f)
-
-            if (y <= 0) {
-                mapView.setTranslationY(y)
-            }
+            val y = mapView.getTranslationY() + (-dy * halfway/(recyclerView.getHeight() - halfway))
+            mapView.setTranslationY(y)
 
             val view = recyclerView.getChildAt(1)
             val topOffset = if (view == null) { 0 } else {view.getTop() }
 
+            adjustGoogleMapLogo()
+
             if (currentState == RecyclerView.SCROLL_STATE_SETTLING && topOffset < threshold && topOffset > halfway && isHeaderVisible()) {
                 show(ResultsList())
-                mapView.setTranslationY(0f)
                 recyclerView.setTranslationY(0f)
                 resetListOffset()
             } else if (currentState == RecyclerView.SCROLL_STATE_SETTLING && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
@@ -548,7 +550,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun finalizeTransition(forward: Boolean) {
             navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType().toFloat())
             recyclerView.setTranslationY(0f)
-            mapView.setTranslationY(0f)
+            mapView.setTranslationY(-halfway.toFloat())
 
             menu?.setVisible(true)
 
@@ -571,6 +573,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this)
             screenHeight = if (ExpediaBookingApp.isAutomation()) { 0 } else { getHeight() }
             screenWidth = if (ExpediaBookingApp.isAutomation()) { 0f } else { getWidth().toFloat() }
+            val view = recyclerView.getChildAt(1)
+
+            if (halfway == 0 && threshold == 0 && view != null) {
+                halfway = view.getTop()
+                threshold = view.getTop() + (view.getBottom() / 1.9).toInt()
+            }
+
             resetListOffset()
         }
     }
@@ -628,7 +637,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 recyclerView.setTranslationY(hotelListDistance)
                 navIcon.setParameter(if (forward) Math.abs(1 - f) else f)
                 if (forward) {
-                    mapView.setTranslationY(f * mapTranslationStart)
+                    mapView.setTranslationY(f * -halfway)
                 }
                 else {
                     mapView.setTranslationY((1-f) * mapTranslationStart)
@@ -643,6 +652,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 toolbarTitle.setTranslationY(toolbarYTransStep)
                 toolbarSubtitle.setTranslationY(toolbarYTransStep)
                 toolbarSubtitle.setAlpha(if (forward) f else (1-f))
+                adjustGoogleMapLogo()
             }
 
             override fun finalizeTransition(forward: Boolean) {
@@ -660,11 +670,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                         fab.setVisibility(View.INVISIBLE)
                     }
                     recyclerView.setTranslationY(0f)
-                    mapView.setTranslationY(mapTranslationStart)
+                    mapView.setTranslationY(-halfway.toFloat())
+                    adjustGoogleMapLogo()
                 }
                 else {
                     mapView.setTranslationY(0f)
                     recyclerView.setTranslationY(screenHeight.toFloat())
+                    googleMap?.setPadding(0, 0, 0, mapCarouselContainer.getHeight())
                 }
             }
         }
@@ -894,7 +906,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     fun showHotelList(response: HotelSearchResponse) {
         adapter.setData(response.hotelList, response.userPriceType, false)
         adapter.notifyDataSetChanged()
-        resetListOffset()
         recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(adapterListener)
     }
 }
