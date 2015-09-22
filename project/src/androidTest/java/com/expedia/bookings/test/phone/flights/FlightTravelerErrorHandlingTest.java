@@ -3,6 +3,9 @@ package com.expedia.bookings.test.phone.flights;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
@@ -15,9 +18,6 @@ import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsSc
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerPicker;
-import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.contrib.PickerActions.setDate;
@@ -83,6 +83,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		CommonCheckoutScreen.clickTravelerDetails();
 		FlightsTravelerInfoScreen.enterFirstName("Child");
 		FlightsTravelerInfoScreen.enterLastName("Auto");
+		Common.closeSoftKeyboard(CommonTravelerInformationScreen.lastNameEditText());
 		FlightsTravelerInfoScreen.clickBirthDateButton();
 
 		//incorrect dob
@@ -159,6 +160,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		Common.delay(1);
 		FlightsTravelerInfoScreen.enterFirstName("Infant");
 		FlightsTravelerInfoScreen.enterLastName("Auto");
+		Common.closeSoftKeyboard(CommonTravelerInformationScreen.lastNameEditText());
 		FlightsTravelerInfoScreen.clickBirthDateButton();
 
 		//incorrect dob - enter adult age for an infant

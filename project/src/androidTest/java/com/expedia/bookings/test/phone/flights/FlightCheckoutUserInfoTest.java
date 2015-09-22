@@ -8,6 +8,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
@@ -124,6 +125,7 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 		FlightsTravelerInfoScreen.enterLastName("Bookings");
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.lastNameEditText());
 		FlightsTravelerInfoScreen.clickBirthDateButton();
+		Common.delay(1);
 		try {
 			FlightsTravelerInfoScreen.clickDoneString();
 		}
@@ -165,7 +167,9 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 		FlightsTravelerInfoScreen.birthDateSpinnerButton().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		FlightsTravelerInfoScreen.middleNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		FlightsTravelerInfoScreen.phoneNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+		Common.closeSoftKeyboard(CommonTravelerInformationScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.clickBirthDateButton();
+		Common.delay(1);
 		try {
 			FlightsTravelerInfoScreen.clickDoneString();
 		}
