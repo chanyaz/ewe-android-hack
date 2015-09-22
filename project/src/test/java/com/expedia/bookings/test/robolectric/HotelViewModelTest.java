@@ -55,6 +55,6 @@ public class HotelViewModelTest {
 
 	private void setupSystemUnderTest() {
 		Application applicationContext = RuntimeEnvironment.application;
-		vm = new HotelViewModel(hotel, applicationContext);
+		vm = new HotelViewModel(applicationContext, hotel);
 	}
 }

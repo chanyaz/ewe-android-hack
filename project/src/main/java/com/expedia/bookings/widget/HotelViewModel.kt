@@ -6,15 +6,13 @@ import android.graphics.drawable.Drawable
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.tracking.AdImpressionTracking
-import com.expedia.bookings.utils.Akeakamai
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
 import com.squareup.phrase.Phrase
-import rx.Observable
 import rx.subjects.BehaviorSubject
 
-public class HotelViewModel(private val hotel: Hotel, private val context: Context) {
-    val resources = context.getResources()
+public class HotelViewModel(private val context: Context, private val hotel: Hotel) {
+    val resources = context.resources
 
     val ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
 

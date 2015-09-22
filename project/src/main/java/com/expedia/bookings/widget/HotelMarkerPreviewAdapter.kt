@@ -22,7 +22,6 @@ import com.google.android.gms.maps.model.Marker
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.Collections
-import kotlin.properties.Delegates
 
 public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresenter.MarkerDistance>, val marker: Marker, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -34,7 +33,7 @@ public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresent
 
     override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
         val holder: HotelViewHolder = given as HotelViewHolder
-        val viewModel = HotelViewModel(sortedHotelList.get(position).hotel, holder.itemView.getContext())
+        val viewModel = HotelViewModel(holder.itemView.context, sortedHotelList.get(position).hotel)
         holder.bind(viewModel)
         holder.itemView.setOnClickListener(holder)
     }
