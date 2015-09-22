@@ -22,7 +22,7 @@ public class HotelReviewsTest {
 
     @Before
     fun before() {
-        vm = HotelReviewsAdapterViewModel("26650", service.reviewsServices())
+        vm = HotelReviewsAdapterViewModel("26650", service.reviewsServices(), "en_US")
     }
 
     @Test

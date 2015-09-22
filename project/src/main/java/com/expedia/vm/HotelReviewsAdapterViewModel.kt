@@ -8,11 +8,9 @@ import com.expedia.bookings.data.hotels.HotelReviewsResponse.ReviewSummary
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.util.endlessObserver
 import rx.Observable
-import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 
-class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: ReviewsServices) {
+class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: ReviewsServices, val locale: String) {
 
     val reviewsSummaryObservable = PublishSubject.create<ReviewSummary>()
     val favorableReviewsObservable = PublishSubject.create<List<Review>>()
@@ -30,6 +28,7 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
                 .pageNumber(0)
                 .numReviewsPerPage(25)
                 .sortBy(reviewSort.getSortByApiParam())
+                .languageSort(locale)
                 .build()
 
         reviewsDownloadsObservable.onNext(reviewsServices.reviews(params).map { Pair(reviewSort, it) })
