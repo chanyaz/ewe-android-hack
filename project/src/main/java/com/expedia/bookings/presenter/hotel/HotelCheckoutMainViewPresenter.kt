@@ -62,8 +62,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(getContext()).hotelComponent().inject(this)
-        hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(getContext(), null)
-        hotelCheckoutSummaryWidget.viewmodel = HotelCheckoutSummaryViewModel(getContext())
+        hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(getContext(), null, HotelCheckoutSummaryViewModel(getContext()))
         summaryContainer.addView(hotelCheckoutSummaryWidget)
 
         mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
@@ -117,10 +116,9 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
 
     val createTripResponseListener: Observer<HotelCreateTripResponse> = endlessObserver { trip ->
         Db.getTripBucket().add(TripBucketItemHotelV2(trip))
-        hotelCheckoutSummaryWidget.viewmodel.originalRateObserver.onNext(trip.originalHotelProductResponse)
-        hotelCheckoutSummaryWidget.viewmodel.newRateObserver.onNext(trip.newHotelProductResponse)
-        hotelCheckoutSummaryWidget.viewmodel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size())
-        hotelCheckoutSummaryWidget.breakdown.viewmodel.tripObserver.onNext(trip)
+        hotelCheckoutSummaryWidget.viewModel.originalRateObserver.onNext(trip.originalHotelProductResponse)
+        hotelCheckoutSummaryWidget.viewModel.newRateObserver.onNext(trip.newHotelProductResponse)
+        hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size())
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
     }

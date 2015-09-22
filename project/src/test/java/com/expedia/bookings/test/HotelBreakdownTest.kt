@@ -7,6 +7,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.services.HotelServices
 import com.expedia.vm.Breakdown
 import com.expedia.vm.HotelBreakDownViewModel
+import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import com.squareup.okhttp.OkHttpClient
@@ -20,6 +21,7 @@ import retrofit.RequestInterceptor
 import retrofit.RestAdapter
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
+import rx.subjects.BehaviorSubject
 import java.io.File
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -32,12 +34,13 @@ public class HotelBreakdownTest {
 
     private var service: HotelServices by Delegates.notNull()
     private var vm: HotelBreakDownViewModel by Delegates.notNull()
+    private var hotelCheckoutSummaryViewModel: HotelCheckoutSummaryViewModel by Delegates.notNull()
 
     @Before
     fun before() {
         val context = Mockito.mock(Context::class.java)
         val resources = Mockito.mock(Resources::class.java)
-        Mockito.`when`(context.getResources()).thenReturn(resources)
+        Mockito.`when`(context.resources).thenReturn(resources)
         Mockito.`when`(resources.getQuantityString(Matchers.anyInt(), Matchers.anyInt(), Matchers.anyInt())).thenReturn("")
         Mockito.`when`(context.getString(Matchers.anyInt())).thenReturn("")
         val emptyInterceptor = object : RequestInterceptor {
@@ -46,12 +49,13 @@ public class HotelBreakdownTest {
             }
         }
         service = HotelServices("http://localhost:" + server.port, OkHttpClient(), emptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
-        vm = HotelBreakDownViewModel(context)
+        hotelCheckoutSummaryViewModel = HotelCheckoutSummaryViewModel(context)
+        vm = HotelBreakDownViewModel(context, hotelCheckoutSummaryViewModel)
     }
 
     @Test
     fun verifyBreakdown() {
-        val root = File("../lib/mocked/templates").getCanonicalPath()
+        val root = File("../lib/mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)
         server.get().setDispatcher(ExpediaDispatcher(opener))
         val observer = TestSubscriber<HotelCreateTripResponse>()
@@ -59,7 +63,7 @@ public class HotelBreakdownTest {
         observer.awaitTerminalEvent()
         observer.assertCompleted()
 
-        val createTripResponse = observer.getOnNextEvents().get(0)
+        val createTripResponse = observer.onNextEvents.get(0)
 
         val latch = CountDownLatch(1)
         vm.addRows.subscribe { latch.countDown() }
@@ -67,8 +71,8 @@ public class HotelBreakdownTest {
         val expected = arrayListOf<List<Breakdown>>()
         vm.addRows.subscribe(testSubscriber)
 
-        vm.tripObserver.onNext(createTripResponse)
-        expected.add(arrayListOf(Breakdown("", "$119.00", false), Breakdown("3/22/2013", "$119.00", true), Breakdown("", "$20.00", false), Breakdown("", "$16.81", false), Breakdown("", "$135.81", false)))
+        hotelCheckoutSummaryViewModel.newRateObserver.onNext(createTripResponse.newHotelProductResponse)
+        expected.add(arrayListOf(Breakdown("", "$99.00", false), Breakdown("3/22/2013", "$99.00", true), Breakdown("", "$20.00", false), Breakdown("", "$16.81", false), Breakdown("", "$135.81", false)))
 
         assertTrue(latch.await(10, TimeUnit.SECONDS))
         vm.addRows.onCompleted()

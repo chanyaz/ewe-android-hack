@@ -11,15 +11,13 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribe
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelBreakDownViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.squareup.phrase.Phrase
-import kotlin.properties.Delegates
 
-public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs), HeaderBitmapDrawable.CallbackListener {
+public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs), HeaderBitmapDrawable.CallbackListener {
 
     val hotelName: android.widget.TextView by bindView(R.id.hotel_name)
     val date: android.widget.TextView by bindView(R.id.check_in_out_dates)
@@ -30,14 +28,15 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?) 
     val numberNights: android.widget.TextView by bindView(R.id.number_nights)
     val numberGuests: android.widget.TextView by bindView(R.id.number_guests)
     val freeCancellationView: android.widget.TextView by bindView(R.id.free_cancellation_text)
+    val totalWithTaxLabelWithInfoButton: android.widget.TextView by bindView(R.id.total_tax_label)
     val totalPriceWithTax: android.widget.TextView by bindView(R.id.total_price_with_tax)
+    val feesPaidLabel: android.widget.TextView by bindView(R.id.fees_paid_label)
     val totalFees: android.widget.TextView by bindView(R.id.total_fees)
     val totalPriceWithTaxAndFees: android.widget.TextView by bindView(R.id.total_price_with_tax_and_fees)
     val amountDueTodayLabel: android.widget.TextView by bindView(R.id.amount_due_today_label)
     val bestPriceGuarantee: android.widget.TextView by bindView(R.id.best_price_guarantee)
     val saleMessage: android.widget.TextView by bindView(R.id.sale_text)
-    val info: android.widget.TextView by bindView(R.id.total_tax_label)
-    val costSummary: RelativeLayout by bindView(R.id.cost_summary)
+    val costSummary: LinearLayout by bindView(R.id.cost_summary)
     val priceChangeLayout: LinearLayout by bindView(R.id.price_change_container)
     val priceChange: android.widget.TextView by bindView(R.id.price_change_text)
     val breakdown = HotelBreakDownView(context, null)
@@ -53,38 +52,42 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?) 
         builder.create()
     }
 
-    var viewmodel: HotelCheckoutSummaryViewModel by notNullAndObservable { vm ->
-        vm.hotelName.subscribe(hotelName)
-        vm.checkinDates.subscribe(date)
-        vm.address.subscribe(address)
-        vm.city.subscribe(cityState)
-        vm.hasFreeCancellation.subscribeVisibility(freeCancellationView)
-        vm.roomDescriptions.subscribe(selectedRoom)
-        vm.bedDescriptions.subscribe(selectedBed)
-        vm.numNights.subscribe(numberNights)
-        vm.numGuests.subscribe(numberGuests)
-        vm.totalMandatoryPrices.subscribe(totalPriceWithTaxAndFees)
-        vm.feePrices.subscribe(totalFees)
-        vm.totalPrices.subscribe(totalPriceWithTax)
-        vm.isBestPriceGuarantee.subscribeVisibility(bestPriceGuarantee)
-        vm.isPriceChange.subscribeVisibility(priceChangeLayout)
-        vm.priceChange.subscribe(priceChange)
-
-        vm.discounts.map{ it != null }.subscribeVisibility(saleMessage)
-        vm.discounts.map{ it?.toString() ?: "" }.subscribe(saleMessage)
-    }
-
     init {
         setOrientation(LinearLayout.VERTICAL)
         View.inflate(getContext(), R.layout.hotel_checkout_summary_widget, this)
-        breakdown.viewmodel = HotelBreakDownViewModel(context)
-        val amountDueLabel = Phrase.from(getContext(), R.string.due_to_brand_today_TEMPLATE)
-                .put("brand", BuildConfig.brand)
-                .format()
-        amountDueTodayLabel.setText(amountDueLabel)
-        costSummary.setOnClickListener {
-            dialog.show()
+        costSummary.setOnClickListener { dialog.show() }
+
+        viewModel.hotelName.subscribe(hotelName)
+        viewModel.checkInOutDatesFormatted.subscribe(date)
+        viewModel.address.subscribe(address)
+        viewModel.city.subscribe(cityState)
+        viewModel.hasFreeCancellation.subscribeVisibility(freeCancellationView)
+        viewModel.roomDescriptions.subscribe(selectedRoom)
+        viewModel.bedDescriptions.subscribe(selectedBed)
+        viewModel.numNights.subscribe(numberNights)
+        viewModel.numGuests.subscribe(numberGuests)
+        viewModel.dueNowAmount.subscribe(totalPriceWithTaxAndFees)
+        viewModel.showFeesPaidAtHotel.subscribeVisibility(feesPaidLabel)
+        viewModel.showFeesPaidAtHotel.subscribeVisibility(totalFees)
+        viewModel.isPayLaterOrResortCase.subscribeVisibility(totalWithTaxLabelWithInfoButton)
+        viewModel.isPayLaterOrResortCase.subscribeVisibility(totalPriceWithTax)
+        viewModel.feesPaidAtHotel.subscribe(totalFees)
+        viewModel.tripTotalPrice.subscribe(totalPriceWithTax)
+        viewModel.isBestPriceGuarantee.subscribeVisibility(bestPriceGuarantee)
+        viewModel.isPriceChange.subscribeVisibility(priceChangeLayout)
+        viewModel.priceChange.subscribe(priceChange)
+        viewModel.isPayLaterOrResortCase.subscribeVisibility(totalWithTaxLabelWithInfoButton.compoundDrawables[2], false)
+        viewModel.isPayLaterOrResortCase.subscribeVisibility(amountDueTodayLabel.compoundDrawables[2], true)
+        // TODO: Add sale message
+//        viewModel.discounts.map{ viewModel != null }.subscribeVisibility(saleMessage)
+//        viewModel.discounts.map{ sale message here }.subscribe(saleMessage)
+        viewModel.newDataObservable.subscribe {
+            amountDueTodayLabel.text = if (it.isPayLaterOrResortCase.value)
+                                            Phrase.from(getContext(), R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format()
+                                        else
+                                            resources.getString(R.string.total_with_tax)
         }
+        breakdown.viewmodel = HotelBreakDownViewModel(context, viewModel)
     }
 
     override fun onBitmapLoaded() {

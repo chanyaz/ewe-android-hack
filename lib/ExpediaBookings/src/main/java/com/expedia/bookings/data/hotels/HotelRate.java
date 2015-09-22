@@ -33,6 +33,8 @@ public class HotelRate {
 	public List<PriceAdjustments> priceAdjustments;
 	public List<SurchargesForEntireStay> surchargesForEntireStay;
 	public List<NightlyRatesPerRoom> nightlyRatesPerRoom;
+	public String depositAmountToShowUsers;
+	public String depositAmount;
 
 	// The types of display rates
 	public enum UserPriceType {
@@ -97,6 +99,4 @@ public class HotelRate {
 			return new Money(new BigDecimal(total), currencyCode);
 		}
 	}
-
-	public String depositAmountToShowUsers;
 }
