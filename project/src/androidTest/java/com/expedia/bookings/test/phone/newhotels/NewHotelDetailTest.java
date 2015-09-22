@@ -21,6 +21,54 @@ import static org.hamcrest.CoreMatchers.not;
 
 public class NewHotelDetailTest extends HotelTestCase {
 
+	public void testETPHotelWithFreeCancellation() throws Throwable {
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		final DateTime endDateTime = startDateTime.plusDays(3);
+		HotelScreen.location().perform(typeText("SFO"));
+		HotelScreen.selectLocation("San Francisco, CA");
+		HotelScreen.selectDateButton().perform(click());
+		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		HotelScreen.searchButton().perform(click());
+		HotelScreen.selectHotel(13);
+
+		assertViewsBasedOnETPAndFreeCancellation(true, true, "ETP_Hotel_With_Free_Cancellation");
+		assertPayLaterPayNowRooms();
+	}
+
+	public void testETPHotelWithoutFreeCancellationHavingRenovation() throws Throwable {
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		final DateTime endDateTime = startDateTime.plusDays(3);
+		HotelScreen.location().perform(typeText("SFO"));
+		HotelScreen.selectLocation("San Francisco, CA");
+		HotelScreen.selectDateButton().perform(click());
+		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		HotelScreen.searchButton().perform(click());
+		HotelScreen.selectHotel(12);
+
+		assertViewsBasedOnETPAndFreeCancellation(true, false, "ETP_Hotel_Without_Free_Cancellation");
+		assertPayLaterPayNowRooms();
+		Common.delay(2);
+
+		//if current allotment < 5, we show number of rooms left on "collapsed room container"
+		//otherwise we just show free cancellation message
+
+		HotelScreen.clickPayNow();
+		onView(withText("View Room")).perform(scrollTo());
+		Common.delay(2);
+
+		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(withId(R.id.collapsed_container)), isDisplayed()))
+			.check(matches(withText("1 Room Left!")));
+
+		onView(withText("View Room")).perform(click());
+
+		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(withId(R.id.collapsed_container)), isDisplayed()))
+			.check(matches(withText("Non-refundable")));
+
+		//renovation notice shows up in the end
+		HotelScreen.renovationContainer().perform(scrollTo()).check(matches(isDisplayed()));
+		screenshot("Hotel_details_bottom_scrolled");
+	}
+
 	public void testNonETPHotelWithoutFreeCancellation() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
@@ -46,64 +94,6 @@ public class NewHotelDetailTest extends HotelTestCase {
 
 		assertViewsBasedOnETPAndFreeCancellation(false, true, "Non_ETP_Hotel_With_Free_Cancellation");
 	}
-
-	public void testETPHotelWithoutFreeCancellationHavingRenovation() throws Throwable {
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		final DateTime endDateTime = startDateTime.plusDays(3);
-		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA");
-		HotelScreen.selectDateButton().perform(click());
-		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
-		HotelScreen.searchButton().perform(click());
-		HotelScreen.selectHotel(12);
-
-		assertViewsBasedOnETPAndFreeCancellation(true, false, "ETP_Hotel_Without_Free_Cancellation");
-		assertPayLaterPayNowRooms();
-
-		//renovation notice shows up in the end
-		HotelScreen.renovationContainer().perform(scrollTo()).check(matches(isDisplayed()));
-		screenshot("Hotel_details_bottom_scrolled");
-	}
-
-	public void testETPHotelWithFreeCancellation() throws Throwable {
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		final DateTime endDateTime = startDateTime.plusDays(3);
-		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA");
-		HotelScreen.selectDateButton().perform(click());
-		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
-		HotelScreen.searchButton().perform(click());
-		HotelScreen.selectHotel(13);
-
-		assertViewsBasedOnETPAndFreeCancellation(true, true, "ETP_Hotel_With_Free_Cancellation");
-		assertPayLaterPayNowRooms();
-	}
-
-	public void testCurrentAllotmentMessage() throws Throwable {
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		final DateTime endDateTime = startDateTime.plusDays(3);
-		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA");
-		HotelScreen.selectDateButton().perform(click());
-		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
-		HotelScreen.searchButton().perform(click());
-		HotelScreen.selectHotel(12);
-
-		//if current allotment < 5, we show number of rooms left on "collapsed room container"
-		//otherwise we just show free cancellation message
-
-		onView(withText("View Room")).perform(scrollTo());
-		Common.delay(2);
-
-		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(withId(R.id.collapsed_container)), isDisplayed()))
-			.check(matches(withText("1 Room Left!")));
-
-		onView(withText("View Room")).perform(click());
-
-		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(withId(R.id.collapsed_container)), isDisplayed()))
-			.check(matches(withText("Non-refundable")));
-	}
-
 
 	private void assertPayLaterPayNowRooms() throws Throwable {
 		//pay now view should show all the rooms and
@@ -144,4 +134,5 @@ public class NewHotelDetailTest extends HotelTestCase {
 		//is displayed after scrolling down
 		HotelScreen.resortFeesText().check(matches(isDisplayed()));
 	}
+
 }

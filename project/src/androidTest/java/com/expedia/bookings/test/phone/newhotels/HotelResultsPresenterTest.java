@@ -28,9 +28,20 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		assertViewIsDisplayedAtPosition(2, R.id.price_per_night);
 		assertViewIsDisplayedAtPosition(2, R.id.background);
 		assertViewIsDisplayedAtPosition(2, R.id.hotel_rating_bar);
-		assertViewIsDisplayedAtPosition(2, R.id.guest_rating_percentage);
+		assertViewIsDisplayedAtPosition(2, R.id.guest_rating);
 		assertViewNotDisplayedAtPosition(2, R.id.discount_percentage);
 		assertViewNotDisplayedAtPosition(2, R.id.strike_through_price);
+
+		//test Top amenities
+		assertViewWithTextIsDisplayedAtPosition(2, R.id.top_amenity_title, "Sponsored");
+		assertViewWithTextIsDisplayedAtPosition(3, R.id.top_amenity_title, "Free Cancellation");
+
+		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(4));
+		assertViewWithTextIsDisplayedAtPosition(4, R.id.top_amenity_title, "Book Now, Pay Later");
+
+		//test VIP message
+		assertViewWithTextIsDisplayedAtPosition(4, R.id.vip_message, "+VIP");
+
 	}
 
 	@Test
@@ -52,25 +63,6 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		assertViewIsDisplayedAtPosition(9, R.id.air_attach_layout);
 		assertViewWithTextIsDisplayedAtPosition(9,R.id.air_attach_discount,"-12%");
 
-	}
-
-	@Test
-	public void testVIP() throws Throwable {
-		doSearch();
-
-		assertViewWithTextIsDisplayedAtPosition(4, R.id.vip_message, "+VIP");
-	}
-
-	@Test
-	public void testTopAmenity() throws Throwable {
-		doSearch();
-
-		assertViewWithTextIsDisplayedAtPosition(2, R.id.top_amenity_title, "Sponsored");
-
-		assertViewWithTextIsDisplayedAtPosition(3, R.id.top_amenity_title, "Free Cancellation");
-
-		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(4));
-		assertViewWithTextIsDisplayedAtPosition(4, R.id.top_amenity_title, "Book Now, Pay Later");
 	}
 
 	private void doSearch() throws Throwable {

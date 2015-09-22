@@ -1,7 +1,12 @@
 package com.expedia.bookings.widget
 
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.support.v7.graphics.Palette
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,16 +16,21 @@ import android.widget.LinearLayout
 import android.widget.RatingBar
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.bitmaps.PicassoTarget
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.Images
+import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribe
 import com.expedia.util.subscribeBackgroundColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
+import com.squareup.picasso.Picasso
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.properties.Delegates
@@ -121,6 +131,7 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
     public inner class HotelViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root), HeaderBitmapDrawable.CallbackListener, View.OnClickListener {
 
         val PICASSO_TAG = "HOTEL_RESULTS_LIST"
+        val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .5f, 1f)
 
         val resources: Resources by lazy {
             itemView.getResources()
@@ -130,13 +141,13 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
         val hotelName: TextView by root.bindView(R.id.hotel_name_text_view)
         val pricePerNight: TextView by root.bindView(R.id.price_per_night)
         val strikeThroughPricePerNight: TextView by root.bindView(R.id.strike_through_price)
-        val guestRatingPercentage: TextView by root.bindView(R.id.guest_rating_percentage)
+        val guestRating: TextView by root.bindView(R.id.guest_rating)
+        val topAmenityTitle: TextView by root.bindView(R.id.top_amenity_title)
         val starRating: RatingBar by root.bindView(R.id.hotel_rating_bar)
         val discountPercentage: TextView by root.bindView(R.id.discount_percentage)
         val hotelAmenityOrDistanceFromLocation: TextView by root.bindView(R.id.hotel_amenity_or_distance_from_location)
 
         val urgencyMessageContainer: LinearLayout by root.bindView (R.id.urgency_message_layout)
-        val topAmenityTitle: TextView by root.bindView(R.id.top_amenity_title)
         val urgencyIcon: ImageView by root.bindView(R.id.urgency_icon)
         val urgencyMessageBox: TextView by root.bindView(R.id.urgency_message)
         val vipMessage: TextView by root.bindView(R.id.vip_message)
@@ -145,13 +156,18 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
 
         public fun bind(viewModel: HotelViewModel) {
             viewModel.hotelLargeThumbnailUrlObservable.subscribe { url ->
-                val drawable = Images.makeHotelBitmapDrawable(itemView.getContext(), this, width, url, PICASSO_TAG)
-                imageView.setImageDrawable(drawable)
+                PicassoHelper.Builder(itemView.getContext())
+                        .setPlaceholder(R.drawable.results_list_placeholder)
+                        .setError(R.drawable.results_list_placeholder)
+                        .setTarget(target).setTag(PICASSO_TAG)
+                        .build()
+                        .load(HotelMedia(url).getBestUrls(width))
             }
 
             viewModel.hotelNameObservable.subscribe(hotelName)
             viewModel.pricePerNightObservable.subscribe(pricePerNight)
-            viewModel.guestRatingPercentageObservable.subscribe(guestRatingPercentage)
+            viewModel.hotelGuestRatingObservable.subscribe(guestRating)
+            viewModel.topAmenityTitleObservable.subscribe(topAmenityTitle)
             viewModel.hotelDiscountPercentageObservable.subscribe(discountPercentage)
             viewModel.hotelStrikeThroughPriceObservable.subscribe(strikeThroughPricePerNight)
             viewModel.hasDiscountObservable.subscribeVisibility(strikeThroughPricePerNight)
@@ -191,6 +207,36 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
         override fun onPrepareLoad() {
             // ignore
         }
+
+        private val target = object : PicassoTarget() {
+            override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
+                super.onBitmapLoaded(bitmap, from)
+
+                val palette = Palette.generate(bitmap)
+                val color = palette.getVibrantColor(R.color.transparent_dark)
+                val fullColorBuilder = ColorBuilder(color).darkenBy(0.3f);
+                val startColor = fullColorBuilder.setAlpha(154).build()
+                val endColor = fullColorBuilder.setAlpha(0).build()
+
+                val drawable = HeaderBitmapDrawable()
+                drawable.setBitmap(bitmap)
+                val colorArray = intArrayOf(0, endColor,
+                        startColor)
+                drawable.setGradient(colorArray, DEFAULT_GRADIENT_POSITIONS)
+                imageView.setImageDrawable(drawable)
+            }
+
+            override fun onBitmapFailed(errorDrawable: Drawable) {
+                super.onBitmapFailed(errorDrawable)
+                imageView.setImageDrawable(errorDrawable)
+            }
+
+            override fun onPrepareLoad(placeHolderDrawable: Drawable) {
+                super.onPrepareLoad(placeHolderDrawable)
+                imageView.setImageDrawable(placeHolderDrawable)
+            }
+        }
+
     }
 
     public inner class HotelResultsPricingStructureHeaderViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(root) {
