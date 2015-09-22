@@ -159,6 +159,10 @@ public class HotelScreen {
 		onView(withId(R.id.radius_pay_later)).perform(click());
 	}
 
+	public static void clickPayNow() {
+		onView(withId(R.id.radius_pay_now)).perform(click());
+	}
+
 	public static void clickRatingContainer() {
 		onView(withId(R.id.rating_container)).perform(click());
 	}
