@@ -48,6 +48,7 @@ public class LXCreditCardTest extends LxTestCase {
 		screenshot("LX Checkout Ready");
 		Common.pressBack();
 		Common.delay(1);
+		LXInfositeScreen.bookNowButton(ticketName).perform(scrollTo());
 		LXInfositeScreen.bookNowButton(ticketName).perform(click());
 		Common.delay(1);
 		CheckoutViewModel.clickPaymentInfo();
