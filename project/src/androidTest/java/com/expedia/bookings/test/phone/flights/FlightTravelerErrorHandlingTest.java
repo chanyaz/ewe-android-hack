@@ -103,6 +103,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		catch (Exception e) {
 			CommonTravelerInformationScreen.clickDoneString();
 		}
+		Common.delay(1);
 		BillingAddressScreen.clickNextButton();
 
 		screenshot("Child_Traveler_Age_Error");
@@ -185,6 +186,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		 */
 
 		CommonCheckoutScreen.clickTravelerDetails();
+		Common.delay(1);
 		FlightsTravelerInfoScreen.enterFirstName("Infant");
 		FlightsTravelerInfoScreen.enterLastName("Auto");
 		FlightsTravelerInfoScreen.clickBirthDateButton();

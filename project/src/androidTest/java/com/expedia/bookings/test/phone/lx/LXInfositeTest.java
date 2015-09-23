@@ -175,6 +175,9 @@ public class LXInfositeTest extends LxTestCase {
 				LXInfositeScreen.offersWidgetContainer().perform(customScroll(50));
 				LXInfositeScreen
 					.ticketAddButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
+					.perform(scrollTo());
+				LXInfositeScreen
+					.ticketAddButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
 					.perform(click());
 				if (currentClickCounter == 9) {
 					count = 8;
