@@ -33,14 +33,6 @@
                     android:layout_height="134dp"
                     android:scaleType="centerCrop" />
 
-                <View
-                    android:id="@+id/gradient"
-                    android:layout_width="match_parent"
-                    android:layout_height="67dp"
-                    android:layout_gravity="bottom"
-                    android:background="@drawable/hotel_result_list_gradient_bottom"
-                    android:scaleType="centerCrop" />
-
             </FrameLayout>
 
             <LinearLayout

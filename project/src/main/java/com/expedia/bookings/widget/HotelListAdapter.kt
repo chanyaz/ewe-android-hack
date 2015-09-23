@@ -153,6 +153,8 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
         val vipMessage: TextView by root.bindView(R.id.vip_message)
         val airAttachDiscount: TextView by root.bindView(R.id.air_attach_discount)
         val airAttachContainer: LinearLayout by root.bindView(R.id.air_attach_layout)
+        val gradientTop: View by root.bindView(R.id.gradient_top)
+        val gradientBottom: View by root.bindView(R.id.gradient_bottom)
 
         public fun bind(viewModel: HotelViewModel) {
             viewModel.hotelLargeThumbnailUrlObservable.subscribe { url ->
@@ -183,6 +185,7 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
             viewModel.urgencyMessageBackgroundObservable.subscribeBackgroundColor(urgencyMessageContainer)
             viewModel.urgencyMessageBoxObservable.subscribe(urgencyMessageBox)
             viewModel.vipMessageVisibilityObservable.subscribeVisibility(vipMessage)
+            viewModel.vipMessageVisibilityObservable.subscribeVisibility(gradientTop)
             viewModel.airAttachVisibilityObservable.subscribeVisibility(airAttachContainer)
             viewModel.hotelDiscountPercentageObservable.subscribe(airAttachDiscount)
 
@@ -214,16 +217,27 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
 
                 val palette = Palette.generate(bitmap)
                 val color = palette.getVibrantColor(R.color.transparent_dark)
+
                 val fullColorBuilder = ColorBuilder(color).darkenBy(0.3f);
                 val startColor = fullColorBuilder.setAlpha(154).build()
                 val endColor = fullColorBuilder.setAlpha(0).build()
 
                 val drawable = HeaderBitmapDrawable()
                 drawable.setBitmap(bitmap)
-                val colorArray = intArrayOf(0, endColor,
+                val colorArrayBottom = intArrayOf(0, endColor,
                         startColor)
-                drawable.setGradient(colorArray, DEFAULT_GRADIENT_POSITIONS)
+                val colorArrayFull = intArrayOf(startColor, endColor,
+                        startColor)
+
+                if( vipMessage.getVisibility() == View.VISIBLE ) {
+                    drawable.setGradient(colorArrayFull, null)
+                }
+                else {
+                    drawable.setGradient(colorArrayBottom, DEFAULT_GRADIENT_POSITIONS)
+                }
                 imageView.setImageDrawable(drawable)
+                gradientTop.setVisibility(View.VISIBLE)
+                gradientBottom.setVisibility(View.VISIBLE)
             }
 
             override fun onBitmapFailed(errorDrawable: Drawable) {
