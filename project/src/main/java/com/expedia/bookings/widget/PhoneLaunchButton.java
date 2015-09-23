@@ -35,6 +35,7 @@ public class PhoneLaunchButton extends FrameLayout {
 	private int bgCardHeight;
 	private float fullHeight;
 	private float minIconSize;
+	private boolean fiveLobBtn;
 
 	@InjectView(R.id.lob_btn_bg)
 	public CardView bgView;
@@ -47,6 +48,7 @@ public class PhoneLaunchButton extends FrameLayout {
 
 	private float squashedRatio;
 	private boolean isNetworkAvailable = true;
+	private boolean firstTimeMeasure = true;
 
 	public PhoneLaunchButton(Context context) {
 		this(context, null);
@@ -54,14 +56,12 @@ public class PhoneLaunchButton extends FrameLayout {
 
 	public PhoneLaunchButton(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		LayoutInflater.from(getContext()).inflate(R.layout.widget_phone_launch_btn, this);
-		ButterKnife.inject(this);
 
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.PhoneLaunchButton);
 			text = ta.getString(R.styleable.PhoneLaunchButton_btn_text);
 			textSize = ta.getDimension(R.styleable.PhoneLaunchButton_btn_text_size,
-				getResources().getDimension(R.dimen.launch_lob_button_text_size));
+					getResources().getDimension(R.dimen.launch_lob_button_text_size));
 			icon = ta.getDrawable(R.styleable.PhoneLaunchButton_btn_icon);
 			disabledBg = getResources().getColor(R.color.disabled_lob_btn);
 			bgColor = ta.getColor(R.styleable.PhoneLaunchButton_btn_bg, -1);
@@ -72,8 +72,13 @@ public class PhoneLaunchButton extends FrameLayout {
 			fullHeight = ta.getDimension(R.styleable.PhoneLaunchButton_refernce_container_height,
 				getResources().getDimension(R.dimen.launch_lob_container_height));
 			minIconSize = ta.getFloat(R.styleable.PhoneLaunchButton_icon_min_scale, 0.5f);
+			fiveLobBtn = ta.getBoolean(R.styleable.PhoneLaunchButton_five_lob_btn, false);
 			ta.recycle();
 		}
+
+		LayoutInflater.from(getContext())
+			.inflate(fiveLobBtn ? R.layout.widget_phone_launch_five_btn : R.layout.widget_phone_launch_btn, this);
+		ButterKnife.inject(this);
 	}
 
 	public PhoneLaunchButton(Context context, AttributeSet attrs) {
@@ -99,6 +104,13 @@ public class PhoneLaunchButton extends FrameLayout {
 	@Override
 	protected void onMeasure(int w, int h) {
 		super.onMeasure(w, h);
+		if (firstTimeMeasure) {
+			firstTimeMeasure = false;
+			initViewProperties();
+		}
+	}
+
+	private void initViewProperties() {
 		iconView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
@@ -112,8 +124,16 @@ public class PhoneLaunchButton extends FrameLayout {
 			@Override
 			public boolean onPreDraw() {
 				textView.getViewTreeObserver().removeOnPreDrawListener(this);
-				textView.setPivotX(textView.getWidth() / 2);
-				textView.setPivotY(-textView.getTop());
+				if (fiveLobBtn) {
+					textView.setPivotX(textView.getWidth() / 2);
+					textView.setPivotY(0);
+					scaleTo(1);
+
+				}
+				else {
+					textView.setPivotX(textView.getWidth() / 2);
+					textView.setPivotY(-textView.getTop());
+				}
 				return true;
 			}
 		});
@@ -203,11 +223,25 @@ public class PhoneLaunchButton extends FrameLayout {
 
 		iconView.setScaleX(iconSize);
 		iconView.setScaleY(iconSize);
-		iconView.setAlpha(iconAlpha);
-		textView.setScaleX(f);
-		textView.setScaleY(f);
-		textView.setAlpha(textAlpha);
 		bgView.setScaleY(f);
+
+		if (!fiveLobBtn) {
+			iconView.setAlpha(iconAlpha);
+			textView.setScaleX(f);
+			textView.setScaleY(f);
+			textView.setAlpha(textAlpha);
+		}
+		else {
+			float textScale = 1 - (1 - normalized) * 0.1f;
+			textView.setScaleX(textScale);
+			textView.setScaleY(textScale);
+
+			iconView.setTranslationY(-(1 - normalized) * 20);
+
+			float textViewMarginBottom = getResources().getDimensionPixelOffset(R.dimen.launch_tile_margin_side);
+			float textTransY = bgView.getHeight() * f - textView.getHeight()*textScale - textViewMarginBottom * normalized;
+			textView.setTranslationY(textTransY);
+		}
 	}
 
 }

@@ -47,6 +47,7 @@ public class LaunchFiveLobDoubleRowWidget extends RelativeLayout {
 	View shadow;
 
 	float origHeight;
+	float bottomRowOrigHeight;
 
 	public LaunchFiveLobDoubleRowWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -55,16 +56,20 @@ public class LaunchFiveLobDoubleRowWidget extends RelativeLayout {
 	}
 
 	public void transformButtons(float f) {
-		hotelsBtn.scaleTo(f);
-		flightsBtn.scaleTo(f);
 		carsBtn.scaleTo(f);
 		lxBtn.scaleTo(f);
 		transportBtn.scaleTo(f);
+
+		//Hotel and Flight button final height after scroll should be same as car, lx and transport button
+		//So normalizing the value to get final 52.2 height of lob button
+		f = 0.64f + (((f - 0.6f) / (1 - 0.6f)) * 0.36f);
+		hotelsBtn.scaleTo(f);
+		flightsBtn.scaleTo(f);
 		topRowBg.setScaleY(f);
 		bottomRowBg.setScaleY(f);
 		divider.setTranslationY((f * origHeight) - origHeight);
 		bottomRow.setTranslationY((f * origHeight) - origHeight);
-		shadow.setTranslationY((f * origHeight * 2) - origHeight * 2);
+		shadow.setTranslationY((f * bottomRowOrigHeight*2) - bottomRowOrigHeight*2);
 	}
 
 	public void toggleButtonState(boolean enabled) {
@@ -100,6 +105,7 @@ public class LaunchFiveLobDoubleRowWidget extends RelativeLayout {
 		topRowBg.setPivotY(-topRowBg.getTop());
 		bottomRowBg.setPivotY(-bottomRowBg.getTop());
 		origHeight = getResources().getDimension(R.dimen.launch_lob_double_row_height);
+		bottomRowOrigHeight = getResources().getDimension(R.dimen.launch_five_lob_double_row_height);
 	}
 
 	@Subscribe

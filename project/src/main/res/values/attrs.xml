@@ -306,6 +306,7 @@
         <!-- Background card top padding for launch button -->
         <attr name="bg_icon_padding_top" format="dimension" />
         <attr name="refernce_container_height" format="dimension" />
+        <attr name="five_lob_btn" format="boolean" />
     </declare-styleable>
 
 </resources>
