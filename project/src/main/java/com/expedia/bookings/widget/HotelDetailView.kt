@@ -34,6 +34,7 @@ import com.expedia.util.subscribe
 import com.expedia.util.subscribeOnCheckedChange
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.unsubscribeOnCheckedChange
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.lastExpanded
@@ -248,6 +249,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     fun resetView() {
+        etpRadioGroup.unsubscribeOnCheckedChange()
         renovationContainer.setVisibility(View.GONE)
         etpRadioGroup.check(R.id.radius_pay_now)
         etpContainer.setVisibility(View.GONE)
