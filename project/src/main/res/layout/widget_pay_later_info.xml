@@ -161,15 +161,28 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="@color/hotels_primary_color"
-        android:minHeight="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_close_white_24dp"
-        app:title="@string/pay_later_info_text"
-        app:titleTextAppearance="@style/CarsToolbarTitleTextAppearance" />
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/hotels_primary_color"
+            android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_close_white_24dp"
+            app:title="@string/pay_later_info_text"
+            app:titleTextAppearance="@style/CarsToolbarTitleTextAppearance" />
+
+        <View
+            android:id="@+id/toolbar_dropshadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_dropshadow_height"
+            android:background="@drawable/tb_shadow" />
+
+    </LinearLayout>
 
 </merge>
