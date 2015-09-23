@@ -43,7 +43,6 @@ import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
@@ -93,7 +92,6 @@ import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.facebook.AccessToken;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
@@ -1213,80 +1211,6 @@ public class ExpediaServices implements DownloadListener {
 		if (traveler.hasTuid()) {
 			query.add(new BasicNameValuePair(prefix + "tuid", traveler.getTuid().toString()));
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Facebook Login API
-	//
-	// Note: This is the api for working with Expedia in regard to a facebook login.
-	// The calls to facebook itself are handled by the FB sdk, and currently happen in LoginFragment.java
-
-	/**
-	 * Login to expedia using facebook credentials
-	 *
-	 * @param facebookUserId
-	 * @param facebookAccessToken
-	 * @return
-	 */
-	public FacebookLinkResponse facebookAutoLogin(String facebookUserId, String facebookAccessToken) {
-		if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
-			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
-		}
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("provider", "Facebook"));
-		query.add(new BasicNameValuePair("userId", facebookUserId));
-		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
-
-		return doE3Request("api/auth/autologin", query, new FacebookLinkResponseHandler(mContext));
-	}
-
-	/**
-	 * Create a new expedia user, and associate that user with the provided facebook account
-	 *
-	 * @param facebookUserId
-	 * @param facebookAccessToken
-	 * @param facebookEmailAddress
-	 * @return
-	 */
-	public FacebookLinkResponse facebookLinkNewUser(String facebookUserId, String facebookAccessToken,
-		String facebookEmailAddress) {
-
-		if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
-			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
-		}
-
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("provider", "Facebook"));
-		query.add(new BasicNameValuePair("userId", facebookUserId));
-		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
-		query.add(new BasicNameValuePair("email", facebookEmailAddress));
-
-		return doE3Request("api/auth/linkNewAccount", query, new FacebookLinkResponseHandler(mContext));
-	}
-
-	/**
-	 * Link an existing expedia user with a facebook account
-	 *
-	 * @param facebookUserId
-	 * @param facebookAccessToken
-	 * @param facebookEmailAddress
-	 * @param expediaPassword
-	 * @return
-	 */
-	public FacebookLinkResponse facebookLinkExistingUser(String facebookUserId, String facebookAccessToken,
-		String facebookEmailAddress, String expediaPassword) {
-		if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
-			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
-		}
-
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("provider", "Facebook"));
-		query.add(new BasicNameValuePair("userId", facebookUserId));
-		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
-		query.add(new BasicNameValuePair("email", facebookEmailAddress));
-		query.add(new BasicNameValuePair("password", expediaPassword));
-
-		return doE3Request("api/auth/linkExistingAccount", query, new FacebookLinkResponseHandler(mContext));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
