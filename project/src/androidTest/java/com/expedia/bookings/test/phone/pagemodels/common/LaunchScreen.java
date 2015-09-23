@@ -63,6 +63,10 @@ public class LaunchScreen {
 		groundTransportLaunchButton().perform(click());
 	}
 
+	public static void clickOnAirAttachBanner() {
+		onView(withId(R.id.air_attach_banner)).perform(click());
+	}
+
 	public static ViewInteraction carLaunchButtonInDoubleRow() {
 		return onView(allOf(withId(R.id.cars_button), isDescendantOfA(withId(R.id.double_row_lob_selector))));
 	}
