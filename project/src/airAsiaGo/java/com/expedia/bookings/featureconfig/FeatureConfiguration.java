@@ -241,7 +241,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isETPEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
