@@ -911,36 +911,6 @@
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
 
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">Halo &lt;b&gt;{name}&lt;/b&gt;, kami menemukan akun {brand} Anda! Silakan masukkan kata sandi {brand} Anda di bawah ini untuk menghubungkan akun Facebook dan {brand} Anda.</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">Halo &lt;b&gt;%1$s&lt;/b&gt;, kami sudah memuat informasi Facebook Anda!</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">Login dengan Facebook</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Mengakses informasi dari Facebook…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">Mencoba menghubungkan Anda dengan data login Facebook…</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">Kami mengalami masalah yang tidak dikenali. Coba lagi nanti.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Tidak bisa masuk ke Facebook.</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">Login gagal. Jika email dan kata sandi Anda sudah benar, periksa apakah pengaturan Negara pada aplikasi Anda juga sudah benar.</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">Kata Sandi {brand}</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">Hubungkan Akun</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">Izin Email</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">Menghubungkan akun Anda…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">Berikan Izin Email</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">Untuk login dengan Facebook, kami memerlukan izin verifikasi alamat email Anda. \n\nHarap ketuk tombol Facebook di bawah ini untuk memberi izin bagi {brand} untuk memverifikasi alamat email Anda. Terima kasih!</string>
-
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Login dengan {brand}</string>
     <!-- or -->

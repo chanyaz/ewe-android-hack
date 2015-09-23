@@ -138,16 +138,6 @@ public class AccountLibActivity extends AppCompatActivity
 
 		userAccountRefresher = new UserAccountRefresher(this, lob, this);
 
-		// TODO: branding around Facebook messages
-//		linkPassword.setHint(Phrase.from(this, R.string.brand_password_hint_TEMPLATE)
-//			.put("brand", BuildConfig.brand)
-//			.format());
-//
-//		userDeniedPermissionEmailMessage.setText(
-//			Phrase.from(this, R.string.user_denied_permission_email_message_TEMPLATE)
-//				.put("brand", BuildConfig.brand)
-//				.format());
-
 		OmnitureTracking.trackLoginScreen();
 	}
 

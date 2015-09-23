@@ -913,36 +913,6 @@
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
 
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">สวัสดี คุณ &lt;b&gt;{name}&lt;/b&gt; ดูเหมือนว่าเราจะพบบัญชี {brand} ของคุณ! โปรดป้อนรหัสผ่าน {brand} ของคุณด้านล่างเพื่อลิงก์บัญชี Facebook กับบัญชี {brand} ของคุณ</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราโหลดข้อมูล Facebook ของคุณแล้ว</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">เข้าสู่ระบบด้วย Facebook</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">กำลังรับข้อมูลจาก Facebook…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">กำลังเข้าสู่ระบบโดยใช้ Facebook…</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">เราพบข้อผิดพลาดที่ไม่สามารถระบุได้ โปรดลองอีกครั้งภายหลัง</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">ไม่สามารถลงชื่อเข้าใช้ Facebook</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">ไม่สามารถเข้าสู่ระบบ หากอีเมลและรหัสผ่านของคุณถูกต้อง โปรดตรวจสอบให้แน่ใจว่าการตั้งค่าประเทศในแอพของคุณถูกต้อง</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">รหัสผ่าน {brand}</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">เชื่อมต่อบัญชี</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">การอนุญาตอีเมล</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">กำลังเชื่อมต่อบัญชีของคุณ…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">อนุญาตให้เข้าถึงอีเมล</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">ในการเข้าสู่ระบบด้วย Facebook เราต้องขออนุญาตตรวจสอบที่อยู่อีเมลของคุณ \n\nโปรดแตะที่ปุ่ม Facebook ด้านล่างเพื่ออนุญาตให้ {brand} ตรวจสอบอีเมลของคุณ ขอบคุณ</string>
-
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">เข้าสู่ระบบด้วย {brand}</string>
     <!-- or -->

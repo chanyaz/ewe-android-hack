@@ -911,36 +911,6 @@
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
 
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">Beste &lt;b&gt;{name}&lt;/b&gt;, we hebben je {brand}-account gevonden! Voer hieronder het wachtwoord van je {brand}-account in om je Facebook- en {brand}-accounts te koppelen.</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">Beste &lt;b&gt;%1$s&lt;/b&gt;, we hebben je gegevens van Facebook geladen!</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">Aanmelden via Facebook</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Facebook-gegevens aan het ophalen…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">Bezig met aanmelden via Facebook …</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">Er deed zich een onbekende fout voor. Probeer het later opnieuw.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Aanmelden via Facebook mislukt.</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">Aanmelden mislukt. Bevestig of de Landinstellingen van je app kloppen als je e-mail en wachtwoord correct zijn.</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">{brand}-wachtwoord</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">Accounts koppelen</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">E-mailtoestemming</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">Accounts aan het koppelen…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">E-mailtoestemming geven</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">Om je te kunnen aanmelden bij Facebook, hebben wij je toestemming nodig om je e-mailadres te controleren. \n\n{brand}Tik op de onderstaande Facebook-knop om toestemming te geven je e-mailadres te controleren. Hartelijk bedankt.</string>
-
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Aanmelden via {brand}</string>
     <!-- or -->

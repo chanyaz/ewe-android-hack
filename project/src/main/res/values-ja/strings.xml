@@ -911,36 +911,6 @@
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;、%2$s</string>
 
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">&lt;b&gt;{name}&lt;/b&gt;さん、すでに{brand}のアカウントをお持ちのようです。以下に{brand}のパスワードを入力して、Facebook と{brand}のアカウントをリンクしてください。</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;さん、Facebook のアカウントを読み込みました !</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">Facebook アカウントでサインイン</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Facebook から情報を取得中…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">Facebook の認証情報でサインイン中…</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">詳細不明なエラーが発生しました。後ほどお試しください。</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Facebook にサインインできません。</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">サインインに失敗しました。メールアドレスとパスワードに間違いがない場合は、アプリの国の設定が正しいことを確認してください。</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">{brand} のパスワード</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">アカウントをリンクする</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">電子メールアドレスの認証</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">アカウントをリンク中…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">電子メールアドレスの認証を許可する</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">Facebook アカウントでサインインするには、電子メールアドレスの認証を許可してください。\n\n下記の Facebook ボタンをタップして許可すると、{brand}が電子メールアドレスを認証します。ありがとうございます !</string>
-
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">{brand} アカウントでサインイン</string>
     <!-- or -->

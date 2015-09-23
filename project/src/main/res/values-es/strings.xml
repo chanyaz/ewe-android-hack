@@ -911,36 +911,6 @@
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
 
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">Hola, &lt;b&gt;{name}&lt;/b&gt;: ¡parece ser que encontramos tu cuenta de {brand}! Ingresa tu contraseña de {brand} a continuación para vincular tus cuentas de Facebook y {brand}.</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;: ¡ya cargamos tu información de Facebook!</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">Iniciar sesión con Facebook</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Estamos extrayendo información de Facebook…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">Estamos tratando de iniciar tu sesión con tu información de Facebook…</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">Encontramos un error no especificado. Favor de intentarlo más tarde.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">No pudimos iniciar tu sesión en Facebook.</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">Falló el inicio de sesión. Si tu correo electrónico y tu contraseña son correctos, confirma que la configuración del país de tu aplicación sea la correcta.</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">Contraseña de {brand}</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">Vincular cuentas</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">Permiso de verificación de correo electrónico</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">Estamos vinculando tus cuentas…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">Autorizar permiso de verificación de correo electrónico</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">Para iniciar sesión con Facebook, necesitamos tu autorización para verificar tu dirección de correo electrónico. \n\nPresiona el botón de Facebook a continuación para autorizar a {brand} la verificación de tu dirección de correo electrónico. Gracias.</string>
-
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Inicia sesión con {brand}</string>
     <!-- or -->

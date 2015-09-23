@@ -911,36 +911,6 @@
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
 
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">&lt;b&gt;{name}&lt;/b&gt; 您好！我們已找到您的 {brand} 帳戶。如需將您的 Facebook 帳戶與 {brand} 帳戶連在一起，請於下方輸入您的 {brand} 密碼。</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt; 您好！我們已載入您的 Facebook 資料。</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">以 Facebook 帳戶登入</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">正從 Facebook 載入資料…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">正嘗試以您的 Facebook 登入資料登入…</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">系統發生未明的錯誤。請稍後再試一次。</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">無法登入 Facebook。</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">無法登入。如電郵和密碼均正確無誤，請確認 App 的「國家/地區」設定是否正確。</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">{brand} 密碼</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">連接帳戶</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">電郵權限</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">正將您的帳戶連在一起…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">授予電郵權限</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">如需透過 Facebook 登入，我們需先獲授權確認您的電郵地址。\n\n請輕按以下 Facebook 鍵以授予 {brand} 確認您電郵地址的權限。謝謝！</string>
-
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">以 {brand} 帳戶登入</string>
     <!-- or -->

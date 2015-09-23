@@ -907,16 +907,6 @@
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
 
-    <!-- Facebook -->
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">{brand} Password</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">Link Accounts</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">Grant Email Permission</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">To sign in with Facebook, we require permission to verify your email address. \n\nPlease tap the Facebook button below to grant {brand} permission to verify your email address. Thank you!</string>
-
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Sign in with {brand}</string>
     <!-- or -->
