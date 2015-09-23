@@ -2,6 +2,7 @@ package com.expedia.bookings.test.happy;
 
 import org.joda.time.LocalDate;
 
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
@@ -14,7 +15,6 @@ import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerInfoScreen;
-import com.expedia.bookings.test.espresso.Common;
 
 public class FlightPhoneHappyPathTest extends PhoneTestCase {
 
