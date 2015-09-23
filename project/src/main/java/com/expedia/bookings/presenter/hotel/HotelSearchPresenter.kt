@@ -251,6 +251,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         clearLocationButton.setOnClickListener { view ->
             searchLocationEditText.setText(null)
+            com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
         }
 
         searchButton.subscribeOnClick(vm.searchObserver)
