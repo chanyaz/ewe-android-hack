@@ -58,12 +58,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 
 		//incorrect dob
 		onView(withParent(withId(android.R.id.custom))).perform(setDate(2010, 10, 11));
-		try {
-			FlightsTravelerInfoScreen.clickSetButton();
-		}
-		catch (Exception e) {
-			CommonTravelerInformationScreen.clickDoneString();
-		}
+		closeDialog();
 		BillingAddressScreen.clickNextButton();
 
 		screenshot("Adult_Traveler_Age_Error");
@@ -73,12 +68,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		//enter the correct date of birth and complete the checkout
 		FlightsTravelerInfoScreen.clickBirthDateButton();
 		onView(withParent(withId(android.R.id.custom))).perform(setDate(1990, 10, 11));
-		try {
-			FlightsTravelerInfoScreen.clickSetButton();
-		}
-		catch (Exception e) {
-			CommonTravelerInformationScreen.clickDoneString();
-		}
+		closeDialog();
 
 		BillingAddressScreen.clickNextButton();
 		FlightsTravelerInfoScreen.clickDoneButton();
@@ -97,13 +87,8 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 
 		//incorrect dob
 		onView(withParent(withId(android.R.id.custom))).perform(setDate(1990, 10, 11));
-		try {
-			FlightsTravelerInfoScreen.clickSetButton();
-		}
-		catch (Exception e) {
-			CommonTravelerInformationScreen.clickDoneString();
-		}
-		Common.delay(1);
+		closeDialog();
+
 		BillingAddressScreen.clickNextButton();
 
 		screenshot("Child_Traveler_Age_Error");
@@ -113,12 +98,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		//enter the correct date of birth and complete the checkout
 		FlightsTravelerInfoScreen.clickBirthDateButton();
 		onView(withParent(withId(android.R.id.custom))).perform(setDate(2010, 10, 11));
-		try {
-			FlightsTravelerInfoScreen.clickSetButton();
-		}
-		catch (Exception e) {
-			CommonTravelerInformationScreen.clickDoneString();
-		}
+		closeDialog();
 
 		completeCheckout();
 	}
@@ -153,12 +133,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 
 		//incorrect dob
 		onView(withParent(withId(android.R.id.custom))).perform(setDate(2014, 10, 11));
-		try {
-			FlightsTravelerInfoScreen.clickSetButton();
-		}
-		catch (Exception e) {
-			CommonTravelerInformationScreen.clickDoneString();
-		}
+		closeDialog();
 		BillingAddressScreen.clickNextButton();
 
 		screenshot("Adult_Traveler_Age_Error");
@@ -168,12 +143,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		//enter the correct date of birth and complete the checkout
 		FlightsTravelerInfoScreen.clickBirthDateButton();
 		onView(withParent(withId(android.R.id.custom))).perform(setDate(1990, 10, 11));
-		try {
-			FlightsTravelerInfoScreen.clickSetButton();
-		}
-		catch (Exception e) {
-			CommonTravelerInformationScreen.clickDoneString();
-		}
+		closeDialog();
 
 		BillingAddressScreen.clickNextButton();
 		FlightsTravelerInfoScreen.clickDoneButton();
@@ -193,12 +163,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 
 		//incorrect dob - enter adult age for an infant
 		onView(withParent(withId(android.R.id.custom))).perform(setDate(1990, 10, 11));
-		try {
-			FlightsTravelerInfoScreen.clickSetButton();
-		}
-		catch (Exception e) {
-			CommonTravelerInformationScreen.clickDoneString();
-		}
+		closeDialog();
 
 		BillingAddressScreen.clickNextButton();
 
@@ -209,12 +174,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		//incorrect dob - enter child age for an infant
 		FlightsTravelerInfoScreen.clickBirthDateButton();
 		onView(withParent(withId(android.R.id.custom))).perform(setDate(2010, 10, 11));
-		try {
-			FlightsTravelerInfoScreen.clickSetButton();
-		}
-		catch (Exception e) {
-			CommonTravelerInformationScreen.clickDoneString();
-		}
+		closeDialog();
 		BillingAddressScreen.clickNextButton();
 
 		screenshot("Infant1_Traveler_Age_Error");
@@ -224,12 +184,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		//enter the correct date of birth and complete the checkout
 		FlightsTravelerInfoScreen.clickBirthDateButton();
 		onView(withParent(withId(android.R.id.custom))).perform(setDate(2015, 06, 11));
-		try {
-			FlightsTravelerInfoScreen.clickSetButton();
-		}
-		catch (Exception e) {
-			CommonTravelerInformationScreen.clickDoneString();
-		}
+		closeDialog();
 
 		completeCheckout();
 	}
@@ -260,6 +215,21 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		CVVEntryScreen.parseAndEnterCVV("111");
 		CVVEntryScreen.clickBookButton();
 		ConfirmationScreen.clickDoneButton();
+	}
+
+	private void closeDialog() {
+		Common.delay(1);
+		try {
+			FlightsTravelerInfoScreen.clickSetButton();
+		}
+		catch (Exception e) {
+			try {
+				CommonTravelerInformationScreen.clickDoneString();
+			}
+			catch (Exception ex) {
+				Common.pressBack();
+			}
+		}
 	}
 
 }

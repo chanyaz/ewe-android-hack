@@ -5,10 +5,14 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.vm.HotelDetailViewModel
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -54,6 +58,42 @@ public class HotelDetailsTest {
         assertEquals(View.VISIBLE, hotelDetailView.vipAccessMessage.getVisibility())
         assertEquals(View.VISIBLE, hotelDetailView.promoMessage.getVisibility())
         assertEquals(activity.getResources().getString(R.string.tonight_only), hotelDetailView.promoMessage.getText())
+    }
+
+    @Test
+    fun testNightlyPriceGuestCount() {
+        var hotel = Hotel()
+
+        var lowRateInfo = HotelRate()
+        lowRateInfo.averageRate = 300f
+        lowRateInfo.discountPercent = -20f
+        lowRateInfo.currencyCode = "USD"
+        hotel.lowRateInfo = lowRateInfo
+
+        val checkIn = LocalDate.now();
+        val checkOut = checkIn.plusDays(1)
+        val searchBuilder = HotelSearchParams.Builder()
+                .suggestion(SuggestionV4())
+                .adults(2)
+                .children(listOf(10,10,10))
+                .checkIn(checkIn)
+                .checkOut(checkOut)
+
+        val searchParams = searchBuilder.build();
+
+        vm.hotelSelectedSubject.onNext(hotel)
+        vm.paramsSubject.onNext(searchParams)
+
+        val string = Phrase.from(activity, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
+                DateUtils.localDateToMMMd(checkIn)).put("enddate",
+                DateUtils.localDateToMMMd(checkOut)).put("guests",
+                activity.resources.getQuantityString(R.plurals.number_of_guests, searchParams.children.size() + searchParams.adults, searchParams.children.size() + searchParams.adults))
+                .format()
+                .toString()
+
+        assertEquals("$300", hotelDetailView.price.getText())
+
+        assertEquals(string, hotelDetailView.searchInfo.getText())
     }
 
     @Test

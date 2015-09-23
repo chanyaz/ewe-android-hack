@@ -177,7 +177,7 @@
         android:id="@+id/price_change_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#f2f2f2"
+        android:background="@drawable/hotel_summary_background"
         android:orientation="vertical"
         android:visibility="gone">
 
