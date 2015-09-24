@@ -72,8 +72,6 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 
 		BillingAddressScreen.clickNextButton();
 		FlightsTravelerInfoScreen.clickDoneButton();
-		Common.pressBack();
-		CommonCheckoutScreen.clickCheckoutButton();
 
 		/*
 		 Test case 2: Enter incorrect DOB for child traveler
@@ -148,8 +146,9 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 
 		BillingAddressScreen.clickNextButton();
 		FlightsTravelerInfoScreen.clickDoneButton();
-		Common.pressBack();
-		CommonCheckoutScreen.clickCheckoutButton();
+
+		//Common.pressBack();
+		//CommonCheckoutScreen.clickCheckoutButton();
 
 		/*
 		 Test case 2: Enter incorrect DOB for infant traveler
@@ -157,7 +156,6 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		 */
 
 		CommonCheckoutScreen.clickTravelerDetails();
-		Common.delay(1);
 		FlightsTravelerInfoScreen.enterFirstName("Infant");
 		FlightsTravelerInfoScreen.enterLastName("Auto");
 		Common.closeSoftKeyboard(CommonTravelerInformationScreen.lastNameEditText());
@@ -195,8 +193,6 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		BillingAddressScreen.clickNextButton();
 		FlightsTravelerInfoScreen.clickDoneButton();
 
-		Common.pressBack();
-		CommonCheckoutScreen.clickCheckoutButton();
 		CommonCheckoutScreen.clickSelectPaymentButton();
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 		BillingAddressScreen.typeTextCity("San Francisco");
@@ -220,7 +216,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 	}
 
 	private void closeDialog() {
-		Common.delay(1);
+		Common.delay(4);
 		try {
 			FlightsTravelerInfoScreen.clickSetButton();
 		}

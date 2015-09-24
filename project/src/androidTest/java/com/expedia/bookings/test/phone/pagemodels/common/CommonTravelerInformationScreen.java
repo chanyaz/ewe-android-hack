@@ -1,12 +1,15 @@
 package com.expedia.bookings.test.phone.pagemodels.common;
 
-import com.expedia.bookings.R;
 import android.support.test.espresso.ViewInteraction;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -63,7 +66,7 @@ public class CommonTravelerInformationScreen {
 	// Object interaction
 
 	public static void enterFirstName(String firstName) {
-		firstNameEditText().perform(typeText(firstName));
+		firstNameEditText().perform(ViewActions.waitForViewToDisplay(), typeText(firstName));
 	}
 
 	public static void enterLastName(String lastName) {
@@ -84,6 +87,9 @@ public class CommonTravelerInformationScreen {
 
 	public static void clickDoneButton() {
 		doneButton().perform(click());
+
+		// Once returning to the checkout screen we want to let google wallet settle
+		Common.delay(5);
 	}
 
 	public static void enterEmailAddress(String emailAddress) {
