@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/hotel_review_background_color">
 
     <LinearLayout
@@ -28,7 +29,7 @@
                 android:layout_alignParentLeft="true"
                 android:textColor="@color/hotel_review_title_color"
                 android:textSize="@dimen/hotel_review_title"
-                android:textStyle="bold" />
+                app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/date"

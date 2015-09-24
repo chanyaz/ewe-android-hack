@@ -336,7 +336,7 @@
     <!--Right padding for hotel reviews-->
     <dimen name="hotel_reviews_padding_right">@dimen/hotel_reviews_padding_left</dimen>
     <!--Review row divider height-->
-    <dimen name="hotel_review_divider_height">1dp</dimen>
+    <dimen name="hotel_review_divider_height">1px</dimen>
     <!--Review content line spacing-->
     <dimen name="hotel_review_content_line_spacing">3dp</dimen>
     <!--Review padding bottom-->
