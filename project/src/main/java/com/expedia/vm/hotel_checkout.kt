@@ -1,20 +1,22 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.text.SpannableStringBuilder
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.Rate
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
@@ -133,6 +135,8 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     val isPayLaterOrResortCase = BehaviorSubject.create<Boolean>(false)
     val feesPaidAtHotel = BehaviorSubject.create<String>()
     val showFeesPaidAtHotel = BehaviorSubject.create<Boolean>(false)
+    val totalPriceCharged = BehaviorSubject.create<String>()
+    val legalTextInformation = BehaviorSubject.create<SpannableStringBuilder>()
 
     init {
         newRateObserver.subscribe {
@@ -174,16 +178,22 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
                 if (isPayLater.value) {
                     val depositAmount = rate.depositAmount ?: "0" // yup. For some reason API doesn't return $0 for deposit amounts
                     dueNowAmount.onNext(Money(BigDecimal(depositAmount), rate.currencyCode).formattedMoney)
-                } else {
-                    dueNowAmount.onNext(rate.displayTotalPrice.formattedMoney)
+                    totalPriceCharged.onNext(context.getString(R.string.your_card_will_be_charged_TEMPLATE, Money(BigDecimal(depositAmount), rate.currencyCode).formattedMoney))
                 }
-            } else {
+                else {
+                    dueNowAmount.onNext(rate.displayTotalPrice.formattedMoney)
+                    totalPriceCharged.onNext(context.getString(R.string.your_card_will_be_charged_TEMPLATE, rate.displayTotalPrice.formattedMoney))
+                }
+            }
+            else {
                 dueNowAmount.onNext(tripTotalPrice.value)
+                totalPriceCharged.onNext(context.getString(R.string.your_card_will_be_charged_TEMPLATE, tripTotalPrice.value))
             }
             showFeesPaidAtHotel.onNext(isResortCase.value && (rate.totalMandatoryFees != 0f))
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
             isBestPriceGuarantee.onNext(room.isMerchant)
             newDataObservable.onNext(this)
+            legalTextInformation.onNext(StrUtils.generateHotelsClickableBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString()))
         }
 
         originalRateObserver.subscribe {

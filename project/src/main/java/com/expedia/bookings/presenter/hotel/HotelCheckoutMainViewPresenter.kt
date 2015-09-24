@@ -27,6 +27,7 @@ import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribe
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.expedia.vm.HotelCouponViewModel
 import com.expedia.vm.HotelCreateTripViewModel
@@ -87,7 +88,6 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         couponCardView.setExpanded(false)
         slideWidget.resetSlider()
         slideToContainer.setVisibility(View.INVISIBLE)
-        legalInformationText.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement())
         legalInformationText.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 val intent = Intent(getContext(), HotelRulesActivity::class.java)
@@ -119,6 +119,8 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         hotelCheckoutSummaryWidget.viewModel.originalRateObserver.onNext(trip.originalHotelProductResponse)
         hotelCheckoutSummaryWidget.viewModel.newRateObserver.onNext(trip.newHotelProductResponse)
         hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size())
+        hotelCheckoutSummaryWidget.viewModel.totalPriceCharged.subscribe(sliderTotalText)
+        hotelCheckoutSummaryWidget.viewModel.legalTextInformation.subscribe { legalInformationText.text = it }
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
     }

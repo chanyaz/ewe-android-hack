@@ -85,7 +85,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public SlideToWidgetLL slideWidget;
 
 	@InjectView(R.id.purchase_total_text_view)
-	TextView sliderTotalText;
+	public TextView sliderTotalText;
 
 	@InjectView(R.id.spacer)
 	public Space space;
