@@ -85,6 +85,13 @@ public class HotelScreen {
 		return onView(withId(R.id.resort_fees_text));
 	}
 
+	public static ViewInteraction ratingContainer() {
+		return onView(withId(R.id.rating_container));
+	}
+
+	public static ViewInteraction amenityContainer() {
+		return onView(withId(R.id.amenities_table_row));
+	}
 	public static ViewInteraction commonAmenitiesText() {
 		return onView(withId(R.id.common_amenities_text));
 	}

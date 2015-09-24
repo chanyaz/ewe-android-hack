@@ -49,6 +49,10 @@ public class NewHotelDetailTest extends HotelTestCase {
 		assertPayLaterPayNowRooms();
 		Common.delay(2);
 
+		// checking we are not showing rating and amenities container
+		HotelScreen.ratingContainer().check(matches(not(isDisplayed())));
+		HotelScreen.amenityContainer().check(matches(not(isDisplayed())));
+
 		//if current allotment < 5, we show number of rooms left on "collapsed room container"
 		//otherwise we just show free cancellation message
 
