@@ -312,4 +312,8 @@
 
     <!-- Approx height of car & lx suggestion's row -->
     <dimen name="suggestion_list_height">60dp</dimen>
+
+    <!-- Dimension for left margin on icon of new login button on checkout-->
+    <dimen name="checkout_icon_right_margin">16dp</dimen>
+
 </resources>
