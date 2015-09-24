@@ -24,6 +24,7 @@ public class HotelOffersResponse {
 	public HotelText hotelAmenitiesText;
 	public HotelText hotelPoliciesText;
 	public HotelText hotelFeesText;
+	public HotelText hotelMandatoryFeesText;
 
 	public double latitude;
 	public double longitude;

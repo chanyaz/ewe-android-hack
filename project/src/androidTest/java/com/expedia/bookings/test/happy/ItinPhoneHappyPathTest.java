@@ -109,9 +109,9 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		pckgOutboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 		screenshot("Package Outbound Flight Itin");
 		assertViewWithTextIsDisplayed(R.id.departure_time, "4:00 AM");
-		assertViewWithTextIsDisplayed(R.id.departure_time_tz, "Depart (PDT)");
+		assertViewWithTextIsDisplayed(R.id.departure_time_tz, "Depart (PST)");
 		assertViewWithTextIsDisplayed(R.id.arrival_time, "6:04 AM");
-		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, "Arrive (PDT)");
+		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, "Arrive (PST)");
 		onView(withText("11590764196")).perform(scrollTo());
 		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
 		assertViewWithTextIsDisplayed(R.id.departure_time_text_view, "4:00 AM");
