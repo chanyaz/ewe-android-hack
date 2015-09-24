@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
 import android.support.v4.view.ViewPager
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
@@ -57,6 +58,10 @@ public class HotelReviewsPresenter(context: Context, attrs: AttributeSet) : Pres
             val color = getContext().getResources().getColor(R.color.hotels_primary_color)
             val statusBar = Ui.setUpStatusBar(context, toolbar, reviewsContainer, color)
             addView(statusBar)
+        }
+        toolbar.setNavigationOnClickListener {
+            val activity = getContext() as AppCompatActivity
+            activity.onBackPressed()
         }
     }
 
