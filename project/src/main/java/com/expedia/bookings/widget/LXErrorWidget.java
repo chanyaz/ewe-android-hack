@@ -104,14 +104,14 @@ public class LXErrorWidget extends FrameLayout {
 			break;
 
 		case CURRENT_LOCATION_ERROR:
-			showSearchError(R.string.error_lx_current_location_search_message, SearchType.DEFAULT_SEARCH);
+			showSearchError(Ui.obtainThemeResID(getContext(), R.attr.skin_lxErrorCurrentLocationText), SearchType.DEFAULT_SEARCH);
 			break;
 
 		case SUGGESTIONS_NO_RESULTS:
 		case LX_SEARCH_NO_RESULTS:
 			switch (searchType) {
 			case DEFAULT_SEARCH:
-				showSearchError(R.string.lx_error_current_location_no_results, searchType);
+				showSearchError(Ui.obtainThemeResID(getContext(), R.attr.skin_lxErrorNoResultsText), searchType);
 				break;
 			case EXPLICIT_SEARCH:
 				showSearchError(R.string.error_lx_search_message, searchType);
