@@ -461,7 +461,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/map_click_container"
-                    android:background="#EEEEEE" >
+                    android:background="@drawable/hotels_pay_later_background" >
 
                     <com.expedia.bookings.widget.SlidingRadioGroup
                         android:id="@+id/radius_pay_options"
