@@ -56,7 +56,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val commonAmenityTextObservable = BehaviorSubject.create<String>()
 
     val amenitiesListObservable = BehaviorSubject.create<List<Amenity>>()
-    val noAmenityTextObservable = BehaviorSubject.create<String>()
+    val noAmenityObservable = BehaviorSubject.create<Unit>()
 
     var hasETPObservable = BehaviorSubject.create<Boolean>(false)
     var hasFreeCancellationObservable = BehaviorSubject.create<Boolean>(false)
@@ -80,6 +80,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val searchInfoObservable = BehaviorSubject.create<String>()
     val userRatingObservable = BehaviorSubject.create<String>()
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
+    val ratingContainerObservable = BehaviorSubject.create<Unit>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
     val discountPercentageObservable = BehaviorSubject.create<String>()
     val hasDiscountPercentageObservable = BehaviorSubject.create<Boolean>()
@@ -120,12 +121,16 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         propertyInfoListObservable.onNext(listHotelInfo)
 
 
-        val amenityList: List<Amenity> = Amenity.amenitiesToShow(response.hotelAmenities)
-        //Here have to pass the list of amenities which we want to show
-        amenitiesListObservable.onNext(amenityList)
+        val amenityList: List<Amenity> = emptyList()
+        if(response.hotelAmenities != null) {
+            amenityList.toArrayList().addAll(Amenity.amenitiesToShow(response.hotelAmenities))
+        }
+
         if (amenityList.isEmpty()) {
-            val noAmenityText = context.getResources().getString(R.string.AmenityNone)
-            noAmenityTextObservable.onNext(noAmenityText)
+            noAmenityObservable.onNext(Unit)
+        } else {
+            //Here have to pass the list of amenities which we want to show
+            amenitiesListObservable.onNext(amenityList)
         }
 
         // common amenities text
@@ -199,10 +204,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     val reviewsClickedSubject = PublishSubject.create<Unit>()
 
-    val shareHotelClickedSubject = PublishSubject.create<Unit>()
-
     val renovationContainerClickObserver: Observer<Unit> = endlessObserver {
-        var renovationInfo = Pair<String, String>(context.getResources().getString(R.string.renovation_notice),
+        var renovationInfo = Pair<String, String>(context.resources.getString(R.string.renovation_notice),
                 hotelOffersResponse.hotelRenovationText?.content ?: "")
         hotelRenovationObservable.onNext(renovationInfo)
     }
@@ -287,12 +290,15 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
             userRatingObservable.onNext(hotel.hotelGuestRating.toString())
 
-            numberOfReviewsObservable.onNext(context.getResources().getQuantityString(R.plurals.hotel_number_of_reviews, hotel.totalReviews, hotel.totalReviews))
-
+            if(hotel.totalReviews > 0) {
+                numberOfReviewsObservable.onNext(context.resources.getQuantityString(R.plurals.hotel_number_of_reviews, hotel.totalReviews, hotel.totalReviews))
+            } else {
+                ratingContainerObservable.onNext(Unit)
+            }
             hotelLatLngObservable.onNext(doubleArrayOf(hotel.latitude, hotel.longitude))
 
             var discountPercentage : Int? = hotel.lowRateInfo?.discountPercent?.toInt()
-            discountPercentageObservable.onNext(Phrase.from(context.getResources(), R.string.hotel_discount_percent_Template)
+            discountPercentageObservable.onNext(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
                     .put("discount", discountPercentage ?: 0).format().toString())
             hasDiscountPercentageObservable.onNext(discountPercentage ?: 0 < 0)
             hasVipAccessObservable.onNext(hotel.isVipAccess)

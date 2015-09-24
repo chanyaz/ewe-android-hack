@@ -2,28 +2,6 @@
   "checkInDate": "${checkInDate}",
   "checkOutDate": "${checkOutDate}",
   "hotelAddress": "55 Cyril Magnin St",
-  "hotelAmenities": [
-    {
-      "id": "10",
-      "description": "Free airport transportation"
-    },
-    {
-      "id": "43",
-      "description": "Concierge services"
-    },
-    {
-      "id": "2001",
-      "description": "Free breakfast"
-    },
-    {
-      "id": "2047",
-      "description": "Free newspapers in lobby"
-    },
-    {
-      "id": "9",
-      "description": "Fitness facilities"
-    }
-  ],
   "hotelCity": "San Francisco",
   "hotelCountry": "USA",
   "hotelGuestRating": "4.4",
@@ -423,6 +401,5 @@
   "telesalesNumber": "020 3564 5469",
   "deskTopOverrideNumber": false,
   "timeZoneUTCOffsetMinutes": "-480",
-  "totalRecommendations": "2013",
-  "totalReviews": "1843"
+  "totalRecommendations": "2013"
 }

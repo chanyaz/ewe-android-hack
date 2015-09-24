@@ -104,7 +104,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val payByPhoneContainer: ViewGroup by bindView(R.id.book_by_phone_container)
 
     val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
-    val noAmenityText: TextView by bindView(R.id.amenities_none_text)
+    val amenityDivider : View by bindView(R.id.etp_and_free_cancellation_divider)
     val etpDivider : View by bindView(R.id.etp_divider)
 
     val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
@@ -135,11 +135,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             gallery.startFlipping()
         }
 
-        vm.noAmenityTextObservable.subscribe{ text ->
-            noAmenityText.setVisibility(View.VISIBLE)
-            noAmenityText.setText(text)
+        vm.noAmenityObservable.subscribe {
+            amenityContainer.visibility = View.GONE
+            amenityDivider.visibility = View.GONE
         }
         vm.amenitiesListObservable.subscribe { amenityList ->
+            amenityContainer.visibility = View.VISIBLE
+            amenityDivider.visibility = View.VISIBLE
             Amenity.addHotelAmenity(amenityContainer, amenityList)
         }
         vm.commonAmenityTextObservable.subscribe { text ->
@@ -159,14 +161,20 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.pricePerNightObservable.subscribe(price)
         vm.searchInfoObservable.subscribe(searchInfo)
         vm.userRatingObservable.subscribe(userRating)
-        vm.numberOfReviewsObservable.subscribe(numberOfReviews)
+        vm.numberOfReviewsObservable.subscribe{ text ->
+            numberOfReviews.text = text
+            ratingContainer.visibility = View.VISIBLE
+        }
+        vm.ratingContainerObservable.subscribe {
+            ratingContainer.visibility = View.GONE
+        }
         vm.hotelLatLngObservable.subscribe { values -> hotelLatLng = values }
         vm.showBookByPhoneObservable.subscribe { showPayByPhone ->
             if (showPayByPhone) {
-                payByPhoneContainer.setVisibility(View.VISIBLE)
+                payByPhoneContainer.visibility = View.VISIBLE
                 marginForSelectRoom(payByPhoneContainer)
             } else {
-                payByPhoneContainer.setVisibility(View.GONE)
+                payByPhoneContainer.visibility = View.GONE
                 marginForSelectRoom(propertyTextContainer)
             }
         }
@@ -261,7 +269,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         resortFeeWidget.setVisibility(View.GONE)
         commonAmenityText.setVisibility(View.GONE)
         commonAmenityDivider.setVisibility(View.GONE)
-        noAmenityText.setVisibility(View.GONE)
     }
 
     fun marginForSelectRoom(viewGroup: ViewGroup) {
