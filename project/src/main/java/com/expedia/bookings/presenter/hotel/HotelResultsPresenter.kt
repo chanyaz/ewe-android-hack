@@ -185,9 +185,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val listResultsObserver: Observer<HotelSearchResponse> = object : Observer<HotelSearchResponse> {
         override fun onNext(response: HotelSearchResponse) {
-            adapter.setData(response.hotelList, response.userPriceType, false)
-            adapter.notifyDataSetChanged()
-            resetListOffset()
             AdImpressionTracking.trackAdClickOrImpression(getContext(), response.pageViewBeaconPixelUrl, null)
             showHotelList(response)
         }
@@ -910,6 +907,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     fun showHotelList(response: HotelSearchResponse) {
         adapter.setData(response.hotelList, response.userPriceType, false)
         adapter.notifyDataSetChanged()
+        resetListOffset()
         recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(adapterListener)
     }
 }
