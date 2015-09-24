@@ -85,6 +85,12 @@ public class PointOfSale {
 	// The POS's gold rewards member phone number
 	private String mSupportPhoneNumberGold;
 
+	// The POS's silver rewards member contact email
+	private String mSupportEmailSilver;
+
+	// The POS's gold rewards member contact email
+	private String mSupportEmailGold;
+
 	// The two-letter country code associated with this locale (e.g. "US")
 	private String mTwoLetterCountryCode;
 
@@ -516,6 +522,14 @@ public class PointOfSale {
 
 	public String getSupportPhoneNumberGold() {
 		return mSupportPhoneNumberGold;
+	}
+
+	public String getSupportEmailSilver() {
+		return mSupportEmailSilver;
+	}
+
+	public String getSupportEmailGold() {
+		return mSupportEmailGold;
 	}
 
 	/**
@@ -1060,6 +1074,10 @@ public class PointOfSale {
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
 		pos.mSupportPhoneNumberSilver = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberSilver");
 		pos.mSupportPhoneNumberGold = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
+
+		// Support email
+		pos.mSupportEmailGold = data.optString("supportEmailGold", null);
+		pos.mSupportEmailSilver = data.optString("supportEmailSilver", null);
 
 		// POS config
 		pos.mDistanceUnit = data.optString("distanceUnit", "").equals("miles") ? DistanceUnit.MILES
