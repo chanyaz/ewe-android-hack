@@ -41,11 +41,12 @@ public class HotelViewModel(private val hotel: Hotel, private val context: Conte
     val hotelLargeThumbnailUrlObservable = BehaviorSubject.create(Images.getMediaHost() + hotel.largeThumbnailUrl)
     val hotelDiscountPercentageObservable = BehaviorSubject.create(Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo.discountPercent.toInt()).format().toString())
     val distanceFromCurrentLocationObservable: BehaviorSubject<kotlin.String> = BehaviorSubject.create<String>()
+    val adImpressionObservable = BehaviorSubject.create<String>()
 
     init {
         if (hotel.isSponsoredListing && !hotel.hasShownImpression) {
             hotel.hasShownImpression = true
-            AdImpressionTracking.trackAdClickOrImpression(context, hotel.impressionTrackingUrl, null)
+            adImpressionObservable.onNext(hotel.impressionTrackingUrl)
         }
 
         if (hotel.proximityDistanceInMiles > 0) {

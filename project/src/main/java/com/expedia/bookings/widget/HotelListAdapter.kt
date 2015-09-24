@@ -23,6 +23,7 @@ import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
+import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.bindView
@@ -191,6 +192,9 @@ public class HotelListAdapter(private var hotelsListWithDummyItems: MutableList<
 
             viewModel.hotelStarRatingObservable.subscribe {
                 starRating.setRating(it)
+            }
+            viewModel.adImpressionObservable.subscribe {
+                AdImpressionTracking.trackAdClickOrImpression(itemView.context, it, null)
             }
         }
 
