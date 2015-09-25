@@ -1,12 +1,14 @@
 package com.expedia.bookings.test.phone.pagemodels.common;
 
-import com.expedia.bookings.R;
 import android.support.test.espresso.ViewInteraction;
 
+import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.ViewActions;
+
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.swipeRight;
-import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -50,12 +52,11 @@ public class CommonCheckoutScreen {
 	// Object interaction
 
 	public static void clickCheckoutButton() {
-		checkoutButton().perform(click());
+		checkoutButton().perform(ViewActions.waitForViewToDisplay(), click());
 	}
 
 	public static void clickLogInButton() {
-		logInButton().perform(scrollTo());
-		logInButton().perform(click());
+		logInButton().perform(scrollTo(), click());
 	}
 
 	public static void clickLogOutButton() {
@@ -73,12 +74,11 @@ public class CommonCheckoutScreen {
 	}
 
 	public static void clickSelectPaymentButton() {
-		selectPaymentButton().perform(scrollTo());
-		selectPaymentButton().perform(click());
+		selectPaymentButton().perform(scrollTo(), click());
 	}
 
 	public static void clickOnLegalInfoButton() {
-		legalInfoTextView().perform(click());
+		legalInfoTextView().perform(scrollTo(), click());
 	}
 
 	public static void slideToCheckout() {

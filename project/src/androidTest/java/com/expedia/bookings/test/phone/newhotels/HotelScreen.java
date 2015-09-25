@@ -175,7 +175,7 @@ public class HotelScreen {
 	}
 
 	public static void waitForResultsDisplayed() {
-		ViewActions.waitForViewToDisplay(hotelResultsList());
+		hotelResultsList().perform(ViewActions.waitForViewToDisplay());
 	}
 
 	public static ViewInteraction resultsListItemView(Matcher<View> identifyingMatcher) {

@@ -466,8 +466,8 @@ public final class ViewActions {
 		};
 	}
 
-	public static void waitForViewToDisplay(ViewInteraction viewInteraction) {
-		viewInteraction.perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
+	public static ViewAction waitForViewToDisplay() {
+		return waitFor(isDisplayed(), 10, TimeUnit.SECONDS);
 	}
 
 	// View action to set visibility of a view
