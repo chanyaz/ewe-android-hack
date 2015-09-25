@@ -69,7 +69,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         resultsPresenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices)
         searchPresenter.viewmodel.searchParamsObservable.subscribe(resultsPresenter.viewmodel.paramsSubject)
-        resultsPresenter.hotelSubject.subscribe(hotelSelectedObserver)
+        resultsPresenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
 
         RoomSelected.observer = selectedRoomObserver
 
