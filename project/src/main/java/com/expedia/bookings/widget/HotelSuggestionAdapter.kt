@@ -15,6 +15,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribe
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelSuggestionViewModel
+import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.CountDownLatch
 
 public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewModel) : BaseAdapter(), Filterable {
@@ -22,18 +23,19 @@ public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewMod
     private val SUGGESTION_ITEM_VIEW = 1
     private val ITEM_VIEW_TYPE_COUNT = 2
 
+    init {
+        viewmodel.suggestionsObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
+            notifyDataSetChanged()
+        }
+    }
+
     private val filter = object : Filter() {
         override public fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
             notifyDataSetChanged()
         }
 
         override fun performFiltering(input: CharSequence?): Filter.FilterResults {
-            val latch = CountDownLatch(1)
-            viewmodel.suggestionsObservable.subscribe {
-                latch.countDown()
-            }
             viewmodel.queryObserver.onNext(input?.toString() ?: "")
-            latch.await()
 
             val results = Filter.FilterResults()
             results.count = viewmodel.suggestions.size()

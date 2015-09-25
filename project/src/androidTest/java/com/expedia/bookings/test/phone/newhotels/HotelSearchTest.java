@@ -1,10 +1,11 @@
 package com.expedia.bookings.test.phone.newhotels;
 
 import org.junit.Test;
+
 import android.support.test.espresso.DataInteraction;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.HotelTestCase;
-import com.expedia.bookings.test.espresso.Common;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -29,7 +30,6 @@ public class HotelSearchTest extends HotelTestCase {
 
 		//Trigger search on typing 3 letters
 		HotelScreen.location().perform(typeText("SFO"));
-		Common.delay(2);
 		DataInteraction rowFirst = HotelScreen.suggestionView().atPosition(1);
 		rowFirst.check(matches(hasDescendant(allOf(withId(R.id.title_textview),
 			withText(startsWith("San Francisco"))))));
