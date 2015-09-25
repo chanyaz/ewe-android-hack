@@ -27,7 +27,6 @@ public class Settings {
 		Images.setCustomHost(server);
 		SettingUtils.save(c, getString(c, R.string.preference_which_api_to_use_key), "Custom Server");
 		SettingUtils.save(c, getString(c, R.string.preference_proxy_server_address), server);
-		SettingUtils.save(c, getString(c, R.string.preference_force_custom_server_http_only), true);
 	}
 
 	public static void setServer(Instrumentation inst, String api) {

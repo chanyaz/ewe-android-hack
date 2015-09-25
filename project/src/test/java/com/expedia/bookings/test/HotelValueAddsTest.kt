@@ -11,7 +11,7 @@ import com.expedia.vm.HotelDetailViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule
+import com.squareup.okhttp.mockwebserver.MockWebServer
 import org.joda.time.format.DateTimeFormat
 import org.junit.Before
 import org.junit.Rule
@@ -29,7 +29,7 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 public class HotelValueAddsTest {
-    public var server: MockWebServerRule = MockWebServerRule()
+    public var server: MockWebServer = MockWebServer()
         @Rule get
 
     private var service: HotelServices by Delegates.notNull()
@@ -53,7 +53,7 @@ public class HotelValueAddsTest {
     private fun setUpTest(): TestSubscriber<HotelOffersResponse> {
         val root = File("../lib/mocked/templates").getCanonicalPath()
         val opener = FileSystemOpener(root)
-        server.get().setDispatcher(ExpediaDispatcher(opener))
+        server.setDispatcher(ExpediaDispatcher(opener))
         val observer = TestSubscriber<HotelOffersResponse>()
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
         val hotelSearchParams = HotelSearchParams(SuggestionV4(), dtf.parseLocalDate("2015-09-12"), dtf.parseLocalDate("2015-09-16"), 3, emptyList())

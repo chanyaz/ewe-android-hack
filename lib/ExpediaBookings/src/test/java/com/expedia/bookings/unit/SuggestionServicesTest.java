@@ -12,7 +12,7 @@ import com.expedia.bookings.services.SuggestionServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
+import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 import retrofit.RestAdapter;
 import rx.observers.TestSubscriber;
@@ -26,7 +26,7 @@ public class SuggestionServicesTest {
 	private static final int NUM_SUGGESTIONS_IN_V1_MOCK_TEMPLATES = 1;
 
 	@Rule
-	public MockWebServerRule server = new MockWebServerRule();
+	public MockWebServer server = new MockWebServer();
 
 	private SuggestionServices service;
 
@@ -41,7 +41,7 @@ public class SuggestionServicesTest {
 	public void testSublistOfAirportResponse() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		server.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<List<Suggestion>> observerV3 = new TestSubscriber<>();
 		service.getCarSuggestions("seattle", "en_US", observerV3);
@@ -59,7 +59,7 @@ public class SuggestionServicesTest {
 	public void testSublistOfCityResponse() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		server.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<List<Suggestion>> observerV3 = new TestSubscriber<>();
 		service.getLxSuggestions("seattle", "en_US", observerV3);
@@ -77,7 +77,7 @@ public class SuggestionServicesTest {
 	public void testNearbyAirportResponse() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		server.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<List<Suggestion>> observer = new TestSubscriber<>();
 		String latLong = "37.615940|-122.387996";
@@ -90,7 +90,7 @@ public class SuggestionServicesTest {
 	public void testNearbyCityResponse() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		server.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<List<Suggestion>> observer = new TestSubscriber<>();
 		String latLong = "28.489515|77.092398";

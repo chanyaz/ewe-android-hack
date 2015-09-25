@@ -197,6 +197,10 @@ public class CheckoutViewModel {
 		Common.delay(2);
 	}
 
+	public static void waitForSlideToPurchase() {
+		onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.waitForViewToDisplay());
+	}
+
 	public static void waitForCheckout() {
 		onView(withId(R.id.menu_done)).perform(ViewActions.waitForViewToDisplay());
 	}
