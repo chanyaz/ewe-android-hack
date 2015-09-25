@@ -41,7 +41,7 @@
             It should have its own properties and should not be dependent on cars theme.
             If something is common for all LOB's put it in  AppTheme.Base
          -->
-
+        <item name="traveler_toolbar_text">@string/traveler_information</item>
     </style>
 
     <style name="HotelTravelerIcon">
