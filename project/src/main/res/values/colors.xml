@@ -92,7 +92,7 @@
     <color name="hotel_filter_spinner_dropdown_color_selected">#878F94</color>
     <color name="hotel_filter_spinner_color">#DFE0E2</color>>
     <color name="hotel_filter_spinner_color_selected">#CDCED0</color>
-    <color name="hotel_filter_spinner_text_color">#393E43</color>
+    <color name="hotel_filter_spinner_text_color">#707070</color>
     <color name="etp_text_color">#29a653</color>
     <color name="room_rate_refundable_cancellation_text_color">#008C5D</color>
     <color name="hotel_cell_gray_text">#888888</color>
@@ -116,6 +116,10 @@
     <color name="hotel_review_reviewer_color">#A5A5A5</color>
     <color name="hotel_reviews_row_divider_color">#E2E2E2</color>
     <color name="hotel_reviews_summary_background_color">#FFFFFF</color>
+
+    <!--Hotel Filter Colors -->
+    <color name="hotel_filter_hotel_name_icon">#868686</color>
+    <color name="hotel_filter_input_filed">#757575</color>
 
     <!-- Login -->
     <color name="login_text_hotels">#FFFFFF</color>

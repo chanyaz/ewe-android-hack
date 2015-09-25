@@ -118,6 +118,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.array.sort_options_material_hotels,
 		R.layout.section_hotel_neighborhood_row,
 		R.color.hotel_guest_selector_enabled_color,
-		R.color.hotel_guest_selector_disabled_color
+		R.color.hotel_guest_selector_disabled_color,
+		R.color.hotel_filter_hotel_name_icon,
+		R.color.hotel_filter_input_filed
 	};
 }

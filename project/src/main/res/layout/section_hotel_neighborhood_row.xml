@@ -7,6 +7,8 @@
     android:orientation="horizontal"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground"
     android:paddingLeft="@dimen/lx_sort_filter_padding"
     android:paddingRight="@dimen/lx_sort_filter_padding">
 

@@ -3718,10 +3718,6 @@
 
     <!-- Filters Strings -->
     <string name="neighborhoods">Neighborhoods</string>
-    <string name="gym">Gym</string>
-    <string name="room_service">Room Service</string>
-    <string name="business_center">Business Center</string>
-    <string name="accessible">Accessible</string>
     <string name="amenities">Amenities</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Star Rating</string>
