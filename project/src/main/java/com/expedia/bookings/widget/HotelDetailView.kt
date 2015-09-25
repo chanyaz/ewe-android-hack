@@ -215,9 +215,17 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             vm.lastExpandedRowObservable.onNext(0);
         }
 
-        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, {hasETP, hasFreeCancellation -> hasETP && hasFreeCancellation})
-                .subscribeVisibility(horizontalDividerBwEtpAndFreeCancellation)
-        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, {hasETP, hasFreeCancellation -> hasETP || hasFreeCancellation})
+        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, { hasETP, hasFreeCancellation -> hasETP && hasFreeCancellation })
+                .subscribe { showETPAndFreeCancellation ->
+                    if (showETPAndFreeCancellation) {
+                        horizontalDividerBwEtpAndFreeCancellation.visibility = View.VISIBLE
+                        etpInfoText.setTextAppearance(context, R.style.ETPInfoTextSmall)
+                        freeCancellation.setTextAppearance(context, R.style.HotelDetailsInfoSmall)
+                    }else{
+                        horizontalDividerBwEtpAndFreeCancellation.visibility = View.GONE
+                    }
+                }
+        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, { hasETP, hasFreeCancellation -> hasETP || hasFreeCancellation })
                 .subscribeVisibility(etpAndFreeCancellationMessagingContainer)
         vm.hasETPObservable.subscribeVisibility(etpInfoText)
         vm.hasFreeCancellationObservable.subscribeVisibility(freeCancellation)
@@ -287,6 +295,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         renovationContainer.setVisibility(View.GONE)
         etpRadioGroup.check(R.id.radius_pay_now)
         etpContainer.setVisibility(View.GONE)
+        etpInfoText.setTextAppearance(context, R.style.ETPInfoText)
+        freeCancellation.setTextAppearance(context, R.style.HotelDetailsInfo)
         etpAndFreeCancellationMessagingContainer.setVisibility(View.GONE)
         detailContainer.scrollTo(0, 0)
         toolBarBackground.setAlpha(0f)

@@ -218,48 +218,29 @@
                     android:layout_below="@id/rating_divider"
                     android:background="#EEEEEE"
                     android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:weightSum="2">
+                    android:visibility="gone">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/free_cancellation"
+                        style="@style/HotelDetailsInfoSmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableLeft="@drawable/check"
-                        android:drawablePadding="8dp"
-                        android:paddingBottom="15dp"
-                        android:paddingLeft="18dp"
-                        android:paddingRight="18dp"
-                        android:paddingTop="15dp"
-                        android:text="@string/free_cancellation"
-                        android:textSize="13sp" />
+                        android:text="@string/free_cancellation" />
 
                     <View
                         android:id="@+id/horizontal_divider_bw_etp_and_free_cancellation"
                         android:layout_width="1px"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
                         android:background="@color/hotel_detail_divider" />
-
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/etp_info_text"
+                        style="@style/ETPInfoTextSmall"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@drawable/hotel_detail_ripple"
-                        android:drawableLeft="@drawable/check"
-                        android:drawablePadding="8dp"
-                        android:drawableRight="@drawable/details_info"
-                        android:paddingBottom="15dp"
-                        android:paddingLeft="18dp"
-                        android:paddingRight="5dp"
-                        android:paddingTop="15dp"
-                        android:text="@string/pay_later_info_text"
-                        android:textSize="13sp" />
+                        android:text="@string/pay_later_info_text" />
 
 
                 </LinearLayout>
