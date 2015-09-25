@@ -355,6 +355,7 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
     val totalPricePerNightObservable = BehaviorSubject.create<String>(context.getResources().getString(R.string.cars_total_template, Money.getFormattedMoneyFromAmountAndCurrencyCode(BigDecimal(hotelRoomResponse.rateInfo.chargeableRateInfo.total.toDouble()), currencyCode, Money.F_NO_DECIMAL)))
     val roomHeaderImageObservable = BehaviorSubject.create<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
     val expandRoomObservable = BehaviorSubject.create<Boolean>()
+    val viewRoomObservable = BehaviorSubject.create<Unit>()
     val collapseRoomObservable = BehaviorSubject.create<Int>()
     val roomRateInfoTextObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomLongDescription)
     val roomInfoObservable = BehaviorSubject.create<Int>()
@@ -363,6 +364,8 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
         isChecked ->
         if (!isChecked) {
             roomSelectedObservable.onNext(hotelRoomResponse)
+            //don't change the state of toggle button
+            viewRoomObservable.onNext(Unit)
         } else {
             // expand row if it's not expanded
             if (lastExpanded != index) {

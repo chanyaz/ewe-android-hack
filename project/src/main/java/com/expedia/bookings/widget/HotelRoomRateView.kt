@@ -107,6 +107,10 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
             }
         }
 
+        vm.viewRoomObservable.subscribe {
+            viewRoom.isChecked = true
+        }
+
         vm.collapseRoomObservable.subscribe { collapseIndex ->
             var row: View = container.getChildAt(collapseIndex)
             val roomHeaderImage: View = row.findViewById(R.id.room_header_image)
