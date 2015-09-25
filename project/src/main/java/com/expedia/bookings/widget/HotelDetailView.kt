@@ -110,7 +110,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
     val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
     val commonAmenityDivider : View by bindView(R.id.common_amenities_divider)
-
+    var googleMap : GoogleMap? = null
     val roomContainer: TableLayout by bindView(R.id.room_container)
     val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
 
@@ -168,7 +168,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.ratingContainerObservable.subscribe {
             ratingContainer.visibility = View.GONE
         }
-        vm.hotelLatLngObservable.subscribe { values -> hotelLatLng = values }
+        vm.hotelLatLngObservable.subscribe {
+            values -> hotelLatLng = values
+            addMarker()
+            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
+        }
         vm.showBookByPhoneObservable.subscribe { showPayByPhone ->
             if (showPayByPhone) {
                 payByPhoneContainer.visibility = View.VISIBLE
@@ -289,19 +293,19 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        this.googleMap = googleMap
         MapsInitializer.initialize(getContext())
-        addMarker(googleMap)
         googleMap.getUiSettings().setMapToolbarEnabled(false)
         googleMap.getUiSettings().setMyLocationButtonEnabled(false)
         googleMap.getUiSettings().setZoomControlsEnabled(false)
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
     }
 
-    public fun addMarker(googleMap: GoogleMap) {
+    public fun addMarker() {
+        googleMap ?: return
         val marker = MarkerOptions()
         marker.position(LatLng(hotelLatLng[0], hotelLatLng[1]))
         marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.hotels_pin))
-        googleMap.addMarker(marker)
+        googleMap?.addMarker(marker)
     }
 
     val scrollListener = object : ViewTreeObserver.OnScrollChangedListener {

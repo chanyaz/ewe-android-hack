@@ -13,6 +13,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.presenter.hotel.HotelResultsPresenter
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
@@ -122,10 +123,10 @@ public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresent
     }
 }
 
-public fun priceFormatter(hotel: Hotel, strikeThrough: Boolean): String {
-    if (hotel.lowRateInfo == null) return ""
+public fun priceFormatter(rate: HotelRate?, strikeThrough: Boolean): String {
+    if (rate == null) return ""
     var hotelPrice = if (strikeThrough)
-        Money(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers).toString(), hotel.lowRateInfo.currencyCode)
-    else Money(Math.round(hotel.lowRateInfo.priceToShowUsers).toString(), hotel.lowRateInfo.currencyCode)
+        Money(Math.round(rate.strikethroughPriceToShowUsers).toString(), rate.currencyCode)
+    else Money(Math.round(rate.priceToShowUsers).toString(), rate.currencyCode)
     return hotelPrice.getFormattedMoney()
 }

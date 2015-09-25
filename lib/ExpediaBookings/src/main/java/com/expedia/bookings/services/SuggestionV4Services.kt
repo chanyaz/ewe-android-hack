@@ -38,7 +38,8 @@ public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, 
     }
 
     public fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>): Subscription {
-        val type = SuggestionResultType.REGION
+        val type = SuggestionResultType.HOTEL or SuggestionResultType.AIRPORT or SuggestionResultType.CITY or
+                SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.REGION
         return suggestApi.suggestV4(query, type, "ta_hierarchy")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

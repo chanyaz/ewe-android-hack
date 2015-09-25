@@ -33,8 +33,8 @@ public class HotelReviewsPresenter(context: Context, attrs: AttributeSet) : Pres
         vm.toolbarSubtitleObservable.subscribe { subtitle ->
             toolbar.setSubtitle(subtitle)
         }
-        vm.hotelReviewsObservable.subscribe() { hotel ->
-            hotelReviewsAdapterViewModel = HotelReviewsAdapterViewModel(hotel.hotelId, reviewServices, PointOfSale.getPointOfSale().getLocaleIdentifier())
+        vm.hotelReviewsObservable.subscribe() { hotelId ->
+            hotelReviewsAdapterViewModel = HotelReviewsAdapterViewModel(hotelId, reviewServices, PointOfSale.getPointOfSale().getLocaleIdentifier())
         }
     }
 
