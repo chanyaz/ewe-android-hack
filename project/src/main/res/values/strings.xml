@@ -609,6 +609,8 @@
     <string name="error_lx_search_message">Your search returned no results. Please retry your search with different criteria.</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">We couldn\&apos;t determine your current location to find activities around you.</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">We couldn\&apos;t determine your current location to find transport around you.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Error</string>
     <!-- Text for error toolbar-->
@@ -655,6 +657,8 @@
     <string name="lx_error_current_location_toolbar_text">Please try again</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">We couldn\&apos;t find any activities near you. Please retry your search with different criteria.</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">We couldn\&apos;t find any transport near you. Please retry your search with different criteria.</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$s Bags</string>
