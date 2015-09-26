@@ -2757,10 +2757,23 @@
     <string name="total_price_for_stay">Total price for stay</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">Prices average, per night</string>
+
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">Prices average per night • {count} Results</string>
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">No Results</item>
+        <item quantity="one">Prices average per night • 1 Result</item>
+        <item quantity="many">Prices average per night • %d Results</item>
+        <item quantity="other">Prices average per night • %d Results</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">Total price for stay • {count} Results</string>
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">No Results</item>
+        <item quantity="one">Total price for stay • 1 Result</item>
+        <item quantity="many">Total price for stay • %d Results</item>
+        <item quantity="other">Total price for stay • %d Results</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">No rooms left!</item>

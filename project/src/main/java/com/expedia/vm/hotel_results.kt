@@ -57,7 +57,7 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
     val resultsDeliveredObserver = PublishSubject.create<HotelSearchResponse>()
 
     // Outputs
-    val pricingStructureHeaderObservable = BehaviorSubject.create<CharSequence>()
+    val pricingStructureHeaderObservable = BehaviorSubject.create<String>()
 
     init {
         loadingStartedObserver.subscribe {
@@ -65,14 +65,12 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
         }
 
         resultsDeliveredObserver.subscribe { response ->
-            val template = when (response.userPriceType) {
-                HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> R.string.hotel_results_pricing_header_total_price_for_stay_TEMPLATE
-                else -> R.string.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE
-            }
-
-            val header = Phrase.from(resources, template)
-                    .put("count", response.hotelList?.size() ?: 0)
-                    .format()
+            val hotelResultsCount = response.hotelList?.size() ?: 0
+            val header =
+                    when (response.userPriceType) {
+                        HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> resources.getQuantityString(R.plurals.hotel_results_pricing_header_total_price_for_stay_TEMPLATE, hotelResultsCount, hotelResultsCount)
+                        else -> resources.getQuantityString(R.plurals.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE, hotelResultsCount, hotelResultsCount)
+                    }
 
             pricingStructureHeaderObservable.onNext(header)
         }
