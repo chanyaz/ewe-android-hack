@@ -7,6 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.Log
 import rx.Observable
@@ -48,7 +49,12 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
     private fun suggestionsListWithNearby(): MutableList<SuggestionV4> {
         var suggestionsWithDummyAutofillItem = suggestionsListWithDummyAutofillItem()
         suggestionsWithDummyAutofillItem.addAll(nearby)
+        suggestionsWithDummyAutofillItem.addAll(loadRecentSuggestions())
         return suggestionsWithDummyAutofillItem
+    }
+
+    private fun loadRecentSuggestions(): MutableList<SuggestionV4> {
+        return SuggestionV4Utils.loadSuggestionHistory(context, SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE)
     }
 
     private fun getNearbySuggestions(latlong: String) {
@@ -57,7 +63,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
                 .doOnNext { nearbySuggestions -> if (nearbySuggestions.size() < 1) throw com.expedia.bookings.data.cars.ApiError(com.expedia.bookings.data.cars.ApiError.Code.SUGGESTIONS_NO_RESULTS) }
                 .doOnNext { nearbySuggestions -> nearbySuggestions.first().regionNames.displayName = context.getString(com.expedia.bookings.R.string.current_location) }
                 .doOnNext { nearby = it }
-                .subscribe(generateSuggestionServiceCallback())
+                .subscribe { suggestionsObservable.onNext(suggestionsListWithNearby()) }
     }
 
     // Utility

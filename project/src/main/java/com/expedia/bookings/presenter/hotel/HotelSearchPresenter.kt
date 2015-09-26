@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
@@ -235,7 +236,8 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         searchLocationEditText.setOnItemClickListener {
             adapterView, view, position, l ->
-            vm.suggestionObserver.onNext(hotelSuggestionAdapter.getItem(position))
+            var suggestion = hotelSuggestionAdapter.getItem(position)
+            vm.suggestionObserver.onNext(suggestion)
             searchLocationEditText.clearFocus()
 
             selectDate.setChecked(true)
@@ -243,6 +245,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
             calendar.setVisibility(View.VISIBLE)
             traveler.setVisibility(View.GONE)
+            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE)
             show(HotelParamsCalendar(), Presenter.FLAG_CLEAR_BACKSTACK)
         }
 
