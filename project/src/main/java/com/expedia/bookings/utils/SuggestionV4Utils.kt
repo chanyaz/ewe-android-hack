@@ -15,8 +15,7 @@ public object SuggestionV4Utils {
     public fun saveSuggestionHistory(context: Context, suggestion: SuggestionV4, file: String) {
         Thread(object : Runnable {
             override fun run() {
-                val recentSuggestions = loadSuggestionHistory(context, file)
-                recentSuggestions.add(0, suggestion)
+                val recentSuggestions = listOf(suggestion) + loadSuggestionHistory(context, file)
                 val type = object : TypeToken<List<SuggestionV4>>() { }.type
                 val suggestionJson = Gson().toJson(recentSuggestions.take(3), type)
                 try {
@@ -24,25 +23,21 @@ public object SuggestionV4Utils {
                 } catch (e: IOException) {
                     Log.e("Save History Error: ", e)
                 }
-
             }
         }).start()
     }
 
-    public fun loadSuggestionHistory(context: Context, file: String): MutableList<SuggestionV4> {
+    public fun loadSuggestionHistory(context: Context, file: String): List<SuggestionV4> {
         var recentSuggestions = emptyList<SuggestionV4>()
         try {
             val str = IoUtils.readStringFromFile(file, context)
-            val type = object : TypeToken<MutableList<SuggestionV4>>() { }.type
-            recentSuggestions = Gson().fromJson<MutableList<SuggestionV4>>(str, type)
+            val type = object : TypeToken<List<SuggestionV4>>() { }.type
+            recentSuggestions = Gson().fromJson<List<SuggestionV4>>(str, type)
         } catch (e: IOException) {
             e.printStackTrace()
         }
 
-        recentSuggestions.forEach {
-            suggestion ->
-            suggestion.iconType = SuggestionV4.IconType.HISTORY_ICON
-        }
+        recentSuggestions.forEach { it.iconType = SuggestionV4.IconType.HISTORY_ICON }
 
         return recentSuggestions.toArrayList()
     }

@@ -20,8 +20,8 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
 
 public class NewHotelDetailTest extends HotelTestCase {
-
-	public void testETPHotelWithFreeCancellation() throws Throwable {
+/*
+	public void testPayLaterHotelWithFreeCancellation() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
 		HotelScreen.location().perform(typeText("SFO"));
@@ -34,7 +34,7 @@ public class NewHotelDetailTest extends HotelTestCase {
 		assertViewsBasedOnETPAndFreeCancellation(true, true, "ETP_Hotel_With_Free_Cancellation");
 		assertPayLaterPayNowRooms();
 	}
-
+*/
 	public void testETPHotelWithoutFreeCancellationHavingRenovation() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
@@ -72,7 +72,7 @@ public class NewHotelDetailTest extends HotelTestCase {
 		HotelScreen.renovationContainer().perform(scrollTo()).check(matches(isDisplayed()));
 		screenshot("Hotel_details_bottom_scrolled");
 	}
-
+/*
 	public void testNonETPHotelWithoutFreeCancellation() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
@@ -98,7 +98,7 @@ public class NewHotelDetailTest extends HotelTestCase {
 
 		assertViewsBasedOnETPAndFreeCancellation(false, true, "Non_ETP_Hotel_With_Free_Cancellation");
 	}
-
+*/
 	private void assertPayLaterPayNowRooms() throws Throwable {
 		//pay now view should show all the rooms and
 		//pay later view should only show the rooms with pay later offer

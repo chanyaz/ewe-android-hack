@@ -15,6 +15,7 @@ import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
@@ -184,7 +185,7 @@ public final class CarScreen {
 
 	public static void selectSupplierFilter(String supplierName) {
 		onView(allOf(withId(R.id.vendor), withText(supplierName),
-			isDescendantOfA(withId(R.id.filter_suppliers)))).perform(click());
+			isDescendantOfA(withId(R.id.filter_suppliers)))).perform(scrollTo(), click());
 
 	}
 
