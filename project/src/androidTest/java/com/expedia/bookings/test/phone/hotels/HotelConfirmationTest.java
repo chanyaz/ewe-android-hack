@@ -111,7 +111,7 @@ public class HotelConfirmationTest extends PhoneTestCase {
 
 		mHotelName = EspressoUtils.getText(R.id.title);
 		HotelsCheckoutScreen.slideToCheckout();
-		CVVEntryScreen.parseAndEnterCVV(mUser.cvv);
+		CVVEntryScreen.enterCVV(mUser.cvv);
 		CVVEntryScreen.clickBookButton();
 		verifyConfirmationTexts();
 		verifyTravelAdTracking();

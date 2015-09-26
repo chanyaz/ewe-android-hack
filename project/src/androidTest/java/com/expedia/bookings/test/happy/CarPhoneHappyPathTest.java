@@ -68,7 +68,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 	}
 
 	private void enterCVV(String cvv) throws Throwable {
-		CVVEntryScreen.parseAndEnterCVV(cvv);
+		CVVEntryScreen.enterCVV(cvv);
 		CVVEntryScreen.clickBookButton();
 		screenshot("Car_CVV");
 	}

@@ -82,7 +82,7 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 	}
 
 	private void enterCVV() throws Throwable {
-		CVVEntryScreen.parseAndEnterCVV("123");
+		CVVEntryScreen.enterCVV("123");
 		screenshot("Hotel_CVV");
 		CVVEntryScreen.clickBookButton();
 	}

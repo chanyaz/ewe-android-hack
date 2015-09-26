@@ -53,13 +53,13 @@ public class HotelCouponErrorTest extends PhoneTestCase {
 
 		for (TestData test : tests) {
 			HotelsCheckoutScreen.couponButton().perform(click());
-			Common.delay(1);
+			Common.delay(3);
 			onView(withId(R.id.coupon_edit_text)).perform(typeText(test.coupon));
 			onView(withId(android.R.id.button1)).perform(click());
-			Common.delay(1);
+			Common.delay(3);
 			EspressoUtils.assertViewWithTextIsDisplayed(android.R.id.message, test.expected);
 			onView(withId(android.R.id.button3)).perform(click());
-			Common.delay(1);
+			Common.delay(3);
 		}
 	}
 

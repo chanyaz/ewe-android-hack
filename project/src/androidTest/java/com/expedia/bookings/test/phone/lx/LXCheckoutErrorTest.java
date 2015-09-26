@@ -103,7 +103,7 @@ public class LXCheckoutErrorTest extends LxTestCase {
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.performSlideToPurchase();
 
-		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.enterCVV("111");
 		CVVEntryScreen.clickBookButton();
 
 		// this time click on the back button. Expected : we must come to the CVV Screen
@@ -142,7 +142,7 @@ public class LXCheckoutErrorTest extends LxTestCase {
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.performSlideToPurchase();
 
-		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.enterCVV("111");
 		CVVEntryScreen.clickBookButton();
 	}
 }

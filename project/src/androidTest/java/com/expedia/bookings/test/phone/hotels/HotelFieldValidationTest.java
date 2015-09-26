@@ -89,7 +89,7 @@ public class HotelFieldValidationTest extends PhoneTestCase {
 			//No I accept
 		}
 		HotelsCheckoutScreen.slideToCheckout();
-		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.enterCVV("111");
 		CVVEntryScreen.clickBookButton();
 		HotelsConfirmationScreen.clickDoneButton();
 	}

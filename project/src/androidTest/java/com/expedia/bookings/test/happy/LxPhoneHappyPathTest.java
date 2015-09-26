@@ -105,7 +105,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 		screenshot("LX Checkout Ready");
 		CheckoutViewModel.performSlideToPurchase();
 
-		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.enterCVV("111");
 		screenshot("LX CVV");
 		CVVEntryScreen.clickBookButton();
 

@@ -210,7 +210,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		CardInfoScreen.clickOnDoneButton();
 
 		CommonCheckoutScreen.slideToCheckout();
-		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.enterCVV("111");
 		CVVEntryScreen.clickBookButton();
 		ConfirmationScreen.clickDoneButton();
 	}
