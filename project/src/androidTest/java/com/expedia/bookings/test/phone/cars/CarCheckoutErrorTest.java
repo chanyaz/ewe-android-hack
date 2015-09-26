@@ -174,7 +174,7 @@ public class CarCheckoutErrorTest extends CarTestCase {
 	}
 
 	private void enterCVV(String cvv) throws Throwable {
-		CVVEntryScreen.parseAndEnterCVV(cvv);
+		CVVEntryScreen.enterCVV(cvv);
 		screenshot("Car CVV");
 		CVVEntryScreen.clickBookButton();
 	}

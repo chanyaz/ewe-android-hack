@@ -91,7 +91,7 @@ public class GTPhoneHappyPathTest extends PhoneTestCase {
 		screenshot("GT Checkout Ready");
 		CheckoutViewModel.performSlideToPurchase();
 
-		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.enterCVV("111");
 		screenshot("GT CVV");
 		CVVEntryScreen.clickBookButton();
 

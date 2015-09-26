@@ -196,4 +196,8 @@ public class CheckoutViewModel {
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
 		Common.delay(2);
 	}
+
+	public static void waitForCheckout() {
+		onView(withId(R.id.menu_done)).perform(ViewActions.waitForViewToDisplay());
+	}
 }

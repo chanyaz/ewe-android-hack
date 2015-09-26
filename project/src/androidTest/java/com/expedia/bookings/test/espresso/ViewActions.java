@@ -453,7 +453,7 @@ public final class ViewActions {
 						return;
 					}
 
-					Log.v("waitFor", "Waitig for " + SLEEP_UI_MS + "ms");
+					Log.v("waitFor", "Waiting for " + SLEEP_UI_MS + "ms");
 					uiController.loopMainThreadForAtLeast(SLEEP_UI_MS);
 				}
 				while (System.currentTimeMillis() <= endTime);

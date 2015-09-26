@@ -133,7 +133,7 @@ public class PhoneSweep extends PhoneTestCase {
 		}
 		screenshot("Slide_to_checkout");
 		slideToCheckout();
-		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.enterCVV("111");
 		screenshot("CVV_Entry");
 		CVVEntryScreen.clickBookButton();
 
@@ -218,7 +218,7 @@ public class PhoneSweep extends PhoneTestCase {
 		}
 		screenshot("Slide_to_checkout");
 		HotelsCheckoutScreen.slideToCheckout();
-		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.enterCVV("111");
 		screenshot("CVV_Entry");
 
 		CVVEntryScreen.clickBookButton();

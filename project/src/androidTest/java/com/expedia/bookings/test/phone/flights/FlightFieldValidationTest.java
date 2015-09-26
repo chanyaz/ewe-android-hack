@@ -120,7 +120,7 @@ public class FlightFieldValidationTest extends PhoneTestCase {
 			//No I accept
 		}
 		slideToCheckout();
-		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.enterCVV("111");
 		CVVEntryScreen.clickBookButton();
 		ConfirmationScreen.clickDoneButton();
 	}

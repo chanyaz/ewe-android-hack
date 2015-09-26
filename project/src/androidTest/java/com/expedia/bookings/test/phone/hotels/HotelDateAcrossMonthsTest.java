@@ -113,7 +113,7 @@ public class HotelDateAcrossMonthsTest extends PhoneTestCase {
 		CardInfoScreen.clickOnDoneButton();
 		CardInfoScreen.clickNoThanksButton();
 		HotelsCheckoutScreen.slideToCheckout();
-		CVVEntryScreen.parseAndEnterCVV(mUser.cvv);
+		CVVEntryScreen.enterCVV(mUser.cvv);
 		CVVEntryScreen.clickBookButton();
 	}
 

@@ -1,11 +1,11 @@
 package com.expedia.bookings.test.phone.newhotels;
 
-import org.junit.Test;
-
 import android.support.test.espresso.DataInteraction;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -17,12 +17,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.startsWith;
-/**
- * Created by mswami on 9/14/15.
- */
+
 public class HotelSearchTest extends HotelTestCase {
 
-	@Test
 	public void testHotelSearch() throws Throwable {
 
 		//By default search text field should be empty
@@ -30,22 +27,18 @@ public class HotelSearchTest extends HotelTestCase {
 
 		//Trigger search on typing 3 letters
 		HotelScreen.location().perform(typeText("SFO"));
-		DataInteraction rowFirst = HotelScreen.suggestionView().atPosition(1);
-		rowFirst.check(matches(hasDescendant(allOf(withId(R.id.title_textview),
+		Common.delay(5);
+		DataInteraction firstRow = HotelScreen.suggestionView().atPosition(1);
+		firstRow.perform(ViewActions.waitForViewToDisplay());
+		firstRow.check(matches(hasDescendant(allOf(withId(R.id.title_textview),
 			withText(startsWith("San Francisco"))))));
 
 		//Airports will have airport icon
-		rowFirst.check(matches(hasDescendant(allOf(withId(R.id.icon_imageview),
+		firstRow.check(matches(hasDescendant(allOf(withId(R.id.icon_imageview),
 			withImageDrawable(R.drawable.airport_suggest)))));
 
 		//tapping on "X" icon should should clear out values
 		HotelScreen.clearButton().perform(click());
 		HotelScreen.location().check(matches(withHint("Search Location")));
-
-		//TODO: Recent serches displayed in suggestions
-		//TODO: Hotel names will have hotel icon
-		//TODO: 9/14/15 default search results to have cuurent location as top result
-		//TODO: previous search results listing below current location results
-
 	}
 }

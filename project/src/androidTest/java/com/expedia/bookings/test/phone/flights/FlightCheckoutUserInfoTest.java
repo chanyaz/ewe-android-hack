@@ -5,11 +5,12 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.Espresso;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.FlightTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
@@ -18,8 +19,6 @@ import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerInfoScr
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelsUserData;
-import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.mobiata.android.Log;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
@@ -36,16 +35,11 @@ import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutSc
 import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen.logOutButton;
 import static org.hamcrest.core.IsNot.not;
 
-public class FlightCheckoutUserInfoTest extends PhoneTestCase {
+public class FlightCheckoutUserInfoTest extends FlightTestCase {
 
-	private static final String TAG = FlightCheckoutUserInfoTest.class.getSimpleName();
-	HotelsUserData mUser;
+	HotelsUserData user = new HotelsUserData();
 
-	public void testCheckFlights() throws Exception {
-		// Setup
-		mUser = new HotelsUserData();
-		Log.v(TAG, "Launching flights application");
-		LaunchScreen.launchFlights();
+	public void testCheckFlights() throws Throwable {
 		FlightsSearchScreen.enterDepartureAirport("SFO");
 		FlightsSearchScreen.enterArrivalAirport("LAS");
 		FlightsSearchScreen.clickSelectDepartureButton();
@@ -53,9 +47,7 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 		FlightsSearchScreen.clickDate(startDate);
 		FlightsSearchScreen.clickPassengerSelectionButton();
 		FlightsSearchScreen.incrementAdultsButton();
-		Log.v(TAG, "Click search button");
 		FlightsSearchScreen.clickSearchButton();
-		Log.v(TAG, "Flight search results loaded");
 		FlightsSearchResultsScreen.clickListItem(2);
 		FlightLegScreen.clickSelectFlightButton();
 		clickCheckoutButton();
@@ -73,7 +65,6 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 	private void verifyNameMustMatchIdWarning() {
 		// Warning should appear on opening traveler details
 		// and close when the user taps the screen.
-		Log.v(TAG, "Start testing name must match id warning in user info");
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
@@ -94,7 +85,6 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 
 	private void verifyNameMustMatchIdWarningWithInfoEntered() {
 		// Warning behavior should persist after traveler info has been entered and saved.
-		Log.v(TAG, "Start testing name must match id warning with info already entered");
 		FlightsTravelerInfoScreen.clickPopulatedTravelerDetails(0);
 		FlightsTravelerInfoScreen.clickEditTravelerInfo();
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
@@ -107,7 +97,6 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 
 	private void verifyNameMustMatchIdWarningSecondTraveler() {
 		// Warning behavior should persist upon entry of additional travelers' info.
-		Log.v(TAG, "Start testing name must match id warning for a second traveler's info");
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(2);
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
@@ -125,7 +114,7 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 		FlightsTravelerInfoScreen.enterLastName("Bookings");
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.lastNameEditText());
 		FlightsTravelerInfoScreen.clickBirthDateButton();
-		Common.delay(1);
+		Common.delay(5);
 		try {
 			FlightsTravelerInfoScreen.clickDoneString();
 		}
@@ -148,9 +137,9 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 	}
 
 	private void verifyRulesAndRestrictionsButton() {
-		Common.delay(2);
-		CommonCheckoutScreen.flightsLegalTextView().perform(scrollTo());
-		CommonCheckoutScreen.flightsLegalTextView().perform(click());
+		Common.delay(5);
+		CommonCheckoutScreen.flightsLegalTextView().perform(scrollTo(), click());
+		Common.delay(5);
 		EspressoUtils.assertViewWithTextIsDisplayed("Privacy Policy");
 		EspressoUtils.assertViewWithTextIsDisplayed("Terms and Conditions");
 		EspressoUtils.assertViewWithTextIsDisplayed("Rules and Restrictions");
@@ -158,18 +147,20 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 	}
 
 	private void verifyMissingTravelerInformationAlerts() {
-		Log.v(TAG, "Starting testing of traveler info screen response when fields are left empty");
+		// Starting testing of traveler info screen response when fields are left empty
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
 		FlightsTravelerInfoScreen.clickNextButton();
-		Log.v(TAG, "Verifying all fields show error icon when empty and 'DONE' is pressed");
+
 		FlightsTravelerInfoScreen.firstNameEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		FlightsTravelerInfoScreen.lastNameEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		FlightsTravelerInfoScreen.birthDateSpinnerButton().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		FlightsTravelerInfoScreen.middleNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		FlightsTravelerInfoScreen.birthDateSpinnerButton().check(
+			matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+		FlightsTravelerInfoScreen.middleNameEditText().check(
+			matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		FlightsTravelerInfoScreen.phoneNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		Common.closeSoftKeyboard(CommonTravelerInformationScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.clickBirthDateButton();
-		Common.delay(1);
+		Common.delay(5);
 		try {
 			FlightsTravelerInfoScreen.clickDoneString();
 		}
@@ -179,81 +170,100 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 		FlightsTravelerInfoScreen.enterFirstName("Expedia");
 		FlightsTravelerInfoScreen.clickNextButton();
 
-		Log.v(TAG, "Verifying all field but first and middle name fields show error when 'Done' is pressed.");
-		FlightsTravelerInfoScreen.firstNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		// Verifying all field but first and middle name fields show error when 'Done' is pressed.
+		FlightsTravelerInfoScreen.firstNameEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		FlightsTravelerInfoScreen.lastNameEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		FlightsTravelerInfoScreen.middleNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		FlightsTravelerInfoScreen.middleNameEditText().check(
+			matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		FlightsTravelerInfoScreen.phoneNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		FlightsTravelerInfoScreen.enterLastName("Mobile");
 		FlightsTravelerInfoScreen.clickNextButton();
 
-		Log.v(TAG, "Verifying all field but first,last and middle name fields show error when 'Done' is pressed.");
-		FlightsTravelerInfoScreen.firstNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		FlightsTravelerInfoScreen.lastNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		FlightsTravelerInfoScreen.middleNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		// Verifying all field but first,last and middle name fields show error when 'Done' is pressed.
+		FlightsTravelerInfoScreen.firstNameEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		FlightsTravelerInfoScreen.lastNameEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		FlightsTravelerInfoScreen.middleNameEditText().check(
+			matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		FlightsTravelerInfoScreen.phoneNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		Log.v(TAG, "Verifying that phone number must be at least 3 chars long");
+		// Verifying that phone number must be at least 3 chars long
 		FlightsTravelerInfoScreen.enterPhoneNumber("95");
 		FlightsTravelerInfoScreen.clickNextButton();
-		FlightsTravelerInfoScreen.firstNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		FlightsTravelerInfoScreen.lastNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		FlightsTravelerInfoScreen.middleNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		FlightsTravelerInfoScreen.firstNameEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		FlightsTravelerInfoScreen.lastNameEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		FlightsTravelerInfoScreen.middleNameEditText().check(
+			matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		FlightsTravelerInfoScreen.phoneNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		FlightsTravelerInfoScreen.phoneNumberEditText().perform(clearText());
 		FlightsTravelerInfoScreen.enterPhoneNumber("951");
-		FlightsTravelerInfoScreen.firstNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		FlightsTravelerInfoScreen.lastNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		FlightsTravelerInfoScreen.middleNameEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		FlightsTravelerInfoScreen.phoneNumberEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		FlightsTravelerInfoScreen.firstNameEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		FlightsTravelerInfoScreen.lastNameEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		FlightsTravelerInfoScreen.middleNameEditText().check(
+			matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		FlightsTravelerInfoScreen.phoneNumberEditText().check(
+			matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		FlightsTravelerInfoScreen.phoneNumberEditText().perform(clearText());
 		FlightsTravelerInfoScreen.enterPhoneNumber("9510000000");
 		FlightsTravelerInfoScreen.clickNextButton();
 
-		//Verify that the redress EditText allows a max of 7 chars, numbers only
+		// Verify that the redress EditText allows a max of 7 chars, numbers only
 		FlightsTravelerInfoScreen.typeRedressText("12345678");
 		FlightsTravelerInfoScreen.redressEditText().check(matches(withText("1234567")));
-		Log.v(TAG, "Asserted that redress EditText has a max capacity of 7 chars");
 		FlightsTravelerInfoScreen.clickDoneButton();
-		logInButton().check(matches(isDisplayed()));
-		Log.v(TAG, "After all traveler info was entered, the test was able to return to the checkout screen");
+		logInButton().perform(ViewActions.waitForViewToDisplay());
 	}
 
 	private void verifyMissingCardInfoAlerts() {
-		Common.delay(2);
+		Common.delay(3);
 		onView(withText("Payment details")).perform(click());
 		CardInfoScreen.clickNextButton();
 
 		BillingAddressScreen.addressLineOneEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		BillingAddressScreen.addressLineTwoEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.addressLineTwoEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.cityEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		BillingAddressScreen.stateEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		BillingAddressScreen.postalCodeEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		BillingAddressScreen.typeTextAddressLineOne(mUser.address);
-		BillingAddressScreen.addressLineOneEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.addressLineTwoEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.typeTextAddressLineOne(user.address);
+		BillingAddressScreen.addressLineOneEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.addressLineTwoEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.cityEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		BillingAddressScreen.stateEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		BillingAddressScreen.postalCodeEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		BillingAddressScreen.typeTextState(mUser.state);
-		BillingAddressScreen.addressLineOneEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.addressLineTwoEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.typeTextState(user.state);
+		BillingAddressScreen.addressLineOneEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.addressLineTwoEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.cityEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		BillingAddressScreen.stateEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.postalCodeEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		BillingAddressScreen.typeTextCity(mUser.city);
-		BillingAddressScreen.addressLineOneEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.addressLineTwoEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.typeTextCity(user.city);
+		BillingAddressScreen.addressLineOneEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.addressLineTwoEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.cityEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.stateEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.postalCodeEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		BillingAddressScreen.typeTextPostalCode(mUser.zipcode);
-		BillingAddressScreen.addressLineOneEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.addressLineTwoEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.typeTextPostalCode(user.zipcode);
+		BillingAddressScreen.addressLineOneEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.addressLineTwoEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.cityEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.stateEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		BillingAddressScreen.postalCodeEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
@@ -265,30 +275,30 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 		CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.expirationDateButton().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		Log.v(TAG, "CC, name on card, expiration date, email address views all have error icon");
+		// CC, name on card, expiration date, email address views all have error icon
 
-		CardInfoScreen.typeTextCreditCardEditText(mUser.creditCardNumber.substring(0, 12));
+		CardInfoScreen.typeTextCreditCardEditText(user.creditCardNumber.substring(0, 12));
 		CardInfoScreen.clickOnDoneButton();
 		CardInfoScreen.expirationDateButton().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.creditCardNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		Log.v(TAG, "Successfully asserted that 12 chars is too short for CC edittext");
+		// Successfully asserted that 12 chars is too short for CC edittext
 		CardInfoScreen.creditCardNumberEditText().perform(clearText());
 
 		String twentyChars = "12345123451234512345";
 		String nineteenChars = twentyChars.substring(0, 19);
 		CardInfoScreen.typeTextCreditCardEditText(twentyChars);
 		CardInfoScreen.creditCardNumberEditText().check(matches(withText(nineteenChars)));
-		Log.v(TAG, "Successfully asserted that the CC edittext has a max capacity of 19 chars");
+		// Successfully asserted that the CC edittext has a max capacity of 19 chars
 		CardInfoScreen.creditCardNumberEditText().perform(clearText());
 
-		CardInfoScreen.typeTextCreditCardEditText(mUser.creditCardNumber);
+		CardInfoScreen.typeTextCreditCardEditText(user.creditCardNumber);
 		CardInfoScreen.expirationDateButton().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.creditCardNumberEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		Log.v(TAG, "After entering CC number, the CC edit text no longer has error icon");
+		// After entering CC number, the CC edit text no longer has error icon
 
 		/* test cc expiration date validation only if the current month is not January
 		* there's no way to enter month in the past in the month of January
@@ -300,10 +310,11 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 			CardInfoScreen.clickSetButton();
 			CardInfoScreen.clickOnDoneButton();
 			CardInfoScreen.expirationDateButton().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-			CardInfoScreen.creditCardNumberEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+			CardInfoScreen.creditCardNumberEditText()
+				.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 			CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 			CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-			Log.v(TAG, "Successfully asserted that the expiration date cannot be in the past!");
+			// Successfully asserted that the expiration date cannot be in the past!
 		}
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
@@ -314,14 +325,14 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 		CardInfoScreen.creditCardNumberEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		Log.v(TAG, "After entering expiration date, that field no longer has error icon");
+		// After entering expiration date, that field no longer has error icon
 
-		CardInfoScreen.typeTextNameOnCardEditText(mUser.firstName + " " + mUser.lastName);
+		CardInfoScreen.typeTextNameOnCardEditText(user.firstName + " " + user.lastName);
 		CardInfoScreen.expirationDateButton().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.creditCardNumberEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.nameOnCardEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		Log.v(TAG, "After entering cardholder name, that edit text no longer has error icon");
+		// After entering cardholder name, that edit text no longer has error icon
 
 		CardInfoScreen.typeTextEmailEditText("deepanshumadan");
 		CardInfoScreen.expirationDateButton().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
@@ -329,7 +340,7 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 		CardInfoScreen.nameOnCardEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.clickOnDoneButton();
-		Log.v(TAG, "Successfully asserted that an email address with no '@' or TLD is found invalid");
+		// Successfully asserted that an email address with no '@' or TLD is found invalid
 		CardInfoScreen.emailEditText().perform(clearText());
 
 		CardInfoScreen.typeTextEmailEditText("deepanshumadan@");
@@ -338,7 +349,7 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 		CardInfoScreen.nameOnCardEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.clickOnDoneButton();
-		Log.v(TAG, "Successfully asserted that an email address with no website or TLD is found invalid");
+		// Successfully asserted that an email address with no website or TLD is found invalid
 		CardInfoScreen.emailEditText().perform(clearText());
 
 		CardInfoScreen.typeTextEmailEditText("deepanshumadan@expedia.");
@@ -347,42 +358,39 @@ public class FlightCheckoutUserInfoTest extends PhoneTestCase {
 		CardInfoScreen.nameOnCardEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.emailEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		CardInfoScreen.clickOnDoneButton();
-		Log.v(TAG, "Successfully asserted that an email address with no TLD is found invalid");
+		// Successfully asserted that an email address with no TLD is found invalid
 		CardInfoScreen.emailEditText().perform(clearText());
 
-		CardInfoScreen.typeTextEmailEditText(mUser.email);
+		CardInfoScreen.typeTextEmailEditText(user.email);
 		CardInfoScreen.expirationDateButton().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.creditCardNumberEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.nameOnCardEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		CardInfoScreen.emailEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		Log.v(TAG, "After entering email address, that edit text no longer has error icon");
+		// After entering email address, that edit text no longer has error icon
 		CardInfoScreen.clickOnDoneButton();
 
 		logInButton().perform(scrollTo());
 		logInButton().check(matches(isDisplayed()));
-		Log.v(TAG, "After all card info was added, the test was able to return to the checkout screen");
+		// After all card info was added, the test was able to return to the checkout screen
 	}
 
 	private void verifyLoginButtonNotAppearing() throws Exception {
 		Common.pressBack();
 		clickCheckoutButton();
 		logInButton().perform(scrollTo(), click());
-		Common.delay(2);
+		Common.delay(5);
 
-		LogInScreen.typeTextEmailEditText(mUser.email);
-		LogInScreen.typeTextPasswordEditText(mUser.password);
+		LogInScreen.typeTextEmailEditText(user.email);
+		LogInScreen.typeTextPasswordEditText(user.password);
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();
 		clickCheckoutButton();
-		Common.delay(2);
+		Common.delay(5);
 
 		logOutButton().perform(scrollTo());
-		EspressoUtils.assertViewWithTextIsDisplayed(mUser.email);
-		Log.v(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
+		EspressoUtils.assertViewWithTextIsDisplayed(user.email);
 		clickLogOutButton();
 		onView(withText(mRes.getString(R.string.sign_out))).perform(click());
 		logInButton().check(matches(isDisplayed()));
-		Log.v(TAG,
-			"Log out button was visible and able to be clicked. Email address no longer visible on checkout screen");
 	}
 }

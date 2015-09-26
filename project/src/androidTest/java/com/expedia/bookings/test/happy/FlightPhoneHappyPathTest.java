@@ -81,7 +81,7 @@ public class FlightPhoneHappyPathTest extends PhoneTestCase {
 
 		screenshot("Slide_To_Purchase");
 		CommonCheckoutScreen.slideToCheckout();
-		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.enterCVV("111");
 		screenshot("CVV");
 		CVVEntryScreen.clickBookButton();
 		screenshot("Confirmation");

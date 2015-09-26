@@ -22,6 +22,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -123,6 +124,10 @@ public class HotelScreen {
 		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(hasSibling(withId(R.id.search_container)))));
 	}
 
+	public static void clickSearchButton() {
+		searchButton().perform(click());
+	}
+
 	public static ViewInteraction hotelResultsList() {
 		return onView(withId(R.id.list_view));
 	}
@@ -132,7 +137,7 @@ public class HotelScreen {
 	}
 
 	public static void selectHotelWithName(String name) {
-		hotelResultsList().perform(RecyclerViewActions.actionOnItem(withChild(withChild((withText(name)))), click()));
+		hotelResultsList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(name)), click()));
 	}
 
 	public static ViewInteraction addRoom() {
@@ -176,6 +181,10 @@ public class HotelScreen {
 
 	public static void waitForResultsDisplayed() {
 		hotelResultsList().perform(ViewActions.waitForViewToDisplay());
+	}
+
+	public static void waitForDetailsDisplayed() {
+		onView(withId(R.id.rating_container)).perform(ViewActions.waitForViewToDisplay());
 	}
 
 	public static ViewInteraction resultsListItemView(Matcher<View> identifyingMatcher) {
