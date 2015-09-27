@@ -10,6 +10,7 @@ import com.expedia.bookings.test.espresso.HotelTestCase;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -57,9 +58,9 @@ public class NewHotelDetailTest extends HotelTestCase {
 		//otherwise we just show free cancellation message
 
 		HotelScreen.clickPayNow();
-		onView(withText("View Room")).perform(scrollTo());
+		onView(allOf(withId(R.id.room_header_image),isDisplayed())).perform(swipeUp());
 		Common.delay(2);
-
+		onView(withText("View Room")).perform(scrollTo());
 		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(withId(R.id.collapsed_container)), isDisplayed()))
 			.check(matches(withText("1 Room Left!")));
 
@@ -67,10 +68,6 @@ public class NewHotelDetailTest extends HotelTestCase {
 
 		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(withId(R.id.collapsed_container)), isDisplayed()))
 			.check(matches(withText("Non-refundable")));
-
-		//renovation notice shows up in the end
-		HotelScreen.renovationContainer().perform(scrollTo()).check(matches(isDisplayed()));
-		screenshot("Hotel_details_bottom_scrolled");
 	}
 /*
 	public void testNonETPHotelWithoutFreeCancellation() throws Throwable {

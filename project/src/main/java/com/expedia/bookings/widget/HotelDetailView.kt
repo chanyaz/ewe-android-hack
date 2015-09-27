@@ -255,6 +255,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         hotelDescriptionContainer.subscribeOnClick(vm.hotelDescriptionContainerObserver)
         etpRadioGroup.subscribeOnCheckedChange(etpContainerObserver)
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
+        resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
 
         //getting the map

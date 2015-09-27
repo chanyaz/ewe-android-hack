@@ -144,6 +144,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         if (response.hotelFeesText != null) {
             listHotelInfo.add(response.hotelFeesText)
         }
+
+        if (response.hotelMandatoryFeesText != null) {
+            listHotelInfo.add(response.hotelMandatoryFeesText)
+        }
         propertyInfoListObservable.onNext(listHotelInfo)
 
 
@@ -233,6 +237,12 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val renovationContainerClickObserver: Observer<Unit> = endlessObserver {
         var renovationInfo = Pair<String, String>(context.resources.getString(R.string.renovation_notice),
                 hotelOffersResponse.hotelRenovationText?.content ?: "")
+        hotelRenovationObservable.onNext(renovationInfo)
+    }
+
+    val resortFeeContainerClickObserver: Observer<Unit> = endlessObserver {
+        var renovationInfo = Pair<String, String>(context.getResources().getString(R.string.additional_fees),
+                hotelOffersResponse.hotelMandatoryFeesText?.content ?: "")
         hotelRenovationObservable.onNext(renovationInfo)
     }
 
