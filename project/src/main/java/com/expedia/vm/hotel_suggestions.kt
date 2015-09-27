@@ -4,7 +4,9 @@ import android.content.Context
 import android.location.Location
 import android.text.Html
 import com.expedia.bookings.R
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
@@ -14,14 +16,13 @@ import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.ArrayList
 
 class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsService: SuggestionV4Services, val locationObservable: Observable<Location>) {
 
     // Outputs
     val suggestionsObservable = PublishSubject.create<List<SuggestionV4>>()
     var suggestions: List<SuggestionV4> = emptyList()
-    var nearby: List<SuggestionV4> = emptyList()
+    private var nearby: List<SuggestionV4> = emptyList()
 
     init {
         locationObservable.subscribe(generateLocationServiceCallback());
@@ -40,28 +41,28 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
         }
     }
 
-    private fun suggestionsListWithDummyAutofillItem(): MutableList<SuggestionV4> {
-        var suggestionsWithDummyAutofillItem: MutableList<SuggestionV4> = ArrayList()
-        suggestionsWithDummyAutofillItem.add(SuggestionV4())
-        return suggestionsWithDummyAutofillItem
+    fun suggestionsListWithDummyAutofillItem(): List<SuggestionV4> {
+        return listOf(SuggestionV4())
     }
 
-    private fun suggestionsListWithNearby(): MutableList<SuggestionV4> {
-        var suggestionsWithDummyAutofillItem = suggestionsListWithDummyAutofillItem()
-        suggestionsWithDummyAutofillItem.addAll(nearby)
-        suggestionsWithDummyAutofillItem.addAll(loadRecentSuggestions())
-        return suggestionsWithDummyAutofillItem
+    private fun suggestionsListWithNearby(): List<SuggestionV4> {
+        return suggestionsListWithDummyAutofillItem() + nearby + loadRecentSuggestions()
     }
 
-    private fun loadRecentSuggestions(): MutableList<SuggestionV4> {
+    private fun loadRecentSuggestions(): List<SuggestionV4> {
         return SuggestionV4Utils.loadSuggestionHistory(context, SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE)
     }
 
     private fun getNearbySuggestions(latlong: String) {
         suggestionsService
-                .suggestNearbyV1(com.expedia.bookings.data.pos.PointOfSale.getSuggestLocaleIdentifier(), latlong, com.expedia.bookings.data.pos.PointOfSale.getPointOfSale().getSiteId())
-                .doOnNext { nearbySuggestions -> if (nearbySuggestions.size() < 1) throw com.expedia.bookings.data.cars.ApiError(com.expedia.bookings.data.cars.ApiError.Code.SUGGESTIONS_NO_RESULTS) }
-                .doOnNext { nearbySuggestions -> nearbySuggestions.first().regionNames.displayName = context.getString(com.expedia.bookings.R.string.current_location) }
+                .suggestNearbyV1(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId())
+                .doOnNext { nearbySuggestions ->
+                    if (nearbySuggestions.size() < 1) {
+                        throw ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS)
+                    }
+
+                    nearbySuggestions.first().regionNames.displayName = context.getString(com.expedia.bookings.R.string.current_location)
+                }
                 .doOnNext { nearby = it }
                 .subscribe { suggestionsObservable.onNext(suggestionsListWithNearby()) }
     }
@@ -87,9 +88,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
     private fun generateSuggestionServiceCallback(): Observer<List<SuggestionV4>> {
         return object : Observer<List<SuggestionV4>> {
             override fun onNext(suggestions: List<SuggestionV4>) {
-                val suggestionsWithDummyAutofillItem: MutableList<SuggestionV4> = suggestionsListWithDummyAutofillItem()
-                suggestionsWithDummyAutofillItem.addAll(suggestions)
-                suggestionsObservable.onNext(suggestionsWithDummyAutofillItem)
+                suggestionsObservable.onNext(suggestionsListWithDummyAutofillItem() + suggestions)
             }
 
             override fun onCompleted() {

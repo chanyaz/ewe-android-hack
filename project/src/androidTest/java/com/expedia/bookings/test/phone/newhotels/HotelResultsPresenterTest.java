@@ -2,7 +2,6 @@ package com.expedia.bookings.test.phone.newhotels;
 
 import org.hamcrest.CoreMatchers;
 import org.joda.time.DateTime;
-import org.junit.Test;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
@@ -21,7 +20,13 @@ import static org.hamcrest.core.IsNot.not;
 public class HotelResultsPresenterTest extends HotelTestCase {
 
 	public void testSearchResults() throws Throwable {
-		doSearch();
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		final DateTime endDateTime = startDateTime.plusDays(3);
+		HotelScreen.location().perform(typeText("SFO"));
+		HotelScreen.selectLocation("San Francisco, CA");
+		HotelScreen.selectDateButton().perform(click());
+		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		HotelScreen.searchButton().perform(click());
 
 		// Happy Path : First Item.
 		assertViewIsDisplayedAtPosition(2, R.id.hotel_name_text_view);
@@ -42,38 +47,17 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		//test VIP message
 		assertViewWithTextIsDisplayedAtPosition(4, R.id.vip_message, "+VIP");
 
-	}
-
-	@Test
-	public void testMobileUrgencyMessage() throws Throwable {
-		doSearch();
-
+		//test urgency messages
+		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(2));
 		assertViewWithTextIsDisplayedAtPosition(2, R.id.urgency_message, "4 Rooms Left");
-
 		assertViewWithTextIsDisplayedAtPosition(3, R.id.urgency_message, "Tonight Only!");
-
 		assertViewWithTextIsDisplayedAtPosition(4, R.id.urgency_message, "Mobile Exclusive");
-	}
 
-	@Test
-	public void testAirAttach() throws Throwable {
-		doSearch();
-
+		//test air attach
 		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(9));
 		assertViewIsDisplayedAtPosition(9, R.id.air_attach_layout);
-		assertViewWithTextIsDisplayedAtPosition(9,R.id.air_attach_discount,"-12%");
+		assertViewWithTextIsDisplayedAtPosition(9, R.id.air_attach_discount, "-12%");
 
-	}
-
-	private void doSearch() throws Throwable {
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		final DateTime endDateTime = startDateTime.plusDays(3);
-		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA");
-		HotelScreen.selectDateButton().perform(click());
-		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
-		HotelScreen.searchButton().perform(click());
-		HotelScreen.waitForResultsDisplayed();
 	}
 
 	private void assertViewNotDisplayedAtPosition(int position, int id) {

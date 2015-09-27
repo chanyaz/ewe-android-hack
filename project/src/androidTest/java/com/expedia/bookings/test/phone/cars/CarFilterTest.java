@@ -42,7 +42,7 @@ public class CarFilterTest extends CarTestCase {
 		screenshot("Filtered_Categories");
 		int filterdCategoryNumber = EspressoUtils.getListCount(CarScreen.carCategoryList());
 
-//number of categories after applying car type filter are different from the original number of categories
+		//number of categories after applying car type filter are different from the original number of categories
 		assertNotSame(filterdCategoryNumber, unifilterdCategoryNumber);
 		assertCorrectCategoryShownAfterApplyingFilters(filterdCategoryNumber, CATEGORY);
 
@@ -57,11 +57,11 @@ public class CarFilterTest extends CarTestCase {
 		int filterdOffersNumber = EspressoUtils.getListCount(CarScreen.carOfferList());
 		screenshot("Filtered_Details");
 
-//number of offers after applying car type filter are different from the original number of offers
+		//number of offers after applying car type filter are different from the original number of offers
 		assertNotSame(filterdOffersNumber, unifilterdOffersNumber);
 		assertCorrectOfferShownAfterApplyingFilters(filterdOffersNumber, "NoCCRequired");
 
-//when user go back to car categories and filters applied on Details screen are reflected on Categories screen
+		//when user go back to car categories and filters applied on Details screen are reflected on Categories screen
 		Common.pressBack();
 		assertCorrectCategoryShownAfterApplyingFilters(filterdCategoryNumber, CATEGORY);
 		Common.delay(1);
@@ -69,7 +69,7 @@ public class CarFilterTest extends CarTestCase {
 		CarScreen.selectCarCategory(CATEGORY);
 		assertCorrectOfferShownAfterApplyingFilters(filterdOffersNumber, "NoCCRequired");
 
-//Test the filters are correctly updated when user comes back to the categories screen from details screen
+		//Test the filters are correctly updated when user comes back to the categories screen from details screen
 		Common.pressBack();
 		screenshot("Back_to_Categories");
 		CarScreen.searchFilter().perform(click());

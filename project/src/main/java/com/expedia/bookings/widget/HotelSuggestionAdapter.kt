@@ -16,7 +16,6 @@ import com.expedia.util.subscribe
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelSuggestionViewModel
 import rx.android.schedulers.AndroidSchedulers
-import java.util.concurrent.CountDownLatch
 
 public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewModel) : BaseAdapter(), Filterable {
     private val DEFAULT_AUTOFILL_ITEM_VIEW = 0
@@ -31,15 +30,19 @@ public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewMod
 
     private val filter = object : Filter() {
         override public fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
-            notifyDataSetChanged()
+            //notifyDataSetChanged()
         }
 
         override fun performFiltering(input: CharSequence?): Filter.FilterResults {
-            viewmodel.queryObserver.onNext(input?.toString() ?: "")
+            val cleanQuery = input?.toString() ?: ""
+
+            viewmodel.queryObserver.onNext(cleanQuery)
+
+            val suggestions = viewmodel.suggestionsListWithDummyAutofillItem()
 
             val results = Filter.FilterResults()
-            results.count = viewmodel.suggestions.size()
-            results.values = viewmodel.suggestions
+            results.count = suggestions.size()
+            results.values = suggestions
             return results
         }
     }

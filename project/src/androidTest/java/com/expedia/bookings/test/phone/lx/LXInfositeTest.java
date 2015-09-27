@@ -138,10 +138,10 @@ public class LXInfositeTest extends LxTestCase {
 				//now bring back the counter to zero so that all the rows have zero tickets
 				LXInfositeScreen
 					.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-					.perform(click());
+					.perform(scrollTo(), click());
 				LXInfositeScreen
 					.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-					.perform(click());
+					.perform(scrollTo(), click());
 				//check in this situation where we dont have any ticket we dont have the book now button nor the ticket summary
 				LXInfositeScreen.priceSummary(mExpectedDataTktWdgt.getTicketName()).check(
 					matches(not(isDisplayed())));
