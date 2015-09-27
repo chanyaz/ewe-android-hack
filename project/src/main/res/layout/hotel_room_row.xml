@@ -24,8 +24,7 @@
             android:layout_height="120dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:scaleType="fitXY"
-            android:src="@drawable/cars_fallback" />
+            android:scaleType="centerCrop" />
 
         <RelativeLayout
             android:id="@+id/collapsed_container"

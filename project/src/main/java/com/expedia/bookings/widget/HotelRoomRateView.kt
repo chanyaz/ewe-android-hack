@@ -72,7 +72,7 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
         vm.dailyPricePerNightObservable.subscribe(dailyPricePerNight)
         vm.perNightObservable.subscribeVisibility(perNight)
         vm.roomHeaderImageObservable.subscribe { imageUrl ->
-            val drawable = Images.makeHotelBitmapDrawable(getContext(), emptyPicassoCallback, roomHeaderImage.getMaxWidth(), imageUrl, PICASSO_HOTEL_ROOM)
+            val drawable = Images.makeHotelBitmapDrawable(getContext(), emptyPicassoCallback, roomHeaderImage.getMaxWidth(), imageUrl, PICASSO_HOTEL_ROOM, R.drawable.room_fallback)
             roomHeaderImage.setImageDrawable(drawable)
         }
         vm.expandRoomObservable.subscribe { expand ->
