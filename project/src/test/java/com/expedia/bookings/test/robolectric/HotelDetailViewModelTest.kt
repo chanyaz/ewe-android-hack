@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
-import android.content.Intent
-import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.test.HotelServicesRule
 import com.expedia.vm.HotelDetailViewModel
 import org.junit.Before
@@ -10,6 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
@@ -20,21 +21,54 @@ public class HotelDetailViewModelTest {
     @Rule get
 
     var vm: HotelDetailViewModel by Delegates.notNull()
-    var hotel1: Hotel by Delegates.notNull()
-    var hotel2: Hotel by Delegates.notNull()
+    var offer1: HotelOffersResponse by Delegates.notNull()
+    var offer2: HotelOffersResponse by Delegates.notNull()
 
     @Before fun before() {
         vm = HotelDetailViewModel(RuntimeEnvironment.application, service.hotelServices())
 
-        hotel1 = Hotel()
-        hotel1.localizedName = "hotel1"
-        hotel1.latitude = 1.0
-        hotel1.longitude = 2.0
+        offer1 = HotelOffersResponse()
+        offer1.hotelName = "hotel1"
+        offer1.latitude = 1.0
+        offer1.longitude = 2.0
+        offer1.hotelRoomResponse = makeHotel()
 
-        hotel2 = Hotel()
-        hotel2.localizedName = "hotel2"
-        hotel2.latitude = 100.0
-        hotel2.longitude = 150.0
+        offer2 = HotelOffersResponse()
+        offer2.hotelName = "hotel2"
+        offer2.latitude = 100.0
+        offer2.longitude = 150.0
+        offer2.hotelRoomResponse = makeHotel()
+    }
+
+    private fun makeHotel() : ArrayList<HotelOffersResponse.HotelRoomResponse> {
+        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+
+        var hotel = HotelOffersResponse.HotelRoomResponse()
+        var valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()
+        var valueAdd = HotelOffersResponse.ValueAdds()
+        valueAdd.description = "Value Add"
+        valueAdds.add(valueAdd)
+        hotel.valueAdds = valueAdds
+
+        var bedTypes = ArrayList<HotelOffersResponse.BedTypes>()
+        var bedType = HotelOffersResponse.BedTypes()
+        bedType.id = "1"
+        bedType.description = "King Bed"
+        bedTypes.add(bedType)
+        hotel.bedTypes = bedTypes
+
+        hotel.currentAllotment = "1"
+
+        var lowRateInfo = HotelRate()
+        lowRateInfo.discountPercent = -20f
+        lowRateInfo.currencyCode = "USD"
+
+        var rateInfo = HotelOffersResponse.RateInfo()
+        rateInfo.chargeableRateInfo = lowRateInfo
+        hotel.rateInfo = rateInfo
+
+        rooms.add(hotel)
+        return rooms
     }
 
     @Test fun mapClicking() {
@@ -42,25 +76,25 @@ public class HotelDetailViewModelTest {
         val expected = listOf("hotel1", "hotel2", "hotel1", "hotel2", "hotel2", "hotel2")
 
         vm.mapClickedWithHotelData
-                .map { hotel -> hotel.localizedName }
+                .map { hotel -> hotel.hotelName }
                 .take(expected.size())
                 .subscribe(testSub)
 
-        vm.hotelSelectedSubject.onNext(hotel1)
+        vm.hotelOffersSubject.onNext(offer1)
         vm.mapClickedSubject.onNext(Unit)
 
-        vm.hotelSelectedSubject.onNext(hotel2)
+        vm.hotelOffersSubject.onNext(offer2)
         vm.mapClickedSubject.onNext(Unit)
 
-        vm.hotelSelectedSubject.onNext(hotel1)
+        vm.hotelOffersSubject.onNext(offer1)
         vm.mapClickedSubject.onNext(Unit)
 
-        vm.hotelSelectedSubject.onNext(hotel1)
-        vm.hotelSelectedSubject.onNext(hotel2)
+        vm.hotelOffersSubject.onNext(offer1)
+        vm.hotelOffersSubject.onNext(offer2)
         vm.mapClickedSubject.onNext(Unit)
 
-        vm.hotelSelectedSubject.onNext(hotel1)
-        vm.hotelSelectedSubject.onNext(hotel2)
+        vm.hotelOffersSubject.onNext(offer1)
+        vm.hotelOffersSubject.onNext(offer2)
         vm.mapClickedSubject.onNext(Unit)
         vm.mapClickedSubject.onNext(Unit)
 
@@ -78,13 +112,13 @@ public class HotelDetailViewModelTest {
                 .map { it.getData().toString() }
                 .subscribe(testSub)
 
-        vm.hotelSelectedSubject.onNext(hotel1)
+        vm.hotelOffersSubject.onNext(offer1)
         vm.mapClickedSubject.onNext(Unit)
 
-        vm.hotelSelectedSubject.onNext(hotel2)
+        vm.hotelOffersSubject.onNext(offer2)
         vm.mapClickedSubject.onNext(Unit)
 
-        vm.hotelSelectedSubject.onNext(hotel1)
+        vm.hotelOffersSubject.onNext(offer1)
         vm.mapClickedSubject.onNext(Unit)
 
         testSub.awaitTerminalEvent(10, TimeUnit.SECONDS)
@@ -97,25 +131,25 @@ public class HotelDetailViewModelTest {
         val expected = listOf("hotel1", "hotel2", "hotel1", "hotel2", "hotel2", "hotel2")
 
         vm.reviewsClickedWithHotelData
-                .map { hotel -> hotel.localizedName }
+                .map { hotel -> hotel.hotelName }
                 .take(expected.size())
                 .subscribe(testSub)
 
-        vm.hotelSelectedSubject.onNext(hotel1)
+        vm.hotelOffersSubject.onNext(offer1)
         vm.reviewsClickedSubject.onNext(Unit)
 
-        vm.hotelSelectedSubject.onNext(hotel2)
+        vm.hotelOffersSubject.onNext(offer2)
         vm.reviewsClickedSubject.onNext(Unit)
 
-        vm.hotelSelectedSubject.onNext(hotel1)
+        vm.hotelOffersSubject.onNext(offer1)
         vm.reviewsClickedSubject.onNext(Unit)
 
-        vm.hotelSelectedSubject.onNext(hotel1)
-        vm.hotelSelectedSubject.onNext(hotel2)
+        vm.hotelOffersSubject.onNext(offer1)
+        vm.hotelOffersSubject.onNext(offer2)
         vm.reviewsClickedSubject.onNext(Unit)
 
-        vm.hotelSelectedSubject.onNext(hotel1)
-        vm.hotelSelectedSubject.onNext(hotel2)
+        vm.hotelOffersSubject.onNext(offer1)
+        vm.hotelOffersSubject.onNext(offer2)
         vm.reviewsClickedSubject.onNext(Unit)
         vm.reviewsClickedSubject.onNext(Unit)
 

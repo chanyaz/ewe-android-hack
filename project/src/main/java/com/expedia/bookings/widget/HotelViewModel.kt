@@ -17,12 +17,12 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
 
     val hotelNameObservable = BehaviorSubject.create(hotel.localizedName)
-    val hotelPriceObservable = BehaviorSubject.create(priceFormatter(hotel, false))
-    val hotelStrikeThroughPriceObservable = BehaviorSubject.create(priceFormatter(hotel, true))
+    val hotelPriceObservable = BehaviorSubject.create(priceFormatter(hotel.lowRateInfo, false))
+    val hotelStrikeThroughPriceObservable = BehaviorSubject.create(priceFormatter(hotel.lowRateInfo, true))
     val hasDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.discountPercent < 0 && !hotel.lowRateInfo.airAttached)
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating.toString())
     val hotelPreviewRatingObservable = BehaviorSubject.create<Float>(hotel.hotelStarRating)
-    val pricePerNightObservable = BehaviorSubject.create(priceFormatter(hotel, false))
+    val pricePerNightObservable = BehaviorSubject.create(priceFormatter(hotel.lowRateInfo, false))
 
     val urgencyMessageObservable = BehaviorSubject.create(getMostApplicableUrgencyMessage(hotel, resources)).filter { it != null }
     val urgencyMessageVisibilityObservable = urgencyMessageObservable.map { it!!.visibility }

@@ -22,7 +22,7 @@ public interface SuggestApi {
 	@GET("/api/v4/typeahead/{query}")
 	public Observable<SuggestionV4Response> suggestV4(
 		@Path("query") String query,
-		@Query("type") int suggestionResultType,
+		@Query("regiontype") int suggestionResultType,
 		@Query("features") String features);
 
 	@GET("/hint/es/v1/nearby/{locale}")

@@ -11,7 +11,6 @@ import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
@@ -31,8 +30,7 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
-import java.util.ArrayList
-import java.util.Locale
+import java.util.*
 import kotlin.properties.Delegates
 
 class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices) : RecyclerGallery.GalleryItemListener {
@@ -89,7 +87,35 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val strikeThroughPriceObservable = BehaviorSubject.create<String>()
 
     private fun bindDetails(response: HotelOffersResponse) {
-    hotelOffersResponse = response
+        hotelOffersResponse = response
+
+        hotelNameObservable.onNext(response.hotelName)
+
+        hotelRatingObservable.onNext(response.hotelStarRating.toFloat())
+
+        if (response.hotelRoomResponse.first() != null) {
+            var rate = response.hotelRoomResponse.first().rateInfo.chargeableRateInfo;
+            val dailyPrice = Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode)
+            pricePerNightObservable.onNext(dailyPrice.getFormattedMoney(Money.F_NO_DECIMAL))
+        }
+
+        userRatingObservable.onNext(response.hotelGuestRating.toString())
+
+        if(response.totalReviews > 0) {
+            numberOfReviewsObservable.onNext(context.resources.getQuantityString(R.plurals.hotel_number_of_reviews, response.totalReviews, response.totalReviews))
+        } else {
+            ratingContainerObservable.onNext(Unit)
+        }
+        hotelLatLngObservable.onNext(doubleArrayOf(response.latitude, response.longitude))
+
+        var discountPercentage : Int? = response.hotelRoomResponse.first()?.rateInfo?.chargeableRateInfo?.discountPercent?.toInt()
+        discountPercentageObservable.onNext(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
+                .put("discount", discountPercentage ?: 0).format().toString())
+        hasDiscountPercentageObservable.onNext(discountPercentage ?: 0 < 0)
+        hasVipAccessObservable.onNext(response.isVipAccess)
+        promoMessageObservable.onNext(getPromoText(response.hotelRoomResponse.first()))
+        strikeThroughPriceObservable.onNext(priceFormatter(response.hotelRoomResponse.first()?.rateInfo?.chargeableRateInfo, true))
+
         if (response.hotelRenovationText?.content != null) renovationObservable.onNext(Unit)
         galleryObservable.onNext(Images.getHotelImages(response))
 
@@ -215,11 +241,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     }
 
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
-    val hotelSelectedSubject = BehaviorSubject.create<Hotel>()
 
     // Every time a new hotel is emitted, emit an Observable<Hotel>
     // that will return the outer hotel every time the map is clicked
-    val mapClickedWithHotelData: Observable<Hotel> = Observable.switchOnNext(hotelSelectedSubject.map { hotel ->
+    val mapClickedWithHotelData: Observable<HotelOffersResponse> = Observable.switchOnNext(hotelOffersSubject.map { hotel ->
         mapClickedSubject.map {
             hotel
         }
@@ -233,7 +258,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     // Every time a new hotel is emitted, emit an Observable<Hotel>
     // that will return the outer hotel every time reviews is clicked
-    val reviewsClickedWithHotelData: Observable<Hotel> = Observable.switchOnNext(hotelSelectedSubject.map { hotel ->
+    val reviewsClickedWithHotelData: Observable<HotelOffersResponse> = Observable.switchOnNext(hotelOffersSubject.map { hotel ->
         reviewsClickedSubject.map {
             hotel
         }
@@ -278,34 +303,6 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     }
 
     init {
-        hotelSelectedSubject.subscribe { hotel ->
-            hotelNameObservable.onNext(hotel.localizedName)
-
-            hotelRatingObservable.onNext(hotel.hotelStarRating)
-
-            if (hotel.lowRateInfo != null) {
-                val dailyPrice = Money(BigDecimal(hotel.lowRateInfo.averageRate.toDouble()), hotel.lowRateInfo.currencyCode)
-                pricePerNightObservable.onNext(dailyPrice.getFormattedMoney(Money.F_NO_DECIMAL))
-            }
-
-            userRatingObservable.onNext(hotel.hotelGuestRating.toString())
-
-            if(hotel.totalReviews > 0) {
-                numberOfReviewsObservable.onNext(context.resources.getQuantityString(R.plurals.hotel_number_of_reviews, hotel.totalReviews, hotel.totalReviews))
-            } else {
-                ratingContainerObservable.onNext(Unit)
-            }
-            hotelLatLngObservable.onNext(doubleArrayOf(hotel.latitude, hotel.longitude))
-
-            var discountPercentage : Int? = hotel.lowRateInfo?.discountPercent?.toInt()
-            discountPercentageObservable.onNext(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
-                    .put("discount", discountPercentage ?: 0).format().toString())
-            hasDiscountPercentageObservable.onNext(discountPercentage ?: 0 < 0)
-            hasVipAccessObservable.onNext(hotel.isVipAccess)
-            promoMessageObservable.onNext(getPromoText(hotel))
-            strikeThroughPriceObservable.onNext(priceFormatter(hotel, true))
-        }
-
         paramsSubject.subscribe { params ->
             searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
                     DateUtils.localDateToMMMd(params.checkIn)).put("enddate",
@@ -321,10 +318,11 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     }
 
-    private fun getPromoText(hotel: Hotel):String {
+    private fun getPromoText(hotel: HotelOffersResponse.HotelRoomResponse):String {
         if (hotel.isDiscountRestrictedToCurrentSourceType) return context.getResources().getString(R.string.mobile_exclusive)
         else if (hotel.isSameDayDRR) return context.getResources().getString(R.string.tonight_only)
         else return ""
+
         }
 
 }

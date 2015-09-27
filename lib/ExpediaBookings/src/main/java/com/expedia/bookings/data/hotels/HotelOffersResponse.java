@@ -10,13 +10,13 @@ public class HotelOffersResponse {
 	public String airAttachExpirationTimeSeconds;
 	public String checkInDate;
 	public String checkOutDate;
-	public Boolean deskTopOverrideNumber;
+	public boolean deskTopOverrideNumber;
 	public String firstHotelOverview;
 	public String hotelAddress;
 	public List<HotelAmenities> hotelAmenities;
 	public String hotelCity;
 	public String hotelCountry;
-	public Double hotelGuestRating;
+	public double hotelGuestRating;
 	public String hotelId;
 	public String hotelName;
 	public List<HotelRoomResponse> hotelRoomResponse;
@@ -25,12 +25,15 @@ public class HotelOffersResponse {
 	public HotelText hotelPoliciesText;
 	public HotelText hotelFeesText;
 
-	public Double hotelStarRating;
+	public double latitude;
+	public double longitude;
 
-	public Integer totalReviews;
-	public Integer totalRecommendations;
+	public double hotelStarRating;
+
+	public int totalReviews;
+	public int totalRecommendations;
 	public String telesalesNumber;
-	public Boolean isVipAccess;
+	public boolean isVipAccess;
 
 	public List<Photos> photos;
 	public HotelText hotelRenovationText;
@@ -49,13 +52,13 @@ public class HotelOffersResponse {
 		public List<BedTypes> bedTypes;
 		public String cancellationPolicy;
 		public String currentAllotment;
-		public Boolean hasFreeCancellation;
+		public boolean hasFreeCancellation;
 		public String freeCancellationWindowDate;
 		public HotelRoomResponse payLaterOffer;
-		public Boolean immediateChargeRequired;
-		public Boolean nonRefundable;
+		public boolean immediateChargeRequired;
+		public boolean nonRefundable;
 		public String productKey;
-		public Boolean rateChange;
+		public boolean rateChange;
 		public String rateDescription;
 		public RateInfo rateInfo;
 		public String roomTypeDescription;
@@ -63,6 +66,8 @@ public class HotelOffersResponse {
 		public String roomThumbnailUrl;
 		public List<ValueAdds> valueAdds;
 		public String supplierType;
+		public boolean isDiscountRestrictedToCurrentSourceType;
+		public boolean isSameDayDRR;
 
 		public boolean isMerchant() {
 			return Strings.equals(supplierType, "E") || Strings.equals(supplierType, "MERCHANT");

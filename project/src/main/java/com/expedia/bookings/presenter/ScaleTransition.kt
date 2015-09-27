@@ -14,11 +14,15 @@ public class ScaleTransition(val presenter: Presenter, val left: Class<*>, val r
         rightView = getRightChildView()
         leftView = getLeftChildView()
 
+        leftView.translationX = 0f;
+        leftView.translationY = 0f;
         leftView.setAlpha(if (forward) 1f else 0f)
         leftView.setVisibility(View.VISIBLE)
         leftView.setScaleX(if (forward) 1f else xScale)
         leftView.setScaleY(if (forward) 1f else yScale)
 
+        rightView.translationX = 0f;
+        rightView.translationY = 0f;
         rightView.setAlpha(if (forward) 0f else 1f)
         rightView.setVisibility(View.VISIBLE)
         rightView.setScaleX(if (forward) xScale else 1f)
@@ -40,13 +44,17 @@ public class ScaleTransition(val presenter: Presenter, val left: Class<*>, val r
     }
 
     override fun finalizeTransition(forward: Boolean) {
-        leftView.setAlpha(if (forward) 0f else 1f)
-        leftView.setVisibility(if (forward) View.INVISIBLE else View.VISIBLE)
+        leftView.translationX = 0f;
+        leftView.translationY = 0f;
+        leftView.setAlpha(1f)
+        leftView.setVisibility(if (forward) View.GONE else View.VISIBLE)
         leftView.setScaleX(1f)
         leftView.setScaleY(1f)
 
-        rightView.setAlpha(if (forward) 1f else 0f)
-        rightView.setVisibility(if (forward) View.VISIBLE else View.INVISIBLE)
+        rightView.translationX = 0f;
+        rightView.translationY = 0f;
+        rightView.setAlpha(1f)
+        rightView.setVisibility(if (forward) View.VISIBLE else View.GONE)
         rightView.setScaleX(1f)
         rightView.setScaleY(1f)
     }

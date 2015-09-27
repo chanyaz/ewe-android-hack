@@ -9,6 +9,7 @@ public class SuggestionV4 {
 	public String type;
 	public RegionNames regionNames;
 	public HierarchyInfo hierarchyInfo;
+	public String hotelId;
 
 	public LatLng coordinates;
 

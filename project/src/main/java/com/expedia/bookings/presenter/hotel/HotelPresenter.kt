@@ -58,6 +58,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         super<Presenter>.onFinishInflate()
 
         addTransition(searchToResults)
+        addTransition(searchToDetails)
         addTransition(resultsToDetail)
         addTransition(detailsToCheckout)
         addTransition(checkoutToConfirmation)
@@ -68,7 +69,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         searchPresenter.viewmodel.searchParamsObservable.subscribe(searchObserver)
 
         resultsPresenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices)
-        searchPresenter.viewmodel.searchParamsObservable.subscribe(resultsPresenter.viewmodel.paramsSubject)
         resultsPresenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
 
         RoomSelected.observer = selectedRoomObserver
@@ -152,6 +152,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
+    private val searchToDetails = ScaleTransition(this, HotelSearchPresenter::class.java, HotelDetailPresenter::class.java)
     private val detailsToCheckout = ScaleTransition(this, HotelDetailPresenter::class.java, HotelCheckoutPresenter::class.java)
     private val checkoutToConfirmation = ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java)
     private val detailsToReview = ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsPresenter::class.java)
@@ -159,10 +160,17 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
         hotelSearchParams = params
         checkoutPresenter.hotelCheckoutWidget.setSearchParams(params)
-        show(resultsPresenter)
+        if (params.suggestion.hotelId != null) {
+            // Hotel name search - go straight to details
+            showDetails(params.suggestion.hotelId)
+        } else {
+            // Hotel region search
+            show(resultsPresenter)
+            resultsPresenter.viewmodel.paramsSubject.onNext(params)
+        }
     }
 
-    val reviewsObserver: Observer<Hotel> = endlessObserver { hotel ->
+    val reviewsObserver: Observer<HotelOffersResponse> = endlessObserver { hotel ->
         reviewsPresenter.viewModel = HotelReviewsViewModel(getContext())
         reviewsPresenter.viewModel.hotelObserver.onNext(hotel)
         show(reviewsPresenter)
@@ -185,6 +193,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     val downloadListener: Observer<HotelOffersResponse> = endlessObserver { response ->
         loadingOverlay.animate(false)
+        loadingOverlay.visibility = View.GONE
         detailPresenter.hotelDetailView.viewmodel.hotelOffersResponse = response
         detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(response)
         detailPresenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
@@ -195,16 +204,18 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
-        loadingOverlay.setVisibility(View.VISIBLE)
+        showDetails(hotel.hotelId)
+    }
+
+    private fun showDetails(hotelId: String) {
+        loadingOverlay.visibility = View.VISIBLE
         loadingOverlay.animate(true)
-        if (hotel.isSponsoredListing) AdImpressionTracking.trackAdClickOrImpression(getContext(), hotel.clickTrackingUrl, null)
         detailPresenter.hotelDetailView.viewmodel = HotelDetailViewModel(getContext(), hotelServices)
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(hotelSearchParams)
-        detailPresenter.hotelDetailView.viewmodel.hotelSelectedSubject.onNext(hotel)
 
         val subject = PublishSubject.create<HotelOffersResponse>()
         subject.subscribe { downloadListener.onNext(it) }
-        hotelServices.details(hotelSearchParams, hotel.hotelId, subject)
+        hotelServices.details(hotelSearchParams, hotelId, subject)
     }
 
 }

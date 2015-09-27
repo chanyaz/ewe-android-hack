@@ -201,6 +201,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         override fun onClick(view: View) {
             val hotel: Hotel = getHotel(adapterPosition)
             hotelSelectedSubject.onNext(hotel)
+            if (hotel.isSponsoredListing) AdImpressionTracking.trackAdClickOrImpression(itemView.context, hotel.clickTrackingUrl, null)
         }
 
         override fun onBitmapLoaded() {
