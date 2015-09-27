@@ -48,6 +48,9 @@ public class HotelFilterTest {
         vm.twoStarFilterObserver.onNext(Unit)
 
         Assert.assertEquals(true, vm.userFilterChoices.hotelStarRating.two)
+
+        vm.oneStarFilterObserver.onNext(Unit)
+        Assert.assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
     }
 
     @Test
@@ -58,20 +61,54 @@ public class HotelFilterTest {
     }
 
     @Test
-    fun clearStar() {
+    fun clearFilters() {
         vm.userFilterChoices.hotelStarRating.one = true
         vm.oneStarFilterObserver.onNext(Unit)
 
+        vm.vipFilteredObserver.onNext(true)
         vm.clearObservable.onNext(Unit)
+
+        var region = "Civic Center"
+        vm.originalResponse = fakeFilteredResponse()
+        vm.selectNeighborhood.onNext(region)
+
+        vm.clearObservable.onNext(Unit)
+
         Assert.assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
+        Assert.assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
+        assertTrue(vm.filteredResponse.hotelList.size() == vm.originalResponse!!.hotelList.size())
+
     }
 
     @Test
-    fun filterNeighborhood(){
+    fun filterResultsCount(){
+        vm.originalResponse = fakeFilteredResponse()
+        var str = "Hil"
+        vm.filterHotelNameObserver.onNext(str)
+        assertTrue(vm.filteredResponse.hotelList.size() == 1)
+
+        str = ""
+        vm.filterHotelNameObserver.onNext(str)
+        assertTrue(vm.filteredResponse.hotelList.size() == 2)
+
+        vm.userFilterChoices.hotelStarRating.three = false
+        vm.threeStarFilterObserver.onNext(Unit)
+        assertTrue(vm.filteredResponse.hotelList.size() == 1)
+
+        vm.clearObservable.onNext(Unit)
+        vm.vipFilteredObserver.onNext(true)
+        assertTrue(vm.filteredResponse.hotelList.size() == 1)
+
+    }
+
+
+    @Test
+    fun filterNeighborhood() {
         var region = "Civic Center"
         vm.originalResponse = fakeFilteredResponse()
         vm.selectNeighborhood.onNext(region)
         Assert.assertEquals(region, vm.filteredResponse.hotelList.elementAt(0).locationDescription)
+        assertTrue(vm.filteredResponse.hotelList.size() == 1)
 
         vm.selectNeighborhood.onNext(region)
         assertTrue(vm.filteredResponse.hotelList.size() == vm.originalResponse!!.hotelList.size())
@@ -135,7 +172,7 @@ public class HotelFilterTest {
         filteredResponse.hotelList = ArrayList<Hotel>()
 
         val  hotel1 = Hotel()
-        hotel1.localizedName = ""
+        hotel1.localizedName = "Hilton"
         hotel1.lowRateInfo = HotelRate()
         hotel1.lowRateInfo.total = 100.0f
         hotel1.lowRateInfo.currencyCode = "USD"
@@ -143,8 +180,12 @@ public class HotelFilterTest {
         hotel1.hotelGuestRating = 4.5f
         hotel1.proximityDistanceInMiles = 1.2
         hotel1.locationDescription = "Civic Center"
+        hotel1.hotelStarRating = 5f
+        hotel1.isVipAccess = true
+
 
         val hotel2 = Hotel()
+        hotel2.localizedName = "Double Tree"
         hotel2.lowRateInfo = HotelRate()
         hotel2.lowRateInfo.total = 200.0f
         hotel2.lowRateInfo.currencyCode = "USD"
@@ -152,6 +193,8 @@ public class HotelFilterTest {
         hotel2.hotelGuestRating = 5f
         hotel2.proximityDistanceInMiles = 2.0
         hotel2.locationDescription = "Fisherman's Wharf"
+        hotel2.hotelStarRating = 3.5f
+        hotel2.isVipAccess = false
 
         filteredResponse.hotelList.add(hotel1)
         filteredResponse.hotelList.add(hotel2)
