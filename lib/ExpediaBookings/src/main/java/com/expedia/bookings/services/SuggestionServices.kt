@@ -26,7 +26,7 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
         }
     }
 
-    val suggestApi: SuggestApi by Delegates.lazy {
+    val suggestApi: SuggestApi by lazy {
         val gson = GsonBuilder().registerTypeAdapter(SuggestionResponse::class.java, SuggestionResponse()).create()
 
         val adapter = RestAdapter.Builder()

@@ -58,9 +58,7 @@ public fun RadioGroup.subscribeOnCheckedChange(observer: Observer<Int>) {
 }
 
 public fun RadioGroup.unsubscribeOnCheckedChange() {
-    this.setOnCheckedChangeListener { radioGroup, checkedId ->
-        null
-    }
+    this.setOnCheckedChangeListener(null)
 }
 
 public fun CheckBox.subscribeOnCheckChanged(observer: Observer<Boolean>) {

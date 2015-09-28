@@ -18,7 +18,6 @@ import rx.Subscription
 import rx.exceptions.OnErrorNotImplementedException
 import java.util.ArrayList
 import java.util.HashMap
-import kotlin.platform.platformStatic
 import kotlin.properties.Delegates
 
 public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor,
@@ -26,7 +25,7 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
 
     private var cachedCarSearchResponse = CarSearchResponse()
 
-    val carApi: CarApi by Delegates.lazy{
+    val carApi: CarApi by lazy {
 
         val gson = generateGson()
 
@@ -183,7 +182,7 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
     
     public companion object {
 
-        platformStatic public fun generateGson(): Gson {
+        JvmStatic public fun generateGson(): Gson {
             return GsonBuilder().registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
                     .registerTypeAdapter(RateTerm::class.java, RateTermDeserializer()).create()
         }

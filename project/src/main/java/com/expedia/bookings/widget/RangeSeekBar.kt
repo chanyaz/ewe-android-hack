@@ -377,7 +377,8 @@ constructor(public val absoluteMinValue: Int, public val absoluteMaxValue: Int, 
     /**
      * Ensures correct size of the widget.
      */
-    synchronized override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+    @Synchronized
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         var width = 200
         if (View.MeasureSpec.UNSPECIFIED != View.MeasureSpec.getMode(widthMeasureSpec)) {
             width = View.MeasureSpec.getSize(widthMeasureSpec)
@@ -392,7 +393,8 @@ constructor(public val absoluteMinValue: Int, public val absoluteMaxValue: Int, 
     /**
      * Draws the widget on the given canvas.
      */
-    synchronized override fun onDraw(canvas: Canvas) {
+    @Synchronized
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         // draw seek bar background line
@@ -522,7 +524,7 @@ constructor(public val absoluteMinValue: Int, public val absoluteMaxValue: Int, 
      * *
      * @return
      */
-    SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     private fun normalizedToValue(normalized: Double): T {
         return numberType.toNumber(absoluteMinValuePrim + normalized * (absoluteMaxValuePrim - absoluteMinValuePrim)) as T
     }
