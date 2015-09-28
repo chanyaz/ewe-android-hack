@@ -45,6 +45,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     var viewmodel: HotelCreateTripViewModel by notNullAndObservable {
         viewmodel.tripResponseObservable.subscribe(createTripResponseListener)
     }
+    var haveAlreadyShownAcceptTermsWidget = false
 
     val hotelServices: HotelServices by lazy() {
         Ui.getApplication(getContext()).hotelComponent().hotelServices()
@@ -78,9 +79,12 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
 
     fun bind() {
         mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details))
-        paymentInfoCardView.setCreditCardRequired(true)
         mainContactInfoCardView.setExpanded(false)
+
+        paymentInfoCardView.setCreditCardRequired(true)
         paymentInfoCardView.setExpanded(false)
+        clearCCNumber()
+
         couponCardView.setExpanded(false)
         slideWidget.resetSlider()
         slideToContainer.setVisibility(View.INVISIBLE)
@@ -164,7 +168,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     override fun checkoutFormWasUpdated() {
         if (mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete()) {
 
-            if (PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox()) {
+            if (PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox() && !haveAlreadyShownAcceptTermsWidget) {
                 acceptTermsWidget.vm.acceptedTermsObservable.subscribe(object : Observer<Unit> {
                     override fun onCompleted() { }
 
@@ -177,6 +181,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
                         animateInSlideToPurchase(true)
                     }
                 })
+                haveAlreadyShownAcceptTermsWidget = true
                 acceptTermsWidget.setVisibility(View.VISIBLE)
             } else {
                 animateInSlideToPurchase(true)
