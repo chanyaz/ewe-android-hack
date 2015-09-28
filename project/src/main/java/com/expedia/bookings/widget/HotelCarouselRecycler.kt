@@ -1,18 +1,14 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
-import com.expedia.bookings.presenter.hotel.HotelResultsPresenter
-import com.expedia.bookings.widget.createHotelMarker
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import com.mobiata.android.util.AndroidUtils
 import rx.subjects.PublishSubject
-import java.util.ArrayList
-import kotlin.properties.Delegates
 
 public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 
@@ -45,11 +41,20 @@ public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : Recy
         sortedHotelMarkerList[lastDisplayedItemPosition] = createHotelMarker(getResources(), sortedHotelList.get(lastDisplayedItemPosition).hotel, false)
         sortedHotelMarkerList[position] = createHotelMarker(getResources(), sortedHotelList.get(position).hotel, true)
 
-        post {
-            (0..sortedHotelList.size() - 1).forEach { sortedHotelList.elementAt(it).marker.setIcon(sortedHotelMarkerList.elementAt(it)) }
-        }
+        resetMarkersDelayed();
 
         lastDisplayedItemPosition = position
         return true
+    }
+
+    private fun resetMarkersDelayed() {
+        val mainHandler = Handler(context.mainLooper);
+        val resetMarkersRunnable = Runnable() {
+            @Override
+            fun run() {
+                (0..sortedHotelList.size() - 1).forEach { sortedHotelList.elementAt(it).marker.setIcon(sortedHotelMarkerList.elementAt(it)) }
+            }
+        };
+        mainHandler.post(resetMarkersRunnable);
     }
 }
