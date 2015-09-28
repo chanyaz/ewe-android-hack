@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.text.Html
 import android.text.style.RelativeSizeSpan
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.utils.DateUtils
@@ -13,10 +15,12 @@ import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.time.util.JodaUtils
+import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import kotlin.properties.Delegates
 
 class HotelSearchViewModel(val context: Context) {
     private val paramsBuilder = HotelSearchParams.Builder()
@@ -25,7 +29,7 @@ class HotelSearchViewModel(val context: Context) {
     val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
     val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
     val dateTextObservable = PublishSubject.create<CharSequence>()
-    val calendarTooltipTextObservable = PublishSubject.create<Pair<String,String>>()
+    val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
     val locationTextObservable = PublishSubject.create<String>()
     val searchButtonObservable = PublishSubject.create<Boolean>()
     val errorNoOriginObservable = PublishSubject.create<Unit>()
@@ -60,7 +64,7 @@ class HotelSearchViewModel(val context: Context) {
         requiredSearchParamsObserver.onNext(Unit)
     }
 
-    var requiredSearchParamsObserver = endlessObserver<Unit>{
+    var requiredSearchParamsObserver = endlessObserver<Unit> {
         searchButtonObservable.onNext(paramsBuilder.areRequiredParamsFilled())
     }
 
@@ -221,4 +225,72 @@ public class HotelTravelerPickerViewModel(val context: Context) {
         travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults, (0..hotelTravelerParams.children.size() - 1).map { childAges[it] }))
     }
 
+}
+
+public class HotelErrorViewModel(private val context: Context) {
+    // Inputs
+    val apiErrorObserver = PublishSubject.create<ApiError>()
+    val paramsSubject = PublishSubject.create<HotelSearchParams>()
+    var error: ApiError by Delegates.notNull()
+
+    // Outputs
+    val imageObservable = BehaviorSubject.create<Int>()
+    val buttonTextObservable = BehaviorSubject.create<String>()
+    val errorMessageObservable = BehaviorSubject.create<String>()
+    val titleObservable = BehaviorSubject.create<String>()
+    val subTitleObservable = BehaviorSubject.create<String>()
+    val actionObservable = BehaviorSubject.create<Unit>()
+
+    // Handle different errors
+    val searchErrorObservable = BehaviorSubject.create<Unit>()
+    val defaultErrorObservable = BehaviorSubject.create<Unit>()
+
+    init {
+        actionObservable.subscribe {
+            when (error.errorCode) {
+                ApiError.Code.HOTEL_SEARCH_NO_RESULTS -> {
+                    searchErrorObservable.onNext(Unit)
+                } else -> {
+                    defaultErrorObservable.onNext(Unit)
+                }
+            }
+        }
+
+        apiErrorObserver.subscribe {
+            error = it
+            when (it.errorCode) {
+                ApiError.Code.HOTEL_SEARCH_NO_RESULTS -> {
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.getString(R.string.error_car_search_message))
+                    buttonTextObservable.onNext(context.getString(R.string.edit_search))
+                }
+                else -> {
+                    makeDefaultError()
+                }
+
+            }
+        }
+
+        paramsSubject.subscribe(endlessObserver { params ->
+            titleObservable.onNext(params.suggestion.regionNames.shortName)
+
+            subTitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
+                    .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
+                    .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
+                    .put("guests", context.resources.getQuantityString(R.plurals.number_of_guests, params.children.size() + 1, params.children.size() + 1))
+                    .format()
+                    .toString())
+        })
+
+    }
+
+    private fun makeDefaultError() {
+        imageObservable.onNext(R.drawable.error_default)
+        val message = Phrase.from(context, R.string.error_server_TEMPLATE)
+                .put("brand", BuildConfig.brand)
+                .format()
+                .toString()
+        errorMessageObservable.onNext(message)
+        buttonTextObservable.onNext(context.getString(R.string.retry))
+    }
 }

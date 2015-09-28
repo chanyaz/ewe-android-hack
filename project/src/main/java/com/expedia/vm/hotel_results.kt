@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import android.content.res.Resources
 import com.expedia.bookings.R
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -24,6 +25,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
     private val hotelDownloadsObservable = PublishSubject.create<Observable<HotelSearchResponse>>()
     private val hotelDownloadResultsObservable = Observable.concat(hotelDownloadsObservable)
     val hotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
+    val errorObservable = PublishSubject.create<ApiError>()
 
     val titleSubject = PublishSubject.create<String>()
     val subtitleSubject = PublishSubject.create<CharSequence>()
@@ -42,7 +44,14 @@ public class HotelResultsViewModel(private val context: Context, private val hot
         })
 
         hotelDownloadResultsObservable.subscribe {
-            hotelResultsObservable.onNext(it)
+            if (it.hasErrors()) {
+                errorObservable.onNext(it.firstError)
+            } else if (it.hotelList.isEmpty()) {
+                val error = ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS)
+                errorObservable.onNext(error)
+            } else {
+                hotelResultsObservable.onNext(it)
+            }
         }
 
         hotelResultsObservable.subscribe {

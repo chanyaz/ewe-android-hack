@@ -4,34 +4,29 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import butterknife.InjectView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.presenter.lx.LXDetailsPresenter
-import com.expedia.bookings.presenter.lx.LXResultsPresenter
 import com.expedia.bookings.services.HotelServices
-import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.HotelErrorPresenter
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.RoomSelected
 import com.expedia.util.endlessObserver
-import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelDetailViewModel
+import com.expedia.vm.HotelErrorViewModel
 import com.expedia.vm.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
-import com.expedia.vm.HotelConfirmationViewModel
 import rx.Observer
+import rx.android.schedulers.AndroidSchedulers
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -42,6 +37,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val searchPresenter: HotelSearchPresenter by bindView(R.id.widget_hotel_params)
+    val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
     val resultsPresenter: HotelResultsPresenter by bindView(R.id.widget_hotel_results)
     val detailPresenter: HotelDetailPresenter by bindView(R.id.widget_hotel_detail)
     val checkoutPresenter: HotelCheckoutPresenter by bindView(R.id.hotel_checkout_presenter)
@@ -63,13 +59,21 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(detailsToCheckout)
         addTransition(checkoutToConfirmation)
         addTransition(detailsToReview)
+        addTransition(resultsToError)
+        addTransition(searchToError)
         addDefaultTransition(defaultTransition)
         show(searchPresenter)
         searchPresenter.viewmodel = HotelSearchViewModel(getContext())
         searchPresenter.viewmodel.searchParamsObservable.subscribe(searchObserver)
 
+        errorPresenter.viewmodel = HotelErrorViewModel(context)
+        errorPresenter.viewmodel.searchErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK) }
+        errorPresenter.viewmodel.defaultErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK) }
+
         resultsPresenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices)
         resultsPresenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
+        resultsPresenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
+        resultsPresenter.viewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
 
         RoomSelected.observer = selectedRoomObserver
 
@@ -152,13 +156,39 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
+    private val searchToError = object : Presenter.Transition(HotelSearchPresenter::class.java.getName(), HotelErrorPresenter::class.java.getName(), DecelerateInterpolator(), ANIMATION_DURATION) {
+
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            searchPresenter.setVisibility(View.VISIBLE)
+            errorPresenter.setVisibility(View.VISIBLE)
+            searchPresenter.animationStart(!forward)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            searchPresenter.animationUpdate(f, !forward)
+            errorPresenter.animationUpdate(f, !forward)
+        }
+
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            searchPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
+            errorPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
+            searchPresenter.animationFinalize()
+            errorPresenter.animationFinalize()
+        }
+    }
+
     private val searchToDetails = ScaleTransition(this, HotelSearchPresenter::class.java, HotelDetailPresenter::class.java)
+    private val resultsToError = ScaleTransition(this, HotelResultsPresenter::class.java, HotelErrorPresenter::class.java)
     private val detailsToCheckout = ScaleTransition(this, HotelDetailPresenter::class.java, HotelCheckoutPresenter::class.java)
     private val checkoutToConfirmation = ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java)
     private val detailsToReview = ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsPresenter::class.java)
 
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
         hotelSearchParams = params
+        errorPresenter.viewmodel.paramsSubject.onNext(params)
         checkoutPresenter.hotelCheckoutWidget.setSearchParams(params)
         if (params.suggestion.hotelId != null) {
             // Hotel name search - go straight to details

@@ -12,6 +12,13 @@
         android:background="#EEEEEE"
         android:visibility="gone"/>
 
+    <com.expedia.bookings.widget.HotelErrorPresenter
+        android:id="@+id/widget_hotel_errors"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EEEEEE"
+        android:visibility="gone"/>
+
     <com.expedia.bookings.presenter.hotel.HotelSearchPresenter
         android:id="@+id/widget_hotel_params"
         android:layout_width="match_parent"

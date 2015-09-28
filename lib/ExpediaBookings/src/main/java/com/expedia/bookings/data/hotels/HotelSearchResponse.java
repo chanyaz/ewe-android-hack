@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HotelSearchResponse {
+import com.expedia.bookings.data.cars.BaseApiResponse;
+
+public class HotelSearchResponse extends BaseApiResponse {
 	public String pageViewBeaconPixelUrl;
 	public List<Hotel> hotelList;
 	public List<Neighborhood> allNeighborhoodsInSearchRegion;
