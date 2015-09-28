@@ -18,7 +18,7 @@ public class HotelsV2DataUtil {
 
             if (Strings.isNotEmpty(hotelSearchParamsJSON) ) {
                 try {
-                    return gson.fromJson(hotelSearchParamsJSON, javaClass<HotelSearchParams>())
+                    return gson.fromJson(hotelSearchParamsJSON, HotelSearchParams::class.java)
                 } catch (jse: JsonSyntaxException) {
                     throw UnsupportedOperationException()
                 }
@@ -48,7 +48,7 @@ public class HotelsV2DataUtil {
 
         public fun generateGson(): Gson {
             val PATTERN = "yyyy-MM-dd"
-            return GsonBuilder().registerTypeAdapter(javaClass<LocalDate>(), LocalDateTypeAdapter(PATTERN)).create()
+            return GsonBuilder().registerTypeAdapter(LocalDate::class.java, LocalDateTypeAdapter(PATTERN)).create()
         }
 
 

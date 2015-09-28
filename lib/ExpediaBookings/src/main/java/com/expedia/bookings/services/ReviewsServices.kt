@@ -21,7 +21,7 @@ import kotlin.properties.Delegates
 
 public class ReviewsServices(endPoint: String, client: OkHttpClient, private val observeOn: Scheduler, private val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
-    val reviewsApi: ReviewsApi by Delegates.lazy {
+    val reviewsApi: ReviewsApi by lazy {
         val acceptJsonInterceptor: RequestInterceptor = object : RequestInterceptor {
             override fun intercept(request: RequestInterceptor.RequestFacade) {
                 request.addHeader("Accept", "application/json")
@@ -31,13 +31,13 @@ public class ReviewsServices(endPoint: String, client: OkHttpClient, private val
         val gson = GsonBuilder()
                 .registerTypeAdapter(DateTime::class.java, object : TypeAdapter<DateTime>() {
 
-                    throws(IOException::class)
+                    @Throws(IOException::class)
                     override fun write(out: JsonWriter, value: DateTime) {
                         out.beginObject()
                         out.name(value.toString(ISODateTimeFormat.date()))
                     }
 
-                    throws(IOException::class)
+                    @Throws(IOException::class)
                     override fun read(input: JsonReader): DateTime? {
                         return DateTime.parse(input.nextString())
                     }

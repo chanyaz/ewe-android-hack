@@ -26,7 +26,7 @@ import kotlin.properties.Delegates
 
 public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
-	val hotelApi: HotelApi by Delegates.lazy {
+	val hotelApi: HotelApi by lazy {
 		val gson = GsonBuilder()
 			.registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
 			.create()
