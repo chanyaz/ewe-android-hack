@@ -16,7 +16,6 @@ import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.vm.HotelTravelerParams
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
-import kotlin.properties.Delegates
 
 public class HotelActivity : AppCompatActivity() {
 
