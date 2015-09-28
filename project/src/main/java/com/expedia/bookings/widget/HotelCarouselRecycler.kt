@@ -13,8 +13,7 @@ import rx.subjects.PublishSubject
 public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 
     val mapSubject = PublishSubject.create<Marker>()
-    val sortedHotelList by lazy { (getAdapter() as HotelMarkerPreviewAdapter).sortedHotelList }
-    val sortedHotelMarkerList by lazy { Array(sortedHotelList.size(), {createHotelMarker(getResources(), sortedHotelList.elementAt(it).hotel, false)}) }
+    val sortedHotelMarkerDistanceList by lazy { (adapter as HotelMarkerPreviewAdapter).sortedHotelMarkerDistanceList }
     var lastDisplayedItemPosition:Int = 0
 
     val layoutManager = object: LinearLayoutManager(getContext()) {
@@ -24,7 +23,7 @@ public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : Recy
     }
 
     init {
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL)
+        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         setLayoutManager(layoutManager)
     }
 
@@ -36,12 +35,12 @@ public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : Recy
             smoothScrollBy(nextView.getLeft(), 0)
         }
 
-        mapSubject.onNext(sortedHotelList.get(position).marker)
+        mapSubject.onNext(sortedHotelMarkerDistanceList.get(position).marker)
 
-        sortedHotelMarkerList[lastDisplayedItemPosition] = createHotelMarker(getResources(), sortedHotelList.get(lastDisplayedItemPosition).hotel, false)
-        sortedHotelMarkerList[position] = createHotelMarker(getResources(), sortedHotelList.get(position).hotel, true)
+        sortedHotelMarkerDistanceList[lastDisplayedItemPosition].icon = createHotelMarkerIcon(getResources(), sortedHotelMarkerDistanceList.get(lastDisplayedItemPosition).hotel, false)
+        sortedHotelMarkerDistanceList[position].icon = createHotelMarkerIcon(getResources(), sortedHotelMarkerDistanceList.get(position).hotel, true)
 
-        resetMarkersDelayed();
+        resetMarkersDelayed()
 
         lastDisplayedItemPosition = position
         return true
@@ -52,7 +51,7 @@ public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : Recy
         val resetMarkersRunnable = Runnable() {
             @Override
             fun run() {
-                (0..sortedHotelList.size() - 1).forEach { sortedHotelList.elementAt(it).marker.setIcon(sortedHotelMarkerList.elementAt(it)) }
+                sortedHotelMarkerDistanceList.forEach { it.marker.setIcon(it.icon) }
             }
         };
         mainHandler.post(resetMarkersRunnable);
