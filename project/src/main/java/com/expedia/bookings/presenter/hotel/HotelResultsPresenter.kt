@@ -213,47 +213,42 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         val allHotelsBox = LatLngBounds.Builder()
 
-        var skipFirstHotel = true
-
         for (hotel in response.hotelList) {
-            if (!skipFirstHotel) {
-                // Add markers for all hotels
-                val marker: Marker = map.addMarker(MarkerOptions()
-                        .position(LatLng(hotel.latitude, hotel.longitude))
-                        .icon(createHotelMarker(resources, hotel, false)))
-                markerList.add(marker)
+            // Add markers for all hotels
+            val marker: Marker = map.addMarker(MarkerOptions()
+                    .position(LatLng(hotel.latitude, hotel.longitude))
+                    .icon(createHotelMarker(getResources(), hotel, false)))
+            markerList.add(marker)
 
-                val markerDistance = MarkerDistance(marker, -1f, hotel)
-                mHotelList.add(markerDistance)
+            val markerDistance = MarkerDistance(marker, -1f, hotel)
+            mHotelList.add(markerDistance)
 
-                allHotelsBox.include(LatLng(hotel.latitude, hotel.longitude))
+            allHotelsBox.include(LatLng(hotel.latitude, hotel.longitude))
 
-                // Determine which neighbourhood is closest to current location
-                if (hotel.locationId != null) {
-                    var a = Location("a")
-                    a.latitude = currentLat
-                    a.longitude = currentLong
+            // Determine which neighbourhood is closest to current location
+            if (hotel.locationId != null) {
+                var a = Location("a")
+                a.setLatitude(currentLat)
+                a.setLongitude(currentLong)
 
-                    var b = Location("b")
-                    b.latitude = hotel.latitude
-                    b.longitude = hotel.longitude
+                var b = Location("b")
+                b.setLatitude(hotel.latitude)
+                b.setLongitude(hotel.longitude)
 
-                    var distanceBetween = a.distanceTo(b)
+                var distanceBetween = a.distanceTo(b)
 
-                    if (distanceBetween <= closestToCurrentLocationVal) {
-                        closestToCurrentLocationVal = distanceBetween
-                        closestHotel = hotel
-                    }
+                if (distanceBetween <= closestToCurrentLocationVal) {
+                    closestToCurrentLocationVal = distanceBetween
+                    closestHotel = hotel
                 }
             }
 
-            skipFirstHotel = false
         }
 
         if (mHotelList.size() > 0) {
             var mostInterestingNeighborhood: HotelSearchResponse.Neighborhood?
 
-            var anyPointsIncludedInAllHotelsBox = if (skipFirstHotel) (response.hotelList.size() > 1) else (response.hotelList.size() > 0)
+            var anyPointsIncludedInAllHotelsBox = (response.hotelList.size() > 0)
             if (anyPointsIncludedInAllHotelsBox && allHotelsBox.build().contains(LatLng(currentLat, currentLong)) && closestHotel != null && closestHotel.locationId != null) {
                 mostInterestingNeighborhood = response.neighborhoodsMap.get(closestHotel.locationId)
             } else {
@@ -272,6 +267,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
 
             var closestMarker: MarkerDistance? = null
+            if (!mHotelList.isEmpty()) {
+                closestMarker = mHotelList.get(0)
+            }
+
             for (item in mHotelList) {
                 var a = Location("a")
                 a.latitude = map.cameraPosition.target.latitude
@@ -305,7 +304,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val filterObserver: Observer<List<Hotel>> = endlessObserver {
-        if (filterView.viewmodel.filteredResponse.hotelList != null && filterView.viewmodel.filteredResponse.hotelList.size() > 1) {
+        if (filterView.viewmodel.filteredResponse.hotelList != null && filterView.viewmodel.filteredResponse.hotelList.size() > 0) {
+            adapter.resultsSubject.onNext(filterView.viewmodel.filteredResponse)
             if (previousWasList) {
                 show(ResultsList())
             } else {
@@ -317,6 +317,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 renderMarkers(map, response, true)
             }
         } else if (it == filterView.viewmodel.originalResponse?.hotelList) {
+            adapter.resultsSubject.onNext(filterView.viewmodel.originalResponse!!)
             if (previousWasList) {
                 show(ResultsList())
             } else {

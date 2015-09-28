@@ -22,12 +22,15 @@ import android.widget.TextView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeOnTouch
+import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelFilterViewModel.Sort
 import rx.Observer
@@ -39,6 +42,7 @@ import kotlin.properties.Delegates
 public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
     val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
+    val filterVipContainer: View by bindView(R.id.filter_vip_container)
     val filterStarOne: RatingBar by bindView(R.id.filter_hotel_star_rating_one)
     val filterStarTwo: RatingBar by bindView(R.id.filter_hotel_star_rating_two)
     val filterStarThree: RatingBar by bindView(R.id.filter_hotel_star_rating_three)
@@ -66,10 +70,10 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val priceRangeBar : ViewGroup by bindView(R.id.price_range_bar)
     val neighborhoodContainer: LinearLayout by bindView(R.id.neighborhoods)
 
-    var subject: Observer<List<Hotel>> by Delegates.notNull()
+    var filterObserver: Observer<List<Hotel>> by Delegates.notNull()
 
-    fun subscribe(subject: Observer<List<Hotel>>) {
-        this.subject = subject
+    fun subscribe(filterObserver: Observer<List<Hotel>>) {
+        this.filterObserver = filterObserver
     }
     var viewmodel: HotelFilterViewModel by notNullAndObservable { vm ->
         val min = 20
@@ -83,18 +87,25 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         priceRangeBar.addView(hotelPriceRange);
 
         doneButton.subscribeOnClick(vm.doneObservable)
-        filterHotelVip.subscribeOnCheckChanged(vm.vipFilteredObserver)
-        filterStarOne.subscribeOnTouch(vm.oneStarFilterObserver)
-        filterStarTwo.subscribeOnTouch(vm.twoStarFilterObserver)
-        filterStarThree.subscribeOnTouch(vm.threeStarFilterObserver)
-        filterStarFour.subscribeOnTouch(vm.fourStarFilterObserver)
-        filterStarFive.subscribeOnTouch(vm.fiveStarFilterObserver)
+        filterVipContainer.setOnClickListener {
+            filterHotelVip.setChecked(!filterHotelVip.isChecked())
+            vm.vipFilteredObserver.onNext(filterHotelVip.isChecked())
+        }
+
+        ratingOneBackground.subscribeOnClick(vm.oneStarFilterObserver)
+        ratingTwoBackground.subscribeOnClick(vm.twoStarFilterObserver)
+        ratingThreeBackground.subscribeOnClick(vm.threeStarFilterObserver)
+        ratingFourBackground.subscribeOnClick(vm.fourStarFilterObserver)
+        ratingFiveBackground.subscribeOnClick(vm.fiveStarFilterObserver)
+
+
 
         dynamicFeedbackClearButton.subscribeOnClick(vm.clearObservable)
 
-        vm.filterObservable.subscribe(subject)
+        vm.filterObservable.subscribe(filterObserver)
 
         vm.finishClear.subscribe {
+            filterHotelName.setText(null)
             resetStars()
 
             filterHotelVip.setChecked(false)

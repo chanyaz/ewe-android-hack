@@ -31,10 +31,10 @@ public class HotelFilterTest {
     @Test
     fun filterVip() {
         vm.vipFilteredObserver.onNext(true)
-        Assert.assertEquals(true, vm.userFilterChoices.isVipAccess)
+        Assert.assertEquals(true, vm.userFilterChoices.isVipOnlyAccess)
 
         vm.vipFilteredObserver.onNext(false)
-        Assert.assertEquals(false, vm.userFilterChoices.isVipAccess)
+        Assert.assertEquals(false, vm.userFilterChoices.isVipOnlyAccess)
     }
 
     @Test

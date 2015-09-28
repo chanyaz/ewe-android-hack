@@ -26,7 +26,7 @@ class HotelFilterViewModel(val context: Context) {
     val finishClear = BehaviorSubject.create<Unit>()
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
-    data class UserFilterChoices(var userSort: Sort = Sort.POPULAR, var isVipAccess : Boolean? = null, var hotelStarRating : StarRatings = StarRatings(), var name : String? = null, var price : Float? = null, var neighborhoods : HashSet<String> = HashSet<String>())
+    data class UserFilterChoices(var userSort: Sort = Sort.POPULAR, var isVipOnlyAccess: Boolean = false, var hotelStarRating : StarRatings = StarRatings(), var name : String? = null, var price : Float? = null, var neighborhoods : HashSet<String> = HashSet<String>())
 
     val userFilterChoices = UserFilterChoices()
     val neighborhoodListObservable = PublishSubject.create<List<HotelSearchResponse.Neighborhood>>()
@@ -65,7 +65,7 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     fun resetUserFilters() {
-        userFilterChoices.isVipAccess = null
+        userFilterChoices.isVipOnlyAccess = false
         userFilterChoices.hotelStarRating = StarRatings()
         userFilterChoices.name = null
         userFilterChoices.price = null
@@ -79,8 +79,8 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     fun filterIsVipAccess(hotel : Hotel) : Boolean {
-        if (userFilterChoices.isVipAccess == null) return true
-        return userFilterChoices.isVipAccess == hotel.isVipAccess
+        if (userFilterChoices.isVipOnlyAccess == false) return true
+        return userFilterChoices.isVipOnlyAccess == hotel.isVipAccess
     }
 
     fun filterHotelStarRating(hotel: Hotel) : Boolean {
@@ -116,7 +116,7 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     val vipFilteredObserver: Observer<Boolean> = endlessObserver {
-        userFilterChoices.isVipAccess = it
+        userFilterChoices.isVipOnlyAccess = it
         handleFiltering()
     }
 
