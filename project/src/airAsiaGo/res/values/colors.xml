@@ -9,4 +9,5 @@
     <color name="login_text_aag">#333333</color>
     <color name="flight_trip_color_aag">#F8A424</color>
     <color name="flight_trip_price_aag">#E21E25</color>
+    <color name="action_bar_selected_tab_underline_color">#E21E25</color>
 </resources>
