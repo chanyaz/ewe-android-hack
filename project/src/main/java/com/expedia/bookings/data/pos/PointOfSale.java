@@ -1048,8 +1048,7 @@ public class PointOfSale {
 
 		//By default the POS Key represents Two Letter Country Code
 		//with provision of override via the "twoLetterCountryCode" element
-		pos.mTwoLetterCountryCode = data.optString("twoLetterCountryCode", posName.toLowerCase(Locale.ENGLISH));
-
+		pos.mTwoLetterCountryCode = (data.optString("twoLetterCountryCode", posName).toLowerCase(Locale.ENGLISH));
 		// Server access
 		pos.mUrl = data.optString("url", null);
 		pos.mTPID = data.optInt("TPID");

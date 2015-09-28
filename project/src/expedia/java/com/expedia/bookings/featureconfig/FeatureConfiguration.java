@@ -254,6 +254,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
+	public boolean isLOBChooserScreenEnabled() {
+		return true;
+	}
+
 	public String getAdXKey() {
 		return "f2d75b7e-ed66-4f96-cf66-870f4c6b723e";
 	}
@@ -281,5 +285,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean isTrackWithFlightTrackEnabled() {
 		return true;
+	}
+
+	@Override
+	public boolean isItinDisabled() {
+		return false;
 	}
 }
