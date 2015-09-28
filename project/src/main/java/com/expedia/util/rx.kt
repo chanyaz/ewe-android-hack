@@ -77,7 +77,7 @@ public fun <T : CharSequence> Observable<T>.subscribe(textview: TextView) {
     this.subscribe { text -> textview.setText(text) }
 }
 
-public fun Observable<Drawable?>.subscribe(imageView: ImageView) {
+public fun Observable<Drawable>.subscribe(imageView: ImageView) {
     this.subscribe { drawable -> imageView.setImageDrawable(drawable) }
 }
 

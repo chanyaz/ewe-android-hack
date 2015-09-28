@@ -24,16 +24,16 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val hotelPreviewRatingObservable = BehaviorSubject.create<Float>(hotel.hotelStarRating)
     val pricePerNightObservable = BehaviorSubject.create(priceFormatter(hotel.lowRateInfo, false))
 
-    val urgencyMessageObservable = BehaviorSubject.create(getMostApplicableUrgencyMessage(hotel, resources)).filter { it != null }
-    val urgencyMessageVisibilityObservable = urgencyMessageObservable.map { it!!.visibility }
-    val urgencyMessageBoxObservable = urgencyMessageObservable.map { it!!.message }
-    val urgencyMessageBackgroundObservable = urgencyMessageObservable.map { it!!.background }
-    val urgencyIconObservable = urgencyMessageObservable.map { it!!.icon }
+    val urgencyMessageObservable = BehaviorSubject.create(getMostApplicableUrgencyMessage(hotel, resources))
+    val urgencyMessageVisibilityObservable = urgencyMessageObservable.map { if (it != null) it!!.visibility else false }
+    val urgencyMessageBoxObservable = urgencyMessageObservable.filter { it != null }.map { it!!.message }
+    val urgencyMessageBackgroundObservable = urgencyMessageObservable.filter { it != null }.map { it!!.background }
+    val urgencyIconObservable = urgencyMessageObservable.filter { it != null }.map { it!!.icon }
 
     val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.isVipAccess)
     val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.discountPercent < 0 && hotel.lowRateInfo.airAttached)
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
-    val topAmenityVisibilityObservable = topAmenityTitleObservable.map { !(it=="")}
+    val topAmenityVisibilityObservable = topAmenityTitleObservable.map { (it!="")}
 
     val hotelStarRatingObservable = BehaviorSubject.create(hotel.hotelStarRating)
     val hotelLargeThumbnailUrlObservable = BehaviorSubject.create(Images.getMediaHost() + hotel.largeThumbnailUrl)
@@ -64,19 +64,18 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
 
     public fun getMostApplicableUrgencyMessage(hotel: Hotel,resources: Resources): MostApplicableUrgencyMessage? {
         val roomsLeft = hotel.roomsLeftAtThisRate;
-
         if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY) {
             return MostApplicableUrgencyMessage(true, resources.getDrawable(R.drawable.urgency),
                                                 resources.getColor(R.color.hotel_urgency_message_color),
                                                 resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft))
-        }else if (hotel.isSameDayDRR) {
+        } else if (hotel.isSameDayDRR) {
             return MostApplicableUrgencyMessage(true, resources.getDrawable(R.drawable.tonight_only),
                                                 resources.getColor(R.color.hotel_tonight_only_color),
                                                 resources.getString(R.string.tonight_only))
         } else if (hotel.isDiscountRestrictedToCurrentSourceType) {
             return MostApplicableUrgencyMessage(true, resources.getDrawable(R.drawable.mobile_exclusive),
                                                 resources.getColor(R.color.hotel_mobile_exclusive_color),
-                                                resources.getString(R.string.mobile_exclusive) )
+                                                resources.getString(R.string.mobile_exclusive))
         }
         return null
     }

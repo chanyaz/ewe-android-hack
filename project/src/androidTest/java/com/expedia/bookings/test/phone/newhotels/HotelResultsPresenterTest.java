@@ -52,6 +52,8 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		assertViewWithTextIsDisplayedAtPosition(2, R.id.urgency_message, "4 Rooms Left");
 		assertViewWithTextIsDisplayedAtPosition(3, R.id.urgency_message, "Tonight Only!");
 		assertViewWithTextIsDisplayedAtPosition(4, R.id.urgency_message, "Mobile Exclusive");
+		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(5));
+		assertViewNotDisplayedAtPosition(5, R.id.urgency_message_layout);
 
 		//test air attach
 		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(9));
