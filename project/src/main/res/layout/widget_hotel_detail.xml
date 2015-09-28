@@ -529,13 +529,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:visibility="gone" />
+        android:layout_gravity="bottom" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:id="@+id/sticky_select_room_container"
         android:layout_gravity="bottom"
         android:orientation="vertical">
 
@@ -544,8 +544,7 @@
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:layout_above="@+id/sticky_select_room"
-            android:background="@drawable/map_shadow"
-            android:visibility="gone" />
+            android:background="@drawable/map_shadow" />
 
         <Button
             android:id="@+id/sticky_select_room"
@@ -558,8 +557,7 @@
             android:text="@string/select_a_room_instruction"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:visibility="gone" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 

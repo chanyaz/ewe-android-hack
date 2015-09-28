@@ -16,6 +16,7 @@
         android:layout_marginLeft="@dimen/hotel_room_list_container_margin"
         android:layout_marginRight="@dimen/hotel_room_list_container_margin"
         android:animateLayoutChanges="true"
+        android:background="@drawable/hotel_detail_ripple"
         android:orientation="vertical">
 
         <com.expedia.bookings.widget.OptimizedImageView
