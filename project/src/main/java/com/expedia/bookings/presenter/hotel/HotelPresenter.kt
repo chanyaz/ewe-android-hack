@@ -218,4 +218,10 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         hotelServices.details(hotelSearchParams, hotelId, subject)
     }
 
+    override fun back() : Boolean {
+        if (loadingOverlay.visibility != View.VISIBLE) {
+           return super.back()
+        }
+        return false
+    }
 }

@@ -151,9 +151,9 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         propertyInfoListObservable.onNext(listHotelInfo)
 
 
-        val amenityList: List<Amenity> = emptyList()
-        if(response.hotelAmenities != null) {
-            amenityList.toArrayList().addAll(Amenity.amenitiesToShow(response.hotelAmenities))
+        val amenityList = arrayListOf<Amenity>()
+        if (response.hotelAmenities != null) {
+            amenityList.addAll(Amenity.amenitiesToShow(response.hotelAmenities))
         }
 
         if (amenityList.isEmpty()) {
