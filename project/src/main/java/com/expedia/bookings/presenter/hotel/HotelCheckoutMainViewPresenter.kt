@@ -115,6 +115,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         Db.getTripBucket().add(TripBucketItemHotelV2(trip))
         hotelCheckoutSummaryWidget.viewmodel.originalRateObserver.onNext(trip.originalHotelProductResponse)
         hotelCheckoutSummaryWidget.viewmodel.newRateObserver.onNext(trip.newHotelProductResponse)
+        hotelCheckoutSummaryWidget.viewmodel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size())
         hotelCheckoutSummaryWidget.breakdown.viewmodel.tripObserver.onNext(trip)
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)

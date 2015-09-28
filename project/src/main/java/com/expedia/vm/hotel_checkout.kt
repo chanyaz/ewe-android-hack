@@ -93,6 +93,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     val roomDescriptions = BehaviorSubject.create<String>()
     val bedDescriptions = BehaviorSubject.create<String>()
     val numNights = BehaviorSubject.create<String>()
+    val guestCountObserver = BehaviorSubject.create<Int>()
     val numGuests = BehaviorSubject.create<String>()
     val hasFreeCancellation = BehaviorSubject.create<Boolean>()
     val totalMandatoryPrices = BehaviorSubject.create<String>()
@@ -120,7 +121,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             bedDescriptions.onNext(room.getFormattedBedNames())
 
             numNights.onNext(context.getResources().getQuantityString(R.plurals.number_of_nights, it.numberOfNights.toInt(), it.numberOfNights.toInt()))
-            numGuests.onNext(context.getResources().getQuantityString(R.plurals.number_of_guests, it.adultCount.toInt(), it.adultCount.toInt()))
 
             hasFreeCancellation.onNext(room.hasFreeCancellation)
 
@@ -147,6 +147,9 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
 
             }
             isPriceChange.onNext(hasPriceChange)
+        }
+        guestCountObserver.subscribe {
+            numGuests.onNext(context.resources.getQuantityString(R.plurals.number_of_guests, it, it))
         }
     }
 }
