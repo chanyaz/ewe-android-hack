@@ -195,12 +195,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/price_widget"
-                    android:background="@drawable/hotel_detail_ripple"
                     android:orientation="horizontal"
                     android:paddingBottom="22dp"
                     android:paddingLeft="18dp"
                     android:paddingRight="18dp"
                     android:paddingTop="22dp">
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/no_guest_rating"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_weight="1"
+                        android:text="@string/no_reviews"
+                        android:textColor="@color/hotel_cell_gray_text"
+                        android:textSize="10sp" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/user_rating"
@@ -217,6 +226,7 @@
                         app:textStyle="medium" />
 
                     <com.expedia.bookings.widget.TextView
+                        android:id="@+id/user_rating_recommendation_text"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
@@ -259,27 +269,67 @@
                     android:orientation="horizontal"
                     android:visibility="gone">
 
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/free_cancellation"
-                        style="@style/HotelDetailsInfoSmall"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:id="@+id/single_message_container"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/free_cancellation" />
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
-                    <View
-                        android:id="@+id/horizontal_divider_bw_etp_and_free_cancellation"
-                        android:layout_width="1px"
-                        android:layout_height="match_parent"
-                        android:background="@color/hotel_detail_divider" />
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/free_cancellation"
+                            style="@style/HotelDetailsInfoLeft"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/free_cancellation"
+                            android:visibility="gone" />
 
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/etp_info_text"
-                        style="@style/ETPInfoTextSmall"
-                        android:layout_width="0dp"
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/best_price_guarantee"
+                            style="@style/HotelDetailsInfoLeft"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/best_price_guarantee"
+                            android:visibility="gone" />
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/etp_info_text"
+                            style="@style/ETPInfoTextLeft"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pay_later_info_text"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/free_cancellation_etp_messaging"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/pay_later_info_text" />
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="2" >
+
+                        <com.expedia.bookings.widget.TextView
+                            style="@style/HotelDetailsInfoSmallCenter"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/free_cancellation" />
+
+                        <View
+                            android:id="@+id/horizontal_divider_bw_etp_and_free_cancellation"
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="@color/hotel_detail_divider" />
+
+                        <com.expedia.bookings.widget.TextView
+                            style="@style/ETPInfoTextSmallCenter"
+                            android:id="@+id/etp_info_text_small"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/pay_later_info_text" />
+                    </LinearLayout>
 
 
                 </LinearLayout>

@@ -2734,6 +2734,8 @@
         <item quantity="many">View %d Reviews</item>
         <item quantity="other">View %d Reviews</item>
     </plurals>
+
+    <string name="zero_reviews">0 Reviews</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name

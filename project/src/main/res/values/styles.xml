@@ -1155,7 +1155,11 @@
         <item name="android:drawableLeft">@drawable/check</item>
     </style>
 
-    <style name="HotelDetailsInfoSmall" parent="HotelDetailsInfo">
+    <style name="HotelDetailsInfoLeft" parent="HotelDetailsInfo">
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="HotelDetailsInfoSmallCenter" parent="HotelDetailsInfo">
         <item name="android:gravity">center</item>
         <item name="android:drawablePadding">4dp</item>
         <item name="android:paddingLeft">31dp</item>
@@ -1163,12 +1167,14 @@
         <item name="android:textSize">11sp</item>
     </style>
 
-    <style name="ETPInfoText" parent="HotelDetailsInfo">
+    <style name="ETPInfoTextLeft" parent="HotelDetailsInfo">
+        <item name="android:gravity">left</item>
+        <item name="android:paddingRight">15dp</item>
         <item name="android:background">@drawable/hotel_detail_ripple</item>
         <item name="android:drawableRight">@drawable/details_info</item>
     </style>
 
-    <style name="ETPInfoTextSmall" parent="HotelDetailsInfoSmall">
+    <style name="ETPInfoTextSmallCenter" parent="HotelDetailsInfoSmallCenter">
         <item name="android:paddingLeft">15dp</item>
         <item name="android:paddingRight">15dp</item>
         <item name="android:background">@drawable/hotel_detail_ripple</item>

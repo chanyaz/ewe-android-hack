@@ -67,8 +67,9 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val amenitiesListObservable = BehaviorSubject.create<List<Amenity>>()
     val noAmenityObservable = BehaviorSubject.create<Unit>()
 
-    var hasETPObservable = BehaviorSubject.create<Boolean>(false)
-    var hasFreeCancellationObservable = BehaviorSubject.create<Boolean>(false)
+    var hasETPObservable = BehaviorSubject.create<Boolean>()
+    var hasFreeCancellationObservable = BehaviorSubject.create<Boolean>()
+    var hasBestPriceGuaranteeObservable = BehaviorSubject.create<Boolean>()
     var renovationObservable = BehaviorSubject.create<Unit>()
     val hotelRenovationObservable = BehaviorSubject.create<Pair<String, String>>()
     val hotelPayLaterInfoObservable = BehaviorSubject.create<String>()
@@ -95,8 +96,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val pricePerNightObservable = BehaviorSubject.create<String>()
     val searchInfoObservable = BehaviorSubject.create<String>()
     val userRatingObservable = BehaviorSubject.create<String>()
+    val isUserRatingAvailableObservable = BehaviorSubject.create<Boolean>()
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
-    val ratingContainerObservable = BehaviorSubject.create<Unit>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
     val discountPercentageBackgroundObservable = BehaviorSubject.create<Int>()
     val discountPercentageObservable = BehaviorSubject.create<String>()
@@ -221,12 +222,12 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         }
 
         userRatingObservable.onNext(response.hotelGuestRating.toString())
+        isUserRatingAvailableObservable.onNext(hotelOffersResponse.hotelGuestRating > 0)
 
-        if (response.totalReviews > 0) {
-            numberOfReviewsObservable.onNext(context.resources.getQuantityString(R.plurals.hotel_number_of_reviews, response.totalReviews, response.totalReviews))
-        } else {
-            ratingContainerObservable.onNext(Unit)
-        }
+        numberOfReviewsObservable.onNext(
+                if (hotelOffersResponse.totalReviews > 0)
+                    context.resources.getQuantityString(R.plurals.hotel_number_of_reviews, hotelOffersResponse.totalReviews, hotelOffersResponse.totalReviews)
+                else context.resources.getString(R.string.zero_reviews))
 
         val chargeableRateInfo = response.hotelRoomResponse.first()?.rateInfo?.chargeableRateInfo
         var discountPercentage: Int? = chargeableRateInfo?.discountPercent?.toInt()
@@ -238,6 +239,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true))
 
         hasFreeCancellationObservable.onNext(hasFreeCancellation(response))
+        hasBestPriceGuaranteeObservable.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee())
         val hasETPOffer = hasEtpOffer(hotelOffersResponse)
         hasETPObservable.onNext(hasETPOffer)
 
