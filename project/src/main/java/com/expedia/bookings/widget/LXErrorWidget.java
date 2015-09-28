@@ -194,7 +194,7 @@ public class LXErrorWidget extends FrameLayout {
 	}
 
 	private void showSearchError(int errorMessageResId, SearchType searchType) {
-		bindText(R.drawable.error_lx,
+		bindText(Ui.obtainThemeResID(getContext(), R.attr.skin_lxErrorWidgetDrawable),
 			errorMessageResId,
 			searchType == SearchType.DEFAULT_SEARCH ? R.string.lx_error_current_location_toolbar_text : R.string.lx_error_text,
 			R.string.edit_search);
