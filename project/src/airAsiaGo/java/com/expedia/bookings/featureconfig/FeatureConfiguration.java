@@ -74,7 +74,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getSearchProgressImageResId() {
-		return R.id.search_progress_image_aag;
+		return 0;
 	}
 
 	@Override
@@ -212,7 +212,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isHangTagProgressBarEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
