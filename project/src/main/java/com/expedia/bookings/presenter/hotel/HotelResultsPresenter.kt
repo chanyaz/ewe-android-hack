@@ -64,8 +64,8 @@ import kotlin.properties.Delegates
 
 public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
-    public class MarkerDistance(val marker: Marker, var distance: Float, val hotel: Hotel, var icon: BitmapDescriptor) : Comparable<MarkerDistance> {
-        override fun compareTo(other: MarkerDistance): Int {
+    public class MarkerData(val marker: Marker, var distance: Float, val hotel: Hotel, var icon: BitmapDescriptor) : Comparable<MarkerData> {
+        override fun compareTo(other: MarkerData): Int {
             return this.distance.compareTo(other.distance)
         }
     }
@@ -97,7 +97,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     var navIcon: ArrowXDrawable
 
-    var mHotelMarkerDistanceList: List<MarkerDistance> = emptyList()
+    var mHotelMarkersData: List<MarkerData> = emptyList()
 
     val hotelSelectedSubject = PublishSubject.create<Hotel>()
     val headerClickedSubject = PublishSubject.create<Unit>()
@@ -108,6 +108,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     var halfway = 0
     var threshold = 0
+    var currentlySelectedMarkerData: MarkerData? = null
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
@@ -198,7 +199,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         val currentLocationLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
 
         val hotelMarkers = response.hotelList.zip(hotelMarkerIcons).map { googleMap.addMarker(MarkerOptions().position(LatLng(it.first.latitude, it.first.longitude)).icon(it.second)) }
-        mHotelMarkerDistanceList = response.hotelList.zip(hotelMarkers).zip(hotelMarkerIcons).map { MarkerDistance(it.first.second, -1f, it.first.first, it.second) }
+        mHotelMarkersData = response.hotelList.zip(hotelMarkers).zip(hotelMarkerIcons).map { MarkerData(it.first.second, -1f, it.first.first, it.second) }
 
         val allHotelsBox = LatLngBounds.Builder()
         response.hotelList.forEach { hotel -> allHotelsBox.include(LatLng(hotel.latitude, hotel.longitude)) }
@@ -217,13 +218,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         val mostInterestingNeighborhoodLatLngBounds = mostInterestingNeighborhoodElseAllHotelsLatLngBounds(mostInterestingNeighborhood, allHotelsLatLngBounds)
         googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(mostInterestingNeighborhoodLatLngBounds, resources.displayMetrics.density.toInt() * 50))
 
-        val closestMarkerFromMapCameraLocation = findClosestMarker(mHotelMarkerDistanceList, mapCameraLocation(googleMap), closestHotelDistanceFromCurrentLocation)
+        val closestMarkerFromMapCameraLocation = findClosestMarker(mHotelMarkersData, mapCameraLocation(googleMap), closestHotelDistanceFromCurrentLocation)
 
         if (closestMarkerFromMapCameraLocation != null) {
             closestMarkerFromMapCameraLocation.marker.showInfoWindow()
-            closestMarkerFromMapCameraLocation.marker.setIcon(createHotelMarkerIcon(resources, closestMarkerFromMapCameraLocation.hotel, true))
+            updateMarkerDataAndSetIcon(closestMarkerFromMapCameraLocation, true)
             mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
-            mapCarouselRecycler.adapter = HotelMarkerPreviewAdapter(mHotelMarkerDistanceList, closestMarkerFromMapCameraLocation.marker, hotelSelectedSubject)
+            mapCarouselRecycler.adapter = HotelMarkerPreviewAdapter(mHotelMarkersData, closestMarkerFromMapCameraLocation.marker, hotelSelectedSubject)
         }
     }
 
@@ -258,9 +259,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         return location
     }
 
-    private fun findClosestMarker(hotelMarkerDistanceList: List<MarkerDistance>, location: Location, closestHotelDistance: Float): MarkerDistance? {
+    private fun findClosestMarker(hotelMarkerDistanceList: List<MarkerData>, location: Location, closestHotelDistance: Float): MarkerData? {
 
-        var closestMarker: MarkerDistance? = if (!hotelMarkerDistanceList.isEmpty()) hotelMarkerDistanceList.get(0) else null
+        var closestMarker: MarkerData? = if (!hotelMarkerDistanceList.isEmpty()) hotelMarkerDistanceList.get(0) else null
         var closestDistance = closestHotelDistance
 
         hotelMarkerDistanceList.forEach { hotelMarkerDistance ->
@@ -436,28 +437,31 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         googleMap?.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
             override fun onMarkerClick(marker: Marker): Boolean {
-                // Reset markers
-                var markerHotel: Hotel? = null
-                for (item in mHotelMarkerDistanceList) {
-                    item.marker.setIcon(createHotelMarkerIcon(resources, item.hotel, false))
-
-                    if (marker == item.marker) {
-                        markerHotel = item.hotel
+                var previousSelectedMarkerData = currentlySelectedMarkerData
+                for (hotelMarkerData in mHotelMarkersData) {
+                    if (marker == hotelMarkerData.marker) {
+                        currentlySelectedMarkerData = hotelMarkerData
                     }
                 }
 
-                if (markerHotel != null) {
-                    marker.setIcon(createHotelMarkerIcon(resources, markerHotel, true))
-                }
+                updateMarkerDataAndSetIcon(previousSelectedMarkerData, false)
+                updateMarkerDataAndSetIcon(currentlySelectedMarkerData, true)
 
                 marker.showInfoWindow()
                 mapCarouselContainer.visibility = View.VISIBLE
                 mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
-                mapCarouselRecycler.adapter = HotelMarkerPreviewAdapter(mHotelMarkerDistanceList, marker, hotelSelectedSubject)
+                mapCarouselRecycler.adapter = HotelMarkerPreviewAdapter(mHotelMarkersData, marker, hotelSelectedSubject)
 
                 return true
             }
         })
+    }
+
+    private fun updateMarkerDataAndSetIcon(markerData: MarkerData?, clicked: Boolean) {
+        if (markerData != null) {
+            markerData.icon = createHotelMarkerIcon(resources, markerData.hotel, clicked)
+            markerData.marker.setIcon(markerData.icon)
+        }
     }
 
     val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
