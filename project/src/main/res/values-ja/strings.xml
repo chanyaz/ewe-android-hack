@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Hotels -->
+    <!-- Hotels Calendar Strings -->
+    <!-- Hotels calendar tooltip bottom line after a single date is selected -->
+    <string name="hotel_calendar_tooltip_bottom">次に、チェックアウト日を選択</string>
+    <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
+    <string name="select_checkout_date_TEMPLATE">%1$s - チェックアウト日を選択</string>
+    <!-- Search form text hotels nights. %$s = formatted nights string. E.g. (3 nights) -->
+    <string name="nights_count_TEMPLATE">(%1$s)</string>
+    <!-- Hotels search form default text for number of guests -->
+    <string name="hotel_search_guest_default_text">ゲスト 1 名</string>
+    <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
+    <string name="hotel_calendar_bottom_drag_to_modify">ドラッグして変更</string>
+
+    <!-- Hotels Reviews Strings -->
+    <!-- Hotels summary rating template-->
+    <string name="hotel_rating_summary_Template">{rating} - {attribute}</string>
+    <!-- Hotels rating room cleanliness string -->
+    <string name="hotel_rating_room_cleanliness">部屋の清潔度</string>
+    <!-- Hotels rating room comfort string -->
+    <string name="hotel_rating_room_comfort">部屋の快適度</string>
+    <!-- Hotels rating service and staff string -->
+    <string name="hotel_rating_service_and_staff">サービス &amp; スタッフ</string>
+    <!-- Hotels rating hotel condition string -->
+    <string name="hotel_rating_hotel_condition">ホテルのコンディション</string>
+
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
@@ -51,6 +76,8 @@
     <string name="cars_driver_details_text">ドライバーの情報</string>
     <!-- Text for payment details toolbar-->
     <string name="cars_payment_details_text">支払い情報の詳細</string>
+    <!-- Text for payment options toolbar-->
+    <string name="cars_payment_options_text">支払いオプション</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">ドライバーの情報を入力</string>
     <!-- Text for select saved contacts-->
@@ -138,9 +165,6 @@
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$sまたは同等のもの</string>
     <string name="car_model_unknown_template">車種指定なし</string>
-
-    <!-- Desk & vehicle at terminal -->
-    <string name="desk_and_vehicle_terminal">空港内にカウンター &amp; 車両あり</string>
     <!-- Car checkout cost breakdown total due today -->
     <string name="car_cost_breakdown_due_today">本日お支払いの合計金額</string>
     <!-- Car checkout cost breakdown total due at pick up -->
@@ -174,6 +198,19 @@
     <string name="successful_checkout_email_label">旅程送信先 :</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">%1$sへのアクセス方法</string>
+
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_credit_debit_label">クレジットカード / デビットカード</string>
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_google_wallet_label">Google ウォレット機能</string>
+    <!-- Text for enter guest details line 1 -->
+    <string name="checkout_hotelsv2_enter_guest_details_line1">ゲストの詳細</string>
+    <!-- Text for enter guest details line 2 -->
+    <string name="checkout_hotelsv2_enter_guest_details_line2">情報を入力してください</string>
+    <!-- Text for enter payment details line 1 -->
+    <string name="checkout_hotelsv2_enter_payment_details_line1">支払い情報の詳細</string>
+    <!-- Text for enter payment details line 2 -->
+    <string name="checkout_hotelsv2_enter_payment_details_line2">支払いタイプを選択してください</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -241,8 +278,10 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
-    <!-- Search widget header text -->
+    <!--LX Search widget header text -->
     <string name="lx_search_title">オプショナル ツアーを検索</string>
+    <!--GT Search widget header text -->
+    <string name="gt_search_title">送迎サービスを検索</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">日付を選択</string>
     <!-- Activity details highlights heading -->
@@ -605,7 +644,7 @@
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">申し訳ありません。このアクティビティの料金が変更されました。もう一度ご予約ください。</string>
     <!-- LX confirmation itin text -->
-    <string name="lx_successful_checkout_email_label">チケット送信先</string>
+    <string name="lx_successful_checkout_email_label">チケット送信先 :</string>
     <!-- LX reservation confirmation text -->
     <string name="lx_successful_checkout_reservation_label">予約が確定しました !</string>
     <!-- Text for getting current location suggestion -->
@@ -905,6 +944,8 @@
     <string name="nav_cars">レンタカー</string>
     <!-- Activities -->
     <string name="nav_lx">現地ツアー</string>
+    <!-- Ground Transport -->
+    <string name="nav_transport">交通手段</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1643,7 +1684,7 @@
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">チェックイン日を選択</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} ～ {enddate}、宿泊者 {guests} 名</string>
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">片道 &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1819,7 +1860,7 @@
     <!-- Sign out -->
     <string name="sign_out">サインアウト</string>
     <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">%1$s ポイント付与されます — アプリで予約するとポイント 3 倍 !</string>
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">%1$s ポイント付与されます — アプリ予約でポイント 3 倍 !</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">今回のご予約で %1$s ポイント付与されます !</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1837,9 +1878,9 @@
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">有効なメールアドレスを入力してください</string>
     <!-- Row header for when we show resort fees as its own line item -->
-    <string name="fees_paid_at_hotel">ホテルでのお支払い料金 :</string>
+    <string name="fees_paid_at_hotel">ホテルでのお支払い料金</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
-    <string name="due_to_brand_today_TEMPLATE">本日 {brand} にお支払いの金額 :</string>
+    <string name="due_to_brand_today_TEMPLATE">{brand} へのお支払い金額</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; のリゾート料金はホテルでお支払いください。ご宿泊の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です。</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -1894,6 +1935,10 @@
     <string name="enter_traveler_info">旅行者情報</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">代表者の詳細</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">代表者の詳細</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">代表者</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">保存済み</string>
     <!-- Edit button for traveler/payment -->
@@ -2138,7 +2183,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">%s への旅をお楽しみください !</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">旅程番号 %s が に送信されます</string>
+    <string name="itinerary_confirmation_TEMPLATE">旅程番号 %s の送信先 :</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">部屋を予約する</string>
     <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
@@ -2157,8 +2202,6 @@
     <string name="share_trip">E メールでシェア</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">カレンダーに追加</string>
-    <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
-    <string name="add_to_flighttrack">FlightTrack で追跡する</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_customer_support_TEMPLATE">{brand} カスタマー サポートに電話する</string>
     <!-- Add Insurance label -->
@@ -2190,6 +2233,10 @@
     <string name="flights_to_TEMPLATE">%sへのフライト</string>
     <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
     <string name="stay_summary_TEMPLATE">%1$s、%2$s</string>
+    <!-- Hotel confirmation directions text -->
+    <string name="hotel_confirmation_directions">ホテルへの行き方</string>
+    <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
+    <string name="rent_a_car_TEMPLATE">%1$sのレンタカー</string>
 
     <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
@@ -2536,7 +2583,6 @@
     <string name="book_now_ab_test">部屋を選択</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">電話で予約</string>
-
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
@@ -2546,6 +2592,8 @@
     <string name="filter_vip_access">+VIP Access ホテルのみ</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="VIP_Access_Only">+VIP Access のみ</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">+VIP</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">オン</string>
     <string name="switch_off">オフ</string>
@@ -2558,10 +2606,13 @@
     <!-- new material Hotel results cell guest rating -->
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
-    <string name="guest_recommend">のゲストが推奨</string>
     <string name="hotel_guest_recommend">(5 段階中) - ゲスト評価</string>
+    <!-- new material Hotel results cell discount percentage -->
+    <string name="hotel_discount_percent_Template">{discount}%</string>
 
     <!-- Amenity strings -->
+    <!-- Label to show amenities -->
+    <string name="AmenityTitle">設備</string>
     <!-- Text that indicates no amenities at this property -->
     <string name="AmenityNone">アメニティはありません</string>
     <!-- Business center amenity -->
@@ -2654,6 +2705,15 @@
         <item quantity="many">%d 件のレビュー</item>
         <item quantity="other">%d 件のレビュー</item>
     </plurals>
+
+    <!-- HOtel V2A number of reviews -->
+    <plurals name="hotel_number_of_reviews">
+        <item quantity="zero">レビューなし</item>
+        <item quantity="one">%d 件のレビューを表示</item>
+        <item quantity="two">%d 件のレビューを表示</item>
+        <item quantity="many">%d 件のレビューを表示</item>
+        <item quantity="other">%d 件のレビューを表示</item>
+    </plurals>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -2697,6 +2757,10 @@
     <string name="total_price_for_stay">合計宿泊料金</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">1 泊平均料金</string>
+    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
+    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">1 泊平均料金 • 結果 {count} 件</string>
+    <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
+    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">合計宿泊料金 • 結果 {count} 件</string>
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">空室はありません !</item>
@@ -2705,6 +2769,8 @@
         <item quantity="many">残り %d 室です !</item>
         <item quantity="other">残り %d 室です !</item>
     </plurals>
+    <!-- The text we use to show room info for expanded room -->
+    <string name="room_information">部屋情報</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">返金不可</string>
     <!-- Label for free nights -->
@@ -2728,6 +2794,8 @@
     <!-- View Room button text -->
     <string name="view_room_button_text">部屋を見る</string>
 
+    <!-- Share via when user is shareing hotel listing -->
+    <string name="share_via">シェア方法 :</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">改装工事のお知らせ</string>
     <!-- This property is undergoing renovations -->
@@ -2736,8 +2804,6 @@
     <string name="more_info">詳細情報</string>
 
     <!-- Booking info -->
-    <!-- Error if we couldn't find the room type details -->
-    <string name="error_room_type_nonexistant">申し訳ありません。この部屋の追加詳細情報を読み込むことができません。</string>
     <!-- Quantity for the length of stay -->
     <plurals name="length_of_stay">
         <item quantity="one">1 泊</item>
@@ -2811,6 +2877,12 @@
     <string name="apply">適用</string>
 
     <!-- Coupon dialog -->
+    <!-- Saved coupon title -->
+    <string name="saved_coupon">保存済みのクーポン</string>
+    <!-- Coupon Widget Title -->
+    <string name="coupon_promo_title">クーポンとプロモーション</string>
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_promo_code">クーポンあるいはプロモーション コードを入力</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">クーポンコードを入力</string>
     <!-- Message shown when applying coupon (in progress) -->
@@ -2821,8 +2893,12 @@
     <string name="coupon_saved_TEMPLATE">%s お得です !</string>
     <!-- Message shown when a coupon is being removed -->
     <string name="coupon_removing_dialog">クーポンを削除</string>
+    <!-- Coupon submit button -->
+    <string name="coupon_submit_button">送信</string>
 
     <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't known -->
+    <string name="coupon_error_unknown">申し訳ありません。このクーポン コードは存在しません。</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">申し訳ありません。このクーポン コードは無効です。</string>
     <!-- Error when applying coupon - the coupon has expired -->
@@ -2849,6 +2925,8 @@
     <string name="coupon_error_hotel_excluded">申し訳ありません。このホテルではクーポンをご利用いただけません。</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">申し訳ありません。このホテルではクーポンを適用できません。</string>
+    <!-- Error when applying coupon - the package does not accept coupons -->
+    <string name="coupon_error_invalid_booking">申し訳ありません。このご予約にはクーポンを適用できません。</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">申し訳ありません。現在クーポンを処理できません。もう一度お試しください。</string>
     <!-- Error when applying coupon - session timeout -->
@@ -2861,6 +2939,8 @@
     <string name="coupon_error_invalid_average_price">申し訳ありません。1 泊あたりの平均料金が、このクーポンを使用できる最低料金に達していません。</string>
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">後からお支払いの場合は、クーポンを利用することができません。今すぐお支払いを選択してください。</string>
+    <!-- Error when applying coupon - Not Active -->
+    <string name="coupon_error_not_active">申し訳ありません。このクーポンは利用期間が過ぎています。</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2893,8 +2973,6 @@
     <string name="dialog_title_cleared_private_data">個人データが削除されました</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">保存されているクレジットカードおよび連絡先情報が全て消去されました。</string>
-    <!-- Action button label to Subscribe to our mailing list -->
-    <string name="Subscribe">購読</string>
     <!-- Action button label to follow on twitter -->
     <string name="Follow">フォロー</string>
     <!-- Action button label to like on facebook -->
@@ -3616,4 +3694,16 @@
     <string name="acct_Welcome_to_Expedia">エクスペディアにようこそ</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Expedia_account_already_exists">この電子メールが登録されたエクスペディア アカウントはすでに存在しています。</string>
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0 ～ 17 歳)</string>
+
+    <!-- Filters Strings -->
+    <string name="neighborhoods">周辺</string>
+    <string name="gym">ジム</string>
+    <string name="room_service">ルームサービス</string>
+    <string name="business_center">ビジネスセンター</string>
+    <string name="accessible">バリアフリー</string>
+    <string name="amenities">設備</string>
+    <string name="plus_vip">+VIP</string>
+    <string name="star_rating">星評価</string>
 </resources>
