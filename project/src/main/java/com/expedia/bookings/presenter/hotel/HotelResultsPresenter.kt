@@ -331,7 +331,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         } else if (it == filterView.viewmodel.originalResponse?.hotelList) {
             adapter.resultsSubject.onNext(filterView.viewmodel.originalResponse!!)
             if (previousWasList) {
-                show(ResultsList())
+                show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
             } else {
                 show(ResultsMap())
             }
@@ -406,7 +406,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             if (recyclerView.visibility == View.VISIBLE) {
                 show(ResultsMap())
             } else {
-                show(ResultsList())
+                show(ResultsList(), Presenter.FLAG_CLEAR_BACKSTACK)
             }
 
         }
@@ -506,7 +506,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             adjustGoogleMapLogo()
 
             if (currentState == RecyclerView.SCROLL_STATE_SETTLING && topOffset < threshold && topOffset > halfway && isHeaderVisible()) {
-                show(ResultsList())
+                show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
                 mapView.translationY = 0f
                 recyclerView.translationY = 0f
                 resetListOffset()
