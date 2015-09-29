@@ -38,8 +38,8 @@ public class ApiError extends RuntimeException {
 		LX_PRODUCT_LOOKUP_ERROR,
 
 		//Hotel Coupon Errors
-		APPLY_COUPON_ERROR
-		;
+		APPLY_COUPON_ERROR,
+		HOTEL_SEARCH_NO_RESULTS;
 	}
 
 	public enum DetailCode {

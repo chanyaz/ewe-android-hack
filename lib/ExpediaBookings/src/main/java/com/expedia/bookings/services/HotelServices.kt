@@ -56,21 +56,21 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
                 params.getGuestString())
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .doOnNext { response -> response.userPriceType = getUserPriceType(response.hotelList) }
-                .doOnNext { response -> response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) } }
                 .doOnNext { response ->
+                    if (response.hasErrors()) return@doOnNext
+
+                    response.userPriceType = getUserPriceType(response.hotelList)
+                    response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }
                     response.hotelList.map { hotel ->
                         if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
                             response.neighborhoodsMap.get(hotel.locationId)?.hotels?.add(hotel)
                         }
                     }
-                }
-                .doOnNext { response ->
+
                     response.allNeighborhoodsInSearchRegion.map {
                         it.score = it.hotels.map { 1 }.sum()
                     }
-                }
-                .doOnNext { response ->
+
                     val (sponsored, nonSponsored) = response.hotelList.partition { it.isSponsoredListing }
                     val firstChunk = sponsored.take(1)
                     val secondChunk = nonSponsored.take(49)
