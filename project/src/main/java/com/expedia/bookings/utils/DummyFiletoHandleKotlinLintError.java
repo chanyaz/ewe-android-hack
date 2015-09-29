@@ -121,6 +121,10 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.hotel_guest_selector_enabled_color,
 		R.color.hotel_guest_selector_disabled_color,
 		R.color.hotel_filter_hotel_name_icon,
-		R.color.hotel_filter_input_filed
+		R.color.hotel_filter_input_filed,
+		R.string.FilterFreeAirportShuttle,
+		R.string.FilterFreeBreakfast,
+		R.string.FilterFreeInternet,
+		R.layout.filter_amenity_row
 	};
 }

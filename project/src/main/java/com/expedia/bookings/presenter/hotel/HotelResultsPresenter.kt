@@ -169,6 +169,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val listResultsObserver = endlessObserver<HotelSearchResponse> {
+        filterView.viewmodel.setHotelList(it)
         adapter.resultsSubject.onNext(it)
         resetListOffset()
         filterBtnWithCountWidget.visibility = View.VISIBLE
@@ -197,6 +198,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             } else {
                 show(ResultsMap())
             }
+            mapViewModel.hotelsObservable.onNext(filterView.viewmodel.filteredResponse.hotelList)
         } else if (it == filterView.viewmodel.originalResponse?.hotelList) {
             adapter.resultsSubject.onNext(filterView.viewmodel.originalResponse!!)
             if (previousWasList) {

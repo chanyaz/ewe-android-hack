@@ -39,13 +39,15 @@ public class Hotel {
 	public String clickTrackingUrl;
 	public String impressionTrackingUrl;
 	public boolean hasFreeCancellation;
-	public List<Amenity> amenities;
+	public List<HotelAmenity> amenities;
 	public String distanceUnit;
 	public boolean isVipAccess;
 	public boolean isPaymentChoiceAvailable;
 	public boolean isShowEtpChoice;
 
-	public class Amenity {
+	public transient List<Integer> amenityFilterIdList;
+
+	public static class HotelAmenity {
 		public String id;
 		public String description;
 	}

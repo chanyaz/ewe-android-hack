@@ -2678,6 +2678,15 @@
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">Free Parking</string>
 
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">Free Internet</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">Free Breakfast</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">Free Airport Shuttle</string>
+
+
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
     <string name="user_review_loading_text">Loading user reviews…</string>

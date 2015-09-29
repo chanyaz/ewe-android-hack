@@ -281,17 +281,26 @@
                         android:gravity="center_vertical" />
                 </RelativeLayout>
 
-
                 <TextView
-                    android:id="@+id/amenities_container"
+                    android:id="@+id/amenity_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/lx_sort_filter_padding"
                     android:paddingLeft="@dimen/lx_sort_filter_padding"
                     android:paddingRight="@dimen/lx_sort_filter_padding"
                     android:text="@string/amenities"
+                    android:textColor="@color/hotels_primary_color"
                     android:textSize="15sp"
-                    android:textColor="@color/hotels_primary_color" />
+                    android:visibility="gone"/>
+
+                <GridLayout
+                    android:id="@+id/amenities_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/amenity_label"
+                    android:layout_marginBottom="20dp"
+                    android:columnCount="4">
+                </GridLayout>
 
                 <TextView
                     android:layout_width="wrap_content"

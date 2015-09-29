@@ -1,0 +1,54 @@
+package com.expedia.bookings.widget
+
+import android.content.Context
+import android.graphics.*
+import android.support.v4.graphics.drawable.DrawableCompat
+import android.util.AttributeSet
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.expedia.bookings.R
+import com.expedia.bookings.utils.FilterAmenity
+import com.expedia.bookings.utils.bindView
+import com.expedia.util.endlessObserver
+import com.expedia.vm.HotelFilterViewModel
+import rx.Observer
+import kotlin.properties.Delegates
+
+public class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+
+    val amenityTextView: TextView by bindView(R.id.amenity_label)
+    val amenityIconView: ImageView by bindView(R.id.amenity_icon)
+    var isSelected: Boolean = false
+    var amenity: FilterAmenity ?= null
+    var amenityId: Int ? = null
+
+    var viewModel: HotelFilterViewModel by Delegates.notNull()
+
+
+    public fun bind(amenity: FilterAmenity, id:Int, vm: HotelFilterViewModel) {
+        this.viewModel = vm
+        this.amenity = amenity
+        this.amenityId = id
+        amenityTextView.text = context.getString(amenity.strId)
+        amenityTextView.setTextColor(R.color.hotelsv2_checkout_text_color)
+        var drawable = context.resources.getDrawable(amenity.resId)
+        DrawableCompat.setTint(drawable, R.color.hotelsv2_checkout_text_color)
+        amenityIconView.setImageDrawable(drawable)
+    }
+
+    val selectObserver : Observer<Unit> = endlessObserver {
+        isSelected = !isSelected
+        if (isSelected) {
+            changeColor(getResources().getColor(R.color.hotels_primary_color))
+        } else {
+            changeColor(getResources().getColor(R.color.hotelsv2_checkout_text_color))
+        }
+        viewModel.selectAmenity.onNext(amenityId)
+    }
+
+    fun changeColor(color: Int){
+        amenityTextView.setTextColor(color)
+        amenityIconView.setColorFilter(color)
+    }
+}

@@ -16,21 +16,17 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.RatingBar
-import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.GridLayout
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeOnTouch
-import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelFilterViewModel.Sort
 import rx.Observer
@@ -69,6 +65,8 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val toolbarDropshadow: View by bindView(R.id.toolbar_dropshadow)
     val priceRangeBar : ViewGroup by bindView(R.id.price_range_bar)
     val neighborhoodContainer: LinearLayout by bindView(R.id.neighborhoods)
+    val amenityLabel: TextView by bindView(R.id.amenity_label)
+    val amenityContainer: GridLayout by bindView(R.id.amenities_container)
 
     var filterObserver: Observer<List<Hotel>> by Delegates.notNull()
 
@@ -109,6 +107,14 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             resetStars()
 
             filterHotelVip.setChecked(false)
+
+            for (i in 0.. amenityContainer.childCount - 1) {
+                val v = amenityContainer.getChildAt(i)
+                if (v is HotelAmenityFilter && v.isSelected) {
+                    v.isSelected = false
+                    v.changeColor(getResources().getColor(R.color.hotelsv2_checkout_text_color))
+                }
+            }
 
             for (i in 0 .. neighborhoodContainer.getChildCount() -1){
                 val v = neighborhoodContainer.getChildAt(i)
@@ -190,6 +196,19 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                     neighborhoodView.subscribeOnClick(neighborhoodView.checkObserver)
                     neighborhoodContainer.addView(neighborhoodView)
                 }
+            }
+        }
+
+        vm.amenityOptionsObservable.subscribe { map ->
+            val amenityMap: Map<FilterAmenity, Int> = FilterAmenity.amenityFilterToShow(map)
+            vm.amenityMapObservable.onNext(amenityMap)
+
+        }
+
+        vm.amenityMapObservable.subscribe { amenityMap ->
+            if (!amenityMap.isEmpty()){
+                amenityLabel.visibility = View.VISIBLE
+                FilterAmenity.addAmenityFilters(amenityContainer, amenityMap, vm)
             }
         }
 
