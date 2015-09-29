@@ -8,6 +8,7 @@ import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.util.endlessObserver
@@ -51,7 +52,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
 
     private fun getNearbySuggestions(latlong: String) {
         suggestionsService
-                .suggestNearbyV1(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId())
+                .suggestNearbyV4(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId(), ServicesUtil.generateClientId(context))
                 .doOnNext { nearbySuggestions ->
                     if (nearbySuggestions.size() < 1) {
                         throw ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS)

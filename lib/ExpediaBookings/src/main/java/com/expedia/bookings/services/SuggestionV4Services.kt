@@ -1,7 +1,6 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.SuggestionResultType
-import com.expedia.bookings.data.cars.Suggestion
 import com.expedia.bookings.data.cars.SuggestionResponse
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.google.gson.GsonBuilder
@@ -47,15 +46,10 @@ public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, 
                 .subscribe(observer)
     }
 
-    public fun suggestNearbyV1(locale: String, latlng: String, siteId: Int): Observable<MutableList<SuggestionV4>> {
-        return suggestApi.suggestNearbyV1(locale, latlng, siteId, SuggestionResultType.CITY, "d", "HOTELS")
+    public fun suggestNearbyV4(locale: String, latlng: String, siteId: Int, clientId: String): Observable<MutableList<SuggestionV4>> {
+        return suggestApi.suggestNearbyV4(locale, latlng, siteId, SuggestionResultType.MULTI_CITY, "distance", clientId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .map { response -> response.suggestions.take(3) }
-                .map { list ->
-                    list.map {
-                        SuggestionV4.convertV1toV4(it)
-                    }.toArrayList()
-                }
+                .map { response -> response.suggestions.take(3).toArrayList() }
     }
 }

@@ -205,6 +205,8 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
             }// City
         } else if (request.path.startsWith("/api/v4/typeahead/")) {
             return makeResponse("/api/v4/suggestion.json")
+        } else if (request.path.startsWith("/api/v4/nearby/")) {
+            return makeResponse("/api/v4/suggestion_nearby.json")
         }
         return make404()
     }
