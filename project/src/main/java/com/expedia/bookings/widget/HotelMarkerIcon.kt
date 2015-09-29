@@ -27,7 +27,8 @@ fun createHotelMarkerIcon(resources: Resources, hotel: Hotel, clicked: Boolean):
     paint.setStyle(Paint.Style.FILL)
     paint.getTextBounds(text, 0, text.length(), bounds)
 
-    var outputBitmap = getBitmap(resources, clicked)
+    val isAirAttached = hotel.lowRateInfo.discountPercent < 0 && hotel.lowRateInfo.airAttached
+    var outputBitmap = getBitmap(resources, clicked, isAirAttached)
     var chunk = outputBitmap.getNinePatchChunk()
     val drawable = NinePatchDrawable(resources, outputBitmap, chunk, Rect(), null)
     val height = bounds.height() + markerPaddingHeight + markerPaddingHeight / 2 + 6
@@ -43,9 +44,8 @@ fun createHotelMarkerIcon(resources: Resources, hotel: Hotel, clicked: Boolean):
 
 }
 
-fun getBitmap(resources: Resources, clicked: Boolean): Bitmap {
-    if (clicked) {
-        return BitmapFactory.decodeResource(resources, R.drawable.hotel_tooltip_blue)
-    }
-    return BitmapFactory.decodeResource(resources, R.drawable.hotel_tooltip)
+fun getBitmap(resources: Resources, clicked: Boolean, isAirAttach: Boolean): Bitmap {
+    if (clicked) return BitmapFactory.decodeResource(resources, R.drawable.hotel_tooltip_blue)
+    else if (isAirAttach) return  BitmapFactory.decodeResource(resources, R.drawable.hotel_tooltip_airattach)
+    else return BitmapFactory.decodeResource(resources, R.drawable.hotel_tooltip)
 }
