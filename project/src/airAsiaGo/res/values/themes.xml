@@ -15,6 +15,7 @@
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels_aag</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_aag_logo</item>
         <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_aag</item>
         <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_aag</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
