@@ -40,7 +40,7 @@ import com.expedia.bookings.widget.HotelFilterView
 import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.HotelListRecyclerView
 import com.expedia.bookings.widget.HotelMarkerPreviewAdapter
-import com.expedia.bookings.widget.createHotelMarker
+import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelFilterViewModel
@@ -49,6 +49,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
@@ -63,16 +64,13 @@ import kotlin.properties.Delegates
 
 public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
-    private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
-    private val DEFAULT_FAB_ANIM_DURATION = 200L
+    public class MarkerDistance(val marker: Marker, var distance: Float, val hotel: Hotel, var icon: BitmapDescriptor) : Comparable<MarkerDistance> {
+        override fun compareTo(other: MarkerDistance): Int {
+            return this.distance.compareTo(other.distance)
+        }
+    }
 
-    var screenHeight: Int = 0
-    var screenWidth: Float = 0f
-    var mapTransitionRunning: Boolean = false
-    var hideFabAnimationRunning: Boolean = false
-    var markerList = ArrayList<Marker>()
-    var previousWasList: Boolean = true
-
+    //Views
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
     val mapView: MapView by bindView(R.id.map_view)
     val filterView: HotelFilterView by bindView(R.id.filter_view)
@@ -80,13 +78,26 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val toolbarTitle by lazy { toolbar.getChildAt(2) }
     val toolbarSubtitle by lazy { toolbar.getChildAt(3) }
     val recyclerTempBackground: View by bindView(R.id.recycler_view_temp_background)
+    val mapCarouselContainer: View by bindView(R.id.hotel_carousel_container)
+    val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
+    val fab: FloatingActionButton by bindView(R.id.fab)
+    var adapter: HotelListAdapter by Delegates.notNull()
+    val filterBtn: Button by bindView(R.id.filter_btn)
+
+    private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
+    private val DEFAULT_FAB_ANIM_DURATION = 200L
+
+    var screenHeight: Int = 0
+    var screenWidth: Float = 0f
+    var mapTransitionRunning: Boolean = false
+    var hideFabAnimationRunning: Boolean = false
+
+    var markerList = ArrayList<Marker>()
+    var previousWasList: Boolean = true
 
     var navIcon: ArrowXDrawable
 
-    val mapCarouselContainer: View by bindView(R.id.hotel_carousel_container)
-    val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
-
-    var mHotelList = ArrayList<MarkerDistance>()
+    var mHotelMarkerDistanceList: List<MarkerDistance> = emptyList()
 
     val hotelSelectedSubject = PublishSubject.create<Hotel>()
     val headerClickedSubject = PublishSubject.create<Unit>()
@@ -97,11 +108,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     var halfway = 0
     var threshold = 0
-
-    val fab: FloatingActionButton by bindView(R.id.fab)
-
-    var adapter: HotelListAdapter by Delegates.notNull()
-    val filterBtn: Button by bindView(R.id.filter_btn)
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
@@ -124,16 +130,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    public class MarkerDistance(marker: Marker, distance: Float, hotel: Hotel) : Comparable<MarkerDistance> {
-        override fun compareTo(other: MarkerDistance): Int {
-            return this.distance.compareTo(other.distance)
-        }
-
-        val marker: Marker = marker
-        var distance: Float = distance
-        val hotel: Hotel = hotel
-    }
-
     fun showLoading() {
         adapter.showLoading()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
@@ -143,7 +139,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         val mover = ObjectAnimator.ofFloat(mapView, "translationY", mapView.translationY, -halfway.toFloat());
         mover.setDuration(300);
         mover.start();
-        
+
         var listOffset = (height / 3.1).toInt()
         val view = recyclerView.getChildAt(adapter.numHeaderItemsInHotelsList())
         if (view != null) {
@@ -156,8 +152,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     private fun adjustGoogleMapLogo() {
         val view = recyclerView.getChildAt(1)
-        val topOffset = if (view == null) { 0 } else {view.top
-        }
+        val topOffset = if (view == null) 0 else view.top
         val bottom = recyclerView.height - topOffset
         googleMap?.setPadding(0, 0, 0, (bottom + mapView.translationY).toInt())
     }
@@ -187,114 +182,129 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         if (map != null) {
             clearAllMapMarkers()
             map.isMyLocationEnabled = true
-            renderMarkers(map, response, false)
+            renderMarkers(map, response, response.hotelList.map { createHotelMarkerIcon(context.resources, it, false) }, false)
         }
         Log.d("Hotel Results Next")
     }
 
-    fun renderMarkers(map: GoogleMap, response: HotelSearchResponse, isFilter: Boolean) {
+    private fun renderMarkers(googleMap: GoogleMap, response: HotelSearchResponse, hotelMarkerIcons: List<BitmapDescriptor>, isFilter: Boolean) {
         if (!isFilter) {
             filterView.viewmodel.setHotelList(response)
         }
 
-        map.clear()
-        mHotelList.clear()
+        googleMap.clear()
+        googleMap.isMyLocationEnabled = true
+        val currentLocation = lastBestLocationSafe()
+        val currentLocationLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
 
-        map.isMyLocationEnabled = true
-
-        // Determine current location
-        val minTime = DateTime.now().millis - DateUtils.HOUR_IN_MILLIS
-        val loc = LocationServices.getLastBestLocation(context, minTime)
-        val currentLat = loc?.latitude ?: 0.0
-        val currentLong = loc?.longitude ?: 0.0
-
-        var closestHotel: Hotel? = null
-        var closestToCurrentLocationVal = Float.MAX_VALUE
+        val hotelMarkers = response.hotelList.zip(hotelMarkerIcons).map { googleMap.addMarker(MarkerOptions().position(LatLng(it.first.latitude, it.first.longitude)).icon(it.second)) }
+        mHotelMarkerDistanceList = response.hotelList.zip(hotelMarkers).zip(hotelMarkerIcons).map { MarkerDistance(it.first.second, -1f, it.first.first, it.second) }
 
         val allHotelsBox = LatLngBounds.Builder()
+        response.hotelList.forEach { hotel -> allHotelsBox.include(LatLng(hotel.latitude, hotel.longitude)) }
 
-        for (hotel in response.hotelList) {
-            // Add markers for all hotels
-            val marker: Marker = map.addMarker(MarkerOptions()
-                    .position(LatLng(hotel.latitude, hotel.longitude))
-                    .icon(createHotelMarker(getResources(), hotel, false)))
-            markerList.add(marker)
+        val (closestHotelToCurrentLocation, closestHotelDistanceFromCurrentLocation) = findClosestHotel(response.hotelList, currentLocation)
 
-            val markerDistance = MarkerDistance(marker, -1f, hotel)
-            mHotelList.add(markerDistance)
+        val anyPointsIncludedInAllHotelsBox = response.hotelList.size() > 0
+        if (!anyPointsIncludedInAllHotelsBox) { return }
 
-            allHotelsBox.include(LatLng(hotel.latitude, hotel.longitude))
+        //Invoke LatLngBounds.Builder::build only if there are any points included in the box
+        val allHotelsLatLngBounds = allHotelsBox.build()
+        val isCurrentLocationInAllHotelsBox = allHotelsLatLngBounds.contains(currentLocationLatLng)
+        val mostInterestingNeighborhood = mostInterestingNeighborhood(response.neighborhoodsMap,
+                response.allNeighborhoodsInSearchRegion, isCurrentLocationInAllHotelsBox, closestHotelToCurrentLocation?.locationId)
 
-            // Determine which neighbourhood is closest to current location
-            if (hotel.locationId != null) {
-                var a = Location("a")
-                a.setLatitude(currentLat)
-                a.setLongitude(currentLong)
+        val mostInterestingNeighborhoodLatLngBounds = mostInterestingNeighborhoodElseAllHotelsLatLngBounds(mostInterestingNeighborhood, allHotelsLatLngBounds)
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(mostInterestingNeighborhoodLatLngBounds, resources.displayMetrics.density.toInt() * 50))
 
-                var b = Location("b")
-                b.setLatitude(hotel.latitude)
-                b.setLongitude(hotel.longitude)
+        val closestMarkerFromMapCameraLocation = findClosestMarker(mHotelMarkerDistanceList, mapCameraLocation(googleMap), closestHotelDistanceFromCurrentLocation)
 
-                var distanceBetween = a.distanceTo(b)
+        if (closestMarkerFromMapCameraLocation != null) {
+            closestMarkerFromMapCameraLocation.marker.showInfoWindow()
+            closestMarkerFromMapCameraLocation.marker.setIcon(createHotelMarkerIcon(resources, closestMarkerFromMapCameraLocation.hotel, true))
+            mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
+            mapCarouselRecycler.adapter = HotelMarkerPreviewAdapter(mHotelMarkerDistanceList, closestMarkerFromMapCameraLocation.marker, hotelSelectedSubject)
+        }
+    }
 
-                if (distanceBetween <= closestToCurrentLocationVal) {
-                    closestToCurrentLocationVal = distanceBetween
-                    closestHotel = hotel
-                }
-            }
+    private fun mostInterestingNeighborhoodElseAllHotelsLatLngBounds(mostInterestingNeighborhood: HotelSearchResponse.Neighborhood?, allHotelsLatLngBounds: LatLngBounds): LatLngBounds {
+        if (mostInterestingNeighborhood != null && mostInterestingNeighborhood.hotels.size() > 0) {
+            val neighborhoodBox = LatLngBounds.Builder()
+            mostInterestingNeighborhood.hotels.forEach { hotel -> neighborhoodBox.include(LatLng(hotel.latitude, hotel.longitude)) }
+            return neighborhoodBox.build()
+        } else {
+            return allHotelsLatLngBounds
+        }
+    }
 
+    private fun mostInterestingNeighborhood(neighborhoodsMap: Map<String, HotelSearchResponse.Neighborhood>, allNeighborhoodsInSearchRegion: List<HotelSearchResponse.Neighborhood>,
+                                            isCurrentLocationInAllHotelsBox: Boolean, closestHotelNeighborhoodId: String?): HotelSearchResponse.Neighborhood? {
+        var mostInterestingNeighborhood: HotelSearchResponse.Neighborhood?
+        if (isCurrentLocationInAllHotelsBox && closestHotelNeighborhoodId != null) {
+            mostInterestingNeighborhood = neighborhoodsMap.get(closestHotelNeighborhoodId)
+        } else {
+            mostInterestingNeighborhood = allNeighborhoodsInSearchRegion.reduce { left, right -> if (left.score >= right.score) left else right }
         }
 
-        if (mHotelList.size() > 0) {
-            var mostInterestingNeighborhood: HotelSearchResponse.Neighborhood?
+        return mostInterestingNeighborhood
+    }
 
-            var anyPointsIncludedInAllHotelsBox = (response.hotelList.size() > 0)
-            if (anyPointsIncludedInAllHotelsBox && allHotelsBox.build().contains(LatLng(currentLat, currentLong)) && closestHotel != null && closestHotel.locationId != null) {
-                mostInterestingNeighborhood = response.neighborhoodsMap.get(closestHotel.locationId)
-            } else {
-                mostInterestingNeighborhood = response.allNeighborhoodsInSearchRegion.reduce { left, right -> if (left.score >= right.score) left else right }
-            }
+    private fun lastBestLocationSafe(): Location {
+        val minTime = DateTime.now().millis - DateUtils.HOUR_IN_MILLIS
+        val loc = LocationServices.getLastBestLocation(context, minTime)
+        val location = Location("lastBestLocationSafe")
+        location.latitude = loc?.latitude ?: 0.0
+        location.longitude = loc?.longitude ?: 0.0
+        return location
+    }
 
-            if (mostInterestingNeighborhood != null && mostInterestingNeighborhood.hotels.size() > 0) {
-                val neighborhoodBox = LatLngBounds.Builder()
-                for (hotel in mostInterestingNeighborhood.hotels) {
-                    neighborhoodBox.include(LatLng(hotel.latitude, hotel.longitude))
-                }
-                map.animateCamera(CameraUpdateFactory.newLatLngBounds(neighborhoodBox.build(), getResources().getDisplayMetrics().density.toInt() * 50))
-            } else {
-                //in case we don't get any neighborhood from response
-                map.animateCamera(CameraUpdateFactory.newLatLngBounds(allHotelsBox.build(), getResources().getDisplayMetrics().density.toInt() * 50))
-            }
+    private fun findClosestMarker(hotelMarkerDistanceList: List<MarkerDistance>, location: Location, closestHotelDistance: Float): MarkerDistance? {
 
-            var closestMarker: MarkerDistance? = null
-            if (!mHotelList.isEmpty()) {
-                closestMarker = mHotelList.get(0)
-            }
+        var closestMarker: MarkerDistance? = if (!hotelMarkerDistanceList.isEmpty()) hotelMarkerDistanceList.get(0) else null
+        var closestDistance = closestHotelDistance
 
-            for (item in mHotelList) {
-                var a = Location("a")
-                a.latitude = map.cameraPosition.target.latitude
-                a.longitude = map.cameraPosition.target.longitude
+        hotelMarkerDistanceList.forEach { hotelMarkerDistance ->
+            val hotelLocation = Location("hotelLocation")
+            hotelLocation.latitude = hotelMarkerDistance.hotel.latitude
+            hotelLocation.longitude = hotelMarkerDistance.hotel.longitude
 
-                var b = Location("b")
-                b.latitude = item.hotel.latitude
-                b.longitude = item.hotel.longitude
+            val distanceBetween = location.distanceTo(hotelLocation)
 
-                var distanceBetween = a.distanceTo(b)
-
-                if (distanceBetween <= closestToCurrentLocationVal) {
-                    closestToCurrentLocationVal = distanceBetween
-                    closestMarker = item
-                }
-            }
-
-            if (closestMarker != null) {
-                closestMarker.marker.showInfoWindow()
-                closestMarker.marker.setIcon(createHotelMarker(resources, closestMarker.hotel, true))
-                mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
-                mapCarouselRecycler.adapter = HotelMarkerPreviewAdapter(mHotelList, closestMarker.marker, hotelSelectedSubject)
+            if (distanceBetween <= closestDistance) {
+                closestDistance = distanceBetween
+                closestMarker = hotelMarkerDistance
             }
         }
+
+        return closestMarker
+    }
+
+    private fun findClosestHotel(hotelsList: List<Hotel>, location: Location): Pair<Hotel?, Float> {
+
+        var closestHotelDistance = Float.MAX_VALUE
+        var closestHotel: Hotel? = null
+
+        hotelsList.filter { it.locationId != null }.forEach { hotel ->
+            val hotelLocation = Location("hotelLocation")
+            hotelLocation.latitude = hotel.latitude
+            hotelLocation.longitude = hotel.longitude
+
+            val distanceBetween = location.distanceTo(hotelLocation)
+
+            if (distanceBetween <= closestHotelDistance) {
+                closestHotelDistance = distanceBetween
+                closestHotel = hotel
+            }
+        }
+
+        return Pair(closestHotel, closestHotelDistance)
+    }
+
+    private fun mapCameraLocation(map: GoogleMap): Location {
+        var mapCameraLocation = Location("mapCameraLocation")
+        mapCameraLocation.latitude = map.cameraPosition.target.latitude
+        mapCameraLocation.longitude = map.cameraPosition.target.longitude
+        return mapCameraLocation
     }
 
     val mapSelectedObserver: Observer<Unit> = endlessObserver {
@@ -313,8 +323,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
             val map = googleMap
             val response = filterView.viewmodel.filteredResponse
+
             if (map != null) {
-                renderMarkers(map, response, true)
+                val hotelMarkerIcons = filterView.viewmodel.filteredResponse.hotelList.map { createHotelMarkerIcon(context.resources, it, false) }
+                renderMarkers(map, response, hotelMarkerIcons, true)
             }
         } else if (it == filterView.viewmodel.originalResponse?.hotelList) {
             adapter.resultsSubject.onNext(filterView.viewmodel.originalResponse!!)
@@ -399,7 +411,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         }
 
-
         show(ResultsList())
 
         filterBtn.setOnClickListener { view ->
@@ -427,8 +438,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             override fun onMarkerClick(marker: Marker): Boolean {
                 // Reset markers
                 var markerHotel: Hotel? = null
-                for (item in mHotelList) {
-                    item.marker.setIcon(createHotelMarker(resources, item.hotel, false))
+                for (item in mHotelMarkerDistanceList) {
+                    item.marker.setIcon(createHotelMarkerIcon(resources, item.hotel, false))
 
                     if (marker == item.marker) {
                         markerHotel = item.hotel
@@ -436,16 +447,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 }
 
                 if (markerHotel != null) {
-                    marker.setIcon(createHotelMarker(resources, markerHotel, true))
+                    marker.setIcon(createHotelMarkerIcon(resources, markerHotel, true))
                 }
 
                 marker.showInfoWindow()
-
                 mapCarouselContainer.visibility = View.VISIBLE
-
                 mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
-
-                mapCarouselRecycler.adapter = HotelMarkerPreviewAdapter(mHotelList, marker, hotelSelectedSubject)
+                mapCarouselRecycler.adapter = HotelMarkerPreviewAdapter(mHotelMarkerDistanceList, marker, hotelSelectedSubject)
 
                 return true
             }

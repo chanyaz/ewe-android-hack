@@ -12,7 +12,7 @@ import com.expedia.bookings.widget.priceFormatter
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
-fun createHotelMarker(resources: Resources, hotel: Hotel, clicked: Boolean): BitmapDescriptor {
+fun createHotelMarkerIcon(resources: Resources, hotel: Hotel, clicked: Boolean): BitmapDescriptor {
     val markerPaddingWidth = resources.getDimensionPixelSize(R.dimen.hotel_marker_padding_width)
     val markerPaddingHeight = resources.getDimensionPixelSize(R.dimen.hotel_marker_padding_height)
 

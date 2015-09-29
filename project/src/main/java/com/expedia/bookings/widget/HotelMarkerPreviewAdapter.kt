@@ -21,20 +21,19 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribe
 import com.google.android.gms.maps.model.Marker
 import rx.subjects.PublishSubject
-import java.util.ArrayList
 import java.util.Collections
 
-public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresenter.MarkerDistance>, val marker: Marker, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+public class HotelMarkerPreviewAdapter(var hotelMarkerDistances: List<HotelResultsPresenter.MarkerDistance>, val marker: Marker, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var sortedHotelList = sortHotelList()
+    var sortedHotelMarkerDistanceList = sortHotelMarkerDistanceList()
 
     override fun getItemCount(): Int {
-        return sortedHotelList.size()
+        return sortedHotelMarkerDistanceList.size()
     }
 
     override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
         val holder: HotelViewHolder = given as HotelViewHolder
-        val viewModel = HotelViewModel(holder.itemView.context, sortedHotelList.get(position).hotel)
+        val viewModel = HotelViewModel(holder.itemView.context, sortedHotelMarkerDistanceList.get(position).hotel)
         holder.bind(viewModel)
         holder.itemView.setOnClickListener(holder)
     }
@@ -48,28 +47,24 @@ public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresent
     }
 
     // Create a sorted hotel list of the markers closest to the specified marker in increasing order
-    fun sortHotelList(): ArrayList<HotelResultsPresenter.MarkerDistance> {
-        var modifiedHotels = hotels
+    fun sortHotelMarkerDistanceList(): List<HotelResultsPresenter.MarkerDistance> {
+        var modifiedHotelMarkerDistances = hotelMarkerDistances
 
-        var markerLat = marker.getPosition().latitude
-        var markerLong = marker.getPosition().longitude
+        var markerLocation = Location("specifiedMarker")
+        markerLocation.latitude = marker.position.latitude
+        markerLocation.longitude = marker.position.longitude
 
-        for (item in modifiedHotels) {
-            var a = Location("a")
-            a.setLatitude(markerLat)
-            a.setLongitude(markerLong)
+        for (hotelMarkerDistance in modifiedHotelMarkerDistances) {
+            var hotelLocation = Location("hotelLocation")
+            hotelLocation.setLatitude(hotelMarkerDistance.hotel.latitude)
+            hotelLocation.setLongitude(hotelMarkerDistance.hotel.longitude)
 
-            var b = Location("b")
-
-            b.setLatitude(item.hotel.latitude)
-            b.setLongitude(item.hotel.longitude)
-
-            item.distance = a.distanceTo(b)
+            hotelMarkerDistance.distance = markerLocation.distanceTo(hotelLocation)
         }
 
         // Sort this list
-        Collections.sort(modifiedHotels)
-        return modifiedHotels
+        Collections.sort(modifiedHotelMarkerDistances)
+        return modifiedHotelMarkerDistances
     }
 
     public inner class HotelViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
@@ -79,7 +74,7 @@ public class HotelMarkerPreviewAdapter(var hotels: ArrayList<HotelResultsPresent
         }
 
         override fun onClick(view: View) {
-            val hotel: Hotel = sortedHotelList.get(getAdapterPosition()).hotel
+            val hotel: Hotel = sortedHotelMarkerDistanceList.get(getAdapterPosition()).hotel
             hotelSubject.onNext(hotel)
         }
 
