@@ -256,6 +256,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
+	public boolean isLOBChooserScreenEnabled() {
+		return true;
+	}
+
+	@Override
 	public String getAdXKey() {
 		//TODO Add correct AdX key.
 		return "";
@@ -283,6 +288,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isTrackWithFlightTrackEnabled() {
+		return false;
+	}
+
+	@Override
+	public boolean isItinDisabled() {
 		return false;
 	}
 }

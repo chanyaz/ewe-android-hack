@@ -250,6 +250,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
+	public boolean isLOBChooserScreenEnabled() {
+		return true;
+	}
+
 	public String getAdXKey() {
 		//Key not available for AAG for now, so passing blank.
 		return "";
@@ -277,6 +281,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isTrackWithFlightTrackEnabled() {
+		return false;
+	}
+
+	@Override
+	public boolean isItinDisabled() {
 		return false;
 	}
 }

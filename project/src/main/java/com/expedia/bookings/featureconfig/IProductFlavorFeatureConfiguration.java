@@ -97,6 +97,8 @@ public interface IProductFlavorFeatureConfiguration {
 
 	String getClientShortName();
 
+	boolean isLOBChooserScreenEnabled();
+
 	String getAdXKey();
 
 	boolean isAppSupportUrlEnabled();
@@ -108,4 +110,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isAppCrossSellInFlightShareContentEnabled();
 
 	boolean isTrackWithFlightTrackEnabled();
+
+	boolean isItinDisabled();
 }

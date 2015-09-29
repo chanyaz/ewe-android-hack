@@ -310,6 +310,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
+	public boolean isLOBChooserScreenEnabled() {
+		return false;
+	}
+
 	public String getAdXKey() {
 		//Key not available for VSC for now, so passing blank.
 		return "";
@@ -340,4 +344,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
+	public boolean isItinDisabled() {
+		return true;
+	}
 }
