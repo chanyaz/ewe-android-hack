@@ -23,7 +23,7 @@ import com.google.android.gms.maps.model.Marker
 import rx.subjects.PublishSubject
 import java.util.Collections
 
-public class HotelMarkerPreviewAdapter(var hotelMarkerDistances: List<HotelResultsPresenter.MarkerDistance>, val marker: Marker, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+public class HotelMarkerPreviewAdapter(var hotelMarkerDistances: List<HotelResultsPresenter.MarkerData>, val marker: Marker, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var sortedHotelMarkerDistanceList = sortHotelMarkerDistanceList()
 
@@ -47,7 +47,7 @@ public class HotelMarkerPreviewAdapter(var hotelMarkerDistances: List<HotelResul
     }
 
     // Create a sorted hotel list of the markers closest to the specified marker in increasing order
-    fun sortHotelMarkerDistanceList(): List<HotelResultsPresenter.MarkerDistance> {
+    fun sortHotelMarkerDistanceList(): List<HotelResultsPresenter.MarkerData> {
         var modifiedHotelMarkerDistances = hotelMarkerDistances
 
         var markerLocation = Location("specifiedMarker")
