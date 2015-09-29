@@ -12,6 +12,8 @@ import rx.subjects.PublishSubject
 
 class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: ReviewsServices, val locale: String) {
 
+    val MIN_FAVORABLE_RATING = 3
+
     val reviewsSummaryObservable = PublishSubject.create<ReviewSummary>()
     val favorableReviewsObservable = PublishSubject.create<List<Review>>()
     val criticalReviewsObservable = PublishSubject.create<List<Review>>()
@@ -27,7 +29,7 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
                 .hotelId(hotelId)
                 .pageNumber(0)
                 .numReviewsPerPage(25)
-                .sortBy(reviewSort.getSortByApiParam())
+                .sortBy(reviewSort.sortByApiParam)
                 .languageSort(locale)
                 .build()
 
@@ -51,11 +53,13 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
         reviewsObservable
                 .filter { it.first == ReviewSort.HIGHEST_RATING_FIRST }
                 .map { it.second.reviewDetails.reviewCollection.review }
+                .map { it.filter { it.ratingOverall >= MIN_FAVORABLE_RATING } }
                 .subscribe(favorableReviewsObservable)
 
         reviewsObservable
                 .filter { it.first == ReviewSort.LOWEST_RATING_FIRST }
                 .map { it.second.reviewDetails.reviewCollection.review }
+                .map { it.filter { it.ratingOverall < MIN_FAVORABLE_RATING } }
                 .subscribe(criticalReviewsObservable)
     }
 }
