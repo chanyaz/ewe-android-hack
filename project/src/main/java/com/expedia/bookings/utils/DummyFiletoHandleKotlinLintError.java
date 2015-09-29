@@ -32,6 +32,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.hotel_tooltip,
 		R.drawable.detail_phone,
 		R.drawable.hotel_tooltip_blue,
+		R.drawable.hotel_tooltip_airattach,
 		R.drawable.room_non_refundable,
 		R.drawable.ic_amenity_pool,
 		R.drawable.ic_amenity_pool,
