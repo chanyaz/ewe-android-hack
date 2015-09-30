@@ -23,58 +23,35 @@ import com.google.android.gms.maps.model.Marker
 import rx.subjects.PublishSubject
 import java.util.Collections
 
-public class HotelMarkerPreviewAdapter(var hotelMarkerDistances: List<HotelResultsPresenter.MarkerData>, val marker: Marker, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    var sortedHotelMarkerDistanceList = sortHotelMarkerDistanceList()
+public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int {
-        return sortedHotelMarkerDistanceList.size()
+        return hotels.size()
     }
 
     override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
         val holder: HotelViewHolder = given as HotelViewHolder
-        val viewModel = HotelViewModel(holder.itemView.context, sortedHotelMarkerDistanceList.get(position).hotel)
+        val viewModel = HotelViewModel(holder.itemView.context, hotels.get(position))
         holder.bind(viewModel)
         holder.itemView.setOnClickListener(holder)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
-        val view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_marker_preview_cell, parent, false)
-        val screen = Ui.getScreenSize(parent.getContext())
-        var lp = view.findViewById(R.id.root).getLayoutParams()
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_marker_preview_cell, parent, false)
+        val screen = Ui.getScreenSize(parent.context)
+        var lp = view.findViewById(R.id.root).layoutParams
         lp.width = screen.x
         return HotelViewHolder(view as ViewGroup)
-    }
-
-    // Create a sorted hotel list of the markers closest to the specified marker in increasing order
-    fun sortHotelMarkerDistanceList(): List<HotelResultsPresenter.MarkerData> {
-        var modifiedHotelMarkerDistances = hotelMarkerDistances
-
-        var markerLocation = Location("specifiedMarker")
-        markerLocation.latitude = marker.position.latitude
-        markerLocation.longitude = marker.position.longitude
-
-        for (hotelMarkerDistance in modifiedHotelMarkerDistances) {
-            var hotelLocation = Location("hotelLocation")
-            hotelLocation.setLatitude(hotelMarkerDistance.hotel.latitude)
-            hotelLocation.setLongitude(hotelMarkerDistance.hotel.longitude)
-
-            hotelMarkerDistance.distance = markerLocation.distanceTo(hotelLocation)
-        }
-
-        // Sort this list
-        Collections.sort(modifiedHotelMarkerDistances)
-        return modifiedHotelMarkerDistances
     }
 
     public inner class HotelViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
 
         val resources: Resources by lazy {
-            itemView.getResources()
+            itemView.resources
         }
 
         override fun onClick(view: View) {
-            val hotel: Hotel = sortedHotelMarkerDistanceList.get(getAdapterPosition()).hotel
+            val hotel: Hotel = hotels.get(adapterPosition)
             hotelSubject.onNext(hotel)
         }
 
@@ -97,23 +74,23 @@ public class HotelMarkerPreviewAdapter(var hotelMarkerDistances: List<HotelResul
             viewModel.hotelNameObservable.subscribe(hotelPreviewText)
 
             viewModel.hotelPreviewRatingObservable.subscribe {
-                hotelPreviewRating.setRating(it)
+                hotelPreviewRating.rating = it
             }
 
             viewModel.hotelPriceObservable.subscribe(hotelPricePerNight)
             viewModel.hotelStrikeThroughPriceObservable.subscribe(hotelStrikeThroughPrice)
             viewModel.hotelGuestRatingObservable.subscribe(hotelGuestRating)
 
-            hotelPreviewText.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM))
+            hotelPreviewText.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
 
-            hotelPricePerNight.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD))
+            hotelPricePerNight.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)
 
-            hotelStrikeThroughPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG)
-            hotelStrikeThroughPrice.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
+            hotelStrikeThroughPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            hotelStrikeThroughPrice.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
 
-            hotelGuestRating.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM))
+            hotelGuestRating.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
 
-            hotelGuestRecommend.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
+            hotelGuestRecommend.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
         }
     }
 }
@@ -123,5 +100,5 @@ public fun priceFormatter(rate: HotelRate?, strikeThrough: Boolean): String {
     var hotelPrice = if (strikeThrough)
         Money(Math.round(rate.strikethroughPriceToShowUsers).toString(), rate.currencyCode)
     else Money(Math.round(rate.priceToShowUsers).toString(), rate.currencyCode)
-    return hotelPrice.getFormattedMoney()
+    return hotelPrice.formattedMoney
 }

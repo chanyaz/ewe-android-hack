@@ -40,36 +40,27 @@ import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.HotelFilterView
 import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.HotelListRecyclerView
-import com.expedia.bookings.widget.HotelMarkerPreviewAdapter
+import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelFilterViewModel
+import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mobiata.android.LocationServices
-import com.mobiata.android.Log
 import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.PublishSubject
-import java.util.ArrayList
 import kotlin.properties.Delegates
 
 public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
-
-    public class MarkerData(val marker: Marker, var distance: Float, val hotel: Hotel, var icon: BitmapDescriptor) : Comparable<MarkerData> {
-        override fun compareTo(other: MarkerData): Int {
-            return this.distance.compareTo(other.distance)
-        }
-    }
 
     //Views
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
@@ -93,12 +84,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var mapTransitionRunning: Boolean = false
     var hideFabAnimationRunning: Boolean = false
 
-    var markerList = ArrayList<Marker>()
     var previousWasList: Boolean = true
 
     var navIcon: ArrowXDrawable
-
-    var mHotelMarkersData: List<MarkerData> = emptyList()
 
     val hotelSelectedSubject = PublishSubject.create<Hotel>()
     val headerClickedSubject = PublishSubject.create<Unit>()
@@ -112,14 +100,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var halfway = 0
     var threshold = 0
 
-    var currentlySelectedMarkerData: MarkerData? = null
-
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
+
+    val mapViewModel = HotelMapViewModel(lastBestLocationSafe())
+    var markers = arrayListOf<Marker>()
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
-        vm.hotelResultsObservable.subscribe(mapResultsObserver)
-
+        vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
+        
         vm.titleSubject.subscribe {
             toolbar.title = it
         }
@@ -179,85 +168,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         filterBtnWithCountWidget.visibility = View.VISIBLE
     }
 
-    /**
-     * Alternative to map.clear() to avoid undesired exceptions
-     */
-    public fun clearAllMapMarkers() {
-        markerList.clear()
-    }
-
-    val mapResultsObserver: Observer<HotelSearchResponse> = endlessObserver { response ->
-        val map = googleMap
-        if (map != null) {
-            clearAllMapMarkers()
-            map.isMyLocationEnabled = true
-            renderMarkers(map, response, response.hotelList.map { createHotelMarkerIcon(context.resources, it, false) }, false)
-        }
-        Log.d("Hotel Results Next")
-    }
-
-    private fun renderMarkers(googleMap: GoogleMap, response: HotelSearchResponse, hotelMarkerIcons: List<BitmapDescriptor>, isFilter: Boolean) {
-        if (!isFilter) {
-            filterView.viewmodel.setHotelList(response)
-        }
-
-        googleMap.clear()
-        googleMap.isMyLocationEnabled = true
-        val currentLocation = lastBestLocationSafe()
-        val currentLocationLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
-
-        val hotelMarkers = response.hotelList.zip(hotelMarkerIcons).map { googleMap.addMarker(MarkerOptions().position(LatLng(it.first.latitude, it.first.longitude)).icon(it.second)) }
-        mHotelMarkersData = response.hotelList.zip(hotelMarkers).zip(hotelMarkerIcons).map { MarkerData(it.first.second, -1f, it.first.first, it.second) }
-
-        val allHotelsBox = LatLngBounds.Builder()
-        response.hotelList.forEach { hotel -> allHotelsBox.include(LatLng(hotel.latitude, hotel.longitude)) }
-
-        val (closestHotelToCurrentLocation, closestHotelDistanceFromCurrentLocation) = findClosestHotel(response.hotelList, currentLocation)
-
-        val anyPointsIncludedInAllHotelsBox = response.hotelList.size() > 0
-        if (!anyPointsIncludedInAllHotelsBox) { return }
-
-        //Invoke LatLngBounds.Builder::build only if there are any points included in the box
-        val allHotelsLatLngBounds = allHotelsBox.build()
-        val isCurrentLocationInAllHotelsBox = allHotelsLatLngBounds.contains(currentLocationLatLng)
-        val mostInterestingNeighborhood = mostInterestingNeighborhood(response.neighborhoodsMap,
-                response.allNeighborhoodsInSearchRegion, isCurrentLocationInAllHotelsBox, closestHotelToCurrentLocation?.locationId)
-
-        val mostInterestingNeighborhoodLatLngBounds = mostInterestingNeighborhoodElseAllHotelsLatLngBounds(mostInterestingNeighborhood, allHotelsLatLngBounds)
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(mostInterestingNeighborhoodLatLngBounds, resources.displayMetrics.density.toInt() * 50))
-
-        val closestMarkerFromMapCameraLocation = findClosestMarker(mHotelMarkersData, mapCameraLocation(googleMap), closestHotelDistanceFromCurrentLocation)
-
-        if (closestMarkerFromMapCameraLocation != null) {
-            closestMarkerFromMapCameraLocation.marker.showInfoWindow()
-            updateMarkerDataAndSetIcon(closestMarkerFromMapCameraLocation, true)
-            mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
-            mapCarouselRecycler.adapter = HotelMarkerPreviewAdapter(mHotelMarkersData, closestMarkerFromMapCameraLocation.marker, hotelSelectedSubject)
-        }
-    }
-
-    private fun mostInterestingNeighborhoodElseAllHotelsLatLngBounds(mostInterestingNeighborhood: HotelSearchResponse.Neighborhood?, allHotelsLatLngBounds: LatLngBounds): LatLngBounds {
-        if (mostInterestingNeighborhood != null && mostInterestingNeighborhood.hotels.size() > 0) {
-            val neighborhoodBox = LatLngBounds.Builder()
-            mostInterestingNeighborhood.hotels.forEach { hotel -> neighborhoodBox.include(LatLng(hotel.latitude, hotel.longitude)) }
-            return neighborhoodBox.build()
-        } else {
-            return allHotelsLatLngBounds
-        }
-    }
-
-    private fun mostInterestingNeighborhood(neighborhoodsMap: Map<String, HotelSearchResponse.Neighborhood>, allNeighborhoodsInSearchRegion: List<HotelSearchResponse.Neighborhood>,
-                                            isCurrentLocationInAllHotelsBox: Boolean, closestHotelNeighborhoodId: String?): HotelSearchResponse.Neighborhood? {
-        var mostInterestingNeighborhood: HotelSearchResponse.Neighborhood?
-        if (isCurrentLocationInAllHotelsBox && closestHotelNeighborhoodId != null) {
-            mostInterestingNeighborhood = neighborhoodsMap.get(closestHotelNeighborhoodId)
-        } else {
-            mostInterestingNeighborhood = allNeighborhoodsInSearchRegion.reduce { left, right -> if (left.score >= right.score) left else right }
-        }
-
-        return mostInterestingNeighborhood
-    }
-
     private fun lastBestLocationSafe(): Location {
         val minTime = DateTime.now().millis - DateUtils.HOUR_IN_MILLIS
         val loc = LocationServices.getLastBestLocation(context, minTime)
@@ -265,55 +175,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         location.latitude = loc?.latitude ?: 0.0
         location.longitude = loc?.longitude ?: 0.0
         return location
-    }
-
-    private fun findClosestMarker(hotelMarkerDistanceList: List<MarkerData>, location: Location, closestHotelDistance: Float): MarkerData? {
-
-        var closestMarker: MarkerData? = if (!hotelMarkerDistanceList.isEmpty()) hotelMarkerDistanceList.get(0) else null
-        var closestDistance = closestHotelDistance
-
-        hotelMarkerDistanceList.forEach { hotelMarkerDistance ->
-            val hotelLocation = Location("hotelLocation")
-            hotelLocation.latitude = hotelMarkerDistance.hotel.latitude
-            hotelLocation.longitude = hotelMarkerDistance.hotel.longitude
-
-            val distanceBetween = location.distanceTo(hotelLocation)
-
-            if (distanceBetween <= closestDistance) {
-                closestDistance = distanceBetween
-                closestMarker = hotelMarkerDistance
-            }
-        }
-
-        return closestMarker
-    }
-
-    private fun findClosestHotel(hotelsList: List<Hotel>, location: Location): Pair<Hotel?, Float> {
-
-        var closestHotelDistance = Float.MAX_VALUE
-        var closestHotel: Hotel? = null
-
-        hotelsList.filter { it.locationId != null }.forEach { hotel ->
-            val hotelLocation = Location("hotelLocation")
-            hotelLocation.latitude = hotel.latitude
-            hotelLocation.longitude = hotel.longitude
-
-            val distanceBetween = location.distanceTo(hotelLocation)
-
-            if (distanceBetween <= closestHotelDistance) {
-                closestHotelDistance = distanceBetween
-                closestHotel = hotel
-            }
-        }
-
-        return Pair(closestHotel, closestHotelDistance)
-    }
-
-    private fun mapCameraLocation(map: GoogleMap): Location {
-        var mapCameraLocation = Location("mapCameraLocation")
-        mapCameraLocation.latitude = map.cameraPosition.target.latitude
-        mapCameraLocation.longitude = map.cameraPosition.target.longitude
-        return mapCameraLocation
     }
 
     val mapSelectedObserver: Observer<Unit> = endlessObserver {
@@ -329,13 +190,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 show(ResultsList())
             } else {
                 show(ResultsMap())
-            }
-            val map = googleMap
-            val response = filterView.viewmodel.filteredResponse
-
-            if (map != null) {
-                val hotelMarkerIcons = filterView.viewmodel.filteredResponse.hotelList.map { createHotelMarkerIcon(context.resources, it, false) }
-                renderMarkers(map, response, hotelMarkerIcons, true)
             }
         } else if (it == filterView.viewmodel.originalResponse?.hotelList) {
             adapter.resultsSubject.onNext(filterView.viewmodel.originalResponse!!)
@@ -361,6 +215,46 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         toolbar.setBackgroundColor(resources.getColor(R.color.hotels_primary_color))
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
         toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
+
+        mapViewModel.newBoundsObservable.subscribe {
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * 50))
+        }
+
+        mapViewModel.hotelsObservable.subscribe {
+            markers.clear()
+            googleMap?.clear()
+
+            for (hotel in it) {
+                val bitmap = createHotelMarkerIcon(context.resources, hotel, false)
+                val options = MarkerOptions()
+                        .position(LatLng(hotel.latitude, hotel.longitude))
+                        .icon(bitmap)
+                        .title(hotel.hotelId)
+
+                val marker = googleMap?.addMarker(options)
+                if (marker != null) markers.add(marker)
+            }
+
+            mapCarouselRecycler.adapter = HotelMapCarouselAdapter(it, hotelSelectedSubject)
+        }
+
+        mapViewModel.mapPinSelectObservable.subscribe {
+            mapCarouselRecycler.adapter = HotelMapCarouselAdapter(it, hotelSelectedSubject)
+        }
+
+        mapViewModel.unselectedMarker.subscribe {
+            val marker = it.first
+            val hotel = it.second
+            marker?.setIcon(createHotelMarkerIcon(resources, hotel, false))
+        }
+
+        mapViewModel.selectMarker.subscribe {
+            val marker = it.first
+            val hotel = it.second
+            marker?.setIcon(createHotelMarkerIcon(resources, hotel, true))
+        }
+
+        mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
     }
 
     override fun onFinishInflate() {
@@ -385,8 +279,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         recyclerView.addOnScrollListener(scrollListener)
         recyclerView.addOnItemTouchListener(touchListener)
-        mapCarouselRecycler.mapSubject.subscribe(markerObserver)
+
         filterView.viewmodel.filterCountObservable.subscribe(filterCountObserver)
+
+        mapCarouselRecycler.mapSubject.subscribe {
+            hotel ->
+            val marker = markers.filter { it.title == hotel.hotelId }.first()
+            mapViewModel.carouselSwipedObservable.onNext(marker)
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, googleMap?.cameraPosition?.zoom!!))
+        }
 
         toolbar.inflateMenu(R.menu.menu_filter_item)
         var drawable = resources.getDrawable(R.drawable.sort).mutate()
@@ -458,34 +359,16 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             uiSettings.isMyLocationButtonEnabled = false
             uiSettings.isIndoorLevelPickerEnabled = false
         }
+        googleMap?.isMyLocationEnabled = true
 
         googleMap?.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
             override fun onMarkerClick(marker: Marker): Boolean {
-                var previousSelectedMarkerData = currentlySelectedMarkerData
-                for (hotelMarkerData in mHotelMarkersData) {
-                    if (marker == hotelMarkerData.marker) {
-                        currentlySelectedMarkerData = hotelMarkerData
-                    }
-                }
-
-                updateMarkerDataAndSetIcon(previousSelectedMarkerData, false)
-                updateMarkerDataAndSetIcon(currentlySelectedMarkerData, true)
-
-                marker.showInfoWindow()
+                mapViewModel.carouselSwipedObservable.onNext(marker)
+                mapViewModel.mapPinSelectSubject.onNext(marker)
                 mapCarouselContainer.visibility = View.VISIBLE
-                mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
-                mapCarouselRecycler.adapter = HotelMarkerPreviewAdapter(mHotelMarkersData, marker, hotelSelectedSubject)
-
                 return true
             }
         })
-    }
-
-    private fun updateMarkerDataAndSetIcon(markerData: MarkerData?, clicked: Boolean) {
-        if (markerData != null) {
-            markerData.icon = createHotelMarkerIcon(resources, markerData.hotel, clicked)
-            markerData.marker.setIcon(markerData.icon)
-        }
     }
 
     val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
@@ -514,7 +397,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway && isHeaderVisible()) {
                 //view is between threshold and halfway, reset the list
                 show(ResultsList())
-                recyclerView.translationY = 0f
                 resetListOffset()
             }
 
@@ -548,7 +430,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
             if (currentState == RecyclerView.SCROLL_STATE_SETTLING && topOffset < threshold && topOffset > halfway && isHeaderVisible()) {
                 show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
-                mapView.translationY = 0f
                 recyclerView.translationY = 0f
                 resetListOffset()
             } else if (currentState == RecyclerView.SCROLL_STATE_SETTLING && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
@@ -868,11 +749,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun onTouchEvent(rv: RecyclerView?, e: MotionEvent?) {
 
         }
-    }
-
-    val markerObserver: Observer<Marker> = endlessObserver { marker ->
-        val map = googleMap
-        map?.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, map.cameraPosition.zoom))
     }
 
     val filterCountObserver: Observer<Int> = endlessObserver { filterBtnWithCountWidget.showNumberOfFilters(it) }

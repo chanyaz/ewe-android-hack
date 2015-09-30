@@ -7,8 +7,6 @@ import android.util.TypedValue
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.FontCache
-import com.expedia.bookings.widget.HotelMarkerPreviewAdapter
-import com.expedia.bookings.widget.priceFormatter
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
@@ -19,17 +17,18 @@ fun createHotelMarkerIcon(resources: Resources, hotel: Hotel, clicked: Boolean):
     var bounds = Rect()
     var text = priceFormatter(hotel.lowRateInfo, false)
     var paint: Paint = Paint()
-    paint.setColor(Color.WHITE)
-    paint.setAntiAlias(true)
-    val pxSize: Float = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 13f, resources.getDisplayMetrics())
-    paint.setTextSize(pxSize)
+    paint.color = Color.WHITE
+    paint.isAntiAlias = true
+    val pxSize: Float = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 13f, resources.displayMetrics)
+    paint.textSize = pxSize
     paint.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
-    paint.setStyle(Paint.Style.FILL)
+    paint.style = Paint.Style.FILL
     paint.getTextBounds(text, 0, text.length(), bounds)
-
+    
     val isAirAttached = hotel.lowRateInfo.discountPercent < 0 && hotel.lowRateInfo.airAttached
     var outputBitmap = getBitmap(resources, clicked, isAirAttached)
     var chunk = outputBitmap.getNinePatchChunk()
+
     val drawable = NinePatchDrawable(resources, outputBitmap, chunk, Rect(), null)
     val height = bounds.height() + markerPaddingHeight + markerPaddingHeight / 2 + 6
     drawable.setBounds(0, 0, bounds.width() + markerPaddingWidth, height)
