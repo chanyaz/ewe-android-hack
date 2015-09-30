@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.newhotels;
 
 import org.hamcrest.Matcher;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.DataInteraction;
@@ -15,11 +16,14 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -31,6 +35,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
@@ -209,5 +215,56 @@ public class HotelScreen {
 
 	public static ViewInteraction childAgeLabel() {
 		return onView(withId(R.id.children_age_label));
+	}
+
+	public static void doSearch() throws Throwable {
+		final LocalDate start = DateTime.now().toLocalDate();
+		final LocalDate end = start.plusDays(3);
+
+		HotelScreen.location().perform(typeText("SFO"));
+		HotelScreen.selectLocation("San Francisco, CA");
+		HotelScreen.selectDateButton().perform(click());
+		HotelScreen.selectDates(start, end);
+
+		HotelScreen.clickSearchButton();
+		HotelScreen.waitForResultsDisplayed();
+	}
+
+	public static void selectHotel(String name) throws Throwable {
+		HotelScreen.selectHotelWithName(name);
+		HotelScreen.waitForDetailsDisplayed();
+	}
+
+	public static void selectRoom() throws Throwable {
+		HotelScreen.clickAddRoom();
+	}
+
+	public static void pickRoom(String name) {
+		HotelScreen.clickViewRoom(name);
+		HotelScreen.clickAddRoom();
+	}
+
+	public static void checkout() throws Throwable {
+		CheckoutViewModel.waitForCheckout();
+		CheckoutViewModel.clickDone();
+		CheckoutViewModel.enterTravelerInfo();
+		CheckoutViewModel.enterPaymentInfoHotels();
+		CheckoutViewModel.pressClose();
+	}
+
+	public static void slideToPurchase() throws Throwable {
+		CheckoutViewModel.performSlideToPurchase();
+		CVVEntryScreen.waitForCvvScreen();
+	}
+
+	public static void enterCVV() throws Throwable {
+		CVVEntryScreen.enterCVV("123");
+		CVVEntryScreen.clickBookButton();
+	}
+
+	public static void verifyPriceChange(String price) throws Throwable {
+		onView(withId(R.id.price_change_text)).perform(ViewActions.waitForViewToDisplay());
+		assertViewWithTextIsDisplayed(R.id.price_change_text, price);
+		assertViewIsDisplayed(R.id.price_change_container);
 	}
 }
