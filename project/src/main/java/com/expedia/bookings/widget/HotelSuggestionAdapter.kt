@@ -24,6 +24,7 @@ public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewMod
 
     init {
         viewmodel.suggestionsObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
+            viewmodel.suggestions = it
             notifyDataSetChanged()
         }
     }
