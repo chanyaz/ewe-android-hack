@@ -16,7 +16,8 @@ public class HotelReviewsTest {
     public val service: ReviewsServicesRule = ReviewsServicesRule()
         @Rule get
 
-    private val REVIEWS_PER_PAGE: Int = 25
+    private val NUMBER_FAVOURABLE_REVIEWS: Int = 21
+    private val NUMBER_CRITICAL_REVIEWS: Int = 4
 
     public var vm: HotelReviewsAdapterViewModel by Delegates.notNull()
 
@@ -43,11 +44,11 @@ public class HotelReviewsTest {
                 .subscribe(vm.reviewsObserver)
 
         numberOfCriticalReviewsSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        numberOfCriticalReviewsSubscriber.assertReceivedOnNext(listOf(REVIEWS_PER_PAGE))
+        numberOfCriticalReviewsSubscriber.assertReceivedOnNext(listOf(NUMBER_CRITICAL_REVIEWS))
 
         numberOfFavorableReviewsSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
         numberOfFavorableReviewsSubscriber.assertCompleted()
-        numberOfFavorableReviewsSubscriber.assertReceivedOnNext(listOf(REVIEWS_PER_PAGE, REVIEWS_PER_PAGE))
+        numberOfFavorableReviewsSubscriber.assertReceivedOnNext(listOf(NUMBER_FAVOURABLE_REVIEWS, NUMBER_FAVOURABLE_REVIEWS))
 
         numberOfNewestReviewsSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
         numberOfNewestReviewsSubscriber.assertNoTerminalEvent()
