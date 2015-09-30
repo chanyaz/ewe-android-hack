@@ -92,7 +92,7 @@
                     android:orientation="vertical"
                     android:paddingBottom="8dp"
                     android:paddingLeft="11dp"
-                    android:paddingRight="11dp">
+                    android:paddingRight="25dp">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/hotel_name_text_view"
