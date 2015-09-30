@@ -213,6 +213,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             } else {
                 show(ResultsMap())
             }
+        } else{
+            filterView.dynamicFeedbackWidget.animateDynamicFeedbackWidget()
         }
     }
 

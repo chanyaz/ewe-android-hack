@@ -17,6 +17,7 @@ import java.util.HashMap
 
 class HotelFilterViewModel(val context: Context) {
     val doneObservable = PublishSubject.create<Unit>()
+    val doneButtonEnableObservable = PublishSubject.create<Boolean>()
     val clearObservable = PublishSubject.create<Unit>()
     val filterObservable = PublishSubject.create<List<Hotel>>()
 
@@ -51,9 +52,6 @@ class HotelFilterViewModel(val context: Context) {
             if (filteredResponse.hotelList == null) {
                 filterObservable.onNext(originalResponse?.hotelList)
             } else {
-                if (userFilterChoices.userSort != Sort.POPULAR) {
-                    sortObserver.onNext(userFilterChoices.userSort)
-                }
                 filterObservable.onNext(filteredResponse.hotelList)
             }
         }
@@ -74,6 +72,7 @@ class HotelFilterViewModel(val context: Context) {
         }
 
         updateDynamicFeedbackWidget.onNext(filteredResponse.hotelList.size())
+        doneButtonEnableObservable.onNext(filteredResponse.hotelList.size() > 0)
         filterCountObservable.onNext(getFilterCount())
     }
 
@@ -259,8 +258,8 @@ class HotelFilterViewModel(val context: Context) {
 
     private val price_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
         override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
-            val lowRate1 = hotel1.lowRateInfo?.getDisplayTotalPrice()
-            val lowRate2 = hotel2.lowRateInfo?.getDisplayTotalPrice()
+            val lowRate1 = hotel1.lowRateInfo?.priceToShowUsers
+            val lowRate2 = hotel2.lowRateInfo?.priceToShowUsers
 
             if (lowRate1 == null && lowRate2 == null) {
                 return name_comparator.compare(hotel1, hotel2)
@@ -271,7 +270,7 @@ class HotelFilterViewModel(val context: Context) {
             }
 
             // Compare rates
-            return lowRate1.getAmount().compareTo(lowRate2.getAmount())
+            return lowRate1.compareTo(lowRate2)
         }
     }
 
@@ -335,6 +334,7 @@ class HotelFilterViewModel(val context: Context) {
         if (userFilterChoices.neighborhoods.isNotEmpty()) count += userFilterChoices.neighborhoods.size()
         if (userFilterChoices.amenity.isNotEmpty()) count += userFilterChoices.amenity.size()
         if (userFilterChoices.price != null) count++
+        if (userFilterChoices.amenity.isNotEmpty()) count++
         return count
     }
 }
