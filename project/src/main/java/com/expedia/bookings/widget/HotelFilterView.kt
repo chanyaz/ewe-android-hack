@@ -148,7 +148,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         vm.updateDynamicFeedbackWidget.subscribe {
             dynamicFeedbackWidget.showDynamicFeedback()
-            dynamicFeedbackWidget.animateDynamicFeedbackWidget()
+            if (it == 0) dynamicFeedbackWidget.animateDynamicFeedbackWidget()
             dynamicFeedbackWidget.setDynamicCounterText(it)
         }
 
