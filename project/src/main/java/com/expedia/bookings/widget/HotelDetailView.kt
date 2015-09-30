@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Paint
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v4.view.ViewCompat
@@ -39,7 +38,6 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnCheckedChange
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
-import com.expedia.vm.lastExpanded
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -50,6 +48,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import rx.Observable
 import rx.Observer
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 object RoomSelected {
@@ -201,14 +200,19 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 }).subscribeVisibility(hotelMessagingContainer)
 
         vm.roomResponseListObservable.subscribe { roomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
+            val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(roomList.first.size())
+
             roomContainer.removeAllViews()
             roomList.first.forEachIndexed { roomResponseIndex, room ->
-                val view = HotelRoomRateView(getContext(), roomContainer, RoomSelected.observer)
-                view.viewmodel = HotelRoomRateViewModel(getContext(), roomList.first.get(roomResponseIndex), roomResponseIndex, roomList.second.get(roomResponseIndex))
+                val view = HotelRoomRateView(getContext(), RoomSelected.observer)
+                view.viewmodel = HotelRoomRateViewModel(getContext(), roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm)
                 roomContainer.addView(view)
+                hotelRoomRateViewModels.add(view.viewmodel)
             }
+            vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+
             //setting first room in expanded state as some etp hotel offers are less compared to pay now offers
-            lastExpanded = 0
+            vm.lastExpandedRowObservable.onNext(0);
         }
 
         Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, {hasETP, hasFreeCancellation -> hasETP && hasFreeCancellation})
@@ -221,15 +225,20 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.hasETPObservable.subscribeVisibility(etpContainer)
 
         vm.etpRoomResponseListObservable.subscribe { etpRoomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
+            val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(etpRoomList.first.size())
+
             roomContainer.removeAllViews()
             etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
-                val view = HotelRoomRateView(getContext(), roomContainer, RoomSelected.observer)
-                view.viewmodel = HotelRoomRateViewModel(getContext(), etpRoomList.first.get(roomResponseIndex).payLaterOffer, roomResponseIndex, etpRoomList.second.get(roomResponseIndex))
+                val view = HotelRoomRateView(getContext(), RoomSelected.observer)
+                view.viewmodel = HotelRoomRateViewModel(getContext(), etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm)
                 view.viewmodel.payLaterObserver.onNext(Unit)
                 roomContainer.addView(view)
+                hotelRoomRateViewModels.add(view.viewmodel)
             }
+            vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+
             //setting first room in expanded state as some etp hotel offers are less compared to pay now offers
-            lastExpanded = 0
+            vm.lastExpandedRowObservable.onNext(0);
         }
         
         ratingContainer.subscribeOnClick(vm.reviewsClickedSubject)
