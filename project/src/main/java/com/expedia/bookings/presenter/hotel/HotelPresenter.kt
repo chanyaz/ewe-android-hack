@@ -72,8 +72,11 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         resultsPresenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices)
         resultsPresenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
+
         resultsPresenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         resultsPresenter.viewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+
+        resultsPresenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
 
         RoomSelected.observer = selectedRoomObserver
 
@@ -195,7 +198,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             showDetails(params.suggestion.hotelId)
         } else {
             // Hotel region search
-            show(resultsPresenter)
+            show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
             resultsPresenter.viewmodel.paramsSubject.onNext(params)
         }
     }
@@ -254,4 +257,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
         return false
     }
+
+    val searchResultsOverlayObserver: Observer<Unit> = endlessObserver { params ->
+        show(searchPresenter)
+    }
+
 }
