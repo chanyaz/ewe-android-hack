@@ -50,15 +50,16 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
         return SuggestionV4Utils.loadSuggestionHistory(context, SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE)
     }
 
-    private fun getNearbySuggestions(latlong: String) {
+    private fun getNearbySuggestions(location: Location) {
+        val latlong = "" + location.latitude + "|" + location.longitude;
         suggestionsService
                 .suggestNearbyV4(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId(), ServicesUtil.generateClientId(context))
                 .doOnNext { nearbySuggestions ->
                     if (nearbySuggestions.size() < 1) {
                         throw ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS)
                     }
-
-                    nearbySuggestions.first().regionNames.displayName = context.getString(com.expedia.bookings.R.string.current_location)
+                    var suggestion = modifySuggestionToCurrentLocation(location, nearbySuggestions.first())
+                    nearbySuggestions.add(0, suggestion)
                 }
                 .doOnNext {
                     nearby = it
@@ -68,11 +69,21 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
     }
 
     // Utility
+    private fun modifySuggestionToCurrentLocation(location: Location, suggestion: SuggestionV4) : SuggestionV4 {
+        val currentLocation = suggestion.copy()
+        currentLocation.gaiaId = null
+        currentLocation.regionNames.displayName = context.getString(R.string.current_location)
+        val coordinate = SuggestionV4.LatLng()
+        coordinate.lat = location.latitude
+        coordinate.lng = location.longitude
+        currentLocation.coordinates = coordinate
+        return currentLocation
+    }
+
     private fun generateLocationServiceCallback(): Observer<Location> {
         return object : Observer<Location> {
             override fun onNext(location: Location) {
-                val latlong = "" + location.latitude + "|" + location.longitude;
-                getNearbySuggestions(latlong)
+                getNearbySuggestions(location)
             }
 
             override fun onCompleted() {

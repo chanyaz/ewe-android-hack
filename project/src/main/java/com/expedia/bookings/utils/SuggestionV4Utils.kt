@@ -15,10 +15,14 @@ public object SuggestionV4Utils {
     public fun saveSuggestionHistory(context: Context, suggestion: SuggestionV4, file: String) {
         Thread(object : Runnable {
             override fun run() {
-                val suggestions = listOf(suggestion) + loadSuggestionHistory(context, file)
-                val recentSuggestions = suggestions.distinctBy { it.gaiaId }
-                var currentLocation = recentSuggestions.find { suggestion.regionNames.displayName == context.getString(com.expedia.bookings.R.string.current_location)}
-                currentLocation?.regionNames?.displayName = currentLocation?.regionNames?.shortName
+                val suggest = suggestion.copy()
+                if (suggest.regionNames.displayName == context.getString(com.expedia.bookings.R.string.current_location)) {
+                    suggest.regionNames.displayName = suggest.regionNames.shortName
+                }
+                suggest.hierarchyInfo.isChild = false
+                val suggestions = listOf(suggest) + loadSuggestionHistory(context, file)
+                val recentSuggestions = suggestions.distinctBy { it.regionNames.displayName }
+
                 val type = object : TypeToken<List<SuggestionV4>>() { }.type
                 val suggestionJson = Gson().toJson(recentSuggestions.take(3), type)
                 try {

@@ -1,6 +1,5 @@
 package com.expedia.bookings.data.hotels;
 
-import com.expedia.bookings.data.cars.Suggestion;
 import com.google.gson.annotations.SerializedName;
 
 public class SuggestionV4 {
@@ -41,23 +40,21 @@ public class SuggestionV4 {
 		SEARCH_TYPE_ICON
 	}
 
-	public static SuggestionV4 convertV1toV4(Suggestion suggest) {
+	public SuggestionV4 copy() {
 		SuggestionV4 v4 = new SuggestionV4();
-		v4.gaiaId = suggest.gaiaId;
-		v4.type = suggest.type;
-		HierarchyInfo info = new HierarchyInfo();
-		info.isChild = false;
-		v4.hierarchyInfo = info;
-		RegionNames names = new RegionNames();
-		names.displayName = suggest.displayName;
-		names.shortName = suggest.shortName;
-		names.fullName = suggest.fullName;
-		v4.regionNames = names;
-		LatLng latLng = new LatLng();
-		latLng.lat = suggest.latLong.lat;
-		latLng.lng = suggest.latLong.lng;
-		v4.coordinates = latLng;
-		v4.iconType = IconType.CURRENT_LOCATION_ICON;
+		v4.gaiaId = gaiaId;
+		v4.type = type;
+		v4.hierarchyInfo = new HierarchyInfo();
+		v4.hierarchyInfo.isChild = hierarchyInfo.isChild;
+		v4.regionNames = new RegionNames();
+		v4.regionNames.fullName = regionNames.fullName;
+		v4.regionNames.displayName = regionNames.displayName;
+		v4.regionNames.shortName = regionNames.shortName;
+		v4.hotelId = hotelId;
+		v4.coordinates = new LatLng();
+		v4.coordinates.lat = coordinates.lat;
+		v4.coordinates.lng = coordinates.lng;
+		v4.iconType = iconType;
 		return v4;
 	}
 }

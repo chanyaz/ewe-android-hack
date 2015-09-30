@@ -96,11 +96,17 @@
         android:textColor="@color/hotels_primary_color"
         android:textSize="12sp"
         app:textStyle="thin" />
-
+    
     <com.expedia.bookings.widget.HotelFilterView
         android:id="@+id/filter_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/skin_hotelFilterBackground" />
+
+    <com.expedia.bookings.widget.MapLoadingOverlayWidget
+        android:id="@+id/map_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </merge>

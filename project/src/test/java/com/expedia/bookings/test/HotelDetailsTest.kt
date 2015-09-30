@@ -115,8 +115,10 @@ public class HotelDetailsTest {
 
         val checkIn = LocalDate.now();
         val checkOut = checkIn.plusDays(1)
+        val suggestion = SuggestionV4()
+        suggestion.gaiaId = ""
         val searchBuilder = HotelSearchParams.Builder()
-                .suggestion(SuggestionV4())
+                .suggestion(suggestion)
                 .adults(2)
                 .children(listOf(10,10,10))
                 .checkIn(checkIn)

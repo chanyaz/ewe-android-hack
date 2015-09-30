@@ -25,12 +25,10 @@ public interface HotelApi {
 		@Query("sortOrder") String sortOrder,
 		@Query("filterUnavailable") String filterUnavailable);
 
-	@GET("/m/api/hotel/search?sortOrder=ExpertPicks&resultsPerPage=200&pageIndex=0&filterUnavailable=true&enableSponsoredListings=true")
-	Observable<HotelSearchResponse> regionSearch(
-		@Query("regionId") String regionId,
-		@Query("checkInDate") String checkInDate,
-		@Query("checkOutDate") String checkOutDate,
-		@Query("room1") String travelers);
+	@FormUrlEncoded
+	@POST("/m/api/hotel/search?sortOrder=ExpertPicks&resultsPerPage=200&pageIndex=0&filterUnavailable=true&enableSponsoredListings=true")
+	Observable<HotelSearchResponse> search(
+		@FieldMap Map<String, Object> queryParams);
 
 	@GET("/m/api/hotel/offers")
 	Observable<HotelOffersResponse> offers(
