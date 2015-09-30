@@ -69,6 +69,7 @@ public class HotelOffersResponse {
 		public String supplierType;
 		public boolean isDiscountRestrictedToCurrentSourceType;
 		public boolean isSameDayDRR;
+		public boolean isPayLater;
 
 		public boolean isMerchant() {
 			return Strings.equals(supplierType, "E") || Strings.equals(supplierType, "MERCHANT");
