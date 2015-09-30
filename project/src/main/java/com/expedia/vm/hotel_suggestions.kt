@@ -26,10 +26,6 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
 
     init {
         locationObservable.subscribe(generateLocationServiceCallback());
-
-        suggestionsObservable.subscribe {
-            suggestions = it
-        }
     }
 
     // Inputs
