@@ -50,6 +50,9 @@ public class HotelRoomRateView(context: Context, val container: TableLayout, val
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
         expandedAmenity.setVisibility(View.GONE)
         viewRoom.subscribeOnCheckChanged(vm.expandCollapseRoomRate)
+        row.setOnClickListener {
+            vm.expandCollapseRoomRate.onNext(!viewRoom.isChecked)
+        }
         vm.roomSelectedObservable.subscribe(selectedRoomObserver)
         roomInfoContainer.subscribeOnClick(vm.expandCollapseRoomRateInfo)
 

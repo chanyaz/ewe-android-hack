@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.graphics.drawable.DrawableCompat
+import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.Html
@@ -60,6 +61,8 @@ val ANIMATION_DURATION = 500L
 public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
 
     val MAP_ZOOM_LEVEL = 12f
+    var bottomMargin = 0
+    var resortViewHeight = 0
     val screenSize by lazy { Ui.getScreenSize(context) }
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
@@ -78,6 +81,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
     val ratingContainer: LinearLayout by bindView(R.id.rating_container)
     val selectRoomButton: Button by bindView(R.id.select_room_button)
+    val stickySelectRoomContainer : ViewGroup by bindView(R.id.sticky_select_room_container)
     val stickySelectRoomButton: Button by bindView(R.id.sticky_select_room)
     val stickySelectRoomShadow: View by bindView(R.id.sticky_select_room_shadow)
     val userRating: TextView by bindView(R.id.user_rating)
@@ -274,16 +278,21 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         toolBarGradient.setTranslationY(0f)
         priceViewAlpha(1f)
         urgencyViewAlpha(1f)
-        resortFeeWidget.setVisibility(View.GONE)
         commonAmenityText.setVisibility(View.GONE)
         commonAmenityDivider.setVisibility(View.GONE)
+        stickySelectRoomContainer.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        bottomMargin = stickySelectRoomContainer.measuredHeight
+        resortFeeWidget.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        resortViewHeight = resortFeeWidget.measuredHeight
+
+        resortFeeWidget.animate().translationY(resortViewHeight.toFloat()).setInterpolator(DecelerateInterpolator()).start()
+        stickySelectRoomContainer.animate().translationY(bottomMargin.toFloat()).setInterpolator(DecelerateInterpolator()).start()
     }
 
     fun marginForSelectRoom(viewGroup: ViewGroup) {
-        val bottomMargin = stickySelectRoomButton.getHeight()
-        val layoutParams = viewGroup.getLayoutParams() as ViewGroup.MarginLayoutParams
+        val layoutParams = viewGroup.layoutParams as ViewGroup.MarginLayoutParams
         layoutParams.bottomMargin = bottomMargin
-        viewGroup.setLayoutParams(layoutParams)
+        viewGroup.layoutParams = layoutParams
     }
 
     val etpContainerObserver: Observer<Int> = endlessObserver { checkedId ->
@@ -338,13 +347,15 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
             var urgencyRatio = (urgencyContainerLocation[1] - (offset/2)) /offset
             urgencyViewAlpha(urgencyRatio * 1.5f)
-            shouldShowStickySelectRoomView()
 
             if (shouldShowResortView()) {
-                resortFeeWidget.visibility = View.VISIBLE
+                resortFeeWidget.animate().translationY(0f).setInterpolator(DecelerateInterpolator()).start()
             } else {
-                resortFeeWidget.visibility = View.GONE
+                resortFeeWidget.animate().translationY((resortViewHeight).toFloat()).setInterpolator(DecelerateInterpolator()).start()
             }
+
+            shouldShowStickySelectRoomView()
+
         }
     }
 
@@ -371,12 +382,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     public fun shouldShowStickySelectRoomView() {
         roomContainer.getLocationOnScreen(roomContainerPosition)
-        if (roomContainerPosition[1] + roomContainer.getHeight() < offset) {
-            stickySelectRoomButton.setVisibility(View.VISIBLE)
-            stickySelectRoomShadow.setVisibility(View.VISIBLE)
+        if (roomContainerPosition[1] + roomContainer.height < offset) {
+            stickySelectRoomContainer.animate().translationY(0f).setInterpolator(DecelerateInterpolator()).start()
         } else {
-            stickySelectRoomButton.setVisibility(View.GONE)
-            stickySelectRoomShadow.setVisibility(View.GONE)
+            stickySelectRoomContainer.animate().translationY((stickySelectRoomContainer.height).toFloat()).setInterpolator(DecelerateInterpolator()).start()
         }
     }
 

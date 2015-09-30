@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
+import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
@@ -34,17 +35,17 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     val default = object : Presenter.DefaultTransition(HotelDetailView::class.java.getName()) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
-            hotelRenovationDesc.setVisibility(View.GONE)
-            hotelPayLaterInfo.setVisibility(View.GONE)
-            hotelDetailView.setVisibility(View.VISIBLE)
+            hotelRenovationDesc.visibility = View.GONE
+            hotelPayLaterInfo.visibility = View.GONE
+            hotelDetailView.visibility = View.VISIBLE
         }
     }
 
     val detailToDescription = object : VisibilityTransition(this, HotelDetailView::class.java, SpecialNoticeWidget::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
-            hotelRenovationDesc.setVisibility(if (forward) View.VISIBLE else View.GONE)
-            hotelDetailView.setVisibility(if (forward) View.GONE else View.VISIBLE)
+            hotelRenovationDesc.visibility = if (forward) View.VISIBLE else View.GONE
+            hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
         }
     }
 
@@ -56,8 +57,12 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     val detailToPayLaterInfo = object : VisibilityTransition(this, HotelDetailView::class.java, PayLaterInfoWidget::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
-            hotelPayLaterInfo.setVisibility(if (forward) View.VISIBLE else View.GONE)
-            hotelDetailView.setVisibility(if (forward) View.GONE else View.VISIBLE)
+            hotelPayLaterInfo.visibility = if (forward) View.VISIBLE else View.GONE
+            hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
+            if (!forward) {
+                ViewCompat.jumpDrawablesToCurrentState(hotelDetailView.etpInfoText)
+            }
+
         }
     }
 
@@ -71,24 +76,24 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     public fun animationStart(): Float {
-        searchTop = hotelDetailView.toolbarTitle.getTop()
-        hotelDetailView.toolbar.setVisibility(View.VISIBLE)
-        hotelDetailView.toolbarTitle.setTranslationY(searchTop.toFloat())
-        hotelDetailView.toolBarRating.setTranslationY(searchTop.toFloat())
-        return hotelDetailView.toolbar.getAlpha()
+        searchTop = hotelDetailView.toolbarTitle.top
+        hotelDetailView.toolbar.visibility = View.VISIBLE
+        hotelDetailView.toolbarTitle.translationY = searchTop.toFloat()
+        hotelDetailView.toolBarRating.translationY = searchTop.toFloat()
+        return hotelDetailView.toolbar.alpha
     }
 
     public fun animationUpdate(f: Float, forward: Boolean) {
         val yTrans = if (forward) -(searchTop * -f) else (searchTop * (1 - f))
-        hotelDetailView.toolbarTitle.setTranslationY(yTrans)
-        hotelDetailView.toolBarRating.setTranslationY(yTrans)
+        hotelDetailView.toolbarTitle.translationY = yTrans
+        hotelDetailView.toolBarRating.translationY = yTrans
     }
 
     public fun animationFinalize() {
-        hotelDetailView.toolbar.setVisibility(View.VISIBLE)
-        hotelDetailView.toolbar.setVisibility(View.VISIBLE)
-        hotelDetailView.toolbarTitle.setTranslationY(0f)
-        hotelDetailView.toolBarRating.setTranslationY(0f)
+        hotelDetailView.toolbar.visibility = View.VISIBLE
+        hotelDetailView.toolbar.visibility = View.VISIBLE
+        hotelDetailView.toolbarTitle.translationY = 0f
+        hotelDetailView.toolBarRating.translationY = 0f
     }
 
 }
