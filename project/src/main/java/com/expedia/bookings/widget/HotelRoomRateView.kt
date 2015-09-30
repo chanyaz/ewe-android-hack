@@ -60,7 +60,7 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
 
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
         val viewsToHideInExpandedState = arrayOf(collapsedBedType, collapsedUrgency)
-        val viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, totalPricePerNight)
+        val viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, totalPricePerNight, roomInfoContainer)
 
         expandedAmenity.visibility = View.GONE
         viewRoom.subscribeOnCheckChanged(vm.expandCollapseRoomRate)
@@ -109,10 +109,14 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
                 it.animate().alpha(0f).setDuration(ANIMATION_DURATION).withEndAction { it.visibility = View.GONE }
             }
             viewsToShowInExpandedState.forEach {
-                it.animate().alpha(1f).setDuration(ANIMATION_DURATION).withStartAction { it.visibility = View.VISIBLE }
+                it.animate().alpha(1f).setDuration(ANIMATION_DURATION).withStartAction {
+                    if (it.id != R.id.expanded_amenity_text_view)
+                        it.visibility = View.VISIBLE
+                    else {
+                        it.visibility = if (Strings.isNotEmpty((it as TextView).text)) View.VISIBLE else View.GONE
+                    }
+                }
             }
-
-            expandedAmenity.visibility = if (Strings.isNotEmpty(expandedAmenity.text)) View.VISIBLE else View.GONE
 
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
             dailyPricePerNight.setTextColor(resources.getColor(R.color.hotels_primary_color))
