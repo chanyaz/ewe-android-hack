@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget
 
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Paint
@@ -57,6 +58,8 @@ object RoomSelected {
 
 //scroll animation duration for select room button
 val ANIMATION_DURATION = 500L
+val DESCRIPTION_ANIMATION = 100L
+val HOTEL_DESC_COLLAPSE_LINES = 2
 
 public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
 
@@ -246,12 +249,15 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         vm.sectionImageObservable.subscribe { isExpanded ->
+            val values = if (hotelDescription.maxLines == HOTEL_DESC_COLLAPSE_LINES) hotelDescription.lineCount else HOTEL_DESC_COLLAPSE_LINES
+            var animation = ObjectAnimator.ofInt(hotelDescription, "maxLines", values)
+
+            animation.setDuration(DESCRIPTION_ANIMATION).start()
+
             if (isExpanded) {
-                hotelDescription.setMaxLines(Int.MAX_VALUE)
                 AnimUtils.rotate(readMoreView)
             } else {
                 AnimUtils.reverseRotate(readMoreView)
-                hotelDescription.setMaxLines(2)
             }
 
         }
