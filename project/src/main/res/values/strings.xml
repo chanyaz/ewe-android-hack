@@ -2812,7 +2812,8 @@
     <string name="not_included_in_the_price">Not included in the price</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">View Room</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">Book</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Share via</string>
     <!-- Renovation Notice -->
