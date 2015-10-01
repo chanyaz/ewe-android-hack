@@ -35,7 +35,6 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
     val totalPriceWithTaxAndFees: android.widget.TextView by bindView(R.id.total_price_with_tax_and_fees)
     val amountDueTodayLabel: android.widget.TextView by bindView(R.id.amount_due_today_label)
     val bestPriceGuarantee: android.widget.TextView by bindView(R.id.best_price_guarantee)
-    val saleMessage: android.widget.TextView by bindView(R.id.sale_text)
     val costSummary: LinearLayout by bindView(R.id.cost_summary)
     val priceChangeLayout: LinearLayout by bindView(R.id.price_change_container)
     val priceChange: android.widget.TextView by bindView(R.id.price_change_text)
@@ -78,9 +77,6 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
         viewModel.priceChange.subscribe(priceChange)
         viewModel.isPayLaterOrResortCase.subscribeVisibility(totalWithTaxLabelWithInfoButton.compoundDrawables[2], false)
         viewModel.isPayLaterOrResortCase.subscribeVisibility(amountDueTodayLabel.compoundDrawables[2], true)
-        // TODO: Add sale message
-//        viewModel.discounts.map{ viewModel != null }.subscribeVisibility(saleMessage)
-//        viewModel.discounts.map{ sale message here }.subscribe(saleMessage)
         viewModel.newDataObservable.subscribe {
             amountDueTodayLabel.text = if (it.isPayLaterOrResortCase.value)
                                             Phrase.from(getContext(), R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format()
