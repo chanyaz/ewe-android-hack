@@ -60,7 +60,16 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
             errorScreen.setVisibility(View.GONE)
         }
     }
-    private val checkoutToCvv = VisibilityTransition(this, HotelCheckoutMainViewPresenter::class.java, CVVEntryWidget::class.java)
+
+    private val checkoutToCvv = object : VisibilityTransition(this, HotelCheckoutMainViewPresenter::class.java, CVVEntryWidget::class.java) {
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            if (!forward) {
+                hotelCheckoutWidget.slideWidget.resetSlider()
+                hotelCheckoutWidget.checkoutFormWasUpdated()
+            }
+        }
+    }
 
     private val checkoutToError = object : VisibilityTransition(this, HotelCheckoutMainViewPresenter::class.java, ErrorWidget::class.java) {
         override fun finalizeTransition(forward: Boolean) {
