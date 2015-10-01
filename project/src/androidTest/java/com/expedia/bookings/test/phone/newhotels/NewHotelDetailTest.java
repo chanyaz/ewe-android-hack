@@ -13,6 +13,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -61,13 +62,15 @@ public class NewHotelDetailTest extends HotelTestCase {
 		onView(allOf(withId(R.id.room_header_image),isDisplayed())).perform(swipeUp());
 		Common.delay(1);
 		onView(withText("View Room")).perform(scrollTo());
-		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(withId(R.id.collapsed_container)), isDisplayed()))
+		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(
+			withId(R.id.collapsed_container)), isDisplayed(), hasSibling(withText("2 double"))))
 			.check(matches(withText("1 Room Left!")));
 
 		onView(withText("View Room")).perform(click());
 
 		Common.delay(1);
-		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(withId(R.id.collapsed_container)), isDisplayed()))
+		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(
+			withId(R.id.collapsed_container)), isDisplayed(), hasSibling(withText("One King Bed"))))
 			.check(matches(withText("Non-refundable")));
 	}
 /*

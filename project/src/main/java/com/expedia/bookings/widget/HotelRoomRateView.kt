@@ -8,6 +8,8 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -107,19 +109,45 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
             viewRoom.isChecked = true
         }
 
+        fun newAlphaZeroToOneAnimation(view: View): AlphaAnimation {
+            val anim = AlphaAnimation(0f, 1f)
+            anim.fillAfter = true
+            anim.setAnimationListener(object: Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {
+                    view.visibility = View.VISIBLE
+                }
+
+                override fun onAnimationEnd(animation: Animation?) {
+                    //ignore
+                }
+
+                override fun onAnimationRepeat(animation: Animation?) {
+                    //ignore
+                }
+            })
+            anim.duration = ANIMATION_DURATION
+            return anim
+        }
+
+        fun newAlphaOneToZeroAnimation(): AlphaAnimation {
+            val anim = AlphaAnimation(1f, 0f)
+            anim.fillAfter = true
+            anim.duration = ANIMATION_DURATION
+            return anim
+        }
+
         Observable.combineLatest(vm.expandRoomObservable, vm.expandedMeasurementsDone) { animate, unit -> animate }.subscribe { animate ->
             viewRoom.isChecked = true
 
             viewsToHideInExpandedState.forEach {
-                it.animate().alpha(0f).setDuration(ANIMATION_DURATION).withEndAction { it.visibility = View.GONE }
+                it.startAnimation(newAlphaOneToZeroAnimation())
             }
             viewsToShowInExpandedState.forEach {
-                it.animate().alpha(1f).setDuration(ANIMATION_DURATION).withStartAction {
-                    if (it.id != R.id.expanded_amenity_text_view)
-                        it.visibility = View.VISIBLE
-                    else {
-                        it.visibility = if (Strings.isNotEmpty((it as TextView).text)) View.VISIBLE else View.GONE
-                    }
+                if (it.id == R.id.expanded_amenity_text_view && Strings.isEmpty((it as TextView).text)) {
+                    it.visibility = View.GONE
+                }
+                else {
+                    it.startAnimation(newAlphaZeroToOneAnimation(it))
                 }
             }
 
@@ -153,10 +181,10 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
             viewRoom.isChecked = false
 
             viewsToHideInExpandedState.forEach {
-                it.animate().alpha(1f).setDuration(ANIMATION_DURATION).withStartAction { it.visibility = View.VISIBLE }
+                it.startAnimation(newAlphaZeroToOneAnimation(it))
             }
             viewsToShowInExpandedState.forEach {
-                it.animate().alpha(0f).setDuration(ANIMATION_DURATION).withEndAction { it.visibility = View.GONE }
+                it.startAnimation(newAlphaOneToZeroAnimation())
             }
 
             row.isEnabled = true
