@@ -344,9 +344,12 @@
     <dimen name="hotel_review_content_line_spacing">3dp</dimen>
     <!--Review padding bottom-->
     <dimen name="hotel_review_padding_bottom">5dp</dimen>
+    <!-- Review corner radius -->
+    <dimen name="hotel_review_corner_radius">3dp</dimen>
+    <!-- Review divider width -->
+    <dimen name="hotel_review_divider_width">1dp</dimen>
     <!-- marging for special notice and etp desc -->
     <dimen name="hotel_special_and_etp_margin">15dp</dimen>
-
     <!--Dimensions for hotel reviews summary-->
     <!--Review summary rating text size-->
     <dimen name="hotel_reviews_summary_text_size">12dp</dimen>

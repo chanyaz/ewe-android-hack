@@ -315,4 +315,16 @@
         <attr name="background_tint" format="color" />
     </declare-styleable>
 
+
+    <declare-styleable name="BoxRatingBar">
+        <!--Enabled Box Color -->
+        <attr name="enabled_box_color" format="color" />
+        <!--Disabled Box Color -->
+        <attr name="disabled_box_color" format="color" />
+        <!-- Divider Width -->
+        <attr name="divider_width" format="dimension" />
+        <!-- Corner Radius -->
+        <attr name="corner_radius" format="dimension" />
+    </declare-styleable>
+
 </resources>

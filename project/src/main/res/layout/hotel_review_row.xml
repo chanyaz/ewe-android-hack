@@ -43,16 +43,17 @@
 
         </RelativeLayout>
 
-
-        <RatingBar
+        <com.expedia.bookings.widget.BoxRatingBar
             android:id="@+id/user_rating_bar"
-            style="@style/RatingBar.UserReview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="15dp"
+            android:layout_marginBottom="@dimen/hotel_review_padding_bottom"
             android:numStars="5"
-            android:paddingBottom="@dimen/hotel_review_padding_bottom"
-            android:stepSize=".5" />
-
+            android:stepSize=".5"
+            app:corner_radius="@dimen/hotel_review_corner_radius"
+            app:disabled_box_color="@color/rating_yellow_disabled"
+            app:divider_width="@dimen/hotel_review_divider_width"
+            app:enabled_box_color="@color/rating_yellow" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/content"
