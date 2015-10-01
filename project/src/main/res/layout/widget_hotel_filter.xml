@@ -291,7 +291,7 @@
                     android:text="@string/amenities"
                     android:textColor="@color/hotels_primary_color"
                     android:textSize="15sp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <GridLayout
                     android:id="@+id/amenities_container"
@@ -303,6 +303,7 @@
                 </GridLayout>
 
                 <TextView
+                    android:id="@+id/neighborhood_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/lx_sort_filter_padding"
@@ -310,7 +311,8 @@
                     android:paddingRight="@dimen/lx_sort_filter_padding"
                     android:text="@string/neighborhoods"
                     android:textSize="15sp"
-                    android:textColor="@color/hotels_primary_color" />
+                    android:textColor="@color/hotels_primary_color"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/neighborhoods"
