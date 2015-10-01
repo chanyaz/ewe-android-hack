@@ -157,7 +157,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         val view = recyclerView.getChildAt(1)
         val topOffset = if (view == null) 0 else view.top
         val bottom = recyclerView.height - topOffset
-        googleMap?.setPadding(0, 0, 0, (bottom + mapView.translationY).toInt())
+        googleMap?.setPadding(0, toolbar.height, 0, (bottom + mapView.translationY).toInt())
     }
 
     private fun fabShouldBeHiddenOnList(): Boolean {
@@ -638,7 +638,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 else {
                     mapView.translationY = 0f
                     recyclerView.translationY = screenHeight.toFloat()
-                    googleMap?.setPadding(0, 0, 0, mapCarouselContainer.height)
+                    googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
                 }
             }
         }
