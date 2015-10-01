@@ -206,11 +206,21 @@
 
     <style name="HotelToggleButton">
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@drawable/hotel_toggle_text</item>
         <item name="android:textOff">@string/view_room_button_text</item>
         <item name="android:textOn">@string/book_room_button_text</item>
-        <item name="android:textSize">17sp</item>
         <item name="android:background">@drawable/hotel_toggle_background_selector</item>
+    </style>
+
+    <style name="HotelToggleButtonTextAppearance">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@drawable/hotel_toggle_text</item>
+    </style>
+
+    <style name="HotelButtonTextAppearance">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/hotels_primary_color</item>
     </style>
 
     <style name="CarOfferText">

@@ -147,8 +147,7 @@
                         android:paddingTop="5dp"
                         android:text="@string/select_a_room_instruction"
                         android:textAllCaps="false"
-                        android:textColor="@color/hotels_primary_color"
-                        android:textSize="17sp" />
+                        android:textAppearance="@style/HotelButtonTextAppearance" />
 
                 </RelativeLayout>
 
