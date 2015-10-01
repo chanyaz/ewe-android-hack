@@ -24,10 +24,10 @@ apply plugin: 'com.github.ben-manes.versions'
 
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions
 
-ext.supportLibVersion="22.2.1"
-ext.googlePlayServicesVersion="7.5.0"
+ext.supportLibVersion="23.0.1"
+ext.googlePlayServicesVersion="8.1.0"
 
-ext.compileSdkVersion=21
+ext.compileSdkVersion=23
 ext.buildToolsVersion="22.0.1"
 
 ext.preDexLibs = !project.hasProperty('disablePreDex')
