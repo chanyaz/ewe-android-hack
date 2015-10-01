@@ -15,6 +15,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -149,7 +150,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             priceAdjustments.onNext(rate.getPriceAdjustments())
             hotelName.onNext(it.localizedHotelName)
             checkInDate.onNext(it.checkInDate)
-            checkInOutDatesFormatted.onNext(context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, it.checkInDate, it.checkOutDate))
+            checkInOutDatesFormatted.onNext(DateFormatUtils.formatHotelsV2DateRange(context, it.checkInDate, it.checkOutDate))
             address.onNext(it.hotelAddress)
             city.onNext(context.resources.getString(R.string.single_line_street_address_TEMPLATE, it.hotelCity, it.hotelStateProvince))
             val discountPercent = room.rateInfo.chargeableRateInfo.discountPercent
