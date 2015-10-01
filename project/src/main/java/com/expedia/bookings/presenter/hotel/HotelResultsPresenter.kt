@@ -372,6 +372,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         })
 
         filterMenuItem.setVisible(false)
+        var fabLp = fab.layoutParams as FrameLayout.LayoutParams
+        fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
@@ -432,11 +434,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
 
             // Filter button translation
-            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+            if (!mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE) {
                 if (scrolledDistance > heightOfButton / 2) {
                     filterBtnWithCountWidget.animate().translationY(heightOfButton.toFloat()).setInterpolator(DecelerateInterpolator()).start()
+                    fab.animate().translationY(heightOfButton.toFloat()).setInterpolator(DecelerateInterpolator()).start()
                 } else {
                     filterBtnWithCountWidget.animate().translationY(0f).setInterpolator(DecelerateInterpolator()).start()
+                    fab.animate().translationY(0f).setInterpolator(DecelerateInterpolator()).start()
                 }
             }
 
@@ -467,28 +471,34 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 show(ResultsMap())
             }
 
-            if (!fabShouldBeHiddenOnList() && fab.visibility == View.INVISIBLE) {
-                fab.visibility = View.VISIBLE
-                getFabAnimIn().start()
-            } else if (fabShouldBeHiddenOnList() && fab.visibility == View.VISIBLE && !hideFabAnimationRunning) {
-                hideFabAnimationRunning = true
-                val outAnim = getFabAnimOut()
-                outAnim.addListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animator: Animator) {
-                        fab.visibility = View.INVISIBLE
-                        hideFabAnimationRunning = false
-                    }
-                })
-                outAnim.start()
-            }
 
-            // Filter button translation
-            if (scrolledDistance > 0) {
-                scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy)
-                filterBtnWithCountWidget.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
-            } else {
-                scrolledDistance = Math.max(0, scrolledDistance + dy)
-                filterBtnWithCountWidget.translationY = Math.min(scrolledDistance, 0).toFloat()
+            if (!mapTransitionRunning) {
+                if (!fabShouldBeHiddenOnList() && fab.visibility == View.INVISIBLE) {
+                    fab.visibility = View.VISIBLE
+                    getFabAnimIn().start()
+                } else if (fabShouldBeHiddenOnList() && fab.visibility == View.VISIBLE && !hideFabAnimationRunning) {
+                    hideFabAnimationRunning = true
+                    println("malcolm ")
+                    val outAnim = getFabAnimOut()
+                    outAnim.addListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animator: Animator) {
+                            fab.visibility = View.INVISIBLE
+                            hideFabAnimationRunning = false
+                        }
+                    })
+                    outAnim.start()
+                }
+
+                // Filter button translation
+                if (scrolledDistance > 0) {
+                    scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy)
+                    filterBtnWithCountWidget.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
+                    fab.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
+                } else {
+                    scrolledDistance = Math.max(0, scrolledDistance + dy)
+                    filterBtnWithCountWidget.translationY = Math.min(scrolledDistance, 0).toFloat()
+                    fab.translationY = Math.min(scrolledDistance, 0).toFloat()
+                }
             }
         }
 
@@ -540,7 +550,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 halfway = view.top
                 threshold = view.top + (view.bottom / 1.9).toInt()
             }
-
             resetListOffset()
         }
     }
@@ -551,8 +560,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
             var fabShouldVisiblyMove: Boolean = true
             var mapTranslationStart: Float = 0f
+            var initialListTranslation: Int = 0
             var toolbarTextOrigin: Float = 0f
             var toolbarTextGoal: Float = 0f
+            var filterViewOrigin: Float = 0f
+            var filterViewGoal: Float = 0f
 
             override fun startTransition(forward: Boolean) {
                 super.startTransition(forward)
@@ -563,9 +575,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 } else {
                     toolbarTextGoal = toolbarSubtitleTop.toFloat()
                 }
+                filterBtnWithCountWidget.visibility = View.VISIBLE
+                filterViewOrigin = filterBtnWithCountWidget.translationY
+                filterViewGoal = if (forward) 0f else filterBtnWithCountWidget.height.toFloat()
                 recyclerView.visibility = View.VISIBLE
                 previousWasList = forward
                 fabShouldVisiblyMove = if (forward) !fabShouldBeHiddenOnList() else (fab.visibility == View.VISIBLE)
+                initialListTranslation = recyclerView.getChildAt(1)?.top ?: 0
                 if (forward) {
                     //If the fab is visible we want to do the transition - but if we're just hiding it, don't confuse the
                     // user with an unnecessary icon swap
@@ -584,7 +600,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     } else {
                         //Since we're not moving it manually, let's jump it to where it belongs,
                         // and let's get it showing the right thing
-                        fab.translationY = -mapCarouselContainer.height.toFloat()
+                        fab.translationY = - (mapCarouselContainer.height.toFloat() - resources.getDimension(R.dimen.hotel_filter_height).toInt())
                         (fab.drawable as? TransitionDrawable)?.startTransition(0)
                         fab.visibility = View.VISIBLE
                         getFabAnimIn().start()
@@ -593,7 +609,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
 
             override fun updateTransition(f: Float, forward: Boolean) {
-                val hotelListDistance = if (forward) (screenHeight * (1 - f)) else (screenHeight * f);
+                val hotelListDistance = if (forward) (screenHeight * (1 - f)) else ((screenHeight - initialListTranslation) * f);
                 recyclerView.translationY = hotelListDistance
                 navIcon.parameter = if (forward) Math.abs(1 - f) else f
                 if (forward) {
@@ -604,7 +620,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 }
 
                 if (fabShouldVisiblyMove) {
-                    val fabDistance = if (forward) -(1 - f) * mapCarouselContainer.height else -f * mapCarouselContainer.height
+                    val fabDistance = if (forward) -(1 - f) * mapCarouselContainer.height else -f * (mapCarouselContainer.height - resources.getDimension(R.dimen.hotel_filter_height).toInt())
                     fab.translationY = fabDistance
                 }
                 //Title transition
@@ -613,6 +629,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 toolbarSubtitle.translationY = toolbarYTransStep
                 toolbarSubtitle.alpha = if (forward) f else (1-f)
                 adjustGoogleMapLogo()
+                //Filter transition
+                filterBtnWithCountWidget.translationY = filterViewOrigin + (f * (filterViewGoal - filterViewOrigin))
             }
 
             override fun finalizeTransition(forward: Boolean) {
@@ -623,6 +641,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 filterBtnWithCountWidget.visibility = if (forward) View.VISIBLE else View.GONE
 
                 recyclerView.visibility = if (forward) View.VISIBLE else View.INVISIBLE
+
                 mapCarouselContainer.visibility = if (forward) View.INVISIBLE else View.VISIBLE
 
                 if (forward) {

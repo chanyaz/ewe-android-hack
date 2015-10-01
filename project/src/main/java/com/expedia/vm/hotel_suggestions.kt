@@ -60,7 +60,10 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
 
                     nearbySuggestions.first().regionNames.displayName = context.getString(com.expedia.bookings.R.string.current_location)
                 }
-                .doOnNext { nearby = it }
+                .doOnNext {
+                    nearby = it
+                    nearby.forEach { it.iconType = SuggestionV4.IconType.CURRENT_LOCATION_ICON }
+                }
                 .subscribe { suggestionsObservable.onNext(suggestionsListWithNearby()) }
     }
 
