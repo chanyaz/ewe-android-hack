@@ -20,4 +20,8 @@
         <item name="android:visibility">invisible</item>
     </style>
 
+    <style name="RatingBar.Star.HotelDetails.VSC">
+        <item name="android:progressDrawable">@drawable/ratingbar_star_hotel_details_small</item>
+    </style>
+
 </resources>

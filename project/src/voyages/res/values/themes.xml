@@ -62,6 +62,7 @@
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_logo_vsc</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_log_in_vsc</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
