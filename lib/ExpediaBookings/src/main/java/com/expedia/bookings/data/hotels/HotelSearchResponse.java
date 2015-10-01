@@ -11,6 +11,7 @@ public class HotelSearchResponse extends BaseApiResponse {
 	public String pageViewBeaconPixelUrl;
 	public List<Hotel> hotelList;
 	public List<Neighborhood> allNeighborhoodsInSearchRegion;
+	public Map<String, AmenityOptions> amenityFilterOptions;
 
 	public transient Map<String, Neighborhood> neighborhoodsMap = new HashMap<>();
 	public transient HotelRate.UserPriceType userPriceType = HotelRate.UserPriceType.UNKNOWN;
@@ -21,6 +22,9 @@ public class HotelSearchResponse extends BaseApiResponse {
 
 		public transient List<Hotel> hotels = new ArrayList<>();
 		public transient int score;
+	}
+
+	public static class AmenityOptions {
 	}
 
 }

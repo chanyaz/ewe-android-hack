@@ -101,6 +101,13 @@ public class HotelFilterTest {
 
     }
 
+    @Test
+    fun filterAmenity() {
+        var amenityId = 16
+        vm.originalResponse = fakeFilteredResponse()
+        vm.selectAmenity.onNext(amenityId)
+        assertTrue(vm.filteredResponse.hotelList.size() == 1)
+    }
 
     @Test
     fun filterNeighborhood() {
@@ -182,6 +189,11 @@ public class HotelFilterTest {
         hotel1.locationDescription = "Civic Center"
         hotel1.hotelStarRating = 5f
         hotel1.isVipAccess = true
+        var amenities1 = ArrayList<Hotel.HotelAmenity>()
+        var amenity1 = Hotel.HotelAmenity()
+        amenity1.id = "4"
+        amenities1.add(amenity1)
+        hotel1.amenities = amenities1
 
 
         val hotel2 = Hotel()
@@ -195,6 +207,11 @@ public class HotelFilterTest {
         hotel2.locationDescription = "Fisherman's Wharf"
         hotel2.hotelStarRating = 3.5f
         hotel2.isVipAccess = false
+        var amenities2 = ArrayList<Hotel.HotelAmenity>()
+        var amenity2 = Hotel.HotelAmenity()
+        amenity2.id = "1"
+        amenities2.add(amenity2)
+        hotel2.amenities = amenities2
 
         filteredResponse.hotelList.add(hotel1)
         filteredResponse.hotelList.add(hotel2)

@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -12,6 +13,7 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.HashSet
 import java.util.regex.Pattern
+import java.util.HashMap
 
 class HotelFilterViewModel(val context: Context) {
     val doneObservable = PublishSubject.create<Unit>()
@@ -27,10 +29,19 @@ class HotelFilterViewModel(val context: Context) {
     val filterCountObservable = BehaviorSubject.create<Int>()
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
-    data class UserFilterChoices(var userSort: Sort = Sort.POPULAR, var isVipOnlyAccess: Boolean = false, var hotelStarRating : StarRatings = StarRatings(), var name : String? = null, var price : Float? = null, var neighborhoods : HashSet<String> = HashSet<String>())
+
+    data class UserFilterChoices(var userSort: Sort = Sort.POPULAR,
+                                 var isVipOnlyAccess: Boolean? = false,
+                                 var hotelStarRating: StarRatings = StarRatings(),
+                                 var name: String? = null,
+                                 var price: Float? = null,
+                                 var amenity: HashSet<Int> = HashSet<Int>(),
+                                 var neighborhoods: HashSet<String> = HashSet<String>())
 
     val userFilterChoices = UserFilterChoices()
     val neighborhoodListObservable = PublishSubject.create<List<HotelSearchResponse.Neighborhood>>()
+    val amenityOptionsObservable = PublishSubject.create<Map<String, HotelSearchResponse.AmenityOptions>>()
+    val amenityMapObservable = BehaviorSubject.create<Map<FilterAmenity, Int>>()
 
     init {
         doneObservable.subscribe { params ->
@@ -71,11 +82,12 @@ class HotelFilterViewModel(val context: Context) {
         userFilterChoices.hotelStarRating = StarRatings()
         userFilterChoices.name = null
         userFilterChoices.price = null
+        userFilterChoices.amenity = HashSet<Int>()
         userFilterChoices.neighborhoods = HashSet<String>()
     }
 
     fun processFilters(hotel : Hotel) {
-        if (filterIsVipAccess(hotel) && filterHotelStarRating(hotel) && filterName(hotel) && filterPrice(hotel) && filterNeighborhood(hotel)) {
+        if (filterIsVipAccess(hotel) && filterHotelStarRating(hotel) && filterName(hotel) && filterPrice(hotel) && filterAmenity(hotel) && filterNeighborhood(hotel)) {
             filteredResponse.hotelList.add(hotel)
         }
     }
@@ -110,6 +122,29 @@ class HotelFilterViewModel(val context: Context) {
     fun filterPrice(hotel: Hotel) : Boolean {
         if (userFilterChoices.price == null) return true
         return userFilterChoices.price == hotel.lowRateInfo.priceToShowUsers
+    }
+
+    fun filterAmenity(hotel: Hotel) : Boolean {
+        if (userFilterChoices.amenity.isEmpty()) return true
+        if (hotel.amenities == null) return false
+        if (hotel.amenityFilterIdList == null) {
+            hotel.amenityFilterIdList = mapAmenitiesToFilterId(hotel.amenities)
+        }
+
+        for (i in userFilterChoices.amenity) {
+            if (!hotel.amenityFilterIdList.contains(i)){
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun mapAmenitiesToFilterId(amenities: List<Hotel.HotelAmenity>) : List<Int> {
+        var list = ArrayList<Int>()
+        for (amenity in amenities) {
+            list.add(FilterAmenity.amenityIdToFilterId(amenity.id.toInt()))
+        }
+        return list
     }
 
     fun filterNeighborhood(hotel: Hotel) : Boolean {
@@ -190,6 +225,10 @@ class HotelFilterViewModel(val context: Context) {
     fun setHotelList(response : HotelSearchResponse) {
         originalResponse = response
         neighborhoodListObservable.onNext(response.allNeighborhoodsInSearchRegion)
+        if (response.amenityFilterOptions != null) {
+            amenityOptionsObservable.onNext(response.amenityFilterOptions)
+        }
+
     }
 
     public enum class Sort {
@@ -261,6 +300,17 @@ class HotelFilterViewModel(val context: Context) {
                 return cmp
             }
         }
+    }
+
+
+    val selectAmenity: Observer<Int> = endlessObserver { amenityId ->
+        if (userFilterChoices.amenity.isEmpty() || !userFilterChoices.amenity.contains(amenityId)) {
+            userFilterChoices.amenity.add(amenityId)
+        } else {
+            userFilterChoices.amenity.remove(amenityId)
+        }
+
+        handleFiltering()
     }
 
     val selectNeighborhood = endlessObserver<String> { region ->
