@@ -88,7 +88,7 @@
                     android:id="@+id/hotel_guest_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/hotel_guest_rating_background"
+                    android:background="@drawable/user_review_background"
                     android:gravity="center"
                     android:paddingBottom="1dp"
                     android:paddingLeft="4dp"
