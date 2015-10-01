@@ -174,17 +174,21 @@ public class PhoneLaunchButton extends FrameLayout {
 	}
 
 	public void transformToDefaultState() {
-		isNetworkAvailable = true;
-		scaleTo(1.0f);
-		bgView.setCardBackgroundColor(bgColor);
-		textView.setAlpha(1.0f);
+		if (!isNetworkAvailable) {
+			isNetworkAvailable = true;
+			scaleTo(1.0f);
+			bgView.setCardBackgroundColor(bgColor);
+			textView.setAlpha(1.0f);
+		}
 	}
 
 	public void transformToNoDataState() {
-		isNetworkAvailable = false;
-		scaleTo(1.0f);
-		bgView.setCardBackgroundColor(disabledBg);
-		textView.setAlpha(0.5f);
+		if (isNetworkAvailable) {
+			isNetworkAvailable = false;
+			scaleTo(1.0f);
+			bgView.setCardBackgroundColor(disabledBg);
+			textView.setAlpha(0.5f);
+		}
 	}
 
 	private static final float minIconAlpha = 0.3f;

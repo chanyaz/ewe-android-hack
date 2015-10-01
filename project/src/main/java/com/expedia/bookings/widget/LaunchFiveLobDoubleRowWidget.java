@@ -75,15 +75,20 @@ public class LaunchFiveLobDoubleRowWidget extends RelativeLayout {
 	public void toggleButtonState(boolean enabled) {
 		hotelsBtn.setEnabled(enabled);
 		flightsBtn.setEnabled(enabled);
-		carsBtn.setEnabled(enabled);
-		lxBtn.setEnabled(enabled);
-		transportBtn.setEnabled(enabled);
 		if (!enabled) {
+			carsBtn.transformToNoDataState();
+			lxBtn.transformToNoDataState();
+			transportBtn.transformToNoDataState();
 			topRowBg.setScaleY(1.0f);
 			bottomRowBg.setScaleY(1.0f);
 			divider.setTranslationY(0.0f);
 			bottomRow.setTranslationY(0.0f);
 			shadow.setTranslationY(0.0f);
+		}
+		else {
+			carsBtn.transformToDefaultState();
+			lxBtn.transformToDefaultState();
+			transportBtn.transformToDefaultState();
 		}
 	}
 
