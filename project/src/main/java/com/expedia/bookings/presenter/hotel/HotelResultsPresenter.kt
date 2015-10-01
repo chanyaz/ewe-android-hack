@@ -267,6 +267,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             val marker = it.first
             val hotel = it.second
             marker?.setIcon(createHotelMarkerIcon(resources, hotel, true))
+            marker?.showInfoWindow()
         }
 
         mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
@@ -408,6 +409,18 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 mapViewModel.mapPinSelectSubject.onNext(marker)
                 mapCarouselContainer.visibility = View.VISIBLE
                 return true
+            }
+        })
+
+        googleMap?.setInfoWindowAdapter(object: GoogleMap.InfoWindowAdapter {
+            val google_map_no_marker_info_window = View(this@HotelResultsPresenter.context)
+
+            override fun getInfoWindow(marker: Marker): View {
+                return google_map_no_marker_info_window
+            }
+
+            override fun getInfoContents(marker: Marker): View? {
+                return null
             }
         })
     }
