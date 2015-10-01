@@ -7,6 +7,8 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
@@ -21,13 +23,16 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateInterpolator
+import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.Toast
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -77,7 +82,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val filterBtn: Button by bindView(R.id.filter_btn)
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
-    private val DEFAULT_FAB_ANIM_DURATION = 200L
+    private val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
 
     var screenHeight: Int = 0
     var screenWidth: Float = 0f
@@ -101,6 +106,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var threshold = 0
 
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
+    val searchThisArea: Button by bindView(R.id.search_this_area)
 
     val mapViewModel = HotelMapViewModel(lastBestLocationSafe())
     var markers = arrayListOf<Marker>()
@@ -258,6 +264,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     override fun onFinishInflate() {
+
+        //Store a pointer instead of invoking the getResources() function behind the resources property each usage
+       val res = resources
+
         // add the view of same height as of status bar
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
@@ -290,15 +300,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
 
         toolbar.inflateMenu(R.menu.menu_filter_item)
-        var drawable = resources.getDrawable(R.drawable.sort).mutate()
+        var drawable = res.getDrawable(R.drawable.sort).mutate()
         drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         filterMenuItem.setIcon(drawable)
 
         val button = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as Button
-        val icon = resources.getDrawable(R.drawable.sort).mutate()
+        val icon = res.getDrawable(R.drawable.sort).mutate()
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         button.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
-        button.setTextColor(resources.getColor(android.R.color.white))
+        button.setTextColor(res.getColor(android.R.color.white))
 
         toolbar.menu.findItem(R.id.menu_filter).setActionView(button)
 
@@ -319,6 +329,22 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
 
         }
+
+        //Fetch, color, and slightly resize the searchThisArea location pin drawable
+        val areaSearchDrawables = searchThisArea.compoundDrawables
+        areaSearchDrawables[0]?.setColorFilter(res.getColor(R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
+        val bounds = areaSearchDrawables[0]?.bounds
+        if (bounds != null) {
+            areaSearchDrawables[0]?.bounds = Rect(bounds.left, bounds.top, (bounds.right * 1.1).toInt(), (bounds.bottom * 1.1).toInt())
+        }
+        searchThisArea.setCompoundDrawables(areaSearchDrawables[0], areaSearchDrawables[1], areaSearchDrawables[2], areaSearchDrawables[3])
+
+        //We don't want to show the searchThisArea button unless the map has just moved.
+        searchThisArea.visibility = View.GONE
+        searchThisArea.setOnClickListener({ view ->
+            hideSearchThisArea()
+            doAreaSearch()
+        })
 
         show(ResultsList())
 
@@ -360,6 +386,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             uiSettings.isIndoorLevelPickerEnabled = false
         }
         googleMap?.isMyLocationEnabled = true
+
+        //If the user moves the map at all, make sure the button is showing.
+        googleMap?.setOnCameraChangeListener { position ->
+            showSearchThisArea()
+        }
 
         googleMap?.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
             override fun onMarkerClick(marker: Marker): Boolean {
@@ -618,6 +649,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 mapCarouselContainer.visibility = View.VISIBLE
                 if (forward) {
                     mapCarouselContainer.translationX = 0f
+                    hideSearchThisArea(duration.toLong())
                 } else {
                     mapCarouselContainer.translationX = screenWidth
                 }
@@ -796,7 +828,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 ObjectAnimator.ofFloat(fab, "scaleX", 0f, 1f),
                 ObjectAnimator.ofFloat(fab, "scaleY", 0f, 1f)
         )
-        set.setDuration(DEFAULT_FAB_ANIM_DURATION)
+        set.setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION)
         set.interpolator = DecelerateInterpolator()
         return set
     }
@@ -808,7 +840,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 ObjectAnimator.ofFloat(fab, "scaleY", 1f, 0f)
         )
         set.interpolator = AccelerateInterpolator()
-        set.setDuration(DEFAULT_FAB_ANIM_DURATION)
+        set.setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION)
         return set
     }
 
@@ -818,4 +850,42 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     public class ResultsMap
 
     public class ResultsFilter
+
+    fun doAreaSearch() {
+        //TODO: Implement this
+        Toast.makeText(getContext(), "Area search not yet implemented", Toast.LENGTH_LONG).show()
+    }
+
+    fun hideSearchThisArea(duration: Long = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION) {
+        if (searchThisArea.getVisibility() == View.VISIBLE) {
+            val anim: Animator = ObjectAnimator.ofFloat(searchThisArea, "alpha", 1f, 0f)
+            anim.addListener(object : Animator.AnimatorListener {
+                override fun onAnimationCancel(animation: Animator?) {
+                    //Do nothing
+                }
+
+                override fun onAnimationEnd(animator: Animator?) {
+                    searchThisArea.setVisibility(View.GONE)
+                }
+
+                override fun onAnimationStart(animator: Animator?) {
+                    //Do nothing
+                }
+
+                override fun onAnimationRepeat(animator: Animator?) {
+                    //Do nothing
+                }
+
+            })
+            anim.setDuration(duration)
+            anim.start()
+        }
+    }
+
+    fun showSearchThisArea(duration: Long = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION) {
+        if (currentState?.equals(javaClass<ResultsMap>().name) ?: false && searchThisArea.visibility == View.GONE) {
+            searchThisArea.visibility = View.VISIBLE
+            ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(duration).start()
+        }
+    }
 }
