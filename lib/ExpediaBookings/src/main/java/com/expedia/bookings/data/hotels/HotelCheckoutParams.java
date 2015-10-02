@@ -21,6 +21,7 @@ public class HotelCheckoutParams {
 	@NotNull public String checkOutDate;
 	@NotNull public String nameOnCard;
 	@NotNull public String cvv;
+	@NotNull public boolean suppressFinalBooking = true;
 	public String expirationDateYear;
 	public String expirationDateMonth;
 	public String storedCreditCardId;
@@ -34,10 +35,8 @@ public class HotelCheckoutParams {
 		queryMap.put("expectedTotalFare", expectedTotalFare);
 		queryMap.put("expectedFareCurrencyCode", expectedFareCurrencyCode);
 		queryMap.put("sendEmailConfirmation", false);
-		queryMap.put("userId", "");
-		queryMap.put("doIThinkImSignedIn", false);
 		queryMap.put("storeCreditCardInUserProfile", false);
-		queryMap.put("suppressFinalBooking", true);
+		queryMap.put("suppressFinalBooking", suppressFinalBooking);
 		queryMap.put("abacusUserGuid", abacusUserGuid);
 		queryMap.put("firstName", firstName);
 		queryMap.put("lastName", lastName);
