@@ -48,7 +48,6 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
     private val perNight : TextView by bindView(R.id.per_night)
     private val viewRoom: ToggleButton by bindView (R.id.view_room_button)
     private val roomHeaderImage: ImageView by bindView(R.id.room_header_image)
-    private val roomImageGradientBottom: View by bindView(R.id.gradient_bottom)
     private val roomInfoDescriptionText: TextView by bindView(R.id.room_info_description_text)
     private val roomInfoContainer: RelativeLayout by bindView(R.id.room_info_container)
     private val expandedAmenity: TextView by bindView(R.id.expanded_amenity_text_view)
@@ -102,6 +101,7 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
         vm.perNightObservable.subscribeVisibility(perNight)
         vm.roomHeaderImageObservable.subscribe { imageUrl ->
             val drawable = Images.makeHotelBitmapDrawable(getContext(), emptyPicassoCallback, roomHeaderImage.maxWidth, imageUrl, PICASSO_HOTEL_ROOM, R.drawable.room_fallback)
+            drawable.setCornerMode(HeaderBitmapDrawable.CornerMode.TOP)
             roomHeaderImage.setImageDrawable(drawable)
         }
 
@@ -166,7 +166,6 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
             topMarginForView(row, resources.getDimension(R.dimen.launch_tile_margin_top).toInt())
             topMarginForView(roomDivider, resources.getDimension(R.dimen.launch_tile_margin_top).toInt())
             resizeAnimation.addViewSpec(roomHeaderImage, roomHeaderImageHeight)
-            resizeAnimation.addViewSpec(roomImageGradientBottom, roomImageGradientBottomHeight)
             resizeAnimation.addViewSpec(roomInfoHeader, roomInfoHeaderTextHeight)
             resizeAnimation.addViewSpec(roomInfoDivider, roomInfoDividerHeight)
             if (roomInfoDescriptionText.visibility == View.VISIBLE) {
@@ -184,7 +183,11 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
                 it.startAnimation(newAlphaZeroToOneAnimation(it))
             }
             viewsToShowInExpandedState.forEach {
-                it.startAnimation(newAlphaOneToZeroAnimation())
+                if (it.id == R.id.room_info_container) {
+                    it.visibility = View.GONE
+                } else {
+                    it.startAnimation(newAlphaOneToZeroAnimation())
+                }
             }
 
             row.isEnabled = true
@@ -198,7 +201,6 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
 
             val resizeAnimation = ResizeHeightAnimation()
             resizeAnimation.addViewSpec(roomHeaderImage, 0)
-            resizeAnimation.addViewSpec(roomImageGradientBottom, 0)
             resizeAnimation.addViewSpec(roomInfoHeader, 0)
             resizeAnimation.addViewSpec(roomInfoDivider, 0)
             if (roomInfoDescriptionText.visibility == View.VISIBLE) {
@@ -219,7 +221,6 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
         val globalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener = object: ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 roomHeaderImageHeight = roomHeaderImage.height;
-                roomImageGradientBottomHeight = roomImageGradientBottom.height
                 roomInfoHeaderTextHeight = roomInfoHeader.height;
                 roomInfoDividerHeight = roomInfoDivider.height;
                 roomInfoDescriptionTextHeight = roomInfoDescriptionText.height;
