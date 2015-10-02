@@ -19,4 +19,8 @@ public class ErrorScreen {
 	public static void clickOnRetry() {
 		onView(withText(R.string.retry)).perform(click());
 	}
+
+	public static void clickOnPickANewHotel() {
+		onView(withText(R.string.pick_new_hotel)).perform(click());
+	}
 }

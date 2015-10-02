@@ -46,7 +46,9 @@ public class ApiError extends RuntimeException {
 		//Hotel Checkout Errors
 		HOTEL_CHECKOUT_CARD_DETAILS,
 		HOTEL_CHECKOUT_TRAVELLER_DETAILS,
-		HOTEL_CHECKOUT_UNKNOWN;
+		HOTEL_CHECKOUT_UNKNOWN,
+
+		HOTEL_PRODUCT_KEY_EXPIRY;
 	}
 
 	public enum DetailCode {

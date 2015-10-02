@@ -252,6 +252,7 @@ public class HotelErrorViewModel(private val context: Context) {
     val checkoutCardErrorObservable = BehaviorSubject.create<Unit>()
     val checkoutTravellerErrorObservable = BehaviorSubject.create<Unit>()
     val checkoutUnknownErrorObservable = BehaviorSubject.create<Unit>()
+    val productKeyExpiryObservable = BehaviorSubject.create<Unit>()
 
 
     init {
@@ -268,6 +269,9 @@ public class HotelErrorViewModel(private val context: Context) {
                 }
                 ApiError.Code.HOTEL_CHECKOUT_UNKNOWN ->{
                     checkoutUnknownErrorObservable.onNext(Unit)
+                }
+                ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY -> {
+                    productKeyExpiryObservable.onNext(Unit)
                 }
                 else -> {
                     defaultErrorObservable.onNext(Unit)
@@ -303,6 +307,11 @@ public class HotelErrorViewModel(private val context: Context) {
                     buttonTextObservable.onNext(context.getString(R.string.retry))
                     titleObservable.onNext(context.getString(R.string.Checkout))
                     subTitleObservable.onNext("")
+                }
+                ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY ->{
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.getString(R.string.error_hotel_no_longer_available))
+                    buttonTextObservable.onNext(context.getString(R.string.pick_new_hotel))
                 }
                 else -> {
                     makeDefaultError()

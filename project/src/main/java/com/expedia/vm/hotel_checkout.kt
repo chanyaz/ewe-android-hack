@@ -75,6 +75,8 @@ public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
 
 public class HotelCreateTripViewModel(val hotelServices: HotelServices) {
 
+    val errorObservable = PublishSubject.create<ApiError>()
+
     val tripParams = PublishSubject.create<HotelCreateTripParams>()
 
     val tripResponseObservable = BehaviorSubject.create<HotelCreateTripResponse>()
@@ -83,10 +85,18 @@ public class HotelCreateTripViewModel(val hotelServices: HotelServices) {
         tripParams.subscribe { params ->
             hotelServices.createTrip(params, object : Observer<HotelCreateTripResponse> {
                 override fun onNext(t: HotelCreateTripResponse) {
-                    // TODO: Move away from using DB. observers should react on fresh createTrip response
-                    Db.getTripBucket().add(TripBucketItemHotelV2(t))
-                    // TODO: populate hotelCreateTripResponseData with response data
-                    tripResponseObservable.onNext(t)
+                    if (t.hasErrors()) {
+                        if (t.firstError.errorInfo.field == "productKey") {
+                            errorObservable.onNext(ApiError(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY))
+                        } else {
+                            errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                        }
+                    }else {
+                        // TODO: Move away from using DB. observers should react on fresh createTrip response
+                        Db.getTripBucket().add(TripBucketItemHotelV2(t))
+                        // TODO: populate hotelCreateTripResponseData with response data
+                        tripResponseObservable.onNext(t)
+                    }
                 }
 
                 override fun onError(e: Throwable) {
