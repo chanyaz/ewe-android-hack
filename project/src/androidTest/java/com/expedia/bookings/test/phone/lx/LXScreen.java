@@ -91,6 +91,12 @@ public class LXScreen {
 
 	public static void waitForSearchListDisplayed() {
 		searchList().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
+		// Wait an extra bit just to be sure the list items have settled
+		Common.delay(2);
+	}
+
+	public static void waitForSearchResultsWidgetDisplayed() {
+		searchResultsWidget().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
 	}
 
 	public static ViewInteraction sortAndFilterButton() {

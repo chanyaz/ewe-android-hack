@@ -11,7 +11,7 @@ import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule
+import com.squareup.okhttp.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -29,7 +29,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertTrue
 
 public class HotelBreakdownTest {
-    public var server: MockWebServerRule = MockWebServerRule()
+    public var server: MockWebServer = MockWebServer()
         @Rule get
 
     private var service: HotelServices by Delegates.notNull()
@@ -57,7 +57,7 @@ public class HotelBreakdownTest {
     fun verifyBreakdown() {
         val root = File("../lib/mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)
-        server.get().setDispatcher(ExpediaDispatcher(opener))
+        server.setDispatcher(ExpediaDispatcher(opener))
         val observer = TestSubscriber<HotelCreateTripResponse>()
         service.createTrip(HotelCreateTripParams("happypath_0", false, 1, emptyList()), observer)
         observer.awaitTerminalEvent()

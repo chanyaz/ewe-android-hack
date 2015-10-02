@@ -141,12 +141,9 @@ public class EndpointProvider {
 		}
 	}
 
-
 	public String getCustomServerAddress() {
-		boolean forceHttp = SettingUtils.get(context, R.string.preference_force_custom_server_http_only, false);
-		String protocol = !forceHttp ? "https" : "http";
 		String server = SettingUtils.get(context, R.string.preference_proxy_server_address, "localhost:3000");
-		return protocol + "://" + server + "/";
+		return "https://" + server + "/";
 	}
 
 	public EndPoint getEndPoint() {

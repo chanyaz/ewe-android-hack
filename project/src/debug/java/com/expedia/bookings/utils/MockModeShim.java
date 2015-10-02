@@ -1,5 +1,7 @@
 package com.expedia.bookings.utils;
 
+import java.util.concurrent.CountDownLatch;
+
 import android.content.Context;
 
 import com.expedia.bookings.R;
@@ -12,6 +14,8 @@ public class MockModeShim {
 
 	public static void initMockWebServer(Context c) {
 		final Context context = c.getApplicationContext();
+		final CountDownLatch latch = new CountDownLatch(1);
+
 		new Thread(new Runnable() {
 
 			@Override
@@ -23,11 +27,20 @@ public class MockModeShim {
 
 				server = new ExpediaMockWebServer(context);
 
-				// Persist MockWebServer address to be used for the services classes
+				server.start();
+
 				SettingUtils.save(context, R.string.preference_proxy_server_address, server.getHostWithPort());
-				SettingUtils.save(context, R.string.preference_force_custom_server_http_only, true);
+
+				latch.countDown();
 			}
 		}).start();
+
+		try {
+			latch.await();
+		}
+		catch (Throwable e) {
+			throw new RuntimeException("Problem waiting for mock web server to start", e);
+		}
 	}
 
 	public static ExpediaDispatcher getDispatcher() {

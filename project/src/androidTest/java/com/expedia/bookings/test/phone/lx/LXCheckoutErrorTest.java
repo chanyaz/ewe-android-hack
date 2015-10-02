@@ -140,6 +140,7 @@ public class LXCheckoutErrorTest extends LxTestCase {
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.enterPaymentInfo();
 		CheckoutViewModel.clickDone();
+		CheckoutViewModel.waitForSlideToPurchase();
 		CheckoutViewModel.performSlideToPurchase();
 
 		CVVEntryScreen.enterCVV("111");

@@ -18,12 +18,6 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="@string/preference_force_custom_server_http_only"
-            android:summary="Force http only when using the Custom Server api"
-            android:title="Custom Server HTTP Only" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="@string/preference_google_wallet_cvv_challenge"
             android:summary="Tries to create a CVV challenge upon checkout using Google Wallet.  Not guaranteed."
             android:title="Google Wallet CVV Challenge" />

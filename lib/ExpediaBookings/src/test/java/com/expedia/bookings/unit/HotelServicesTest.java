@@ -18,7 +18,7 @@ import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockResponse;
-import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
+import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -30,10 +30,9 @@ import static junit.framework.Assert.assertEquals;
 
 public class HotelServicesTest {
 	@Rule
-	public MockWebServerRule server = new MockWebServerRule();
+	public MockWebServer server = new MockWebServer();
 
 	private HotelServices service;
-	private HotelCreateTripResponse createTripResponse;
 	private HotelApplyCouponParams couponParams;
 
 	@Before
@@ -70,7 +69,7 @@ public class HotelServicesTest {
 	public void testMockSearchWorks() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		server.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<List<Hotel>> observer = new TestSubscriber<>();
 		NearbyHotelParams params = new NearbyHotelParams("", "", "", "", "", "", "");
@@ -88,7 +87,6 @@ public class HotelServicesTest {
 		givenServerUsingMockResponses();
 
 		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
-		givenCreateTripCarOffer();
 		givenCouponParams("hotel_coupon_errors_expired");
 
 		service.applyCoupon(couponParams).subscribe(observer);
@@ -101,11 +99,7 @@ public class HotelServicesTest {
 	private void givenServerUsingMockResponses() throws IOException {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		server.get().setDispatcher(new ExpediaDispatcher(opener));
-	}
-
-	private void givenCreateTripCarOffer() {
-		createTripResponse = new HotelCreateTripResponse();
+		server.setDispatcher(new ExpediaDispatcher(opener));
 	}
 
 	private void givenCouponParams(String mockFileName) {
