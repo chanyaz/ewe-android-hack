@@ -10,6 +10,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -124,6 +125,8 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
             hotelCheckoutParams.storedCreditCardId = billingInfo.getStoredCard().getId()
             hotelCheckoutParams.nameOnCard = billingInfo.getFirstName() + " " + billingInfo.getLastName()
         }
+
+        hotelCheckoutParams.suppressFinalBooking = BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_hotel_bookings)
 
         hotelCheckoutViewModel.checkoutParams.onNext(hotelCheckoutParams)
     }
