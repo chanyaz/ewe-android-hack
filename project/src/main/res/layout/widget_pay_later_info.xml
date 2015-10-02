@@ -24,7 +24,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/etp_payment_options_text"
-                    android:textStyle="bold" />
+                    app:textStyle="medium" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                     android:text="@string/etp_pay_now_option_text"
                     android:textColor="@color/etp_text_color"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    app:textStyle="medium" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -93,7 +93,7 @@
                     android:text="@string/etp_pay_later_option_text"
                     android:textColor="@color/etp_text_color"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    app:textStyle="medium" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
