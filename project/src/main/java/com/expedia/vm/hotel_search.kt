@@ -244,13 +244,27 @@ public class HotelErrorViewModel(private val context: Context) {
     // Handle different errors
     val searchErrorObservable = BehaviorSubject.create<Unit>()
     val defaultErrorObservable = BehaviorSubject.create<Unit>()
+    val checkoutCardErrorObservable = BehaviorSubject.create<Unit>()
+    val checkoutTravellerErrorObservable = BehaviorSubject.create<Unit>()
+    val checkoutUnknownErrorObservable = BehaviorSubject.create<Unit>()
+
 
     init {
         actionObservable.subscribe {
             when (error.errorCode) {
                 ApiError.Code.HOTEL_SEARCH_NO_RESULTS -> {
                     searchErrorObservable.onNext(Unit)
-                } else -> {
+                }
+                ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS ->{
+                    checkoutCardErrorObservable.onNext(Unit)
+                }
+                ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS ->{
+                    checkoutTravellerErrorObservable.onNext(Unit)
+                }
+                ApiError.Code.HOTEL_CHECKOUT_UNKNOWN ->{
+                    checkoutUnknownErrorObservable.onNext(Unit)
+                }
+                else -> {
                     defaultErrorObservable.onNext(Unit)
                 }
             }
@@ -263,6 +277,27 @@ public class HotelErrorViewModel(private val context: Context) {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_car_search_message))
                     buttonTextObservable.onNext(context.getString(R.string.edit_search))
+                }
+                ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS ->{
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
+                    buttonTextObservable.onNext(context.getString(R.string.edit_payment))
+                    titleObservable.onNext(context.getString(R.string.Checkout))
+                    subTitleObservable.onNext("")
+                }
+                ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS ->{
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
+                    buttonTextObservable.onNext(context.getString(R.string.edit_current_traveler))
+                    titleObservable.onNext(context.getString(R.string.Checkout))
+                    subTitleObservable.onNext("")
+                }
+                ApiError.Code.HOTEL_CHECKOUT_UNKNOWN ->{
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
+                    buttonTextObservable.onNext(context.getString(R.string.retry))
+                    titleObservable.onNext(context.getString(R.string.Checkout))
+                    subTitleObservable.onNext("")
                 }
                 else -> {
                     makeDefaultError()
