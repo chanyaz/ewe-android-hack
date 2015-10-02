@@ -4,6 +4,7 @@ import android.app.Instrumentation;
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.FailedUrlCache;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.MockModeShim;
@@ -13,6 +14,7 @@ public class Settings {
 	public static void clearPrivateData(Instrumentation inst) {
 		Images.setCustomHost(null);
 		ClearPrivateDataUtil.clear(inst.getTargetContext());
+		FailedUrlCache.getInstance().clearCache();
 	}
 
 	public static void setMockModeEndPoint(Instrumentation inst) {
