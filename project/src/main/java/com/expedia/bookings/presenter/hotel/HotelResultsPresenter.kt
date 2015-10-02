@@ -480,7 +480,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     getFabAnimIn().start()
                 } else if (fabShouldBeHiddenOnList() && fab.visibility == View.VISIBLE && !hideFabAnimationRunning) {
                     hideFabAnimationRunning = true
-                    println("malcolm ")
                     val outAnim = getFabAnimOut()
                     outAnim.addListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animator: Animator) {
