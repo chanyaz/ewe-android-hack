@@ -8,7 +8,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Rect
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
@@ -23,7 +22,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Button
@@ -32,7 +30,6 @@ import android.widget.Toast
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -268,7 +265,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     override fun onFinishInflate() {
 
         //Store a pointer instead of invoking the getResources() function behind the resources property each usage
-       val res = resources
+        val res = resources
 
         // add the view of same height as of status bar
         val statusBarHeight = Ui.getStatusBarHeight(context)
@@ -453,7 +450,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 return
             }
 
-            val y = mapView.translationY + (-dy * halfway/(recyclerView.height - halfway))
+            val y = mapView.translationY + (-dy * halfway / (recyclerView.height - halfway))
             mapView.translationY = y
 
             val view = recyclerView.getChildAt(1)
@@ -491,14 +488,16 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 }
 
                 // Filter button translation
-                if (scrolledDistance > 0) {
-                    scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy)
-                    filterBtnWithCountWidget.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
-                    fab.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
-                } else {
-                    scrolledDistance = Math.max(0, scrolledDistance + dy)
-                    filterBtnWithCountWidget.translationY = Math.min(scrolledDistance, 0).toFloat()
-                    fab.translationY = Math.min(scrolledDistance, 0).toFloat()
+                if (currentState != RecyclerView.SCROLL_STATE_SETTLING && currentState != RecyclerView.SCROLL_STATE_IDLE) {
+                    if (scrolledDistance > 0) {
+                        scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy)
+                        filterBtnWithCountWidget.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
+                        fab.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
+                    } else {
+                        scrolledDistance = Math.max(0, scrolledDistance + dy)
+                        filterBtnWithCountWidget.translationY = Math.min(scrolledDistance, 0).toFloat()
+                        fab.translationY = Math.min(scrolledDistance, 0).toFloat()
+                    }
                 }
             }
         }
