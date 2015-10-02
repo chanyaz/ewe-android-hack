@@ -100,15 +100,12 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         addTransition(defaultToCal)
         show(HotelParamsDefault())
 
-        //Adjust height of Dropdown according to height available (depending on keyboard visibility)
-        val mRootWindow = (getContext() as Activity).getWindow()
-        val mRootView = mRootWindow.getDecorView().findViewById(android.R.id.content)
-        mRootView.getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                val decorView = mRootWindow.getDecorView()
-                val windowVisibleDisplayFrameRect = Rect()
-                decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
-                searchLocationEditText.setDropDownHeight(windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - dropdownAnchor.getY().toInt() - 100)
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                var location = IntArray(2)
+                dropdownAnchor.getLocationOnScreen(location)
+                searchLocationEditText.dropDownHeight = height - location[1] + dropdownAnchor.height
                 //Invalidate the Dropdown so it redraws itself
                 hotelSuggestionAdapter.notifyDataSetChanged()
             }
