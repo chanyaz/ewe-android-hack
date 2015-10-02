@@ -81,7 +81,7 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
 
         roomInfoContainer.subscribeOnClick(vm.expandCollapseRoomRateInfoDescription)
 
-        vm.totalPricePerNightObservable.subscribe(totalPricePerNight)
+        vm.pricePerNightObservable.subscribe(totalPricePerNight)
         vm.roomRateInfoTextObservable.subscribe(roomInfoDescriptionText)
         vm.roomTypeObservable.subscribe(roomType)
         vm.collapsedBedTypeObservable.subscribe(collapsedBedType)
