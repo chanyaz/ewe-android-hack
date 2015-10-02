@@ -15,12 +15,7 @@ import rx.Scheduler
 import rx.Subscription
 import kotlin.properties.Delegates
 
-public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
-    val acceptJsonInterceptor: RequestInterceptor = object : RequestInterceptor {
-        override fun intercept(request: RequestInterceptor.RequestFacade) {
-            request.addHeader("Accept", "application/json")
-        }
-    }
+public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
     val suggestApi: SuggestApi by Delegates.lazy {
         val gson = GsonBuilder().registerTypeAdapter(SuggestionResponse::class.java, SuggestionResponse()).create()
@@ -30,7 +25,7 @@ public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, 
                 .setLogLevel(logLevel)
                 .setConverter(GsonConverter(gson))
                 .setClient(OkClient(okHttpClient))
-                .setRequestInterceptor(acceptJsonInterceptor)
+                .setRequestInterceptor(interceptor)
                 .build()
 
         adapter.create<SuggestApi>(SuggestApi::class.java)

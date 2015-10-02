@@ -14,11 +14,6 @@ public interface SuggestApi {
 	public Observable<SuggestionResponse> suggestV3(@Path("query") String query,
 		@Query("type") int suggestionResultType, @Path("locale") String locale, @Query("lob") String lineOfBusiness);
 
-	@GET("/hint/es/v2/ac/en_US/{query}")
-	public Observable<SuggestionResponse> suggestV2(
-		@Path("query") String query,
-		@Query("type") int suggestionResultType);
-
 	@GET("/api/v4/typeahead/{query}")
 	public Observable<SuggestionV4Response> suggestV4(
 		@Path("query") String query,
