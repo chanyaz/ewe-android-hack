@@ -43,7 +43,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val checkoutPresenter: HotelCheckoutPresenter by bindView(R.id.hotel_checkout_presenter)
     val confirmationPresenter: HotelConfirmationPresenter by bindView(R.id.hotel_confirmation_presenter)
     val reviewsPresenter: HotelReviewsPresenter by bindView(R.id.hotel_reviews_presenter)
-    val loadingOverlay : LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
+    val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
     val ANIMATION_DURATION = 400
 
     init {
@@ -61,6 +61,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(detailsToReview)
         addTransition(resultsToError)
         addTransition(searchToError)
+        addTransition(checkoutToError)
         addDefaultTransition(defaultTransition)
         show(searchPresenter)
         searchPresenter.viewmodel = HotelSearchViewModel(getContext())
@@ -69,6 +70,25 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         errorPresenter.viewmodel = HotelErrorViewModel(context)
         errorPresenter.viewmodel.searchErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK) }
         errorPresenter.viewmodel.defaultErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK) }
+        errorPresenter.viewmodel.checkoutCardErrorObservable.subscribe {
+            show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
+            checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
+            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.setExpanded(true, true)
+            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
+        }
+
+        errorPresenter.viewmodel.checkoutTravellerErrorObservable.subscribe {
+            show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
+            checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
+            checkoutPresenter.hotelCheckoutWidget.mainContactInfoCardView.setExpanded(true, true)
+            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
+        }
+
+        errorPresenter.viewmodel.checkoutUnknownErrorObservable.subscribe {
+            show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
+            checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
+            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
+        }
 
         resultsPresenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices)
         resultsPresenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
@@ -83,6 +103,10 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         checkoutPresenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         })
+
+        checkoutPresenter.hotelCheckoutViewModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
+        checkoutPresenter.hotelCheckoutViewModel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+
 
         checkoutPresenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(checkoutPresenter.hotelCheckoutWidget.createTripResponseListener)
         checkoutPresenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(endlessObserver { createTripResponse ->
@@ -158,6 +182,28 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             loadingOverlay.setVisibility(View.GONE)
         }
     }
+
+    private val checkoutToError = object : Presenter.Transition(HotelCheckoutPresenter::class.java.getName(), HotelErrorPresenter::class.java.getName(), DecelerateInterpolator(), ANIMATION_DURATION) {
+
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            checkoutPresenter.setVisibility(View.VISIBLE)
+            errorPresenter.setVisibility(View.VISIBLE)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            errorPresenter.animationUpdate(f, !forward)
+        }
+
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            checkoutPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
+            errorPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
+            errorPresenter.animationFinalize()
+        }
+    }
+
 
     private val searchToError = object : Presenter.Transition(HotelSearchPresenter::class.java.getName(), HotelErrorPresenter::class.java.getName(), DecelerateInterpolator(), ANIMATION_DURATION) {
 
@@ -251,9 +297,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         hotelServices.details(hotelSearchParams, hotelId, subject)
     }
 
-    override fun back() : Boolean {
+    override fun back(): Boolean {
         if (loadingOverlay.visibility != View.VISIBLE) {
-           return super.back()
+            return super.back()
         }
         return false
     }

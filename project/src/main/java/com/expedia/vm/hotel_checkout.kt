@@ -26,6 +26,7 @@ import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
 public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
+    val errorObservable = PublishSubject.create<ApiError>()
 
     val checkoutParams = PublishSubject.create<HotelCheckoutParams>()
 
@@ -36,9 +37,22 @@ public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
         checkoutParams.subscribe { params ->
             hotelServices.checkout(params, object : Observer<HotelCheckoutResponse> {
                 override fun onNext(checkout: HotelCheckoutResponse) {
-                    if (checkout.hasErrors() && checkout.getFirstError().errorCode == ApiError.Code.PRICE_CHANGE) {
+                    if (checkout.hasPriceChange()) {
                         val hotelCreateTripResponse = Db.getTripBucket().getHotelV2().updateHotelProducts(checkout.checkoutResponse.jsonPriceChangeResponse)
                         priceChangeResponseObservable.onNext(hotelCreateTripResponse)
+                    } else if (checkout.hasErrors()) {
+                        val error = checkout.firstError
+                        if (error.errorCode == ApiError.Code.INVALID_INPUT) {
+                            if (error.errorInfo.field == "mainMobileTraveler.lastName" ||
+                                    error.errorInfo.field == "mainMobileTraveler.firstName" ||
+                                    error.errorInfo.field == "phone") {
+                                errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS))
+                            } else {
+                                errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS))
+                            }
+                        } else {
+                            errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_UNKNOWN))
+                        }
                     } else {
                         checkoutResponseObservable.onNext(checkout)
                     }
@@ -160,12 +174,10 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
                 if (isPayLater.value) {
                     val depositAmount = rate.depositAmount ?: "0" // yup. For some reason API doesn't return $0 for deposit amounts
                     dueNowAmount.onNext(Money(BigDecimal(depositAmount), rate.currencyCode).formattedMoney)
-                }
-                else {
+                } else {
                     dueNowAmount.onNext(rate.displayTotalPrice.formattedMoney)
                 }
-            }
-            else {
+            } else {
                 dueNowAmount.onNext(tripTotalPrice.value)
             }
             showFeesPaidAtHotel.onNext(isResortCase.value && (rate.totalMandatoryFees != 0f))
