@@ -4,31 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@drawable/room_fallback"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:scaleType="fitCenter">
+        android:layout_height="wrap_content"
+        android:minHeight="120dp">
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/hotel_name"
-            style="@style/HotelCheckoutImageSummary.Name" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/hotel_info_section"
+            android:layout_alignBottom="@+id/hotel_info_section"
+            android:scaleType="centerCrop"
+            android:src="@drawable/room_fallback" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/check_in_out_dates"
-            style="@style/HotelCheckoutImageSummary.Common" />
+        <LinearLayout
+            android:id="@+id/hotel_info_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/address_line_one"
-            style="@style/HotelCheckoutImageSummary.Common"
-            android:paddingTop="12dp" />
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_name"
+                style="@style/HotelCheckoutImageSummary.Name" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/address_city_state"
-            style="@style/HotelCheckoutImageSummary.Common" />
-    </LinearLayout>
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/check_in_out_dates"
+                style="@style/HotelCheckoutImageSummary.Common" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/address_line_one"
+                style="@style/HotelCheckoutImageSummary.Common"
+                android:paddingTop="12dp" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/address_city_state"
+                style="@style/HotelCheckoutImageSummary.Common" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/hotel_booking_summary"
