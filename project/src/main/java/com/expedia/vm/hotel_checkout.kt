@@ -101,6 +101,27 @@ public class HotelCreateTripViewModel(val hotelServices: HotelServices) {
     }
 }
 
+class HotelCheckoutOverviewViewModel(val context: Context) {
+    // input
+    val newRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
+    // output
+    val legalTextInformation = BehaviorSubject.create<SpannableStringBuilder>()
+    val slideToText = BehaviorSubject.create<String>()
+
+    init {
+        newRateObserver.subscribe {
+            val room = it.hotelRoomResponse
+            if (room.isPayLater) {
+                slideToText.onNext(context.getString(R.string.cars_slider_text))
+            }
+            else {
+                slideToText.onNext(context.getString(R.string.slide_to_purchase))
+            }
+            legalTextInformation.onNext(StrUtils.generateHotelsClickableBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString()))
+        }
+    }
+}
+
 class HotelCheckoutSummaryViewModel(val context: Context) {
     // input
     val newRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
@@ -137,7 +158,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     val feesPaidAtHotel = BehaviorSubject.create<String>()
     val showFeesPaidAtHotel = BehaviorSubject.create<Boolean>(false)
     val totalPriceCharged = BehaviorSubject.create<String>()
-    val legalTextInformation = BehaviorSubject.create<SpannableStringBuilder>()
 
     init {
         newRateObserver.subscribe {
@@ -194,7 +214,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
             isBestPriceGuarantee.onNext(room.isMerchant)
             newDataObservable.onNext(this)
-            legalTextInformation.onNext(StrUtils.generateHotelsClickableBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString()))
         }
 
         originalRateObserver.subscribe {
