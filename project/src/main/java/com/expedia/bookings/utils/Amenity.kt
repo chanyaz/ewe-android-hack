@@ -62,20 +62,13 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
             val paint = Paint()
             paint.setColorFilter(filter)
 
-            val MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
-            val acceptableWidth = viewGroup.getContext().getResources().getDisplayMetrics().density * MAX_AMENITY_TEXT_WIDTH_IN_DP
-
             for (index in 0..amenityList.size() - 1) {
 
-                val amenityLayout = com.mobiata.android.util.Ui.inflate<LinearLayout>(R.layout.new_amenity_row, viewGroup, false);
+                val amenityLayout = com.mobiata.android.util.Ui.inflate<LinearLayout>(R.layout.new_amenity_row, viewGroup, false)
                 val amenityTextView = amenityLayout.findViewById(R.id.amenity_label) as widget.TextView
                 val amenityIconView = amenityLayout.findViewById(R.id.amenity_icon) as ImageView
                 amenityIconView.setLayerType(View.LAYER_TYPE_SOFTWARE, paint)
                 val amenityStr = viewGroup.getContext().getString(amenityList.get(index).strId)
-                val measuredWidthOfStr = amenityTextView.getPaint().measureText(viewGroup.getContext().getString(amenityList.get(index).strId))
-                if (amenityStr.contains(" ") || measuredWidthOfStr > acceptableWidth) {
-                    amenityTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, viewGroup.getContext().getResources().getDimension(R.dimen.hotelsv2_amenity_text_size_small))
-                }
 
                 amenityTextView.setText(amenityStr)
                 amenityIconView.setImageDrawable(viewGroup.getContext().getResources().getDrawable(amenityList.get(index).resId))

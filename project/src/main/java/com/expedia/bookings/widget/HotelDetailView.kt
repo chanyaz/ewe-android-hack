@@ -46,9 +46,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.util.ArrayList
 import rx.Observable
 import rx.Observer
-import java.util.ArrayList
 import kotlin.properties.Delegates
 
 object RoomSelected {
@@ -57,7 +57,7 @@ object RoomSelected {
 
 //scroll animation duration for select room button
 val ANIMATION_DURATION = 500L
-val DESCRIPTION_ANIMATION = 100L
+val DESCRIPTION_ANIMATION = 150L
 val HOTEL_DESC_COLLAPSE_LINES = 2
 
 public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
@@ -112,7 +112,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
     val amenityDivider : View by bindView(R.id.etp_and_free_cancellation_divider)
-    val etpDivider : View by bindView(R.id.etp_divider)
 
     val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
     val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
@@ -122,7 +121,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
 
     val detailContainer: ScrollView by bindView(R.id.detail_container)
-    val mainContainer: ViewGroup by bindView(R.id.main_container)
     var statusBarHeight = 0
     var toolBarHeight = 0
     val toolBarBackground: View by bindView(R.id.toolbar_background)
@@ -133,8 +131,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var urgencyContainerLocation = IntArray(2)
     var roomContainerPosition = IntArray(2)
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
-
-        resetView()
         detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
         vm.galleryObservable.subscribe { galleryUrls ->
             gallery.setDataSource(galleryUrls)
@@ -178,6 +174,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
         vm.hotelLatLngObservable.subscribe {
             values -> hotelLatLng = values
+            googleMap?.clear()
             addMarker()
             googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
         }
@@ -290,7 +287,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         mapView.getMapAsync(this);
     }
 
-    fun resetView() {
+    fun initializeViews() {
+        AnimUtils.reverseRotate(readMoreView)
+        hotelDescription.maxLines = HOTEL_DESC_COLLAPSE_LINES
         etpRadioGroup.unsubscribeOnCheckedChange()
         renovationContainer.setVisibility(View.GONE)
         etpRadioGroup.check(R.id.radius_pay_now)
@@ -305,6 +304,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         urgencyViewAlpha(1f)
         commonAmenityText.setVisibility(View.GONE)
         commonAmenityDivider.setVisibility(View.GONE)
+        hideResortandSelectRoom()
+    }
+
+    private fun hideResortandSelectRoom() {
         stickySelectRoomContainer.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         bottomMargin = stickySelectRoomContainer.measuredHeight
         resortFeeWidget.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -459,6 +462,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         selectRoomButton.setOnClickListener { scrollToRoom() }
         stickySelectRoomButton.setOnClickListener { scrollToRoom() }
         strikeThroughPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG)
+        hideResortandSelectRoom()
     }
 
 }

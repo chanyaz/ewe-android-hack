@@ -298,15 +298,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <com.expedia.bookings.widget.TextView
-                            android:id="@+id/amenities_none_text"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="3dp"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginTop="3dp"
-                            android:textSize="16dp"
-                            android:visibility="gone" />
-
                         <TableRow
                             android:id="@+id/amenities_table_row"
                             android:layout_width="match_parent"

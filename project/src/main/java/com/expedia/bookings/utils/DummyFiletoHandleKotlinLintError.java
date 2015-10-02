@@ -68,7 +68,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.dimen.hotel_marker_padding_width,
 		R.dimen.hotel_marker_padding_height,
 		R.dimen.hotel_detail_divider_margin,
-		R.dimen.hotelsv2_amenity_text_size_small,
 		R.layout.widget_hotel_detail_presenter,
 		R.layout.hotel_checkout_summary_widget,
 		R.layout.new_amenity_row,

@@ -29,7 +29,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         addTransition(detailToDescription)
         addTransition(detailToPayLaterInfo)
         addDefaultTransition(default)
-        showDefault()
+        show(hotelDetailView)
     }
 
     val default = object : Presenter.DefaultTransition(HotelDetailView::class.java.getName()) {
@@ -39,6 +39,10 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
             hotelPayLaterInfo.visibility = View.GONE
             hotelDetailView.visibility = View.VISIBLE
         }
+    }
+
+    public fun showDefault() {
+        show(hotelDetailView)
     }
 
     val detailToDescription = object : VisibilityTransition(this, HotelDetailView::class.java, SpecialNoticeWidget::class.java) {
@@ -71,10 +75,6 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         show(hotelPayLaterInfo)
     }
 
-    fun showDefault() {
-        show(hotelDetailView)
-    }
-
     public fun animationStart(): Float {
         searchTop = hotelDetailView.toolbarTitle.top
         hotelDetailView.toolbar.visibility = View.VISIBLE
@@ -94,6 +94,11 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         hotelDetailView.toolbar.visibility = View.VISIBLE
         hotelDetailView.toolbarTitle.translationY = 0f
         hotelDetailView.toolBarRating.translationY = 0f
+    }
+
+    override fun back(): Boolean {
+        hotelDetailView.initializeViews()
+        return super.back()
     }
 
 }

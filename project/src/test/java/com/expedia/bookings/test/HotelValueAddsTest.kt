@@ -74,6 +74,8 @@ public class HotelValueAddsTest {
         vm.commonAmenityTextObservable.subscribe(testSubscriber)
 
         vm.hotelOffersSubject.onNext(offerResponse)
+        vm.addViewsAfterTransition()
+
         expected.add("All rooms include free airport shuttle")
 
         testSubscriber.assertReceivedOnNext(expected)
