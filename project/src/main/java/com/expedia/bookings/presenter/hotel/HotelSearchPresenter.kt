@@ -187,6 +187,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         searchLocationEditText.setOnClickListener {
             searchLocationEditText.showDropDown()
+            com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
         }
 
         searchLocationTextView.setOnFocusChangeListener { view, isFocussed ->
@@ -196,6 +197,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
                 searchLocationEditText.requestFocus()
                 searchLocationEditText.setSelection(searchLocationEditText.getText().length())
                 searchLocationEditText.showDropDown()
+                com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
             }
         }
 
