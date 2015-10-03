@@ -95,7 +95,7 @@ dependencies {
         transitive = false
     }
 
-    def stethoVersion = '1.1.1'
+    def stethoVersion = '1.2.0'
     debugCompile "com.facebook.stetho:stetho:${stethoVersion}"
     debugCompile "com.facebook.stetho:stetho-okhttp:${stethoVersion}"
 
