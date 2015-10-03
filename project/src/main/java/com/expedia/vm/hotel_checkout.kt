@@ -101,23 +101,52 @@ public class HotelCreateTripViewModel(val hotelServices: HotelServices) {
     }
 }
 
+public fun getDueNowAmount(response: HotelCreateTripResponse.HotelProductResponse) : String {
+
+    val room = response.hotelRoomResponse
+    val rate = room.rateInfo.chargeableRateInfo
+    val isResortCase = Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees")
+    val isPayLater = room.isPayLater
+
+    // Calculate Due to {Brand} price
+    if (isPayLater || isResortCase) {
+        if (isPayLater) {
+            val depositAmount = rate.depositAmount ?: "0" // yup. For some reason API doesn't return $0 for deposit amounts
+            return Money(BigDecimal(depositAmount), rate.currencyCode).formattedMoney
+        }
+        else {
+            return rate.displayTotalPrice.formattedMoney
+        }
+    }
+    else {
+        // calculate trip total price
+        if (Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees")) {
+            return Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).formattedMoney
+        } else {
+            return rate.displayTotalPrice.formattedMoney
+        }
+    }
+}
+
 class HotelCheckoutOverviewViewModel(val context: Context) {
     // input
     val newRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
     // output
     val legalTextInformation = BehaviorSubject.create<SpannableStringBuilder>()
     val slideToText = BehaviorSubject.create<String>()
+    val totalPriceCharged = BehaviorSubject.create<String>()
 
     init {
         newRateObserver.subscribe {
             val room = it.hotelRoomResponse
             if (room.isPayLater) {
-                slideToText.onNext(context.getString(R.string.cars_slider_text))
+                slideToText.onNext(context.getString(R.string.hotelsv2_slide_reserve))
             }
             else {
-                slideToText.onNext(context.getString(R.string.slide_to_purchase))
+                slideToText.onNext(context.getString(R.string.hotelsv2_slide_purchase))
             }
             legalTextInformation.onNext(StrUtils.generateHotelsClickableBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString()))
+            totalPriceCharged.onNext(context.getString(R.string.your_card_will_be_charged_TEMPLATE, getDueNowAmount(it)))
         }
     }
 }
@@ -157,7 +186,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     val isPayLaterOrResortCase = BehaviorSubject.create<Boolean>(false)
     val feesPaidAtHotel = BehaviorSubject.create<String>()
     val showFeesPaidAtHotel = BehaviorSubject.create<Boolean>(false)
-    val totalPriceCharged = BehaviorSubject.create<String>()
 
     init {
         newRateObserver.subscribe {
@@ -194,22 +222,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
                 tripTotalPrice.onNext(rate.displayTotalPrice.formattedMoney)
             }
 
-            // Calculate Due to {Brand} price
-            if (isPayLater.value || isResortCase.value) {
-                if (isPayLater.value) {
-                    val depositAmount = rate.depositAmount ?: "0" // yup. For some reason API doesn't return $0 for deposit amounts
-                    dueNowAmount.onNext(Money(BigDecimal(depositAmount), rate.currencyCode).formattedMoney)
-                    totalPriceCharged.onNext(context.getString(R.string.your_card_will_be_charged_TEMPLATE, Money(BigDecimal(depositAmount), rate.currencyCode).formattedMoney))
-                }
-                else {
-                    dueNowAmount.onNext(rate.displayTotalPrice.formattedMoney)
-                    totalPriceCharged.onNext(context.getString(R.string.your_card_will_be_charged_TEMPLATE, rate.displayTotalPrice.formattedMoney))
-                }
-            }
-            else {
-                dueNowAmount.onNext(tripTotalPrice.value)
-                totalPriceCharged.onNext(context.getString(R.string.your_card_will_be_charged_TEMPLATE, tripTotalPrice.value))
-            }
+            dueNowAmount.onNext(getDueNowAmount(it))
             showFeesPaidAtHotel.onNext(isResortCase.value && (rate.totalMandatoryFees != 0f))
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
             isBestPriceGuarantee.onNext(room.isMerchant)

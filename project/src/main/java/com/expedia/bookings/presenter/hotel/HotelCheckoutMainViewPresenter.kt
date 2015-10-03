@@ -50,6 +50,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     var vm: HotelCheckoutOverviewViewModel by notNullAndObservable {
         vm.slideToText.subscribe { slideWidget.setText(it) }
         vm.legalTextInformation.subscribe { legalInformationText.text = it }
+        vm.totalPriceCharged.subscribe(sliderTotalText)
     }
     var haveAlreadyShownAcceptTermsWidget = false
 
@@ -59,7 +60,6 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
 
     init {
         couponCardView.viewmodel = HotelCouponViewModel(getContext(), hotelServices)
-        vm = HotelCheckoutOverviewViewModel(getContext())
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {
@@ -125,7 +125,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         hotelCheckoutSummaryWidget.viewModel.originalRateObserver.onNext(trip.originalHotelProductResponse)
         hotelCheckoutSummaryWidget.viewModel.newRateObserver.onNext(trip.newHotelProductResponse)
         hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size())
-        hotelCheckoutSummaryWidget.viewModel.totalPriceCharged.subscribe(sliderTotalText)
+        vm = HotelCheckoutOverviewViewModel(getContext())
         vm.newRateObserver.onNext(trip.newHotelProductResponse)
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
