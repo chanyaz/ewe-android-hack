@@ -472,7 +472,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
 
             if (!mapTransitionRunning) {
-                if (!fabShouldBeHiddenOnList() && fab.visibility == View.INVISIBLE) {
+                if (!fabShouldBeHiddenOnList() && fab.visibility != View.VISIBLE) {
                     fab.visibility = View.VISIBLE
                     getFabAnimIn().start()
                 } else if (fabShouldBeHiddenOnList() && fab.visibility == View.VISIBLE && !hideFabAnimationRunning) {
@@ -751,6 +751,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             filterView.visibility = View.VISIBLE
+            if (forward) {
+                fab.visibility = View.GONE
+            }
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -763,13 +766,20 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             super.finalizeTransition(forward)
             filterView.visibility = if (forward) View.VISIBLE else View.GONE
             filterView.translationY = (if (forward) 0 else filterView.getHeight()).toFloat()
+            if (!forward && !fabShouldBeHiddenOnList()) {
+                fab.visibility = View.VISIBLE
+                getFabAnimIn().start()
+            }
         }
     }
 
     private val mapFilterTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsFilter::class.java, DecelerateInterpolator(), 500) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            fab.visibility = if (forward) View.GONE else View.VISIBLE
+            if (forward) {
+                fab.visibility = View.GONE
+                searchThisArea.visibility = View.GONE
+            }
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -782,6 +792,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             super.finalizeTransition(forward)
             filterView.visibility = if (forward) View.VISIBLE else View.GONE
             filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
+            if (!forward) {
+                fab.visibility = View.VISIBLE
+                searchThisArea.visibility = View.VISIBLE
+            }
         }
     }
 
