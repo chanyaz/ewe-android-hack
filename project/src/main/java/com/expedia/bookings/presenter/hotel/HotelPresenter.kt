@@ -93,6 +93,11 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         resultsPresenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices)
         resultsPresenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
 
+        detailPresenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, hotelServices)
+        detailPresenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
+        detailPresenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(detailPresenter.hotelRenovationObserver)
+        detailPresenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe(detailPresenter.hotelPayLaterInfoObserver)
+
         resultsPresenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         resultsPresenter.viewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
 
@@ -157,7 +162,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun startTransition(forward: Boolean) {
             val parentHeight = getHeight()
             detailsHeight = parentHeight - Ui.getStatusBarHeight(getContext())
-            val pos = (if (forward) parentHeight + detailsHeight else detailsHeight).toFloat()
+            val pos = (if (forward) detailsHeight else 0).toFloat()
             detailPresenter.setTranslationY(pos)
             detailPresenter.setVisibility(View.VISIBLE)
             detailPresenter.animationStart()
@@ -165,13 +170,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
-            val pos = if (forward) detailsHeight + (-f * detailsHeight) else (f * detailsHeight)
+            val pos = if (forward) (detailsHeight - (f * detailsHeight)) else (f * detailsHeight)
             detailPresenter.setTranslationY(pos)
             detailPresenter.animationUpdate(f, !forward)
-        }
-
-        override fun endTransition(forward: Boolean) {
-            detailPresenter.setTranslationY((if (forward) 0 else detailsHeight).toFloat())
         }
 
         override fun finalizeTransition(forward: Boolean) {
@@ -180,6 +181,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
             detailPresenter.animationFinalize()
             loadingOverlay.setVisibility(View.GONE)
+            detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
         }
     }
 
@@ -273,13 +275,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val downloadListener: Observer<HotelOffersResponse> = endlessObserver { response ->
         loadingOverlay.animate(false)
         loadingOverlay.visibility = View.GONE
-        detailPresenter.hotelDetailView.viewmodel.hotelOffersResponse = response
         detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(response)
-        detailPresenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
-        detailPresenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(detailPresenter.hotelRenovationObserver)
-        detailPresenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe(detailPresenter.hotelPayLaterInfoObserver)
-        detailPresenter.showDefault()
         show(detailPresenter)
+        detailPresenter.showDefault()
     }
 
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
@@ -289,7 +287,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private fun showDetails(hotelId: String) {
         loadingOverlay.visibility = View.VISIBLE
         loadingOverlay.animate(true)
-        detailPresenter.hotelDetailView.viewmodel = HotelDetailViewModel(getContext(), hotelServices)
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(hotelSearchParams)
 
         val subject = PublishSubject.create<HotelOffersResponse>()
