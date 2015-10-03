@@ -20,8 +20,11 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.GridLayout
 import android.widget.LinearLayout
+import android.widget.ImageButton
+import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -64,7 +67,13 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     }
     val toolbarDropshadow: View by bindView(R.id.toolbar_dropshadow)
     val priceRangeBar : ViewGroup by bindView(R.id.price_range_bar)
+    val neighborhoodLabel: TextView by bindView(R.id.neighborhood_label)
     val neighborhoodContainer: LinearLayout by bindView(R.id.neighborhoods)
+    val neighborhoodMoreLessLabel : TextView by bindView(R.id.show_more_less_text)
+    val neighborhoodMoreLessIcon : ImageButton by bindView(R.id.show_more_less_icon)
+    val neighborhoodMoreLessView : RelativeLayout by bindView(R.id.collapsed_container)
+    var isSectionExpanded = false
+
     val amenityLabel: TextView by bindView(R.id.amenity_label)
     val amenityContainer: GridLayout by bindView(R.id.amenities_container)
 
@@ -189,15 +198,53 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         vm.neighborhoodListObservable.subscribe { list ->
             neighborhoodContainer.removeAllViews()
-            if (list != null){
-                for (neighborhood in list){
+            if (list != null && list.size() > 1) {
+                neighborhoodLabel.visibility = View.VISIBLE
+                if (list.size() > 3) {
+                    neighborhoodMoreLessView.visibility = View.VISIBLE
+                }
+
+                for (i in 1..list.size() - 1) {
                     val neighborhoodView = LayoutInflater.from(getContext()).inflate(R.layout.section_hotel_neighborhood_row, null) as HotelsNeighborhoodFilter
-                    neighborhoodView.bind(neighborhood,vm)
+                    neighborhoodView.bind(list.get(i), vm)
                     neighborhoodView.subscribeOnClick(neighborhoodView.checkObserver)
                     neighborhoodContainer.addView(neighborhoodView)
+                    if (i > 3 && i < list.size()){
+                        neighborhoodView.visibility = View.GONE
+                    }
                 }
+            } else {
+                neighborhoodLabel.visibility = View.GONE
+                neighborhoodMoreLessView.visibility = View.GONE
             }
         }
+
+        neighborhoodMoreLessView.setOnClickListener {
+            if (!isSectionExpanded) {
+                isSectionExpanded = true
+                AnimUtils.rotate(neighborhoodMoreLessIcon)
+                neighborhoodMoreLessLabel.text = getContext().getString(R.string.show_less)
+                for (i in 3..neighborhoodContainer.getChildCount() - 1) {
+                    val v = neighborhoodContainer.getChildAt(i)
+                    if (v is HotelsNeighborhoodFilter) {
+                        v.visibility = View.VISIBLE
+                    }
+                }
+
+            } else {
+                isSectionExpanded = false
+                AnimUtils.reverseRotate(neighborhoodMoreLessIcon)
+                neighborhoodMoreLessLabel.text = getContext().getString(R.string.show_more)
+                for (i in 3 .. neighborhoodContainer.getChildCount() -1){
+                    val v = neighborhoodContainer.getChildAt(i)
+                    if (v is HotelsNeighborhoodFilter) {
+                        v.visibility = View.GONE
+                    }
+                }
+            }
+
+        }
+
 
         vm.amenityOptionsObservable.subscribe { map ->
             val amenityMap: Map<FilterAmenity, Int> = FilterAmenity.amenityFilterToShow(map)

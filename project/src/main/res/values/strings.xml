@@ -3728,9 +3728,11 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 years old)</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Neighborhoods</string>
     <string name="amenities">Amenities</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Star Rating</string>
+    <string name="show_more">SHOW MORE</string>
+    <string name="show_less">SHOW LESS</string>
 </resources>

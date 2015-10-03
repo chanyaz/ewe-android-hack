@@ -125,6 +125,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.FilterFreeAirportShuttle,
 		R.string.FilterFreeBreakfast,
 		R.string.FilterFreeInternet,
-		R.layout.filter_amenity_row
+		R.layout.filter_amenity_row,
+		R.color.hotel_filter_neighborhood_text,
+		R.string.show_less,
+		R.string.show_more
 	};
 }
