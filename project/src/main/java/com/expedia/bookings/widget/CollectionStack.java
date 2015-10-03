@@ -176,7 +176,7 @@ public class CollectionStack extends FrameLayout {
 			super.onBitmapLoaded(bitmap, from);
 
 			Palette palette = Palette.generate(bitmap);
-			int color = palette.getVibrantColor(R.color.transparent_dark);
+			int color = palette.getVibrantColor(getResources().getColor(R.color.transparent_dark));
 			mHeaderBitmapDrawable.setBitmap(bitmap);
 
 			ColorBuilder fullColorBuilder = new ColorBuilder(color).darkenBy(0.3f);

@@ -131,6 +131,7 @@ dependencies {
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+    useLibrary 'org.apache.http.legacy'
 
     dexOptions {
         javaMaxHeapSize "2g"
@@ -166,7 +167,7 @@ android {
         versionName "undefined"
 
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 23
 
         multiDexEnabled = true
         testApplicationId "com.expedia.bookings.test"
