@@ -20,7 +20,7 @@ public class CarDeeplinkTest extends PhoneTestCase {
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.setComponent(new ComponentName(BuildConfig.APPLICATION_ID,
 			"com.expedia.bookings.activity.DeepLinkRouterActivity"));
-		getApplication().startActivity(intent);
+		Common.getApplication().startActivity(intent);
 
 		Common.delay(3);
 		EspressoUtils.assertViewIsDisplayed(R.id.widget_car_params);
@@ -34,7 +34,7 @@ public class CarDeeplinkTest extends PhoneTestCase {
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.setComponent(new ComponentName(BuildConfig.APPLICATION_ID,
 			"com.expedia.bookings.activity.DeepLinkRouterActivity"));
-		getApplication().startActivity(intent);
+		Common.getApplication().startActivity(intent);
 
 		Common.delay(3);
 		EspressoUtils.assertViewIsDisplayed(R.id.widget_car_params);
