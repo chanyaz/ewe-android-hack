@@ -31,6 +31,7 @@ public class IdlingResources {
 		private boolean isEditSearchWindowPresent = false;
 
 		public boolean isInSearchEditMode() {
+			Common.delay(1);
 			return isEditSearchWindowPresent;
 		}
 

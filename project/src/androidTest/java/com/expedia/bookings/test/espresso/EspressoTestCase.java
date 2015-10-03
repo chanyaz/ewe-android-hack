@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.tablet.pagemodels.Settings;
@@ -66,16 +65,6 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			}
 			throw t;
 		}
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		getApplication().setLXTestComponent(null);
-		super.tearDown();
-	}
-
-	public ExpediaBookingApp getApplication() {
-		return Common.getApplication();
 	}
 
 	// Returns the test class element by looking at the method InstrumentationTestCase invokes.

@@ -48,11 +48,11 @@ public class LXCurrentLocationErrorTest extends LxTestCase {
 
 		//Setup Lx Test Component
 		LXTestComponent lxTestComponent = DaggerLXTestComponent.builder()
-			.appComponent(getApplication().appComponent())
+			.appComponent(Common.getApplication().appComponent())
 			.lXFakeCurrentLocationSuggestionModule(module)
 			.build();
 
-		getApplication().setLXTestComponent(lxTestComponent);
+		Common.getApplication().setLXTestComponent(lxTestComponent);
 		super.runTest();
 	}
 

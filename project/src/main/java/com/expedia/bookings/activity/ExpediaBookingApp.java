@@ -404,6 +404,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		mLXTestComponent = lxTestComponent;
 	}
 
+	public LXComponent lxTestComponent() {
+		return mLXTestComponent;
+	}
+
 	public LXComponent lxComponent() {
 		return mLXComponent;
 	}
