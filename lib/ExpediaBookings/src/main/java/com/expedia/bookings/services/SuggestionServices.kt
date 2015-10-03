@@ -3,7 +3,6 @@ package com.expedia.bookings.services
 import com.expedia.bookings.data.SuggestionResultType
 import com.expedia.bookings.data.cars.Suggestion
 import com.expedia.bookings.data.cars.SuggestionResponse
-import com.expedia.bookings.data.lx.LXActivity
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import retrofit.RequestInterceptor
@@ -16,8 +15,6 @@ import rx.Scheduler
 import rx.Subscription
 import java.util.Collections
 import java.util.Comparator
-import java.util.Locale
-import kotlin.properties.Delegates
 
 public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
     val acceptJsonInterceptor: RequestInterceptor = object : RequestInterceptor {

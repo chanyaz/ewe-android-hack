@@ -153,6 +153,8 @@ public class AppModule {
 				if (endpointProvider.requestRequiresSiteId()) {
 					request.addEncodedQueryParam("siteid", ServicesUtil.generateSiteId());
 				}
+
+				request.addHeader("Accept", "application/json");
 			}
 		};
 	}
