@@ -74,13 +74,6 @@
             android:text="@string/free_cancellation" />
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/sale_text"
-            style="@style/HotelCheckoutSummaryCommon.Common"
-            android:drawableLeft="@drawable/ic_hotel_check"
-            android:drawablePadding="8dp"
-            android:paddingBottom="3dp" />
-
-        <com.expedia.bookings.widget.TextView
             android:id="@+id/best_price_guarantee"
             style="@style/HotelCheckoutSummaryCommon.Common"
             android:drawableLeft="@drawable/ic_hotel_check"
