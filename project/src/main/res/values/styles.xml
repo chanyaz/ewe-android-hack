@@ -1145,4 +1145,32 @@
         <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
     </style>
 
+    <style name="HotelDetailsInfo">
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:drawableLeft">@drawable/check</item>
+    </style>
+
+    <style name="HotelDetailsInfoSmall" parent="HotelDetailsInfo">
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:paddingLeft">31dp</item>
+        <item name="android:paddingRight">31dp</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="ETPInfoText" parent="HotelDetailsInfo">
+        <item name="android:background">@drawable/hotel_detail_ripple</item>
+        <item name="android:drawableRight">@drawable/details_info</item>
+    </style>
+
+    <style name="ETPInfoTextSmall" parent="HotelDetailsInfoSmall">
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:background">@drawable/hotel_detail_ripple</item>
+        <item name="android:drawableRight">@drawable/smaller_details_info</item>
+    </style>
 </resources>
