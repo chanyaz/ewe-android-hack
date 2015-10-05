@@ -17,12 +17,9 @@ import retrofit.RestAdapter;
 import rx.schedulers.Schedulers;
 
 public class ReviewsServicesRule implements TestRule {
-	private MockWebServer server;
-	private ReviewsServices service;
 
-	public ReviewsServices reviewsServices() {
-		return service;
-	}
+	public MockWebServer server;
+	public ReviewsServices service;
 
 	@Override
 	public Statement apply(final Statement base, Description description) {

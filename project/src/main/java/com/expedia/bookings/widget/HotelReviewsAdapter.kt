@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TableLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.ReviewSort
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.Review
+import com.expedia.bookings.data.hotels.ReviewSort
 import com.expedia.vm.HotelReviewsAdapterViewModel
 import com.expedia.vm.HotelReviewRowViewModel
 import com.expedia.vm.HotelReviewsSummaryViewModel
@@ -79,6 +79,13 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
 
     override fun instantiateItem(container: ViewGroup?, position: Int): Any? {
         val hotelReviewsView = HotelReviewsPageView(context)
+        hotelReviewsView.addOnScrollListener { scrollView, x1, y1, x2, y2 ->
+            val view = scrollView.getChildAt(scrollView.getChildCount() - 1)
+            val diff = (view.getBottom() - (scrollView.getHeight() + scrollView.getScrollY()));
+            if ( diff == 0 ) {
+                vm.reviewsObserver.onNext(getReviewSort(position))
+            }
+        }
         hotelReviewsView.setTag(getReviewSort(position))
         container?.addView(hotelReviewsView)
         vm.reviewsObserver.onNext(getReviewSort(position))

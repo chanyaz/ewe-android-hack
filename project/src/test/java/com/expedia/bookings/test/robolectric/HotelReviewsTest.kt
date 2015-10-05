@@ -1,7 +1,7 @@
 package com.expedia.bookings.test
 
-import com.expedia.bookings.data.ReviewSort
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.ReviewSummary
+import com.expedia.bookings.data.hotels.ReviewSort
 import com.expedia.vm.HotelReviewsAdapterViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -10,12 +10,14 @@ import rx.Observable
 import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
 
 public class HotelReviewsTest {
 
-    public val service: ReviewsServicesRule = ReviewsServicesRule()
+    public val reviewServicesRule: ReviewsServicesRule = ReviewsServicesRule()
         @Rule get
 
+    private val HOTEL_ID = "26650"
     private val NUMBER_FAVOURABLE_REVIEWS: Int = 21
     private val NUMBER_CRITICAL_REVIEWS: Int = 4
 
@@ -23,7 +25,7 @@ public class HotelReviewsTest {
 
     @Before
     fun before() {
-        vm = HotelReviewsAdapterViewModel("26650", service.reviewsServices(), "en_US")
+        vm = HotelReviewsAdapterViewModel(HOTEL_ID, reviewServicesRule.service, "en_US")
     }
 
     @Test
@@ -52,6 +54,25 @@ public class HotelReviewsTest {
 
         numberOfNewestReviewsSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
         numberOfNewestReviewsSubscriber.assertNoTerminalEvent()
+    }
+
+    @Test
+    fun moreReviewsFetchedOnSubsequentCalls() {
+        Observable.concat(
+                Observable.just(ReviewSort.LOWEST_RATING_FIRST, ReviewSort.LOWEST_RATING_FIRST, ReviewSort.LOWEST_RATING_FIRST),
+                Observable.never())
+                .subscribe(vm.reviewsObserver)
+
+        val recordedRequest1 = reviewServicesRule.server.takeRequest()
+        assertEquals(getExpectedReviewRequestStr(0), recordedRequest1.path);
+        val recordedRequest2 = reviewServicesRule.server.takeRequest()
+        assertEquals(getExpectedReviewRequestStr(25), recordedRequest2.path);
+        val recordedRequest3 = reviewServicesRule.server.takeRequest()
+        assertEquals(getExpectedReviewRequestStr(50), recordedRequest3.path);
+    }
+
+    private fun getExpectedReviewRequestStr(startParam: Int): String {
+        return "/api/hotelreviews/hotel/%s?sortBy=RATINGASC&start=%d&items=25&languageSort=en_US".format(HOTEL_ID, startParam)
     }
 
     @Test
