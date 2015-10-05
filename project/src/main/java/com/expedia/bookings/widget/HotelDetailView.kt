@@ -160,6 +160,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.sectionBodyObservable.subscribe(hotelDescription)
         vm.hotelNameObservable.subscribe(toolbarTitle)
         vm.hotelRatingObservable.subscribe(toolBarRating)
+        vm.hotelRatingObservableVisibility.subscribeVisibility(toolBarRating)
         vm.strikeThroughPriceObservable.subscribe(strikeThroughPrice)
         vm.hasDiscountPercentageObservable.subscribeVisibility(strikeThroughPrice)
         vm.pricePerNightObservable.subscribe(price)

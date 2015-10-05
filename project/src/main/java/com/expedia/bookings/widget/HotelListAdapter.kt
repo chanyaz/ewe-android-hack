@@ -153,6 +153,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         val airAttachContainer: LinearLayout by root.bindView(R.id.air_attach_layout)
         val gradientTop: View by root.bindView(R.id.gradient_top)
         val gradientBottom: View by root.bindView(R.id.gradient_bottom)
+        val ratingAmenityContainer: View by root.bindView(R.id.rating_amenity_container)
 
         init {
             itemView.setOnClickListener(this)
@@ -189,6 +190,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.vipMessageVisibilityObservable.subscribeVisibility(gradientTop)
             viewModel.airAttachVisibilityObservable.subscribeVisibility(airAttachContainer)
             viewModel.hotelDiscountPercentageObservable.subscribe(airAttachDiscount)
+            viewModel.ratingAmenityContainerVisibilityObservable.subscribeVisibility(ratingAmenityContainer)
 
             viewModel.hotelStarRatingObservable.subscribe {
                 starRating.rating = it

@@ -77,6 +77,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val hotelResortFeeObservable = BehaviorSubject.create<String>(null)
     val hotelNameObservable = BehaviorSubject.create<String>()
     val hotelRatingObservable = BehaviorSubject.create<Float>()
+    val hotelRatingObservableVisibility = BehaviorSubject.create<Boolean>()
     val pricePerNightObservable = BehaviorSubject.create<String>()
     val searchInfoObservable = BehaviorSubject.create<String>()
     val userRatingObservable = BehaviorSubject.create<String>()
@@ -191,6 +192,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         hotelNameObservable.onNext(response.hotelName)
 
         hotelRatingObservable.onNext(response.hotelStarRating.toFloat())
+        hotelRatingObservableVisibility.onNext(response.hotelStarRating > 0)
 
         if (response.hotelRoomResponse.first() != null) {
             var rate = response.hotelRoomResponse.first().rateInfo.chargeableRateInfo;
