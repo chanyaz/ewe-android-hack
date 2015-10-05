@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.newhotels
 
 import android.support.test.espresso.Espresso
+import android.support.test.espresso.action.ViewActions.scrollTo
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
@@ -24,6 +25,7 @@ public class HotelCheckoutTest: HotelTestCase() {
 
         // assert that credit card number is empty
         Common.delay(1)
+        CheckoutViewModel.paymentInfo().perform(scrollTo())
         EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_name, "Payment Details")
         CheckoutViewModel.clickPaymentInfo()
         Common.delay(1)
