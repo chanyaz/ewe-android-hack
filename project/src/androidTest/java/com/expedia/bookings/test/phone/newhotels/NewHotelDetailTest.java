@@ -41,7 +41,7 @@ public class NewHotelDetailTest extends HotelTestCase {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
 		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA");
+		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		HotelScreen.selectDateButton().perform(click());
 		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 		HotelScreen.searchButton().perform(click());

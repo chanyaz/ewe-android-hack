@@ -107,11 +107,11 @@ public class HotelActivity : AppCompatActivity() {
 
     fun handleNavigationViaDeepLink() {
         val hotelSearchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(getIntent().getStringExtra("hotelSearchParams"))
-        hotelPresenter.searchPresenter.viewmodel.suggestionObserver.onNext(hotelSearchParams?.suggestion)
-        hotelPresenter.searchPresenter.viewmodel.enableDateObserver.onNext(Unit)
+        hotelPresenter.searchPresenter.searchViewModel.suggestionObserver.onNext(hotelSearchParams?.suggestion)
+        hotelPresenter.searchPresenter.searchViewModel.enableDateObserver.onNext(Unit)
         hotelPresenter.searchPresenter.traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList()))
         val dates = Pair (hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
-        hotelPresenter.searchPresenter.viewmodel.datesObserver.onNext(dates)
+        hotelPresenter.searchPresenter.searchViewModel.datesObserver.onNext(dates)
         hotelPresenter.searchPresenter.calendar.setSelectedDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
 
     }
