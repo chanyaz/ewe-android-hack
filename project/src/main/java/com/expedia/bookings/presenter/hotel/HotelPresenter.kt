@@ -152,7 +152,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             searchPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
             resultsPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
             searchPresenter.animationFinalize()
-            resultsPresenter.animationFinalize()
+            resultsPresenter.animationFinalize(forward)
         }
     }
 
@@ -182,6 +182,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             detailPresenter.setTranslationY((if (forward) 0 else detailsHeight).toFloat())
             detailPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
             resultsPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
+            resultsPresenter.animationFinalize(!forward)
             detailPresenter.animationFinalize()
             loadingOverlay.setVisibility(View.GONE)
             if (forward) {
