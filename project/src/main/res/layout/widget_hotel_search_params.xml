@@ -76,7 +76,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:src="@drawable/input_x"
-                    android:visibility="gone" />
+                    android:visibility="invisible" />
             </RelativeLayout>
 
             <View

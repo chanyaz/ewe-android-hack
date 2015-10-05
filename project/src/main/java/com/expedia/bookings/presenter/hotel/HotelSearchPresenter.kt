@@ -1,10 +1,8 @@
 package com.expedia.bookings.presenter.hotel
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.Rect
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -111,6 +109,13 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             }
         })
 
+        clearLocationButton.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                clearLocationButton.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                searchLocationEditText.setPadding(searchLocationEditText.paddingLeft, searchLocationEditText.paddingTop, clearLocationButton.width, searchLocationEditText.paddingBottom)
+                searchLocationTextView.setPadding(searchLocationTextView.paddingLeft, searchLocationTextView.paddingTop, clearLocationButton.width, searchLocationTextView.paddingBottom)
+            }
+        })
     }
 
     var viewmodel: HotelSearchViewModel by notNullAndObservable { vm ->
@@ -205,7 +210,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             } else {
                 searchLocationTextView.setText(searchLocationEditText.getText())
                 searchLocationEditText.setVisibility(View.GONE)
-                clearLocationButton.setVisibility(View.GONE)
+                clearLocationButton.setVisibility(View.INVISIBLE)
                 com.mobiata.android.util.Ui.hideKeyboard(this)
 
                 searchLocationEditText.clearFocus()
@@ -220,7 +225,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                clearLocationButton.setVisibility(if (Strings.isEmpty(s)) View.GONE else View.VISIBLE)
+                clearLocationButton.setVisibility(if (Strings.isEmpty(s)) View.INVISIBLE else View.VISIBLE)
 
                 if (selectDate.isChecked()) {
                     vm.suggestionTextChangedObserver.onNext(Unit)
@@ -266,6 +271,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.errorNoOriginObservable.subscribe {
             selectDate.setChecked(false)
             selectTraveler.setChecked(false)
+            searchLocationEditText.showDropDown()
             AnimUtils.doTheHarlemShake(searchLocationEditText)
         }
         vm.errorNoDatesObservable.subscribe {
