@@ -155,6 +155,45 @@ public class OmnitureTracking {
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// HotelsV2 tracking
+	//
+	// https://confluence/display/Omniture/Mobile+App:+Hotel+Redesign+-+Android+Material
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String HOTELV2_LOB = "hotels";
+	private static final String HOTELSV2_SEARCH_BOX = "App.Hotels.Dest-Search";
+	private static final String HOTELSV2_TRAVELER = "App.Hotels.Traveler.";
+	private static final String HOTELSV2_TRAVELER_LINK_NAME = "Search Results Update";
+
+	public static void trackHotelV2SearchBox() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_BOX + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(HOTELSV2_SEARCH_BOX);
+		s.setEvar(18, HOTELSV2_SEARCH_BOX);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Send the tracking data
+		s.track();
+
+	}
+
+	public static void trackTravelerPickerClick(String text) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_BOX + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, HOTELSV2_TRAVELER + text);
+		s.setProp(16, HOTELSV2_TRAVELER + text);
+		s.trackLink(null, "o", HOTELSV2_TRAVELER_LINK_NAME, null, null);
+
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Hotels tracking
 	//
 	// There does not appear to be an official spec for hotels tracking...

@@ -1,8 +1,6 @@
 package com.expedia.bookings.test
 
 import android.app.Activity
-import android.content.Context
-import android.content.res.Resources
 import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.HotelTravelerPickerView
@@ -10,15 +8,14 @@ import com.expedia.vm.HotelTravelerPickerViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Matchers
-import org.mockito.Mockito
 import org.robolectric.Robolectric
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-RunWith(RobolectricRunner::class)
+
+@RunWith(RobolectricRunner::class)
 public class HotelTravelerPickerViewTest {
     public var vm: HotelTravelerPickerViewModel by Delegates.notNull()
     public var hotelTravelerPicker: HotelTravelerPickerView by Delegates.notNull()

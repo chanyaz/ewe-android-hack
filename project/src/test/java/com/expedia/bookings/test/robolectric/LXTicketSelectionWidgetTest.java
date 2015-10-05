@@ -8,12 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.shadows.ShadowTelephonyManager;
 
 import android.app.Activity;
-import android.content.Context;
-import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -37,21 +33,14 @@ import butterknife.ButterKnife;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricRunner.class)
 public class LXTicketSelectionWidgetTest {
 	private LXTicketSelectionWidget widget;
 	private Activity activity;
 
-	// This test hits Omniture which in turn throws NPE because of unavailability of operator information.
 	@Before
 	public void before() {
-		TelephonyManager telephonyManager = (TelephonyManager) RuntimeEnvironment.application
-			.getSystemService(Context.TELEPHONY_SERVICE);
-		ShadowTelephonyManager shadowTelephonyManager = shadowOf(telephonyManager);
-		shadowTelephonyManager.setNetworkOperatorName("Test Operator");
-
 		activity = Robolectric.buildActivity(Activity.class).create().get();
 		activity.setTheme(R.style.V2_Theme_LX);
 		widget = (LXTicketSelectionWidget) LayoutInflater.from(activity).inflate(R.layout.widget_lx_ticket_selection,

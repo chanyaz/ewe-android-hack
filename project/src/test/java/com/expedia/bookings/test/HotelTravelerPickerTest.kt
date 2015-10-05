@@ -1,27 +1,23 @@
 package com.expedia.bookings.test
 
-import android.content.Context
-import android.content.res.Resources
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.HotelTravelerParams
 import com.expedia.vm.HotelTravelerPickerViewModel
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Matchers
-import org.mockito.Mockito
+import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 
+@RunWith(RobolectricRunner::class)
 public class HotelTravelerPickerTest {
     public var vm: HotelTravelerPickerViewModel by Delegates.notNull()
     private var LOTS_MORE: Long = 100
 
     @Before
     fun before() {
-        val context = Mockito.mock(Context::class.java)
-        val resources = Mockito.mock(Resources::class.java)
-        Mockito.`when`(context.getResources()).thenReturn(resources)
-        Mockito.`when`(resources.getQuantityString(Matchers.anyInt(), Matchers.anyInt(), Matchers.anyInt())).thenReturn("")
-
+        val context = RuntimeEnvironment.application
         vm = HotelTravelerPickerViewModel(context)
     }
 
