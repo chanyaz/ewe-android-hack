@@ -144,11 +144,16 @@
     <style name="ItineraryTheme" parent="Theme.VSC">
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_vsc</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
+        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_vsc</item>
         <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel_vsc</item>
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
+        <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itin_card</item>
+        <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title</item>
+        <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
+        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
