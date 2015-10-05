@@ -96,9 +96,4 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         hotelDetailView.toolBarRating.translationY = 0f
     }
 
-    override fun back(): Boolean {
-        hotelDetailView.initializeViews()
-        return super.back()
-    }
-
 }
