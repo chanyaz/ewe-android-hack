@@ -9,6 +9,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.DateUtils
@@ -25,7 +26,8 @@ import kotlin.properties.Delegates
 public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices) {
 
     // Inputs
-    val paramsSubject = PublishSubject.create<HotelSearchParams>()
+    val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
+    val locationParamsSubject = PublishSubject.create<SuggestionV4>()
 
     // Outputs
     private val hotelDownloadsObservable = PublishSubject.create<Observable<HotelSearchResponse>>()
@@ -38,15 +40,19 @@ public class HotelResultsViewModel(private val context: Context, private val hot
 
     init {
         paramsSubject.subscribe(endlessObserver { params ->
-            titleSubject.onNext(params.suggestion.regionNames.shortName)
+            doSearch(params)
+        })
 
-            subtitleSubject.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                    .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
-                    .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
-                    .put("guests", context.resources.getQuantityString(R.plurals.number_of_guests, params.adults + params.children.size(), params.adults + params.children.size()))
-                    .format())
-
-            hotelDownloadsObservable.onNext(hotelServices.regionSearch(params))
+        locationParamsSubject.subscribe(endlessObserver { suggestion ->
+            val cachedParams: HotelSearchParams? = paramsSubject.value
+            val params = HotelSearchParams.Builder()
+                    .suggestion(suggestion)
+                    .checkIn(cachedParams?.checkIn)
+                    .checkOut(cachedParams?.checkOut)
+                    .adults(cachedParams?.adults!!)
+                    .children(cachedParams?.children!!)
+                    .build()
+            doSearch(params)
         })
 
         hotelDownloadResultsObservable.subscribe {
@@ -63,6 +69,18 @@ public class HotelResultsViewModel(private val context: Context, private val hot
         hotelResultsObservable.subscribe {
             AdImpressionTracking.trackAdClickOrImpression(context, it.pageViewBeaconPixelUrl, null)
         }
+    }
+
+    private fun doSearch(params: HotelSearchParams) {
+        titleSubject.onNext(params.suggestion?.regionNames?.shortName)
+
+        subtitleSubject.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
+                .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
+                .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
+                .put("guests", context.resources.getQuantityString(R.plurals.number_of_guests, params.adults + params.children.size(), params.adults + params.children.size()))
+                .format())
+
+        hotelDownloadsObservable.onNext(hotelServices.regionSearch(params))
     }
 }
 

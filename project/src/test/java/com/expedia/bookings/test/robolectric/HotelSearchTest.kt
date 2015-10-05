@@ -56,6 +56,7 @@ public class HotelSearchTest {
 
     private fun getDummySuggestion(): SuggestionV4 {
         val suggestion = SuggestionV4()
+        suggestion.gaiaId = ""
         suggestion.regionNames = SuggestionV4.RegionNames()
         suggestion.regionNames.displayName = ""
         suggestion.regionNames.fullName = ""

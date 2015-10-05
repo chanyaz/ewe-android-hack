@@ -52,8 +52,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 	}
 
     public fun regionSearch(params: HotelSearchParams): Observable<HotelSearchResponse> {
-        return hotelApi.regionSearch(params.suggestion.gaiaId, params.checkIn.toString(), params.checkOut.toString(),
-                params.getGuestString())
+        return hotelApi.search(params.toQueryMap())
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { response ->

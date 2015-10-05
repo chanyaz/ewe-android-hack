@@ -195,8 +195,10 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.hotelStarRatingObservable.subscribe {
                 starRating.rating = it
             }
+
             viewModel.adImpressionObservable.subscribe {
                 AdImpressionTracking.trackAdClickOrImpression(itemView.context, it, null)
+                viewModel.setImpressionTracked(true)
             }
         }
 

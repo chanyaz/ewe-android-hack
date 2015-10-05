@@ -45,6 +45,6 @@ public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, 
         return suggestApi.suggestNearbyV4(locale, latlng, siteId, SuggestionResultType.MULTI_CITY, "distance", clientId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .map { response -> response.suggestions.take(3).toArrayList() }
+                .map { response -> response.suggestions.take(2).toArrayList() }
     }
 }

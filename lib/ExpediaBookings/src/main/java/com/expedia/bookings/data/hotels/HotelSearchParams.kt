@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.hotels
 
 import org.joda.time.LocalDate
+import java.util.HashMap
 
 public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
 
@@ -49,6 +50,7 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
 
         fun build(): HotelSearchParams {
             val location = suggestion ?: throw IllegalArgumentException()
+            if (suggestion?.gaiaId == null && suggestion?.coordinates == null) throw IllegalArgumentException()
             val checkInDate = checkIn ?: throw IllegalArgumentException()
             val checkOutDate = checkOut ?: throw IllegalArgumentException()
             return HotelSearchParams(location, checkInDate, checkOutDate, adults, children)
@@ -65,5 +67,20 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
         public fun hasOrigin(): Boolean {
             return suggestion != null
         }
+    }
+
+    public fun toQueryMap(): Map<String, Any> {
+        val params = HashMap<String, Any>()
+        if (suggestion.gaiaId != null)  {
+            params.put("regionId", suggestion.gaiaId)
+        } else {
+            params.put("latitude", suggestion.coordinates.lat)
+            params.put("longitude", suggestion.coordinates.lng)
+        }
+        params.put("checkInDate", checkIn.toString())
+        params.put("checkOutDate", checkOut.toString())
+        params.put("room1", getGuestString())
+
+        return params
     }
 }

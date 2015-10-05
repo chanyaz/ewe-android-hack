@@ -5,7 +5,6 @@ import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
 import com.squareup.phrase.Phrase
@@ -44,7 +43,6 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
 
     init {
         if (hotel.isSponsoredListing && !hotel.hasShownImpression) {
-            hotel.hasShownImpression = true
             adImpressionObservable.onNext(hotel.impressionTrackingUrl)
         }
 
@@ -79,6 +77,10 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
                                                 resources.getString(R.string.mobile_exclusive))
         }
         return null
+    }
+
+    public fun setImpressionTracked(tracked : Boolean) {
+        hotel.hasShownImpression = tracked
     }
 }
 

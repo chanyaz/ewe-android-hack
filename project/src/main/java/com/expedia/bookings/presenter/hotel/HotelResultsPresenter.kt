@@ -26,13 +26,13 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.Toast
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
@@ -43,6 +43,7 @@ import com.expedia.bookings.widget.HotelFilterView
 import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.HotelListRecyclerView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
+import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
@@ -67,6 +68,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     //Views
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
     val mapView: MapView by bindView(R.id.map_view)
+    val loadingOverlay : MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     val filterView: HotelFilterView by bindView(R.id.filter_view)
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle by lazy { toolbar.getChildAt(2) }
@@ -111,7 +113,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
-        
+
         vm.titleSubject.subscribe {
             toolbar.title = it
         }
@@ -125,7 +127,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             if (params.suggestion.coordinates != null) {
                 googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
             }
+            filterBtnWithCountWidget.visibility = View.VISIBLE
             show(ResultsList())
+        }
+
+        vm.locationParamsSubject.subscribe { params ->
+            loadingOverlay.animate(true)
+            loadingOverlay.visibility = View.VISIBLE
         }
     }
 
@@ -167,9 +175,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val listResultsObserver = endlessObserver<HotelSearchResponse> {
         filterView.viewmodel.setHotelList(it)
+        loadingOverlay.animate(false)
+        loadingOverlay.visibility = View.GONE
         adapter.resultsSubject.onNext(it)
-        resetListOffset()
-        filterBtnWithCountWidget.visibility = View.VISIBLE
     }
 
     private fun lastBestLocationSafe(): Location {
@@ -532,7 +540,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             } else {
                 fab.visibility = View.INVISIBLE
             }
-
             filterView.visibility = View.GONE
         }
     }
@@ -885,8 +892,17 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     public class ResultsFilter
 
     fun doAreaSearch() {
-        //TODO: Implement this
-        Toast.makeText(getContext(), "Area search not yet implemented", Toast.LENGTH_LONG).show()
+        val center = googleMap?.cameraPosition?.target
+        val location = SuggestionV4()
+        val region = SuggestionV4.RegionNames()
+        region.displayName = context.getString(R.string.visible_map_area)
+        region.shortName = context.getString(R.string.visible_map_area)
+        location.regionNames = region
+        val coordinate = SuggestionV4.LatLng()
+        coordinate.lat = center?.latitude!!
+        coordinate.lng = center?.longitude!!
+        location.coordinates = coordinate
+        viewmodel.locationParamsSubject.onNext(location)
     }
 
     fun hideSearchThisArea(duration: Long = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION) {
