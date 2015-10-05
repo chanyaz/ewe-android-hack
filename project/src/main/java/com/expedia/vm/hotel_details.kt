@@ -125,25 +125,28 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
         // common amenities text
         if (hotelOffersResponse.hotelRoomResponse.size() > 0) {
-            val allValueAdds: List<List<String>> = hotelOffersResponse.hotelRoomResponse
-                    .filter { it.valueAdds != null }
-                    .map {
-                        it.valueAdds.map { it.description }
+            val atLeastOneRoomHasNoValueAdds = hotelOffersResponse.hotelRoomResponse.any { it.valueAdds == null }
+            if (!atLeastOneRoomHasNoValueAdds) {
+                val allValueAdds: List<List<String>> = hotelOffersResponse.hotelRoomResponse
+                        .filter { it.valueAdds != null }
+                        .map {
+                            it.valueAdds.map { it.description }
+                        }
+
+                if (!allValueAdds.isEmpty()) {
+                    val commonValueAdds: List<String> = allValueAdds
+                            .drop(1)
+                            .fold(allValueAdds.first().toArrayList(), { initial, nextValueAdds ->
+                                initial.retainAll(nextValueAdds)
+                                initial
+                            })
+
+                    if (!commonValueAdds.isEmpty()) {
+                        val commonValueAddsString = context.getString(R.string.common_value_add_template, FormatUtils.series(context, commonValueAdds, ",", FormatUtils.Conjunction.AND)
+                                .toLowerCase(Locale.getDefault()))
+
+                        commonAmenityTextObservable.onNext(commonValueAddsString)
                     }
-
-            if (!allValueAdds.isEmpty()) {
-                val commonValueAdds: List<String> = allValueAdds
-                        .drop(1)
-                        .fold(allValueAdds.first().toArrayList(), { initial, nextValueAdds ->
-                            initial.retainAll(nextValueAdds)
-                            initial
-                        })
-
-                if (!commonValueAdds.isEmpty()) {
-                    val commonValueAddsString = context.getString(R.string.common_value_add_template, FormatUtils.series(context, commonValueAdds, ",", FormatUtils.Conjunction.AND)
-                            .toLowerCase(Locale.getDefault()))
-
-                    commonAmenityTextObservable.onNext(commonValueAddsString)
                 }
             }
         }
