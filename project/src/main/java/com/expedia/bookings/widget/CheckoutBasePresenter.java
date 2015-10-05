@@ -422,6 +422,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			paymentInfoCardView.creditCardNumber.setText("");
 			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setNumber(null);
 			Db.getBillingInfo().setNumber(null);
+			paymentInfoCardView.bind();
 		}
 		catch (Exception ex) {
 			Log.e("Error clearing billingInfo card number", ex);
