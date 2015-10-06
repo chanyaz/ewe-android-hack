@@ -45,7 +45,7 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		assertViewWithTextIsDisplayedAtPosition(4, R.id.top_amenity_title, "Book Now, Pay Later");
 
 		//test VIP message
-		assertViewWithTextIsDisplayedAtPosition(4, R.id.vip_message, "+VIP");
+		assertViewWithTextIsNotDisplayedAtPosition(4, R.id.vip_message, "+VIP");
 
 		//test urgency messages
 		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(2));
@@ -78,5 +78,11 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		HotelScreen.hotelResultsList().check(
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
 				CoreMatchers.allOf(withId(id), isDisplayed(), withText(text)))));
+	}
+
+	private void assertViewWithTextIsNotDisplayedAtPosition(int position, int id, String text) {
+		HotelScreen.hotelResultsList().check(
+			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
+				CoreMatchers.allOf(withId(id), not(isDisplayed()), withText(text)))));
 	}
 }

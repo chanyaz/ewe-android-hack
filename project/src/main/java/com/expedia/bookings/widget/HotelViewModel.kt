@@ -4,7 +4,11 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
 import com.squareup.phrase.Phrase
@@ -29,7 +33,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val urgencyMessageBackgroundObservable = urgencyMessageObservable.filter { it != null }.map { it!!.background }
     val urgencyIconObservable = urgencyMessageObservable.filter { it != null }.map { it!!.icon }
 
-    val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.isVipAccess)
+    val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.discountPercent < 0 && hotel.lowRateInfo.airAttached)
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
     val topAmenityVisibilityObservable = topAmenityTitleObservable.map { (it!="")}
@@ -50,6 +54,10 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
             val isAbbreviated = true
             distanceFromCurrentLocationObservable.onNext(HotelUtils.formatDistanceForNearby(resources, hotel, isAbbreviated))
         }
+
+        val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
+        val isGoldOrSivler = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)
+        vipMessageVisibilityObservable.onNext(isVipAvailable && isGoldOrSivler)
     }
 
     private fun getTopAmenityTitle(hotel: Hotel,resources: Resources):String {
