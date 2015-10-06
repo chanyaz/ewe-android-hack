@@ -28,16 +28,17 @@
                     android:focusableInTouchMode ="true"
                     android:clickable="true">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/filter_hotel_name_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/hotel_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
+                            android:layout_centerVertical="true"
                             android:layout_marginRight="5dp"
                             android:src="@drawable/car_hotel"
                             android:tint="@color/hotel_filter_hotel_name_icon" />
@@ -46,14 +47,26 @@
                             android:id="@+id/filter_hotel_name_edit_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_centerVertical="true"
                             android:hint="@string/filter_hotel_name_hint"
+                            android:layout_toEndOf="@id/hotel_name"
                             android:singleLine="true"
                             android:textSize="15sp"
                             android:paddingBottom="12dp"
                             android:drawableBottom="@color/wallet_highlighted_text_holo_light"
                             android:inputType="textNoSuggestions"/>
-                    </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/clear_search_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_alignRight="@id/filter_hotel_name_edit_text"
+                            android:layout_centerVertical="true"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:src="@drawable/ic_clear_edittext"
+                            android:visibility="gone"/>
+                    </RelativeLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -116,7 +129,7 @@
                         android:textColor="@color/hotels_primary_color" />
 
                     <android.support.v7.widget.CardView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="15dp"
@@ -132,20 +145,16 @@
 
                             <LinearLayout
                                 android:id="@+id/rating_one_background"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:clickable="true">
-                                <RatingBar
+                                android:clickable="true"
+                                android:layout_weight="1">
+                                <ImageView
                                     android:id="@+id/filter_hotel_star_rating_one"
-                                    style="@style/RatingBar.UserReview.Material.Green"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:isIndicator="true"
-                                    android:layout_margin="10dp"
-                                    android:numStars="1"
-                                    android:rating="1"
-                                    android:stepSize="1"
-                                    android:layout_gravity="center_vertical"/>
+                                    android:src="@drawable/filter_1star"
+                                    android:layout_gravity="center" />
                             </LinearLayout>
 
                             <View
@@ -155,20 +164,17 @@
 
                             <LinearLayout
                                 android:id="@+id/rating_two_background"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:clickable="true">
-                                <RatingBar
+                                android:clickable="true"
+                                android:layout_weight="1.5">
+                                <ImageView
                                     android:id="@+id/filter_hotel_star_rating_two"
-                                    style="@style/RatingBar.UserReview.Material.Green"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:isIndicator="true"
-                                    android:layout_margin="10dp"
-                                    android:numStars="2"
-                                    android:rating="2"
-                                    android:stepSize="1"
-                                    android:layout_gravity="center_vertical"/>
+                                    android:layout_centerVertical="true"
+                                    android:src="@drawable/filter_2star"
+                                    android:layout_gravity="center" />
                             </LinearLayout>
 
                             <View
@@ -178,20 +184,17 @@
 
                             <LinearLayout
                                 android:id="@+id/rating_three_background"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:clickable="true">
-                                <RatingBar
+                                android:clickable="true"
+                                android:layout_weight="2">
+                                <ImageView
                                     android:id="@+id/filter_hotel_star_rating_three"
-                                    style="@style/RatingBar.UserReview.Material.Green"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="10dp"
-                                    android:isIndicator="true"
-                                    android:numStars="3"
-                                    android:rating="3"
-                                    android:stepSize="1"
-                                    android:layout_gravity="center_vertical"/>
+                                    android:layout_centerVertical="true"
+                                    android:src="@drawable/filter_3star"
+                                    android:layout_gravity="center" />
                             </LinearLayout>
 
                             <View
@@ -201,20 +204,17 @@
 
                             <LinearLayout
                                 android:id="@+id/rating_four_background"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:clickable="true">
-                                <RatingBar
+                                android:clickable="true"
+                                android:layout_weight="2.5">
+                                <ImageView
                                     android:id="@+id/filter_hotel_star_rating_four"
-                                    style="@style/RatingBar.UserReview.Material.Green"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="10dp"
-                                    android:isIndicator="true"
-                                    android:numStars="4"
-                                    android:rating="4"
-                                    android:stepSize="1"
-                                    android:layout_gravity="center_vertical"/>
+                                    android:layout_centerVertical="true"
+                                    android:src="@drawable/filter_4star"
+                                    android:layout_gravity="center" />
                             </LinearLayout>
 
                             <View
@@ -224,20 +224,16 @@
 
                             <LinearLayout
                                 android:id="@+id/rating_five_background"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:clickable="true">
-                                <RatingBar
+                                android:clickable="true"
+                                android:layout_weight="3">
+                                <ImageView
                                     android:id="@+id/filter_hotel_star_rating_five"
-                                    style="@style/RatingBar.UserReview.Material.Green"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="10dp"
-                                    android:isIndicator="true"
-                                    android:numStars="5"
-                                    android:rating="5"
-                                    android:stepSize="1"
-                                    android:layout_gravity="center_vertical"/>
+                                    android:src="@drawable/filter_5star"
+                                    android:layout_gravity="center_vertical" />
                             </LinearLayout>
 
                         </LinearLayout>
