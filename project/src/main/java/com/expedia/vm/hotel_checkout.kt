@@ -206,7 +206,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             roomDescriptions.onNext(room.roomTypeDescription)
             numNights.onNext(context.resources.getQuantityString(R.plurals.number_of_nights, it.numberOfNights.toInt(), it.numberOfNights.toInt()))
             bedDescriptions.onNext(room.formattedBedNames)
-            numGuests.onNext(context.resources.getQuantityString(R.plurals.number_of_guests, it.adultCount.toInt(), it.adultCount.toInt()))
+            numGuests.onNext(StrUtils.formatGuestString(context, it.adultCount.toInt()))
             hasFreeCancellation.onNext(room.hasFreeCancellation)
             currencyCode.onNext(rate.currencyCode)
             nightlyRatesPerRoom.onNext(rate.nightlyRatesPerRoom)
@@ -242,7 +242,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             isPriceChange.onNext(hasPriceChange)
         }
         guestCountObserver.subscribe {
-            numGuests.onNext(context.resources.getQuantityString(R.plurals.number_of_guests, it, it))
+            numGuests.onNext(StrUtils.formatGuestString(context, it))
         }
     }
 }

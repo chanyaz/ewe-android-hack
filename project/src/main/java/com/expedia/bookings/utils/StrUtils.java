@@ -629,4 +629,8 @@ public class StrUtils {
 		return str.toString().trim();
 	}
 
+	public static String formatGuestString(Context context, int guests) {
+		return context.getResources().getQuantityString(R.plurals.number_of_guests, guests,
+			guests);
+	}
 }
