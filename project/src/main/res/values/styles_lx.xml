@@ -31,7 +31,7 @@
         <item name="skin_loginBrandIconDrawable">@drawable/expedia_login</item>
         <item name="skin_lxPrimaryColor">@color/lx_primary_color</item>
 
-        <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_book_now_button_selector</item>
+        <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_button_selector</item>
         <item name="skin_lxOfferDateSelectorDrawable">@drawable/lx_offer_date_selector</item>
         <item name="skin_lxSelectTicketButtonSelectorDrawable">@drawable/lx_select_ticket_button_selector</item>
         <item name="skin_lxShowMoreBackgroundDrawable">@drawable/lx_show_more_background</item>
@@ -55,7 +55,7 @@
         <item name="colorAccent">@color/gt_primary_color</item>
         <item name="android:colorButtonNormal">@color/gt_primary_color</item>
         <item name="skin_lxPrimaryColor">@color/gt_primary_color</item>
-        <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_book_now_button_selector_gt</item>
+        <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_button_selector_gt</item>
         <item name="skin_lxOfferDateSelectorDrawable">@drawable/lx_offer_date_selector_gt</item>
         <item name="skin_lxSelectTicketButtonSelectorDrawable">@drawable/lx_select_ticket_button_selector_gt</item>
         <item name="skin_lxShowMoreBackgroundDrawable">@drawable/lx_show_more_background_gt</item>
@@ -162,7 +162,7 @@
     </style>
 
     <style name="LXButton" parent="android:Widget.Button" >
-        <item name="android:background">?attr/skin_lxPrimaryColor</item>
+        <item name="android:background">?attr/skin_lxBookNowButtonSelectorDrawable</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:paddingLeft">20dp</item>
