@@ -441,7 +441,7 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
         dailyPricePerNightObservable.onNext(dailyPrice.formattedMoney)
         perNightObservable.onNext(true)
         rateObservable.subscribe { hotelRoom ->
-            val bedTypes = hotelRoom.bedTypes.map { it.description }.join("")
+            val bedTypes = (hotelRoom.bedTypes ?: emptyList()).map { it.description }.join("")
             collapsedBedTypeObservable.onNext(bedTypes)
             expandedBedTypeObservable.onNext(bedTypes)
             var expandedPair: Pair<String, Drawable>

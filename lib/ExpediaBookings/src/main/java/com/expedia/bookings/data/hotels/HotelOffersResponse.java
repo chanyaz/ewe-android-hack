@@ -3,6 +3,8 @@ package com.expedia.bookings.data.hotels;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.expedia.bookings.utils.Strings;
 
 public class HotelOffersResponse {
@@ -50,6 +52,7 @@ public class HotelOffersResponse {
 	}
 
 	public static class HotelRoomResponse {
+		@Nullable
 		public List<BedTypes> bedTypes;
 		public String cancellationPolicy;
 		public String currentAllotment;
