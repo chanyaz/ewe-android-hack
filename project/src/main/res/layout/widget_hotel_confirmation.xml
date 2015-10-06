@@ -33,6 +33,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
                     android:textColor="@color/itin_white_text"
                     android:textSize="20sp"
                     app:textStyle="medium" />

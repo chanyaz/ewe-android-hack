@@ -89,6 +89,8 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
                 Events.post(Events.FinishActivity())
             }
         })
+        val paddingTop = Ui.getStatusBarHeight(context) - (5 * resources.displayMetrics.density).toInt()
+        toolbar.setPadding(0, paddingTop, 0, 0)
     }
 
     private fun dressAction(res: Resources, textView: widget.TextView, drawableResId: Int) {
