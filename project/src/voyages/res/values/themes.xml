@@ -94,7 +94,9 @@
         <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
     </style>
 
-    <style name="LaunchTheme" parent="@android:style/Theme.Holo">
+    <style name="LaunchTheme" parent="Theme.AppCompat">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:logo">@drawable/launch_actionbar_space_between_icon_and_tabs</item>
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
