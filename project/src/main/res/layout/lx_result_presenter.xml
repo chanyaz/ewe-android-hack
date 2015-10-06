@@ -87,7 +87,8 @@
                     android:id="@+id/toolbar_subtitle_text"
                     style="@style/CarsToolbarSubtitleTextAppearance"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
             </LinearLayout>
         </FrameLayout>

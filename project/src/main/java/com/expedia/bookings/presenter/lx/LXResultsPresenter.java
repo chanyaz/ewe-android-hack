@@ -293,6 +293,7 @@ public class LXResultsPresenter extends Presenter {
 		if (event.searchType.equals(SearchType.DEFAULT_SEARCH)
 			&& event.error.errorCode != ApiError.Code.LX_SEARCH_NO_RESULTS) {
 			toolBarDetailText.setText(getResources().getString(R.string.lx_error_current_location_toolbar_text));
+			toolBarSubtitleText.setVisibility(View.GONE);
 		}
 	}
 
@@ -342,6 +343,7 @@ public class LXResultsPresenter extends Presenter {
 		String dateRange = String.format(getResources().getString(R.string.lx_toolbar_date_range_template),
 			DateUtils.localDateToMMMd(searchParams.startDate), DateUtils.localDateToMMMd(searchParams.endDate));
 		toolBarSubtitleText.setText(dateRange);
+		toolBarSubtitleText.setVisibility(View.VISIBLE);
 	}
 
 	public void animationStart(boolean forward) {
