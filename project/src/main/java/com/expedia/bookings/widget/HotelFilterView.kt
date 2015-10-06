@@ -76,7 +76,6 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val neighborhoodMoreLessLabel : TextView by bindView(R.id.show_more_less_text)
     val neighborhoodMoreLessIcon : ImageButton by bindView(R.id.show_more_less_icon)
     val neighborhoodMoreLessView : RelativeLayout by bindView(R.id.collapsed_container)
-    var isSectionExpanded = false
 
     val amenityLabel: TextView by bindView(R.id.amenity_label)
     val amenityContainer: GridLayout by bindView(R.id.amenities_container)
@@ -246,9 +245,10 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             }
         }
 
-        neighborhoodMoreLessView.setOnClickListener {
-            if (!isSectionExpanded) {
-                isSectionExpanded = true
+        neighborhoodMoreLessView.subscribeOnClick(vm.neighborhoodMoreLessObserverable)
+
+        vm.neighborhoodExpandObserable.subscribe { isSectionExpanded ->
+            if (isSectionExpanded) {
                 AnimUtils.rotate(neighborhoodMoreLessIcon)
                 neighborhoodMoreLessLabel.text = getContext().getString(R.string.show_less)
                 for (i in 3..neighborhoodContainer.getChildCount() - 1) {
@@ -259,7 +259,6 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                 }
 
             } else {
-                isSectionExpanded = false
                 AnimUtils.reverseRotate(neighborhoodMoreLessIcon)
                 neighborhoodMoreLessLabel.text = getContext().getString(R.string.show_more)
                 for (i in 3 .. neighborhoodContainer.getChildCount() -1){
@@ -269,7 +268,6 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                     }
                 }
             }
-
         }
 
 

@@ -28,6 +28,7 @@ class HotelFilterViewModel(val context: Context) {
     val updateDynamicFeedbackWidget = BehaviorSubject.create<Int>()
     val finishClear = BehaviorSubject.create<Unit>()
     val filterCountObservable = BehaviorSubject.create<Int>()
+    val neighborhoodExpandObserable = BehaviorSubject.create<Boolean>()
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
 
@@ -43,13 +44,15 @@ class HotelFilterViewModel(val context: Context) {
     val neighborhoodListObservable = PublishSubject.create<List<HotelSearchResponse.Neighborhood>>()
     val amenityOptionsObservable = PublishSubject.create<Map<String, HotelSearchResponse.AmenityOptions>>()
     val amenityMapObservable = BehaviorSubject.create<Map<FilterAmenity, Int>>()
+    var didFilter = false
+    var isNeighborhoodExpanded = false
 
     init {
         doneObservable.subscribe { params ->
             if (userFilterChoices.userSort != Sort.POPULAR) {
                 sortObserver.onNext(userFilterChoices.userSort)
             }
-            if (filteredResponse.hotelList == null) {
+            if (!didFilter) {
                 filterObservable.onNext(originalResponse?.hotelList)
             } else {
                 filterObservable.onNext(filteredResponse.hotelList)
@@ -57,14 +60,23 @@ class HotelFilterViewModel(val context: Context) {
         }
 
         clearObservable.subscribe {params ->
-            resetUserFilters()
-            handleFiltering()
-            finishClear.onNext(Unit)
+            if (filteredResponse.hotelList != null) {
+                resetUserFilters()
+                filteredResponse.hotelList.clear()
+                doneButtonEnableObservable.onNext(true)
+                filterCountObservable.onNext(0)
+                finishClear.onNext(Unit)
+                didFilter = false
+            }
         }
     }
 
     fun handleFiltering() {
-        filteredResponse.hotelList = ArrayList<Hotel>()
+        if (filteredResponse.hotelList == null) {
+            filteredResponse.hotelList = ArrayList<Hotel>()
+        } else {
+            filteredResponse.hotelList.clear()
+        }
         filteredResponse.allNeighborhoodsInSearchRegion = originalResponse?.allNeighborhoodsInSearchRegion
 
         for (hotel in originalResponse?.hotelList.orEmpty()) {
@@ -74,6 +86,7 @@ class HotelFilterViewModel(val context: Context) {
         updateDynamicFeedbackWidget.onNext(filteredResponse.hotelList.size())
         doneButtonEnableObservable.onNext(filteredResponse.hotelList.size() > 0)
         filterCountObservable.onNext(getFilterCount())
+        didFilter = true
     }
 
     fun resetUserFilters() {
@@ -227,7 +240,8 @@ class HotelFilterViewModel(val context: Context) {
         if (response.amenityFilterOptions != null) {
             amenityOptionsObservable.onNext(response.amenityFilterOptions)
         }
-
+        isNeighborhoodExpanded = false
+        neighborhoodExpandObserable.onNext(isNeighborhoodExpanded)
     }
 
     public enum class Sort {
@@ -239,7 +253,7 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     val sortObserver = endlessObserver<Sort> { sort ->
-        var preSortHotelList = if (filteredResponse.hotelList == null) originalResponse?.hotelList else filteredResponse.hotelList
+        var preSortHotelList = if (!didFilter) originalResponse?.hotelList else filteredResponse.hotelList
 
         when (sort) {
             Sort.PRICE -> Collections.sort(preSortHotelList, price_comparator)
@@ -320,6 +334,15 @@ class HotelFilterViewModel(val context: Context) {
         }
 
         handleFiltering()
+    }
+
+    val neighborhoodMoreLessObserverable: Observer<Unit> = endlessObserver {
+        if (!isNeighborhoodExpanded) {
+            isNeighborhoodExpanded = true
+        } else {
+            isNeighborhoodExpanded = false
+        }
+        neighborhoodExpandObserable.onNext(isNeighborhoodExpanded)
     }
 
     fun getFilterCount() : Int {

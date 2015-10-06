@@ -278,6 +278,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.viewmodel.paramsSubject.onNext(params)
             var isCurrentLocationSearch = params.suggestion.regionNames.displayName.equals(getContext().getString(R.string.current_location))
             resultsPresenter.filterView.sortByObserver.onNext(isCurrentLocationSearch)
+            resultsPresenter.filterView.viewmodel.clearObservable.onNext(Unit)
         }
     }
 

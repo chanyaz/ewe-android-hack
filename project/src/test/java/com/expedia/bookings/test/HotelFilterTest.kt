@@ -81,7 +81,7 @@ public class HotelFilterTest {
         assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
         assertEquals(false, vm.userFilterChoices.isVipOnlyAccess)
         assertTrue(vm.userFilterChoices.neighborhoods.isEmpty())
-        assertTrue(vm.filteredResponse.hotelList.size() == vm.originalResponse!!.hotelList.size())
+        assertTrue(vm.filteredResponse.hotelList.isEmpty())
 
     }
 
