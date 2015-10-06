@@ -36,6 +36,12 @@ public fun View.subscribeOnClick(observer: Observer<Unit>) {
     }
 }
 
+public fun ToggleButton.subscribeOnClick(observer: Observer<Boolean>) {
+    this.setOnClickListener {
+        observer.onNext(this.isChecked)
+    }
+}
+
 public fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
     this.setOnClickListener {
         publishSubject.onNext(Unit)
@@ -62,12 +68,6 @@ public fun RadioGroup.unsubscribeOnCheckedChange() {
 }
 
 public fun CheckBox.subscribeOnCheckChanged(observer: Observer<Boolean>) {
-    this.setOnClickListener {
-        observer.onNext(this.isChecked())
-    }
-}
-
-public fun ToggleButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
     this.setOnClickListener {
         observer.onNext(this.isChecked())
     }
