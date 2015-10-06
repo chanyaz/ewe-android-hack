@@ -69,7 +69,7 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
         val viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, totalPricePerNight, roomInfoContainer)
 
         expandedAmenity.visibility = View.GONE
-        viewRoom.subscribeOnClick(vm.expandCollapseRoomRate)
+        viewRoom.subscribeOnCheckChanged(vm.expandCollapseRoomRate)
         row.setOnClickListener {
             vm.expandCollapseRoomRate.onNext(!viewRoom.isChecked)
         }
