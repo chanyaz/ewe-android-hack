@@ -19,7 +19,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsService: SuggestionV4Services, val locationObservable: Observable<Location>) {
-
+    private val currentLocationText = context.getString(R.string.current_location)
     // Outputs
     val suggestionsObservable = PublishSubject.create<List<SuggestionV4>>()
     var suggestions: List<SuggestionV4> = emptyList()
@@ -31,7 +31,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
 
     // Inputs
     val queryObserver = endlessObserver<String> { query ->
-        if (query.isNotBlank() && query.length() >= 3) {
+        if (query.isNotBlank() && query.length() >= 3 && !query.equals(currentLocationText)) {
             suggestionsService.getHotelSuggestionsV4(query, generateSuggestionServiceCallback())
         } else {
             suggestionsObservable.onNext(suggestionsListWithNearby())
