@@ -288,16 +288,16 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         mapView.getMapAsync(this);
     }
 
-    fun initializeViews() {
+    fun resetViews() {
         AnimUtils.reverseRotate(readMoreView)
         hotelDescription.maxLines = HOTEL_DESC_COLLAPSE_LINES
         etpRadioGroup.unsubscribeOnCheckedChange()
         renovationContainer.setVisibility(View.GONE)
         etpRadioGroup.check(R.id.radius_pay_now)
         etpContainer.setVisibility(View.GONE)
+        etpAndFreeCancellationMessagingContainer.setVisibility(View.GONE)
         etpInfoText.setTextAppearance(context, R.style.ETPInfoText)
         freeCancellation.setTextAppearance(context, R.style.HotelDetailsInfo)
-        etpAndFreeCancellationMessagingContainer.setVisibility(View.GONE)
         detailContainer.scrollTo(0, 0)
         toolBarBackground.setAlpha(0f)
         toolBarGradient.setTranslationY(0f)

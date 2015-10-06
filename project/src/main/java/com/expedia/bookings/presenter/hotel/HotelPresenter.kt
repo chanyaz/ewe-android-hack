@@ -160,6 +160,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         private var detailsHeight: Int = 0
 
         override fun startTransition(forward: Boolean) {
+            if (!forward) {
+                detailPresenter.hotelDetailView.resetViews()
+            }
             val parentHeight = getHeight()
             detailsHeight = parentHeight - Ui.getStatusBarHeight(getContext())
             val pos = (if (forward) detailsHeight else 0).toFloat()
