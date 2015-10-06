@@ -436,6 +436,12 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@Override
 	public void onUserAccountRefreshed() {
 		doCreateTrip();
+		if (User.isLoggedIn(getContext())) {
+			scrollView.scrollTo(0, (int)mainContactInfoCardView.getY());
+		}
+		else {
+			scrollView.scrollTo(0, (int)loginWidget.getY());
+		}
 	}
 
 	public abstract void doCreateTrip();
