@@ -394,7 +394,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             uiSettings.isMyLocationButtonEnabled = false
             uiSettings.isIndoorLevelPickerEnabled = false
         }
-        googleMap?.isMyLocationEnabled = true
 
         //If the user moves the map at all, make sure the button is showing.
         googleMap?.setOnCameraChangeListener { position ->
@@ -855,9 +854,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         toolbarSubtitle.translationY = factor * toolbarSubtitleTop
     }
 
-    fun animationFinalize() {
+    fun animationFinalize(forward: Boolean) {
         recyclerTempBackground.visibility = View.GONE
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
+        googleMap?.isMyLocationEnabled = forward
     }
 
     //We use ObjectAnimators instead of Animation because Animation mucks with settings values outside of it, and Object
