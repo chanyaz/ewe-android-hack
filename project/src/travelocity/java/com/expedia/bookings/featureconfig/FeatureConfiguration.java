@@ -255,11 +255,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "tvly";
 	}
 
-	@Override
-	public boolean isLOBChooserScreenEnabled() {
-		return true;
-	}
-
 	public String getAdXKey() {
 		return "65bcdbdb-8841-4d72-b792-4123773d5725";
 	}
@@ -286,11 +281,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isTrackWithFlightTrackEnabled() {
-		return false;
-	}
-
-	@Override
-	public boolean isItinDisabled() {
 		return false;
 	}
 

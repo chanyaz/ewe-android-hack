@@ -1397,12 +1397,6 @@ public class ExpediaServices implements DownloadListener {
 		String serverUrl, ResponseHandler<PushNotificationRegistrationResponse> responseHandler,
 		JSONObject payload, String regId) {
 
-		String appNameForMobiataPushNameHeader = ProductFlavorFeatureConfiguration.getInstance().getAppNameForMobiataPushNameHeader();
-		if (Strings.isEmpty(appNameForMobiataPushNameHeader)) {
-			Log.d("PushNotification registration key is null/blank in feature config!");
-			return null;
-		}
-
 		// Create the request
 		Request.Builder post = new Request.Builder().url(serverUrl);
 		String data = payload.toString();
@@ -1411,6 +1405,7 @@ public class ExpediaServices implements DownloadListener {
 		// Adding the body sets the Content-type header for us
 		post.post(body);
 
+		String appNameForMobiataPushNameHeader = ProductFlavorFeatureConfiguration.getInstance().getAppNameForMobiataPushNameHeader();
 		if (PushNotificationUtils.REGISTRATION_URL_PRODUCTION.equals(serverUrl)) {
 			post.addHeader("MobiataPushName", appNameForMobiataPushNameHeader);
 		}

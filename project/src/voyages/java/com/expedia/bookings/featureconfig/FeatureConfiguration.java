@@ -309,11 +309,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "vsc";
 	}
 
-	@Override
-	public boolean isLOBChooserScreenEnabled() {
-		return false;
-	}
-
 	public String getAdXKey() {
 		//Key not available for VSC for now, so passing blank.
 		return "";
@@ -342,11 +337,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean isTrackWithFlightTrackEnabled() {
 		return false;
-	}
-
-	@Override
-	public boolean isItinDisabled() {
-		return true;
 	}
 
 	@Override
