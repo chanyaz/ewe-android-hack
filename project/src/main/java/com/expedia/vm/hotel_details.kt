@@ -363,7 +363,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     }
 
     private fun getPromoText(hotel: HotelOffersResponse.HotelRoomResponse): String {
-        if (hotel.isDiscountRestrictedToCurrentSourceType) return context.getResources().getString(R.string.mobile_exclusive)
+        val roomsLeft = hotel.currentAllotment.toInt();
+        if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF)
+            return context.getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft)
+        else if (hotel.isDiscountRestrictedToCurrentSourceType) return context.getResources().getString(R.string.mobile_exclusive)
         else if (hotel.isSameDayDRR) return context.getResources().getString(R.string.tonight_only)
         else return ""
 
