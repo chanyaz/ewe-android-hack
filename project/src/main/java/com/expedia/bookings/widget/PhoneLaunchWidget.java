@@ -490,6 +490,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 				doubleRowLobSelectorWidget.setVisibility(View.GONE);
 				doubleRowFiveLobSelectorWidget.transformButtons(1.0f);
 				doubleRowFiveLobSelectorWidget.setVisibility(View.VISIBLE);
+				listHeaderPaddingTop = R.dimen.launch_header_five_lob_top_space;
 			}
 			else {
 				doubleRowLob = true;
@@ -497,8 +498,8 @@ public class PhoneLaunchWidget extends FrameLayout {
 				doubleRowFiveLobSelectorWidget.setVisibility(View.GONE);
 				doubleRowLobSelectorWidget.transformButtons(1.0f);
 				doubleRowLobSelectorWidget.setVisibility(View.VISIBLE);
+				listHeaderPaddingTop = R.dimen.launch_header_double_row_top_space;
 			}
-			listHeaderPaddingTop = R.dimen.launch_header_double_row_top_space;
 		}
 		else {
 			doubleRowLob = false;
