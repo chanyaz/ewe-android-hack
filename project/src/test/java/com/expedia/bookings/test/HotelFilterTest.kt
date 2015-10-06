@@ -133,19 +133,34 @@ public class HotelFilterTest {
     }
 
     @Test
+    fun sortByPopular() {
+        vm.didFilter = true
+        vm.filteredResponse = fakeFilteredResponse()
+        vm.sortObserver.onNext(HotelFilterViewModel.Sort.POPULAR)
+
+        for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
+            val current = vm.filteredResponse.hotelList.elementAt(i).sortIndex
+            val previous = vm.filteredResponse.hotelList.elementAt(i-1).sortIndex
+            assertTrue(current >= previous)
+        }
+    }
+
+    @Test
     fun sortByPrice(){
+        vm.didFilter = true
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.PRICE)
 
         for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
-            val current = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.getDisplayTotalPrice()
-            val previous = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.getDisplayTotalPrice()
+            val current = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.priceToShowUsers
+            val previous = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.priceToShowUsers
             assertTrue(current >= previous)
         }
     }
 
     @Test
     fun sortByDeals(){
+        vm.didFilter = true
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.DEALS)
         for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
@@ -157,6 +172,7 @@ public class HotelFilterTest {
 
     @Test
     fun sortByRating(){
+        vm.didFilter = true
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.RATING)
 
@@ -169,6 +185,7 @@ public class HotelFilterTest {
 
     @Test
     fun sortByDistance(){
+        vm.didFilter = true
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.DISTANCE)
 
@@ -229,9 +246,10 @@ public class HotelFilterTest {
         filteredResponse.hotelList = ArrayList<Hotel>()
 
         val  hotel1 = Hotel()
+        hotel1.sortIndex = "1"
         hotel1.localizedName = "Hilton"
         hotel1.lowRateInfo = HotelRate()
-        hotel1.lowRateInfo.total = 100.0f
+        hotel1.lowRateInfo.priceToShowUsers = 100.0f
         hotel1.lowRateInfo.currencyCode = "USD"
         hotel1.lowRateInfo.discountPercent = -10f
         hotel1.hotelGuestRating = 4.5f
@@ -247,9 +265,10 @@ public class HotelFilterTest {
 
 
         val hotel2 = Hotel()
+        hotel2.sortIndex = "2"
         hotel2.localizedName = "Double Tree"
         hotel2.lowRateInfo = HotelRate()
-        hotel2.lowRateInfo.total = 200.0f
+        hotel2.lowRateInfo.priceToShowUsers = 200.0f
         hotel2.lowRateInfo.currencyCode = "USD"
         hotel2.lowRateInfo.discountPercent = -15f
         hotel2.hotelGuestRating = 5f

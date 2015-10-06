@@ -45,11 +45,13 @@ class HotelFilterViewModel(val context: Context) {
     val amenityOptionsObservable = PublishSubject.create<Map<String, HotelSearchResponse.AmenityOptions>>()
     val amenityMapObservable = BehaviorSubject.create<Map<FilterAmenity, Int>>()
     var didFilter = false
+    var previousSort = Sort.POPULAR
     var isNeighborhoodExpanded = false
 
     init {
         doneObservable.subscribe { params ->
-            if (userFilterChoices.userSort != Sort.POPULAR) {
+            if (userFilterChoices.userSort != previousSort) {
+                previousSort = userFilterChoices.userSort
                 sortObserver.onNext(userFilterChoices.userSort)
             }
             if (!didFilter) {
@@ -242,6 +244,7 @@ class HotelFilterViewModel(val context: Context) {
         }
         isNeighborhoodExpanded = false
         neighborhoodExpandObserable.onNext(isNeighborhoodExpanded)
+        previousSort = Sort.POPULAR
     }
 
     public enum class Sort {
@@ -256,6 +259,7 @@ class HotelFilterViewModel(val context: Context) {
         var preSortHotelList = if (!didFilter) originalResponse?.hotelList else filteredResponse.hotelList
 
         when (sort) {
+            Sort.POPULAR -> Collections.sort(preSortHotelList, popular_comparator)
             Sort.PRICE -> Collections.sort(preSortHotelList, price_comparator)
             Sort.RATING -> Collections.sort(preSortHotelList, rating_comparator_fallback_price)
             Sort.DEALS -> Collections.sort(preSortHotelList, deals_comparator)
@@ -263,6 +267,11 @@ class HotelFilterViewModel(val context: Context) {
         }
     }
 
+    private val popular_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
+        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
+            return hotel1.sortIndex.compareTo(hotel2.sortIndex)
+        }
+    }
 
     private val name_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
         override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
@@ -357,7 +366,6 @@ class HotelFilterViewModel(val context: Context) {
         if (userFilterChoices.neighborhoods.isNotEmpty()) count += userFilterChoices.neighborhoods.size()
         if (userFilterChoices.amenity.isNotEmpty()) count += userFilterChoices.amenity.size()
         if (userFilterChoices.price != null) count++
-        if (userFilterChoices.amenity.isNotEmpty()) count++
         return count
     }
 }
