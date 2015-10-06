@@ -266,7 +266,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
             roomContainer.removeAllViews()
             roomList.first.forEachIndexed { roomResponseIndex, room ->
-                val view = HotelRoomRateView(getContext(), RoomSelected.observer)
+                val view = HotelRoomRateView(getContext(), detailContainer, etpContainer, RoomSelected.observer)
                 view.viewmodel = HotelRoomRateViewModel(getContext(), roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm)
                 roomContainer.addView(view)
                 hotelRoomRateViewModels.add(view.viewmodel)
@@ -305,7 +305,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
             roomContainer.removeAllViews()
             etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
-                val view = HotelRoomRateView(getContext(), RoomSelected.observer)
+                val view = HotelRoomRateView(getContext(), detailContainer, etpContainer, RoomSelected.observer)
                 view.viewmodel = HotelRoomRateViewModel(getContext(), etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm)
                 view.viewmodel.payLaterObserver.onNext(Unit)
                 roomContainer.addView(view)

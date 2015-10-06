@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget
 
+import android.animation.Animator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -20,7 +22,7 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.animation.ResizeHeightAnimation
+import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeOnCheckChanged
@@ -28,10 +30,11 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.HotelRoomRateViewModel
+import com.mobiata.android.util.AndroidUtils
 import rx.Observer
 import rx.Observable
 
-public class HotelRoomRateView(context: Context, val selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : LinearLayout(context) {
+public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView, val rowTopConstraintView: View, val selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : LinearLayout(context) {
 
     val PICASSO_HOTEL_ROOM = "HOTEL_ROOMS"
 
@@ -167,18 +170,39 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
                 (row.background as TransitionDrawable).reverseTransition(ANIMATION_DURATION.toInt())
             }
 
-            val resizeAnimation = ResizeHeightAnimation()
             topMarginForView(row, resources.getDimension(R.dimen.launch_tile_margin_top).toInt())
             topMarginForView(roomDivider, resources.getDimension(R.dimen.launch_tile_margin_top).toInt())
-            resizeAnimation.addViewSpec(roomHeaderImage, roomHeaderImageHeight)
-            resizeAnimation.addViewSpec(roomInfoHeader, roomInfoHeaderTextHeight)
-            resizeAnimation.addViewSpec(roomInfoDivider, roomInfoDividerHeight)
+
+            val resizeAnimator = ResizeHeightAnimator(if (animate) ANIMATION_DURATION else 0)
+            resizeAnimator.addViewSpec(roomHeaderImage, roomHeaderImageHeight)
+            resizeAnimator.addViewSpec(roomInfoHeader, roomInfoHeaderTextHeight)
+            resizeAnimator.addViewSpec(roomInfoDivider, roomInfoDividerHeight)
             if (roomInfoDescriptionText.visibility == View.VISIBLE) {
-                resizeAnimation.addViewSpec(roomInfoDescriptionText, roomInfoDescriptionTextHeight)
+                resizeAnimator.addViewSpec(roomInfoDescriptionText, roomInfoDescriptionTextHeight)
             }
 
-            resizeAnimation.duration = if (animate) ANIMATION_DURATION else 0
-            row.startAnimation(resizeAnimation)
+            if (animate) {
+                val screenHeight = AndroidUtils.getScreenSize(context).y
+                resizeAnimator.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
+                    override fun onAnimationUpdate(p0: ValueAnimator?) {
+                        val location = IntArray(2)
+
+                        row.getLocationOnScreen(location)
+                        val rowLocationTopY = location[1]
+                        val rowLocationBottomY = rowLocationTopY + row.height
+
+                        rowTopConstraintView.getLocationOnScreen(location)
+                        val rowTopConstraintViewBottomY = location[1] + rowTopConstraintView.height
+
+                        if (rowLocationBottomY > screenHeight) {
+                            scrollAncestor.smoothScrollBy(0, rowLocationBottomY - screenHeight)
+                        } else if (rowLocationTopY < rowTopConstraintViewBottomY) {
+                            scrollAncestor.smoothScrollBy(0, rowLocationTopY - rowTopConstraintViewBottomY)
+                        }
+                    }
+                })
+            }
+            resizeAnimator.start()
         }
 
         Observable.combineLatest(vm.collapseRoomObservable, vm.expandedMeasurementsDone) { animate, unit -> animate }.subscribe { animate ->
@@ -189,7 +213,6 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
             }
             viewsToShowInExpandedState.forEach {
                 it.startAnimation(newAlphaOneToZeroAnimation())
-
             }
 
             row.isEnabled = true
@@ -202,33 +225,35 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
 
             (row.background as TransitionDrawable).startTransition(ANIMATION_DURATION.toInt())
 
-            val resizeAnimation = ResizeHeightAnimation()
-            resizeAnimation.addViewSpec(roomHeaderImage, 0)
-            resizeAnimation.addViewSpec(roomInfoHeader, 0)
-            resizeAnimation.addViewSpec(roomInfoDivider, 0)
+            val resizeAnimator = ResizeHeightAnimator(if (animate) ANIMATION_DURATION else 0)
+            resizeAnimator.addViewSpec(roomHeaderImage, 0)
+            resizeAnimator.addViewSpec(roomInfoHeader, 0)
+            resizeAnimator.addViewSpec(roomInfoDivider, 0)
             if (roomInfoDescriptionText.visibility == View.VISIBLE) {
-                resizeAnimation.addViewSpec(roomInfoDescriptionText, 0)
+                resizeAnimator.addViewSpec(roomInfoDescriptionText, 0)
             }
 
             topMarginForView(row, 0)
             topMarginForView(roomDivider, 0)
 
-            resizeAnimation.duration = if (animate) ANIMATION_DURATION else 0
-            resizeAnimation.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationRepeat(animation: Animation?) {
-                    // ignore
-                }
-
-                override fun onAnimationEnd(animation: Animation?) {
+            resizeAnimator.addListener(object : Animator.AnimatorListener {
+                override fun onAnimationEnd(p0: Animator?) {
                     roomHeaderImage.setImageDrawable(null)
                 }
 
-                override fun onAnimationStart(animation: Animation?) {
+                override fun onAnimationStart(p0: Animator?) {
                     // ignore
                 }
 
+                override fun onAnimationRepeat(p0: Animator?) {
+                    // ignore
+                }
+
+                override fun onAnimationCancel(p0: Animator?) {
+                    // ignore
+                }
             })
-            row.startAnimation(resizeAnimation)
+            resizeAnimator.start()
         }
     }
 
