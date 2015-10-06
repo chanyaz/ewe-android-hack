@@ -1,108 +1,46 @@
 package com.expedia.bookings.widget
 
-import android.content.Context
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
-import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribe
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelSuggestionViewModel
-import rx.android.schedulers.AndroidSchedulers
 
-public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewModel) : BaseAdapter(), Filterable {
-    private val DEFAULT_AUTOFILL_ITEM_VIEW = 0
-    private val SUGGESTION_ITEM_VIEW = 1
-    private val ITEM_VIEW_TYPE_COUNT = 2
+public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+
+    override fun getItemCount(): Int {
+        return viewmodel.suggestions.size()
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_dropdown_item, parent, false)
+        val vm = HotelSuggestionViewModel()
+        vm.suggestionSelected.subscribe(viewmodel.suggestionSelectedSubject)
+        return HotelSuggestionViewHolder(view as ViewGroup, vm)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+        when (holder) {
+            is HotelSuggestionViewHolder -> holder.vm.suggestionObserver.onNext(viewmodel.suggestions.get(position))
+        }
+    }
 
     init {
-        viewmodel.suggestionsObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
+        viewmodel.suggestionsObservable.subscribe {
             viewmodel.suggestions = it
             notifyDataSetChanged()
         }
     }
 
-    private val filter = object : Filter() {
-        override public fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
-            //notifyDataSetChanged()
-        }
-
-        override fun performFiltering(input: CharSequence?): Filter.FilterResults {
-            val cleanQuery = input?.toString() ?: ""
-
-            viewmodel.queryObserver.onNext(cleanQuery)
-
-            val suggestions = viewmodel.suggestionsListWithDummyAutofillItem()
-
-            val results = Filter.FilterResults()
-            results.count = suggestions.size()
-            results.values = suggestions
-            return results
-        }
-    }
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
-        val itemViewType = getItemViewType(position)
-
-        var view: View? = null
-        when (itemViewType) {
-            DEFAULT_AUTOFILL_ITEM_VIEW -> view = getDefaultAutofillItemView(parent.getContext(), convertView)
-
-            SUGGESTION_ITEM_VIEW -> view = getSuggestionItemView(position, convertView, parent)
-        }
-
-        return view
-    }
-
-    override fun getCount(): Int {
-        return viewmodel.suggestions.size()
-    }
-
-    override fun getViewTypeCount(): Int {
-        return ITEM_VIEW_TYPE_COUNT
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return if (position == 0) DEFAULT_AUTOFILL_ITEM_VIEW else SUGGESTION_ITEM_VIEW
-    }
-
-    private fun getDefaultAutofillItemView(context: Context, convertView: View?): View {
-        var view = convertView
-        if (view == null) {
-            view = View(context)
-            view.setLayoutParams(AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0))
-        }
-
-        return view
-    }
-
-    private fun getSuggestionItemView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var view = convertView
-
-        if (view == null) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_dropdown_item, parent, false)
-            view.setTag(HotelSuggestionViewHolder(view as ViewGroup, HotelSuggestionViewModel()))
-        }
-
-        val holder = view.getTag() as HotelSuggestionViewHolder
-        holder.viewmodel.suggestionObserver.onNext(getItem(position))
-
-        return view
-    }
-
     override fun getFilter(): Filter? {
         return filter
-    }
-
-    override fun getItem(position: Int): SuggestionV4 {
-        return viewmodel.suggestions.get(position)
     }
 
     override fun getItemId(position: Int): Long {
@@ -110,31 +48,37 @@ public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewMod
     }
 }
 
-public class HotelSuggestionViewHolder(val root: ViewGroup, val viewmodel: HotelSuggestionViewModel) {
+public class HotelSuggestionViewHolder(val root: ViewGroup, val vm : HotelSuggestionViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
     val title: TextView by root.bindView(R.id.title_textview)
     val icon: ImageView by root.bindView(R.id.icon_imageview)
     val hierarchyIcon: ImageView by root.bindView(R.id.hierarchy_imageview)
 
     init {
+        itemView.setOnClickListener(this)
         icon.setColorFilter(root.getContext().getResources().getColor(R.color.hotels_primary_color))
         hierarchyIcon.setColorFilter(root.getContext().getResources().getColor(R.color.hotels_primary_color))
 
-        viewmodel.titleObservable.subscribe(title)
+        vm.titleObservable.subscribe(title)
 
-        viewmodel.isChildObservable.subscribe { isChild ->
+        vm.isChildObservable.subscribe { isChild ->
             if (isChild) {
-                hierarchyIcon.setVisibility(View.VISIBLE)
-                icon.setVisibility(View.GONE)
+                hierarchyIcon.visibility = View.VISIBLE
+                icon.visibility = View.GONE
 
             } else {
-                hierarchyIcon.setVisibility(View.GONE)
-                icon.setVisibility(View.VISIBLE)
+                hierarchyIcon.visibility = View.GONE
+                icon.visibility = View.VISIBLE
             }
         }
 
-        viewmodel.iconObservable.subscribe { imageSource ->
+        vm.iconObservable.subscribe { imageSource ->
             icon.setImageResource(imageSource)
         }
+    }
+
+    override fun onClick(view: View) {
+        val suggestion = vm.suggestionObserver.value
+        vm.suggestionSelected.onNext(suggestion)
     }
 }
 

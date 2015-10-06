@@ -17,13 +17,15 @@ import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.util.ArrayList
 
 class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsService: SuggestionV4Services, val locationObservable: Observable<Location>) {
     private val currentLocationText = context.getString(R.string.current_location)
     // Outputs
-    val suggestionsObservable = PublishSubject.create<List<SuggestionV4>>()
+    val suggestionsObservable = BehaviorSubject.create<List<SuggestionV4>>()
     var suggestions: List<SuggestionV4> = emptyList()
-    private var nearby: List<SuggestionV4> = emptyList()
+    private var nearby: ArrayList<SuggestionV4> = ArrayList()
+    val suggestionSelectedSubject = PublishSubject.create<SuggestionV4>()
 
     init {
         locationObservable.subscribe(generateLocationServiceCallback());
@@ -38,12 +40,8 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
         }
     }
 
-    fun suggestionsListWithDummyAutofillItem(): List<SuggestionV4> {
-        return listOf(SuggestionV4())
-    }
-
     private fun suggestionsListWithNearby(): List<SuggestionV4> {
-        return suggestionsListWithDummyAutofillItem() + nearby + loadRecentSuggestions()
+        return nearby + loadRecentSuggestions()
     }
 
     private fun loadRecentSuggestions(): List<SuggestionV4> {
@@ -62,17 +60,19 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
                     nearbySuggestions.add(0, suggestion)
                 }
                 .doOnNext {
-                    nearby = it
+                    nearby.addAll(it)
                     nearby.forEach { it.iconType = SuggestionV4.IconType.CURRENT_LOCATION_ICON }
                 }
-                .subscribe { suggestionsObservable.onNext(suggestionsListWithNearby()) }
+                .doOnNext { nearbySuggestions ->
+                    nearbySuggestions.addAll(loadRecentSuggestions()) }
+                .subscribe(generateSuggestionServiceCallback())
     }
 
     // Utility
     private fun modifySuggestionToCurrentLocation(location: Location, suggestion: SuggestionV4) : SuggestionV4 {
         val currentLocation = suggestion.copy()
         currentLocation.gaiaId = null
-        currentLocation.regionNames.displayName = context.getString(R.string.current_location)
+        currentLocation.regionNames.shortName = context.getString(R.string.current_location)
         val coordinate = SuggestionV4.LatLng()
         coordinate.lat = location.latitude
         coordinate.lng = location.longitude
@@ -91,7 +91,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
             }
 
             override fun onError(e: Throwable?) {
-                Log.e("Current Location Error", e)
+                suggestionsObservable.onNext(suggestionsListWithNearby())
             }
         }
     }
@@ -99,7 +99,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
     private fun generateSuggestionServiceCallback(): Observer<List<SuggestionV4>> {
         return object : Observer<List<SuggestionV4>> {
             override fun onNext(suggestions: List<SuggestionV4>) {
-                suggestionsObservable.onNext(suggestionsListWithDummyAutofillItem() + suggestions)
+                suggestionsObservable.onNext(suggestions)
             }
 
             override fun onCompleted() {
@@ -119,25 +119,35 @@ public class HotelSuggestionViewModel() {
     val titleObservable = BehaviorSubject.create<String>()
     val isChildObservable = BehaviorSubject.create<Boolean>()
     val iconObservable = BehaviorSubject.create<Int>()
+    val suggestionSelected = PublishSubject.create<SuggestionV4>()
 
     // Inputs
-    val suggestionObserver: Observer<SuggestionV4> = endlessObserver { suggestion ->
-        titleObservable.onNext(Html.fromHtml(StrUtils.formatCityName(suggestion.regionNames.displayName)).toString())
+    val suggestionObserver = BehaviorSubject.create<SuggestionV4>()
 
-        isChildObservable.onNext(suggestion.hierarchyInfo.isChild)
+    init {
+        suggestionObserver.subscribe { suggestion ->
+            var title = if (suggestion.regionNames.shortName == null || suggestion.regionNames.shortName.isEmpty()) {
+                Html.fromHtml(StrUtils.formatCityName(suggestion.regionNames.displayName)).toString()
+            } else {
+                suggestion.regionNames.shortName
+            }
+            titleObservable.onNext(title)
 
-        iconObservable.onNext(
-                if (suggestion.iconType == SuggestionV4.IconType.HISTORY_ICON) {
-                    R.drawable.recents
-                } else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON) {
-                    R.drawable.ic_suggest_current_location
-                } else if (suggestion.type == "HOTEL") {
-                    R.drawable.hotel_suggest
-                } else if (suggestion.type == "AIRPORT") {
-                    R.drawable.airport_suggest
-                } else {
-                    R.drawable.search_type_icon
-                }
-        )
+            isChildObservable.onNext(suggestion.hierarchyInfo.isChild)
+
+            iconObservable.onNext(
+                    if (suggestion.iconType == SuggestionV4.IconType.HISTORY_ICON) {
+                        R.drawable.recents
+                    } else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON) {
+                        R.drawable.ic_suggest_current_location
+                    } else if (suggestion.type == "HOTEL") {
+                        R.drawable.hotel_suggest
+                    } else if (suggestion.type == "AIRPORT") {
+                        R.drawable.airport_suggest
+                    } else {
+                        R.drawable.search_type_icon
+                    }
+            )
+        }
     }
 }

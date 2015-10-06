@@ -1,10 +1,14 @@
 package com.expedia.bookings.presenter.hotel
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.Rect
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ToggleButton
@@ -29,7 +34,6 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
 import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.HotelTravelerPickerView
 import com.expedia.bookings.widget.TextView
@@ -51,9 +55,10 @@ import java.util.Locale
 
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val searchLocationTextView: TextView by bindView(R.id.hotel_location)
-    val searchLocationEditText: AlwaysFilterAutoCompleteTextView by bindView(R.id.hotel_location_autocomplete)
-    val dropdownAnchor: View by bindView(R.id.drop_down_anchor)
+    val searchLocationEditText: EditText by bindView(R.id.hotel_location_autocomplete)
+    val suggestionRecyclerView: RecyclerView by bindView(R.id.drop_down_list)
     val clearLocationButton: ImageView by bindView(R.id.clear_location_button)
+    val anchor: ImageView by bindView(R.id.location_image_view)
     val selectDate: ToggleButton by bindView(R.id.select_date)
     val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
     val calendar: CalendarPicker by bindView(R.id.calendar)
@@ -84,9 +89,25 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         button
     }
 
+    var suggestionViewModel : HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
+        vm.suggestionSelectedSubject.subscribe { suggestion ->
+            searchViewModel.suggestionObserver.onNext(suggestion)
+            searchLocationEditText.clearFocus()
+
+            selectDate.setChecked(true)
+            selectTraveler.setChecked(true)
+
+            calendar.setVisibility(View.VISIBLE)
+            traveler.setVisibility(View.GONE)
+            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE)
+            show(HotelParamsCalendar(), Presenter.FLAG_CLEAR_BACKSTACK)
+        }
+    }
+
     private val hotelSuggestionAdapter by lazy {
         val service = Ui.getApplication(getContext()).hotelComponent().suggestionsService()
-        HotelSuggestionAdapter(HotelSuggestionAdapterViewModel(getContext(), service, CurrentLocationObservable.create(getContext())))
+        suggestionViewModel = HotelSuggestionAdapterViewModel(getContext(), service, CurrentLocationObservable.create(getContext()))
+        HotelSuggestionAdapter(suggestionViewModel)
     }
 
     // Classes for state
@@ -94,18 +115,30 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     public class HotelParamsCalendar
 
+    public class HotelParamsSuggestion
+
     override fun onFinishInflate() {
         addTransition(defaultToCal)
+        addTransition(defaultToSuggestion)
+        addTransition(suggestionToCal)
         show(HotelParamsDefault())
 
-        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        val mRootWindow = (context as Activity).window
+        val mRootView = mRootWindow.decorView.findViewById(android.R.id.content)
+        mRootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                val decorView = mRootWindow.decorView
+                val windowVisibleDisplayFrameRect = Rect()
+                decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
                 var location = IntArray(2)
-                dropdownAnchor.getLocationOnScreen(location)
-                searchLocationEditText.dropDownHeight = height - location[1] + dropdownAnchor.height
-                //Invalidate the Dropdown so it redraws itself
-                hotelSuggestionAdapter.notifyDataSetChanged()
+                anchor.getLocationOnScreen(location)
+                val lp = suggestionRecyclerView.layoutParams
+                val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - (location[1] + anchor.height) + Ui.getStatusBarHeight(context)
+                if (lp.height != newHeight) {
+                    lp.height = newHeight
+                    suggestionRecyclerView.layoutParams = lp
+                }
+                suggestionRecyclerView.translationY = (location[1] + anchor.height).toFloat()
             }
         })
 
@@ -118,7 +151,8 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         })
     }
 
-    var viewmodel: HotelSearchViewModel by notNullAndObservable { vm ->
+    var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
+        suggestionRecyclerView.layoutManager = LinearLayoutManager(context)
         val maxDate = LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range))
         calendar.setSelectableDateRange(LocalDate.now(), maxDate)
         calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_hotel_stay))
@@ -185,10 +219,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             }
         }
 
-        searchLocationEditText.setAdapter(hotelSuggestionAdapter)
+        suggestionRecyclerView.adapter = hotelSuggestionAdapter
 
         searchLocationEditText.setOnClickListener {
-            searchLocationEditText.showDropDown()
+            show(HotelParamsSuggestion(), Presenter.FLAG_CLEAR_TOP)
             com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
         }
 
@@ -198,7 +232,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
                 searchLocationEditText.setVisibility(View.VISIBLE)
                 searchLocationEditText.requestFocus()
                 searchLocationEditText.setSelection(searchLocationEditText.getText().length())
-                searchLocationEditText.showDropDown()
+                show(HotelParamsSuggestion(), Presenter.FLAG_CLEAR_TOP)
                 com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
             }
         }
@@ -220,11 +254,13 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         searchLocationEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
+
             }
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                suggestionViewModel.queryObserver.onNext(s.toString())
                 clearLocationButton.setVisibility(if (Strings.isEmpty(s)) View.INVISIBLE else View.VISIBLE)
 
                 if (selectDate.isChecked()) {
@@ -237,21 +273,6 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
                 }
             }
         })
-
-        searchLocationEditText.setOnItemClickListener {
-            adapterView, view, position, l ->
-            var suggestion = hotelSuggestionAdapter.getItem(position)
-            vm.suggestionObserver.onNext(suggestion)
-            searchLocationEditText.clearFocus()
-
-            selectDate.setChecked(true)
-            selectTraveler.setChecked(true)
-
-            calendar.setVisibility(View.VISIBLE)
-            traveler.setVisibility(View.GONE)
-            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE)
-            show(HotelParamsCalendar(), Presenter.FLAG_CLEAR_BACKSTACK)
-        }
 
         vm.locationTextObservable.subscribe(searchLocationEditText)
 
@@ -271,7 +292,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.errorNoOriginObservable.subscribe {
             selectDate.setChecked(false)
             selectTraveler.setChecked(false)
-            searchLocationEditText.showDropDown()
+            show(HotelParamsSuggestion(), Presenter.FLAG_CLEAR_TOP)
             AnimUtils.doTheHarlemShake(searchLocationEditText)
         }
         vm.errorNoDatesObservable.subscribe {
@@ -343,6 +364,39 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         private var calendarHeight: Int = 0
 
         override fun startTransition(forward: Boolean) {
+            com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenter)
+            suggestionRecyclerView.visibility = View.GONE
+            val parentHeight = getHeight()
+            calendarHeight = calendar.getHeight()
+            val pos = (if (forward) parentHeight + calendarHeight else calendarHeight).toFloat()
+            calendar.setTranslationY(pos)
+            calendar.setVisibility(View.VISIBLE)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            val pos = if (forward) calendarHeight + (-f * calendarHeight) else (f * calendarHeight)
+            calendar.setTranslationY(pos)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            calendar.setTranslationY((if (forward) 0 else calendarHeight).toFloat())
+        }
+
+        override fun finalizeTransition(forward: Boolean) {
+            calendar.setTranslationY((if (forward) 0 else calendarHeight).toFloat())
+            if (forward) {
+                searchLocationEditText.clearFocus()
+                calendar.hideToolTip()
+            }
+            calendar.setVisibility(View.VISIBLE)
+        }
+    }
+
+    private val suggestionToCal = object : Presenter.Transition(HotelParamsSuggestion::class.java, HotelParamsCalendar::class.java) {
+        private var calendarHeight: Int = 0
+
+        override fun startTransition(forward: Boolean) {
+            suggestionRecyclerView.visibility = if (forward) View.GONE else View.VISIBLE
             val parentHeight = getHeight()
             calendarHeight = calendar.getHeight()
             val pos = (if (forward) parentHeight + calendarHeight else calendarHeight).toFloat()
@@ -367,6 +421,12 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
                 calendar.hideToolTip()
             }
             calendar.setVisibility(View.VISIBLE)
+       }
+    }
+
+    private val defaultToSuggestion = object : Presenter.Transition(HotelParamsDefault::class.java, HotelParamsSuggestion::class.java) {
+        override fun startTransition(forward: Boolean) {
+            suggestionRecyclerView.visibility = if (forward) View.VISIBLE else View.GONE
         }
     }
 
@@ -401,4 +461,5 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         searchContainer.setBackgroundColor(Color.WHITE)
         navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType().toFloat())
     }
+
 }

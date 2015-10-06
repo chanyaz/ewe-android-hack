@@ -19,7 +19,7 @@ public class HotelSearchPresenterTest extends HotelTestCase {
 		HotelScreen.searchButton().perform(click());
 		HotelScreen.searchButton().check(matches(isDisplayed()));
 		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA");
+		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		//Search button will still be disabled
 		HotelScreen.searchButton().perform(click());
 		HotelScreen.searchButton().check(matches(isDisplayed()));
@@ -35,7 +35,7 @@ public class HotelSearchPresenterTest extends HotelTestCase {
 	public void testChildAgeLabel() throws Throwable {
 		// Select location
 		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA");
+		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		//Open guest picker
 		HotelScreen.guestPicker().perform(click());
 		HotelScreen.guestPicker().check(matches(withText("1 Guest")));
@@ -48,7 +48,7 @@ public class HotelSearchPresenterTest extends HotelTestCase {
 	public void testDateButtonTextPopulation() throws Throwable {
 		// Select location
 		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA");
+		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		// Open calendar
 		HotelScreen.selectDateButton().check(matches(withText(R.string.select_dates)));
 
@@ -70,7 +70,7 @@ public class HotelSearchPresenterTest extends HotelTestCase {
 	public void testSearchPresenterState() throws Throwable {
 		// TODO : activity is removed on back press.
 		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA");
+		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		HotelScreen.showCalendar();
 	}
 

@@ -1,16 +1,12 @@
 package com.expedia.bookings.test.phone.newhotels;
 
-import android.support.test.espresso.DataInteraction;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
-import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -28,14 +24,11 @@ public class HotelSearchTest extends HotelTestCase {
 		//Trigger search on typing 3 letters
 		HotelScreen.location().perform(typeText("SFO"));
 		Common.delay(5);
-		DataInteraction firstRow = HotelScreen.suggestionView().atPosition(1);
-		firstRow.perform(ViewActions.waitForViewToDisplay());
-		firstRow.check(matches(hasDescendant(allOf(withId(R.id.title_textview),
-			withText(startsWith("San Francisco"))))));
+		HotelScreen.suggestionMatches(withText(startsWith("San Francisco")), 0);
 
 		//Airports will have airport icon
-		firstRow.check(matches(hasDescendant(allOf(withId(R.id.icon_imageview),
-			withImageDrawable(R.drawable.airport_suggest)))));
+		HotelScreen.suggestionMatches(allOf(withId(R.id.icon_imageview),
+			withImageDrawable(R.drawable.airport_suggest)), 0);
 
 		//tapping on "X" icon should should clear out values
 		HotelScreen.clearButton().perform(click());

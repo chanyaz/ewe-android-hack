@@ -75,7 +75,12 @@ class HotelSearchViewModel(val context: Context) {
 
     val suggestionObserver = endlessObserver<SuggestionV4> { suggestion ->
         paramsBuilder.suggestion(suggestion)
-        locationTextObservable.onNext(Html.fromHtml(StrUtils.formatCityName(suggestion.regionNames.displayName)).toString())
+        var title = if (suggestion.regionNames.shortName == null || suggestion.regionNames.shortName.isEmpty()) {
+            Html.fromHtml(StrUtils.formatCityName(suggestion.regionNames.displayName)).toString()
+        } else {
+            suggestion.regionNames.shortName
+        }
+        locationTextObservable.onNext(title)
         requiredSearchParamsObserver.onNext(Unit)
     }
 

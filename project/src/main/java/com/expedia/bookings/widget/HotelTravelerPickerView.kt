@@ -17,7 +17,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelTravelerPickerViewModel
 import kotlin.properties.Delegates
 
-public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : ScrollView(context, attrs) {
 
     val adultText: TextView by bindView(R.id.adult)
     val childText: TextView by bindView(R.id.children)

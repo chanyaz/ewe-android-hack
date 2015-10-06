@@ -64,8 +64,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(checkoutToError)
         addDefaultTransition(defaultTransition)
         show(searchPresenter)
-        searchPresenter.viewmodel = HotelSearchViewModel(getContext())
-        searchPresenter.viewmodel.searchParamsObservable.subscribe(searchObserver)
+        searchPresenter.searchViewModel = HotelSearchViewModel(getContext())
+        searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
 
         errorPresenter.viewmodel = HotelErrorViewModel(context)
         errorPresenter.viewmodel.searchErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK) }

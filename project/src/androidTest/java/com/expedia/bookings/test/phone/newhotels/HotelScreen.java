@@ -4,31 +4,26 @@ import org.hamcrest.Matcher;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
-import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
-import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
+import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.espresso.TabletViewActions;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
-import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
@@ -38,9 +33,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
 public class HotelScreen {
 
@@ -109,17 +101,11 @@ public class HotelScreen {
 
 	public static void selectLocation(String hotel) throws Throwable {
 		Common.delay(1);
-		onView(withText(hotel))
-			.inRoot(withDecorView(
-				not(is(SpoonScreenshotUtils.getCurrentActivity(
-				).getWindow().getDecorView()))))
-			.perform(click());
+		hotelSuggestionList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(hotel)), click()));
 	}
 
-	public static DataInteraction suggestionView() throws Throwable {
-		return onData(anything())
-			.inAdapterView(isAssignableFrom(ListView.class))
-			.inRoot(withDecorView(not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))));
+	public static ViewInteraction suggestionMatches(Matcher<View> matcher, int position) throws Throwable {
+		return hotelSuggestionList().check(RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(matcher)));
 	}
 
 	public static void selectDates(LocalDate start, LocalDate end) {
@@ -136,6 +122,10 @@ public class HotelScreen {
 
 	public static ViewInteraction hotelResultsList() {
 		return onView(withId(R.id.list_view));
+	}
+
+	public static ViewInteraction hotelSuggestionList() {
+		return onView(withId(R.id.drop_down_list));
 	}
 
 	public static void selectHotel(int position) {
@@ -222,7 +212,7 @@ public class HotelScreen {
 		final LocalDate end = start.plusDays(3);
 
 		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA");
+		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		HotelScreen.selectDateButton().perform(click());
 		HotelScreen.selectDates(start, end);
 
