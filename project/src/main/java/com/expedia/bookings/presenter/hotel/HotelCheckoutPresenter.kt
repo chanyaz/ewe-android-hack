@@ -127,6 +127,8 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         }
 
         hotelCheckoutParams.suppressFinalBooking = BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_hotel_bookings)
+        val tealeafTransactionId = Db.getTripBucket().hotelV2.mHotelTripResponse.tealeafTransactionId;
+        hotelCheckoutParams.tealeafTransactionId = tealeafTransactionId
 
         hotelCheckoutViewModel.checkoutParams.onNext(hotelCheckoutParams)
     }
