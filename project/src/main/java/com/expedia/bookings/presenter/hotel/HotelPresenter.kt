@@ -184,7 +184,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
             detailPresenter.animationFinalize()
             loadingOverlay.setVisibility(View.GONE)
-            detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
+            if (forward) {
+                detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
+            }
         }
     }
 

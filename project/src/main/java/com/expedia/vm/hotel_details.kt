@@ -168,13 +168,6 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         showBookByPhoneObservable.onNext(isAvailable() && (hotelOffersResponse.deskTopOverrideNumber != null && !hotelOffersResponse.deskTopOverrideNumber)
                 && !Strings.isEmpty(hotelOffersResponse.telesalesNumber))
 
-        rowExpandingObservable.subscribe { indexOfRowBeingExpanded ->
-            //collapse already expanded row
-            hotelRoomRateViewModelsObservable.value.elementAt(lastExpandedRowObservable.value).collapseRoomObservable.onNext(true)
-
-            lastExpandedRowObservable.onNext(indexOfRowBeingExpanded)
-        }
-
     }
 
     private val offersObserver = endlessObserver<HotelOffersResponse> { response ->
@@ -360,6 +353,16 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
                 hotelRoomRateViewModel.roomInfoExpandCollapseObservable.onNext(Unit)
             }
         }
+
+        rowExpandingObservable.subscribe { indexOfRowBeingExpanded ->
+            //collapse already expanded row
+            hotelRoomRateViewModelsObservable.value.elementAt(lastExpandedRowObservable.value).collapseRoomObservable.onNext(true)
+            //expand the room
+            //       hotelRoomRateViewModelsObservable.value.elementAt(indexOfRowBeingExpanded).expandRoomObservable.onNext(true)
+
+            lastExpandedRowObservable.onNext(indexOfRowBeingExpanded)
+        }
+
     }
 
     private fun getPromoText(hotel: HotelOffersResponse.HotelRoomResponse): String {

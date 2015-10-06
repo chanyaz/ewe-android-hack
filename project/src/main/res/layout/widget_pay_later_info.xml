@@ -20,13 +20,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/etp_payment_options_text"
                     app:textStyle="medium" />
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
@@ -83,7 +83,7 @@
 
                 </LinearLayout>
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
