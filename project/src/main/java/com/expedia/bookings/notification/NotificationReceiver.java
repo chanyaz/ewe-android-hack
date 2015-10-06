@@ -352,8 +352,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				builder = builder.addAction(R.drawable.ic_view_itin, view, clickPendingIntent);
 			}
 
-			if (((flags & Notification.FLAG_SHARE) != 0) && (ProductFlavorFeatureConfiguration.getInstance()
-				.isLOBChooserScreenEnabled())) {
+			if ((flags & Notification.FLAG_SHARE) != 0) {
 				Intent intent = StandaloneShareActivity.createIntent(mContext, mNotification.getItinId());
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				PendingIntent sharePendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);

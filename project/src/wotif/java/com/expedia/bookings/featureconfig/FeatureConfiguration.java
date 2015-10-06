@@ -255,11 +255,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isLOBChooserScreenEnabled() {
-		return true;
-	}
-
-	@Override
 	public String getAdXKey() {
 		//Key not available for Wotif for now, so passing blank.
 		return "";
@@ -287,11 +282,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isTrackWithFlightTrackEnabled() {
-		return false;
-	}
-
-	@Override
-	public boolean isItinDisabled() {
 		return false;
 	}
 
