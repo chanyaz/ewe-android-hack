@@ -17,7 +17,6 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.LayoutInflater
 import android.view.animation.DecelerateInterpolator
-import android.widget
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -107,9 +106,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val gradientHeight = context.getResources().getDimension(R.dimen.hotel_detail_gradient_height)
 
     val hotelMessagingContainer: LinearLayout by bindView(R.id.promo_messaging_container)
-    val discountPercentage: widget.TextView by bindView(R.id.discount_percentage)
-    val vipAccessMessage: widget.TextView by bindView(R.id.vip_access_message)
-    val promoMessage: widget.TextView by bindView(R.id.promo_text)
+    val discountPercentage: TextView by bindView(R.id.discount_percentage)
+    val vipAccessMessage: TextView by bindView(R.id.vip_access_message)
+    val promoMessage: TextView by bindView(R.id.promo_text)
 
     val etpRadioGroup: SlidingRadioGroup by bindView(R.id.radius_pay_options)
     val etpAndFreeCancellationMessagingContainer: View by bindView(R.id.etp_and_free_cancellation_messaging_container)
@@ -151,8 +150,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
         detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
         vm.galleryObservable.subscribe { galleryUrls ->
+            detailContainer.scrollTo(0, initialScrollTop)
             gallery.setDataSource(galleryUrls)
             gallery.scrollToPosition(0)
+
             gallery.setOnItemClickListener(vm)
             gallery.startFlipping()
             gallery.setOnItemChangeListener(vm)
@@ -170,6 +171,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                     hotelGalleryIndicatorContainer.addView(galleryIndicator)
                 }
             }
+            detailContainer.postDelayed(runnable { setViewVisibilities() }, 400L)
         }
 
         vm.noAmenityObservable.subscribe {
@@ -420,44 +422,48 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     val scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
         override fun onScrollChanged() {
-            var yoffset = detailContainer.getScrollY()
-            mapView.setTranslationY(yoffset * 0.15f)
-            doCounterscroll();
-            priceContainer.getLocationOnScreen(priceContainerLocation)
-            hotelMessagingContainer.getLocationOnScreen(urgencyContainerLocation)
+            setViewVisibilities()
+        }
+    }
 
-            if (priceContainerLocation[1] + priceContainer.height <= offset) {
-                toolBarBackground.alpha = 1.0f
-                toolbarShadow.visibility = View.VISIBLE
-            } else {
-                toolBarBackground.alpha = 0f
-                toolbarShadow.visibility = View.GONE
-            }
+    private fun setViewVisibilities() {
+        var yoffset = detailContainer.scrollY
+        doCounterscroll()
+        mapView.translationY = yoffset * 0.15f
+        priceContainer.getLocationOnScreen(priceContainerLocation)
+        hotelMessagingContainer.getLocationOnScreen(urgencyContainerLocation)
 
-            if(priceContainerLocation[1] < gradientHeight){
-                toolBarGradient.translationY = (-(gradientHeight-priceContainerLocation[1]))
-            }
+        if (priceContainerLocation[1] + priceContainer.height <= offset) {
+            toolBarBackground.alpha = 1.0f
+            toolbarShadow.visibility = View.VISIBLE
+        } else {
+            toolBarBackground.alpha = 0f
+            toolbarShadow.visibility = View.GONE
+        }
 
-            var ratio = (priceContainerLocation[1] - (offset/2)) / offset
-            priceViewAlpha(ratio * 1.5f)
+        if (priceContainerLocation[1] < gradientHeight) {
+            toolBarGradient.translationY = (-(gradientHeight - priceContainerLocation[1]))
+        }
 
-            var urgencyRatio = (urgencyContainerLocation[1] - (offset/2)) /offset
-            urgencyViewAlpha(urgencyRatio * 1.5f)
+        var ratio = (priceContainerLocation[1] - (offset / 2)) / offset
+        priceViewAlpha(ratio * 1.5f)
 
-            if (shouldShowResortView()) {
-                resortFeeWidget.animate().translationY(0f).setInterpolator(DecelerateInterpolator()).start()
-            } else {
-                resortFeeWidget.animate().translationY((resortViewHeight).toFloat()).setInterpolator(DecelerateInterpolator()).start()
-            }
-            shouldShowStickySelectRoomView()
-            if (etpContainer.visibility == View.VISIBLE) {
-                shouldShowETPContainer()
-            }
-            val arrowRatio = getArrowRotationRatio(yoffset)
-            if (arrowRatio >= 0 && arrowRatio <= 1) {
-                navIcon.setParameter(1 - arrowRatio)
-                hotelGalleryDescriptionContainer.setAlpha(1 - arrowRatio)
-            }
+        var urgencyRatio = (urgencyContainerLocation[1] - (offset / 2)) / offset
+        urgencyViewAlpha(urgencyRatio * 1.5f)
+
+        if (shouldShowResortView()) {
+            resortFeeWidget.animate().translationY(0f).setInterpolator(DecelerateInterpolator()).start()
+        } else {
+            resortFeeWidget.animate().translationY((resortViewHeight).toFloat()).setInterpolator(DecelerateInterpolator()).start()
+        }
+        shouldShowStickySelectRoomView()
+        if (etpContainer.visibility == View.VISIBLE) {
+            shouldShowETPContainer()
+        }
+        val arrowRatio = getArrowRotationRatio(yoffset)
+        if (arrowRatio >= 0 && arrowRatio <= 1) {
+            navIcon.parameter = 1 - arrowRatio
+            hotelGalleryDescriptionContainer.alpha = 1 - arrowRatio
         }
     }
 
@@ -556,38 +562,30 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         hideResortandSelectRoom()
     }
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        initGallery(h)
-    }
-
-    private fun initGallery(h: Int) {
-        if (galleryContainer != null) {
-            val lp = galleryContainer.getLayoutParams()
-            lp.height = h
-            galleryContainer.setLayoutParams(lp)
-        }
-    }
-
     public fun doCounterscroll() {
         val t = detailContainer.getScrollY()
-        if (galleryContainer != null) {
-            galleryCounterscroll(t)
-        }
+        galleryCounterscroll(t)
     }
 
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super<FrameLayout>.onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int)
-        val h = b - t
+    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (this.visibility == View.VISIBLE && visibility == View.VISIBLE) {
+            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    galleryScroll = null
+                    val lp = galleryContainer.layoutParams
+                    lp.height = height
+                    galleryContainer.layoutParams = lp
 
-        galleryScroll = null
-        if (gallery != null) {
-            galleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_height)
-            initialScrollTop = h - (getResources().getDimensionPixelSize(R.dimen.gallery_height))
-        }
-        if (!hasBeenTouched) {
-            detailContainer.scrollTo(0, initialScrollTop)
-            doCounterscroll()
-            hasBeenTouched = true
+                    galleryHeight = resources.getDimensionPixelSize(R.dimen.gallery_height)
+                    initialScrollTop = height - (resources.getDimensionPixelSize(R.dimen.gallery_height))
+
+                    detailContainer.scrollTo(0, initialScrollTop)
+                    doCounterscroll()
+                }
+            })
+
         }
     }
 
