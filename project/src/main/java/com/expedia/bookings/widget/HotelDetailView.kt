@@ -381,6 +381,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
             shouldShowStickySelectRoomView()
 
+            if (etpContainer.visibility == View.VISIBLE) {
+                shouldShowETPContainer()
+            }
         }
     }
 
@@ -412,6 +415,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         } else {
             stickySelectRoomContainer.animate().translationY((stickySelectRoomContainer.height).toFloat()).setInterpolator(DecelerateInterpolator()).start()
         }
+    }
+
+    public fun shouldShowETPContainer() {
+        if (roomContainerPosition[1] + roomContainer.height < offset + etpContainer.height) {
+            etpContainer.setEnabled(false)
+        } else
+            etpContainer.setEnabled(true)
     }
 
     public fun scrollToRoom() {
