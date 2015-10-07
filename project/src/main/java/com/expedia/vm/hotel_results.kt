@@ -33,9 +33,10 @@ public class HotelResultsViewModel(private val context: Context, private val hot
     private val hotelDownloadsObservable = PublishSubject.create<Observable<HotelSearchResponse>>()
     private val hotelDownloadResultsObservable = Observable.concat(hotelDownloadsObservable)
     val hotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
+    val mapResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val errorObservable = PublishSubject.create<ApiError>()
 
-    val titleSubject = PublishSubject.create<String>()
+    val titleSubject = BehaviorSubject.create<String>()
     val subtitleSubject = PublishSubject.create<CharSequence>()
 
     init {
@@ -61,12 +62,18 @@ public class HotelResultsViewModel(private val context: Context, private val hot
             } else if (it.hotelList.isEmpty()) {
                 val error = ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS)
                 errorObservable.onNext(error)
+            } else if (titleSubject.value == context.getString(R.string.visible_map_area)){
+                mapResultsObservable.onNext(it)
             } else {
                 hotelResultsObservable.onNext(it)
             }
         }
 
         hotelResultsObservable.subscribe {
+            AdImpressionTracking.trackAdClickOrImpression(context, it.pageViewBeaconPixelUrl, null)
+        }
+
+        mapResultsObservable.subscribe {
             AdImpressionTracking.trackAdClickOrImpression(context, it.pageViewBeaconPixelUrl, null)
         }
     }
@@ -117,8 +124,10 @@ public class HotelMapViewModel(val currentLocation: Location) {
 
     //inputs
     val hotelResultsSubject = PublishSubject.create<HotelSearchResponse>()
+    val mapResultsSubject = PublishSubject.create<HotelSearchResponse>()
     val mapPinSelectSubject = PublishSubject.create<Marker>()
     val carouselSwipedObservable = PublishSubject.create<Marker>()
+    val mapBoundsSubject = BehaviorSubject.create<LatLngBounds>()
 
     //outputs
     val hotelsObservable = PublishSubject.create<List<Hotel>>()
@@ -136,8 +145,15 @@ public class HotelMapViewModel(val currentLocation: Location) {
             hotelsObservable.onNext(response.hotelList ?: emptyList())
         }
 
-        mapPinSelectSubject.subscribe {
+        mapResultsSubject.subscribe { response ->
+            hotels = response.hotelList
+            if (response.hotelList != null && response.hotelList.size() > 0 && !hasResultsWithinMap(response)) {
+                newBoundsObservable.onNext(getMapBounds(response))
+            }
+            hotelsObservable.onNext(response.hotelList ?: emptyList())
+        }
 
+        mapPinSelectSubject.subscribe {
             val hotel = getHotelWithMarker(it)
             val hotelLocation = Location("selected")
             hotelLocation.latitude = hotel.latitude
@@ -145,7 +161,6 @@ public class HotelMapViewModel(val currentLocation: Location) {
             val sortedHotels = sortByLocation(hotelLocation, hotels)
 
             mapPinSelectObservable.onNext(sortedHotels)
-
         }
 
         carouselSwipedObservable.subscribe {
@@ -188,6 +203,16 @@ public class HotelMapViewModel(val currentLocation: Location) {
                 return boxHotels(closestNieghborhood.hotels)
             }
         }
+    }
+
+    private fun hasResultsWithinMap(response: HotelSearchResponse): Boolean {
+        val currentRegion = mapBoundsSubject.value
+        response.hotelList.forEach { hotel ->
+            if (currentRegion.contains(LatLng(hotel.latitude, hotel.longitude))) {
+                return true
+            }
+        }
+        return false
     }
 
     private fun sortByLocation(location: Location, hotels : List<Hotel>) : List<Hotel> {

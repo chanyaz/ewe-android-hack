@@ -113,6 +113,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
+        vm.mapResultsObservable.subscribe(listResultsObserver)
+        vm.mapResultsObservable.subscribe(mapViewModel.mapResultsSubject)
 
         vm.titleSubject.subscribe {
             toolbar.title = it
@@ -892,6 +894,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     public class ResultsFilter
 
     fun doAreaSearch() {
+        val bounds = googleMap?.projection?.visibleRegion?.latLngBounds
+        mapViewModel.mapBoundsSubject.onNext(bounds)
+
         val center = googleMap?.cameraPosition?.target
         val location = SuggestionV4()
         val region = SuggestionV4.RegionNames()
