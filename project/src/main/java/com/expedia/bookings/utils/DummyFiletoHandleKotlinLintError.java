@@ -94,6 +94,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.widget_special_notice,
 		R.layout.hotel_breakdown,
 		R.layout.hotel_cost_summary_row,
+		R.layout.widget_hotel_gallery_indicator,
 		R.layout.hotel_reviews_summary_widget,
 		R.string.hotel_rating_room_cleanliness,
 		R.string.hotel_rating_hotel_condition,
@@ -130,6 +131,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.show_more,
 		R.string.hotelsv2_slide_reserve,
 		R.string.hotelsv2_slide_purchase,
-		R.layout.filter_amenity_row
+		R.layout.filter_amenity_row,
+		R.dimen.hotel_gallery_description_padding
 	};
 }

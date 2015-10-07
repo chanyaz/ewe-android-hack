@@ -28,6 +28,18 @@ public abstract class GalleryScrollView extends CustomScrollerScrollView {
 		mAnimator.start();
 	}
 
+	protected void animateScrollY(int from, int to, int duration) {
+		if (mAnimator != null && mAnimator.isRunning()) {
+			return;
+		}
+		if (from == to) {
+			return;
+		}
+
+		mAnimator = ObjectAnimator.ofInt(this, "scrollY", from, to).setDuration(duration);
+		mAnimator.start();
+	}
+
 	/**
 	 * Created with a number of points to be interpreted as a segmented linear function.
 	 * Will return the expected y value for any passed x value. If the "x" value passed

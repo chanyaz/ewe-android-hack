@@ -34,10 +34,18 @@ import java.math.BigDecimal
 import java.util.*
 import kotlin.properties.Delegates
 
-class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices) : RecyclerGallery.GalleryItemListener {
+class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices) : RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
 
     override fun onGalleryItemClicked(item: Any) {
-        throw UnsupportedOperationException()
+        galleryClickedSubject.onNext(Unit)
+    }
+
+    override fun onGalleryItemScrolled(position: Int){
+        if(hotelOffersResponse.photos.get(position).displayText !=null )
+            galleryItemChangeObservable.onNext(Pair(position,hotelOffersResponse.photos.get(position).displayText))
+        else
+            galleryItemChangeObservable.onNext(Pair(position,""))
+
     }
 
     val hotelOffersSubject = BehaviorSubject.create<HotelOffersResponse>()
@@ -90,6 +98,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val hasVipAccessObservable = BehaviorSubject.create<Boolean>()
     val promoMessageObservable = BehaviorSubject.create<String>()
     val strikeThroughPriceObservable = BehaviorSubject.create<String>()
+    val galleryItemChangeObservable = BehaviorSubject.create<Pair<Int, String>>()
 
     public fun addViewsAfterTransition() {
 
@@ -247,6 +256,9 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val mapClickedSubject = PublishSubject.create<Unit>()
 
     val reviewsClickedSubject = PublishSubject.create<Unit>()
+
+
+    val galleryClickedSubject = PublishSubject.create<Unit>()
 
     val renovationContainerClickObserver: Observer<Unit> = endlessObserver {
         var renovationInfo = Pair<String, String>(context.resources.getString(R.string.renovation_notice),

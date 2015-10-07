@@ -48,6 +48,7 @@ public class RecyclerGallery extends RecyclerView {
 	private RecyclerAdapter mAdapter;
 	private SpaceDecoration mDecoration;
 	private LinearLayoutManager mLayoutManager;
+	private GalleryItemScrollListener mScrollListener;
 
 	private int mMode = MODE_FILL;
 
@@ -152,8 +153,9 @@ public class RecyclerGallery extends RecyclerView {
 			}
 			offset = mLayoutManager.getLeftDecorationWidth(v);
 		}
-
+		mScrollListener.onGalleryItemScrolled(position);
 		smoothScrollBy(getScrollDistance(v, offset), 0);
+
 	}
 
 	private int getScrollDistance(View v, int offset) {
@@ -393,6 +395,9 @@ public class RecyclerGallery extends RecyclerView {
 	public void showNext() {
 		int position = mLayoutManager.findFirstVisibleItemPosition() + 1;
 		if (position >= 0 && position < mAdapter.getItemCount()) {
+			if (mScrollListener != null) {
+				mScrollListener.onGalleryItemScrolled(position);
+			}
 			smoothScrollToPosition(position);
 		}
 	}
@@ -429,8 +434,16 @@ public class RecyclerGallery extends RecyclerView {
 		public void onGalleryItemClicked(Object item);
 	}
 
+	public interface GalleryItemScrollListener {
+		public void onGalleryItemScrolled(int position);
+	}
+
 	public void setOnItemClickListener(GalleryItemListener listener) {
 		mListener = listener;
+	}
+
+	public void setOnItemChangeListener(GalleryItemScrollListener listener) {
+		mScrollListener = listener;
 	}
 
 }

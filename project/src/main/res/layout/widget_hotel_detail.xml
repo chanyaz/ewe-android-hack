@@ -2,36 +2,73 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.expedia.bookings.widget.ScrollView
+    <com.expedia.bookings.widget.NewHotelDetailsScrollView
         android:id="@+id/detail_container"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:scrollbars="none"
+        android:fillViewport="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.expedia.bookings.widget.FrameLayout
-                android:id="@+id/gallery_container"
+            <LinearLayout
+                android:id="@+id/gallery"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <com.expedia.bookings.widget.RecyclerGallery
-                    android:id="@+id/images_gallery"
+                <com.expedia.bookings.widget.FrameLayout
+                    android:id="@+id/gallery_container"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/car_details_image_size"
+                    android:layout_height="wrap_content"
                     android:background="#262626"
-                    android:fadingEdge="none"
-                    android:spacing="20dp"
-                    android:unselectedAlpha="1.0"
-                    app:placeholder="@null" />
-            </com.expedia.bookings.widget.FrameLayout>
+                    android:orientation="vertical">
+
+                    <com.expedia.bookings.widget.RecyclerGallery
+                        android:id="@+id/images_gallery"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/car_details_image_size"
+                        android:fadingEdge="none"
+                        android:spacing="20dp"
+                        android:unselectedAlpha="1.0"
+                        app:placeholder="@null" />
+
+                </com.expedia.bookings.widget.FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/hotel_gallery_description_container"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="-50dp"
+                android:background="#191919"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/hotel_gallery_indicator_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:orientation="horizontal"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_gallery_description"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/main_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/gallery_container">
+                android:layout_below="@+id/gallery">
 
                 <LinearLayout
                     android:id="@+id/promo_messaging_container"
@@ -495,7 +532,7 @@
 
         </RelativeLayout>
 
-    </com.expedia.bookings.widget.ScrollView>
+    </com.expedia.bookings.widget.NewHotelDetailsScrollView>
 
     <com.expedia.bookings.widget.ResortFeeWidget
         android:id="@+id/resort_fee_widget"

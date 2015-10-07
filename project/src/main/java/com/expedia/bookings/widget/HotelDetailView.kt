@@ -2,18 +2,20 @@ package com.expedia.bookings.widget
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.app.Activity
 import android.content.Context
 import android.graphics.Paint
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.graphics.drawable.DrawableCompat
-import android.support.v4.view.ViewCompat
-import android.support.v7.app.AppCompatActivity
+import android.graphics.PointF
 import android.support.v7.widget.Toolbar
 import android.text.Html
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.LayoutInflater
 import android.view.animation.DecelerateInterpolator
 import android.widget
 import android.widget.Button
@@ -22,7 +24,9 @@ import android.widget.LinearLayout
 import android.widget.RatingBar
 import android.widget.TableLayout
 import android.widget.TableRow
+import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
+import android.graphics.Rect
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
@@ -36,6 +40,7 @@ import com.expedia.util.subscribeOnCheckedChange
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnCheckedChange
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -67,10 +72,16 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var resortViewHeight = 0
     val screenSize by lazy { Ui.getScreenSize(context) }
 
+    var initialScrollTop = 0
+    var galleryScroll: GalleryScrollView.SegmentedLinearInterpolator? = null
+    var galleryHeight = 0
+    var hasBeenTouched = false
+
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle: TextView by bindView(R.id.hotel_name_text)
     val toolBarRating: RatingBar by bindView(R.id.hotel_star_rating_bar)
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
+    var navIcon: ArrowXDrawable
 
     val gallery: RecyclerGallery by bindView(R.id.images_gallery)
     val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
@@ -110,6 +121,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val payByPhoneTextView: TextView by bindView(R.id.book_by_phone_text)
     val payByPhoneContainer: ViewGroup by bindView(R.id.book_by_phone_container)
 
+    val hotelGalleryDescriptionContainer: LinearLayout by bindView(R.id.hotel_gallery_description_container)
+    val hotelGalleryIndicatorContainer: LinearLayout by bindView(R.id.hotel_gallery_indicator_container)
+    val hotelGalleryDescription: TextView by bindView(R.id.hotel_gallery_description)
+
     val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
     val amenityDivider : View by bindView(R.id.etp_and_free_cancellation_divider)
 
@@ -120,7 +135,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val roomContainer: TableLayout by bindView(R.id.room_container)
     val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
 
-    val detailContainer: ScrollView by bindView(R.id.detail_container)
+    val detailContainer: NewHotelDetailsScrollView by bindView(R.id.detail_container)
+    val mainContainer: ViewGroup by bindView(R.id.main_container)
     var statusBarHeight = 0
     var toolBarHeight = 0
     val toolBarBackground: View by bindView(R.id.toolbar_background)
@@ -130,6 +146,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var priceContainerLocation = IntArray(2)
     var urgencyContainerLocation = IntArray(2)
     var roomContainerPosition = IntArray(2)
+    var galleryIndicatorPosition = IntArray(2)
+
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
         detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
         vm.galleryObservable.subscribe { galleryUrls ->
@@ -137,6 +155,21 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             gallery.scrollToPosition(0)
             gallery.setOnItemClickListener(vm)
             gallery.startFlipping()
+            gallery.setOnItemChangeListener(vm)
+
+            hotelGalleryIndicatorContainer.removeAllViews()
+            val galleryItemCount = gallery.adapter.itemCount
+            if (galleryItemCount > 0) {
+                val indicatorWidth = screenSize.x / galleryItemCount
+                val inflater = LayoutInflater.from(context)
+                for (position in 0..galleryItemCount - 1) {
+                    val galleryIndicator = inflater.inflate(R.layout.widget_hotel_gallery_indicator, hotelGalleryIndicatorContainer, false)
+                    val lp = galleryIndicator.layoutParams
+                    lp.width = indicatorWidth
+                    galleryIndicator.layoutParams = lp
+                    hotelGalleryIndicatorContainer.addView(galleryIndicator)
+                }
+            }
         }
 
         vm.noAmenityObservable.subscribe {
@@ -152,6 +185,30 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             commonAmenityText.setVisibility(View.VISIBLE)
             commonAmenityText.setText(Html.fromHtml(text))
             commonAmenityDivider.setVisibility(View.VISIBLE)
+        }
+
+        vm.galleryItemChangeObservable.subscribe { galleryDescriptionBar: Pair<Int, String> ->
+
+            var bounds = Rect();
+            var width = hotelGalleryIndicatorContainer.getChildAt(galleryDescriptionBar.first).width
+            val galleryItemCount = gallery.getAdapter().getItemCount()
+            val galleryDescriptionPadding = (context.resources.getDimension(R.dimen.hotel_gallery_description_padding)).toInt()
+
+            for (indicatorPosition in 0..galleryItemCount - 1) {
+                hotelGalleryIndicatorContainer.getChildAt(indicatorPosition).setVisibility(View.INVISIBLE)
+            }
+            hotelGalleryIndicatorContainer.getChildAt(galleryDescriptionBar.first).setVisibility(View.VISIBLE)
+            hotelGalleryDescription.setText(galleryDescriptionBar.second)
+            hotelGalleryIndicatorContainer.getChildAt(galleryDescriptionBar.first).getLocationOnScreen(galleryIndicatorPosition)
+            hotelGalleryDescription.paint.getTextBounds(galleryDescriptionBar.second, 0, galleryDescriptionBar.second.length(), bounds)
+
+            if (galleryDescriptionBar.first < galleryItemCount / 2 )
+                hotelGalleryDescription.setPadding(galleryIndicatorPosition[0], galleryDescriptionPadding,
+                        galleryDescriptionPadding, galleryDescriptionPadding)
+            else
+                hotelGalleryDescription.setPadding(galleryIndicatorPosition[0] + width - bounds.width(),
+                        galleryDescriptionPadding, 0, galleryDescriptionPadding)
+
         }
 
         vm.renovationObservable.subscribe { renovationContainer.setVisibility(View.VISIBLE) }
@@ -252,10 +309,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             vm.lastExpandedRowObservable.onNext(0)
 
         }
-        
+
         ratingContainer.subscribeOnClick(vm.reviewsClickedSubject)
         mapClickContainer.subscribeOnClick(vm.mapClickedSubject)
         etpInfoText.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
+        galleryContainer.subscribeOnClick(vm.galleryClickedSubject)
 
         vm.startMapWithIntentObservable.subscribe { intent -> getContext().startActivity(intent) }
 
@@ -283,6 +341,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         }
 
+        vm.sectionImageObservable.subscribe{isExpanded ->
+            if (isExpanded) AnimUtils.rotate(readMoreView) else AnimUtils.reverseRotate(readMoreView)
+        }
+        vm.galleryClickedSubject.subscribe { detailContainer.animateScrollY(detailContainer.getScrollY(), -initialScrollTop,500) }
         hotelDescriptionContainer.subscribeOnClick(vm.hotelDescriptionContainerObserver)
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
@@ -303,11 +365,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         etpAndFreeCancellationMessagingContainer.setVisibility(View.GONE)
         etpInfoText.setTextAppearance(context, R.style.ETPInfoText)
         freeCancellation.setTextAppearance(context, R.style.HotelDetailsInfo)
-        detailContainer.scrollTo(0, 0)
         toolBarBackground.setAlpha(0f)
         toolBarGradient.setTranslationY(0f)
         priceViewAlpha(1f)
         urgencyViewAlpha(1f)
+        hotelGalleryDescriptionContainer.setAlpha(0f)
+        resortFeeWidget.setVisibility(View.GONE)
         commonAmenityText.setVisibility(View.GONE)
         commonAmenityDivider.setVisibility(View.GONE)
         hideResortandSelectRoom()
@@ -359,8 +422,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         override fun onScrollChanged() {
             var yoffset = detailContainer.getScrollY()
             mapView.setTranslationY(yoffset * 0.15f)
-            galleryContainer.setTranslationY(yoffset * 0.5f)
-
+            doCounterscroll();
             priceContainer.getLocationOnScreen(priceContainerLocation)
             hotelMessagingContainer.getLocationOnScreen(urgencyContainerLocation)
 
@@ -387,11 +449,14 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             } else {
                 resortFeeWidget.animate().translationY((resortViewHeight).toFloat()).setInterpolator(DecelerateInterpolator()).start()
             }
-
             shouldShowStickySelectRoomView()
-
             if (etpContainer.visibility == View.VISIBLE) {
                 shouldShowETPContainer()
+            }
+            val arrowRatio = getArrowRotationRatio(yoffset)
+            if (arrowRatio >= 0 && arrowRatio <= 1) {
+                navIcon.setParameter(1 - arrowRatio)
+                hotelGalleryDescriptionContainer.setAlpha(1 - arrowRatio)
             }
         }
     }
@@ -461,16 +526,26 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             toolbar.setPadding(0, statusBarHeight, 0, 0)
         }
         Ui.showTransparentStatusBar(getContext())
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp))
         toolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent))
         toolBarBackground.getLayoutParams().height += statusBarHeight
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
         DrawableCompat.setTint(toolBarRating.getProgressDrawable(), getResources().getColor(R.color.hotelsv2_detail_star_color))
         offset = statusBarHeight.toFloat() + toolBarHeight
+
+        navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
+        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN!!)
+        toolbar.setNavigationIcon(navIcon)
+        toolbar.inflateMenu(R.menu.menu_hotel_details)
+
         toolbar.setNavigationOnClickListener { view ->
-            val activity = getContext() as AppCompatActivity
-            activity.onBackPressed()
+            if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
+                toggleFullScreenGallery()
+            } else
+                (getContext() as Activity).onBackPressed()
         }
+
+        offset = statusBarHeight.toFloat() + toolBarHeight
+
         //share hotel listing text view set up drawable
         val phoneIconDrawable = getResources().getDrawable(R.drawable.detail_phone).mutate()
         phoneIconDrawable.setColorFilter(getResources().getColor(R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
@@ -481,4 +556,71 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         hideResortandSelectRoom()
     }
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        initGallery(h)
+    }
+
+    private fun initGallery(h: Int) {
+        if (galleryContainer != null) {
+            val lp = galleryContainer.getLayoutParams()
+            lp.height = h
+            galleryContainer.setLayoutParams(lp)
+        }
+    }
+
+    public fun doCounterscroll() {
+        val t = detailContainer.getScrollY()
+        if (galleryContainer != null) {
+            galleryCounterscroll(t)
+        }
+    }
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super<FrameLayout>.onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int)
+        val h = b - t
+
+        galleryScroll = null
+        if (gallery != null) {
+            galleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_height)
+            initialScrollTop = h - (getResources().getDimensionPixelSize(R.dimen.gallery_height))
+        }
+        if (!hasBeenTouched) {
+            detailContainer.scrollTo(0, initialScrollTop)
+            doCounterscroll()
+            hasBeenTouched = true
+        }
+    }
+
+    private fun galleryCounterscroll(parentScroll: Int) {
+        // Setup interpolator for Gallery counterscroll (if needed)
+        if (galleryScroll == null) {
+            val screenHeight = getHeight()
+            val p1 = PointF(0f, (screenHeight - galleryHeight / 2).toFloat())
+            val p2 = PointF(galleryHeight.toFloat(), (screenHeight - galleryHeight).toFloat())
+            val p3 = PointF(screenHeight.toFloat(), ((screenHeight - galleryHeight ) / 2).toFloat())
+            galleryScroll = GalleryScrollView.SegmentedLinearInterpolator(p1, p2, p3)
+        }
+
+        // The number of y-pixels available to the gallery
+        val availableHeight = getHeight() - parentScroll
+
+        val counterscroll = galleryScroll?.get(availableHeight.toFloat())?.toInt()
+
+        galleryContainer.setPivotX((getWidth() / 2).toFloat())
+        galleryContainer.setPivotY(counterscroll!!.toFloat())
+
+        galleryContainer.scrollTo(0, -counterscroll!!)
+    }
+
+    public fun toggleFullScreenGallery() {
+        val from = scrollY
+        val to = if (from == 0) initialScrollTop else 0
+        detailContainer.animateScrollY(from, to, 500)
+    }
+
+    public fun getArrowRotationRatio(scrollY: Int): Float {
+        return scrollY.toFloat() / (initialScrollTop)
+    }
+
 }
+

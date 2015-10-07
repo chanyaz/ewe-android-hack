@@ -253,15 +253,18 @@
     "photos": [
         {
             "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_t.jpg",
-            "url": "/hotels/1000000/20000/12600/12539/12539_81_l.jpg"
+            "url": "/hotels/1000000/20000/12600/12539/12539_81_l.jpg",
+            "displayText": "happy"
         },
         {
             "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_114_t.jpg",
-            "url": "/hotels/1000000/20000/12600/12539/12539_114_l.jpg"
+            "url": "/hotels/1000000/20000/12600/12539/12539_114_l.jpg",
+            "displayText": "happy"
         },
         {
             "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_115_t.jpg",
-            "url": "/hotels/1000000/20000/12600/12539/12539_115_l.jpg"
+            "url": "/hotels/1000000/20000/12600/12539/12539_115_l.jpg",
+            "displayText": "happy"
         }
     ],
     "shortDescription": "Just off Market Street, downtown San Francisco's major thoroughfare, this contemporary 32-story hotel is 1 block from San Francisco Centre shops and 3 blocks from the Moscone Convention Center.",

@@ -398,6 +398,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		galleryContainer.setPivotY(counterscroll + mGalleryHeight / 2);
 
 		galleryContainer.scrollTo(0, -counterscroll);
+
 	}
 
 	@Override
