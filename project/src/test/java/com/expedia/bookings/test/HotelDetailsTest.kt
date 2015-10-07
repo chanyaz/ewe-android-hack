@@ -69,6 +69,7 @@ public class HotelDetailsTest {
     @Test
     fun testDiscountPercentageVipAccessTonightOnly() {
         var hotel = makeHotel()
+        hotel.currentAllotment = "0"
         offers.isVipAccess = true
         hotel.isSameDayDRR = true
 
@@ -144,6 +145,7 @@ public class HotelDetailsTest {
     @Test
     fun testOnlyDiscountPercentage() {
         var hotel = makeHotel()
+        hotel.currentAllotment = "0"
         offers.isVipAccess = false
         hotel.isSameDayDRR = false
 
@@ -173,6 +175,7 @@ public class HotelDetailsTest {
     @Test
     fun testOnlyVipAccess() {
         var hotel = makeHotel()
+        hotel.currentAllotment = "0"
         offers.isVipAccess = true
         hotel.isSameDayDRR = false
 
@@ -200,6 +203,7 @@ public class HotelDetailsTest {
     @Test
     fun testOnlyMobileExclusive() {
         var hotel = makeHotel()
+        hotel.currentAllotment = "0"
         offers.isVipAccess = false
         hotel.isSameDayDRR = true
         hotel.isDiscountRestrictedToCurrentSourceType = true
@@ -224,6 +228,37 @@ public class HotelDetailsTest {
         assertEquals(View.GONE, hotelDetailView.vipAccessMessage.getVisibility())
         assertEquals(View.VISIBLE, hotelDetailView.promoMessage.getVisibility())
         assertEquals(activity.getResources().getString(R.string.mobile_exclusive), hotelDetailView.promoMessage.getText())
+    }
+
+    @Test
+    fun testRoomsLeftOnly() {
+        var hotel = makeHotel()
+        offers.isVipAccess = false
+        hotel.isSameDayDRR = true
+        hotel.isDiscountRestrictedToCurrentSourceType = true
+
+        var lowRateInfo = HotelRate()
+        lowRateInfo.discountPercent = 0f
+        lowRateInfo.currencyCode = "USD"
+
+        var rateInfo = HotelOffersResponse.RateInfo()
+        rateInfo.chargeableRateInfo = lowRateInfo
+        hotel.rateInfo = rateInfo
+
+        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        rooms.add(hotel)
+
+        offers.hotelRoomResponse = rooms
+
+        vm.hotelOffersSubject.onNext(offers)
+
+        var roomsLeft = hotel.currentAllotment.toInt()
+        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
+        assertEquals(View.GONE, hotelDetailView.discountPercentage.getVisibility())
+        assertEquals(View.GONE, hotelDetailView.vipAccessMessage.getVisibility())
+        assertEquals(View.VISIBLE, hotelDetailView.promoMessage.getVisibility())
+        assertEquals(activity.getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft,
+                roomsLeft), hotelDetailView.promoMessage.getText())
     }
 
     @Test
