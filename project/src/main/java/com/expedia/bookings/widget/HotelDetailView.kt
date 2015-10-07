@@ -228,7 +228,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.hasETPObservable.subscribeVisibility(etpInfoText)
         vm.hasFreeCancellationObservable.subscribeVisibility(freeCancellation)
 
-        vm.hasETPObservable.subscribeVisibility(etpContainer)
+        vm.hasETPObservable.subscribe { visible ->
+            if (visible) {
+                etpRadioGroup.subscribeOnCheckedChange(etpContainerObserver)
+            }
+            etpContainer.visibility = if (visible) View.VISIBLE else View.GONE
+        }
+
 
         vm.etpRoomResponseListObservable.subscribe { etpRoomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(etpRoomList.first.size())
@@ -278,7 +284,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         hotelDescriptionContainer.subscribeOnClick(vm.hotelDescriptionContainerObserver)
-        etpRadioGroup.subscribeOnCheckedChange(etpContainerObserver)
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
