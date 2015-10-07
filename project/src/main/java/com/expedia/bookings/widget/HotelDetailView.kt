@@ -208,6 +208,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 hotelRoomRateViewModels.add(view.viewmodel)
             }
             vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+            //setting first room in expanded state as some etp hotel offers are less compared to pay now offers
+            vm.lastExpandedRowObservable.onNext(0)
 
         }
 
@@ -240,6 +242,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 hotelRoomRateViewModels.add(view.viewmodel)
             }
             vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+            //setting first room in expanded state as some etp hotel offers are less compared to pay now offers
+            vm.lastExpandedRowObservable.onNext(0)
 
         }
         

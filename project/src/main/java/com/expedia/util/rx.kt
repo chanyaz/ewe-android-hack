@@ -36,9 +36,9 @@ public fun View.subscribeOnClick(observer: Observer<Unit>) {
     }
 }
 
-public fun ToggleButton.subscribeOnClick(observer: Observer<Boolean>) {
+public fun ToggleButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
     this.setOnClickListener {
-        observer.onNext(this.isChecked)
+        observer.onNext(this.isChecked())
     }
 }
 

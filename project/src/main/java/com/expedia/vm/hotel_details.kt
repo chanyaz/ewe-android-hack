@@ -357,9 +357,6 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         rowExpandingObservable.subscribe { indexOfRowBeingExpanded ->
             //collapse already expanded row
             hotelRoomRateViewModelsObservable.value.elementAt(lastExpandedRowObservable.value).collapseRoomObservable.onNext(true)
-            //expand the room
-            //       hotelRoomRateViewModelsObservable.value.elementAt(indexOfRowBeingExpanded).expandRoomObservable.onNext(true)
-
             lastExpandedRowObservable.onNext(indexOfRowBeingExpanded)
         }
 
