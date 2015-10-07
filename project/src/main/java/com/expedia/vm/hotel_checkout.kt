@@ -1,20 +1,23 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.text.SpannableStringBuilder
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.Rate
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
@@ -98,6 +101,56 @@ public class HotelCreateTripViewModel(val hotelServices: HotelServices) {
     }
 }
 
+public fun getDueNowAmount(response: HotelCreateTripResponse.HotelProductResponse) : String {
+
+    val room = response.hotelRoomResponse
+    val rate = room.rateInfo.chargeableRateInfo
+    val isResortCase = Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees")
+    val isPayLater = room.isPayLater
+
+    // Calculate Due to {Brand} price
+    if (isPayLater || isResortCase) {
+        if (isPayLater) {
+            val depositAmount = rate.depositAmount ?: "0" // yup. For some reason API doesn't return $0 for deposit amounts
+            return Money(BigDecimal(depositAmount), rate.currencyCode).formattedMoney
+        }
+        else {
+            return rate.displayTotalPrice.formattedMoney
+        }
+    }
+    else {
+        // calculate trip total price
+        if (Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees")) {
+            return Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).formattedMoney
+        } else {
+            return rate.displayTotalPrice.formattedMoney
+        }
+    }
+}
+
+class HotelCheckoutOverviewViewModel(val context: Context) {
+    // input
+    val newRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
+    // output
+    val legalTextInformation = BehaviorSubject.create<SpannableStringBuilder>()
+    val slideToText = BehaviorSubject.create<String>()
+    val totalPriceCharged = BehaviorSubject.create<String>()
+
+    init {
+        newRateObserver.subscribe {
+            val room = it.hotelRoomResponse
+            if (room.isPayLater) {
+                slideToText.onNext(context.getString(R.string.hotelsv2_slide_reserve))
+            }
+            else {
+                slideToText.onNext(context.getString(R.string.hotelsv2_slide_purchase))
+            }
+            legalTextInformation.onNext(StrUtils.generateHotelsClickableBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString()))
+            totalPriceCharged.onNext(context.getString(R.string.your_card_will_be_charged_TEMPLATE, getDueNowAmount(it)))
+        }
+    }
+}
+
 class HotelCheckoutSummaryViewModel(val context: Context) {
     // input
     val newRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
@@ -145,7 +198,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             priceAdjustments.onNext(rate.getPriceAdjustments())
             hotelName.onNext(it.localizedHotelName)
             checkInDate.onNext(it.checkInDate)
-            checkInOutDatesFormatted.onNext(context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, it.checkInDate, it.checkOutDate))
+            checkInOutDatesFormatted.onNext(DateFormatUtils.formatHotelsV2DateRange(context, it.checkInDate, it.checkOutDate))
             address.onNext(it.hotelAddress)
             city.onNext(context.resources.getString(R.string.single_line_street_address_TEMPLATE, it.hotelCity, it.hotelStateProvince))
             val discountPercent = room.rateInfo.chargeableRateInfo.discountPercent
@@ -169,17 +222,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
                 tripTotalPrice.onNext(rate.displayTotalPrice.formattedMoney)
             }
 
-            // Calculate Due to {Brand} price
-            if (isPayLater.value || isResortCase.value) {
-                if (isPayLater.value) {
-                    val depositAmount = rate.depositAmount ?: "0" // yup. For some reason API doesn't return $0 for deposit amounts
-                    dueNowAmount.onNext(Money(BigDecimal(depositAmount), rate.currencyCode).formattedMoney)
-                } else {
-                    dueNowAmount.onNext(rate.displayTotalPrice.formattedMoney)
-                }
-            } else {
-                dueNowAmount.onNext(tripTotalPrice.value)
-            }
+            dueNowAmount.onNext(getDueNowAmount(it))
             showFeesPaidAtHotel.onNext(isResortCase.value && (rate.totalMandatoryFees != 0f))
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
             isBestPriceGuarantee.onNext(room.isMerchant)

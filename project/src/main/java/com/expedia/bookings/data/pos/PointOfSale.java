@@ -692,6 +692,10 @@ public class PointOfSale {
 		return getPosLocale().mForgotPasswordUrl;
 	}
 
+	public String getHotelBookingStatement() {
+		return getPosLocale().mHotelBookingStatement;
+	}
+
 	// TODO: As more complicated payment combinations arise, think about a refactor
 
 	public boolean requiresBillingAddressFlights() {

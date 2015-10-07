@@ -2,6 +2,8 @@ package com.expedia.bookings.utils;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import android.content.Context;
 import android.text.format.DateUtils;
@@ -133,5 +135,17 @@ public class DateFormatUtils {
 		CharSequence from = JodaUtils.formatLocalDate(context, params.getCheckInDate(), flags);
 		CharSequence to = JodaUtils.formatLocalDate(context, params.getCheckOutDate(), flags);
 		return context.getString(R.string.date_range_TEMPLATE, from, to);
+	}
+
+	/**
+	 * Convenience method for formatting date range in hotelsv2 from 2015-10-1 to Oct 01, 2015
+	 */
+	public static String formatHotelsV2DateRange(Context context, String checkinDate, String checkoutDate) {
+		DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd");
+		DateTime checkinDateTime = parser.parseDateTime(checkinDate);
+		DateTime checkoutDateTime = parser.parseDateTime(checkoutDate);
+
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("MMM dd, yyyy");
+		return context.getString(R.string.calendar_instructions_date_range_TEMPLATE, formatter.print(checkinDateTime), formatter.print(checkoutDateTime));
 	}
 }

@@ -27,6 +27,8 @@ import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribe
+import com.expedia.vm.HotelCheckoutOverviewViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.expedia.vm.HotelCouponViewModel
 import com.expedia.vm.HotelCreateTripViewModel
@@ -44,6 +46,11 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     val couponCardView = CouponWidget(context, attr)
     var viewmodel: HotelCreateTripViewModel by notNullAndObservable {
         viewmodel.tripResponseObservable.subscribe(createTripResponseListener)
+    }
+    var vm: HotelCheckoutOverviewViewModel by notNullAndObservable {
+        vm.slideToText.subscribe { slideWidget.setText(it) }
+        vm.legalTextInformation.subscribe { legalInformationText.text = it }
+        vm.totalPriceCharged.subscribe(sliderTotalText)
     }
     var haveAlreadyShownAcceptTermsWidget = false
 
@@ -87,7 +94,6 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         couponCardView.setExpanded(false)
         slideWidget.resetSlider()
         slideToContainer.setVisibility(View.INVISIBLE)
-        legalInformationText.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement())
         legalInformationText.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 val intent = Intent(getContext(), HotelRulesActivity::class.java)
@@ -119,6 +125,8 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         hotelCheckoutSummaryWidget.viewModel.originalRateObserver.onNext(trip.originalHotelProductResponse)
         hotelCheckoutSummaryWidget.viewModel.newRateObserver.onNext(trip.newHotelProductResponse)
         hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size())
+        vm = HotelCheckoutOverviewViewModel(getContext())
+        vm.newRateObserver.onNext(trip.newHotelProductResponse)
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
     }

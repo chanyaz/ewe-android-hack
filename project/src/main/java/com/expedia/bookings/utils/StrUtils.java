@@ -432,9 +432,11 @@ public class StrUtils {
 		return displayName;
 	}
 
-	public static SpannableStringBuilder generateLegalClickableLink(Context context, String rulesAndRestrictionsURL) {
-		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
+	public static SpannableStringBuilder generateHotelsClickableBookingStatement(Context context, String hotelBookingStatement) {
+		return getSpannableTextByPrimaryColor(context, hotelBookingStatement);
+	}
 
+	public static SpannableStringBuilder generateLegalClickableLink(Context context, String rulesAndRestrictionsURL) {
 		String spannedRules = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
 			rulesAndRestrictionsURL, context.getResources().getString(R.string.rules_and_restrictions));
 		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
@@ -445,6 +447,11 @@ public class StrUtils {
 		String statement = context.getResources()
 			.getString(R.string.legal_TEMPLATE, spannedRules, spannedTerms, spannedPrivacy);
 
+		return getSpannableTextByPrimaryColor(context, statement);
+	}
+
+	private static SpannableStringBuilder getSpannableTextByPrimaryColor(Context context, String statement) {
+		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
 		legalTextSpan.append(Html.fromHtml(statement));
 		URLSpan[] spans = legalTextSpan.getSpans(0, statement.length(), URLSpan.class);
 
@@ -461,7 +468,6 @@ public class StrUtils {
 				end,
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
-
 		return legalTextSpan;
 	}
 
