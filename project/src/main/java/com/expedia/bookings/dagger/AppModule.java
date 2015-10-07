@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 import javax.net.ssl.SSLContext;
@@ -122,6 +123,9 @@ public class AppModule {
 
 		client.setFollowSslRedirects(true);
 		client.setCookieHandler(cookieManager);
+
+		client.setConnectTimeout(10, TimeUnit.SECONDS);
+		client.setReadTimeout(60L, TimeUnit.SECONDS);
 
 		if (BuildConfig.DEBUG) {
 			// We don't care about cert validity for debug builds
