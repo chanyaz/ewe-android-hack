@@ -194,6 +194,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
 
             viewModel.hotelStarRatingObservable.subscribe {
                 starRating.rating = it
+                starRating.numStars = it.toInt()
             }
 
             viewModel.adImpressionObservable.subscribe {
