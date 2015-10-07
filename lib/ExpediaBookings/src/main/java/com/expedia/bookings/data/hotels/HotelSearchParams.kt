@@ -83,4 +83,8 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
 
         return params
     }
+
+    public fun guests() : Int {
+        return children.size() + adults
+    }
 }

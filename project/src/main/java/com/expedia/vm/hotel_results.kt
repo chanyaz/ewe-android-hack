@@ -13,6 +13,7 @@ import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -84,7 +85,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
         subtitleSubject.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                 .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
                 .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
-                .put("guests", context.resources.getQuantityString(R.plurals.number_of_guests, params.adults + params.children.size(), params.adults + params.children.size()))
+                .put("guests", StrUtils.formatGuestString(context, params.guests()))
                 .format())
 
         hotelDownloadsObservable.onNext(hotelServices.regionSearch(params))

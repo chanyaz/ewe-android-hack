@@ -175,7 +175,7 @@ public class HotelTravelerPickerViewModel(val context: Context) {
         travelerParamsObservable.subscribe { travelers ->
             val total = travelers.numberOfAdults + travelers.children.size()
             guestsTextObservable.onNext(
-                    context.getResources().getQuantityString(R.plurals.number_of_guests, total, total)
+                    StrUtils.formatGuestString(context, total)
             )
 
             adultTextObservable.onNext(
@@ -317,7 +317,7 @@ public class HotelErrorViewModel(private val context: Context) {
             subTitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                     .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
                     .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
-                    .put("guests", context.resources.getQuantityString(R.plurals.number_of_guests, params.children.size() + 1, params.children.size() + 1))
+                    .put("guests", StrUtils.formatGuestString(context, params.guests()))
                     .format()
                     .toString())
         })
