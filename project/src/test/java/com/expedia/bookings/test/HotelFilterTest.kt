@@ -174,6 +174,51 @@ public class HotelFilterTest {
         }
     }
 
+    @Test
+    fun filterCount(){
+        vm.originalResponse = fakeFilteredResponse()
+        var str = "Hil"
+        vm.filterHotelNameObserver.onNext(str)
+        assertTrue(vm.filterCountObservable.value == 1)
+
+        vm.userFilterChoices.hotelStarRating.three = false
+        vm.threeStarFilterObserver.onNext(Unit)
+        assertTrue(vm.filterCountObservable.value == 2)
+
+        vm.userFilterChoices.hotelStarRating.four = false
+        vm.fourStarFilterObserver.onNext(Unit)
+        assertTrue(vm.filterCountObservable.value == 3)
+
+        vm.fourStarFilterObserver.onNext(Unit)
+        assertTrue(vm.filterCountObservable.value == 2)
+
+        vm.selectAmenity.onNext(16)
+        assertTrue(vm.filterCountObservable.value == 3)
+
+        vm.selectAmenity.onNext(1)
+        assertTrue(vm.filterCountObservable.value == 4)
+
+        vm.selectAmenity.onNext(16)
+        assertTrue(vm.filterCountObservable.value == 3)
+
+        vm.vipFilteredObserver.onNext(true)
+        assertTrue(vm.filterCountObservable.value == 4)
+
+        val region1 = "Civic Center"
+        val region2 = "Fisherman's Wharf"
+        vm.selectNeighborhood.onNext(region1)
+        assertTrue(vm.filterCountObservable.value == 5)
+
+        vm.selectNeighborhood.onNext(region2)
+        assertTrue(vm.filterCountObservable.value == 6)
+
+        vm.selectNeighborhood.onNext(region2)
+        assertTrue(vm.filterCountObservable.value == 5)
+
+        vm.selectNeighborhood.onNext(region1)
+        assertTrue(vm.filterCountObservable.value == 4)
+    }
+
     private fun fakeFilteredResponse() : HotelSearchResponse {
         var filteredResponse = HotelSearchResponse()
         filteredResponse.hotelList = ArrayList<Hotel>()

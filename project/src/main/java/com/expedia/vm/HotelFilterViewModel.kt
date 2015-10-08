@@ -325,13 +325,15 @@ class HotelFilterViewModel(val context: Context) {
 
     fun getFilterCount() : Int {
         var count = 0
-        if (userFilterChoices.hotelStarRating.one ||
-                userFilterChoices.hotelStarRating.two ||
-                userFilterChoices.hotelStarRating.three ||
-                userFilterChoices.hotelStarRating.four || userFilterChoices.hotelStarRating.five) count++
+        if (userFilterChoices.hotelStarRating.one) count++
+        if (userFilterChoices.hotelStarRating.two) count++
+        if (userFilterChoices.hotelStarRating.three) count++
+        if (userFilterChoices.hotelStarRating.four) count++
+        if (userFilterChoices.hotelStarRating.five) count++
         if (userFilterChoices.isVipOnlyAccess == true) count++
         if (!userFilterChoices.name.isNullOrEmpty()) count++
-        if (userFilterChoices.neighborhoods.isNotEmpty()) count++
+        if (userFilterChoices.neighborhoods.isNotEmpty()) count += userFilterChoices.neighborhoods.size()
+        if (userFilterChoices.amenity.isNotEmpty()) count += userFilterChoices.amenity.size()
         if (userFilterChoices.price != null) count++
         return count
     }
