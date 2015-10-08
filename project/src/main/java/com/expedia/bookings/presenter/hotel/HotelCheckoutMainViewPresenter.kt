@@ -27,7 +27,7 @@ import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
 import com.expedia.vm.HotelCheckoutOverviewViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.expedia.vm.HotelCouponViewModel
@@ -50,7 +50,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     var vm: HotelCheckoutOverviewViewModel by notNullAndObservable {
         vm.slideToText.subscribe { slideWidget.setText(it) }
         vm.legalTextInformation.subscribe { legalInformationText.text = it }
-        vm.totalPriceCharged.subscribe(sliderTotalText)
+        vm.totalPriceCharged.subscribeText(sliderTotalText)
     }
     var haveAlreadyShownAcceptTermsWidget = false
 

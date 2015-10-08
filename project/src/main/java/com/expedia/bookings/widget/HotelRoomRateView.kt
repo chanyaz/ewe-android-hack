@@ -22,7 +22,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimation
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
 import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeVisibility
@@ -58,7 +58,6 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
 
     private var roomInfoHeaderTextHeight = -1
     private var roomHeaderImageHeight = -1
-    private var roomImageGradientBottomHeight = -1
     private var roomInfoDividerHeight = -1
     private var roomInfoDescriptionTextHeight = -1
     private var toggleCollapsed = 0
@@ -83,23 +82,23 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
 
         roomInfoContainer.subscribeOnClick(vm.expandCollapseRoomRateInfoDescription)
 
-        vm.pricePerNightObservable.subscribe(totalPricePerNight)
-        vm.roomRateInfoTextObservable.subscribe(roomInfoDescriptionText)
-        vm.roomTypeObservable.subscribe(roomType)
-        vm.collapsedBedTypeObservable.subscribe(collapsedBedType)
-        vm.expandedBedTypeObservable.subscribe(expandedBedType)
+        vm.pricePerNightObservable.subscribeText(totalPricePerNight)
+        vm.roomRateInfoTextObservable.subscribeText(roomInfoDescriptionText)
+        vm.roomTypeObservable.subscribeText(roomType)
+        vm.collapsedBedTypeObservable.subscribeText(collapsedBedType)
+        vm.expandedBedTypeObservable.subscribeText(expandedBedType)
         vm.expandedAmenityObservable.subscribe { text ->
             expandedAmenity.visibility = View.VISIBLE
             expandedAmenity.text = text
         }
 
-        vm.collapsedUrgencyObservable.subscribe(collapsedUrgency)
+        vm.collapsedUrgencyObservable.subscribeText(collapsedUrgency)
         vm.expandedMessageObservable.subscribe { expandedMessagePair ->
             freeCancellation.text = expandedMessagePair.first
             freeCancellation.setCompoundDrawablesWithIntrinsicBounds(expandedMessagePair.second, null, null, null)
         }
 
-        vm.dailyPricePerNightObservable.subscribe(dailyPricePerNight)
+        vm.dailyPricePerNightObservable.subscribeText(dailyPricePerNight)
         vm.perNightObservable.subscribeVisibility(perNight)
 
         vm.viewRoomObservable.subscribe {

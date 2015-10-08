@@ -11,7 +11,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelBreakDownViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
@@ -56,25 +56,25 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
         View.inflate(getContext(), R.layout.hotel_checkout_summary_widget, this)
         costSummary.setOnClickListener { dialog.show() }
 
-        viewModel.hotelName.subscribe(hotelName)
-        viewModel.checkInOutDatesFormatted.subscribe(date)
-        viewModel.address.subscribe(address)
-        viewModel.city.subscribe(cityState)
+        viewModel.hotelName.subscribeText(hotelName)
+        viewModel.checkInOutDatesFormatted.subscribeText(date)
+        viewModel.address.subscribeText(address)
+        viewModel.city.subscribeText(cityState)
         viewModel.hasFreeCancellation.subscribeVisibility(freeCancellationView)
-        viewModel.roomDescriptions.subscribe(selectedRoom)
-        viewModel.bedDescriptions.subscribe(selectedBed)
-        viewModel.numNights.subscribe(numberNights)
-        viewModel.numGuests.subscribe(numberGuests)
-        viewModel.dueNowAmount.subscribe(totalPriceWithTaxAndFees)
+        viewModel.roomDescriptions.subscribeText(selectedRoom)
+        viewModel.bedDescriptions.subscribeText(selectedBed)
+        viewModel.numNights.subscribeText(numberNights)
+        viewModel.numGuests.subscribeText(numberGuests)
+        viewModel.dueNowAmount.subscribeText(totalPriceWithTaxAndFees)
         viewModel.showFeesPaidAtHotel.subscribeVisibility(feesPaidLabel)
         viewModel.showFeesPaidAtHotel.subscribeVisibility(totalFees)
         viewModel.isPayLaterOrResortCase.subscribeVisibility(totalWithTaxLabelWithInfoButton)
         viewModel.isPayLaterOrResortCase.subscribeVisibility(totalPriceWithTax)
-        viewModel.feesPaidAtHotel.subscribe(totalFees)
-        viewModel.tripTotalPrice.subscribe(totalPriceWithTax)
+        viewModel.feesPaidAtHotel.subscribeText(totalFees)
+        viewModel.tripTotalPrice.subscribeText(totalPriceWithTax)
         viewModel.isBestPriceGuarantee.subscribeVisibility(bestPriceGuarantee)
         viewModel.isPriceChange.subscribeVisibility(priceChangeLayout)
-        viewModel.priceChange.subscribe(priceChange)
+        viewModel.priceChange.subscribeText(priceChange)
         viewModel.isPayLaterOrResortCase.subscribeVisibility(totalWithTaxLabelWithInfoButton.compoundDrawables[2], false)
         viewModel.isPayLaterOrResortCase.subscribeVisibility(amountDueTodayLabel.compoundDrawables[2], true)
         viewModel.newDataObservable.subscribe {

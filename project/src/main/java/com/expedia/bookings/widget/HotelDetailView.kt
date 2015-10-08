@@ -34,12 +34,13 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
 import com.expedia.util.subscribeOnCheckedChange
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnCheckedChange
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.util.subscribeRating
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -214,17 +215,17 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         vm.renovationObservable.subscribe { renovationContainer.setVisibility(View.VISIBLE) }
-        vm.hotelResortFeeObservable.subscribe(resortFeeWidget.resortFeeText)
+        vm.hotelResortFeeObservable.subscribeText(resortFeeWidget.resortFeeText)
 
-        vm.sectionBodyObservable.subscribe(hotelDescription)
-        vm.hotelNameObservable.subscribe(toolbarTitle)
-        vm.hotelRatingObservable.subscribe(toolBarRating)
+        vm.sectionBodyObservable.subscribeText(hotelDescription)
+        vm.hotelNameObservable.subscribeText(toolbarTitle)
+        vm.hotelRatingObservable.subscribeRating(toolBarRating)
         vm.hotelRatingObservableVisibility.subscribeVisibility(toolBarRating)
-        vm.strikeThroughPriceObservable.subscribe(strikeThroughPrice)
+        vm.strikeThroughPriceObservable.subscribeText(strikeThroughPrice)
         vm.hasDiscountPercentageObservable.subscribeVisibility(strikeThroughPrice)
-        vm.pricePerNightObservable.subscribe(price)
-        vm.searchInfoObservable.subscribe(searchInfo)
-        vm.userRatingObservable.subscribe(userRating)
+        vm.pricePerNightObservable.subscribeText(price)
+        vm.searchInfoObservable.subscribeText(searchInfo)
+        vm.userRatingObservable.subscribeText(userRating)
         vm.numberOfReviewsObservable.subscribe{ text ->
             numberOfReviews.text = text
             ratingContainer.visibility = View.VISIBLE
@@ -247,10 +248,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 marginForSelectRoom(propertyTextContainer)
             }
         }
-        vm.discountPercentageObservable.subscribe(discountPercentage)
+        vm.discountPercentageObservable.subscribeText(discountPercentage)
         vm.hasDiscountPercentageObservable.subscribeVisibility(discountPercentage)
         vm.hasVipAccessObservable.subscribeVisibility(vipAccessMessage)
-        vm.promoMessageObservable.subscribe(promoMessage)
+        vm.promoMessageObservable.subscribeText(promoMessage)
         Observable.zip(vm.hasDiscountPercentageObservable, vm.hasVipAccessObservable, vm.promoMessageObservable,
                 {
                     hasDiscount, hasVipAccess, promoMessage -> hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage)

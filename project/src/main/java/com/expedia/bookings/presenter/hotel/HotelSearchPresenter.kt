@@ -39,7 +39,7 @@ import com.expedia.bookings.widget.HotelTravelerPickerView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeToggleButton
 import com.expedia.vm.HotelSearchViewModel
@@ -274,7 +274,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             }
         })
 
-        vm.locationTextObservable.subscribe(searchLocationEditText)
+        vm.locationTextObservable.subscribeText(searchLocationEditText)
 
         clearLocationButton.setOnClickListener { view ->
             searchLocationEditText.setText(null)

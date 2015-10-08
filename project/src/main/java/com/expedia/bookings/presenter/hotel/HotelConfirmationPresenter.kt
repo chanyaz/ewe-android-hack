@@ -18,7 +18,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget
 import com.expedia.bookings.widget.OptimizedImageView
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelConfirmationViewModel
 import javax.inject.Inject
@@ -62,8 +62,8 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
         addToCalendarBtn.subscribeOnClick(hotelConfirmationViewModel.getAddToCalendarBtnObserver(getContext()))
         directionsToHotelBtn.subscribeOnClick(hotelConfirmationViewModel.getDirectionsToHotelBtnObserver(getContext()))
 
-        hotelConfirmationViewModel.itineraryNumberLabel.subscribe(itinNumberTextView)
-        hotelConfirmationViewModel.formattedCheckInOutDate.subscribe(checkInOutDateTextView)
+        hotelConfirmationViewModel.itineraryNumberLabel.subscribeText(itinNumberTextView)
+        hotelConfirmationViewModel.formattedCheckInOutDate.subscribeText(checkInOutDateTextView)
         hotelConfirmationViewModel.bigImageUrl.subscribe { value ->
             PicassoHelper.Builder(backgroundImageView)
                     .setError(com.expedia.bookings.R.drawable.cars_fallback)
@@ -73,12 +73,12 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
                     .build()
                     .load(value)
         }
-        hotelConfirmationViewModel.hotelName.subscribe(hotelNameTextView)
-        hotelConfirmationViewModel.addressLineOne.subscribe(addressL1TextView)
-        hotelConfirmationViewModel.addressLineTwo.subscribe(addressL2TextView)
-        hotelConfirmationViewModel.addFlightBtnText.subscribe(addFlightBtn)
-        hotelConfirmationViewModel.addCarBtnText.subscribe(addCarBtn)
-        hotelConfirmationViewModel.customerEmail.subscribe(sendToEmailTextView)
+        hotelConfirmationViewModel.hotelName.subscribeText(hotelNameTextView)
+        hotelConfirmationViewModel.addressLineOne.subscribeText(addressL1TextView)
+        hotelConfirmationViewModel.addressLineTwo.subscribeText(addressL2TextView)
+        hotelConfirmationViewModel.addFlightBtnText.subscribeText(addFlightBtn)
+        hotelConfirmationViewModel.addCarBtnText.subscribeText(addCarBtn)
+        hotelConfirmationViewModel.customerEmail.subscribeText(sendToEmailTextView)
 
         val navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp)!!.mutate()
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)

@@ -12,7 +12,7 @@ import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelTravelerPickerViewModel
 import kotlin.properties.Delegates
@@ -48,8 +48,8 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Sc
         childPlus.subscribeOnClick(vm.incrementChildrenObserver)
         childMinus.subscribeOnClick(vm.decrementChildrenObserver)
 
-        vm.adultTextObservable.subscribe(adultText)
-        vm.childTextObservable.subscribe(childText)
+        vm.adultTextObservable.subscribeText(adultText)
+        vm.childTextObservable.subscribeText(childText)
 
         vm.adultPlusObservable.subscribe {
             adultPlus.setEnabled(it)

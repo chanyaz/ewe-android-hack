@@ -16,7 +16,7 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
 import com.expedia.vm.HotelErrorViewModel
 
 public class HotelErrorPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr) {
@@ -31,8 +31,8 @@ public class HotelErrorPresenter(context: Context, attr: AttributeSet) : Present
 
     var viewmodel: HotelErrorViewModel by notNullAndObservable { vm ->
         vm.imageObservable.subscribe { errorImage.setImageResource(it) }
-        vm.buttonTextObservable.subscribe(errorButton)
-        vm.errorMessageObservable.subscribe(errorText)
+        vm.buttonTextObservable.subscribeText(errorButton)
+        vm.errorMessageObservable.subscribeText(errorText)
         vm.titleObservable.subscribe { toolbar.title = it }
         vm.subTitleObservable.subscribe {toolbar.subtitle = it }
         errorButton.setOnClickListener { vm.actionObservable.onNext(Unit) }

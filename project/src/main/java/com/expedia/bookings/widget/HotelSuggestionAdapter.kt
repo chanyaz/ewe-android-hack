@@ -9,7 +9,7 @@ import android.widget.Filterable
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelSuggestionViewModel
 
@@ -58,7 +58,7 @@ public class HotelSuggestionViewHolder(val root: ViewGroup, val vm : HotelSugges
         icon.setColorFilter(root.getContext().getResources().getColor(R.color.hotels_primary_color))
         hierarchyIcon.setColorFilter(root.getContext().getResources().getColor(R.color.hotels_primary_color))
 
-        vm.titleObservable.subscribe(title)
+        vm.titleObservable.subscribeText(title)
 
         vm.isChildObservable.subscribe { isChild ->
             if (isChild) {

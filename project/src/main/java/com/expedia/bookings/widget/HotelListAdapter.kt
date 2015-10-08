@@ -24,8 +24,9 @@ import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
 import com.expedia.util.subscribeBackgroundColor
+import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
 import com.squareup.picasso.Picasso
@@ -172,25 +173,25 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                         .load(HotelMedia(url).getBestUrls(width))
             }
 
-            viewModel.hotelNameObservable.subscribe(hotelName)
-            viewModel.pricePerNightObservable.subscribe(pricePerNight)
-            viewModel.hotelGuestRatingObservable.subscribe(guestRating)
-            viewModel.topAmenityTitleObservable.subscribe(topAmenityTitle)
-            viewModel.hotelDiscountPercentageObservable.subscribe(discountPercentage)
-            viewModel.hotelStrikeThroughPriceObservable.subscribe(strikeThroughPricePerNight)
+            viewModel.hotelNameObservable.subscribeText(hotelName)
+            viewModel.pricePerNightObservable.subscribeText(pricePerNight)
+            viewModel.hotelGuestRatingObservable.subscribeText(guestRating)
+            viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
+            viewModel.hotelDiscountPercentageObservable.subscribeText(discountPercentage)
+            viewModel.hotelStrikeThroughPriceObservable.subscribeText(strikeThroughPricePerNight)
             viewModel.hasDiscountObservable.subscribeVisibility(strikeThroughPricePerNight)
             viewModel.hasDiscountObservable.subscribeVisibility(discountPercentage)
-            viewModel.distanceFromCurrentLocationObservable.subscribe(hotelAmenityOrDistanceFromLocation)
+            viewModel.distanceFromCurrentLocationObservable.subscribeText(hotelAmenityOrDistanceFromLocation)
             viewModel.topAmenityVisibilityObservable.subscribeVisibility(topAmenityTitle)
-            viewModel.topAmenityTitleObservable.subscribe(topAmenityTitle)
-            viewModel.urgencyIconObservable.subscribe(urgencyIcon)
+            viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
+            viewModel.urgencyIconObservable.subscribeImageDrawable(urgencyIcon)
             viewModel.urgencyMessageVisibilityObservable.subscribeVisibility(urgencyMessageContainer)
             viewModel.urgencyMessageBackgroundObservable.subscribeBackgroundColor(urgencyMessageContainer)
-            viewModel.urgencyMessageBoxObservable.subscribe(urgencyMessageBox)
+            viewModel.urgencyMessageBoxObservable.subscribeText(urgencyMessageBox)
             viewModel.vipMessageVisibilityObservable.subscribeVisibility(vipMessage)
             viewModel.vipMessageVisibilityObservable.subscribeVisibility(gradientTop)
             viewModel.airAttachVisibilityObservable.subscribeVisibility(airAttachContainer)
-            viewModel.hotelDiscountPercentageObservable.subscribe(airAttachDiscount)
+            viewModel.hotelDiscountPercentageObservable.subscribeText(airAttachDiscount)
             viewModel.ratingAmenityContainerVisibilityObservable.subscribeVisibility(ratingAmenityContainer)
 
             viewModel.hotelStarRatingObservable.subscribe {
@@ -268,7 +269,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         val pricingStructureHeader: TextView by root.bindView(R.id.pricing_structure_header)
 
         init {
-            vm.pricingStructureHeaderObservable.subscribe(pricingStructureHeader)
+            vm.pricingStructureHeaderObservable.subscribeText(pricingStructureHeader)
         }
     }
 

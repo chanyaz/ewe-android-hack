@@ -18,7 +18,7 @@ import com.expedia.bookings.presenter.hotel.HotelResultsPresenter
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
 import com.google.android.gms.maps.model.Marker
 import rx.subjects.PublishSubject
 import java.util.Collections
@@ -71,15 +71,15 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
                         .load(it)
             }
 
-            viewModel.hotelNameObservable.subscribe(hotelPreviewText)
+            viewModel.hotelNameObservable.subscribeText(hotelPreviewText)
 
             viewModel.hotelPreviewRatingObservable.subscribe {
                 hotelPreviewRating.rating = it
             }
 
-            viewModel.hotelPriceObservable.subscribe(hotelPricePerNight)
-            viewModel.hotelStrikeThroughPriceObservable.subscribe(hotelStrikeThroughPrice)
-            viewModel.hotelGuestRatingObservable.subscribe(hotelGuestRating)
+            viewModel.hotelPriceObservable.subscribeText(hotelPricePerNight)
+            viewModel.hotelStrikeThroughPriceObservable.subscribeText(hotelStrikeThroughPrice)
+            viewModel.hotelGuestRatingObservable.subscribeText(hotelGuestRating)
 
             hotelPreviewText.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
 
