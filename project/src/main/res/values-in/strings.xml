@@ -157,8 +157,8 @@
     <string name="clear_filters">Hapus Filter</string>
     <!-- Label to tell the user how many products match thier filter -->
     <plurals name="number_results_template">
-        <item quantity="one">{number} Hasil</item>
-        <item quantity="other">{number} Hasil</item>
+        <item quantity="one">{number} hasil</item>
+        <item quantity="other">{number} hasil</item>
     </plurals>
 
     <!-- Checkout -->
@@ -609,6 +609,8 @@
     <string name="error_lx_search_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">Kami tidak dapat menentukan lokasi untuk mencarikan aktivitas yang sesuai di sekitar Anda.</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">Kami tidak dapat menentukan lokasi untuk mencarikan transportasi yang sesuai di sekitar Anda.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Kesalahan</string>
     <!-- Text for error toolbar-->
@@ -655,6 +657,8 @@
     <string name="lx_error_current_location_toolbar_text">Silakan coba lagi</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">Kami tidak bisa menemukan pilihan aktivitas di dekat lokasi Anda. Harap coba kembali mencari dengan kriteria yang berbeda.</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">Kami tidak dapat menemukan transportasi di dekat lokasi Anda. Harap coba kembali mencari dengan kriteria yang berbeda.</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$s Bagasi</string>
@@ -2757,10 +2761,23 @@
     <string name="total_price_for_stay">Total harga selama masa menginap</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">Harga rata-rata per malam</string>
+
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">Harga rata-rata per malam • {count} Hasil</string>
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">Tidak Ditemukan Hasil</item>
+        <item quantity="one">Harga rata-rata per malam • 1 hasil</item>
+        <item quantity="many">Harga rata-rata per malam • %d hasil</item>
+        <item quantity="other">Harga rata-rata per malam • %d hasil</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">Harga total semua malam • {count} Hasil</string>
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">Tidak Ditemukan Hasil</item>
+        <item quantity="one">Harga total semua malam • 1 hasil</item>
+        <item quantity="many">Harga total semua malam • %d hasil</item>
+        <item quantity="other">Harga total semua malam • %d hasil</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">Kamar habis!</item>
@@ -2949,6 +2966,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Dukungan Pemesanan</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">Permintaan Bantuan</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">Hubungi {brand} via…</string>
     <!-- Contact Expedia via phone -->
@@ -3699,10 +3718,6 @@
 
     <!-- Filters Strings -->
     <string name="neighborhoods">Kawasan</string>
-    <string name="gym">Gym</string>
-    <string name="room_service">Layanan Kamar</string>
-    <string name="business_center">Pusat Bisnis</string>
-    <string name="accessible">Difabel</string>
     <string name="amenities">Fasilitas</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Peringkat Bintang</string>

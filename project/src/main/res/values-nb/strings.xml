@@ -16,7 +16,7 @@
 
     <!-- Hotels Reviews Strings -->
     <!-- Hotels summary rating template-->
-    <string name="hotel_rating_summary_Template">{rating} - {attribute}</string>
+    <string name="hotel_rating_summary_Template">{rating} – {attribute}</string>
     <!-- Hotels rating room cleanliness string -->
     <string name="hotel_rating_room_cleanliness">Renhet på rommet</string>
     <!-- Hotels rating room comfort string -->
@@ -134,7 +134,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Kommer snart! Vi jobber hardt for å legge til enveisbestillinger i en kommende versjon.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterer.</string>
+    <string name="error_car_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterier.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Søket ditt ga ingen resultater. Prøv å bruke færre filtre.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -606,9 +606,11 @@
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Oppgi kontaktdetaljer</string>
     <!-- LX search error -->
-    <string name="error_lx_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterer.</string>
+    <string name="error_lx_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterier.</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">Vi kunne ikke finne din nåværende posisjon, så vi kan ikke finne aktiviteter rundt deg.</string> 
+    <string name="error_lx_current_location_search_message">Det var ikke mulig å fastsette din nåværende posisjon, så vi kan ikke finne aktiviteter rundt deg.</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">Det var ikke mulig å fastsette din nåværende posisjon, så vi kan ikke finne transportalternativer rundt deg.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Feil</string>
     <!-- Text for error toolbar-->
@@ -654,7 +656,9 @@
     <!-- Current location failed toolbar text -->
     <string name="lx_error_current_location_toolbar_text">Prøv på nytt</string>
     <!-- LX No Activities for Current location -->
-    <string name="lx_error_current_location_no_results">Vi kunne ikke finne noen aktiviteter nær deg. Prøv å søke på nytt med andre søkekriterer.</string>
+    <string name="lx_error_current_location_no_results">Vi kunne ikke finne noen aktiviteter nær deg. Prøv å søke på nytt med andre søkekriterier.</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">Vi kunne ikke finne noen transportalternativer nær deg. Prøv å søke på nytt med andre søkekriterier.</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$s kofferter</string>
@@ -1468,7 +1472,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">Telefonnr. \n%s</string>
     <!-- App download link -->
-    <string name="share_long_ad_TEMPLATE">Bestill hoteller og fly, eller se og del reiserutene dine. Last ned {brand}s gratis mobilapp i dag.\n{appinfourl}</string>
+    <string name="share_long_ad_TEMPLATE">Bestill hoteller og fly, eller se og del reiserutene dine. Last ned gratisappen til {brand} i dag.\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Jeg skal fly til %1$s den %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -2757,10 +2761,23 @@
     <string name="total_price_for_stay">Totalpris for oppholdet</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">Gjennomsnittspris per natt</string>
+
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">Gjennomsnittspris per natt • {count} resultater</string>
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">Ingen resultater</item>
+        <item quantity="one">Gjennomsnittspris per natt • 1 resultat</item>
+        <item quantity="many">Gjennomsnittspris per natt • %d resultater</item>
+        <item quantity="other">Gjennomsnittspris per natt • %d resultater</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">Totalpris for oppholdet • {count} resultater</string>
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">Ingen resultater</item>
+        <item quantity="one">Totalpris for oppholdet • 1 resultat</item>
+        <item quantity="many">Totalpris for oppholdet • %d resultater</item>
+        <item quantity="other">Totalpris for oppholdet • %d resultater</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">Ingen rom igjen på appen vår!</item>
@@ -2902,17 +2919,17 @@
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">Dette er ikke en gyldig kupongkode.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Kupongen er utløpt.</string>
+    <string name="coupon_error_expired">Beklager, kupongen er utløpt.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Beklager, det har oppstått et problem. Prøv på nytt.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Denne kupongkoden har allerede blitt brukt.</string>
+    <string name="coupon_error_duplicate">Beklager, denne kupongkoden har allerede blitt brukt.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Beklager, det har oppstått et problem. Prøv på nytt.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
     <string name="coupon_error_price_change">Prisen på bestillingen er endret, så vi har ikke lagt til kupongen. Anmeld på nytt og prøv igjen.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Denne kupongkoden er kun gyldig i et annet land.</string>
+    <string name="coupon_error_invalid_region">Beklager, denne kupongkoden er kun gyldig i et annet land.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
     <string name="coupon_error_min_stay_not_met">Du har valgt færre dager enn det som er minstekravet.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
@@ -2949,6 +2966,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Hjelp til bestilling</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">Forespørsel om kundeservice</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">Ta kontakt med {brand} via…</string>
     <!-- Contact Expedia via phone -->
@@ -3699,10 +3718,6 @@
 
     <!-- Filters Strings -->
     <string name="neighborhoods">Områder</string>
-    <string name="gym">Treningssenter</string>
-    <string name="room_service">Romservice</string>
-    <string name="business_center">Forretningssenter</string>
-    <string name="accessible">Handikaptilpasset</string>
     <string name="amenities">Fasiliteter</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Stjernerangering</string>

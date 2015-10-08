@@ -157,8 +157,8 @@
     <string name="clear_filters">Borrar filtros</string>
     <!-- Label to tell the user how many products match thier filter -->
     <plurals name="number_results_template">
-        <item quantity="one">{number} Resultado</item>
-        <item quantity="other">{number} Resultados</item>
+        <item quantity="one">{number} resultado</item>
+        <item quantity="other">{number} resultados</item>
     </plurals>
 
     <!-- Checkout -->
@@ -609,6 +609,8 @@
     <string name="error_lx_search_message">Tu búsqueda no arrojó resultados. Repite la búsqueda con otros criterios.</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">No pudimos determinar tu ubicación actual para buscar actividades cerca de ti.</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">No pudimos determinar tu ubicación actual para buscar servicios de traslado cerca de ti.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Error</string>
     <!-- Text for error toolbar-->
@@ -655,11 +657,13 @@
     <string name="lx_error_current_location_toolbar_text">Inténtalo de nuevo</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">No pudimos encontrar actividades cerca de ti. Repite la búsqueda con otros criterios.</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">No pudimos encontrar servicios de traslado cerca de ti. Repite la búsqueda con otros criterios.</string>
 
     <!-- Ground Transport bags text-->
-    <string name="lx_ground_transport_bags_text">%1$sPiezas de equipaje</string>
+    <string name="lx_ground_transport_bags_text">%1$s Piezas de equipaje</string>
     <!-- Ground Transport passengers text-->
-    <string name="lx_ground_transport_passengers_text">%1$sPasajeros</string>
+    <string name="lx_ground_transport_passengers_text">%1$s Pasajeros</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">Esta fecha es anterior al día de hoy. Selecciona una fecha nueva.</string>
 
@@ -2514,7 +2518,7 @@
     <!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
     <string name="filter_stars_five">5</string>
     <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
-    <string name="filter_distance_miles_template">%smi</string>
+    <string name="filter_distance_miles_template">%s mi</string>
     <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
     <string name="filter_distance_kilometers_template">%s km</string>
 
@@ -2757,10 +2761,23 @@
     <string name="total_price_for_stay">Precio total por la estadía</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">Precio promedio por noche</string>
+
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">Precios promedio por noche • {count} Resultados</string>
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">Sin resultados</item>
+        <item quantity="one">Precios promedio por noche • 1 resultado</item>
+        <item quantity="many">Precios promedio por noche • %d resultados</item>
+        <item quantity="other">Precios promedio por noche • %d resultados</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">Precio total por la estadía • {count} Resultados</string>
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">Sin resultados</item>
+        <item quantity="one">Precio total por la estadía • 1 resultado</item>
+        <item quantity="many">Precio total por la estadía • %d resultados</item>
+        <item quantity="other">Precio total por la estadía • %d resultados</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">¡Ya no quedan habitaciones disponibles en nuestra aplicación!</item>
@@ -2949,6 +2966,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Asistencia con las reservaciones</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">Solicitud de asistencia</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">Comunícate con {brand} vía…</string>
     <!-- Contact Expedia via phone -->
@@ -3699,10 +3718,6 @@
 
     <!-- Filters Strings -->
     <string name="neighborhoods">Áreas</string>
-    <string name="gym">Gimnasio</string>
-    <string name="room_service">Servicio de habitación</string>
-    <string name="business_center">Centro de negocios</string>
-    <string name="accessible">Facilidad para silla de ruedas</string>
     <string name="amenities">Amenidades</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Clasificación por estrellas</string>

@@ -609,6 +609,8 @@
     <string name="error_lx_search_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">주변 즐길거리 검색에 필요한 고객님의 현재 위치를 확인할 수 없습니다.</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">주변 교통편 검색에 필요한 고객님의 현재 위치를 확인할 수 없습니다.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">오류</string>
     <!-- Text for error toolbar-->
@@ -655,6 +657,8 @@
     <string name="lx_error_current_location_toolbar_text">다시 시도해 주세요.</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">고객님 주변의 즐길거리를 찾을 수 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">고객님 주변의 교통편을 찾을 수 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">짐 %1$s개</string>
@@ -1040,9 +1044,9 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} 일정 번호</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
-    <string name="Expedia_plus_Silver_Customer_Support">익스피디아 +실버 고객 지원</string>
+    <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver 고객 지원</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
-    <string name="Expedia_plus_Gold_Customer_Support">익스피디아 +골드 고객 지원</string>
+    <string name="Expedia_plus_Gold_Customer_Support">Expedia +gold 고객 지원</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">예정된 여행이 없습니다.</string>
     <!-- Enter itinerary number -->
@@ -1687,7 +1691,7 @@
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
-    <string name="one_way_price_TEMPLATE">편도 항공 가격: &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="one_way_price_TEMPLATE">편도 항공 요금: &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Round trip from $994" -->
     <string name="round_trip_price_TEMPLATE">왕복 항공 시작가: &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
@@ -2587,7 +2591,7 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">+VIP Access 호텔에서 +실버 및 +골드 회원은 체크인 시 이용 가능한 경우 무료 객실 업그레이드와 기타 특전을 받으시게 됩니다.</string>
+    <string name="vip_access_message">+VIP Access 호텔에서 +silver 및 +gold 회원은 체크인 시 이용 가능한 경우 무료 객실 업그레이드와 기타 특전을 받으시게 됩니다.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">+VIP Access 호텔만</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -2700,10 +2704,10 @@
     <!-- A number of reviews -->
     <plurals name="number_of_reviews">
         <item quantity="zero">이용 후기 없음</item>
-        <item quantity="one">%d개의 이용 후기</item>
-        <item quantity="two">%d개의 이용 후기</item>
-        <item quantity="many">%d개의 이용 후기</item>
-        <item quantity="other">%d개의 이용 후기</item>
+        <item quantity="one">%d개 이용 후기</item>
+        <item quantity="two">%d개 이용 후기</item>
+        <item quantity="many">%d개 이용 후기</item>
+        <item quantity="other">%d개 이용 후기</item>
     </plurals>
 
     <!-- HOtel V2A number of reviews -->
@@ -2757,10 +2761,23 @@
     <string name="total_price_for_stay">숙박 총합계</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">1박 평균 요금</string>
+
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">1박 평균 요금 • {count}개 결과</string>
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">검색 결과 없음</item>
+        <item quantity="one">1박 평균 요금 • 1개 결과</item>
+        <item quantity="many">1박 평균 요금 • %d개 결과</item>
+        <item quantity="other">1박 평균 요금 • %d개 결과</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">숙박 총합계 • {count}개 결과</string>
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">검색 결과 없음</item>
+        <item quantity="one">숙박 총합계 • 1개 결과</item>
+        <item quantity="many">숙박 총합계 • %d개 결과</item>
+        <item quantity="other">숙박 총합계 • %d개 결과</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">남은 객실이 없습니다!</item>
@@ -2862,11 +2879,11 @@
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">{brand} 계정에서 로그아웃하시겠어요?</string>
     <!-- Label for Expedia +blue rewards program name -->
-    <string name="Expedia_plus_blue">익스피디아 +블루</string>
+    <string name="Expedia_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +silver rewards program name -->
-    <string name="Expedia_plus_silver">익스피디아 +실버</string>
+    <string name="Expedia_plus_silver">Expedia +silver</string>
     <!-- Label for Expedia +gold rewards program name -->
-    <string name="Expedia_plus_gold">익스피디아 +골드</string>
+    <string name="Expedia_plus_gold">Expedia +gold</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">{brand} 계정 가져오는 중</string>
     <!-- Label for coupon code area of booking form -->
@@ -2894,7 +2911,7 @@
     <!-- Message shown when a coupon is being removed -->
     <string name="coupon_removing_dialog">쿠폰 제거 중</string>
     <!-- Coupon submit button -->
-    <string name="coupon_submit_button">등록</string>
+    <string name="coupon_submit_button">제출</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -2949,6 +2966,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">예약 지원</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">지원 요청</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">다음을 통해 {brand}에 연락</string>
     <!-- Contact Expedia via phone -->
@@ -3064,7 +3083,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -3699,10 +3718,6 @@
 
     <!-- Filters Strings -->
     <string name="neighborhoods">주변</string>
-    <string name="gym">체육관</string>
-    <string name="room_service">룸서비스</string>
-    <string name="business_center">비즈니스 센터</string>
-    <string name="accessible">장애인 지원</string>
     <string name="amenities">편의 시설</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">호텔 등급</string>
