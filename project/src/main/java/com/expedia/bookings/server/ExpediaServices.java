@@ -48,7 +48,6 @@ import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
-import com.expedia.bookings.data.FlightStatsRatingResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.GsonResponse;
 import com.expedia.bookings.data.HotelBookingResponse;
@@ -128,8 +127,6 @@ public class ExpediaServices implements DownloadListener {
 	public static final int HOTEL_MAX_RESULTS = 200;
 
 	public static final int FLIGHT_MAX_TRIPS = 1600;
-
-	private static final String COOKIES_FILE = "cookies.dat";
 
 	// Flags for getE3EndpointUrl()
 	public static final int F_HOTELS = 4;
@@ -660,18 +657,6 @@ public class ExpediaServices implements DownloadListener {
 	////////////////////////////////////////////////////////////////////////////////////
 	// FlightStats Ratings API: https://developer.flightstats.com/api-docs/ratings/v1
 
-	public FlightStatsRatingResponse getFlightStatsRating(Flight flight) {
-		ArrayList<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
-
-		addCommonFlightStatsParams(parameters);
-
-		String airlineCode = flight.getPrimaryFlightCode().mAirlineCode;
-		String airlineNum = flight.getPrimaryFlightCode().mNumber;
-		String baseUrl = FS_FLEX_BASE_URI + "/ratings/rest/v1/json/flight/" + airlineCode + "/" + airlineNum;
-
-		return doFlightStatsRequest(baseUrl, parameters, new FlightStatsRatingResponseHandler());
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Expedia hotel API
 	//
@@ -1062,26 +1047,6 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// Documentation: https://www.expedia.com/static/mobile/APIConsole/flight.html
 
-	public SignInResponse signIn(String email, String password, int flags) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		addCommonParams(query);
-
-		query.add(new BasicNameValuePair("email", email));
-		query.add(new BasicNameValuePair("password", password));
-		query.add(new BasicNameValuePair("staySignedIn", "true"));
-		query.add(new BasicNameValuePair("includeFullPaymentProfile", "true"));
-
-		addProfileTypes(query, flags);
-
-		// Make sure we're signed out before we try to sign in again
-		if (User.isLoggedIn(mContext)) {
-			User.signOut(mContext);
-		}
-
-		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
-	}
-
 	// Attempt to sign in again with the stored cookie
 	public SignInResponse signIn(int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
@@ -1450,9 +1415,6 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// API Console: http://test.reviewsvc.expedia.com/APIConsole?segmentedapi=true
 
-	private static final String TEST_REVIEWS_BASE_URL = "https://test.reviewsvc.expedia.com/api/hotelreviews/hotel/";
-	private static final String PROD_REVIEWS_BASE_URL = "https://reviewsvc.expedia.com/api/hotelreviews/hotel/";
-
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber) {
 		return reviews(property, sort, pageNumber, REVIEWS_PER_PAGE);
 	}
@@ -1473,8 +1435,9 @@ public class ExpediaServices implements DownloadListener {
 		return doReviewsRequest(getReviewsUrl(property), params, new ReviewsResponseHandler());
 	}
 
-	private static String getReviewsUrl(Property property) {
-		String url = PROD_REVIEWS_BASE_URL;
+	private String getReviewsUrl(Property property) {
+		String url = mEndpointProvider.getReviewsEndpointUrl();
+		url += "api/hotelreviews/hotel/";
 		url += property.getPropertyId();
 		return url;
 	}
@@ -1483,17 +1446,7 @@ public class ExpediaServices implements DownloadListener {
 	// Launch data
 
 	private String getLaunchEndpointUrl() {
-		String server = "";
-		if (mEndpointProvider.getEndPoint() == EndPoint.CUSTOM_SERVER) {
-			server = "http://";
-			server += SettingUtils
-				.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
-		}
-		else {
-			server = "https://";
-			server += "www.expedia.com";
-		}
-		return server + "/static/mobile/LaunchDestinations";
+		return mEndpointProvider.getE3EndpointUrl() + "/static/mobile/LaunchDestinations";
 	}
 
 	public LaunchDestinationCollections getLaunchCollections(String localeString) {

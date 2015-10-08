@@ -128,7 +128,6 @@ public class EndpointProvider {
 	private static final String TEST_REVIEWS_BASE_URL = "https://test.reviewsvc.expedia.com/";
 	private static final String PROD_REVIEWS_BASE_URL = "https://reviewsvc.expedia.com/";
 
-
 	public String getReviewsEndpointUrl() {
 		EndPoint endPoint = getEndPoint();
 		switch (endPoint) {
