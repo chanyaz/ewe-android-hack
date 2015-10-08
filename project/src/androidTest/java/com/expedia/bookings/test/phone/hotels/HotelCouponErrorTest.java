@@ -2,6 +2,8 @@ package com.expedia.bookings.test.phone.hotels;
 
 import java.util.ArrayList;
 
+import android.support.test.espresso.Espresso;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -55,6 +57,9 @@ public class HotelCouponErrorTest extends PhoneTestCase {
 			HotelsCheckoutScreen.couponButton().perform(click());
 			Common.delay(3);
 			onView(withId(R.id.coupon_edit_text)).perform(typeText(test.coupon));
+			Common.delay(2);
+			Espresso.closeSoftKeyboard();
+			Common.delay(2);
 			onView(withId(android.R.id.button1)).perform(click());
 			Common.delay(3);
 			EspressoUtils.assertViewWithTextIsDisplayed(android.R.id.message, test.expected);
