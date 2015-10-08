@@ -226,7 +226,7 @@
     <string name="date_out_of_range">This date is too far out, please choose a closer date.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Please increase your reservation duration.</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Still there? Your session has expired. Please try your search again.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Hmm. Looks like you already booked this trip. Please check your trips or email.</string>

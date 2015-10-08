@@ -248,7 +248,9 @@ public class HotelErrorViewModel(private val context: Context) {
     val checkoutTravellerErrorObservable = BehaviorSubject.create<Unit>()
     val checkoutUnknownErrorObservable = BehaviorSubject.create<Unit>()
     val productKeyExpiryObservable = BehaviorSubject.create<Unit>()
-
+    val checkoutAlreadyBookedObservable = BehaviorSubject.create<Unit>()
+    val checkoutPaymentFailedObservable = BehaviorSubject.create<Unit>()
+    val sessionTimeOutObservable = BehaviorSubject.create<Unit>()
 
     init {
         actionObservable.subscribe {
@@ -256,17 +258,26 @@ public class HotelErrorViewModel(private val context: Context) {
                 ApiError.Code.HOTEL_SEARCH_NO_RESULTS -> {
                     searchErrorObservable.onNext(Unit)
                 }
-                ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS ->{
+                ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
                     checkoutCardErrorObservable.onNext(Unit)
                 }
-                ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS ->{
+                ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS -> {
                     checkoutTravellerErrorObservable.onNext(Unit)
-                }
-                ApiError.Code.HOTEL_CHECKOUT_UNKNOWN ->{
-                    checkoutUnknownErrorObservable.onNext(Unit)
                 }
                 ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY -> {
                     productKeyExpiryObservable.onNext(Unit)
+                }
+                ApiError.Code.TRIP_ALREADY_BOOKED -> {
+                    checkoutAlreadyBookedObservable.onNext(Unit)
+                }
+                ApiError.Code.PAYMENT_FAILED -> {
+                    checkoutPaymentFailedObservable.onNext(Unit)
+                }
+                ApiError.Code.SESSION_TIMEOUT -> {
+                    sessionTimeOutObservable.onNext(Unit)
+                }
+                ApiError.Code.HOTEL_CHECKOUT_UNKNOWN -> {
+                    checkoutUnknownErrorObservable.onNext(Unit)
                 }
                 else -> {
                     defaultErrorObservable.onNext(Unit)
@@ -282,28 +293,47 @@ public class HotelErrorViewModel(private val context: Context) {
                     errorMessageObservable.onNext(context.getString(R.string.error_car_search_message))
                     buttonTextObservable.onNext(context.getString(R.string.edit_search))
                 }
-                ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS ->{
+                ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
                     buttonTextObservable.onNext(context.getString(R.string.edit_payment))
                     titleObservable.onNext(context.getString(R.string.Checkout))
                     subTitleObservable.onNext("")
                 }
-                ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS ->{
+                ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS -> {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
                     buttonTextObservable.onNext(context.getString(R.string.edit_current_traveler))
                     titleObservable.onNext(context.getString(R.string.Checkout))
                     subTitleObservable.onNext("")
                 }
-                ApiError.Code.HOTEL_CHECKOUT_UNKNOWN ->{
+                ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY -> {
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.getString(R.string.error_hotel_no_longer_available))
+                    buttonTextObservable.onNext(context.getString(R.string.pick_new_hotel))
+                }
+                ApiError.Code.PAYMENT_FAILED -> {
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
+                    buttonTextObservable.onNext(context.getString(R.string.edit_payment))
+                    titleObservable.onNext(context.getString(R.string.Checkout))
+                    subTitleObservable.onNext("")
+                }
+                ApiError.Code.TRIP_ALREADY_BOOKED -> {
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.getString(R.string.reservation_already_exists))
+                    buttonTextObservable.onNext(context.getString(R.string.itinerary))
+                    titleObservable.onNext(context.getString(R.string.Checkout))
+                    subTitleObservable.onNext("")
+                }
+                ApiError.Code.HOTEL_CHECKOUT_UNKNOWN -> {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
                     buttonTextObservable.onNext(context.getString(R.string.retry))
                     titleObservable.onNext(context.getString(R.string.Checkout))
                     subTitleObservable.onNext("")
                 }
-                ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY ->{
+                ApiError.Code.SESSION_TIMEOUT -> {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_hotel_no_longer_available))
                     buttonTextObservable.onNext(context.getString(R.string.pick_new_hotel))

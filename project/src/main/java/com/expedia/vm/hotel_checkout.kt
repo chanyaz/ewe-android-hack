@@ -40,21 +40,34 @@ public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
         checkoutParams.subscribe { params ->
             hotelServices.checkout(params, object : Observer<HotelCheckoutResponse> {
                 override fun onNext(checkout: HotelCheckoutResponse) {
-                    if (checkout.hasPriceChange()) {
-                        val hotelCreateTripResponse = Db.getTripBucket().getHotelV2().updateHotelProducts(checkout.checkoutResponse.jsonPriceChangeResponse)
-                        priceChangeResponseObservable.onNext(hotelCreateTripResponse)
-                    } else if (checkout.hasErrors()) {
-                        val error = checkout.firstError
-                        if (error.errorCode == ApiError.Code.INVALID_INPUT) {
-                            if (error.errorInfo.field == "mainMobileTraveler.lastName" ||
-                                    error.errorInfo.field == "mainMobileTraveler.firstName" ||
-                                    error.errorInfo.field == "phone") {
-                                errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS))
-                            } else {
-                                errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS))
+                    if (checkout.hasErrors()) {
+                        when (checkout.firstError.errorCode) {
+                            ApiError.Code.PRICE_CHANGE -> {
+                                val hotelCreateTripResponse = Db.getTripBucket().getHotelV2().updateHotelProducts(checkout.checkoutResponse.jsonPriceChangeResponse)
+                                priceChangeResponseObservable.onNext(hotelCreateTripResponse)
                             }
-                        } else {
-                            errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_UNKNOWN))
+                            ApiError.Code.INVALID_INPUT -> {
+                                val field = checkout.firstError.errorInfo.field
+                                if (field == "mainMobileTraveler.lastName" ||
+                                        field == "mainMobileTraveler.firstName" ||
+                                        field == "phone") {
+                                    errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS))
+                                } else {
+                                    errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS))
+                                }
+                            }
+                            ApiError.Code.TRIP_ALREADY_BOOKED -> {
+                                errorObservable.onNext(checkout.firstError)
+                            }
+                            ApiError.Code.SESSION_TIMEOUT ->{
+                                errorObservable.onNext(checkout.firstError)
+                            }
+                            ApiError.Code.PAYMENT_FAILED -> {
+                                errorObservable.onNext(checkout.firstError)
+                            }
+                            else -> {
+                                errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_UNKNOWN))
+                            }
                         }
                     } else {
                         checkoutResponseObservable.onNext(checkout)

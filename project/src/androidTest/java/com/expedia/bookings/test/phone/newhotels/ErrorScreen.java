@@ -23,4 +23,9 @@ public class ErrorScreen {
 	public static void clickOnPickANewHotel() {
 		onView(withText(R.string.pick_new_hotel)).perform(click());
 	}
+
+	public static void clickOnItinerary() {
+		onView(withText(R.string.itinerary)).perform(click());
+	}
+
 }

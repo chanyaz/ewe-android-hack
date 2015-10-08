@@ -7,6 +7,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.checkout;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.doSearch;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.enterCVV;
@@ -34,44 +35,56 @@ public class HotelCheckoutErrorsTest extends HotelTestCase {
 	}
 
 	public void testInvalidCardDetails() throws Throwable {
-		doSearch();
-		selectHotel("error_checkout_card");
-		selectRoom();
-		checkout();
-		slideToPurchase();
-		enterCVV();
-		Common.delay(2);
-		screenshot("Hotel_Checkout_Error");
+		moveToCheckout("error_checkout_card");
 		ErrorScreen.clickOnEditPayment();
-		// Traveler Info Edit Screen
+		// Card Details Edit Screen
 		assertViewIsDisplayed(R.id.section_billing_info);
 	}
 
 	public void testInvalidTravellerInfo() throws Throwable {
-		doSearch();
-		selectHotel("error_checkout_traveller_info");
-		selectRoom();
-		checkout();
-		slideToPurchase();
-		enterCVV();
-		Common.delay(2);
-		screenshot("Hotel_Checkout_Error");
+		moveToCheckout("error_checkout_traveller_info");
 		ErrorScreen.clickOnEditTravellerInfo();
 		// Traveler Info Edit Screen
 		assertViewIsDisplayed(R.id.edit_first_name);
 	}
 
+	public void testTripAlreadyBookedError() throws Throwable {
+		moveToCheckout("error_checkout_trip_already_booked");
+		ErrorScreen.clickOnItinerary();
+		Common.delay(2);
+		// Itinerary screen
+		assertViewWithTextIsDisplayed("Your Trips");
+	}
+
 	public void testUnknownCheckoutError() throws Throwable {
+		moveToCheckout("error_checkout_unknown");
+		screenshot("Hotel_Checkout_Error");
+		ErrorScreen.clickOnRetry();
+		// Checkout Summary Screen
+		assertViewIsDisplayed(R.id.summary_container);
+	}
+
+	public void testSessionTimeoutError() throws Throwable {
+		moveToCheckout("error_checkout_session_timeout");
+		ErrorScreen.clickOnPickANewHotel();
+		// Search Screen
+		assertViewIsDisplayed(R.id.search_container);
+	}
+
+	public void testPaymentFailedError() throws Throwable {
+		moveToCheckout("error_checkout_card_limit_exceeded");
+		ErrorScreen.clickOnEditPayment();
+		// Card Details Edit Screen
+		assertViewIsDisplayed(R.id.section_billing_info);
+	}
+
+	private void moveToCheckout(String hotelName) throws Throwable {
 		doSearch();
-		selectHotel("error_checkout_unknown");
+		selectHotel(hotelName);
 		selectRoom();
 		checkout();
 		slideToPurchase();
 		enterCVV();
 		Common.delay(2);
-		screenshot("Hotel_Checkout_Error");
-		ErrorScreen.clickOnRetry();
-		// Checkout Summary Screen
-		assertViewIsDisplayed(R.id.summary_container);
 	}
 }
