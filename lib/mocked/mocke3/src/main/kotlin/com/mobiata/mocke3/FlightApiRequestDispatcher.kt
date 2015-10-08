@@ -54,20 +54,26 @@ class FlightApiMockResponseGenerator() {
         }
 
         fun getCheckoutResponseFilePath(params: MutableMap<String, String>): String {
-                val tripId = params.get("tripId") ?: throw UnsupportedOperationException("Expected tripId parameter")
-                val isRequestingAirAttachMockResponse = FlightApiRequestMatcher.doesItMatch("^air_attach_0$", tripId)
+            val tripId = params.get("tripId") ?: throw RuntimeException("tripId required")
+            val tealeafTransactionId = params.get("tealeafTransactionId") ?: throw RuntimeException("teleafTransactionId required")
 
-                if (isRequestingAirAttachMockResponse) {
-                    val c = Calendar.getInstance()
-                    c.setTime(Date())
-                    c.add(Calendar.DATE, 10)
-                    val millisFromEpoch = (c.getTimeInMillis() / 1000)
-                    val tzOffsetSeconds = (c.getTimeZone().getOffset(c.getTimeInMillis()) / 1000)
-                    params.put("airAttachEpochSeconds", "" + millisFromEpoch)
-                    params.put("airAttachTimeZoneOffsetSeconds", "" + tzOffsetSeconds)
-                }
+            if ("tealeafFlight:" + tripId != tealeafTransactionId) {
+                throw RuntimeException("tripId must match tealeafTransactionId got: $tealeafTransactionId")
+            }
 
-                return "api/flight/checkout/" + params.get("tripId") + ".json"
+            val isRequestingAirAttachMockResponse = FlightApiRequestMatcher.doesItMatch("^air_attach_0$", tripId)
+
+            if (isRequestingAirAttachMockResponse) {
+                val c = Calendar.getInstance()
+                c.setTime(Date())
+                c.add(Calendar.DATE, 10)
+                val millisFromEpoch = (c.getTimeInMillis() / 1000)
+                val tzOffsetSeconds = (c.getTimeZone().getOffset(c.getTimeInMillis()) / 1000)
+                params.put("airAttachEpochSeconds", "" + millisFromEpoch)
+                params.put("airAttachTimeZoneOffsetSeconds", "" + tzOffsetSeconds)
+            }
+
+            return "api/flight/checkout/" + params.get("tripId") + ".json"
         }
 
         fun getCreateTripResponseFilePath(params: MutableMap<String, String>): String {

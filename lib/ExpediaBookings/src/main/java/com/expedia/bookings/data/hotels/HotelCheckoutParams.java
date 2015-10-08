@@ -21,7 +21,8 @@ public class HotelCheckoutParams {
 	@NotNull public String checkOutDate;
 	@NotNull public String nameOnCard;
 	@NotNull public String cvv;
-	@NotNull public boolean suppressFinalBooking = true;
+	@NotNull public String tealeafTransactionId;
+	public boolean suppressFinalBooking = true;
 	public String expirationDateYear;
 	public String expirationDateMonth;
 	public String storedCreditCardId;
@@ -53,6 +54,7 @@ public class HotelCheckoutParams {
 		queryMap.put("expirationDateYear", expirationDateYear);
 		queryMap.put("expirationDateMonth", expirationDateMonth);
 		queryMap.put("postalCode", postalCode);
+		queryMap.put("tealeafTransactionId", tealeafTransactionId);
 
 		return queryMap;
 	}

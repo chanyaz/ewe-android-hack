@@ -41,7 +41,13 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
             HotelRequestMatcher.isCouponCall(urlPath) -> getMockResponse("api/m/trip/coupon/" + params.get("coupon.code") + ".json", params)
 
             HotelRequestMatcher.isHotelCheckoutRequest(urlPath) -> {
-                val tripId = params.get("tripId") ?: return make404()
+                val tripId = params.get("tripId") ?: throw RuntimeException("tripId required")
+                val tealeafTransactionId = params.get("tealeafTransactionId") ?: throw RuntimeException("tealeafTransactionId required")
+
+                if ("tealeafHotel:" + tripId != tealeafTransactionId) {
+                    throw RuntimeException("tripId must match tealeafTransactionId got: $tealeafTransactionId")
+                }
+
                 val isHotelCouponError = HotelRequestMatcher.doesItMatch("^hotel_coupon_errors$", tripId)
                 val fileName = if (!isHotelCouponError) tripId else "hotel_coupon_errors"
 
