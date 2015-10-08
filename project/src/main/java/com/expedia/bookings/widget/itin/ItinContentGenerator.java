@@ -427,8 +427,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						SocialUtils.email(getContext(), getResources().getString(R.string.support_request),
-							DebugInfoUtils.generateEmailBody(mContext));
+						SocialUtils
+							.email(getContext(), supportEmail, getResources().getString(R.string.support_request),
+								DebugInfoUtils.generateEmailBody(mContext));
 					}
 				});
 		}
