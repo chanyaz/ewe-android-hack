@@ -9,7 +9,6 @@ import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.ServicesUtil
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.Log
@@ -72,7 +71,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
     private fun modifySuggestionToCurrentLocation(location: Location, suggestion: SuggestionV4) : SuggestionV4 {
         val currentLocation = suggestion.copy()
         currentLocation.gaiaId = null
-        currentLocation.regionNames.shortName = context.getString(R.string.current_location)
+        currentLocation.regionNames.displayName = context.getString(R.string.current_location)
         val coordinate = SuggestionV4.LatLng()
         coordinate.lat = location.latitude
         coordinate.lng = location.longitude
@@ -126,12 +125,8 @@ public class HotelSuggestionViewModel() {
 
     init {
         suggestionObserver.subscribe { suggestion ->
-            var title = if (suggestion.regionNames.shortName == null || suggestion.regionNames.shortName.isEmpty()) {
-                Html.fromHtml(StrUtils.formatCityName(suggestion.regionNames.displayName)).toString()
-            } else {
-                suggestion.regionNames.shortName
-            }
-            titleObservable.onNext(title)
+
+            titleObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
 
             isChildObservable.onNext(suggestion.hierarchyInfo.isChild)
 

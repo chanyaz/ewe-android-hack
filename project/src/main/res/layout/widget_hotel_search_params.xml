@@ -48,6 +48,7 @@
                     style="@style/CarAutocomplete"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:hint="@string/search_location"
                     android:layout_toRightOf="@id/location_image_view"
                     android:layout_weight="1"
                     android:textColorHighlight="#12AD9F"
@@ -169,7 +170,8 @@
         android:id="@+id/drop_down_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF" />
+        android:background="#FFFFFF"
+        android:paddingBottom="25dp"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

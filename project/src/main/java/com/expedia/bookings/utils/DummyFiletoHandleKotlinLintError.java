@@ -132,6 +132,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.hotelsv2_slide_reserve,
 		R.string.hotelsv2_slide_purchase,
 		R.layout.filter_amenity_row,
-		R.dimen.hotel_gallery_description_padding
+		R.dimen.hotel_gallery_description_padding,
+		R.layout.marker_window
 	};
 }
