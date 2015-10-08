@@ -27,6 +27,7 @@ import android.widget.TableRow
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import android.graphics.Rect
+import android.view.MotionEvent
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
@@ -77,7 +78,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var initialScrollTop = 0
     var galleryScroll: GalleryScrollView.SegmentedLinearInterpolator? = null
     var galleryHeight = 0
-    var hasBeenTouched = false
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle: TextView by bindView(R.id.hotel_name_text)
@@ -152,8 +152,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
         detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
+        detailContainer.setOnTouchListener(touchListener)
         vm.galleryObservable.subscribe { galleryUrls ->
-            detailContainer.scrollTo(0, initialScrollTop)
             gallery.setDataSource(galleryUrls)
             gallery.scrollToPosition(0)
 
@@ -174,7 +174,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                     hotelGalleryIndicatorContainer.addView(galleryIndicator)
                 }
             }
-            detailContainer.postDelayed(runnable { setViewVisibilities() }, 400L)
         }
 
         vm.noAmenityObservable.subscribe {
@@ -431,6 +430,16 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
     }
 
+    val touchListener = object : View.OnTouchListener {
+        override fun onTouch(v: View?, event: MotionEvent): Boolean {
+            val action = event.action;
+            if (action == MotionEvent.ACTION_UP) {
+                detailContainer.post { toggleFullScreenGallery() }
+            }
+            return false
+        }
+    }
+
     private fun setViewVisibilities() {
         var yoffset = detailContainer.scrollY
         doCounterscroll()
@@ -553,7 +562,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN!!)
         toolbar.setNavigationIcon(navIcon)
-        toolbar.inflateMenu(R.menu.menu_hotel_details)
 
         toolbar.setNavigationOnClickListener { view ->
             if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
@@ -561,8 +569,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             } else
                 (getContext() as Activity).onBackPressed()
         }
-
-        offset = statusBarHeight.toFloat() + toolBarHeight
 
         //share hotel listing text view set up drawable
         val phoneIconDrawable = getResources().getDrawable(R.drawable.detail_phone).mutate()
@@ -593,8 +599,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                     galleryHeight = resources.getDimensionPixelSize(R.dimen.gallery_height)
                     initialScrollTop = height - (resources.getDimensionPixelSize(R.dimen.gallery_height))
 
-                    detailContainer.scrollTo(0, initialScrollTop)
-                    doCounterscroll()
+                    detailContainer.post {
+                        detailContainer.scrollTo(0, initialScrollTop)
+                    }
                 }
             })
 
@@ -623,9 +630,15 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     public fun toggleFullScreenGallery() {
-        val from = scrollY
-        val to = if (from == 0) initialScrollTop else 0
-        detailContainer.animateScrollY(from, to, 500)
+        if (!detailContainer.isFlinging) {
+            val from = detailContainer.scrollY
+            val threshold = initialScrollTop / 2
+            if (from == 0 || (from > threshold && from < initialScrollTop)) {
+                detailContainer.animateScrollY(from, initialScrollTop, 500)
+            } else if (from < threshold) {
+                detailContainer.animateScrollY(from, 0, 500)
+            }
+        }
     }
 
     public fun getArrowRotationRatio(scrollY: Int): Float {
