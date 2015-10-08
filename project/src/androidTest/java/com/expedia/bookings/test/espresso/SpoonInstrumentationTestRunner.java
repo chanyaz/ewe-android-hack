@@ -4,11 +4,9 @@ import android.app.Application;
 import android.app.KeyguardManager;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.support.test.runner.AndroidJUnitRunner;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.utils.ExpediaNetUtils;
-
-import android.support.test.runner.AndroidJUnitRunner;
 
 import static android.content.Context.KEYGUARD_SERVICE;
 import static android.content.Context.POWER_SERVICE;
@@ -21,7 +19,6 @@ public class SpoonInstrumentationTestRunner extends AndroidJUnitRunner {
 	@Override
 	public void onCreate(Bundle args) {
 		ExpediaBookingApp.setIsInstrumentation(true);
-		ExpediaNetUtils.setFake(true, true);
 		super.onCreate(args);
 	}
 

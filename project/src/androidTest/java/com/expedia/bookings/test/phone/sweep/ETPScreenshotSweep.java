@@ -23,8 +23,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class ETPScreenshotSweep extends PhoneTestCase {
 
 	public void testBookHotelNonZeroRoom() throws Throwable {
-		setLocale(getLocale());
-		setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
+		Common.setLocale(getLocale());
+		Common.setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
 
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();

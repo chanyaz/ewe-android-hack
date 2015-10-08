@@ -20,14 +20,6 @@ public class SpoonScreenshotUtils {
 		Spoon.screenshot(a, instrumentation, tag);
 	}
 
-	public static void screenshot(String tag, Instrumentation instrumentation, StackTraceElement testClass)
-		throws Throwable {
-		List<Activity> activities = getResumedActivities();
-		for (int i = 0; i < activities.size(); i++) {
-			Spoon.screenshot(activities.get(i), instrumentation, tag + "_" + i, testClass);
-		}
-	}
-
 	//Helper method to get current activity for spoon screenshot
 	public static Activity getCurrentActivity() {
 		List<Activity> activities = getResumedActivities();

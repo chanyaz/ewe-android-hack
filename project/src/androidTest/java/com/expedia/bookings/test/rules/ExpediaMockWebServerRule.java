@@ -23,8 +23,8 @@ public class ExpediaMockWebServerRule implements TestRule {
 
 				ExpediaMockWebServer mockServer = new ExpediaMockWebServer(context);
 
-				Settings.setCustomServer(instrumentation, mockServer.getHostWithPort());
-				Settings.clearPrivateData(instrumentation);
+				Settings.setCustomServer(mockServer.getHostWithPort());
+				Settings.clearPrivateData();
 
 				base.evaluate();
 
