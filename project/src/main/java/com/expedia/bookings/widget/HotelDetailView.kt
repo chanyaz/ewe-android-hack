@@ -41,6 +41,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnCheckedChange
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.util.subscribeRating
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -226,6 +227,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.pricePerNightObservable.subscribeText(price)
         vm.searchInfoObservable.subscribeText(searchInfo)
         vm.userRatingObservable.subscribeText(userRating)
+        vm.roomPriceToShowCustomer.subscribeText(price)
+        vm.onlyShowTotalPrice.subscribeInverseVisibility(perNight)
         vm.numberOfReviewsObservable.subscribe{ text ->
             numberOfReviews.text = text
             ratingContainer.visibility = View.VISIBLE

@@ -89,6 +89,10 @@ public fun Observable<Boolean>.subscribeVisibility(view: View) {
     }
 }
 
+public fun Observable<Boolean>.subscribeInverseVisibility(view: View) {
+    this.map { !it }.subscribeVisibility(view)
+}
+
 public fun Observable<Boolean>.subscribeVisibility(drawable: Drawable, inverse: Boolean) {
     this.subscribe { visible ->
         drawable.mutate().alpha = if (if (inverse) !visible else visible) 255 else 0

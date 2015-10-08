@@ -54,6 +54,10 @@ public class HotelRate {
 		}
 	}
 
+	public UserPriceType getUserPriceType() {
+		return UserPriceType.toEnum(userPriceType);
+	}
+
 	public static class NightlyRatesPerRoom {
 		public boolean promo;
 		public String baseRate;
