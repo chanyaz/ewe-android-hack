@@ -2,12 +2,11 @@ package com.expedia.bookings.test.phone.hotels;
 
 import java.util.ArrayList;
 
-import android.support.test.espresso.Espresso;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
@@ -16,8 +15,12 @@ import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.not;
 
 public class HotelCouponErrorTest extends PhoneTestCase {
 
@@ -56,10 +59,11 @@ public class HotelCouponErrorTest extends PhoneTestCase {
 		for (TestData test : tests) {
 			HotelsCheckoutScreen.couponButton().perform(click());
 			Common.delay(3);
-			onView(withId(R.id.coupon_edit_text)).perform(typeText(test.coupon));
+			onView(withId(android.R.id.button1)).check(matches(not(isEnabled())));
+			onView(withId(R.id.coupon_edit_text)).check(matches(withText(isEmptyOrNullString())));
+			onView(withId(R.id.coupon_edit_text)).perform(ViewActions.setText(test.coupon));
 			Common.delay(2);
-			Espresso.closeSoftKeyboard();
-			Common.delay(2);
+			onView(withId(android.R.id.button1)).check(matches(isEnabled()));
 			onView(withId(android.R.id.button1)).perform(click());
 			Common.delay(3);
 			EspressoUtils.assertViewWithTextIsDisplayed(android.R.id.message, test.expected);
