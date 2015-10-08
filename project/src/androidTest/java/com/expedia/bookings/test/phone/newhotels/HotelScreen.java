@@ -91,6 +91,7 @@ public class HotelScreen {
 	public static ViewInteraction amenityContainer() {
 		return onView(withId(R.id.amenities_table_row));
 	}
+
 	public static ViewInteraction commonAmenitiesText() {
 		return onView(withId(R.id.common_amenities_text));
 	}
@@ -105,7 +106,8 @@ public class HotelScreen {
 	}
 
 	public static ViewInteraction suggestionMatches(Matcher<View> matcher, int position) throws Throwable {
-		return hotelSuggestionList().check(RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(matcher)));
+		return hotelSuggestionList()
+			.check(RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(matcher)));
 	}
 
 	public static void selectDates(LocalDate start, LocalDate end) {
@@ -256,5 +258,9 @@ public class HotelScreen {
 		onView(withId(R.id.price_change_text)).perform(ViewActions.waitForViewToDisplay());
 		assertViewWithTextIsDisplayed(R.id.price_change_text, price);
 		assertViewIsDisplayed(R.id.price_change_container);
+	}
+
+	public static ViewInteraction selectRoomButton() throws Throwable {
+		return onView(withId(R.id.select_room_button));
 	}
 }
