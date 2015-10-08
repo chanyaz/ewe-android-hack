@@ -24,9 +24,10 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/review_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/date"
                 android:textColor="@color/hotel_review_title_color"
                 android:textSize="@dimen/hotel_review_title"
                 app:textStyle="medium" />
@@ -35,6 +36,7 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/hotel_review_date_color"
                 android:textSize="@dimen/hotel_review_date" />
