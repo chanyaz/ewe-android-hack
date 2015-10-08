@@ -16,12 +16,12 @@ public object SuggestionV4Utils {
         Thread(object : Runnable {
             override fun run() {
                 val suggest = suggestion.copy()
-                if (suggest.regionNames.shortName == context.getString(com.expedia.bookings.R.string.current_location)) {
-                    suggest.regionNames.shortName = suggest.regionNames.displayName
+                if (suggest.regionNames.displayName == context.getString(com.expedia.bookings.R.string.current_location)) {
+                    suggest.regionNames.displayName = suggest.regionNames.shortName
                 }
                 suggest.hierarchyInfo.isChild = false
                 val suggestions = listOf(suggest) + loadSuggestionHistory(context, file)
-                val recentSuggestions = suggestions.distinctBy { it.regionNames.shortName }
+                val recentSuggestions = suggestions.distinctBy { it.gaiaId ?: it.regionNames.displayName}
 
                 val type = object : TypeToken<List<SuggestionV4>>() { }.type
                 val suggestionJson = Gson().toJson(recentSuggestions.take(3), type)

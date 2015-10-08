@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.graphics.Bitmap
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -157,7 +158,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
 
         init {
             itemView.setOnClickListener(this)
-
+            DrawableCompat.setTint(starRating.getProgressDrawable(), itemView.resources.getColor(R.color.hotelsv2_detail_star_color))
             strikeThroughPricePerNight.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
         }
 
@@ -193,8 +194,8 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.ratingAmenityContainerVisibilityObservable.subscribeVisibility(ratingAmenityContainer)
 
             viewModel.hotelStarRatingObservable.subscribe {
-                starRating.rating = it
                 starRating.numStars = it.toInt()
+                starRating.rating = it
             }
 
             viewModel.adImpressionObservable.subscribe {

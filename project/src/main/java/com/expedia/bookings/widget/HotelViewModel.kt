@@ -32,9 +32,9 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val urgencyMessageBoxObservable = urgencyMessageObservable.filter { it != null }.map { it!!.message }
     val urgencyMessageBackgroundObservable = urgencyMessageObservable.filter { it != null }.map { it!!.background }
     val urgencyIconObservable = urgencyMessageObservable.filter { it != null }.map { it!!.icon }
-
+    
     val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
-    val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.discountPercent < 0 && hotel.lowRateInfo.airAttached)
+    val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.discountPercent < 0 && hotel.lowRateInfo.airAttached && PointOfSale.getPointOfSale().showHotelCrossSell())
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
     val topAmenityVisibilityObservable = topAmenityTitleObservable.map { (it!="")}
 

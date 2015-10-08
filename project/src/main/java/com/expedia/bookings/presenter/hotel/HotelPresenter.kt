@@ -68,8 +68,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
 
         errorPresenter.viewmodel = HotelErrorViewModel(context)
-        errorPresenter.viewmodel.searchErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK) }
-        errorPresenter.viewmodel.defaultErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK) }
+        errorPresenter.viewmodel.searchErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
+        errorPresenter.viewmodel.defaultErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
         errorPresenter.viewmodel.checkoutCardErrorObservable.subscribe {
             show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()

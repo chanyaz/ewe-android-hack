@@ -327,7 +327,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         toolbar.setNavigationIcon(navIcon)
         toolbar.setNavigationOnClickListener {
             val activity = getContext() as AppCompatActivity
-            activity.onBackPressed()
+            activity.finish()
         }
         toolbar.inflateMenu(R.menu.cars_search_menu)
 
