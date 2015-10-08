@@ -129,6 +129,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         vm.newRateObserver.onNext(trip.newHotelProductResponse)
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
+        haveAlreadyShownAcceptTermsWidget = false
     }
 
     override fun showProgress(show: Boolean) {
@@ -183,17 +184,17 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
                     }
 
                     override fun onNext(unit: Unit) {
-                        acceptTermsWidget.setVisibility(View.INVISIBLE)
+                        acceptTermsWidget.visibility = View.INVISIBLE
                         animateInSlideToPurchase(true)
                     }
                 })
                 haveAlreadyShownAcceptTermsWidget = true
-                acceptTermsWidget.setVisibility(View.VISIBLE)
+                acceptTermsWidget.visibility = View.VISIBLE
             } else {
                 animateInSlideToPurchase(true)
             }
         } else {
-            acceptTermsWidget.setVisibility(View.INVISIBLE)
+            acceptTermsWidget.visibility = View.INVISIBLE
             animateInSlideToPurchase(false)
         }
     }
