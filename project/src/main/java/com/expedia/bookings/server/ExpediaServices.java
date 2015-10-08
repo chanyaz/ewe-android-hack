@@ -1616,19 +1616,8 @@ public class ExpediaServices implements DownloadListener {
 		try {
 			mRequest = request.build();
 			response = mClient.newCall(mRequest).execute();
-			Response processedResponse = responseHandler.handleResponse(response);
-			if (!ignoreCookies && !mCancellingDownload) {
-				if (cookiesAreLoggedIn != User.isLoggedIn(mContext)) {
-					//The login state has changed, so we should redo the network request with the appropriate new cookies
-					//this prevents us from overwritting our cookies with bunk loggedin/loggedout cookie states.
-					Log.d(
-						"Login state has changed since the request began - we are going to resend the request using appropriate cookies. The request began in the logged "
-							+ (cookiesAreLoggedIn ? "IN" : "OUT") + " state."
-					);
-					return doRequest(request, responseHandler, flags);
-				}
-			}
-			return (T) processedResponse;
+			T processedResponse = responseHandler.handleResponse(response);
+			return processedResponse;
 		}
 		catch (IOException e) {
 			if (mCancellingDownload) {

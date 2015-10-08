@@ -7,7 +7,6 @@ import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.activity.RouterActivity;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.tablet.pagemodels.Settings;
 
 public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
@@ -19,28 +18,19 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 		super(cls);
 	}
 
-	static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";
-	static final String TEST_CASE_METHOD = "runMethod";
-
 	protected Resources mRes;
 	protected String mLanguage;
 	protected String mCountry;
 
 	@Override
 	public void runTest() throws Throwable {
-		Settings.clearPrivateData(getInstrumentation());
-
-		Settings.setFakeCurrentLocation(getInstrumentation(), "0", "0");
 		// Get server value from config file deployed in devices,
 		// if not defined in config defaults to MockWebServer.
 		if (TestConfiguration.exists()) {
 			TestConfiguration.Config config = new TestConfiguration().getConfiguration();
-			Settings.setServer(getInstrumentation(), config.server);
+			Settings.setServer(config.server);
 			mLanguage = config.language;
 			mCountry = config.country;
-		}
-		else {
-			Settings.setMockModeEndPoint(getInstrumentation());
 		}
 
 		mRes = getInstrumentation().getTargetContext().getResources();
@@ -51,34 +41,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 		setActivityIntent(clearingIntent);
 		getActivity();
 
-		try {
-			super.runTest();
-		}
-		catch (Throwable t) {
-			StackTraceElement testClass = findTestClassTraceElement(t);
-			if (testClass != null) {
-				String failedTestMethodName = testClass.getMethodName().replaceAll("[^A-Za-z0-9._-]", "_");
-				String tag = failedTestMethodName + "--FAILURE";
-
-				//takes a screenshot on test failure
-				SpoonScreenshotUtils.screenshot(tag, getInstrumentation(), testClass);
-			}
-			throw t;
-		}
-	}
-
-	// Returns the test class element by looking at the method InstrumentationTestCase invokes.
-	static StackTraceElement findTestClassTraceElement(Throwable throwable) {
-		StackTraceElement[] trace = throwable.getStackTrace();
-		for (int i = trace.length - 1; i >= 0; i--) {
-			StackTraceElement element = trace[i];
-			if (TEST_CASE_CLASS.equals(element.getClassName()) //
-				&& TEST_CASE_METHOD.equals(element.getMethodName())) {
-				return trace[i - 3];
-			}
-		}
-
-		return null;
+		super.runTest();
 	}
 
 	public void screenshot(String tag) throws Throwable {
@@ -91,14 +54,6 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			// ignore
 		}
 		SpoonScreenshotUtils.screenshot(cleanTag, getInstrumentation());
-	}
-
-	public void setLocale(Locale loc) throws Throwable {
-		Common.setLocale(loc);
-	}
-
-	public void setPOS(PointOfSaleId pos) {
-		Common.setPOS(pos);
 	}
 
 	public Locale getLocale() {

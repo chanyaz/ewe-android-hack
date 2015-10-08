@@ -36,8 +36,8 @@ import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutSc
 public class PhoneSweep extends PhoneTestCase {
 
 	public void testBookFlight() throws Throwable {
-		setLocale(getLocale());
-		setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
+		Common.setLocale(getLocale());
+		Common.setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
 
 		screenshot("Launch");
 		LaunchScreen.launchFlights();
@@ -142,8 +142,8 @@ public class PhoneSweep extends PhoneTestCase {
 	}
 
 	public void testBookHotel() throws Throwable {
-		setLocale(getLocale());
-		setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
+		Common.setLocale(getLocale());
+		Common.setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
 
 		screenshot("Launch");
 		LaunchScreen.launchHotels();

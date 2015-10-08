@@ -22,7 +22,7 @@ public class LaunchScreenUIElementsTest extends PhoneTestCase {
 
 	@Override
 	public void runTest() throws Throwable {
-		setPOS(PointOfSaleId.UNITED_STATES);
+		Common.setPOS(PointOfSaleId.UNITED_STATES);
 		String testMethodName = getClass().getMethod(getName(), (Class[]) null).toString();
 		if (testMethodName.contains("testLaunchButtonsForGroundTransport")) {
 			AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppSplitGTandActivities,
@@ -98,7 +98,7 @@ public class LaunchScreenUIElementsTest extends PhoneTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		setPOS(PointOfSaleId.UNITED_STATES);
+		Common.setPOS(PointOfSaleId.UNITED_STATES);
 		super.tearDown();
 	}
 

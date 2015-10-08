@@ -22,8 +22,8 @@ import static android.support.test.espresso.action.ViewActions.clearText;
 public class TabletScreenshotSweep extends TabletTestCase {
 
 	public void testBookHotel() throws Throwable {
-		setLocale(getLocale());
-		setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
+		Common.setLocale(getLocale());
+		Common.setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
 
 		screenshot("Launch");
 		Launch.clickSearchButton();
@@ -103,8 +103,8 @@ public class TabletScreenshotSweep extends TabletTestCase {
 	}
 
 	public void testBookFlight() throws Throwable {
-		setLocale(getLocale());
-		setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
+		Common.setLocale(getLocale());
+		Common.setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
 
 		screenshot("Launch");
 		Launch.clickSearchButton();

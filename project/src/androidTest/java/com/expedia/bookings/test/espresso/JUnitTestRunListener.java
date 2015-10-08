@@ -5,25 +5,27 @@ import java.util.Locale;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunListener;
 
-import android.app.Instrumentation;
-import android.support.test.InstrumentationRegistry;
-
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.tablet.pagemodels.Settings;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.mobiata.android.Log;
 
 public class JUnitTestRunListener extends RunListener {
+	@Override
+	public void testStarted(Description description) throws Exception {
+		Log.d("RunListener", "testStarted: " + description);
 
-	public void testRunStarted(Description description) throws Exception {
-		Log.d("testRunStarted:" + description.testCount());
-
-		Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+		ExpediaNetUtils.setFake(true, true);
 
 		//clear private data
-		Settings.clearPrivateData(instrumentation);
+		Settings.clearPrivateData();
+
+		Settings.setFakeCurrentLocation("0", "0");
 
 		//set US locale and POS
 		Common.setLocale(new Locale("en", "US"));
 		Common.setPOS(PointOfSaleId.UNITED_STATES);
+
+		Settings.setMockModeEndPoint();
 	}
 }

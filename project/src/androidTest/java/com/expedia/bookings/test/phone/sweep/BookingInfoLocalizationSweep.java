@@ -50,37 +50,37 @@ public class BookingInfoLocalizationSweep extends PhoneTestCase {
 	}
 
 	public void testBookingInfoUSPOS() throws Throwable {
-		setPOS(PointOfSaleId.UNITED_STATES);
+		Common.setPOS(PointOfSaleId.UNITED_STATES);
 		goToCheckout("+1", "United States");
 	}
 
 	public void testBookingInfoUKPOS() throws Throwable {
-		setPOS(PointOfSaleId.UNITED_KINGDOM);
+		Common.setPOS(PointOfSaleId.UNITED_KINGDOM);
 		goToCheckout("+44", "United Kingdom");
 	}
 
 	public void testBookingInfoFrancePOS() throws Throwable {
-		setPOS(PointOfSaleId.FRANCE);
+		Common.setPOS(PointOfSaleId.FRANCE);
 		goToCheckout("+33", "France");
 	}
 
 	public void testBookingInfoGermanyPOS() throws Throwable {
-		setPOS(PointOfSaleId.GERMANY);
+		Common.setPOS(PointOfSaleId.GERMANY);
 		goToCheckout("+49", "Germany");
 	}
 
 	public void testBookingInfoBrazilPOS() throws Throwable {
-		setPOS(PointOfSaleId.BRAZIL);
+		Common.setPOS(PointOfSaleId.BRAZIL);
 		goToCheckout("+55", "Brazil");
 	}
 
 	public void testBookingInfoAustraliaPOS() throws Throwable {
-		setPOS(PointOfSaleId.AUSTRALIA);
+		Common.setPOS(PointOfSaleId.AUSTRALIA);
 		goToCheckout("+61", "Australia");
 	}
 
 	public void testBookingInfoCanadaPOS() throws Throwable {
-		setPOS(PointOfSaleId.CANADA);
+		Common.setPOS(PointOfSaleId.CANADA);
 		goToCheckout("+1", "Canada");
 	}
 }
