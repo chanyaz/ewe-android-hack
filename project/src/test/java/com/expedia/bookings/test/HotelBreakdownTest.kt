@@ -2,39 +2,28 @@ package com.expedia.bookings.test
 
 import android.content.Context
 import android.content.res.Resources
-import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
-import com.expedia.bookings.services.HotelServices
 import com.expedia.vm.Breakdown
 import com.expedia.vm.HotelBreakDownViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
-import com.mobiata.mocke3.ExpediaDispatcher
-import com.mobiata.mocke3.FileSystemOpener
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Matchers
 import org.mockito.Mockito
-import retrofit.RequestInterceptor
-import retrofit.RestAdapter
 import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
-import rx.subjects.BehaviorSubject
-import java.io.File
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertTrue
 
 public class HotelBreakdownTest {
-    public var server: MockWebServer = MockWebServer()
+    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
-    private var service: HotelServices by Delegates.notNull()
     private var vm: HotelBreakDownViewModel by Delegates.notNull()
     private var hotelCheckoutSummaryViewModel: HotelCheckoutSummaryViewModel by Delegates.notNull()
+    private var createTripResponse: HotelCreateTripResponse by Delegates.notNull()
 
     @Before
     fun before() {
@@ -43,27 +32,13 @@ public class HotelBreakdownTest {
         Mockito.`when`(context.resources).thenReturn(resources)
         Mockito.`when`(resources.getQuantityString(Matchers.anyInt(), Matchers.anyInt(), Matchers.anyInt())).thenReturn("")
         Mockito.`when`(context.getString(Matchers.anyInt())).thenReturn("")
-        val emptyInterceptor = object : RequestInterceptor {
-            override fun intercept(request: RequestInterceptor.RequestFacade) {
-                // ignore
-            }
-        }
-        service = HotelServices("http://localhost:" + server.port, OkHttpClient(), emptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
         hotelCheckoutSummaryViewModel = HotelCheckoutSummaryViewModel(context)
         vm = HotelBreakDownViewModel(context, hotelCheckoutSummaryViewModel)
     }
 
     @Test
     fun verifyBreakdown() {
-        val root = File("../lib/mocked/templates").canonicalPath
-        val opener = FileSystemOpener(root)
-        server.setDispatcher(ExpediaDispatcher(opener))
-        val observer = TestSubscriber<HotelCreateTripResponse>()
-        service.createTrip(HotelCreateTripParams("happypath_0", false, 1, emptyList()), observer)
-        observer.awaitTerminalEvent()
-        observer.assertCompleted()
-
-        val createTripResponse = observer.onNextEvents.get(0)
+        givenHappyCreateTripResponse()
 
         val latch = CountDownLatch(1)
         vm.addRows.subscribe { latch.countDown() }
@@ -79,5 +54,9 @@ public class HotelBreakdownTest {
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testSubscriber.assertReceivedOnNext(expected)
         testSubscriber.unsubscribe()
+    }
+
+    private fun givenHappyCreateTripResponse() {
+        createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
     }
 }

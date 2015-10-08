@@ -174,7 +174,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     val taxStatusType = BehaviorSubject.create<String>()
     val extraGuestFees = BehaviorSubject.create<Money>()
     val isBestPriceGuarantee = BehaviorSubject.create<Boolean>(false)
-    val discounts = BehaviorSubject.create<Float?>()
     val priceChange = BehaviorSubject.create<String>()
     val isPriceChange = BehaviorSubject.create<Boolean>(false)
     val isResortCase = BehaviorSubject.create<Boolean>(false)
@@ -197,8 +196,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             checkInOutDatesFormatted.onNext(DateFormatUtils.formatHotelsV2DateRange(context, it.checkInDate, it.checkOutDate))
             address.onNext(it.hotelAddress)
             city.onNext(context.resources.getString(R.string.single_line_street_address_TEMPLATE, it.hotelCity, it.hotelStateProvince))
-            val discountPercent = room.rateInfo.chargeableRateInfo.discountPercent
-            discounts.onNext(if (discountPercent > 1) discountPercent else null)
             roomDescriptions.onNext(room.roomTypeDescription)
             numNights.onNext(context.resources.getQuantityString(R.plurals.number_of_nights, it.numberOfNights.toInt(), it.numberOfNights.toInt()))
             bedDescriptions.onNext(room.formattedBedNames)
