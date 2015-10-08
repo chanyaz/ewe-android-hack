@@ -90,6 +90,10 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         }
 
+        errorPresenter.viewmodel.productKeyExpiryObservable.subscribe {
+            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+        }
+
         resultsPresenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices)
         resultsPresenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
 
@@ -112,6 +116,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         checkoutPresenter.hotelCheckoutViewModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         checkoutPresenter.hotelCheckoutViewModel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
 
+        checkoutPresenter.hotelCheckoutWidget.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
+        checkoutPresenter.hotelCheckoutWidget.viewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
 
         checkoutPresenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(checkoutPresenter.hotelCheckoutWidget.createTripResponseListener)
         checkoutPresenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(endlessObserver { createTripResponse ->
