@@ -138,6 +138,10 @@ public class HotelMapViewModel(val currentLocation: Location) {
     val selectMarker = PublishSubject.create<Pair<Marker?, Hotel>>()
 
     init {
+        hotelsObservable.subscribe {
+            previousMarker = null
+        }
+
         hotelResultsSubject.subscribe { response ->
             hotels = response.hotelList
             if (response.hotelList != null && response.hotelList.size() > 0) {
