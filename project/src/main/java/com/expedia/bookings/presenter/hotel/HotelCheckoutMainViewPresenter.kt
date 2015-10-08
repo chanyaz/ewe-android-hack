@@ -51,6 +51,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         vm.slideToText.subscribe { slideWidget.setText(it) }
         vm.legalTextInformation.subscribe { legalInformationText.text = it }
         vm.totalPriceCharged.subscribeText(sliderTotalText)
+        vm.resetMenuButton.subscribe { resetMenuButton() }
     }
     var haveAlreadyShownAcceptTermsWidget = false
 

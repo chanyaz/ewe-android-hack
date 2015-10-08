@@ -131,6 +131,7 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
     val legalTextInformation = BehaviorSubject.create<SpannableStringBuilder>()
     val slideToText = BehaviorSubject.create<String>()
     val totalPriceCharged = BehaviorSubject.create<String>()
+    val resetMenuButton = BehaviorSubject.create<Unit>()
 
     init {
         newRateObserver.subscribe {
@@ -143,6 +144,7 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
             }
             legalTextInformation.onNext(StrUtils.generateHotelsClickableBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString()))
             totalPriceCharged.onNext(context.getString(R.string.your_card_will_be_charged_TEMPLATE, getDueNowAmount(it)))
+            resetMenuButton.onNext(Unit)
         }
     }
 }

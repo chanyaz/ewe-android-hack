@@ -93,6 +93,10 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 		}
 	}
 
+	public boolean isExpanded() {
+		return isExpanded;
+	}
+
 	// Is the user focus on the last edittext?
 	public abstract boolean getMenuDoneButtonFocus();
 

@@ -310,6 +310,9 @@ public class PaymentWidget extends ExpandableCardView {
 				cardInfoContainer.setVisibility(GONE);
 				paymentOptionsContainer.setVisibility(VISIBLE);
 				billingInfoContainer.setVisibility(GONE);
+				if (mToolbarListener != null) {
+					mToolbarListener.showRightActionButton(false);
+				}
 			}
 			else {
 				showCreditCardDetails();
@@ -329,9 +332,9 @@ public class PaymentWidget extends ExpandableCardView {
 			bind();
 			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 			paymentButton.dismissPopup();
-		}
-		if (expand && mToolbarListener != null) {
-			mToolbarListener.setActionBarTitle(getActionBarTitle());
+			if (mToolbarListener != null) {
+				mToolbarListener.setActionBarTitle(getActionBarTitle());
+			}
 		}
 	}
 
