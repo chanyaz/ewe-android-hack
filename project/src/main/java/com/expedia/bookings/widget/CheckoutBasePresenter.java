@@ -467,7 +467,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		mainContactInfoCardView.onLogin();
 		paymentInfoCardView.onLogin();
 		hintContainer.setVisibility(GONE);
-		OmnitureTracking.trackCheckoutLoginSuccess(getLineOfBusiness());
 		showCheckout();
 	}
 

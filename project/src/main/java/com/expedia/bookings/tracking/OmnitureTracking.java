@@ -1290,7 +1290,6 @@ public class OmnitureTracking {
 	public static final String LX_INFO = "LX_INFO";
 	public static final String LX_TICKET = "App.LX.Ticket.";
 	private static final String LX_CHECKOUT_TRAVELER_INFO = "App.LX.Checkout.Traveler.Edit.Info";
-	private static final String LX_CHECKOUT_LOGIN_SUCCESS = "App.LX.Checkout.Login.Success";
 	private static final String LX_CHECKOUT_PAYMENT_INFO = "App.LX.Checkout.Payment.Edit.Info";
 	private static final String LX_CHECKOUT_SLIDE_TO_PURCHASE = "App.LX.Checkout.SlideToPurchase";
 	private static final String LX_CHECKOUT_CVV_SCREEN = "App.LX.Checkout.Payment.CID";
@@ -1421,18 +1420,6 @@ public class OmnitureTracking {
 		s.setAppState(LX_CHECKOUT_TRAVELER_INFO);
 		s.track();
 
-	}
-
-	public static void trackAppLXCheckoutLoginSuccess() {
-		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_LOGIN_SUCCESS + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-
-
-		s.setEvar(28, LX_CHECKOUT_LOGIN_SUCCESS);
-		s.setProp(16, LX_CHECKOUT_LOGIN_SUCCESS);
-		s.setEvents("event26");
-
-		s.trackLink(null, "o", "User Login", null, null);
 	}
 
 	public static void trackAppLXCheckoutPayment() {
@@ -3339,7 +3326,6 @@ public class OmnitureTracking {
 	private static final String CAR_VIEW_DETAILS = "App.Cars.RD.ViewDetails";
 	private static final String CAR_VIEW_MAP = "App.Cars.RD.ViewMap";
 	private static final String CAR_CHECKOUT_PAGE = "App.Cars.Checkout.Info";
-	private static final String CAR_CHECKOUT_LOGIN_SUCCESS = "App.Cars.Checkout.Login.Success";
 	private static final String CAR_CHECKOUT_TRAVELER_INFO = "App.Cars.Checkout.Traveler.Edit.Info";
 	private static final String CAR_CHECKOUT_PAYMENT_INFO = "App.Cars.Checkout.Payment.Edit.Info";
 	private static final String CAR_CHECKOUT_SLIDE_TO_PURCHASE = "App.Cars.Checkout.SlideToPurchase";
@@ -3441,19 +3427,6 @@ public class OmnitureTracking {
 		s.setCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency());
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppCarInsuranceIncludedCKO);
 		s.track();
-	}
-
-	public static void trackAppCarCheckoutLoginSuccess() {
-		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_LOGIN_SUCCESS + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-
-
-		s.setEvar(28, CAR_CHECKOUT_LOGIN_SUCCESS);
-		s.setProp(16, CAR_CHECKOUT_LOGIN_SUCCESS);
-		s.setEvents("event26");
-
-		s.trackLink(null, "o", "User Login", null, null);
-
 	}
 
 	public static void trackAppCarCheckoutTraveler() {
@@ -3575,15 +3548,6 @@ public class OmnitureTracking {
 		}
 		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
 			trackAppLXCheckoutSlideToPurchase(context, creditCardType);
-		}
-	}
-
-	public static void trackCheckoutLoginSuccess(LineOfBusiness lineOfBusiness) {
-		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
-			trackAppCarCheckoutLoginSuccess();
-		}
-		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
-			trackAppLXCheckoutLoginSuccess();
 		}
 	}
 
