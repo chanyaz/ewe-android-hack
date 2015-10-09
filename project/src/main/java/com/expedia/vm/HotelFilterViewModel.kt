@@ -85,7 +85,8 @@ class HotelFilterViewModel(val context: Context) {
             processFilters(hotel)
         }
 
-        updateDynamicFeedbackWidget.onNext(filteredResponse.hotelList.size())
+        val dynamicFeedbackWidgetCount = if (filteredResponse.hotelList.size() != originalResponse?.hotelList?.size()) filteredResponse.hotelList.size() else -1
+        updateDynamicFeedbackWidget.onNext(dynamicFeedbackWidgetCount)
         doneButtonEnableObservable.onNext(filteredResponse.hotelList.size() > 0)
         filterCountObservable.onNext(getFilterCount())
         didFilter = true
