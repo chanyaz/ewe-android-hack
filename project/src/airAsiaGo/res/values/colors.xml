@@ -25,4 +25,11 @@
     <color name="tablet_search_result_error_button">#004E93</color>
     <color name="tablet_results_search_done">#608405</color>
     <color name="tablet_results_calendar_dates">#E31F0E</color>
+    <color name="aag_launch_lob_bg">#E31E0D</color>
+    <color name="launch_actionbar_bg_color">#2B2D32</color>
+
+    <color name="hotel_lob_btn">@color/aag_launch_lob_bg</color>
+    <color name="lx_lob_btn">@color/aag_launch_lob_bg</color>
+    <color name="flights_lob_btn">@color/aag_launch_lob_bg</color>
+
 </resources>

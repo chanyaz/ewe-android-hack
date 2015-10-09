@@ -147,7 +147,7 @@
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_wotif</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_wotif</item>
         <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
-        <item name="skin_launchActionBarBackgroundColor">@color/cars_launch_actionbar_color</item>
+        <item name="skin_launchActionBarBackgroundColor">@color/launch_actionbar_bg_color</item>
 
     </style>
 
