@@ -28,7 +28,6 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
-import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
@@ -47,7 +46,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Tile;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.maps.model.TileProvider;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -69,7 +67,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		int mapType = GoogleMap.MAP_TYPE_SATELLITE;
 
-		if (ExpediaBookingApp.sIsAutomation) {
+		if (ExpediaBookingApp.isAutomation()) {
 			mapType = GoogleMap.MAP_TYPE_NONE;
 		}
 
@@ -313,8 +311,10 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		@Override
 		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-			super.onBitmapLoaded(bitmap, from);
-			inflatePinAndAddMarker(mLaunchLocation, bitmap);
+			if (getActivity() != null) {
+				super.onBitmapLoaded(bitmap, from);
+				inflatePinAndAddMarker(mLaunchLocation, bitmap);
+			}
 		}
 
 		@Override
@@ -324,8 +324,10 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 
 		@Override
 		public void onPrepareLoad(Drawable placeHolderDrawable) {
-			super.onPrepareLoad(placeHolderDrawable);
-			inflatePinAndAddMarker(mLaunchLocation, ((BitmapDrawable)placeHolderDrawable).getBitmap());
+			if (getActivity() != null) {
+				super.onPrepareLoad(placeHolderDrawable);
+				inflatePinAndAddMarker(mLaunchLocation, ((BitmapDrawable) placeHolderDrawable).getBitmap());
+			}
 		}
 	}
 
@@ -358,7 +360,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 		final Marker marker = getMap().addMarker(options);
 
 		// Add animation effects, if the markers are not already transitioning.
-		if (AndroidUtils.getSdkVersion() > 15 && mMarkerAlpha == 1f) {
+		if (mMarkerAlpha == 1f) {
 			ObjectAnimator anim = ObjectAnimator.ofFloat(marker, "alpha", 1f);
 
 			anim.addListener(new AnimatorListenerAdapter() {
@@ -396,7 +398,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 			for (LaunchLocation location : mLocations.keySet()) {
 				if (TextUtils.equals(mLocations.get(location).getTitle(), marker.getTitle())) {
 					mClickedLocation = location.id;
-					OmnitureTracking.trackLaunchCitySelect(getActivity(), mClickedLocation);
+					OmnitureTracking.trackLaunchCitySelect(mClickedLocation);
 					Events.post(new Events.LaunchMapPinClicked(location));
 					return true;
 				}

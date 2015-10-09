@@ -15,6 +15,7 @@ import com.expedia.bookings.data.lx.Offer;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.subjects.PublishSubject;
 
 public class LXOffersListWidget extends android.widget.LinearLayout {
 	public LXOffersListWidget(Context context, AttributeSet attrs) {
@@ -30,6 +31,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 	@InjectView(R.id.show_more_widget)
 	ShowMoreWithCountWidget showMoreWithCountWidget;
 
+	private PublishSubject<Offer> lxOfferSubject = PublishSubject.create();
 	private LXOffersListAdapter adapter = new LXOffersListAdapter();
 	private List<Offer> availableOffers;
 
@@ -51,7 +53,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 			}
 		}
 
-		adapter.setOffers(availableOffers);
+		adapter.setOffers(availableOffers, lxOfferSubject);
 
 		offerContainer.removeAllViews();
 
@@ -67,14 +69,21 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 			showMoreContainer.setVisibility(VISIBLE);
 			showMoreWithCountWidget.setCount(String.valueOf(availableOffers.size() - offersListInitialMaxCount));
 		}
+		else {
+			showMoreContainer.setVisibility(GONE);
+		}
 	}
 
-	@OnClick((R.id.show_more_widget))
+	@OnClick((R.id.offer_show_more_container))
 	public void onShowMoreClicked() {
 		for (int position = offersListInitialMaxCount; position < availableOffers.size(); position++) {
 			View offerRow = adapter.getView(position, null, this);
 			offerContainer.addView(offerRow);
 		}
 		showMoreContainer.setVisibility(GONE);
+	}
+
+	public PublishSubject<Offer> getOfferPublishSubject() {
+		return lxOfferSubject;
 	}
 }

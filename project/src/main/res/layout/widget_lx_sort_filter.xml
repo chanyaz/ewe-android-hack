@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_sort_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize">
+
+        </android.support.v7.widget.Toolbar>
+
+        <View
+            android:id="@+id/toolbar_dropshadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_dropshadow_height"
+            android:background="@drawable/tb_shadow" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scroll_filter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/lx_sort_filter_padding"
+                android:paddingTop="@dimen/lx_sort_filter_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:paddingLeft="@dimen/lx_sort_filter_padding"
+                    android:paddingRight="@dimen/lx_sort_filter_padding"
+                    android:text="@string/lx_sort_by"
+                    android:textColor="?attr/skin_lxPrimaryColor" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/lx_sort_filter_margin"
+                    android:layout_marginRight="@dimen/lx_sort_filter_margin"
+                    android:layout_marginTop="10dp"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/price_sort_button"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:background="?attr/skin_lxSortButtonSelectorDrawable"
+                            android:text="@string/lx_price_sort_button"
+                            android:textAllCaps="false"
+                            android:textColor="?attr/skin_lxSortButtonTextSelectorDrawable" />
+
+                        <Button
+                            android:id="@+id/popularity_sort_button"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:background="?attr/skin_lxSortButtonSelectorDrawable"
+                            android:text="@string/lx_popularity_sort_button"
+                            android:textAllCaps="false"
+                            android:textColor="?attr/skin_lxSortButtonTextSelectorDrawable" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:paddingLeft="@dimen/lx_sort_filter_padding"
+                    android:paddingRight="@dimen/lx_sort_filter_padding"
+                    android:text="@string/lx_categories"
+                    android:textColor="?attr/skin_lxPrimaryColor" />
+
+                <LinearLayout
+                    android:id="@+id/filter_categories"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <com.expedia.bookings.widget.DynamicFeedbackWidget
+            android:id="@+id/dynamic_feedback_container"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_gravity="bottom"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:visibility="gone"
+            app:cardCornerRadius="18dp"
+            app:cardPreventCornerOverlap="false" />
+    </FrameLayout>
+</merge>

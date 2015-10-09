@@ -21,7 +21,7 @@ public class CarSearchParamsBuilderTests {
 		CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder = new CarSearchParamsBuilder.DateTimeBuilder();
 
 		// Test nulls
-		params = spBuilder.build();
+		params = spBuilder.origin("SFO").build();
 		Assert.assertEquals(null, params.startDateTime);
 		Assert.assertEquals(null, params.endDateTime);
 
@@ -37,7 +37,7 @@ public class CarSearchParamsBuilderTests {
 		spBuilder = new CarSearchParamsBuilder()
 			.dateTimeBuilder(dateTimeBuilder);
 
-		params = spBuilder.build();
+		params = spBuilder.origin("SFO").build();
 		Assert.assertEquals(now, params.startDateTime);
 		Assert.assertEquals(now.plusDays(1), params.endDateTime);
 	}
@@ -57,7 +57,7 @@ public class CarSearchParamsBuilderTests {
 		int millis = 30 * 60 * 1000;
 		dateTimeBuilder.startDate(today).startMillis(millis);
 		builder.dateTimeBuilder(dateTimeBuilder);
-		params = builder.build();
+		params = builder.origin("SFO").build();
 		Assert.assertEquals(now.plusMillis(millis), params.startDateTime);
 
 		//Test end time with millis set

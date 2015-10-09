@@ -7,5 +7,14 @@ public enum RateTerm {
 	WEEKLY,
 	WEEKEND,
 	MONTHLY,
-	TOTAL,
+	TOTAL;
+
+	public static RateTerm toEnum(String value) {
+		for (RateTerm rateTerm : values()) {
+			if (rateTerm.name().equals(value)) {
+				return rateTerm;
+			}
+		}
+		return RateTerm.UNKNOWN;
+	}
 }

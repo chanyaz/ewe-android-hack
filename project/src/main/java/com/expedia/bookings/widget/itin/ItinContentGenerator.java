@@ -22,12 +22,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
@@ -44,6 +46,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFallback;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
+import com.expedia.bookings.data.trips.ItinCardDataLXAttach;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -56,9 +59,9 @@ import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.TravelerIconUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.LinearLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.squareup.phrase.Phrase;
 
 public abstract class ItinContentGenerator<T extends ItinCardData> {
 
@@ -117,7 +120,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		else if (itinCardData != null && itinCardData.getTripComponentType() == Type.CRUISE) {
 			return new CruiseItinContentGenerator(context, itinCardData);
 		}
-
+		else if (itinCardData instanceof ItinCardDataLXAttach) {
+			return new LXAttachItinContentGenerator(context, (ItinCardDataLXAttach) itinCardData);
+		}
 		return null;
 	}
 
@@ -367,9 +372,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		if (hasItinNumber() && !isSharedItin()) {
 			String itineraryNumber = this.getItinCardData().getTripComponent().getParentTrip().getTripNumber();
 
-			int itineraryLabelResId = (Ui.obtainThemeResID(mContext, R.attr.skin_itineraryNumberString));
+			String itineraryLabel = Phrase.from(mContext, R.string.itinerary_TEMPLATE).put("brand",
+				BuildConfig.brand).format().toString();
 
-			View view = getClickToCopyItinDetailItem(itineraryLabelResId, itineraryNumber, false);
+			View view = getClickToCopyItinDetailItem(itineraryLabel, itineraryNumber, false);
 			if (view != null) {
 				Log.d("ITIN: addItineraryNumber to container");
 				container.addView(view);
@@ -462,7 +468,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				ClipboardUtils.setText(getContext(), text);
 				Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
 				if (isConfNumber && getItinCardData().getTripComponent().getType() == Type.FLIGHT) {
-					OmnitureTracking.trackItinFlightCopyPNR(getContext());
+					OmnitureTracking.trackItinFlightCopyPNR();
 				}
 			}
 		});
@@ -513,7 +519,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 						builder.setAttemptForceMobileSite(true);
 						getContext().startActivity(builder.getIntent());
 
-						OmnitureTracking.trackItinInfoClicked(getContext(), getItinCardData().getTripComponent()
+						OmnitureTracking.trackItinInfoClicked(getItinCardData().getTripComponent()
 							.getType());
 					}
 
@@ -539,7 +545,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 						reloadImageView.setVisibility(View.INVISIBLE);
 					}
 
-					OmnitureTracking.trackItinReload(getContext(), getType());
+					OmnitureTracking.trackItinReload(getType());
 				}
 			});
 
@@ -579,8 +585,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				TextView insuranceName = Ui.findView(insuranceRow, R.id.insurance_name);
 				insuranceName.setText(Html.fromHtml(insurance.getPolicyName()).toString());
 
-				View insuranceLinkView = Ui.findView(insuranceRow, R.id.insurance_button);
-				insuranceLinkView.setOnClickListener(ProductFlavorFeatureConfiguration.getInstance().getInsuranceLinkViewClickListener(mContext, insurance.getTermsUrl()));
+				insuranceRow.setOnClickListener(ProductFlavorFeatureConfiguration.getInstance().getInsuranceLinkViewClickListener(mContext, insurance.getTermsUrl()));
 
 				insuranceContainer.addView(insuranceRow);
 				viewAddedCount++;
@@ -761,7 +766,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		// TODO: consider changing to something like "in less than 1 minute"
 		if (hours == 0 && minutes == 0) {
 			Resources res = context.getResources();
-			int resId = past ? R.plurals.num_minutes_ago : R.plurals.in_num_minutes;
+			int resId = past ? R.plurals.joda_time_android_num_minutes_ago : R.plurals.joda_time_android_in_num_minutes;
 			return res.getQuantityString(resId, 1, 1);
 		}
 

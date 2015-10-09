@@ -140,7 +140,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 		new PicassoHelper.Builder(getActivity()).setPlaceholder(placeholderResId).setTarget(
-			drawable.getCallBack()).build().load(url);
+			drawable.getCallBack()).disableFallback().build().load(url);
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -12,13 +11,17 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.subjects.PublishSubject;
 
 public class CarCategoryDetailsWidget extends FrameLayout {
 
@@ -39,6 +42,7 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	private static final int LIST_DIVIDER_HEIGHT = 0;
 	private float headerHeight;
 	private float offset;
+	private PublishSubject<SearchCarOffer> searchCarOfferPublishSubject = PublishSubject.create();
 
 	@Override
 	public void onFinishInflate() {
@@ -49,21 +53,17 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		layoutManager.scrollToPosition(0);
 
-		TypedValue typedValue = new TypedValue();
-		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
-		TypedArray a = getContext().obtainStyledAttributes(typedValue.data, textSizeAttr);
-		float toolbarSize = a.getDimension(0, 44f);
-		offset = toolbarSize + Ui.getStatusBarHeight(getContext());
+		int toolbarSize = Ui.getToolbarSize(getContext());
+		offset = Ui.toolbarSizeWithStatusBar(getContext());
 		headerHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 240, getContext().getResources().getDisplayMetrics());
 
 		offerList.setLayoutManager(layoutManager);
 		offerList.addItemDecoration(
-			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, (int) headerHeight, (int) toolbarSize, true));
+			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, (int) headerHeight, toolbarSize, true));
 		offerList.setHasFixedSize(true);
 
-		adapter = new CarOffersAdapter(getContext());
+		adapter = new CarOffersAdapter(getContext(), searchCarOfferPublishSubject);
 		offerList.setAdapter(adapter);
-
 	}
 
 	@Override
@@ -79,8 +79,30 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	}
 
 	@Subscribe
+	public void onCarsIsFiltered(Events.CarsIsFiltered event) {
+		if (event.filteredCarOffers != null) {
+			adapter.setCarOffers(event.filteredCarOffers.offers);
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	@Subscribe
 	public void onCarsShowDetails(Events.CarsShowDetails event) {
 		CategorizedCarOffers bucket = event.categorizedCarOffers;
+		handleCarsShowDetails(bucket);
+	}
+
+	@Subscribe
+	public void onCarsShowProductKeyDetails(Events.CarsShowProductKeyDetails event) {
+		if (CollectionUtils.isNotEmpty(event.productKeyCarSearch.categories)) {
+			CategorizedCarOffers bucket = event.productKeyCarSearch.categories.get(0);
+			handleCarsShowDetails(bucket);
+		}
+	}
+
+	private void handleCarsShowDetails(CategorizedCarOffers bucket) {
+		offerList.setVisibility(View.VISIBLE);
+		backgroundHeader.setVisibility(View.VISIBLE);
 
 		adapter.setCarOffers(bucket.offers);
 		adapter.notifyDataSetChanged();
@@ -91,14 +113,16 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 			.fade()
 			.build()
 			.load(url);
+
+		OmnitureTracking.trackAppCarRateDetails(bucket.offers.get(0));
 	}
 
- 	public float parallaxScrollHeader() {
+	public float parallaxScrollHeader() {
 		View view = offerList.getChildAt(0);
 		int top = view.getTop();
 		float y = headerHeight - top;
 		backgroundHeader.setTranslationY(Math.min(-y * 0.5f, 0f));
-		return y  / (headerHeight - offset);
+		return y / (headerHeight - offset);
 	}
 
 	public void reset() {
@@ -106,4 +130,7 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 		backgroundHeader.setTranslationY(0);
 	}
 
+	public PublishSubject<SearchCarOffer> getSearchCarOfferPublishSubject() {
+		return searchCarOfferPublishSubject;
+	}
 }

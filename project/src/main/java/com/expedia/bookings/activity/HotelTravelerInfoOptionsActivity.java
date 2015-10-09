@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -10,15 +11,17 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoMode;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.fragment.HotelTravelerInfoOneFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
+import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
-import com.expedia.bookings.model.WorkingTravelerManager;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
@@ -28,6 +31,7 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
 	public static final String ONE_FRAGMENT_TAG = "ONE_FRAGMENT_TAG";
+	private static final int SELECT_CREDIT_CARD = 1;
 
 	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
 	public static final String STATE_TAG_DEST = "STATE_TAG_DEST";
@@ -38,6 +42,7 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 	private HotelTravelerInfoOneFragment mOneFragment;
 
 	private MenuItem mMenuDone;
+	private MenuItem mMenuNext;
 
 	private YoYoMode mMode = YoYoMode.NONE;
 	private YoYoPosition mPos = YoYoPosition.OPTIONS;
@@ -47,6 +52,7 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 	//for determining if the name changed...
 	private String mStartFirstName = "";
 	private String mStartLastName = "";
+	private BillingInfo mBillingInfo;
 
 	//Where we want to return to after our action
 	public enum YoYoPosition {
@@ -58,9 +64,14 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 		public boolean validate();
 	}
 
+	//for AB test
+	boolean isUserBucketedForTest;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHCKOTraveler);
 
 		//Show the options fragment
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_DEST)) {
@@ -79,22 +90,6 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 
 		//Which traveler are we working with
 		mTravelerIndex = getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
-
-		//If we have a working traveler that was cached we try to load it from disk...
-		WorkingTravelerManager travMan = Db.getWorkingTravelerManager();
-		if (travMan.getAttemptToLoadFromDisk() && travMan.hasTravelerOnDisk(this)) {
-			//Load up the traveler from disk
-			travMan.loadWorkingTravelerFromDisk(this);
-			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
-				//If we don't have a saved state, but we do have a saved temp traveler go ahead to the entry screens
-				mPos = YoYoPosition.ONE;
-				mMode = YoYoMode.YOYO;
-			}
-		}
-		else {
-			//If we don't load it from disk, then we delete the file.
-			travMan.deleteWorkingTravelerFile(this);
-		}
 
 		switch (mPos) {
 		case OPTIONS:
@@ -125,18 +120,6 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
-	}
-
-	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putString(STATE_TAG_MODE, mMode.name());
 		outState.putString(STATE_TAG_DEST, mPos.name());
@@ -152,6 +135,9 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_yoyo, menu);
 		mMenuDone = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
+		if (isUserBucketedForTest) {
+			mMenuNext = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_next);
+		}
 		return true;
 	}
 
@@ -164,16 +150,35 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 		case R.id.menu_done:
 			moveForward();
 			return true;
+		case R.id.menu_next: {
+			if (validate(mOneFragment)) {
+				Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(mBillingInfo);
+				startActivityForResult(new Intent(this, HotelPaymentOptionsActivity.class), SELECT_CREDIT_CARD);
+				return true;
+			}
+		}
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Make sure the request was successful and go to checkout
+		if (requestCode == SELECT_CREDIT_CARD) {
+			if (resultCode == RESULT_OK) {
+				moveForward();
+			}
+		}
+	}
+
+	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (menu != null) {
+			if (isUserBucketedForTest) {
+				mMenuNext = menu.findItem(R.id.menu_next);
+			}
 			mMenuDone = menu.findItem(R.id.menu_done);
-
 			displayActionBarTitleBasedOnState();
 			displayActionItemBasedOnState();
 
@@ -196,6 +201,20 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 		}
 	}
 
+	public void setShowNextButton(boolean showNext) {
+		if (mMenuNext != null) {
+			//hide the done button
+			setShowDoneButton(false);
+			mBillingInfo = Db.getBillingInfo();
+			if (mBillingInfo.getLocation() == null) {
+				mBillingInfo.setLocation(new Location());
+			}
+			mMenuNext.setEnabled(showNext);
+			mMenuNext.setVisible(showNext);
+
+		}
+	}
+
 	public void displayActionItemBasedOnState() {
 		if (mMode == null) {
 			return;
@@ -204,16 +223,22 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 			switch (mPos) {
 			case ONE:
 			default:
-				setShowDoneButton(true);
+				if (isUserBucketedForTest) {
+					HotelPaymentFlowState state = HotelPaymentFlowState.getInstance(this);
+					if (state.hasAValidCardSelected(Db.getBillingInfo())) {
+						setShowDoneButton(true);
+					}
+					else {
+						setShowNextButton(true);
+					}
+				}
+				else {
+					setShowDoneButton(true);
+				}
 			}
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
-			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
-				setShowDoneButton(true);
-			}
-			else {
-				setShowDoneButton(true);
-			}
+			setShowDoneButton(true);
 		}
 		else if (mMode.equals(YoYoMode.NONE)) {
 			setShowDoneButton(false);
@@ -373,8 +398,8 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 	@Override
 	public void displayCheckout() {
 		//First we commit our traveler stuff...
-		Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex, this);
-		Db.getWorkingTravelerManager().clearWorkingTraveler(this);
+		Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex);
+		Db.getWorkingTravelerManager().clearWorkingTraveler();
 		finish();
 	}
 

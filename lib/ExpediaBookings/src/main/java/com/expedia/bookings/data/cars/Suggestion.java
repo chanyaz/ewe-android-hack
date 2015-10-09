@@ -1,5 +1,8 @@
 package com.expedia.bookings.data.cars;
 
+import java.util.Locale;
+
+import com.expedia.bookings.utils.Strings;
 import com.google.gson.annotations.SerializedName;
 
 public class Suggestion implements Cloneable {
@@ -34,11 +37,6 @@ public class Suggestion implements Cloneable {
 	@SerializedName("ll")
 	public LatLong latLong;
 
-	public static class LatLong {
-		public double lat;
-		public double lng;
-	}
-
 	public boolean isMinorAirport;
 
 	public IconType iconType = IconType.SEARCH_TYPE_ICON;
@@ -57,5 +55,9 @@ public class Suggestion implements Cloneable {
 		catch (CloneNotSupportedException e) {
 			return null;
 		}
+	}
+
+	public boolean isMajorAirport() {
+		return Strings.isNotEmpty(regionType) && regionType.toLowerCase(Locale.US).equals("airport") && !isMinorAirport;
 	}
 }

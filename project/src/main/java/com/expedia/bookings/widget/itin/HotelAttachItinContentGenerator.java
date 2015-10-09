@@ -10,7 +10,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.AirAttachUtils;
+import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.Ui;
 
 public class HotelAttachItinContentGenerator extends ItinButtonContentGenerator<ItinCardDataHotelAttach> {
@@ -53,8 +53,8 @@ public class HotelAttachItinContentGenerator extends ItinButtonContentGenerator<
 		return new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				AirAttachUtils.deepLinkHotels(v.getContext(), getItinCardData().getSearchParams());
-				OmnitureTracking.trackCrossSellItinToHotel(v.getContext());
+				HotelCrossSellUtils.deepLinkHotels(v.getContext(), getItinCardData().getSearchParams());
+				OmnitureTracking.trackCrossSellItinToHotel();
 			}
 		};
 	}

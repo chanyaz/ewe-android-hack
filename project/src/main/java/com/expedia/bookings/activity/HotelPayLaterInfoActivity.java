@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -53,8 +52,7 @@ public class HotelPayLaterInfoActivity extends FragmentActivity {
 		switch (item.getItemId()) {
 		case android.R.id.home: {
 			// app icon in action bar clicked; go back
-			Intent intent = HotelDetailsFragmentActivity.createIntent(this);
-			NavUtils.navigateUpTo(this, intent);
+			onBackPressed();
 			return true;
 		}
 		default:

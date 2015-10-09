@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.utils.GsonUtil;
+import com.expedia.bookings.utils.Images;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -136,6 +136,14 @@ public class Property implements JSONable {
 	private String mOmnitureAdDisplayedUrl;
 	private String mOmnitureAdClickedUrl;
 
+	private boolean mIsETPHotel;
+
+	public boolean isETPHotel() {
+		return mIsETPHotel;
+	}
+	public void setIsETPHotel(boolean mIsETPHotel) {
+		this.mIsETPHotel = mIsETPHotel;
+	}
 	public void setHasShownImpression(Boolean value) {
 		this.mHasShownImpression = value;
 	}
@@ -595,7 +603,7 @@ public class Property implements JSONable {
 	}
 
 	public void updateFrom(final Hotel offer) {
-		mName = offer.name;
+		mName = offer.localizedName;
 		mPropertyId = offer.hotelId;
 
 		mLocation = new Location();
@@ -611,7 +619,7 @@ public class Property implements JSONable {
 		mDescriptionText = offer.shortDescription;
 		String thumbnailUrl = offer.largeThumbnailUrl;
 		if (!TextUtils.isEmpty(thumbnailUrl) && !thumbnailUrl.startsWith("http://")) {
-			mThumbnail = new HotelMedia(ExpediaBookingApp.MEDIA_URL + thumbnailUrl);
+			mThumbnail = new HotelMedia(Images.getMediaHost() + thumbnailUrl);
 		}
 		else {
 			mThumbnail = new HotelMedia(thumbnailUrl);
@@ -628,7 +636,6 @@ public class Property implements JSONable {
 		mTotalRecommendations = offer.totalRecommendations;
 		mAverageExpediaRating = offer.hotelGuestRating;
 		mLowestRate = new Rate();
-		mLowestRate.setPromoDescription(offer.discountMessage);
 		mLowestRate.setNumRoomsLeft(offer.roomsLeftAtThisRate);
 		mLowestRate.setThumbnail(mThumbnail);
 		mLowestRate.setIsPayLater(offer.isPaymentChoiceAvailable);
@@ -692,6 +699,7 @@ public class Property implements JSONable {
 			obj.putOpt("hasShownImpression", mHasShownImpression);
 			obj.putOpt("omnitureAdClickedUrl", mOmnitureAdClickedUrl);
 			obj.putOpt("omnitureAdDisplayedUrl", mOmnitureAdDisplayedUrl);
+			obj.putOpt("isETPHotel", mIsETPHotel);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -743,6 +751,7 @@ public class Property implements JSONable {
 		mHasShownImpression = obj.optBoolean("hasShownImpression", false);
 		mOmnitureAdClickedUrl = obj.optString("omnitureAdClickedUrl", null);
 		mOmnitureAdDisplayedUrl = obj.optString("omnitureAdDisplayedUrl", null);
+		mIsETPHotel = obj.optBoolean("isETPHotel", false);
 		return true;
 	}
 

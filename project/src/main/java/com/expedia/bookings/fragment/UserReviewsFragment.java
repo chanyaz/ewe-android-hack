@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import android.app.Activity;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.Html;
@@ -17,7 +16,6 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -28,13 +26,13 @@ import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsAdapter;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.Ui;
 
 public class UserReviewsFragment extends ListFragment implements OnScrollListener {
@@ -352,21 +350,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			recommendText.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
 			recommendText.setText(styledText);
 		}
-
-		// In landscape mode, "19 reviews" and user rating bar are also present in this view
-		TextView numReviews = Ui.findView(mHeaderView, R.id.num_reviews);
-		if (numReviews != null) {
-			Resources res = getResources();
-			String title = res.getQuantityString(R.plurals.number_of_reviews, numTotal, numTotal);
-			numReviews.setText(title);
-		}
-		RatingBar userRating = Ui.findView(mHeaderView, R.id.user_rating);
-		if (userRating != null) {
-			float rating = (float) mProperty.getAverageExpediaRating();
-			userRating.setRating(rating);
-			userRating.setVisibility(View.VISIBLE);
-
-		}
 	}
 
 	private void showReviewsUnavailableMessage() {
@@ -417,7 +400,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			String emptyText;
 			TextView emptyTextView = Ui.findView(view, R.id.user_review_empty_text_view);
 
-			if (!NetUtils.isOnline(getActivity())) {
+			if (!ExpediaNetUtils.isOnline(getActivity())) {
 				emptyText = getString(R.string.widget_error_no_internet);
 			}
 			else {

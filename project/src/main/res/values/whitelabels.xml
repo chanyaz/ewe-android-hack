@@ -84,26 +84,18 @@
     <!-- Cost Summary Breakdown Dialog Stripe -->
     <attr name="skin_costSummaryDialogStripeDrawable" format="reference" />
     <attr name="skin_flightsCostSummaryDialogStripeDrawable" format="reference" />
-    <attr name="skin_costSummaryBookingFeesString" format="reference|string" />
 
     <!-- Log in with Expedia/VSC screen -->
     <!-- This drawable is used in hotel detail for Book Now button as well -->
     <attr name="skin_loginBookNowButtonDrawable" format="reference" />
-    <attr name="skin_loginWithExpediaButtonText" format="reference|string" />
-    <attr name="skin_loginWithExpediaTitleText" format="reference|string" />
     <attr name="skin_hotelDetailPlaceHolderDrawable" format="reference" />
-    <attr name="skin_loginWithExpediaContentDescription" format="reference|string" />
     <attr name="skin_loginButtonColor" format="reference" />
     <attr name="skin_hotelBookButtonColor" format="reference" />
 
     <!-- Hotel Confirmation, Customer support option drawable -->
     <attr name="skin_hotelConfirmationCallActionDrawable" format="reference" />
 
-    <!-- Hotel Confirmation Customer support text-->
-    <attr name="skin_hotelConfirmationCallActionText" format="reference" />
 
-    <!-- Hotel confirmation screen, login button text and icons -->
-    <attr name="skin_hotelCheckoutLoginButtonText" format="reference|string" />
     <attr name="skin_hotelCheckoutLogoutLogoDrawable" format="reference" />
     <attr name="skin_phoneCheckoutLoginLogoDrawable" format="reference" />
     <attr name="skin_phoneCheckoutLoginButtonDrawable" format="reference" />
@@ -119,6 +111,7 @@
     <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
     <attr name="skin_hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
     <attr name="skin_hotelListMapMarkerSaleDrawable" format="reference" />
+    <attr name="skin_hotelListMapMarkerSaleGreenABTestDrawable" format="reference" />
     <attr name="skin_hotelListMapMarkerDrawable" format="reference" />
     <attr name="skin_hotelListMapMarkerAirAttachDrawable" format="reference" />
 
@@ -132,8 +125,6 @@
     <!-- for hotels and flights travel type -->
     <attr name="skin_travelerLabelOnCheckout" format="reference|string" />
 
-    <!-- for flight showing Expedia/ Tvly Account label-->
-    <attr name="skin_flightCheckoutAccountLabel" format="reference|string"/>
 
     <!-- for hotels best price guarantee type -->
     <attr name="skin_bestPriceGuaranteeString" format="reference|string" />
@@ -142,23 +133,9 @@
     <!-- for hotels etp info book button -->
     <attr name="skin_etpHotelSelectRoomString" format="reference|string" />
 
-    <attr name="skin_aboutWebsiteString" format="reference|string" />
-    <attr name="skin_aboutAppSupportString" format="reference|string" />
-    <attr name="skin_aboutCopyrightString" format="reference|string" />
     <attr name="skin_aboutInfoUrlString" format="reference|string" />
     <attr name="skin_aboutAppNameString" format="reference|string" />
     <attr name="skin_aboutAppLogoDrawable" format="reference" />
-
-    <!-- for logout confirmation -->
-    <attr name="skin_logoutConfirmationString" format="reference|string" />
-
-    <!-- Flight loading screen message position -->
-    <attr name="skin_flightLoadingMessagePosition" format="reference" />
-
-    <attr name="skin_flightUnhandledErrorMessage" format="reference|string" />
-    <attr name="skin_serverErrorMessageString" format="reference|string" />
-    <attr name="skin_savePaymentToAccountString" format="reference|string" />
-    <attr name="skin_saveTravelerToAccountString" format="reference|string" />
 
     <!-- for traveller_info_page logo-->
     <attr name="skin_travellerInfoPageLogo" format="reference"/>
@@ -192,12 +169,8 @@
     <attr name="skin_hotelConfirmationPlaceholderDrawable" format="reference" />
     <attr name="skin_couponSuccessMessageColor" fomrat="reference|color"/>
 
-    <attr name="skin_infoContactUsString" format="reference|string"/>
-    <attr name="skin_infoContactEmailSubjectString" format="reference|string"/>
 
     <attr name="skin_loadingAirAsiaRoutesString" format="reference|string" />
-    <attr name="skin_emailUserNameString" format="reference|string" />
-    <attr name="skin_itineraryNumberString" format="reference|string" />
     <attr name="skin_itinCardOverflowDrawable" format="reference"/>
     <attr name="skin_itinCardActionBarCheckmark" format="reference"/>
     <attr name="skin_itinCardTitleTextColor" format="reference|color"/>
@@ -206,21 +179,12 @@
     <!-- Room not Available Error Msg-->
     <attr name="skin_roomNotAvailableError" format="string"/>
 
-    <!-- Flight(s) not Available Error Msg-->
-    <attr name="skin_singleFlightNotAvailableError" format="string"/>
-    <attr name="skin_flightsNotAvailableError" format="string"/>
 
     <!--CVV and CVV Error-->
     <attr name="skin_cvvDivDrawable" format="reference" />
     <attr name="skin_cvvDivErrorDrawable" format="reference" />
 
-    <!-- Clear Private Data Confirmation Msg-->
-    <attr name="skin_clearPrivateDataMsg" format="string"/>
 
-    <!--Hotel search result messages-->
-    <attr name="skin_hotelSearchResultNotAvailale" format="reference|string" />
-    <attr name="skin_hotelSearchResultSoldOut" format="reference|string" />
-    <attr name="skin_hotelSearchResultTEMPLATE" format="reference|string" />
 
     <attr name="skin_candycaneProgressDrawable" format="reference" />
     <attr name="skin_userRatingBarDrawable" format="reference" />
@@ -231,29 +195,14 @@
     <attr name="skin_icTypeCircleHotel" format="reference" />
 
     <attr name="skin_icCheckoutCheckmarkDrawable" format="reference" />
+    <attr name="skin_actionbarTextColor" format="reference|color" />
 
-    <!--Hotel Offers Hotel Service Failure Error Message-->
-    <attr name="skin_errorHotelOffersHotelServiceFailureString" format="string" />
 
-    <!--Add Calender POS Messages-->
-    <attr name="skin_addToCalenderMessage" format="reference|string" />
 
-    <!--Missing string in AirAsiaGo and Travelocity-->
-    <attr name="skin_tellAFriendBody" format="reference|string" />
-    <attr name="skin_tellAFriendSubject" format="reference|string" />
-    <attr name="skin_sorryRoomsSoldOut" format="reference|string" />
-    <attr name="skin_passwordHint" format="reference|string" />
-    <attr name="skin_loadingAccount" format="reference|string" />
-    <attr name="skin_restrictedProfileLoginMessage" format="reference|string" />
-    <attr name="skin_dialogMessageLaunchMobileSite" format="reference|string" />
-    <attr name="skin_sorryRoomsSoldOutErrorMessage" format="reference|string" />
 
     <!--Change the color of flight circles and lines -->
     <attr name="skin_flightLineColor" format="reference" />
 
-    <!-- calendar description for flight's itinerary and support-->
-    <attr name="skin_calendarFlightDescItinerary" format="reference|string" />
-    <attr name="skin_calendarFlightDescSupport" format="reference|string" />
     <attr name="skin_flightPriceTextColor" format="reference|color" />
     <attr name="skin_icSuitCaseBaggage" format="reference" />
 
@@ -309,14 +258,12 @@
     <attr name="skin_flightLoginActionBarIcon" format="reference" />
 
     <attr name="skin_tablet_hotel_coupon_text_color" format="reference|color" />
-    <attr name="skin_etp_pay_now_charges_text" format="string" />
 
     <attr name="skin_terminalChooserTextColor" format="reference|color" />
     <attr name="skin_flightFreeCancellationTextColor" format="reference|color" />
 
     <attr name="skin_hotelSearchPopupFilterTextColor" format="reference|color" />
 
-    <attr name="skin_totalDueToday" format="reference|string" />
     <attr name="skin_bgSaleTextViewDrawable" format="reference" />
 
     <attr name="skin_bgFlightSummaryRowTablet" format="reference" />
@@ -339,4 +286,49 @@
 
     <attr name="skin_sectionFlightEditTravelerLinkColor" format="reference|color" />
     <attr name="skin_roomRateRefundableCancellationTextColor" format="reference|color" />
+    <attr name="skin_confirmationHeaderHotelDividerLineColor" format="reference|color" />
+    <attr name="skin_confirmationHeaderFlightDividerLineColor" format="reference|color" />
+    <attr name="skin_checkmarkFlightDrawable" format="reference" />
+
+    <attr name="skin_launchTabIndicatorColor" format="reference|color" />
+    <attr name="skin_launchActionBarBackgroundColor" format="reference|color" />
+
+    <attr name="skin_actionbarTabletTitleColor" format="reference|color" />
+    <attr name="skin_icTabletConfirmationCheckmarkDrawable" format="reference" />
+    <attr name="skin_icRenovationTabletDrawable" format="reference" />
+    <attr name="skin_icFeesTabletDrawable" format="reference" />
+    <attr name="skin_tabletFilterPriceTextColor" format="reference|color" />
+
+    <!-- Cars -->
+    <attr name="skin_carsPrimaryColor" format="reference|color" />
+    <attr name="skin_carsSecondaryColor" format="reference|color" />
+    <attr name="skin_carsTooltipColor" format="reference|color" />
+    <attr name="skin_carsStatusBarColor" format="reference|color" />
+    <attr name="skin_carsSortButtonSelectorDrawable" format="reference" />
+    <attr name="skin_carsSortButtonTextSelectorDrawable" format="reference" />
+    <attr name="skin_carsToggleBackgroundSelectorDrawable" format="reference" />
+    <attr name="skin_loginBrandLogoDrawable" format="reference" />
+    <attr name="skin_costSummaryAlertDrawable" format="reference" />
+    <attr name="skin_checkoutLoginBookNowButtonDrawable" format="reference" />
+    <attr name="skin_checkoutLoginButtonColor" format="reference|color" />
+    <attr name="skin_loginBrandIconDrawable" format="reference" />
+    <attr name="skin_carsUncheckedToggleTextColor" format="reference|color" />
+    <attr name="skin_carsPinDrawable" format="reference" />
+    <attr name="skin_carsErrorDefaultDrawable" format="reference" />
+
+    <!-- LX -->
+    <attr name="skin_lxPrimaryColor" format="reference|color" />
+    <attr name="skin_lxBookNowButtonSelectorDrawable" format="reference" />
+    <attr name="skin_lxOfferDateSelectorDrawable" format="reference" />
+    <attr name="skin_lxSelectTicketButtonSelectorDrawable" format="reference" />
+    <attr name="skin_lxShowMoreBackgroundDrawable" format="reference" />
+    <attr name="skin_lxSortButtonSelectorDrawable" format="reference" />
+    <attr name="skin_lxSortButtonTextSelectorDrawable" format="reference" />
+    <attr name="skin_lxTextSelectorDrawable" format="reference" />
+    <attr name="skin_lxUncheckedToggleTextColor" format="reference|color" />
+    <attr name="skin_lxTicketPlusButtonSelectorDrawable" format="reference" />
+    <attr name="skin_lxTicketMinusButtonSelectorDrawable" format="reference" />
+    <attr name="skin_lxErrorDefaultDrawable" format="reference" />
+    <attr name="skin_filterNumberBgDrawable" format="reference" />
+    <attr name="skin_accountCreationBackgroundDrawable" format="reference" />
 </resources>

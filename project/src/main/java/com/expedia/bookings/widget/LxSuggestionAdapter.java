@@ -11,8 +11,10 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.SuggestionServices;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -20,6 +22,10 @@ import rx.Observer;
 import rx.Subscription;
 
 public class LxSuggestionAdapter extends SuggestionBaseAdapter {
+
+	protected Subscription getNearbySuggestions(String locale, String latLong, int siteId, Observer<List<Suggestion>> observer) {
+		return suggestionServices.getNearbyLxSuggestions(locale, latLong, siteId, observer);
+	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -37,17 +43,21 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 	}
 
 	public static class LxSuggestionViewHolder {
-		@InjectView(R.id.display_name_textView)
+		@InjectView(R.id.title_textview)
 		TextView displayName;
 
 		@InjectView(R.id.lx_dropdown_imageView)
 		ImageView dropdownImage;
+
+		@InjectView(R.id.city_name_textView)
+		TextView cityName;
 
 		public LxSuggestionViewHolder(View root) {
 			ButterKnife.inject(this, root);
 		}
 
 		public void bind(Suggestion suggestion) {
+			cityName.setText(StrUtils.formatAirportName(suggestion.shortName));
 			displayName.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
 			if (suggestion.iconType == Suggestion.IconType.HISTORY_ICON) {
 				dropdownImage.setImageResource(R.drawable.recents);
@@ -59,12 +69,13 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 				dropdownImage.setImageResource(R.drawable.search_type_icon);
 			}
 			dropdownImage
-				.setColorFilter(dropdownImage.getContext().getResources().getColor(R.color.lx_secondary_color));
+				.setColorFilter(dropdownImage.getContext().getResources().getColor(
+					Ui.obtainThemeResID(dropdownImage.getContext(), R.attr.skin_lxPrimaryColor)));
 		}
 	}
 
 	@Override
 	protected Subscription suggest(SuggestionServices service, Observer<List<Suggestion>> observer, CharSequence query) {
-		return service.getLxSuggestions(query.toString(), observer);
+		return service.getLxSuggestions(query.toString(), PointOfSale.getSuggestLocaleIdentifier(), observer);
 	}
 }

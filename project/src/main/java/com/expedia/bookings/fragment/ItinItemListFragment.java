@@ -24,21 +24,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
-import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.User.SignOutCompleteListener;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
-import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
@@ -75,6 +74,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private ViewGroup mErrorContainer;
 	private TextView mErrorTv;
 	private View mErrorMask;
+	private Button mFindItineraryButton;
 
 	private String mErrorMessage;
 	private boolean mShowError = false;
@@ -134,12 +134,13 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mEmptyListLoadingContainer = Ui.findView(view, R.id.empty_list_loading_container);
 		mEmptyListContent = Ui.findView(view, R.id.empty_list_content);
 		mLoginButton = Ui.findView(view, R.id.login_button);
-		mLoginButton.setText(Html.fromHtml(getString(R.string.log_in_for_your_trips)));
+		mLoginButton.setText(Html.fromHtml(getString(R.string.sign_in_for_your_trips)));
 		mNoTripsRefreshButton = Ui.findView(view, R.id.no_trips_refresh_button);
 		mNoTripsTryAgainButton = Ui.findView(view, R.id.no_trips_try_again_button);
 		mErrorTv = Ui.findView(view, R.id.no_trips_error_message);
 		mErrorMask = Ui.findView(view, R.id.empty_list_error_mask);
 		mErrorContainer = Ui.findView(view, R.id.error_container);
+		mFindItineraryButton = Ui.findView(view, R.id.find_itinerary_button);
 
 		mItinListView.setEmptyView(mEmptyView);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
@@ -153,6 +154,12 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		});
 
 		mOrEnterNumberTv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startAddGuestItinActivity();
+			}
+		});
+		mFindItineraryButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				startAddGuestItinActivity();
@@ -180,6 +187,11 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		else if (getArguments() != null) {
 			mJumpToItinId = getArguments().getString(ARG_JUMP_TO_UNIQUE_ID);
 		}
+
+		boolean isSignInEnabled = ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled();
+		mLoginButton.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
+		mOrEnterNumberTv.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
+		mFindItineraryButton.setVisibility(isSignInEnabled ? View.GONE : View.VISIBLE);
 
 		return view;
 	}
@@ -313,13 +325,12 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public synchronized void startAddGuestItinActivity() {
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
-		OmnitureTracking.trackFindItin(getActivity());
+		OmnitureTracking.trackFindItin();
 		startActivity(intent);
 	}
 
 	public synchronized void startLoginActivity() {
-		Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItineraryLoaderLoginExtender());
-		OmnitureTracking.trackTabletLoginPageLoad(getActivity());
+		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItineraryLoaderLoginExtender());
 		User.signIn(getActivity(), args);
 	}
 
@@ -343,7 +354,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			Db.loadUser(getActivity());
 		}
 		String email = Db.getUser().getPrimaryTraveler().getEmail();
-		String logoutMessage = getResources().getString(R.string.itin_logout_confirmation_message_TEMPLATE, email);
+		String logoutMessage = getResources().getString(R.string.itin_sign_out_confirmation_message_TEMPLATE, email);
 		LoginConfirmLogoutDialogFragment df = LoginConfirmLogoutDialogFragment.getInstance(logoutMessage);
 		df.show(getFragmentManager(), LoginConfirmLogoutDialogFragment.TAG);
 	}
@@ -365,7 +376,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public void doLogout() {
-
 		setErrorMessage(null, false);
 
 		// Note: On 2.x, the user can logout from the expanded details view, be sure to collapse the view so when we
@@ -378,23 +388,12 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		}
 
 		// Sign out user
-		User.signOutAsync(getActivity(), new SignOutCompleteListener() {
-			@Override
-			public void onSignOutComplete() {
-				syncItinManager(true, false);
-				LeanPlumUtils.updateLoggedInStatus();
-			}
-		});
-
-		updateLoginState();
-
-		invalidateOptionsMenu();
-	}
-
-	public void onLoginCompleted() {
-		updateLoginState();
+		User.signOut(getActivity());
 
 		syncItinManager(true, false);
+		AdTracker.trackLogout();
+
+		updateLoginState();
 
 		invalidateOptionsMenu();
 	}
@@ -509,7 +508,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public void onTripUpdated(Trip trip) {
-		OmnitureTracking.trackItinAdd(getActivity(), trip);
+		OmnitureTracking.trackItinAdd(trip);
 	}
 
 	@Override
@@ -587,7 +586,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 				}
 				else {
 					if (trackEmpty) {
-						OmnitureTracking.trackItinEmpty(getActivity());
+						OmnitureTracking.trackItinEmpty();
 					}
 				}
 

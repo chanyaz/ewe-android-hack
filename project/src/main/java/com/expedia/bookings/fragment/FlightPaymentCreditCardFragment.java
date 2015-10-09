@@ -79,8 +79,6 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
 					mSectionCreditCard.performValidation();
 				}
-				//Attempt to save on change
-				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
 			}
 		});
 
@@ -125,7 +123,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditCard(getActivity());
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditCard();
 	}
 
 	@Override

@@ -108,6 +108,7 @@
             android:id="@+id/edit_email_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
             android:hint="@string/email_address_hint"
             android:nextFocusDown="@+id/edit_phone_number"
             android:nextFocusRight="@+id/edit_phone_number"
@@ -121,9 +122,10 @@
 
             <com.expedia.bookings.widget.TelephoneSpinner
                 android:id="@+id/edit_phone_number_country_code_spinner"
-                style="@style/Widget.Spinner.Phone"
+                style="@style/CarFakeSpinner.Light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1" />
 
             <EditText

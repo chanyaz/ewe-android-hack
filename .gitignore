@@ -37,3 +37,6 @@ build
 # Crashlytics
 crashlytics-build.properties
 com_crashlytics_export_strings.xml
+
+# Running the android unit tests are causing this folder to appear
+project/okhttp

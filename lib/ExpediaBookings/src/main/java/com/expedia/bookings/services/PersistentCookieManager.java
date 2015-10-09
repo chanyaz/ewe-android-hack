@@ -2,12 +2,9 @@ package com.expedia.bookings.services;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.CookieStore;
@@ -16,7 +13,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.GZIPInputStream;
 
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
@@ -105,6 +101,7 @@ public class PersistentCookieManager extends CookieManager {
 		String json = gson.toJson(pairs);
 
 		try {
+			storage.getParentFile().mkdirs();
 			storage.createNewFile();
 			FileWriter writer = new FileWriter(storage);
 			writer.write(json, 0, json.length());
@@ -124,36 +121,4 @@ public class PersistentCookieManager extends CookieManager {
 			this.cookie = cookie;
 		}
 	}
-
-	// Utility
-
-	private static List<HttpCookie> parseV2Cookies(File oldCookieStorage) {
-		try {
-			TypeToken token = new TypeToken<List<HttpCookie>>() { };
-			InputStream is = new GZIPInputStream(new FileInputStream(oldCookieStorage));
-			InputStreamReader reader = new InputStreamReader(is);
-			List<HttpCookie> cookies = new Gson().fromJson(reader, token.getType());
-			reader.close();
-			return cookies;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public static void fillWithOldCookies(CookieManager manager, File storage) {
-		if (storage.exists()) {
-			List<HttpCookie> oldCookies = PersistentCookieManager.parseV2Cookies(storage);
-			if (oldCookies != null) {
-				for (HttpCookie cookie : oldCookies) {
-					cookie.setMaxAge(-1);
-					manager.getCookieStore().add(null, cookie);
-				}
-			}
-
-			// We don't need the old cookie file anymore
-			storage.delete();
-		}
-	}
-};
+}

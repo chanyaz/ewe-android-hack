@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
@@ -16,7 +15,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.otto.Events;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -42,22 +40,19 @@ public class LaunchListWidget extends RecyclerView {
 			StaggeredGridLayoutManager.VERTICAL);
 		setLayoutManager(layoutManager);
 
-		// We don't draw rounded corners on <LOLLIPOP right now, so the item
-		// decoration spacing gets crazy. This is (hopefully) a temporary solution.
-		float margin;
-		float density = getResources().getDisplayMetrics().density;
-		if (AndroidUtils.getSdkVersion() < Build.VERSION_CODES.LOLLIPOP) {
-			margin = 16 / density;
-		}
-		else {
-			margin = 24 / density;
-		}
-		LayoutInflater li = LayoutInflater.from(getContext());
-		header = li.inflate(R.layout.snippet_launch_list_header, null);
-		addItemDecoration(new LaunchListDividerDecoration(getContext(), (int) margin, false));
+		header = LayoutInflater.from(getContext()).inflate(R.layout.snippet_launch_list_header, null);
 		adapter = new LaunchListAdapter(header);
 		setAdapter(adapter);
+		addItemDecoration(new LaunchListDividerDecoration(getContext(), false));
 		setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
+	}
+
+	public void setHeaderPaddingTop(float paddingTop) {
+		int left = header.getPaddingLeft();
+		int top = (int) paddingTop;
+		int right = header.getPaddingRight();
+		int bottom = header.getPaddingBottom();
+		header.setPadding(left, top, right, bottom);
 	}
 
 	@Override
@@ -75,7 +70,6 @@ public class LaunchListWidget extends RecyclerView {
 
 	@Subscribe
 	public void onNearbyHotelsSearchResults(Events.LaunchHotelSearchResponse event) {
-		adapter.cleanup();
 		String headerTitle = getResources().getString(R.string.nearby_deals_title);
 		Db.setLaunchListHotelData(event.topHotels);
 		adapter.setListData(event.topHotels, headerTitle);
@@ -84,14 +78,12 @@ public class LaunchListWidget extends RecyclerView {
 
 	@Subscribe
 	public void onCollectionDownloadComplete(Events.CollectionDownloadComplete event) {
-		adapter.cleanup();
 		String headerTitle = event.collection.title;
 		adapter.setListData(event.collection.locations, headerTitle);
 		adapter.notifyDataSetChanged();
 	}
 
-	@Subscribe
-	public void onShowListLoadingAnimation(Events.LaunchShowLoadingAnimation event) {
+	public void showListLoadingAnimation() {
 		List<Integer> elements = createDummyListForAnimation();
 		String headerTitle = getResources().getString(R.string.loading_header);
 		adapter.setListData(elements, headerTitle);
@@ -105,10 +97,6 @@ public class LaunchListWidget extends RecyclerView {
 			elements.add(0);
 		}
 		return elements;
-	}
-
-	public View getHeader() {
-		return header;
 	}
 
 	/**
@@ -130,24 +118,16 @@ public class LaunchListWidget extends RecyclerView {
 		int mBottom;
 		int mLeft;
 		int mRight;
+		int mMiddle;
 
-		// Divider Separator
-		boolean shouldDrawDivider = false;
-
-		private LaunchListDividerDecoration(Context context, int margin, boolean drawDivider) {
-
-			shouldDrawDivider = drawDivider;
+		private LaunchListDividerDecoration(Context context, boolean drawDivider) {
 
 			mTop = 0;
-			mBottom = (int) context.getResources().getDisplayMetrics().density * margin;
-			mLeft = mBottom;
-			mRight = mBottom;
+			mLeft = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_side);
+			mMiddle = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_middle);
+			mBottom = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_bottom);
+			mRight = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_side);
 
-			// Because of way the height computation works with the lack of rounded corners on
-			// <LOLLIPOP, we are shaving off some of the margin temporarily.
-			if (AndroidUtils.getSdkVersion() < Build.VERSION_CODES.LOLLIPOP) {
-				mBottom -= (int) context.getResources().getDisplayMetrics().density * 4;
-			}
 		}
 
 		@Override
@@ -164,13 +144,13 @@ public class LaunchListWidget extends RecyclerView {
 			}
 			// Right column (2, 4, 7, 9, etc)
 			else if ((pos % 5) % 2 == 0) {
-				outRect.left = mLeft / 2;
+				outRect.left = mMiddle / 2;
 				outRect.right = mRight;
 			}
 			// Left column (1, 3, 6, 8, etc)
 			else {
 				outRect.left = mLeft;
-				outRect.right = mRight / 2;
+				outRect.right = mMiddle / 2;
 			}
 		}
 	}

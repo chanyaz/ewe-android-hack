@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -15,14 +14,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.ui.espresso.ViewActions.getString;
+import static com.expedia.bookings.test.espresso.ViewActions.getString;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
-/**
- * Created by dmadan on 4/10/14.
- */
-public class HotelsGuestPicker extends ScreenActions {
+public class HotelsGuestPicker {
 
 	private static final int SEARCH_BUTTON_ID = R.id.search_button;
 	private static final int INCREMENT_BUTTON_ID = R.id.increment;

@@ -12,4 +12,5 @@ public class BaseCarOffer {
 	public CarInfo vehicleInfo;
 	public boolean hasFreeCancellation;
 	public boolean hasUnlimitedMileage;
+	public boolean isInsuranceIncluded;
 }

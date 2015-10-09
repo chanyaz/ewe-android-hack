@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="@drawable/spinner_ripple"
     android:paddingBottom="10dp"
     android:paddingTop="10dp">
 
@@ -13,13 +13,23 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:paddingLeft="1dp" />
+        android:layout_marginRight="11dp"
+        android:paddingLeft="9dp" />
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/display_name_textView"
+        android:id="@+id/title_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/lx_dropdown_imageView"
-        android:paddingLeft="5dp"
-        android:textColor="@color/lx_secondary_color"/>
+        android:textColor="?attr/skin_lxPrimaryColor"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/city_name_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/title_textview"
+        android:layout_below="@+id/title_textview"
+        android:textColor="?attr/skin_lxPrimaryColor"
+        android:textSize="12sp"/>
+
 </RelativeLayout>

@@ -1,0 +1,196 @@
+{
+    "id": "phone-destinations",
+    "locations": [
+        {
+            "id": "staff-picks.staff-kyoto",
+            "image": "staff-kyoto",
+            "imageCode": "staff-kyoto",
+            "location": {
+                "a": "OSA",
+                "amc": "179897",
+                "d": "<B>Kyoto</B>, <B>Japan</B>",
+                "id": "6131486",
+                "ll": {
+                    "lat": "35.011229",
+                    "lng": "135.768125"
+                },
+                "s": "Kyoto (and vicinity), Japan",
+                "t": "CITY"
+            },
+            "subtitle": "Japan",
+            "title": "Kyoto"
+        },
+        {
+            "id": "staff-picks.staff-corniglia",
+            "image": "staff-corniglia",
+            "imageCode": "staff-corniglia",
+            "location": {
+                "a": "GOA",
+                "amc": "6055038",
+                "d": "<B>Corniglia</B>, Vernazza, <B>Italy</B>",
+                "id": "179977",
+                "ll": {
+                    "lat": "44.122589",
+                    "lng": "9.708674"
+                },
+                "s": "Corniglia, Vernazza, Italy",
+                "t": "CITY"
+            },
+            "subtitle": "Italy",
+            "title": "Corniglia"
+        },
+        {
+            "id": "staff-picks.staff-marrakech",
+            "image": "staff-marrakech",
+            "imageCode": "staff-marrakech",
+            "location": {
+                "a": "RAK",
+                "amc": "6084756",
+                "d": "<B>Marrakech</B>, <B>Morocco</B>",
+                "id": "6084756",
+                "ll": {
+                    "lat": "31.631600",
+                    "lng": "-8.009210"
+                },
+                "s": "Marrakech (and vicinity), Morocco",
+                "t": "CITY"
+            },
+            "subtitle": "Morocco",
+            "title": "Marrakech"
+        },
+        {
+            "id": "staff-picks.staff-baltra",
+            "image": "staff-baltra",
+            "imageCode": "staff-baltra",
+            "location": {
+                "a": "GPS",
+                "amc": "6053670",
+                "d": "<B>Baltra</B>, <B>Ecuador</B>",
+                "id": "6223000",
+                "ll": {
+                    "lat": "-0.454779",
+                    "lng": "-90.276524"
+                },
+                "s": "Baltra, Ecuador",
+                "t": "CITY"
+            },
+            "subtitle": "Ecuador",
+            "title": "Baltra"
+        },
+        {
+            "id": "staff-picks.staff-atacama",
+            "image": "staff-atacama",
+            "imageCode": "staff-atacama",
+            "location": {
+                "a": "CJC",
+                "amc": "500224",
+                "d": "<B>San</B> <B>Pedro</B> <B>de</B> <B>Atacama</B>, <B>Chile</B>",
+                "id": "500224",
+                "ll": {
+                    "lat": "-22.910600",
+                    "lng": "-68.200352"
+                },
+                "s": "San Pedro de Atacama, Chile",
+                "t": "CITY"
+            },
+            "subtitle": "Chile",
+            "title": "San Pedro de Atacama"
+        },
+        {
+            "id": "staff-picks.staff-capetown",
+            "image": "staff-capetown",
+            "imageCode": "staff-capetown",
+            "location": {
+                "a": "CPT",
+                "amc": "6046820",
+                "d": "<B>Cape</B> <B>Town</B>, <B>South</B> <B>Africa</B>",
+                "id": "6046820",
+                "ll": {
+                    "lat": "-33.922012",
+                    "lng": "18.423134"
+                },
+                "s": "Cape Town (and vicinity), South Africa",
+                "t": "CITY"
+            },
+            "subtitle": "South Africa",
+            "title": "Cape Town"
+        },
+        {
+            "id": "staff-picks.staff-ghent",
+            "image": "staff-ghent",
+            "imageCode": "staff-ghent",
+            "location": {
+                "a": "BRU",
+                "amc": "178241",
+                "d": "<B>Ghent</B>, <B>Belgium</B>",
+                "id": "6052141",
+                "ll": {
+                    "lat": "51.073648",
+                    "lng": "3.724662"
+                },
+                "s": "Ghent, Belgium",
+                "t": "CITY"
+            },
+            "subtitle": "Belgium",
+            "title": "Ghent"
+        },
+        {
+            "id": "staff-picks.staff-traversecity",
+            "image": "staff-traversecity",
+            "imageCode": "staff-traversecity",
+            "location": {
+                "a": "TVC",
+                "amc": "3577",
+                "d": "<B>Traverse</B> <B>City</B>, MI",
+                "id": "3577",
+                "ll": {
+                    "lat": "44.763420",
+                    "lng": "-85.620972"
+                },
+                "s": "Traverse City (and vicinity), Michigan, United States of America",
+                "t": "CITY"
+            },
+            "subtitle": "Michigan",
+            "title": "Traverse City"
+        },
+        {
+            "id": "staff-picks.staff-lafortuna",
+            "image": "staff-lafortuna",
+            "imageCode": "staff-lafortuna",
+            "location": {
+                "a": "SJO",
+                "amc": "603085",
+                "d": "<B>Fortuna</B> (Alajuela), <B>Costa</B> <B>Rica</B>",
+                "id": "6052925",
+                "ll": {
+                    "lat": "10.471122",
+                    "lng": "-84.645862"
+                },
+                "s": "Fortuna (Alajuela), Costa Rica",
+                "t": "CITY"
+            },
+            "subtitle": "Costa Rica",
+            "title": "La Fortuna"
+        },
+        {
+            "id": "staff-picks.staff-siemreap",
+            "image": "staff-siemreap",
+            "imageCode": "staff-siemreap",
+            "location": {
+                "a": "REP",
+                "amc": "2975",
+                "d": "<B>Siem</B> <B>Reap</B>, <B>Cambodia</B>",
+                "id": "2975",
+                "ll": {
+                    "lat": "13.354465",
+                    "lng": "103.854790"
+                },
+                "s": "Siem Reap, Cambodia",
+                "t": "CITY"
+            },
+            "subtitle": "Cambodia",
+            "title": "Siem Reap"
+        }
+    ],
+    "title": "Staff Picks"
+}

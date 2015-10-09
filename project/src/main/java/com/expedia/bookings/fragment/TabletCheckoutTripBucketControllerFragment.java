@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -132,7 +133,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 					if (getState() == CheckoutTripBucketState.SHOWING) {
 						other = CheckoutTripBucketState.OPEN;
 					}
-					OmnitureTracking.trackTripBucketPortraitToggle(getActivity(), getLob(), other);
+					OmnitureTracking.trackTripBucketPortraitToggle(getLob(), other);
 					setState(other, true);
 				}
 			});
@@ -212,7 +213,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 				TextView yourTrip = Ui.findView(mRootC, R.id.your_trip_tv);
 				if (bucketDateRange.getWidth() > 0 && yourTrip.getWidth() > 0) {
 					bucketDateRange.setVisibility(yourTrip.getRight() > bucketDateRange.getLeft() ? View.INVISIBLE : View.VISIBLE);
-					mRootC.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					mRootC.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				}
 			}
 		});
@@ -510,6 +511,16 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	public void onHotelProductRateUp(Events.HotelProductRateUp event) {
 		mBucketHotelFrag.refreshRate();
 		setBucketState(true);
+	}
+
+	@Subscribe
+	public void onCreateTripSuccess(Events.CreateTripDownloadSuccess event) {
+		// In the case of hotels with resort fees, the data received from /create
+		// is different enough to warrant a complete re-bind. This has to do with
+		// rate types, etc.
+		if (event.createTripResponse instanceof CreateTripResponse) {
+			mBucketHotelFrag.refreshRate();
+		}
 	}
 
 	@Subscribe

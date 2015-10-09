@@ -10,7 +10,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParams;
 
 /**
@@ -76,13 +75,6 @@ public class DateFormatUtils {
 		return DateUtils.formatDateRange(context, start, end, flags);
 	}
 
-	public static String formatDateTimeRange(Context context, DateTime startDateTime, DateTime endDateTime, int flags) {
-		// We are adding an arbitrary second to the endDateTime. The DateIntervalFormat class, from Android, assigns
-		// a date set exactly at Midnight to the day before. This is done arbitrarily and without exact cause.
-		// See source here: https://android.googlesource.com/platform/libcore/+/master/luni/src/main/java/libcore/icu/DateIntervalFormat.java
-		return DateUtils.formatDateRange(context, startDateTime.getMillis(), endDateTime.getMillis() + 1000, flags);
-	}
-
 	/**
 	 * Convenience method for formatting date range represented by a particular HotelSearchParams.
 	 *
@@ -116,13 +108,18 @@ public class DateFormatUtils {
 		return JodaUtils.formatLocalDate(context, params.getStartDate(), flags);
 	}
 
-	public static String formatCarSearchDateRange(Context context, CarSearchParams params, int flags) {
-		if (params.endDateTime != null) {
-			return formatDateTimeRange(context, params.startDateTime, params.endDateTime, flags);
+	public static String formatCarDateTimeRange(Context context, DateTime startDateTime, DateTime endDateTime) {
+		String formattedStartDateTime = com.expedia.bookings.utils.DateUtils
+			.dateTimeToMMMdhmma(startDateTime);
+		if (endDateTime != null) {
+			String formattedEndDateTime = com.expedia.bookings.utils.DateUtils.dateTimeToMMMdhmma(
+				endDateTime);
+			return context.getResources()
+				.getString(R.string.date_time_range_TEMPLATE, formattedStartDateTime, formattedEndDateTime);
 		}
 
-		String dateRange = DateUtils.formatDateRange(context, params.startDateTime.getMillis(), params.startDateTime.getMillis(), flags);
-		return context.getResources().getString(R.string.select_return_date_TEMPLATE, dateRange);
+
+		return context.getResources().getString(R.string.select_return_date_TEMPLATE, formattedStartDateTime);
 	}
 
 	public static String formatLXDateRange(Context context, LXSearchParams params, int flags) {

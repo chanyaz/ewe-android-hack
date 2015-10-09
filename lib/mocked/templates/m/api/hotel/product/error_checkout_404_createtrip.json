@@ -1,0 +1,136 @@
+{
+    "checkInDate": "${checkInDate}",
+    "checkOutDate": "${checkOutDate}",
+    "hotelAddress": "55 Cyril Magnin St",
+    "hotelCity": "San Francisco",
+    "hotelCountry": "USA",
+    "hotelId": "error_checkout_404",
+    "hotelName": "error_checkout_404",
+    "hotelRoomResponse": {
+        "bedTypes": [
+            {
+                "description": "One King Bed",
+                "id": "14"
+            }
+        ],
+        "cancellationPolicy": "CANCELLATION_POLICY",
+        "currentAllotment": "40",
+        "depositRequired": true,
+        "guaranteeRequired": false,
+        "hasFreeCancellation": false,
+        "immediateChargeRequired": true,
+        "nonRefundable": false,
+        "productKey": "${productKey}",
+        "promoDescription": "",
+        "rateChange": false,
+        "rateInfo": {
+            "chargeableRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "surchargeTotal": "15.98",
+                "surchargeTotalForEntireStay": "15.98",
+                "surcharges": [
+                    {
+                        "amount": "13.25",
+                        "type": "TAX_ALL"
+                    },
+                    {
+                        "amount": "13.25",
+                        "type": "TAX_OTHER"
+                    },
+                    {
+                        "amount": "2.73",
+                        "type": "FEE_ALL"
+                    },
+                    {
+                        "amount": "2.73",
+                        "type": "FEE_MISC"
+                    }
+                ],
+                "surchargesForEntireStay": [
+                    {
+                        "amount": "13.25",
+                        "type": "TAX_ALL"
+                    },
+                    {
+                        "amount": "13.25",
+                        "type": "TAX_OTHER"
+                    },
+                    {
+                        "amount": "2.73",
+                        "type": "FEE_ALL"
+                    },
+                    {
+                        "amount": "2.73",
+                        "type": "FEE_MISC"
+                    }
+                ],
+                "total": "124.98",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "124.98",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "priceBreakdown": true,
+            "promo": true,
+            "rateChange": false
+        },
+        "rateOccupancyPerRoom": "3",
+        "roomLongDescription": "1 king bed with pillowtop mattress, down comforter with duvet, and 300-thread-count triple sheeting. 300 square feet. Bay style window. High-speed Internet access (surcharge). Cable/satellite TV with Internet access, pay movies, and video games (surcharges). Complimentary weekday newspaper. Coffee/tea maker. Bathroom with marble vanity, Bath and Body brand toiletries, makeup/shaving mirror, and phone. Nonsmoking.",
+        "roomThumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_119_d.jpg",
+        "roomTypeDescription": "Deluxe King Room",
+        "smokingPreferences": "NS",
+        "supplierType": "MERCHANT",
+        "valueAdds": [
+            {
+                "description": "Accessible path of travel",
+                "id": "2419"
+            },
+            {
+                "description": "Accessible bathroom",
+                "id": "2420"
+            },
+            {
+                "description": "Roll-in shower",
+                "id": "2421"
+            },
+            {
+                "description": "Accessible parking",
+                "id": "2422"
+            },
+            {
+                "description": "In-room accessibility",
+                "id": "2423"
+            },
+            {
+                "description": "Accessibility equipment for the deaf",
+                "id": "2424"
+            },
+            {
+                "description": "Braille or raised signage",
+                "id": "2425"
+            }
+        ]
+    },
+    "hotelStarRating": "4.0",
+    "hotelStateProvince": "CA",
+    "largeThumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_d.jpg",
+    "localizedHotelName": "Parc 55 Wyndham San Francisco - Union Square",
+    "nonLocalizedHotelName": "Parc 55 Wyndham San Francisco - Union Square",
+    "numberOfNights": "1",
+    "supplierType": "MERCHANT",
+    "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_n.jpg"
+}

@@ -14,8 +14,8 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.HotelDetails;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Launch;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Results;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Search;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.TabletTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.TabletTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

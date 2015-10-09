@@ -63,23 +63,18 @@ public class HotelConfirmationActivity extends FragmentActivity {
 			Property property = Db.getTripBucket().getHotel().getProperty();
 			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 			Rate selectedRate = Db.getTripBucket().getHotel().getRate();
-			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, params, property, Db.getBillingInfo(),
-				selectedRate, bookingResponse);
 
 			CreateTripResponse tripResponse = hotel.getCreateTripResponse();
+
+			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, params, property, tripResponse.getSupplierType(),
+				selectedRate, bookingResponse);
+
 			if (tripResponse != null) {
 				AdImpressionTracking.trackAdConversion(this, tripResponse.getTripId());
 			}
 		}
 
 		setContentView(R.layout.activity_hotel_confirmation);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -99,8 +94,6 @@ public class HotelConfirmationActivity extends FragmentActivity {
 			Db.getHotelSearch().resetSearchParams();
 
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override

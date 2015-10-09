@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.CreateTripResponse;
@@ -31,7 +32,6 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 /**
@@ -97,6 +97,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 				String tripId = null;
 				String tealeafId = null;
 				Long tuid = null;
+				boolean isMerEmailOptIn;
 
 				if (hotel.getCreateTripResponse() != null) {
 					tripId = hotel.getCreateTripResponse().getTripId();
@@ -108,9 +109,10 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 					tuid = Db.getUser().getPrimaryTraveler().getTuid();
 				}
 
+				isMerEmailOptIn = hotel.isMerEmailOptIn();
 				Rate selectedRate = hotel.getRate();
-				HotelBookingResponse response = services.reservation(hotel.getHotelSearchParams(), hotel.getProperty(),
-					selectedRate, Db.getBillingInfo(), tripId, userId, tuid, tealeafId);
+				HotelBookingResponse response = services.reservation(hotel.getHotelSearchParams(),
+					selectedRate, Db.getBillingInfo(), tripId, userId, tuid, tealeafId, isMerEmailOptIn);
 
 				notifyWalletTransactionStatus(response);
 
@@ -309,7 +311,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		final Rate newRate = response.getAirAttachRate() != null ? response.getAirAttachRate() : response.getNewRate();
 
 		// Fake price change
-		if (!AndroidUtils.isRelease(getActivity())) {
+		if (BuildConfig.DEBUG) {
 			String priceChangeString = SettingUtils.get(getActivity(),
 				getString(R.string.preference_fake_hotel_price_change),
 				getString(R.string.preference_fake_price_change_default));
@@ -368,7 +370,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			break;
 		case COUPON_REMOVE:
 			startRemoveCouponDownloader();
-			OmnitureTracking.trackHotelCouponRemoved(getActivity());
+			OmnitureTracking.trackHotelCouponRemoved();
 			break;
 		case CHECKOUT:
 			doBooking();
@@ -544,7 +546,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 				Db.getTripBucket().getHotel().setCouponRate(response.getNewRate());
 				Db.saveTripBucket(getActivity());
 
-				OmnitureTracking.trackHotelCouponApplied(getActivity(), mCouponCode);
+				OmnitureTracking.trackHotelCouponApplied(mCouponCode);
 				Events.post(new Events.CouponApplyDownloadSuccess(response.getNewRate()));
 			}
 		}
@@ -599,7 +601,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 				Db.getTripBucket().getHotel().setCreateTripResponse(response);
 				Db.getTripBucket().getHotel().setCouponRate(null);
 				Db.saveTripBucket(getActivity());
-				OmnitureTracking.trackHotelCouponRemoved(getActivity());
+				OmnitureTracking.trackHotelCouponRemoved();
 				Events.post(new Events.CouponRemoveDownloadSuccess(response.getNewRate()));
 			}
 		}
@@ -646,7 +648,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		else {
 			ServerError serverError = response.getErrors().get(0);
 			errorMessage = serverError.getCouponErrorMessage(getActivity());
-			OmnitureTracking.trackHotelCouponFail(getActivity(), mCouponCode, serverError.getCouponErrorType());
+			OmnitureTracking.trackHotelCouponFail(mCouponCode, serverError.getCouponErrorType());
 		}
 
 		DialogFragment df = SimpleDialogFragment.newInstance(null, errorMessage);
@@ -659,5 +661,4 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	public void handleBookingErrorResponse(Response response) {
 		super.handleBookingErrorResponse(response, LineOfBusiness.HOTELS);
 	}
-
 }

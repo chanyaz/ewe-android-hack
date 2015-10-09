@@ -1,8 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,7 +96,7 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 				// Tracking
 				boolean isAirAttachScenario = getLob() == LineOfBusiness.FLIGHTS &&
 					Db.getTripBucket().getHotel().hasAirAttachRate();
-				OmnitureTracking.trackBookNextClick(getActivity(), getLob(), isAirAttachScenario);
+				OmnitureTracking.trackBookNextClick(getLob(), isAirAttachScenario);
 			}
 		});
 
@@ -108,7 +105,7 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 
 			@Override
 			public void onClick(View v) {
-				OmnitureTracking.trackDoneBookingClick(getActivity(), getLob());
+				OmnitureTracking.trackDoneBookingClick(getLob());
 				NavUtils.goToItin(getActivity());
 				getActivity().finish();
 			}
@@ -119,7 +116,7 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 
 			@Override
 			public void onClick(View v) {
-				OmnitureTracking.trackDoneBookingClick(getActivity(), getLob());
+				OmnitureTracking.trackDoneBookingClick(getLob());
 				NavUtils.goToItin(getActivity());
 				getActivity().finish();
 			}
@@ -176,20 +173,7 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 		animator.translationY(0);
 		animator.setDuration(getResources().getInteger(android.R.integer.config_longAnimTime) * 2);
 		animator.setInterpolator(new OvershootInterpolator());
-
-		if (Build.VERSION.SDK_INT >= 16) {
-			animator.withLayer();
-		}
-		else {
-			mImageCard.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-			animator.setListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					mImageCard.setLayerType(View.LAYER_TYPE_NONE, null);
-				}
-			});
-		}
-
+		animator.withLayer();
 		animator.start();
 	}
 

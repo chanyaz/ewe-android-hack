@@ -123,7 +123,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		List<Property> properties = mSearchResponse.getFilteredAndSortedProperties(Db.getHotelSearch().getSearchParams());
 
 		if (properties == null || properties.size() == 0) {
-			OmnitureTracking.trackErrorPage(mContext, "FilteredToZeroResults");
+			OmnitureTracking.trackErrorPage("FilteredToZeroResults");
 		}
 		else {
 			mPriceTextSize = determinePriceTextSize(properties);

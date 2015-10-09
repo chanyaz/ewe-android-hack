@@ -14,8 +14,6 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.NavUtils;
-import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.facebook.Session;
 import com.mobiata.android.Log;
@@ -61,7 +59,7 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 				SocialUtils.email(getActivity(), mSubject, mLongMessage);
 				dismiss();
 
-				OmnitureTracking.trackItinShare(getActivity(), mType, true);
+				OmnitureTracking.trackItinShare(mType, true);
 			}
 		});
 
@@ -72,7 +70,7 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 				SocialUtils.share(getActivity(), mSubject, mShortMessage);
 				dismiss();
 
-				OmnitureTracking.trackItinShare(getActivity(), mType, false);
+				OmnitureTracking.trackItinShare(mType, false);
 			}
 		});
 
@@ -86,26 +84,9 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 					startActivity(FacebookShareActivity.createIntent(getActivity(), mItinContentGenerator));
 					dismiss();
 
-					OmnitureTracking.trackItinShare(getActivity(), mType, false);
+					OmnitureTracking.trackItinShare(mType, false);
 				}
 			});
-		}
-
-		// Share with FlightTrack
-		if (mItinContentGenerator instanceof FlightItinContentGenerator) {
-			final Intent intent = ((FlightItinContentGenerator) mItinContentGenerator).getShareWithFlightTrackIntent();
-
-			if (NavUtils.canHandleIntent(getActivity(), intent)) {
-				View ft = Ui.findView(view, R.id.flighttrack_button);
-				ft.setVisibility(View.VISIBLE);
-				ft.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						startActivity(intent);
-						dismiss();
-					}
-				});
-			}
 		}
 
 		return view;

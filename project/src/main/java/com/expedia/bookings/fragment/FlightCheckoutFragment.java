@@ -17,12 +17,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity;
 import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
-import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -32,7 +31,9 @@ import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.model.FlightTravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -81,26 +82,26 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	private ViewGroup mPaymentOuterContainer;
 	private TextView mCardFeeTextView;
 	private View mLccTriangle;
+	private TextView mSelectPaymentSentenceText;
+	private TextView mSelectPaymentCalloutText;
 
 	//When we last refreshed user data.
 	private long mRefreshedUserTime = 0L;
 	private boolean mWasLoggedIn = false;
 
 	private CheckoutInformationListener mListener;
-	private LoginFragment.LogInListener mLogInListener;
+	private AccountLibActivity.LogInListener mLogInListener;
 
 	public static FlightCheckoutFragment newInstance() {
 		return new FlightCheckoutFragment();
 	}
-
-
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		if (activity instanceof CheckoutInformationListener) {
 			mListener = (CheckoutInformationListener) activity;
-			mLogInListener = (LoginFragment.LogInListener) activity;
+			mLogInListener = (AccountLibActivity.LogInListener) activity;
 		}
 		else {
 			throw new RuntimeException(
@@ -135,10 +136,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mRefreshedUserTime = savedInstanceState.getLong(INSTANCE_REFRESHED_USER_TIME);
 		}
 
-		//The parent activity uses CheckoutDataLoader to load billingInfo, we wait for it to finish.
-		if (CheckoutDataLoader.getInstance().isLoading()) {
-			CheckoutDataLoader.getInstance().waitForCurrentThreadToFinish();
-		}
 		mBillingInfo = Db.getBillingInfo();
 
 		if (mBillingInfo.getLocation() == null) {
@@ -155,6 +152,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mTravelerContainer = Ui.findView(v, R.id.traveler_container);
 		mCardFeeTextView = Ui.findView(v, R.id.lcc_card_fee_warning);
 		mLccTriangle = Ui.findView(v, R.id.lcc_triangle);
+		mSelectPaymentSentenceText = Ui.findView(v, R.id.select_payment_sentence_text);
+		mSelectPaymentCalloutText = Ui.findView(v, R.id.select_payment_callout_text);
 
 		if (!PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
 			mSectionLocation.setVisibility(View.GONE);
@@ -186,6 +185,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		buildTravelerBox();
 
+		mAccountButton.setVisibility(ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled() ? View.VISIBLE : View.GONE);
+
 		return v;
 	}
 
@@ -204,14 +205,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	@Override
 	public void onPause() {
 		super.onPause();
-
-		if (Db.getTravelersAreDirty()) {
-			Db.kickOffBackgroundTravelerSave(getActivity());
-		}
-
-		if (Db.getBillingInfoIsDirty()) {
-			Db.kickOffBackgroundBillingInfoSave(getActivity());
-		}
 
 		if (getActivity().isFinishing()) {
 			BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
@@ -288,8 +281,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
 					}
 				}
-				Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
-				if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+				if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
 					Db.getTripBucket().getFlight().getFlightTrip().setRewardsPoints("");
 				}
 				mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.FLIGHTS);
@@ -376,6 +368,13 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 				tv.setText(travelerBoxLabels.get(index));
 
+				boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+				int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+				if (isUserBucketedForTest && testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
+					TextView promptView = Ui.findView(v, R.id.traveler_empty_prompt);
+					promptView.setVisibility(View.VISIBLE);
+				}
+
 				// We need to add traveler sections for all passengers in order to best
 				// maintain matched indexing between travelers and their info sections
 				if (mTravelerSections.size() < travelers.size()) {
@@ -431,8 +430,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(new Traveler());
 			}
 
-			Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(false);
-
 			startActivity(editTravelerIntent);
 		}
 	}
@@ -456,7 +453,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				for (int i = 0; i < travelers.size(); i++) {
 					SectionTravelerInfo travSection = mTravelerSections.get(i);
 					boolean currentTravelerValid = false;
-					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational()) {
+					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational() || Db.getTripBucket().getFlight().getFlightTrip().isPassportNeeded()) {
 						currentTravelerValid = (state.allTravelerInfoIsValidForInternationalFlight(travelers.get(i)));
 					}
 					else {
@@ -508,6 +505,19 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 		else {
 			mStoredCreditCard.setVisibility(View.GONE);
+			boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+			int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+
+			if (isUserBucketedForTest) {
+				if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
+					mSelectPaymentSentenceText.setText(R.string.select_payment_sentence_case_variate1);
+				}
+				else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
+					mSelectPaymentSentenceText.setText(R.string.select_payment_sentence_case_variate2);
+					mSelectPaymentCalloutText.setVisibility(View.VISIBLE);
+				}
+			}
+
 			mPaymentButton.setVisibility(View.VISIBLE);
 			mCreditCardSectionButton.setVisibility(View.GONE);
 		}
@@ -577,11 +587,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	@Override
 	public void accountLoginClicked() {
 		String tripId = Db.getTripBucket().getFlight().getItinerary().getTripId();
-		Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.FLIGHTS, new UserToTripAssocLoginExtender(
+		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.FLIGHTS, new UserToTripAssocLoginExtender(
 			tripId));
 		User.signIn(getActivity(), args);
-
-		OmnitureTracking.trackPageLoadFlightLogin(getActivity());
+		OmnitureTracking.trackPageLoadFlightLogin();
 	}
 
 	@Override
@@ -630,7 +639,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	public void onLoginCompleted() {
 		Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
-		if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+		if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
 			mLogInListener.onLoginCompleted();
 			mWasLoggedIn = true;
 		}
@@ -706,6 +715,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	 * blow away whatever was here before - so only call this when
 	 * we want to override the current data with Google Wallet!
 	 */
+	@Override
 	protected void onMaskedWalletFullyLoaded(boolean fromPreauth) {
 		populateTravelerData();
 
@@ -729,8 +739,12 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	}
 
 	// We may want to update these more often than the rest of the Views
+	@Override
 	protected void updateWalletViewVisibilities() {
-		boolean showWalletButton = showWalletButton();
+		boolean isUserBucketedForTest = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppPaySuppressGoogleWallet);
+
+		boolean showWalletButton = showWalletButton() && !isUserBucketedForTest;
 		boolean isWalletLoading = isWalletLoading();
 
 		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
@@ -763,5 +777,4 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		public void onLogout();
 	}
-
 }

@@ -6,7 +6,7 @@ import android.app.Instrumentation;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.utils.SpoonScreenshotUtils;
+import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
@@ -20,8 +20,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.ui.espresso.ViewActions.getNameMatchWarningView;
-import static com.expedia.bookings.test.ui.espresso.ViewActions.swipeRight;
+import static com.expedia.bookings.test.espresso.ViewActions.getNameMatchWarningView;
+import static com.expedia.bookings.test.espresso.ViewActions.swipeRight;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -33,10 +33,6 @@ public class Checkout {
 
 	public static void clickOnTravelerDetails() {
 		onView(withId(R.id.traveler_section_container)).perform(click());
-	}
-
-	public static void clickOnTravelerEditDetails() {
-		onView(withId(R.id.edit_traveler_button)).perform(click());
 	}
 
 	public static ViewInteraction nameMustMatchTextView() {
@@ -140,32 +136,12 @@ public class Checkout {
 		onView(withId(R.id.empty_saved_creditcard_fake_spinner)).perform(click());
 	}
 
-	public static void clickOnEmptyStoredCCEditButton() {
-		onView(withId(R.id.empty_edit_creditcard_button)).perform(click());
-	}
-
-	public static void clickOnStoredCCSpinnerButton() {
-		onView(withId(R.id.stored_creditcard_fake_spinner)).perform(click());
-	}
-
 	public static void clickOnStoredCCEditButton() {
 		onView(withId(R.id.stored_creditcard_edit_button)).perform(click());
 	}
 
-	public static void clickOnManualCCSpinnerButton() {
-		onView(withId(R.id.new_creditcard_fake_spinner)).perform(click());
-	}
-
-	public static void clickOnManualCCEditButton() {
-		onView(withId(R.id.new_creditcard_edit_button)).perform(click());
-	}
-
 	public static void clickOnRemoveStoredCCButton() {
 		onView(withId(R.id.remove_stored_card_button)).perform(click());
-	}
-
-	public static void clickOnEmptyStoredTravelerSpinnerButton() {
-		onView(withId(R.id.empty_saved_creditcard_fake_spinner)).perform(click());
 	}
 
 	public static void clickOnStoredTravelerSpinnerButton() {
@@ -174,14 +150,14 @@ public class Checkout {
 	public static void selectStoredCard(Instrumentation instrumentation, String cardname) throws Throwable {
 		onView(withText(cardname))
 			.inRoot(withDecorView(
-				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
+				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
 			.perform(click());
 	}
 
 	public static void selectStoredTraveler(Instrumentation instrumentation, String travelername) throws Throwable {
 		onView(withText(travelername))
 			.inRoot(withDecorView(
-				not(is(SpoonScreenshotUtils.getCurrentActivity(instrumentation).getWindow().getDecorView()))))
+				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
 			.perform(click());
 	}
 

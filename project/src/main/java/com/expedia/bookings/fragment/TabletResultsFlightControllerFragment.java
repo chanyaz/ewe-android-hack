@@ -199,7 +199,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {
 			return ResultsFlightsState.NO_FLIGHTS_DROPDOWN_POS;
 		}
-		else if (!PointOfSale.getPointOfSale().supportsFlights()) {
+		else if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
 			return ResultsFlightsState.NO_FLIGHTS_POS;
 		}
 		else if (TextUtils.isEmpty(Sp.getParams().getOriginAirportCode()) || isOriginDestinationSame()) {
@@ -732,7 +732,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				|| stateOne == ResultsFlightsState.CHOOSING_FLIGHT
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mCouldShowInfantPrompt = true;
-				mFlightMapC.setVisibility(View.GONE);
 			}
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mLoadingC.setAlpha(0.0f);
@@ -755,6 +754,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 			else {
 				mFlightMapC.setAlpha(1f);
+			}
+
+			if (!state.isFlightListState()) {
+				mFlightMapC.setVisibility(View.GONE);
 			}
 
 			// Make sure we are loading using the most recent params
@@ -784,7 +787,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 					popInfantPromptIfNeeded();
 				}
 				if (mFlightLegsFrag.isFirstLeg()) {
-					OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), 0);
+					OmnitureTracking.trackPageLoadFlightSearchResults(0);
+					AdTracker.trackPageLoadFlightSearchResults(0);
 				}
 			}
 		}
@@ -831,7 +835,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (!mInfantFrag.isAdded()) {
 				mInfantFrag.show(getFragmentManager(), "infantChooser");
 			}
-			OmnitureTracking.trackFlightInfantDialog(getActivity());
+			OmnitureTracking.trackFlightInfantDialog();
 		}
 	}
 
@@ -842,7 +846,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			boolean newLapPref = !Db.getFlightSearch().getSearchParams().getInfantSeatingInLap();
 			Sp.getParams().setInfantsInLaps(newLapPref);
 			Sp.reportSpUpdate();
-			OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
+			OmnitureTracking.trackTabletSearchResultsPageLoad(Sp.getParams());
 		}
 	}
 
@@ -858,7 +862,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		FlightSearchResponse flightResponse = event.response;
 
 		if (flightResponse != null) {
-			Db.kickOffBackgroundFlightSearchSave(getActivity());
 			Db.addAirlineNames(flightResponse.getAirlineNames());
 		}
 		else {

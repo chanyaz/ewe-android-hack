@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListPopupWindow;
 
 import com.expedia.bookings.R;
@@ -19,6 +20,7 @@ import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.TravelerUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
@@ -49,8 +51,7 @@ public class TravelerButton extends LinearLayout {
 	private ITravelerButtonListener mTravelerButtonListener;
 
 	public interface ITravelerButtonListener {
-		public void onTravelerChosen(Traveler traveler);
-		public void onAddNewTravelerSelected();
+		void onTravelerChosen(Traveler traveler);
 	}
 
 	@InjectView(R.id.select_traveler_button)
@@ -67,7 +68,7 @@ public class TravelerButton extends LinearLayout {
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		inflater.inflate(R.layout.checkout_traveler_button, this);
 		ButterKnife.inject(this);
-		mTravelerAdapter = new TravelerAutoCompleteAdapter(getContext(), false, R.drawable.car_driver_checkout_circle);
+		mTravelerAdapter = new TravelerAutoCompleteAdapter(getContext(), false, Ui.obtainThemeResID(getContext(), R.attr.traveler_checkout_circle_drawable));
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
 		if (dl.isDownloading(getTravelerDownloadKey())) {
 			dl.registerDownloadCallback(getTravelerDownloadKey(), mTravelerDetailsCallback);

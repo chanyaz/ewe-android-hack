@@ -1,6 +1,5 @@
 package com.expedia.bookings.tracking;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -11,6 +10,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.AdX.tag.AdXConnect;
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -24,109 +24,100 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 
 public class AdX {
-	private static Context sAppContext;
-	private static boolean sEnabled;
-	private static boolean sConnected;
-	private static int sLogLevel;
+	private static Context context;
+	private static boolean initialized = false;
+	private static boolean connected = false;
 
-	public static void initialize(Context context, boolean enabled) {
-		sConnected = false;
-		sAppContext = context.getApplicationContext();
-		sEnabled = enabled;
-		if (AndroidUtils.isRelease(sAppContext)) {
-			sLogLevel = 0;
-		}
-		else {
-			sLogLevel = 5;
-		}
-
-		Log.i("AdX tracking initialized (enabled: " + String.valueOf(enabled) + ")");
+	public static void initialize(Context context) {
+		initialized = true;
+		AdX.context = context.getApplicationContext();
+		Log.i("AdX tracking initialized");
 	}
 
 	private static void connect(String pos, boolean launchedAgain) {
-		if (!sConnected) {
+		if (initialized && !connected) {
 			String adXKey = ProductFlavorFeatureConfiguration.getInstance().getAdXKey();
 			if (Strings.isNotEmpty(adXKey)) {
 				AdXConnect.setKey(adXKey);
 			}
 
-			AdXConnect.getAdXConnectInstance(sAppContext, launchedAgain, sLogLevel);
-			sConnected = true;
+			int logLevel = BuildConfig.RELEASE ? 0 : 5;
+			AdXConnect.getAdXConnectInstance(context, launchedAgain, logLevel);
+			connected = true;
 		}
 	}
 
 	public static void trackFirstLaunch() {
-		if (sEnabled) {
+		if (initialized) {
 			String pos = PointOfSale.getPointOfSale().getTwoLetterCountryCode();
 			connect(pos, false);
-			AdXConnect.getAdXConnectEventInstance(sAppContext, "FirstLaunch", "", "");
+			AdXConnect.getAdXConnectEventInstance(context, "FirstLaunch", "", "");
 			Log.i("AdX first launch event PointOfSale=" + pos);
 
 			reportReferralToOmniture();
 
 			// Retargeting
-			AdXConnect.startNewExtendedEvent(sAppContext);
+			AdXConnect.startNewExtendedEvent(context);
 			AdXConnect.sendExtendedEventOfName("launch");
 		}
 	}
 
 	public static void trackLaunch() {
-		if (sEnabled) {
+		if (initialized) {
 			String pos = PointOfSale.getPointOfSale().getTwoLetterCountryCode();
 			connect(pos, true);
-			AdXConnect.getAdXConnectEventInstance(sAppContext, "Launch", "", "");
+			AdXConnect.getAdXConnectEventInstance(context, "Launch", "", "");
 			Log.i("AdX launch event PointOfSale=" + pos);
 
 			// Retargeting
-			AdXConnect.startNewExtendedEvent(sAppContext);
+			AdXConnect.startNewExtendedEvent(context);
 			AdXConnect.sendExtendedEventOfName("launch");
 		}
 	}
 
 	public static void trackDeepLinkLaunch(Uri data) {
-		if (sEnabled) {
+		if (initialized) {
 			String adxid = data.getQueryParameter("ADXID");
 			if (adxid != null && adxid.length() > 0) {
-				AdXConnect.getAdXConnectEventInstance(sAppContext, "DeepLinkLaunch", adxid, "");
+				AdXConnect.getAdXConnectEventInstance(context, "DeepLinkLaunch", adxid, "");
 				Log.i("AdX deep link launch, Ad-X ID=" + adxid);
 			}
 		}
 	}
 
 	public static void trackLogin() {
-		if (sEnabled) {
-			AdXConnect.getAdXConnectEventInstance(sAppContext, "Login", "", "");
+		if (initialized) {
+			AdXConnect.getAdXConnectEventInstance(context, "Login", "", "");
 			Log.i("AdX login event");
 		}
 	}
 
 	public static void trackViewHomepage() {
-		if (sEnabled) {
-			AdXConnect.startNewExtendedEvent(sAppContext);
+		if (initialized) {
+			AdXConnect.startNewExtendedEvent(context);
 			addCommonRetargeting();
 			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_HOMEPAGE);
 		}
 	}
 
 	public static void trackViewItinList() {
-		if (sEnabled) {
-			AdXConnect.getAdXConnectEventInstance(sAppContext, "Itinerary", "", "");
+		if (initialized) {
+			AdXConnect.getAdXConnectEventInstance(context, "Itinerary", "", "");
 			Log.i("AdX Itinerary event");
 		}
 	}
 
 	public static void trackHotelBooked(HotelSearchParams params, Property property, String orderNumber, String currency, double totalPrice, double avgPrice) {
-		if (sEnabled) {
-			AdXConnect.getAdXConnectEventInstance(sAppContext, "Sale", String.valueOf(totalPrice), currency, "Hotel");
+		if (initialized) {
+			AdXConnect.getAdXConnectEventInstance(context, "Sale", String.valueOf(totalPrice), currency, "Hotel");
 			Log.i("AdX hotel booking event currency=" + currency + " total=" + totalPrice);
 
 			// Retargeting event
 			DateTimeFormatter dtf = ISODateTimeFormat.date();
 
-			AdXConnect.startNewExtendedEvent(sAppContext);
+			AdXConnect.startNewExtendedEvent(context);
 			addCommonRetargeting();
 
 			Location location = property.getLocation();
@@ -149,15 +140,15 @@ public class AdX {
 	}
 
 	public static void trackFlightBooked(FlightSearch search, String orderId, String currency, double totalPrice) {
-		if (sEnabled) {
-			AdXConnect.getAdXConnectEventInstance(sAppContext, "Sale", String.valueOf(totalPrice), currency, "Flight");
+		if (initialized) {
+			AdXConnect.getAdXConnectEventInstance(context, "Sale", String.valueOf(totalPrice), currency, "Flight");
 			Log.i("AdX flight booking event currency=" + currency + " total=" + totalPrice);
 
 			// Retargeting event
 			FlightSearchParams params = search.getSearchParams();
 			DateTimeFormatter dtf = ISODateTimeFormat.date();
 
-			AdXConnect.startNewExtendedEvent(sAppContext);
+			AdXConnect.startNewExtendedEvent(context);
 			addCommonRetargeting();
 			Location location = params.getArrivalLocation();
 			if (location != null) {
@@ -184,14 +175,14 @@ public class AdX {
 	}
 
 	public static void trackHotelCheckoutStarted(HotelSearchParams params, Property property, String currency, double totalPrice) {
-		if (sEnabled) {
-			AdXConnect.getAdXConnectEventInstance(sAppContext, "Checkout", String.valueOf(totalPrice), currency, "Hotel");
+		if (initialized) {
+			AdXConnect.getAdXConnectEventInstance(context, "Checkout", String.valueOf(totalPrice), currency, "Hotel");
 			Log.i("AdX hotel checkout started currency=" + currency + " total=" + totalPrice);
 
 			// Retargeting event
 			DateTimeFormatter dtf = ISODateTimeFormat.date();
 
-			AdXConnect.startNewExtendedEvent(sAppContext);
+			AdXConnect.startNewExtendedEvent(context);
 			addCommonRetargeting();
 
 			Location location = property.getLocation();
@@ -214,15 +205,15 @@ public class AdX {
 	}
 
 	public static void trackFlightCheckoutStarted(FlightSearch search, String currency, double totalPrice) {
-		if (sEnabled) {
-			AdXConnect.getAdXConnectEventInstance(sAppContext, "Checkout", String.valueOf(totalPrice), currency, "Flight");
+		if (initialized) {
+			AdXConnect.getAdXConnectEventInstance(context, "Checkout", String.valueOf(totalPrice), currency, "Flight");
 			Log.i("AdX flight checkout started currency=" + currency + " total=" + totalPrice);
 
 			// Retargeting event
 			FlightSearchParams params = search.getSearchParams();
 			DateTimeFormatter dtf = ISODateTimeFormat.date();
 
-			AdXConnect.startNewExtendedEvent(sAppContext);
+			AdXConnect.startNewExtendedEvent(context);
 			addCommonRetargeting();
 			Location location = params.getArrivalLocation();
 			if (location != null) {
@@ -248,17 +239,17 @@ public class AdX {
 	}
 
 	public static void trackHotelSearch(HotelSearch search) {
-		if (sEnabled) {
+		if (initialized) {
 			HotelSearchParams params = search.getSearchParams();
 			if (!TextUtils.isEmpty(params.getRegionId())) {
-				AdXConnect.getAdXConnectEventInstance(sAppContext, "Search", "", params.getRegionId(), "Hotel");
+				AdXConnect.getAdXConnectEventInstance(context, "Search", "", params.getRegionId(), "Hotel");
 				Log.i("AdX hotel search regionId=" + params.getRegionId());
 			}
 
 			DateTimeFormatter dtf = ISODateTimeFormat.date();
 
 			// Retargeting event
-			AdXConnect.startNewExtendedEvent(sAppContext);
+			AdXConnect.startNewExtendedEvent(context);
 			addCommonRetargeting();
 			if (search.getSearchResponse() != null && search.getSearchResponse().getPropertiesCount() > 0) {
 				Location location = search.getSearchResponse().getProperty(0).getLocation();
@@ -277,16 +268,16 @@ public class AdX {
 	}
 
 	public static void trackFlightSearch(FlightSearch flightSearch) {
-		if (sEnabled) {
+		if (initialized) {
 			FlightSearchParams params = flightSearch.getSearchParams();
 			String destinationAirport = params.getArrivalLocation().getDestinationId();
-			AdXConnect.getAdXConnectEventInstance(sAppContext, "Search", "", destinationAirport, "Flight");
+			AdXConnect.getAdXConnectEventInstance(context, "Search", "", destinationAirport, "Flight");
 			Log.i("AdX flight search destination=" + destinationAirport);
 
 			DateTimeFormatter dtf = ISODateTimeFormat.date();
 
 			// Retargeting event
-			AdXConnect.startNewExtendedEvent(sAppContext);
+			AdXConnect.startNewExtendedEvent(context);
 			addCommonRetargeting();
 			Location location = params.getArrivalLocation();
 			if (location != null) {
@@ -320,13 +311,13 @@ public class AdX {
 					// Should not ever happen
 				}
 
-				String referral = AdXConnect.getAdXReferral(sAppContext, 15);
+				String referral = AdXConnect.getAdXReferral(context, 15);
 				if (TextUtils.isEmpty(referral)) {
 					Log.w("Unable to retrieve AdX referral string");
 				}
 				else {
 					Log.d("Got AdX referral string: " + referral);
-					OmnitureTracking.trackAdXReferralLink(sAppContext, referral);
+					OmnitureTracking.trackAdXReferralLink(referral);
 				}
 			}
 		}).start();
@@ -342,7 +333,7 @@ public class AdX {
 			AdXConnect.setEventParameter(AdXConnect.ADX_CUSTOMERID, customerId);
 		}
 		AdXConnect.setEventParameterOfName("pos", PointOfSale.getPointOfSale().getTwoLetterCountryCode());
-		final String loggedIn = User.isLoggedIn(sAppContext) ? "loggedin | hard" : "unknown user";
+		final String loggedIn = User.isLoggedIn(context) ? "loggedin | hard" : "unknown user";
 		AdXConnect.setEventParameterOfName("fb_logged_in", loggedIn);
 		final String rewardStatus = Db.getUser() != null && Db.getUser().isRewardsUser() ? "rewardsMember" : "notRewardsMember";
 		AdXConnect.setEventParameterOfName("fb_reward_status", rewardStatus);
@@ -365,7 +356,4 @@ public class AdX {
 		return JodaUtils.daysBetween(LocalDate.now(), time);
 	}
 
-	private static int getBookingWindow(DateTime time) {
-		return JodaUtils.daysBetween(LocalDate.now(), new LocalDate(time));
-	}
 }

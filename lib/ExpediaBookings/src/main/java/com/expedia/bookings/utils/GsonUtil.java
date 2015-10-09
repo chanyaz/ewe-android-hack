@@ -128,23 +128,19 @@ public class GsonUtil {
 
 		@Override
 		public void write(JsonWriter out, Money value) throws IOException {
+			if (value == null) {
+				out.nullValue();
+				return;
+			}
+
 			out.beginObject();
 
 			out.name("amount");
-			if (value == null) {
-				out.value("");
-			}
-			else {
-				out.value(value.amount.toString());
-			}
+			out.value(value.amount.toString());
 
 			out.name("currency");
-			if (value == null) {
-				out.value("");
-			}
-			else {
-				out.value(value.currencyCode);
-			}
+			out.value(value.currencyCode);
+
 			out.endObject();
 		}
 

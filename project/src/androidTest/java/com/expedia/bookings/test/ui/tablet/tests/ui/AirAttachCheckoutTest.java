@@ -9,8 +9,8 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.HotelDetails;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Launch;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Results;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Search;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.TabletTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.TabletTestCase;
 
 /**
  * Created by dmadan on 12/11/14.
@@ -82,8 +82,9 @@ public class AirAttachCheckoutTest extends TabletTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.air_attach_expires_text_view);
 		//air attach expires text view is displayed
 
-		EspressoUtils.assertViewIsDisplayed(R.id.air_attach_expiration_date_text_view);
 		//air attach expiration date is displayed
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.air_attach_expires_text_view, "Offer expires in");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.air_attach_expiration_date_text_view, "10 days");
 
 		assertFalse(tripBucketHotelPrice.equals(tripBucketHotelPriceWithDiscount));
 		//Successfully asserted hotel trip bucket price before and after flight confirmation are different

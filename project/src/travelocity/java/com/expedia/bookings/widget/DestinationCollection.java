@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -152,7 +153,7 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 			return;
 		}
 		final LaunchCollection collectionToAdd = (LaunchCollection) getTag();
-		OmnitureTracking.trackTabletLaunchTileSelect(getContext(), collectionToAdd.id);
+		OmnitureTracking.trackTabletLaunchTileSelect(collectionToAdd.id);
 		if (collectionToAdd.id.equals(LaunchDb.YOUR_SEARCH_TILE_ID)) {
 			Events.post(new Events.SearchSuggestionSelected(collectionToAdd.locations.get(0).location, true));
 		}

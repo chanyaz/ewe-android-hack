@@ -8,8 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightSegmentAttributes;
@@ -34,8 +32,6 @@ import com.squareup.okhttp.Response;
  */
 public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearchResponse> {
 
-	private Context mContext;
-
 	private FlightSearchResponse mResponse;
 
 	private Map<String, FlightLeg> mLegs;
@@ -44,10 +40,6 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 	// when it's not an operating airline.
 	private Map<String, String> mAirlineNames;
 	private Map<String, String> mOperatingAirlineNames;
-
-	public FlightSearchResponseHandler(Context context) {
-		mContext = context;
-	}
 
 	@Override
 	public FlightSearchResponse handleResponse(Response response) throws IOException {
@@ -69,7 +61,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 		// Handle errors
 		try {
-			mResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.FLIGHT_SEARCH, response));
+			mResponse.addErrors(ParserUtils.parseErrors(ApiMethod.FLIGHT_SEARCH, response));
 			if (!mResponse.isSuccess()) {
 				return mResponse;
 			}

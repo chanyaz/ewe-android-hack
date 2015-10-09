@@ -8,6 +8,7 @@ import android.content.Context;
 import android.location.LocationManager;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
@@ -16,6 +17,7 @@ import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.AndroidUtils;
+import com.squareup.phrase.Phrase;
 
 public class DebugInfoUtils {
 
@@ -32,7 +34,7 @@ public class DebugInfoUtils {
 		body.append(context.getPackageName());
 		body.append("\n");
 		body.append("VERSION: ");
-		body.append(AndroidUtils.getAppVersion(context));
+		body.append(BuildConfig.VERSION_NAME);
 		body.append("\n");
 		body.append("CODE: ");
 		body.append(AndroidUtils.getAppCode(context));
@@ -42,6 +44,9 @@ public class DebugInfoUtils {
 		body.append("\n");
 		body.append("LOCALE: ");
 		body.append(Locale.getDefault().toString());
+		body.append("\n");
+		body.append("ABACUS GUID: ");
+		body.append(Db.getAbacusGuid());
 
 		body.append("\n\n");
 
@@ -51,10 +56,11 @@ public class DebugInfoUtils {
 		body.append("\n\n");
 
 		if (User.isLoggedIn(context) && Db.getUser() != null) {
-			body.append(
-				context.getString(
-					com.expedia.bookings.utils.Ui.obtainThemeResID(context, R.attr.skin_emailUserNameString)) + Db
-					.getUser().getPrimaryTraveler().getEmail());
+			String email = Db.getUser().getPrimaryTraveler().getEmail();
+			body.append(Phrase.from(context, R.string.email_user_name_template)
+					.put("brand", BuildConfig.brand)
+					.put("email", email)
+					.format());
 
 			body.append("\n\n");
 		}

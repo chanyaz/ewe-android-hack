@@ -14,13 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
@@ -28,7 +29,6 @@ import com.expedia.bookings.widget.itin.ItinAirAttachCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard.ItinButtonType;
 import com.expedia.bookings.widget.itin.ItinButtonCard.OnHideListener;
-import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Waypoint;
 
 public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener, OnHideListener {
@@ -226,6 +226,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		// Add air attach and hotel attach cards where applicable
 		addAttachData(mItinCardDatasSync);
 
+		// Add lx attach cards where applicable.
+		addLXAttachData(mItinCardDatasSync);
+
 		// Do some calculations on the data
 		Pair<Integer, Integer> summaryCardPositions = calculateSummaryCardPositions(mItinCardDatasSync);
 
@@ -348,7 +351,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	private boolean isItemAButtonCard(int position) {
 		final ItinCardData item = getItem(position);
-		return item instanceof ItinCardDataHotelAttach;
+		return (item instanceof ItinCardDataHotelAttach || item instanceof ItinCardDataLXAttach);
 	}
 
 	private boolean isItemAnAirAttachCard(int position) {
@@ -463,6 +466,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	 */
 
 	private void addAttachData(List<ItinCardData> itinCardDatas) {
+		// Don't add attach cards if POS does not support hotel x-sell
+		if (!PointOfSale.getPointOfSale().showHotelCrossSell()) {
+			return;
+		}
 		// Nothing to do if there are no itineraries
 		int len = itinCardDatas.size();
 		if (len == 0) {
@@ -475,9 +482,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			.getDismissedTripIds(ItinButtonType.AIR_ATTACH);
 		dismissedTripIds.addAll(dismissedAirAttach);
 
-		boolean isHotelAttachEnabled = !SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false)
-			&& PointOfSale.getPointOfSale().getPointOfSaleId() != PointOfSaleId.NORWAY;
-		boolean isAirAttachEnabled = !SettingUtils.get(mContext, R.string.setting_hide_air_attach, false);
 		boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
 			Db.getTripBucket().isUserAirAttachQualified();
 
@@ -486,18 +490,15 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			DateTime start = data.getStartDate();
 			DateTime currentDate = DateTime.now(start.getZone());
 
-			// Ignore dismissed buttons
-			if (dismissedTripIds.contains(data.getTripId())) {
+			if (ignoreDismissedTripIds(dismissedTripIds, data)) {
 				continue;
 			}
 
-			// Ignore fallback cards
-			if (data instanceof ItinCardDataFallback) {
+			if (ignoreItinCardDataFallback(data)) {
 				continue;
 			}
 
-			// Ignore past itineraries
-			if (currentDate.isAfter(start) && currentDate.getDayOfYear() > start.getDayOfYear()) {
+			if (ignorePastItineraries(start, currentDate)) {
 				continue;
 			}
 
@@ -530,18 +531,13 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				Type nextType = nextData.getTripComponentType();
 				DateTime dateTimeOne = new DateTime(itinDestination.getMostRelevantDateTime());
 
-				if (nextData instanceof ItinCardDataFallback) {
+				if (ignoreItinCardDataFallback(nextData)) {
 					continue;
 				}
 
 				// Always add an attach button for one-way flights with no hotel
 				if (legCount == 1 && !(nextType == Type.HOTEL)) {
 					insertButtonCard = true;
-				}
-
-				// Ignore fallback cards
-				if (nextData instanceof ItinCardDataFallback) {
-					continue;
 				}
 
 				// If the next itin is a flight
@@ -582,15 +578,17 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			}
 
 			if (insertButtonCard) {
+				((ItinCardDataFlight) data).setShowAirAttach(true);
+				((ItinCardDataFlight) data).setNextFlightLeg(nextFlightLeg);
 				// Check if user qualifies for air attach
-				if (isUserAirAttachQualified && isAirAttachEnabled) {
+				if (isUserAirAttachQualified) {
 					itinCardDatas
 						.add(i + 1, new ItinCardDataAirAttach(tripFlight, itinFlightLeg, nextFlightLeg));
 					len ++;
 					i ++;
 				}
-				// Make sure hotel attach is enabled
-				else if (isHotelAttachEnabled && isAirAttachEnabled) {
+				// Show default hotel cross-sell button
+				else {
 					itinCardDatas
 						.add(i + 1, new ItinCardDataHotelAttach(tripFlight, itinFlightLeg, nextFlightLeg));
 					len ++;
@@ -598,6 +596,83 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				}
 			}
 		}
+	}
+
+	private void addLXAttachData(List<ItinCardData> itinCardDatas) {
+		boolean isUserBucketedForTest = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelItinLXXsell);
+		if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
+			return;
+		}
+		// Nothing to do if there are no itineraries
+		int len = itinCardDatas.size();
+		if (len == 0) {
+			return;
+		}
+		// Get previously dismissed buttons
+		final HashSet<String> dismissedTripIds = DismissedItinButton
+			.getDismissedTripIds(ItinButtonType.LX_ATTACH);
+
+		for (int i = 0; i < len; i++) {
+			ItinCardData data = itinCardDatas.get(i);
+			DateTime start = data.getStartDate();
+			DateTime currentDate = DateTime.now(start.getZone());
+
+			if (ignoreDismissedTripIds(dismissedTripIds, data)) {
+				continue;
+			}
+
+			if (ignoreItinCardDataFallback(data)) {
+				continue;
+			}
+
+			if (ignorePastItineraries(start, currentDate)) {
+				continue;
+			}
+
+			if (ignoreNonHotelItineraries(data)) {
+				continue;
+			}
+
+			// Track as user qualifies for the Cross-sell.
+			OmnitureTracking.trackAddLxItin();
+
+			if (isUserBucketedForTest) {
+				TripHotel tripHotel = (TripHotel) data.getTripComponent();
+				itinCardDatas
+					.add(i + 1, new ItinCardDataLXAttach(tripHotel));
+				len++;
+				i++;
+			}
+		}
+	}
+
+	private boolean ignoreNonHotelItineraries(ItinCardData data) {
+		if (!data.getTripComponentType().equals(Type.HOTEL) || !(data instanceof ItinCardDataHotel)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean ignoreItinCardDataFallback(ItinCardData data) {
+		if (data instanceof ItinCardDataFallback) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean ignorePastItineraries(DateTime start, DateTime currentDate) {
+		if (currentDate.isAfter(start) && currentDate.getDayOfYear() > start.getDayOfYear()) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean ignoreDismissedTripIds(HashSet<String> dismissedTripIds, ItinCardData data) {
+		if (dismissedTripIds.contains(data.getTripId())) {
+			return true;
+		}
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -623,6 +698,14 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	@Override
 	public void onHideAll(ItinButtonType itinButtonType) {
+		for (ItinCardData itinCardData : mItinCardDatas) {
+			if (itinCardData instanceof ItinCardDataHotelAttach && itinButtonType == ItinButtonType.HOTEL_ATTACH) {
+				DismissedItinButton.dismiss(itinCardData.getTripId(), itinButtonType);
+			}
+			else if (itinCardData instanceof ItinCardDataAirAttach && itinButtonType == ItinButtonType.AIR_ATTACH) {
+				DismissedItinButton.dismiss(itinCardData.getTripId(), itinButtonType);
+			}
+		}
 		syncWithManager();
 	}
 }

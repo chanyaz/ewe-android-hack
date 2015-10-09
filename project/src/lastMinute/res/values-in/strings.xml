@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="call_lm_customer_support">Hubungi Layanan Pelanggan lastminute.com.au</string>
+
+    <!-- Log in with lastminute.com.au -->
+    <string name="Log_in_with_lm">Login dengan lastminute.com.au</string>
+    <!-- Label for signin screen -->
+    <string name="lm_account">Akun lastminute.com.au</string>
+    <!-- Content description for action: Press to log in with your lastminute.com.au account -->
+    <string name="cd_checkout_log_in_with_lm">Silakan login ke akun lastminute.com.au Anda</string>
+
+    <string name="lm_website">Website lastminute.com.au</string>
+    <string name="lm_app_support">Bantuan App lastminute.com.au</string>
+    <string name="lm_copyright_TEMPLATE">© Copyright 2012-%1$s lastminute.com.au\nSemua hak dilindungi.</string>
+    <string name="lm_info_url">http://www.lastminute.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_lm">Yakin mau keluar dari akun lastminute.com.au Anda?</string>
+
+    <!-- Expedia booking fee -->
+    <string name="lm_booking_fee">Biaya Pemesanan lastminute.com.au</string>
+
+    <string name="error_flight_unhandled_lm_TEMPLATE">Maaf, sepertinya kami tidak bisa memproses pemesanan Anda sekarang. Silakan coba lagi atau hubungi Layanan Pelanggan lastminute.com.au dan sebutkan nomor itinerary ini: %s</string>
+    <string name="error_server_lm">Maaf, kami sedang tidak bisa tersambung ke server lastminute.com.au.  Silakan coba lagi nanti.</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_lm_info_message">Simpan rincian pembayaran ini di akun lastminute.com.au Anda untuk pembelian berikutnya?</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_lm_message_TEMPLATE">Simpan informasi %1$s ini di akun lastminute.com.au Anda untuk pembelian berikutnya?</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_lm">Nomor Itinerary lastminute.com.au: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_lm">Layanan Pelanggan lastminute.com.au: %s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_lm">Anda telah keluar dari akun lastminute.com.au Anda, dan semua informasi kontak dan tagihan telah dihapus.</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_lm">Maaf, kami sedang tidak bisa tersambung ke lastminute.com.au. Silakan coba lagi.</string>
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">Akomodasi</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">Pesan perjalanan</string>
+
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_lm_via">Hubungi lastminute.com.au Via...</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_lm_email_subject">Bantuan Pemesanan lastminute.com.au</string>
+    <!-- lastminute.com.au- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_lm">Jika Anda memiliki pertanyaan tentang pemesanan Anda, hubungi lastminute.com.au di %s.</string>
+    <!-- lastminute.com.au Itinerary -->
+    <string name="lm_itinerary">Nomor Itinerary lastminute.com.au </string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">lastminute.com.au</string>
+
+    <string name="error_flight_no_longer_available_lm">Maaf, penerbangan Anda tidak lagi tersedia di lastminute.com.au.</string>
+
+    <string name="error_flights_no_longer_available_lm">Maaf, salah satu penerbangan Anda tidak lagi tersedia di lastminute.com.au.</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_lm">Maaf, hotel ini tidak lagi tersedia di lastminute.com.au.</string>
+    <!--A message stating this hotel is Not currently available on lastminute.com.au -->
+    <string name="not_currently_available_lm">Saat ini tidak tersedia di lastminute.com.au</string>
+    <!-- A message stating this hotel is sold out on lastminute.com.au -->
+    <string name="sold_out_on_lm">Terjual habis di lastminute.com.au</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from lastminute.com.au Nov. 3-4" -->
+    <string name="not_currently_available_lm_TEMPLATE">Tidak tersedia di lastminute.com.au %s</string>
+
+    <!-- Missing strings for lastminute.com.au from Expedia-->
+    <string name="tell_a_friend_body_lm">Halo,\n\nSudah coba aplikasi Hotel lastminute.com.au untuk iPhone dan Android? Aplikasi ini GRATIS dan Anda dapat mencari sekaligus memesan kamar dengan mudah di lebih dari 140.000 hotel di seluruh dunia. Ini cara termudah untuk memesan kamar hotel dari ponsel Anda.</string>
+    <string name="tell_a_friend_subject_lm">Hotel lastminute.com.au</string>
+    <string name="restricted_profile_login_message_lm">Untuk login ke akun lastminute.com.au, Anda harus menggunakan unrestricted user profile di perangkat Anda.</string>
+    <string name="loading_lm_account">Memuat akun lastminute.com.au</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_lm">Hotel Anda telah berhasil dipesan! Jika Anda memerlukan itinerary segera, silakan hubungi Layanan Pelanggan lastminute.com.au.</string>
+    <string name="lm_password_hint">Kata sandi lastminute.com.au</string>
+    <string name="dialog_message_launch_lm_mobile_site">Buka website mobile lastminute.com.au?</string>
+    <string name="sorry_rooms_sold_out_lm">Maaf, semua kamar sudah terjual habis di lastminute.com.au.</string>
+    <!-- lastminute.com.au App download link -->
+    <string name="share_template_long_ad_lm">Pesan hotel dan penerbangan, lihat dan kirim itinerary. Download aplikasi mobile gratis lastminute.com.au sekarang juga.\n%s</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">Total Dibayar ke lastminute.com.au Hari Ini:</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs lastminute.com.au.&lt;br&gt;Harap reset kata sandi Anda menggunakan link ’Lupa kata sandi?’ di bawah ini.</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_lm">Dibayar ke lastminute.com.au Hari Ini:</string>
+    <string name="etp_pay_now_charges_text_lm">lastminute.com.au akan memproses rincian pembayaran Anda.</string>
+</resources>

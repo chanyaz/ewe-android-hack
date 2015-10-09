@@ -56,8 +56,6 @@ public class FlightPaymentAddressFragment extends Fragment implements Validatabl
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
 					mSectionLocation.performValidation();
 				}
-				//Attempt to save on change
-				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
 			}
 		});
 
@@ -74,7 +72,7 @@ public class FlightPaymentAddressFragment extends Fragment implements Validatabl
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditAddress(getActivity());
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditAddress();
 	}
 
 	@Override

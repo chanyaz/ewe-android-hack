@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +41,8 @@ public class FlightTrip implements JSONable {
 	private Money mAverageTotalFare;
 	private Money mTaxes;
 	private Money mFees;
+
+	private boolean isPassportNeeded;
 
 	// For price changes
 	private Money mOldTotalFare;
@@ -363,6 +365,13 @@ public class FlightTrip implements JSONable {
 		return retVal;
 	}
 
+	public void setPassportNeeded(boolean isNeeded) {
+		isPassportNeeded = isNeeded;
+	}
+
+	public boolean isPassportNeeded() {
+		return isPassportNeeded;
+	}
 	/**
 	 * Does this FlightTrip pass through the country supplied via the countryCode param
 	 *
@@ -516,13 +525,13 @@ public class FlightTrip implements JSONable {
 	public static final Comparator<FlightLeg> DEPARTURE_COMPARATOR = new Comparator<FlightLeg>() {
 		@Override
 		public int compare(FlightLeg lhs, FlightLeg rhs) {
-			Calendar leftStart = lhs.getFirstWaypoint().getMostRelevantDateTime();
-			Calendar rightStart = rhs.getFirstWaypoint().getMostRelevantDateTime();
+			DateTime leftStart = lhs.getFirstWaypoint().getMostRelevantDateTime();
+			DateTime rightStart = rhs.getFirstWaypoint().getMostRelevantDateTime();
 
-			if (leftStart.before(rightStart)) {
+			if (leftStart.isBefore(rightStart)) {
 				return -1;
 			}
-			else if (leftStart.after(rightStart)) {
+			else if (leftStart.isAfter(rightStart)) {
 				return 1;
 			}
 			else {
@@ -534,13 +543,13 @@ public class FlightTrip implements JSONable {
 	public static final Comparator<FlightLeg> ARRIVAL_COMPARATOR = new Comparator<FlightLeg>() {
 		@Override
 		public int compare(FlightLeg lhs, FlightLeg rhs) {
-			Calendar leftStart = lhs.getLastWaypoint().getMostRelevantDateTime();
-			Calendar rightStart = rhs.getLastWaypoint().getMostRelevantDateTime();
+			DateTime leftStart = lhs.getLastWaypoint().getMostRelevantDateTime();
+			DateTime rightStart = rhs.getLastWaypoint().getMostRelevantDateTime();
 
-			if (leftStart.before(rightStart)) {
+			if (leftStart.isBefore(rightStart)) {
 				return -1;
 			}
-			else if (leftStart.after(rightStart)) {
+			else if (leftStart.isAfter(rightStart)) {
 				return 1;
 			}
 			else {
@@ -718,7 +727,7 @@ public class FlightTrip implements JSONable {
 			if (mPassengers != null) {
 				JSONUtils.putJSONableList(obj, KEY_PASSENGERS, mPassengers);
 			}
-
+			obj.putOpt("isPassportNeeded", isPassportNeeded);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -806,7 +815,7 @@ public class FlightTrip implements JSONable {
 			mPassengers = new ArrayList<PassengerCategoryPrice>(
 				JSONUtils.getJSONableList(obj, KEY_PASSENGERS, PassengerCategoryPrice.class));
 		}
-
+		isPassportNeeded = obj.optBoolean("isPassportNeeded", false);
 		return true;
 	}
 

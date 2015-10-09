@@ -20,6 +20,7 @@ public class CarCheckoutParams {
 	public String ccPostalCode;
 	public String ccName;
 	public String ccCVV;
+	public String guid;
 
 	public String storedCCID;
 
@@ -42,6 +43,7 @@ public class CarCheckoutParams {
 		clone.ccPostalCode = ccPostalCode;
 		clone.ccName = ccName;
 		clone.ccCVV = ccCVV;
+		clone.guid = guid;
 
 		clone.storedCCID = storedCCID;
 		return clone;
@@ -65,6 +67,7 @@ public class CarCheckoutParams {
 		map.put("nameOnCard", ccName);
 		map.put("cvv", ccCVV);
 		map.put("storedCreditCardId", storedCCID);
+		map.put("abacusUserGuid", guid);
 
 		return map;
 	}

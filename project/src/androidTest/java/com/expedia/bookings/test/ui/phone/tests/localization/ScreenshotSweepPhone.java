@@ -3,6 +3,7 @@ package com.expedia.bookings.test.ui.phone.tests.localization;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ConfirmationScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.BillingAddressScreen;
@@ -14,8 +15,6 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.SettingsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsCheckoutScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsConfirmationScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsTravelerInfoScreen;
@@ -24,8 +23,14 @@ import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsConfirmationSc
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
+
+import static android.support.test.espresso.action.ViewActions.clearText;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickCheckoutButton;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickNewPaymentCard;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickSelectPaymentButton;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickTravelerDetails;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.slideToCheckout;
 
 /**
  * Created by dmadan on 6/30/14.
@@ -56,7 +61,7 @@ public class ScreenshotSweepPhone extends PhoneTestCase {
 		screenshot("Flight_leg_details2");
 		FlightLegScreen.clickSelectFlightButton();
 		screenshot("Flights_checkout_overview");
-		FlightsCheckoutScreen.clickCheckoutButton();
+		clickCheckoutButton();
 
 		CommonCheckoutScreen.clickLogInButton();
 		screenshot("Log_in_screen");
@@ -64,7 +69,7 @@ public class ScreenshotSweepPhone extends PhoneTestCase {
 		Common.pressBack();
 		ScreenActions.delay(1);
 
-		FlightsCheckoutScreen.clickTravelerDetails();
+		clickTravelerDetails();
 		screenshot("Traveler_Details");
 		FlightsTravelerInfoScreen.enterFirstName("Mobiata");
 		FlightsTravelerInfoScreen.enterLastName("Auto");
@@ -92,10 +97,10 @@ public class ScreenshotSweepPhone extends PhoneTestCase {
 		}
 		FlightsTravelerInfoScreen.clickDoneButton();
 		Common.pressBack();
-		FlightsCheckoutScreen.clickCheckoutButton();
-		FlightsCheckoutScreen.clickSelectPaymentButton();
+		clickCheckoutButton();
+		clickSelectPaymentButton();
 		try {
-			FlightsCheckoutScreen.clickNewPaymentCard();
+			clickNewPaymentCard();
 		}
 		catch (Exception e) {
 			// No add new card option
@@ -116,8 +121,8 @@ public class ScreenshotSweepPhone extends PhoneTestCase {
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
 		CardInfoScreen.clickSetButton();
-		EspressoUtils.clear(CardInfoScreen.nameOnCardEditText());
-		EspressoUtils.clear(CardInfoScreen.emailEditText());
+		CardInfoScreen.nameOnCardEditText().perform(clearText());
+		CardInfoScreen.emailEditText().perform(clearText());
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
 		CardInfoScreen.typeTextEmailEditText("mobiataauto@gmail.com");
 		CardInfoScreen.clickOnDoneButton();
@@ -129,13 +134,13 @@ public class ScreenshotSweepPhone extends PhoneTestCase {
 			//No I accept button
 		}
 		screenshot("Slide_to_checkout");
-		FlightsCheckoutScreen.slideToCheckout();
+		slideToCheckout();
 		CVVEntryScreen.parseAndEnterCVV("111");
 		screenshot("CVV_Entry");
 		CVVEntryScreen.clickBookButton();
 
 		screenshot("Confirmation");
-		FlightsConfirmationScreen.clickDoneButton();
+		ConfirmationScreen.clickDoneButton();
 	}
 
 	public void testBookHotel() throws Throwable {

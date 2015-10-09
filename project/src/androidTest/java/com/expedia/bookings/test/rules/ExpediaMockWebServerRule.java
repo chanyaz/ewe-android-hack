@@ -9,7 +9,7 @@ import org.junit.runners.model.Statement;
 import android.support.test.InstrumentationRegistry;
 
 import com.expedia.bookings.test.ui.tablet.pagemodels.Settings;
-import com.expedia.bookings.test.ui.utils.AndroidFileOpener;
+import com.expedia.bookings.utils.AndroidFileOpener;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileOpener;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
@@ -21,14 +21,15 @@ public class ExpediaMockWebServerRule implements TestRule {
 			@Override
 			public void evaluate() throws Throwable {
 				MockWebServer mockServer = new MockWebServer();
-				FileOpener fileOpener = new AndroidFileOpener(InstrumentationRegistry.getInstrumentation().getContext());
+				FileOpener fileOpener = new AndroidFileOpener(InstrumentationRegistry.getInstrumentation().getTargetContext());
 				ExpediaDispatcher dispatcher = new ExpediaDispatcher(fileOpener);
 				mockServer.setDispatcher(dispatcher);
 
-				mockServer.play();
+				mockServer.start();
 				URL mockUrl = mockServer.getUrl("");
 				String server = mockUrl.getHost() + ":" + mockUrl.getPort();
 				Settings.setCustomServer(InstrumentationRegistry.getInstrumentation(), server);
+				Settings.clearPrivateData(InstrumentationRegistry.getInstrumentation());
 
 				base.evaluate();
 

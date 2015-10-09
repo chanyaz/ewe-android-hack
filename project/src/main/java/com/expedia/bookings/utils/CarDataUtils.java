@@ -4,16 +4,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import android.content.Context;
+import android.net.Uri;
 
+import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.RateBreakdownItem;
 import com.expedia.bookings.data.cars.RateTerm;
 import com.expedia.bookings.data.cars.RentalFareBreakdownType;
 import com.expedia.bookings.data.cars.Transmission;
+import com.expedia.bookings.services.CarServices;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.mobiata.android.Log;
 
 /*
  * Connecting lib-ExpediaBookings car data stuctures to Android-based
@@ -123,7 +138,7 @@ public class CarDataUtils {
 	public static final Map<RentalFareBreakdownType, Integer> RENTAL_FARE_BREAKDOWN_TYPE_MAP = new HashMap<RentalFareBreakdownType, Integer>() {
 		{
 			put(RentalFareBreakdownType.BASE, R.string.car_rental_breakdown_base);
-			put(RentalFareBreakdownType.TAXES_AND_FEES, R.string.car_rental_breakdown_taxes_and_fees);
+			put(RentalFareBreakdownType.TAXES_AND_FEES, R.string.taxes_and_fees);
 			put(RentalFareBreakdownType.INSURANCE, R.string.car_rental_breakdown_insurance);
 			put(RentalFareBreakdownType.DROP_OFF_CHARGE, R.string.car_rental_breakdown_drop_off_charges);
 
@@ -218,5 +233,98 @@ public class CarDataUtils {
 			s = String.valueOf(maxVal);
 		}
 		return s;
+	}
+
+	public static CarSearchParams fromFlightParams(FlightTrip trip) {
+		FlightLeg firstLeg = trip.getLeg(0);
+		FlightLeg secondLeg = trip.getLegCount() > 1 ? trip.getLeg(1) : null;
+
+		LocalDate checkInDate = new LocalDate(firstLeg.getLastWaypoint().getBestSearchDateTime());
+
+		LocalDate checkOutDate;
+		if (secondLeg == null) {
+			// 1-way flight
+			checkOutDate = checkInDate.plusDays(3);
+		}
+		else {
+			// Round-trip flight
+			checkOutDate = new LocalDate(secondLeg.getFirstWaypoint()
+				.getMostRelevantDateTime());
+		}
+		CarSearchParamsBuilder builder = new CarSearchParamsBuilder();
+		CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder = new CarSearchParamsBuilder.DateTimeBuilder()
+			.startDate(checkInDate)
+			.endDate(checkOutDate);
+		builder.origin(firstLeg.getAirport(false).mAirportCode);
+		builder.originDescription(firstLeg.getAirport(false).mName);
+		// Empty DateTimeBuilder
+		builder.dateTimeBuilder(dateTimeBuilder);
+
+
+		return builder.build();
+	}
+
+	public static CarSearchParams fromDeepLink(Uri data, Set<String> queryData) {
+		String pickupLocation = getQueryParameterIfExists(data, queryData, "pickupLocation");
+		String pickupLocationLatStr = getQueryParameterIfExists(data, queryData, "pickupLocationLat");
+		String pickupLocationLngStr = getQueryParameterIfExists(data, queryData, "pickupLocationLng");
+		LatLong pickupLocationLatLng = LatLong.fromLatLngStrings(pickupLocationLatStr, pickupLocationLngStr);
+		String originDescription = getQueryParameterIfExists(data, queryData, "originDescription");
+
+		//Input Validation
+		//1. One of `origin` and `pickupLocationLatLng` should exist for Car Search Params to be valid
+		//2. `originDescription` should be non-empty
+		if ((Strings.isEmpty(pickupLocation) && pickupLocationLatLng == null) || Strings.isEmpty(originDescription)) {
+			return null;
+		}
+
+		String pickupDateTimeStr = getQueryParameterIfExists(data, queryData, "pickupDateTime");
+		String dropoffDateTimeStr = getQueryParameterIfExists(data, queryData, "dropoffDateTime");
+
+		CarSearchParams carSearchParams = new CarSearchParams();
+		// DateTime Sanity - In case the date time passed from the outside world is in a garbled format,
+		// we fallback to proper defaults to have a graceful behavior and nothing undesirable.
+		carSearchParams.startDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTimeStr, DateTime.now());
+		carSearchParams.endDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTimeStr, carSearchParams.startDateTime.plusDays(3));
+		carSearchParams.originDescription = originDescription;
+
+		carSearchParams.origin = pickupLocation;
+		carSearchParams.pickupLocationLatLng = pickupLocationLatLng;
+
+		return carSearchParams;
+	}
+
+	public static CarSearchParams getCarSearchParamsFromJSON(String carSearchParamsJSON) {
+		Gson gson = CarServices.generateGson();
+
+		if (Strings.isNotEmpty(carSearchParamsJSON)) {
+			try {
+				return gson.fromJson(carSearchParamsJSON, CarSearchParams.class);
+			}
+			catch (JsonSyntaxException jse) {
+				Log.e("Failed to fetch carSearchParams: " + carSearchParamsJSON, jse);
+			}
+		}
+
+		return null;
+	}
+
+	private static String getQueryParameterIfExists(Uri uri, Set<String> queryData, String paramKey) {
+		if (queryData.contains(paramKey)) {
+			return uri.getQueryParameter(paramKey);
+		}
+		return null;
+	}
+
+	public static boolean areTaxesAndFeesIncluded(List<RateBreakdownItem> rateBreakdown) {
+		if (rateBreakdown != null && rateBreakdown.size() > 0) {
+			for (RateBreakdownItem item : rateBreakdown) {
+				if (item.type == RentalFareBreakdownType.TAXES_AND_FEES) {
+					return item.price == null;
+				}
+			}
+		}
+
+		return true;
 	}
 }

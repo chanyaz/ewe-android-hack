@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="14dp">
 
     <TextView
         android:id="@+id/ticket_details"
@@ -16,15 +16,13 @@
         android:textColor="@color/lx_ticket_summary_color"
         android:textSize="12dp" />
 
-    <Button
+    <ImageButton
         android:id="@+id/ticket_remove"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:background="@drawable/lx_ticket_picker_selector"
-        android:text="&#8211;"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
-        android:textColor="@color/lx_secondary_color"
-        android:textSize="16dp" />
+        android:src="?attr/skin_lxTicketMinusButtonSelectorDrawable" />
 
     <TextView
         android:id="@+id/ticket_count"
@@ -33,18 +31,15 @@
         android:layout_gravity="center"
         android:layout_weight="0.3"
         android:gravity="center"
-        android:textColor="@color/lx_secondary_color"
+        android:textColor="?attr/skin_lxPrimaryColor"
         android:textSize="16dp" />
 
-    <Button
+    <ImageButton
         android:id="@+id/ticket_add"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/lx_ticket_picker_selector"
-        android:text="&#43;"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
-        android:textColor="@color/lx_secondary_color"
-        android:textSize="16dp" />
+        android:src="?attr/skin_lxTicketPlusButtonSelectorDrawable" />
 
 </com.expedia.bookings.widget.LXTicketPicker>

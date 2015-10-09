@@ -2,12 +2,9 @@ package com.expedia.bookings.fragment;
 
 import org.joda.time.LocalDate;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,10 +89,9 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		String duration = DateFormatUtils.formatRangeDateToDate(getActivity(), params, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
 		Ui.setText(v, R.id.stay_summary_text_view, getString(R.string.stay_summary_TEMPLATE, guests, duration));
 
-		// Setup a dropping animation with the hotel card.  Only animate on versions of Android
-		// that will allow us to make the animation nice and smooth.
-		mHotelCard = Ui.findView(v, R.id.hotel_card);
-		if (savedInstanceState == null && Build.VERSION.SDK_INT >= 14) {
+		// Setup a dropping animation with the hotel card. Only on the first show, not on rotation
+		if (savedInstanceState == null) {
+			mHotelCard = Ui.findView(v, R.id.hotel_card);
 			mHotelCard.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 				@Override
 				public boolean onPreDraw() {
@@ -186,20 +182,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		animator.translationY(0);
 		animator.setDuration(getResources().getInteger(android.R.integer.config_longAnimTime));
 		animator.setInterpolator(new OvershootInterpolator());
-
-		if (Build.VERSION.SDK_INT >= 16) {
-			animator.withLayer();
-		}
-		else {
-			mHotelCard.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-			animator.setListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					mHotelCard.setLayerType(View.LAYER_TYPE_NONE, null);
-				}
-			});
-		}
-
+		animator.withLayer();
 		animator.start();
 	}
 
@@ -224,7 +207,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		// Go to flights
 		NavUtils.goToFlights(getActivity(), true);
 
-		OmnitureTracking.trackHotelConfirmationFlightsXSell(getActivity());
+		OmnitureTracking.trackHotelConfirmationFlightsXSell();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -250,7 +233,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		SocialUtils.email(context, subject, body);
 
-		OmnitureTracking.trackHotelConfirmationShareEmail(getActivity());
+		OmnitureTracking.trackHotelConfirmationShareEmail();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -261,7 +244,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		startActivity(generateHotelCalendarIntent(false));
 		startActivity(generateHotelCalendarIntent(true));
 
-		OmnitureTracking.trackHotelConfirmationAddToCalendar(getActivity());
+		OmnitureTracking.trackHotelConfirmationAddToCalendar();
 	}
 
 	private Intent generateHotelCalendarIntent(boolean checkIn) {

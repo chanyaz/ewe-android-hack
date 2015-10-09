@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -23,15 +24,19 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AccountLibActivity;
+import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.activity.HotelMapActivity;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
-import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
@@ -44,6 +49,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.dialog.CouponDialogFragment;
@@ -71,9 +77,9 @@ import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelReceipt;
-import com.expedia.bookings.widget.LinearLayout;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.expedia.bookings.widget.WalletButton;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.MaskedWalletRequest.Builder;
@@ -85,6 +91,7 @@ import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
 	LoginConfirmLogoutDialogFragment.DoLogoutListener,
@@ -124,10 +131,13 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private ScrollViewListener mScrollViewListener;
 
 	private HotelReceipt mHotelReceipt;
-	private LinearLayout mCheckoutLayout;
+	private FrameLayout mCheckoutLayout;
+	private TouchableFrameLayout mCheckoutLayoutBlocker;
 
 	private AccountButton mAccountButton;
 	private WalletButton mWalletButton;
+	private LinearLayout mHintContainer;
+	private ImageView mCheckoutDivider;
 	private SectionTravelerInfo mTravelerSection;
 	private SectionBillingInfo mCreditCardSectionButton;
 	private SectionStoredCreditCard mStoredCreditCard;
@@ -218,7 +228,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			ft.add(mHotelBookingFragment, HotelBookingFragment.TAG);
 			ft.commit();
 		}
-
+		OmnitureTracking.trackPageLoadHotelsRateDetails();
 	}
 
 	@Override
@@ -231,9 +241,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		mHotelReceipt = Ui.findView(view, R.id.receipt);
 		mCheckoutLayout = Ui.findView(view, R.id.checkout_layout);
+		mCheckoutLayoutBlocker = Ui.findView(view, R.id.checkout_layout_touch_blocker);
 
-		mAccountButton = Ui.findView(view, R.id.account_button_layout);
+		mAccountButton = Ui.findView(view, R.id.account_button_root);
 		mWalletButton = Ui.findView(view, R.id.wallet_button_layout);
+		mHintContainer = Ui.findView(view, R.id.hint_container);
+		mCheckoutDivider = Ui.findView(view, R.id.checkout_divider);
 		mTravelerSection = Ui.findView(view, R.id.traveler_section);
 		mStoredCreditCard = Ui.findView(view, R.id.stored_creditcard_section_button);
 		mCreditCardSectionButton = Ui.findView(view, R.id.creditcard_section_button);
@@ -278,12 +291,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 		}
 
+		// Dont show checkout or let use touch it when receipt is showing
 		mCheckoutLayout.setAlpha(0);
-
-		//We start loading the checkout data on the parent activity, but if it isn't finished we should wait
-		if (CheckoutDataLoader.getInstance().isLoading()) {
-			CheckoutDataLoader.getInstance().waitForCurrentThreadToFinish();
-		}
+		mCheckoutLayoutBlocker.setBlockNewEventsEnabled(true);
 
 		mBillingInfo = Db.getBillingInfo();
 		if (mBillingInfo.getLocation() == null) {
@@ -328,6 +338,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mCouponRemoveView.setOnClickListener(mOnClickListener);
 		mLegalInformationTextView.setOnClickListener(mOnClickListener);
 		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
+		mHotelReceipt.setOnViewMapClickListener(mViewMapClickListener);
 
 		mWalletButton.setPromoVisible(ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled());
 		// Touch events to constituent parts are handled in WalletButton.onInterceptTouchEvent(...)
@@ -337,7 +348,15 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// We underline the coupon button text in code to avoid re-translating
 		mCouponButton.setPaintFlags(mCouponButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+		toggleOrMessaging(User.isLoggedIn(getActivity()));
+		mAccountButton.setVisibility(ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled() ? View.VISIBLE : View.GONE);
+
 		return view;
+	}
+
+	private void toggleOrMessaging(boolean isSignedIn) {
+		mHintContainer.setVisibility(!isSignedIn ? View.VISIBLE : View.GONE);
+		mCheckoutDivider.setVisibility(!isSignedIn ? View.GONE : View.VISIBLE);
 	}
 
 	@Override
@@ -350,8 +369,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (mWalletPromoThrobberDialog != null && mWalletPromoThrobberDialog.isAdded()) {
 			mWalletPromoThrobberDialog.setCancelListener(this);
 		}
-
-		OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
@@ -404,14 +421,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
-		}
-
-		if (Db.getTravelersAreDirty()) {
-			Db.kickOffBackgroundTravelerSave(getActivity());
-		}
-
-		if (Db.getBillingInfoIsDirty()) {
-			Db.kickOffBackgroundBillingInfoSave(getActivity());
 		}
 	}
 
@@ -612,7 +621,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 			else {
 				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
-				User.signOutAsync(getActivity(), null);
+				User.signOut(getActivity());
 				mAccountButton.bind(false, false, null, LineOfBusiness.HOTELS);
 			}
 		}
@@ -643,7 +652,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mCheckoutDisclaimerTextView.setVisibility(View.GONE);
 		}
 
-		mSlideToPurchasePriceString = HotelUtils.getSlideToPurchaseString(getActivity(), property, rate);
+		mSlideToPurchasePriceString = HotelUtils.getSlideToPurchaseString(getActivity(), property, rate,
+			ExpediaBookingApp.useTabletInterface(getActivity()));
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
 		mHotelReceipt.bind(mIsDoneLoadingPriceChange, hotel);
@@ -853,7 +863,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	public void startCheckout(final boolean animate, boolean shouldScrollToCheckout) {
 		if (!isInCheckout()) {
-			OmnitureTracking.trackPageLoadHotelsCheckoutInfo(getActivity());
+			OmnitureTracking.trackPageLoadHotelsCheckoutInfo();
 		}
 
 		mMaintainStartCheckoutPosition = true;
@@ -874,7 +884,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	public void endCheckout() {
 		if (isInCheckout()) {
-			OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
+			OmnitureTracking.trackPageLoadHotelsRateDetails();
 		}
 
 		mMaintainStartCheckoutPosition = false;
@@ -913,7 +923,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				OmnitureTracking.trackPageLoadHotelsCheckoutSlideToPurchase(getActivity());
+				OmnitureTracking.trackPageLoadHotelsCheckoutSlideToPurchase();
 			}
 		}).start();
 
@@ -984,10 +994,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Override
 	public void accountLoginClicked() {
 		if (mAccountButton.isEnabled()) {
-			mAccountButton.setEnabled(false);//We open a new activity and reenable accountButton in onResume
-			Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
+			mAccountButton.setEnabled(false);//We open a new activity and reenable accountButton in onResume;
+			Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
 			User.signIn(getActivity(), args);
-			OmnitureTracking.trackPageLoadHotelsLogin(getActivity());
+			OmnitureTracking.trackPageLoadHotelsLogin();
 		}
 	}
 
@@ -1006,7 +1016,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mRefreshedUserTime = 0L;
 
 		// Sign out user
-		User.signOutAsync(getActivity(), null);
+		User.signOut(getActivity());
 
 		// Update UI
 		mAccountButton.bind(false, false, null, LineOfBusiness.HOTELS);
@@ -1022,12 +1032,17 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mAccountButton.setEnabled(true);
 		mWasLoggedIn = false;
 
+		toggleOrMessaging(User.isLoggedIn(getActivity()));
+
 		Events.post(new Events.CreateTripDownloadRetry());
 	}
 
 	public void onLoginCompleted() {
-		Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
-		if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+		// Let's reset MerEmailOptInStatus to false.
+		Db.getTripBucket().getHotel().setIsMerEmailOptIn(false);
+		Db.saveTripBucket(getActivity());
+
+		if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
 			if (mHotelBookingFragment != null && !mHotelBookingFragment.isDownloadingCreateTrip()) {
 				mHotelBookingFragment.startDownload(HotelBookingState.CREATE_TRIP);
 				showCreateTripDialog();
@@ -1050,6 +1065,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			updateViews();
 			updateViewVisibilities();
 		}
+		toggleOrMessaging(User.isLoggedIn(getActivity()));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1096,7 +1112,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				else {
 					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(new Traveler());
 				}
-				Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(false);
 				startActivity(new Intent(getActivity(), HotelTravelerInfoOptionsActivity.class));
 				break;
 			}
@@ -1108,7 +1123,16 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				break;
 			}
 			case R.id.coupon_button: {
-				OmnitureTracking.trackHotelCouponExpand(getActivity());
+				TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+				Rate selectedRate = hotel.getRate();
+				boolean isPayLater = selectedRate.isPayLater();
+				boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPayLaterCouponMessaging);
+				if (isPayLater && isUserBucketedForTest) {
+					handlePayLaterCouponError();
+					break;
+				}
+
+				OmnitureTracking.trackHotelCouponExpand();
 				mCouponDialogFragment = new CouponDialogFragment();
 				mCouponDialogFragment.show(getChildFragmentManager(), CouponDialogFragment.TAG);
 				break;
@@ -1135,11 +1159,23 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 	};
 
+	private HotelReceipt.OnViewMapClickListener mViewMapClickListener = new HotelReceipt.OnViewMapClickListener() {
+
+		@Override
+		public void onViewMapClicked() {
+			Intent intent = HotelMapActivity.createIntent(getActivity());
+			intent.putExtra(HotelMapActivity.INSTANCE_IS_HOTEL_RECEIPT, true);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+			startActivity(intent);
+			getActivity().overridePendingTransition(R.anim.fade_in, R.anim.explode);
+		}
+	};
+
 	// Scroll Listener
 
 	private class ScrollViewListener extends GestureDetector.SimpleOnGestureListener implements OnScrollListener,
-			OnTouchListener, HotelReceipt.OnSizeChangedListener, LinearLayout.OnSizeChangedListener,
-			FrameLayout.OnSizeChangedListener {
+			OnTouchListener, HotelReceipt.OnSizeChangedListener, FrameLayout.OnSizeChangedListener {
 
 		private static final float FADE_RANGE = 100.0f;
 
@@ -1224,6 +1260,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				alpha = 100;
 			}
 
+			mCheckoutLayoutBlocker.setBlockNewEventsEnabled(alpha == 0);
 			mCheckoutLayout.setAlpha(alpha);
 
 			// If we've lifted our finger that means the scroll view is scrolling
@@ -1597,7 +1634,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 
 			mBookingUnavailableDialog = HotelErrorDialog.newInstance();
-			mBookingUnavailableDialog.setMessage(Ui.obtainThemeResID(getActivity(), R.attr.skin_sorryRoomsSoldOutErrorMessage));
+			mBookingUnavailableDialog.setMessage(
+				Phrase.from(getActivity(), R.string.error_hotel_is_now_sold_out_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 			mBookingUnavailableDialog.show(getFragmentManager(), HOTEL_SOLD_OUT_DIALOG);
 		}
 	}
@@ -1629,8 +1667,18 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		dismissDialogs();
 
 		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-		dialog.setMessage(R.string.error_hotel_no_longer_available);
+		dialog.setMessage(getString(R.string.error_hotel_no_longer_available));
 		dialog.show(getFragmentManager(), HOTEL_EXPIRED_ERROR_DIALOG);
+	}
 
+	/*
+	 * Pay Later Coupon Error Handling
+	 */
+
+	private void handlePayLaterCouponError() {
+		String errorMessage = getString(R.string.coupon_error_pay_later_hotel);
+		DialogFragment df = SimpleDialogFragment.newInstance(null, errorMessage);
+		df.show(getChildFragmentManager(), "couponError");
+		Events.post(new Events.CouponDownloadError());
 	}
 }

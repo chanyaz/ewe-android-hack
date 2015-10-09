@@ -1,28 +1,32 @@
 package com.expedia.bookings.activity;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import org.joda.time.DateTime;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
+import android.view.View;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -35,18 +39,22 @@ import com.expedia.bookings.fragment.PhoneLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
-import com.expedia.bookings.utils.ExpediaDebugUtil;
+import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
-import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
-import com.expedia.bookings.widget.TextView;
-import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
+import com.expedia.bookings.widget.ItinListView;
+import com.expedia.bookings.widget.PhoneLaunchToolbar;
+import com.facebook.AppEventsLogger;
+import com.squareup.phrase.Phrase;
 
-public class PhoneLaunchActivity extends ActionBarActivity implements OnListModeChangedListener,
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+public class PhoneLaunchActivity extends ActionBarActivity implements ItinListView.OnListModeChangedListener,
 	ItinItemListFragmentListener, IPhoneLaunchFragmentListener, DoLogoutListener {
 
 	public static final String ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL";
@@ -58,11 +66,19 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 
 	private static final int PAGER_POS_ITIN = 1;
 
+	private static final int TOOLBAR_ANIM_DURATION = 200;
+
 	private IPhoneLaunchActivityLaunchFragment mLaunchFragment;
 	private ItinItemListFragment mItinListFragment;
 
 	private PagerAdapter mPagerAdapter;
-	private DisableableViewPager mViewPager;
+
+	@InjectView(R.id.viewpager)
+	DisableableViewPager mViewPager;
+
+	@InjectView(R.id.launch_toolbar)
+	PhoneLaunchToolbar mToolbar;
+
 	private int mPagerPosition = PAGER_POS_WATERFALL;
 	private boolean mHasMenu = false;
 
@@ -106,58 +122,23 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		super.onCreate(savedInstanceState);
 
 		getWindow().setFormat(android.graphics.PixelFormat.RGBA_8888);
-		supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
 		setContentView(R.layout.activity_phone_launch);
+		ButterKnife.inject(this);
 		getWindow().setBackgroundDrawable(null);
 
 		// View Pager
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
-		mViewPager = Ui.findView(this, R.id.viewpager);
 		mViewPager.setAdapter(mPagerAdapter);
-		mViewPager.setOnPageChangeListener(new SimpleOnPageChangeListener() {
-			@Override
-			public void onPageScrollStateChanged(int state) {
-				super.onPageScrollStateChanged(state);
-				if (mLaunchFragment != null
-					&& (state == ViewPager.SCROLL_STATE_IDLE || state == ViewPager.SCROLL_STATE_SETTLING)) {
-					mLaunchFragment.startMarquee();
-				}
-			}
 
-			@Override
-			public void onPageSelected(int position) {
-				if (mViewPager != null && position != mPagerPosition) {
-					if (position == PAGER_POS_WATERFALL) {
-						gotoWaterfall();
-					}
-					else if (position == PAGER_POS_ITIN) {
-						gotoItineraries();
-					}
-				}
-			}
-		});
-
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.getThemedContext();
-		enableEmbeddedTabs(actionBar);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		actionBar.setDisplayShowTitleEnabled(false);
-
-		// Tabs
-		ActionBar.Tab shopTab = getSupportActionBar().newTab().setTabListener(mShopTabListener);
-		shopTab.setCustomView(R.layout.actionbar_tab_bg);
-		((TextView) shopTab.getCustomView().findViewById(R.id.tab_text)).setText(R.string.shop);
-
-		ActionBar.Tab itineraryTab = getSupportActionBar().newTab().setTabListener(mItineraryTabListener);
-		itineraryTab.setCustomView(R.layout.actionbar_tab_bg);
-		((TextView)itineraryTab.getCustomView().findViewById(R.id.tab_text)).setText(R.string.Your_Trips);
-
-		actionBar.addTab(shopTab);
-		actionBar.addTab(itineraryTab);
+		// Toolbar/support Actionbar
+		mToolbar.slidingTabLayout.setViewPager(mViewPager);
+		mToolbar.slidingTabLayout.setOnPageChangeListener(mPageChangeListener);
+		setSupportActionBar(mToolbar);
+		getSupportActionBar().getThemedContext();
 
 		Intent intent = getIntent();
+		LineOfBusiness lineOfBusiness = (LineOfBusiness) intent.getSerializableExtra(Codes.LOB_NOT_SUPPORTED);
 		if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
 			// No need to do anything special, waterfall is the default behavior anyway
 		}
@@ -171,37 +152,43 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		else if (haveTimelyItinItem()) {
 			gotoItineraries();
 		}
-
-		// Debug code to notify QA to open ExpediaDebug app
-		ExpediaDebugUtil.showExpediaDebugToastIfNeeded(this);
+		else if (lineOfBusiness != null) {
+			CharSequence errorMessage = null;
+			if (lineOfBusiness == LineOfBusiness.CARS) {
+				errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message)
+					.put("lob", getString(R.string.Car))
+					.format();
+			}
+			else if (lineOfBusiness == LineOfBusiness.LX) {
+				errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message)
+					.put("lob", getString(R.string.Activity))
+					.format();
+			}
+			showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok);
+		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		AppEventsLogger.activateApp(this);
 		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
 		gpsd.startChecking();
 
 		supportInvalidateOptionsMenu();
 
-		OmnitureTracking.onResume(this);
-
-		if (getSupportActionBar().getSelectedTab().getPosition() == 0) {
-			OmnitureTracking.trackPageLoadLaunchScreen(PhoneLaunchActivity.this);
-		}
 		AdTracker.trackViewHomepage();
+
+		TuneUtils.startTune(this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-
+		AppEventsLogger.deactivateApp(this);
 		if (isFinishing() && mLaunchFragment != null) {
 			mLaunchFragment.cleanUp();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -244,11 +231,13 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		if (mLaunchFragment != null && requestCode == REQUEST_SETTINGS
+		if (requestCode == REQUEST_SETTINGS
 			&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
-			mLaunchFragment.reset();
-			Db.getHotelSearch().resetSearchData();
+			Events.post(new Events.PhoneLaunchOnPOSChange());
+			if (mLaunchFragment != null) {
+				mLaunchFragment.reset();
+				Db.getHotelSearch().resetSearchData();
+			}
 		}
 	}
 
@@ -265,36 +254,13 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		boolean retVal = super.onPrepareOptionsMenu(menu);
 		if (menu != null) {
-			boolean isInItinMode = false;
-			boolean addNewItinButtonEnabled = false;
-			boolean loginBtnEnabled = false;
-			boolean logoutBtnEnabled = false;
+			boolean loginBtnEnabled = !User.isLoggedIn(this);
+			boolean logoutBtnEnabled = User.isLoggedIn(this);
 
-			isInItinMode = mViewPager != null && mViewPager.getCurrentItem() == PAGER_POS_ITIN;
-			if (isInItinMode && mItinListFragment != null && mItinListFragment.getItinCardCount() > 0) {
-				addNewItinButtonEnabled = true;
-			}
-			loginBtnEnabled = isInItinMode && !User.isLoggedIn(this);
-			logoutBtnEnabled = isInItinMode && User.isLoggedIn(this);
-
-			MenuItem addNewItinBtn = menu.findItem(R.id.add_itinerary);
-			if (addNewItinBtn != null) {
-				addNewItinBtn.setVisible(addNewItinButtonEnabled);
-				addNewItinBtn.setEnabled(addNewItinButtonEnabled);
-			}
-			//We have a submenu here, but if we arent showing login we may as well just go to the guest add screen and not show the submenu
-			Menu addNewItinMenu = addNewItinBtn.getSubMenu();
-			if (addNewItinMenu != null) {
-				MenuItem loginBtn = addNewItinMenu.findItem(R.id.add_itinerary_login);
-				if (loginBtn != null) {
-					loginBtn.setVisible(loginBtnEnabled);
-					loginBtn.setEnabled(loginBtnEnabled);
-				}
-				MenuItem addGuestBtn = addNewItinMenu.findItem(R.id.add_itinerary_guest);
-				if (addGuestBtn != null) {
-					addGuestBtn.setVisible(loginBtnEnabled);
-					addGuestBtn.setEnabled(loginBtnEnabled);
-				}
+			MenuItem loginBtn = menu.findItem(R.id.ab_log_in);
+			if (loginBtn != null) {
+				loginBtn.setVisible(loginBtnEnabled);
+				loginBtn.setEnabled(loginBtnEnabled);
 			}
 			MenuItem logOutBtn = menu.findItem(R.id.ab_log_out);
 			if (logOutBtn != null) {
@@ -302,7 +268,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 				logOutBtn.setEnabled(logoutBtnEnabled);
 			}
 		}
-		if (AndroidUtils.isRelease(this)) {
+		if (BuildConfig.RELEASE) {
 			MenuItem settingsBtn = menu.findItem(R.id.settings);
 			if (settingsBtn != null) {
 				settingsBtn.setVisible(ProductFlavorFeatureConfiguration.getInstance().isSettingsInMenuVisible());
@@ -320,16 +286,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 			gotoWaterfall();
 			return true;
 		}
-		case R.id.add_itinerary: {
-			if (User.isLoggedIn(this)) {
-				if (Ui.isAdded(mItinListFragment)) {
-					mItinListFragment.startAddGuestItinActivity();
-				}
-				return true;
-			}
-			return false;
-		}
-		case R.id.add_itinerary_login: {
+		case R.id.ab_log_in: {
 			if (Ui.isAdded(mItinListFragment)) {
 				mItinListFragment.startLoginActivity();
 			}
@@ -415,20 +372,40 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		}
 
 		mJumpToItinId = notification.getItinId();
-		OmnitureTracking.trackNotificationClick(this, notification);
+		OmnitureTracking.trackNotificationClick(notification);
 
 		// There's no need to dismiss with the notification manager, since it was set to
 		// auto dismiss when clicked.
 		Notification.dismissExisting(notification);
 	}
 
+	private SimpleOnPageChangeListener mPageChangeListener = new SimpleOnPageChangeListener() {
+		@Override
+		public void onPageScrollStateChanged(int state) {
+			super.onPageScrollStateChanged(state);
+			if (mLaunchFragment != null
+				&& (state == ViewPager.SCROLL_STATE_IDLE || state == ViewPager.SCROLL_STATE_SETTLING)) {
+				mLaunchFragment.startMarquee();
+			}
+		}
+
+		@Override
+		public void onPageSelected(int position) {
+			if (mViewPager != null && position != mPagerPosition) {
+				if (position == PAGER_POS_WATERFALL) {
+					gotoWaterfall();
+				}
+				else if (position == PAGER_POS_ITIN) {
+					gotoItineraries();
+				}
+			}
+		}
+	};
+
 	private synchronized void gotoWaterfall() {
 		if (mPagerPosition != PAGER_POS_WATERFALL) {
-			ActionBar actionBar = getSupportActionBar();
-
 			mPagerPosition = PAGER_POS_WATERFALL;
 			mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
-			actionBar.setSelectedNavigationItem(mPagerPosition);
 
 			if (mItinListFragment != null && mItinListFragment.isInDetailMode()) {
 				mItinListFragment.hideDetails();
@@ -446,8 +423,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 
 	private synchronized void gotoItineraries() {
 		if (mPagerPosition != PAGER_POS_ITIN) {
-			ActionBar actionBar = getSupportActionBar();
-
 			if (mItinListFragment != null) {
 				mItinListFragment.resetTrackingState();
 				mItinListFragment.enableLoadItins();
@@ -455,7 +430,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 
 			mPagerPosition = PAGER_POS_ITIN;
 			mViewPager.setCurrentItem(PAGER_POS_ITIN);
-			actionBar.setSelectedNavigationItem(mPagerPosition);
 
 			if (mHasMenu) {
 				supportInvalidateOptionsMenu();
@@ -465,18 +439,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		if (mJumpToItinId != null && mItinListFragment != null) {
 			mItinListFragment.showItinCard(mJumpToItinId, false);
 			mJumpToItinId = null;
-		}
-	}
-
-	private void enableEmbeddedTabs(Object actionBar) {
-		try {
-			Method setHasEmbeddedTabsMethod = actionBar.getClass().getDeclaredMethod("setHasEmbeddedTabs",
-				boolean.class);
-			setHasEmbeddedTabsMethod.setAccessible(true);
-			setHasEmbeddedTabsMethod.invoke(actionBar, true);
-		}
-		catch (Exception e) {
-			Log.e("Error embedding ActionBar tabs.", e);
 		}
 	}
 
@@ -507,51 +469,98 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		public int getCount() {
 			return 2;
 		}
+
+		@Override
+		public String getPageTitle(int i) {
+			String title;
+			switch (i) {
+			case PAGER_POS_ITIN:
+				title = getResources().getString(R.string.Your_Trips);
+				break;
+			case PAGER_POS_WATERFALL:
+				title = getResources().getString(R.string.shop);
+				break;
+			default:
+				throw new RuntimeException("Position out of bounds position = " + i);
+			}
+			return title;
+		}
 	}
 
-	private ActionBar.TabListener mShopTabListener = new ActionBar.TabListener() {
+	private ValueAnimator.AnimatorUpdateListener hideToolbarAnimator = new ValueAnimator.AnimatorUpdateListener() {
 		@Override
-		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-			gotoWaterfall();
+		public void onAnimationUpdate(ValueAnimator arg0) {
+			float val = (float) arg0.getAnimatedValue();
+			mToolbar.setTranslationY(-val * mToolbar.getHeight());
+		}
+	};
+
+	private Animator.AnimatorListener hideToolbarListener = new Animator.AnimatorListener() {
+
+		@Override
+		public void onAnimationStart(Animator animation) {
+			mToolbar.setTranslationY(0);
 		}
 
 		@Override
-		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-			//will be called if user click on trips tab
-			OmnitureTracking.trackNewLaunchScreenTripsClick(PhoneLaunchActivity.this);
+		public void onAnimationEnd(Animator animation) {
+			mToolbar.setVisibility(View.GONE);
 		}
 
 		@Override
-		public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+		public void onAnimationCancel(Animator animation) {
+			// ignore
+		}
+
+		@Override
+		public void onAnimationRepeat(Animator animation) {
 			// ignore
 		}
 	};
 
-	private ActionBar.TabListener mItineraryTabListener = new ActionBar.TabListener() {
+	private ValueAnimator.AnimatorUpdateListener showToolbarAnimator = new ValueAnimator.AnimatorUpdateListener() {
+
 		@Override
-		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-			gotoItineraries();
+		public void onAnimationUpdate(ValueAnimator arg0) {
+			float val = (float) arg0.getAnimatedValue();
+			mToolbar.setTranslationY((1 - val) * -mToolbar.getHeight());
+		}
+	};
+
+	private Animator.AnimatorListener showToolbarListener = new Animator.AnimatorListener() {
+		@Override
+		public void onAnimationStart(Animator animation) {
+			mToolbar.setTranslationY(-getSupportActionBar().getHeight());
+			mToolbar.setVisibility(View.VISIBLE);
 		}
 
 		@Override
-		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-			// will be called when user click on shop tab
-			OmnitureTracking.trackNewLaunchScreenShopClick(PhoneLaunchActivity.this);
-			mItinListFragment.disableLoadItins();
+		public void onAnimationEnd(Animator animation) {
+			// ignore
 		}
 
 		@Override
-		public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+		public void onAnimationCancel(Animator animation) {
+			// ignore
+		}
+
+		@Override
+		public void onAnimationRepeat(Animator animation) {
 			// ignore
 		}
 	};
+
 
 	@Override
 	public void onListModeChanged(boolean isInDetailMode, boolean animate) {
 		mViewPager.setPageSwipingEnabled(!isInDetailMode);
 		if (isInDetailMode) {
 			if (getSupportActionBar().isShowing()) {
-				getSupportActionBar().hide();
+				ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
+				anim.setDuration(TOOLBAR_ANIM_DURATION);
+				anim.addUpdateListener(hideToolbarAnimator);
+				anim.addListener(hideToolbarListener);
+				anim.start();
 			}
 		}
 		else {
@@ -559,13 +568,12 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 			// animation happens in 200ms, so make it use the last 200ms
 			// of the animation (and check to make sure there wasn't another
 			// mode change in between)
-			mViewPager.postDelayed(new Runnable() {
-				public void run() {
-					if (!mItinListFragment.isInDetailMode() && !getSupportActionBar().isShowing()) {
-						getSupportActionBar().show();
-					}
-				}
-			}, 200); // 400ms - 200ms
+			ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
+			anim.setDuration(TOOLBAR_ANIM_DURATION);
+			anim.addUpdateListener(showToolbarAnimator);
+			anim.addListener(showToolbarListener);
+			mToolbar.setVisibility(View.VISIBLE);
+			anim.start();
 		}
 	}
 
@@ -600,5 +608,19 @@ public class PhoneLaunchActivity extends ActionBarActivity implements OnListMode
 		if (Ui.isAdded(mItinListFragment)) {
 			mItinListFragment.doLogout();
 		}
+	}
+
+	public static void showLOBNotSupportedAlertMessage(Context context, CharSequence errorMessage,
+		int confirmButtonResourceId) {
+		AlertDialog.Builder b = new AlertDialog.Builder(context);
+		b.setCancelable(false)
+			.setMessage(errorMessage)
+			.setPositiveButton(confirmButtonResourceId, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.show();
 	}
 }

@@ -64,7 +64,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				if (!mLaunchingActivity) {
 					mLaunchingActivity = true;
 					NavUtils.goToHotels(getActivity(), animOptions);
-					OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
+					OmnitureTracking.trackLinkLaunchScreenToHotels();
 				}
 				break;
 			}
@@ -72,7 +72,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				if (!mLaunchingActivity) {
 					mLaunchingActivity = true;
 					NavUtils.goToFlights(getActivity(), animOptions);
-					OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
+					OmnitureTracking.trackLinkLaunchScreenToFlights();
 				}
 				break;
 			}

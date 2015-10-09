@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GestureDetectorCompat;
-import android.text.TextUtils;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
@@ -21,40 +20,28 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.dialog.MailChimpDialogFragment;
-import com.mobiata.android.dialog.MailChimpDialogFragment.OnSubscribeEmailClickedListener;
-import com.mobiata.android.dialog.MailChimpFailureDialogFragment;
-import com.mobiata.android.dialog.MailChimpSuccessDialogFragment;
 import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.fragment.AboutSectionFragment.AboutSectionFragmentListener;
 import com.mobiata.android.fragment.CopyrightFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
-import com.mobiata.android.util.MailChimpUtils;
-import com.mobiata.android.util.MailChimpUtils.MailChimpResult;
+import com.squareup.phrase.Phrase;
 
-public class AboutActivity extends FragmentActivity implements AboutSectionFragmentListener,
-		OnSubscribeEmailClickedListener {
+public class AboutActivity extends FragmentActivity implements AboutSectionFragmentListener {
 	private static final String TAG_CONTACT_US = "TAG_CONTACT_US";
 	private static final String TAG_ALSO_BY_US = "TAG_ALSO_BY_US";
 	private static final String TAG_LEGAL = "TAG_LEGAL";
 	private static final String TAG_COPYRIGHT = "TAG_COPYRIGHT";
-
-	private static final String DOWNLOAD_MAILCHIMP = "DOWNLOAD_MAILCHIMP";
-
-	private static final String TAG_MAILCHIMP_DIALOG = "TAG_MAILCHIMP_DIALOG";
-	private static final String TAG_MAILCHIMP_SUCCESS_DIALOG = "TAG_MAILCHIMP_SUCCESS_DIALOG";
-	private static final String TAG_MAILCHIMP_FAILURE_DIALOG = "TAG_MAILCHIMP_FAILURE_DIALOG";
 
 	private static final int ROW_BOOKING_SUPPORT = 1;
 	private static final int ROW_EXPEDIA_WEBSITE = 2;
@@ -109,11 +96,11 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 			builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT);
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isAppSupportUrlEnabled()) {
-				builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutAppSupportString), ROW_APP_SUPPORT);
-			}
+			builder.addRow(getResources().getString(R.string.app_support), ROW_APP_SUPPORT);
 
-			builder.addRow(Ui.obtainThemeResID(this, R.attr.skin_aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
+			builder.addRow(
+				Phrase.from(this, R.string.website_TEMPLATE).put("brand", BuildConfig.brand).format().toString(),
+				ROW_EXPEDIA_WEBSITE);
 
 			if (ProductFlavorFeatureConfiguration.getInstance().isWeAreHiringInAboutEnabled()) {
 				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
@@ -183,20 +170,8 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	}
 
 	private String getCopyrightString() {
-		int templateId = Ui.obtainThemeResID(this, R.attr.skin_aboutCopyrightString);
-		return getString(templateId, AndroidUtils.getAppBuildDate(this).get(Calendar.YEAR));
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
+		return Phrase.from(this, R.string.copyright_TEMPLATE).put("brand", BuildConfig.brand)
+			.put("year", AndroidUtils.getAppBuildDate(this).get(Calendar.YEAR)).format().toString();
 	}
 
 	@Override
@@ -237,10 +212,6 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			onBackPressed();
-			return true;
-		case R.id.about_subscribe:
-			MailChimpDialogFragment dialogFrag = new MailChimpDialogFragment();
-			dialogFrag.show(getSupportFragmentManager(), MailChimpDialogFragment.class.toString());
 			return true;
 		case R.id.about_follow:
 			SocialUtils.openSite(this, "https://twitter.com/intent/user?screen_name=mobiata");
@@ -357,34 +328,6 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		return false;
 	}
 
-	private final OnDownloadComplete<MailChimpResult> mMailChimpCallback = new OnDownloadComplete<MailChimpResult>() {
-		@Override
-		public void onDownload(MailChimpResult result) {
-			if (result != null && result.mSuccess) {
-				MailChimpFailureDialogFragment dialogFragment = new MailChimpFailureDialogFragment();
-				Bundle args = new Bundle();
-				if (!TextUtils.isEmpty(result.mErrorMessage)) {
-					args.putString("message", result.mErrorMessage);
-				}
-				else {
-					args.putString("message", getString(com.mobiata.android.R.string.MailChimpFailure));
-				}
-				dialogFragment.setArguments(args);
-				dialogFragment.show(getSupportFragmentManager(), MailChimpFailureDialogFragment.class.toString());
-			}
-			else {
-				MailChimpSuccessDialogFragment dialogFragment = new MailChimpSuccessDialogFragment();
-				dialogFragment.show(getSupportFragmentManager(), MailChimpSuccessDialogFragment.class.toString());
-			}
-			return;
-		}
-	};
-
-	@Override
-	public void onSubscribeEmail(String email) {
-		MailChimpUtils.subscribeEmail(this, DOWNLOAD_MAILCHIMP, email, mMailChimpCallback);
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Secret Access
 	//
@@ -439,6 +382,9 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		ImageView logo = Ui.findView(this, com.mobiata.android.R.id.logo);
 		if (logo != null) {
 			logo.setImageResource(R.drawable.ic_secret);
+			if (BuildConfig.DEBUG) {
+				Db.setMemoryTestActive(true);
+			}
 		}
 	}
 }

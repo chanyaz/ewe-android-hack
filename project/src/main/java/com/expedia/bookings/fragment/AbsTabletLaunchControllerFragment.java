@@ -33,13 +33,13 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
 
 public abstract class AbsTabletLaunchControllerFragment extends MeasurableFragment
@@ -97,7 +97,7 @@ public abstract class AbsTabletLaunchControllerFragment extends MeasurableFragme
 			@Override
 			public void onClick(View view) {
 				setLaunchState(LaunchState.WAYPOINT, true);
-				OmnitureTracking.trackTabletDestinationSearchPageLoad(getActivity());
+				OmnitureTracking.trackTabletDestinationSearchPageLoad();
 			}
 		});
 		mSearchBarC.setVisibility(View.INVISIBLE);
@@ -162,7 +162,7 @@ public abstract class AbsTabletLaunchControllerFragment extends MeasurableFragme
 	}
 
 	private void checkConnectivityAndDisplayMessage() {
-		if (!NetUtils.isOnline(getActivity())) {
+		if (!ExpediaNetUtils.isOnline(getActivity())) {
 			setLaunchState(LaunchState.NO_CONNECTIVITY, false);
 		}
 		else {
@@ -399,7 +399,7 @@ public abstract class AbsTabletLaunchControllerFragment extends MeasurableFragme
 	/*
 	 * GooglePlayServicesDialog.GooglePlayServicesConnectionSuccessListener
 	 */
-
+	@Override
 	public void onGooglePlayServicesConnectionSuccess() {
 		if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
 			// We check in every onResume
@@ -424,9 +424,6 @@ public abstract class AbsTabletLaunchControllerFragment extends MeasurableFragme
 		Log.i("Starting search with params: " + Sp.getParams());
 		hotelSearch.setSearchResponse(null);
 		flightSearch.setSearchResponse(null);
-
-		Db.deleteCachedFlightData(getActivity());
-		Db.deleteHotelSearchData(getActivity());
 
 		startActivity(TabletResultsActivity.createIntent(getActivity()));
 	}

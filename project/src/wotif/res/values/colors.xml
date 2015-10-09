@@ -3,7 +3,14 @@
     <color name="action_bar_bg_color">#F1F1F1</color>
     <color name="action_bar_text_color">#1F8EDE</color>
     <color name="action_bar_selected_tab_underline_color">#599027</color>
+    <color name="action_bar_text_selected">@color/action_bar_text_color</color>
+    <color name="action_bar_text_unselected">#8C1F8EDE</color>
 
+    <color name="lob_btn_color">#1F8EDE</color>
+    <color name="hotel_lob_btn">@color/lob_btn_color</color>
+    <color name="flights_lob_btn">@color/lob_btn_color</color>
+    <color name="cars_lob_btn">@color/lob_btn_color</color>
+    <color name="lx_lob_btn">@color/lob_btn_color</color>
     <!-- Lob box shadow gradient -->
     <color name="lob_box_shadow_start_color">#FF000000</color>
     <color name="lob_box_shadow_center_color">#99000000</color>
@@ -11,7 +18,7 @@
 
     <color name="bg_blue_color_wotif">#003e74</color>
     <color name="actionbar_button_background_pressed">#004888</color>
-    <color name="action_bar_text_blue_wotif">#7baed4</color>
+    <color name="action_bar_text_blue_wotif">#1F8EDE</color>
     <color name="bg_btn_color_wotif">#7bae00</color>
     <color name="bg_btn_pressed_color_wotif">#295600</color>
     <color name="itin_flight_line_color_wotif">#7da426</color>
@@ -58,5 +65,20 @@
     <color name="section_flight_edit_traveler_link_color_wotif">#1F8EDE</color>
     <color name="room_rate_refundable_cancellation_text_color_wotif">#599027</color>
     <color name="tablet_hotel_coupon_text_color_wotif">#1F8EDE</color>
+
+    <!-- Cars and LX -->
+    <color name="cars_primary_color_wotif">#7AC231</color>
+    <color name="cars_primary_color">#7AC231</color>
+    <color name="cars_unchecked_toggle_text_color_wotif">#B3FFFFFF</color>
+    <color name="lx_primary_color_wotif">#7AC231</color>
+    <color name="lx_ripple_color_wotif">#599027</color>
+    <color name="lx_secondary_color_disabled_wotif">#599027</color>
+    <color name="lx_unchecked_toggle_text_color_wotif">@android:color/white</color>
+
+    <!--Account Lib Colors -->
+    <color name="acct__btn_sign_in_text_wotif">#FFFFFF</color>
+    <color name="acct__bg_input_text_error_wotif">#FFFFFF</color>
+    <color name="acct__bg_input_text_good_wotif">#EEEEEE</color>
+    <color name="acct__welcome_text_color">#FFFFFF</color>
 
 </resources>

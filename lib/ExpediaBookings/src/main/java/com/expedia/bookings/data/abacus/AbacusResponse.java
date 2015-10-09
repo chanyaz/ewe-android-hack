@@ -3,28 +3,30 @@ package com.expedia.bookings.data.abacus;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.expedia.bookings.utils.Strings;
+
 public class AbacusResponse {
 
-	private Map<String, AbacusTest> abacusTestMap = new HashMap<>();
-	private Map<String, AbacusTest> abacusTestDebugMap = new HashMap<>();
+	private Map<Integer, AbacusTest> abacusTestMap = new HashMap<>();
+	private Map<Integer, AbacusTest> abacusTestDebugMap = new HashMap<>();
 
-	public void setAbacusTestMap(Map<String, AbacusTest> map) {
+	public void setAbacusTestMap(Map<Integer, AbacusTest> map) {
 		abacusTestMap = map;
 		abacusTestDebugMap = new HashMap<>();
-		for (Map.Entry<String, AbacusTest> entry : map.entrySet()) {
+		for (Map.Entry<Integer, AbacusTest> entry : map.entrySet()) {
 			abacusTestDebugMap.put(entry.getKey(), entry.getValue().copyForDebug());
 		}
 	}
 
-	public boolean isUserBucketedForTest(String key) {
+	public boolean isUserBucketedForTest(int key) {
 		AbacusTest test = testForKey(key);
 		if (test != null) {
-			return test.isUserInBucket() && test.isLive;
+			return test.isUserInBucket();
 		}
 		return false;
 	}
 
-	public int variateForTest(String key) {
+	public int variateForTest(int key) {
 		AbacusTest test = testForKey(key);
 		if (test != null) {
 			return test.getBucketVariate();
@@ -32,62 +34,29 @@ public class AbacusResponse {
 		return AbacusUtils.DefaultVariate.CONTROL.ordinal();
 	}
 
-	public boolean isTestLive(String key) {
+	public String getAnalyticsString(int key) {
 		AbacusTest test = testForKey(key);
-		if (test != null) {
-			return test.isLive;
-		}
-		return false;
-	}
-
-	public String getAnalyticsString(String key) {
-		String analyticsString;
-		AbacusTest test = testForKey(key);
-		if (test == null) {
-			// User is not bucketed at all, log ExperimentID.NIT
-			analyticsString =  String.format("%s.NIT", AbacusUtils.experimentIDForKey(key));
-		}
-		else if (test.isLive) {
-			// User is bucketed and the test is live, log ex: 7143.23456.1
-			analyticsString = String.format("%s.%s.%s", test.experimentId, test.instanceId, test.treatmentId);
-		}
-		else {
-			// User is bucketed but the test is not live so do not track
-			analyticsString = "";
-		}
-		return analyticsString;
-	}
-
-	public static String appendString(String key) {
-		if (key == null || key.length() == 0) {
-			return "";
-		}
-		else {
-			return String.format("%s|", key);
-		}
+		return AbacusUtils.getAnalyticsString(test);
 	}
 
 	/**
 	 * Utility method to update/construct {@link AbacusTest} object for when we are testing using debug settings.
 	 * If {@link AbacusTest} is null, meaning Abacus Test isn't created on the intermediate server, create a new one.
 	 */
-	public void updateABTestForDebug(String key, int value) {
+	public void updateABTestForDebug(int key, int value) {
 		AbacusTest test = abacusTestDebugMap.get(key);
 		if (test == null) {
 			test = new AbacusTest();
-			test.name = key;
-			test.experimentId = "0";
-			test.instanceId = "0";
-			test.treatmentId = "0";
-			test.setting = new UserSetting().copyForDebug();
+			test.id = key;
+			test.value = 0;
+			test.instanceId = 0;
 			abacusTestDebugMap.put(key, test);
 		}
 
-		test.setting.value = value;
-		test.isLive = true;
+		test.value = value;
 	}
 
-	public AbacusTest testForKey(String key) {
+	public AbacusTest testForKey(int key) {
 		if (abacusTestDebugMap.get(key) != null && abacusTestDebugMap.get(key).getBucketVariate() != AbacusUtils.ABTEST_IGNORE_DEBUG) {
 			return abacusTestDebugMap.get(key);
 		}
@@ -98,5 +67,15 @@ public class AbacusResponse {
 
 	public int numberOfTests() {
 		return abacusTestMap.size();
+	}
+
+	public void updateFrom(AbacusResponse otherResponse) {
+		abacusTestMap.putAll(otherResponse.abacusTestMap);
+		abacusTestDebugMap.putAll(otherResponse.abacusTestDebugMap);
+	}
+
+	@Override
+	public String toString() {
+		return Strings.toPrettyString(this);
 	}
 }

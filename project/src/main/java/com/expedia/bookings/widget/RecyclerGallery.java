@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoTarget;
@@ -223,7 +224,7 @@ public class RecyclerGallery extends RecyclerView {
 				Property selected = Db.getHotelSearch().getSelectedProperty();
 
 				if (mListener != null && selected != null) {
-					mListener.onGalleryItemClicked(mMedia.get(getPosition()));
+					mListener.onGalleryItemClicked(mMedia.get(getAdapterPosition()));
 				}
 			}
 
@@ -346,7 +347,7 @@ public class RecyclerGallery extends RecyclerView {
 
 		private int getPadding() {
 			if (mMode == MODE_FILL) {
-				return 20;
+				return 1;
 			}
 			else {
 				Point screen = Ui.getScreenSize(getContext());
@@ -362,10 +363,10 @@ public class RecyclerGallery extends RecyclerView {
 			outRect.top = mMode == MODE_CENTER ? mPadding : 0;
 			outRect.bottom = mMode == MODE_CENTER ? mPadding : 0;
 
-			if (parent.getChildPosition(view) == 0) {
+			if (parent.getChildAdapterPosition(view) == 0) {
 				outRect.left = mMode == MODE_CENTER ? mPadding * 4 : 0;
 			}
-			else if (parent.getChildPosition(view) == parent.getAdapter().getItemCount() - 1) {
+			else if (parent.getChildAdapterPosition(view) == parent.getAdapter().getItemCount() - 1) {
 				outRect.right = mMode == MODE_CENTER ? mPadding * 4 : 0;
 			}
 		}
@@ -420,13 +421,6 @@ public class RecyclerGallery extends RecyclerView {
 		}
 	}
 
-	public void showPrevious() {
-		int position = mLayoutManager.findFirstVisibleItemPosition() - 1;
-		if (position >= 0 && position < mAdapter.getItemCount()) {
-			smoothScrollToPosition(position);
-		}
-	}
-
 	private static final int FLIP_MSG = 1;
 
 	private static final class LeakSafeHandler extends Handler {
@@ -457,34 +451,9 @@ public class RecyclerGallery extends RecyclerView {
 
 	public interface GalleryItemListener {
 		public void onGalleryItemClicked(Object item);
-		public void onGallerySwiped(int position);
 	}
 
 	public void setOnItemClickListener(GalleryItemListener listener) {
 		mListener = listener;
-	}
-
-	@Override
-	public void smoothScrollToPosition(int position) {
-		super.smoothScrollToPosition(position);
-		if (mListener != null) {
-			mListener.onGallerySwiped(position);
-		}
-	}
-
-	@Override
-	public void smoothScrollBy(int dx, int dy) {
-		super.smoothScrollBy(dx, dy);
-		if (mListener != null) {
-			mListener.onGallerySwiped(dx > 0 ? mLayoutManager.findLastVisibleItemPosition() : mLayoutManager.findFirstVisibleItemPosition());
-		}
-	}
-
-	@Override
-	public void scrollToPosition(int position) {
-		super.scrollToPosition(position);
-		if (mListener != null) {
-			mListener.onGallerySwiped(position);
-		}
 	}
 }

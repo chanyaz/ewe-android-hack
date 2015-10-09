@@ -174,6 +174,22 @@ public class StringsTests {
 	}
 
 	@Test
+	public void cutAtWordBarrier() {
+		final String firstCutAtWord = "Ain't";
+		final String secondCutAtWord = "Ain't no";
+		final String thirdCutAtWord = "Ain't no sunshine";
+		final String body = "Ain't no sunshine when she's gone";
+
+		// Don't try and cut past the end of a string
+		assertEquals(firstCutAtWord.length(), Strings.cutAtWordBarrier(firstCutAtWord, 10));
+
+		// Cutting to the work barrier
+		assertEquals(firstCutAtWord.length(), Strings.cutAtWordBarrier(body, 5));
+		assertEquals(secondCutAtWord.length(), Strings.cutAtWordBarrier(body, 7));
+		assertEquals(thirdCutAtWord.length(), Strings.cutAtWordBarrier(body, 14));
+	}
+
+	@Test
 	public void testStringsCapitalizeFirstLetter() {
 		assertEquals("", Strings.capitalizeFirstLetter(""));
 		assertEquals(null, Strings.capitalizeFirstLetter(null));
@@ -182,4 +198,54 @@ public class StringsTests {
 		assertEquals("Bcde", Strings.capitalizeFirstLetter("bcde"));
 	}
 
+	@Test
+	public void testStringsSplitAndCapitalizeFirstLetters() {
+		assertEquals("", Strings.splitAndCapitalizeFirstLetters(""));
+		assertEquals(null, Strings.splitAndCapitalizeFirstLetters(null));
+		assertEquals("AbcdEfgh", Strings.splitAndCapitalizeFirstLetters("aBCD_EFGH"));
+		assertEquals("BcdeDnas", Strings.splitAndCapitalizeFirstLetters("BCDE_dnAS"));
+		assertEquals("DirectAgency", Strings.splitAndCapitalizeFirstLetters("DIRECT_AGENCY"));
+		assertEquals("Merchant", Strings.splitAndCapitalizeFirstLetters("MERCHANT"));
+	}
+
+	@Test
+	public void testEscapeQuotes() {
+		String textWithQuotes = "Test &quot;One&quot;";
+		String expectedTextWithQuotes = "Test \"One\"";
+		String textWithoutQuotes = "Test One";
+
+		assertEquals(expectedTextWithQuotes, Strings.escapeQuotes(textWithQuotes));
+		assertEquals(textWithoutQuotes, Strings.escapeQuotes(textWithoutQuotes));
+	}
+
+	@Test
+	public void testcharacterCutOffWithMinBulletsShown() {
+		String content = null;
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 1));
+
+		content = "";
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 1));
+
+		content = "<p>abcdefghijklmnopqrstuvwxyz</p>";
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 1));
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 2));
+
+		content = "<p>abcdefghijklmnopqrstuvwxyz</p><ul><li>123</li><li>12345</li><li>1234567890</li>";
+		assertEquals(49, Strings.characterCutOffWithMinBulletsShown(content, 1));
+		assertEquals(63, Strings.characterCutOffWithMinBulletsShown(content, 2));
+
+		content = "<p>abcdefghijklmnopqrstuvwxyz</p><ul><li>123</li>";
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 1));
+		assertEquals(37, Strings.characterCutOffWithMinBulletsShown(content, 0));
+
+		content = "abcdefghijklmnopqrstuvwxyz";
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 1));
+
+		content = "abcdefghijklmnopqrstuvwxyz<ul><li>123</li><li>12345</li><li>1234567890</li>";
+		assertEquals(30, Strings.characterCutOffWithMinBulletsShown(content, 0));
+		assertEquals(42, Strings.characterCutOffWithMinBulletsShown(content, 1));
+		assertEquals(56, Strings.characterCutOffWithMinBulletsShown(content, 2));
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 3));
+		assertEquals(0, Strings.characterCutOffWithMinBulletsShown(content, 4));
+	}
 }

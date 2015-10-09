@@ -13,10 +13,10 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
-import static com.expedia.bookings.test.ui.espresso.TabletViewActions.clickDates;
+import static com.expedia.bookings.test.espresso.TabletViewActions.clickDates;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.hasToString;
@@ -120,19 +120,15 @@ public class Search {
 
 	public static void clickSuggestionAtPosition(int index) {
 		onData(anything()) //
-			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withId(R.id.suggestions_container))))) //
+			.inAdapterView(allOf(withId(android.R.id.list), isDescendantOfA(withId(R.id.suggestions_container)))) //
 			.atPosition(index) //
 			.perform(click());
 	}
 
 	public static void clickSuggestion(String text) {
 		onData(allOf(hasToString(is(text))))
-			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withId(R.id.suggestions_container))))) //
-			.perform(click());
-	}
-
-	public static ViewInteraction selectAirportButton() {
-		return onView(allOf(withId(R.id.action_button), isDisplayed()));
+			.inAdapterView(allOf(withId(android.R.id.list), isDescendantOfA(withId(R.id.suggestions_container)))) //
+				.perform(click());
 	}
 
 	public static ViewInteraction tripBucketDuration() {

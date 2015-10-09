@@ -5,7 +5,6 @@ import org.joda.time.DateTime;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.DateUtils;
@@ -22,11 +21,11 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelRoomsAndRatesFragment;
 import com.expedia.bookings.fragment.HotelRoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -112,7 +111,7 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		locationView.setText(StrUtils.formatAddressShort(property.getLocation()));
 
 		RatingBar hotelRating;
-		if (property.shouldShowCircles()) {
+		if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
 			hotelRating = Ui.findView(this, R.id.hotel_rating_bar_circles);
 		}
 		else {
@@ -120,19 +119,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		}
 		hotelRating.setVisibility(View.VISIBLE);
 		hotelRating.setRating((float) property.getHotelRating());
-
-		// Only display nights header if orientation landscape
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			TextView nightsView = (TextView) findViewById(R.id.nights_text_view);
-			int numNights = Math.max(1, searchParams.getStayDuration());
-			nightsView.setText(getResources().getQuantityString(R.plurals.staying_nights, numNights, numNights));
-
-			TextView datesView = (TextView) findViewById(R.id.dates_text_view);
-			datesView.setText(DateFormatUtils.formatDateRange(this, searchParams));
-		}
-		else {
-			findViewById(R.id.nights_container).setVisibility(View.GONE);
-		}
 
 		if (savedInstanceState != null) {
 			mLastSearchTime = (DateTime) savedInstanceState.getSerializable(INSTANCE_LAST_SEARCH_TIME);
@@ -154,7 +140,7 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 	protected void onStart() {
 		super.onStart();
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		OmnitureTracking.trackAppHotelsRoomsRates(this, property, null);
+		OmnitureTracking.trackAppHotelsRoomsRates(this, property);
 	}
 
 	@Override
@@ -172,8 +158,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		else {
 			getHotelOffers();
 		}
-
-		OmnitureTracking.onResume(this);
 	}
 
 	private void getHotelOffers() {
@@ -213,8 +197,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		else {
 			BackgroundDownloader.getInstance().cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -227,11 +209,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 	}
 
 	private boolean checkFinishConditionsAndFinish() {
-
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
-			Db.loadHotelSearchFromDisk(this);
-		}
-
 		// #13365: If the Db expired, finish out of this activity
 		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
@@ -255,7 +232,6 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		@Override
 		public void onDownload(HotelOffersResponse response) {
 			Db.getHotelSearch().updateFrom(response);
-			Db.kickOffBackgroundHotelSearchSave(HotelRoomsAndRatesActivity.this);
 			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 		}
 	};
@@ -275,7 +251,7 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 		Intent intent = new Intent(this, HotelOverviewActivity.class);
 		startActivity(intent);
 
-		OmnitureTracking.trackAddAirAttachHotel(this);
+		OmnitureTracking.trackAddAirAttachHotel();
 	}
 
 	@Override

@@ -17,9 +17,17 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 
 	//Was this valid last time - this is to improve performance
 	Boolean mWasValid = true;
-
+	Drawable mDrawableRight;
 	public ValidationIndicatorExclaimation(int fieldId) {
 		super(fieldId);
+	}
+
+	@Override
+	protected void onFieldBind() {
+		super.onFieldBind();
+		if (hasBoundField()) {
+			mDrawableRight = getField().getCompoundDrawables()[2];
+		}
 	}
 
 	@Override
@@ -35,7 +43,7 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 		else if (isValid && (force || !mWasValid)) {
 			//Freshly valid
 			Drawable[] compounds = field.getCompoundDrawables();
-			field.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], null, compounds[3]);
+			field.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], mDrawableRight, compounds[3]);
 			mWasValid = true;
 		}
 	}

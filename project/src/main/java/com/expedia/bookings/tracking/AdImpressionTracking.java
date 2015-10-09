@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Ui;
 
 public class AdImpressionTracking {
@@ -28,7 +29,8 @@ public class AdImpressionTracking {
 	public static void trackAdConversion(final Context context, final String tripId) {
 			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 			query.add(new BasicNameValuePair("tripId", tripId));
-			String endpoint = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl(false /*isSecure*/);
+			query.add(new BasicNameValuePair("clientid", ServicesUtil.generateClientId(context)));
+			String endpoint = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl();
 			String baseUrl = endpoint + CONVERSION_URL;
 			trackAdClickOrImpression(context, baseUrl, query);
 	}

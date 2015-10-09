@@ -1,7 +1,9 @@
 package com.expedia.bookings.test.ui.phone.tests.ui;
 
 import android.content.Context;
+import android.support.test.espresso.Espresso;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchActionBar;
@@ -10,13 +12,11 @@ import com.expedia.bookings.test.ui.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.SettingsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.TripsScreen;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.HotelsUserData;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
-
-import android.support.test.espresso.Espresso;
-
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.HotelsUserData;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.mobiata.android.util.SettingUtils;
+import com.squareup.phrase.Phrase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -35,8 +35,8 @@ public class TripsLoginTest extends PhoneTestCase {
 
 	public void verifyUserLogsOutCorrectly(int stringId) {
 		TripsScreen.clickOnLogInButton();
-		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
-		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
+		LogInScreen.typeTextEmailEditText(mUser.email);
+		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
 		assertTrue(User.isLoggedIn(mContext));
 
@@ -79,8 +79,8 @@ public class TripsLoginTest extends PhoneTestCase {
 	public void verifyClearDataWorksCorrectly() {
 
 		TripsScreen.clickOnLogInButton();
-		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
-		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
+		LogInScreen.typeTextEmailEditText(mUser.email);
+		LogInScreen.typeTextPasswordEditText(mUser.password);
 		LogInScreen.clickOnLoginButton();
 		assertTrue(User.isLoggedIn(mContext));
 
@@ -103,7 +103,9 @@ public class TripsLoginTest extends PhoneTestCase {
 		catch (Exception e) {
 			SettingsScreen.clickacceptString();
 		}
-		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.dialog_message_logged_out_and_cleared_private_data));
+		EspressoUtils.assertViewWithTextIsDisplayed(
+			Phrase.from(mContext, R.string.dialog_message_signed_out_and_cleared_private_data_TEMPLATE).put("brand",
+				BuildConfig.brand).format().toString());
 		try {
 			SettingsScreen.clickOkString();
 		}
@@ -117,7 +119,7 @@ public class TripsLoginTest extends PhoneTestCase {
 	}
 
 	public void testChangingPOSLogsUserOut() throws Exception {
-		mUser = new HotelsUserData(getInstrumentation());
+		mUser = new HotelsUserData();
 		mContext = getInstrumentation().getTargetContext();
 		LaunchActionBar.pressTrips();
 

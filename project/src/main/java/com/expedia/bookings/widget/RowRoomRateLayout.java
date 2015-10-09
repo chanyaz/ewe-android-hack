@@ -319,7 +319,8 @@ public class RowRoomRateLayout extends FrameLayout {
 				roomRateDiscountRibbon.setBackgroundResource(R.drawable.bg_air_attach_sale_text_view);
 			}
 			else {
-				roomRateDiscountRibbon.setBackgroundResource(R.drawable.bg_sale_text_view);
+				roomRateDiscountRibbon
+					.setBackgroundResource(Ui.obtainThemeResID(getContext(), R.attr.skin_bgSaleTextViewDrawable));
 			}
 		}
 		else {
