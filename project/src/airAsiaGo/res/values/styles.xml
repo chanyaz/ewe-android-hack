@@ -20,4 +20,8 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="Widget.ListView.DropDown.AAG" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
+        <item name="android:background">@drawable/bg_action_bar_airasiago</item>
+    </style>
+
 </resources>
