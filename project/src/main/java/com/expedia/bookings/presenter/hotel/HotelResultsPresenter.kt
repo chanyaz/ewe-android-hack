@@ -201,9 +201,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         if (filterView.viewmodel.filteredResponse.hotelList != null && filterView.viewmodel.filteredResponse.hotelList.size() > 0) {
             adapter.resultsSubject.onNext(filterView.viewmodel.filteredResponse)
             if (previousWasList) {
-                show(ResultsList())
+                show(ResultsList(),Presenter.FLAG_CLEAR_TOP)
             } else {
-                show(ResultsMap())
+                show(ResultsMap(),Presenter.FLAG_CLEAR_TOP)
             }
             mapViewModel.hotelsObservable.onNext(filterView.viewmodel.filteredResponse.hotelList)
         } else if (it == filterView.viewmodel.originalResponse?.hotelList) {
@@ -211,8 +211,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             if (previousWasList) {
                 show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
             } else {
-                show(ResultsMap())
+                show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
             }
+        } else{
+            filterView.dynamicFeedbackWidget.animateDynamicFeedbackWidget()
         }
     }
 

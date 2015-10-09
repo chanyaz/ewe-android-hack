@@ -3,6 +3,7 @@ package com.expedia.bookings.data.hotels;
 import java.util.List;
 
 public class Hotel {
+	public String sortIndex;
 	public String hotelId;
 	public String localizedName;
 	public String address;

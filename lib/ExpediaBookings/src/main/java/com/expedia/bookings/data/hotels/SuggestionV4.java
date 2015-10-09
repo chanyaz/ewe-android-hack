@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.hotels;
 
+import com.expedia.bookings.utils.Strings;
 import com.google.gson.annotations.SerializedName;
 
 public class SuggestionV4 {
@@ -56,5 +57,9 @@ public class SuggestionV4 {
 		v4.coordinates.lng = coordinates.lng;
 		v4.iconType = iconType;
 		return v4;
+	}
+
+	public boolean isLocationSearch() {
+		return Strings.isEmpty(gaiaId);
 	}
 }

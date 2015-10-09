@@ -27,20 +27,22 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelFilterViewModel.Sort
 import rx.Observer
 import java.util.ArrayList
-import java.util.Arrays
 import kotlin.properties.Delegates
 
 
 public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
+    val filterVipBadge: TextView by bindView(R.id.vip_badge)
     val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
     val filterVipContainer: View by bindView(R.id.filter_vip_container)
     val filterStarOne: ImageView by bindView(R.id.filter_hotel_star_rating_one)
@@ -74,7 +76,6 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val neighborhoodMoreLessLabel : TextView by bindView(R.id.show_more_less_text)
     val neighborhoodMoreLessIcon : ImageButton by bindView(R.id.show_more_less_icon)
     val neighborhoodMoreLessView : RelativeLayout by bindView(R.id.collapsed_container)
-    var isSectionExpanded = false
 
     val amenityLabel: TextView by bindView(R.id.amenity_label)
     val amenityContainer: GridLayout by bindView(R.id.amenities_container)
@@ -84,6 +85,20 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     fun subscribe(filterObserver: Observer<List<Hotel>>) {
         this.filterObserver = filterObserver
     }
+
+    val sortByObserver: Observer<Boolean> = endlessObserver{ isCurrentLocationSearch ->
+        var sortOptions: ArrayList<String> = getResources().getStringArray(R.array.sort_options_material_hotels).toArrayList()
+
+        if (isCurrentLocationSearch) {
+            sortOptions.add(getContext().getString(R.string.distance))
+        }
+
+        val adapter = ArrayAdapter(getContext(), R.layout.spinner_sort_item, sortOptions)
+        adapter.setDropDownViewResource(R.layout.spinner_sort_dropdown_item)
+
+        sortByButtonGroup.setAdapter(adapter)
+    }
+
     var viewmodel: HotelFilterViewModel by notNullAndObservable { vm ->
         val min = 20
         val max = 1000
@@ -107,14 +122,13 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         ratingFourBackground.subscribeOnClick(vm.fourStarFilterObserver)
         ratingFiveBackground.subscribeOnClick(vm.fiveStarFilterObserver)
 
-
-
         dynamicFeedbackClearButton.subscribeOnClick(vm.clearObservable)
 
         vm.filterObservable.subscribe(filterObserver)
 
         vm.finishClear.subscribe {
-            filterHotelName.setText(null)
+            //check if filterHotelName is empty to avoid calling handleFiltering
+            if (filterHotelName.text.length() > 0) filterHotelName.text = ""
             resetStars()
 
             filterHotelVip.setChecked(false)
@@ -133,6 +147,8 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                     v.neighborhoodCheckBox.setChecked(false)
                 }
             }
+
+            dynamicFeedbackWidget.hideDynamicFeedback()
         }
 
         vm.hotelStarRatingBar.subscribe {
@@ -163,9 +179,12 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             }
         }
 
+        vm.doneButtonEnableObservable.subscribe { enable ->
+            doneButton.alpha = (if (enable) 1.0f else (0.15f))
+        }
+
         vm.updateDynamicFeedbackWidget.subscribe {
             dynamicFeedbackWidget.showDynamicFeedback()
-            if (it == 0) dynamicFeedbackWidget.animateDynamicFeedbackWidget()
             dynamicFeedbackWidget.setDynamicCounterText(it)
         }
 
@@ -226,9 +245,10 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             }
         }
 
-        neighborhoodMoreLessView.setOnClickListener {
-            if (!isSectionExpanded) {
-                isSectionExpanded = true
+        neighborhoodMoreLessView.subscribeOnClick(vm.neighborhoodMoreLessObserverable)
+
+        vm.neighborhoodExpandObserable.subscribe { isSectionExpanded ->
+            if (isSectionExpanded) {
                 AnimUtils.rotate(neighborhoodMoreLessIcon)
                 neighborhoodMoreLessLabel.text = getContext().getString(R.string.show_less)
                 for (i in 3..neighborhoodContainer.getChildCount() - 1) {
@@ -239,7 +259,6 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                 }
 
             } else {
-                isSectionExpanded = false
                 AnimUtils.reverseRotate(neighborhoodMoreLessIcon)
                 neighborhoodMoreLessLabel.text = getContext().getString(R.string.show_more)
                 for (i in 3 .. neighborhoodContainer.getChildCount() -1){
@@ -249,7 +268,6 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                     }
                 }
             }
-
         }
 
 
@@ -271,16 +289,12 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     init {
         View.inflate(getContext(), R.layout.widget_hotel_filter, this)
 
+        if(PointOfSale.getPointOfSale().supportsVipAccess()){
+            filterVipContainer.visibility = View.VISIBLE
+            filterVipBadge.visibility = View.VISIBLE
+        }
+
         dynamicFeedbackWidget.hideDynamicFeedback()
-
-        val sortOptions = ArrayList<String>()
-        sortOptions.addAll(Arrays.asList(*getResources().getStringArray(R.array.sort_options_material_hotels)))
-        sortOptions.add(getContext().getString(R.string.distance))
-
-        val adapter = ArrayAdapter(getContext(), R.layout.spinner_sort_item, sortOptions)
-        adapter.setDropDownViewResource(R.layout.spinner_sort_dropdown_item)
-
-        sortByButtonGroup.setAdapter(adapter)
 
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
