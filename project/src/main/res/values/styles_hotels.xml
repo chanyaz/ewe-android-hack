@@ -33,6 +33,7 @@
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
         <item name="skin_hotelFilterBackground">@color/hotel_filter_background_color</item>
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>
+        <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
     </style>
 
     <!--
@@ -131,6 +132,10 @@
         <item name="android:textSize">17sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/hotels_primary_color</item>
+    </style>
+
+    <style name="HotelButton" parent="CarButton">
+        <item name="android:background">@drawable/hotels_button_selector</item>
     </style>
 
 </resources>
