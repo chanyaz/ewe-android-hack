@@ -184,8 +184,12 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         vm.updateDynamicFeedbackWidget.subscribe {
-            dynamicFeedbackWidget.showDynamicFeedback()
-            dynamicFeedbackWidget.setDynamicCounterText(it)
+            if (it < 0) {
+                dynamicFeedbackWidget.hideDynamicFeedback()
+            } else {
+                dynamicFeedbackWidget.showDynamicFeedback()
+                dynamicFeedbackWidget.setDynamicCounterText(it)
+            }
         }
 
         filterHotelName.addTextChangedListener(object : TextWatcher {
