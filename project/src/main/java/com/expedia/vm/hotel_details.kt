@@ -5,13 +5,13 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.text.Html
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelServices
@@ -87,6 +87,9 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val hotelNameObservable = BehaviorSubject.create<String>()
     val hotelRatingObservable = BehaviorSubject.create<Float>()
     val hotelRatingObservableVisibility = BehaviorSubject.create<Boolean>()
+    val onlyShowTotalPrice = BehaviorSubject.create<Boolean>(false)
+    val roomPriceToShowCustomer = BehaviorSubject.create<String>()
+    val totalPriceObservable = BehaviorSubject.create<String>()
     val pricePerNightObservable = BehaviorSubject.create<String>()
     val searchInfoObservable = BehaviorSubject.create<String>()
     val userRatingObservable = BehaviorSubject.create<String>()
@@ -200,10 +203,14 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         hotelRatingObservable.onNext(response.hotelStarRating.toFloat())
         hotelRatingObservableVisibility.onNext(response.hotelStarRating > 0)
 
-        if (response.hotelRoomResponse.first() != null) {
-            var rate = response.hotelRoomResponse.first().rateInfo.chargeableRateInfo;
+        val firstHotelRoomResponse = response.hotelRoomResponse.first()
+        if (firstHotelRoomResponse != null) {
+            val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo;
             val dailyPrice = Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode)
+            val totalPrice = Money(BigDecimal(rate.total.toDouble()), rate.currencyCode)
+            onlyShowTotalPrice.onNext(firstHotelRoomResponse.rateInfo.chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
             pricePerNightObservable.onNext(dailyPrice.getFormattedMoney(Money.F_NO_DECIMAL))
+            totalPriceObservable.onNext(totalPrice.getFormattedMoney(Money.F_NO_DECIMAL))
         }
 
         userRatingObservable.onNext(response.hotelGuestRating.toString())
@@ -220,7 +227,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
                 .put("discount", discountPercentage ?: 0).format().toString())
         hasDiscountPercentageObservable.onNext(chargeableRateInfo?.isDiscountTenPercentOrBetter())
         hasVipAccessObservable.onNext(response.isVipAccess)
-        promoMessageObservable.onNext(getPromoText(response.hotelRoomResponse.first()))
+        promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
         strikeThroughPriceObservable.onNext(priceFormatter(chargeableRateInfo, true))
 
         hasFreeCancellationObservable.onNext(hasFreeCancellation(response))
@@ -340,6 +347,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     }
 
     init {
+        onlyShowTotalPrice.subscribe { onlyShowTotalPrice ->
+            (if (onlyShowTotalPrice) totalPriceObservable else pricePerNightObservable).subscribe(roomPriceToShowCustomer)
+        }
+
         paramsSubject.subscribe { params ->
             searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
                     DateUtils.localDateToMMMd(params.checkIn)).put("enddate",
@@ -408,6 +419,7 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
     var dailyPricePerNightObservable = BehaviorSubject.create<String>()
     var perNightObservable = BehaviorSubject.create<Boolean>()
 
+    val onlyShowTotalPrice = BehaviorSubject.create<Boolean>()
     val pricePerNightObservable = BehaviorSubject.create<String>()
     val roomHeaderImageObservable = BehaviorSubject.create<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
     val viewRoomObservable = BehaviorSubject.create<Unit>()
@@ -444,11 +456,18 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
         dailyPricePerNightObservable.onNext(payLaterText)
         perNightObservable.onNext(false)
         // show price per night
-        pricePerNightObservable.onNext(dailyPrice.formattedMoney + context.resources.getString(R.string.per_night))
+        pricePerNightObservable.onNext(makePriceToShowCustomer())
+    }
 
+    fun makePriceToShowCustomer(): String {
+        val sb = StringBuilder(dailyPrice.formattedMoney)
+        if (!onlyShowTotalPrice.value) sb.append(context.resources.getString(R.string.per_night))
+        return sb.toString()
     }
 
     init {
+        onlyShowTotalPrice.onNext(hotelRoomResponse.rateInfo.chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
+
         //show total price per night
         pricePerNightObservable.onNext(context.resources.getString(R.string.cars_total_template, Money.getFormattedMoneyFromAmountAndCurrencyCode(BigDecimal(hotelRoomResponse.rateInfo.chargeableRateInfo.total.toDouble()), currencyCode, Money.F_NO_DECIMAL)))
         dailyPricePerNightObservable.onNext(dailyPrice.formattedMoney)

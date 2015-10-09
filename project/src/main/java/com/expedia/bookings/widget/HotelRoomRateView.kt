@@ -26,6 +26,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.HotelRoomRateViewModel
 import rx.Observer
 import rx.Observable
@@ -87,20 +88,18 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
         vm.roomTypeObservable.subscribeText(roomType)
         vm.collapsedBedTypeObservable.subscribeText(collapsedBedType)
         vm.expandedBedTypeObservable.subscribeText(expandedBedType)
+        vm.onlyShowTotalPrice.subscribeInverseVisibility(totalPricePerNight)
+        vm.perNightObservable.map { it && !vm.onlyShowTotalPrice.value }.subscribeVisibility(perNight)
         vm.expandedAmenityObservable.subscribe { text ->
             expandedAmenity.visibility = View.VISIBLE
             expandedAmenity.text = text
         }
-
         vm.collapsedUrgencyObservable.subscribeText(collapsedUrgency)
         vm.expandedMessageObservable.subscribe { expandedMessagePair ->
             freeCancellation.text = expandedMessagePair.first
             freeCancellation.setCompoundDrawablesWithIntrinsicBounds(expandedMessagePair.second, null, null, null)
         }
-
         vm.dailyPricePerNightObservable.subscribeText(dailyPricePerNight)
-        vm.perNightObservable.subscribeVisibility(perNight)
-
         vm.viewRoomObservable.subscribe {
             viewRoom.isChecked = true
         }
@@ -149,7 +148,10 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
                 if (it.id == R.id.expanded_amenity_text_view && Strings.isEmpty((it as TextView).text)) {
                     it.visibility = View.GONE
                 } else {
-                    it.startAnimation(newAlphaZeroToOneAnimation(it))
+                    val canShowView = !(it.id == R.id.total_price_per_night && vm.onlyShowTotalPrice.value)
+                    if (canShowView) {
+                        it.startAnimation(newAlphaZeroToOneAnimation(it))
+                    }
                 }
             }
 
