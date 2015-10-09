@@ -1,15 +1,13 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.text.TextUtils
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RatingBar
-import com.expedia.bookings.data.Review
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.R
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeRating
 import com.expedia.vm.HotelReviewRowViewModel
 
 public class HotelReviewRowView(context: Context, vm: HotelReviewRowViewModel) : LinearLayout(context) {
@@ -22,11 +20,11 @@ public class HotelReviewRowView(context: Context, vm: HotelReviewRowViewModel) :
 
     init {
         View.inflate(getContext(), R.layout.hotel_review_row, this)
-        vm.titleTextObservable.subscribe(title)
-        vm.ratingObservable.subscribe(ratingBar)
-        vm.reviewerTextObservable.subscribe(reviewer)
-        vm.reviewBodyObservable.subscribe(content)
-        vm.submissionDateObservable.subscribe(date)
+        vm.titleTextObservable.subscribeText(title)
+        vm.ratingObservable.subscribeRating(ratingBar)
+        vm.reviewerTextObservable.subscribeText(reviewer)
+        vm.reviewBodyObservable.subscribeText(content)
+        vm.submissionDateObservable.subscribeText(date)
     }
 
 

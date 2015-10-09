@@ -16,7 +16,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
 import com.expedia.vm.HotelCouponViewModel
 import kotlin.properties.Delegates
 
@@ -32,7 +32,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     var progress: View by Delegates.notNull()
 
     var viewmodel: HotelCouponViewModel by notNullAndObservable {
-        viewmodel.errorMessageObservable.subscribe(error)
+        viewmodel.errorMessageObservable.subscribeText(error)
         viewmodel.applyObservable.subscribe {
             showProgress(true)
             showError(false)

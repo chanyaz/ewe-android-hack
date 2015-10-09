@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.view.MotionEvent
 import android.view.View
 import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.RadioGroup
 import android.widget.RatingBar
@@ -36,24 +37,15 @@ public fun View.subscribeOnClick(observer: Observer<Unit>) {
     }
 }
 
-public fun ToggleButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
+public fun CompoundButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
     this.setOnClickListener {
-        observer.onNext(this.isChecked())
+        observer.onNext(this.isChecked)
     }
 }
 
 public fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
     this.setOnClickListener {
         publishSubject.onNext(Unit)
-    }
-}
-
-public fun RatingBar.subscribeOnTouch(observer: Observer<Unit>) {
-    this.setOnTouchListener { view, event ->
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            observer.onNext(Unit)
-        }
-        true
     }
 }
 
@@ -67,17 +59,11 @@ public fun RadioGroup.unsubscribeOnCheckedChange() {
     this.setOnCheckedChangeListener(null)
 }
 
-public fun CheckBox.subscribeOnCheckChanged(observer: Observer<Boolean>) {
-    this.setOnClickListener {
-        observer.onNext(this.isChecked())
-    }
+public fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView) {
+    this.subscribe { textview.text = it }
 }
 
-public fun <T : CharSequence> Observable<T>.subscribe(textview: TextView) {
-    this.subscribe { text -> textview.setText(text) }
-}
-
-public fun Observable<Drawable>.subscribe(imageView: ImageView) {
+public fun Observable<Drawable>.subscribeImageDrawable(imageView: ImageView) {
     this.subscribe { drawable -> imageView.setImageDrawable(drawable) }
 }
 
@@ -85,21 +71,21 @@ public fun Observable<Int>.subscribeBackgroundColor(view: View) {
     this.subscribe { color -> view.setBackgroundColor(color) }
 }
 
-public fun Observable<Float>.subscribe(ratingBar: RatingBar) {
-    this.subscribe { text -> ratingBar.setRating(text) }
+public fun Observable<Float>.subscribeRating(ratingBar: RatingBar) {
+    this.subscribe { ratingBar.rating = it }
 }
 
 public fun Observable<CharSequence>.subscribeToggleButton(togglebutton: ToggleButton) {
     this.subscribe { text ->
-        togglebutton.setText(text)
-        togglebutton.setTextOn(text)
-        togglebutton.setTextOff(text)
+        togglebutton.text = text
+        togglebutton.textOn = text
+        togglebutton.textOff = text
     }
 }
 
 public fun Observable<Boolean>.subscribeVisibility(view: View) {
     this.subscribe { visible ->
-        view.setVisibility(if (visible) View.VISIBLE else View.GONE)
+        view.visibility = if (visible) View.VISIBLE else View.GONE
     }
 }
 
