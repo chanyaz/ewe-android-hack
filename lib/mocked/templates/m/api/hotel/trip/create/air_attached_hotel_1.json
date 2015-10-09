@@ -1,0 +1,13 @@
+{
+    "errors": [
+        {
+            "diagnosticFullText": "com.expedia.www.domain.services.hotel.exception.LodgingInventoryException",
+            "diagnosticId": 738276746,
+            "errorCode": "INVALID_INPUT",
+            "errorInfo": {
+                "field": "productKey",
+                "summary": "ProductKey has expired"
+            }
+        }
+    ]
+}

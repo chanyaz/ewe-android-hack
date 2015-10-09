@@ -3,64 +3,34 @@ package com.expedia.bookings.test.ui.phone.pagemodels.hotels;
 import static android.support.test.espresso.action.ViewActions.click;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+
 import android.support.test.espresso.ViewInteraction;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-/**
- * Created by dmadan on 4/10/14.
- */
-public class HotelsReviewsScreen extends ScreenActions {
-	private static final int sSelectButtonID = R.id.menu_select_hotel;
-	private static final int sLoadingReviewsStringID = R.string.user_review_loading_text;
-	private static final int sTitleViewID = R.id.title;
-	private static final int sRatingViewID = R.id.rating_stars;
-	private static final int sFavorableStringID = R.string.user_review_sort_button_favorable;
-	private static final int sRecentStringID = R.string.user_review_sort_button_recent;
-	private static final int sCriticalStringID = R.string.user_review_sort_button_critical;
-	private static final int sBackButtonID = android.R.id.home;
-
-	// Object access
-
-	public static ViewInteraction selectButton() {
-		return onView(withId(sSelectButtonID));
-	}
-
+public class HotelsReviewsScreen {
 	public static ViewInteraction favorableString() {
-		return onView(withText(sFavorableStringID));
+		return onView(withText(R.string.user_review_sort_button_favorable));
 	}
 
 	public static ViewInteraction recentString() {
-		return onView(withText(sRecentStringID));
+		return onView(withText(R.string.user_review_sort_button_recent));
 	}
 
 	public static ViewInteraction criticalString() {
-		return onView(withText(sCriticalStringID));
-	}
-
-	public static ViewInteraction backButton() {
-		return onView(withId(sBackButtonID));
-	}
-
-	// Object interaction
-
-	public static void clickSelectButton() {
-		(selectButton()).perform(click());
+		return onView(withText(R.string.user_review_sort_button_critical));
 	}
 
 	public static void clickFavorableTab() {
-		(favorableString()).perform(click());
+		favorableString().perform(click());
 	}
 
 	public static void clickRecentTab() {
-		(recentString()).perform(click());
+		recentString().perform(click());
 	}
 
 	public static void clickCriticalTab() {
-		(criticalString()).perform(click());
+		criticalString().perform(click());
 	}
-
 }

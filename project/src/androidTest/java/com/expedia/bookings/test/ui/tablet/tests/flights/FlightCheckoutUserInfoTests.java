@@ -9,9 +9,9 @@ import com.expedia.bookings.test.ui.tablet.pagemodels.Launch;
 import com.expedia.bookings.test.ui.tablet.pagemodels.LogIn;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Results;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Search;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.HotelsUserData;
-import com.expedia.bookings.test.ui.utils.TabletTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.HotelsUserData;
+import com.expedia.bookings.test.espresso.TabletTestCase;
 
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -30,7 +30,7 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 
 	public void testCheckFlights() throws Exception {
 		// Test setup
-		mUser = new HotelsUserData(getInstrumentation());
+		mUser = new HotelsUserData();
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");
@@ -277,23 +277,12 @@ public class FlightCheckoutUserInfoTests extends TabletTestCase {
 
 	private void verifyLoginButtonNotAppearing() throws Exception {
 		Checkout.clickLoginButton();
-		Common.checkDisplayed(LogIn.loginFacebookButton());
-
-		Common.checkNotDisplayed(LogIn.loginExpediaButton());
-		LogIn.enterUserName(mUser.getLoginEmail());
-		Common.enterLog(TAG, "Log in button isn't shown until an email address is entered");
-
-		Common.checkNotDisplayed(LogIn.loginFacebookButton());
-		Common.enterLog(TAG, "Facebook button is no longer shown after email address is entered");
-
-		Common.checkDisplayed(LogIn.loginExpediaButton());
-		LogIn.enterPassword(mUser.getLoginPassword());
+		LogIn.enterPassword(mUser.password);
 		LogIn.clickLoginExpediaButton();
 		Common.pressBack();
 		Results.clickBookFlight();
-		Common.enterLog(TAG, "Log in button is shown after email address is entered");
 
-		EspressoUtils.assertViewWithTextIsDisplayed(mUser.getLoginEmail());
+		EspressoUtils.assertViewWithTextIsDisplayed(mUser.email);
 		Checkout.clickLogOutButton();
 		Checkout.clickLogOutString();
 		Common.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");

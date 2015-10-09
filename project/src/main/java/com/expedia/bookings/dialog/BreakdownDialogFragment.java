@@ -29,12 +29,13 @@ import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
-import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
+import com.squareup.phrase.Phrase;
 
 /**
  * Generalized class which displays a breakdown of some sort - i.e., line items.
@@ -244,9 +245,14 @@ public class BreakdownDialogFragment extends DialogFragment {
 			else {
 				dueToday = rateWeCareAbout.getTotalAmountAfterTax();
 			}
+
+			CharSequence dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE)
+				.put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context))
+				.format();
+
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(Ui.obtainThemeResID(context, R.attr.skin_totalDueToday)))
+					.setText(dueTodayText)
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())
@@ -261,7 +267,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 			total = rateWeCareAbout.getTotalPriceWithMandatoryFees();
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(PointOfSale.getPointOfSale().getCostSummaryMandatoryFeeTitle(context))
+					.setText(context.getString(R.string.fees_paid_at_hotel))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())
@@ -406,9 +412,13 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// OB fees
 		if (trip.getFees() != null) {
+			String bookingFee = Phrase.from(context, R.string.brand_booking_fee)
+				.put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context))
+				.format().toString();
+
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(Ui.obtainThemeResID(context, R.attr.skin_costSummaryBookingFeesString)))
+					.setText(bookingFee)
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())

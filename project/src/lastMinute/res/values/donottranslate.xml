@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">lastminute.com.au</string>
+    <string name="app_name">LM AU &amp; NZ</string>
 
     <!-- Email addresses -->
     <string name="email_app_support">lastminute-android@mobiata.com</string>
-    <!-- User name label for support email sent to user happiness team -->
-    <string name="email_user_name_lastminute">lastminute.com.au user name:</string>
     <!-- App Support URL -->
     <string name="app_support_url_lastminute">http://www.mobiata.com/support/lastminute/android</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">LM AU &amp; NZ</string>
+
+    <!-- Tune SDK Key -->
+    <string name="tune_sdk_app_advertiser_id">188640</string>
+    <string name="tune_sdk_app_conversion_key">5906feacf85426428e9b508640b6bb69</string>
+
+    <string name="lastminute_au">lastminute.com.au</string>
+    <string name="lastminute_nz">lastminute.co.nz</string>
 </resources>

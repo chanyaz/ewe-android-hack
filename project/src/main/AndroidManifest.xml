@@ -201,7 +201,6 @@
 
         <activity
             android:name="com.expedia.bookings.activity.FlightSearchActivity"
-            android:label="@string/Expedia_Flights"
             android:screenOrientation="portrait"
             android:theme="@style/FlightTheme"
             android:windowSoftInputMode="stateUnchanged" />
@@ -246,14 +245,32 @@
             android:screenOrientation="portrait"
             android:theme="@style/FlightTheme" />
 
+        <activity
+            android:name="com.expedia.bookings.activity.AccountLibActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/AccountLibTheme"
+            android:windowSoftInputMode="adjustResize" />
+
         <!-- Cars activity -->
 
         <activity
-            android:name="com.expedia.bookings.activity.CarActivity"
+            android:name="com.expedia.ui.CarActivity"
             android:taskAffinity="com.expedia.bookings.activity.CarActivity"
             android:screenOrientation="portrait"
             android:label="Cars"
             android:theme="@style/V2.Theme.Cars"
+            android:windowSoftInputMode="adjustNothing">
+        </activity>
+
+        <!-- LX activity -->
+
+        <activity
+            android:name="com.expedia.ui.LXBaseActivity"
+            android:taskAffinity="com.expedia.bookings.activity.LXBaseActivity"
+            android:screenOrientation="portrait"
+            android:label="Activities"
+            android:theme="@style/V2.Theme.LX"
             android:windowSoftInputMode="adjustNothing">
         </activity>
 
@@ -274,12 +291,6 @@
         <activity android:name="com.expedia.bookings.activity.AboutWebViewActivity" />
 
         <!-- Login/Facebook activities -->
-        <activity
-            android:name="com.expedia.bookings.activity.LoginActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/LoginTheme"
-            android:windowSoftInputMode="adjustPan" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -289,12 +300,6 @@
             android:name="com.expedia.bookings.activity.RestrictedProfileActivity"
             android:theme="@style/LoginTheme"
             android:windowSoftInputMode="adjustPan" />
-
-        <!-- Testing activities -->
-
-        <activity
-            android:name="com.expedia.bookings.activity.StubConfigActivity"
-            android:theme="@style/Theme.Phone" />
 
         <!-- Notifications -->
 
@@ -347,14 +352,6 @@
         </receiver>
 
         <!-- Tracking -->
-
-        <receiver
-            android:name="com.expedia.bookings.activity.PosChangedReceiver"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.expedia.bookings.action.pos_changed" />
-            </intent-filter>
-        </receiver>
 
         <!-- Google Play Campaign Tracking -->
         <!-- Note: Only the first defined INSTALL_REFERRER BroadcastReceiver receives the Broadcast from the system -->

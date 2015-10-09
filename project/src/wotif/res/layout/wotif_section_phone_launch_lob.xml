@@ -40,8 +40,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginLeft="@dimen/launch_lob_margin"
-                android:layout_marginRight="@dimen/launch_lob_margin"
+                android:layout_marginLeft="@dimen/launch_tile_margin_side"
+                android:layout_marginRight="@dimen/launch_tile_margin_middle"
                 app:btn_bg="@drawable/bg_lob"
                 app:btn_icon="@drawable/lob_hotel"
                 app:btn_text="@string/nav_accommodation" />
@@ -51,7 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginRight="@dimen/launch_lob_margin"
+                android:layout_marginRight="@dimen/launch_tile_margin_side"
                 app:btn_bg="@drawable/bg_lob"
                 app:btn_icon="@drawable/lob_flight"
                 app:btn_text="@string/nav_flights" />

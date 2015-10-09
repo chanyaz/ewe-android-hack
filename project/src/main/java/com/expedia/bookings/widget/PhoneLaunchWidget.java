@@ -20,17 +20,16 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.collections.Collection;
@@ -46,6 +45,7 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -75,14 +75,17 @@ public class PhoneLaunchWidget extends FrameLayout {
 	private boolean isAirAttachDismissed;
 	private boolean wasHotelsDownloadEmpty;
 
+	private int launchListYScroll;
+	private float airAttachTranslation;
+
 	@InjectView(R.id.lob_selector)
 	LaunchLobWidget lobSelectorWidget;
 
+	@InjectView(R.id.double_row_lob_selector)
+	LaunchLobDoubleRowWidget doubleRowLobSelectorWidget;
+
 	@InjectView(R.id.launch_list_widget)
 	LaunchListWidget launchListWidget;
-
-	@InjectView(R.id.action_bar_space)
-	View actionBarSpace;
 
 	@InjectView(R.id.air_attach_banner)
 	ViewGroup airAttachBanner;
@@ -97,15 +100,17 @@ public class PhoneLaunchWidget extends FrameLayout {
 	}
 
 	float lobHeight;
+	boolean doubleRowLob;
 
 	@Override
 	public void onFinishInflate() {
+		super.onFinishInflate();
 		ButterKnife.inject(this);
 		Ui.getApplication(getContext()).launchComponent().inject(this);
 		launchListWidget.setOnScrollListener(scrollListener);
-		lobHeight = getResources().getDimension(R.dimen.launch_lob_container_height);
-		squashedHeaderHeight = getResources().getDimension(R.dimen.launch_lob_squashed_height);
 		isAirAttachDismissed = false;
+		bindLobWidget();
+		setListState();
 	}
 
 	@Override
@@ -219,7 +224,8 @@ public class PhoneLaunchWidget extends FrameLayout {
 	}
 
 	private boolean isExpired() {
-		return JodaUtils.isExpired(launchDataTimeStamp, MINIMUM_TIME_AGO) || Db.getLaunchListHotelData() == null;
+		return launchDataTimeStamp == null || JodaUtils.isExpired(launchDataTimeStamp, MINIMUM_TIME_AGO)
+			|| Db.getLaunchListHotelData() == null;
 	}
 
 	/*
@@ -227,12 +233,10 @@ public class PhoneLaunchWidget extends FrameLayout {
 	 */
 
 	RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
-
-		private float airAttachTranslation;
-
 		@Override
 		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-			float currentPos = Math.abs(launchListWidget.getHeader().getTop());
+			launchListYScroll += dy;
+			float currentPos = launchListYScroll;
 			if (airAttachTranslation >= 0 && airAttachTranslation <= airAttachBanner.getHeight()) {
 				airAttachTranslation += dy;
 				airAttachTranslation = Math.min(airAttachTranslation, airAttachBanner.getHeight());
@@ -242,18 +246,28 @@ public class PhoneLaunchWidget extends FrameLayout {
 			// between header starting point and the squashed height
 			if (currentPos < squashedHeaderHeight) {
 				float squashInput = 1 - (currentPos / lobHeight);
-				lobSelectorWidget.transformButtons(squashInput);
+				if (doubleRowLob) {
+					doubleRowLobSelectorWidget.transformButtons(squashInput);
+				}
+				else {
+					lobSelectorWidget.transformButtons(squashInput);
+				}
 			}
 			// Make sure that the header is squashed.
 			else if (currentPos > squashedHeaderHeight) {
-				lobSelectorWidget.transformButtons(1 - (Math.min(currentPos, squashedHeaderHeight) / lobHeight));
+				if (doubleRowLob) {
+					doubleRowLobSelectorWidget.transformButtons(1 - (Math.min(currentPos, squashedHeaderHeight) / lobHeight));
+				}
+				else {
+					lobSelectorWidget.transformButtons(1 - (Math.min(currentPos, squashedHeaderHeight) / lobHeight));
+				}
 			}
 		}
 	};
 
 	private void goToHotels(Bundle animOptions) {
 		NavUtils.goToHotels(getContext(), animOptions);
-		OmnitureTracking.trackLinkLaunchScreenToHotels(getContext());
+		OmnitureTracking.trackLinkLaunchScreenToHotels();
 	}
 
 	/*
@@ -318,9 +332,10 @@ public class PhoneLaunchWidget extends FrameLayout {
 		launchError.setVisibility(View.GONE);
 
 		if (isExpired()) {
-			if (!ExpediaBookingApp.sIsAutomation) {
-				Events.post(new Events.LaunchShowLoadingAnimation());
-			}
+			// In case the POS changed, ensure that components (particularly hotelServices)
+			// update with regard to new POS.
+			Ui.getApplication(getContext()).defaultLaunchComponents();
+			Ui.getApplication(getContext()).launchComponent().inject(this);
 
 			LocalDate currentDate = new LocalDate();
 			DateTimeFormatter dtf = ISODateTimeFormat.date();
@@ -337,7 +352,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 			searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
 			searchParams.setFromLaunchScreen(true);
 
-			downloadSubscription = hotelServices.hotelSearch(params, downloadListener);
+			downloadSubscription = hotelServices.nearbyHotels(params, downloadListener);
 			launchDataTimeStamp = DateTime.now();
 		}
 	}
@@ -347,9 +362,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Log.i(TAG, "Start collection download");
 		launchListWidget.setVisibility(VISIBLE);
 		launchError.setVisibility(View.GONE);
-		if (!ExpediaBookingApp.sIsAutomation) {
-			Events.post(new Events.LaunchShowLoadingAnimation());
-		}
+		launchDataTimeStamp = null;
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();
 		downloadSubscription = collectionServices
@@ -407,7 +420,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 				public void onClick(View v) {
 					Bundle animOptions = AnimUtils.createActivityScaleBundle(airAttachBanner);
 					goToHotels(animOptions);
-					OmnitureTracking.trackPhoneAirAttachBannerClick(getContext());
+					OmnitureTracking.trackPhoneAirAttachBannerClick();
 				}
 			});
 		}
@@ -416,10 +429,10 @@ public class PhoneLaunchWidget extends FrameLayout {
 				@Override
 				public void onClick(View v) {
 					NavUtils.goToHotels(getContext(), hotelSearchParams);
-					OmnitureTracking.trackPhoneAirAttachBannerClick(getContext());
+					OmnitureTracking.trackPhoneAirAttachBannerClick();
 				}
 			});
-			OmnitureTracking.trackPhoneAirAttachBanner(getContext());
+			OmnitureTracking.trackPhoneAirAttachBanner();
 		}
 	}
 
@@ -428,8 +441,54 @@ public class PhoneLaunchWidget extends FrameLayout {
 		airAttachBanner.setVisibility(View.GONE);
 	}
 
+	// onResume()-esque behavior
+
+	private void setListState() {
+		if (isExpired()) {
+			launchListWidget.showListLoadingAnimation();
+		}
+	}
+
+	public void initLaunchListScroll() {
+		launchListYScroll = 0;
+		airAttachTranslation = 0;
+		launchListWidget.scrollToPosition(0);
+	}
+
+	public void bindLobWidget() {
+		int listHeaderPaddingTop;
+		initLaunchListScroll();
+		PointOfSale currentPointOfSale = PointOfSale.getPointOfSale();
+		if (currentPointOfSale.supports(LineOfBusiness.CARS) && currentPointOfSale.supports(
+			LineOfBusiness.LX)) {
+			doubleRowLob = true;
+			lobHeight = getResources().getDimension(R.dimen.launch_lob_double_row_container_height);
+			lobSelectorWidget.setVisibility(View.GONE);
+			doubleRowLobSelectorWidget.transformButtons(1.0f);
+			doubleRowLobSelectorWidget.setVisibility(View.VISIBLE);
+			listHeaderPaddingTop = R.dimen.launch_header_double_row_top_space;
+		}
+		else {
+			doubleRowLob = false;
+			lobHeight = getResources().getDimension(R.dimen.launch_lob_container_height);
+			lobSelectorWidget.transformButtons(1.0f);
+			lobSelectorWidget.setVisibility(View.VISIBLE);
+			doubleRowLobSelectorWidget.setVisibility(View.GONE);
+			listHeaderPaddingTop = R.dimen.launch_header_top_space;
+			lobSelectorWidget.updateView();
+		}
+		launchListWidget.setHeaderPaddingTop(getResources().getDimension(listHeaderPaddingTop));
+		squashedHeaderHeight = getResources().getDimension(R.dimen.launch_lob_squashed_height);
+	}
+
 	@Subscribe
-	public void onLobWidgetRefresh(Events.LaunchLobRefresh event) {
-		lobSelectorWidget.updateVisibilities();
+	public void onLaunchResume(Events.PhoneLaunchOnResume event) {
+		setListState();
+	}
+
+	@Subscribe
+	public void onPOSChange(Events.PhoneLaunchOnPOSChange event) {
+		bindLobWidget();
+		setListState();
 	}
 }

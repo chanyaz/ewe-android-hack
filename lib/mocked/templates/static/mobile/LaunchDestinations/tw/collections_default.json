@@ -1,0 +1,1630 @@
+{
+	"collections": [
+		{
+		   "title":"不夜城",
+		   "id":"global-nightlife",
+		   "imageCode":"global-nightlife",
+		   "locations":[
+				{
+					"title": "香港",
+					"subtitle": "香港",
+					"id": "global-nightlife.hong-kong",
+					"description": "就算是到了晚上 10 點，忙碌的香港仍然喧囂不已。在這座國際城市之中有各種不同的夜店、酒吧和夜市，旅客們在深夜裡仍然可以有許多不同的娛樂選擇。",
+					"imageCode": "hong-kong",
+					"location": {
+						"s": "香港 (全區), 香港",
+						"a": "HKG",
+						"d": "香港 (全區), 香港",
+						"id": "178263",
+						"t": "CITY",
+						"ll": {
+							"lat": "22.321194",
+							"lng": "114.109998"
+						},
+						"amc": "178263"
+					}
+				},
+				{
+					"title": "柏林",
+					"subtitle": "德國",
+					"id": "global-nightlife.berlin",
+					"description": "柏林人是越夜越美麗，他們最喜歡的就是去看場 1920 年代風格的歌舞表演，或是到復古別緻的酒吧或歡樂的露天啤酒店痛快喝上一杯。有一些知名的歐洲 DJ 也會到例如工業風格時尚夜店 Berghain 等超大型夜店現場表演。夏天的時候，施普雷河河畔有許多悠閒的露天酒吧，全天都可以盡情歡樂派對。",
+					"imageCode": "berlin",
+					"location": {
+						"s": "柏林 (及鄰近地區), 德國",
+						"a": "BER",
+						"d": "柏林 (及鄰近地區), 德國",
+						"id": "179892",
+						"t": "CITY",
+						"ll": {
+							"lat": "52.513840",
+							"lng": "13.350080"
+						},
+						"amc": "179892"
+					}
+				},
+				{
+					"title": "曼谷",
+					"subtitle": "泰國",
+					"id": "global-nightlife.bangkok",
+					"description": "從素有背包客天堂名號的考桑路，到拉差貼威附近的搖滾酒吧，以及通羅和伊卡邁的時尚酒館，來到曼谷旅遊，狂歡夜生活種類選擇真的是太多了！",
+					"imageCode": "bangkok",
+					"location": {
+						"s": "曼谷 (及鄰近地區), 泰國",
+						"a": "BKK",
+						"d": "曼谷 (及鄰近地區), 泰國",
+						"id": "178236",
+						"t": "CITY",
+						"ll": {
+							"lat": "13.747500",
+							"lng": "100.536010"
+						},
+						"amc": "178236"
+					}
+				},
+				{
+					"title": "布宜諾斯艾利斯",
+					"subtitle": "阿根廷",
+					"id": "global-nightlife.buenos-aires",
+					"description": "布宜諾斯艾利斯的夜晚大膽而火熱。在這座探戈起源的城市中，真正的夜晚，要到午夜才會拉開序幕。",
+					"imageCode": "buenos-aires",
+					"location": {
+						"s": "布宜諾斯艾利斯 (及鄰近地區), 阿根廷",
+						"a": "BUE",
+						"d": "布宜諾斯艾利斯 (及鄰近地區), 阿根廷",
+						"id": "178242",
+						"t": "CITY",
+						"ll": {
+							"lat": "-34.604861",
+							"lng": "-58.525835"
+						},
+						"amc": "178242"
+					}
+				},
+				{
+					"title": "伊維薩島",
+					"subtitle": "西班牙",
+					"id": "global-nightlife.ibiza",
+					"description": "伊維薩島可以說是夜店的勝地，如果您喜歡派對，那麼您一定要至少來過這裡一次。在伊維薩島參加派對可不比上夜店，而是人生一次難得的體驗！",
+					"imageCode": "ibiza",
+					"location": {
+						"s": "伊維薩島, 西班牙",
+						"a": "IBZ",
+						"d": "伊維薩島, 西班牙",
+						"id": "602653",
+						"t": "CITY",
+						"ll": {
+							"lat": "39.020010",
+							"lng": "1.482148"
+						},
+						"amc": "602653"
+					}
+				},
+				{
+					"title": "拉斯維加斯",
+					"subtitle": "內華達州",
+					"id": "global-nightlife.las-vegas",
+					"description": "不論您喜歡什麼，拉斯維加斯都能滿足您的願望。在賭城大道，隨處都可以找得到五光十色的娛樂活動。除了賭城大道以外，如果您想要好好讓自己沈澱一下、遠離浮華的混亂喧囂，那麼您一定要去一趟佛瑞蒙街。",
+					"imageCode": "las-vegas",
+					"location": {
+						"s": "拉斯維加斯 (及鄰近地區), 內華達, 美國",
+						"a": "LAS",
+						"d": "拉斯維加斯 (及鄰近地區), 內華達, 美國",
+						"id": "178276",
+						"t": "CITY",
+						"ll": {
+							"lat": "36.128174",
+							"lng": "-115.147728"
+						},
+						"amc": "178276"
+					}
+				},
+				{
+					"title": "蒙特婁",
+					"subtitle": "加拿大",
+					"id": "global-nightlife.montreal",
+					"description": "蒙特婁是北美地區尚未吸引大批人潮的派對最好去處，這裡除了有充滿舊世界風情的復古咖啡館、酷炫爵士樂夜店、人山人海的舞廳，還有吵鬧的深夜酒吧。",
+					"imageCode": "montreal",
+					"location": {
+						"s": "蒙特婁 (及鄰近地區), 魁北克, 加拿大",
+						"a": "YMQ",
+						"d": "蒙特婁 (及鄰近地區), 魁北克, 加拿大",
+						"id": "178288",
+						"t": "CITY",
+						"ll": {
+							"lat": "45.501950",
+							"lng": "-73.567140"
+						},
+						"amc": "178288"
+					}
+				},
+				{
+					"title": "邁阿密",
+					"subtitle": "佛羅里達州",
+					"id": "global-nightlife.miami",
+					"description": "這裡的夜生活一直以來都非常活躍，而時尚的南灘 (South Beach) 區則更是派對活動的心臟地帶。除了豪華的酒廊以外，這裡還有音樂震天響的舞廳夜店，以及處處洋溢著飾藝術風格的街道。穿上您最酷炫的潮服，讓全場驚豔動容吧！",
+					"imageCode": "miami",
+					"location": {
+						"s": "邁阿密 (及鄰近地區), 佛羅里達, 美國",
+						"a": "MIA",
+						"d": "邁阿密 (及鄰近地區), 佛羅里達, 美國",
+						"id": "178286",
+						"t": "CITY",
+						"ll": {
+							"lat": "25.771780",
+							"lng": "-80.190090"
+						},
+						"amc": "178286"
+					}
+				},
+				{
+					"title": "里約熱內盧",
+					"subtitle": "巴西",
+					"id": "global-nightlife.rio-de-janeiro",
+					"description": "在熱情洋溢、風格特色鮮明的里約熱內盧，就算嘉年華遊行已經結束，派對仍然熱鬧繼續。在這裡，全年都可以在夜店、酒吧、街道和海灘派對中看到當地人或旅客一起暢飲、嬉笑及熱舞。",
+					"imageCode": "rio-de-janeiro",
+					"location": {
+						"s": "里約熱內盧 (及鄰近地區), 巴西",
+						"a": "RIO",
+						"d": "里約熱內盧 (及鄰近地區), 巴西",
+						"id": "178301",
+						"t": "CITY",
+						"ll": {
+							"lat": "-22.906500",
+							"lng": "-43.178600"
+						},
+						"amc": "178301"
+					}
+				},
+				{
+					"title": "紐約",
+					"subtitle": "紐約州",
+					"id": "global-nightlife.new-york",
+					"description": "不論是去東村 (East Village) 沿路逛酒吧，還是到時尚的蘇活區 (SoHo) 酒廊品嚐雞尾酒，或是到布魯克林痛快參加一場倉庫派對，來到這座不夜城，您一定可以找得到自己最想要參加的活動。",
+					"imageCode": "new-york",
+					"location": {
+						"s": "紐約 (及鄰近地區), 紐約, 美國",
+						"a": "NYC",
+						"d": "紐約 (及鄰近地區), 紐約, 美國",
+						"id": "178293",
+						"t": "CITY",
+						"ll": {
+							"lat": "40.756680",
+							"lng": "-73.986470"
+						},
+						"amc": "178293"
+					}
+				},
+				{
+					"title": "東京",
+					"subtitle": "日本",
+					"id": "global-nightlife.tokyo",
+					"description": "東京的國際化風格也反映在夜生活上，來到這裡的旅客除了可以欣賞現場音樂表演、到酒吧小酌幾杯，還可以觀看傳統的日式舞蹈表演。",
+					"imageCode": "tokyo",
+					"location": {
+						"s": "東京 (及鄰近地區), 日本",
+						"a": "TYO",
+						"d": "東京 (及鄰近地區), 日本",
+						"id": "179900",
+						"t": "CITY",
+						"ll": {
+							"lat": "35.675000",
+							"lng": "139.760000"
+						},
+						"amc": "179900"
+					}
+				}
+			]
+		},
+		{
+            "title": "各式各樣的精彩活動",
+            "id": "adventure-abounds",
+            "imageCode": "adventure-abounds",
+            "locations": [
+                {
+                    "title": "北京",
+                    "subtitle": "中國",
+                    "id": "adventure-abounds.beijing-adventure",
+                    "description": "延綿 13,170 里的萬里長城始建於西元前 7 世紀，每年吸引千萬遊客前來參觀。您可以乘坐滑道俯衝而下，體驗驚險刺激的長城之旅，同時飽覽壯麗美景。",
+                    "image": "beijing-adventure",
+                    "imageCode": "beijing-adventure",
+                    "location": {
+                        "s": "北京 (及周邊), 中國",
+                        "a": "BJS",
+                        "d": "<B>北京</B>, <B>中國</B>",
+                        "id": "178237",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "39.906000",
+                            "lng": "116.385000"
+                        },
+                        "amc": "178237"
+                    }
+                },
+                {
+                    "title": "利馬",
+                    "subtitle": "秘魯",
+                    "id": "adventure-abounds.lima-adventure",
+                    "description": "乘上滑翔傘翱翔在海洋和懸崖之上，俯瞰秘魯海岸線醉人景色。利馬的美食也非常有名，別忘了到最新的餐廳和市場，品嘗地道風味。",
+                    "image": "lima-adventure",
+                    "imageCode": "lima-adventure",
+                    "location": {
+                        "s": "利馬 (及鄰近地區) , 祕魯",
+                        "a": "LIM",
+                        "d": "<B>利馬</B> (及鄰近地區) , 祕魯",
+                        "id": "178277",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-12.040150",
+                            "lng": "-77.036160"
+                        },
+                        "amc": "178277"
+                    }
+                },
+                {
+                    "title": "慕尼克",
+                    "subtitle": "德國",
+                    "id": "adventure-abounds.munich-adventure",
+                    "description": "如果啤酒配香腸還不夠的話，不妨試試巴伐利亞的另一項特色體驗：睡在樹上吧！在懸掛於樹上的帳篷中住宿，不但風格獨具，還可以在樹上欣賞醉人的日出和日落。",
+                    "image": "munich-adventure",
+                    "imageCode": "munich-adventure",
+                    "location": {
+                        "s": "慕尼黑 (及鄰近地區)",
+                        "a": "MUC",
+                        "d": "慕尼黑 (及鄰近地區), 德國",
+                        "id": "179896",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "48.139800",
+                            "lng": "11.560050"
+                        },
+                        "amc": "179896"
+                    }
+                },
+                {
+                    "title": "貝尼多爾姆",
+                    "subtitle": "西班牙",
+                    "id": "adventure-abounds.benidorm-adventure",
+                    "description": "誰說冬天不能攀岩？貝尼多爾姆從秋天到翌年春天都風和日麗，適合攀岩。如果您還是比較喜歡「腳踏實地」的感覺，那就別錯過利雲特海灘清澈見底的海水，以及吸引無數訪客的各種夜生活場所。",
+                    "image": "benidorm-adventure",
+                    "imageCode": "benidorm-adventure",
+                    "location": {
+                        "s": "貝尼多姆",
+                        "a": "ALC",
+                        "d": "貝尼多姆, 西班牙",
+                        "id": "181363",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "38.536713",
+                            "lng": "-0.129450"
+                        },
+                        "amc": "6023825"
+                    }
+                },
+                {
+                    "title": "長灘島",
+                    "subtitle": "菲律賓",
+                    "id": "adventure-abounds.boracay-adventure",
+                    "description": "在這裡，風箏衝浪就是生活的一部分！絕佳的天然環境，加上專業的風箏衝浪學校，無論是菜鳥還是經驗豐富的老手，都對這項刺激好玩的運動情有獨鍾。",
+                    "image": "boracay-adventure",
+                    "imageCode": "boracay-adventure",
+                    "location": {
+                        "s": "長灘島, 菲律賓",
+                        "a": "MPH",
+                        "d": "<B>長灘島</B>, <B>菲律賓</B>",
+                        "id": "601371",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "11.959059",
+                            "lng": "121.926270"
+                        },
+                        "amc": "6184368"
+                    }
+                },
+                {
+                    "title": "林肯港",
+                    "subtitle": "澳洲",
+                    "id": "adventure-abounds.portlincoln-adventure",
+                    "description": "如果深海潛水對您來說還不夠刺激，不用失望，林肯港還有一系列精彩活動能夠滿足您的冒險精神，其中包括和大白鯊一起潛水！",
+                    "image": "portlincoln-adventure",
+                    "imageCode": "portlincoln-adventure",
+                    "location": {
+                        "s": "林肯港 (及鄰近地區), 南澳, 澳洲",
+                        "a": "PLO",
+                        "d": "<B>林肯港</B> (及鄰近地區), 南澳, <B>澳洲</B>",
+                        "id": "6142927",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-34.734804",
+                            "lng": "135.852622"
+                        },
+                        "amc": "6142927"
+                    }
+                },
+                {
+                    "title": "杜拜",
+                    "subtitle": "阿拉伯聯合酋長國",
+                    "id": "adventure-abounds.dubai-adventure",
+                    "description": "夏天不能玩滑雪板，那就來玩滑沙板吧！以全新方式領略自然風光的美妙。滑下連綿起伏的沙丘，杜拜的沙漠比您想像中的更有趣。",
+                    "image": "dubai-adventure",
+                    "imageCode": "dubai-adventure",
+                    "location": {
+                        "s": "杜拜公國, 阿拉伯聯合大公國",
+                        "a": "DXB",
+                        "d": "<B>杜拜</B>公國, 阿拉伯聯合大公國",
+                        "id": "1079",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "25.110714",
+                            "lng": "55.394882"
+                        },
+                        "amc": "1079"
+                    }
+                },
+                {
+                    "title": "利文斯頓",
+                    "subtitle": "尚比亞",
+                    "id": "adventure-abounds.livingstone-adventure",
+                    "description": "穿越橫跨尚比亞與辛巴威之間的峽谷吊橋，並感受全球最大瀑布之一，維多利亞瀑布的無窮魅力。還想來點更刺激的嗎？在距離水面 120 公尺的橋上玩高空彈跳，痛快的感覺無可取代。",
+                    "image": "livingstone-adventure",
+                    "imageCode": "livingstone-adventure",
+                    "location": {
+                        "s": "利文斯頓, 尚比亞",
+                        "a": "LVI",
+                        "d": "<B>利文斯頓</B>, <B>尚比亞</B>",
+                        "id": "2170",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-17.872034",
+                            "lng": "25.858815"
+                        },
+                        "amc": "2170"
+                    }
+                },
+                {
+                    "title": "阿魯沙",
+                    "subtitle": "坦尚尼亞",
+                    "id": "adventure-abounds.arusha-adventure",
+                    "description": "塞倫蓋提國家公園以擁有地球上最古老的生態系統而聞名，每年吸引了 9 萬多名旅客前來探索。10 月和 11 月是角馬和斑馬大遷徙的季節，此時到訪所看到的壯觀景象將令您畢生難忘。",
+                    "image": "arusha-adventure",
+                    "imageCode": "arusha-adventure",
+                    "location": {
+                        "s": "阿魯沙, 坦尚尼亞聯合共和國",
+                        "a": "JRO",
+                        "d": "<B>阿魯沙</B>, <B>坦尚尼亞</B>聯合共和國",
+                        "id": "178011",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-3.369788",
+                            "lng": "36.840055"
+                        },
+                        "amc": "1726"
+                    }
+                }
+            ]
+        },
+		{
+            "title": "小編精選",
+            "id": "staff-picks",
+            "imageCode": "staff-picks",
+            "locations": [
+                {
+                    "title": "京都",
+                    "subtitle": "日本",
+                    "id": "staff-picks.staff-kyoto",
+                    "description": "京都有豐富的文化和自然美景，絕對不會叫人失望。在這座美麗的日本城市中，旅客們可以探索許多名列世界遺產的寺廟和神社。-Nao K.",
+                    "image": "staff-kyoto",
+                    "imageCode": "staff-kyoto",
+                    "location": {
+                        "s": "京都 (及鄰近地區), 日本",
+                        "a": "OSA",
+                        "d": "京都 (及鄰近地區), 日本",
+                        "id": "6131486",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "35.011229",
+                            "lng": "135.768125"
+                        },
+                        "amc": "179897"
+                    }
+                },
+                {
+                    "title": "彭薩科拉",
+                    "subtitle": "佛羅里達",
+                    "id": "staff-picks.staff-pensacola",
+                    "description": "皮肯斯堡 (Fort Pickens) 是位於彭薩科拉的國家公園，這裡非常適合古堡探索、露營、觀察野生動物和做日光浴。這裡的海灘比喧鬧的彭薩科拉海灘更為偏遠，不過也同樣有莫西哥灣知名的潔白沙灘。-Tarran V.",
+                    "image": "staff-pensacola",
+                    "imageCode": "staff-pensacola",
+                    "location": {
+                        "s": "朋沙科拉, 佛羅里達, 美國",
+                        "a": "PNS",
+                        "d": "朋沙科拉, 佛羅里達, 美國",
+                        "id": "2844",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "30.410358",
+                            "lng": "-87.214783"
+                        },
+                        "amc": "6023392"
+                    }
+                },
+                {
+                    "title": "科尼利亞",
+                    "subtitle": "義大利",
+                    "id": "staff-picks.staff-corniglia",
+                    "description": "科尼利亞是五鄉地最小的城鎮，不過這裡的風光也一樣美麗。這座城市地勢較高，而且距離海岸較遠，因此會花時間來這裡造訪的旅客人數較少。不來太可惜了！-Lacie T.",
+                    "image": "staff-corniglia",
+                    "imageCode": "staff-corniglia",
+                    "location": {
+                        "s": "義大利弗納扎，科尼利亞",
+                        "a": "GOA",
+                        "d": "義大利弗納扎，科尼利亞",
+                        "id": "179977",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "44.122589",
+                            "lng": "9.708674"
+                        },
+                        "amc": "6055038"
+                    }
+                },
+                {
+                    "title": "馬拉喀什",
+                    "subtitle": "摩洛哥",
+                    "id": "staff-picks.staff-marrakech",
+                    "description": "前往馬拉喀什，攀登鄰近的阿特拉斯山脈圖卜卡勒峰。旅客們可以騎乘駱駝穿越沙漠、品嘗當地美食料理，並深入了解馬拉喀什古老的歷史和文化。-Steven V.",
+                    "image": "staff-marrakech",
+                    "imageCode": "staff-marrakech",
+                    "location": {
+                        "s": "馬拉喀什 (及鄰近地區), 摩洛哥",
+                        "a": "RAK",
+                        "d": "馬拉喀什 (及鄰近地區), 摩洛哥",
+                        "id": "6084756",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "31.631600",
+                            "lng": "-8.009210"
+                        },
+                        "amc": "6084756"
+                    }
+                },
+                {
+                    "title": "威廉斯堡",
+                    "subtitle": "維吉尼亞州",
+                    "id": "staff-picks.staff-williamsburg",
+                    "description": "讓自己沉浸在殖民地威廉斯堡，以及鄰近約克鎮與詹姆斯頓的忠貞人士和叛軍歷史之中。來到這裡，感覺就像踏入古老的年代，還可以透過美食、歷史建築、船舶等體驗早期的美國殖民生活。-Eric W.",
+                    "image": "staff-williamsburg",
+                    "imageCode": "staff-williamsburg",
+                    "location": {
+                        "s": "威廉斯堡, 維吉尼亞, 美國",
+                        "a": "PHF",
+                        "d": "威廉斯堡, 維吉尼亞, 美國",
+                        "id": "6296",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "37.297399",
+                            "lng": "-76.737958"
+                        },
+                        "amc": "6056964"
+                    }
+                },
+                {
+                    "title": "巴爾特拉島",
+                    "subtitle": "厄瓜多",
+                    "id": "staff-picks.staff-baltra",
+                    "description": "只要看過加拉巴哥群島，一定就可以了解達爾文為什麼會對這裡如此狂熱。群島中每座小島都有不同的物種，因地理位置的隔離而各自演化。在巴爾特拉島一遊，就像在地球上最美麗的地方之一上了一堂豐富的生物課。-Eric G.",
+                    "image": "staff-baltra",
+                    "imageCode": "staff-baltra",
+                    "location": {
+                        "s": "巴爾特拉, 厄瓜多",
+                        "a": "GPS",
+                        "d": "巴爾特拉, 厄瓜多",
+                        "id": "6223000",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-0.454779",
+                            "lng": "-90.276524"
+                        },
+                        "amc": "6053670"
+                    }
+                },
+                {
+                    "title": "聖佩德羅德阿塔卡馬",
+                    "subtitle": "智利",
+                    "id": "staff-picks.staff-atacama",
+                    "description": "聖佩德羅德阿塔卡馬是全世界最乾燥沙漠中的一片綠洲。來到聖佩德羅，最建議的就是騎山地自行車、在鹽灘上觀察火鶴，或在天然溫泉中舒服泡澡。另外也非常推薦這裡的滑沙！-Eric G.",
+                    "image": "staff-atacama",
+                    "imageCode": "staff-atacama",
+                    "location": {
+                        "s": "聖佩德羅德阿塔卡馬, 智利",
+                        "a": "CJC",
+                        "d": "聖佩德羅德阿塔卡馬, 智利",
+                        "id": "500224",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-22.910600",
+                            "lng": "-68.200352"
+                        },
+                        "amc": "500224"
+                    }
+                },
+                {
+                    "title": "開普敦",
+                    "subtitle": "南非",
+                    "id": "staff-picks.staff-capetown",
+                    "description": "座落在美麗的維因蘭德斯群山之中，法蘭舒克有全國最棒的餐廳和酒莊。這裡也是南非最古老的城鎮之一，其豐富的歷史與動人的美景更是讓這裡非常值得一遊。-Susanna V.",
+                    "image": "staff-capetown",
+                    "imageCode": "staff-capetown",
+                    "location": {
+                        "s": "開普敦, 南非 (CPT – 開普敦國際機場)",
+                        "a": "CPT",
+                        "d": "開普敦, 南非 (CPT – 開普敦國際機場)",
+                        "id": "6000166",
+                        "t": "AIRPORT",
+                        "ll": {
+                            "lat": "-33.971279",
+                            "lng": "18.596875"
+                        },
+                        "amc": "6046820"
+                    }
+                },
+                {
+                    "title": "根特",
+                    "subtitle": "比利時",
+                    "id": "staff-picks.staff-ghent",
+                    "description": "根特是座美麗的城市，而且有許多歷史和現代景點，從中古世紀的建築和美麗的運河，到酒莊和可愛的咖啡館都有。如果想要盡情探索比利時風光，這裡一定能帶來許多令人意想不到的驚奇。-Cristen D.",
+                    "image": "staff-ghent",
+                    "imageCode": "staff-ghent",
+                    "location": {
+                        "s": "根特, 比利時",
+                        "a": "BRU",
+                        "d": "根特, 比利時",
+                        "id": "6052141",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "51.073648",
+                            "lng": "3.724662"
+                        },
+                        "amc": "178241"
+                    }
+                },
+                {
+                    "title": "特拉弗斯城",
+                    "subtitle": "密西根州",
+                    "id": "staff-picks.staff-traversecity",
+                    "description": "特拉弗斯城位於美麗的大特拉弗斯灣，這裡不但有精緻美食和電影節，遊客還可以在這裡騎自行車、打高爾夫球、品酒，就連櫻桃也相當有名。悠閒的氣氛，加上美食和美景，都讓這裡非常值得一遊。-Shawn P.",
+                    "image": "staff-traversecity",
+                    "imageCode": "staff-traversecity",
+                    "location": {
+                        "s": "特拉佛斯市, 密西根, 美國 (TVC – Cherry Capital 機場)",
+                        "a": "TVC",
+                        "d": "特拉佛斯市, 密西根, 美國 (TVC – Cherry Capital 機場)",
+                        "id": "6032648",
+                        "t": "AIRPORT",
+                        "ll": {
+                            "lat": "44.736758",
+                            "lng": "-85.578046"
+                        },
+                        "amc": "3577"
+                    }
+                },
+                {
+                    "title": "拉富圖納",
+                    "subtitle": "哥斯大黎加",
+                    "id": "staff-picks.staff-lafortuna",
+                    "description": "在拉富圖納，旅客們可以在雄偉的阿雷納爾火山登山健行，然後到鄰近多個地熱溫泉 Spa 好好泡澡、休息一下。還有也千萬別錯過附近不遠處的蒙特維多雲霧森林自然保護區，在這裡可以欣賞到相當具有異國風情的動植物。-Suzi F.",
+                    "image": "staff-lafortuna",
+                    "imageCode": "staff-lafortuna",
+                    "location": {
+                        "s": "福爾圖娜 (阿拉胡埃拉), 哥斯大黎加",
+                        "a": "SJO",
+                        "d": "福爾圖娜 (阿拉胡埃拉), 哥斯大黎加",
+                        "id": "6052925",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "10.471122",
+                            "lng": "-84.645862"
+                        },
+                        "amc": "603085"
+                    }
+                },
+                {
+                    "title": "暹粒",
+                    "subtitle": "柬埔寨",
+                    "id": "staff-picks.staff-siemreap",
+                    "description": "暹粒有許多像是吳哥窟和吳哥城等古老的廟宇，而在這些壯觀的歷史古蹟一遊，一定能讓人留下一生難忘的文化體驗。-David Y.",
+                    "image": "staff-siemreap",
+                    "imageCode": "staff-siemreap",
+                    "location": {
+                        "s": "暹粒, 柬埔寨",
+                        "a": "REP",
+                        "d": "暹粒, 柬埔寨",
+                        "id": "2975",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "13.354465",
+                            "lng": "103.854790"
+                        },
+                        "amc": "2975"
+                    }
+                }
+            ]
+        },
+		{
+            "title": "冬季仙境",
+            "id": "winter-wonderlands",
+            "imageCode": "winter-wonderlands",
+            "locations": [
+                {
+                    "title": "哥本哈根",
+                    "subtitle": "丹麥",
+                    "id": "winter-wonderlands.copenhagen-winter",
+                    "description": "趣伏里公園是全世界最知名的主題樂園之一，到了冬天，園區內就會裝上超過 111,000 盞特別訂做設計的燈飾，與精心設計的造景花卉和建築相互輝映、美不勝收。",
+                    "image": "copenhagen-winter",
+                    "imageCode": "copenhagen-winter",
+                    "location": {
+                        "s": "哥本哈根 (及鄰近地區), 丹麥",
+                        "a": "CPH",
+                        "d": "哥本哈根 (及鄰近地區), 丹麥",
+                        "id": "178252",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "55.675981",
+                            "lng": "12.568926"
+                        },
+                        "amc": "178252"
+                    }
+                },
+                {
+                    "title": "紐約市",
+                    "subtitle": "紐約",
+                    "id": "winter-wonderlands.nyc-winter",
+                    "description": "在大蘋果紐約市，生活永遠精彩無比，當然冬天也不例外。訪客們可以去無線電城音樂大廳逛逛、欣賞洛克斐勒中心的巨大聖誕樹，或者也可以在滿布白雪的中央公園悠閒散步。",
+                    "image": "nyc-winter",
+                    "imageCode": "nyc-winter",
+                    "location": {
+                        "s": "紐約 (及鄰近地區), 紐約, 美國",
+                        "a": "NYC",
+                        "d": "紐約 (及鄰近地區), 紐約, 美國",
+                        "id": "178293",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "40.756680",
+                            "lng": "-73.986470"
+                        },
+                        "amc": "178293"
+                    }
+                },
+                {
+                    "title": "雷克雅維克",
+                    "subtitle": "冰島",
+                    "id": "winter-wonderlands.reykjavik-winter",
+                    "description": "長夜漫漫，在這裡，冬季最適合欣賞夜空中跳躍舞動的極光。訪客們也可以在星空的陪襯下溫暖享受地熱池泡湯，或者也可以是是刺激的冰河攀爬。",
+                    "image": "reykjavik-winter",
+                    "imageCode": "reykjavik-winter",
+                    "location": {
+                        "s": "Reykjavik (及鄰近地區), 冰島",
+                        "a": "REK",
+                        "d": "<B>Reykjavik</B> (及鄰近地區), 冰島",
+                        "id": "6054688",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "64.148417",
+                            "lng": "-21.941398"
+                        },
+                        "amc": "6054688"
+                    }
+                },
+                {
+                    "title": "安克拉治",
+                    "subtitle": "阿拉斯加州",
+                    "id": "winter-wonderlands.anchorage-winter",
+                    "description": "這裡有十分動人的冬季景色，相當適合雪地漫步或冰上釣魚探險。此外，旅客們也可以參加這裡有雪雕比賽、遊樂設施和音樂表演的安克拉治毛皮大會。",
+                    "image": "anchorage-winter",
+                    "imageCode": "anchorage-winter",
+                    "location": {
+                        "s": "安克拉治 (及鄰近地區)  , 阿拉斯加, 美國",
+                        "a": "ANC",
+                        "d": "安克拉治 (及鄰近地區)  , 阿拉斯加, 美國",
+                        "id": "178230",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "61.217110",
+                            "lng": "-149.892410"
+                        },
+                        "amc": "178230"
+                    }
+                },
+                {
+                    "title": "倫敦",
+                    "subtitle": "英國",
+                    "id": "winter-wonderlands.london-winter",
+                    "description": "冬天的海德公園，會搖身一變成為夢幻的冰雪王國，準備好一飽眼福吧！如果想要體驗狂歡派對的氣氛，公園裡也有精彩的馬戲團表演、刺激的遊樂設施，還有充滿節慶氣氛的假日市場。",
+                    "image": "london-winter",
+                    "imageCode": "london-winter",
+                    "location": {
+                        "s": "倫敦 (及鄰近地區), 英格蘭, 英國",
+                        "a": "LON",
+                        "d": "倫敦 (及鄰近地區), 英格蘭, 英國",
+                        "id": "178279",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "51.507538",
+                            "lng": "-0.127804"
+                        },
+                        "amc": "178279"
+                    }
+                },
+                {
+                    "title": "埃本塞",
+                    "subtitle": "奧地利",
+                    "id": "winter-wonderlands.ebensee-winter",
+                    "description": "如果想要學學如何建造冰屋，那麼在奧地利，冬季就是最合適的時機。冬季漫步、玩平底雪橇和滑雪也是這裡相當熱門的活動。",
+                    "image": "ebensee-winter",
+                    "imageCode": "ebensee-winter",
+                    "location": {
+                        "s": "埃本, 奧地利",
+                        "a": "LNZ",
+                        "d": "埃本, 奧地利",
+                        "id": "6160078",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "47.782091",
+                            "lng": "13.772507"
+                        },
+                        "amc": "6055554"
+                    }
+                },
+                {
+                    "title": "哈爾濱",
+                    "subtitle": "中國",
+                    "id": "winter-wonderlands.harbin-winter",
+                    "description": "參加哈爾濱冰雪節，盡情欣賞動人的藝術作品。在兆麟公園，參加冰雪節的遊客們不但可以欣賞節出的冰燈展覽作品，還可以看到龐大的冰雕建築，而且這些建築都是使用直接從松花江取出、2-3 英吋厚的冰磚建造而成。",
+                    "image": "harbin-winter",
+                    "imageCode": "harbin-winter",
+                    "location": {
+                        "s": "哈爾濱, 中國",
+                        "a": "HRB",
+                        "d": "哈爾濱, 中國",
+                        "id": "1510",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "45.658669",
+                            "lng": "127.948756"
+                        },
+                        "amc": "6140852"
+                    }
+                },
+                {
+                    "title": "旭川市",
+                    "subtitle": "日本",
+                    "id": "winter-wonderlands.asahikawa-winter",
+                    "description": "為了迎接北海道漫長的冬季到來，北海道特別舉辦旭川冬之祭，活動期間不但有許多大型冰雕作品，還有多種音樂表演。如果剛好到旭川，別忘了也去附近的札幌冰雪節逛逛！",
+                    "image": "asahikawa-winter",
+                    "imageCode": "asahikawa-winter",
+                    "location": {
+                        "s": "旭川 (及鄰近地區), 日本",
+                        "a": "AKJ",
+                        "d": "旭川 (及鄰近地區), 日本",
+                        "id": "6143139",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "43.774547",
+                            "lng": "142.365571"
+                        },
+                        "amc": "6143139"
+                    }
+                },
+                {
+                    "title": "帕克城",
+                    "subtitle": "猶他州",
+                    "id": "winter-wonderlands.parkcity-winter",
+                    "description": "帕克城不但是滑雪勝地，這裡也是一年一度、獨立製片影展日舞影展舉辦地。",
+                    "image": "parkcity-winter",
+                    "imageCode": "parkcity-winter",
+                    "location": {
+                        "s": "派克市 (及鄰近地區), 猶他州, 美國",
+                        "a": "SLC",
+                        "d": "派克市 (及鄰近地區), 猶他州, 美國",
+                        "id": "602285",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "40.644230",
+                            "lng": "-111.496071"
+                        },
+                        "amc": "178302"
+                    }
+                },
+                {
+                    "title": "薩斯費",
+                    "subtitle": "瑞士",
+                    "id": "winter-wonderlands.saasfee-winter",
+                    "description": "閃閃發亮的冰雕，在一片如童話故事世界的冰川上靜靜等候著訪客的到來。您可以搭乘全世界海拔最高的地鐵，前往全世界最大的兵展館之一參觀，這裡還有一條長達 70 公尺的隧道，穿過隧道就可以看到有千年歷史的冰。",
+                    "image": "saasfee-winter",
+                    "imageCode": "saasfee-winter",
+                    "location": {
+                        "s": "薩斯菲, 瑞士",
+                        "a": "GVA",
+                        "d": "薩斯菲, 瑞士",
+                        "id": "4352",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "46.088787",
+                            "lng": "7.900798"
+                        },
+                        "amc": "180003"
+                    }
+                }
+            ]
+        },
+		{
+		   "title":"購物天堂",
+		   "id":"tw-shopping",
+		   "imageCode":"tw-shopping",
+		   "locations":[
+				{
+					"title": "首爾",
+					"subtitle": "南韓",
+					"id": "tw-shopping.seoul",
+					"description": "明洞的流行服飾、清潭洞的奢華精品、弘大地區的非主流文化、東大門和南大門市場的批發市場，首爾總能滿足每個人的購物喜好！",
+					"imageCode": "seoul",
+					"location": {
+						"s": "首爾 (及鄰近地區), 南韓",
+						"a": "SEL",
+						"d": "首爾 (及鄰近地區), 南韓",
+						"id": "178308",
+						"t": "CITY",
+						"ll": {
+							"lat": "37.582479",
+							"lng": "126.927095"
+						},
+						"amc": "178308"
+					}
+				},
+				{
+					"title": "大阪",
+					"subtitle": "日本",
+					"id": "tw-shopping.osaka",
+					"description": "第一等的購物天堂，商店多到逛不完，同時更是許多潮牌的發源地。時間不夠用？沒關係！有些商店開到凌晨 4 點！",
+					"imageCode": "osaka",
+					"location": {
+						"s": "大阪，日本",
+						"a": "OSA",
+						"d": "大阪，日本",
+						"id": "179897",
+						"t": "CITY",
+						"ll": {
+							"lat": "34.701895",
+							"lng": "135.498161"
+						},
+						"amc": "179897"
+					}
+				},
+				{
+					"title": "東京",
+					"subtitle": "日本",
+					"id": "tw-shopping.tokyo",
+					"description": "時尚、新潮、走在流行尖端。造訪熱鬧的東京購物商圈，親身體驗世界級的血拼樂趣。",
+					"imageCode": "tokyo",
+					"location": {
+						"s": "東京 (及鄰近地區), 日本",
+						"a": "TYO",
+						"d": "東京 (及鄰近地區), 日本",
+						"id": "179900",
+						"t": "CITY",
+						"ll": {
+							"lat": "35.675000",
+							"lng": "139.760000"
+						},
+						"amc": "179900"
+					}
+				},
+				{
+					"title": "台北",
+					"subtitle": "台灣",
+					"id": "tw-shopping.taipei",
+					"description": "東南亞最大的購物城市之一。精品百貨、購物中心、夜市和商店街，多樣化的選擇讓您買到手軟。",
+					"imageCode": "taipei",
+					"location": {
+						"s": "台北 (及鄰近地區), 台灣",
+						"a": "TPE",
+						"d": "台北 (及鄰近地區), 台灣",
+						"id": "180030",
+						"t": "CITY",
+						"ll": {
+							"lat": "25.034838",
+							"lng": "121.608807"
+						},
+						"amc": "180030"
+					}
+				},
+				{
+					"title": "紐約",
+					"subtitle": "美國",
+					"id": "tw-shopping.new-york",
+					"description": "提著裝滿精品的大包小包，抬頭挺胸地走在紐約第五大道，親身感受這座慾望城市的無窮魅力，我就是要這種 Fu！",
+					"imageCode": "new-york",
+					"location": {
+						"s": "紐約 (及鄰近地區), 紐約, 美國",
+						"a": "NYC",
+						"d": "紐約 (及鄰近地區), 紐約, 美國",
+						"id": "178293",
+						"t": "CITY",
+						"ll": {
+							"lat": "40.756680",
+							"lng": "-73.986470"
+						},
+						"amc": "178293"
+					}
+				},
+				{
+					"title": "上海",
+					"subtitle": "中國",
+					"id": "tw-shopping.shanghai",
+					"description": "在全世界人口最多的城市購物，體驗中國古老佛塔與玻璃帷幕摩天大樓並排林立的衝突美感。",
+					"imageCode": "shanghai",
+					"location": {
+						"s": "上海 (及鄰近地區), 中國",
+						"a": "SHA",
+						"d": "上海 (及鄰近地區), 中國",
+						"id": "180026",
+						"t": "CITY",
+						"ll": {
+							"lat": "31.162467",
+							"lng": "121.540266"
+						},
+						"amc": "180026"
+					}
+				},
+				{
+					"title": "新加坡",
+					"subtitle": "新加坡",
+					"id": "tw-shopping.singapore",
+					"description": "實現瘋狂購物的夢想，白天搶購促銷折扣品，晚上繼續在熱鬧的商店街掃貨。如果您喜歡高級精品，林立的購物商場和百貨公司，一整天也逛不完。",
+					"imageCode": "singapore",
+					"location": {
+						"s": "新加坡，新加坡",
+						"a": "SIN",
+						"d": "新加坡，新加坡",
+						"id": "180027",
+						"t": "CITY",
+						"ll": {
+							"lat": "1.300962",
+							"lng": "103.826131"
+						},
+						"amc": "180027"
+					}
+				},
+				{
+					"title": "曼谷",
+					"subtitle": "泰國",
+					"id": "tw-shopping.bangkok",
+					"description": "巧妙融合喧鬧與清淨的城市。曼谷的強烈對比，就像一場豐富的感官饗宴！這裡可以找到很多便宜商品，別忘了展現一下殺價的功力。",
+					"imageCode": "bangkok",
+					"location": {
+						"s": "曼谷 (及鄰近地區), 泰國",
+						"a": "BKK",
+						"d": "曼谷 (及鄰近地區), 泰國",
+						"id": "178236",
+						"t": "CITY",
+						"ll": {
+							"lat": "13.769949",
+							"lng": "100.625382"
+						},
+						"amc": "178236"
+					}
+				},
+				{
+					"title": "巴黎",
+					"subtitle": "法國",
+					"id": "tw-shopping.paris",
+					"description": "許多世界知名精品的發源地，巴黎的探索之旅就從血拼購物開始！",
+					"imageCode": "paris",
+					"location": {
+						"s": "巴黎 (及週邊), 法國",
+						"a": "PAR",
+						"d": "巴黎 (及週邊), 法國",
+						"id": "179898",
+						"t": "CITY",
+						"ll": {
+							"lat": "48.862720",
+							"lng": "2.343750"
+						},
+						"amc": "179898"
+					}
+				},
+				{
+					"title": "洛杉磯",
+					"subtitle": "美國",
+					"id": "tw-shopping.los-angeles",
+					"description": "迷人的天使之城有一處全球頂級的購物勝地，名利、財富、時尚全都集結在這塊引領尖端潮流之地。準備好大肆採購了嗎？",
+					"imageCode": "los-angeles",
+					"location": {
+						"s": "洛杉磯 (及鄰近地區) , 加州, 美國",
+						"a": "QLA",
+						"d": "洛杉磯 (及鄰近地區) , 加州, 美國",
+						"id": "178280",
+						"t": "CITY",
+						"ll": {
+							"lat": "34.050720",
+							"lng": "-118.254770"
+						},
+						"amc": "178280"
+					}
+				}
+			]
+		},
+		{
+		   "title":"長線旅遊",
+		   "id":"tw-longhaul",
+		   "imageCode":"tw-longhaul",
+		   "locations":[
+				{
+					"title": "西雅圖",
+					"subtitle": "美國",
+					"id": "tw-longhaul.seattle",
+					"description": "傳承自謙遜的美國原住民傳統，西雅圖現在已是一座富涵文化底蘊的西海岸大城市。",
+					"imageCode": "seattle",
+					"location": {
+						"s": "西雅圖 (及鄰近地區), 華盛頓, 美國",
+						"a": "SEA",
+						"d": "西雅圖 (及鄰近地區), 華盛頓, 美國",
+						"id": "178307",
+						"t": "CITY",
+						"ll": {
+							"lat": "47.611310",
+							"lng": "-122.334090"
+						},
+						"amc": "178307"
+					}
+				},
+				{
+					"title": "巴黎",
+					"subtitle": "法國",
+					"id": "tw-longhaul.paris",
+					"description": "沿著塞納河畔漫步、探索羅浮宮的驚奇之處或登上高聳的艾菲爾鐵塔，到了巴黎，什麼事都想試一試。",
+					"imageCode": "paris",
+					"location": {
+						"s": "巴黎 (及週邊), 法國",
+						"a": "PAR",
+						"d": "巴黎 (及週邊), 法國",
+						"id": "179898",
+						"t": "CITY",
+						"ll": {
+							"lat": "48.879303",
+							"lng": "2.509179"
+						},
+						"amc": "179898"
+					}
+				},
+				{
+					"title": "洛杉磯",
+					"subtitle": "美國",
+					"id": "tw-longhaul.los-angeles",
+					"description": "天使之城自古以來就有很多事物吸引著旅客前往，購物血拼、陽光沙灘、主題樂園、精緻美食等，您想要的通通有。",
+					"imageCode": "los-angeles",
+					"location": {
+						"s": "洛杉磯 (及鄰近地區) , 加州, 美國",
+						"a": "QLA",
+						"d": "洛杉磯 (及鄰近地區) , 加州, 美國",
+						"id": "178280",
+						"t": "CITY",
+						"ll": {
+							"lat": "34.086247",
+							"lng": "-118.299343"
+						},
+						"amc": "178280"
+					}
+				},
+				{
+					"title": "舊金山",
+					"subtitle": "美國",
+					"id": "tw-longhaul.san-francisco",
+					"description": "聯合廣場逛街購物、自行車環遊金門大橋、納帕谷品嚐美酒，北加州的這座城市，實在太好玩。",
+					"imageCode": "san-francisco",
+					"location": {
+						"s": "舊金山 (及鄰近地區), 加利福尼亞, 美國",
+						"a": "QSF",
+						"d": "舊金山 (及鄰近地區), 加利福尼亞, 美國",
+						"id": "178305",
+						"t": "CITY",
+						"ll": {
+							"lat": "37.787400",
+							"lng": "-122.408200"
+						},
+						"amc": "178305"
+					}
+				},
+				{
+					"title": "倫敦",
+					"subtitle": "英國",
+					"id": "tw-longhaul.london",
+					"description": "穿梭於倫敦古城的狹窄通道，又或恣意沈醉在南岸的悠閒氛圍中，在英國首都的所見所聞都令人難忘。",
+					"imageCode": "london",
+					"location": {
+						"s": "倫敦 (及鄰近地區), 英格蘭, 英國",
+						"a": "LON",
+						"d": "倫敦 (及鄰近地區), 英格蘭, 英國",
+						"id": "178279",
+						"t": "CITY",
+						"ll": {
+							"lat": "51.507538",
+							"lng": "-0.127804"
+						},
+						"amc": "178279"
+					}
+				},
+				{
+					"title": "紐約",
+					"subtitle": "美國",
+					"id": "tw-longhaul.new-york",
+					"description": "紐約的夜生活真是紅不讓！百老匯歌劇、超酷的夜店、輕鬆好笑的表演，每晚持續上演，造就了這座不夜城的美名。",
+					"imageCode": "new-york",
+					"location": {
+						"s": "紐約 (及鄰近地區), 紐約, 美國",
+						"a": "NYC",
+						"d": "紐約 (及鄰近地區), 紐約, 美國",
+						"id": "178293",
+						"t": "CITY",
+						"ll": {
+							"lat": "40.756680",
+							"lng": "-73.986470"
+						},
+						"amc": "178293"
+					}
+				},
+				{
+					"title": "拉斯維加斯",
+					"subtitle": "美國",
+					"id": "tw-longhaul.las-vegas",
+					"description": "拉斯維加斯就是一整個 High！金光閃閃的賭場、米其林星級餐廳和精彩的秀場表演，保證流連忘返。如果還不夠，搭乘直升機穿越大峽谷，保證冒險指數破表！",
+					"imageCode": "las-vegas",
+					"location": {
+						"s": "拉斯維加斯 (及鄰近地區), 內華達, 美國",
+						"a": "LAS",
+						"d": "拉斯維加斯 (及鄰近地區), 內華達, 美國",
+						"id": "178276",
+						"t": "CITY",
+						"ll": {
+							"lat": "36.114666",
+							"lng": "-115.172872"
+						},
+						"amc": "178276"
+					}
+				},
+				{
+					"title": "芝加哥",
+					"subtitle": "美國",
+					"id": "tw-longhaul.chicago",
+					"description": "美國十大城市之一，知名餐廳、博物館、城市景觀、夜生活和壯麗海景都值得參觀。喜歡爵士藍調音樂嗎？那您就來對地方了！",
+					"imageCode": "chicago",
+					"location": {
+						"s": "芝加哥 (及鄰近地區), 伊利諾州, 美國",
+						"a": "CHI",
+						"d": "芝加哥 (及鄰近地區), 伊利諾州, 美國",
+						"id": "178248",
+						"t": "CITY",
+						"ll": {
+							"lat": "41.880780",
+							"lng": "-87.628130"
+						},
+						"amc": "178248"
+					}
+				},
+				{
+					"title": "巴塞隆納",
+					"subtitle": "西班牙",
+					"id": "tw-longhaul.barcelona",
+					"description": "巴塞隆納擁有豐富的歷史文化，各種藝術表演和參觀活動吸引世界各地的觀光客前來，是歐洲最受歡迎的城市之一。",
+					"imageCode": "barcelona",
+					"location": {
+						"s": "巴塞隆納 (及鄰近地區), 西班牙",
+						"a": "BCN",
+						"d": "巴塞隆納 (及鄰近地區), 西班牙",
+						"id": "179992",
+						"t": "CITY",
+						"ll": {
+							"lat": "41.377850",
+							"lng": "2.170550"
+						},
+						"amc": "179992"
+					}
+				},
+				{
+					"title": "歐胡島",
+					"subtitle": "美國",
+					"id": "tw-longhaul.hawaii",
+					"description": "親眼見證歐胡島令人驚豔的陽光、沙灘和大海，您就會知道為什麼《神鬼奇航》、《碧海嬌娃》、《飢餓遊戲》等好萊塢電影不約而同地選在此地拍攝。",
+					"imageCode": "oahu",
+					"location": {
+						"s": "歐胡島, 夏威夷, 美國",
+						"a": "HNL",
+						"d": "歐胡島, 夏威夷, 美國",
+						"id": "180077",
+						"t": "CITY",
+						"ll": {
+							"lat": "21.438912",
+							"lng": "-158.000056"
+						},
+						"amc": "180077"
+					}
+				}
+			]
+		},
+		{
+		   "title":"美食天地",
+		   "id":"tw-foodie",
+		   "imageCode":"tw-foodie",
+		   "locations":[
+				{
+					"title": "京都",
+					"subtitle": "日本",
+					"id": "tw-foodie.kyoto",
+					"description": "傳統日式料理的發源地，京都到處都是傳承日式美味的餐館，滿足世界各地前來追求原汁原味的老饕們。",
+					"imageCode": "kyoto",
+					"location": {
+						"s": "京都 (及鄰近地區), 日本",
+						"a": "OSA",
+						"d": "京都 (及鄰近地區), 日本",
+						"id": "6131486",
+						"t": "CITY",
+						"ll": {
+							"lat": "35.011229",
+							"lng": "135.768125"
+						},
+						"amc": "179897"
+					}
+				},
+				{
+					"title": "東京",
+					"subtitle": "日本",
+					"id": "tw-foodie.tokyo",
+					"description": "東京這個大城市絕對是美食愛好者的天堂。身處世界美食之都之一，五花八門的日式料理一定能滿足您的口腹之慾。",
+					"imageCode": "tokyo",
+					"location": {
+						"s": "東京 (及鄰近地區), 日本",
+						"a": "TYO",
+						"d": "東京 (及鄰近地區), 日本",
+						"id": "179900",
+						"t": "CITY",
+						"ll": {
+							"lat": "35.680260",
+							"lng": "139.730148"
+						},
+						"amc": "179900"
+					}
+				},
+				{
+					"title": "首爾",
+					"subtitle": "南韓",
+					"id": "tw-foodie.seoul",
+					"description": "垂涎欲滴的街頭小吃、安撫人心的零食，香辣過癮的燉肉鍋，首爾的全方位美食饗宴令人欲罷不能。",
+					"imageCode": "seoul",
+					"location": {
+						"s": "首爾 (及鄰近地區), 南韓",
+						"a": "SEL",
+						"d": "首爾 (及鄰近地區), 南韓",
+						"id": "178308",
+						"t": "CITY",
+						"ll": {
+							"lat": "37.565994",
+							"lng": "126.982577"
+						},
+						"amc": "178308"
+					}
+				},
+				{
+					"title": "台北",
+					"subtitle": "台灣",
+					"id": "tw-foodie.taipei",
+					"description": "剉冰、雞排加珍奶，麵線、肉圓、蚵仔煎，台灣美食不止觀光客愛，在地人更愛！",
+					"imageCode": "taipei",
+					"location": {
+						"s": "台北 (及鄰近地區), 台灣",
+						"a": "TPE",
+						"d": "台北 (及鄰近地區), 台灣",
+						"id": "180030",
+						"t": "CITY",
+						"ll": {
+							"lat": "25.037977",
+							"lng": "121.548786"
+						},
+						"amc": "180030"
+					}
+				},
+				{
+					"title": "新加坡",
+					"subtitle": "新加坡",
+					"id": "tw-foodie.singapore",
+					"description": "新加坡的加東叻沙、辣椒螃蟹和海南雞飯遠近馳名，就連「地獄主廚」戈登拉姆齊也讚不絕口。心動了嗎？那就親自來嚐嚐看！",
+					"imageCode": "singapore",
+					"location": {
+						"s": "新加坡，新加坡",
+						"a": "SIN",
+						"d": "新加坡，新加坡",
+						"id": "180027",
+						"t": "CITY",
+						"ll": {
+							"lat": "1.290270",
+							"lng": "103.852010"
+						},
+						"amc": "180027"
+					}
+				},
+				{
+					"title": "澳門",
+					"subtitle": "澳門",
+					"id": "tw-foodie.macau",
+					"description": "從經典的葡式蛋塔到美味豬扒包，澳門的必吃美食可以列出長長一大串，就是要點燃您的味蕾，讓您欲罷不能！",
+					"imageCode": "macau",
+					"location": {
+						"s": "澳門 (全區)",
+						"a": "MFM",
+						"d": "澳門 (全區)",
+						"id": "8724",
+						"t": "CITY",
+						"ll": {
+							"lat": "22.200294",
+							"lng": "113.542146"
+						},
+						"amc": "8724"
+					}
+				},
+				{
+					"title": "曼谷",
+					"subtitle": "泰國",
+					"id": "tw-foodie.bangkok",
+					"description": "走在曼谷街頭，琳瑯滿目的美食隨處可見，滋味和口感各有不同，交織出迷人的泰式風味，滿街飄香。",
+					"imageCode": "bangkok",
+					"location": {
+						"s": "曼谷 (及鄰近地區), 泰國",
+						"a": "BKK",
+						"d": "曼谷 (及鄰近地區), 泰國",
+						"id": "178236",
+						"t": "CITY",
+						"ll": {
+							"lat": "13.769949",
+							"lng": "100.625382"
+						},
+						"amc": "178236"
+					}
+				},
+				{
+					"title": "上海",
+					"subtitle": "中國",
+					"id": "tw-foodie.shanghai",
+					"description": "上海菜融合江浙一帶的飲食特色，發展出湯鹵醇厚、濃油赤醬的「本幫菜」風味，深受世界各地美食家喜愛。",
+					"imageCode": "shanghai",
+					"location": {
+						"s": "上海 (及鄰近地區), 中國",
+						"a": "SHA",
+						"d": "上海 (及鄰近地區), 中國",
+						"id": "180026",
+						"t": "CITY",
+						"ll": {
+							"lat": "31.162467",
+							"lng": "121.540266"
+						},
+						"amc": "180026"
+					}
+				},
+				{
+					"title": "紐約",
+					"subtitle": "美國",
+					"id": "tw-foodie.new-york",
+					"description": "紐約是世界美食之都之一，販賣各式平民美食的餐車林立街頭，也有最高檔的餐廳讓您享用頂級美酒美食。這才是真正美食家的必到之處！",
+					"imageCode": "new-york",
+					"location": {
+						"s": "紐約 (及鄰近地區), 紐約, 美國",
+						"a": "NYC",
+						"d": "紐約 (及鄰近地區), 紐約, 美國",
+						"id": "178293",
+						"t": "CITY",
+						"ll": {
+							"lat": "40.756680",
+							"lng": "-73.986470"
+						},
+						"amc": "178293"
+					}
+				}
+			]
+		},
+		{
+		   "title":"陽光沙灘",
+		   "id":"tw-beach",
+		   "imageCode":"tw-beach",
+		   "locations":[
+				{
+					"title": "普吉島",
+					"subtitle": "泰國",
+					"id": "tw-beach.phuket",
+					"description": "從熱鬧的芭東海灘到幽靜的奈通海灘，每一位旅客都可以找到愛上普吉島的理由。無論是乘坐驚險刺激的水上摩托車，還是靜心欣賞安達曼海的壯麗景色，都是絕佳享受。",
+					"imageCode": "phuket",
+					"location": {
+						"s": "普吉 (及鄰近地區), 泰國",
+						"a": "HKT",
+						"d": "普吉 (及鄰近地區), 泰國",
+						"id": "6046393",
+						"t": "CITY",
+						"ll": {
+							"lat": "7.883309",
+							"lng": "98.393840"
+						},
+						"amc": "6046393"
+					}
+				},
+				{
+					"title": "亞庇",
+					"subtitle": "馬來西亞",
+					"id": "tw-beach.kota-kinabalu",
+					"description": "波光粼粼的碧綠海水、五彩繽紛的珊瑚礁，加上形形色色的海洋生物，亞庇是探索奇妙海底世界的好地方。",
+					"imageCode": "kota-kinabalu",
+					"location": {
+						"s": "亞庇 (及鄰近地區), 馬來西亞",
+						"a": "BKI",
+						"d": "亞庇 (及鄰近地區), 馬來西亞",
+						"id": "602",
+						"t": "CITY",
+						"ll": {
+							"lat": "6.026891",
+							"lng": "116.112746"
+						},
+						"amc": "602"
+					}
+				},
+				{
+					"title": "芭達雅",
+					"subtitle": "泰國",
+					"id": "tw-beach.pattaya",
+					"description": "芭達雅是一個充滿活力海岸城市，從早到晚都有精彩節目等著您！您可以在海灘酒吧裡狂歡到天亮，也可以參加各種精彩刺激的水上活動。",
+					"imageCode": "pattaya",
+					"location": {
+						"s": "芭達雅 (及鄰近地區), 泰國",
+						"a": "BKK",
+						"d": "芭達雅 (及鄰近地區), 泰國",
+						"id": "9514",
+						"t": "CITY",
+						"ll": {
+							"lat": "12.941236",
+							"lng": "100.902437"
+						},
+						"amc": "178236"
+					}
+				},
+				{
+					"title": "沖繩",
+					"subtitle": "日本",
+					"id": "tw-beach.okinawa",
+					"description": "清澈見底的海水、千姿百態的海洋生物，沖繩島絕對是太平洋沿岸最佳潛水勝地。別忘了探索這座島嶼的大自然之美。",
+					"imageCode": "okinawa",
+					"location": {
+						"s": "沖繩, 日本",
+						"a": "OKA",
+						"d": "沖繩, 日本",
+						"id": "10805",
+						"t": "CITY",
+						"ll": {
+							"lat": "26.212401",
+							"lng": "127.680932"
+						},
+						"amc": "10805"
+					}
+				},
+				{
+					"title": "蘇梅島",
+					"subtitle": "泰國",
+					"id": "tw-beach.koh-samui",
+					"description": "想要來一個遠離塵囂的海島之旅？蘇梅島有大大小小的海灘，每一處都景色宜人。您可以體驗查汶海灘的精彩夜生活，也可以選擇悠閒自在的湄南海灘！",
+					"imageCode": "koh-samui",
+					"location": {
+						"s": "蘇美島 (及周圍群島), 泰國",
+						"a": "USM",
+						"d": "蘇美島 (及周圍群島), 泰國",
+						"id": "3657",
+						"t": "CITY",
+						"ll": {
+							"lat": "9.505000",
+							"lng": "100.010500"
+						},
+						"amc": "3657"
+					}
+				},
+				{
+					"title": "關島",
+					"subtitle": "關島",
+					"id": "tw-beach.guam",
+					"description": "位於西太平洋的島嶼，擁有超過 40 座海灘。放下工作、放下煩惱，專心享受關島好山、好水的悠閒渡假生活。",
+					"imageCode": "guam",
+					"location": {
+						"s": "密克羅尼西亞購物中心, 杜夢, 關島",
+						"a": "GUM",
+						"d": "密克羅尼西亞購物中心, 杜夢, 關島",
+						"id": "6105509",
+						"t": "ATTRACTION",
+						"ll": {
+							"lat": "13.520111",
+							"lng": "144.817671"
+						},
+						"amc": "6023599"
+					}
+				},
+				{
+					"title": "歐胡島",
+					"subtitle": "美國",
+					"id": "tw-beach.hawaii",
+					"description": "著名的威基基海灘所在地，有緊張刺激的水上活動，有浪漫迷人的落日美景，更有適合全家大小的戲水地點。這裡是名副其實的渡假天堂。",
+					"imageCode": "oahu",
+					"location": {
+						"s": "歐胡島, 夏威夷, 美國",
+						"a": "HNL",
+						"d": "歐胡島, 夏威夷, 美國",
+						"id": "180077",
+						"t": "CITY",
+						"ll": {
+							"lat": "21.438912",
+							"lng": "-158.000056"
+						},
+						"amc": "180077"
+					}
+				},
+				{
+					"title": "華欣",
+					"subtitle": "泰國",
+					"id": "tw-beach.hua-hin",
+					"description": "迷人的懷舊氣息，環境悠閒的海灘，想要放鬆身心，來華欣就對了。試試在海灘上騎馬的樂趣，或感受海水透心涼意，舒解壓力的秘訣，就在這裡！",
+					"imageCode": "hua-hin",
+					"location": {
+						"s": "華欣 (及鄰近地區), 泰國",
+						"a": "BKK",
+						"d": "華欣 (及鄰近地區), 泰國",
+						"id": "6049558",
+						"t": "CITY",
+						"ll": {
+							"lat": "12.568670",
+							"lng": "99.958954"
+						},
+						"amc": "178236"
+					}
+				},
+				{
+					"title": "峇里島",
+					"subtitle": "印尼",
+					"id": "tw-beach.bali",
+					"description": "峇里島有各式各樣的海灘，適合各年齡層。南邊是又細又軟的白沙灘，北邊是又黑又亮的黑沙灘，兩者之間則是平靜不受干擾的海灣。",
+					"imageCode": "bali",
+					"location": {
+						"s": "峇里島，印尼",
+						"a": "DPS",
+						"d": "峇里島，印尼",
+						"id": "602651",
+						"t": "CITY",
+						"ll": {
+							"lat": "-8.409518",
+							"lng": "115.188916"
+						},
+						"amc": "602651"
+					}
+				},
+				{
+					"title": "長灘島",
+					"subtitle": "菲律賓",
+					"id": "tw-beach.boracay",
+					"description": "票選全亞洲最美海灘之一，廢話不多說，馬上出發！",
+					"imageCode": "boracay",
+					"location": {
+						"s": "長灘島, 菲律賓",
+						"a": "MPH",
+						"d": "長灘島, 菲律賓",
+						"id": "601371",
+						"t": "CITY",
+						"ll": {
+							"lat": "11.959059",
+							"lng": "121.926270"
+						},
+						"amc": "6184368"
+					}
+				}
+			]
+		}
+	]
+}

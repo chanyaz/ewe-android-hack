@@ -12,6 +12,7 @@ import org.joda.time.LocalDate;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -39,7 +40,6 @@ import com.google.android.gms.wallet.NotifyTransactionStatusRequest;
 import com.google.android.gms.wallet.ProxyCard;
 import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 /**
@@ -79,7 +79,7 @@ public class WalletUtils {
 	 * (and sandbox otherwise).
 	 */
 	public static int getWalletEnvironment(Context context) {
-		if (AndroidUtils.isRelease(context)) {
+		if (BuildConfig.RELEASE) {
 			Log.v("Using Google Wallet environment: PRODUCTION");
 			return WalletConstants.ENVIRONMENT_PRODUCTION;
 		}
@@ -321,7 +321,7 @@ public class WalletUtils {
 	}
 
 	public static boolean tryToCreateCvvChallenge(Context context) {
-		return !AndroidUtils.isRelease(context)
+		return BuildConfig.DEBUG
 				&& SettingUtils.get(context, context.getString(R.string.preference_google_wallet_cvv_challenge), false);
 	}
 
@@ -480,9 +480,6 @@ public class WalletUtils {
 
 		// Base rate
 		nightlyRate = originalRate.getNightlyRateTotal();
-		if (nightlyRate == null) {
-			nightlyRate = originalRate.getTotalAmountBeforeTax();
-		}
 
 		// Discount
 		if (couponRate != null) {
@@ -560,7 +557,7 @@ public class WalletUtils {
 		}
 
 		//Sometimes we want to fake a google wallet error, so we created a dev setting
-		if (!AndroidUtils.isRelease(context)
+		if (BuildConfig.DEBUG
 				&& SettingUtils.get(context,
 						context.getString(R.string.preference_fake_invalid_google_wallet_line_item), false)) {
 			Money fakeFee = new Money(total);

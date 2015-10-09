@@ -16,7 +16,6 @@ public class HotelRate {
 	public String discountMessage;
 	public float priceToShowUsers;
 	public float strikethroughPriceToShowUsers;
-	public float strikethroughPriceWithTaxesAndFeesToShowUsers;
 	public float totalMandatoryFees;
 	public float totalPriceMandatoryFees;
 	public String formattedTotalPriceMandatoryFees;

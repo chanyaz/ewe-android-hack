@@ -545,7 +545,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				if ((location != null && location.getCountryCode() != null
 						&& location.getCountryCode().equalsIgnoreCase("USA"))
 						|| (!mEditCountrySpinner.hasBoundField() && (posId == PointOfSaleId.UNITED_STATES || posId == PointOfSaleId.TRAVELOCITY))) {
-					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
+					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
 					this.getField().setHint(R.string.address_postal_code_hint_US);
 				}
 				else {
@@ -611,7 +611,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			if (hasBoundField()) {
 				getField().setAdapter(
 					new CountrySpinnerAdapter(mContext, CountryDisplayType.FULL_NAME,
-						R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item));
+						R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item, false));
 			}
 		}
 
@@ -679,5 +679,4 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			return null;
 		}
 	};
-
 }

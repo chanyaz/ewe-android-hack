@@ -1,0 +1,12 @@
+{
+  "activityId": "1",
+  "errors": [
+    {
+      "errorCode": "HOTEL_ROOM_UNAVAILABLE",
+      "errorInfo": {
+        "summary": "Hotel room no longer available.",
+        "field": "hotelRoomNotAvailable"
+      }
+    }
+  ]
+}

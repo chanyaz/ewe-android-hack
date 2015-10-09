@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
@@ -25,7 +26,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -35,6 +35,7 @@ import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 import com.expedia.bookings.widget.SlidingRadioGroup;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
+import com.squareup.phrase.Phrase;
 
 public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListView.OnScrollListener {
 
@@ -66,8 +67,6 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		super.onAttach(activity);
 
 		mListener = Ui.findFragmentListener(this, RoomsAndRatesFragmentListener.class);
-		mLastCheckedItem = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidETPTest) ?
-			R.id.radius_pay_later : R.id.radius_pay_now;
 	}
 
 	@Override
@@ -116,7 +115,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		mFooterTextView.setVisibility(View.GONE);
 
 		// Hide the header if this is not the tablet
-		if (!AndroidUtils.isHoneycombTablet(getActivity())) {
+		if (!AndroidUtils.isTablet(getActivity())) {
 			Ui.findView(view, R.id.header_layout).setVisibility(View.GONE);
 		}
 
@@ -132,7 +131,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		// Track room clicked with the type of payment i.e. pay now/later. and fire only if user have the option
 		if (mPayGroup.getVisibility() == View.VISIBLE) {
 			Rate rate = getItem(position);
-			OmnitureTracking.trackHotelETPRoomSelected(getActivity(), rate.isPayLater());
+			OmnitureTracking.trackHotelETPRoomSelected(rate.isPayLater());
 		}
 
 		mAdapter.setSelectedPosition(position);
@@ -181,7 +180,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		mProgressBar.setVisibility(View.GONE);
 
 		if (response == null) {
-			OmnitureTracking.trackErrorPage(getActivity(), "RatesListRequestFailed");
+			OmnitureTracking.trackErrorPage("RatesListRequestFailed");
 			mEmptyTextView.setText(R.string.error_no_response_room_rates);
 			return;
 		}
@@ -189,7 +188,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 			Db.getHotelSearch().removeProperty(selectedId);
 
 			HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-			dialog.setMessage(Ui.obtainThemeResID(getActivity(), R.attr.skin_sorryRoomsSoldOutErrorMessage));
+			dialog.setMessage(Phrase.from(getActivity(), R.string.error_hotel_is_now_sold_out_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 			dialog.show(getFragmentManager(), "soldOutDialog");
 
 			mEmptyTextView.setText(R.string.error_no_hotel_rooms_available);
@@ -210,7 +209,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 				sb.append("\n");
 			}
 			mEmptyTextView.setText(sb.toString().trim());
-			OmnitureTracking.trackErrorPage(getActivity(), "RatesListRequestFailed");
+			OmnitureTracking.trackErrorPage("RatesListRequestFailed");
 			return;
 		}
 
@@ -234,7 +233,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 			: View.GONE);
 
 		// Disable highlighting if we're on phone UI
-		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(getActivity()));
+		mAdapter.highlightSelectedPosition(AndroidUtils.isTablet(getActivity()));
 
 		CharSequence commonValueAdds = response.getCommonValueAddsString(getActivity());
 		if (commonValueAdds != null) {
@@ -243,7 +242,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		}
 
 		if (mAdapter.getCount() == 0) {
-			OmnitureTracking.trackErrorPage(getActivity(), "HotelHasNoRoomsAvailable");
+			OmnitureTracking.trackErrorPage("HotelHasNoRoomsAvailable");
 		}
 
 		Property property = Db.getHotelSearch().getSelectedProperty();
@@ -257,7 +256,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		mNoticeContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				Ui.removeOnGlobalLayoutListener(mNoticeContainer, this);
+				mNoticeContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mHeaderPlaceholder.getLayoutParams();
 				params.height = mNoticeContainer.getHeight() + mStickyHeader.getHeight();
 				mHeaderPlaceholder.setLayoutParams(params);
@@ -370,7 +369,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 			// Track ETP payment toggle events.
 			// Let's not trigger omniture event when we 1st get to the rooms&rate screen. Only on user toggle.
 			if (checkedId != mLastCheckedItem) {
-				OmnitureTracking.trackHotelETPPayToggle(getActivity(), isInPayLaterMode(checkedId));
+				OmnitureTracking.trackHotelETPPayToggle(isInPayLaterMode(checkedId));
 			}
 			mLastCheckedItem = checkedId;
 			if (mAdapter != null) {

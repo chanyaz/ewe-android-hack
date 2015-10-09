@@ -23,6 +23,7 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -34,6 +35,7 @@ import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsTripBucketFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
@@ -64,7 +66,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -247,8 +248,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		Events.register(this);
 		mTripBucketFrag.bindToDb();
 		if (!showHotels) {
-			OmnitureTracking.trackTabletSearchResultsPageLoad(this, Sp.getParams());
-			OmnitureTracking.onResume(this);
+			OmnitureTracking.trackTabletSearchResultsPageLoad(Sp.getParams());
 		}
 	}
 
@@ -258,7 +258,6 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		Sp.saveSearchParamsToDisk(this);
 		Sp.getBus().unregister(this);
 		Events.unregister(this);
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -268,7 +267,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
 		//We allow debug users to jump between states
-		if (!AndroidUtils.isRelease(this)) {
+		if (BuildConfig.DEBUG) {
 			//We use ordinal() + 1 for all ids and groups because 0 == Menu.NONE
 			SubMenu subMen = menu.addSubMenu(Menu.NONE, Menu.NONE, 0, "Results State");
 
@@ -296,6 +295,11 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 					flightState.name());
 			}
 
+
+			int actionBarLogo = ProductFlavorFeatureConfiguration.getInstance().getLaunchScreenActionLogo();
+			if (actionBarLogo != 0) {
+				getActionBar().setLogo(actionBarLogo);
+			}
 			return true;
 		}
 
@@ -322,7 +326,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		}
 
 		//We allow debug users to jump between states
-		if (!AndroidUtils.isRelease(this)) {
+		if (BuildConfig.DEBUG) {
 
 			//All of our groups/ids are .ordinal() + 1 so we subtract here to make things easier
 			int groupId = item.getGroupId() - 1;

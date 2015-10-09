@@ -31,7 +31,7 @@ public class GsonUtilTest {
 		Assert.assertEquals("USD", result.currencyCode);
 
 
-		moneyString = "{\"total\" : {\"amount\" : \"123.4\", \"currency\" : \"USD\"}}";
+		moneyString = "{\"total\" : {\"amount\" : \"123.4\", \"currency\" : \"USD\", \"ignore\" : \"me\"}}";
 		moneyJson = new JSONObject(moneyString);
 		Assert.assertNotNull(moneyJson);
 
@@ -54,6 +54,30 @@ public class GsonUtilTest {
 
 		Money resultMoney = GsonUtil.getForJsonable(json, "total", Money.class);
 		Assert.assertEquals(expectedMoney, resultMoney);
+	}
+
+	@Test
+	public void nullNestedMoneyTypeAdapter() throws Throwable {
+		// Regular put / get
+		Money expectedMoney = null;
+		JSONObject json = new JSONObject();
+		GsonUtil.putForJsonable(json, "money", expectedMoney);
+		Money resultMoney = GsonUtil.getForJsonable(json, "money", Money.class);
+		assertNull(resultMoney);
+
+		// List put / get
+		List<ClassWithMoney> listWithNestedNullMonies = new ArrayList<>(2);
+		listWithNestedNullMonies.add(new ClassWithMoney());
+		listWithNestedNullMonies.add(new ClassWithMoney());
+		json = new JSONObject();
+		GsonUtil.putListForJsonable(json, "monies", listWithNestedNullMonies);
+
+		Type moniesToken = new TypeToken<List<ClassWithMoney>>() {
+		}.getType();
+		List<ClassWithMoney> resultMonies = GsonUtil.getListForJsonable(json, "monies", moniesToken);
+		assertEquals(2, resultMonies.size());
+		assertNull(resultMonies.get(0).money);
+		assertNull(resultMonies.get(1).money);
 	}
 
 	@Test
@@ -143,5 +167,9 @@ public class GsonUtilTest {
 
 	private static final Type listOfTestClassType = new TypeToken<List<TestClass>>() {
 	}.getType();
+
+	private static class ClassWithMoney {
+		Money money;
+	}
 
 }

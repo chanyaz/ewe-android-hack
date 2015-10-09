@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.SectionTravelerInfo xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:gridlayout="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
@@ -12,33 +11,31 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" />
 
-    <com.gridlayout.GridLayout
+    <android.support.v7.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        gridlayout:alignmentMode="alignMargins"
-        gridlayout:columnCount="3"
-        gridlayout:columnOrderPreserved="false"
-        gridlayout:useDefaultMargins="false"
-        tools:ignore="RequiredSize" >
+        app:alignmentMode="alignMargins"
+        app:columnCount="3"
+        app:columnOrderPreserved="false"
+        app:useDefaultMargins="false" >
 
         <com.expedia.bookings.widget.TelephoneSpinner
             android:id="@+id/edit_phone_number_country_code_spinner"
             style="@style/Widget.Spinner.Phone.Dark"
             android:layout_width="100dp"
-            gridlayout:layout_columnSpan="1" />
+            app:layout_columnSpan="1" />
 
         <EditText
             android:id="@+id/edit_phone_number"
             android:layout_width="0dp"
-            android:layout_gravity="center_vertical|fill_horizontal"
-            gridlayout:layout_columnSpan="2"
             android:hint="@string/phone_number_hint"
             android:inputType="phone"
             android:singleLine="true"
-            tools:ignore="RequiredSize" />
-        
-    </com.gridlayout.GridLayout>
-            
+            app:layout_gravity="center_vertical|fill_horizontal"
+            app:layout_columnSpan="2" />
+
+    </android.support.v7.widget.GridLayout>
+
     <EditText
         android:id="@+id/edit_email_address"
         android:layout_width="match_parent"
@@ -55,6 +52,6 @@
         android:layout_marginRight="8dp"
         android:text="@string/email_disclaimer"
         android:textColor="@color/data_review_grey"
-        android:textSize="12sp" />
+        android:textSize="@dimen/hotel_traveler_edit_email_disclaimer_text_size" />
 
 </com.expedia.bookings.section.SectionTravelerInfo>

@@ -15,6 +15,7 @@ import com.squareup.okhttp.mockwebserver.MockWebServer;
 import com.squareup.okhttp.mockwebserver.RecordedRequest;
 import retrofit.RestAdapter;
 import retrofit.http.GET;
+import okio.Buffer;
 
 import static org.junit.Assert.assertEquals;
 
@@ -58,14 +59,15 @@ public class GzipNetworkTests {
 	@Test
 	public void testOkHttpHandlesGzip() throws Throwable {
 		MockWebServer mockWebServer = new MockWebServer();
+		Buffer gzipData = new Buffer().write(gzip(TEST_STRING));
 
 		mockWebServer.enqueue(new MockResponse()
 			// Don't decode
-			.setBody(gzip(TEST_STRING)));
+			.setBody(gzipData.clone()));
 
 		mockWebServer.enqueue(new MockResponse()
 			.setHeader("Content-Encoding", "gzip")
-			.setBody(gzip(TEST_STRING)));
+			.setBody(gzipData.clone()));
 
 		mockWebServer.play();
 

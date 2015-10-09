@@ -21,8 +21,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	String getAppSupportUrl(Context context);
 
-	int getCrossSellStringResourceIdForShareEmail();
-
 	boolean isAppCrossSellInActivityShareContentEnabled();
 
 	boolean isAppCrossSellInCarShareContentEnabled();
@@ -43,25 +41,17 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean shouldShowBrandLogoOnAccountButton();
 
-	int getLoginContainerBackgroundResId(Context context);
-
-	boolean doesLoginTextViewHaveCompoundDrawables();
-
 	PointOfSaleId getDefaultPOS();
 
 	boolean isAdXEnabled();
 
 	int getAdXPosIdentifier();
 
-	String getOmnitureReportSuiteIds(Context context);
+	String getOmnitureReportSuiteIds();
 
 	String getOmnitureTrackingServer();
 
 	void contactUsViaWeb(Context context);
-
-	int getResIdForErrorHotelServiceFatalFailure();
-
-	int getResIdForErrorBookingSucceededWithErrors();
 
 	List<BasicNameValuePair> getAdditionalParamsForReviewsRequest();
 
@@ -73,6 +63,8 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isLeanPlumEnabled();
 
+	boolean isTuneEnabled();
+
 	boolean isWeAreHiringInAboutEnabled();
 
 	boolean isClearPrivateDataInAboutEnabled();
@@ -83,15 +75,11 @@ public interface IProductFlavorFeatureConfiguration {
 
 	AboutSectionFragment getAboutSectionFragment(Context context);
 
-	boolean isLocalExpertEnabled();
-
 	boolean isFacebookLoginIntegrationEnabled();
 
 	boolean isFacebookShareIntegrationEnabled();
 
 	boolean isGoogleWalletPromoEnabled();
-
-	boolean isTrackingWithFlightTrackEnabled();
 
 	boolean isHangTagProgressBarEnabled();
 
@@ -118,4 +106,18 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isAppCrossSellInHotelShareContentEnabled();
 
 	boolean isAppCrossSellInFlightShareContentEnabled();
+
+	/**
+	 * return the static image resID to show staic loading image on flight search loading screen
+	 * return 0 to enable Plane window view animation on flight search loading screen, currently its enabled only for Samsung and Expedia
+	 */
+	int getFlightSearchProgressImageResId();
+	boolean isLOBIconCenterAligned();
+
+	//return 0 if logo is not required on launch screen
+	int getLaunchScreenActionLogo();
+
+	int updatePOSSpecificActionBarLogo();
+
+	String getPOSSpecificBrandName(Context context);
 }

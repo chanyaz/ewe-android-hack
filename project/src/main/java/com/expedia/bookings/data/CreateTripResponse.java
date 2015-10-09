@@ -5,6 +5,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.enums.MerchandiseSpam;
 import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -19,7 +20,9 @@ public class CreateTripResponse extends Response implements JSONable {
 	private Rate mAirAttachRate;
 	private String mTealeafId;
 	private String mRewardsPoints;
+	private String mSupplierType;
 	private List<ValidPayment> mValidPayments;
+	private MerchandiseSpam mMerchandiseSpam;
 
 	@Override
 	public boolean isSuccess() {
@@ -86,8 +89,24 @@ public class CreateTripResponse extends Response implements JSONable {
 		return mRewardsPoints;
 	}
 
+	public void setSupplierType(String supplierType) {
+		mSupplierType = supplierType;
+	}
+
+	public String getSupplierType() {
+		return mSupplierType;
+	}
+
 	public List<ValidPayment> getValidPayments() {
 		return mValidPayments;
+	}
+
+	public MerchandiseSpam getMerchandiseSpam() {
+		return mMerchandiseSpam;
+	}
+
+	public void setMerchandiseSpam(MerchandiseSpam merchandiseSpam) {
+		this.mMerchandiseSpam = merchandiseSpam;
 	}
 
 	public CreateTripResponse clone() {

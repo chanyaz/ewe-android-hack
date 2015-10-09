@@ -15,7 +15,6 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
-import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -29,7 +28,7 @@ public class HotelSearchParams implements JSONable {
 	private static final String SEARCH_PARAMS_KEY = "searchParams";
 	private SearchType mSearchType = SearchType.MY_LOCATION;
 
-	public static enum SearchType {
+	public enum SearchType {
 		MY_LOCATION(true, false),
 		ADDRESS(true, true),
 		POI(false, true),
@@ -41,7 +40,7 @@ public class HotelSearchParams implements JSONable {
 		private boolean mShouldShowDistance;
 		private boolean mShouldShowExactLocation;
 
-		private SearchType(boolean shouldShowDistance, boolean shouldShowExactLocation) {
+		SearchType(boolean shouldShowDistance, boolean shouldShowExactLocation) {
 			mShouldShowDistance = shouldShowDistance;
 			mShouldShowExactLocation = shouldShowExactLocation;
 		}
@@ -239,13 +238,11 @@ public class HotelSearchParams implements JSONable {
 		}
 	}
 
-	public void fillFromSearch(Search search) {
-		setSearchType(SearchType.valueOf(search.getSearchType()));
-		setQuery(search.getQuery());
-		setRegionId(search.getRegionId());
-		if (search.hasLatLng()) {
-			setSearchLatLon(search.getLatitude(), search.getLongitude());
-		}
+	public void fillFromHotelSearchParams(HotelSearchParams hotelSearchParams) {
+		setSearchType(hotelSearchParams.getSearchType());
+		setQuery(hotelSearchParams.getQuery());
+		setRegionId(hotelSearchParams.getRegionId());
+		setSearchLatLon(hotelSearchParams.getSearchLatitude(), hotelSearchParams.getSearchLongitude());
 	}
 
 	public boolean hasValidCheckInDate() {
@@ -415,47 +412,34 @@ public class HotelSearchParams implements JSONable {
 		FlightSearchParams params = flight.getFlightSearchParams();
 		int numFlightTravelers = params.getNumAdults();
 		List<ChildTraveler> childTravelers = params.getChildren();
-		return fromFlightParams(firstLeg, secondLeg, numFlightTravelers, childTravelers);
+		String regionId = flight.getCheckoutResponse().getDestinationRegionId();
+		return fromFlightParams(regionId, firstLeg, secondLeg, numFlightTravelers, childTravelers);
 	}
 
 	/**
 	 * Creates a HotelSearchParams which can be used to search for hotels
-	 * related to a flights search.
+	 * related to a booked Flight product.
 	 *
+	 * @param regionId the destination region id to perform the search
 	 * @param firstLeg the first leg of the trip; required
 	 * @param secondLeg the second leg of a trip (if round trip); optional
 	 * @param numFlightTravelers
 	 * @param childTravelers
 	 * @return a HotelSearchParams for those flight parameters
 	 */
-	public static HotelSearchParams fromFlightParams(FlightLeg firstLeg, FlightLeg secondLeg, int numFlightTravelers, List<ChildTraveler> childTravelers) {
+	public static HotelSearchParams fromFlightParams(String regionId, FlightLeg firstLeg, FlightLeg secondLeg, int numFlightTravelers, List<ChildTraveler> childTravelers) {
 		HotelSearchParams hotelParams = new HotelSearchParams();
 
 		// Where //
-		hotelParams.setSearchType(HotelSearchParams.SearchType.CITY);
-
-		// Because we are adding a lat/lon parameter, it doesn't matter too much if our query isn't perfect
+		// Because we are adding regionId, it doesn't matter too much if our query isn't perfect
 		String cityStr = StrUtils.getWaypointCodeOrCityStateString(firstLeg.getLastWaypoint());
+		hotelParams.setSearchType(SearchType.CITY);
 		hotelParams.setUserQuery(cityStr);
 		hotelParams.setQuery(cityStr);
-
-		double latitude = firstLeg.getLastWaypoint().getAirport().getLatitude();
-		double longitude = firstLeg.getLastWaypoint().getAirport().getLongitude();
-
-		if (latitude == 0 && longitude == 0) {
-			// We try the origin of the last segment - this isn't great,
-			// but in the case of a bus ride, it might be about all we have
-			latitude = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).getOriginWaypoint().getAirport().getLatitude();
-			longitude = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).getOriginWaypoint().getAirport().getLongitude();
-		}
-
-		// These should only be zero in rare cases, at which time we just use our cityStr
-		if (latitude != 0 || longitude != 0) {
-			hotelParams.setSearchLatLon(latitude, longitude);
-		}
+		hotelParams.setRegionId(regionId); // Note: must be last, otherwise will get over-written.
 
 		// When //
-		LocalDate checkInDate = LocalDate.fromCalendarFields(firstLeg.getLastWaypoint().getBestSearchDateTime());
+		LocalDate checkInDate = new LocalDate(firstLeg.getLastWaypoint().getBestSearchDateTime());
 		hotelParams.setCheckInDate(checkInDate);
 
 		if (secondLeg == null) {
@@ -464,7 +448,7 @@ public class HotelSearchParams implements JSONable {
 		}
 		else {
 			// Round-trip flight
-			LocalDate checkOutDate = LocalDate.fromCalendarFields(secondLeg.getFirstWaypoint()
+			LocalDate checkOutDate = new LocalDate(secondLeg.getFirstWaypoint()
 					.getMostRelevantDateTime());
 			hotelParams.setCheckOutDate(checkOutDate);
 			ensureMaxStayTwentyEightDays(hotelParams);

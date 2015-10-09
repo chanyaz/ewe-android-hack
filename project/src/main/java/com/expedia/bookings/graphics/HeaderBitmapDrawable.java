@@ -77,6 +77,9 @@ public class HeaderBitmapDrawable extends Drawable {
 	private int mBitmapWidth;
 	private int mBitmapHeight;
 
+	// External callback for PicassoTarget
+	private CallbackListener callbackListener;
+
 	// Cached for draw speed
 	private final RectF mRect = new RectF();
 
@@ -370,18 +373,37 @@ public class HeaderBitmapDrawable extends Drawable {
 		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 			super.onBitmapLoaded(bitmap, from);
 			setBitmap(bitmap);
+			if (callbackListener != null) {
+				callbackListener.onBitmapLoaded();
+			}
 		}
 
 		@Override
 		public void onBitmapFailed(Drawable errorDrawable) {
 			super.onBitmapFailed(errorDrawable);
 			invalidateSelf();
+			if (callbackListener != null) {
+				callbackListener.onBitmapFailed();
+			}
 		}
 
 		@Override
 		public void onPrepareLoad(Drawable placeHolderDrawable) {
 			super.onPrepareLoad(placeHolderDrawable);
 			setPlaceholderDrawable(placeHolderDrawable);
+			if (callbackListener != null) {
+				callbackListener.onPrepareLoad();
+			}
 		}
 	};
+
+	public void setCallbackListener(CallbackListener listener) {
+		callbackListener = listener;
+	}
+
+	public interface CallbackListener {
+		void onBitmapLoaded();
+		void onBitmapFailed();
+		void onPrepareLoad();
+	}
 }

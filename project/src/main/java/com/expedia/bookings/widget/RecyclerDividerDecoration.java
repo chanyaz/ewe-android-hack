@@ -33,22 +33,29 @@ public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 		// Default constructor
 	}
 
-	public RecyclerDividerDecoration(Context context, int padding, int header, int footer, boolean drawDivider) {
-
+	public RecyclerDividerDecoration(Context context, int left, int top, int right, int bottom, int header, int footer,
+		boolean drawDivider) {
 		mPaint = new Paint();
 		mPaint.setAntiAlias(true);
 		mPaint.setStyle(Paint.Style.STROKE);
-		mPaint.setStrokeWidth(1 * context.getResources().getDisplayMetrics().density);
-		mPaint.setColor(context.getResources().getColor(R.color.cars_dropdown_disabled_stroke));
+		mPaint.setStrokeWidth(1);
+		mPaint.setColor(context.getResources().getColor(R.color.search_dropdown_disabled_stroke));
 		shouldDrawDivider = drawDivider;
 
-		int scaledPadding = (int) context.getResources().getDisplayMetrics().density * padding;
-		mTop = scaledPadding / 2;
-		mBottom = scaledPadding / 2;
-		mLeft = scaledPadding;
-		mRight = scaledPadding;
-		mHeader = header + scaledPadding;
-		mFooter = footer + scaledPadding;
+		int topScaledPadding = (int) context.getResources().getDisplayMetrics().density * top;
+		int bottomScaledPadding = (int) context.getResources().getDisplayMetrics().density * bottom;
+		int rightScaledPadding = (int) context.getResources().getDisplayMetrics().density * right;
+		int leftScaledPadding = (int) context.getResources().getDisplayMetrics().density * left;
+		mTop = topScaledPadding / 2;
+		mBottom = bottomScaledPadding / 2;
+		mLeft = leftScaledPadding;
+		mRight = rightScaledPadding;
+		mHeader = header + topScaledPadding;
+		mFooter = footer + bottomScaledPadding;
+	}
+
+	public RecyclerDividerDecoration(Context context, int padding, int header, int footer, boolean drawDivider) {
+		this(context, padding, padding, padding, padding, header, footer, drawDivider);
 	}
 
 	@Override
@@ -67,7 +74,7 @@ public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 	}
 
 	@Override
-	public void onDrawOver (Canvas c, RecyclerView parent, RecyclerView.State state) {
+	public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
 		if (!shouldDrawDivider) {
 			return;
 		}

@@ -27,12 +27,13 @@ import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
-import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -100,7 +101,7 @@ public class CarConfirmationWidget extends FrameLayout {
 	ViewGroup textContainer;
 
 	private CreateTripCarOffer offer;
-	private SearchCarOffer searchOffer;
+	private Events.CarsShowCheckout tripParams;
 	private String itineraryNumber;
 
 	@Override
@@ -148,13 +149,20 @@ public class CarConfirmationWidget extends FrameLayout {
 	}
 
 	@Subscribe
-	public void onOfferSelected(Events.CarsKickOffCreateTrip event) {
-		searchOffer = event.offer;
+	public void onCarsShowProductKeyDetails(Events.CarsShowProductKeyDetails event) {
+		if (CollectionUtils.isNotEmpty(event.productKeyCarSearch.categories)) {
+			bucket = event.productKeyCarSearch.categories.get(0);
+		}
 	}
 
 	@Subscribe
-	public void onShowCheckout(Events.CarsShowCheckout event) {
-		createTrip = event.createTripResponse;
+	public void onOfferSelected(Events.CarsShowCheckout event) {
+		tripParams = event;
+	}
+
+	@Subscribe
+	public void onCheckoutCreateTripSuccess(Events.CarsCheckoutCreateTripSuccess event) {
+		createTrip = event.response;
 	}
 
 	public void bind(CarCheckoutResponse response) {
@@ -201,32 +209,33 @@ public class CarConfirmationWidget extends FrameLayout {
 
 		// Fallback lat long in case we don't get it from create trip call.
 		if (offer.pickUpLocation.latitude == null || offer.dropOffLocation.longitude == null) {
-			offer.pickUpLocation.latitude = searchOffer.pickUpLocation.latitude;
-			offer.pickUpLocation.longitude = searchOffer.pickUpLocation.longitude;
+			offer.pickUpLocation.latitude = tripParams.location.latitude;
+			offer.pickUpLocation.longitude = tripParams.location.longitude;
 		}
 
 		// Add guest itin to itin manager
-		if (Db.getBillingInfo() != null && !User.isLoggedIn(getContext())) {
+		if (!User.isLoggedIn(getContext())) {
 			String email = builder.getEmailAddress();
 			String tripId = response.newTrip.itineraryNumber;
 			ItineraryManager.getInstance().addGuestTrip(email, tripId);
 		}
 
-		OmnitureTracking.trackAppCarCheckoutConfirmation(getContext(), response);
+		OmnitureTracking.trackAppCarCheckoutConfirmation(response);
+		AdTracker.trackCarBooked(response);
 	}
 
 	@OnClick(R.id.add_hotel_textView)
 	public void searchHotels() {
 		HotelSearchParams sp = HotelSearchParams.fromCarParams(offer);
 		NavUtils.goToHotels(getContext(), sp);
-		OmnitureTracking.trackAppCarCheckoutConfirmationCrossSell(getContext(), LineOfBusiness.HOTELS);
+		OmnitureTracking.trackAppCarCheckoutConfirmationCrossSell(LineOfBusiness.HOTELS);
 		Events.post(new Events.FinishActivity());
 	}
 
 	@OnClick(R.id.add_flight_textView)
 	public void searchFlight() {
 		searchForFlights();
-		OmnitureTracking.trackAppCarCheckoutConfirmationCrossSell(getContext(), LineOfBusiness.FLIGHTS);
+		OmnitureTracking.trackAppCarCheckoutConfirmationCrossSell(LineOfBusiness.FLIGHTS);
 		Events.post(new Events.FinishActivity());
 	}
 

@@ -11,6 +11,7 @@ import android.content.Context;
 import android.text.Html;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -26,7 +27,6 @@ import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchResponse> {
@@ -39,7 +39,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 	private boolean mFilterMerchants = false;
 
 	public HotelSearchResponseHandler(Context context) {
-		mIsRelease = AndroidUtils.isRelease(context);
+		mIsRelease = BuildConfig.RELEASE;
 		if (!mIsRelease) {
 			mFilterMerchants = SettingUtils.get(context, context.getString(R.string.preference_filter_merchant_properties), false);
 		}
@@ -275,7 +275,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			}
 			else if (name.equals("lowRateInfo")) {
 				Rate lowestRate = readLowRateInfo(reader);
-				lowestRate.setNumberOfNights(mNumNights);
 				property.setLowestRate(lowestRate);
 			}
 			else if (name.equals("roomsLeftAtThisRate")) {
@@ -314,15 +313,14 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 				// ignore for 4.3
 				//property.setShowCircles(!allowedToDisplayRatingAsStars);
 			}
+			else if (name.equals("isShowEtpChoice")) {
+				property.setIsETPHotel(reader.nextBoolean());
+			}
 			else {
 				reader.skipValue();
 			}
 		}
 		reader.endObject();
-
-		if (promoDesc != null && property.getLowestRate() != null) {
-			property.getLowestRate().setPromoDescription(promoDesc);
-		}
 
 		// If we didn't get a distance but we have a search latitude/longitude,
 		// calculate the distance based on the params.
@@ -421,8 +419,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		reader.endObject();
 
 		Rate rate = new Rate();
-		rate.setAverageRate(ParserUtils.createMoney(averageRate, currencyCode));
-		rate.setAverageBaseRate(ParserUtils.createMoney(averageBaseRate, currencyCode));
 		rate.setDiscountPercent(discountPercent);
 		rate.setTotalSurcharge(ParserUtils.createMoney(surchargeTotalForEntireStay, currencyCode));
 		rate.setTotalMandatoryFees(ParserUtils.createMoney(totalMandatoryFees, currencyCode));
@@ -430,7 +426,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		rate.setUserPriceType(userPriceType);
 		rate.setCheckoutPriceType(checkoutPriceType);
 		rate.setPriceToShowUsers(ParserUtils.createMoney(priceToShowUsers, currencyCode));
-		rate.setStrikethroughPriceToShowUsers(ParserUtils.createMoney(strikethroughPriceToShowUsers, currencyCode));
+		rate.setStrikeThroughPriceToShowUsers(ParserUtils.createMoney(strikethroughPriceToShowUsers, currencyCode));
 		rate.setAirAttached(airAttached);
 		return rate;
 	}

@@ -1,0 +1,271 @@
+{
+  "q": "sfo",
+  "rid": "e0b921ca-86fd-474d-a4e4-13253a4092ab",
+  "rc": "OK",
+  "sr": [
+    {
+      "@type": "gaiaRegionResult",
+      "index": "0",
+      "gaiaId": "6000581",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+        "shortName": "San Francisco, CA (SFO-San Francisco Intl.)",
+        "displayName": "San Francisco, CA (<B>SFO</B>-San Francisco Intl.)",
+        "lastSearchName": "San Francisco, CA, United States (SFO-San Francisco Intl.)"
+      },
+      "coordinates": {
+        "lat": "37.615940",
+        "long": "-122.387996"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SFO",
+          "metrocode": "QSF",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "392"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "1",
+      "gaiaId": "800127",
+      "type": "NEIGHBORHOOD",
+      "regionNames": {
+        "fullName": "San Francisco International Airport (SFO), California, United States of America",
+        "shortName": "San Francisco International Airport (SFO)",
+        "displayName": "San Francisco International Airport (<B>SFO</B>), CA",
+        "lastSearchName": "San Francisco International Airport (SFO), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "37.586298",
+        "long": "-122.324955"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SFO",
+          "metrocode": "QSF",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "114"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "2",
+      "gaiaId": "6075280",
+      "type": "POI",
+      "regionNames": {
+        "fullName": "Sforza Castle, Imola, Italy",
+        "shortName": "Sforza Castle",
+        "displayName": "<B>Sfo</B>rza Castle, Imola, Italy",
+        "lastSearchName": "Sforza Castle, Imola, Italy"
+      },
+      "coordinates": {
+        "lat": "44.354250",
+        "long": "11.708230"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "BLQ",
+          "multicity": "6035254"
+        },
+        "country": {
+          "name": "Italy",
+          "isoCode2": "IT",
+          "isoCode3": "ITA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "1",
+        "poiCategory": {
+          "category": "landmark",
+          "subCategory": "historicPlace"
+        }
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "3",
+      "gaiaId": "6076914",
+      "type": "POI",
+      "regionNames": {
+        "fullName": "Visconteo-Sforzesco Castle, Novara, Italy",
+        "shortName": "Visconteo-Sforzesco Castle",
+        "displayName": "Visconteo-<B>Sfo</B>rzesco Castle, Novara, Italy",
+        "lastSearchName": "Visconteo-Sforzesco Castle, Novara, Italy"
+      },
+      "coordinates": {
+        "lat": "45.445160",
+        "long": "8.617480"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "MIL",
+          "metrocode": "MIL",
+          "multicity": "180012"
+        },
+        "country": {
+          "name": "Italy",
+          "isoCode2": "IT",
+          "isoCode3": "ITA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "13",
+        "poiCategory": {
+          "category": "landmark",
+          "subCategory": "historicPlace"
+        }
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "4",
+      "gaiaId": "6077694",
+      "type": "POI",
+      "regionNames": {
+        "fullName": "Piazza Sisto Riario Sforza, Naples, Italy",
+        "shortName": "Piazza Sisto Riario Sforza",
+        "displayName": "Piazza Sisto Riario <B>Sfo</B>rza, Naples, Italy",
+        "lastSearchName": "Piazza Sisto Riario Sforza, Naples, Italy"
+      },
+      "coordinates": {
+        "lat": "40.852320",
+        "long": "14.259980"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "NAP",
+          "multicity": "6059422"
+        },
+        "country": {
+          "name": "Italy",
+          "isoCode2": "IT",
+          "isoCode3": "ITA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "221",
+        "poiCategory": {
+          "category": "landmark",
+          "subCategory": "generic"
+        }
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "5",
+      "gaiaId": "501787",
+      "type": "POI",
+      "regionNames": {
+        "fullName": "Castello Sforzesco, Milan, Italy",
+        "shortName": "Castello Sforzesco",
+        "displayName": "Castello <B>Sfo</B>rzesco, Milan, Italy",
+        "lastSearchName": "Castello Sforzesco, Milan, Italy"
+      },
+      "coordinates": {
+        "lat": "45.469540",
+        "long": "9.180430"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "LIN",
+          "metrocode": "MIL",
+          "multicity": "6024900"
+        },
+        "country": {
+          "name": "Italy",
+          "isoCode2": "IT",
+          "isoCode3": "ITA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "176",
+        "poiCategory": {
+          "category": "landmark",
+          "subCategory": "historicPlace"
+        }
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "6",
+      "gaiaId": "6300493",
+      "type": "POI",
+      "regionNames": {
+        "fullName": "Castello Sforzesco, Vigevano, Italy",
+        "shortName": "Castello Sforzesco",
+        "displayName": "Castello <B>Sfo</B>rzesco, Vigevano, Italy",
+        "lastSearchName": "Castello Sforzesco, Vigevano, Italy"
+      },
+      "coordinates": {
+        "lat": "45.317265",
+        "long": "8.857456"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "MIL",
+          "metrocode": "MIL",
+          "multicity": "180012"
+        },
+        "country": {
+          "name": "Italy",
+          "isoCode2": "IT",
+          "isoCode3": "ITA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "4",
+        "poiCategory": {
+          "category": "landmark",
+          "subCategory": "historicPlace"
+        }
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "packageable": "false"
+    }
+  ]
+}

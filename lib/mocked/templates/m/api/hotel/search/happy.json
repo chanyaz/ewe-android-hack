@@ -1,0 +1,621 @@
+{
+    "pageViewBeaconPixelUrl" : "http://beam.hlserve.com/travel?action=pageview&programId=1&domain=wwwexpediacom.trunk.sb.karmalab.net&culture=en-US&publisher=expedia&pageName=Hotel-Search&rooms=1&destRegionId=178294&publisherUserGuid=19f89680a4744051a6007737f6b7da93&userIP=10.0.17.185&userAgent=Expedia%2F6742+CFNetwork%2F711.3.18+Darwin%2F14.0.0&checkIn=2015-05-25&checkOut=2015-05-26&hotelIds=106143,1543827,40865,804984,18155,24798,2432727,2455364,170878,200644,3910,1384631,1350864,104185,470892,98920,470830,23110,473095,3169,539487,794799,151076,281608,5205&adults=1&children=0&deviceType=App-Tablet&testVersion=5569.0%2C6560.2%2C6410.1",
+    "hotelList": [
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": false,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "happypath",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "109.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "happypath",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_n.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100",
+            "isSponsoredListing" : true,
+            "clickTrackingUrl" : "http://dev2.travelhook.com/TravelAdsService/v3/Hotels/TravelAdClick?trackingData=Cmp-veg1Zklu4QZw14XjlOXAAUa/3/zzGaWy4dEI/FLvxMPrrOebJMa00oKwedqmxuN7CQrDjJbwanz19CvKZb1vQ0LGZXxc7RESdaNOKQ6Ye1CSlerzpEtQrvQzULMODT4WHm5fMXLM/6QOcTmUqkUlPDa7jK5kriGYHiI2Y9EVmR57jfOZ0+A6SAwwozP/M5JOzM1hDM3qKLNtLxnHVryX3IcVxuSrvEcwR6TKDobKSDI912wwlq6eP/PFXxjLdg7rKPEaxgElTnc1ATK9tfzZgxzdUTnkYu2E0LCEa3u6iW44MeM/bOSYOKGVwyw5kHnhwB+G62oIbaaysPQEhqC7bj7ZwWjEr60+r2kYa29yuMXVL0UPWF/cx/dmvRWES7QaIENtRqk6p7xJWMhg/MGPOfLAKYyifzrwXJHhzzBqfjMKZ7uiBddYzbJE3Hw+gPpInpWLA3DVi/fIouMiAi2QhtRS2qruYx/ouk9FGcVPWWg6MRyA8efHGhZLAQRlmRXJRS9HN9koi/yj6r7T1P5QIfrUVOT+caxpA2uEmZRBc+u63eHTTwAUUs2Emf7JcNQBOw8nB2DX6nqqfsxNOnYG1kp+kHbWerTeY1kKPAxws8QvRuxCoAdrsehrupuXtJuFsEr2O2jQqQRxPM9IWki8j23QxwDtmV7/eXpOYcYFvwyF9vVG1QqvZDReib8IQl6IfUkUsy8njenQXoVq0f7cN8RGigGTyVQVfRlBd5SZM9iky2w8tbPAfGy4CrH2Y5PBWVqY/otUXV16x/0kdBAROWzWDei8ITZkSZ8wsPfwCEYri6J+xJbwUZ8EK0j3pDVcedJrRu3FUsWaC6wA16S4AG/SNWrkwMo1uP2pVlGd6kcRgAJTpcPZM0GQLCET9819W/U/A/G2la+8ws+OgQG+tICs8n+UjL9RVyJmJDnvpll0KvlFFrFqCaz1KPbs3q8Oa9PExXwCuQwYPhyiJVAw28rDqc37w4fIlpFOR1MsFD6gNp9wCPTRvs7Bqwk9/9EWuZnWYyYv68+ji+mafRwk2Jc8rppUWKxNV4+Ffge9lKyHZnS/ppfLLqzAfQbXrAR9olshZq8OKsVvukH5LmLwLmvK0duL+PslUYgeb0oAcR8FPnEa0UTh/w==&rank=1&testVersionOverride=%5BtestVersionOverride%5D&candidateHmGuid=33e4e688-a866-4c66-950a-a6a5d6af0971&beaconIssued=2015-05-22T18:12:38",
+            "impressionTrackingUrl" : "http://dev2.travelhook.com/TravelAdsService/v3/Hotels/TravelAdImpression?trackingData=Cmp-veg1Zklu4QZw14XjlOXAAUa/3/zzGaWy4dEI/FLvxMPrrOebJMa00oKwedqmxuN7CQrDjJbwanz19CvKZb1vQ0LGZXxc7RESdaNOKQ6Ye1CSlerzpEtQrvQzULMODT4WHm5fMXLM/6QOcTmUqkUlPDa7jK5kriGYHiI2Y9EVmR57jfOZ0+A6SAwwozP/M5JOzM1hDM3qKLNtLxnHVryX3IcVxuSrvEcwR6TKDobKSDI912wwlq6eP/PFXxjLdg7rKPEaxgElTnc1ATK9tfzZgxzdUTnkYu2E0LCEa3u6iW44MeM/bOSYOKGVwyw5kHnhwB+G62oIbaaysPQEhqC7bj7ZwWjEr60+r2kYa29yuMXVL0UPWF/cx/dmvRWES7QaIENtRqk6p7xJWMhg/MGPOfLAKYyifzrwXJHhzzBqfjMKZ7uiBddYzbJE3Hw+gPpInpWLA3DVi/fIouMiAi2QhtRS2qruYx/ouk9FGcVPWWg6MRyA8efHGhZLAQRlmRXJRS9HN9koi/yj6r7T1P5QIfrUVOT+caxpA2uEmZRBc+u63eHTTwAUUs2Emf7JcNQBOw8nB2DX6nqqfsxNOnYG1kp+kHbWerTeY1kKPAxws8QvRuxCoAdrsehrupuXtJuFsEr2O2jQqQRxPM9IWki8j23QxwDtmV7/eXpOYcYFvwyF9vVG1QqvZDReib8IQl6IfUkUsy8njenQXoVq0f7cN8RGigGTyVQVfRlBd5SZM9iky2w8tbPAfGy4CrH2Y5PBWVqY/otUXV16x/0kdBAROWzWDei8ITZkSZ8wsPfwCEYri6J+xJbwUZ8EK0j3pDVcedJrRu3FUsWaC6wA16S4AG/SNWrkwMo1uP2pVlGd6kcRgAJTpcPZM0GQLCET9819W/U/A/G2la+8ws+OgQG+tICs8n+UjL9RVyJmJDnvpll0KvlFFrFqCaz1KPbs3q8Oa9PExXwCuQwYPhyiJVAw28rDqc37w4fIlpFOR1MsFD6gNp9wCPTRvs7Bqwk9/9EWuZnWYyYv68+ji+mafRwk2Jc8rppUWKxNV4+Ffge9lKyHZnS/ppfLLqzAfQbXrAR9olshZq8OKsVvukH5LmLwLmvK0duL+PslUYgeb0oAcR8FPnEa0UTh/w==&rank=1&testVersionOverride=%5BtestVersionOverride%5D&candidateHmGuid=33e4e688-a866-4c66-950a-a6a5d6af0971&beaconIssued=2015-05-22T18:12:38 "
+        },
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": false,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "hotel_price_change",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "1029.00",
+                "averageRate": "1029.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "1029.00",
+                "nightlyRateTotal": "1029.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "1029.00",
+                        "promo": "false",
+                        "rate": "1029.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "1029",
+                "strikethroughPriceToShowUsers": "1029",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "1029.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "hotel_price_change",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_n.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100"
+        },
+        {
+            "address": "Kearny Street",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": false,
+            "highestSurveyPriceAsPrice": {
+                "amount": 279,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.5",
+            "hotelId": "vip_hotel",
+            "hotelStarRating": "3.0",
+            "isVipAccess": true,
+            "largeThumbnailUrl": "/hotels/1000000/30000/23800/23774/23774_105_y.jpg",
+            "latitude": "37.726088",
+            "locationDescription": "Union Square",
+            "longitude": "-122.198956",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "209.00",
+                "averageRate": "209.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "209.00",
+                "nightlyRateTotal": "209.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "209.00",
+                        "promo": "false",
+                        "rate": "209.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "209",
+                "strikethroughPriceToShowUsers": "209",
+                "total": "209.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "209.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "vip_hotel",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/30000/23800/23774/23774_105_y.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "634"
+        },
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": false,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "error_room_unavailable",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "109.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "error_room_unavailable",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100"
+        },
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": false,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "error_create_trip",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "109.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "error_create_trip",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100"
+        },
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": false,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "error_checkout_session_timeout",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "109.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "error_checkout_session_timeout",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100"
+        },
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": false,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "error_checkout_card_limit_exceeded",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "109.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "error_checkout_card_limit_exceeded",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100"
+        },
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": false,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "air_attached_hotel",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "284.40",
+                "averageRate": "241.40",
+                "currencyCode": "USD",
+                "discountPercent": 12,
+                "maxNightlyRate": "262.50",
+                "nightlyRateTotal": "482.80",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "309.00",
+                        "promo": "true",
+                        "rate": "262.65"
+                    },
+                    {
+                        "baseRate": "259.00",
+                        "promo": "true",
+                        "rate": "220.15"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "241",
+                "strikethroughPriceToShowUsers": "284",
+                "total": "561.02",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "561.02",
+                "userPriceType": "PerNightRateNoTaxes",
+                "airAttached": true
+            },
+            "name": "air_attached_hotel",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_n.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100"
+        },
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": false,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "valid_forms_of_payment",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "109.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "valid_forms_of_payment",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_n.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100"
+        },
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": false,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "hotel_coupon_errors",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "109.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "hotel_coupon_errors",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_n.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100"
+        },
+        {
+            "address": "55 Cyril Magnin St",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": false,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "hotel_renovation_notice",
+            "hotelStarRating": "4.0",
+            "largeThumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_d.jpg",
+            "latitude": "37.78458",
+            "locationDescription": "Union Square - Convention Center",
+            "longitude": "-122.40854",
+            "locationId":"800129",
+            "lowRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "109.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "hotel_renovation_notice",
+            "postalCode": "94102",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_n.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100"
+        }
+    ],
+    "allNeighborhoodsInSearchRegion":[{"name":"San Francisco (QSF-All Airports)","id":6139039}]
+}

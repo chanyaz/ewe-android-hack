@@ -3,78 +3,102 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ProgressBar
-        android:id="@+id/loading_results"
-        style="@android:style/Widget.Holo.Light.ProgressBar.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true" />
-
     <com.expedia.bookings.widget.LXSearchResultsWidget
         android:id="@+id/lx_search_results_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:paddingTop="?attr/actionBarSize">
 
-        <FrameLayout
-            android:id="@+id/lx_search_failure"
+        <com.expedia.bookings.widget.LXErrorWidget
+            android:id="@+id/lx_search_error_widget"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFF"
-            android:visibility="gone" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_type_circle_activity" />
-
-                <Button
-                    android:id="@+id/edit_search"
-                    style="@style/LXButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/edit_search" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="72dp"
-                    android:layout_marginRight="72dp"
-                    android:gravity="center_horizontal"
-                    android:text="@string/error_lx_search_message"
-                    android:textSize="13sp"
-                    android:textColor="#7D7D7D" />
-
-            </LinearLayout>
-        </FrameLayout>
+            android:layout_height="match_parent" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lx_search_results_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <com.expedia.bookings.widget.FilterButtonWithCountWidget
+            android:id="@+id/sort_filter_button_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
     </com.expedia.bookings.widget.LXSearchResultsWidget>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/toolbar_background"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/skin_lxPrimaryColor" />
+
+        <View
+            android:id="@+id/toolbar_dropshadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_dropshadow_height"
+            android:background="@drawable/tb_shadow" />
+    </LinearLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="@color/lx_primary_color"
         android:minHeight="?attr/actionBarSize"
         app:subtitleTextAppearance="@style/LXToolbarSubtitleTextAppearance"
-        app:titleTextAppearance="@style/LXToolbarTitleTextAppearance" />
+        app:titleTextAppearance="@style/LXToolbarTitleTextAppearance">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:minHeight="?attr/actionBarSize">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/toolbar_search_text"
+                style="@style/CarsToolbarTitleTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+            <LinearLayout
+                android:id="@+id/toolbar_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/toolbar_detail_text"
+                    style="@style/CarsToolbarTitleTextAppearance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/toolbar_subtitle_text"
+                    style="@style/CarsToolbarSubtitleTextAppearance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </FrameLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <com.expedia.bookings.widget.LXSortFilterWidget
+        android:id="@+id/sort_filter_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EFEFEF"
+        android:orientation="vertical"
+        android:visibility="invisible" />
 
 </com.expedia.bookings.presenter.lx.LXResultsPresenter>

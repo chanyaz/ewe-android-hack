@@ -10,7 +10,6 @@ import android.os.Bundle;
 
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -142,8 +141,7 @@ public class FacebookShareActivity extends Activity {
 	public void share() {
 		Session currentSession = Session.getActiveSession();
 		if (currentSession == null || currentSession.getState().isClosed()) {
-			Session session = new Session.Builder(this).setApplicationId(
-					ExpediaServices.getFacebookAppId(this)).build();
+			Session session = new Session.Builder(this).build();
 			Session.setActiveSession(session);
 			currentSession = session;
 		}

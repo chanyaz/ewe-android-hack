@@ -4,8 +4,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripInfo;
 import com.google.gson.annotations.SerializedName;
 
-public class CarCheckoutResponse extends BaseCarResponse {
-	public String activityId;
+public class CarCheckoutResponse extends BaseApiResponse {
 	public CarTrackingData trackingData;
 	public TripInfo newTrip;
 	public String orderId;
@@ -18,9 +17,5 @@ public class CarCheckoutResponse extends BaseCarResponse {
 	public CreateTripCarOffer originalCarProduct;
 	@SerializedName("carProduct")
 	public CreateTripCarOffer newCarProduct;
-
-	public boolean hasPriceChange() {
-		return hasErrors() && getFirstError().errorCode == CarApiError.Code.PRICE_CHANGE;
-	}
 
 }

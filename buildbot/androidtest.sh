@@ -7,7 +7,7 @@ function add_test() {
 
 # Run tests
 APK="project/build/outputs/apk/project-expedia-debug-unaligned.apk"
-TEST_APK="project/build/outputs/apk/project-expedia-debug-test-unaligned.apk"
+TEST_APK="project/build/outputs/apk/project-expedia-debug-androidTest-unaligned.apk"
 TYPE="single"
 OUTPUT_DIR="spoon/${TYPE}"
 

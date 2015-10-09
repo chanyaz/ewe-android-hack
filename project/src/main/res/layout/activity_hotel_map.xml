@@ -21,7 +21,7 @@
         android:layout_above="@id/address_text_view" >
 
         <fragment
-            android:name="com.expedia.bookings.maps.HotelMapFragment"
+            android:name="com.expedia.bookings.fragment.HotelMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:tag="@string/tag_single_hotel_map" />

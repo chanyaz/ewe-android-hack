@@ -1,13 +1,14 @@
 package com.expedia.bookings.services;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
+import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
+import com.expedia.bookings.data.abacus.AbacusLogQuery;
+import com.expedia.bookings.data.abacus.AbacusLogResponse;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.PayloadDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.RestAdapter;
@@ -18,48 +19,62 @@ import rx.Scheduler;
 import rx.Subscription;
 
 public class AbacusServices {
-	public static final String PRODUCTION = "http://services.mobiata.com";
-	public static final String DEV = "http://test.services.mobiata.com";
+	private AbacusApi api;
+	private Gson gson;
 
-	private AbacusApi mApi;
-	private Gson mGson;
-	private OkHttpClient mClient;
+	private Scheduler observeOn;
+	private Scheduler subscribeOn;
 
-	private Scheduler mObserveOn;
-	private Scheduler mSubscribeOn;
+	public AbacusServices(OkHttpClient client, String endpoint, Scheduler observeOn, Scheduler subscribeOn,
+		RestAdapter.LogLevel logLevel) {
+		this.observeOn = observeOn;
+		this.subscribeOn = subscribeOn;
 
-	public AbacusServices(String endpoint, File directory, Scheduler observeOn, Scheduler subscribeOn, RestAdapter.LogLevel logLevel) {
-		mObserveOn = observeOn;
-		mSubscribeOn = subscribeOn;
-
-		mGson = new GsonBuilder().registerTypeAdapter(AbacusResponse.class, new PayloadDeserializer()).create();
-
-		mClient = new OkHttpClient();
-		try {
-			if (directory != null) {
-				Cache cache = new Cache(directory, 10 * 1024 * 1024);
-				mClient.setCache(cache);
-			}
-		}
-		catch (IOException ex) {
-			ex.printStackTrace();
-		}
+		gson = new GsonBuilder().registerTypeAdapter(AbacusResponse.class, new PayloadDeserializer()).create();
 
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
 			.setLogLevel(logLevel)
-			.setConverter(new GsonConverter(mGson))
-			.setClient(new OkClient(mClient))
+			.setConverter(new GsonConverter(gson))
+			.setClient(new OkClient(client))
 			.build();
 
-		mApi = adapter.create(AbacusApi.class);
+		api = adapter.create(AbacusApi.class);
 	}
 
-	public Subscription downloadBucket(String guid, String id,  Observer<AbacusResponse> observer) {
-		return mApi.downloadBucket(guid, id)
-			.observeOn(mObserveOn)
-			.subscribeOn(mSubscribeOn)
+	public Subscription downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer) {
+		return downloadBucket(query, observer, 15, TimeUnit.SECONDS);
+	}
+
+	public Subscription downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer, long timeout, TimeUnit timeUnit) {
+		return api.evaluateExperiments(query.guid, query.eapid, query.tpid, query.evaluatedExperiments)
+			.observeOn(observeOn)
+			.subscribeOn(subscribeOn)
+			.timeout(timeout, timeUnit)
 			.subscribe(observer);
 	}
 
+	public Subscription logExperiment(AbacusLogQuery query) {
+		return api.logExperiment(query)
+			.observeOn(observeOn)
+			.subscribeOn(subscribeOn)
+			.subscribe(emptyObserver);
+	}
+
+	private final static Observer<AbacusLogResponse> emptyObserver = new Observer<AbacusLogResponse>() {
+		@Override
+		public void onCompleted() {
+			//Ignore
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			//Ignore
+		}
+
+		@Override
+		public void onNext(AbacusLogResponse abacusLogResponse) {
+			//Ignore
+		}
+	};
 }

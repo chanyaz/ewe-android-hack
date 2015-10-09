@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.provider.CalendarContract;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -15,6 +16,7 @@ import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
+import com.squareup.phrase.Phrase;
 
 public class AddToCalendarUtils {
 
@@ -56,8 +58,8 @@ public class AddToCalendarUtils {
 		intent.setData(CalendarContract.Events.CONTENT_URI);
 		intent.putExtra(CalendarContract.Events.TITLE, context.getString(R.string.calendar_flight_title_TEMPLATE,
 			origin.mAirportCode, destination.mAirportCode));
-		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, origin.getMostRelevantDateTime().getTimeInMillis());
-		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, destination.getMostRelevantDateTime().getTimeInMillis());
+		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, origin.getMostRelevantDateTime().getMillis());
+		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, destination.getMostRelevantDateTime().getMillis());
 		intent.putExtra(
 			CalendarContract.Events.EVENT_LOCATION,
 			context.getString(R.string.calendar_flight_location_TEMPLATE, originAirport.mName,
@@ -65,14 +67,16 @@ public class AddToCalendarUtils {
 
 		StringBuilder sb = new StringBuilder();
 		if (!TextUtils.isEmpty(itineraryNumber)) {
-			sb.append(context.getString(Ui.obtainThemeResID(context, R.attr.skin_calendarFlightDescItinerary), itineraryNumber));
+			sb.append(
+				Phrase.from(context, R.string.calendar_flight_desc_itinerary_TEMPLATE).put("brand", BuildConfig.brand)
+					.put("itinerary", itineraryNumber).format());
 			sb.append("\n\n");
 		}
 		sb.append(context.getString(R.string.calendar_flight_desc_directions_TEMPLATE,
 			"https://maps.google.com/maps?q=" + origin.mAirportCode));
 		sb.append("\n\n");
-		sb.append(context.getString(Ui.obtainThemeResID(context, R.attr.skin_calendarFlightDescSupport),
-			pointOfSale.getSupportPhoneNumberBestForUser(Db.getUser())));
+		sb.append(Phrase.from(context, R.string.calendar_flight_desc_support_TEMPLATE).put("brand", BuildConfig.brand)
+			.put("phone", pointOfSale.getSupportPhoneNumberBestForUser(Db.getUser())).format());
 		sb.append("\n\n");
 		intent.putExtra(CalendarContract.Events.DESCRIPTION, sb.toString());
 		return intent;
@@ -93,12 +97,14 @@ public class AddToCalendarUtils {
 
 		StringBuilder sb = new StringBuilder();
 		if (!TextUtils.isEmpty(itineraryNumber)) {
-			sb.append(context.getString((R.string.calendar_car_desc_itinerary_TEMPLATE), itineraryNumber));
+			sb.append(
+				Phrase.from(context, R.string.calendar_desc_itinerary_TEMPLATE).put("brand", BuildConfig.brand)
+					.put("itinerary", itineraryNumber).format());
 			sb.append("\n\n");
 		}
 		sb.append("\n\n");
-		sb.append(context.getString((R.string.calendar_car_desc_support_TEMPLATE), offer.vendor.localPhoneNumber,
-			offer.vendor.phoneNumber));
+		sb.append(Phrase.from(context, R.string.calendar_desc_support_TEMPLATE).put("brand", BuildConfig.brand)
+			.put("localphone", offer.vendor.localPhoneNumber).put("phone", offer.vendor.phoneNumber).format());
 		sb.append("\n\n");
 		intent.putExtra(CalendarContract.Events.DESCRIPTION, sb.toString());
 		return intent;

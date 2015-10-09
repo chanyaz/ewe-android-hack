@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.View;
 
 import com.expedia.bookings.R;
@@ -16,6 +14,8 @@ import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -29,9 +29,6 @@ public class CarCategoryListWidget extends FrameLayout {
 
 	@InjectView(R.id.category_list)
 	public RecyclerView recyclerView;
-
-	@InjectView(R.id.search_error_widget)
-	ErrorWidget errorScreen;
 
 	CarCategoriesListAdapter adapter;
 
@@ -52,20 +49,19 @@ public class CarCategoryListWidget extends FrameLayout {
 		layoutManager.scrollToPosition(0);
 		recyclerView.setLayoutManager(layoutManager);
 
-		TypedValue typedValue = new TypedValue();
-		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
-		TypedArray a = getContext().obtainStyledAttributes(typedValue.data, textSizeAttr);
-		int toolbarSize = (int) a.getDimension(0, 44);
+		int toolbarSize = Ui.getToolbarSize(getContext());
+
+		//  Footer : Height of filter view container to make the view scrollable.
+		int filterViewHeight = (int) getResources().getDimension(R.dimen.lx_sort_filter_container_height);
 
 		recyclerView.addItemDecoration(
-			new RecyclerDividerDecoration(getContext(), LIST_DIVIDER_HEIGHT, toolbarSize, 0, false));
+			new RecyclerDividerDecoration(getContext(), 0, LIST_DIVIDER_HEIGHT, 0, LIST_DIVIDER_HEIGHT,
+				toolbarSize + Ui.getStatusBarHeight(getContext()), filterViewHeight, false));
 		recyclerView.setHasFixedSize(true);
 		recyclerView.setOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 
 		adapter = new CarCategoriesListAdapter();
 		recyclerView.setAdapter(adapter);
-
-		errorScreen.setToolbarVisibility(GONE);
 	}
 
 	@Override
@@ -86,13 +82,29 @@ public class CarCategoryListWidget extends FrameLayout {
 	}
 
 	@Subscribe
-	public void onCarsShowSearchResults(Events.CarsShowSearchResults event) {
-		adapter.cleanup();
+	public void onCarsIsFiltered(Events.CarsIsFiltered event) {
 		recyclerView.setVisibility(View.VISIBLE);
-		errorScreen.setVisibility(View.GONE);
+		adapter.setCategories(event.filteredCarSearch.categories);
+		adapter.loadingState = false;
+		adapter.notifyDataSetChanged();
+	}
+
+	@Subscribe
+	public void onCarsShowResultsForProductKey(Events.CarsShowResultsForProductKey event) {
+		recyclerView.setVisibility(View.VISIBLE);
+		adapter.setCategories(event.productKeyCarSearch.categories);
+		adapter.loadingState = false;
+		adapter.notifyDataSetChanged();
+		Events.post(new Events.CarsShowProductKeyDetails(event.productKeyCarSearch));
+	}
+
+	@Subscribe
+	public void onCarsShowSearchResults(Events.CarsShowSearchResults event) {
+		recyclerView.setVisibility(View.VISIBLE);
 		adapter.setCategories(event.results.categories);
 		adapter.loadingState = false;
 		adapter.notifyDataSetChanged();
+		AdTracker.trackCarResult(event.results, mParams);
 	}
 
 	@Subscribe
@@ -100,16 +112,8 @@ public class CarCategoryListWidget extends FrameLayout {
 		recyclerView.setVisibility(View.VISIBLE);
 		List<CategorizedCarOffers> elements = createDummyListForAnimation();
 		adapter.loadingState = true;
-		errorScreen.setVisibility(View.GONE);
 		adapter.setCategories(elements);
 		adapter.notifyDataSetChanged();
-	}
-
-	@Subscribe
-	public void onCarsShowSearchResultsError(Events.CarsShowSearchResultsError event) {
-		recyclerView.setVisibility(View.GONE);
-		errorScreen.bind(event.error);
-		errorScreen.setVisibility(View.VISIBLE);
 	}
 
 	@Subscribe

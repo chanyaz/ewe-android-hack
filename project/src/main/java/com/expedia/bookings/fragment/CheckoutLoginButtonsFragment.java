@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.LoginActivity;
+import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
@@ -240,13 +240,13 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 			Bundle args = null;
 			if (getLob() == LineOfBusiness.FLIGHTS) {
 				String tripId = Db.getTripBucket().getFlight().getItinerary().getTripId();
-				args = LoginActivity.createArgumentsBundle(getLob(), new UserToTripAssocLoginExtender(
+				args = AccountLibActivity.createArgumentsBundle(getLob(), new UserToTripAssocLoginExtender(
 					tripId));
-				OmnitureTracking.trackPageLoadFlightLogin(getActivity());
+				OmnitureTracking.trackPageLoadFlightLogin();
 			}
 			else if (getLob() == LineOfBusiness.HOTELS) {
-				args = LoginActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
-				OmnitureTracking.trackPageLoadHotelsLogin(getActivity());
+				args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
+				OmnitureTracking.trackPageLoadHotelsLogin();
 			}
 
 			User.signIn(getActivity(), args);

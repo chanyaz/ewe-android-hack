@@ -21,6 +21,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.data.BedType;
@@ -41,6 +42,7 @@ import com.expedia.bookings.widget.RowRoomRateLayout;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsHotelReviewsFragment extends Fragment implements UserReviewsFragmentListener,
@@ -208,7 +210,10 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 			ViewGroup roomRateContainer = Ui.findView(mRootC, R.id.room_rate_add_select_container);
 			roomRateContainer.setVisibility(View.GONE);
 
-			View soldOut = Ui.findView(mRootC, R.id.all_rooms_sold_out_tv);
+			TextView soldOut = Ui.findView(mRootC, R.id.all_rooms_sold_out_tv);
+			soldOut.setText(
+				Phrase.from(getActivity(), R.string.sorry_rooms_sold_out_TEMPLATE).put("brand", BuildConfig.brand)
+					.format());
 			soldOut.setVisibility(View.VISIBLE);
 		}
 	}
@@ -272,7 +277,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		}
 		// Track change in Reviews filter if it is different than the current.
 		if (mViewPager.getCurrentItem() != position) {
-			OmnitureTracking.trackLinkReviewTypeSelected(getActivity(), referrerId);
+			OmnitureTracking.trackLinkReviewTypeSelected(referrerId);
 		}
 		mViewPager.setCurrentItem(position);
 	}

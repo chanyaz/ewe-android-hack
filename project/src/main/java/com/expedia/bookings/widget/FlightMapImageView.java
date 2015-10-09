@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.mobiata.android.Log;
 import com.mobiata.android.services.GoogleServices;
@@ -84,7 +85,10 @@ public class FlightMapImageView extends ImageView {
 		Log.d("ITIN: mapUrl:" + mStaticMapUri);
 
 		if (!mStaticMapUri.equals(oldUri)) {
-			Picasso.with(getContext()).load(mStaticMapUri).into(callback);
+			new PicassoHelper.Builder(this)
+				.setTarget(callback)
+				.build()
+				.load(mStaticMapUri);
 		}
 	}
 

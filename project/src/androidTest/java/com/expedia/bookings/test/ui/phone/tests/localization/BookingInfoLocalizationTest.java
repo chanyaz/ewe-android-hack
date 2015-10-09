@@ -4,15 +4,15 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.BillingAddressScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsTravelerInfoScreen;
 import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-import com.expedia.bookings.test.ui.utils.EspressoUtils;
-import com.expedia.bookings.test.ui.utils.PhoneTestCase;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 /**
  * Created by dmadan on 9/16/14.
@@ -33,16 +33,16 @@ public class BookingInfoLocalizationTest extends PhoneTestCase {
 		FlightLegScreen.clickSelectFlightButton();
 		FlightsSearchResultsScreen.clickListItem(1);
 		FlightLegScreen.clickSelectFlightButton();
-		FlightsCheckoutScreen.clickCheckoutButton();
-		FlightsCheckoutScreen.clickTravelerDetails();
+		CommonCheckoutScreen.clickCheckoutButton();
+		CommonCheckoutScreen.clickTravelerDetails();
 
 		//test: phone number prefix should be localized
 		EspressoUtils.assertContains(FlightsTravelerInfoScreen.phoneCountryCodeText(), countryCode);
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.phoneNumberEditText());
 		Common.pressBack();
 		Common.pressBack();
-		FlightsCheckoutScreen.clickCheckoutButton();
-		FlightsCheckoutScreen.clickSelectPaymentButton();
+		CommonCheckoutScreen.clickCheckoutButton();
+		CommonCheckoutScreen.clickSelectPaymentButton();
 
 		//test: passport country should be localized
 		EspressoUtils.assertContains(BillingAddressScreen.passportCountryText(), country);

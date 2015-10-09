@@ -180,11 +180,6 @@
         <attr name="sluggishness" format="integer" />
     </declare-styleable>
 
-    <!-- ImageRadioButton -->
-    <declare-styleable name="ImageRadioButton">
-        <attr name="image" format="reference" />
-    </declare-styleable>
-
     <!-- RoundedCornerFrameLayout -->
     <declare-styleable name="RoundedCornerFrameLayout">
         <attr name="radius" format="dimension" />
@@ -223,16 +218,16 @@
     </declare-styleable>
 
     <!-- SwipeOutLayout style -->
-    <declare-styleable name="SwipeOutLayout">
-        <attr name="swipeOutDirection">
+    <declare-styleable name="EBSwipeOutLayout">
+        <attr name="EBSwipeOutDirection">
             <enum name="north" value="0" />
             <enum name="south" value="1" />
             <enum name="east" value="2" />
             <enum name="west" value="3" />
         </attr>
-        <attr name="swipeOutEnabled" format="boolean" />
-        <attr name="swipeOutContentId" format="reference" />
-        <attr name="swipeOutIndicatorId" format="reference" />
+        <attr name="EBSwipeOutEnabled" format="boolean" />
+        <attr name="EBSwipeOutContentId" format="reference" />
+        <attr name="EBSwipeOutIndicatorId" format="reference" />
     </declare-styleable>
 
     <!-- FruitList style -->
@@ -298,10 +293,12 @@
     <declare-styleable name="PhoneLaunchButton">
         <!-- Button text -->
         <attr name="btn_text" format="string" />
-        <!-- Button color -->
-        <attr name="btn_bg" format="reference" />
+        <!--Button color -->
+        <attr name="btn_bg" format="color"/>
         <!-- Button icon -->
         <attr name="btn_icon" format="reference"/>
+        <!-- Minimum scale factor for icon -->
+        <attr name="icon_min_scale" format="float" />
     </declare-styleable>
 
 </resources>

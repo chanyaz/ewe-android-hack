@@ -4,4 +4,5 @@
     <item android:state_pressed="true" android:drawable="@drawable/ic_tablet_traveler_plus_pressed" />
     <item android:state_focused="true" android:state_enabled="true" android:drawable="@drawable/ic_tablet_traveler_plus_pressed" />
     <item android:state_enabled="true" android:drawable="@drawable/ic_tablet_traveler_plus" />
+    <item android:state_enabled="false" android:drawable="@drawable/ic_tablet_traveler_plus_disabled" />
 </selector>

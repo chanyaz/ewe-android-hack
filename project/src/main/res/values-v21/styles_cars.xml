@@ -4,7 +4,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="V2.Theme.Cars" parent="AppTheme.Base">
+    <style name="V2.Theme.Cars" parent="Whitelabel.CarsTheme.Base">
         <item name="android:alertDialogTheme">@style/Theme.AlertDialog</item>
     </style>
 
@@ -14,16 +14,22 @@
         <item name="android:paddingLeft">20dp</item>
         <item name="android:paddingRight">20dp</item>
     </style>
-    <style name="LaunchActionBarTabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:textColor">@drawable/tab_text_selector</item>
+
+    <style name="ItinLoginRefreshButton" parent="android:Widget.Material.Button">
+        <item name="android:background">@drawable/itin_login_ripple</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
     </style>
 
     <style name="Theme.AlertDialog" parent="android:Theme.Material.Light.Dialog.Alert">
-        <item name="android:colorPrimary">@color/cars_primary_color</item>
-        <item name="android:colorPrimaryDark">@color/cars_primary_color</item>
-        <item name="android:colorAccent">@color/cars_primary_color</item>
+        <item name="android:colorPrimary">?attr/skin_carsPrimaryColor</item>
+        <item name="android:colorPrimaryDark">?attr/skin_carsPrimaryColor</item>
+        <item name="android:colorAccent">?attr/skin_carsPrimaryColor</item>
     </style>
 
 </resources>

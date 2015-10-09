@@ -1,9 +1,7 @@
 package com.expedia.bookings.data.lx;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -16,28 +14,28 @@ public class LXOfferSelected {
 	private String activityDate;
 	private List<LXTicketSelected> tickets = new ArrayList<>();
 	private boolean allDayActivity;
-	private BigDecimal amount;
+	private String amount;
+	private String regionId;
 
-	public LXOfferSelected(String activityId, Offer offer, Map<Ticket, Integer> selectedTickets) {
+	public LXOfferSelected(String activityId, Offer offer, List<Ticket> selectedTickets, String regionId) {
 		DateTime activityDate = DateUtils
 			.yyyyMMddHHmmssToDateTime(offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 
-		for (Map.Entry<Ticket, Integer> ticketAndCount : selectedTickets.entrySet()) {
-			int ticketCount = ticketAndCount.getValue();
-			Ticket ticket = ticketAndCount.getKey();
-			if (ticketCount > 0) {
+		for (Ticket ticket : selectedTickets) {
+			if (ticket.count > 0) {
 				LXTicketSelected ticketSelected = new LXTicketSelected();
 				ticketSelected.ticketId = ticket.ticketId;
-				ticketSelected.count = ticketCount;
+				ticketSelected.count = ticket.count;
 				ticketSelected.code = ticket.code;
 				this.tickets.add(ticketSelected);
 			}
 		}
 
 		this.activityId = activityId;
-		this.amount = LXUtils.getTotalAmount(selectedTickets).getAmount();
+		this.amount = LXUtils.getTotalAmount(selectedTickets).getAmount().setScale(2).toString();
 		this.activityDate = DateUtils.toYYYYMMTddhhmmss(activityDate);
 		this.activityItemId = offer.id;
 		this.allDayActivity = offer.availabilityInfoOfSelectedDate.availabilities.allDayActivity;
+		this.regionId = regionId;
 	}
 }

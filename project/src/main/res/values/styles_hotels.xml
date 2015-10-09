@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="V2.Theme.Hotels" parent="Whitelabel.HotelTheme.Base" />
+
+    <!--
+        Override this theme in whitelabels to provide whitelabel specific theme values.
+
+        Note: If any attr which is in AppTheme.Base.Hotels and need to be customized per whitelabel,
+        that attr should be removed from AppTheme.Base.Hotels and
+        must be added in all Whitelabel.HotelTheme.Base for all whitelabels
+    -->
+    <style name="Whitelabel.HotelTheme.Base" parent="AppTheme.Base.Hotels">
+        <item name="android:colorPrimaryDark">#0b514b</item>
+        <item name="android:colorButtonNormal">@color/hotels_primary_color</item>
+        <item name="colorAccent">@color/hotels_primary_color</item>
+        <item name="android:colorEdgeEffect">@color/hotels_primary_color</item>
+        <item name="primary_color">@color/hotels_primary_color</item>
+        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
+        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
+    </style>
+
+    <!--
+        Base app theme for Hotels, all the properties of hotels which are common for all whitelabels should be added here
+    -->
+    <style name="AppTheme.Base.Hotels" parent="AppTheme.Base.Cars">
+        <!--TODO:
+            It should have its own properties and should not be dependent on cars theme.
+            If something is common for all LOB's put it in  AppTheme.Base
+         -->
+
+    </style>
+
+    <style name="HotelTravelerIcon">
+        <item name="android:layout_width">@dimen/hotel_traveler_plus_minus_size</item>
+        <item name="android:layout_height">@dimen/hotel_traveler_plus_minus_size</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:tint">@color/cars_actionbar_text_color</item>
+    </style>
+
+    <style name="HotelTravelerIcon.Plus">
+        <item name="android:src">@drawable/lx_plus_icon</item>
+    </style>
+
+    <style name="HotelTravelerIcon.Minus">
+        <item name="android:src">@drawable/lx_minus_icon</item>
+    </style>
+
+</resources>

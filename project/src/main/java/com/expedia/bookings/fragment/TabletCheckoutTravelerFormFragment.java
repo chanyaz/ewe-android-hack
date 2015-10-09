@@ -113,10 +113,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		if (savedInstanceState != null) {
 			mTravelerNumber = savedInstanceState.getInt(STATE_TRAVELER_NUMBER, mTravelerNumber);
 			mHeaderString = savedInstanceState.getString(STATE_HEADER_STRING, mHeaderString);
-			if (Db.getWorkingTravelerManager().getAttemptToLoadFromDisk() && Db.getWorkingTravelerManager()
-				.hasTravelerOnDisk(getActivity())) {
-				Db.getWorkingTravelerManager().loadWorkingTravelerFromDisk(getActivity());
-			}
 		}
 
 		registerStateListener(mStateHelper, false);
@@ -303,7 +299,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		}
 
 		// Commit our changes
-		travMan.commitWorkingTravelerToDB(mTravelerNumber, getActivity());
+		travMan.commitWorkingTravelerToDB(mTravelerNumber);
 
 		mListener.onCheckoutDataUpdated();
 		clearForm();
@@ -318,7 +314,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			mSectionTraveler.resetValidation();
 		}
 
-		Db.getWorkingTravelerManager().clearWorkingTraveler(getActivity());
+		Db.getWorkingTravelerManager().clearWorkingTraveler();
 		mTravelerNumber = -1;
 	}
 
@@ -405,9 +401,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
 					mSectionTraveler.performValidation();
 				}
-
-				//We attempt a save on change
-				Db.getWorkingTravelerManager().attemptWorkingTravelerSave(getActivity(), false);
 			}
 		});
 
@@ -447,7 +440,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	public void onFormClosed() {
 		if (isResumed() && isFormOpen()) {
 			mAttemptToLeaveMade = false;
-			Db.getWorkingTravelerManager().deleteWorkingTravelerFile(getActivity());
 			clearForm();
 		}
 		mStateManager.setState(TravelerFormState.COLLAPSED, false);

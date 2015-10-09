@@ -1,15 +1,11 @@
 package com.expedia.bookings.widget;
 
+import javax.inject.Inject;
+
+import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Typeface;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
-import android.text.style.URLSpan;
-import android.text.style.UnderlineSpan;
+import android.content.DialogInterface;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.BuildConfig;
@@ -17,19 +13,29 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
+import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.services.CarServices;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.LegalClickableSpan;
+import com.expedia.bookings.utils.RetrofitUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.SettingUtils;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
+import rx.Observer;
+import rx.Subscription;
 
 public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntryWidget.CVVEntryFragmentListener {
 
@@ -42,6 +48,12 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	CarCheckoutSummaryWidget summaryWidget;
 
+	private Subscription createTripSubscription;
+	private Events.CarsShowCheckout createTripParams;
+
+	@Inject
+	CarServices carServices;
+
 	protected LineOfBusiness getLineOfBusiness() {
 		return LineOfBusiness.CARS;
 	}
@@ -50,22 +62,126 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		Ui.getApplication(getContext()).carComponent().inject(this);
 		summaryWidget = Ui.inflate(R.layout.car_checkout_summary_widget, summaryContainer, false);
 		summaryContainer.addView(summaryWidget);
 		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details));
 		paymentInfoCardView.setLineOfBusiness(LineOfBusiness.CARS);
+		paymentInfoCardView.setZipValidationRequired(true);
 	}
+
+	// Create Trip network handling
+
+	private Observer<CarCreateTripResponse> createTripObserver = new Observer<CarCreateTripResponse>() {
+		@Override
+		public void onCompleted() {
+
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			Log.e("CarCreateTrip - onError", e);
+			showProgress(false);
+
+			if (RetrofitUtils.isNetworkError(e)) {
+				showOnCreateNoInternetErrorDialog(R.string.error_no_internet);
+			}
+			else {
+				handleCreateTripError((ApiError) e);
+			}
+		}
+
+		@Override
+		public void onNext(CarCreateTripResponse createTripResponse) {
+			Events.post(new Events.CarsCheckoutCreateTripSuccess(createTripResponse));
+			Db.getTripBucket().add(new TripBucketItemCar(createTripResponse));
+			showProgress(false);
+			String ogPriceForPriceChange = createTripResponse.originalPrice == null ?
+				"" : createTripResponse.originalPrice;
+			bind(createTripResponse.carProduct, ogPriceForPriceChange, createTripResponse.tripId);
+			OmnitureTracking.trackAppCarCheckoutPage(createTripResponse.carProduct);
+			AdTracker.trackCarCheckoutStarted(createTripResponse.carProduct);
+			show(new Ready(), FLAG_CLEAR_BACKSTACK);
+		}
+	};
+
+	private void handleCreateTripError(final ApiError error) {
+		switch (error.errorCode) {
+		case INVALID_CAR_PRODUCT_KEY:
+			showInvalidProductErrorDialog();
+			break;
+		default:
+			showGenericCreateTripErrorDialog();
+			break;
+		}
+	}
+
+	private void showGenericCreateTripErrorDialog() {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(
+				Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format()
+					.toString())
+			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.CarsGoToSearch());
+				}
+			})
+			.show();
+	}
+
+	private void showInvalidProductErrorDialog() {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(R.string.error_cars_product_expired))
+			.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.CarsGoToSearch());
+				}
+			})
+			.show();
+	}
+
+	private void showOnCreateNoInternetErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					doCreateTrip();
+				}
+			})
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					show(new CheckoutFailed(), FLAG_CLEAR_BACKSTACK);
+				}
+			})
+			.show();
+	}
+
 
 	@Subscribe
 	public void onShowCheckout(Events.CarsShowCheckout event) {
-		String ogPriceForPriceChange = event.createTripResponse.searchCarOffer == null ?
-			"" : event.createTripResponse.searchCarOffer.fare.total.formattedPrice;
-		bind(event.createTripResponse.carProduct, ogPriceForPriceChange, event.createTripResponse.tripId);
-		OmnitureTracking.trackAppCarCheckoutPage(getContext(), event.createTripResponse.carProduct);
+		createTripParams = event;
+		cleanup();
+		showCheckout();
 	}
 
 	@Subscribe
-	public void onShowCheckoutAfterPriceChange(Events.CarsShowCheckoutAfterPriceChange event) {
+	public void onSignOut(Events.SignOut event) {
+		accountLogoutClicked();
+	}
+
+	@Subscribe
+	public void onShowCheckoutAfterPriceChange(Events.CarsUpdateCheckoutSummaryAfterPriceChange event) {
 		bind(event.newCreateTripOffer, /* createTripOffer */
 			event.originalCreateTripOffer.detailedFare.grandTotal.formattedPrice, /* originalPriceString */
 			event.tripId /* tripId */);
@@ -77,22 +193,28 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		this.carProduct = createTripOffer;
 		summaryWidget.bind(carProduct, originalOfferFormattedPrice);
 		paymentInfoCardView.setCreditCardRequired(carProduct.checkoutRequiresCard);
-
+		clearCCNumber();
+		scrollCheckoutToTop();
 		slideWidget.resetSlider();
 
 		int sliderMessage = carProduct.checkoutRequiresCard ? R.string.your_card_will_be_charged_TEMPLATE
 			: R.string.amount_due_today_TEMPLATE;
 		sliderTotalText.setText(getResources()
-			.getString(sliderMessage, carProduct.detailedFare.totalDueToday.formattedPrice));
-
+			.getString(sliderMessage, Money
+				.getFormattedMoneyFromAmountAndCurrencyCode(carProduct.detailedFare.totalDueToday.getAmount(),
+					carProduct.detailedFare.totalDueToday.getCurrency())));
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);
 
-		generateLegalClickableLink(legalInformationText);
-		isCheckoutComplete();
-		loginWidget.updateView();
-		show(new CheckoutDefault());
+		legalInformationText.setText(
+			StrUtils.generateLegalClickableLink(getContext(), carProduct.rulesAndRestrictionsURL));
+		if (User.isLoggedIn(getContext())) {
+			loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness());
+		}
+		else {
+			loginWidget.bind(false, false, null,  getLineOfBusiness());
+		}
 	}
 
 	@Subscribe
@@ -123,47 +245,14 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 
 	}
 
-	public void generateLegalClickableLink(TextView tv) {
-		SpannableStringBuilder sb = new SpannableStringBuilder();
-
-		String spannedRules = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			carProduct.rulesAndRestrictionsURL, getResources().getString(R.string.rules_and_restrictions));
-		String spannedTerms = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
-			getResources().getString(R.string.info_label_terms_conditions));
-		String spannedPrivacy = getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), getResources().getString(R.string.privacy_policy));
-		String statement = getResources()
-			.getString(R.string.car_legal_TEMPLATE, spannedRules, spannedTerms, spannedPrivacy);
-
-		sb.append(Html.fromHtml(statement));
-		URLSpan[] spans = sb.getSpans(0, statement.length(), URLSpan.class);
-
-		for (final URLSpan o : spans) {
-			int start = sb.getSpanStart(o);
-			int end = sb.getSpanEnd(o);
-			// Replace URL span with ClickableSpan to redirect to our own webview
-			sb.removeSpan(o);
-			sb.setSpan(new LegalClickableSpan(getContext(), o.getURL(), sb.subSequence(start, end).toString()), start,
-				end, 0);
-			sb.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
-			sb.setSpan(new UnderlineSpan(), start, end, 0);
-			sb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.cars_primary_color)), start, end,
-				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		}
-
-		tv.setText(sb);
-		tv.setMovementMethod(LinkMovementMethod.getInstance());
-	}
-
 	@Override
 	public void onSlideAbort() {
 	}
 
 	@Override
 	public void onBook(String cvv) {
-		final boolean suppressFinalBooking =
-			BuildConfig.DEBUG && SettingUtils.get(getContext(), R.string.preference_suppress_car_bookings, true);
+		final boolean suppressFinalBooking = BookingSuppressionUtils
+			.shouldSuppressFinalBooking(getContext(), R.string.preference_suppress_car_bookings);
 		CarCheckoutParamsBuilder builder =
 			new CarCheckoutParamsBuilder()
 				.firstName(mainContactInfoCardView.firstName.getText().toString())
@@ -175,6 +264,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 					Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
 				.phoneNumber(mainContactInfoCardView.phoneNumber.getText().toString())
 				.tripId(tripId)
+				.guid(Db.getAbacusGuid())
 				.suppressFinalBooking(suppressFinalBooking);
 
 		if (carProduct.checkoutRequiresCard && Db.getBillingInfo().hasStoredCard()) {
@@ -190,6 +280,30 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 				.ccName(info.getNameOnCard()).cvv(cvv);
 		}
 		Events.post(new Events.CarsKickOffCheckoutCall(builder));
+	}
+
+	private void cleanup() {
+		if (createTripSubscription != null) {
+			createTripSubscription.unsubscribe();
+			createTripSubscription = null;
+		}
+	}
+
+	@Override
+	public void doCreateTrip() {
+		cleanup();
+		createTripSubscription = carServices.createTrip(createTripParams.productKey, createTripParams.fare, createTripParams.isInsuranceIncluded, createTripObserver);
+	}
+
+	@Override
+	public void showProgress(boolean show) {
+		summaryWidget.setVisibility(show ? INVISIBLE : VISIBLE);
+		mSummaryProgressLayout.setVisibility(show ? VISIBLE : GONE);
+	}
+
+	@Subscribe
+	public void onLogin(Events.LoggedInSuccessful event) {
+		onLoginSuccessful();
 	}
 }
 

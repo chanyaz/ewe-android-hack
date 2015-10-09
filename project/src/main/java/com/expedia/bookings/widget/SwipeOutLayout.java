@@ -82,19 +82,19 @@ public class SwipeOutLayout extends FrameLayout {
 	private void init(Context context, AttributeSet attrs) {
 		//Read in attrs
 		if (attrs != null) {
-			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SwipeOutLayout, 0, 0);
+			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.EBSwipeOutLayout, 0, 0);
 
-			if (ta.hasValue(R.styleable.SwipeOutLayout_swipeOutDirection)) {
-				Direction direction = Direction.values()[ta.getInt(R.styleable.SwipeOutLayout_swipeOutDirection,
+			if (ta.hasValue(R.styleable.EBSwipeOutLayout_EBSwipeOutDirection)) {
+				Direction direction = Direction.values()[ta.getInt(R.styleable.EBSwipeOutLayout_EBSwipeOutDirection,
 						mSwipeDirection.ordinal())];
 				setSwipeDirection(direction);
 				mSwipeEnabled = true;
 			}
 
-			mContentResId = ta.getResourceId(R.styleable.SwipeOutLayout_swipeOutContentId, mContentResId);
-			mIndicatorResId = ta.getResourceId(R.styleable.SwipeOutLayout_swipeOutIndicatorId, mIndicatorResId);
+			mContentResId = ta.getResourceId(R.styleable.EBSwipeOutLayout_EBSwipeOutContentId, mContentResId);
+			mIndicatorResId = ta.getResourceId(R.styleable.EBSwipeOutLayout_EBSwipeOutIndicatorId, mIndicatorResId);
 
-			mSwipeEnabled = ta.getBoolean(R.styleable.SwipeOutLayout_swipeOutEnabled, mSwipeEnabled);
+			mSwipeEnabled = ta.getBoolean(R.styleable.EBSwipeOutLayout_EBSwipeOutEnabled, mSwipeEnabled);
 
 			ta.recycle();
 		}

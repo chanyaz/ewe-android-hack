@@ -8,16 +8,20 @@ import java.util.Map;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.cars.CarApiException;
+import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParams;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
+import com.expedia.bookings.data.cars.CarFilter;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchResponse;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.cars.RateTerm;
+import com.expedia.bookings.data.cars.RateTermDeserializer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
@@ -41,6 +45,8 @@ public class CarServices {
 
 	private CarApi mApi;
 
+	private static CarSearchResponse cachedCarSearchResponse = new CarSearchResponse();
+
 	private Scheduler mObserveOn;
 	private Scheduler mSubscribeOn;
 
@@ -49,9 +55,7 @@ public class CarServices {
 		mObserveOn = observeOn;
 		mSubscribeOn = subscribeOn;
 
-		Gson gson = new GsonBuilder()
-			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
-			.create();
+		Gson gson = generateGson();
 
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
@@ -65,24 +69,114 @@ public class CarServices {
 	}
 
 	public Subscription carSearch(CarSearchParams params, Observer<CarSearch> observer) {
-		return mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate())
-			.observeOn(mObserveOn)
-			.subscribeOn(mSubscribeOn)
+		boolean searchByLocationLatLng = params.shouldSearchByLocationLatLng();
+		Observable<CarSearchResponse> carSearchResponse = searchByLocationLatLng ?
+			mApi.roundtripCarSearch(params.pickupLocationLatLng.lat, params.pickupLocationLatLng.lng, params.toServerPickupDate(), params.toServerDropOffDate(), 12) :
+			mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate());
+
+		return carSearchResponse
 			.doOnNext(HANDLE_ERRORS)
+			.doOnNext(CACHE_SEARCH_RESPONSE)
 			.flatMap(BUCKET_OFFERS)
 			.toSortedList(SORT_BY_LOWEST_TOTAL)
 			.map(PUT_IN_CAR_SEARCH)
+			.subscribeOn(mSubscribeOn)
+			.observeOn(mObserveOn)
 			.subscribe(observer);
 	}
 
-	private static final Action1<CarSearchResponse> HANDLE_ERRORS = new Action1<CarSearchResponse>() {
+	public Subscription carSearchWithProductKey(CarSearchParams params, String productKey, Observer<CarSearch> observer) {
+		boolean searchByLocationLatLng = params.shouldSearchByLocationLatLng();
+		Observable<CarSearchResponse> carSearchResponse = searchByLocationLatLng ?
+			mApi.roundtripCarSearch(params.pickupLocationLatLng.lat, params.pickupLocationLatLng.lng, params.toServerPickupDate(), params.toServerDropOffDate(), 12) :
+			mApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate());
+
+		return Observable.combineLatest(carSearchResponse, Observable.just(productKey), FIND_PRODUCT_KEY)
+			.doOnNext(HANDLE_ERRORS)
+			.doOnNext(CACHE_SEARCH_RESPONSE)
+			.flatMap(BUCKET_OFFERS)
+			.toSortedList(SORT_BY_LOWEST_TOTAL)
+			.map(PUT_IN_CAR_SEARCH)
+			.subscribeOn(mSubscribeOn)
+			.observeOn(mObserveOn)
+			.subscribe(observer);
+	}
+
+	public Subscription carFilterSearch(Observer<CarSearch> observer, CarFilter carFilter) {
+		return Observable.combineLatest(Observable.just(cachedCarSearchResponse), Observable.just(carFilter), FILTER_RESULTS)
+			.flatMap(BUCKET_OFFERS)
+			.toSortedList(SORT_BY_LOWEST_TOTAL)
+			.map(PUT_IN_CAR_SEARCH)
+			.subscribeOn(mSubscribeOn)
+			.observeOn(mObserveOn)
+			.subscribe(observer);
+	}
+
+	public Subscription createTrip(String productKey, Money fare, boolean isInsuranceIncluded, Observer<CarCreateTripResponse> observer) {
+		return mApi.createTrip(productKey, fare.amount.toString())
+			.doOnNext(HANDLE_ERRORS)
+			.map(new SearchOfferInjector(isInsuranceIncluded, fare.formattedPrice))
+			.subscribeOn(mSubscribeOn)
+			.observeOn(mObserveOn)
+			.subscribe(observer);
+	}
+
+	public Subscription checkout(CreateTripCarOffer offer, CarCheckoutParams params,
+		Observer<CarCheckoutResponse> observer) {
+		return mApi.checkout(params.toQueryMap())
+			.doOnNext(HANDLE_ERRORS)
+			.map(new CreateTripOfferInjector(offer))
+			.subscribeOn(mSubscribeOn)
+			.observeOn(mObserveOn)
+			.subscribe(observer);
+	}
+
+	public static Gson generateGson() {
+		return new GsonBuilder()
+			.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+			.registerTypeAdapter(RateTerm.class, new RateTermDeserializer())
+			.create();
+	}
+
+	// Throw an error so the UI can handle it except for price changes.
+	// Let the remaining pipline handle those
+	private static final Action1<BaseApiResponse> HANDLE_ERRORS = new Action1<BaseApiResponse>() {
 		@Override
-		public void call(CarSearchResponse carSearchResponse) {
-			if (carSearchResponse.hasErrors()) {
-				throw new CarApiException(carSearchResponse.getFirstError());
+		public void call(BaseApiResponse response) {
+			if (response.hasErrors() && !response.hasPriceChange()) {
+				throw response.getFirstError();
 			}
 		}
 	};
+
+	private static final Action1<CarSearchResponse> CACHE_SEARCH_RESPONSE = new Action1<CarSearchResponse>() {
+		@Override
+		public void call(CarSearchResponse response) {
+			cachedCarSearchResponse = response;
+		}
+	};
+
+	private class SearchOfferInjector implements Func1<CarCreateTripResponse, CarCreateTripResponse> {
+		private boolean isInsuranceIncluded;
+		private String originalPrice;
+
+		public SearchOfferInjector(boolean isInsuranceIncluded, String originalPrice) {
+			this.isInsuranceIncluded = isInsuranceIncluded;
+			this.originalPrice = originalPrice;
+		}
+
+		@Override
+		public CarCreateTripResponse call(CarCreateTripResponse carCreateTripResponse) {
+			//Propagate "isInsuranceIncluded" from Search Offer to Create Trip Offer
+			carCreateTripResponse.carProduct.isInsuranceIncluded = isInsuranceIncluded;
+
+			//Set Original Search Car Offer in case there was a Price Change
+			if (carCreateTripResponse.hasPriceChange()) {
+				carCreateTripResponse.originalPrice = originalPrice;
+			}
+			return carCreateTripResponse;
+		}
+	}
 
 	private static final Func1<CarSearchResponse, Observable<CategorizedCarOffers>> BUCKET_OFFERS = new Func1<CarSearchResponse, Observable<CategorizedCarOffers>>() {
 		@Override
@@ -92,7 +186,8 @@ public class CarServices {
 				String label = offer.vehicleInfo.carCategoryDisplayLabel;
 				CarCategory category = offer.vehicleInfo.category;
 				if (Strings.isEmpty(label)) {
-					throw new OnErrorNotImplementedException(new RuntimeException("offer.vehicle.carCategoryDisplayLabel is empty for productKey=" + offer.productKey));
+					throw new OnErrorNotImplementedException(new RuntimeException(
+						"offer.vehicle.carCategoryDisplayLabel is empty for productKey=" + offer.productKey));
 				}
 
 				CategorizedCarOffers bucket = buckets.get(label);
@@ -108,6 +203,7 @@ public class CarServices {
 	};
 
 	private static final Func1<List<CategorizedCarOffers>, CarSearch> PUT_IN_CAR_SEARCH = new Func1<List<CategorizedCarOffers>, CarSearch>() {
+
 		@Override
 		public CarSearch call(List<CategorizedCarOffers> categories) {
 			CarSearch search = new CarSearch();
@@ -125,42 +221,30 @@ public class CarServices {
 		}
 	};
 
-	public Subscription createTrip(SearchCarOffer offer, Observer<CarCreateTripResponse> observer) {
-		return mApi.createTrip(offer.productKey, offer.fare.total.amount.toString())
-			.observeOn(mObserveOn)
-			.subscribeOn(mSubscribeOn)
-			.map(new SearchOfferInjector(offer))
-			.subscribe(observer);
-	}
-
-	private class SearchOfferInjector implements Func1<CarCreateTripResponse, CarCreateTripResponse> {
-
-		SearchCarOffer searchCarOffer;
-
-		public SearchOfferInjector(SearchCarOffer offer) {
-			searchCarOffer = offer;
-		}
-
+	private static final Func2<CarSearchResponse, String, CarSearchResponse> FIND_PRODUCT_KEY = new Func2<CarSearchResponse, String, CarSearchResponse>() {
 		@Override
-		public CarCreateTripResponse call(CarCreateTripResponse carCreateTripResponse) {
-			if (carCreateTripResponse.hasPriceChange()) {
-				carCreateTripResponse.searchCarOffer = searchCarOffer;
+		public CarSearchResponse call(CarSearchResponse response, String productKey) {
+			CarSearchResponse productKeyCarSearchResponse = new CarSearchResponse();
+			if (response.hasProductKey(productKey)) {
+				productKeyCarSearchResponse.offers.add(response.getProductKeyResponse(productKey));
 			}
-			return carCreateTripResponse;
+			else {
+				throw new ApiError(ApiError.Code.CAR_PRODUCT_NOT_AVAILABLE);
+			}
+			return productKeyCarSearchResponse;
 		}
-	}
+	};
 
-	public Subscription checkout(CreateTripCarOffer offer, CarCheckoutParams params,
-		Observer<CarCheckoutResponse> observer) {
-		return mApi.checkout(params.toQueryMap())
-			.observeOn(mObserveOn)
-			.subscribeOn(mSubscribeOn)
-			.map(new CreateTripOfferInjector(offer))
-			.subscribe(observer);
-	}
+	private static final Func2<CarSearchResponse, CarFilter, CarSearchResponse> FILTER_RESULTS = new Func2<CarSearchResponse, CarFilter, CarSearchResponse>() {
+		@Override
+		public CarSearchResponse call(CarSearchResponse response, CarFilter filter) {
+			CarSearchResponse filteredResponse = new CarSearchResponse();
+			filteredResponse.offers.addAll(filter.applyFilters(response));
+			return filteredResponse;
+		}
+	};
 
 	private class CreateTripOfferInjector implements Func1<CarCheckoutResponse, CarCheckoutResponse> {
-
 		CreateTripCarOffer createTripCarOffer;
 
 		public CreateTripOfferInjector(CreateTripCarOffer offer) {
@@ -172,11 +256,7 @@ public class CarServices {
 			if (carCheckoutResponse.hasPriceChange()) {
 				carCheckoutResponse.originalCarProduct = createTripCarOffer;
 			}
-			else if (carCheckoutResponse.hasErrors()) {
-				throw new CarApiException(carCheckoutResponse.getFirstError());
-			}
 			return carCheckoutResponse;
 		}
 	}
-
 }

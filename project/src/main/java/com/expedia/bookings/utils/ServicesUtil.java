@@ -1,16 +1,19 @@
 package com.expedia.bookings.utils;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import java.util.Locale;
 
+import android.content.Context;
+import android.os.Build;
+
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 
 public class ServicesUtil {
+
+	private static final String APP_VERSION = "APP_VERSION";
 
 	/**
 	 * Constructs a user agent string to be used against Expedia requests. It is important to exclude the word "Android"
@@ -22,27 +25,44 @@ public class ServicesUtil {
 	 */
 	public static String generateUserAgentString(Context context) {
 		// Construct a proper user agent string
-		String versionName;
-		try {
-			PackageManager pm = context.getPackageManager();
-			PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-			versionName = pi.versionName;
-		}
-		catch (Exception e) {
-			// PackageManager is traditionally wonky, need to accept all exceptions here.
-			Log.w("Couldn't get package info in order to submit proper version #!", e);
-			versionName = "1.0";
-		}
+		String versionName = BuildConfig.VERSION_NAME;
 		// Be careful not to use the word "Android" here
 		// https://mingle/projects/e3_mobile_web/cards/676
 		String userAgent = "ExpediaBookings/" + versionName + " (EHad; Mobiata)";
 		return userAgent;
 	}
 
+
+	/**
+	 * Constructs a x-eb client header string to be used against Expedia requests.
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static String generateXEbClientString(Context context) {
+		// Construct x-eb-client header string
+		StringBuilder sb = new StringBuilder();
+		addBuildInfo(sb, "PLATFORM", "ANDROID");
+		addBuildInfo(sb, "OS_VERSION", Build.VERSION.RELEASE);
+		addBuildInfo(sb, "MANUFACTURER", Build.MANUFACTURER);
+		addBuildInfo(sb, "MODEL", Build.MODEL);
+		addBuildInfo(sb, "UPGRADE", String.valueOf(isUpgrade(context)));
+		addBuildInfo(sb, "APP_VERSION", BuildConfig.VERSION_NAME);
+		addBuildInfo(sb, "LOCALE", Locale.getDefault().toString());
+		return sb.toString();
+	}
+
+	private static void addBuildInfo(StringBuilder sb, String key, String value) {
+			sb.append(key);
+			sb.append(':');
+			sb.append(value);
+			sb.append(';');
+	}
+
 	public static String generateClientId(Context context) {
 		String clientName = ProductFlavorFeatureConfiguration.getInstance().getClientShortName();
 		String deviceType = ExpediaBookingApp.useTabletInterface(context) ? "tablet" : "phone";
-		return clientName + ".app.android." + deviceType + ":" + AndroidUtils.getAppVersion(context);
+		return clientName + ".app.android." + deviceType + ":" + BuildConfig.VERSION_NAME;
 	}
 
 	public static String generateSourceType() {
@@ -56,6 +76,32 @@ public class ServicesUtil {
 
 	public static String generateSiteId() {
 		return Integer.toString(PointOfSale.getPointOfSale().getSiteId());
+	}
+
+	/**
+	 * Has the app been upgraded to a new version?
+	 *
+	 * @param context
+	 * @return
+	 */
+	private static boolean isUpgrade(Context context) {
+		boolean isUpgrade = false;
+		String trackVersion = SettingUtils.get(context, APP_VERSION, null);
+		String currentVersion = BuildConfig.VERSION_NAME;
+		//Check if it is a new installation.
+		if (trackVersion == null) {
+			SettingUtils.save(context, APP_VERSION, currentVersion);
+		} //Check if it is an upgrade.
+		else if (!trackVersion.equals(currentVersion)) {
+			synchronized (ServicesUtil.class) {
+				trackVersion = SettingUtils.get(context, APP_VERSION, null);
+				if (!trackVersion.equals(currentVersion)) {
+					SettingUtils.save(context, APP_VERSION, currentVersion);
+					isUpgrade = true;
+				}
+			}
+		}
+		return isUpgrade;
 	}
 
 }

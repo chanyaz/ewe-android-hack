@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_container"
-    android:background="#eaeaea">
+    android:background="#eaeaea"
+    android:foreground="?android:attr/selectableItemBackground" >
 
-        <com.expedia.bookings.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/root"
             android:background="@drawable/card_background"
             android:layout_width="match_parent"
@@ -63,21 +64,21 @@
                         android:paddingTop="2dp" />
 
                     <TextView
-                        android:id="@+id/bags"
-                        style="@style/CarOfferText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/bag_details"
-                        android:drawablePadding="6dp"
-                        android:paddingBottom="2dp"
-                        android:paddingTop="2dp" />
-
-                    <TextView
                         android:id="@+id/doors"
                         style="@style/CarOfferText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/door_details"
+                        android:drawablePadding="6dp"
+                        android:paddingBottom="2dp"
+                        android:paddingTop="2dp" />
+
+                    <TextView
+                        android:id="@+id/bags"
+                        style="@style/CarOfferText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/bag_details"
                         android:drawablePadding="6dp"
                         android:paddingBottom="2dp"
                         android:paddingTop="2dp" />
@@ -93,14 +94,21 @@
                         android:paddingTop="2dp" />
 
                     <TextView
-                        android:id="@+id/address"
+                        android:id="@+id/address_line_one"
+                        style="@style/CarOfferText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="" />
+
+                    <TextView
+                        android:id="@+id/address_line_two"
                         style="@style/CarOfferText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:text="" />
                 </LinearLayout>
 
-                <com.expedia.bookings.widget.LinearLayout
+                <LinearLayout
                     android:id="@+id/price_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -126,7 +134,7 @@
                         android:layout_gravity="right"
                         tools:text="" />
 
-                </com.expedia.bookings.widget.LinearLayout>
+                </LinearLayout>
 
                 <ToggleButton
                     android:id="@+id/reserve_now"
@@ -141,12 +149,21 @@
                     android:paddingRight="4dp" />
             </RelativeLayout>
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/map_view"
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                app:liteMode="true"
-                app:mapType="normal" />
+            <com.expedia.bookings.widget.FrameLayout
+                android:id="@+id/map_click_container"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground">
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    app:liteMode="true"
+                    app:mapType="normal" />
+
+            </com.expedia.bookings.widget.FrameLayout>
 
             <TextView
                 android:id="@+id/map_text"
@@ -159,6 +176,6 @@
                 android:paddingTop="6dp"
                 android:text="" />
 
-        </com.expedia.bookings.widget.LinearLayout>
+        </LinearLayout>
 
 </FrameLayout>

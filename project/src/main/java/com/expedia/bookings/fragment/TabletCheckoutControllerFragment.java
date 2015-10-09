@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletResultsActivity;
@@ -27,7 +28,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -66,7 +66,6 @@ import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
 
@@ -170,11 +169,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				CheckoutState.OVERVIEW.name())));
 			mCurrentLob = LineOfBusiness.valueOf(savedInstanceState.getString(INSTANCE_CURRENT_LOB));
 			mTripBucketOpen = savedInstanceState.getBoolean(INSTANCE_TRIP_BUCKET_OPEN);
-		}
-		else {
-			// Initial load of this fragment, so attempt to load user data
-			BookingInfoUtils.populateTravelerDataFromUser(getActivity(), getLob());
-			BookingInfoUtils.populatePaymentDataFromUser(getActivity(), getLob());
 		}
 
 		registerStateListener(mStateHelper, false);
@@ -289,7 +283,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		// Remove invalid credit cards when going from hotels -> flights
 		if (mCurrentLob == LineOfBusiness.FLIGHTS) {
-			Db.loadBillingInfo(getActivity());
 			BillingInfo billingInfo = Db.getBillingInfo();
 
 			boolean isValidCard = Db.getTripBucket().getFlight().isCardTypeSupported(billingInfo.getCardType());
@@ -479,12 +472,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			else if (state == CheckoutState.READY_FOR_CHECKOUT) {
 				setShowCvvPercentage(0f);
 				setShowReadyForCheckoutPercentage(1f);
-				OmnitureTracking.trackTabletSlideToPurchasePageLoad(getActivity(), getLob());
+				OmnitureTracking.trackTabletSlideToPurchasePageLoad(getLob());
 			}
 			else if (state == CheckoutState.CVV) {
 				setShowCvvPercentage(1f);
 				setShowReadyForCheckoutPercentage(0f);
-				OmnitureTracking.trackTabletCVVPageLoad(getActivity(), getLob());
+				OmnitureTracking.trackTabletCVVPageLoad(getLob());
 			}
 			else if (state == CheckoutState.BOOKING) {
 				setShowBookingPercentage(1f);
@@ -503,10 +496,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 					mCheckoutFragment.onCheckoutDataUpdated();
 				}
 
-				OmnitureTracking.trackTabletConfirmationPageLoad(getActivity(), getLob());
+				OmnitureTracking.trackTabletConfirmationPageLoad(getLob());
 
 				if (getLob() == LineOfBusiness.FLIGHTS) {
-					OmnitureTracking.trackFlightConfirmationAirAttach(getActivity());
+					OmnitureTracking.trackFlightConfirmationAirAttach();
 				}
 			}
 
@@ -711,9 +704,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 					.newInstance(getString(R.string.loading_flight_details));
 				mFlightCreateTripDownloadThrobber.show(getFragmentManager(), TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
 				mFlightBookingFrag.startDownload(FlightBookingState.CREATE_TRIP);
-			}
-			else {
-				dismissLoadingDialogs();
 			}
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
@@ -948,7 +938,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onSlideAllTheWay() {
 		final CheckoutState stateTwo = bookingWithGoogleWallet() ? CheckoutState.BOOKING : CheckoutState.CVV;
 		if (!BookingInfoUtils
-			.migrateRequiredCheckoutDataToDbBillingInfo(getActivity(), getLob(), Db.getTravelers().get(0), true)) {
+			.migrateRequiredCheckoutDataToDbBillingInfo(getActivity(), getLob(), Db.getTravelers().get(0))) {
 			//Somehow we don't have the information we need. This should be very rare, but it could happen.
 
 			if (mSlideFragment != null) {
@@ -1090,7 +1080,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			getCurrentBookingFragment().handleBookingErrorResponse(results, getLob());
 		}
 		else {
-			if (!AndroidUtils.isRelease(getActivity())) {
+			if (BuildConfig.DEBUG) {
 				if (SettingUtils
 					.get(getActivity(), R.string.preference_force_google_wallet_error, false)) {
 					ServerError googleWalletError = new ServerError();
@@ -1541,7 +1531,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			Db.getTripBucket().getHotel().setState(TripBucketItemState.BOOKING_UNAVAILABLE);
 		}
 		Db.saveTripBucket(getActivity());
-		OmnitureTracking.trackItemSoldOutOnCheckoutLink(getActivity(), getLob());
+		OmnitureTracking.trackItemSoldOutOnCheckoutLink(getLob());
 		setCheckoutState(CheckoutState.BOOKING_UNAVAILABLE, true);
 	}
 
@@ -1562,8 +1552,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onLoginStateChanged() {
-		Traveler.LoyaltyMembershipTier userTier = User.getLoggedInLoyaltyMembershipTier(getActivity());
-		if (User.isLoggedIn(getActivity()) && userTier.isGoldOrSilver()) {
+		if (User.isLoggedIn(getActivity())) {
 			if (getLob() == LineOfBusiness.FLIGHTS) {
 				Db.getTripBucket().getFlight().clearCheckoutData();
 			}

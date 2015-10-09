@@ -28,6 +28,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.data.Db;
@@ -42,11 +43,14 @@ import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.VipBadgeClickListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
+import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsHotelGalleryClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
+import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
@@ -57,15 +61,14 @@ import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.TimingLogger;
+import com.squareup.phrase.Phrase;
 
 /**
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
  * fragment designed for tablet results 2013
  */
-public class ResultsHotelDetailsFragment extends Fragment {
+public class ResultsHotelDetailsFragment extends Fragment implements IBackManageable {
 
 	public static ResultsHotelDetailsFragment newInstance() {
 		ResultsHotelDetailsFragment frag = new ResultsHotelDetailsFragment();
@@ -94,6 +97,20 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private Property mCurrentProperty;
 	private int mSavedScrollPosition;
 
+	private BackManager mBackManager = new BackManager(this) {
+
+		@Override
+		public boolean handleBackPressed() {
+			BackgroundDownloader.getInstance().cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
+			return false;
+		}
+	};
+
+	@Override
+	public BackManager getBackManager() {
+		return mBackManager;
+	}
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -116,6 +133,11 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mRoomsRatesContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
 		mSoldOutContainer = Ui.findView(mRootC, R.id.rooms_sold_out_container);
 		toggleLoadingState(true);
+
+		TextView soldOut = Ui.findView(mRootC, R.id.all_rooms_sold_out);
+		soldOut.setText(
+			Phrase.from(getActivity(), R.string.sorry_rooms_sold_out_TEMPLATE).put("brand", BuildConfig.brand)
+				.format());
 		return mRootC;
 	}
 
@@ -139,6 +161,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		mBackManager.registerWithParent(this);
 		mMeasurementHelper.registerWithProvider(this);
 		Events.register(this);
 		if (mSavedScrollPosition != 0) {
@@ -149,6 +172,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
+		mBackManager.unregisterWithParent(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		Events.unregister(this);
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -174,7 +198,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			scrollFragmentToTop();
 			toggleLoadingState(true);
 			prepareDetailsForInfo(mRootC, property);
-			if (!NetUtils.isOnline(getActivity())) {
+			if (!ExpediaNetUtils.isOnline(getActivity())) {
 				Events.post(new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_HOTEL_DETAILS));
 				mCurrentProperty = null;
 			}
@@ -290,7 +314,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
 		TextView notRatedText = Ui.findView(view, R.id.not_rated_text_view);
 		RatingBar ratingBar;
-		if (property.shouldShowCircles()) {
+		if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
 			ratingBar = Ui.findView(view, R.id.circle_rating_bar);
 		}
 		else {
@@ -629,12 +653,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		final HashMap<View, int[]> oldCoordinates = new HashMap<>();
 		for (int i = mRoomsRatesContainer.getChildCount() - 1; i >= 0; i--) {
 			View v = mRoomsRatesContainer.getChildAt(i);
-			if (AndroidUtils.getSdkVersion() >= 16) {
-				v.setHasTransientState(true);
-			}
-			if (v instanceof ViewGroup) {
-				((ViewGroup) v).setClipChildren(false);
-			}
+			v.setHasTransientState(true);
 			oldCoordinates.put(v, new int[] {v.getTop(), v.getBottom()});
 		}
 
@@ -716,9 +735,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 							mRoomsRatesContainer.setClickable(true);
 							for (int i = mRoomsRatesContainer.getChildCount() - 1; i >= 0; i--) {
 								View v = mRoomsRatesContainer.getChildAt(i);
-								if (AndroidUtils.getSdkVersion() >= 16) {
-									v.setHasTransientState(false);
-								}
+								v.setHasTransientState(false);
 							}
 						}
 					});
@@ -860,29 +877,30 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			}
 
 			if (response == null) {
-				Log.w(getString(R.string.e3_error_hotel_offers_hotel_service_failure));
-				//showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure);
+				String message = Phrase
+					.from(getActivity(), R.string.e3_error_hotel_offers_hotel_service_failure_TEMPLATE)
+					.put("brand", BuildConfig.brand).format().toString();
+				Log.w(message);
 				return;
 			}
 			else if (response.hasErrors()) {
-				int messageResId;
 				if (response.isHotelUnavailable()) {
-					messageResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_sorryRoomsSoldOutErrorMessage);
+					String message = Phrase.from(getActivity(), R.string.error_hotel_is_now_sold_out_TEMPLATE)
+						.put("brand", BuildConfig.brand).format().toString();
+					Log.w(message);
 				}
 				else {
-					messageResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_errorHotelOffersHotelServiceFailureString);
+					String message = Phrase
+						.from(getActivity(), R.string.e3_error_hotel_offers_hotel_service_failure_TEMPLATE)
+						.put("brand", BuildConfig.brand).format().toString();
+					Log.w(message);
 				}
-				Log.w(getString(messageResId));
-				//showErrorDialog(messageResId);
 			}
 			else if (search.getAvailability(selectedId) != null && search.getSearchParams() != null
 				&& search.getAvailability(selectedId).getRateCount() == 0
 				&& search.getSearchParams().getSearchType() != SearchType.HOTEL) {
-				Log.w(getString(R.string.error_hotel_is_now_sold_out_expedia));
-				//showErrorDialog(R.string.error_hotel_is_now_sold_out_expedia);
-			}
-			else {
-				Db.kickOffBackgroundHotelSearchSave(getActivity());
+				Log.w(Phrase.from(getActivity(), R.string.error_hotel_is_now_sold_out_TEMPLATE)
+					.put("brand", BuildConfig.brand).format().toString());
 			}
 
 			// Notify affected child fragments to refresh.

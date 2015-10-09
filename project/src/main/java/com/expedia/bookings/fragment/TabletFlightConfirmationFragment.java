@@ -28,7 +28,7 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
-import com.expedia.bookings.utils.AirAttachUtils;
+import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FragmentBailUtils;
@@ -84,10 +84,10 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 			@Override
 			public void onClick(View v) {
-				OmnitureTracking.trackAddHotelClick(getActivity());
+				OmnitureTracking.trackAddHotelClick();
 
 				HotelSearchParams hotelSearchParams = HotelSearchParams.fromFlightParams(Db.getTripBucket().getFlight());
-				AirAttachUtils.deepLinkHotels(getActivity(), hotelSearchParams);
+				HotelCrossSellUtils.deepLinkHotels(getActivity(), hotelSearchParams);
 			}
 		});
 
@@ -168,7 +168,8 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 		DateTime currentDate = new DateTime();
 		int numDays = JodaUtils.daysBetween(currentDate, Db.getTripBucket().getAirAttach().getExpirationDate());
 		mAirAttachExpiresTextView.setText(R.string.air_attach_expires);
-		mAirAttachExpirationDateTextView.setText(getString(R.string.air_attach_expiration_date_TEMPLATE, numDays));
+		mAirAttachExpirationDateTextView.setText(getResources().getQuantityString(R.plurals.days_from_now, numDays, numDays));
+
 	}
 
 	@Override
@@ -196,7 +197,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 		SocialUtils.email(getActivity(), subject, body);
 
-		OmnitureTracking.trackFlightConfirmationShareEmail(getActivity());
+		OmnitureTracking.trackFlightConfirmationShareEmail();
 	}
 
 	@Override
@@ -207,7 +208,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 			startActivity(intent);
 		}
 
-		OmnitureTracking.trackFlightConfirmationAddToCalendar(getActivity());
+		OmnitureTracking.trackFlightConfirmationAddToCalendar();
 	}
 
 	@SuppressLint("NewApi")

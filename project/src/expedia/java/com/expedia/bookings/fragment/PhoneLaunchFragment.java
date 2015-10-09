@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
+import java.util.concurrent.TimeUnit;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,27 +14,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
+import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
+import com.expedia.bookings.location.CurrentLocationObservable;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
+import com.mobiata.android.util.SettingUtils;
+
+import rx.Observer;
+import rx.Subscription;
 
 public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
 
-	// Invisible Fragment that handles FusedLocationProvider
-	private FusedLocationProviderFragment locationFragment;
-
+	private Subscription locSubscription;
+	private Subscription abacusSubscription;
 	private boolean wasOffline;
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		locationFragment = FusedLocationProviderFragment.getInstance(this);
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,18 +51,25 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	public void onResume() {
 		super.onResume();
 		Events.register(this);
-		Events.post(new Events.LaunchLobRefresh());
+		Events.post(new Events.PhoneLaunchOnResume());
 		if (checkConnection()) {
-			onReactToUserActive();
+			bucketLaunchScreen();
 		}
 
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 		getActivity().registerReceiver(broadcastReceiver, filter);
+		OmnitureTracking.trackPageLoadLaunchScreen();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+		if (locSubscription != null) {
+			locSubscription.unsubscribe();
+		}
+		if (abacusSubscription != null) {
+			abacusSubscription.unsubscribe();
+		}
 		getActivity().unregisterReceiver(broadcastReceiver);
 		Events.unregister(this);
 	}
@@ -65,8 +79,17 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			return;
 		}
 		else {
-			findLocation();
+			boolean isUserBucketedForTest = Db.getAbacusResponse()
+				.isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchScreenTest);
+			if (isUserBucketedForTest) {
+				// show collection data to users irrespective of location Abacus A/B test
+				Events.post(new Events.LaunchLocationFetchError());
+			}
+			else {
+				findLocation();
+			}
 			signalAirAttachState();
+			OmnitureTracking.trackPageLoadAbacusTestResults();
 		}
 	}
 
@@ -91,7 +114,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 	private boolean checkConnection() {
 		Context context = getActivity();
-		if (context != null && !NetUtils.isOnline(context)) {
+		if (context != null && !NetUtils.isOnline(context) && !ExpediaBookingApp.isAutomation()) {
 			wasOffline = true;
 			Events.post(new Events.LaunchOfflineState());
 			return false;
@@ -106,17 +129,20 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	// Location finder
 
 	private void findLocation() {
-
-		locationFragment.find(new FusedLocationProviderFragment.FusedLocationProviderListener() {
-
+		locSubscription = CurrentLocationObservable.create(getActivity()).subscribe(new Observer<Location>() {
 			@Override
-			public void onFound(Location currentLocation) {
-				Events.post(new Events.LaunchLocationFetchComplete(currentLocation));
+			public void onCompleted() {
+				// ignore
 			}
 
 			@Override
-			public void onError() {
+			public void onError(Throwable e) {
 				Events.post(new Events.LaunchLocationFetchError());
+			}
+
+			@Override
+			public void onNext(Location currentLocation) {
+				Events.post(new Events.LaunchLocationFetchComplete(currentLocation));
 			}
 		});
 	}
@@ -148,4 +174,63 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	public void reset() {
 		// ignore
 	}
+
+	private void bucketLaunchScreen() {
+		if (Db.getAbacusResponse() == null || Db.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppLaunchScreenTest) == null) {
+			AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(),
+				PointOfSale.getPointOfSale().getTpid(),
+				0);
+			query.addExperiment(AbacusUtils.EBAndroidAppLaunchScreenTest);
+			abacusSubscription = Ui.getApplication(getActivity()).appComponent()
+				.abacus()
+				.downloadBucket(query, abacusObserver, 5, TimeUnit.SECONDS);
+		}
+		else {
+			// onResume, could be returning from dev settings so we should update the test
+			updateAbacus(Db.getAbacusResponse());
+			onReactToUserActive();
+		}
+	}
+
+	private Observer<AbacusResponse> abacusObserver = new Observer<AbacusResponse>() {
+		@Override
+		public void onCompleted() {
+			Log.d("AbacusResponse - onCompleted");
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			updateAbacus(new AbacusResponse());
+			onReactToUserActive();
+			Log.d("AbacusResponse - onError", e);
+		}
+
+		@Override
+		public void onNext(AbacusResponse abacusResponse) {
+			updateAbacus(abacusResponse);
+			onReactToUserActive();
+			Log.d("AbacusResponse - onNext");
+		}
+	};
+
+	private void updateAbacus(AbacusResponse launchAbacusResponse) {
+		if (ExpediaBookingApp.isAutomation()) {
+			return;
+		}
+
+		if (Db.getAbacusResponse() != null) {
+			Db.getAbacusResponse().updateFrom(launchAbacusResponse);
+		}
+		else {
+			Db.setAbacusResponse(launchAbacusResponse);
+		}
+
+		if (BuildConfig.DEBUG) {
+			Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppLaunchScreenTest,
+				SettingUtils.get(getActivity(),
+					String.valueOf(AbacusUtils.EBAndroidAppLaunchScreenTest),
+					AbacusUtils.ABTEST_IGNORE_DEBUG));
+		}
+	}
+
 }

@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -38,7 +37,6 @@ import com.expedia.bookings.activity.TerminalMapActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.AirlineCheckInIntervals;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.FlightConfirmation;
@@ -70,7 +68,6 @@ import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
-import com.mobiata.flightlib.utils.AddFlightsIntentUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 
@@ -237,16 +234,16 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			staticMapImageView.setFlights(data.getFlightLeg().getSegments());
 
 			//Arrival / Departure times
-			Calendar departureTimeCal = leg.getFirstWaypoint().getBestSearchDateTime();
-			Calendar arrivalTimeCal = leg.getLastWaypoint().getBestSearchDateTime();
+			DateTime departureTimeCal = leg.getFirstWaypoint().getBestSearchDateTime();
+			DateTime arrivalTimeCal = leg.getLastWaypoint().getBestSearchDateTime();
 
 			String departureTime = formatTime(departureTimeCal);
 			String departureTz = res.getString(R.string.depart_tz_TEMPLATE,
-					FormatUtils.formatTimeZone(leg.getFirstWaypoint().getAirport(), departureTimeCal.getTime(),
+					FormatUtils.formatTimeZone(leg.getFirstWaypoint().getAirport(), departureTimeCal,
 							MAX_TIMEZONE_LENGTH));
 			String arrivalTime = formatTime(arrivalTimeCal);
 			String arrivalTz = res.getString(R.string.arrive_tz_TEMPLATE,
-					FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalTimeCal.getTime(),
+					FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalTimeCal,
 							MAX_TIMEZONE_LENGTH));
 
 			departureTimeTv.setText(departureTime);
@@ -510,7 +507,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				public void onClick(View v) {
 					ClipboardUtils.setText(getContext(), firstConfCode);
 					Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
-					OmnitureTracking.trackItinFlightCopyPNR(getContext());
+					OmnitureTracking.trackItinFlightCopyPNR();
 				}
 			});
 		}
@@ -624,7 +621,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		notification.setTicker(getContext().getString(R.string.Check_in_available));
 		notification.setTitle(getContext().getString(R.string.Check_in_available));
 
-		String airline = leg.getAirlinesFormatted();
+		String airline = leg.getPrimaryAirlineNamesFormatted();
 		Waypoint lastWaypoint = leg.getLastWaypoint();
 		String destination = StrUtils.getWaypointCityOrCode(lastWaypoint);
 		String destinationCode = lastWaypoint.mAirportCode;
@@ -685,13 +682,6 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		Intent intent = new Intent(Intent.ACTION_VIEW, airportUri);
 
 		return intent;
-	}
-
-	public Intent getShareWithFlightTrackIntent() {
-		ItinCardDataFlight cardData = getItinCardData();
-		FlightTrip flightTrip = ((TripFlight) cardData.getTripComponent()).getFlightTrip();
-		List<Flight> flights = flightTrip.getLeg(cardData.getLegNumber()).getSegments();
-		return AddFlightsIntentUtils.getIntent(flights);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -823,7 +813,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		return v;
 	}
 
-	private View getFlightView(Flight flight, Calendar minTime, Calendar maxTime) {
+	private View getFlightView(Flight flight, DateTime minTime, DateTime maxTime) {
 		FlightLegSummarySection v = (FlightLegSummarySection) getLayoutInflater().inflate(
 				R.layout.section_flight_leg_summary_itin, null);
 		v.bindFlight(flight, minTime, maxTime);
@@ -934,9 +924,9 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		return "";
 	}
 
-	private String formatTime(Calendar cal) {
-		DateFormat df = android.text.format.DateFormat.getTimeFormat(getContext());
-		return df.format(DateTimeUtils.getTimeInLocalTimeZone(cal));
+	private String formatTime(DateTime cal) {
+		String format = DateTimeUtils.getDeviceTimeFormat(getContext());
+		return JodaUtils.format(cal.toLocalDateTime().toDateTime(), format);
 	}
 
 	private Animation getGlowAnimation() {
@@ -997,14 +987,14 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 						NavUtils.startActivitySafe(getActivity(), intent);
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
 
-						OmnitureTracking.trackItinFlightDirections(getActivity());
+						OmnitureTracking.trackItinFlightDirections();
 					}
 					else if (finalOptions[which].equals(terminalMaps)) {
 						Intent intent = TerminalMapActivity.createIntent(getActivity(), mAirport.mAirportCode);
 						getActivity().startActivity(intent);
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
 
-						OmnitureTracking.trackItinFlightTerminalMaps(getActivity());
+						OmnitureTracking.trackItinFlightTerminalMaps();
 					}
 					else {
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();

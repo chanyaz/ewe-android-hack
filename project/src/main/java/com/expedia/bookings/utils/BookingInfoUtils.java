@@ -35,11 +35,10 @@ public class BookingInfoUtils {
 	 * @param context
 	 * @param lob
 	 * @param traveler
-	 * @param save - should we save the Db billing info after we migrate data.
 	 * @return false if we couldnt find a valid email address to use, true otherwise.
 	 */
 	public static boolean migrateRequiredCheckoutDataToDbBillingInfo(Context context, LineOfBusiness lob,
-		Traveler traveler, boolean save) {
+		Traveler traveler) {
 
 		//Ensure the correct (and valid) email address makes it to billing info
 		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(context, lob);
@@ -60,12 +59,6 @@ public class BookingInfoUtils {
 		}
 		billingInfo.setTelephone(traveler.getPhoneNumber());
 		billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-
-
-		if (save) {
-			//Save it!
-			Db.getBillingInfo().save(context);
-		}
 
 		return true;
 	}
@@ -277,7 +270,6 @@ public class BookingInfoUtils {
 	 * @return true if billing info was updated;
 	 */
 	public static boolean populatePaymentDataFromUser(Context context, LineOfBusiness lob) {
-		Db.loadBillingInfo(context);
 		BillingInfo info = Db.getBillingInfo();
 		if (User.isLoggedIn(context)) {
 			// Populate Credit Card only if the user doesn't have any manually entered (or selected) data
@@ -360,9 +352,6 @@ public class BookingInfoUtils {
 	public static String getCheckoutEmail(Context context, LineOfBusiness lob) {
 		Log.d("getCheckoutEmail");
 		//Ensure we have billingInfo (this is called getCheckoutEmail after all, so we should have checkout information)
-		if (!Db.hasBillingInfo()) {
-			Db.loadBillingInfo(context);
-		}
 
 		//Get User email...
 		String userEmail = null;

@@ -21,6 +21,7 @@ import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
@@ -43,6 +44,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -51,8 +53,6 @@ import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TouchableFrameLayout;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.NetUtils;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -375,7 +375,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	protected void doSpUpdate() {
 		if (getActivity() != null && isAdded() && isResumed()) {
 			Sp.reportSpUpdate();
-			OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
+			OmnitureTracking.trackTabletSearchResultsPageLoad(Sp.getParams());
 		}
 	}
 
@@ -492,7 +492,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mDestClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			OmnitureTracking.trackChooseDestinationLinkClick(getActivity());
+			OmnitureTracking.trackChooseDestinationLinkClick();
 			setState(ResultsSearchState.DESTINATION, mAnimateButtonClicks);
 		}
 	};
@@ -500,7 +500,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mOrigClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			OmnitureTracking.trackChooseOriginLinkClick(getActivity());
+			OmnitureTracking.trackChooseOriginLinkClick();
 			setState(ResultsSearchState.FLIGHT_ORIGIN, mAnimateButtonClicks);
 		}
 	};
@@ -508,7 +508,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mCalClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			OmnitureTracking.trackChooseDatesLinkClick(getActivity());
+			OmnitureTracking.trackChooseDatesLinkClick();
 			setState(ResultsSearchState.CALENDAR_WITH_POPUP, mAnimateButtonClicks);
 		}
 	};
@@ -538,7 +538,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public void onClick(View v) {
 			if (getState().showsSearchControls() || getState().showsSearchPopup()) {
-				if (NetUtils.isOnline(getActivity())) {
+				if (ExpediaNetUtils.isOnline(getActivity())) {
 					if (copyTempValuesToParams()) {
 						doSpUpdate();
 					}
@@ -781,7 +781,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (mGrid.isLandscape()) {
 				// This is only to ensure the search controls shift left of the overflow menu. This
 				// overflow menu is only present for debug builds.
-				if (!AndroidUtils.isRelease(getActivity())) {
+				if (BuildConfig.DEBUG) {
 					float transX = percentage * -searchBarHeight;
 					mOrigBtn.setTranslationX(transX);
 					mCalBtn.setTranslationX(transX);
@@ -1273,6 +1273,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		if (event.suggestion != null && (mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN
 			|| mSearchStateManager.getState() == ResultsSearchState.DESTINATION)) {
 			boolean usingOrigin = mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN;
+			Db.resetFilter();
 			if (usingOrigin) {
 				mLocalParams.setOrigin(event.suggestion);
 			}
@@ -1303,7 +1304,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				getString(R.string.no) /*negativeButton*/);
 		}
 		if (!mRedeyeDialogFrag.isAdded()) {
-			OmnitureTracking.trackRedeyeAlert(getActivity());
+			OmnitureTracking.trackRedeyeAlert();
 			mRedeyeDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
 		}
 	}
@@ -1320,14 +1321,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				getString(R.string.no) /*negativeButton*/);
 		}
 		if (!mMismatchedDialogFrag.isAdded()) {
-			OmnitureTracking.trackDateMismatchAlert(getActivity());
+			OmnitureTracking.trackDateMismatchAlert();
 			mMismatchedDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
 		}
 	}
 
 	@Subscribe
 	public void onShowSearchFragment(Events.ShowSearchFragment event) {
-		OmnitureTracking.trackChooseDestinationLinkClick(getActivity());
+		OmnitureTracking.trackChooseDestinationLinkClick();
 		setState(event.searchState, mAnimateButtonClicks);
 	}
 

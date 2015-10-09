@@ -2,24 +2,24 @@ package com.expedia.bookings.activity;
 
 import android.app.ActionBar;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment.FlightSearchParamsFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.squareup.phrase.Phrase;
 
 public class FlightSearchActivity extends FragmentActivity implements FlightSearchParamsFragmentListener {
 
@@ -61,6 +61,7 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 
 		setContentView(R.layout.activity_flight_search);
 		getWindow().setBackgroundDrawable(null);
+		setTitle(Phrase.from(this, R.string.Flights_TEMPLATE).put("brand", BuildConfig.brand).format());
 
 		if (savedInstanceState == null) {
 			mSearchParamsFragment = FlightSearchParamsFragment.newInstance(Db.getFlightSearch().getSearchParams(),
@@ -88,7 +89,7 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 	@Override
 	protected void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightSearch(this);
+		OmnitureTracking.trackPageLoadFlightSearch();
 	}
 
 	@Override
@@ -108,15 +109,6 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 			mSearchParamsFragment.setSearchParams(new FlightSearchParams(Db.getFlightSearch().getSearchParams()));
 			mUpdateOnResume = false;
 		}
-
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -124,13 +116,7 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 		super.onStop();
 
 		// If the configuration isn't changing but we are stopping this activity, save the search params
-		//
-		// Due to not being able to tell a config change or not on earlier versions of Android, we just
-		// always save.
-		boolean configChange = false;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			configChange = isChangingConfigurations();
-		}
+		boolean configChange = isChangingConfigurations();
 		if (!configChange) {
 			Db.saveFlightSearchParamsToDisk(this);
 		}
@@ -202,7 +188,6 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 				Db.getFlightSearch().setSearchParams(params);
 				startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
 				mUpdateOnResume = true;
-				AdTracker.trackFlightSearch();
 			}
 			return true;
 		}

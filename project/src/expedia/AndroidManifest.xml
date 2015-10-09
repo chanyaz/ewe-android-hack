@@ -38,6 +38,9 @@
                 <data android:host="hotelSearch" />
                 <data android:host="flightSearch" />
                 <data android:host="destination" />
+                <data android:host="carSearch"/>
+                <data android:host="activitySearch"/>
+                <data android:host="signIn"/>
 
                 <!-- We will handle iOS implementation of ItinSharing as well, just cause we can -->
                 <data android:host="addSharedItinerary" />
@@ -48,9 +51,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:pathPrefix="/m/trips/shared"
-                    android:scheme="https"/>
+                <data android:scheme="https"/>
+                <data android:scheme="http"/>
+                <data android:pathPrefix="/activitySearch"/>
+                <data android:pathPrefix="/m/trips/shared"/>
                 <data android:host="www.expedia.com" />
                 <data android:host="www.expedia.com.ar" />
                 <data android:host="www.expedia.at" />
@@ -118,6 +122,12 @@
         </receiver>
         <service android:name="com.leanplum.LeanplumPushService" />
 
+        <!-- Add Tune library receiver -->
+        <receiver android:name="com.mobileapptracker.Tracker">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

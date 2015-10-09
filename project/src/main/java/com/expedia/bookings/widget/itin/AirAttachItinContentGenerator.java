@@ -8,7 +8,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.AirAttachUtils;
+import com.expedia.bookings.utils.HotelCrossSellUtils;
 
 public class AirAttachItinContentGenerator extends ItinButtonContentGenerator<ItinCardDataAirAttach> {
 
@@ -26,8 +26,8 @@ public class AirAttachItinContentGenerator extends ItinButtonContentGenerator<It
 		return new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				AirAttachUtils.deepLinkHotels(v.getContext(), getItinCardData().getSearchParams());
-				OmnitureTracking.trackAirAttachItinCrossSell(v.getContext());
+				HotelCrossSellUtils.deepLinkHotels(v.getContext(), getItinCardData().getSearchParams());
+				OmnitureTracking.trackAirAttachItinCrossSell();
 			}
 		};
 	}

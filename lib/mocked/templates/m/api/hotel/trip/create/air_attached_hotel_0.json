@@ -1,0 +1,490 @@
+{
+    "airAttachedProductResponse": {
+        "checkInDate": "2013-03-22",
+        "checkOutDate": "2013-03-23",
+        "hotelAddress": "54 4th Street",
+        "hotelCity": "San Francisco",
+        "hotelCountry": "USA",
+        "hotelId": "553859",
+        "hotelName": "The Mosser",
+        "hotelRoomResponse": {
+            "bedTypes": [
+                {
+                    "description": "One Single Bed",
+                    "id": "42"
+                }
+            ],
+            "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. The Mosser charges the following cancellation and change fees.</p><p>Cancellations or changes made after 6:00 PM (hotel local time) on March 20, 2013 are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Your room will be guaranteed for late arrival.</p>",
+            "currentAllotment": "0",
+            "depositRequired": true,
+            "guaranteeRequired": false,
+            "hasFreeCancellation": false,
+            "immediateChargeRequired": true,
+            "isDiscountRestrictedToCurrentSourceType": false,
+            "isSameDayDRR": false,
+            "minGuestAge": "0",
+            "nonRefundable": false,
+            "productKey": "air_attach_garbage_2",
+            "rateChange": false,
+            "rateDescription": "Shared Bath Single Room",
+            "rateInfo": {
+                "chargeableRateInfo": {
+                    "airAttached": false,
+                    "averageBaseRate": "282.09",
+                    "averageRate": "239.49",
+                    "checkoutPriceType": "total",
+                    "currencyCode": "USD",
+                    "currencySymbol": "$",
+                    "discountPercent": -15,
+                    "formattedTotalPriceWithMandatoryFees": "$ 556.62",
+                    "maxNightlyRate": "239.49",
+                    "nightlyRateTotal": "478.98",
+                    "nightlyRatesPerRoom": [
+                        {
+                            "baseRate": "285.84",
+                            "promo": "true",
+                            "rate": "239.49"
+                        },
+                        {
+                            "baseRate": "278.34",
+                            "promo": "true",
+                            "rate": "239.49"
+                        }
+                    ],
+                    "priceAdjustments": [],
+                    "priceToShowUsers": "239",
+                    "ratePlanCode": "203077072",
+                    "roomTypeCode": "200641894",
+                    "strikethroughPriceToShowUsers": "282",
+                    "strikethroughPriceWithTaxesAndFeesToShowUsers": "642",
+                    "surchargeTotal": "38.82",
+                    "surchargeTotalForEntireStay": "77.64",
+                    "surcharges": [
+                        {
+                            "amount": "38.82",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "35.32",
+                            "type": "TAX_SALES"
+                        },
+                        {
+                            "amount": "3.50",
+                            "type": "TAX_OTHER"
+                        }
+                    ],
+                    "surchargesForEntireStay": [
+                        {
+                            "amount": "77.64",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "70.64",
+                            "type": "TAX_SALES"
+                        },
+                        {
+                            "amount": "7.00",
+                            "type": "TAX_OTHER"
+                        }
+                    ],
+                    "taxStatusType": "ESTIMATED",
+                    "total": "556.62",
+                    "totalMandatoryFees": "0.00",
+                    "totalPriceWithMandatoryFees": "556.62",
+                    "userPriceType": "PerNightRateNoTaxes"
+                },
+                "priceBreakdown": true,
+                "promo": true,
+                "rateChange": false
+            },
+            "rateOccupancyPerRoom": "1",
+            "roomTypeDescription": "Shared Bath Single Room",
+            "smokingPreferences": "NS",
+            "supplierType": "MERCHANT",
+            "valueAdds": [
+                {
+                    "description": "Accessible bathroom",
+                    "id": "2420"
+                },
+                {
+                    "description": "Roll-in shower",
+                    "id": "2421"
+                },
+                {
+                    "description": "In-room accessibility",
+                    "id": "2423"
+                },
+                {
+                    "description": "Accessibility equipment for the deaf",
+                    "id": "2424"
+                },
+                {
+                    "description": "Braille or raised signage",
+                    "id": "2425"
+                },
+                {
+                    "description": "Accessible path of travel",
+                    "id": "2419"
+                }
+            ]
+        },
+        "hotelStarRating": "2.5",
+        "hotelStateProvince": "CA",
+        "largeThumbnailUrl": "/hotels/1000000/560000/553900/553859/553859_8_d.jpg",
+        "localizedHotelName": "The Mosser",
+        "nonLocalizedHotelName": "The Mosser",
+        "numberOfNights": "1",
+        "supplierType": "MERCHANT",
+        "thumbnailUrl": "/hotels/1000000/560000/553900/553859/553859_8_n.jpg"
+    },
+    "newHotelProductResponse": {
+        "accessibilityAmenities": [
+            {
+                "description": "Accessible bathroom",
+                "id": "2420"
+            },
+            {
+                "description": "Roll-in shower",
+                "id": "2421"
+            },
+            {
+                "description": "In-room accessibility",
+                "id": "2423"
+            },
+            {
+                "description": "Accessibility equipment for the deaf",
+                "id": "2424"
+            },
+            {
+                "description": "Braille or raised signage",
+                "id": "2425"
+            },
+            {
+                "description": "Accessible path of travel",
+                "id": "2419"
+            }
+        ],
+        "checkInDate": "2013-03-22",
+        "checkOutDate": "2013-03-23",
+        "hotelAddress": "54 4th Street",
+        "hotelCity": "San Francisco",
+        "hotelCountry": "USA",
+        "hotelId": "553859",
+        "hotelName": "The Mosser",
+        "hotelRoomResponse": {
+            "bedTypes": [
+                {
+                    "description": "One Single Bed",
+                    "id": "42"
+                }
+            ],
+            "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. The Mosser charges the following cancellation and change fees.</p><p>Cancellations or changes made after 6:00 PM (hotel local time) on March 20, 2013 are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Your room will be guaranteed for late arrival.</p>",
+            "currentAllotment": "0",
+            "depositRequired": true,
+            "guaranteeRequired": false,
+            "hasFreeCancellation": false,
+            "immediateChargeRequired": true,
+            "nonRefundable": false,
+            "productKey": "air_attach_garbage_0",
+            "rateChange": false,
+            "rateDescription": "Shared Bath Single Room",
+            "rateInfo": {
+                "chargeableRateInfo": {
+                    "airAttached": false,
+                    "averageBaseRate": "284.00",
+                    "averageRate": "241.40",
+                    "checkoutPriceType": "total",
+                    "currencyCode": "USD",
+                    "currencySymbol": "$",
+                    "discountPercent": -15,
+                    "formattedTotalPriceWithMandatoryFees": "$ 561.02",
+                    "maxNightlyRate": "262.65",
+                    "nightlyRateTotal": "482.80",
+                    "nightlyRatesPerRoom": [
+                        {
+                            "baseRate": "309.00",
+                            "promo": "true",
+                            "rate": "262.65"
+                        },
+                        {
+                            "baseRate": "259.00",
+                            "promo": "true",
+                            "rate": "220.15"
+                        }
+                    ],
+                    "priceAdjustments": [],
+                    "priceToShowUsers": "241",
+                    "ratePlanCode": "203077072",
+                    "roomTypeCode": "200641894",
+                    "strikethroughPriceToShowUsers": "284",
+                    "strikethroughPriceWithTaxesAndFeesToShowUsers": "646",
+                    "surchargeTotal": "39.11",
+                    "surchargeTotalForEntireStay": "78.22",
+                    "surcharges": [
+                        {
+                            "amount": "39.11",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "35.61",
+                            "type": "TAX_SALES"
+                        },
+                        {
+                            "amount": "3.50",
+                            "type": "TAX_OTHER"
+                        }
+                    ],
+                    "surchargesForEntireStay": [
+                        {
+                            "amount": "78.22",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "71.22",
+                            "type": "TAX_SALES"
+                        },
+                        {
+                            "amount": "7.00",
+                            "type": "TAX_OTHER"
+                        }
+                    ],
+                    "taxStatusType": "ESTIMATED",
+                    "total": "561.02",
+                    "totalMandatoryFees": "0.00",
+                    "totalPriceWithMandatoryFees": "561.02",
+                    "userPriceType": "PerNightRateNoTaxes"
+                },
+                "priceBreakdown": true,
+                "promo": true,
+                "rateChange": false
+            },
+            "rateOccupancyPerRoom": "1",
+            "roomTypeDescription": "Shared Bath Single Room",
+            "smokingPreferences": "NS",
+            "supplierType": "MERCHANT",
+            "valueAdds": [
+                {
+                    "description": "Accessible bathroom",
+                    "id": "2420"
+                },
+                {
+                    "description": "Roll-in shower",
+                    "id": "2421"
+                },
+                {
+                    "description": "In-room accessibility",
+                    "id": "2423"
+                },
+                {
+                    "description": "Accessibility equipment for the deaf",
+                    "id": "2424"
+                },
+                {
+                    "description": "Braille or raised signage",
+                    "id": "2425"
+                },
+                {
+                    "description": "Accessible path of travel",
+                    "id": "2419"
+                }
+            ]
+        },
+        "hotelStarRating": "2.5",
+        "hotelStateProvince": "CA",
+        "largeThumbnailUrl": "/hotels/1000000/560000/553900/553859/553859_8_d.jpg",
+        "localizedHotelName": "The Mosser",
+        "nonLocalizedHotelName": "The Mosser",
+        "numberOfNights": "1",
+        "supplierType": "MERCHANT",
+        "thumbnailUrl": "/hotels/1000000/560000/553900/553859/553859_8_n.jpg"
+    },
+    "originalHotelProductResponse": {
+        "accessibilityAmenities": [
+            {
+                "description": "Accessible bathroom",
+                "id": "2420"
+            },
+            {
+                "description": "Roll-in shower",
+                "id": "2421"
+            },
+            {
+                "description": "In-room accessibility",
+                "id": "2423"
+            },
+            {
+                "description": "Accessibility equipment for the deaf",
+                "id": "2424"
+            },
+            {
+                "description": "Braille or raised signage",
+                "id": "2425"
+            },
+            {
+                "description": "Accessible path of travel",
+                "id": "2419"
+            }
+        ],
+        "checkInDate": "2013-03-22",
+        "checkOutDate": "2013-03-23",
+        "hotelAddress": "54 4th Street",
+        "hotelCity": "San Francisco",
+        "hotelCountry": "USA",
+        "hotelId": "553859",
+        "hotelName": "The Mosser",
+        "hotelRoomResponse": {
+            "bedTypes": [
+                {
+                    "description": "One Single Bed",
+                    "id": "42"
+                }
+            ],
+            "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. The Mosser charges the following cancellation and change fees.</p><p>Cancellations or changes made after 6:00 PM (hotel local time) on March 20, 2013 are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Your room will be guaranteed for late arrival.</p>",
+            "currentAllotment": "0",
+            "depositRequired": true,
+            "guaranteeRequired": false,
+            "hasFreeCancellation": false,
+            "immediateChargeRequired": true,
+            "nonRefundable": false,
+            "productKey": "air_attach_garbage_1",
+            "rateChange": false,
+            "rateDescription": "Shared Bath Single Room",
+            "rateInfo": {
+                "chargeableRateInfo": {
+                    "averageBaseRate": "119.00",
+                    "averageRate": "119.00",
+                    "currencyCode": "USD",
+                    "currencySymbol": "$",
+                    "discountPercent": 0,
+                    "maxNightlyRate": "119.00",
+                    "nightlyRateTotal": "119.00",
+                    "nightlyRatesPerRoom": [
+                        {
+                            "baseRate": "119.00",
+                            "promo": "false",
+                            "rate": "119.00"
+                        }
+                    ],
+                    "priceAdjustments": [],
+                    "priceToShowUsers": "119",
+                    "strikethroughPriceToShowUsers": "119",
+                    "surchargeTotal": "16.81",
+                    "surchargeTotalForEntireStay": "16.81",
+                    "surcharges": [
+                        {
+                            "amount": "13.83",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "13.83",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "2.98",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "2.98",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "surchargesForEntireStay": [
+                        {
+                            "amount": "13.83",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "13.83",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "2.98",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "2.98",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "total": "135.81",
+                    "totalMandatoryFees": "0.00",
+                    "totalPriceWithMandatoryFees": "135.81",
+                    "userPriceType": "PerNightRateNoTaxes"
+                },
+                "priceBreakdown": true,
+                "promo": true,
+                "rateChange": false
+            },
+            "rateOccupancyPerRoom": "1",
+            "roomTypeDescription": "Shared Bath Single Room",
+            "smokingPreferences": "NS",
+            "supplierType": "MERCHANT",
+            "valueAdds": [
+                {
+                    "description": "Accessible bathroom",
+                    "id": "2420"
+                },
+                {
+                    "description": "Roll-in shower",
+                    "id": "2421"
+                },
+                {
+                    "description": "In-room accessibility",
+                    "id": "2423"
+                },
+                {
+                    "description": "Accessibility equipment for the deaf",
+                    "id": "2424"
+                },
+                {
+                    "description": "Braille or raised signage",
+                    "id": "2425"
+                },
+                {
+                    "description": "Accessible path of travel",
+                    "id": "2419"
+                }
+            ]
+        },
+        "hotelStarRating": "2.5",
+        "hotelStateProvince": "CA",
+        "largeThumbnailUrl": "/hotels/1000000/560000/553900/553859/553859_8_d.jpg",
+        "localizedHotelName": "The Mosser",
+        "nonLocalizedHotelName": "The Mosser",
+        "numberOfNights": "1",
+        "supplierType": "MERCHANT",
+        "thumbnailUrl": "/hotels/1000000/560000/553900/553859/553859_8_n.jpg"
+    },
+    "tealeafTransactionId": "tealeafHotel:${productKey}",
+    "tripId": "${productKey}",
+    "userId": 4019550,
+    "validFormsOfPayment": [
+            {
+                "name": "AmericanExpress"
+            },
+            {
+                "name": "Diner's Club International"
+            },
+            {
+                "name": "Discover"
+            },
+            {
+                "name": "JCB"
+            },
+            {
+                "name": "MasterCard"
+            },
+            {
+                "name": "Visa"
+            },
+            {
+                "name": "Maestro"
+            },
+            {
+                "name": "ChinaUnionPay"
+            },
+            {
+                "name": "CarteBlanche"
+            }
+    ]
+}

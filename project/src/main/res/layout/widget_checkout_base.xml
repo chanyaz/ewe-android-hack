@@ -6,35 +6,35 @@
         android:id="@+id/checkout_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         android:paddingTop="?attr/actionBarSize">
 
         <LinearLayout
+            android:id="@+id/scroll_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
+            android:paddingLeft="9dp"
+            android:paddingRight="9dp"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            <com.expedia.bookings.widget.FrameLayout
                 android:id="@+id/summary_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="9dp"
-                android:layout_marginRight="9dp"
                 android:layout_marginTop="9dp"
                 android:animateLayoutChanges="true"
-                android:background="#FFF"
-                card_view:cardCornerRadius="3dp"
-                card_view:cardElevation="1dp" />
+                android:background="@drawable/card_background">
 
-            <com.expedia.bookings.widget.AccountLoginWidget
+            </com.expedia.bookings.widget.FrameLayout>
+
+            <com.expedia.bookings.widget.AccountButton
                 android:id="@+id/login_widget"
                 style="?attr/checkout_card_view_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="9dp"
-                android:layout_marginRight="9dp"
-                android:layout_marginTop="12dp" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical" />
 
             <LinearLayout
                 android:id="@+id/hint_container"
@@ -47,7 +47,6 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="9dp"
                     android:layout_marginRight="9dp"
                     android:layout_weight="1"
                     android:background="#979797" />
@@ -63,9 +62,8 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="9dp"
-                    android:layout_marginRight="9dp"
                     android:layout_weight="1"
+                    android:layout_marginLeft="9dp"
                     android:background="#979797" />
 
             </LinearLayout>
@@ -75,8 +73,6 @@
                 style="?attr/checkout_card_view_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="9dp"
-                android:layout_marginRight="9dp"
                 android:layout_marginTop="12dp" />
 
             <com.expedia.bookings.widget.PaymentWidget
@@ -84,8 +80,6 @@
                 style="?attr/checkout_card_view_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="9dp"
-                android:layout_marginRight="9dp"
                 android:layout_marginTop="12dp" />
 
             <com.expedia.bookings.widget.TextView
@@ -99,7 +93,7 @@
             <Space
                 android:id="@+id/spacer"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/car_unexpanded_space_height" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </com.expedia.bookings.widget.ScrollView>
 
@@ -143,14 +137,24 @@
         </LinearLayout>
     </LinearLayout>
 
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/checkout_toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="?attr/primary_color"
-        android:minHeight="?attr/actionBarSize"
-        app:titleTextAppearance="?attr/toolbar_title_style" />
+        android:orientation="vertical">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/checkout_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/primary_color"
+            android:minHeight="?attr/actionBarSize"
+            app:titleTextAppearance="?attr/toolbar_title_style" />
+
+        <View
+            android:id="@+id/toolbar_dropshadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_dropshadow_height"
+            android:background="@drawable/tb_shadow" />
+    </LinearLayout>
 </merge>

@@ -1,13 +1,10 @@
 package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
@@ -23,10 +20,10 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.content.AirportAutocompleteProvider;
+import com.expedia.bookings.data.AirportSuggestion;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RecentList;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.AirportSuggestion;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SuggestionUtils;
@@ -40,15 +37,8 @@ public class AirportDropDownAdapter extends ArrayAdapter<AirportSuggestion> impl
 
 	private static final int DEFAULT_MAX_NEARBY = 2;
 
-	// Maximum # of nearby airports to report
-	private int mMaxNearby = DEFAULT_MAX_NEARBY;
-
 	private Context mContext;
-
-	private Map<String, String> mCountryCodeMap;
-
 	private RecentList<Location> mRecentSearches;
-
 	private boolean mShowNearbyAirports;
 
 	private ArrayList<AirportSuggestion> data = new ArrayList<>();
@@ -63,16 +53,7 @@ public class AirportDropDownAdapter extends ArrayAdapter<AirportSuggestion> impl
 		mContent = context.getContentResolver();
 		mInflater = LayoutInflater.from(getContext());
 
-		mRecentSearches = new RecentList<Location>(Location.class, context, RECENT_AIRPORTS_FILE,
-			FlightSearchParamsFragment.MAX_RECENTS);
-
-		Resources r = context.getResources();
-		mCountryCodeMap = new HashMap<String, String>();
-		String[] countryCodes = r.getStringArray(R.array.country_codes);
-		String[] countryNames = r.getStringArray(R.array.country_names);
-		for (int a = 0; a < countryCodes.length; a++) {
-			mCountryCodeMap.put(countryCodes[a], countryNames[a]);
-		}
+		mRecentSearches = new RecentList<>(Location.class, context, RECENT_AIRPORTS_FILE, FlightSearchParamsFragment.MAX_RECENTS);
 	}
 
 	@Override
@@ -135,7 +116,7 @@ public class AirportDropDownAdapter extends ArrayAdapter<AirportSuggestion> impl
 
 				if (mShowNearbyAirports) {
 					List<SuggestionV2> airportSuggestions = SuggestionUtils
-						.getNearbyAirportSuggestions(mContext, mMaxNearby);
+						.getNearbyAirportSuggestions(mContext, DEFAULT_MAX_NEARBY);
 					Airport airport;
 
 					for (SuggestionV2 suggestion : airportSuggestions) {

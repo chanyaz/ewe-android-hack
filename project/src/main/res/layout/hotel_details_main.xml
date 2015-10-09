@@ -39,12 +39,12 @@
             android:paddingRight="8dp">
 
             <Button
-                android:id="@+id/book_now_button_ABTest"
+                android:id="@+id/book_now_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/skin_loginBookNowButtonDrawable"
                 android:contentDescription="@string/cd_hotel_info_press_book_now"
-                android:text="@string/book_now"
+                android:text="@string/book_now_ab_test"
                 android:textColor="?attr/skin_hotelBookButtonColor"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -73,16 +73,6 @@
             android:paddingBottom="8dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp" >
-
-            <Button
-                android:id="@+id/book_now_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/skin_loginBookNowButtonDrawable"
-                android:contentDescription="@string/cd_hotel_info_press_book_now"
-                android:text="?attr/skin_hotelBookButtonString"
-                android:textSize="18sp"
-                android:textColor="?attr/skin_hotelBookButtonColor" />
 
             <Button
                 android:id="@+id/book_by_phone_button"

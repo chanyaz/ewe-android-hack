@@ -5,8 +5,9 @@ import java.util.Map;
 import java.util.Stack;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+import android.animation.Animator.AnimatorListener;
 import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -25,7 +26,7 @@ import butterknife.ButterKnife;
  * transitions between them.
  */
 
-public class Presenter extends FrameLayout implements IPresenter<Object> {
+public class Presenter extends FrameLayout {
 
 	// If set, and the object being added is already somewhere in the stack,
 	// then instead of adding another instance of that object to the stack,
@@ -44,13 +45,9 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 	private Map<String, Map<String, Transition>> transitions = new HashMap<>();
 	private Transition toDefaultTransition;
 	private String currentState;
-	private String destinationState;
 
 	// Animation vars
 	private boolean acceptAnimationUpdates = false;
-	private float lastAnimPercentage;
-	private int frames;
-	private float avgFrameDuration;
 
 	// View lifecycle
 
@@ -76,15 +73,11 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		super.onDetachedFromWindow();
 	}
 
-	// IPresenter
-
-	@Override
 	public boolean back() {
 		return back(0);
 	}
 
 	public boolean back(int flags) {
-
 		// If we're animating, ignore back presses.
 		if (acceptAnimationUpdates) {
 			return true;
@@ -95,7 +88,7 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		}
 
 		Object currentChild = getBackStack().pop();
-		boolean backPressHandled = currentChild instanceof IPresenter && ((IPresenter) currentChild).back();
+		boolean backPressHandled = currentChild instanceof Presenter && ((Presenter) currentChild).back();
 
 		// BackPress was not handled by the top child in the stack; handle it here.
 		if (!backPressHandled) {
@@ -118,17 +111,15 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		}
 	}
 
-	@Override
 	public Stack<Object> getBackStack() {
 		return backstack;
 	}
 
-	@Override
 	public void clearBackStack() {
 		while (getBackStack().size() > 0) {
 			Object o = getBackStack().peek();
-			if (o instanceof IPresenter) {
-				((IPresenter) o).clearBackStack();
+			if (o instanceof Presenter) {
+				((Presenter) o).clearBackStack();
 			}
 			getBackStack().pop();
 		}
@@ -156,10 +147,17 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			return;
 		}
 
-		ValueAnimator animator = getStateAnimator(newState);
+		ValueAnimator animator = null;
+		if ((flags & TEST_FLAG_FORCE_NEW_STATE) == 0) {
+			animator = getStateAnimator(newState);
+		}
+
 		handleFlags(newState.getClass().getName(), flags);
 		getBackStack().push(newState);
-		animator.start();
+
+		if ((flags & TEST_FLAG_FORCE_NEW_STATE) == 0 && animator != null) {
+			animator.start();
+		}
 	}
 
 	private void handleFlags(String newStateId, int flags) {
@@ -203,13 +201,24 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 	// Transition
 
 	public static class Transition {
-
 		public static final int DEFAULT_ANIMATION_DURATION = 300;
 
 		public final String state1;
 		public final String state2;
 		public final Interpolator interpolator;
 		public final int duration;
+
+		public Transition(Class state1, Class state2) {
+			this(state1.getName(), state2.getName());
+		}
+
+		public Transition(String state1, String state2) {
+			this(state1, state2, null, DEFAULT_ANIMATION_DURATION);
+		}
+
+		public Transition(Class state1, Class state2, Interpolator interpolator, int duration) {
+			this(state1.getName(), state2.getName(), interpolator, duration);
+		}
 
 		public Transition(String state1, String state2, Interpolator interpolator, int duration) {
 			this.state1 = state1;
@@ -218,37 +227,21 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			this.duration = duration;
 		}
 
-		public Transition(String state1, String state2) {
-			this(state1, state2, null, DEFAULT_ANIMATION_DURATION);
-		}
-
-		public Transition(Class state1, Class state2, Interpolator interpolator, int duration) {
-			this.state1 = state1.getName();
-			this.state2 = state2.getName();
-			this.interpolator = interpolator;
-			this.duration = duration;
-		}
-
-		public Transition(Class state1, Class state2) {
-			this(state1, state2, null, DEFAULT_ANIMATION_DURATION);
-		}
-
 		public void startTransition(boolean forward) {
-
+			// empty
 		}
 
 		public void updateTransition(float f, boolean forward) {
-
+			// empty
 		}
 
 		public void endTransition(boolean forward) {
-
+			// empty
 		}
 
 		public void finalizeTransition(boolean forward) {
-
+			// empty
 		}
-
 	}
 
 	public static class TransitionWrapper {
@@ -259,6 +252,14 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 			this.transition = transition;
 			this.forward = forward;
 		}
+
+		public String getOrigin() {
+			return forward ? transition.state1 : transition.state2;
+		}
+
+		public String getDestination() {
+			return forward ? transition.state2 : transition.state1;
+		}
 	}
 
 	public TransitionWrapper getTransition(String a, String b) {
@@ -268,16 +269,34 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		else if (transitions.containsKey(b) && transitions.get(b).containsKey(a)) {
 			return new TransitionWrapper(transitions.get(b).get(a), false);
 		}
-		else {
-			throw new RuntimeException("No Transition defined for " + a + " to " + b);
-		}
+
+		throw new RuntimeException("No Transition defined for " + a + " to " + b);
 	}
 
 	public void addTransition(Transition transition) {
+		if (exists(transition)) {
+			throw new RuntimeException("Transition already defined for " + transition.state1 + " to " + transition.state2);
+		}
+
 		if (!transitions.containsKey(transition.state1)) {
 			transitions.put(transition.state1, new HashMap<String, Transition>());
 		}
 		transitions.get(transition.state1).put(transition.state2, transition);
+	}
+
+	private boolean exists(Transition transition) {
+		return exists(transition.state1, transition.state2);
+	}
+
+	private boolean exists(String a, String b) {
+		if (transitions.containsKey(a) && transitions.get(a).containsKey(b)) {
+			return true;
+		}
+		if (transitions.containsKey(b) && transitions.get(b).containsKey(a)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public static abstract class DefaultTransition extends Transition {
@@ -302,100 +321,114 @@ public class Presenter extends FrameLayout implements IPresenter<Object> {
 		toDefaultTransition = transition;
 	}
 
-	public Map<String, Map<String, Transition>> getTransitions() {
-		return transitions;
-	}
-
-	// Animations – adapted from StateManager
-
-	private void resetAnimStats() {
-		lastAnimPercentage = 0;
-		frames = 0;
-		avgFrameDuration = 0;
-	}
-
-	private void logAnimStats() {
-		float avgFramePercentageChange = lastAnimPercentage / frames;
-		float animFrameRate = 1000f / avgFrameDuration;
-		Log.d("StateManager.AnimationStats (" + currentState + "," + destinationState + ") FrameRate:" + animFrameRate
-			+ "f/s. TotalFrames:" + frames + ". AverageFrameDuration:" + avgFrameDuration
-			+ "ms. AverageFramePercentageChange:" + avgFramePercentageChange + ". LastPercentageFromAnimator:"
-			+ lastAnimPercentage);
-	}
-
 	public ValueAnimator getStateAnimator(final Object state) {
-		final TransitionWrapper meta = getTransition(currentState, state.getClass().getName());
-		final Transition transition = meta.transition;
+		TransitionWrapper meta = getTransition(currentState, state.getClass().getName());
 
-		if (transition == null) {
+		if (meta == null || meta.transition == null) {
 			throw new RuntimeException("No Transition defined for "
 				+ currentState + " to " + state.getClass().getName());
 		}
 
-		ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-		animator.setDuration(transition.duration);
+		return new TransitionAnimator(meta).animator();
+	}
 
-		final LooseLipsSinkShipsInterpolator wrappedInterpolator;
-		if (transition.interpolator != null) {
-			wrappedInterpolator = new LooseLipsSinkShipsInterpolator(transition.interpolator);
+	private class TransitionAnimator implements AnimatorListener, AnimatorUpdateListener {
+		private static final String TAG = "AnimationStats";
+
+		private TransitionWrapper meta;
+		private Transition transition;
+		private LooseLipsSinkShipsInterpolator wrappedInterpolator;
+		private String destinationState;
+
+		// Stats
+		private float lastAnimPercentage = 0.0f;
+		private int frames = 0;
+		private float avgFrameDuration = 0.0f;
+
+		public TransitionAnimator(TransitionWrapper meta) {
+			this.meta = meta;
+			this.transition = meta.transition;
 		}
-		else {
-			wrappedInterpolator = new LooseLipsSinkShipsInterpolator(new AccelerateDecelerateInterpolator());
+
+		public ValueAnimator animator() {
+			ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
+			animator.setDuration(transition.duration);
+
+			if (transition.interpolator != null) {
+				wrappedInterpolator = new LooseLipsSinkShipsInterpolator(transition.interpolator);
+			}
+			else {
+				wrappedInterpolator = new LooseLipsSinkShipsInterpolator(new AccelerateDecelerateInterpolator());
+			}
+
+			animator.setInterpolator(wrappedInterpolator);
+			animator.addUpdateListener(this);
+			animator.addListener(this);
+
+			return animator;
 		}
 
-		animator.setInterpolator(wrappedInterpolator);
-		animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+		@Override
+		public void onAnimationUpdate(ValueAnimator animator) {
+			if (acceptAnimationUpdates) {
+				float totalDuration = animator.getCurrentPlayTime() / wrappedInterpolator.getLastInput();
+				long remainingDuration = (long) (totalDuration - animator.getCurrentPlayTime());
 
-			@Override
-			public void onAnimationUpdate(ValueAnimator arg0) {
-				if (acceptAnimationUpdates) {
-					float totalDuration = arg0.getCurrentPlayTime() / wrappedInterpolator.getLastInput();
-					long remainingDuration = (long) (totalDuration - arg0.getCurrentPlayTime());
+				//Our animation percentage
+				lastAnimPercentage = (Float) animator.getAnimatedValue();
 
-					//Our animation percentage
-					lastAnimPercentage = (Float) arg0.getAnimatedValue();
+				//Update our stats
+				frames++;
+				avgFrameDuration = ((float) animator.getCurrentPlayTime()) / frames;
 
-					//Update our stats
-					frames++;
-					avgFrameDuration = ((float) arg0.getCurrentPlayTime()) / frames;
-
-					if (remainingDuration < avgFrameDuration || remainingDuration < 0) {
-						//If we are nearing the final frame, and we haven't reached one of our maximum values, lets do
-						//so now, preventing some draw glitches between now and onStateFinalized.
-						lastAnimPercentage = Math.round(lastAnimPercentage);
-						transition.updateTransition(lastAnimPercentage, meta.forward);
-					}
-					else {
-						transition.updateTransition(lastAnimPercentage, meta.forward);
-					}
+				if (remainingDuration < avgFrameDuration || remainingDuration < 0) {
+					//If we are nearing the final frame, and we haven't reached one of our maximum values, lets do
+					//so now, preventing some draw glitches between now and onStateFinalized.
+					lastAnimPercentage = Math.round(lastAnimPercentage);
+					transition.updateTransition(lastAnimPercentage, meta.forward);
+				}
+				else {
+					transition.updateTransition(lastAnimPercentage, meta.forward);
 				}
 			}
-		});
-		animator.addListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationStart(Animator arg0) {
-				transition.startTransition(meta.forward);
-				resetAnimStats();
-				acceptAnimationUpdates = true;
-				destinationState = state.getClass().getName();
-			}
+		}
 
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				logAnimStats();
-				transition.endTransition(meta.forward);
-				transition.finalizeTransition(meta.forward);
-				acceptAnimationUpdates = false;
-				currentState = meta.forward ? transition.state2 : transition.state1;
-				destinationState = null;
-			}
+		@Override
+		public void onAnimationStart(Animator animator) {
+			transition.startTransition(meta.forward);
+			acceptAnimationUpdates = true;
+		}
 
-			@Override
-			public void onAnimationCancel(Animator arg0) {
-				acceptAnimationUpdates = false;
-				logAnimStats();
-			}
-		});
-		return animator;
+		@Override
+		public void onAnimationEnd(Animator animator) {
+			logAnimStats();
+			transition.endTransition(meta.forward);
+			transition.finalizeTransition(meta.forward);
+			currentState = meta.getDestination();
+			acceptAnimationUpdates = false;
+		}
+
+		@Override
+		public void onAnimationCancel(Animator animator) {
+			logAnimStats();
+			acceptAnimationUpdates = false;
+		}
+
+		@Override
+		public void onAnimationRepeat(Animator animator) {
+			// ignore
+		}
+
+		private void logAnimStats() {
+			float avgFramePercentageChange = lastAnimPercentage / frames;
+			float animFrameRate = 1000f / avgFrameDuration;
+			Log.v(TAG, "Start: " + meta.getOrigin() + " --> " + meta.getDestination());
+			Log.v(TAG, "  TotalFrames: " + frames);
+		       	Log.v(TAG, "  FrameRate: " + animFrameRate + "f/s");
+			Log.v(TAG, "  AverageFrameDuration: " + avgFrameDuration + "ms");
+			Log.v(TAG, "  AverageFramePercentageChange: " + avgFramePercentageChange);
+			Log.v(TAG, "  LastPercentageFromAnimator: " + lastAnimPercentage);
+			Log.d(TAG, "End:   " + meta.getOrigin() + " --> " + meta.getDestination());
+		}
 	}
 }

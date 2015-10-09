@@ -5,29 +5,31 @@
     android:background="@color/launch_list_bg"
     android:theme="@style/Theme.AppCompat.Light">
 
-    <View
-        android:id="@+id/action_bar_space"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize" />
-
     <include
         android:id="@+id/launch_list_widget"
         layout="@layout/widget_launch_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize" />
+        android:layout_height="match_parent" />
 
-    <include android:id="@+id/launch_error"
+    <include
+        android:id="@+id/launch_error"
         layout="@layout/section_launch_error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/launch_lob_height"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <com.expedia.bookings.widget.LaunchLobWidget
         android:id="@+id/lob_selector"
         android:layout_width="match_parent"
         android:layout_height="@dimen/launch_lob_container_height"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.widget.LaunchLobDoubleRowWidget
+        android:id="@+id/double_row_lob_selector"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/launch_lob_double_row_container_height"
         android:layout_marginTop="?attr/actionBarSize" />
 
     <include

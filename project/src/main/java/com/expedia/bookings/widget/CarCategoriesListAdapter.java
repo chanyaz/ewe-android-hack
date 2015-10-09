@@ -3,10 +3,8 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -19,11 +17,13 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.RateTerm;
 import com.expedia.bookings.data.cars.SearchCarFare;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Images;
 import com.squareup.picasso.Picasso;
@@ -37,16 +37,13 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 	private static final int DATA_VIEW = 1;
 	private List<CategorizedCarOffers> categories = new ArrayList<>();
 	private static final String ROW_PICASSO_TAG = "CAR_CATEGORY_LIST";
-	private ArrayList<ValueAnimator> mAnimations = new ArrayList<ValueAnimator>();
-	private int mLoadingColorDark = Color.DKGRAY;
-	private int mLoadingColorLight = Color.LTGRAY;
 	public static boolean loadingState = false;
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		if (viewType == LOADING_VIEW) {
 			View view = LayoutInflater.from(parent.getContext())
-				.inflate(R.layout.car_loading_animation_widget, parent, false);
+				.inflate(R.layout.car_lx_loading_animation_widget, parent, false);
 			return new LoadingViewHolder(view);
 		}
 		else {
@@ -68,44 +65,17 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			((ViewHolder) holder).bindCategorizedOffers(cco);
 		}
 		else {
-			setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, LoadingViewHolder.index);
-			LoadingViewHolder.index++;
+			ValueAnimator animation = AnimUtils.setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, position % 2 == 0);
+			((LoadingViewHolder) holder).setAnimator(animation);
 		}
 	}
 
-	public void setupLoadingAnimation(View v, int i) {
-		mLoadingColorLight = Color.parseColor("#D3D4D4");
-		mLoadingColorDark = Color.parseColor("#848F94");
-		if (LoadingViewHolder.index % 2 == 0) {
-			animateBackground(v, mLoadingColorDark, mLoadingColorLight);
+	@Override
+	public void onViewRecycled(RecyclerView.ViewHolder holder) {
+		if (holder.getItemViewType() == LOADING_VIEW) {
+			((LoadingViewHolder) holder).cancelAnimation();
 		}
-		else {
-			animateBackground(v, mLoadingColorLight, mLoadingColorDark);
-		}
-
-	}
-
-	private void animateBackground(final View view, int startColor, int endColor) {
-		ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), startColor, endColor);
-		animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animator) {
-				view.setBackgroundColor((Integer) animator.getAnimatedValue());
-			}
-
-		});
-		animation.setRepeatMode(ValueAnimator.REVERSE);
-		animation.setRepeatCount(ValueAnimator.INFINITE);
-		animation.setDuration(600);
-		animation.start();
-		mAnimations.add(animation);
-	}
-
-	public void cleanup() {
-		for (ValueAnimator animation : mAnimations) {
-			animation.cancel();
-		}
-		mAnimations.clear();
+		super.onViewRecycled(holder);
 	}
 
 	@Override
@@ -152,6 +122,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			itemView.setTag(cco);
 
 			SearchCarFare lowestFare = cco.getLowestTotalPriceOffer().fare;
+
 			CarInfo vehicleInfo = cco.getLowestTotalPriceOffer().vehicleInfo;
 			categoryTextView.setText(vehicleInfo.carCategoryDisplayLabel);
 
@@ -160,17 +131,27 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			setTextAndVisibility(bagCount, CarDataUtils.getBagCount(cco));
 
 			cardView.setPreventCornerOverlap(false);
-			bestPriceTextView.setText(totalTextView.getContext()
-				.getString(R.string.car_details_TEMPLATE,
-					CarDataUtils.getStringTemplateForRateTerm(bestPriceTextView.getContext(), lowestFare.rateTerm),
-					lowestFare.rate.getFormattedMoney()));
+
+			if (lowestFare.rateTerm.equals(RateTerm.UNKNOWN)) {
+				bestPriceTextView.setText("");
+				bestPriceTextView.setVisibility(View.GONE);
+			}
+			else {
+				bestPriceTextView.setText(totalTextView.getContext()
+					.getString(R.string.car_details_TEMPLATE,
+						CarDataUtils.getStringTemplateForRateTerm(bestPriceTextView.getContext(), lowestFare.rateTerm),
+						Money.getFormattedMoneyFromAmountAndCurrencyCode(lowestFare.rate.amount,
+							lowestFare.rate.getCurrency(), Money.F_NO_DECIMAL)));
+				bestPriceTextView.setVisibility(View.VISIBLE);
+			}
 			totalTextView.setText(totalTextView.getContext()
-				.getString(R.string.cars_total_template, lowestFare.total.getFormattedMoney()));
+				.getString(R.string.cars_total_template, Money.getFormattedMoneyFromAmountAndCurrencyCode(
+					lowestFare.total.amount, lowestFare.total.getCurrency(), Money.F_NO_DECIMAL)));
 			gradientMask.setVisibility(View.GONE);
 			String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type,
 				itemView.getContext().getResources().getDimension(R.dimen.car_image_width));
 			new PicassoHelper.Builder(itemView.getContext())
-				.setPlaceholder(R.drawable.cars_placeholder)
+				.setPlaceholder(R.drawable.results_list_placeholder)
 				.setError(R.drawable.cars_fallback)
 				.fade()
 				.setTag(ROW_PICASSO_TAG)
@@ -183,7 +164,6 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 		public void onClick(View view) {
 			CategorizedCarOffers offers = (CategorizedCarOffers) view.getTag();
 			Events.post(new Events.CarsShowDetails(offers));
-			OmnitureTracking.trackAppCarRateDetails(itemView.getContext(), offers.offers.get(0));
 		}
 
 		private PicassoTarget target = new PicassoTarget() {
@@ -218,22 +198,6 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 				textView.setVisibility(View.GONE);
 			}
 		}
-	}
-
-	public static class LoadingViewHolder extends RecyclerView.ViewHolder {
-		private static int index = 0;
-
-		@InjectView(R.id.background_image_view)
-		public ImageView backgroundImageView;
-
-		@InjectView(R.id.card_view)
-		public CardView cardView;
-
-		public LoadingViewHolder(View view) {
-			super(view);
-			ButterKnife.inject(this, itemView);
-		}
-
 	}
 
 	public void setCategories(List<CategorizedCarOffers> categories) {

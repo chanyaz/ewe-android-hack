@@ -68,10 +68,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			if (Db.getWorkingBillingInfoManager().getAttemptToLoadFromDisk() && Db.getWorkingBillingInfoManager()
-				.hasBillingInfoOnDisk(getActivity())) {
-				Db.getWorkingBillingInfoManager().loadWorkingBillingInfoFromDisk(getActivity());
-			}
 			mFormOpen = savedInstanceState.getBoolean(STATE_FORM_IS_OPEN, false);
 		}
 		return super.onCreateView(inflater, container, savedInstanceState);
@@ -133,8 +129,19 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		}
 	};
 
+	private void resetValidation() {
+		if (mSectionBillingInfo != null) {
+			mSectionBillingInfo.resetValidation();
+		}
+		if (mSectionLocation != null) {
+			mSectionLocation.resetValidation();
+		}
+	}
+
+
 	private void commitAndLeave() {
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+		resetValidation();
 		mListener.onCheckoutDataUpdated();
 		Ui.hideKeyboard(getActivity(), InputMethodManager.HIDE_NOT_ALWAYS);
 		closeForm(true);
@@ -172,9 +179,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				if (mAttemptToLeaveMade) {
 					mSectionBillingInfo.performValidation();
 				}
-
-				//We attempt to save on change
-				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
 
 				// Let's show airline fees (LCC Fees) or messages if any
 				if (getLob() == LineOfBusiness.FLIGHTS) {
@@ -242,7 +246,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	public void onFormClosed() {
 		if (isResumed() && mFormOpen) {
 			mAttemptToLeaveMade = false;
-			Db.getWorkingBillingInfoManager().deleteWorkingBillingInfoFile(getActivity());
+			resetValidation();
 			mListener.onCheckoutDataUpdated();
 		}
 		mFormOpen = false;

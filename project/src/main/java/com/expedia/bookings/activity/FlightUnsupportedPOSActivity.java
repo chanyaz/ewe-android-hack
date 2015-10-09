@@ -38,19 +38,7 @@ public class FlightUnsupportedPOSActivity extends FragmentActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		OmnitureTracking.trackErrorPageLoadFlightUnsupportedPOS(this);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
+		OmnitureTracking.trackErrorPageLoadFlightUnsupportedPOS();
 	}
 
 	@Override

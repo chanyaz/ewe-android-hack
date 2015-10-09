@@ -1,31 +1,31 @@
 package com.expedia.bookings.presenter.lx;
 
-import java.io.UnsupportedEncodingException;
-
 import javax.inject.Inject;
 
+import org.joda.time.LocalDate;
+
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.StringRes;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
-import com.expedia.bookings.data.TripBucketItemLX;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
-import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
 import com.squareup.otto.Subscribe;
@@ -33,20 +33,11 @@ import com.squareup.otto.Subscribe;
 import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
-import rx.exceptions.OnErrorNotImplementedException;
 
 public class LXDetailsPresenter extends Presenter {
-
 	public LXDetailsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
-
-	/**
-	 * TODO: Will need to refactor this based on the designs. If same loading is shown as on SRP, then reuse the progress bar
-	 */
-
-	@InjectView(R.id.loading_details)
-	ProgressBar loadingProgress;
 
 	@InjectView(R.id.activity_details)
 	LXActivityDetailsWidget details;
@@ -54,40 +45,40 @@ public class LXDetailsPresenter extends Presenter {
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
 
+	@InjectView(R.id.toolbar_background)
+	View toolbarBackground;
+
+	@InjectView(R.id.toolbar_dropshadow)
+	View toolbarDropshadow;
+
 	@Inject
 	LXState lxState;
 
-	private ProgressDialog createTripDialog;
+	@InjectView(R.id.toolbar_search_text)
+	android.widget.TextView toolBarSearchText;
+
+	@InjectView(R.id.toolbar_detail_text)
+	android.widget.TextView toolBarDetailText;
+
+	@InjectView(R.id.toolbar_subtitle_text)
+	android.widget.TextView toolBarSubtitleText;
+
+	@InjectView(R.id.toolbar_two)
+	LinearLayout toolbarTwo;
 
 	private Subscription detailsSubscription;
-	private Subscription createTripSubscription;
+
+	private int searchTop;
 
 	@Inject
 	LXServices lxServices;
-
-	// Transitions
-	private Transition loadingToDetails = new VisibilityTransition(this, ProgressBar.class.getName(), LXActivityDetailsWidget.class.getName());
-	DefaultTransition setUpLoading = new DefaultTransition(ProgressBar.class.getName()) {
-		@Override
-		public void finalizeTransition(boolean forward) {
-			loadingProgress.setVisibility(View.VISIBLE);
-			details.setVisibility(View.GONE);
-		}
-	};
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).lxComponent().inject(this);
-
-		addTransition(loadingToDetails);
-		addDefaultTransition(setUpLoading);
-
-		createTripDialog = new ProgressDialog(getContext());
-		createTripDialog.setMessage(getResources().getString(R.string.preparing_checkout_message));
-		createTripDialog.setIndeterminate(true);
-
 		setupToolbar();
+		details.addOnScrollListener(parallaxScrollListener);
 	}
 
 	@Override
@@ -97,14 +88,31 @@ public class LXDetailsPresenter extends Presenter {
 	}
 
 	public void cleanup() {
-		if (createTripSubscription != null) {
-			createTripSubscription.unsubscribe();
-			createTripSubscription = null;
-		}
 		if (detailsSubscription != null) {
 			detailsSubscription.unsubscribe();
 			detailsSubscription = null;
 		}
+	}
+
+	private void showActivityFetchErrorDialog(@StringRes int message) {
+		AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+		b.setCancelable(false)
+			.setMessage(getResources().getString(message))
+			.setPositiveButton(getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Events.post(new Events.LXActivitySelectedRetry());
+				}
+			})
+			.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					((ActionBarActivity) getContext()).onBackPressed();
+				}
+			})
+			.show();
 	}
 
 	private Observer<ActivityDetailsResponse> detailsObserver = new Observer<ActivityDetailsResponse>() {
@@ -115,7 +123,13 @@ public class LXDetailsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
-			// ignore
+			if (RetrofitUtils.isNetworkError(e)) {
+				showActivityFetchErrorDialog(R.string.error_no_internet);
+			}
+			else {
+				//Bucket all other errors as Activity Details Fetch Error
+				showActivityFetchErrorDialog(R.string.lx_error_details);
+			}
 		}
 
 		@Override
@@ -127,9 +141,20 @@ public class LXDetailsPresenter extends Presenter {
 
 	@Subscribe
 	public void onActivitySelected(Events.LXActivitySelected event) {
-		show(loadingProgress);
-		setToolbarTitles();
-		detailsSubscription = lxServices.lxDetails(event.lxActivity, lxState.searchParams.startDate, lxState.searchParams.endDate, detailsObserver);
+		showActivityDetails(event.lxActivity.id, event.lxActivity.title, lxState.searchParams.location,
+			lxState.searchParams.startDate, lxState.searchParams.endDate);
+	}
+
+	@Subscribe
+	public void onActivitySelectedRetry(Events.LXActivitySelectedRetry event) {
+		showActivityDetails(lxState.activity.id, lxState.activity.title, lxState.searchParams.location,
+			lxState.searchParams.startDate, lxState.searchParams.endDate);
+	}
+
+	private void showActivityDetails(String activityId, String title, String location, LocalDate startDate,
+		LocalDate endDate) {
+		setToolbarTitles(title);
+		detailsSubscription = lxServices.lxDetails(activityId, location, startDate, endDate, detailsObserver);
 	}
 
 	private void setupToolbar() {
@@ -156,46 +181,49 @@ public class LXDetailsPresenter extends Presenter {
 		});
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
-		if (statusBarHeight > 0) {
-			int toolbarColor = getContext().getResources().getColor(R.color.lx_primary_color);
-			addView(Ui.setUpStatusBar(getContext(), toolbar, details, toolbarColor));
-		}
+		toolbarBackground.getLayoutParams().height += statusBarHeight;
+		toolbar.setPadding(0, statusBarHeight, 0, 0);
 	}
 
-	private void setToolbarTitles() {
+	private void setToolbarTitles(String title) {
 		LXSearchParams searchParams = lxState.searchParams;
-		toolbar.setTitle(searchParams.location);
+		toolBarDetailText.setText(title);
 		String dateRange = String.format(getResources().getString(R.string.lx_toolbar_date_range_template),
-			DateUtils.localDateToMMMdd(searchParams.startDate), DateUtils.localDateToMMMdd(searchParams.endDate));
-		toolbar.setSubtitle(dateRange);
+			DateUtils.localDateToMMMd(searchParams.startDate), DateUtils.localDateToMMMd(searchParams.endDate));
+		toolBarSubtitleText.setText(dateRange);
+		toolbarBackground.setAlpha(0);
+		toolbarDropshadow.setAlpha(0);
 	}
 
-	@Subscribe
-	public void onOfferBooked(Events.LXOfferBooked event) throws UnsupportedEncodingException {
-		createTripDialog.show();
-		cleanup();
-
-		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), createTripObserver);
-	}
-
-	private Observer<LXCreateTripResponse> createTripObserver = new Observer<LXCreateTripResponse>() {
+	com.expedia.bookings.widget.ScrollView.OnScrollListener parallaxScrollListener = new com.expedia.bookings.widget.ScrollView.OnScrollListener() {
 		@Override
-		public void onCompleted() {
-			cleanup();
-		}
-
-		@Override
-		public void onError(Throwable e) {
-			throw new OnErrorNotImplementedException(e);
-		}
-
-		@Override
-		public void onNext(LXCreateTripResponse response) {
-			createTripDialog.dismiss();
-			Db.getTripBucket().clearLX();
-			Db.getTripBucket().add(new TripBucketItemLX(response));
-			Events.post(new Events.LXCreateTripSucceeded(response));
+		public void onScrollChanged(com.expedia.bookings.widget.ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			float ratio = details.parallaxScrollHeader(y);
+			toolbarBackground.setAlpha(ratio);
+			toolbarDropshadow.setAlpha(ratio);
 		}
 	};
 
+	public float animationStart(boolean forward) {
+		searchTop = toolBarSearchText.getTop() - toolbarTwo.getTop();
+		toolbar.setVisibility(VISIBLE);
+		toolBarDetailText.setTranslationY(searchTop);
+		toolBarSubtitleText.setTranslationY(searchTop);
+		return toolbarBackground.getAlpha();
+	}
+
+	public void animationUpdate(float f, boolean forward) {
+		float yTrans = forward ?  - (searchTop * -f) : (searchTop * (1 - f));
+		toolBarDetailText.setTranslationY(yTrans);
+		toolBarSubtitleText.setTranslationY(yTrans);
+	}
+
+	public void animationFinalize(boolean forward) {
+		toolbar.setVisibility(VISIBLE);
+		toolbarBackground.setVisibility(VISIBLE);
+		toolBarDetailText.setTranslationY(0);
+		toolBarSubtitleText.setTranslationY(0);
+	}
+
 }
+

@@ -22,21 +22,8 @@ public class TripsScreen extends LaunchActionBar {
 		logInButton().perform(click());
 	}
 
-	public static ViewInteraction tripsListView() {
-		return onView(withId(android.R.id.list));
-	}
-
 	public static DataInteraction tripsListItem() {
 		return onData(anything()).inAdapterView(withId(android.R.id.list));
-	}
-
-	public static void clickListItem(int index) {
-		tripsListItem().atPosition(index).perform(click());
-	}
-
-	public static void clickItinDetailsDone() {
-		ViewInteraction viewInteraction = onView(withId(R.id.close_image_button));
-		viewInteraction.perform(click());
 	}
 
 }

@@ -26,6 +26,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 
@@ -54,7 +55,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 	private LocalDate lastEnd;
 
 	//2 hours in millis
-	private static final long PICKUP_DROPOFF_MINIMUM_TIME_DIFFERECE = TimeUnit.MILLISECONDS.convert(2, TimeUnit.HOURS);
+	private static final long PICKUP_DROPOFF_MINIMUM_TIME_DIFFERENCE = TimeUnit.MILLISECONDS.convert(2, TimeUnit.HOURS);
 	private static final String TOOLTIP_DATE_PATTERN = "MMM dd";
 	private DateTimeFormatter df = DateTimeFormat.forPattern(TOOLTIP_DATE_PATTERN);
 
@@ -104,21 +105,25 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		calendar.setSelectableDateRange(LocalDate.now(),
-			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_days_car_search)));
+		LocalDate todayDate = LocalDate.now();
+		LocalDate tomorrowDate = LocalDate.now().plusDays(1);
+		boolean isEleventhHour = DateTime.now().getHourOfDay() == 23;
+		LocalDate startDate = isEleventhHour ? tomorrowDate : todayDate;
+		calendar.setSelectableDateRange(startDate, startDate
+			.plusDays(getResources().getInteger(R.integer.calendar_max_days_car_search)));
 		calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_car_search));
 		calendar.setDateChangedListener(this);
 		calendar.setYearMonthDisplayedChangedListener(this);
 
 		daysOfWeekView.setDayOfWeekRenderer(this);
-		daysOfWeekView.setTextColor(getContext().getResources().getColor(R.color.cars_calendar_week_color));
 		daysOfWeekView.setMaxTextSize(getResources().getDimension(R.dimen.car_calendar_month_view_max_text_size));
 		monthView.setMaxTextSize(getResources().getDimension(R.dimen.car_calendar_month_view_max_text_size));
 		monthView.setTextEqualDatesColor(Color.WHITE);
 
 		NinePatchDrawable drawablePopUp = (NinePatchDrawable) getResources().getDrawable(R.drawable.toolbar_bg).mutate();
-		drawablePopUp
-				.setColorFilter(getResources().getColor(R.color.cars_tooltip_color), PorterDuff.Mode.SRC_IN);
+		drawablePopUp.setColorFilter(
+			getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsTooltipColor)),
+			PorterDuff.Mode.SRC_IN);
 
 		Ui.setViewBackground(pickupTimePopupContainerText, drawablePopUp);
 
@@ -128,15 +133,15 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		dropoffTimeSeekBar.addOnSeekBarChangeListener(this);
 
 		calendar.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
-		daysOfWeekView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		daysOfWeekView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM));
 	}
 
 	@Override
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
 		Events.register(this);
-		buildParams(calendar.getStartDate(), calendar.getEndDate());
 	}
 
 	@Override
@@ -181,6 +186,11 @@ public class CarDateTimeWidget extends RelativeLayout implements
 
 	@Override
 	public void onDateSelectionChanged(final LocalDate start, final LocalDate end) {
+
+		if (start == null) {
+			return;
+		}
+
 		// Logic to change the time slider value when user selects current date
 		DateTime now = DateTime.now();
 		if (start.equals(LocalDate.now()) && now.getHourOfDay() >= 8) {
@@ -265,12 +275,13 @@ public class CarDateTimeWidget extends RelativeLayout implements
 
 	//end time should always be at least 2 hours ahead of start time
 	private boolean isEndTimeBeforeStartTime() {
-		return dateTimeBuilder.isStartEqualToEnd() && dateTimeBuilder.getEndMillis() < dateTimeBuilder.getStartMillis() + PICKUP_DROPOFF_MINIMUM_TIME_DIFFERECE;
+		return dateTimeBuilder.isStartEqualToEnd() && dateTimeBuilder.getEndMillis() < dateTimeBuilder.getStartMillis() + PICKUP_DROPOFF_MINIMUM_TIME_DIFFERENCE;
 	}
 
 	private void setUpTooltipColor(boolean isValid) {
 		NinePatchDrawable drawablePopUp = (NinePatchDrawable) getResources().getDrawable(R.drawable.toolbar_bg).mutate();
-		int color = isValid ? getResources().getColor(R.color.cars_tooltip_disabled_color) : getResources().getColor(R.color.cars_tooltip_color);
+		int color = isValid ? getResources().getColor(R.color.cars_tooltip_disabled_color)
+			: getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsTooltipColor));
 		drawablePopUp.setColorFilter(color, PorterDuff.Mode.SRC_IN);
 		Ui.setViewBackground(pickupTimePopupContainerText, drawablePopUp);
 		pickupTimePopupTail.setColorFilter(color, PorterDuff.Mode.SRC_IN);
@@ -294,7 +305,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				pickupTimePopupContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				pickupTimePopupContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(
 						RelativeLayout.LayoutParams.WRAP_CONTENT,
 						RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -323,7 +334,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				pickupTimePopupContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				pickupTimePopupContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(
 						RelativeLayout.LayoutParams.WRAP_CONTENT,
 						RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -361,4 +372,11 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		v.startAnimation(animation);
 	}
 
+	public void setPickupTime(DateTime startDateTime) {
+		pickupTimeSeekBar.setProgress(startDateTime);
+	}
+
+	public void setDropoffTime(DateTime endDateTime) {
+		dropoffTimeSeekBar.setProgress(endDateTime);
+	}
 }

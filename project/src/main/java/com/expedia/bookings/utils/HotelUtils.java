@@ -30,6 +30,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
@@ -37,11 +38,6 @@ import com.mobiata.android.util.ViewUtils;
 public class HotelUtils {
 
 	public static boolean checkPhoneFinishConditionsAndFinish(Activity activity) {
-		// Attempt to load hotel data from disk
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
-			Db.loadHotelSearchFromDisk(activity);
-		}
-
 		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			activity.finish();
@@ -113,7 +109,7 @@ public class HotelUtils {
 		titleView.setText(property.getName());
 
 		RatingBar ratingBar;
-		if (property.shouldShowCircles()) {
+		if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
 			ratingBar = Ui.findView(actionBarView, R.id.rating_circles);
 		}
 		else {
@@ -180,14 +176,15 @@ public class HotelUtils {
 	 * @param context
 	 * @param property
 	 * @param rate
+	 * @param isTablet
 	 * @return
 	 */
-	public static String getSlideToPurchaseString(Context context, Property property, Rate rate) {
+	public static String getSlideToPurchaseString(Context context, Property property, Rate rate, boolean isTablet) {
 		int chargeTypeMessageId = 0;
 
 		// Determine price to be paid now
 		Money sliderCharge;
-		if (rate.isPayLater() && !AndroidUtils.isTablet(context) && property.isMerchant()) {
+		if (rate.isPayLater() && !isTablet && property.isMerchant()) {
 			sliderCharge = rate.getDepositAmount();
 		}
 		else {

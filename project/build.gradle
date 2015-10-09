@@ -7,90 +7,122 @@ def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
+apply plugin: 'fork'
 
 repositories {
-    mavenCentral()
+    jcenter()
     maven { url 'https://maven.fabric.io/public' }
     maven { url 'http://www.leanplum.com/leanplum-sdks/' }
+    maven {
+        url "s3://mobiata-maven/release"
+        credentials(AwsCredentials) {
+            accessKey AWS_ACCESS_KEY
+            secretKey AWS_SECRET_KEY
+        }
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: [
             'activeandroid-20131111.jar',
-            'admsAppLibrary-3.0.5.jar',
+            'ADMS_AppLibrary-3.2.7-Android.jar',
             'adxtag3.2.6.jar',
+            'MobileAppTracker-3.9.1.jar',
     ])
-    compile project(':lib:FlightLib')
-    compile project(':lib:svg-android:svgandroid')
     compile project(':lib:Utils')
-    compile project(':lib:ShareEverywhere:shareeverywhere')
     compile project(':lib:AndroidTime')
     // We keep some classes in a pure java project so we can test them with pure jvm unit tests
     compile (project(':lib:ExpediaBookings')) {
         exclude group: 'org.json'
     }
+    compile 'com.expedia:svg-android:0.1.0'
+    compile 'com.expedia:android-account-lib:0.5.10'
+    compile 'com.dgmltn:share-everywhere:1.0.1'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
 
     // Google Play Services deps on the support lib
     // however we add it here so the android-sdk-manager plugin behaves
+
     compile "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:palette-v7:${rootProject.ext.supportLibVersion}"
+    compile "com.android.support:gridlayout-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:recyclerview-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:cardview-v7:${rootProject.ext.supportLibVersion}"
+    compile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
+    compile "com.android.support:design:${rootProject.ext.supportLibVersion}"
 
     compile "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-wallet:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-location:${rootProject.ext.googlePlayServicesVersion}"
 
-    compile 'com.squareup.picasso:picasso:2.4.0'
-    compile 'com.squareup.okhttp:okhttp:2.2.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
-    compile 'com.squareup.okio:okio:1.2.0'
-    compile 'com.squareup:otto:1.3.5'
-    compile 'com.google.code.gson:gson:2.3'
-    compile 'com.jakewharton:butterknife:6.0.0'
-    compile 'com.leanplum:Leanplum:1.2.8'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.okio:okio:1.5.0'
+    compile 'com.squareup:otto:1.3.8'
+    compile 'com.squareup.phrase:phrase:1.1.0'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.leanplum:Leanplum:1.2.15'
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
-    compile 'com.android.support:support-annotations:20.0.0'
-    compile 'io.reactivex:rxandroid:0.24.0'
-    compile 'com.wefika:flowlayout:0.4.0'
+    compile 'io.reactivex:rxandroid:0.25.0'
+    compile ('com.wefika:flowlayout:0.4.0') {
+        exclude group: 'com.intellij'
+    }
 
     // Dagger 2.0
-    compile 'com.google.dagger:dagger:2.0'
-    apt 'com.google.dagger:dagger-compiler:2.0'
+    compile 'com.google.dagger:dagger:2.0.1'
+    apt 'com.google.dagger:dagger-compiler:2.0.1'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
-    compile ('com.crashlytics.sdk.android:crashlytics:2.2.0@aar') {
+    compile ('com.crashlytics.sdk.android:crashlytics:2.5.0@aar') {
         transitive = true
     }
 
     // Debug dependencies
+    def leakCanaryVersion = '1.3.1'
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}"
 
-    def stethoVersion = '1.0.1'
-    debugCompile "com.facebook.stetho:stetho:$stethoVersion"
-    debugCompile "com.facebook.stetho:stetho-okhttp:$stethoVersion"
+    debugCompile 'com.squareup.okhttp:mockwebserver:2.4.0'
+    debugCompile (project(':lib:mocked:mocke3')) {
+        transitive = false
+    }
+
+    def stethoVersion = '1.1.1'
+    debugCompile "com.facebook.stetho:stetho:${stethoVersion}"
+    debugCompile "com.facebook.stetho:stetho-okhttp:${stethoVersion}"
 
     // Test dependencies
+    testCompile 'junit:junit:4.12'
+    def roboVersion = '3.0'
+    testCompile "org.robolectric:robolectric:${roboVersion}"
+    testCompile "org.robolectric:shadows-multidex:${roboVersion}"
+    testCompile 'org.mockito:mockito-core:2.0.31-beta'
 
-    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.0'){
+    def espressoVersion = '2.2'
+    androidTestCompile ("com.android.support.test.espresso:espresso-core:${espressoVersion}"){
         exclude group: 'com.android.support'
         exclude group: 'javax.inject'
     }
-    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.0'){
+    androidTestCompile ("com.android.support.test.espresso:espresso-contrib:${espressoVersion}"){
         exclude group: 'com.android.support'
         exclude group: 'javax.inject'
     }
+
+    androidTestCompile ('com.android.support.test:rules:0.3') {
+        exclude group: 'com.android.support'
+    }
+    androidTestCompile ("com.android.support.test.espresso:espresso-intents:${espressoVersion}") {
+        exclude group: 'com.android.support'
+    }
+
     androidTestCompile fileTree(dir: 'libs', include: [
             'spoon-client-1.1.3-EXP.jar',
     ])
-    androidTestCompile('com.squareup.okhttp:mockwebserver:2.1.0') {
-        exclude group: 'com.squareup.okhttp'
-    }
-    androidTestCompile (project(':lib:mocke3:mocke3')) {
-        transitive = false
-    }
 }
 
 android {
@@ -130,14 +162,13 @@ android {
         versionCode 1
         versionName "undefined"
 
-        minSdkVersion 15
-        targetSdkVersion 21
+        minSdkVersion 16
+        targetSdkVersion 22
 
         multiDexEnabled = true
         testApplicationId "com.expedia.bookings.test"
-        testInstrumentationRunner "com.expedia.bookings.test.ui.utils.SpoonInstrumentationTestRunner"
+        testInstrumentationRunner "com.expedia.bookings.test.espresso.SpoonInstrumentationTestRunner"
 
-        buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
         buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
 
@@ -147,19 +178,21 @@ android {
 
     productFlavors {
         expedia {
-            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+            buildConfigField "String", "brand", "\"Expedia\""
+            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.expedia.bookings"
 
-            def major = 5
-            def minor = 0
-            def patch = 2
+            def major = 6
+            def minor = 4
+            def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
         }
 
         voyages {
-            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+            buildConfigField "String", "brand", "\"VSC\""
+            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.expedia.bookings.vsc"
 
             def major = 2
@@ -171,11 +204,12 @@ android {
         }
 
         travelocity {
+            buildConfigField "String", "brand", "\"Travelocity\""
             buildConfigField "String", "MEDIA_URL", "\"http://images.trvl-media.com\""
             applicationId "com.travelocity.android"
 
-            def major = 7
-            def minor = 1
+            def major = 8
+            def minor = 0
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -183,7 +217,8 @@ android {
         }
 
         airAsiaGo {
-            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+            buildConfigField "String", "brand", "\"AirAsiaGo\""
+            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.airasiago.android"
             def major = 2
             def minor = 0
@@ -194,7 +229,8 @@ android {
         }
 
         wotif {
-            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+            buildConfigField "String", "brand", "\"Wotif\""
+            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.wotif.android"
             def major = 2
             def minor = 1
@@ -205,9 +241,10 @@ android {
         }
 
         lastMinute {
-            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
+            buildConfigField "String", "brand", "\"LM AU & NZ\""
+            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.lastminute.android"
-            def major = 2
+            def major = 3
             def minor = 0
             def patch = 0
             def build = 0
@@ -222,22 +259,33 @@ android {
 
             minifyEnabled shouldRunProguard
             proguardFile file('proguard.cfg')
+            testProguardFile file('proguard.cfg')
 
             ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
             ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
+
+            buildConfigField "boolean", "RELEASE", "Boolean.parseBoolean(\"false\")"
+            buildConfigField "boolean", "USABILITY", GradleUtil.isUsabilityBuild(project) ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
         }
 
         release {
+            if (GradleUtil.isUsabilityBuild(project)) {
+                applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
+            }
+
             minifyEnabled true
             proguardFile file('proguard.cfg')
             zipAlignEnabled true
             signingConfig signingConfigs.release
+
+            buildConfigField "boolean", "RELEASE", "true"
+            buildConfigField "boolean", "USABILITY", GradleUtil.isUsabilityBuild(project) ? "true" : "false"
         }
     }
 
     sourceSets {
-        androidTest {
-            assets.srcDirs = ['src/androidTest/assets', '../lib/mocke3/templates']
+        debug {
+            assets.srcDirs = ['../lib/mocked/templates']
         }
     }
 
@@ -310,7 +358,7 @@ public class GradleUtil {
 
     static def getAppName(Project project, variant) {
         // Don't touch release builds
-        if (variant.buildType.name == "release") {
+        if (variant.buildType.name == "release" || isUsabilityBuild(project)) {
             return null
         }
 
@@ -325,6 +373,10 @@ public class GradleUtil {
 
         def appname = flavor + " " + type
         return appname.tr('_', '.')
+    }
+
+    static def isUsabilityBuild(Project project) {
+        return getBuildIdentifier(project) == "usability"
     }
 
     static def getGitRevision() {
@@ -376,3 +428,4 @@ android.applicationVariants.all { variant ->
     }
     variant.resValue "string", "launcher_name", "${launcherName}"
 }
+

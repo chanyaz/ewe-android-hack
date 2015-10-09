@@ -29,7 +29,7 @@
             android:id="@+id/button"
             style="@style/BookingSection"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="46dp"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/wallet_buy_with_google_wallet"
             android:padding="0dp"/>
