@@ -124,33 +124,6 @@ public class HotelCreateTripViewModel(val hotelServices: HotelServices) {
     }
 }
 
-public fun getDueNowAmount(response: HotelCreateTripResponse.HotelProductResponse) : String {
-
-    val room = response.hotelRoomResponse
-    val rate = room.rateInfo.chargeableRateInfo
-    val isResortCase = Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees")
-    val isPayLater = room.isPayLater
-
-    // Calculate Due to {Brand} price
-    if (isPayLater || isResortCase) {
-        if (isPayLater) {
-            val depositAmount = rate.depositAmount ?: "0" // yup. For some reason API doesn't return $0 for deposit amounts
-            return Money(BigDecimal(depositAmount), rate.currencyCode).formattedMoney
-        }
-        else {
-            return rate.displayTotalPrice.formattedMoney
-        }
-    }
-    else {
-        // calculate trip total price
-        if (Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees")) {
-            return Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).formattedMoney
-        } else {
-            return rate.displayTotalPrice.formattedMoney
-        }
-    }
-}
-
 class HotelCheckoutOverviewViewModel(val context: Context) {
     // input
     val newRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
@@ -201,7 +174,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     val taxStatusType = BehaviorSubject.create<String>()
     val extraGuestFees = BehaviorSubject.create<Money>()
     val isBestPriceGuarantee = BehaviorSubject.create<Boolean>(false)
-    val discounts = BehaviorSubject.create<Float?>()
     val priceChange = BehaviorSubject.create<String>()
     val isPriceChange = BehaviorSubject.create<Boolean>(false)
     val isResortCase = BehaviorSubject.create<Boolean>(false)
@@ -224,8 +196,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             checkInOutDatesFormatted.onNext(DateFormatUtils.formatHotelsV2DateRange(context, it.checkInDate, it.checkOutDate))
             address.onNext(it.hotelAddress)
             city.onNext(context.resources.getString(R.string.single_line_street_address_TEMPLATE, it.hotelCity, it.hotelStateProvince))
-            val discountPercent = room.rateInfo.chargeableRateInfo.discountPercent
-            discounts.onNext(if (discountPercent > 1) discountPercent else null)
             roomDescriptions.onNext(room.roomTypeDescription)
             numNights.onNext(context.resources.getQuantityString(R.plurals.number_of_nights, it.numberOfNights.toInt(), it.numberOfNights.toInt()))
             bedDescriptions.onNext(room.formattedBedNames)
@@ -239,13 +209,9 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             extraGuestFees.onNext(rate.extraGuestFees)
 
             // calculate trip total price
-            if (isResortCase.value) {
-                tripTotalPrice.onNext(Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()), currencyCode.value).formattedMoney)
-            } else {
-                tripTotalPrice.onNext(rate.displayTotalPrice.formattedMoney)
-            }
-
             dueNowAmount.onNext(getDueNowAmount(it))
+            tripTotalPrice.onNext(rate.displayTotalPrice.formattedMoney)
+
             showFeesPaidAtHotel.onNext(isResortCase.value && (rate.totalMandatoryFees != 0f))
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
             isBestPriceGuarantee.onNext(room.isMerchant)
@@ -267,6 +233,19 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
         guestCountObserver.subscribe {
             numGuests.onNext(StrUtils.formatGuestString(context, it))
         }
+    }
+}
+
+public fun getDueNowAmount(response: HotelCreateTripResponse.HotelProductResponse) : String {
+    val room = response.hotelRoomResponse
+    val rate = room.rateInfo.chargeableRateInfo
+    val isPayLater = room.isPayLater
+
+    if (isPayLater) {
+        val depositAmount = rate.depositAmount ?: "0" // yup. For some reason API doesn't return $0 for deposit amounts
+        return Money(BigDecimal(depositAmount), rate.currencyCode).formattedMoney
+    } else {
+        return Money(BigDecimal(rate.total.toDouble()), rate.currencyCode).formattedMoney
     }
 }
 
