@@ -22,7 +22,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val hotelNameObservable = BehaviorSubject.create(hotel.localizedName)
     val hotelPriceObservable = BehaviorSubject.create(priceFormatter(hotel.lowRateInfo, false))
     val hotelStrikeThroughPriceObservable = BehaviorSubject.create(priceFormatter(hotel.lowRateInfo, true))
-    val hasDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.discountPercent < 0 && !hotel.lowRateInfo.airAttached)
+    val hasDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountTenPercentOrBetter()  && !hotel.lowRateInfo.airAttached)
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating.toString())
     val hotelPreviewRatingObservable = BehaviorSubject.create<Float>(hotel.hotelStarRating)
     val pricePerNightObservable = BehaviorSubject.create(priceFormatter(hotel.lowRateInfo, false))
@@ -34,7 +34,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val urgencyIconObservable = urgencyMessageObservable.filter { it != null }.map { it!!.icon }
     
     val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
-    val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.discountPercent < 0 && hotel.lowRateInfo.airAttached && PointOfSale.getPointOfSale().showHotelCrossSell())
+    val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountTenPercentOrBetter() && hotel.lowRateInfo.airAttached && PointOfSale.getPointOfSale().showHotelCrossSell())
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
     val topAmenityVisibilityObservable = topAmenityTitleObservable.map { (it!="")}
 

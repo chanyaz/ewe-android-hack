@@ -99,4 +99,8 @@ public class HotelRate {
 			return new Money(new BigDecimal(total), currencyCode);
 		}
 	}
+
+	public boolean isDiscountTenPercentOrBetter() {
+		return discountPercent <= -10;
+	}
 }
