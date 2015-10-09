@@ -40,6 +40,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeOnCheckedChange
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeBackgroundResource
 import com.expedia.util.unsubscribeOnCheckedChange
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.util.subscribeRating
@@ -252,6 +253,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             }
         }
         vm.discountPercentageObservable.subscribeText(discountPercentage)
+        vm.discountPercentageBackgroundObservable.subscribeBackgroundResource(discountPercentage)
         vm.hasDiscountPercentageObservable.subscribeVisibility(discountPercentage)
         vm.hasVipAccessObservable.subscribeVisibility(vipAccessMessage)
         vm.promoMessageObservable.subscribeText(promoMessage)
