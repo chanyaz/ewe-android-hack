@@ -308,7 +308,7 @@ public class AccountButton extends LinearLayout {
 		}
 
 		CharSequence youllEarnRewardsPointsText = "";
-		if (!TextUtils.isEmpty(rewardPoints)) {
+		if (!TextUtils.isEmpty(rewardPoints) && !rewardPoints.equals("0")) {
 			switch (lob) {
 			case FLIGHTS:
 				youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, rewardPoints));
