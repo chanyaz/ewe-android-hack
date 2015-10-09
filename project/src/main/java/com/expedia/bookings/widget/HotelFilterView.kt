@@ -15,17 +15,18 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.RatingBar
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import android.widget.ImageButton
 import android.widget.RelativeLayout
+import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FilterAmenity
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -42,11 +43,11 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
     val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
     val filterVipContainer: View by bindView(R.id.filter_vip_container)
-    val filterStarOne: RatingBar by bindView(R.id.filter_hotel_star_rating_one)
-    val filterStarTwo: RatingBar by bindView(R.id.filter_hotel_star_rating_two)
-    val filterStarThree: RatingBar by bindView(R.id.filter_hotel_star_rating_three)
-    val filterStarFour: RatingBar by bindView(R.id.filter_hotel_star_rating_four)
-    val filterStarFive: RatingBar by bindView(R.id.filter_hotel_star_rating_five)
+    val filterStarOne: ImageView by bindView(R.id.filter_hotel_star_rating_one)
+    val filterStarTwo: ImageView by bindView(R.id.filter_hotel_star_rating_two)
+    val filterStarThree: ImageView by bindView(R.id.filter_hotel_star_rating_three)
+    val filterStarFour: ImageView by bindView(R.id.filter_hotel_star_rating_four)
+    val filterStarFive: ImageView by bindView(R.id.filter_hotel_star_rating_five)
     val ratingOneBackground: View by bindView(R.id.rating_one_background)
     val ratingTwoBackground: View by bindView(R.id.rating_two_background)
     val ratingThreeBackground: View by bindView(R.id.rating_three_background)
@@ -54,6 +55,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val ratingFiveBackground: View by bindView(R.id.rating_five_background)
     val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
     val filterHotelName: TextView by bindView(R.id.filter_hotel_name_edit_text)
+    val clearNameButton: ImageView by bindView(R.id.clear_search_button)
     val dynamicFeedbackWidget : DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)
     val dynamicFeedbackClearButton : TextView by bindView(R.id.dynamic_feedback_clear_button)
     val filterContainer: ViewGroup by bindView(R.id.filter_container)
@@ -175,6 +177,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                clearNameButton.setVisibility(if (Strings.isEmpty(s)) View.GONE else View.VISIBLE)
                 vm.filterHotelNameObserver.onNext(s)
             }
         })
@@ -183,6 +186,10 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             if (!isFocus) {
                 com.mobiata.android.util.Ui.hideKeyboard(this)
             }
+        }
+
+        clearNameButton.setOnClickListener { view ->
+            filterHotelName.setText(null)
         }
 
         sortByButtonGroup.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener{
@@ -309,15 +316,12 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         starSelection(filterStarFive, ratingFiveBackground, 5)
     }
 
-    fun starSelection(star: RatingBar, background : View, value : Int) {
+    fun starSelection(star: ImageView, background : View, value : Int) {
+        var starDrawable = star.drawable
         if (value < 0) {
-            var starDrawable = star.getProgressDrawable()
             DrawableCompat.setTint(starDrawable, getResources().getColor(android.R.color.white))
             background.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
         } else {
-            star.setRating(value.toFloat())
-            star.setNumStars(value)
-            var starDrawable = star.getProgressDrawable()
             DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.hotels_primary_color))
             background.setBackgroundColor(getResources().getColor(android.R.color.white))
         }
