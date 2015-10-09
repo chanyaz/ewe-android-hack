@@ -63,6 +63,8 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
     private var roomInfoDescriptionTextHeight = -1
     private var toggleCollapsed = 0
     private var toggleExpanded = 0
+    private var roomContainerTopBottomPadding = 0
+    private var roomContainerLeftRightPadding = 0
 
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
         val viewsToHideInExpandedState = arrayOf(collapsedBedType, collapsedUrgency)
@@ -153,6 +155,7 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
             }
 
             viewRoom.setPadding(toggleExpanded, 0, toggleExpanded, 0)
+            roomInfoContainer.setPadding(roomContainerLeftRightPadding, roomContainerTopBottomPadding, roomContainerLeftRightPadding, roomContainerTopBottomPadding)
             row.isEnabled = false
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
             dailyPricePerNight.setTextColor(resources.getColor(R.color.hotels_primary_color))
@@ -184,15 +187,13 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
                 it.startAnimation(newAlphaZeroToOneAnimation(it))
             }
             viewsToShowInExpandedState.forEach {
-                if (it.id == R.id.room_info_container) {
-                    it.visibility = View.GONE
-                } else {
-                    it.startAnimation(newAlphaOneToZeroAnimation())
-                }
+                it.startAnimation(newAlphaOneToZeroAnimation())
+
             }
 
             row.isEnabled = true
             viewRoom.setPadding(toggleCollapsed, 0, toggleCollapsed, 0)
+            roomInfoContainer.setPadding(0, 0, 0 ,0)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
             dailyPricePerNight.setTextColor(resources.getColor(R.color.hotel_cell_disabled_text))
             perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
@@ -252,6 +253,8 @@ public class HotelRoomRateView(context: Context, val selectedRoomObserver: Obser
         row.background = transitionDrawable
         toggleCollapsed = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, context.resources.displayMetrics).toInt()
         toggleExpanded = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, context.resources.displayMetrics).toInt()
+        roomContainerTopBottomPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, context.resources.displayMetrics).toInt()
+        roomContainerLeftRightPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15f, context.resources.displayMetrics).toInt()
     }
 
     fun topMarginForView(view: View, margin: Int) {
