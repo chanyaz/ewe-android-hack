@@ -609,6 +609,8 @@
     <string name="error_lx_search_message">ไม่พบผลลัพธ์สำหรับการค้นหาของคุณ โปรดลองเปลี่ยนเกณฑ์การค้นหาใหม่</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">เราไม่สามารถระบุตำแหน่งของคุณเพื่อค้นหากิจกรรมใกล้ตัวคุณได้</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">เราไม่สามารถระบุตำแหน่งของคุณเพื่อค้นหายานพาหนะใกล้ตัวคุณได้</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">เกิดข้อผิดพลาด</string>
     <!-- Text for error toolbar-->
@@ -655,6 +657,8 @@
     <string name="lx_error_current_location_toolbar_text">โปรดลองอีกครั้ง</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">เราไม่พบกิจกรรมใกล้ตัวคุณ โปรดลองเปลี่ยนเกณฑ์การค้นหาใหม่</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">เราไม่พบยานพาหนะใกล้ตัวคุณ โปรดลองเปลี่ยนเกณฑ์การค้นหาใหม่</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">กระเป๋า %1$s ใบ</string>
@@ -2759,10 +2763,23 @@
     <string name="total_price_for_stay">ราคารวมสำหรับการเข้าพัก</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">ราคาเฉลี่ยต่อคืน</string>
+
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">ราคาเฉลี่ยต่อคืน • {count} รายการ</string>
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">ไม่พบผลลัพธ์</item>
+        <item quantity="one">ราคาเฉลี่ยต่อคืน • 1 รายการ</item>
+        <item quantity="many">ราคาเฉลี่ยต่อคืน • %d รายการ</item>
+        <item quantity="other">ราคาเฉลี่ยต่อคืน • %d รายการ</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">ราคารวมสำหรับการเข้าพัก • {count} รายการ</string>
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">ไม่พบผลลัพธ์</item>
+        <item quantity="one">ราคารวมสำหรับการเข้าพัก • 1 รายการ</item>
+        <item quantity="many">ราคารวมสำหรับการเข้าพัก • %d รายการ</item>
+        <item quantity="other">ราคารวมสำหรับการเข้าพัก • %d รายการ</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">เต็มแล้ว!</item>
@@ -2951,6 +2968,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">ฝ่ายช่วยเหลือการจอง</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">คำร้องขอความช่วยเหลือ</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">ติดต่อ {brand} ผ่าน…</string>
     <!-- Contact Expedia via phone -->
@@ -3701,10 +3720,6 @@
 
     <!-- Filters Strings -->
     <string name="neighborhoods">ย่าน</string>
-    <string name="gym">ฟิตเนส</string>
-    <string name="room_service">รูมเซอร์วิส</string>
-    <string name="business_center">ศูนย์ธุรกิจ</string>
-    <string name="accessible">อำนวยความสะดวกผู้พิการ</string>
     <string name="amenities">สิ่งอำนวยความสะดวก</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">ระดับดาว</string>

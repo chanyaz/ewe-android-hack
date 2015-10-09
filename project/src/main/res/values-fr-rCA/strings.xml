@@ -609,6 +609,8 @@
     <string name="error_lx_search_message">Votre recherche n\&apos;a produit aucun résultat. Veuillez recommencer votre recherche avec d\&apos;autres critères.</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">Nous n\&apos;avons pas pu déterminer votre emplacement actuel afin de trouver des activités à proximité.</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">Nous n\&apos;avons pas pu déterminer votre emplacement actuel afin de trouver des transports à proximité.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Erreur</string>
     <!-- Text for error toolbar-->
@@ -655,6 +657,8 @@
     <string name="lx_error_current_location_toolbar_text">Veuillez recommencer</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">Nous n\&apos;avons pas trouvé d\&apos;activités à proximité. Veuillez recommencer votre recherche avec d\&apos;autres critères.</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">Nous n\&apos;avons pas trouvé de transport à proximité. Veuillez recommencer votre recherche avec d\&apos;autres critères.</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$s bagages</string>
@@ -2333,7 +2337,7 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
-    <string name="book">Livre</string>
+    <string name="book">Réserver</string>
 
     <!-- Highlight view stuff -->
     <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
@@ -2757,10 +2761,23 @@
     <string name="total_price_for_stay">Prix total par séjour</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">Tarifs moyens, par nuit</string>
+
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">Tarifs moyens, par nuit • {count} résultats</string>
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">Aucun résultat</item>
+        <item quantity="one">Tarifs moyens, par nuit • 1 résultat</item>
+        <item quantity="many">Tarifs moyens, par nuit • %d résultats</item>
+        <item quantity="other">Tarifs moyens, par nuit • %d résultats</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">Prix total par séjour • {count} résultats</string>
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">Aucun résultat</item>
+        <item quantity="one">Prix total par séjour • 1 résultat</item>
+        <item quantity="many">Prix total par séjour • %d résultats</item>
+        <item quantity="other">Prix total par séjour • %d résultats</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">Aucune chambre disponible!</item>
@@ -2949,6 +2966,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Aide à la réservation</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">Demande d\&apos;assistance</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">Communiquez avec {brand} des façons suivantes…</string>
     <!-- Contact Expedia via phone -->
@@ -3699,10 +3718,6 @@
 
     <!-- Filters Strings -->
     <string name="neighborhoods">Quartiers</string>
-    <string name="gym">Gym</string>
-    <string name="room_service">Service aux chambres</string>
-    <string name="business_center">Centre d\&apos;affaires</string>
-    <string name="accessible">Accessible aux personnes handicapées</string>
     <string name="amenities">Commodités</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Nombre d\&apos;étoiles</string>

@@ -609,6 +609,8 @@
     <string name="error_lx_search_message">No se han obtenido resultados. Cambia los criterios de búsqueda.</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">No hemos podido determinar tu ubicación para mostrarte las actividades más cercanas.</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">No hemos podido determinar tu ubicación para mostrarte los medios de transporte más cercanos.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Se ha producido un error</string>
     <!-- Text for error toolbar-->
@@ -655,6 +657,8 @@
     <string name="lx_error_current_location_toolbar_text">Vuelve a intentarlo.</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">No hemos encontrado ninguna actividad cercana. Cambia los criterios de búsqueda.</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">No hemos encontrado ningún medio de transporte cercano. Cambia los criterios de búsqueda.</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$s maletas</string>
@@ -2757,10 +2761,23 @@
     <string name="total_price_for_stay">Precio total de la estancia</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">Precio medio por noche</string>
+
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">Precio medio por noche • {count} resultados</string>
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">Sin resultados</item>
+        <item quantity="one">Precio medio por noche • 1 resultado</item>
+        <item quantity="many">Precio medio por noche • %d resultados</item>
+        <item quantity="other">Precio medio por noche • %d resultados</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">Precio total de la estancia • {count} resultados</string>
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">Sin resultados</item>
+        <item quantity="one">Precio total de la estancia • 1 resultado</item>
+        <item quantity="many">Precio total de la estancia • %d resultados</item>
+        <item quantity="other">Precio total de la estancia • %d resultados</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">¡No quedan habitaciones!</item>
@@ -2950,6 +2967,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Ayuda para reservas</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">Solicitar ayuda</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">Ponte en contacto con {brand} vía…</string>
     <!-- Contact Expedia via phone -->
@@ -3700,10 +3719,6 @@
 
     <!-- Filters Strings -->
     <string name="neighborhoods">Zonas</string>
-    <string name="gym">Gimnasio</string>
-    <string name="room_service">Servicio de habitaciones</string>
-    <string name="business_center">Centro de negocios</string>
-    <string name="accessible">Acceso en silla de ruedas</string>
     <string name="amenities">Servicios</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Clasificación</string>

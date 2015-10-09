@@ -609,6 +609,8 @@
     <string name="error_lx_search_message">Din søgning gav ingen resultater. Prøv at søge igen med andre søgekriterier.</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">Vi kunne ikke fastlægge din nuværende placering og kan derfor ikke finde aktiviteter i nærheden af dig.</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">Vi kunne ikke fastlægge din nuværende placering og kan derfor ikke finde transportmuligheder i nærheden af dig.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Fejl</string>
     <!-- Text for error toolbar-->
@@ -655,6 +657,8 @@
     <string name="lx_error_current_location_toolbar_text">Prøv venligst igen</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">Vi kunne ikke finde aktiviteter i nærheden af dig. Prøv at søge igen med andre søgekriterier.</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">Vi kunne ikke finde transportmuligheder i nærheden af dig. Prøv at søge igen med andre søgekriterier.</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$s stykker bagage</string>
@@ -2757,10 +2761,23 @@
     <string name="total_price_for_stay">Samlet pris for opholdet</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">Gennemsnitspris, pr. nat</string>
+
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">Gennemsnitspris pr. nat • {count} resultater</string>
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">Ingen resultater</item>
+        <item quantity="one">Gennemsnitspris pr. nat • 1 resultat</item>
+        <item quantity="many">Gennemsnitspris pr. nat • %d resultater</item>
+        <item quantity="other">Gennemsnitspris pr. nat • %d resultater</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">Samlet pris for opholdet • {count} resultater</string>
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">Ingen resultater</item>
+        <item quantity="one">Samlet pris for opholdet • 1 resultat</item>
+        <item quantity="many">Samlet pris for opholdet • %d resultater</item>
+        <item quantity="other">Samlet pris for opholdet • %d resultater</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">Ingen værelser tilbage!</item>
@@ -2949,6 +2966,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Reservationssupport</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">Anmodning om hjælp</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">Kontakt {brand} via…</string>
     <!-- Contact Expedia via phone -->
@@ -3699,10 +3718,6 @@
 
     <!-- Filters Strings -->
     <string name="neighborhoods">Kvarterer</string>
-    <string name="gym">Motionscenter</string>
-    <string name="room_service">Roomservice</string>
-    <string name="business_center">Forretningscenter</string>
-    <string name="accessible">Handicapvenlig</string>
     <string name="amenities">Faciliteter</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Antal stjerner</string>

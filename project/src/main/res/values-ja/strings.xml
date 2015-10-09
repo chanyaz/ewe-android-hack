@@ -609,6 +609,8 @@
     <string name="error_lx_search_message">検索結果はありません。条件を変更して再検索してください。</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">現在地を特定できないため、周辺のアクティビティを検索できませんでした。</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">現在地を特定できないため、周辺の交通機関を検索できませんでした。</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">エラー</string>
     <!-- Text for error toolbar-->
@@ -655,6 +657,8 @@
     <string name="lx_error_current_location_toolbar_text">もう一度お試しください</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">周辺のアクティビティはありません。条件を変更して再検索してください。</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">周辺の交通機関を検索できませんでした。条件を変更して再検索してください。</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">手荷物 %1$s 個</string>
@@ -1344,9 +1348,9 @@
     <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -2757,10 +2761,23 @@
     <string name="total_price_for_stay">合計宿泊料金</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">1 泊平均料金</string>
+
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">1 泊平均料金 • 結果 {count} 件</string>
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">何も検索されませんでした</item>
+        <item quantity="one">1 泊平均料金 • 結果 1 件</item>
+        <item quantity="many">1 泊平均料金 • 結果 %d 件</item>
+        <item quantity="other">1 泊平均料金 • 結果 %d 件</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">合計宿泊料金 • 結果 {count} 件</string>
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">何も検索されませんでした</item>
+        <item quantity="one">合計宿泊料金 • 結果 1 件</item>
+        <item quantity="many">合計宿泊料金 • 結果 %d 件</item>
+        <item quantity="other">合計宿泊料金 • 結果 %d 件</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">空室はありません !</item>
@@ -2949,6 +2966,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">予約に関するお問い合わせ</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">お問い合わせ</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">{brand} へのご連絡方法…</string>
     <!-- Contact Expedia via phone -->
@@ -3699,10 +3718,6 @@
 
     <!-- Filters Strings -->
     <string name="neighborhoods">周辺</string>
-    <string name="gym">ジム</string>
-    <string name="room_service">ルームサービス</string>
-    <string name="business_center">ビジネスセンター</string>
-    <string name="accessible">バリアフリー</string>
     <string name="amenities">設備</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">星評価</string>

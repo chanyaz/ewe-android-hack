@@ -609,6 +609,8 @@
     <string name="error_lx_search_message">搜尋沒有結果。請以其他條件再次搜尋。</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">我們無法確定您的目前位置以搜尋您附近的活動。</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">我們無法確定您的目前位置以搜尋您附近的交通。</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">錯誤</string>
     <!-- Text for error toolbar-->
@@ -655,6 +657,8 @@
     <string name="lx_error_current_location_toolbar_text">請再試一次</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">我們找不到任何在您附近的活動。請以其他條件再次搜尋。</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">我們找不到任何在您附近的交通。請以其他條件再次搜尋。</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$s 件行李</string>
@@ -2757,10 +2761,23 @@
     <string name="total_price_for_stay">總房價</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">每晚平均價格</string>
+
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">每晚平均價格 • {count} 個結果</string>
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">沒有結果</item>
+        <item quantity="one">每晚平均價格 • 1 個結果</item>
+        <item quantity="many">每晚平均價格 • %d 個結果</item>
+        <item quantity="other">每晚平均價格 • %d 個結果</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">總房價 • {count} 個結果</string>
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">沒有結果</item>
+        <item quantity="one">總房價 • 1 個結果</item>
+        <item quantity="many">總房價 • %d 個結果</item>
+        <item quantity="other">總房價 • %d 個結果</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">我們的 App 已沒有房！</item>
@@ -2949,6 +2966,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">預訂支援</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">支援要求</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">聯絡 {brand}…</string>
     <!-- Contact Expedia via phone -->
@@ -3699,10 +3718,6 @@
 
     <!-- Filters Strings -->
     <string name="neighborhoods">附近地區</string>
-    <string name="gym">健身室</string>
-    <string name="room_service">客房送餐服務</string>
-    <string name="business_center">商務中心</string>
-    <string name="accessible">無障礙酒店</string>
     <string name="amenities">設施/服務</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">星級</string>

@@ -609,6 +609,8 @@
     <string name="error_lx_search_message">Votre recherche n\&apos;a donné aucun résultat. Veuillez tenter une nouvelle recherche avec des critères différents.</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">Nous n\&apos;avons pas été en mesure de déterminer votre emplacement actuel afin de trouver des activités autour de vous.</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">Nous n\&apos;avons pas été en mesure de déterminer votre emplacement actuel afin de trouver des moyens de transport près de vous.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Erreur</string>
     <!-- Text for error toolbar-->
@@ -655,6 +657,8 @@
     <string name="lx_error_current_location_toolbar_text">Veuillez réessayer</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">Nous n\&apos;avons pas été en mesure de trouver des activités près de vous. Veuillez tenter une nouvelle recherche avec des critères différents.</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">Nous n\&apos;avons pas été en mesure de trouver des moyens de transport près de vous. Veuillez tenter une nouvelle recherche avec des critères différents.</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$s bagages</string>
@@ -2604,7 +2608,7 @@
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% de nos clients recommandent cet hôtel.</string>
     <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent_Template">{rating}{percent}</string>
+    <string name="customer_rating_percent_Template">{rating} {percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sur 5 - avis clients</string>
     <!-- new material Hotel results cell discount percentage -->
@@ -2612,9 +2616,9 @@
 
     <!-- Amenity strings -->
     <!-- Label to show amenities -->
-    <string name="AmenityTitle">Services et équipements</string>
+    <string name="AmenityTitle">Services</string>
     <!-- Text that indicates no amenities at this property -->
-    <string name="AmenityNone">Aucuns services ou équipements offerts</string>
+    <string name="AmenityNone">Aucun équipement offert</string>
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">Espace affaires</string>
     <!-- Fitness center amenity -->
@@ -2757,17 +2761,30 @@
     <string name="total_price_for_stay">Prix total du séjour</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">Prix moyen, par nuit</string>
+
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">Prix moyen par nuit • {count} résultats</string>
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">Aucun résultat</item>
+        <item quantity="one">Prix moyen par nuit • 1 résultat</item>
+        <item quantity="many">Prix moyen par nuit • %d résultats</item>
+        <item quantity="other">Prix moyen par nuit • %d résultats</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">Prix total du séjour • {count} résultats</string>
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">Aucun résultat</item>
+        <item quantity="one">Prix total du séjour • 1 résultat</item>
+        <item quantity="many">Prix total du séjour • %d résultats</item>
+        <item quantity="other">Prix total du séjour • %d résultats</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
-        <item quantity="zero">Plus de chambres disponibles sur notre appli !</item>
+        <item quantity="zero">Plus de chambres disponibles sur notre app !</item>
         <item quantity="one">Il reste 1 chambre disponible sur notre app !</item>
         <item quantity="two">Il reste %d chambres disponibles sur notre app !</item>
         <item quantity="many">Il reste %d chambres disponibles sur notre app !</item>
-        <item quantity="other">Il reste %d chambres disponibles sur notre appli !</item>
+        <item quantity="other">Il reste %d chambres disponibles sur notre app !</item>
     </plurals>
     <!-- The text we use to show room info for expanded room -->
     <string name="room_information">Informations sur la chambre</string>
@@ -2949,6 +2966,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Assistance réservation</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">Demande d\&apos;assistance</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">Contactez {brand} par…</string>
     <!-- Contact Expedia via phone -->
@@ -3699,10 +3718,6 @@
 
     <!-- Filters Strings -->
     <string name="neighborhoods">Quartiers</string>
-    <string name="gym">Salle de gym</string>
-    <string name="room_service">Service d\&apos;étage</string>
-    <string name="business_center">Espace affaires</string>
-    <string name="accessible">Accès pers. à mobilité réduite</string>
     <string name="amenities">Services</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Nombre d\&apos;étoiles</string>

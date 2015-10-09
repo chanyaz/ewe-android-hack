@@ -22,9 +22,9 @@
     <!-- Hotels rating room comfort string -->
     <string name="hotel_rating_room_comfort">Conforto do quarto</string>
     <!-- Hotels rating service and staff string -->
-    <string name="hotel_rating_service_and_staff">Serviço &amp; Equipe</string>
+    <string name="hotel_rating_service_and_staff">Serviço e equipe do estabelecimento</string>
     <!-- Hotels rating hotel condition string -->
-    <string name="hotel_rating_hotel_condition">Conservação do hotel</string>
+    <string name="hotel_rating_hotel_condition">Condição do hotel</string>
 
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
@@ -609,6 +609,8 @@
     <string name="error_lx_search_message">Sua busca não obteve resultados. Tente novamente usando outros critérios de busca.</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">Não foi possível determinar sua localização atual para encontrar atividades perto de você.</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">Não foi possível determinar sua localização atual para encontrar opções de transporte perto de você.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Erro</string>
     <!-- Text for error toolbar-->
@@ -655,6 +657,8 @@
     <string name="lx_error_current_location_toolbar_text">Tente novamente</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">Não encontramos nenhuma atividade perto de você. Tente novamente usando outros critérios de busca.</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">Não encontramos nenhuma opção de transporte perto de você. Tente novamente usando outros critérios de busca.</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$sBagagens</string>
@@ -2701,8 +2705,8 @@
     <plurals name="number_of_reviews">
         <item quantity="zero">Nenhuma avaliação</item>
         <item quantity="one">%d avaliação</item>
-        <item quantity="two">%d avaliação</item>
-        <item quantity="many">%d avaliação</item>
+        <item quantity="two">%d avaliações</item>
+        <item quantity="many">%d avaliações</item>
         <item quantity="other">%d avaliações</item>
     </plurals>
 
@@ -2757,10 +2761,23 @@
     <string name="total_price_for_stay">Preço total da estadia</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">Média de preços por noite</string>
+
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">Média de preços por noite • {count} Resultados</string>
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">Nenhum resultado</item>
+        <item quantity="one">Média de preços por noite • 1 resultado</item>
+        <item quantity="many">Média de preços por noite • %d resultados</item>
+        <item quantity="other">Média de preços por noite • %d resultados</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
-    <string name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">Preço total para a estadia • {count} Resultados</string>
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">Nenhum resultado</item>
+        <item quantity="one">Preço total da estadia • 1 resultado</item>
+        <item quantity="many">Preço total da estadia • %d resultados</item>
+        <item quantity="other">Preço total da estadia • %d resultados</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">Nenhum quarto restante em nosso site!</item>
@@ -2898,7 +2915,7 @@
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
-    <string name="coupon_error_unknown">Este não é um código de cupom conhecido.</string>
+    <string name="coupon_error_unknown">Este código de cupom não é conhecido.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">Este código de cupom não é válido.</string>
     <!-- Error when applying coupon - the coupon has expired -->
@@ -2926,9 +2943,9 @@
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">O cupom não pode ser aplicado a este hotel.</string>
     <!-- Error when applying coupon - the package does not accept coupons -->
-    <string name="coupon_error_invalid_booking">Não é possível aplicar este cupom a esta reserva.</string>
+    <string name="coupon_error_invalid_booking">Não foi possível aplicar o cupom a esta reserva.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Impossível possível processar cupons no momento. Tente novamente.</string>
+    <string name="coupon_error_service_down">Impossível processar cupons no momento. Tente novamente.</string>
     <!-- Error when applying coupon - session timeout -->
     <string name="coupon_error_service_timeout">Você levou tempo demais para aplicar o código. Tente novamente.</string>
     <!-- Error when applying coupon - Invalid Stay Dates -->
@@ -2949,6 +2966,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Assistência para reservas</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">Solicitação de assistência</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">Entre em contato com a {brand} via…</string>
     <!-- Contact Expedia via phone -->
@@ -3698,11 +3717,7 @@
     <string name="children_age_label">(0-17 anos)</string>
 
     <!-- Filters Strings -->
-    <string name="neighborhoods">Áreas</string>
-    <string name="gym">Academia</string>
-    <string name="room_service">Serviço de quarto</string>
-    <string name="business_center">Business Center</string>
-    <string name="accessible">Acessibilidade</string>
+    <string name="neighborhoods">Arredores</string>
     <string name="amenities">Comodidades</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Classificação por estrelas</string>
