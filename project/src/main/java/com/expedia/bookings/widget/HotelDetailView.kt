@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.LayoutInflater
+import android.view.animation.LinearInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.ImageButton
@@ -388,7 +389,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         resortFeeWidget.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         resortViewHeight = resortFeeWidget.measuredHeight
 
-        resortFeeWidget.animate().translationY(resortViewHeight.toFloat()).setInterpolator(DecelerateInterpolator()).start()
+        resortFeeWidget.animate().translationY(resortViewHeight.toFloat()).setInterpolator(LinearInterpolator()).setDuration(200).start()
         stickySelectRoomContainer.animate().translationY(bottomMargin.toFloat()).setInterpolator(DecelerateInterpolator()).start()
     }
 
@@ -456,9 +457,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         urgencyViewAlpha(urgencyRatio * 1.5f)
 
         if (shouldShowResortView()) {
-            resortFeeWidget.animate().translationY(0f).setInterpolator(DecelerateInterpolator()).start()
+            resortFeeWidget.animate().translationY(0f).setInterpolator(LinearInterpolator()).setDuration(200).start()
         } else {
-            resortFeeWidget.animate().translationY((resortViewHeight).toFloat()).setInterpolator(DecelerateInterpolator()).start()
+            resortFeeWidget.animate().translationY((resortViewHeight).toFloat()).setInterpolator(LinearInterpolator()).setDuration(200).start()
         }
         shouldShowStickySelectRoomView()
         if (etpContainer.visibility == View.VISIBLE) {
@@ -494,14 +495,21 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     public fun shouldShowStickySelectRoomView() {
         roomContainer.getLocationOnScreen(roomContainerPosition)
-        if (roomContainerPosition[1] + roomContainer.height < offset) {
-            stickySelectRoomContainer.animate().translationY(0f).setInterpolator(DecelerateInterpolator()).start()
+        var selectRoomButtonOffset = offset
+
+        if (etpContainer.visibility == View.VISIBLE) {
+            selectRoomButtonOffset = (offset + (etpContainer.height) / 2)
+        }
+
+        if (roomContainerPosition[1] + roomContainer.height < selectRoomButtonOffset ) {
+            stickySelectRoomContainer.animate().translationY(0f).setInterpolator(LinearInterpolator()).setDuration(200).start()
         } else {
-            stickySelectRoomContainer.animate().translationY((stickySelectRoomContainer.height).toFloat()).setInterpolator(DecelerateInterpolator()).start()
+            stickySelectRoomContainer.animate().translationY((stickySelectRoomContainer.height).toFloat()).setInterpolator(LinearInterpolator()).setDuration(200).start()
         }
     }
 
     public fun shouldShowETPContainer() {
+        roomContainer.getLocationOnScreen(roomContainerPosition)
         if (roomContainerPosition[1] + roomContainer.height < offset + etpContainer.height) {
             etpContainer.setEnabled(false)
         } else
