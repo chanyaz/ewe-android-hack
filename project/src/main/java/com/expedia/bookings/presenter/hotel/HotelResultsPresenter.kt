@@ -251,6 +251,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
 
             mapCarouselRecycler.adapter = HotelMapCarouselAdapter(it, hotelSelectedSubject)
+            if (it.size() > 0) {
+                mapCarouselRecycler.mapSubject.onNext(it[0])
+            }
         }
 
         mapViewModel.mapPinSelectObservable.subscribe {
