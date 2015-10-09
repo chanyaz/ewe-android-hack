@@ -11,6 +11,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelErrorPresenter
@@ -76,6 +77,14 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.setExpanded(true, true)
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         }
+
+        errorPresenter.viewmodel.checkoutAlreadyBookedObservable.subscribe {
+            NavUtils.goToItin(context)
+        }
+
+        errorPresenter.viewmodel.checkoutPaymentFailedObservable.subscribe(errorPresenter.viewmodel.checkoutCardErrorObservable)
+
+        errorPresenter.viewmodel.sessionTimeOutObservable.subscribe { show(searchPresenter) }
 
         errorPresenter.viewmodel.checkoutTravellerErrorObservable.subscribe {
             show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
