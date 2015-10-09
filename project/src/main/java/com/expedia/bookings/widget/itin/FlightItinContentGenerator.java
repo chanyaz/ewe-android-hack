@@ -507,7 +507,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				public void onClick(View v) {
 					ClipboardUtils.setText(getContext(), firstConfCode);
 					Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
-					OmnitureTracking.trackItinFlightCopyPNR(getContext());
+					OmnitureTracking.trackItinFlightCopyPNR();
 				}
 			});
 		}
@@ -987,14 +987,14 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 						NavUtils.startActivitySafe(getActivity(), intent);
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
 
-						OmnitureTracking.trackItinFlightDirections(getActivity());
+						OmnitureTracking.trackItinFlightDirections();
 					}
 					else if (finalOptions[which].equals(terminalMaps)) {
 						Intent intent = TerminalMapActivity.createIntent(getActivity(), mAirport.mAirportCode);
 						getActivity().startActivity(intent);
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
 
-						OmnitureTracking.trackItinFlightTerminalMaps(getActivity());
+						OmnitureTracking.trackItinFlightTerminalMaps();
 					}
 					else {
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();

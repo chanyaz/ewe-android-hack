@@ -9,6 +9,7 @@ import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
 import com.expedia.bookings.data.lx.LXOfferSelected;
 import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -109,5 +110,10 @@ public class LXState {
 
 	public int selectedTicketsCount() {
 		return LXUtils.getTotalTicketCount(selectedTickets);
+	}
+
+	public int selectedChildTicketsCount() {
+		return LXUtils.getTicketTypeCount(selectedTickets, LXTicketType.Child) + LXUtils
+			.getTicketTypeCount(selectedTickets, LXTicketType.Infant);
 	}
 }

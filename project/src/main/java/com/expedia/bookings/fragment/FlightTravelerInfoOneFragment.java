@@ -83,7 +83,7 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightTravelerEditInfo(getActivity());
+		OmnitureTracking.trackPageLoadFlightTravelerEditInfo();
 	}
 
 	@Override

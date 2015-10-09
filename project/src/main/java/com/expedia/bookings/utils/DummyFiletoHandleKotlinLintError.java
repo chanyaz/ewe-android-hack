@@ -24,4 +24,20 @@ public class DummyFiletoHandleKotlinLintError {
 	private static final int HOTEL_DETAILS = R.layout.widget_hotel_detail;
 	private static final int HOTEL_DETAIL_ROW = R.layout.hotel_room_row;
 	private static final int HOTEL_TEXT = R.string.hotel_ellipsize_text_template;
+	private static final int HOTEL_BUTTON_TEXT = R.string.view_room_button_text;
+	private static final int HOTEL_TOOLTIP = R.drawable.hotel_tooltip;
+	private static final int HOTEL_TOOLTIP_BLUE = R.drawable.hotel_tooltip_blue;
+	private static final int HOTEL_MARKER_PREVIEW_CELL = R.layout.hotel_marker_preview_cell;
+	private static final int HOTEL_MARKER_PREVIEW_BACKGROUND = R.drawable.hotel_marker_preview_background;
+	private static final int TOOLBAR_FILTER_ITEM = R.layout.toolbar_filter_item;
+	private static final int MENU_FILTER_ITEM = R.menu.menu_filter_item;
+	private static final int HOTEL_MARKER_PADDING_WIDTH = R.dimen.hotel_marker_padding_width;
+	private static final int HOTEL_MARKER_PADDING_HEIGHT = R.dimen.hotel_marker_padding_height;
+	public static final int HOTEL_DETAIL_PRESENTER = R.layout.widget_hotel_detail_presenter;
+	private static final int HOTEL_CHECKOUT_SUMMARY = R.layout.hotel_checkout_summary_widget;
+	private static final int HOTEL_CHECKOUT_WIDGET = R.layout.widget_hotel_checkout;
+	private static final int HOTEL_CONFIRMATION = R.layout.widget_hotel_confirmation;
+	private static final int HOTEL_CALENDAR_TOOLTIP_BOTTOM = R.string.hotel_calendar_tooltip_bottom;
+	private static final int SELECT_CHECKOUT_DATE_TEMPLATE = R.string.select_checkout_date_TEMPLATE;
+	private static final int NIGHT_COUNT_TEMPLATE = R.string.nights_count_TEMPLATE;
 }

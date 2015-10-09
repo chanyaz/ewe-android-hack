@@ -184,6 +184,10 @@ public class AccountLibActivity extends AppCompatActivity
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
+		if (savedInstanceState == null) {
+			AdTracker.trackSignInUpStarted();
+		}
+
 		Intent intent = getIntent();
 		if (intent.hasExtra(ARG_BUNDLE)) {
 			Bundle args = intent.getBundleExtra(ARG_BUNDLE);
@@ -240,7 +244,7 @@ public class AccountLibActivity extends AppCompatActivity
 				.format());
 
 		FontCache.setTypeface(statusText, FontCache.Font.ROBOTO_REGULAR);
-		OmnitureTracking.trackLoginScreen(this);
+		OmnitureTracking.trackLoginScreen();
 	}
 
 	@Override
@@ -255,7 +259,7 @@ public class AccountLibActivity extends AppCompatActivity
 		User.addUserToAccountManager(this, Db.getUser());
 		if (User.isLoggedIn(this)) {
 			if (loginWithFacebook) {
-				OmnitureTracking.trackLoginSuccess(AccountLibActivity.this);
+				OmnitureTracking.trackLoginSuccess();
 			}
 			AdTracker.trackLogin();
 			if (loginExtender != null) {
@@ -281,58 +285,61 @@ public class AccountLibActivity extends AppCompatActivity
 	private AnalyticsListener analyticsListener = new AnalyticsListener() {
 		@Override
 		public void signInSucceeded() {
-			OmnitureTracking.trackLoginSuccess(AccountLibActivity.this);
+			OmnitureTracking.trackLoginSuccess();
+			//Don't track the adtracker login here, as it happens once we fetch the profile
 		}
 
 		@Override
 		public void contactsAccessRequested() {
-			OmnitureTracking.trackLoginContactAccess(AccountLibActivity.this);
+			OmnitureTracking.trackLoginContactAccess();
 		}
 
 		@Override
 		public void contactsAccessResponse(boolean b) {
-			OmnitureTracking.trackAllowContactAccess(AccountLibActivity.this, b);
+			OmnitureTracking.trackAllowContactAccess(b);
 		}
 
 		@Override
 		public void emailsQueried() {
-			OmnitureTracking.trackLoginEmailsQueried(AccountLibActivity.this);
+			OmnitureTracking.trackLoginEmailsQueried();
 		}
 
 		@Override
 		public void accountCreationAttemptWithPreexistingEmail(boolean useExisting, boolean createNew) {
-			OmnitureTracking.trackEmailPrompt(AccountLibActivity.this);
-			OmnitureTracking.trackEmailPromptChoice(AccountLibActivity.this, useExisting, createNew);
+			OmnitureTracking.trackEmailPrompt();
+			OmnitureTracking.trackEmailPromptChoice(useExisting);
 		}
 
 		@Override
 		public void userViewedNameEntering() {
-			OmnitureTracking.trackLoginCreateUsername(AccountLibActivity.this);
+			OmnitureTracking.trackLoginCreateUsername();
 		}
 
 		@Override
 		public void userViewedPasswordEntering() {
-			OmnitureTracking.trackLoginCreatePassword(AccountLibActivity.this);
+			OmnitureTracking.trackLoginCreatePassword();
 		}
 
 		@Override
 		public void userViewedTosPage() {
-			OmnitureTracking.trackLoginTOS(AccountLibActivity.this);
+			OmnitureTracking.trackLoginTOS();
 		}
 
 		@Override
 		public void userExplicitlyModifiedMarketingOptIn(boolean b) {
-			OmnitureTracking.trackMarketingOptIn(AccountLibActivity.this, b);
+			OmnitureTracking.trackMarketingOptIn(b);
 		}
 
 		@Override
 		public void userSucceededInCreatingAccount() {
-			OmnitureTracking.trackAccountCreateSuccess(AccountLibActivity.this);
+			OmnitureTracking.trackAccountCreateSuccess();
+			AdTracker.trackAccountCreated();
+			//Don't track the adtracker login here, as it happens once we fetch the profile
 		}
 
 		@Override
 		public void userReceivedErrorOnSignInAttempt(String s) {
-			OmnitureTracking.trackAccountCreateError(AccountLibActivity.this, s);
+			OmnitureTracking.trackAccountCreateError(s);
 		}
 	};
 
@@ -397,8 +404,7 @@ public class AccountLibActivity extends AppCompatActivity
 		// start Facebook Login
 		Session currentSession = Session.getActiveSession();
 		if (currentSession == null || currentSession.getState().isClosed()) {
-			Session session = new Session.Builder(this).setApplicationId(
-				ExpediaServices.getFacebookAppId(this)).build();
+			Session session = new Session.Builder(this).build();
 			Session.setActiveSession(session);
 			currentSession = session;
 		}

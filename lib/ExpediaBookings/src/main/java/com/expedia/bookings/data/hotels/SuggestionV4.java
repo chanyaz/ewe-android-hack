@@ -20,22 +20,11 @@ public class SuggestionV4 {
 	}
 
 	public static class HierarchyInfo {
-		public Airport airport;
-		public Country country;
 		public Boolean isChild = false;
 	}
 
 	public static class Airport {
 		public String airportCode;
-	}
-
-	public static class Country {
-		@SerializedName("name")
-		public String countryName;
-		@SerializedName("isoCode2")
-		public String isoTwoLetterCode;
-		@SerializedName("isoCode3")
-		public String isoThreeLetterCode;
 	}
 
 	public static class LatLng {
@@ -44,7 +33,7 @@ public class SuggestionV4 {
 		public double lng;
 	}
 
-	public static enum IconType {
+	public enum IconType {
 		HISTORY_ICON,
 		CURRENT_LOCATION_ICON,
 		SEARCH_TYPE_ICON

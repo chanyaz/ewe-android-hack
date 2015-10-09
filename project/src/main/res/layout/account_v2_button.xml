@@ -141,6 +141,8 @@
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:minHeight="@dimen/account_rewards_container_height_for_empty_message"
         android:visibility="gone">
 

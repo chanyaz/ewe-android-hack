@@ -17,12 +17,6 @@
     <!-- Template for time - distance.  E.g., "9h 40m - 5,5000 miles" -->
     <string name="time_distance_TEMPLATE"> &lt;b&gt;%1$s&lt;/b&gt; - %2$s</string>
 
-    <!-- Facebook -->
-    <!-- Development Facebook app id -->
-    <string name="facebook_dev_app_id">317210574974208</string>
-    <!-- Production Facebook app id -->
-    <string name="facebook_app_id">131538103586818</string>
-
     <!-- Lean Plum SDK -->
     <string name="lean_plum_sdk_dev_appid">iP8YMOTxnTNTBS7oclci3OIxWAKL8hXJyx84GepS09s</string>
     <string name="lean_plum_sdk_dev_key">nKAaL3XpW5WsFx8kv8UjvDRjtYD0C3jGPDLSIamlFZ4</string>

@@ -1,9 +1,8 @@
 package com.expedia.bookings.data.hotels
 
-import com.expedia.bookings.data.cars.Suggestion
 import org.joda.time.LocalDate
 
-public class HotelSearchParams(val city: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
+public class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
 
     public fun getGuestString() : String {
         val sb = StringBuilder {
@@ -17,14 +16,14 @@ public class HotelSearchParams(val city: SuggestionV4, val checkIn: LocalDate, v
     }
 
     class Builder {
-        private var city: SuggestionV4? = null
+        private var suggestion: SuggestionV4? = null
         private var checkIn: LocalDate? = null
         private var checkOut: LocalDate? = null
         private var adults: Int = 1
         private var children: List<Int> = emptyList()
 
-        fun city(city: SuggestionV4): Builder {
-            this.city = city
+        fun suggestion(city: SuggestionV4): Builder {
+            this.suggestion = city
             return this
         }
 
@@ -49,7 +48,7 @@ public class HotelSearchParams(val city: SuggestionV4, val checkIn: LocalDate, v
         }
 
         fun build(): HotelSearchParams {
-            val location = city ?: throw IllegalArgumentException()
+            val location = suggestion ?: throw IllegalArgumentException()
             val checkInDate = checkIn ?: throw IllegalArgumentException()
             val checkOutDate = checkOut ?: throw IllegalArgumentException()
             return HotelSearchParams(location, checkInDate, checkOutDate, adults, children)
@@ -64,7 +63,7 @@ public class HotelSearchParams(val city: SuggestionV4, val checkIn: LocalDate, v
         }
 
         public fun hasOrigin(): Boolean {
-            return city != null
+            return suggestion != null
         }
     }
 }

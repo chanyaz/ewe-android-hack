@@ -1894,10 +1894,6 @@
     <string name="enter_traveler_info">Reisendes informasjon</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Informasjon om hovedreisende</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">Oppgi detaljer for hovedreisende</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate2">Hovedreisende</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Lagret</string>
     <!-- Edit button for traveler/payment -->
@@ -2563,6 +2559,7 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="guest_recommend">av tidligere gjester anbefaler</string>
+    <string name="hotel_guest_recommend">av 5 – gjestevurdering</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->

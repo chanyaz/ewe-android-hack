@@ -130,18 +130,6 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
-	}
-
-	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putString(STATE_TAG_MODE, mMode.name());
 		outState.putString(STATE_TAG_DEST, mPos.name());
@@ -306,7 +294,7 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 			case SAVE:
 				setIntentResultOk();
 				displayCheckout();
-				OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditSave(getApplicationContext());
+				OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditSave();
 				break;
 			default:
 				Ui.showToast(this, "FAIL");

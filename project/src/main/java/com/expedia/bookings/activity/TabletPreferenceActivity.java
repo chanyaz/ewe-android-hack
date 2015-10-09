@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.tracking.OmnitureTracking;
 
 public class TabletPreferenceActivity extends ExpediaBookingPreferenceActivity {
 
@@ -30,18 +29,6 @@ public class TabletPreferenceActivity extends ExpediaBookingPreferenceActivity {
 		});
 
 		mDetector = new GestureDetector(this, new CloseGestureDetector());
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
 	}
 
 	@Override

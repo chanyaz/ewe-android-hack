@@ -228,7 +228,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			ft.add(mHotelBookingFragment, HotelBookingFragment.TAG);
 			ft.commit();
 		}
-		OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
+		OmnitureTracking.trackPageLoadHotelsRateDetails();
 	}
 
 	@Override
@@ -863,7 +863,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	public void startCheckout(final boolean animate, boolean shouldScrollToCheckout) {
 		if (!isInCheckout()) {
-			OmnitureTracking.trackPageLoadHotelsCheckoutInfo(getActivity());
+			OmnitureTracking.trackPageLoadHotelsCheckoutInfo();
 		}
 
 		mMaintainStartCheckoutPosition = true;
@@ -884,7 +884,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	public void endCheckout() {
 		if (isInCheckout()) {
-			OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
+			OmnitureTracking.trackPageLoadHotelsRateDetails();
 		}
 
 		mMaintainStartCheckoutPosition = false;
@@ -923,7 +923,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				OmnitureTracking.trackPageLoadHotelsCheckoutSlideToPurchase(getActivity());
+				OmnitureTracking.trackPageLoadHotelsCheckoutSlideToPurchase();
 			}
 		}).start();
 
@@ -997,7 +997,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mAccountButton.setEnabled(false);//We open a new activity and reenable accountButton in onResume;
 			Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
 			User.signIn(getActivity(), args);
-			OmnitureTracking.trackPageLoadHotelsLogin(getActivity());
+			OmnitureTracking.trackPageLoadHotelsLogin();
 		}
 	}
 
@@ -1132,7 +1132,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 					break;
 				}
 
-				OmnitureTracking.trackHotelCouponExpand(getActivity());
+				OmnitureTracking.trackHotelCouponExpand();
 				mCouponDialogFragment = new CouponDialogFragment();
 				mCouponDialogFragment.show(getChildFragmentManager(), CouponDialogFragment.TAG);
 				break;
@@ -1667,9 +1667,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		dismissDialogs();
 
 		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-		dialog.setMessage(R.string.error_hotel_no_longer_available);
+		dialog.setMessage(getString(R.string.error_hotel_no_longer_available));
 		dialog.show(getFragmentManager(), HOTEL_EXPIRED_ERROR_DIALOG);
-
 	}
 
 	/*

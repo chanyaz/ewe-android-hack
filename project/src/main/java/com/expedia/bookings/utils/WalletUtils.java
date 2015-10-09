@@ -480,9 +480,6 @@ public class WalletUtils {
 
 		// Base rate
 		nightlyRate = originalRate.getNightlyRateTotal();
-		if (nightlyRate == null) {
-			nightlyRate = originalRate.getTotalAmountBeforeTax();
-		}
 
 		// Discount
 		if (couponRate != null) {

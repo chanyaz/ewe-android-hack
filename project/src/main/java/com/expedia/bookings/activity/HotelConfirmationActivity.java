@@ -78,13 +78,6 @@ public class HotelConfirmationActivity extends FragmentActivity {
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
 	protected void onPause() {
 		super.onPause();
 
@@ -101,8 +94,6 @@ public class HotelConfirmationActivity extends FragmentActivity {
 			Db.getHotelSearch().resetSearchParams();
 
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override

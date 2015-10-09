@@ -184,7 +184,6 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	protected void onResume() {
 		super.onResume();
 		Events.register(this);
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -201,8 +200,6 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 		if (mPos.equals(YoYoPosition.OVERWRITE_TRAVELER)) {
 			this.closeOverwriteDialog();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -420,12 +417,12 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 					displayOverwriteDialog();
 				}
 				else {
-					OmnitureTracking.trackPageLoadFlightTravelerEditSave(mContext);
+					OmnitureTracking.trackPageLoadFlightTravelerEditSave();
 					displayCheckout();
 				}
 				break;
 			case OVERWRITE_TRAVELER:
-				OmnitureTracking.trackPageLoadFlightTravelerEditSave(mContext);
+				OmnitureTracking.trackPageLoadFlightTravelerEditSave();
 				displayCheckout();
 				break;
 			default:

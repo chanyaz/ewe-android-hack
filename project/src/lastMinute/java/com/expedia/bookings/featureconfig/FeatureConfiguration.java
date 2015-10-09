@@ -41,7 +41,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getAppSupportUrl(Context context) {
-		return PointOfSale.getPointOfSale().getAppSupportUrl();
+		return context.getString(R.string.app_support_url_lastminute);
 	}
 
 	@Override
@@ -278,11 +278,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isAppCrossSellInFlightShareContentEnabled() {
-		return false;
-	}
-
-	@Override
-	public boolean isTrackWithFlightTrackEnabled() {
 		return false;
 	}
 }

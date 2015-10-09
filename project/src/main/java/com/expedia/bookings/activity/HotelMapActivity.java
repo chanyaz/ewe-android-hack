@@ -89,21 +89,9 @@ public class HotelMapActivity extends FragmentActivity implements HotelMapFragme
 		addressTextView.setText(location.getStreetAddressString() + "\n" + location.toShortFormattedString());
 
 		if (savedInstanceState == null) {
-			OmnitureTracking.trackPageLoadHotelsInfositeMap(getApplicationContext());
+			OmnitureTracking.trackPageLoadHotelsInfositeMap();
 		}
 		mIsFromHotelReceiptScreen = getIntent().getBooleanExtra(INSTANCE_IS_HOTEL_RECEIPT, false);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -184,7 +172,7 @@ public class HotelMapActivity extends FragmentActivity implements HotelMapFragme
 		super.onStart();
 
 		if (mWasStopped) {
-			OmnitureTracking.trackPageLoadHotelsInfositeMap(getApplicationContext());
+			OmnitureTracking.trackPageLoadHotelsInfositeMap();
 			mWasStopped = false;
 		}
 	}

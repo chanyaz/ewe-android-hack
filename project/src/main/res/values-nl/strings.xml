@@ -523,7 +523,7 @@
     <string name="per_ticket_type_group">per groep</string>
     <string name="per_ticket_type_couple">per stel</string>
     <string name="per_ticket_type_two_adults">per 2 volwassenen</string>
-    <string name="per_ticket_type_military">per miltair</string>
+    <string name="per_ticket_type_military">per militair</string>
     <string name="per_ticket_type_student">per student</string>
     <string name="per_ticket_type_sedan">per sedan</string>
     <string name="per_ticket_type_minivan">per MPV</string>
@@ -1894,10 +1894,6 @@
     <string name="enter_traveler_info">Reizigersinformatie</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Info hoofdreiziger</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">Info hoofdreiziger invoeren</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate2">Hoofdreiziger</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Opgeslagen</string>
     <!-- Edit button for traveler/payment -->
@@ -2563,6 +2559,7 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="guest_recommend">van gasten bevelen dit aan</string>
+    <string name="hotel_guest_recommend">/ 5 - gastenscore</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->

@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -55,6 +56,12 @@ public class LXSortFilterWidget extends LinearLayout {
 	@InjectView(R.id.toolbar_sort_filter)
 	Toolbar toolbar;
 
+	@InjectView(R.id.toolbar_dropshadow)
+	View toolbarDropshadow;
+
+	@InjectView(R.id.scroll_filter)
+	android.widget.ScrollView scrollFilter;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -77,6 +84,15 @@ public class LXSortFilterWidget extends LinearLayout {
 		// Reset Popularity sort as default.
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);
+
+		scrollFilter.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+			@Override
+			public void onScrollChanged() {
+				int scrollY = scrollFilter.getScrollY();
+				float ratio = (float) (scrollY) / 100;
+				toolbarDropshadow.setAlpha(ratio);
+			}
+		});
 	}
 
 	@Override

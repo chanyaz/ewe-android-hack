@@ -33,19 +33,7 @@ public class FlightRulesActivity extends FragmentActivity {
 	protected void onStart() {
 		super.onStart();
 
-		OmnitureTracking.trackPageLoadFlightCheckoutWarsaw(this);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
+		OmnitureTracking.trackPageLoadFlightCheckoutWarsaw();
 	}
 
 	@Override

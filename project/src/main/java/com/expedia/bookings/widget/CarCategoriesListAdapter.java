@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.CarInfo;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.RateTerm;
@@ -121,6 +122,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			itemView.setTag(cco);
 
 			SearchCarFare lowestFare = cco.getLowestTotalPriceOffer().fare;
+
 			CarInfo vehicleInfo = cco.getLowestTotalPriceOffer().vehicleInfo;
 			categoryTextView.setText(vehicleInfo.carCategoryDisplayLabel);
 
@@ -138,11 +140,13 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 				bestPriceTextView.setText(totalTextView.getContext()
 					.getString(R.string.car_details_TEMPLATE,
 						CarDataUtils.getStringTemplateForRateTerm(bestPriceTextView.getContext(), lowestFare.rateTerm),
-						lowestFare.rate.getFormattedMoney()));
+						Money.getFormattedMoneyFromAmountAndCurrencyCode(lowestFare.rate.amount,
+							lowestFare.rate.getCurrency(), Money.F_NO_DECIMAL)));
 				bestPriceTextView.setVisibility(View.VISIBLE);
 			}
 			totalTextView.setText(totalTextView.getContext()
-				.getString(R.string.cars_total_template, lowestFare.total.getFormattedMoney()));
+				.getString(R.string.cars_total_template, Money.getFormattedMoneyFromAmountAndCurrencyCode(
+					lowestFare.total.amount, lowestFare.total.getCurrency(), Money.F_NO_DECIMAL)));
 			gradientMask.setVisibility(View.GONE);
 			String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type,
 				itemView.getContext().getResources().getDimension(R.dimen.car_image_width));
