@@ -18,6 +18,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import com.mobiata.android.text.StrikethroughTagHandler
+import com.expedia.util.subscribeVisibility
+import rx.Observable
 import rx.subjects.PublishSubject
 
 public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -73,6 +75,9 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
             viewModel.hotelPreviewRatingObservable.subscribe {
                 hotelPreviewRating.rating = it
             }
+
+            Observable.zip(viewModel.hotelPriceObservable, viewModel.hotelStrikeThroughPriceObservable, { hotelPrice, hotelStrikeThroughPrice -> hotelPrice != hotelStrikeThroughPrice })
+                    .subscribeVisibility(hotelStrikeThroughPrice)
 
             viewModel.hotelPriceObservable.subscribeText(hotelPricePerNight)
             viewModel.hotelStrikeThroughPriceObservable.subscribeText(hotelStrikeThroughPrice)
