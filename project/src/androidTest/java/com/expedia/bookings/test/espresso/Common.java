@@ -47,13 +47,14 @@ public class Common {
 
 	public static void pressBackOutOfApp() {
 		try {
-			if (!SpoonScreenshotUtils.hasActiveActivity()) {
-				Log.v("No activity to back out of");
-				return;
-			}
-
 			for (int i = 0; i < 30; i++) {
+				if (!SpoonScreenshotUtils.hasActiveActivity()) {
+					Log.v("No activity to back out of");
+					return;
+				}
+
 				Espresso.pressBack();
+				delay(1);
 			}
 
 			throw new RuntimeException("Backed out 30 times but app didn't close!");

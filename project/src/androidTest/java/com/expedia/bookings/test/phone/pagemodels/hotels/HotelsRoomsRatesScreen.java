@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.pagemodels.hotels;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.ViewActions;
 
 import android.support.test.espresso.ViewInteraction;
@@ -40,6 +41,8 @@ public class HotelsRoomsRatesScreen {
 	public static void selectRoomItem(int index) {
 		onData(anything()).inAdapterView(withId(android.R.id.list)).atPosition(NUM_HEADERS_IN_LIST_VIEW + index)
 			.perform(click());
+
+		Common.delay(2);
 
 		//handle price change popup after selecting a room
 		dismissPriceChange();
