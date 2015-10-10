@@ -2,21 +2,27 @@
 <resources>
 
     <color name="hotel_price_text_color_airasiago">#333</color>
-    <color name="hotel_price_sale_text_color_airasiago">#E21E25</color>
+    <color name="hotel_price_sale_text_color_airasiago">#E31F0E</color>
     <color name="hotel_list_progress_text_color">#333</color>
     <color name="flight_list_progress_text_color">#333</color>
     <color name="action_bar_text_aag">#F5A337</color>
+    <color name="actionbar_menu_text_color">#F18700</color>
     <color name="action_bar_bg_color">#E21E25</color>
     <color name="login_text_aag">#333333</color>
     <color name="flight_trip_color_aag">#F8A424</color>
     <color name="flight_trip_price_aag">#E21E25</color>
     <color name="action_bar_selected_tab_underline_color">#E21E25</color>
     <color name="collection_overlay_color">#56a1d5</color>
+    <color name="itin_flight_line_color">#5195BB</color>
+    <color name="hotel_sale_text_color">@color/action_bar_bg_color</color>
 
-    <color name="tablet_book_button_text_color">@color/action_bar_bg_color</color>
-    <color name="tablet_price_expanded_bucket_text_color">@color/action_bar_bg_color</color>
+    <color name="tablet_confirmation_action_color">#E31F0E</color>
+    <color name="tablet_sort_filter_done_selector">#E31F0E</color>
+    <color name="tablet_book_button_text_color">#F18700</color>
+    <color name="tablet_price_expanded_bucket_text_color">#F18700</color>
     <color name="tablet_trip_bucket_text_color">@android:color/primary_text_light</color>
     <color name="tablet_search_result_error_button_pressed">#D1EAFF</color>
     <color name="tablet_search_result_error_button">#004E93</color>
-    <color name="tablet_results_search_blue">#608405</color>
+    <color name="tablet_results_search_done">#608405</color>
+    <color name="tablet_results_calendar_dates">#E31F0E</color>
 </resources>
