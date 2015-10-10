@@ -13,7 +13,6 @@ import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.squareup.phrase.Phrase
-import kotlin.properties.Delegates
 
 public class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.toolbar)

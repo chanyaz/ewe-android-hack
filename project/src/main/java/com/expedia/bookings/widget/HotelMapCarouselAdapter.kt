@@ -13,6 +13,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -52,6 +53,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
         override fun onClick(view: View) {
             val hotel: Hotel = hotels.get(adapterPosition)
             hotelSubject.onNext(hotel)
+            HotelV2Tracking().trackHotelV2CarouselClick()
         }
 
         val hotelPreviewImage: ImageView by bindView(R.id.hotel_preview_image)

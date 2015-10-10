@@ -19,6 +19,7 @@ import android.widget.ToggleButton
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
@@ -82,6 +83,8 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
 
         Observable.combineLatest(vm.roomInfoExpandCollapseObservable, vm.expandedMeasurementsDone) { visibility, unit -> visibility }.subscribe({ visibility ->
             roomInfoDescriptionText.visibility = if (roomInfoDescriptionText.getVisibility() == View.VISIBLE) View.GONE else View.VISIBLE
+            //track only when expand the room info
+            if (roomInfoDescriptionText.visibility == View.VISIBLE) HotelV2Tracking().trackLinkHotelV2RoomInfoClick()
         })
 
         roomInfoContainer.subscribeOnClick(vm.expandCollapseRoomRateInfoDescription)

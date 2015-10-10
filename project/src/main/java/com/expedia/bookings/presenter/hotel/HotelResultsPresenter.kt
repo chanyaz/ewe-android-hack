@@ -36,6 +36,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -340,6 +341,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 show(ResultsMap())
             } else {
                 show(ResultsList(), Presenter.FLAG_CLEAR_BACKSTACK)
+                HotelV2Tracking().trackHotelV2MapToList()
             }
         }
 
@@ -910,9 +912,17 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     // Classes for state
     public class ResultsList
 
-    public class ResultsMap
+    public class ResultsMap {
+        init {
+            HotelV2Tracking().trackHotelV2SearchMap()
+        }
+    }
 
-    public class ResultsFilter
+    public class ResultsFilter {
+        init {
+            HotelV2Tracking().trackHotelV2Filter()
+        }
+    }
 
     fun doAreaSearch() {
         val center = googleMap?.cameraPosition?.target

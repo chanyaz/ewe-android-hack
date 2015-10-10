@@ -1,19 +1,19 @@
 package com.expedia.bookings.test
 
-import android.content.Context
-import android.content.res.Resources
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.HotelCouponViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Matchers
-import org.mockito.Mockito
+import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
+@RunWith(RobolectricRunner::class)
 public class HotelCouponTest {
 
     public var service: HotelServicesRule = HotelServicesRule()
@@ -23,11 +23,7 @@ public class HotelCouponTest {
 
     @Before
     fun before() {
-        val context = Mockito.mock(Context::class.java)
-        val resources = Mockito.mock(Resources::class.java)
-        Mockito.`when`(context.getResources()).thenReturn(resources)
-        Mockito.`when`(resources.getQuantityString(Matchers.anyInt(), Matchers.anyInt(), Matchers.anyInt())).thenReturn("")
-
+        val context = RuntimeEnvironment.application
         vm = HotelCouponViewModel(context, service.hotelServices())
     }
 

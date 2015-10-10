@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.util.endlessObserver
 import rx.Observer
@@ -69,6 +70,7 @@ class HotelFilterViewModel(val context: Context) {
                 filterCountObservable.onNext(0)
                 finishClear.onNext(Unit)
                 didFilter = false
+                HotelV2Tracking().trackLinkHotelV2ClearFilter()
             }
         }
     }
@@ -171,6 +173,7 @@ class HotelFilterViewModel(val context: Context) {
     val vipFilteredObserver: Observer<Boolean> = endlessObserver {
         userFilterChoices.isVipOnlyAccess = it
         handleFiltering()
+        HotelV2Tracking().trackLinkHotelV2FilterVip(it)
     }
 
     val oneStarFilterObserver: Observer<Unit> = endlessObserver {
@@ -233,9 +236,16 @@ class HotelFilterViewModel(val context: Context) {
         handleFiltering()
     }
 
+    var trackingDone = false
+
     val filterHotelNameObserver = endlessObserver<CharSequence> { s ->
         userFilterChoices.name = s.toString()
         handleFiltering()
+        if (s.length() == 1 && !trackingDone) {
+            trackingDone = true
+            HotelV2Tracking().trackLinkHotelV2FilterByName()
+        }
+        if(s.length() == 0) trackingDone = false
     }
 
     fun setHotelList(response : HotelSearchResponse) {

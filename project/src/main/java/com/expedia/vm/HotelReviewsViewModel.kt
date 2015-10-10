@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -18,6 +19,7 @@ class HotelReviewsViewModel(val context: Context) {
         toolbarTitleObservable.onNext(hotel.hotelName)
         toolbarSubtitleObservable.onNext(context.getResources().getString(R.string.n_reviews_TEMPLATE, hotel.totalReviews))
         hotelReviewsObservable.onNext(hotel.hotelId)
+        HotelV2Tracking().trackHotelV2Reviews()
     }
 
 }

@@ -29,6 +29,7 @@ import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
+import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CreditCardUtils;
@@ -313,6 +314,7 @@ public class PaymentWidget extends ExpandableCardView {
 				if (mToolbarListener != null) {
 					mToolbarListener.showRightActionButton(false);
 				}
+				new HotelV2Tracking().trackHotelV2PaymentInfo();
 			}
 			else {
 				showCreditCardDetails();
@@ -372,7 +374,12 @@ public class PaymentWidget extends ExpandableCardView {
 		paymentButton.bind();
 		mValidFormsOfPaymentListener.onChange();
 		if (!ExpediaBookingApp.isAutomation()) {
-			OmnitureTracking.trackCheckoutPayment(lineOfBusiness);
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				new HotelV2Tracking().trackHotelV2PaymentEdit();
+			}
+			else {
+				OmnitureTracking.trackCheckoutPayment(lineOfBusiness);
+			}
 		}
 	}
 

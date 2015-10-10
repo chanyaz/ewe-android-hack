@@ -1,30 +1,26 @@
 package com.expedia.bookings.test
 
-import android.content.Context
-import android.content.res.Resources
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.HotelFilterViewModel
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Matchers
-import org.mockito.Mockito
+import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import kotlin.properties.Delegates
 import kotlin.test.assertTrue
 import java.util.ArrayList
 import kotlin.test.assertEquals
 
+@RunWith(RobolectricRunner::class)
 public class HotelFilterTest {
     public var vm: HotelFilterViewModel by Delegates.notNull()
 
     @Before
     fun before() {
-        val context = Mockito.mock(Context::class.java)
-        val resources = Mockito.mock(Resources::class.java)
-        Mockito.`when`(context.getResources()).thenReturn(resources)
-        Mockito.`when`(resources.getQuantityString(Matchers.anyInt(), Matchers.anyInt(), Matchers.anyInt())).thenReturn("")
-
+        val context = RuntimeEnvironment.application
         vm = HotelFilterViewModel(context)
     }
 

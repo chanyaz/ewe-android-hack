@@ -7,6 +7,7 @@ import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.util.endlessObserver
 import rx.Observable
 import rx.subjects.BehaviorSubject
@@ -38,8 +39,10 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
 
                 errorMessageObservable.onNext(text)
                 errorObservable.onNext(trip.firstError)
+                HotelV2Tracking().trackHotelV2CouponFail(couponParamsObservable.value.couponCode, trip.firstError.errorCode.toString())
             } else {
                 couponObservable.onNext(trip)
+                HotelV2Tracking().trackHotelV2CouponSuccess(couponParamsObservable.value.couponCode)
             }
         })
     }

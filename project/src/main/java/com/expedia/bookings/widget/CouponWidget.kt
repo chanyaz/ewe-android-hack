@@ -14,6 +14,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
@@ -98,6 +99,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
                 mToolbarListener.onEditingComplete()
                 mToolbarListener.showRightActionButton(false)
             }
+            HotelV2Tracking().trackHotelV2ExpandCoupon()
         } else {
             setBackgroundResource(R.drawable.card_background)
             expanded.setVisibility(View.GONE)

@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelSearchResponse.Neighborhood
 import com.expedia.bookings.otto.Events
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
@@ -30,6 +31,7 @@ public class HotelsNeighborhoodFilter(context: Context, attrs: AttributeSet) : L
     val checkObserver : Observer<Unit> = endlessObserver {
         neighborhoodCheckBox.setChecked(!neighborhoodCheckBox.isChecked())
         viewModel.selectNeighborhood.onNext(neighborhoodName.getText().toString())
+        if (neighborhoodCheckBox.isChecked) HotelV2Tracking().trackLinkHotelV2FilterNeighbourhood()
     }
 
     public fun bind(neighborhood: Neighborhood, vm:HotelFilterViewModel) {

@@ -10,6 +10,8 @@ import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
+import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.NavUtils
@@ -68,6 +70,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             location.addStreetAddressLine(product.hotelAddress)
             hotelLocation.onNext(location)
             AdImpressionTracking.trackAdConversion(context, hotelCheckoutResponse.checkoutResponse.bookingResponse.tripId)
+            HotelV2Tracking().trackHotelV2PurchaseConfirmation(hotelCheckoutResponse)
         })
     }
 
@@ -83,6 +86,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
                 flightSearchParams.setReturnDate(checkOutDate.getValue())
 
                 NavUtils.goToFlights(context, true)
+                HotelV2Tracking().trackHotelV2CrossSellFlight()
             }
 
             override fun onCompleted() {
@@ -105,6 +109,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
                 val carSearchParams = builder.build()
 
                 NavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
+                HotelV2Tracking().trackHotelV2CrossSellCar()
             }
 
             override fun onCompleted() {
@@ -122,6 +127,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
                 // Go in reverse order, so that "check in" is shown to the user first
                 context.startActivity(generateHotelCalendarIntent(false))
                 context.startActivity(generateHotelCalendarIntent(true))
+                HotelV2Tracking().trackHotelV2ConfirmationCalendar()
             }
 
             override fun onCompleted() {
@@ -147,6 +153,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             override fun onNext(t: Unit?) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + hotelLocation.getValue().toLongFormattedString()))
                 context.startActivity(intent)
+                HotelV2Tracking().trackHotelV2ConfirmationDirection()
             }
 
             override fun onCompleted() {
