@@ -1,184 +1,220 @@
 package com.expedia.bookings.test.phone.hotels;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 import org.joda.time.LocalDate;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.HotelSearchActivity;
+import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonPaymentMethodScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.tablet.pagemodels.Checkout;
-import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.mobiata.android.Log;
 
-public class HotelCreditCardsInfoEditTest extends PhoneTestCase {
+import static com.expedia.bookings.R.drawable.ic_amex_white;
+import static com.expedia.bookings.R.drawable.ic_diners_club_white;
+import static com.expedia.bookings.R.drawable.ic_discover_white;
+import static com.expedia.bookings.R.drawable.ic_maestro_white;
+import static com.expedia.bookings.R.drawable.ic_master_card_white;
+import static com.expedia.bookings.R.drawable.ic_union_pay_white;
+import static com.expedia.bookings.R.drawable.ic_visa_white;
 
-	List<TestData> mTestData = new LinkedList<TestData>();
-	private static final String TAG = HotelCreditCardsInfoEditTest.class.getSimpleName();
+@RunWith(AndroidJUnit4.class)
+public class HotelCreditCardsInfoEditTest {
+
+	@Rule
+	public ActivityTestRule<HotelSearchActivity> activity = new ActivityTestRule<>(HotelSearchActivity.class);
 
 	private static class TestData {
-		String mTestName;
-		String[] mPrefixes;
-		int mLength;
-		int mDrawableId;
+		public String name;
+		public String[] prefixes;
+		public int length;
+		public int drawableId;
 
-		TestData(String testName, String[] prefixes, int length, int imageID) {
-			mTestName = testName;
-			mPrefixes = prefixes;
-			mLength = length;
-			mDrawableId = imageID;
+		public TestData name(String name) {
+			this.name = name;
+			return this;
 		}
 
-		public String getTestName() {
-			return mTestName;
+		public TestData prefixes(String... prefixes) {
+			this.prefixes = prefixes;
+			return this;
 		}
 
-		public String[] getPrefixes() {
-			return mPrefixes;
+		public TestData length(int length) {
+			this.length = length;
+			return this;
 		}
 
-		public int getLength() {
-			return mLength;
-		}
-
-		public int getDrawableId() {
-			return mDrawableId;
+		public TestData drawableId(int drawableId) {
+			this.drawableId = drawableId;
+			return this;
 		}
 	}
 
-	private void runTestCase(TestData testData) throws Exception {
-		Random rand = new Random();
-		int randomNumber;
+	@Test
+	public void amexIconTest() throws Throwable {
+		TestData data = new TestData()
+			.name("Amex")
+			.prefixes("34", "37")
+			.length(15)
+			.drawableId(ic_amex_white);
 
-		String creditcardNumber;
-
-		for (int i = 0; i < testData.getPrefixes().length; i++) {
-			//random credit card numbers per card type
-			creditcardNumber = testData.getPrefixes()[i];
-			for (int k = creditcardNumber.length(); k < testData.getLength(); k++) {
-				randomNumber = rand.nextInt(10);
-				creditcardNumber += randomNumber;
-			}
-
-			CardInfoScreen.typeTextCreditCardEditText(creditcardNumber);
-			Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
-			CardInfoScreen.clickOnExpirationDateButton();
-			CardInfoScreen.clickMonthUpButton();
-			CardInfoScreen.clickYearUpButton();
-			CardInfoScreen.clickSetButton();
-			CardInfoScreen.typeTextPostalCode("94015");
-			CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
-
-
-			/*
-			* Case 1: verify cards working, test credit card logo displayed
-			*/
-			try {
-				EspressoUtils.assertContainsImageDrawable(R.id.display_credit_card_brand_icon_white, testData.getDrawableId());
-				Log.v(TAG, "Credit card brand logo is correctly displayed for " + testData.getTestName());
-
-			}
-			catch (Exception e) {
-				throw new Exception("Failure-" + testData.getTestName(), e);
-			}
-			CardInfoScreen.clickOnDoneButton();
-			HotelsCheckoutScreen.slideToCheckout();
-
-			/*
-			* Case 2: check cvv sub prompt text view
-			* For Amex cards:"See front of the card" and for other cards: "See back of card"
-			*/
-
-			if (testData.getTestName().equals("Amex")) {
-				EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.See_front_of_card));
-				Log.v(TAG,
-					"CVV sub prompt text (See front of the card) is correctly displayed for " + testData.getTestName());
-			}
-			else {
-				EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.See_back_of_card));
-				Log.v(TAG,
-					"CVV sub prompt text (See back of the card) is correctly displayed for " + testData.getTestName());
-			}
-
-			/*
-			* Case 3: Security Code will show the cardholders name Firstname Lastname as: F. Lastname
-			*/
-
-			EspressoUtils.assertContains(CVVEntryScreen.cvvSignatureText(), "M. Auto");
-			Log.v(TAG, " Security Code correctly shows the cardholders name for " + testData.getTestName());
-
-			//go back for next test data
-			Common.pressBack();
-			Checkout.clickCreditCardSection();
-			CommonPaymentMethodScreen.clickOnAddNewCardTextView();
-		}
+		runTest(data);
 	}
 
-	public void recordData(String testName, String[] prefixes, int length, int imageID) {
-		mTestData.add(new TestData(testName, prefixes, length, imageID));
+	@Test
+	public void carteBlancheIconTest() throws Throwable {
+		TestData data = new TestData()
+			.name("CarteBlanche")
+			.prefixes("94", "95")
+			.length(14)
+			.drawableId(R.drawable.ic_carte_blanche_white);
+
+		runTest(data);
 	}
 
-	public void testCCBrandIcon() throws Throwable {
-		recordData("Visa16", new String[] {"4"}, 16, R.drawable.ic_visa_white);
+	@Test
+	public void chinaUnionNineteenIconTest() throws Throwable {
+		TestData data = new TestData()
+			.name("ChinaUnion19")
+			.prefixes("62")
+			.length(19)
+			.drawableId(ic_union_pay_white);
 
-		recordData("Visa13", new String[] {"4"}, 13, R.drawable.ic_visa_white);
+		runTest(data);
+	}
 
-		recordData("MasterCard", new String[] {
-			"51", "52", "53", "54", "55"
-		}, 16, R.drawable.ic_master_card_white);
+	@Test
+	public void chinaUnionEighteenIconTest() throws Throwable {
+		TestData data = new TestData()
+			.name("ChinaUnion18")
+			.prefixes("62")
+			.length(18)
+			.drawableId(ic_union_pay_white);
 
-		recordData("Maestro16", new String[] {
-			"50", "63", "67"
-		}, 16, R.drawable.ic_maestro_white);
+		runTest(data);
+	}
 
-		recordData("Maestro18", new String[] {
-			"50", "63", "67"
-		}, 18, R.drawable.ic_maestro_white);
+	@Test
+	public void chinaUnionSeventeenIconTest() throws Throwable {
+		TestData data = new TestData()
+			.name("ChinaUnion17")
+			.prefixes("62")
+			.length(17)
+			.drawableId(ic_union_pay_white);
 
-		recordData("Maestro19", new String[] {
-			"50", "63", "67"
-		}, 19, R.drawable.ic_maestro_white);
+		runTest(data);
+	}
 
-		recordData("Discover", new String[] {"60"}, 16, R.drawable.ic_discover_white);
+	@Test
+	public void dinersClubIconTest() throws Throwable {
+		TestData data = new TestData()
+			.name("DinersClub")
+			.prefixes("30", "36", "38", "60")
+			.length(14)
+			.drawableId(ic_diners_club_white);
 
-		recordData("DinersClub", new String[] {
-			"30", "36", "38", "60"
-		}, 14, R.drawable.ic_diners_club_white);
+		runTest(data);
+	}
 
-		recordData("ChinaUnion17", new String[] {
-			"62"
-		}, 17, R.drawable.ic_union_pay_white);
+	@Test
+	public void discoverIconTest() throws Throwable {
+		TestData data = new TestData()
+			.name("Discover")
+			.prefixes("60")
+			.length(16)
+			.drawableId(ic_discover_white);
 
-		recordData("ChinaUnion18", new String[] {
-			"62"
-		}, 18, R.drawable.ic_union_pay_white);
+		runTest(data);
+	}
 
-		recordData("ChinaUnion19", new String[] {
-			"62"
-		}, 19, R.drawable.ic_union_pay_white);
 
-		recordData("CarteBlanche", new String[] {
-			"94", "95"
-		}, 14, R.drawable.ic_carte_blanche_white);
+	@Test
+	public void maestroNineteenIconTest() throws Throwable {
+		TestData data = new TestData()
+			.name("Maestro19")
+			.prefixes("50", "63", "67")
+			.length(19)
+			.drawableId(ic_maestro_white);
 
-		recordData("Amex", new String[] {"34", "37"}, 15, R.drawable.ic_amex_white);
+		runTest(data);
+	}
 
-		LaunchScreen.launchHotels();
+	@Test
+	public void maestroEighteenIconTest() throws Throwable {
+		TestData data = new TestData()
+			.name("Maestro18")
+			.prefixes("50", "63", "67")
+			.length(18)
+			.drawableId(ic_maestro_white);
+
+		runTest(data);
+	}
+
+	@Test
+	public void maestroSixteenIconTest() throws Throwable {
+		TestData data = new TestData()
+			.name("Maestro16")
+			.prefixes("50", "63", "67")
+			.length(16)
+			.drawableId(ic_maestro_white);
+
+		runTest(data);
+	}
+
+
+	@Test
+	public void mastercardIconTest() throws Throwable {
+		TestData data = new TestData()
+			.name("MasterCard")
+			.prefixes("51", "52", "53", "54", "55")
+			.length(16)
+			.drawableId(ic_master_card_white);
+
+		runTest(data);
+	}
+
+	@Test
+	public void visaThirteenIconTest() throws Throwable {
+		TestData data = new TestData()
+			.name("Visa13")
+			.prefixes("4")
+			.length(13)
+			.drawableId(ic_visa_white);
+
+		runTest(data);
+	}
+
+	@Test
+	public void visaSixteenIconTest() throws Throwable {
+		TestData data = new TestData()
+			.name("Visa16")
+			.prefixes("4")
+			.length(16)
+			.drawableId(ic_visa_white);
+
+		runTest(data);
+	}
+
+	public void runTest(TestData data) throws Throwable {
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("New York, NY");
-		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
+		HotelsSearchScreen.clickSuggestionWithName(activity.getActivity(), "New York, NY");
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();
@@ -199,18 +235,62 @@ public class HotelCreditCardsInfoEditTest extends PhoneTestCase {
 
 		HotelsCheckoutScreen.clickSelectPaymentButton();
 
-		//loop through the TestData
-		for (int i = 0; i < mTestData.size(); i++) {
-			runTestCase(mTestData.get(i));
-		}
-	}
+		Random rand = new Random();
+		int randomNumber;
 
-	// NOTE: subsequent tests after this test fail without backing out in this manner.
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-		if (Common.isPhone()) {
-			Common.pressBackOutOfApp();
+		String creditCardNumber;
+
+		for (int i = 0; i < data.prefixes.length; i++) {
+			//random credit card numbers per card type
+			creditCardNumber = data.prefixes[i];
+			for (int k = creditCardNumber.length(); k < data.length; k++) {
+				randomNumber = rand.nextInt(10);
+				creditCardNumber += randomNumber;
+			}
+
+			CardInfoScreen.typeTextCreditCardEditText(creditCardNumber);
+			Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
+			CardInfoScreen.clickOnExpirationDateButton();
+			CardInfoScreen.clickMonthUpButton();
+			CardInfoScreen.clickYearUpButton();
+			CardInfoScreen.clickSetButton();
+			CardInfoScreen.typeTextPostalCode("94015");
+			CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+
+
+			/*
+			* Case 1: verify cards working, test credit card logo displayed
+			*/
+			EspressoUtils.assertContainsImageDrawable(R.id.display_credit_card_brand_icon_white,
+				data.drawableId);
+			CardInfoScreen.clickOnDoneButton();
+			HotelsCheckoutScreen.slideToCheckout();
+
+			/*
+			* Case 2: check cvv sub prompt text view
+			* For Amex cards:"See front of the card" and for other cards: "See back of card"
+			*/
+
+			if (data.name.equals("Amex")) {
+				EspressoUtils.assertViewWithTextIsDisplayed(
+					activity.getActivity().getString(R.string.See_front_of_card));
+			}
+			else {
+				EspressoUtils
+					.assertViewWithTextIsDisplayed(activity.getActivity().getString(R.string.See_back_of_card));
+			}
+
+			/*
+			* Case 3: Security Code will show the cardholders name Firstname Lastname as: F. Lastname
+			*/
+
+			EspressoUtils.assertContains(CVVEntryScreen.cvvSignatureText(), "M. Auto");
+
+			//go back for next test data
+			Common.pressBack();
+			Checkout.clickCreditCardSection();
+			Common.delay(3);
+			CommonPaymentMethodScreen.clickOnAddNewCardTextView();
 		}
 	}
 }
