@@ -49,6 +49,7 @@ public class PhoneLaunchButton extends FrameLayout {
 	private float squashedRatio;
 	private boolean isNetworkAvailable = true;
 	private boolean firstTimeMeasure = true;
+	private float scaleToFactor = 1;
 
 	public PhoneLaunchButton(Context context) {
 		this(context, null);
@@ -117,6 +118,7 @@ public class PhoneLaunchButton extends FrameLayout {
 				iconView.getViewTreeObserver().removeOnPreDrawListener(this);
 				iconView.setPivotX(iconView.getWidth() / 2);
 				iconView.setPivotY(-iconView.getTop() + iconView.getPaddingTop());
+				scaleTo(scaleToFactor);
 				return true;
 			}
 		});
@@ -127,13 +129,13 @@ public class PhoneLaunchButton extends FrameLayout {
 				if (fiveLobBtn) {
 					textView.setPivotX(textView.getWidth() / 2);
 					textView.setPivotY(0);
-					scaleTo(1);
 
 				}
 				else {
 					textView.setPivotX(textView.getWidth() / 2);
 					textView.setPivotY(-textView.getTop());
 				}
+				scaleTo(scaleToFactor);
 				return true;
 			}
 		});
@@ -196,6 +198,8 @@ public class PhoneLaunchButton extends FrameLayout {
 	private static final float maxIconSize = 1.0f;
 
 	public void scaleTo(float f) {
+		scaleToFactor = f;
+
 		float normalized = (float) ((f - squashedRatio) / (1.0 - squashedRatio));
 
 		// bound text scale between 0 and 1
