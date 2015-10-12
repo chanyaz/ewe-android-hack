@@ -10,6 +10,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.ImageView
@@ -39,7 +40,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
 
     val PICASSO_HOTEL_ROOM = "HOTEL_ROOMS"
 
-    private val ANIMATION_DURATION = 500L
+    private val ANIMATION_DURATION = 250L
 
     //views for room row
     private val row: ViewGroup by bindView(R.id.root)
@@ -110,9 +111,15 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             viewRoom.isChecked = true
         }
 
+        fun AlphaAnimation.commonSetup() {
+            this.interpolator = AccelerateDecelerateInterpolator()
+            this.fillAfter = true
+            this.duration = ANIMATION_DURATION
+        }
+
         fun newAlphaZeroToOneAnimation(view: View): AlphaAnimation {
             val anim = AlphaAnimation(0f, 1f)
-            anim.fillAfter = true
+            anim.commonSetup()
             anim.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation?) {
                     view.visibility = View.VISIBLE
@@ -126,16 +133,15 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
                     //ignore
                 }
             })
-            anim.duration = ANIMATION_DURATION
             return anim
         }
 
         fun newAlphaOneToZeroAnimation(): AlphaAnimation {
             val anim = AlphaAnimation(1f, 0f)
-            anim.fillAfter = true
-            anim.duration = ANIMATION_DURATION
+            anim.commonSetup()
             return anim
         }
+
 
         Observable.combineLatest(vm.expandRoomObservable, vm.expandedMeasurementsDone) { animate, unit -> animate }.subscribe { animate ->
             viewRoom.isChecked = true
