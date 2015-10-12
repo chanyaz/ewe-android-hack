@@ -173,7 +173,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isTuneEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -282,11 +282,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean isAppCrossSellInFlightShareContentEnabled() {
 		return true;
-	}
-
-	@Override
-	public boolean isTrackWithFlightTrackEnabled() {
-		return false;
 	}
 
 	@Override

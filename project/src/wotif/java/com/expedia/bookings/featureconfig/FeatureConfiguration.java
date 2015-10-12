@@ -286,11 +286,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isTrackWithFlightTrackEnabled() {
-		return false;
-	}
-
-	@Override
 	public boolean isItinDisabled() {
 		return false;
 	}

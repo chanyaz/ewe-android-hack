@@ -109,7 +109,5 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isAppCrossSellInFlightShareContentEnabled();
 
-	boolean isTrackWithFlightTrackEnabled();
-
 	boolean isItinDisabled();
 }
