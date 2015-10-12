@@ -320,11 +320,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAppSupportUrlEnabled() {
-		return true;
-	}
-
-	@Override
 	public boolean isSigninEnabled() {
 		return true;
 	}
@@ -340,11 +335,33 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isTrackWithFlightTrackEnabled() {
+	public boolean isItinDisabled() {
+		return true;
+	}
+
+	@Override
+	public int getFlightSearchProgressImageResId() {
+		return R.drawable.search_progress_static_flight_vsc;
+	}
+
+	@Override
+	public boolean isLOBIconCenterAligned() {
 		return false;
 	}
 
-	public boolean isItinDisabled() {
-		return true;
+	@Override
+	public int getLaunchScreenActionLogo() {
+		return 0;
+	}
+
+	@Override
+	public int updatePOSSpecificActionBarLogo() {
+		//ignore
+		return 0;
+	}
+
+	@Override
+	public String getPOSSpecificBrandName(Context context) {
+		return BuildConfig.brand;
 	}
 }

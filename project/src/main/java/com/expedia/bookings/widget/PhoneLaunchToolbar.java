@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
@@ -23,6 +24,14 @@ public class PhoneLaunchToolbar extends Toolbar {
 		super(context, attrs);
 		LayoutInflater.from(getContext()).inflate(R.layout.toolbar_phone_launch, this);
 		ButterKnife.inject(this);
+		updateActionBarLogo();
+	}
+
+	public void updateActionBarLogo() {
+		int actionBarLogoResId = ProductFlavorFeatureConfiguration.getInstance().getLaunchScreenActionLogo();
+		if (actionBarLogoResId != 0) {
+			setNavigationIcon(actionBarLogoResId);
+		}
 	}
 
 	@Override

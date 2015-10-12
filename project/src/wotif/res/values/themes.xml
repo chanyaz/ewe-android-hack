@@ -47,13 +47,11 @@
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_wotif</item>
         <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_wotif_logo</item>
-        <item name="skin_aboutInfoUrlString">@string/wotif_info_url</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/ic_launcher</item>
         <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_wotif</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
-        <item name="skin_flightLoadingMessagePosition">@id/search_progress_flight_wotif</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_wotif_white_logo_small</item>
         <item name="skin_bgFindItineraryButton">@drawable/btn_find_wotif</item>
         <item name="skin_flightPriceTextColor">@color/flight_trip_price</item>
@@ -73,7 +71,7 @@
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_wotif</item>
         <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_wotif_logo_small</item>
-        <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights_wotif</item>
+        <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_wotif</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color_wotif</item>
@@ -100,6 +98,8 @@
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_wotif</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_wotif</item>
         <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color_wotif</item>
+        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach_wotif</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal_wotif</item>
     </style>
 
     <!-- Override the phone theme -->
@@ -114,6 +114,8 @@
     </style>
 
     <style name="LaunchTheme" parent="Theme.AppCompat">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:logo">@drawable/ic_ab_wotif_logo</item>
         <item name="actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
         <item name="actionBarTabBarStyle">@style/ActionBarTabBar</item>
@@ -147,8 +149,8 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_menu_overflow_image</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_wotif</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_wotif</item>
-        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
-        <item name="skin_launchActionBarBackgroundColor">@color/cars_launch_actionbar_color</item>
+        <item name="skin_launchTabIndicatorColor">@color/action_bar_selected_tab_underline_color</item>
+        <item name="skin_launchActionBarBackgroundColor">@color/action_bar_bg_color</item>
 
     </style>
 
@@ -212,7 +214,7 @@
     </style>
 
     <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
-        <item name="android:logo">@drawable/ic_stat_wotif</item>
+        <item name="android:logo">@drawable/ic_ab_wotif_logo</item>
         <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="android:windowBackground">@android:color/white</item>
@@ -237,4 +239,25 @@
     <style name="TerminalMapThemeDropDownListView" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
         <item name="android:background">@color/action_bar_bg_color</item>
     </style>
+
+    <style name="Whitelabel.AccountLibTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="acct__input_text_error_color">@color/acct__bg_input_text_error_wotif</item>
+        <item name="acct__input_text_good_color">@color/acct__bg_input_text_good_wotif</item>
+        <item name="acct__sign_in_button_background_drawable">@drawable/btn_signin_wotif</item>
+        <item name="acct__sign_in_button_text_color">@color/acct__btn_sign_in_text_wotif</item>
+        <item name="acct__logo_small_drawable">@android:color/transparent</item>
+        <item name="acct__logo_large_drawable">@drawable/acct__logo_large_wotif</item>
+        <item name="acct__logo_text_drawable">@drawable/acct__logo_text_wotif</item>
+        <item name="acct__checkmark_good_drawable">@drawable/acct__ic_checkmark_wotif</item>
+        <item name="acct__checkmark_warning_drawable">@drawable/acct__ic_warning_wotif</item>
+        <item name="skin_accountCreationBackgroundDrawable">@drawable/bg_mtfuji_crop_wotif</item>
+        <item name="acct__create_account_prompt_string">@string/acct_Create_a_Wotif_account</item>
+        <item name="acct__welcome_message_string">@string/acct_Welcome_to_Wotif</item>
+        <item name="acct__account_already_exists_string">@string/acct_Wotif_account_already_exists</item>
+        <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
+        <item name="acct__logo_text_drawable_margin_left">-36dp</item>
+        <item name="acct__logo_text_drawable_margin_top">20dp</item>
+        <item name="acct__welcome_text_color">@color/acct__welcome_text_color</item>
+    </style>
+
 </resources>

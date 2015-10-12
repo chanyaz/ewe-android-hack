@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
@@ -75,6 +77,12 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 		float fullHeight = getResources().getDimension(R.dimen.launch_lob_double_row_container_height);
 		float squashedHeight = getResources().getDimension(R.dimen.launch_lob_double_row_squashed_height);
 		squashedRatio = squashedHeight / fullHeight;
+		if (ProductFlavorFeatureConfiguration.getInstance().isLOBIconCenterAligned()) {
+			FrameLayout.LayoutParams layoutParams = (LayoutParams) iconView.getLayoutParams();
+			layoutParams.gravity = Gravity.TOP | Gravity.LEFT;
+			layoutParams.leftMargin = getResources().getDimensionPixelOffset(R.dimen.launch_lob_margin_left);
+			iconView.setLayoutParams(layoutParams);
+		}
 	}
 
 	@Override
@@ -86,8 +94,14 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 			public boolean onPreDraw() {
 				iconView.getViewTreeObserver().removeOnPreDrawListener(this);
 				iconView.setPivotX(0);
-				iconView.setPivotY(-iconView.getHeight());
-				iconView.setTranslationY(getBottom() - iconView.getBottom());
+				if (ProductFlavorFeatureConfiguration.getInstance().isLOBIconCenterAligned()) {
+					iconView.setPivotY(0);
+					iconView.setTranslationY((bgView.getBottom() - iconView.getBottom()) / 2);
+				}
+				else {
+					iconView.setPivotY(-iconView.getHeight());
+					iconView.setTranslationY(getBottom() - iconView.getBottom());
+				}
 				return true;
 			}
 		});
@@ -158,7 +172,14 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 		float bgScale = f;
 		float scaledIconBottom = iconView.getBottom() * iconScale;
 		float scaledBgBottom = bgView.getBottom() * bgScale;
-		float iconTranslation = (scaledBgBottom - scaledIconBottom) + (iconView.getBottom() - scaledIconBottom);
+		final float iconTranslation;
+
+		if (ProductFlavorFeatureConfiguration.getInstance().isLOBIconCenterAligned()) {
+			iconTranslation = ((bgView.getHeight() * bgScale) - (iconView.getHeight() * iconScale)) / 2;
+		}
+		else {
+			iconTranslation = (scaledBgBottom - scaledIconBottom) + (iconView.getBottom() - scaledIconBottom);
+		}
 
 		iconView.setScaleX(iconScale);
 		iconView.setScaleY(iconScale);

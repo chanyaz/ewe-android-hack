@@ -238,6 +238,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 				mLaunchFragment.reset();
 				Db.getHotelSearch().resetSearchData();
 			}
+			mToolbar.updateActionBarLogo();
 		}
 	}
 

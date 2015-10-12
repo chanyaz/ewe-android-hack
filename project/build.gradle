@@ -39,7 +39,7 @@ dependencies {
         exclude group: 'org.json'
     }
     compile 'com.expedia:svg-android:0.1.0'
-    compile 'com.expedia:android-account-lib:0.5.10'
+    compile 'com.expedia:android-account-lib:0.5.11'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
 
@@ -209,7 +209,7 @@ android {
             applicationId "com.travelocity.android"
 
             def major = 8
-            def minor = 0
+            def minor = 1
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -232,8 +232,8 @@ android {
             buildConfigField "String", "brand", "\"Wotif\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.wotif.android"
-            def major = 2
-            def minor = 1
+            def major = 3
+            def minor = 0
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -241,10 +241,10 @@ android {
         }
 
         lastMinute {
-            buildConfigField "String", "brand", "\"lastminute.com.au\""
+            buildConfigField "String", "brand", "\"LM AU & NZ\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.lastminute.android"
-            def major = 2
+            def major = 3
             def minor = 0
             def patch = 0
             def build = 0

@@ -35,6 +35,7 @@ import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsTripBucketFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
@@ -294,6 +295,11 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 					flightState.name());
 			}
 
+
+			int actionBarLogo = ProductFlavorFeatureConfiguration.getInstance().getLaunchScreenActionLogo();
+			if (actionBarLogo != 0) {
+				getActionBar().setLogo(actionBarLogo);
+			}
 			return true;
 		}
 

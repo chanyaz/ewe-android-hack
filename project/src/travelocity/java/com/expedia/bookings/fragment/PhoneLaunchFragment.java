@@ -26,7 +26,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	private ImageView mSlidingImage;
 	private int mCurrentImageIndex = 0;
 
-	private static final Integer[] BACKGROUND_RES_IDS = new Integer[] {
+	private static final int[] BACKGROUND_RES_IDS = new int[] {
 		R.drawable.bg_launch_tvly_sf,
 		R.drawable.bg_launch_tvly_las_vegas,
 		R.drawable.bg_launch_tvly_london,

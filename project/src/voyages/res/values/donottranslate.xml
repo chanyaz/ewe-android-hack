@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="brand_name">VSC</string>
-
     <!-- VSC app name for the about screen-->
     <string name="vsc_full_app_name">Agence Voyages-sncf Hôtel</string>
 
