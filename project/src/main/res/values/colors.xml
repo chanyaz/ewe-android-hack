@@ -354,4 +354,7 @@
     <color name="sign_in_user_tier_silver">#808080</color>
     <color name="sign_in_user_tier_gold">#e7b40d</color>
 
+    <!-- Error widget button colors -->
+    <color name="error_widget_edit_button_selected_color">#7C7C7C</color>
+
 </resources>
