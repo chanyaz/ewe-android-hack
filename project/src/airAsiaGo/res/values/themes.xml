@@ -60,6 +60,7 @@
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_aag_logo_small</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_aag</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
+
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
@@ -120,6 +121,7 @@
         <item name="android:actionBarStyle">@style/LaunchActionBarAirAsiaGo</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabAirAsiaGoStyle</item>
         <item name="skin_flightLineColor">@color/flight_trip_color_aag</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
@@ -141,7 +143,7 @@
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_launchTabIndicatorColor">@color/action_bar_selected_tab_underline_color</item>
-        <item name="skin_launchActionBarBackgroundColor">@color/cars_launch_actionbar_color</item>
+        <item name="skin_launchActionBarBackgroundColor">@color/launch_actionbar_bg_color</item>
     </style>
 
     <style name="LaunchActionBarTabAirAsiaGoStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
