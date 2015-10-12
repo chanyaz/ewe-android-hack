@@ -10,7 +10,6 @@ import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.HotelDetailView
-import com.expedia.bookings.widget.RoomSelected
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
 import com.squareup.phrase.Phrase
@@ -38,9 +37,8 @@ public class HotelDetailsTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         hotelDetailView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_details_widget, null) as HotelDetailView
-        vm = HotelDetailViewModel(activity.getApplicationContext(), service.hotelServices())
+        vm = HotelDetailViewModel(activity.applicationContext, service.hotelServices(), endlessObserver { /*ignore*/ })
         hotelDetailView.viewmodel = vm
-        RoomSelected.observer = endlessObserver {  }
 
         offers = HotelOffersResponse()
         offers.hotelGuestRating = 5.0

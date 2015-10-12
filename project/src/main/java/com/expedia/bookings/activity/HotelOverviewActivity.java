@@ -65,7 +65,9 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 
 		if (isFinishing()) {
 			clearCCNumber();
-			Db.getTripBucket().getHotel().clearCheckoutData();
+			if (Db.getTripBucket() != null && Db.getTripBucket().getHotel() != null) {
+				Db.getTripBucket().getHotel().clearCheckoutData();
+			}
 		}
 	}
 

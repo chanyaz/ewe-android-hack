@@ -51,7 +51,7 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 
 		// On first launch, try to restore cached flight data (in this case, just for the search params)
 		if (savedInstanceState == null && !Db.getFlightSearch().getSearchParams().isFilled()
-				&& !getIntent().getBooleanExtra(ARG_USE_PRESET_SEARCH_PARAMS, false)) {
+			&& !getIntent().getBooleanExtra(ARG_USE_PRESET_SEARCH_PARAMS, false)) {
 			Db.loadFlightSearchParamsFromDisk(this);
 		}
 
@@ -65,9 +65,9 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 
 		if (savedInstanceState == null) {
 			mSearchParamsFragment = FlightSearchParamsFragment.newInstance(Db.getFlightSearch().getSearchParams(),
-					false);
+				false);
 			getSupportFragmentManager().beginTransaction().add(R.id.content, mSearchParamsFragment,
-					FlightSearchParamsFragment.TAG).commit();
+				FlightSearchParamsFragment.TAG).commit();
 		}
 		else {
 			mSearchParamsFragment = Ui.findSupportFragment(this, FlightSearchParamsFragment.TAG);
@@ -112,14 +112,9 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 	}
 
 	@Override
-	protected void onStop() {
-		super.onStop();
-
-		// If the configuration isn't changing but we are stopping this activity, save the search params
-		boolean configChange = isChangingConfigurations();
-		if (!configChange) {
-			Db.saveFlightSearchParamsToDisk(this);
-		}
+	protected void onPause() {
+		super.onPause();
+		Db.saveFlightSearchParamsToDisk(this);
 	}
 
 	@Override
@@ -175,11 +170,11 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 			FlightSearchParams params = mSearchParamsFragment.getSearchParams(true);
 			if (!params.isFilled()) {
 				throw new RuntimeException(
-						"You should not be able to search unless you have filled out all the search params!");
+					"You should not be able to search unless you have filled out all the search params!");
 			}
 			else if (!params.hasDifferentAirports()) {
 				DialogFragment df = SimpleSupportDialogFragment.newInstance(null,
-						getString(R.string.error_same_flight_departure_arrival));
+					getString(R.string.error_same_flight_departure_arrival));
 				df.show(getSupportFragmentManager(), "sameAirportsErrorDialog");
 			}
 			else {

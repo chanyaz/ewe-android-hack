@@ -16,7 +16,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelErrorPresenter
 import com.expedia.bookings.widget.LoadingOverlayWidget
-import com.expedia.bookings.widget.RoomSelected
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelErrorViewModel
@@ -52,7 +51,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     override fun onFinishInflate() {
-        super<Presenter>.onFinishInflate()
+        super.onFinishInflate()
 
         addTransition(searchToResults)
         addTransition(searchToDetails)
@@ -106,7 +105,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         resultsPresenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices)
         resultsPresenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
 
-        detailPresenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, hotelServices)
+        detailPresenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, hotelServices, selectedRoomObserver)
         detailPresenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
         detailPresenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(detailPresenter.hotelRenovationObserver)
         detailPresenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe(detailPresenter.hotelPayLaterInfoObserver)
@@ -115,8 +114,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         resultsPresenter.viewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
 
         resultsPresenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
-
-        RoomSelected.observer = selectedRoomObserver
 
         checkoutPresenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
