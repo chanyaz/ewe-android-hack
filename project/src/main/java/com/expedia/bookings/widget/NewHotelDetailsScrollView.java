@@ -3,11 +3,13 @@ package com.expedia.bookings.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.OverScroller;
+
 import com.expedia.bookings.R;
 
 public class NewHotelDetailsScrollView extends GalleryScrollView {
 
 	private int mInitialScrollTop;
+	public boolean isFlinging;
 
 	public NewHotelDetailsScrollView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -24,6 +26,20 @@ public class NewHotelDetailsScrollView extends GalleryScrollView {
 
 		int h = b - t;
 		mInitialScrollTop = h - (getResources().getDimensionPixelSize(R.dimen.gallery_height));
+	}
+
+	@Override
+	protected void onScrollChanged(int x, int y, int oldx, int oldy) {
+		if (Math.abs(y - oldy) <= 1 || y >= getMeasuredHeight() || y == 0) {
+			isFlinging = false;
+		}
+		super.onScrollChanged(x, y, oldx, oldy);
+	}
+
+	@Override
+	public void fling(int velocityY) {
+		isFlinging = true;
+		super.fling(velocityY);
 	}
 
 	@Override

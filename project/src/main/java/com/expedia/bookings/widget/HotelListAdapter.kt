@@ -198,7 +198,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.ratingAmenityContainerVisibilityObservable.subscribeVisibility(ratingAmenityContainer)
 
             viewModel.hotelStarRatingObservable.subscribe {
-                starRating.numStars = it.toInt()
+                starRating.numStars = Math.ceil(it.toDouble()).toInt()
                 starRating.rating = it
             }
 

@@ -131,7 +131,12 @@ public class NewHotelDetailTest extends HotelTestCase {
 		HotelScreen.horizontalDividerBwEtpAndFreeCancellation().check(
 			matches((hasETP && hasFreeCancellation) ? isDisplayed() : not(isDisplayed())));
 
-		onView(withText("View Room")).perform(scrollTo());
+		Common.delay(1);
+		HotelScreen.addRoom().perform(scrollTo());
+		Common.delay(1);
+		onView(allOf(withId(R.id.room_header_image), isDisplayed())).perform(swipeUp());
+		Common.delay(1);
+		onView(allOf(withId(R.id.room_header_image), isDisplayed())).perform(swipeUp());
 		Common.delay(1);
 		HotelScreen.etpPlaceholder().check(matches(hasETP ? isDisplayed() : not(isDisplayed())));
 		HotelScreen.payNowAndLaterOptions().check(matches(hasETP ? isDisplayed() : not(isDisplayed())));
