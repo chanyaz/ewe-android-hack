@@ -28,9 +28,13 @@
     <color name="tablet_results_calendar_dates">#E31F0E</color>
     <color name="aag_launch_lob_bg">#E31E0D</color>
     <color name="launch_actionbar_bg_color">#2B2D32</color>
-
     <color name="hotel_lob_btn">@color/aag_launch_lob_bg</color>
     <color name="lx_lob_btn">@color/aag_launch_lob_bg</color>
     <color name="flights_lob_btn">@color/aag_launch_lob_bg</color>
 
+    <!-- LX colors -->
+    <color name="lx_primary_color">@color/aag_launch_lob_bg</color>
+    <color name="lx_secondary_color_disabled">@color/aag_launch_lob_bg</color>
+    <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
+    <color name="lx_ripple_color">#8b1a10 </color>
 </resources>
