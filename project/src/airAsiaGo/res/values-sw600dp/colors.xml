@@ -9,4 +9,6 @@
     <color name="hotel_room_rate_add_room_button_pressed">#C30A0E</color>
     <color name="tablet_hotel_selected_overlay">#B3E31F0E</color>
     <color name="tablet_hotel_pressed_overlay">#B3E31F0E</color>
+    <color name="tablet_calendar_cell_today_text">#E31F0E</color>
+
 </resources>
