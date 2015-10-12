@@ -23,8 +23,10 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
     // Outputs
     val suggestionsObservable = BehaviorSubject.create<List<SuggestionV4>>()
     var suggestions: List<SuggestionV4> = emptyList()
-    private var nearby: ArrayList<SuggestionV4> = ArrayList()
     val suggestionSelectedSubject = PublishSubject.create<SuggestionV4>()
+
+    private var nearby: ArrayList<SuggestionV4> = ArrayList()
+    private var lastQuery: String = ""
 
     init {
         locationObservable.subscribe(generateLocationServiceCallback());
@@ -33,6 +35,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
     // Inputs
     val queryObserver = endlessObserver<String> { query ->
         if (query.isNotBlank() && query.length() >= 3 && !query.equals(currentLocationText)) {
+            lastQuery = query
             suggestionsService.getHotelSuggestionsV4(query, generateSuggestionServiceCallback())
         } else {
             suggestionsObservable.onNext(suggestionsListWithNearby())
@@ -97,18 +100,33 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
 
     private fun generateSuggestionServiceCallback(): Observer<List<SuggestionV4>> {
         return object : Observer<List<SuggestionV4>> {
-            override fun onNext(suggestions: List<SuggestionV4>) {
-                suggestionsObservable.onNext(suggestions)
+            override fun onNext(essSuggestions: List<SuggestionV4>) {
+                if (essSuggestions.count() == 0) {
+                    suggestionsObservable.onNext(listWithQueryString(lastQuery))
+                }
+                else {
+                    suggestionsObservable.onNext(essSuggestions)
+                }
             }
 
-            override fun onCompleted() {
-                // ignore
-            }
+            override fun onCompleted() {}
 
             override fun onError(e: Throwable?) {
                 Log.e("Hotel Suggestions Error", e)
             }
         }
+    }
+
+    private fun listWithQueryString(query: String): List<SuggestionV4> {
+        val rawQuerySuggestion = SuggestionV4()
+        rawQuerySuggestion.type = "RAW_TEXT_SEARCH"
+        rawQuerySuggestion.regionNames = SuggestionV4.RegionNames()
+        rawQuerySuggestion.regionNames.displayName = query
+        rawQuerySuggestion.regionNames.shortName = query // shown in results toolbar title
+        rawQuerySuggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
+        rawQuerySuggestion.hierarchyInfo.isChild = false
+        rawQuerySuggestion.coordinates = SuggestionV4.LatLng()
+        return listOf(rawQuerySuggestion)
     }
 }
 
