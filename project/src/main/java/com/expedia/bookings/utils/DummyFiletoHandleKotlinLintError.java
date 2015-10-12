@@ -134,6 +134,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.filter_amenity_row,
 		R.dimen.hotel_gallery_description_padding,
 		R.layout.marker_window,
-		R.drawable.bg_message_loading
+		R.drawable.bg_message_loading,
+		R.color.hotel_filter_show_more_less
 	};
 }
