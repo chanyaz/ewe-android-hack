@@ -14,6 +14,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extension.isAirAttached
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.DateUtils
@@ -96,6 +97,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
     val ratingContainerObservable = BehaviorSubject.create<Unit>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
+    val discountPercentageBackgroundObservable = BehaviorSubject.create<Int>()
     val discountPercentageObservable = BehaviorSubject.create<String>()
     val hasDiscountPercentageObservable = BehaviorSubject.create<Boolean>()
     val hasVipAccessObservable = BehaviorSubject.create<Boolean>()
@@ -211,6 +213,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             onlyShowTotalPrice.onNext(firstHotelRoomResponse.rateInfo.chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
             pricePerNightObservable.onNext(dailyPrice.getFormattedMoney(Money.F_NO_DECIMAL))
             totalPriceObservable.onNext(totalPrice.getFormattedMoney(Money.F_NO_DECIMAL))
+            discountPercentageBackgroundObservable.onNext(if(rate.isAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
         }
 
         userRatingObservable.onNext(response.hotelGuestRating.toString())

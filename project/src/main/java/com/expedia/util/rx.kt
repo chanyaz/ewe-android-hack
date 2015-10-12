@@ -75,6 +75,10 @@ public fun Observable<Float>.subscribeRating(ratingBar: RatingBar) {
     this.subscribe { ratingBar.rating = it }
 }
 
+public fun Observable<Int>.subscribeBackgroundResource(view: View) {
+    this.subscribe { drawable -> view.setBackgroundResource(drawable) }
+}
+
 public fun Observable<CharSequence>.subscribeToggleButton(togglebutton: ToggleButton) {
     this.subscribe { text ->
         togglebutton.text = text
