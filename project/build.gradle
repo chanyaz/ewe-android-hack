@@ -241,10 +241,10 @@ android {
         }
 
         lastMinute {
-            buildConfigField "String", "brand", "\"lastminute.com.au\""
+            buildConfigField "String", "brand", "\"LM AU & NZ\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.lastminute.android"
-            def major = 2
+            def major = 3
             def minor = 0
             def patch = 0
             def build = 0

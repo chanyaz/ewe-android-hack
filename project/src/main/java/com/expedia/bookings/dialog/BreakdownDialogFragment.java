@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightTrip;
@@ -30,10 +29,10 @@ import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
@@ -248,7 +247,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 			}
 
 			CharSequence dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE)
-				.put("brand", BuildConfig.brand)
+				.put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context))
 				.format();
 
 			builder.addLineItem((new LineItemBuilder())
@@ -413,9 +412,13 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// OB fees
 		if (trip.getFees() != null) {
+			String bookingFee = Phrase.from(context, R.string.brand_booking_fee)
+				.put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context))
+				.format().toString();
+
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(StrUtils.getBrandedString(context, R.string.brand_booking_fee))
+					.setText(bookingFee)
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())

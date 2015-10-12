@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
@@ -35,6 +34,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.section.HotelReceiptExtraSection;
@@ -352,7 +352,7 @@ public class HotelReceipt extends LinearLayout {
 				.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
 
 			String totalDueToOurBrandToday = Phrase.from(this, R.string.due_to_brand_today_TEMPLATE)
-				.put("brand", BuildConfig.brand)
+				.put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(getContext()))
 				.format()
 				.toString();
 			dueToExpediaRow.bind(totalDueToOurBrandToday, rate.getTotalAmountAfterTax().getFormattedMoney());
@@ -366,7 +366,7 @@ public class HotelReceipt extends LinearLayout {
 
 		HotelReceiptExtraSection dueToOurBrandRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
 		String totalDueToOurBrandToday = Phrase.from(this, R.string.due_to_brand_today_TEMPLATE)
-			.put("brand", BuildConfig.brand)
+			.put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(getContext()))
 			.format()
 			.toString();
 		dueToOurBrandRow.bind(totalDueToOurBrandToday, rate.getDepositAmount().getFormattedMoney());

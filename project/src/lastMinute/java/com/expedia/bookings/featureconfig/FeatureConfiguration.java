@@ -173,7 +173,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isTuneEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -268,7 +268,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isSigninEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -298,7 +298,30 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getLaunchScreenActionLogo() {
-		return R.drawable.ic_ab_lm_logo;
+		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.LASTMINUTE_NZ) {
+			return R.drawable.ic_ab_lm_nz_logo;
+		}
+		return R.drawable.ic_ab_lm_au_logo;
+	}
+
+	@Override
+	public int updatePOSSpecificActionBarLogo() {
+		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.LASTMINUTE_NZ) {
+			return R.drawable.ic_action_bar_lm_nz_logo;
+		}
+		else {
+			return R.drawable.ic_action_bar_lm_logo;
+		}
+	}
+
+	@Override
+	public String getPOSSpecificBrandName(Context context) {
+		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.LASTMINUTE_NZ) {
+			return context.getString(R.string.lastminute_nz);
+		}
+		else {
+			return context.getString(R.string.lastminute_au);
+		}
 	}
 }
 

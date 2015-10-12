@@ -43,7 +43,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
-import com.squareup.phrase.Phrase;
 
 public class StrUtils {
 
@@ -455,7 +454,8 @@ public class StrUtils {
 			int end = legalTextSpan.getSpanEnd(span);
 			// Replace URL span with ClickableSpan to redirect to our own webview
 			legalTextSpan.removeSpan(span);
-			legalTextSpan.setSpan(new LegalClickableSpan(span.getURL(), legalTextSpan.subSequence(start, end).toString(), true), start,
+			legalTextSpan.setSpan(
+				new LegalClickableSpan(span.getURL(), legalTextSpan.subSequence(start, end).toString(), true), start,
 				end, 0);
 			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
 			legalTextSpan.setSpan(new UnderlineSpan(), start, end, 0);
@@ -515,12 +515,6 @@ public class StrUtils {
 
 	public static String stripHTMLTags(String htmlContent) {
 		return Html.fromHtml(htmlContent.replaceAll(HTML_TAGS_REGEX, "")).toString();
-	}
-
-	public static CharSequence getBrandedString(Context context, int stringResId) {
-		return Phrase.from(context.getString(stringResId))
-			.put("brand", context.getString(R.string.brand_name))
-			.format();
 	}
 
 	/**

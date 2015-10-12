@@ -1086,6 +1086,7 @@ public class PointOfSale {
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
+
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
 		for (int a = 0; a < supportedLocales.length(); a++) {

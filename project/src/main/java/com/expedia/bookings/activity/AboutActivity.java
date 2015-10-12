@@ -98,8 +98,8 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 			builder.addRow(getResources().getString(R.string.app_support), ROW_APP_SUPPORT);
 
-			builder.addRow(
-				Phrase.from(this, R.string.website_TEMPLATE).put("brand", BuildConfig.brand).format().toString(),
+			builder.addRow(Phrase.from(this, R.string.website_TEMPLATE).put("brand",
+				ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(this)).format().toString(),
 				ROW_EXPEDIA_WEBSITE);
 
 			if (ProductFlavorFeatureConfiguration.getInstance().isWeAreHiringInAboutEnabled()) {
@@ -204,6 +204,10 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 			getMenuInflater().inflate(R.menu.menu_about, menu);
 		}
 
+		int actionBarLogo = ProductFlavorFeatureConfiguration.getInstance().updatePOSSpecificActionBarLogo();
+		if (actionBarLogo != 0) {
+			getActionBar().setLogo(actionBarLogo);
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 

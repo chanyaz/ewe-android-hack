@@ -119,4 +119,8 @@ public interface IProductFlavorFeatureConfiguration {
 
 	//return 0 if logo is not required on launch screen
 	int getLaunchScreenActionLogo();
+
+	int updatePOSSpecificActionBarLogo();
+
+	String getPOSSpecificBrandName(Context context);
 }

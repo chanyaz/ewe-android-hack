@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.Locale;
+
 import android.app.Activity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -11,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.section.HotelReceiptExtraSection;
@@ -167,7 +168,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		addExtraRow(feesPaidAtHotel, rate.getTotalMandatoryFees().getFormattedMoney(), false);
 
 		String totalDueToOurBrandToday = Phrase.from(getActivity(), R.string.due_to_brand_today_TEMPLATE)
-			.put("brand", BuildConfig.brand)
+			.put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(getActivity()))
 			.format()
 			.toString();
 		addExtraRow(totalDueToOurBrandToday, rate.getTotalAmountAfterTax().getFormattedMoney(), false);

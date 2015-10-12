@@ -293,4 +293,15 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getLaunchScreenActionLogo() {
 		return 0;
 	}
+
+	@Override
+	public int updatePOSSpecificActionBarLogo() {
+		//ignore
+		return 0;
+	}
+
+	@Override
+	public String getPOSSpecificBrandName(Context context) {
+		return BuildConfig.brand;
+	}
 }

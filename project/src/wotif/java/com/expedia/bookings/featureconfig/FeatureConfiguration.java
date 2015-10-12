@@ -287,7 +287,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getFlightSearchProgressImageResId() {
-		return 0;
+		return R.drawable.search_progress_static_flight_wotif;
 	}
 
 	@Override
@@ -298,5 +298,16 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public int getLaunchScreenActionLogo() {
 		return R.drawable.ic_ab_wotif_logo;
+	}
+
+	@Override
+	public int updatePOSSpecificActionBarLogo() {
+		//ignore
+		return 0;
+	}
+
+	@Override
+	public String getPOSSpecificBrandName(Context context) {
+		return BuildConfig.brand;
 	}
 }
