@@ -129,7 +129,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             if (params.suggestion.coordinates != null) {
                 googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
             }
-            filterBtnWithCountWidget.visibility = View.VISIBLE
             show(ResultsList())
         }
 
@@ -180,6 +179,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         loadingOverlay.animate(false)
         loadingOverlay.visibility = View.GONE
         adapter.resultsSubject.onNext(it)
+        filterBtnWithCountWidget.visibility = View.VISIBLE
     }
 
     private fun lastBestLocationSafe(): Location {
@@ -602,7 +602,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 } else {
                     toolbarTextGoal = toolbarSubtitleTop.toFloat()
                 }
-                filterBtnWithCountWidget.visibility = View.VISIBLE
                 filterViewOrigin = filterBtnWithCountWidget.translationY
                 filterViewGoal = if (forward) 0f else filterBtnWithCountWidget.height.toFloat()
                 recyclerView.visibility = View.VISIBLE
@@ -665,7 +664,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
                 searchMenuItem.setVisible(forward)
                 filterMenuItem.setVisible(!forward)
-                filterBtnWithCountWidget.visibility = if (forward) View.VISIBLE else View.GONE
 
                 recyclerView.visibility = if (forward) View.VISIBLE else View.INVISIBLE
 
