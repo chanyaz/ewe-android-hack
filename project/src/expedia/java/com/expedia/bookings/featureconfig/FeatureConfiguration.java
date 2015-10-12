@@ -263,11 +263,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAppSupportUrlEnabled() {
-		return true;
-	}
-
-	@Override
 	public boolean isSigninEnabled() {
 		return true;
 	}
@@ -285,5 +280,20 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean isItinDisabled() {
 		return false;
+	}
+
+	@Override
+	public int getFlightSearchProgressImageResId() {
+		return 0;
+	}
+
+	@Override
+	public boolean isLOBIconCenterAligned() {
+		return false;
+	}
+
+	@Override
+	public int getLaunchScreenActionLogo() {
+		return 0;
 	}
 }

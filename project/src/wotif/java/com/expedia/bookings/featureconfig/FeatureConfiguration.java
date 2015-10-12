@@ -41,7 +41,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getAppSupportUrl(Context context) {
-		return PointOfSale.getPointOfSale().getAppSupportUrl();
+		return context.getString(R.string.app_support_url_wotif);
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getSearchProgressImageResId() {
-		return R.id.search_progress_image_wotif;
+		return 0;
 	}
 
 	@Override
@@ -172,7 +172,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isTuneEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -217,7 +217,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isHangTagProgressBarEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -266,11 +266,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAppSupportUrlEnabled() {
-		return false;
-	}
-
-	@Override
 	public boolean isSigninEnabled() {
 		return true;
 	}
@@ -288,5 +283,20 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean isItinDisabled() {
 		return false;
+	}
+
+	@Override
+	public int getFlightSearchProgressImageResId() {
+		return 0;
+	}
+
+	@Override
+	public boolean isLOBIconCenterAligned() {
+		return true;
+	}
+
+	@Override
+	public int getLaunchScreenActionLogo() {
+		return R.drawable.ic_ab_wotif_logo;
 	}
 }

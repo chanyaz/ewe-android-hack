@@ -30,8 +30,7 @@
         <item name="skin_tablet_dates_popup_done_color">@color/tablet_results_search_blue_wotif</item>
         <item name="skin_skin_tablet_dates_popup_done_drawable">@drawable/ic_tablet_search_results_popup_done_check_wotif</item>
         <item name="skin_tablet_hotel_details_background_drawable">@drawable/ic_hotel_details_background_layer_list_wotif</item>
-        <item name="skin_tabletHotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails.Wotif</item>
-        <item name="skin_tabletHotelDetailsCircleRatingStyle">@style/RatingBar.Star.HotelDetails.Wotif</item>
+        <item name="skin_tabletHotelDetailsCircleRatingStyle">@style/RatingBar.Circle.HotelDetails</item>
 
         <item name="skin_tablet_flight_confirmation_placeholder">@drawable/bg_itin_placeholder_wotif</item>
         <item name="skin_tablet_hotel_confirmation_placeholder">@drawable/bg_itin_placeholder_wotif</item>

@@ -1292,7 +1292,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		mAdultsNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
 		mChildrenNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
 	}
-
+	
 	private void setCircleDrawableForRatingRadioBtnBackground() {
 		RadioButton ratingLowButton = (RadioButton) mRatingButtonGroup.findViewById(R.id.rating_low_button);
 		RadioButton ratingMediumButton = (RadioButton) mRatingButtonGroup.findViewById(R.id.rating_medium_button);
