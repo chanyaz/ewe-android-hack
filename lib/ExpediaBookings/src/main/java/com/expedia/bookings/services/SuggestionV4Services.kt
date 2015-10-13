@@ -37,7 +37,7 @@ public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, 
         return suggestApi.suggestV4(query, type, "ta_hierarchy")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .map { response -> response.suggestions }
+                .map { response -> response.suggestions ?: emptyList() }
                 .subscribe(observer)
     }
 

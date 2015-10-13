@@ -55,8 +55,8 @@ public class HotelSuggestionViewHolder(val root: ViewGroup, val vm : HotelSugges
 
     init {
         itemView.setOnClickListener(this)
-        icon.setColorFilter(root.getContext().getResources().getColor(R.color.hotels_primary_color))
-        hierarchyIcon.setColorFilter(root.getContext().getResources().getColor(R.color.hotels_primary_color))
+        icon.setColorFilter(root.context.resources.getColor(R.color.hotels_primary_color))
+        hierarchyIcon.setColorFilter(root.context.resources.getColor(R.color.hotels_primary_color))
 
         vm.titleObservable.subscribeText(title)
 

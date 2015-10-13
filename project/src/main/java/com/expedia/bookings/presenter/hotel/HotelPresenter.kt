@@ -1,6 +1,8 @@
 package com.expedia.bookings.presenter.hotel
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -12,16 +14,13 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelErrorPresenter
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.util.endlessObserver
-import com.expedia.vm.HotelDetailViewModel
-import com.expedia.vm.HotelErrorViewModel
-import com.expedia.vm.HotelResultsViewModel
-import com.expedia.vm.HotelReviewsViewModel
-import com.expedia.vm.HotelSearchViewModel
+import com.expedia.vm.*
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.exceptions.OnErrorNotImplementedException
@@ -45,9 +44,29 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val reviewsPresenter: HotelReviewsPresenter by bindView(R.id.hotel_reviews_presenter)
     val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
     val ANIMATION_DURATION = 400
+    val geoCodeSearchModel = GeocodeSearchModel(context)
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
+
+        geoCodeSearchModel.geoResults.subscribe { results ->
+            val freeformLocations = StrUtils.formatAddresses(results)
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle(R.string.ChooseLocation)
+            builder.setItems(freeformLocations, object: DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    val newHotelSearchParams = hotelSearchParams.copy()
+                    val geoLocation = results.get(which)
+                    newHotelSearchParams.suggestion.coordinates.lat = geoLocation.latitude
+                    newHotelSearchParams.suggestion.coordinates.lng = geoLocation.longitude
+                    newHotelSearchParams.suggestion.type = ""
+                    // trigger search with selected geoLocation
+                    searchObserver.onNext(newHotelSearchParams)
+                }
+            })
+            val alertDialog = builder.create()
+            alertDialog.show()
+        }
     }
 
     override fun onFinishInflate() {
@@ -269,7 +288,12 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         if (params.suggestion.hotelId != null) {
             // Hotel name search - go straight to details
             showDetails(params.suggestion.hotelId)
-        } else {
+        }
+        else if (params.suggestion.type.equals("RAW_TEXT_SEARCH")) {
+            // fire off geo search to resolve raw text into lat/long
+            geoCodeSearchModel.searchObserver.onNext(params)
+        }
+        else {
             // Hotel region search
             show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
             resultsPresenter.viewmodel.paramsSubject.onNext(params)
