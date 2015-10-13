@@ -12,5 +12,6 @@
     <color name="tablet_calendar_cell_today_text">#E31F0E</color>
     <color name="tablet_hotel_sort_filter_area_price">#E31E0D</color>
     <color name="tablet_hotel_sort_filter_area_price_disabled">#FC8D83</color>
+    <color name="tablet_hotel_filter_count_ring_color">#E31F0E</color>
 
 </resources>
