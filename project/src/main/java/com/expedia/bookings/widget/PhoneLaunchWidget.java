@@ -76,7 +76,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 	private boolean isAirAttachDismissed;
 	private boolean wasHotelsDownloadEmpty;
 
-	private int launchListYScroll;
 	private float airAttachTranslation;
 
 	@InjectView(R.id.lob_selector)
@@ -240,8 +239,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 	RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
 		@Override
 		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-			launchListYScroll += dy;
-			float currentPos = launchListYScroll;
+			float currentPos = recyclerView.computeVerticalScrollOffset();
 			if (airAttachTranslation >= 0 && airAttachTranslation <= airAttachBanner.getHeight()) {
 				airAttachTranslation += dy;
 				airAttachTranslation = Math.min(airAttachTranslation, airAttachBanner.getHeight());
@@ -461,7 +459,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 	}
 
 	public void initLaunchListScroll() {
-		launchListYScroll = 0;
 		airAttachTranslation = 0;
 		launchListWidget.scrollToPosition(0);
 	}

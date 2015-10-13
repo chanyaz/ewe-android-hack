@@ -48,6 +48,7 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 
 	private float fullHeight;
 	private boolean firstTimeMeasure = true;
+	private float scaleToFactor = 1;
 
 	public PhoneLaunchDoubleRowButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -100,6 +101,7 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 				iconView.setPivotX(0);
 				iconView.setPivotY(-iconView.getHeight());
 				iconView.setTranslationY(getBottom() - iconView.getBottom());
+				scaleTo(scaleToFactor);
 				return true;
 			}
 		});
@@ -110,12 +112,12 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 				if (fiveLobBtn) {
 					textView.setPivotX(textView.getWidth());
 					textView.setPivotY(0);
-					scaleTo(1);
 				}
 				else {
 					textView.setPivotX(textView.getWidth() / 2);
 					textView.setPivotY(-textView.getTop());
 				}
+				scaleTo(scaleToFactor);
 				return true;
 			}
 		});
@@ -176,6 +178,8 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 	}
 
 	public void scaleTo(float f) {
+		scaleToFactor = f;
+
 		// Normalize float f between squash widget ratio and 1
 		float normalized = (float) ((f - squashedRatio) / (1.0 - squashedRatio));
 
