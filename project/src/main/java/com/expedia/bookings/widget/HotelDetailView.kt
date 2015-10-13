@@ -583,27 +583,23 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         galleryCounterscroll(t)
     }
 
-    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        if (this.visibility == View.VISIBLE && visibility == View.VISIBLE) {
-            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    galleryScroll = null
-                    val lp = galleryContainer.layoutParams
-                    lp.height = height
-                    galleryContainer.layoutParams = lp
+    public fun resetGallery() {
+        getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                getViewTreeObserver().removeOnGlobalLayoutListener(this)
+                galleryScroll = null
+                val lp = galleryContainer.layoutParams
+                lp.height = height
+                galleryContainer.layoutParams = lp
 
-                    galleryHeight = resources.getDimensionPixelSize(R.dimen.gallery_height)
-                    initialScrollTop = height - (resources.getDimensionPixelSize(R.dimen.gallery_height))
+                galleryHeight = resources.getDimensionPixelSize(R.dimen.gallery_height)
+                initialScrollTop = height - (resources.getDimensionPixelSize(R.dimen.gallery_height))
 
-                    detailContainer.post {
-                        detailContainer.scrollTo(0, initialScrollTop)
-                    }
+                detailContainer.post {
+                    detailContainer.scrollTo(0, initialScrollTop)
                 }
-            })
-
-        }
+            }
+        })
     }
 
     private fun galleryCounterscroll(parentScroll: Int) {
