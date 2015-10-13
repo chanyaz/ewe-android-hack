@@ -355,7 +355,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         if (loadingOverlay.visibility != View.VISIBLE) {
             return super.back()
         }
-        return false
+        return true
     }
 
     val searchResultsOverlayObserver: Observer<Unit> = endlessObserver { params ->
