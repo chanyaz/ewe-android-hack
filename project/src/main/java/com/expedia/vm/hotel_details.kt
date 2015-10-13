@@ -229,7 +229,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         discountPercentageObservable.onNext(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
                 .put("discount", discountPercentage ?: 0).format().toString())
         hasDiscountPercentageObservable.onNext(chargeableRateInfo?.isDiscountTenPercentOrBetter())
-        hasVipAccessObservable.onNext(response.isVipAccess)
+        hasVipAccessObservable.onNext(response.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess())
         promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
         strikeThroughPriceObservable.onNext(priceFormatter(chargeableRateInfo, true))
 
