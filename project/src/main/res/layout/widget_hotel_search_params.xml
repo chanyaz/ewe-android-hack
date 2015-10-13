@@ -71,7 +71,7 @@
                     android:id="@+id/clear_location_button"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:layout_alignRight="@id/hotel_location"
+                    android:layout_alignRight="@id/hotel_location_autocomplete"
                     android:layout_centerVertical="true"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
