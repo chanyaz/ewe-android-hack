@@ -26,6 +26,8 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
@@ -37,16 +39,8 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.FilterButtonWithCountWidget
-import com.expedia.bookings.widget.HotelCarouselRecycler
-import com.expedia.bookings.widget.HotelFilterView
-import com.expedia.bookings.widget.HotelListAdapter
-import com.expedia.bookings.widget.HotelListRecyclerView
-import com.expedia.bookings.widget.HotelMapCarouselAdapter
-import com.expedia.bookings.widget.MapLoadingOverlayWidget
-import com.expedia.bookings.widget.createHotelMarkerIcon
-import com.expedia.util.endlessObserver
-import com.expedia.util.notNullAndObservable
+import com.expedia.bookings.widget.*
+import com.expedia.util.*
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelResultsViewModel
@@ -78,7 +72,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
     val fab: FloatingActionButton by bindView(R.id.fab)
     var adapter: HotelListAdapter by Delegates.notNull()
-    val filterBtn: Button by bindView(R.id.filter_btn)
+    val filterBtn: LinearLayout by bindView(R.id.filter_btn)
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     private val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
@@ -99,6 +93,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
     val searchMenuItem by lazy { toolbar.menu.findItem(R.id.menu_open_search) }
+
+    var filterCountText: TextView by Delegates.notNull()
+    var filterPlaceholderImageView: ImageView by Delegates.notNull()
+    val filterPlaceholderIcon by lazy {
+        val sortDrawable = resources.getDrawable(R.drawable.sort).mutate()
+        sortDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+        sortDrawable
+    }
+
     val searchOverlaySubject = PublishSubject.create<Unit>()
 
     var halfway = 0
@@ -304,8 +307,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         recyclerView.addOnScrollListener(scrollListener)
         recyclerView.addOnItemTouchListener(touchListener)
 
-        filterView.viewmodel.filterCountObservable.subscribe(filterCountObserver)
-
         mapCarouselRecycler.mapSubject.subscribe {
             hotel ->
             val marker = markers.filter { it.title == hotel.hotelId }.first()
@@ -313,23 +314,16 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, googleMap?.cameraPosition?.zoom!!))
         }
 
-        toolbar.inflateMenu(R.menu.menu_filter_item)
-        var drawable = res.getDrawable(R.drawable.sort).mutate()
-        drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        filterMenuItem.setIcon(drawable)
-
-        val button = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as Button
-        val icon = res.getDrawable(R.drawable.sort).mutate()
-        icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        button.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
-        button.setTextColor(res.getColor(android.R.color.white))
-
-        toolbar.menu.findItem(R.id.menu_filter).setActionView(button)
-
+        inflateAndSetupToolbarMenu()
         toolbar.setNavigationOnClickListener { view ->
             val activity = context as AppCompatActivity
             activity.onBackPressed()
         }
+
+        filterView.viewmodel.filterCountObservable.subscribe(filterCountObserver)
+        filterView.viewmodel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
+        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
+        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
 
         val fabDrawable: TransitionDrawable? = (fab.drawable as? TransitionDrawable)
         // Enabling crossfade prevents the icon ending up with a weird mishmash of both icons.
@@ -341,7 +335,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             } else {
                 show(ResultsList(), Presenter.FLAG_CLEAR_BACKSTACK)
             }
-
         }
 
         //Fetch, color, and slightly resize the searchThisArea location pin drawable
@@ -388,6 +381,17 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         filterMenuItem.setVisible(false)
         var fabLp = fab.layoutParams as FrameLayout.LayoutParams
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
+    }
+
+    private fun inflateAndSetupToolbarMenu() {
+        toolbar.inflateMenu(R.menu.menu_filter_item)
+
+        val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
+        filterCountText = toolbarFilterItemActionView.findViewById(R.id.filter_count_text) as TextView
+        filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
+        filterPlaceholderImageView.setImageDrawable(filterPlaceholderIcon)
+
+        toolbar.menu.findItem(R.id.menu_filter).setActionView(toolbarFilterItemActionView)
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
