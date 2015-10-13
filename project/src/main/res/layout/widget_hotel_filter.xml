@@ -9,6 +9,7 @@
         <com.expedia.bookings.widget.ScrollView
             android:id="@+id/filter_container"
             android:layout_width="match_parent"
+            android:paddingTop="?attr/actionBarSize"
             android:layout_height="match_parent">
 
             <LinearLayout
