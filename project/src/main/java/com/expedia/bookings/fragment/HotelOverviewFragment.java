@@ -417,7 +417,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (getActivity().isFinishing()) {
 			bd.cancelDownload(KEY_REFRESH_USER);
 			// Since we are exiting the screen, let's reset coupon.
-			Db.getTripBucket().getHotel().setIsCouponApplied(false);
+			if (Db.getTripBucket() != null && Db.getTripBucket().getHotel() != null) {
+				Db.getTripBucket().getHotel().setIsCouponApplied(false);
+			}
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
