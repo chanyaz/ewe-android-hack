@@ -48,9 +48,10 @@
                     style="@style/CarAutocomplete"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:hint="@string/search_location"
                     android:layout_toRightOf="@id/location_image_view"
                     android:layout_weight="1"
+                    android:focusable="false"
+                    android:hint="@string/search_location"
                     android:textColorHighlight="#12AD9F"
                     android:visibility="gone" />
 
@@ -70,7 +71,7 @@
                     android:id="@+id/clear_location_button"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:layout_alignRight="@id/hotel_location_autocomplete"
+                    android:layout_alignRight="@id/hotel_location"
                     android:layout_centerVertical="true"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
@@ -170,8 +171,7 @@
         android:id="@+id/drop_down_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:paddingBottom="25dp"/>
+        android:background="#FFFFFF" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
