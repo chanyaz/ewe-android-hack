@@ -41,6 +41,8 @@
     <color name="tablet_hotel_sort_filter_text_disabled">#336a6a6a</color>
     <color name="tablet_hotel_sort_filter_done">#0B4EA4</color>
     <color name="tablet_hotel_sort_filter_done_pressed">#a6c8f3</color>
+    <color name="tablet_hotel_sort_filter_area_price">#2970cc</color>
+    <color name="tablet_hotel_sort_filter_area_price_disabled">#800558c4</color>
     <color name="tablet_hotel_coupon_text_color">#FFE115</color>
 
     <!-- Tablet Flights -->

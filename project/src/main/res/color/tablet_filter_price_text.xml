@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_enabled="false" android:color="#800558c4"/>
-    <item android:color="#2970cc"/>
+    <item android:state_enabled="false" android:color="@color/tablet_hotel_sort_filter_area_price_disabled"/>
+    <item android:color="@color/tablet_hotel_sort_filter_area_price"/>
 
 </selector>
