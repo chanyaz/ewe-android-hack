@@ -289,7 +289,6 @@ public class HotelCreditCardsInfoEditTest {
 			//go back for next test data
 			Common.pressBack();
 			Checkout.clickCreditCardSection();
-			Common.delay(3);
 			CommonPaymentMethodScreen.clickOnAddNewCardTextView();
 		}
 	}
