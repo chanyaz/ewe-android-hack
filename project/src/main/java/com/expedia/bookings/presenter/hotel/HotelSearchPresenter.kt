@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,10 +38,10 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.HotelTravelerPickerView
+import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeText
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeToggleButton
 import com.expedia.vm.HotelSearchViewModel
@@ -94,6 +95,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.suggestionSelectedSubject.subscribe { suggestion ->
             searchViewModel.suggestionObserver.onNext(suggestion)
             searchLocationEditText.clearFocus()
+            searchLocationEditText.visibility = View.GONE
+            searchLocationTextView.visibility = View.VISIBLE
+            clearLocationButton.visibility = View.INVISIBLE
+            com.mobiata.android.util.Ui.hideKeyboard(this)
 
             selectDate.setChecked(true)
             selectTraveler.setChecked(true)
@@ -154,6 +159,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         suggestionRecyclerView.layoutManager = LinearLayoutManager(context)
+        suggestionRecyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25f, resources.displayMetrics).toInt(), false))
         val maxDate = LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range))
         calendar.setSelectableDateRange(LocalDate.now(), maxDate)
         calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_hotel_stay))
@@ -222,60 +228,36 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         suggestionRecyclerView.adapter = hotelSuggestionAdapter
 
-        searchLocationEditText.setOnClickListener {
+        searchLocationTextView.setOnClickListener {
+            resetSuggestion()
+            searchLocationTextView.visibility = View.INVISIBLE
+            searchLocationEditText.visibility = View.VISIBLE
+            clearLocationButton.visibility = if (Strings.isEmpty(searchLocationEditText.text)) View.INVISIBLE else View.VISIBLE
+            searchLocationEditText.requestFocus()
+            searchLocationEditText.setSelection(searchLocationEditText.getText().length())
             show(HotelParamsSuggestion(), Presenter.FLAG_CLEAR_TOP)
             com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
-        }
-
-        searchLocationTextView.setOnFocusChangeListener { view, isFocussed ->
-            if (isFocussed) {
-                searchLocationTextView.setVisibility(View.GONE)
-                searchLocationEditText.setVisibility(View.VISIBLE)
-                searchLocationEditText.requestFocus()
-                searchLocationEditText.setSelection(searchLocationEditText.getText().length())
-                show(HotelParamsSuggestion(), Presenter.FLAG_CLEAR_TOP)
-                com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
-            }
-        }
-
-        searchLocationEditText.setOnFocusChangeListener { view, isFocused ->
-            if (isFocused) {
-                searchLocationEditText.setText(searchLocationEditText.getText() ?: "")
-                clearLocationButton.setVisibility(View.VISIBLE)
-            } else {
-                searchLocationTextView.setText(searchLocationEditText.getText())
-                searchLocationEditText.setVisibility(View.GONE)
-                clearLocationButton.setVisibility(View.INVISIBLE)
-                com.mobiata.android.util.Ui.hideKeyboard(this)
-
-                searchLocationEditText.clearFocus()
-                searchLocationTextView.setVisibility(View.VISIBLE)
-            }
         }
 
         searchLocationEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
 
             }
+
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 suggestionViewModel.queryObserver.onNext(s.toString())
-                clearLocationButton.setVisibility(if (Strings.isEmpty(s)) View.INVISIBLE else View.VISIBLE)
-
-                if (selectDate.isChecked()) {
-                    vm.suggestionTextChangedObserver.onNext(Unit)
-                    selectDate.setChecked(false)
-                    selectTraveler.setChecked(false)
-                    calendar.setVisibility(View.GONE)
-                    traveler.setVisibility(View.GONE)
-                    calendar.hideToolTip()
-                }
+                clearLocationButton.visibility = if (Strings.isEmpty(s)) View.INVISIBLE else View.VISIBLE
             }
         })
 
-        vm.locationTextObservable.subscribeText(searchLocationEditText)
+        vm.locationTextObservable.subscribe {
+            val text = if (it.equals(context.getString(R.string.current_location))) ""  else it
+            searchLocationEditText.setText(text)
+            searchLocationTextView.setText(it)
+        }
 
         clearLocationButton.setOnClickListener { view ->
             searchLocationEditText.setText(null)
@@ -404,6 +386,12 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             val pos = (if (forward) parentHeight + calendarHeight else calendarHeight).toFloat()
             calendar.setTranslationY(pos)
             calendar.setVisibility(View.VISIBLE)
+            val hasOrigin = searchViewModel.originObservable.value
+            searchLocationEditText.visibility = if (forward) View.GONE else View.VISIBLE
+            searchLocationTextView.visibility = if (forward) View.VISIBLE else View.INVISIBLE
+            if (forward && !hasOrigin) {
+                searchViewModel.locationTextObservable.onNext("")
+            }
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -464,4 +452,12 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType().toFloat())
     }
 
+    private fun resetSuggestion() {
+        searchViewModel.suggestionTextChangedObserver.onNext(Unit)
+        selectDate.setChecked(false)
+        selectTraveler.setChecked(false)
+        calendar.setVisibility(View.GONE)
+        traveler.setVisibility(View.GONE)
+        calendar.hideToolTip()
+    }
 }

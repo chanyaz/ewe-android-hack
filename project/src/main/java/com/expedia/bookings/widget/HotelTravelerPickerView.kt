@@ -91,7 +91,7 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Sc
             for (i in childSpinners.indices) {
                 val spinner = childSpinners[i]
                 if (i >= travelers.children.size()) {
-                    spinner.setVisibility(View.GONE)
+                    spinner.setVisibility(View.INVISIBLE)
                 } else {
                     spinner.setVisibility(View.VISIBLE)
                 }
