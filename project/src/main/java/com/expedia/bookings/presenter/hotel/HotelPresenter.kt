@@ -194,6 +194,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             if (!forward) {
                 detailPresenter.hotelDetailView.resetViews()
             }
+            else {
+                detailPresenter.hotelDetailView.resetGallery()
+            }
             val parentHeight = getHeight()
             detailsHeight = parentHeight - Ui.getStatusBarHeight(getContext())
             val pos = (if (forward) detailsHeight else 0).toFloat()
