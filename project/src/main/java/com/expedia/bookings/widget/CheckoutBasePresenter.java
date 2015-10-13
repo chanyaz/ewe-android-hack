@@ -1,12 +1,14 @@
 package com.expedia.bookings.widget;
 
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
@@ -90,12 +92,14 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@InjectView(R.id.spacer)
 	public Space space;
 
-	MenuItem menuDone;
+	public MenuItem menuDone;
 
 	ExpandableCardView lastExpandedCard;
 	ExpandableCardView currentExpandedCard;
 
 	protected UserAccountRefresher userAccountRefresher;
+
+	private boolean listenToScroll = true;
 
 	@Override
 	protected void onFinishInflate() {
@@ -140,6 +144,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 		summaryContainer.addView(mSummaryProgressLayout);
 		userAccountRefresher = new UserAccountRefresher(getContext(), getLineOfBusiness(), this);
+
+		if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
+			scrollView.addOnScrollListener(checkoutScrollListener);
+		}
 	}
 
 	public void setupToolbar() {
@@ -157,7 +165,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		toolbar.inflateMenu(R.menu.cars_checkout_menu);
 
 		menuDone = toolbar.getMenu().findItem(R.id.menu_done);
-		resetMenuButton();
+		// Let's start with not showing the menuDone button
+		menuDone.setVisible(false);
 
 		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 			@Override
@@ -169,9 +178,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 						Ui.hideKeyboard(CheckoutBasePresenter.this);
 					}
 					else if (menuItem.getTitle().equals(getResources().getString(R.string.next))) {
-						if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && currentExpandedCard == null) {
+						if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
 							scrollToEnterDetails();
-							menuDone.setVisible(false);
 						}
 						else {
 							currentExpandedCard.setNextFocus();
@@ -203,8 +211,42 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	private void scrollToEnterDetails() {
 		Ui.hideKeyboard(CheckoutBasePresenter.this);
-		scrollView.smoothScrollTo(0, loginWidget.getTop() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics()));
+
+		int targetScrollY = loginWidget.getTop() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics());
+		final ValueAnimator scrollAnimation =
+			ValueAnimator.ofInt(scrollView.getScrollY(), targetScrollY);
+		scrollAnimation.setDuration(300);
+		scrollAnimation.setInterpolator(new FastOutSlowInInterpolator());
+		scrollAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animation) {
+				int scrollTo = (Integer) animation.getAnimatedValue();
+				scrollView.scrollTo(0, scrollTo);
+			}
+		});
+
+		scrollView.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				scrollAnimation.start();
+			}
+		}, 100L);
 	}
+
+	com.expedia.bookings.widget.ScrollView.OnScrollListener checkoutScrollListener = new ScrollView.OnScrollListener() {
+		@Override
+		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			if (listenToScroll) {
+				int top = loginWidget.getTop() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics());
+				if (y >= top) {
+					menuDone.setVisible(false);
+				}
+				else {
+					menuDone.setVisible(true);
+				}
+			}
+		}
+	};
 
 	// Listener to update the toolbar status when a widget(Login, Driver Info, Payment) is being interacted with
 	public ToolbarListener toolbarListener = new ToolbarListener() {
@@ -334,6 +376,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				animateInSlideToPurchase(false);
 			}
 			updateSpacerHeight();
+			listenToScroll = true;
 		}
 	};
 
@@ -367,6 +410,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					}
 					v.setVisibility(GONE);
 				}
+				listenToScroll = false;
 				if (lastExpandedCard != null && lastExpandedCard != currentExpandedCard) {
 					lastExpandedCard.setExpanded(false, false);
 				}
@@ -387,6 +431,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				}
 
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
+				resetMenuButton();
+				listenToScroll = true;
 			}
 
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()
@@ -394,7 +440,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			Drawable nav = getResources().getDrawable(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp).mutate();
 			nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 			toolbar.setNavigationIcon(nav);
-			menuDone.setVisible(false);
 		}
 
 		@Override
@@ -411,7 +456,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				checkoutFormWasUpdated();
 				updateSpacerHeight();
 			}
-			if (!forward && !menuDone.isVisible()) {
+			if (!forward) {
 				scrollToEnterDetails();
 			}
 		}
@@ -437,10 +482,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public void onUserAccountRefreshed() {
 		doCreateTrip();
 		if (User.isLoggedIn(getContext())) {
-			scrollView.scrollTo(0, (int)mainContactInfoCardView.getY());
-		}
-		else {
-			scrollView.scrollTo(0, (int)loginWidget.getY());
+			listenToScroll = true;
+			scrollToEnterDetails();
 		}
 	}
 
