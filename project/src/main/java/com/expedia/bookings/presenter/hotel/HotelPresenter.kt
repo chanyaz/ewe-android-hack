@@ -219,6 +219,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             if (forward) {
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             }
+            if (!forward) {
+                resultsPresenter.recyclerView.adapter.notifyDataSetChanged()
+            }
         }
     }
 
