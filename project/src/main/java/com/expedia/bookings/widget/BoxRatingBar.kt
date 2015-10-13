@@ -6,14 +6,14 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.RatingBar
 import com.expedia.bookings.R
-import kotlin.properties.Delegates
 
 public class BoxRatingBar(context: Context, attrs: AttributeSet) : RatingBar(context, attrs) {
     private val dividerWidth: Float
     private val cornerRadius: Float
-    private var enabledPaint: Paint by Delegates.notNull()
-    private var disabledPaint: Paint by Delegates.notNull()
-    private var dividerPaint: Paint by Delegates.notNull()
+    private val enabledPaint = Paint()
+    private val disabledPaint = Paint()
+    private val dividerPaint = Paint()
+    private val rect = RectF()
 
     init {
         setLayerType(View.LAYER_TYPE_SOFTWARE, null)
@@ -25,25 +25,17 @@ public class BoxRatingBar(context: Context, attrs: AttributeSet) : RatingBar(con
         cornerRadius = a.getDimension(R.styleable.BoxRatingBar_corner_radius, 10f)
         a.recycle()
 
-        initPaints(enabledBoxColor, disabledBoxColor)
-    }
-
-    private fun initPaints(enabledColor: Int, disabledColor: Int) {
-        enabledPaint = Paint()
         enabledPaint.isAntiAlias = true
-        enabledPaint.color = enabledColor
+        enabledPaint.color = enabledBoxColor
 
-        disabledPaint = Paint()
         disabledPaint.isAntiAlias = true
-        disabledPaint.color = disabledColor
+        disabledPaint.color = disabledBoxColor
 
-        dividerPaint = Paint()
         dividerPaint.isAntiAlias = true
         dividerPaint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.DST_OUT))
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.save()
         /**
          * First it will draw a round rectangle with enabled rating color and will only have radius on left
          * The size of the rectangle will be equal to the rating.
@@ -62,6 +54,8 @@ public class BoxRatingBar(context: Context, attrs: AttributeSet) : RatingBar(con
          *  _   _   _   _   _
          * |_| |_| |_| |_| |_|
          */
+
+        canvas.save()
         drawEnabledRating(canvas)
         drawDisabledRating(canvas)
         drawSeparator(canvas)
@@ -69,12 +63,12 @@ public class BoxRatingBar(context: Context, attrs: AttributeSet) : RatingBar(con
     }
 
     private fun drawEnabledRating(canvas: Canvas) {
-        val left = 0f
-        val right = canvas.width * rating / numStars
-        val top = 0f
-        val bottom = canvas.height.toFloat()
+        rect.left = 0f
+        rect.right = canvas.width * rating / numStars
+        rect.top = 0f
+        rect.bottom = canvas.height.toFloat()
 
-        canvas.drawRoundRect(left, top, right, bottom, cornerRadius, cornerRadius, enabledPaint)
+        canvas.drawRoundRect(rect, cornerRadius, cornerRadius, enabledPaint)
 
         /**
          * If rating is not full then draw rectangle with sharp edges to remove right corner
@@ -82,7 +76,8 @@ public class BoxRatingBar(context: Context, attrs: AttributeSet) : RatingBar(con
          * the right side of rectangle is equal to right point, so it will overlap the corner and make it sharp edge
          */
         if (rating != numStars.toFloat()) {
-            canvas.drawRect(left + cornerRadius, top, right, bottom, enabledPaint)
+            rect.left = rect.left + cornerRadius
+            canvas.drawRect(rect, enabledPaint)
         }
     }
 
@@ -92,13 +87,15 @@ public class BoxRatingBar(context: Context, attrs: AttributeSet) : RatingBar(con
          * Say rating is 3/5, then only draw disable rating.
          */
         if (rating != numStars.toFloat()) {
-            val left = canvas.width * rating / numStars
-            val right = canvas.width.toFloat()
-            val top = 0f
-            val bottom = canvas.height.toFloat()
+            rect.left = canvas.width * rating / numStars
+            rect.right = canvas.width.toFloat()
+            rect.top = 0f
+            rect.bottom = canvas.height.toFloat()
 
-            canvas.drawRoundRect(left, top, right, bottom, cornerRadius, cornerRadius, disabledPaint)
-            canvas.drawRect(left, top, right - cornerRadius, bottom, disabledPaint)
+            canvas.drawRoundRect(rect, cornerRadius, cornerRadius, disabledPaint)
+
+            rect.right = rect.right - cornerRadius
+            canvas.drawRect(rect, disabledPaint)
         }
     }
 
@@ -106,12 +103,12 @@ public class BoxRatingBar(context: Context, attrs: AttributeSet) : RatingBar(con
         val widthOfEachBox = (canvas.width - (numStars - 1) * dividerWidth) / numStars
 
         for (index in 1..(numStars - 1)) {
-            val left = index * widthOfEachBox + (index - 1) * dividerWidth
-            val right = left + dividerWidth
-            val top = 0f
-            val bottom = canvas.height.toFloat()
+            rect.left = index * widthOfEachBox + (index - 1) * dividerWidth
+            rect.right = left + dividerWidth
+            rect.top = 0f
+            rect.bottom = canvas.height.toFloat()
 
-            canvas.drawRect(left, top, right, bottom, dividerPaint)
+            canvas.drawRect(rect, dividerPaint)
         }
     }
 }
