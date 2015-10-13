@@ -5,45 +5,46 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.graphics.PointF
 import android.graphics.PorterDuff
 import android.support.v4.graphics.drawable.DrawableCompat
-import android.graphics.PointF
 import android.support.v7.widget.Toolbar
 import android.text.Html
 import android.util.AttributeSet
+import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.view.animation.LinearInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.RatingBar
+import android.widget.Space
 import android.widget.TableLayout
 import android.widget.TableRow
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
-import android.view.MotionEvent
-import android.widget.Space
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeText
+import com.expedia.util.subscribeBackgroundResource
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnCheckedChange
 import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeVisibility
-import com.expedia.util.subscribeBackgroundResource
-import com.expedia.util.unsubscribeOnCheckedChange
-import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.util.subscribeRating
-import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
+import com.expedia.util.unsubscribeOnCheckedChange
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -54,9 +55,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import java.util.ArrayList
 import rx.Observable
 import rx.Observer
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 //scroll animation duration for select room button
@@ -255,18 +256,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         }
 
-        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, { hasETP, hasFreeCancellation -> hasETP && hasFreeCancellation })
-                .subscribe { showETPAndFreeCancellation ->
-                    if (showETPAndFreeCancellation) {
-                        horizontalDividerBwEtpAndFreeCancellation.visibility = View.VISIBLE
-                        etpInfoText.setTextAppearance(context, R.style.ETPInfoTextSmall)
-                        freeCancellation.setTextAppearance(context, R.style.HotelDetailsInfoSmall)
-                    }else{
-                        horizontalDividerBwEtpAndFreeCancellation.visibility = View.GONE
-                    }
-                }
-        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, { hasETP, hasFreeCancellation -> hasETP || hasFreeCancellation })
-                .subscribeVisibility(etpAndFreeCancellationMessagingContainer)
         vm.hasETPObservable.subscribeVisibility(etpInfoText)
         vm.hasFreeCancellationObservable.subscribeVisibility(freeCancellation)
 
@@ -277,6 +266,31 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             etpContainer.visibility = if (visible) View.VISIBLE else View.GONE
         }
 
+        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, { hasETP, hasFreeCancellation -> hasETP && hasFreeCancellation })
+                .subscribe { showETPAndFreeCancellation ->
+                    if (showETPAndFreeCancellation) {
+                        horizontalDividerBwEtpAndFreeCancellation.visibility = View.VISIBLE
+                        etpInfoText.setTextAppearance(context, R.style.ETPInfoTextSmall)
+                        freeCancellation.setTextAppearance(context, R.style.HotelDetailsInfoSmall)
+                    } else {
+                        horizontalDividerBwEtpAndFreeCancellation.visibility = View.GONE
+                        if (etpInfoText.visibility == View.GONE) {
+                            var layp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                            layp.gravity = Gravity.LEFT
+                            freeCancellation.layoutParams = layp
+                            freeCancellation.compoundDrawablePadding = resources.getDimensionPixelSize(R.dimen.hotel_free_cancellation_etp_drawable_padding)
+                        }
+                        else if (freeCancellation.visibility == View.GONE) {
+                            var layp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                            layp.gravity = Gravity.LEFT
+                            etpInfoText.layoutParams = layp
+                            etpInfoText.compoundDrawablePadding = resources.getDimensionPixelSize(R.dimen.hotel_free_cancellation_etp_drawable_padding)
+                        }
+                    }
+                }
+        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, { hasETP, hasFreeCancellation -> hasETP || hasFreeCancellation })
+                .subscribeVisibility(etpAndFreeCancellationMessagingContainer)
+        
         vm.etpRoomResponseListObservable.subscribe { etpRoomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(etpRoomList.first.size())
 
@@ -291,7 +305,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
             //setting first room in expanded state as some etp hotel offers are less compared to pay now offers
             vm.lastExpandedRowObservable.onNext(0)
-
         }
 
         ratingContainer.subscribeOnClick(vm.reviewsClickedSubject)
