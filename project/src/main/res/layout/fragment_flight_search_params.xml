@@ -152,7 +152,7 @@
             android:layout_weight="1"
             mobiata:allowHybridDragging="true"
             mobiata:calendarHeaderBackground="@color/calendar_header"
-            mobiata:cellTextColor="@color/calendar_cell_text"
+            mobiata:cellTextColor="?attr/skin_calendarDatePickerTextColor"
             mobiata:drawGridLines="false"
             mobiata:headerInstructionText="@string/calendar_instructions_nothing_selected"
             mobiata:headerInstructionTextSpaceReserved="true"

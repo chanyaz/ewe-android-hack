@@ -4,6 +4,7 @@
     <style name="Theme.AirAsiaGo" parent="@style/Theme.Expedia">
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_aag</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_aag</item>
+        <item name="skin_bookNowButtonDrawable">@drawable/btn_signin_aag</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_aag</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_aag</item>
@@ -56,6 +57,7 @@
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights_aag</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_aag_logo_small</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_aag</item>
+        <item name="skin_flightLoadingMessageTextColor">@color/flight_loading_message_text_color_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
@@ -129,6 +131,7 @@
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
         <item name="skin_launchActionBarBackgroundColor">@color/cars_launch_actionbar_color</item>
+        <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 
     <style name="LaunchActionBarTabAirAsiaGoStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">

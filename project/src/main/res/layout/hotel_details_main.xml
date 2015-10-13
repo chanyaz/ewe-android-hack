@@ -42,7 +42,7 @@
                 android:id="@+id/book_now_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/skin_loginBookNowButtonDrawable"
+                android:background="?attr/skin_bookNowButtonDrawable"
                 android:contentDescription="@string/cd_hotel_info_press_book_now"
                 android:text="@string/book_now_ab_test"
                 android:textColor="?attr/skin_hotelBookButtonColor"

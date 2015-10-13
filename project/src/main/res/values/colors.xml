@@ -320,4 +320,5 @@
     <color name="sign_in_user_tier_silver">#808080</color>
     <color name="sign_in_user_tier_gold">#e7b40d</color>
 
+    <color name="flight_loading_message_text_color">#575757</color>
 </resources>

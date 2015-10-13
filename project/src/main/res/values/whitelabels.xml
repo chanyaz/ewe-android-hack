@@ -10,8 +10,11 @@
     <!-- PhoneSearchActivity's actionbar padding required in VSC due to rainbow bar -->
     <attr name="skin_hotelSearchActionBarPadding" format="reference|dimension" />
 
-    <!-- ActionBar icon/logo in WebView/Preference/Info Activities -->
+    <!-- ActionBar icon/logo in WebView/Preference Activities -->
     <attr name="skin_webViewPreferencesActionBarLogo" format="reference" />
+
+    <!-- ActionBar logo in Info Activity -->
+    <attr name="skin_actionBarAboutLogo" format="reference" />
 
     <!-- ActionBar icon/logo in WebView that also sets a title -->
     <attr name="skin_webViewPreferencesActionBarLogoWithTitle" format="reference" />
@@ -36,7 +39,7 @@
     <attr name="skin_calendarDatePickerCellDrawable" format="reference" />
     <attr name="skin_calendarDatePickerPopupDrawable" format="reference" />
     <attr name="skin_calendarDatePickerDateFormat" format="reference|string" />
-
+    <attr name="skin_calendarDatePickerTextColor" format="reference" />
 
     <!--Flight Calendar related styling -->
     <attr name="skin_flightCalendarDatePickerCellDrawable" format="reference" />
@@ -298,6 +301,7 @@
     <attr name="skin_icRenovationTabletDrawable" format="reference" />
     <attr name="skin_icFeesTabletDrawable" format="reference" />
     <attr name="skin_tabletFilterPriceTextColor" format="reference|color" />
+    <attr name="skin_bookNowButtonDrawable" format="reference" />
 
     <!-- Cars -->
     <attr name="skin_carsPrimaryColor" format="reference|color" />
@@ -333,4 +337,8 @@
     <attr name="skin_accountCreationBackgroundDrawable" format="reference" />
     <attr name="skin_errorIndicationExclaimationDrawable" format="reference" />
 
+    <attr name="skin_tripsTabText" format="reference|string" />
+    <attr name="skin_hotelPriceTextStyle" format="reference" />
+
+    <attr name="skin_flightLoadingMessageTextColor" format="reference|color" />
 </resources>

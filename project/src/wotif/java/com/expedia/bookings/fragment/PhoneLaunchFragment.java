@@ -74,9 +74,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			if (isOffline != wasOffline) {
 				Log.i("Connectivity changed from " + wasOffline + " to " + isOffline);
 			}
-			if (isOffline) {
-				cleanUp();
-			}
 		}
 	};
 
@@ -129,17 +126,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	// Listeners
 
 	@Override
-	public void startMarquee() {
-		// ignore
-	}
-
-	@Override
-	public void cleanUp() {
-		// ignore
-	}
-
-	@Override
-	public void reset() {
-		// ignore
+	public boolean onBackPressed() {
+		return false;
 	}
 }

@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.UserPriceType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.VipBadgeClickListener;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -111,6 +112,7 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 			else {
 				saleBannerTextView.setVisibility(View.GONE);
 			}
+			promoTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
 			// Promo text, i.e. "Mobile Exclusive!" or "Tonight Only!"
 			if (property.isLowestRateTonightOnly()) {
@@ -118,7 +120,14 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 				promoTextView.setVisibility(View.VISIBLE);
 			}
 			else if (property.isLowestRateMobileExclusive()) {
-				promoTextView.setText(getString(R.string.mobile_exclusive));
+				if (ProductFlavorFeatureConfiguration.getInstance().getHotelDetailsDealImageDrawable() != 0) {
+					promoTextView.setCompoundDrawablesWithIntrinsicBounds(
+						ProductFlavorFeatureConfiguration.getInstance().getHotelDetailsDealImageDrawable(), 0, 0, 0);
+					promoTextView.setText("");
+				}
+				else {
+					promoTextView.setText(R.string.mobile_exclusive);
+				}
 				promoTextView.setVisibility(View.VISIBLE);
 			}
 			else {

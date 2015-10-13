@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import android.content.Context;
 import android.view.View;
 
+import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
 import com.mobiata.android.fragment.AboutSectionFragment;
@@ -109,6 +110,20 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isItinDisabled();
 
+	boolean isAppIntroEnabled();
+
+	void launchAppIntroScreen(Context context);
+
+	boolean shouldSendSiteIdInRequests();
+
+	String getPhoneCollectionId();
+
+	int getSearchResultDealImageDrawable();
+
+	int getHotelDetailsDealImageDrawable();
+
+	int getCollectionCount();
+
 	/**
 	 * return the static image resID to show staic loading image on flight search loading screen
 	 * return 0 to enable Plane window view animation on flight search loading screen, currently its enabled only for Samsung and Expedia
@@ -123,4 +138,10 @@ public interface IProductFlavorFeatureConfiguration {
 	int updatePOSSpecificActionBarLogo();
 
 	String getPOSSpecificBrandName(Context context);
+
+	HotelFilter.Sort getDefaultSort();
+
+	boolean sortByDistanceForCurrentLocation();
+
+	boolean isAbacusTestEnabled();
 }

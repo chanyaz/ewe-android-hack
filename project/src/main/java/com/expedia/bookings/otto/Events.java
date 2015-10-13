@@ -1029,12 +1029,15 @@ public class Events {
 	}
 
 	public static class LaunchCollectionItemSelected {
+		public String collectionUrl;
 		public CollectionLocation collectionLocation;
 		public Bundle animOptions;
 
-		public LaunchCollectionItemSelected(CollectionLocation location, Bundle animOptions) {
+		public LaunchCollectionItemSelected(CollectionLocation location, Bundle animOptions,
+			String url) {
 			this.collectionLocation = location;
 			this.animOptions = animOptions;
+			this.collectionUrl = url;
 		}
 	}
 
