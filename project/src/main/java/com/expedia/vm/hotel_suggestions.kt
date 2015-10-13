@@ -102,10 +102,12 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
         return object : Observer<List<SuggestionV4>> {
             override fun onNext(essSuggestions: List<SuggestionV4>) {
                 if (essSuggestions.count() == 0) {
-                    suggestionsObservable.onNext(listWithQueryString(lastQuery))
+                    suggestionsObservable.onNext(listOf(suggestionWithRawQueryString(lastQuery)))
                 }
                 else {
-                    suggestionsObservable.onNext(essSuggestions)
+                    val essAndRawTextSuggestion = ArrayList<SuggestionV4>(essSuggestions)
+                    essAndRawTextSuggestion.add(suggestionWithRawQueryString(lastQuery))
+                    suggestionsObservable.onNext(essAndRawTextSuggestion)
                 }
             }
 
@@ -117,7 +119,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
         }
     }
 
-    private fun listWithQueryString(query: String): List<SuggestionV4> {
+    private fun suggestionWithRawQueryString(query: String): SuggestionV4 {
         val rawQuerySuggestion = SuggestionV4()
         rawQuerySuggestion.type = "RAW_TEXT_SEARCH"
         rawQuerySuggestion.regionNames = SuggestionV4.RegionNames()
@@ -126,7 +128,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
         rawQuerySuggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
         rawQuerySuggestion.hierarchyInfo.isChild = false
         rawQuerySuggestion.coordinates = SuggestionV4.LatLng()
-        return listOf(rawQuerySuggestion)
+        return rawQuerySuggestion
     }
 }
 
