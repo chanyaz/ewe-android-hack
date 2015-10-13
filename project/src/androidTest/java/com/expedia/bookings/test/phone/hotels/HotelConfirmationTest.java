@@ -1,11 +1,10 @@
 package com.expedia.bookings.test.phone.hotels;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import org.joda.time.LocalDate;
 
-import android.util.Pair;
+import android.support.test.espresso.Espresso;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -22,7 +21,6 @@ import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelsUserData;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
@@ -37,19 +35,16 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class HotelConfirmationTest extends PhoneTestCase {
 
-	private static final String TAG = HotelConfirmationTest.class.getSimpleName();
-	HotelsUserData mUser;
-	int mNumberOfGuests;
-	String mDateRangeString;
-	String mHotelName;
+	private HotelsUserData mUser;
+	private int mNumberOfGuestsFromSearch;
+	private String mHotelNameFromCheckout;
 
-	private void getToCheckout() throws Exception {
-		ArrayList<Pair<Integer, Integer>> guestPairList = generateChildAdultCountPairs();
-		Pair<Integer, Integer> pair = guestPairList.get(0);
-		mNumberOfGuests = pair.first + pair.second;
+	public void testLoggedInBookingConfirmation() throws Exception {
+		mUser = new HotelsUserData();
+
 		LaunchScreen.launchHotels();
 
-		// Search screen
+		// Search
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("New York, NY");
@@ -59,31 +54,18 @@ public class HotelConfirmationTest extends PhoneTestCase {
 		HotelsSearchScreen.clickOnCalendarButton();
 		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.clickOnGuestsButton();
-		setGuests(pair.first, pair.second);
-		HotelsSearchScreen.guestPicker().clickOnSearchButton();
+		setGuests();
+		HotelsGuestPicker.clickOnSearchButton();
 		HotelsSearchScreen.clickListItem(1);
-		Common.pressBack();
+		// Click hotel again to make sure the travel ad fires
+		Espresso.pressBack();
 		HotelsSearchScreen.clickListItem(1);
+
+		// Details
 		HotelsDetailsScreen.clickSelectButton();
-
-		int numberOfRooms = EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList()) - 1;
 		HotelsRoomsRatesScreen.selectRoomItem(0);
-		try {
-			Common.clickOkString();
-			if (numberOfRooms > 1) {
-				HotelsRoomsRatesScreen.selectRoomItem(1);
-			}
-		}
-		catch (Exception e) {
-			Log.v(TAG, "No popup");
-		}
-	}
 
-	public void testLoggedInBookingConfirmation() throws Exception {
-		mUser = new HotelsUserData();
-
-		Log.v(TAG, "START: Testing confirmation screen after logged-in booking");
-		getToCheckout();
+		// Checkout
 		HotelsCheckoutScreen.clickCheckoutButton();
 		HotelsCheckoutScreen.clickLogInButton();
 		LogInScreen.typeTextEmailEditText(mUser.email);
@@ -91,25 +73,18 @@ public class HotelConfirmationTest extends PhoneTestCase {
 		LogInScreen.clickOnLoginButton();
 
 		HotelsCheckoutScreen.clickSelectPaymentButton();
-		Log.v(TAG, "Using new credit card");
-		try {
-			CommonPaymentMethodScreen.clickOnAddNewCardTextView();
-		}
-		catch (Exception e) {
-			Log.v(TAG, "No Add New Card button. Proceeding anyway.");
-		}
+		CommonPaymentMethodScreen.clickOnAddNewCardTextView();
 		CardInfoScreen.typeTextCreditCardEditText(mUser.creditCardNumber);
 		BillingAddressScreen.typeTextPostalCode(mUser.zipcode);
 		CardInfoScreen.typeTextNameOnCardEditText(mUser.firstName + " " + mUser.lastName);
 		CardInfoScreen.clickOnExpirationDateButton();
-		Log.v(TAG, "Incrementing credit card exp. month and year by 1");
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
 		CardInfoScreen.clickSetButton();
 		CardInfoScreen.clickOnDoneButton();
 		CardInfoScreen.clickNoThanksButton();
 
-		mHotelName = EspressoUtils.getText(R.id.title);
+		mHotelNameFromCheckout = EspressoUtils.getText(R.id.title);
 		HotelsCheckoutScreen.slideToCheckout();
 		CVVEntryScreen.enterCVV(mUser.cvv);
 		CVVEntryScreen.clickBookButton();
@@ -121,8 +96,19 @@ public class HotelConfirmationTest extends PhoneTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.launch_toolbar);
 	}
 
-	private void setGuests(int adults, int children) {
-		Log.v(TAG, "Setting adults to: " + adults + " and children to: " + children);
+	private void setGuests() {
+		Random rand = new Random();
+
+		// Can have a maximum of six guests
+		// Can add at most 4 children
+		int children = rand.nextInt(5);
+
+		// Must have a minimum of 1 adult, thus can only add a maximum of 5 minus the number of children already added
+		int adults = rand.nextInt(6 - children) + 1;
+
+		mNumberOfGuestsFromSearch = adults + children;
+
+		Log.v("Setting adults to: " + adults + " and children to: " + children);
 		for (int i = 6; i >= 1; i--) {
 			HotelsGuestPicker.decrementAdultsButton();
 		}
@@ -139,36 +125,22 @@ public class HotelConfirmationTest extends PhoneTestCase {
 		}
 	}
 
-	private ArrayList<Pair<Integer, Integer>> generateChildAdultCountPairs() {
-		ArrayList<Pair<Integer, Integer>> returnableList = new ArrayList<Pair<Integer, Integer>>();
-		final int numberOfPairsToGenerate = 3;
-		Random rand = new Random();
-		for (int i = 0; i < numberOfPairsToGenerate; i++) {
-			// Can have a maximum of six guests
-			// Can add at most 4 children
-			int childCount = rand.nextInt(5);
-			// Must have a minimum of 1 adult, thus can only add a maximum of 5 minus the number of children already added
-			int adultCount = rand.nextInt(6 - childCount) + 1;
-			Pair<Integer, Integer> newPair = new Pair<Integer, Integer>(adultCount, childCount);
-			returnableList.add(newPair);
-			Log.v(TAG, "Added pair: " + newPair.first + ", " + newPair.second);
-		}
-		return returnableList;
-	}
-
 	private void verifyConfirmationTexts() {
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 
 		// Guests / dates string
 		int cachedNumberOfGuests = params.getNumAdults() + params.getNumChildren();
-		assertEquals(mNumberOfGuests, cachedNumberOfGuests);
-		String guestString = getActivity().getResources().getQuantityString(R.plurals.number_of_guests, mNumberOfGuests, mNumberOfGuests);
-		mDateRangeString = DateFormatUtils.formatRangeDateToDate(getActivity(), params, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
-		String expectedSummaryString = getActivity().getResources().getString(R.string.stay_summary_TEMPLATE, guestString, mDateRangeString);
+		assertEquals(mNumberOfGuestsFromSearch, cachedNumberOfGuests);
+		String guestString = getActivity().getResources().getQuantityString(R.plurals.number_of_guests,
+			mNumberOfGuestsFromSearch, mNumberOfGuestsFromSearch);
+		String dateRangeFromSearchString = DateFormatUtils.formatRangeDateToDate(getActivity(), params,
+			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
+		String expectedSummaryString = getActivity().getResources().getString(R.string.stay_summary_TEMPLATE, guestString,
+			dateRangeFromSearchString);
 		HotelsConfirmationScreen.summaryTextView().check(matches(withText(expectedSummaryString)));
 
 		// Hotel name
-		HotelsConfirmationScreen.hotelNameTextView().check(matches(withText(mHotelName)));
+		HotelsConfirmationScreen.hotelNameTextView().check(matches(withText(mHotelNameFromCheckout)));
 
 		// Itinerary number
 		String expectedItineraryNumber = Db.getTripBucket().getHotel().getBookingResponse().getItineraryId();

@@ -35,7 +35,7 @@ import java.math.BigDecimal
 import java.util.*
 import kotlin.properties.Delegates
 
-class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices) : RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
+class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
 
     override fun onGalleryItemClicked(item: Any) {
         galleryClickedSubject.onNext(Unit)
@@ -53,7 +53,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
     var etpOffersList = ArrayList<HotelOffersResponse.HotelRoomResponse>()
     var sectionBody: String by Delegates.notNull()
-    var commonList: ArrayList<String> = ArrayList<String>()
+    var commonList = ArrayList<String>()
 
     var isSectionExpanded = false
     val sectionBodyObservable = BehaviorSubject.create<String>()

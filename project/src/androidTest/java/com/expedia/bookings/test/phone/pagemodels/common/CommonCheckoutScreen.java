@@ -3,6 +3,7 @@ package com.expedia.bookings.test.phone.pagemodels.common;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -52,10 +53,12 @@ public class CommonCheckoutScreen {
 	// Object interaction
 
 	public static void clickCheckoutButton() {
+		Common.delay(1);
 		checkoutButton().perform(ViewActions.waitForViewToDisplay(), click());
 	}
 
 	public static void clickLogInButton() {
+		Common.delay(2);
 		logInButton().perform(scrollTo(), click());
 	}
 

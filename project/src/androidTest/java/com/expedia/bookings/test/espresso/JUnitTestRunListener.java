@@ -14,7 +14,16 @@ public class JUnitTestRunListener extends RunListener {
 	@Override
 	public void testStarted(Description description) throws Exception {
 		Log.d("RunListener", "testStarted: " + description);
+		reset();
+	}
 
+	@Override
+	public void testFinished(Description description) throws Exception {
+		Log.d("RunListener", "testFinished: " + description);
+		reset();
+	}
+
+	private void reset() {
 		ExpediaNetUtils.setFake(true, true);
 
 		//clear private data

@@ -1,12 +1,12 @@
 package com.expedia.bookings.test
 
 import android.app.Activity
-import android.content.Context
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
@@ -17,7 +17,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.robolectric.Robolectric
 import retrofit.RequestInterceptor
 import retrofit.RestAdapter
@@ -38,20 +37,17 @@ public class HotelValueAddsTest {
     @Before
     fun before() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        val context = Mockito.mock(Context::class.java)
-        val resources = activity.getResources()
-        Mockito.`when`(context.getResources()).thenReturn(resources)
         val emptyInterceptor = object : RequestInterceptor {
             override fun intercept(request: RequestInterceptor.RequestFacade) {
                 // ignore
             }
         }
-        service = HotelServices("http://localhost:" + server.getPort(), OkHttpClient(), emptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
-        vm = HotelDetailViewModel(activity.getApplicationContext(), service)
+        service = HotelServices("http://localhost:" + server.port, OkHttpClient(), emptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
+        vm = HotelDetailViewModel(activity.applicationContext, service, endlessObserver { /*ignore*/ })
     }
 
     private fun setUpTest(): TestSubscriber<HotelOffersResponse> {
-        val root = File("../lib/mocked/templates").getCanonicalPath()
+        val root = File("../lib/mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)
         server.setDispatcher(ExpediaDispatcher(opener))
         val observer = TestSubscriber<HotelOffersResponse>()
@@ -67,7 +63,7 @@ public class HotelValueAddsTest {
         observer.awaitTerminalEvent()
         observer.assertCompleted()
 
-        val offerResponse = observer.getOnNextEvents().get(0)
+        val offerResponse = observer.onNextEvents.get(0)
 
         val testSubscriber = TestSubscriber<String>()
         val expected = arrayListOf<String>()
@@ -88,7 +84,7 @@ public class HotelValueAddsTest {
         observer.awaitTerminalEvent()
         observer.assertCompleted()
 
-        val offerResponse = observer.getOnNextEvents().get(0)
+        val offerResponse = observer.onNextEvents.get(0)
         vm.hotelOffersSubject.onNext(offerResponse)
         var uniqueAmenityForEachRoom = vm.getValueAdd(offerResponse.hotelRoomResponse)
         assertEquals("Includes free parking", uniqueAmenityForEachRoom.get(0))

@@ -3,6 +3,7 @@ package com.expedia.bookings.test.robolectric
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.test.HotelServicesRule
+import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -10,7 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
-import java.util.*
+import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
@@ -25,7 +26,7 @@ public class HotelDetailViewModelTest {
     var offer2: HotelOffersResponse by Delegates.notNull()
 
     @Before fun before() {
-        vm = HotelDetailViewModel(RuntimeEnvironment.application, service.hotelServices())
+        vm = HotelDetailViewModel(RuntimeEnvironment.application, service.hotelServices(), endlessObserver { /*ignore*/ })
 
         offer1 = HotelOffersResponse()
         offer1.hotelName = "hotel1"

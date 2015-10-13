@@ -60,10 +60,6 @@ import rx.Observable
 import rx.Observer
 import kotlin.properties.Delegates
 
-object RoomSelected {
-    var observer: Observer<HotelOffersResponse.HotelRoomResponse> by Delegates.notNull()
-}
-
 //scroll animation duration for select room button
 val ANIMATION_DURATION = 500L
 val DESCRIPTION_ANIMATION = 150L
@@ -267,7 +263,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
             roomContainer.removeAllViews()
             roomList.first.forEachIndexed { roomResponseIndex, room ->
-                val view = HotelRoomRateView(getContext(), detailContainer, etpContainer, RoomSelected.observer)
+                val view = HotelRoomRateView(getContext(), detailContainer, etpContainer, vm.roomSelectedObserver)
                 view.viewmodel = HotelRoomRateViewModel(getContext(), roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm)
                 roomContainer.addView(view)
                 hotelRoomRateViewModels.add(view.viewmodel)
@@ -306,7 +302,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
             roomContainer.removeAllViews()
             etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
-                val view = HotelRoomRateView(getContext(), detailContainer, etpContainer, RoomSelected.observer)
+                val view = HotelRoomRateView(getContext(), detailContainer, etpContainer, vm.roomSelectedObserver)
                 view.viewmodel = HotelRoomRateViewModel(getContext(), etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm)
                 view.viewmodel.payLaterObserver.onNext(Unit)
                 roomContainer.addView(view)

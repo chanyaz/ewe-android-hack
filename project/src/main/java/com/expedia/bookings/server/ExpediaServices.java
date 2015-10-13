@@ -12,6 +12,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
@@ -1560,8 +1561,6 @@ public class ExpediaServices implements DownloadListener {
 			mClient.setCookieHandler(sBlackHoleCookieManager);
 		}
 
-		final boolean cookiesAreLoggedIn = User.isLoggedIn(mContext);
-
 		// Make the request
 		long start = System.currentTimeMillis();
 		mCancellingDownload = false;
@@ -1669,32 +1668,33 @@ public class ExpediaServices implements DownloadListener {
 
 	@Override
 	public void onCancel() {
+		mCancellingDownload = true;
+
 		if (mRequest != null) {
 			Log.i("Cancelling download!");
-			mCancellingDownload = true;
+			cancelAndWait();
+		}
+	}
 
-			// If we're on the main thread, then run the abort
-			// in its own thread (to avoid network calls in
-			// main thread).  If we're not, feel free to just
-			// abort.
-			if ("main".equals(Thread.currentThread().getName())) {
-				(new Thread(new Runnable() {
-					@Override
-					public void run() {
-						// Due to timing issues, we could end up such that the
-						// request has finished by the time we get here.  In
-						// that case, let's not NPE.
-						if (mRequest != null) {
-							mClient.cancel(mRequest);
-							mRequest = null;
-						}
-					}
-				})).start();
+	synchronized private void cancelAndWait() {
+		final CountDownLatch latch = new CountDownLatch(1);
+		Thread bgThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if (mRequest != null) {
+					mClient.cancel(mRequest);
+					mRequest = null;
+				}
+				latch.countDown();
 			}
-			else {
-				mClient.cancel(mRequest);
-				mRequest = null;
-			}
+		});
+
+		bgThread.start();
+		try {
+			latch.await();
+		}
+		catch (Throwable t) {
+			throw new RuntimeException("Problem cancelling download", t);
 		}
 	}
 
