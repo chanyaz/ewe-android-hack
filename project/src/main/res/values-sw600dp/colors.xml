@@ -60,4 +60,7 @@
     <color name="tablet_search_result_error_button">#3d6a99</color>
     <color name="tablet_search_result_error_button_pressed">#294666</color>
 
+    <!-- Calendar text colors -->
+    <color name="tablet_calendar_cell_today_text">#007dff</color>
+
 </resources>

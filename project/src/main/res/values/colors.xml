@@ -315,4 +315,11 @@
     <color name="sign_in_user_tier_silver">#808080</color>
     <color name="sign_in_user_tier_gold">#e7b40d</color>
 
+    <!-- Calendar text colors -->
+    <color name="calendar_cell_current_month_text">#3F3A3A</color>
+    <color name="calendar_cell_disabled_month_text">#C7C7C7</color>
+    <color name="calendar_cell_today_text">#3F3A3A</color>
+    <color name="calendar_cell_selected_date_text">#423D3D</color>
+    <color name="calendar_cell_out_of_valid_range_text">#C7C7C7</color>
+
 </resources>
