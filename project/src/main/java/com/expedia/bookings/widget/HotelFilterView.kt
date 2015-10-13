@@ -335,12 +335,11 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     fun starSelection(star: ImageView, background : View, value : Int) {
-        var starDrawable = star.drawable
         if (value < 0) {
-            DrawableCompat.setTint(starDrawable, getResources().getColor(android.R.color.white))
+            star.setColorFilter(getResources().getColor(android.R.color.white))
             background.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
         } else {
-            DrawableCompat.setTint(starDrawable, getResources().getColor(R.color.hotels_primary_color))
+            star.setColorFilter(getResources().getColor(R.color.hotels_primary_color))
             background.setBackgroundColor(getResources().getColor(android.R.color.white))
         }
     }
