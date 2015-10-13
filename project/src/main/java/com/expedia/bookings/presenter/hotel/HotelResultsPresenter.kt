@@ -110,7 +110,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     val searchThisArea: Button by bindView(R.id.search_this_area)
 
-    val mapViewModel = HotelMapViewModel(lastBestLocationSafe())
+    val mapViewModel = HotelMapViewModel(resources, lastBestLocationSafe())
     var markers = arrayListOf<Marker>()
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
@@ -118,7 +118,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.mapResultsObservable.subscribe(listResultsObserver)
         vm.mapResultsObservable.subscribe(mapViewModel.mapResultsSubject)
-
+        vm.mapResultsObservable.subscribe {
+            val latLng = googleMap?.projection?.visibleRegion?.latLngBounds?.center
+            mapViewModel.mapBoundsSubject.onNext(latLng)
+        }
+        
         vm.titleSubject.subscribe {
             toolbar.title = it
         }
@@ -143,6 +147,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     fun showLoading() {
         adapter.showLoading()
+        resetListOffset()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
         filterBtnWithCountWidget.visibility = View.GONE
     }
@@ -208,7 +213,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             } else {
                 show(ResultsMap(),Presenter.FLAG_CLEAR_TOP)
             }
-            mapViewModel.hotelsObservable.onNext(filterView.viewmodel.filteredResponse.hotelList)
+            mapViewModel.markersObservable.onNext(filterView.viewmodel.filteredResponse.hotelList)
         } else if (it == filterView.viewmodel.originalResponse?.hotelList) {
             adapter.resultsSubject.onNext(filterView.viewmodel.originalResponse!!)
             if (previousWasList) {
@@ -237,10 +242,20 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
 
         mapViewModel.newBoundsObservable.subscribe {
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * 50))
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * 50), object : GoogleMap.CancelableCallback {
+                override fun onFinish() {
+                    val center = googleMap?.cameraPosition?.target
+                    val latLng = LatLng(center?.latitude!!, center?.longitude!!)
+                    mapViewModel.mapBoundsSubject.onNext(latLng)
+                }
+
+                override fun onCancel() {
+                }
+            })
+
         }
 
-        mapViewModel.hotelsObservable.subscribe {
+        mapViewModel.markersObservable.subscribe {
             markers.clear()
             googleMap?.clear()
 
@@ -254,27 +269,19 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 val marker = googleMap?.addMarker(options)
                 if (marker != null) markers.add(marker)
             }
+        }
 
+        mapViewModel.sortedHotelsObservable.subscribe {
+            val hotels = it
             mapCarouselRecycler.adapter = HotelMapCarouselAdapter(it, hotelSelectedSubject)
-            if (it.size() > 0) {
-                mapCarouselRecycler.mapSubject.onNext(it[0])
-            }
+            val marker = markers.filter { it.title == hotels.first().hotelId }.first()
+            val prevMarker = mapViewModel.selectMarker.value
+            if (prevMarker != null) mapViewModel.unselectedMarker.onNext(prevMarker)
+            mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
         }
 
-        mapViewModel.mapPinSelectObservable.subscribe {
-            mapCarouselRecycler.adapter = HotelMapCarouselAdapter(it, hotelSelectedSubject)
-        }
-
-        mapViewModel.unselectedMarker.subscribe {
-            val marker = it.first
-            val hotel = it.second
-            marker?.setIcon(createHotelMarkerIcon(resources, hotel, false))
-        }
-
-        mapViewModel.selectMarker.subscribe {
-            val marker = it.first
-            val hotel = it.second
-            marker?.setIcon(createHotelMarkerIcon(resources, hotel, true))
+        mapViewModel.carouselSwipedObservable.subscribe {
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(it.position, googleMap?.cameraPosition?.zoom!!))
         }
 
         mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
@@ -311,7 +318,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             hotel ->
             val marker = markers.filter { it.title == hotel.hotelId }.first()
             mapViewModel.carouselSwipedObservable.onNext(marker)
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, googleMap?.cameraPosition?.zoom!!))
         }
 
         inflateAndSetupToolbarMenu()
@@ -416,7 +422,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 mapViewModel.carouselSwipedObservable.onNext(marker)
                 mapViewModel.mapPinSelectSubject.onNext(marker)
                 mapCarouselContainer.visibility = View.VISIBLE
-                marker.showInfoWindow()
                 return true
             }
         })
@@ -448,11 +453,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 0
             } else {
                 view.top
-            }
-
-            if (halfway == 0 && threshold == 0 && view != null) {
-                halfway = view.top
-                threshold = view.top + (view.bottom / 1.9).toInt()
             }
 
             if (newState == RecyclerView.SCROLL_STATE_IDLE && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
@@ -571,17 +571,17 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     private val adapterListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-            screenHeight = if (ExpediaBookingApp.isAutomation()) { 0 } else {
-                height
-            }
+            screenHeight = if (ExpediaBookingApp.isAutomation()) { 0 } else { height }
             screenWidth = if (ExpediaBookingApp.isAutomation()) { 0f } else { width.toFloat() }
-            val view = recyclerView.getChildAt(1)
 
-            if (halfway == 0 && threshold == 0 && view != null) {
-                halfway = view.top
-                threshold = view.top + (view.bottom / 1.9).toInt()
-            }
-            resetListOffset()
+            recyclerView.postDelayed(runnable {
+                val view = recyclerView.getChildAt(1)
+                if (halfway == 0 && threshold == 0 && view != null) {
+                    halfway = view.top
+                    threshold = view.top + (view.bottom / 1.9).toInt()
+                }
+                mapView.translationY = -halfway.toFloat()
+            }, 1000L)
         }
     }
 
@@ -915,9 +915,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     public class ResultsFilter
 
     fun doAreaSearch() {
-        val bounds = googleMap?.projection?.visibleRegion?.latLngBounds
-        mapViewModel.mapBoundsSubject.onNext(bounds)
-
         val center = googleMap?.cameraPosition?.target
         val location = SuggestionV4()
         val region = SuggestionV4.RegionNames()

@@ -14,6 +14,7 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -118,28 +119,38 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
     }
 }
 
-public class HotelMapViewModel(val currentLocation: Location) {
+public class HotelMapViewModel(val resources: Resources, val currentLocation: Location) {
 
     var hotels: List<Hotel> by Delegates.notNull()
-    var previousMarker : Marker? = null
 
     //inputs
     val hotelResultsSubject = PublishSubject.create<HotelSearchResponse>()
     val mapResultsSubject = PublishSubject.create<HotelSearchResponse>()
     val mapPinSelectSubject = PublishSubject.create<Marker>()
     val carouselSwipedObservable = PublishSubject.create<Marker>()
-    val mapBoundsSubject = BehaviorSubject.create<LatLngBounds>()
+    val mapBoundsSubject = BehaviorSubject.create<LatLng>()
 
     //outputs
-    val hotelsObservable = PublishSubject.create<List<Hotel>>()
+    val markersObservable = PublishSubject.create<List<Hotel>>()
     val newBoundsObservable = PublishSubject.create<LatLngBounds>()
-    val mapPinSelectObservable = PublishSubject.create<List<Hotel>>()
+    val sortedHotelsObservable = BehaviorSubject.create<List<Hotel>>()
     val unselectedMarker = PublishSubject.create<Pair<Marker?, Hotel>>()
-    val selectMarker = PublishSubject.create<Pair<Marker?, Hotel>>()
+    val selectMarker = BehaviorSubject.create<Pair<Marker?, Hotel>>()
 
     init {
-        hotelsObservable.subscribe {
-            previousMarker = null
+        markersObservable.subscribe {
+            selectMarker.onNext(null)
+        }
+
+        mapBoundsSubject.subscribe {
+            // Map bounds has changed(Search this area or map was animated to a region),
+            // sort nearest hotels from center of screen
+            val currentRegion = it
+            val location = Location("currentRegion")
+            location.latitude = currentRegion.latitude
+            location.longitude = currentRegion.longitude
+            val sortedHotels = sortByLocation(location, hotels)
+            sortedHotelsObservable.onNext(sortedHotels)
         }
 
         hotelResultsSubject.subscribe { response ->
@@ -147,31 +158,46 @@ public class HotelMapViewModel(val currentLocation: Location) {
             if (response.hotelList != null && response.hotelList.size() > 0) {
                 newBoundsObservable.onNext(getMapBounds(response))
             }
-            hotelsObservable.onNext(response.hotelList ?: emptyList())
+            markersObservable.onNext(hotels)
         }
 
         mapResultsSubject.subscribe { response ->
             hotels = response.hotelList
-            if (response.hotelList != null && response.hotelList.size() > 0 && !hasResultsWithinMap(response)) {
-                newBoundsObservable.onNext(getMapBounds(response))
-            }
-            hotelsObservable.onNext(response.hotelList ?: emptyList())
+            markersObservable.onNext(hotels)
         }
 
         mapPinSelectSubject.subscribe {
+            // Map pin was click, sort nearest hotels from pin
             val hotel = getHotelWithMarker(it)
             val hotelLocation = Location("selected")
             hotelLocation.latitude = hotel.latitude
             hotelLocation.longitude = hotel.longitude
             val sortedHotels = sortByLocation(hotelLocation, hotels)
 
-            mapPinSelectObservable.onNext(sortedHotels)
+            sortedHotelsObservable.onNext(sortedHotels)
         }
 
         carouselSwipedObservable.subscribe {
-            if (previousMarker != null) unselectedMarker.onNext(Pair(previousMarker, getHotelWithMarker(previousMarker)))
+            val previousMarker = selectMarker.value
+            if (previousMarker != null) unselectedMarker.onNext(previousMarker)
             selectMarker.onNext(Pair(it, getHotelWithMarker(it)))
-            previousMarker = it
+        }
+
+        unselectedMarker.subscribe {
+            if (it != null) {
+                val marker = it.first
+                val hotel = it.second
+                marker?.setIcon(createHotelMarkerIcon(resources, hotel, false))
+            }
+        }
+
+        selectMarker.subscribe {
+            if (it != null) {
+                val marker = it.first
+                val hotel = it.second
+                marker?.setIcon(createHotelMarkerIcon(resources, hotel, true))
+                marker?.showInfoWindow()
+            }
         }
     }
 
@@ -182,6 +208,7 @@ public class HotelMapViewModel(val currentLocation: Location) {
     }
 
     private fun getMapBounds(response: HotelSearchResponse): LatLngBounds {
+        val searchRegionId = response.searchRegionId
         val currentLocationLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
 
         val sortedHotels = sortByLocation(currentLocation , response.hotelList)
@@ -189,35 +216,32 @@ public class HotelMapViewModel(val currentLocation: Location) {
         val allHotelsBox: LatLngBounds = boxHotels(response.hotelList)
         val isInsideSearchArea = allHotelsBox.contains(currentLocationLatLng)
         val closestHotelWithNeighborhood: Hotel? = sortedHotels.firstOrNull { it.locationId != null }
+        val searchNeighborhood: HotelSearchResponse.Neighborhood? = response.allNeighborhoodsInSearchRegion.filter { it.id == searchRegionId }.firstOrNull()
 
-        if (!isInsideSearchArea) {
+        //If neighborhood search, zoom to that neighborhood
+        if (searchNeighborhood != null && searchNeighborhood.hotels.isNotEmpty()) {
+            return boxHotels(searchNeighborhood.hotels)
+        //if current location is not within the search results, zoom to most "Dense" neighborhood
+        } else if (!isInsideSearchArea) {
             val mostInterestingNeighborhood: HotelSearchResponse.Neighborhood? = response.allNeighborhoodsInSearchRegion.sortedByDescending { it.score }.firstOrNull()
 
-            if (mostInterestingNeighborhood != null && mostInterestingNeighborhood.hotels != null && mostInterestingNeighborhood.hotels.size() > 0) {
+            if (mostInterestingNeighborhood != null && mostInterestingNeighborhood.hotels != null && mostInterestingNeighborhood.hotels.isNotEmpty()) {
                 return boxHotels(mostInterestingNeighborhood.hotels)
             }
 
             return allHotelsBox
-        } else if (closestHotelWithNeighborhood == null) {
-            return allHotelsBox
-        } else {
+        //If current location is near a neighborhood, zoom to closest neighborhood
+        } else if (closestHotelWithNeighborhood != null) {
             val closestNieghborhood = response.neighborhoodsMap.get(closestHotelWithNeighborhood.locationId)
             if (closestNieghborhood == null) {
                 return allHotelsBox
             } else {
                 return boxHotels(closestNieghborhood.hotels)
             }
+        //Default, zoom out and show all hotels
+        } else {
+            return allHotelsBox
         }
-    }
-
-    private fun hasResultsWithinMap(response: HotelSearchResponse): Boolean {
-        val currentRegion = mapBoundsSubject.value
-        response.hotelList.forEach { hotel ->
-            if (currentRegion.contains(LatLng(hotel.latitude, hotel.longitude))) {
-                return true
-            }
-        }
-        return false
     }
 
     private fun sortByLocation(location: Location, hotels : List<Hotel>) : List<Hotel> {
