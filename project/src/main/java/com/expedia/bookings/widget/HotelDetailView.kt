@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
-import android.graphics.Paint
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.graphics.drawable.DrawableCompat
@@ -574,7 +573,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
         selectRoomButton.setOnClickListener { scrollToRoom() }
         stickySelectRoomButton.setOnClickListener { scrollToRoom() }
-        strikeThroughPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG)
         hideResortandSelectRoom()
     }
 

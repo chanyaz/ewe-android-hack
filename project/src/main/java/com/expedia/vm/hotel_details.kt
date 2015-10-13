@@ -231,7 +231,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         hasDiscountPercentageObservable.onNext(chargeableRateInfo?.isDiscountTenPercentOrBetter())
         hasVipAccessObservable.onNext(response.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess())
         promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
-        strikeThroughPriceObservable.onNext(priceFormatter(chargeableRateInfo, true))
+        strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true))
 
         hasFreeCancellationObservable.onNext(hasFreeCancellation(response))
         val hasETPOffer = hasEtpOffer(hotelOffersResponse)

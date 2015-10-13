@@ -15,7 +15,7 @@ fun createHotelMarkerIcon(resources: Resources, hotel: Hotel, clicked: Boolean):
     val markerPaddingHeight = resources.getDimensionPixelSize(R.dimen.hotel_marker_padding_height)
 
     var bounds = Rect()
-    var text = priceFormatter(hotel.lowRateInfo, false)
+    var text = priceFormatter(resources, hotel.lowRateInfo, false)
     var paint: Paint = Paint()
     paint.color = Color.WHITE
     paint.isAntiAlias = true
