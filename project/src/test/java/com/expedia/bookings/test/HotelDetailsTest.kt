@@ -283,7 +283,7 @@ public class HotelDetailsTest {
         vm.hotelOffersSubject.onNext(offers)
 
         assertEquals(View.VISIBLE, hotelDetailView.strikeThroughPrice.getVisibility())
-        assertEquals("$100", hotelDetailView.strikeThroughPrice.getText())
+        assertEquals("$100", hotelDetailView.strikeThroughPrice.text)
     }
 
     @Test

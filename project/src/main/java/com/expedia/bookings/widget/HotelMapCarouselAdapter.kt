@@ -1,9 +1,8 @@
 package com.expedia.bookings.widget
 
 import android.content.res.Resources
-import android.graphics.Paint
-import android.location.Location
 import android.support.v7.widget.RecyclerView
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,14 +13,12 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.presenter.hotel.HotelResultsPresenter
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
-import com.google.android.gms.maps.model.Marker
+import com.mobiata.android.text.StrikethroughTagHandler
 import rx.subjects.PublishSubject
-import java.util.Collections
 
 public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -82,23 +79,19 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
             viewModel.hotelGuestRatingObservable.subscribeText(hotelGuestRating)
 
             hotelPreviewText.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
-
             hotelPricePerNight.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)
-
-            hotelStrikeThroughPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             hotelStrikeThroughPrice.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
-
             hotelGuestRating.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
-
             hotelGuestRecommend.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
         }
     }
 }
 
-public fun priceFormatter(rate: HotelRate?, strikeThrough: Boolean): String {
+public fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolean): String {
     if (rate == null) return ""
     var hotelPrice = if (strikeThrough)
         Money(Math.round(rate.strikethroughPriceToShowUsers).toString(), rate.currencyCode)
     else Money(Math.round(rate.priceToShowUsers).toString(), rate.currencyCode)
-    return hotelPrice.formattedMoney
+
+    return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice.formattedMoney), null, StrikethroughTagHandler()).toString() else hotelPrice.formattedMoney
 }
