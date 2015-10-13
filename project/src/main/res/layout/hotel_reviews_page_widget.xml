@@ -1,25 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="?attr/actionBarSize"
     android:background="@color/hotel_reviews_summary_background_color"
-    android:scrollbars="none">
+    android:paddingTop="?attr/actionBarSize">
 
-    <LinearLayout
+    <com.expedia.bookings.widget.MessageProgressView
+        android:id="@+id/message_progress_loading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        app:line_color="@color/hotel_reviews_summary_background_color" />
+
+    <com.expedia.bookings.widget.ScrollView
+        android:id="@+id/reviews_scrollview_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:scrollbars="none"
+        android:visibility="gone">
 
         <LinearLayout
-            android:id="@+id/summary_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/hotel_reviews_padding_left"
-            android:paddingRight="@dimen/hotel_reviews_padding_right"
-            android:paddingBottom="@dimen/hotel_reviews_summary_padding_bottom"
-            android:paddingTop="@dimen/hotel_review_row_padding_top" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/summary_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/hotel_reviews_summary_padding_bottom"
+                android:paddingLeft="@dimen/hotel_reviews_padding_left"
+                android:paddingRight="@dimen/hotel_reviews_padding_right"
+                android:paddingTop="@dimen/hotel_review_row_padding_top" />
 
             <View
                 android:id="@+id/divider"
@@ -32,5 +46,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/hotel_review_background_color" />
-    </LinearLayout>
-</com.expedia.bookings.widget.ScrollView>
+        </LinearLayout>
+    </com.expedia.bookings.widget.ScrollView>
+</FrameLayout>
