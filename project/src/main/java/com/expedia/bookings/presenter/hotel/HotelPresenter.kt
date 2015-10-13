@@ -213,9 +213,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
 
         override fun finalizeTransition(forward: Boolean) {
-            detailPresenter.setTranslationY((if (forward) 0 else detailsHeight).toFloat())
             detailPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
             resultsPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
+            detailPresenter.setTranslationY(0f)
             resultsPresenter.animationFinalize(!forward)
             detailPresenter.animationFinalize()
             loadingOverlay.setVisibility(View.GONE)
