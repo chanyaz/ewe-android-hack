@@ -27,6 +27,7 @@ import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import android.graphics.Rect
 import android.view.MotionEvent
+import android.widget.Space
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
@@ -118,6 +119,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val renovationContainer : ViewGroup by bindView(R.id.renovation_container)
     val payByPhoneTextView: TextView by bindView(R.id.book_by_phone_text)
     val payByPhoneContainer: ViewGroup by bindView(R.id.book_by_phone_container)
+    val space: Space by bindView(R.id.spacer)
 
     val hotelGalleryDescriptionContainer: LinearLayout by bindView(R.id.hotel_gallery_description_container)
     val hotelGalleryIndicatorContainer: LinearLayout by bindView(R.id.hotel_gallery_indicator_container)
@@ -241,11 +243,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.showBookByPhoneObservable.subscribe { showPayByPhone ->
             if (showPayByPhone) {
                 payByPhoneContainer.visibility = View.VISIBLE
-                marginForSelectRoom(payByPhoneContainer)
             } else {
                 payByPhoneContainer.visibility = View.GONE
-                marginForSelectRoom(propertyTextContainer)
             }
+            spaceAboveSelectARoom();
         }
         vm.discountPercentageObservable.subscribeText(discountPercentage)
         vm.discountPercentageBackgroundObservable.subscribeBackgroundResource(discountPercentage)
@@ -389,10 +390,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         stickySelectRoomContainer.animate().translationY(bottomMargin.toFloat()).setInterpolator(DecelerateInterpolator()).start()
     }
 
-    fun marginForSelectRoom(viewGroup: ViewGroup) {
-        val layoutParams = viewGroup.layoutParams as ViewGroup.MarginLayoutParams
-        layoutParams.bottomMargin = bottomMargin
-        viewGroup.layoutParams = layoutParams
+    fun spaceAboveSelectARoom() {
+        val params = space.getLayoutParams()
+        params.height = bottomMargin
+        space.setLayoutParams(params)
     }
 
     val etpContainerObserver: Observer<Int> = endlessObserver { checkedId ->

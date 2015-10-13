@@ -528,6 +528,14 @@
                         android:textColor="@color/hotels_primary_color"
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <Space
+                    android:id="@+id/spacer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/book_by_phone_container"
+                    android:background="#EEEEEE"/>
+
             </RelativeLayout>
 
         </RelativeLayout>
