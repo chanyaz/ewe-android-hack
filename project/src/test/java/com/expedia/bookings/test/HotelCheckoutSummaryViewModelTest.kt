@@ -99,12 +99,51 @@ public class HotelCheckoutSummaryViewModelTest {
         assertEquals(expectedDueNow, sut.dueNowAmount.value)
     }
 
+    @Test
+    fun priceChangeUp() {
+        val expectedPriceChangeMsg = "foo"
+        givenResources("", "", "", "")
+        givenPriceChangedUpResponse()
+        givenPriceChangeMessage(expectedPriceChangeMsg)
+        setup()
+
+        sut.originalRateObserver.onNext(hotelProductResponse)
+        assertEquals(expectedPriceChangeMsg, sut.priceChange.value)
+        assertTrue(sut.isPriceChange.value)
+    }
+
+    @Test
+    fun priceChangeDown() {
+        val expectedPriceChangeMsg = "bar"
+        givenResources("", "", "", "")
+        givenPriceChangedDownResponse()
+        givenPriceChangeMessage(expectedPriceChangeMsg)
+        setup()
+
+        sut.originalRateObserver.onNext(hotelProductResponse)
+        assertEquals(expectedPriceChangeMsg, sut.priceChange.value)
+        assertTrue(sut.isPriceChange.value)
+    }
+
+    private fun givenPriceChangedUpResponse() {
+        hotelProductResponse = mockHotelServiceTestRule.getPriceChangeUpCreateTripResponse().originalHotelProductResponse
+    }
+
+    private fun givenPriceChangedDownResponse() {
+        hotelProductResponse = mockHotelServiceTestRule.getPriceChangeDownCreateTripResponse().originalHotelProductResponse
+    }
+
     private fun givenPayLaterHotelProductResponse() {
         hotelProductResponse = mockHotelServiceTestRule.getPayLaterOfferCreateTripResponse().newHotelProductResponse
     }
 
     private fun givenHappyHotelProductResponse() {
         hotelProductResponse = mockHotelServiceTestRule.getHappyCreateTripResponse().newHotelProductResponse
+    }
+
+    private fun givenPriceChangeMessage(resultingMessage: String) {
+        val originalPrice = Money(BigDecimal(hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()), "USD").formattedMoney
+        Mockito.`when`(context.getString(Matchers.eq(R.string.price_changed_from_TEMPLATE), Matchers.eq(originalPrice))).thenReturn(resultingMessage)
     }
 
     private fun givenResources(checkInOutDatesFormatted: String, city: String, numberNights: String, numberGuests: String) {

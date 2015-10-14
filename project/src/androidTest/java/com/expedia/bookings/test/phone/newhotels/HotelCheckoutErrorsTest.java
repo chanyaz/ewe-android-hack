@@ -31,7 +31,7 @@ public class HotelCheckoutErrorsTest extends HotelTestCase {
 		slideToPurchase();
 		enterCVV();
 		//Checkout Price Change
-		verifyPriceChange("Price changed from $675.81");
+		verifyPriceChange("Price changed from $740.77");
 	}
 
 	public void testInvalidCardDetails() throws Throwable {

@@ -225,9 +225,9 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             val hasPriceChange = room != null
             if (hasPriceChange) {
                 val currencyCode = room.rateInfo.chargeableRateInfo.currencyCode
-                val totalPrice = Money(BigDecimal(room.rateInfo.chargeableRateInfo.total.toDouble()), currencyCode)
+                val totalPriceWithMandatoryFees = Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()), currencyCode)
                 priceChange.onNext(context.getString(R.string.price_changed_from_TEMPLATE,
-                        totalPrice.formattedMoney))
+                        totalPriceWithMandatoryFees.formattedMoney))
 
             }
             isPriceChange.onNext(hasPriceChange)
