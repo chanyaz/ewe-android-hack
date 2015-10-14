@@ -42,7 +42,8 @@ public class SuggestionV4 {
 	public enum IconType {
 		HISTORY_ICON,
 		CURRENT_LOCATION_ICON,
-		SEARCH_TYPE_ICON
+		SEARCH_TYPE_ICON,
+		MAGNIFYING_GLASS_ICON
 	}
 
 	public SuggestionV4 copy() {

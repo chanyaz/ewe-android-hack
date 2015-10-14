@@ -101,12 +101,13 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
     private fun generateSuggestionServiceCallback(): Observer<List<SuggestionV4>> {
         return object : Observer<List<SuggestionV4>> {
             override fun onNext(essSuggestions: List<SuggestionV4>) {
+                val rawQuerySuggestion = if (!lastQuery.isNullOrBlank()) listOf(suggestionWithRawQueryString(lastQuery)) else emptyList()
                 if (essSuggestions.count() == 0) {
-                    suggestionsObservable.onNext(listOf(suggestionWithRawQueryString(lastQuery)))
+                    suggestionsObservable.onNext(rawQuerySuggestion)
                 }
                 else {
-                    val essAndRawTextSuggestion = ArrayList<SuggestionV4>(essSuggestions)
-                    essAndRawTextSuggestion.add(suggestionWithRawQueryString(lastQuery))
+                    val essAndRawTextSuggestion = ArrayList<SuggestionV4>(rawQuerySuggestion)
+                    essAndRawTextSuggestion.addAll(essSuggestions)
                     suggestionsObservable.onNext(essAndRawTextSuggestion)
                 }
             }
@@ -122,8 +123,9 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
     private fun suggestionWithRawQueryString(query: String): SuggestionV4 {
         val rawQuerySuggestion = SuggestionV4()
         rawQuerySuggestion.type = "RAW_TEXT_SEARCH"
+        rawQuerySuggestion.iconType = SuggestionV4.IconType.MAGNIFYING_GLASS_ICON
         rawQuerySuggestion.regionNames = SuggestionV4.RegionNames()
-        rawQuerySuggestion.regionNames.displayName = query
+        rawQuerySuggestion.regionNames.displayName = "\"" + query + "\""
         rawQuerySuggestion.regionNames.shortName = query // shown in results toolbar title
         rawQuerySuggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
         rawQuerySuggestion.hierarchyInfo?.isChild = false
@@ -155,6 +157,8 @@ public class HotelSuggestionViewModel() {
                         R.drawable.recents
                     } else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON) {
                         R.drawable.ic_suggest_current_location
+                    } else if (suggestion.iconType == SuggestionV4.IconType.MAGNIFYING_GLASS_ICON) {
+                        R.drawable.google_search
                     } else if (suggestion.type == "HOTEL") {
                         R.drawable.hotel_suggest
                     } else if (suggestion.type == "AIRPORT") {

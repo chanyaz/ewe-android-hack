@@ -137,6 +137,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.hotel_filter_show_more_less,
 		R.dimen.hotel_free_cancellation_etp_drawable_padding,
 		R.drawable.smaller_details_info,
-		R.string.zero_reviews
+		R.string.zero_reviews,
+		R.drawable.google_search
 	};
 }

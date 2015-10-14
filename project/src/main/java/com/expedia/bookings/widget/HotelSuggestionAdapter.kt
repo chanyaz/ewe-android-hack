@@ -78,6 +78,7 @@ public class HotelSuggestionViewHolder(val root: ViewGroup, val vm : HotelSugges
 
     override fun onClick(view: View) {
         val suggestion = vm.suggestionObserver.value
+        suggestion.regionNames.displayName = suggestion.regionNames.displayName.replace("\"", "")
         vm.suggestionSelected.onNext(suggestion)
     }
 }
