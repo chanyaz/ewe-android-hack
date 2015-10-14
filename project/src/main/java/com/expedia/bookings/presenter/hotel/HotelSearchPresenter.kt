@@ -95,7 +95,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.suggestionSelectedSubject.subscribe { suggestion ->
             searchViewModel.suggestionObserver.onNext(suggestion)
             searchLocationEditText.clearFocus()
-            searchLocationEditText.visibility = View.GONE
+            searchLocationEditText.visibility = View.INVISIBLE
             searchLocationTextView.visibility = View.VISIBLE
             clearLocationButton.visibility = View.INVISIBLE
             com.mobiata.android.util.Ui.hideKeyboard(this)
@@ -230,7 +230,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         searchLocationTextView.setOnClickListener {
             resetSuggestion()
-            searchLocationTextView.visibility = View.INVISIBLE
+            searchLocationTextView.visibility = View.GONE
             searchLocationEditText.visibility = View.VISIBLE
             clearLocationButton.visibility = if (Strings.isEmpty(searchLocationEditText.text)) View.INVISIBLE else View.VISIBLE
             searchLocationEditText.requestFocus()
@@ -372,6 +372,8 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
                 searchLocationEditText.clearFocus()
                 calendar.hideToolTip()
             }
+            searchLocationEditText.visibility = View.INVISIBLE
+            searchLocationTextView.visibility = View.VISIBLE
             calendar.setVisibility(View.VISIBLE)
         }
     }
@@ -387,8 +389,8 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             calendar.setTranslationY(pos)
             calendar.setVisibility(View.VISIBLE)
             val hasOrigin = searchViewModel.originObservable.value
-            searchLocationEditText.visibility = if (forward) View.GONE else View.VISIBLE
-            searchLocationTextView.visibility = if (forward) View.VISIBLE else View.INVISIBLE
+            searchLocationEditText.visibility = if (forward) View.INVISIBLE else View.VISIBLE
+            searchLocationTextView.visibility = if (forward) View.VISIBLE else View.GONE
             if (forward && !hasOrigin) {
                 searchViewModel.locationTextObservable.onNext("")
             }
@@ -417,6 +419,8 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     private val defaultToSuggestion = object : Presenter.Transition(HotelParamsDefault::class.java, HotelParamsSuggestion::class.java) {
         override fun startTransition(forward: Boolean) {
             suggestionRecyclerView.visibility = if (forward) View.VISIBLE else View.GONE
+            searchLocationEditText.visibility = if (forward) View.VISIBLE else View.INVISIBLE
+            searchLocationTextView.visibility = if (forward) View.GONE else View.VISIBLE
         }
     }
 

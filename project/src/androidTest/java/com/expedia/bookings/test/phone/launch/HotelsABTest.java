@@ -56,7 +56,7 @@ public class HotelsABTest extends PhoneTestCase {
 
 		LaunchScreen.clickOnAirAttachBanner();
 
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.hotel_location_autocomplete, "San Francisco");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.hotel_location, "San Francisco");
 		EspressoUtils.assertViewWithTextIsDisplayed("2 Guests");
 		String expectedCheckInDate = DateUtils.localDateToMMMd(checkIn);
 		String expectedCheckoutDate = DateUtils.localDateToMMMd(checkOut);
