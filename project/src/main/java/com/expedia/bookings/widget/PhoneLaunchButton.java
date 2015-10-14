@@ -116,8 +116,14 @@ public class PhoneLaunchButton extends FrameLayout {
 			@Override
 			public boolean onPreDraw() {
 				iconView.getViewTreeObserver().removeOnPreDrawListener(this);
-				iconView.setPivotX(iconView.getWidth() / 2);
-				iconView.setPivotY(-iconView.getTop() + iconView.getPaddingTop());
+				if (fiveLobBtn) {
+					iconView.setPivotX(iconView.getWidth() / 2);
+					iconView.setPivotY(0);
+				}
+				else {
+					iconView.setPivotX(iconView.getWidth() / 2);
+					iconView.setPivotY(-iconView.getTop() + iconView.getPaddingTop());
+				}
 				scaleTo(scaleToFactor);
 				return true;
 			}
@@ -244,11 +250,11 @@ public class PhoneLaunchButton extends FrameLayout {
 			textView.setScaleX(textScale);
 			textView.setScaleY(textScale);
 
-			iconView.setTranslationY(-(1 - normalized) * 20);
-
 			float textViewMarginBottom = getResources().getDimensionPixelOffset(R.dimen.launch_tile_margin_side);
 			float textTransY = bgView.getHeight() * f - textView.getHeight()*textScale - textViewMarginBottom * normalized;
 			textView.setTranslationY(textTransY);
+
+			iconView.setTranslationY((textTransY - (iconView.getHeight() * iconSize)) / 2);
 		}
 	}
 
