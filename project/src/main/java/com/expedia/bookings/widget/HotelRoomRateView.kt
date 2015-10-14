@@ -136,9 +136,22 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             return anim
         }
 
-        fun newAlphaOneToZeroAnimation(): AlphaAnimation {
+        fun newAlphaOneToZeroAnimation(view: View): AlphaAnimation {
             val anim = AlphaAnimation(1f, 0f)
             anim.commonSetup()
+            anim.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {
+                    if (view.id == R.id.total_price_per_night) view.visibility = View.GONE
+                }
+
+                override fun onAnimationEnd(animation: Animation?) {
+                    //ignore
+                }
+
+                override fun onAnimationRepeat(animation: Animation?) {
+                    //ignore
+                }
+            })
             return anim
         }
 
@@ -154,7 +167,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             }
 
             viewsToHideInExpandedState.forEach {
-                it.startAnimation(newAlphaOneToZeroAnimation())
+                it.startAnimation(newAlphaOneToZeroAnimation(it))
             }
             viewsToShowInExpandedState.forEach {
                 if (it.id == R.id.expanded_amenity_text_view && Strings.isEmpty((it as TextView).text)) {
@@ -221,7 +234,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
                 it.startAnimation(newAlphaZeroToOneAnimation(it))
             }
             viewsToShowInExpandedState.forEach {
-                it.startAnimation(newAlphaOneToZeroAnimation())
+                it.startAnimation(newAlphaOneToZeroAnimation(it))
             }
 
             row.isEnabled = true
