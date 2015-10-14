@@ -345,7 +345,7 @@
     <!--Review padding bottom-->
     <dimen name="hotel_review_padding_bottom">5dp</dimen>
     <!-- Review corner radius -->
-    <dimen name="hotel_review_corner_radius">3dp</dimen>
+    <dimen name="hotel_review_corner_radius">2dp</dimen>
     <!-- Review divider width -->
     <dimen name="hotel_review_divider_width">1dp</dimen>
     <!-- marging for special notice and etp desc -->

@@ -104,7 +104,7 @@ public class BoxRatingBar(context: Context, attrs: AttributeSet) : RatingBar(con
 
         for (index in 1..(numStars - 1)) {
             rect.left = index * widthOfEachBox + (index - 1) * dividerWidth
-            rect.right = left + dividerWidth
+            rect.right = rect.left + dividerWidth
             rect.top = 0f
             rect.bottom = canvas.height.toFloat()
 
