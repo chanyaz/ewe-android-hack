@@ -53,6 +53,7 @@ public class HotelValueAddsTest {
         val observer = TestSubscriber<HotelOffersResponse>()
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
         val hotelSearchParams = HotelSearchParams(SuggestionV4(), dtf.parseLocalDate("2015-09-12"), dtf.parseLocalDate("2015-09-16"), 3, emptyList())
+        vm.paramsSubject.onNext(hotelSearchParams)
         service.details(hotelSearchParams, "happypath", observer)
         return observer
     }

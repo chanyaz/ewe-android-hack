@@ -36,6 +36,7 @@ public class HotelCheckoutResponse extends BaseApiResponse {
 		public String hotelStateProvince;
 		public HotelOffersResponse.HotelRoomResponse hotelRoomResponse;
 		public String hotelCountry;
+		public String regionId;
 		public String bigImageUrl;
 	}
 

@@ -34,6 +34,7 @@ public class HotelCreateTripResponse extends BaseApiResponse {
 		public String hotelCity;
 		public String hotelStateProvince;
 		public String hotelCountry;
+		public String regionId;
 		public String hotelStarRating;
 		public HotelOffersResponse.HotelRoomResponse hotelRoomResponse;
 		public String supplierType;
