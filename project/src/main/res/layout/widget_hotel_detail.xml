@@ -29,7 +29,7 @@
                     <com.expedia.bookings.widget.RecyclerGallery
                         android:id="@+id/images_gallery"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/car_details_image_size"
+                        android:layout_height="match_parent"
                         android:fadingEdge="none"
                         android:spacing="20dp"
                         android:unselectedAlpha="1.0"
@@ -55,11 +55,11 @@
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/hotel_gallery_description"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="match_parent"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
-                android:paddingTop="5dp"
-                android:paddingLeft="5dp"/>
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"/>
                 </LinearLayout>
 
             </LinearLayout>

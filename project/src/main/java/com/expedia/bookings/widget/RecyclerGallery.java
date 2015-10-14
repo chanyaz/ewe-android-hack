@@ -153,7 +153,9 @@ public class RecyclerGallery extends RecyclerView {
 			}
 			offset = mLayoutManager.getLeftDecorationWidth(v);
 		}
-		mScrollListener.onGalleryItemScrolled(position);
+		if (mScrollListener != null) {
+			mScrollListener.onGalleryItemScrolled(position);
+		}
 		smoothScrollBy(getScrollDistance(v, offset), 0);
 
 	}
@@ -175,7 +177,7 @@ public class RecyclerGallery extends RecyclerView {
 		mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 		setLayoutManager(mLayoutManager);
 
-		mAdapter = new RecyclerAdapter(getContext(), new ArrayList<IMedia>());
+		mAdapter = new RecyclerAdapter(new ArrayList<IMedia>());
 		setAdapter(mAdapter);
 	}
 
@@ -187,23 +189,22 @@ public class RecyclerGallery extends RecyclerView {
 
 	private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 		private List<? extends IMedia> mMedia;
-		private Context mContext;
 		private LinearLayout.LayoutParams mLayoutParams;
 		private static final int MAX_IMAGES_LOADED = 5;
 
-		private RecyclerAdapter(Context context, List<? extends IMedia> media) {
-			mContext = context;
+		private RecyclerAdapter(List<? extends IMedia> media) {
 			mMedia = media;
 			setWidth();
 		}
 
 		private void setWidth() {
-			Point screen = Ui.getScreenSize(mContext);
+			Point screen = Ui.getScreenSize(getContext());
 			final float imageWidth;
 			if (mMode == MODE_FILL) {
 				imageWidth = screen.x;
+
 				mLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.MATCH_PARENT);
+					(int)(getContext().getResources().getDimension(R.dimen.car_details_image_size)) );
 			}
 			else {
 				imageWidth = screen.x * 0.60f;
