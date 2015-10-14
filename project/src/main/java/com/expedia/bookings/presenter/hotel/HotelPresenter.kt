@@ -331,7 +331,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     val downloadListener: Observer<HotelOffersResponse> = endlessObserver { response ->
         loadingOverlay.animate(false)
-        loadingOverlay.visibility = View.GONE
         detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(response)
         show(detailPresenter)
         detailPresenter.showDefault()
