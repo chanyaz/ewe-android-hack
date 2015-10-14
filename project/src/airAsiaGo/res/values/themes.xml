@@ -9,8 +9,7 @@
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_aag</item>
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_aag</item>
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_aag_detail_screen</item>
-        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_airasiago</item>
-        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_airasiago</item>
+        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
