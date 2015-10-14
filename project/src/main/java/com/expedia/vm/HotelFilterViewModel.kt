@@ -251,9 +251,10 @@ class HotelFilterViewModel(val context: Context) {
     fun setHotelList(response : HotelSearchResponse) {
         originalResponse = response
         neighborhoodListObservable.onNext(response.allNeighborhoodsInSearchRegion)
-        if (response.amenityFilterOptions != null) {
-            amenityOptionsObservable.onNext(response.amenityFilterOptions)
-        }
+//        hide amenities
+//        if (response.amenityFilterOptions != null) {
+//            amenityOptionsObservable.onNext(response.amenityFilterOptions)
+//        }
         isNeighborhoodExpanded = false
         neighborhoodExpandObserable.onNext(isNeighborhoodExpanded)
         previousSort = Sort.POPULAR
