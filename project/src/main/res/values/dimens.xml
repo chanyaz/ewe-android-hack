@@ -375,4 +375,7 @@
 
     <!-- hotel V2 drawable padding for Free cancellation/ETP -->
     <dimen name="hotel_free_cancellation_etp_drawable_padding">10dp</dimen>
+
+    <!-- hotel V2 Checkout -->
+    <dimen name="hotel_checkout_image_corner_radius">3dp</dimen>
 </resources>

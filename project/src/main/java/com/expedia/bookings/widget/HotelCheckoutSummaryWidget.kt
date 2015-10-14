@@ -3,23 +3,36 @@ package com.expedia.bookings.widget
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.support.v7.graphics.Palette
 import android.util.AttributeSet
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.bitmaps.PicassoTarget
+import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.utils.ColorBuilder
+import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelBreakDownViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.squareup.phrase.Phrase
+import com.squareup.picasso.Picasso
 
-public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs), HeaderBitmapDrawable.CallbackListener {
+public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs) {
+
+    val PICASSO_HOTEL_IMAGE = "HOTEL_CHECKOUT_IMAGE"
 
     val hotelName: android.widget.TextView by bindView(R.id.hotel_name)
+    val hotelRoomImage: ImageView by bindView(R.id.hotel_checkout_room_image)
     val date: android.widget.TextView by bindView(R.id.check_in_out_dates)
     val address: android.widget.TextView by bindView(R.id.address_line_one)
     val cityState: android.widget.TextView by bindView(R.id.address_city_state)
@@ -89,15 +102,47 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
                                         else
                                             resources.getString(R.string.total_with_tax)
         }
+        viewModel.roomHeaderImage.subscribe {
+            PicassoHelper.Builder(context)
+                    .setPlaceholder(R.drawable.room_fallback)
+                    .setError(R.drawable.room_fallback)
+                    .setTarget(target).setTag(PICASSO_HOTEL_IMAGE)
+                    .build()
+                    .load(HotelMedia(Images.getMediaHost() + it).getBestUrls(width))
+        }
         breakdown.viewmodel = HotelBreakDownViewModel(context, viewModel)
     }
 
-    override fun onBitmapLoaded() {
-    }
+    private val target = object : PicassoTarget() {
+        override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
+            super.onBitmapLoaded(bitmap, from)
 
-    override fun onBitmapFailed() {
-    }
+            val palette = Palette.generate(bitmap)
+            val color = palette.getDarkVibrantColor(R.color.transparent_dark)
 
-    override fun onPrepareLoad() {
+            val fullColorBuilder = ColorBuilder(color).darkenBy(0.25f);
+            val gradientColor = fullColorBuilder.setAlpha(154).build()
+
+            val drawable = HeaderBitmapDrawable()
+            drawable.setCornerRadius(resources.getDimensionPixelSize(R.dimen.hotel_checkout_image_corner_radius))
+            drawable.setCornerMode(HeaderBitmapDrawable.CornerMode.TOP)
+            drawable.setBitmap(bitmap)
+            val colorArrayBottom = intArrayOf(gradientColor, gradientColor)
+            drawable.setGradient(colorArrayBottom, floatArrayOf(0f, 1f))
+            hotelRoomImage.setImageDrawable(drawable)
+            val textColor = resources.getColor(R.color.itin_white_text);
+            hotelName.setTextColor(textColor)
+            date.setTextColor(textColor)
+            address.setTextColor(textColor)
+            cityState.setTextColor(textColor)
+        }
+
+        override fun onBitmapFailed(errorDrawable: Drawable?) {
+            super.onBitmapFailed(errorDrawable)
+        }
+
+        override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+            super.onPrepareLoad(placeHolderDrawable)
+        }
     }
 }

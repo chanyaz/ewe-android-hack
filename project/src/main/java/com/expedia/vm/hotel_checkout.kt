@@ -209,6 +209,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     val isPayLaterOrResortCase = BehaviorSubject.create<Boolean>(false)
     val feesPaidAtHotel = BehaviorSubject.create<String>()
     val showFeesPaidAtHotel = BehaviorSubject.create<Boolean>(false)
+    val roomHeaderImage = BehaviorSubject.create<String?>()
 
     init {
         tripResponseObserver.subscribe { tripResponse ->
@@ -268,6 +269,8 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
             isBestPriceGuarantee.onNext(room.isMerchant)
             newDataObservable.onNext(this)
+
+            roomHeaderImage.onNext(it.largeThumbnailUrl)
         }
         guestCountObserver.subscribe {
             numGuests.onNext(StrUtils.formatGuestString(context, it))
