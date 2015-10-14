@@ -59,7 +59,7 @@ public class SuggestionV4 {
 		return v4;
 	}
 
-	public boolean isLocationSearch() {
+	public boolean isCurrentLocationSearch() {
 		return Strings.isEmpty(gaiaId);
 	}
 }

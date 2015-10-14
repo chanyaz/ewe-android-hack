@@ -303,7 +303,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             // Hotel region search
             show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
             resultsPresenter.viewmodel.paramsSubject.onNext(params)
-            resultsPresenter.filterView.sortByObserver.onNext(params.suggestion.isLocationSearch)
+            resultsPresenter.filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch)
             resultsPresenter.filterView.viewmodel.clearObservable.onNext(Unit)
         }
     }

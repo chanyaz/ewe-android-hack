@@ -21,6 +21,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.CouponWidget
@@ -131,6 +132,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
         haveAlreadyShownAcceptTermsWidget = false
+        HotelV2Tracking().trackPageLoadHotelV2CheckoutInfo(trip.newHotelProductResponse, hotelSearchParams)
     }
 
     override fun showProgress(show: Boolean) {

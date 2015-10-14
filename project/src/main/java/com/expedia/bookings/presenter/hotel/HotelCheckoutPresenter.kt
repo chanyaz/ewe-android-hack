@@ -10,6 +10,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.Ui
@@ -52,7 +53,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         Db.getTripBucket().clearHotelV2()
         show(hotelCheckoutWidget)
         hotelCheckoutWidget.showCheckout(offer)
-    }
+   }
 
     private val defaultCheckoutTransition = object : Presenter.DefaultTransition(HotelCheckoutMainViewPresenter::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
@@ -91,6 +92,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         } else {
             cvv.bind(billingInfo)
             show(cvv)
+            HotelV2Tracking().trackHotelV2CheckoutPaymentCid()
         }
     }
 

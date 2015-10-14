@@ -17,6 +17,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
+import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
@@ -200,7 +201,13 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			firstName.requestFocus();
 			Ui.showKeyboard(firstName, null);
 			bind();
-			OmnitureTracking.trackCheckoutTraveler(lineOfBusiness);
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				new HotelV2Tracking().trackHotelV2CheckoutTraveler();
+			}
+			else {
+				OmnitureTracking.trackCheckoutTraveler(lineOfBusiness);
+			}
+
 		}
 		else {
 			bind();

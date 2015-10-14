@@ -30,6 +30,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
@@ -304,8 +305,13 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					scrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				}
 			});
-			OmnitureTracking.trackCheckoutSlideToPurchase(getLineOfBusiness(), getContext(),
-				paymentInfoCardView.getCardType());
+			if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
+				new HotelV2Tracking().trackHotelV2SlideToPurchase();
+			}
+			else {
+				OmnitureTracking.trackCheckoutSlideToPurchase(getLineOfBusiness(), getContext(),
+					paymentInfoCardView.getCardType());
+			}
 		}
 	}
 

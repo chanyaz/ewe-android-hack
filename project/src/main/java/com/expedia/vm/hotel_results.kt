@@ -12,6 +12,7 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.widget.createHotelMarkerIcon
@@ -68,6 +69,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
                 mapResultsObservable.onNext(it)
             } else {
                 hotelResultsObservable.onNext(it)
+                HotelV2Tracking().trackHotelsV2Search(paramsSubject.value, it)
             }
         }
 
@@ -175,6 +177,7 @@ public class HotelMapViewModel(val resources: Resources, val currentLocation: Lo
             val sortedHotels = sortByLocation(hotelLocation, hotels)
 
             sortedHotelsObservable.onNext(sortedHotels)
+            HotelV2Tracking().trackHotelV2MapTapPin()
         }
 
         carouselSwipedObservable.subscribe {

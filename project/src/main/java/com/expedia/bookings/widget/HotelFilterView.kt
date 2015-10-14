@@ -31,6 +31,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelFilterViewModel
@@ -177,6 +178,10 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             } else if (it == 10) {
                 starSelection(filterStarFive, ratingFiveBackground, 5)
             }
+
+            if(it <= 5) {
+                HotelV2Tracking().trackLinkHotelV2RefineRating(it.toString())
+            }
         }
 
         vm.doneButtonEnableObservable.subscribe { enable ->
@@ -215,10 +220,11 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             filterHotelName.setText(null)
         }
 
-        sortByButtonGroup.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener{
+        sortByButtonGroup.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 val sort = Sort.values()[position]
                 vm.userFilterChoices.userSort = sort
+                HotelV2Tracking().trackHotelV2SortBy(Strings.capitalizeFirstLetter(sort.toString()))
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

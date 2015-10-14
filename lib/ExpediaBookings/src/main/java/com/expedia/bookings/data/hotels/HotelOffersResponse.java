@@ -30,6 +30,7 @@ public class HotelOffersResponse {
 
 	public double latitude;
 	public double longitude;
+	public String locationId;
 
 	public double hotelStarRating;
 

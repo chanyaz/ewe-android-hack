@@ -6,12 +6,16 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 public class HotelCheckoutResponse extends BaseApiResponse {
 
 	public CheckoutResponse checkoutResponse;
+	public String orderId;
+	public String currencyCode;
+	public String totalCharges;
 
 	public static class BookingResponse {
 
 		public String itineraryNumber;
 		public String email;
 		public String tripId;
+		public String supplierType;
 	}
 
 	public static class CheckoutResponse {

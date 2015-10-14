@@ -29,6 +29,7 @@ import android.graphics.Rect
 import android.view.MotionEvent
 import android.widget.Space
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Strings
@@ -319,7 +320,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         etpInfoText.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
         galleryContainer.subscribeOnClick(vm.galleryClickedSubject)
 
-        vm.startMapWithIntentObservable.subscribe { intent -> getContext().startActivity(intent) }
+        vm.startMapWithIntentObservable.subscribe { intent ->
+            getContext().startActivity(intent)
+            HotelV2Tracking().trackLinkHotelV2DetailMapClick()
+        }
 
         vm.propertyInfoListObservable.subscribe { infoList ->
             propertyTextContainer.removeAllViews()
@@ -400,9 +404,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         if (checkedId == R.id.radius_pay_now) {
             //pay now show all the offers
             viewmodel.roomResponseListObservable.onNext(Pair(viewmodel.hotelOffersResponse.hotelRoomResponse, viewmodel.uniqueValueAddForRooms))
+            HotelV2Tracking().trackPayNowContainerClick()
         } else {
             //pay later show only etp offers
             viewmodel.etpRoomResponseListObservable.onNext(Pair(viewmodel.etpOffersList, viewmodel.etpUniqueValueAddForRooms))
+            HotelV2Tracking().trackPayLaterContainerClick()
         }
     }
 
@@ -540,6 +546,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         })
 
         smoothScrollAnimation.start()
+        HotelV2Tracking().trackLinkHotelV2DetailSelectRoom()
     }
 
 

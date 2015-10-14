@@ -16,6 +16,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isAirAttached
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Images
@@ -104,6 +105,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val promoMessageObservable = BehaviorSubject.create<String>()
     val strikeThroughPriceObservable = BehaviorSubject.create<String>()
     val galleryItemChangeObservable = BehaviorSubject.create<Pair<Int, String>>()
+    var isCurrentLocationSearch = false
 
     public fun addViewsAfterTransition() {
 
@@ -183,6 +185,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         showBookByPhoneObservable.onNext(isAvailable() && (hotelOffersResponse.deskTopOverrideNumber != null && !hotelOffersResponse.deskTopOverrideNumber)
                 && !Strings.isEmpty(hotelOffersResponse.telesalesNumber))
 
+        HotelV2Tracking().trackPageLoadHotelV2Infosite(hotelOffersResponse, hasETPOffer, isCurrentLocationSearch)
+
     }
 
     private val offersObserver = endlessObserver<HotelOffersResponse> { response ->
@@ -258,6 +262,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             else -> hotelOffersResponse.telesalesNumber
         }
         SocialUtils.call(context, number)
+        HotelV2Tracking().trackLinkHotelV2DetailBookPhoneClick()
     }
 
     fun isAvailable(): Boolean {
@@ -275,16 +280,19 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         var renovationInfo = Pair<String, String>(context.resources.getString(R.string.renovation_notice),
                 hotelOffersResponse.hotelRenovationText?.content ?: "")
         hotelRenovationObservable.onNext(renovationInfo)
+        HotelV2Tracking().trackHotelV2RenovationInfo()
     }
 
     val resortFeeContainerClickObserver: Observer<Unit> = endlessObserver {
         var renovationInfo = Pair<String, String>(context.getResources().getString(R.string.additional_fees),
                 hotelOffersResponse.hotelMandatoryFeesText?.content ?: "")
         hotelRenovationObservable.onNext(renovationInfo)
+        HotelV2Tracking().trackHotelV2ResortFeeInfo()
     }
 
     val payLaterInfoContainerClickObserver: Observer<Unit> = endlessObserver {
         hotelPayLaterInfoObservable.onNext(hotelOffersResponse.hotelCountry)
+        HotelV2Tracking().trackHotelV2EtpInfo()
     }
 
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
@@ -360,6 +368,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
                     DateUtils.localDateToMMMd(params.checkOut)).put("guests", StrUtils.formatGuestString(context, params.guests()))
                     .format()
                     .toString())
+            isCurrentLocationSearch = params.suggestion.isCurrentLocationSearch
         }
 
         hotelOffersSubject.subscribe(offersObserver)
@@ -449,6 +458,7 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
 
             // let parent know that a row is being expanded
             hotelDetailViewModel.rowExpandingObservable.onNext(rowIndex)
+            HotelV2Tracking().trackLinkHotelV2ViewRoomClick()
         }
     }
 

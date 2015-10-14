@@ -20,6 +20,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.tracking.AdImpressionTracking
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.bindView
@@ -207,7 +208,10 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         override fun onClick(view: View) {
             val hotel: Hotel = getHotel(adapterPosition)
             hotelSelectedSubject.onNext(hotel)
-            if (hotel.isSponsoredListing) AdImpressionTracking.trackAdClickOrImpression(itemView.context, hotel.clickTrackingUrl, null)
+            if (hotel.isSponsoredListing) {
+                AdImpressionTracking.trackAdClickOrImpression(itemView.context, hotel.clickTrackingUrl, null)
+                HotelV2Tracking().trackHotelV2SponsoredListingClick()
+            }
         }
 
         override fun onBitmapLoaded() {
