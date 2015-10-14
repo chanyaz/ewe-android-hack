@@ -29,7 +29,12 @@ public class HotelsV2DataUtil {
 
         public fun getHotelV2SearchParams(params: data.HotelSearchParams): HotelSearchParams {
             val suggestionV4 = SuggestionV4()
+            suggestionV4.hotelId = params.hotelId
             suggestionV4.gaiaId = params.getRegionId()
+            suggestionV4.coordinates = SuggestionV4.LatLng()
+            suggestionV4.coordinates.lat = params.searchLatitude
+            suggestionV4.coordinates.lng = params.searchLongitude
+            suggestionV4.type = params.searchType.name()
             val regionNames = SuggestionV4.RegionNames()
             regionNames.displayName = params.getQuery()
             regionNames.shortName = params.getQuery()

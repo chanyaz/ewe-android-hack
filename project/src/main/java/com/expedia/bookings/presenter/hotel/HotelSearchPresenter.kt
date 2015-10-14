@@ -91,7 +91,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         button
     }
 
-    var suggestionViewModel : HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
+    var suggestionViewModel: HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
         vm.suggestionSelectedSubject.subscribe { suggestion ->
             searchViewModel.suggestionObserver.onNext(suggestion)
             searchLocationEditText.clearFocus()
@@ -254,7 +254,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         })
 
         vm.locationTextObservable.subscribe {
-            val text = if (it.equals(context.getString(R.string.current_location))) ""  else it
+            val text = if (it.equals(context.getString(R.string.current_location))) "" else it
             searchLocationEditText.setText(text)
             searchLocationTextView.setText(it)
         }
@@ -413,7 +413,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
                 calendar.hideToolTip()
             }
             calendar.setVisibility(View.VISIBLE)
-       }
+        }
     }
 
     private val defaultToSuggestion = object : Presenter.Transition(HotelParamsDefault::class.java, HotelParamsSuggestion::class.java) {
@@ -435,7 +435,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     fun animationUpdate(f : Float, forward : Boolean) {
         val translationCalendar = if (forward) calendar.getHeight() * (1 - f) else calendar.getHeight() * f
         val layoutParams = searchParamsContainer.getLayoutParams()
-        layoutParams.height = if (forward) (f * (searchParamsContainerHeight)).toInt() else (Math.abs(f - 1) * (searchParamsContainerHeight)).toInt()
+        // TODO: Fix searchParamsContainerHeight = 0 in case of two consecutive animations.
+        if (searchParamsContainerHeight > 0) {
+            layoutParams.height = if (forward) (f * (searchParamsContainerHeight)).toInt() else (Math.abs(f - 1) * (searchParamsContainerHeight)).toInt()
+        }
         searchParamsContainer.setLayoutParams(layoutParams)
 
         calendar.setTranslationY(translationCalendar)
