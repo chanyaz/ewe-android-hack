@@ -25,7 +25,6 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
-import android.graphics.Rect
 import android.view.MotionEvent
 import android.widget.Space
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -147,7 +146,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var priceContainerLocation = IntArray(2)
     var urgencyContainerLocation = IntArray(2)
     var roomContainerPosition = IntArray(2)
-    var galleryIndicatorPosition = IntArray(2)
 
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
         detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
@@ -192,26 +190,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         vm.galleryItemChangeObservable.subscribe { galleryDescriptionBar: Pair<Int, String> ->
 
-            var bounds = Rect();
-            var width = hotelGalleryIndicatorContainer.getChildAt(galleryDescriptionBar.first).width
             val galleryItemCount = gallery.getAdapter().getItemCount()
-            val galleryDescriptionPadding = (context.resources.getDimension(R.dimen.hotel_gallery_description_padding)).toInt()
 
             for (indicatorPosition in 0..galleryItemCount - 1) {
                 hotelGalleryIndicatorContainer.getChildAt(indicatorPosition).setVisibility(View.INVISIBLE)
             }
             hotelGalleryIndicatorContainer.getChildAt(galleryDescriptionBar.first).setVisibility(View.VISIBLE)
             hotelGalleryDescription.setText(galleryDescriptionBar.second)
-            hotelGalleryIndicatorContainer.getChildAt(galleryDescriptionBar.first).getLocationOnScreen(galleryIndicatorPosition)
-            hotelGalleryDescription.paint.getTextBounds(galleryDescriptionBar.second, 0, galleryDescriptionBar.second.length(), bounds)
-
-            if (galleryDescriptionBar.first < galleryItemCount / 2 )
-                hotelGalleryDescription.setPadding(galleryIndicatorPosition[0], galleryDescriptionPadding,
-                        galleryDescriptionPadding, galleryDescriptionPadding)
-            else
-                hotelGalleryDescription.setPadding(galleryIndicatorPosition[0] + width - bounds.width(),
-                        galleryDescriptionPadding, 0, galleryDescriptionPadding)
-
         }
 
         vm.renovationObservable.subscribe { renovationContainer.setVisibility(View.VISIBLE) }
@@ -610,6 +595,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
                 detailContainer.post {
                     detailContainer.scrollTo(0, initialScrollTop)
+                    hotelGalleryIndicatorContainer.getChildAt(0).setVisibility(View.VISIBLE)
                     showToolbarGradient()
                 }
             }
