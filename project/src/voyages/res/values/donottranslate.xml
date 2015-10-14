@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="brand_name">VSC</string>
+    <string name="brand_name">Agence Voyages-SNCF.com</string>
 
     <!-- VSC app name for the about screen-->
-    <string name="vsc_full_app_name">Agence Voyages-sncf Hôtel</string>
+    <string name="vsc_full_app_name">Agence Voyages-SNCF.com</string>
 
-    <string name="app_name">Hôtel Voyages-sncf</string>
+    <string name="app_name">Agence Voyages-SNCF.com</string>
     <string name="app_vsc_info_url">http://www.voyages-sncf.com</string>
 
     <!-- The PointOfSale code looks this identifier up with reflection, do not remove! -->
@@ -23,5 +23,5 @@
     <string name="email_app_support">vsc-android@mobiata.com</string>
 
     <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">VSC</string>
+    <string name="merchant_name">Agence Voyages-SNCF.com</string>
 </resources>
