@@ -13,11 +13,4 @@
         android:background="#3A424C"
         android:visibility="gone" />
 
-    <com.expedia.bookings.widget.ErrorWidget
-        android:id="@+id/checkout_error_widget"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        android:visibility="gone" />
-
 </merge>

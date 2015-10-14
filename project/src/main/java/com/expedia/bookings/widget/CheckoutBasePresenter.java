@@ -346,6 +346,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		@Override
 		public void finalizeTransition(boolean forward) {
 			showProgress(true);
+			menuDone.setVisible(false);
 			paymentInfoCardView.setCreditCardRequired(false);
 			for (int i = 0; i < checkoutContent.getChildCount(); i ++) {
 				View v = checkoutContent.getChildAt(i);
@@ -385,6 +386,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			super.finalizeTransition(forward);
 			showProgress(!forward);
 			if (forward) {
+				resetMenuButton();
 				checkoutFormWasUpdated();
 			}
 			else {
