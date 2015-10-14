@@ -70,6 +70,12 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
                         it.score = it.hotels.map { 1 }.sum()
                     }
 
+		     if (!params.suggestion.isCurrentLocationSearch) {
+			     response.hotelList.forEach { hotel ->
+				     hotel.proximityDistanceInMiles = 0.0
+			    }
+		     }
+
                     val (sponsored, nonSponsored) = response.hotelList.partition { it.isSponsoredListing }
                     val firstChunk = sponsored.take(1)
                     val secondChunk = nonSponsored.take(49)

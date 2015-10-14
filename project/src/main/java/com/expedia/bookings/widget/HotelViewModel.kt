@@ -53,10 +53,9 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
             adImpressionObservable.onNext(hotel.impressionTrackingUrl)
         }
 
-        if (hotel.proximityDistanceInMiles > 0) {
-            val isAbbreviated = true
-            distanceFromCurrentLocationObservable.onNext(HotelUtils.formatDistanceForNearby(resources, hotel, isAbbreviated))
-        }
+        val hasDistance = hotel.proximityDistanceInMiles > 0
+        val distance = if (hasDistance) HotelUtils.formatDistanceForNearby(resources, hotel, true) else ""
+        distanceFromCurrentLocationObservable.onNext(distance)
 
         val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
         val isGoldOrSivler = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)

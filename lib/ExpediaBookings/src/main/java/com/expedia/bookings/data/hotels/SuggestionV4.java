@@ -14,6 +14,7 @@ public class SuggestionV4 {
 	public LatLng coordinates;
 
 	public IconType iconType = IconType.SEARCH_TYPE_ICON;
+	public boolean isSearchThisArea;
 
 	public static class RegionNames {
 		public String fullName;
@@ -60,6 +61,6 @@ public class SuggestionV4 {
 	}
 
 	public boolean isCurrentLocationSearch() {
-		return Strings.isEmpty(gaiaId);
+		return Strings.isEmpty(gaiaId) && !isSearchThisArea;
 	}
 }
