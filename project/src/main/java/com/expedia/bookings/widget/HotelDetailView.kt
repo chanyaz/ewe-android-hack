@@ -459,9 +459,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             toolbarShadow.visibility = View.GONE
         }
 
-        if (priceContainerLocation[1] < gradientHeight) {
-            toolBarGradient.translationY = (-(gradientHeight - priceContainerLocation[1]))
-        }
+        showToolbarGradient()
 
         var ratio = (priceContainerLocation[1] - (offset / 2)) / offset
         priceViewAlpha(ratio * 1.5f)
@@ -497,6 +495,15 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         discountPercentage.alpha = ratio
         vipAccessMessage.alpha = ratio
         promoMessage.alpha = ratio
+    }
+
+    public fun showToolbarGradient() {
+        priceContainer.getLocationOnScreen(priceContainerLocation)
+
+        if (priceContainerLocation[1] < gradientHeight) {
+            toolBarGradient.translationY = (-(gradientHeight - priceContainerLocation[1]))
+        } else
+            toolBarGradient.translationY = 0f
     }
 
     public fun shouldShowResortView(): Boolean {
@@ -603,6 +610,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
                 detailContainer.post {
                     detailContainer.scrollTo(0, initialScrollTop)
+                    showToolbarGradient()
                 }
             }
         })

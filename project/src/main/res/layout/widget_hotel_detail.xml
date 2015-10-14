@@ -622,7 +622,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:textColor="@color/itin_white_text"
+                        android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         app:textStyle="medium" />
 
