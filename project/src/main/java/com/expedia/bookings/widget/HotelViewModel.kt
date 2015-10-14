@@ -13,6 +13,7 @@ import com.expedia.bookings.extension.isAirAttached
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
 import com.squareup.phrase.Phrase
+import rx.Observable
 import rx.subjects.BehaviorSubject
 
 public class HotelViewModel(private val context: Context, private val hotel: Hotel) {
@@ -23,6 +24,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val hotelNameObservable = BehaviorSubject.create(hotel.localizedName)
     val hotelPriceObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false))
     val hotelStrikeThroughPriceObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, true))
+    val hotelStrikeThroughPriceVisibilityObservable = Observable.zip(hotelPriceObservable, hotelStrikeThroughPriceObservable, { hotelPrice, hotelStrikeThroughPrice -> hotelPrice.toString() != hotelStrikeThroughPrice.toString() })
     val hasDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountTenPercentOrBetter()  && !hotel.lowRateInfo.airAttached)
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating.toString())
     val hotelPreviewRatingObservable = BehaviorSubject.create<Float>(hotel.hotelStarRating)

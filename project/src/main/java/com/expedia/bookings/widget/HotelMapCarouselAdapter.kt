@@ -78,9 +78,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
                 hotelPreviewRating.rating = it
             }
 
-            Observable.zip(viewModel.hotelPriceObservable, viewModel.hotelStrikeThroughPriceObservable, { hotelPrice, hotelStrikeThroughPrice -> hotelPrice != hotelStrikeThroughPrice })
-                    .subscribeVisibility(hotelStrikeThroughPrice)
-
+            viewModel.hotelStrikeThroughPriceVisibilityObservable.subscribeVisibility(hotelStrikeThroughPrice)
             viewModel.hotelPriceObservable.subscribeText(hotelPricePerNight)
             viewModel.hotelStrikeThroughPriceObservable.subscribeText(hotelStrikeThroughPrice)
             viewModel.hotelGuestRatingObservable.subscribeText(hotelGuestRating)
@@ -94,11 +92,11 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
     }
 }
 
-public fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolean): String {
+public fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolean): CharSequence {
     if (rate == null) return ""
     var hotelPrice = if (strikeThrough)
         Money(Math.round(rate.strikethroughPriceToShowUsers).toString(), rate.currencyCode)
     else Money(Math.round(rate.priceToShowUsers).toString(), rate.currencyCode)
 
-    return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice.formattedMoney), null, StrikethroughTagHandler()).toString() else hotelPrice.formattedMoney
+    return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice.formattedMoney), null, StrikethroughTagHandler()) else hotelPrice.formattedMoney
 }

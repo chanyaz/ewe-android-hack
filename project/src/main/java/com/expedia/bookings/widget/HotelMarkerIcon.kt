@@ -23,7 +23,7 @@ fun createHotelMarkerIcon(resources: Resources, hotel: Hotel, clicked: Boolean):
     paint.textSize = pxSize
     paint.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
     paint.style = Paint.Style.FILL
-    paint.getTextBounds(text, 0, text.length(), bounds)
+    paint.getTextBounds(text.toString(), 0, text.length(), bounds)
     
     val isAirAttached = hotel.lowRateInfo.discountPercent < 0 && hotel.lowRateInfo.airAttached
     var outputBitmap = getBitmap(resources, clicked, isAirAttached)
@@ -37,7 +37,7 @@ fun createHotelMarkerIcon(resources: Resources, hotel: Hotel, clicked: Boolean):
     var canvas: Canvas = Canvas(bitmap)
     drawable.draw(canvas)
 
-    canvas.drawText(text, markerPaddingWidth / 2f, markerPaddingHeight / 2f + bounds.height(), paint)
+    canvas.drawText(text.toString(), markerPaddingWidth / 2f, markerPaddingHeight / 2f + bounds.height(), paint)
 
     return BitmapDescriptorFactory.fromBitmap(bitmap)
 

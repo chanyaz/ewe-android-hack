@@ -30,6 +30,7 @@ import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
 import com.squareup.picasso.Picasso
+import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
@@ -179,7 +180,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
             viewModel.hotelDiscountPercentageObservable.subscribeText(discountPercentage)
             viewModel.hotelStrikeThroughPriceObservable.subscribeText(strikeThroughPricePerNight)
-            viewModel.hasDiscountObservable.subscribeVisibility(strikeThroughPricePerNight)
+            viewModel.hotelStrikeThroughPriceVisibilityObservable.subscribeVisibility(strikeThroughPricePerNight)
             viewModel.hasDiscountObservable.subscribeVisibility(discountPercentage)
             viewModel.distanceFromCurrentLocationObservable.subscribeText(hotelAmenityOrDistanceFromLocation)
             viewModel.topAmenityVisibilityObservable.subscribeVisibility(topAmenityTitle)
