@@ -196,4 +196,23 @@
         <!--<item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector</item>-->
     </style>
 
+    <style name="Whitelabel.AccountLibTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="acct__input_text_error_color">@color/acct__bg_input_text_error_aag</item>
+        <item name="acct__input_text_good_color">@color/acct__bg_input_text_good_aag</item>
+        <item name="acct__sign_in_button_background_drawable">@drawable/btn_signin_aag</item>
+        <item name="acct__sign_in_button_text_color">@color/acct__btn_sign_in_text_aag</item>
+        <item name="acct__logo_small_drawable">@android:color/transparent</item>
+        <item name="acct__logo_large_drawable">@drawable/acct__logo_large_aag</item>
+        <item name="acct__logo_text_drawable">@drawable/acct__logo_text_aag</item>
+        <item name="acct__checkmark_good_drawable">@drawable/acct__ic_checkmark_aag</item>
+        <item name="acct__checkmark_warning_drawable">@drawable/acct__ic_warning_aag</item>
+        <item name="skin_accountCreationBackgroundDrawable">@drawable/acct_bg_aag</item>
+        <item name="acct__create_account_prompt_string">@string/acct_Create_an_aag_account</item>
+        <item name="acct__welcome_message_string">@string/acct_Welcome_to_aag</item>
+        <item name="acct__account_already_exists_string">@string/acct_aag_account_already_exists</item>
+        <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
+        <item name="acct__logo_text_drawable_margin_left">-36dp</item>
+        <item name="acct__logo_text_drawable_margin_top">5dp</item>
+    </style>
+
 </resources>
