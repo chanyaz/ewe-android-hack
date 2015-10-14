@@ -2,6 +2,8 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -50,6 +52,9 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
                     discountObservable.onNext(couponRate.formattedMoney)
                 }
                 hasDiscountObservable.onNext(hasDiscount)
+
+                Db.getTripBucket().add(TripBucketItemHotelV2(trip))
+
                 couponObservable.onNext(trip)
                 HotelV2Tracking().trackHotelV2CouponSuccess(couponParamsObservable.value.couponCode)
             }

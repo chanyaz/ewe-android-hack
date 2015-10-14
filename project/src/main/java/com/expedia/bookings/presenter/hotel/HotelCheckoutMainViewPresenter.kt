@@ -13,6 +13,8 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.hotels.HotelApplyCouponParams
+import com.expedia.bookings.data.hotels.HotelApplyCouponParams
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -50,6 +52,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
 
     var createTripViewmodel: HotelCreateTripViewModel by notNullAndObservable {
         createTripViewmodel.tripResponseObservable.subscribe(createTripResponseListener)
+        couponCardView.viewmodel.couponObservable.subscribe(createTripViewmodel.tripResponseObservable)
     }
 
     var checkoutOverviewViewModel: HotelCheckoutOverviewViewModel by notNullAndObservable {
@@ -84,11 +87,12 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val container = scrollView.findViewById(R.id.scroll_content) as LinearLayout
         container.addView(couponCardView, container.getChildCount() - 3)
         couponCardView.setToolbarListener(toolbarListener)
-        couponCardView.viewmodel.couponObservable.subscribe(createTripResponseListener)
+        
         couponCardView.viewmodel.removeObservable.subscribe {
             showProgress(true)
             showCheckout()
         }
+
         val params = couponCardView.getLayoutParams() as LinearLayout.LayoutParams
         params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, getResources().getDisplayMetrics()).toInt(), 0, 0);
     }
@@ -162,6 +166,13 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val childAges = hotelSearchParams.children
         val qualifyAirAttach = false
         createTripViewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
+        val createTrip = createTripViewmodel.tripResponseObservable.value
+        // If the last createTripResponse has a coupon code and the user just signed in, reapply it
+        if (createTrip != null && createTrip.coupon != null && User.isLoggedIn(context)) {
+            couponCardView.viewmodel.couponParamsObservable.onNext(HotelApplyCouponParams(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId, createTrip.coupon.code))
+        } else {
+            createTripViewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
+        }
     }
 
     val createTripResponseListener: Observer<HotelCreateTripResponse> = endlessObserver { trip ->
