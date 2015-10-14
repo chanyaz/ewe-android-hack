@@ -268,4 +268,8 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2CouponFail(couponCode, errorMessage)
     }
 
+    fun trackHotelV2CouponRemove(couponCode: String) {
+        OmnitureTracking.trackHotelV2CouponRemove(couponCode)
+    }
+
 }

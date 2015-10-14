@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.expedia.bookings.R
@@ -28,8 +29,11 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
 
     val unexpanded: TextView by bindView(R.id.unexpanded)
     val expanded: LinearLayout by bindView(R.id.expanded)
+    val applied: LinearLayout by bindView(R.id.applied)
     val couponCode: EditText by bindView(R.id.edit_coupon_code)
     val error: TextView by bindView(R.id.error_message)
+    val appliedCouponMessage: TextView by bindView(R.id.applied_coupon_text)
+    val removeCoupon: ImageView by bindView(R.id.remove_coupon_button)
     var progress: View by Delegates.notNull()
 
     var viewmodel: HotelCouponViewModel by notNullAndObservable {
@@ -46,6 +50,9 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
             showProgress(false)
             showError(false)
             setExpanded(false)
+        }
+        viewmodel.discountObservable.subscribe {
+            appliedCouponMessage.text = context.getString(R.string.applied_coupon_message, it)
         }
     }
 
@@ -80,6 +87,12 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         couponCode.addTextChangedListener(textWatcher)
         expanded.addView(progress)
         showProgress(false)
+
+        removeCoupon.setOnClickListener {
+            viewmodel.removeObservable.onNext(Unit)
+            viewmodel.hasDiscountObservable.onNext(false)
+            HotelV2Tracking().trackHotelV2CouponRemove(couponCode.text.toString())
+        }
     }
 
     override fun getMenuDoneButtonFocus(): Boolean {
@@ -95,6 +108,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
             setBackground(null)
             expanded.setVisibility(View.VISIBLE)
             unexpanded.setVisibility(View.GONE)
+            applied.setVisibility(View.GONE)
             if (mToolbarListener != null) {
                 mToolbarListener.onEditingComplete()
                 mToolbarListener.showRightActionButton(false)
@@ -103,7 +117,14 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         } else {
             setBackgroundResource(R.drawable.card_background)
             expanded.setVisibility(View.GONE)
-            unexpanded.setVisibility(View.VISIBLE)
+            if (viewmodel.hasDiscountObservable.value != null && viewmodel.hasDiscountObservable.value) {
+                applied.setVisibility(View.VISIBLE)
+                unexpanded.setVisibility(View.GONE)
+            }
+            else {
+                applied.setVisibility(View.GONE)
+                unexpanded.setVisibility(View.VISIBLE)
+            }
         }
     }
 

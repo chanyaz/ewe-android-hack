@@ -45,6 +45,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     var offer: HotelOffersResponse.HotelRoomResponse by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val couponCardView = CouponWidget(context, attr)
+
     var viewmodel: HotelCreateTripViewModel by notNullAndObservable {
         viewmodel.tripResponseObservable.subscribe(createTripResponseListener)
     }
@@ -86,6 +87,10 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         container.addView(couponCardView, container.getChildCount() - 3)
         couponCardView.setToolbarListener(toolbarListener)
         couponCardView.viewmodel.couponObservable.subscribe(createTripResponseListener)
+        couponCardView.viewmodel.removeObservable.subscribe {
+            showProgress(true)
+            showCheckout()
+        }
         val params = couponCardView.getLayoutParams() as LinearLayout.LayoutParams
         params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, getResources().getDisplayMetrics()).toInt(), 0, 0);
     }

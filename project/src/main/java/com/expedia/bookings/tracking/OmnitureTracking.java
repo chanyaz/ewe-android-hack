@@ -789,6 +789,14 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
 	}
 
+	public static void trackHotelV2CouponRemove(String couponCode) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_COUPON_REMOVE + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_COUPON_REMOVE);
+		s.setEvar(24, couponCode);
+		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+	}
+
 
 	private static void addHotelV2Products(ADMS_Measurement s, HotelOffersResponse.HotelRoomResponse hotelRoomResponse,String hotelId) {
 		// The "products" field uses this format:
