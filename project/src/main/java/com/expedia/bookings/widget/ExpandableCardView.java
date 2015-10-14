@@ -1,5 +1,8 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -24,7 +27,12 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 
 	private EditText mCurrentEditText;
 	public ToolbarListener mToolbarListener;
+	public List<IExpandedListener> expandedListeners = new ArrayList();
 	private boolean isExpanded;
+
+	public void addExpandedListener(IExpandedListener listener) {
+		expandedListeners.add(listener);
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -79,6 +87,16 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 			return;
 		}
 		isExpanded = expand;
+
+		for (IExpandedListener listener : expandedListeners) {
+			if (expand) {
+				listener.expanded(this);
+			}
+			else {
+				listener.collapsed(this);
+			}
+		}
+
 		if (!animate) {
 			return;
 		}
@@ -123,4 +141,9 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 		return isExpanded;
 	}
 
+	public interface IExpandedListener {
+
+		void expanded(ExpandableCardView view);
+		void collapsed(ExpandableCardView view);
+	}
 }

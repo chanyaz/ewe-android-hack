@@ -1,7 +1,11 @@
 package com.expedia.vm
 
-import rx.subjects.PublishSubject
+import rx.subjects.BehaviorSubject
 
 public class AcceptTermsViewModel() {
-    var acceptedTermsObservable = PublishSubject.create<Unit>()
+    var acceptedTermsObservable = BehaviorSubject.create<Boolean>(false)
+
+    fun resetAcceptedTerms() {
+        acceptedTermsObservable.onNext(false)
+    }
 }

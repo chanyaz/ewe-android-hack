@@ -28,6 +28,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.HotelV2Tracking;
@@ -40,7 +41,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public abstract class CheckoutBasePresenter extends Presenter implements SlideToWidgetLL.ISlideToListener,
-	UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
+	UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener, ExpandableCardView.IExpandedListener {
 
 	protected abstract LineOfBusiness getLineOfBusiness();
 
@@ -118,8 +119,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		loginWidget.setListener(this);
 		mainContactInfoCardView.setLineOfBusiness(getLineOfBusiness());
 		paymentInfoCardView.setLineOfBusiness(getLineOfBusiness());
-		mainContactInfoCardView.setToolbarListener(toolbarListener);
 		paymentInfoCardView.setToolbarListener(toolbarListener);
+		paymentInfoCardView.addExpandedListener(this);
+		mainContactInfoCardView.addExpandedListener(this);
+		mainContactInfoCardView.setToolbarListener(toolbarListener);
 		hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
 		legalInformationText.setMovementMethod(LinkMovementMethod.getInstance());
 		slideToContainer.setOnTouchListener(new OnTouchListener() {
@@ -291,6 +294,12 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			return;
 		}
 
+		boolean acceptTermsRequired = PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox();
+		boolean acceptedTerms = acceptTermsWidget.getVm().getAcceptedTermsObservable().getValue();
+		if (acceptTermsRequired && !acceptedTerms) {
+			return; // don't show if terms have not ben accepted yet
+		}
+
 		slideToContainer.setTranslationY(visible ? slideToContainer.getHeight() : 0);
 		slideToContainer.setVisibility(VISIBLE);
 		ObjectAnimator animator = ObjectAnimator
@@ -443,7 +452,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()
 				: getContext().getString(R.string.cars_checkout_text));
-			Drawable nav = getResources().getDrawable(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp).mutate();
+			Drawable nav = getResources().getDrawable(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp)
+				.mutate();
 			nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 			toolbar.setNavigationIcon(nav);
 		}
@@ -533,5 +543,15 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.onLogout();
 		hintContainer.setVisibility(VISIBLE);
 		showCheckout();
+	}
+
+	@Override
+	public void collapsed(ExpandableCardView view) {
+		acceptTermsWidget.setAlpha(1f);
+	}
+
+	@Override
+	public void expanded(ExpandableCardView view) {
+		acceptTermsWidget.setAlpha(0f);
 	}
 }
