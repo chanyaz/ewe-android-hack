@@ -35,8 +35,9 @@ import com.expedia.vm.HotelRoomRateViewModel
 import com.mobiata.android.util.AndroidUtils
 import rx.Observer
 import rx.Observable
+import kotlin.properties.Delegates
 
-public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView, val rowTopConstraintView: View, val selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : LinearLayout(context) {
+public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView, val rowTopConstraintViewObservable: Observable<View>, val selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : LinearLayout(context) {
 
     val PICASSO_HOTEL_ROOM = "HOTEL_ROOMS"
 
@@ -70,6 +71,8 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
     private var toggleExpanded = 0
     private var roomContainerTopBottomPadding = 0
     private var roomContainerLeftRightPadding = 0
+
+    private var rowTopConstraintView: View by Delegates.notNull()
 
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
         val viewsToHideInExpandedState = arrayOf(collapsedBedType, collapsedUrgency)
@@ -281,6 +284,8 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
 
     init {
         View.inflate(getContext(), R.layout.hotel_room_row, this)
+
+        rowTopConstraintViewObservable.subscribe { rowTopConstraintView = it }
 
         val globalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
