@@ -103,7 +103,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val hasDiscountPercentageObservable = BehaviorSubject.create<Boolean>()
     val hasVipAccessObservable = BehaviorSubject.create<Boolean>()
     val promoMessageObservable = BehaviorSubject.create<String>()
-    val strikeThroughPriceObservable = BehaviorSubject.create<String>()
+    val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
     val galleryItemChangeObservable = BehaviorSubject.create<Pair<Int, String>>()
     var isCurrentLocationSearch = false
 
