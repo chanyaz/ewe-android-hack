@@ -278,8 +278,10 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             if (forward) {
+                detailPresenter.hotelDetailView.resetGallery()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             }
+            loadingOverlay.visibility = View.GONE
         }
     }
     private val resultsToError = ScaleTransition(this, HotelResultsPresenter::class.java, HotelErrorPresenter::class.java)
