@@ -251,6 +251,7 @@ class HotelFilterViewModel(val context: Context) {
     fun setHotelList(response : HotelSearchResponse) {
         originalResponse = response
         neighborhoodListObservable.onNext(response.allNeighborhoodsInSearchRegion)
+        filteredResponse.userPriceType = response.userPriceType
 //        hide amenities
 //        if (response.amenityFilterOptions != null) {
 //            amenityOptionsObservable.onNext(response.amenityFilterOptions)
