@@ -2,7 +2,6 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.graphics.PorterDuff
-import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.MotionEvent
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -46,11 +46,11 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val filterVipBadge: TextView by bindView(R.id.vip_badge)
     val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
     val filterVipContainer: View by bindView(R.id.filter_vip_container)
-    val filterStarOne: ImageView by bindView(R.id.filter_hotel_star_rating_one)
-    val filterStarTwo: ImageView by bindView(R.id.filter_hotel_star_rating_two)
-    val filterStarThree: ImageView by bindView(R.id.filter_hotel_star_rating_three)
-    val filterStarFour: ImageView by bindView(R.id.filter_hotel_star_rating_four)
-    val filterStarFive: ImageView by bindView(R.id.filter_hotel_star_rating_five)
+    val filterStarOne: ImageButton by bindView(R.id.filter_hotel_star_rating_one)
+    val filterStarTwo: ImageButton by bindView(R.id.filter_hotel_star_rating_two)
+    val filterStarThree: ImageButton by bindView(R.id.filter_hotel_star_rating_three)
+    val filterStarFour: ImageButton by bindView(R.id.filter_hotel_star_rating_four)
+    val filterStarFive: ImageButton by bindView(R.id.filter_hotel_star_rating_five)
     val ratingOneBackground: View by bindView(R.id.rating_one_background)
     val ratingTwoBackground: View by bindView(R.id.rating_two_background)
     val ratingThreeBackground: View by bindView(R.id.rating_three_background)
@@ -113,15 +113,16 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         doneButton.subscribeOnClick(vm.doneObservable)
         filterVipContainer.setOnClickListener {
+            clearHotelNameFocus()
             filterHotelVip.setChecked(!filterHotelVip.isChecked())
             vm.vipFilteredObserver.onNext(filterHotelVip.isChecked())
         }
 
-        ratingOneBackground.subscribeOnClick(vm.oneStarFilterObserver)
-        ratingTwoBackground.subscribeOnClick(vm.twoStarFilterObserver)
-        ratingThreeBackground.subscribeOnClick(vm.threeStarFilterObserver)
-        ratingFourBackground.subscribeOnClick(vm.fourStarFilterObserver)
-        ratingFiveBackground.subscribeOnClick(vm.fiveStarFilterObserver)
+        filterStarOne.subscribeOnClick(vm.oneStarFilterObserver)
+        filterStarTwo.subscribeOnClick(vm.twoStarFilterObserver)
+        filterStarThree.subscribeOnClick(vm.threeStarFilterObserver)
+        filterStarFour.subscribeOnClick(vm.fourStarFilterObserver)
+        filterStarFive.subscribeOnClick(vm.fiveStarFilterObserver)
 
         dynamicFeedbackClearButton.subscribeOnClick(vm.clearObservable)
 
@@ -232,6 +233,13 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         })
 
+        sortByButtonGroup.setOnTouchListener { view, event ->
+            if (event.action == MotionEvent.ACTION_DOWN){
+                clearHotelNameFocus()
+            }
+            false
+        }
+
         vm.neighborhoodListObservable.subscribe { list ->
             neighborhoodContainer.removeAllViews()
             if (list != null && list.size() > 1) {
@@ -340,7 +348,8 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         starSelection(filterStarFive, ratingFiveBackground, 5)
     }
 
-    fun starSelection(star: ImageView, background : View, value : Int) {
+    fun starSelection(star: ImageButton, background : View, value : Int) {
+        clearHotelNameFocus()
         if (value < 0) {
             star.setColorFilter(getResources().getColor(android.R.color.white))
             background.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
@@ -348,5 +357,10 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             star.setColorFilter(getResources().getColor(R.color.hotels_primary_color))
             background.setBackgroundColor(getResources().getColor(android.R.color.white))
         }
+    }
+
+    private fun clearHotelNameFocus() {
+        filterHotelName.clearFocus()
+        com.mobiata.android.util.Ui.hideKeyboard(this)
     }
 }

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <shape>
-            <solid android:color="@color/hotel_filter_spinner_dropdown_color"></solid>
-            <corners android:radius="5dp" />
-        </shape>
+        <ripple android:color="?android:attr/colorControlHighlight">
+            <shape>
+                <solid android:color="@color/hotel_filter_spinner_dropdown_color"></solid>
+            </shape>
+        </ripple>
     </item>
     <item android:right="15dp">
         <bitmap
             android:gravity="right"
-            android:src="@drawable/ic_tablet_checkout_saved_spinner" />
+            android:src="@drawable/filter_dropdown_icon" />
     </item>
 </layer-list>
