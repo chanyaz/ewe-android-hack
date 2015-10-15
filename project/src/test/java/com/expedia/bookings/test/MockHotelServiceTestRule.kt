@@ -33,6 +33,14 @@ public class MockHotelServiceTestRule : TestRule {
         return server.apply(createHotelService, description)
     }
 
+    fun getPriceChangeDownCreateTripResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("hotel_price_change_down")
+    }
+
+    fun getPriceChangeUpCreateTripResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("hotel_price_change_up")
+    }
+
     fun getPayLaterOfferCreateTripResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("pay_later_offer")
     }
