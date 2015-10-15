@@ -148,7 +148,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     fun showLoading() {
         adapter.showLoading()
-        resetListOffset()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
         filterBtnWithCountWidget.visibility = View.GONE
     }
@@ -158,13 +157,12 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         mover.setDuration(300);
         mover.start();
 
-        var listOffset = (height / 3.1).toInt()
-        val view = recyclerView.getChildAt(adapter.numHeaderItemsInHotelsList())
+        val view = recyclerView.findViewHolderForAdapterPosition(1)
         if (view != null) {
-            var distance = view.top - listOffset;
+            var distance = view.itemView.top - halfway;
             recyclerView.smoothScrollBy(0, distance)
         } else {
-            recyclerView.layoutManager.scrollToPositionWithOffset(adapter.numHeaderItemsInHotelsList(), listOffset)
+            recyclerView.layoutManager.scrollToPositionWithOffset(1, halfway)
         }
     }
 
@@ -576,14 +574,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             screenHeight = if (ExpediaBookingApp.isAutomation()) { 0 } else { height }
             screenWidth = if (ExpediaBookingApp.isAutomation()) { 0f } else { width.toFloat() }
 
-            recyclerView.postDelayed(runnable {
-                val view = recyclerView.getChildAt(1)
-                if (halfway == 0 && threshold == 0 && view != null) {
-                    halfway = view.top
-                    threshold = view.top + (view.bottom / 1.9).toInt()
-                }
-                mapView.translationY = -halfway.toFloat()
-            }, 1000L)
+            halfway =  (height / 4.3).toInt()
+            threshold = (height / 2.2).toInt()
+
+            resetListOffset()
         }
     }
 
