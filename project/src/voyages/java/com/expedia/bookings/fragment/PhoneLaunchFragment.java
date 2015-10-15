@@ -8,6 +8,8 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +40,14 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.widget_phone_launch, container, false);
+
+		View view = inflater.inflate(R.layout.widget_phone_launch, container, false);
+
+		ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+		actionBar.setIcon(R.drawable.ic_action_bar_logo);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setElevation(0);
+		return view;
 	}
 
 	@Override

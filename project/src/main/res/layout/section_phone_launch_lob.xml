@@ -88,7 +88,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="@dimen/shadow_height"
             android:background="@drawable/lob_widget_shadow" />
     </LinearLayout>
 

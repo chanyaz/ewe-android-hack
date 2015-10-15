@@ -316,4 +316,7 @@
     <!-- Dimension for left margin on icon of new login button on checkout-->
     <dimen name="checkout_icon_right_margin">16dp</dimen>
 
+    <!--Height of LOB box shadow height-->
+    <dimen name="shadow_height">5dp</dimen>
+
 </resources>
