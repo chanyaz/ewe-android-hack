@@ -255,7 +255,6 @@
     <color name="tablet_trip_bucket_text_color">@android:color/primary_text_light</color>
 
     <color name="sliding_group_text_bright">#f4f5f7</color>
-    <color name="sliding_group_text_dim">#4a4f54</color>
 
     <color name="placeholder_background_color">#21394E</color>
 

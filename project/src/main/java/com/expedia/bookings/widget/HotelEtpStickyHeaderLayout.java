@@ -68,20 +68,26 @@ public class HotelEtpStickyHeaderLayout extends StickyRelativeLayout {
 	public void onFinishInflate() {
 		super.onFinishInflate();
 		mContainer = Ui.findView(this, R.id.etp_placeholder);
-		dropShadow = Ui.findView(this, R.id.pay_later_drop_shadow);
 	}
 
 	@Override
 	public void stick() {
-		if (!isEnabled()) {
+		if (!isEnabled() || getVisibility() == GONE) {
 			return;
 		}
 
 		View parent = (View) getParent();
 		parent.getLocalVisibleRect(mVisible);
 
-		float offset = Math.max(0, mVisible.top - getTop() + Ui.getToolbarSize(getContext()) + Ui.getStatusBarHeight(getContext()));
+		if (dropShadow == null) {
+			dropShadow = Ui.findView(parent, R.id.pay_later_drop_shadow);
+		}
+
+		float offset = Math
+			.max(0, mVisible.top - getTop() + Ui.getToolbarSize(getContext()) + Ui.getStatusBarHeight(getContext()));
 		mContainer.setTranslationY(offset);
+		dropShadow.setTranslationY(offset);
+
 		if (offset != 0) {
 			dropShadow.setVisibility(View.VISIBLE);
 		}
