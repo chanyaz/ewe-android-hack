@@ -187,7 +187,7 @@
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
 
         <!-- PopupMenu -->
-        <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.AAG</item>
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
         <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
@@ -213,6 +213,23 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
         <item name="acct__logo_text_drawable_margin_left">-36dp</item>
         <item name="acct__logo_text_drawable_margin_top">5dp</item>
+    </style>
+
+    <style name="TerminalMapActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="android:background">@drawable/bg_action_bar_airasiago</item>
+    </style>
+
+    <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
+        <item name="android:logo">@drawable/ic_action_bar_aag_logo</item>
+        <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
+        <item name="android:windowBackground">@android:color/white</item>
+
+        <!-- PopupMenu -->
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
+        <item name="skin_terminalChooserTextColor">@color/itin_white_text</item>
+
     </style>
 
 </resources>
