@@ -5,6 +5,8 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.services.HotelCheckoutResponse
+import com.expedia.bookings.utils.LeanPlumUtils
+import com.expedia.bookings.utils.TuneUtils
 
 class HotelV2Tracking {
 
@@ -18,6 +20,8 @@ class HotelV2Tracking {
 
     fun trackHotelsV2Search(searchParams: HotelSearchParams, searchResponse: HotelSearchResponse) {
         OmnitureTracking.internalTrackHotelsV2Search(searchParams, searchResponse)
+        LeanPlumUtils.trackHotelV2Search(searchParams, searchResponse)
+        TuneUtils.trackHotelV2SearchResults(searchParams, searchResponse)
     }
 
     fun trackHotelV2SponsoredListingClick() {
@@ -71,6 +75,7 @@ class HotelV2Tracking {
 
     fun trackPageLoadHotelV2Infosite(hotelOffersResponse: HotelOffersResponse, isETPEligible: Boolean, isCurrentLocationSearch: Boolean) {
         OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, isETPEligible, isCurrentLocationSearch)
+        TuneUtils.trackHotelV2InfoSite(hotelOffersResponse)
     }
 
     fun trackPayNowContainerClick() {
@@ -133,6 +138,8 @@ class HotelV2Tracking {
 
     fun trackPageLoadHotelV2CheckoutInfo(hotelProductResponse: HotelCreateTripResponse.HotelProductResponse, searchParams: HotelSearchParams) {
         OmnitureTracking.trackPageLoadHotelV2CheckoutInfo(hotelProductResponse, searchParams)
+        LeanPlumUtils.trackHotelV2CheckoutStarted(hotelProductResponse)
+        TuneUtils.trackHotelV2CheckoutStarted(hotelProductResponse)
     }
 
     fun trackHotelV2CheckoutTraveler() {
@@ -157,6 +164,8 @@ class HotelV2Tracking {
 
     fun trackHotelV2PurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse) {
         OmnitureTracking.trackHotelV2PurchaseConfirmation(hotelCheckoutResponse)
+        LeanPlumUtils.trackHotelV2Booked(hotelCheckoutResponse)
+        TuneUtils.trackHotelV2Confirmation(hotelCheckoutResponse)
     }
 
     fun trackHotelV2ConfirmationCalendar() {

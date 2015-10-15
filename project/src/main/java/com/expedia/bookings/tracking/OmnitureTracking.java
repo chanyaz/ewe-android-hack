@@ -575,10 +575,6 @@ public class OmnitureTracking {
 
 
 		addStandardHotelV2Fields(s, searchParams);
-		s.setProp(5, searchParams.getCheckIn().toString());
-		s.setProp(5, JodaUtils.daysBetween(LocalDate.now(), searchParams.getCheckIn()) + "");
-		s.setEvar(6, searchParams.getCheckOut().toString());
-
 		s.track();
 	}
 

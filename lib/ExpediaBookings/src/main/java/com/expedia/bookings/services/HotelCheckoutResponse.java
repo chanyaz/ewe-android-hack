@@ -2,6 +2,7 @@ package com.expedia.bookings.services;
 
 import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
 
 public class HotelCheckoutResponse extends BaseApiResponse {
 
@@ -33,6 +34,7 @@ public class HotelCheckoutResponse extends BaseApiResponse {
 		public String hotelAddress;
 		public String hotelCity;
 		public String hotelStateProvince;
+		public HotelOffersResponse.HotelRoomResponse hotelRoomResponse;
 		public String hotelCountry;
 		public String bigImageUrl;
 	}
