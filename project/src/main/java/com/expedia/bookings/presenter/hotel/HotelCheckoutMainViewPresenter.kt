@@ -54,7 +54,6 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         vm.totalPriceCharged.subscribeText(sliderTotalText)
         vm.resetMenuButton.subscribe { resetMenuButton() }
     }
-    var haveAlreadyShownAcceptTermsWidget = false
 
     val hotelServices: HotelServices by lazy() {
         Ui.getApplication(getContext()).hotelComponent().hotelServices()
@@ -131,7 +130,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         vm.newRateObserver.onNext(trip.newHotelProductResponse)
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
-        haveAlreadyShownAcceptTermsWidget = false
+        acceptTermsWidget.vm.resetAcceptedTerms()
         HotelV2Tracking().trackPageLoadHotelV2CheckoutInfo(trip.newHotelProductResponse, hotelSearchParams)
     }
 
@@ -178,20 +177,18 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     override fun checkoutFormWasUpdated() {
         if (mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete()) {
 
-            if (PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox() && !haveAlreadyShownAcceptTermsWidget) {
-                acceptTermsWidget.vm.acceptedTermsObservable.subscribe(object : Observer<Unit> {
+            if (PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox() && !acceptTermsWidget.vm.acceptedTermsObservable.value) {
+                acceptTermsWidget.vm.acceptedTermsObservable.subscribe(object : Observer<Boolean> {
                     override fun onCompleted() { }
 
                     override fun onError(e: Throwable) {
                         throw OnErrorNotImplementedException(e)
                     }
 
-                    override fun onNext(unit: Unit) {
-                        acceptTermsWidget.visibility = View.INVISIBLE
+                    override fun onNext(accepted: Boolean) {
                         animateInSlideToPurchase(true)
                     }
                 })
-                haveAlreadyShownAcceptTermsWidget = true
                 acceptTermsWidget.visibility = View.VISIBLE
             } else {
                 animateInSlideToPurchase(true)

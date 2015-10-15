@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
@@ -15,6 +16,9 @@ public class AcceptTermsWidget(context: Context, attrs: AttributeSet): LinearLay
     val vm = AcceptTermsViewModel()
 
     override fun onFinishInflate() {
-        acceptButton.publishOnClick(vm.acceptedTermsObservable)
+        acceptButton.setOnClickListener {
+            this.visibility = View.INVISIBLE
+            vm.acceptedTermsObservable.onNext(true)
+        }
     }
 }
