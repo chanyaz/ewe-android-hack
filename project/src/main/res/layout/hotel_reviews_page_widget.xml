@@ -8,8 +8,8 @@
 
     <com.expedia.bookings.widget.MessageProgressView
         android:id="@+id/message_progress_loading"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="83dp"
+        android:layout_height="83dp"
         android:layout_gravity="center"
         app:line_color="@color/hotel_reviews_summary_background_color" />
 
