@@ -150,6 +150,8 @@
                 android:id="@+id/fees_paid_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/fees_paid"
+                android:drawablePadding="9dp"
                 android:text="@string/fees_paid_at_hotel"
                 android:textColor="@color/hotelsv2_checkout_text_color"
                 android:textSize="11sp"
