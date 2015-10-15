@@ -327,4 +327,13 @@
         <attr name="corner_radius" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="StarRatingBar">
+        <!-- Spacing between the stars -->
+        <attr name="star_spacing" format="dimension" />
+        <!-- Star drawable -->
+        <attr name="star_drawable" format="reference" />
+        <!-- Color for the star -->
+        <attr name="star_color" format="color" />
+    </declare-styleable>
+
 </resources>

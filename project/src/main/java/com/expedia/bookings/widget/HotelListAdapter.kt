@@ -146,7 +146,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         val guestRatingRecommendedText: TextView by root.bindView(R.id.guest_rating_recommended_text)
         val noGuestRating: TextView by root.bindView(R.id.no_guest_rating)
         val topAmenityTitle: TextView by root.bindView(R.id.top_amenity_title)
-        val starRating: RatingBar by root.bindView(R.id.hotel_rating_bar)
+        val starRating: StarRatingBar by root.bindView(R.id.hotel_rating_bar)
         val discountPercentage: TextView by root.bindView(R.id.discount_percentage)
         val hotelAmenityOrDistanceFromLocation: TextView by root.bindView(R.id.hotel_amenity_or_distance_from_location)
 
@@ -162,8 +162,6 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
 
         init {
             itemView.setOnClickListener(this)
-            var starRating = starRating.getProgressDrawable().mutate();
-            starRating.setColorFilter(itemView.resources.getColor(R.color.hotelsv2_detail_star_color), PorterDuff.Mode.SRC_IN);
         }
 
         public fun bind(viewModel: HotelViewModel) {
@@ -202,8 +200,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.ratingAmenityContainerVisibilityObservable.subscribeVisibility(ratingAmenityContainer)
 
             viewModel.hotelStarRatingObservable.subscribe {
-                starRating.numStars = Math.ceil(it.toDouble()).toInt()
-                starRating.rating = it
+                starRating.setRating(it)
             }
 
             viewModel.adImpressionObservable.subscribe {
