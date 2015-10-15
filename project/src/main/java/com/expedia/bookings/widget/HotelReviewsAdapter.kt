@@ -16,14 +16,14 @@ import com.expedia.vm.HotelReviewsSummaryViewModel
 public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager, val vm: HotelReviewsAdapterViewModel) : PagerAdapter() {
 
     init {
-        viewPager.setAdapter(this)
+        viewPager.adapter = this
 
         vm.reviewsSummaryObservable.subscribe { reviewsSummary ->
             val hotelReviewsSummaryViewModel = HotelReviewsSummaryViewModel(context)
             hotelReviewsSummaryViewModel.reviewsSummaryObserver.onNext(reviewsSummary)
             for (reviewSort: ReviewSort in ReviewSort.values()) {
                 val hotelReviewsView = viewPager.findViewWithTag(reviewSort) as HotelReviewsPageView
-                if (hotelReviewsView.summaryContainer.getChildCount() == 0) {
+                if (hotelReviewsView.summaryContainer.childCount == 0) {
                     hotelReviewsView.summaryContainer.addView(HotelReviewsSummaryWidget(context, hotelReviewsSummaryViewModel))
                 }
             }
@@ -58,53 +58,54 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
     }
 
     fun getReviewSort(position: Int): ReviewSort {
-        var reviewSort: ReviewSort
-        when (position) {
-            1 -> reviewSort = ReviewSort.HIGHEST_RATING_FIRST
-            2 -> reviewSort = ReviewSort.LOWEST_RATING_FIRST
-            else -> {
-                reviewSort = ReviewSort.NEWEST_REVIEW_FIRST
-            }
+        return when (position) {
+            1 -> ReviewSort.HIGHEST_RATING_FIRST
+            2 -> ReviewSort.LOWEST_RATING_FIRST
+            else -> ReviewSort.NEWEST_REVIEW_FIRST
         }
-        return reviewSort
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        var title: String = ""
-        when (position) {
-            0 -> title = context.getResources().getString(R.string.user_review_sort_button_recent)
-            1 -> title = context.getResources().getString(R.string.user_review_sort_button_favorable)
-            2 -> title = context.getResources().getString(R.string.user_review_sort_button_critical)
+        return when (position) {
+            0 -> context.resources.getString(R.string.user_review_sort_button_recent)
+            1 -> context.resources.getString(R.string.user_review_sort_button_favorable)
+            2 -> context.resources.getString(R.string.user_review_sort_button_critical)
+            else -> ""
         }
-        return title
     }
 
-    override fun instantiateItem(container: ViewGroup?, position: Int): Any? {
+    override fun instantiateItem(container: ViewGroup, position: Int): Any? {
         val hotelReviewsView = HotelReviewsPageView(context)
+
         hotelReviewsView.reviewsScrollviewContainer.addOnScrollListener { scrollView, x1, y1, x2, y2 ->
-            val view = scrollView.getChildAt(scrollView.getChildCount() - 1)
-            val diff = (view.getBottom() - (scrollView.getHeight() + scrollView.getScrollY()));
-            if ( diff == 0 ) {
+            val view = scrollView.getChildAt(scrollView.childCount - 1)
+            val diff = (view.bottom - (scrollView.height + scrollView.scrollY));
+            if (diff == 0) {
                 vm.reviewsObserver.onNext(getReviewSort(position))
             }
         }
-        hotelReviewsView.setTag(getReviewSort(position))
-        container?.addView(hotelReviewsView)
-        vm.reviewsObserver.onNext(getReviewSort(position))
+
+        val sort = getReviewSort(position)
+        hotelReviewsView.tag = sort
+        container.addView(hotelReviewsView)
         return hotelReviewsView
     }
 
-    override fun isViewFromObject(view: View?, obj: Any?): Boolean {
+    override fun isViewFromObject(view: View, obj: Any): Boolean {
         return view == obj
     }
 
     override fun getCount(): Int {
-        return 3
+        return ReviewSort.values().size()
     }
 
     override public fun destroyItem(container: ViewGroup, position: Int, obj: Any) {
         container.removeView(obj as HotelReviewsPageView)
     }
 
-
+    fun startDownloads() {
+        vm.reviewsObserver.onNext(ReviewSort.HIGHEST_RATING_FIRST)
+        vm.reviewsObserver.onNext(ReviewSort.LOWEST_RATING_FIRST)
+        vm.reviewsObserver.onNext(ReviewSort.NEWEST_REVIEW_FIRST)
+    }
 }
