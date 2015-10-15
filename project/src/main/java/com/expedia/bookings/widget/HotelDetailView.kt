@@ -14,7 +14,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.view.LayoutInflater
 import android.view.animation.LinearInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
@@ -122,7 +121,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val space: Space by bindView(R.id.spacer)
 
     val hotelGalleryDescriptionContainer: LinearLayout by bindView(R.id.hotel_gallery_description_container)
-    val hotelGalleryIndicatorContainer: LinearLayout by bindView(R.id.hotel_gallery_indicator_container)
+    val hotelGalleryIndicator: View by bindView(R.id.hotel_gallery_indicator)
     val hotelGalleryDescription: TextView by bindView(R.id.hotel_gallery_description)
 
     val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
@@ -153,23 +152,16 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.galleryObservable.subscribe { galleryUrls ->
             gallery.setDataSource(galleryUrls)
             gallery.scrollToPosition(0)
-
             gallery.setOnItemClickListener(vm)
             gallery.startFlipping()
             gallery.setOnItemChangeListener(vm)
 
-            hotelGalleryIndicatorContainer.removeAllViews()
             val galleryItemCount = gallery.adapter.itemCount
             if (galleryItemCount > 0) {
                 val indicatorWidth = screenSize.x / galleryItemCount
-                val inflater = LayoutInflater.from(context)
-                for (position in 0..galleryItemCount - 1) {
-                    val galleryIndicator = inflater.inflate(R.layout.widget_hotel_gallery_indicator, hotelGalleryIndicatorContainer, false)
-                    val lp = galleryIndicator.layoutParams
-                    lp.width = indicatorWidth
-                    galleryIndicator.layoutParams = lp
-                    hotelGalleryIndicatorContainer.addView(galleryIndicator)
-                }
+                val lp = hotelGalleryIndicator.layoutParams
+                lp.width = indicatorWidth
+                hotelGalleryIndicator.layoutParams = lp
             }
         }
 
@@ -189,14 +181,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         vm.galleryItemChangeObservable.subscribe { galleryDescriptionBar: Pair<Int, String> ->
-
-            val galleryItemCount = gallery.getAdapter().getItemCount()
-
-            for (indicatorPosition in 0..galleryItemCount - 1) {
-                hotelGalleryIndicatorContainer.getChildAt(indicatorPosition).setVisibility(View.INVISIBLE)
-            }
-            hotelGalleryIndicatorContainer.getChildAt(galleryDescriptionBar.first).setVisibility(View.VISIBLE)
+            hotelGalleryIndicator.animate().translationX((galleryDescriptionBar.first * hotelGalleryIndicator.width).toFloat()).
+                    setInterpolator(LinearInterpolator()).start()
             hotelGalleryDescription.setText(galleryDescriptionBar.second)
+
         }
 
         vm.renovationObservable.subscribe { renovationContainer.setVisibility(View.VISIBLE) }
@@ -601,7 +589,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
                 detailContainer.post {
                     detailContainer.scrollTo(0, initialScrollTop)
-                    hotelGalleryIndicatorContainer.getChildAt(0).setVisibility(View.VISIBLE)
                     showToolbarGradient()
                 }
             }

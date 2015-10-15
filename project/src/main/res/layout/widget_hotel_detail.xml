@@ -46,21 +46,23 @@
                 android:background="#191919"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/hotel_gallery_indicator_container"
+                <View
+                    android:id="@+id/hotel_gallery_indicator"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:orientation="horizontal"/>
+                    android:background="@color/hotels_primary_color" />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/hotel_gallery_description"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-                android:gravity="center_vertical"
-                android:paddingLeft="15dp"/>
-                </LinearLayout>
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/hotel_gallery_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="23dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
 
             </LinearLayout>
 
