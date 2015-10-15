@@ -927,6 +927,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     fun doAreaSearch() {
         val center = googleMap?.cameraPosition?.target
         val location = SuggestionV4()
+        location.isSearchThisArea = true
         val region = SuggestionV4.RegionNames()
         region.displayName = context.getString(R.string.visible_map_area)
         region.shortName = context.getString(R.string.visible_map_area)
