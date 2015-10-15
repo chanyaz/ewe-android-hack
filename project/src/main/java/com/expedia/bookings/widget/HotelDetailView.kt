@@ -244,12 +244,19 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                     hasDiscount, hasVipAccess, promoMessage -> hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage)
                 }).subscribeVisibility(hotelMessagingContainer)
 
+        val rowTopConstraintViewObservable: Observable<View> = vm.hasETPObservable.map { hasETP ->
+            when {
+                hasETP -> etpContainer
+                else -> toolbar
+            }
+        }
+
         vm.roomResponseListObservable.subscribe { roomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(roomList.first.size())
 
             roomContainer.removeAllViews()
             roomList.first.forEachIndexed { roomResponseIndex, room ->
-                val view = HotelRoomRateView(getContext(), detailContainer, etpContainer, vm.roomSelectedObserver)
+                val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver)
                 view.viewmodel = HotelRoomRateViewModel(getContext(), roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm)
                 roomContainer.addView(view)
                 hotelRoomRateViewModels.add(view.viewmodel)
@@ -282,13 +289,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             etpContainer.visibility = if (visible) View.VISIBLE else View.GONE
         }
 
-
         vm.etpRoomResponseListObservable.subscribe { etpRoomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(etpRoomList.first.size())
 
             roomContainer.removeAllViews()
             etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
-                val view = HotelRoomRateView(getContext(), detailContainer, etpContainer, vm.roomSelectedObserver)
+                val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver)
                 view.viewmodel = HotelRoomRateViewModel(getContext(), etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm)
                 view.viewmodel.payLaterObserver.onNext(Unit)
                 roomContainer.addView(view)
