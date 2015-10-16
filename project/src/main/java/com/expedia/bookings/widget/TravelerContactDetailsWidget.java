@@ -236,7 +236,12 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	@Override
 	public String getActionBarTitle() {
-		return getResources().getString(Ui.obtainThemeResID(getContext(), R.attr.traveler_toolbar_text));
+		if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+			return getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line1);
+		}
+		else {
+			return getResources().getString(Ui.obtainThemeResID(getContext(), R.attr.traveler_toolbar_text));
+		}
 	}
 
 	@Override
