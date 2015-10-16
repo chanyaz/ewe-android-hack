@@ -6,8 +6,8 @@ import android.widget.LinearLayout
 import android.widget.RatingBar
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.R
-import com.expedia.util.subscribeText
 import com.expedia.util.subscribeRating
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.HotelReviewRowViewModel
 
 public class HotelReviewRowView(context: Context, vm: HotelReviewRowViewModel) : LinearLayout(context) {
@@ -20,11 +20,11 @@ public class HotelReviewRowView(context: Context, vm: HotelReviewRowViewModel) :
 
     init {
         View.inflate(getContext(), R.layout.hotel_review_row, this)
-        vm.titleTextObservable.subscribeText(title)
+        vm.titleTextObservable.subscribeTextAndVisibility(title)
         vm.ratingObservable.subscribeRating(ratingBar)
-        vm.reviewerTextObservable.subscribeText(reviewer)
-        vm.reviewBodyObservable.subscribeText(content)
-        vm.submissionDateObservable.subscribeText(date)
+        vm.reviewerTextObservable.subscribeTextAndVisibility(reviewer)
+        vm.reviewBodyObservable.subscribeTextAndVisibility(content)
+        vm.submissionDateObservable.subscribeTextAndVisibility(date)
     }
 
 

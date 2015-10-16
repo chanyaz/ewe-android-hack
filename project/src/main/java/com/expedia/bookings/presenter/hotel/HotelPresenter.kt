@@ -41,7 +41,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val detailPresenter: HotelDetailPresenter by bindView(R.id.widget_hotel_detail)
     val checkoutPresenter: HotelCheckoutPresenter by bindView(R.id.hotel_checkout_presenter)
     val confirmationPresenter: HotelConfirmationPresenter by bindView(R.id.hotel_confirmation_presenter)
-    val reviewsPresenter: HotelReviewsPresenter by bindView(R.id.hotel_reviews_presenter)
+    val reviewsView: HotelReviewsView by bindView(R.id.hotel_reviews_presenter)
     val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
     val ANIMATION_DURATION = 400
     val geoCodeSearchModel = GeocodeSearchModel(context)
@@ -287,7 +287,14 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val resultsToError = ScaleTransition(this, HotelResultsPresenter::class.java, HotelErrorPresenter::class.java)
     private val detailsToCheckout = ScaleTransition(this, HotelDetailPresenter::class.java, HotelCheckoutPresenter::class.java)
     private val checkoutToConfirmation = ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java)
-    private val detailsToReview = ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsPresenter::class.java)
+    private val detailsToReview = object: ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            if (forward) {
+                reviewsView.transitionFinished()
+            }
+        }
+    }
 
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
         hotelSearchParams = params
@@ -311,9 +318,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val reviewsObserver: Observer<HotelOffersResponse> = endlessObserver { hotel ->
-        reviewsPresenter.viewModel = HotelReviewsViewModel(getContext())
-        reviewsPresenter.viewModel.hotelObserver.onNext(hotel)
-        show(reviewsPresenter)
+        reviewsView.viewModel = HotelReviewsViewModel(getContext())
+        reviewsView.viewModel.hotelObserver.onNext(hotel)
+        show(reviewsView)
     }
 
     val selectedRoomObserver = object : Observer<HotelOffersResponse.HotelRoomResponse> {

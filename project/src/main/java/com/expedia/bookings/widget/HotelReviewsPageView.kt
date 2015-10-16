@@ -35,8 +35,8 @@ public class HotelReviewsPageView(context: Context) : LinearLayout(context) {
         View.inflate(getContext(), R.layout.hotel_reviews_page_widget, this)
 
         animation = ObjectAnimator.ofFloat(messageProgressLoading, "progress", 0f, 1f)
-        animation.setRepeatMode(ValueAnimator.RESTART)
-        animation.setRepeatCount(ValueAnimator.INFINITE)
+        animation.repeatMode = ValueAnimator.RESTART
+        animation.repeatCount = ValueAnimator.INFINITE
         animation.setDuration(1500)
         animation.start()
     }

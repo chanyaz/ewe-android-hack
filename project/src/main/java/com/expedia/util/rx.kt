@@ -63,6 +63,13 @@ public fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView) {
     this.subscribe { textview.text = it }
 }
 
+public fun <T : CharSequence> Observable<T>.subscribeTextAndVisibility(textview: TextView) {
+    this.subscribe {
+        textview.text = it
+    }
+    this.map { it.toString().isNotBlank() }.subscribeVisibility(textview)
+}
+
 public fun Observable<Drawable>.subscribeImageDrawable(imageView: ImageView) {
     this.subscribe { drawable -> imageView.setImageDrawable(drawable) }
 }
