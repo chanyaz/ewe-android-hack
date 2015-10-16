@@ -69,6 +69,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     val MAP_ZOOM_LEVEL = 12f
     var bottomMargin = 0
+    val ANIMATION_DURATION = 200L
     var resortViewHeight = 0
     val screenSize by lazy { Ui.getScreenSize(context) }
 
@@ -146,6 +147,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var priceContainerLocation = IntArray(2)
     var urgencyContainerLocation = IntArray(2)
     var roomContainerPosition = IntArray(2)
+    var resortInAnimator : ObjectAnimator by Delegates.notNull()
+    var resortOutAnimator : ObjectAnimator by Delegates.notNull()
 
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
         detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
@@ -379,10 +382,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     private fun hideResortandSelectRoom() {
         stickySelectRoomContainer.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         bottomMargin = stickySelectRoomContainer.measuredHeight
-        resortFeeWidget.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        resortViewHeight = resortFeeWidget.measuredHeight
 
-        resortFeeWidget.animate().translationY(resortViewHeight.toFloat()).setInterpolator(LinearInterpolator()).setDuration(200).start()
+        resortFeeWidget.animate().translationY(resortViewHeight.toFloat()).setInterpolator(LinearInterpolator()).setDuration(ANIMATION_DURATION).start()
         stickySelectRoomContainer.animate().translationY(bottomMargin.toFloat()).setInterpolator(DecelerateInterpolator()).start()
     }
 
@@ -459,11 +460,14 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         var urgencyRatio = (urgencyContainerLocation[1] - (offset / 2)) / offset
         urgencyViewAlpha(urgencyRatio * 1.5f)
 
-        if (shouldShowResortView()) {
-            resortFeeWidget.animate().translationY(0f).setInterpolator(LinearInterpolator()).setDuration(200).start()
-        } else {
-            resortFeeWidget.animate().translationY((resortViewHeight).toFloat()).setInterpolator(LinearInterpolator()).setDuration(200).start()
+        val shouldShowResortFee = shouldShowResortView()
+        if (shouldShowResortFee && !resortInAnimator.isRunning && resortFeeWidget.translationY != 0f) {
+            resortFeeWidget.visibility = View.VISIBLE
+            resortInAnimator.start()
+        } else if (!shouldShowResortFee && !resortOutAnimator.isRunning && resortFeeWidget.translationY != resortViewHeight.toFloat()) {
+            resortOutAnimator.start()
         }
+
         shouldShowStickySelectRoomView()
         if (etpContainer.visibility == View.VISIBLE) {
             shouldShowETPContainer()
@@ -500,9 +504,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     public fun shouldShowResortView(): Boolean {
         roomContainer.getLocationOnScreen(roomContainerPosition)
-        if (roomContainerPosition[1] + roomContainer.getHeight() < offset) return false
-        if ((viewmodel.hotelResortFeeObservable.getValue() != null) && roomContainerPosition[1] < screenSize.y / 2) return true
-        else return false
+        val isOutOfView = roomContainerPosition[1] + roomContainer.height < offset
+        val isInView = roomContainerPosition[1] < screenSize.y / 2
+        if (viewmodel.hotelResortFeeObservable.value != null && isInView && !isOutOfView) {
+            return true
+        }
+        return false
     }
 
     public fun shouldShowStickySelectRoomView() {
@@ -514,9 +521,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         if (roomContainerPosition[1] + roomContainer.height < selectRoomButtonOffset ) {
-            stickySelectRoomContainer.animate().translationY(0f).setInterpolator(LinearInterpolator()).setDuration(200).start()
+            stickySelectRoomContainer.animate().translationY(0f).setInterpolator(LinearInterpolator()).setDuration(ANIMATION_DURATION).start()
         } else {
-            stickySelectRoomContainer.animate().translationY((stickySelectRoomContainer.height).toFloat()).setInterpolator(LinearInterpolator()).setDuration(200).start()
+            stickySelectRoomContainer.animate().translationY((stickySelectRoomContainer.height).toFloat()).setInterpolator(LinearInterpolator()).setDuration(ANIMATION_DURATION).start()
         }
     }
 
@@ -580,6 +587,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
         selectRoomButton.setOnClickListener { scrollToRoom() }
         stickySelectRoomButton.setOnClickListener { scrollToRoom() }
+        resortFeeWidget.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        resortViewHeight = resortFeeWidget.measuredHeight
+        resortInAnimator = ObjectAnimator.ofFloat(resortFeeWidget, "translationY", resortViewHeight.toFloat(), 0f).setDuration(ANIMATION_DURATION)
+        resortOutAnimator = ObjectAnimator.ofFloat(resortFeeWidget, "translationY", 0f, resortViewHeight.toFloat()).setDuration(ANIMATION_DURATION)
         hideResortandSelectRoom()
     }
 
