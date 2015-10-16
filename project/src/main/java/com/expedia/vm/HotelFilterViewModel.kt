@@ -45,6 +45,7 @@ class HotelFilterViewModel(val context: Context) {
     val neighborhoodListObservable = PublishSubject.create<List<HotelSearchResponse.Neighborhood>>()
     val amenityOptionsObservable = PublishSubject.create<Map<String, HotelSearchResponse.AmenityOptions>>()
     val amenityMapObservable = BehaviorSubject.create<Map<FilterAmenity, Int>>()
+    val filteredZeroResultObservable = PublishSubject.create<Unit>()
     var didFilter = false
     var previousSort = Sort.POPULAR
     var isNeighborhoodExpanded = false
@@ -56,10 +57,14 @@ class HotelFilterViewModel(val context: Context) {
                 sortObserver.onNext(userFilterChoices.userSort)
                 HotelV2Tracking().trackHotelV2SortBy(Strings.capitalizeFirstLetter(userFilterChoices.userSort.toString()))
             }
+
             if (!didFilter) {
                 filterObservable.onNext(originalResponse?.hotelList)
-            } else {
+            } else if (filteredResponse.hotelList.isNotEmpty()) {
+                filteredResponse.isFilteredResponse = true
                 filterObservable.onNext(filteredResponse.hotelList)
+            } else {
+                filteredZeroResultObservable.onNext(Unit)
             }
         }
 
@@ -82,7 +87,6 @@ class HotelFilterViewModel(val context: Context) {
         } else {
             filteredResponse.hotelList.clear()
         }
-        filteredResponse.allNeighborhoodsInSearchRegion = originalResponse?.allNeighborhoodsInSearchRegion
 
         for (hotel in originalResponse?.hotelList.orEmpty()) {
             processFilters(hotel)

@@ -16,6 +16,7 @@ public class HotelSearchResponse extends BaseApiResponse {
 
 	public transient Map<String, Neighborhood> neighborhoodsMap = new HashMap<>();
 	public transient HotelRate.UserPriceType userPriceType = HotelRate.UserPriceType.UNKNOWN;
+	public transient boolean isFilteredResponse;
 
 	public static class Neighborhood {
 		public String name;

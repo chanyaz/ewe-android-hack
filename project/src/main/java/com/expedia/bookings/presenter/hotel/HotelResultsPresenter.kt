@@ -205,23 +205,18 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val filterObserver: Observer<List<Hotel>> = endlessObserver {
-        if (filterView.viewmodel.filteredResponse.hotelList != null && filterView.viewmodel.filteredResponse.hotelList.size() > 0) {
-            adapter.resultsSubject.onNext(filterView.viewmodel.filteredResponse)
-            if (previousWasList) {
-                show(ResultsList(),Presenter.FLAG_CLEAR_TOP)
-            } else {
-                show(ResultsMap(),Presenter.FLAG_CLEAR_TOP)
-            }
-            mapViewModel.markersObservable.onNext(filterView.viewmodel.filteredResponse.hotelList)
-        } else if (it == filterView.viewmodel.originalResponse?.hotelList) {
+        if (it == filterView.viewmodel.originalResponse?.hotelList) {
             adapter.resultsSubject.onNext(filterView.viewmodel.originalResponse!!)
-            if (previousWasList) {
-                show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
-            } else {
-                show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
-            }
-        } else{
-            filterView.dynamicFeedbackWidget.animateDynamicFeedbackWidget()
+            mapViewModel.hotelResultsSubject.onNext(filterView.viewmodel.originalResponse!!)
+        } else {
+            adapter.resultsSubject.onNext(filterView.viewmodel.filteredResponse)
+            mapViewModel.hotelResultsSubject.onNext(filterView.viewmodel.filteredResponse)
+        }
+
+        if (previousWasList) {
+            show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
+        } else {
+            show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
         }
     }
 

@@ -217,6 +217,12 @@ public class HotelMapViewModel(val resources: Resources, val currentLocation: Lo
         val sortedHotels = sortByLocation(currentLocation , response.hotelList)
 
         val allHotelsBox: LatLngBounds = boxHotels(response.hotelList)
+
+        //If filtered, show all hotels
+        if (response.isFilteredResponse) {
+            return allHotelsBox
+        }
+
         val isInsideSearchArea = allHotelsBox.contains(currentLocationLatLng)
         val closestHotelWithNeighborhood: Hotel? = sortedHotels.firstOrNull { it.locationId != null }
         val searchNeighborhood: HotelSearchResponse.Neighborhood? = response.allNeighborhoodsInSearchRegion.filter { it.id == searchRegionId }.firstOrNull()
