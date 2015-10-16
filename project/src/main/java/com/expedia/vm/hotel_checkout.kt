@@ -1,7 +1,9 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.text.Html
 import android.text.SpannableStringBuilder
+import android.text.Spanned
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -129,6 +131,7 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
     val newRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
     // output
     val legalTextInformation = BehaviorSubject.create<SpannableStringBuilder>()
+    val disclaimerText = BehaviorSubject.create<Spanned>()
     val slideToText = BehaviorSubject.create<String>()
     val totalPriceCharged = BehaviorSubject.create<String>()
     val resetMenuButton = BehaviorSubject.create<Unit>()
@@ -138,10 +141,28 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
             val room = it.hotelRoomResponse
             if (room.isPayLater) {
                 slideToText.onNext(context.getString(R.string.hotelsv2_slide_reserve))
-            }
-            else {
+            } else {
                 slideToText.onNext(context.getString(R.string.hotelsv2_slide_purchase))
             }
+
+            val tripTotal = room.rateInfo.chargeableRateInfo.displayTotalPrice.formattedMoney
+            if (room.rateInfo.chargeableRateInfo.showResortFeeMessage) {
+                val resortFees = Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()),
+                        room.rateInfo.chargeableRateInfo.currencyCode).formattedMoney
+
+                val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, tripTotal));
+                disclaimerText.onNext(text)
+            } else if (room.isPayLater) {
+                if (room.rateInfo.chargeableRateInfo.depositAmountToShowUsers != null) {
+                    val deposit = room.rateInfo.chargeableRateInfo.depositAmountToShowUsers
+                    val text = Html.fromHtml(context.getString(R.string.pay_later_deposit_disclaimer_TEMPLATE, deposit))
+                    disclaimerText.onNext(text)
+                } else {
+                    val text = Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))
+                    disclaimerText.onNext(text)
+                }
+            }
+
             legalTextInformation.onNext(StrUtils.generateHotelsClickableBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString()))
             totalPriceCharged.onNext(context.getString(R.string.your_card_will_be_charged_TEMPLATE, getDueNowAmount(it)))
             resetMenuButton.onNext(Unit)

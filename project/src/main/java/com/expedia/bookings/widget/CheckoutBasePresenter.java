@@ -82,6 +82,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@InjectView(R.id.legal_information_text_view)
 	public TextView legalInformationText;
 
+	@InjectView(R.id.disclaimer_text)
+	public TextView disclaimerText;
+
 	@InjectView(R.id.layout_confirm_tos)
 	public AcceptTermsWidget acceptTermsWidget;
 
@@ -399,7 +402,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	protected void updateSpacerHeight() {
 		float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
-		if (scrollViewActualHeight - legalInformationText.getBottom() < slideToContainer.getHeight()) {
+		int bottom = (disclaimerText.getVisibility() == View.VISIBLE) ? disclaimerText.getBottom()
+			: legalInformationText.getBottom();
+		if (scrollViewActualHeight - bottom < slideToContainer.getHeight()) {
 			ViewGroup.LayoutParams params = space.getLayoutParams();
 			params.height = slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
 			space.setLayoutParams(params);

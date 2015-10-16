@@ -51,8 +51,14 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     var vm: HotelCheckoutOverviewViewModel by notNullAndObservable {
         vm.slideToText.subscribe { slideWidget.setText(it) }
         vm.legalTextInformation.subscribe { legalInformationText.text = it }
+        vm.disclaimerText.subscribe {
+            disclaimerText.text = it
+            disclaimerText.visibility = View.VISIBLE
+        }
+
         vm.totalPriceCharged.subscribeText(sliderTotalText)
         vm.resetMenuButton.subscribe { resetMenuButton() }
+
     }
 
     val hotelServices: HotelServices by lazy() {
@@ -77,7 +83,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         paymentInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
 
         val container = scrollView.findViewById(R.id.scroll_content) as LinearLayout
-        container.addView(couponCardView, container.getChildCount() - 2)
+        container.addView(couponCardView, container.getChildCount() - 3)
         couponCardView.setToolbarListener(toolbarListener)
         couponCardView.viewmodel.couponObservable.subscribe(createTripResponseListener)
         val params = couponCardView.getLayoutParams() as LinearLayout.LayoutParams
