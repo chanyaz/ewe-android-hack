@@ -306,8 +306,8 @@ public class PhoneLaunchWidget extends FrameLayout {
 			params.setQuery(offer.localizedName);
 			params.setSearchType(HotelSearchParams.SearchType.HOTEL);
 			LocalDate now = LocalDate.now();
-			params.setCheckInDate(now.plusDays(1));
-			params.setCheckOutDate(now.plusDays(2));
+			params.setCheckInDate(now);
+			params.setCheckOutDate(now.plusDays(1));
 			params.setNumAdults(2);
 			params.setChildren(null);
 			NavUtils.goToHotels(getContext(), params);
