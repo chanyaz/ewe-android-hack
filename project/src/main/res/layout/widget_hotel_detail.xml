@@ -364,9 +364,9 @@
                     <com.google.android.gms.maps.MapView
                         android:id="@+id/map_view"
                         android:layout_width="match_parent"
-                        android:layout_height="320dp"
+                        android:layout_height="480dp"
                         android:layout_gravity="center"
-                        android:paddingBottom="80dp"
+                        android:paddingBottom="160dp"
                         app:liteMode="true"
                         app:mapType="normal" />
 
