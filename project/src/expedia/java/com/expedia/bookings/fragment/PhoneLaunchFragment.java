@@ -1,5 +1,8 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import android.content.BroadcastReceiver;
@@ -29,10 +32,13 @@ import com.expedia.bookings.location.CurrentLocationObservable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.PhoneLaunchWidget;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
 
@@ -41,10 +47,18 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	private Subscription locSubscription;
 	private Subscription abacusSubscription;
 	private boolean wasOffline;
+	private List<Integer> abacusTestsAssociatedToPhoneLaunchScreen = Arrays
+		.asList(AbacusUtils.EBAndroidAppLaunchScreenTest, AbacusUtils.EBAndroidAppSplitGTandActivities,
+			AbacusUtils.EBAndroidAppHotelsABTest);
+
+	@InjectView(R.id.phone_launch_widget)
+	PhoneLaunchWidget phoneLaunchWidget;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.widget_phone_launch, container, false);
+		View view = inflater.inflate(R.layout.widget_phone_launch, container, false);
+		ButterKnife.inject(this, view);
+		return view;
 	}
 
 	@Override
@@ -54,6 +68,9 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		Events.post(new Events.PhoneLaunchOnResume());
 		if (checkConnection()) {
 			bucketLaunchScreen();
+		}
+		else {
+			phoneLaunchWidget.bindLobWidget();
 		}
 
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -75,6 +92,12 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	}
 
 	private void onReactToUserActive() {
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				phoneLaunchWidget.bindLobWidget();
+			}
+		});
 		if (!checkConnection()) {
 			return;
 		}
@@ -176,11 +199,12 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	}
 
 	private void bucketLaunchScreen() {
-		if (Db.getAbacusResponse() == null || Db.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppLaunchScreenTest) == null) {
+
+		if (Db.getAbacusResponse() == null || !areAllLaunchScreenExperimentsEvaluated()) {
 			AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(),
 				PointOfSale.getPointOfSale().getTpid(),
 				0);
-			query.addExperiment(AbacusUtils.EBAndroidAppLaunchScreenTest);
+			query.addExperiments(getLaunchScreenTestsToEvaluate());
 			abacusSubscription = Ui.getApplication(getActivity()).appComponent()
 				.abacus()
 				.downloadBucket(query, abacusObserver, 5, TimeUnit.SECONDS);
@@ -190,6 +214,25 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			updateAbacus(Db.getAbacusResponse());
 			onReactToUserActive();
 		}
+	}
+
+	private boolean areAllLaunchScreenExperimentsEvaluated() {
+		for (Integer key : abacusTestsAssociatedToPhoneLaunchScreen) {
+			if (Db.getAbacusResponse().testForKey(key) == null) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private List<Integer> getLaunchScreenTestsToEvaluate() {
+		List<Integer> testsToEvaluate = new ArrayList<>();
+		for (Integer key : abacusTestsAssociatedToPhoneLaunchScreen) {
+			if (Db.getAbacusResponse().testForKey(key) == null) {
+				testsToEvaluate.add(key);
+			}
+		}
+		return testsToEvaluate;
 	}
 
 	private Observer<AbacusResponse> abacusObserver = new Observer<AbacusResponse>() {
@@ -226,10 +269,12 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		}
 
 		if (BuildConfig.DEBUG) {
-			Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppLaunchScreenTest,
-				SettingUtils.get(getActivity(),
-					String.valueOf(AbacusUtils.EBAndroidAppLaunchScreenTest),
-					AbacusUtils.ABTEST_IGNORE_DEBUG));
+			for (Integer key : abacusTestsAssociatedToPhoneLaunchScreen) {
+				Db.getAbacusResponse().updateABTestForDebug(key,
+					SettingUtils.get(getActivity(),
+						String.valueOf(key),
+						AbacusUtils.ABTEST_IGNORE_DEBUG));
+			}
 		}
 	}
 

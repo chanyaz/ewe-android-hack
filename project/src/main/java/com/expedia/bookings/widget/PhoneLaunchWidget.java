@@ -96,6 +96,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@InjectView(R.id.launch_error)
 	ViewGroup launchError;
 
+	@InjectView(R.id.launch_progress_bar)
+	ViewGroup progressBar;
+
 	// Lifecycle
 
 	public PhoneLaunchWidget(Context context, AttributeSet attrs) {
@@ -113,7 +116,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 		Ui.getApplication(getContext()).launchComponent().inject(this);
 		launchListWidget.setOnScrollListener(scrollListener);
 		isAirAttachDismissed = false;
-		bindLobWidget();
 		setListState();
 	}
 
@@ -482,6 +484,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 	public void bindLobWidget() {
 		int listHeaderPaddingTop;
+		progressBar.setVisibility(View.GONE);
 		initLaunchListScroll();
 		PointOfSale currentPointOfSale = PointOfSale.getPointOfSale();
 
