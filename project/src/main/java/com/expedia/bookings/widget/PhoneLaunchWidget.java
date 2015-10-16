@@ -295,24 +295,41 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@Subscribe
 	public void onHotelOfferSelected(Events.LaunchListItemSelected event) throws JSONException {
 		Hotel offer = event.offer;
-		Property property = new Property();
-		property.updateFrom(offer);
+		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(
+			AbacusUtils.EBAndroidAppHotelsABTest);
 
-		// Set search response to contain only the hotel that has been selected
-		HotelSearchResponse response = new HotelSearchResponse();
-		response.addProperty(property);
-		Db.getHotelSearch().setSearchResponse(response);
+		if (isUserBucketedForTest) {
+			HotelSearchParams params = new HotelSearchParams();
+			params.hotelId = offer.hotelId;
+			params.setQuery(offer.localizedName);
+			params.setSearchType(HotelSearchParams.SearchType.HOTEL);
+			LocalDate now = LocalDate.now();
+			params.setCheckInDate(now.plusDays(1));
+			params.setCheckOutDate(now.plusDays(2));
+			params.setNumAdults(2);
+			params.setChildren(null);
+			NavUtils.goToHotels(getContext(), params);
+		}
+		else {
+			Property property = new Property();
+			property.updateFrom(offer);
 
-		// Set search params to what we used for the launch list search
-		Db.getHotelSearch().resetSearchParams();
-		Db.getHotelSearch().getSearchParams().setSearchLatLon(searchParams.getSearchLatitude(),
-			searchParams.getSearchLongitude());
-		// Set selected property
-		Db.getHotelSearch().setSelectedProperty(property);
+			// Set search response to contain only the hotel that has been selected
+			HotelSearchResponse response = new HotelSearchResponse();
+			response.addProperty(property);
+			Db.getHotelSearch().setSearchResponse(response);
 
-		Intent intent = new Intent(getContext(), HotelDetailsFragmentActivity.class);
-		intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
-		NavUtils.startActivity(getContext(), intent, null);
+			// Set search params to what we used for the launch list search
+			Db.getHotelSearch().resetSearchParams();
+			Db.getHotelSearch().getSearchParams().setSearchLatLon(searchParams.getSearchLatitude(),
+				searchParams.getSearchLongitude());
+			// Set selected property
+			Db.getHotelSearch().setSelectedProperty(property);
+
+			Intent intent = new Intent(getContext(), HotelDetailsFragmentActivity.class);
+			intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
+			NavUtils.startActivity(getContext(), intent, null);
+		}
 	}
 
 	// Hotel search in collection location
