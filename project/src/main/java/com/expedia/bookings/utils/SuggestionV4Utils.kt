@@ -19,7 +19,7 @@ public object SuggestionV4Utils {
                 if (suggest.regionNames.displayName == context.getString(com.expedia.bookings.R.string.current_location)) {
                     suggest.regionNames.displayName = suggest.regionNames.shortName
                 }
-                suggest.hierarchyInfo.isChild = false
+                suggest.hierarchyInfo?.isChild = false
                 val suggestions = listOf(suggest) + loadSuggestionHistory(context, file)
                 val recentSuggestions = suggestions.distinctBy { it.gaiaId ?: it.regionNames.displayName}
 
