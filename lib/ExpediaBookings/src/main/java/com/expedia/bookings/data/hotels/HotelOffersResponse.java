@@ -17,6 +17,7 @@ public class HotelOffersResponse {
 	public String hotelAddress;
 	public List<HotelAmenities> hotelAmenities;
 	public String hotelCity;
+	public String hotelStateProvince;
 	public String hotelCountry;
 	public double hotelGuestRating;
 	public String hotelId;

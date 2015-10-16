@@ -185,7 +185,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         showBookByPhoneObservable.onNext(isAvailable() && (hotelOffersResponse.deskTopOverrideNumber != null && !hotelOffersResponse.deskTopOverrideNumber)
                 && !Strings.isEmpty(hotelOffersResponse.telesalesNumber))
 
-        HotelV2Tracking().trackPageLoadHotelV2Infosite(hotelOffersResponse, hasETPOffer, isCurrentLocationSearch)
+        HotelV2Tracking().trackPageLoadHotelV2Infosite(hotelOffersResponse, paramsSubject.value, hasETPOffer, isCurrentLocationSearch)
 
     }
 

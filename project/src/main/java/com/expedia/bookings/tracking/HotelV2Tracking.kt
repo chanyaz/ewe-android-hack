@@ -22,6 +22,7 @@ class HotelV2Tracking {
         OmnitureTracking.internalTrackHotelsV2Search(searchParams, searchResponse)
         LeanPlumUtils.trackHotelV2Search(searchParams, searchResponse)
         TuneUtils.trackHotelV2SearchResults(searchParams, searchResponse)
+        FacebookEvents().trackHotelV2Search(searchParams, searchResponse)
     }
 
     fun trackHotelV2SponsoredListingClick() {
@@ -73,9 +74,10 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2CarouselClick()
     }
 
-    fun trackPageLoadHotelV2Infosite(hotelOffersResponse: HotelOffersResponse, isETPEligible: Boolean, isCurrentLocationSearch: Boolean) {
+    fun trackPageLoadHotelV2Infosite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams, isETPEligible: Boolean, isCurrentLocationSearch: Boolean) {
         OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, isETPEligible, isCurrentLocationSearch)
         TuneUtils.trackHotelV2InfoSite(hotelOffersResponse)
+        FacebookEvents().trackHotelV2InfoSite(searchParams, hotelOffersResponse)
     }
 
     fun trackPayNowContainerClick() {
@@ -140,6 +142,7 @@ class HotelV2Tracking {
         OmnitureTracking.trackPageLoadHotelV2CheckoutInfo(hotelProductResponse, searchParams)
         LeanPlumUtils.trackHotelV2CheckoutStarted(hotelProductResponse)
         TuneUtils.trackHotelV2CheckoutStarted(hotelProductResponse)
+        FacebookEvents().trackHotelV2Checkout(hotelProductResponse, searchParams)
     }
 
     fun trackHotelV2CheckoutTraveler() {
@@ -166,6 +169,7 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2PurchaseConfirmation(hotelCheckoutResponse)
         LeanPlumUtils.trackHotelV2Booked(hotelCheckoutResponse)
         TuneUtils.trackHotelV2Confirmation(hotelCheckoutResponse)
+        FacebookEvents().trackHotelV2Confirmation(hotelCheckoutResponse)
     }
 
     fun trackHotelV2ConfirmationCalendar() {
