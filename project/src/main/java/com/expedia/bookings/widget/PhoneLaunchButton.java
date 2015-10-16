@@ -246,7 +246,7 @@ public class PhoneLaunchButton extends FrameLayout {
 			textView.setAlpha(textAlpha);
 		}
 		else {
-			float textScale = 1 - (1 - normalized) * 0.1f;
+			float textScale = 1 - (1 - normalized) * 0.15f;
 			textView.setScaleX(textScale);
 			textView.setScaleY(textScale);
 
