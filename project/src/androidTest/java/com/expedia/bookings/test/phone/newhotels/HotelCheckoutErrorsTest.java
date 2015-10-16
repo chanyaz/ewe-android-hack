@@ -58,7 +58,6 @@ public class HotelCheckoutErrorsTest extends HotelTestCase {
 
 	public void testUnknownCheckoutError() throws Throwable {
 		moveToCheckout("error_checkout_unknown");
-		screenshot("Hotel_Checkout_Error");
 		ErrorScreen.clickOnRetry();
 		// Checkout Summary Screen
 		assertViewIsDisplayed(R.id.summary_container);
@@ -66,7 +65,7 @@ public class HotelCheckoutErrorsTest extends HotelTestCase {
 
 	public void testSessionTimeoutError() throws Throwable {
 		moveToCheckout("error_checkout_session_timeout");
-		ErrorScreen.clickOnPickANewHotel();
+		ErrorScreen.clickOnSearchAgain();
 		// Search Screen
 		assertViewIsDisplayed(R.id.search_container);
 	}

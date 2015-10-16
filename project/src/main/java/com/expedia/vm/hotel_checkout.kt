@@ -54,7 +54,10 @@ public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
                                 if (field == "mainMobileTraveler.lastName" ||
                                         field == "mainMobileTraveler.firstName" ||
                                         field == "phone") {
-                                    errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS))
+                                    val apiError = ApiError(ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS)
+                                    apiError.errorInfo = ApiError.ErrorInfo()
+                                    apiError.errorInfo.field = field
+                                    errorObservable.onNext(apiError)
                                 } else {
                                     errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS))
                                 }
