@@ -28,25 +28,30 @@ import com.mobiata.android.util.ViewUtils;
 public class HotelRulesFragment extends Fragment {
 	public static final String TAG = HotelRulesFragment.class.toString();
 
+	private static LineOfBusiness lob;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_rules, container, false);
 
-		populateHeaderRows(view);
+		if (lob == null) {
+			lob = Db.getTripBucket().getLOBToRefresh();
+		}
 
+		populateHeaderRows(view);
 		ViewUtils.setAllCaps((TextView) Ui.findView(view, R.id.cancellation_policy_header_text_view));
 
 		String cancellationPolicy = "";
 		Money totalAmountAfterTax = new Money();
 
-		if (Db.getTripBucket().getLOBToRefresh() == LineOfBusiness.HOTELS) {
+		if (lob == LineOfBusiness.HOTELS) {
 			Rate rate = Db.getTripBucket().getHotel().getRate();
 			if (rate != null) {
 				cancellationPolicy = rate.getCancellationPolicy();
 				totalAmountAfterTax = rate.getTotalAmountAfterTax();
 			}
 		}
-		else if (Db.getTripBucket().getLOBToRefresh() == LineOfBusiness.HOTELSV2) {
+		else if (lob == LineOfBusiness.HOTELSV2) {
 			HotelOffersResponse.HotelRoomResponse room = Db.getTripBucket()
 				.getHotelV2().mHotelTripResponse.newHotelProductResponse.hotelRoomResponse;
 			if (room != null) {
