@@ -1,5 +1,7 @@
 package com.expedia.bookings.data.hotels;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.annotations.SerializedName;
 
@@ -8,6 +10,7 @@ public class SuggestionV4 {
 	public String gaiaId;
 	public String type;
 	public RegionNames regionNames;
+	@Nullable
 	public HierarchyInfo hierarchyInfo;
 	public String hotelId;
 
@@ -23,7 +26,7 @@ public class SuggestionV4 {
 	}
 
 	public static class HierarchyInfo {
-		public Boolean isChild = false;
+		public boolean isChild = false;
 	}
 
 	public static class Airport {

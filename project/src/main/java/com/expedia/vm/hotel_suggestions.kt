@@ -126,7 +126,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
         rawQuerySuggestion.regionNames.displayName = query
         rawQuerySuggestion.regionNames.shortName = query // shown in results toolbar title
         rawQuerySuggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
-        rawQuerySuggestion.hierarchyInfo.isChild = false
+        rawQuerySuggestion.hierarchyInfo?.isChild = false
         rawQuerySuggestion.coordinates = SuggestionV4.LatLng()
         return rawQuerySuggestion
     }
@@ -148,7 +148,7 @@ public class HotelSuggestionViewModel() {
 
             titleObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
 
-            isChildObservable.onNext(suggestion.hierarchyInfo.isChild)
+            isChildObservable.onNext(suggestion.hierarchyInfo?.isChild ?: false)
 
             iconObservable.onNext(
                     if (suggestion.iconType == SuggestionV4.IconType.HISTORY_ICON) {
