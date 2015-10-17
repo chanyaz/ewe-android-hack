@@ -432,8 +432,9 @@ public class StrUtils {
 		return displayName;
 	}
 
-	public static SpannableStringBuilder generateHotelsClickableBookingStatement(Context context, String hotelBookingStatement) {
-		return getSpannableTextByPrimaryColor(context, hotelBookingStatement);
+	public static SpannableStringBuilder generateHotelsBookingStatement(Context context, String hotelBookingStatement,
+		boolean makeClickable) {
+		return getSpannableTextByPrimaryColor(context, hotelBookingStatement, makeClickable);
 	}
 
 	public static SpannableStringBuilder generateLegalClickableLink(Context context, String rulesAndRestrictionsURL) {
@@ -447,27 +448,30 @@ public class StrUtils {
 		String statement = context.getResources()
 			.getString(R.string.legal_TEMPLATE, spannedRules, spannedTerms, spannedPrivacy);
 
-		return getSpannableTextByPrimaryColor(context, statement);
+		return getSpannableTextByPrimaryColor(context, statement, true);
 	}
 
-	private static SpannableStringBuilder getSpannableTextByPrimaryColor(Context context, String statement) {
+	private static SpannableStringBuilder getSpannableTextByPrimaryColor(Context context, String statement, boolean makeClickable) {
 		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
 		legalTextSpan.append(Html.fromHtml(statement));
-		URLSpan[] spans = legalTextSpan.getSpans(0, statement.length(), URLSpan.class);
 
+		URLSpan[] spans = legalTextSpan.getSpans(0, Html.fromHtml(statement).length(), URLSpan.class);
 		for (final URLSpan span : spans) {
 			int start = legalTextSpan.getSpanStart(span);
 			int end = legalTextSpan.getSpanEnd(span);
 			// Replace URL span with ClickableSpan to redirect to our own webview
 			legalTextSpan.removeSpan(span);
-			legalTextSpan.setSpan(new LegalClickableSpan(span.getURL(), legalTextSpan.subSequence(start, end).toString(), true), start,
-				end, 0);
+			if (makeClickable) {
+				legalTextSpan.setSpan(new LegalClickableSpan(span.getURL(), legalTextSpan.subSequence(start, end).toString(), true), start,
+					end, 0);
+			}
 			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
 			legalTextSpan.setSpan(new UnderlineSpan(), start, end, 0);
 			legalTextSpan.setSpan(new ForegroundColorSpan(Ui.obtainThemeColor(context, R.attr.primary_color)), start,
 				end,
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
+
 		return legalTextSpan;
 	}
 
