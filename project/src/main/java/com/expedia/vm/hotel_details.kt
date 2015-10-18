@@ -1,10 +1,13 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.content.Intent
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.text.Html
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.Money
@@ -39,6 +42,51 @@ import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.Locale
 import kotlin.properties.Delegates
+
+class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<Unit>) {
+    //Outputs for View
+    val hotelName = BehaviorSubject.create<String>()
+    val hotelStarRating = BehaviorSubject.create<Float>()
+    val hotelStarRatingVisibility = BehaviorSubject.create<Boolean>()
+    val strikethroughPrice = BehaviorSubject.create<CharSequence>()
+    private val price = BehaviorSubject.create<CharSequence>()
+    val fromPrice = BehaviorSubject.create<CharSequence>()
+    val strikethroughPriceVisibility = Observable.zip(strikethroughPrice, price, { strikethroughPrice, price -> strikethroughPrice.toString() != price.toString() })
+    val hotelLatLng = BehaviorSubject.create<DoubleArray>()
+    val resetCameraPosition = PublishSubject.create<Unit>()
+
+    //Setup the data I need to behave as a View Model for my View
+    val offersObserver = endlessObserver<HotelOffersResponse> { response ->
+        hotelName.onNext(response.hotelName)
+        hotelStarRating.onNext(response.hotelStarRating.toFloat())
+        hotelStarRatingVisibility.onNext(response.hotelStarRating > 0)
+        price.onNext(priceFormatter(context.resources, response.hotelRoomResponse.first()?.rateInfo?.chargeableRateInfo, false))
+        strikethroughPrice.onNext(priceFormatter(context.resources, response.hotelRoomResponse.first()?.rateInfo?.chargeableRateInfo, true))
+        hotelLatLng.onNext(doubleArrayOf(response.latitude, response.longitude))
+
+        if (response.hotelRoomResponse.size() > 0) {
+            val firstHotelRoomResponse = response.hotelRoomResponse.first()
+            val firstRoomRate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
+
+            fromPrice.onNext(fromPriceStyledString(context, firstRoomRate))
+        }
+    }
+
+    companion object {
+        fun fromPriceStyledString(context: Context, hotelRoomRate: HotelRate): CharSequence {
+            val roomDailyPrice = Money(BigDecimal(hotelRoomRate.averageRate.toDouble()), hotelRoomRate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL)
+
+            val fromPriceString = context.getString(R.string.map_snippet_price_template, roomDailyPrice)
+            val fromPriceStyledString = SpannableString(fromPriceString)
+            val startIndex = fromPriceString.indexOf(roomDailyPrice)
+            val endIndex = startIndex + roomDailyPrice.length()
+            fromPriceStyledString.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            fromPriceStyledString.setSpan(RelativeSizeSpan(1.4f), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            return fromPriceStyledString
+        }
+    }
+}
 
 class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
 
@@ -113,6 +161,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
     val galleryItemChangeObservable = BehaviorSubject.create<Pair<Int, String>>()
     var isCurrentLocationSearch = false
+    val scrollToRoom = PublishSubject.create<Unit>()
 
     public fun addViewsAfterTransition() {
 
@@ -283,7 +332,6 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     val reviewsClickedSubject = PublishSubject.create<Unit>()
 
-
     val galleryClickedSubject = PublishSubject.create<Unit>()
 
     val renovationContainerClickObserver: Observer<Unit> = endlessObserver {
@@ -306,20 +354,6 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     }
 
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
-
-    // Every time a new hotel is emitted, emit an Observable<Hotel>
-    // that will return the outer hotel every time the map is clicked
-    val mapClickedWithHotelData: Observable<HotelOffersResponse> = Observable.switchOnNext(hotelOffersSubject.map { hotel ->
-        mapClickedSubject.map {
-            hotel
-        }
-    })
-
-    val startMapWithIntentObservable: Observable<Intent> = mapClickedWithHotelData.map { hotel ->
-        val uri = "geo:" + hotel.latitude + "," + hotel.longitude
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-        intent
-    }
 
     // Every time a new hotel is emitted, emit an Observable<Hotel>
     // that will return the outer hotel every time reviews is clicked

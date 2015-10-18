@@ -75,6 +75,27 @@ public class MockHotelServiceTestRule : TestRule {
         return observer.onNextEvents.get(0)
     }
 
+    fun getAirAttachedHotelOffersResponse(): HotelOffersResponse {
+        return getHotelOffersResponse("air_attached_hotel")
+    }
+
+    fun getHappyHotelOffersResponse(): HotelOffersResponse {
+        return getHotelOffersResponse("happypath")
+    }
+
+    fun getZeroStarRatingHotelOffersResponse(): HotelOffersResponse {
+        return getHotelOffersResponse("zero_star_rating")
+    }
+
+    private fun getHotelOffersResponse(responseFileName: String): HotelOffersResponse {
+        var observer = TestSubscriber<HotelOffersResponse>()
+        val hotelSearchParams = HotelSearchParams(SuggestionV4(), LocalDate.now().plusDays(4), LocalDate.now().plusDays(6), 2, listOf(2, 4))
+
+        service.details(hotelSearchParams, responseFileName, observer)
+        observer.awaitTerminalEvent()
+        return observer.onNextEvents.get(0)
+    }
+
     private fun expediaDispatcher(): ExpediaDispatcher {
         val root = File("../lib/mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)

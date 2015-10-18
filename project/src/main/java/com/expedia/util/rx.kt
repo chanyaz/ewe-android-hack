@@ -11,6 +11,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.ToggleButton
 import com.expedia.bookings.widget.StarRatingBar
+import com.google.android.gms.maps.GoogleMap
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
@@ -34,6 +35,12 @@ public fun <T> endlessObserver(body: (in T) -> Unit) : Observer<T> {
 
 public fun View.subscribeOnClick(observer: Observer<Unit>) {
     this.setOnClickListener {
+        observer.onNext(Unit)
+    }
+}
+
+public fun GoogleMap.subscribeOnClick(observer: Observer<Unit>) {
+    this.setOnMapClickListener {
         observer.onNext(Unit)
     }
 }

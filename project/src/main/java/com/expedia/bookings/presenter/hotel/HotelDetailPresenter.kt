@@ -6,15 +6,16 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelDetailView
+import com.expedia.bookings.widget.HotelMapView
 import com.expedia.bookings.widget.PayLaterInfoWidget
 import com.expedia.bookings.widget.SpecialNoticeWidget
 import com.expedia.bookings.widget.VIPAccessInfoWidget
 import com.expedia.util.endlessObserver
-
 
 public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
@@ -22,6 +23,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     val hotelRenovationDesc: SpecialNoticeWidget by bindView(R.id.hotel_detail_desc)
     val hotelPayLaterInfo : PayLaterInfoWidget by bindView(R.id.hotel_pay_later_info)
     val hotelVIPAccessInfo : VIPAccessInfoWidget by bindView(R.id.hotel_vip_access_info)
+    val hotelMapView: HotelMapView by bindView(R.id.hotel_map_view)
     var searchTop = 0
 
     init {
@@ -32,6 +34,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         addTransition(detailToDescription)
         addTransition(detailToPayLaterInfo)
         addTransition(detailToVIPAccessInfo)
+        addTransition(detailToMap)
         addDefaultTransition(default)
         show(hotelDetailView)
     }
@@ -42,12 +45,20 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
             hotelRenovationDesc.visibility = View.GONE
             hotelPayLaterInfo.visibility = View.GONE
             hotelVIPAccessInfo.visibility = View.GONE
+            hotelMapView.visibility = View.GONE
             hotelDetailView.visibility = View.VISIBLE
         }
     }
 
     public fun showDefault() {
         show(hotelDetailView)
+    }
+
+    private val detailToMap = object: ScaleTransition(this, HotelDetailView::class.java, HotelMapView::class.java) {
+        override fun finalizeTransition(forward: Boolean) {
+            hotelMapView.viewmodel.resetCameraPosition.onNext(Unit)
+            super.finalizeTransition(forward)
+        }
     }
 
     val detailToDescription = object : VisibilityTransition(this, HotelDetailView::class.java, SpecialNoticeWidget::class.java) {
@@ -75,6 +86,10 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         }
     }
 
+    val hotelDetailsEmbeddedMapClickObserver = endlessObserver<Unit> {
+        show(hotelMapView)
+    }
+
     val detailToPayLaterInfo = object : VisibilityTransition(this, HotelDetailView::class.java, PayLaterInfoWidget::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
@@ -83,7 +98,6 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
             if (!forward) {
                 ViewCompat.jumpDrawablesToCurrentState(hotelDetailView.etpInfoText)
             }
-
         }
     }
 

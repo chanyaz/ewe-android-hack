@@ -45,7 +45,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.*
 import com.expedia.util.*
 import com.expedia.vm.HotelFilterViewModel
-import com.expedia.vm.HotelMapViewModel
+import com.expedia.vm.HotelResultsMapViewModel
 import com.expedia.vm.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -113,7 +113,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     val searchThisArea: Button by bindView(R.id.search_this_area)
 
-    val mapViewModel = HotelMapViewModel(resources, lastBestLocationSafe())
+    val mapViewModel = HotelResultsMapViewModel(resources, lastBestLocationSafe())
     var markers = arrayListOf<Marker>()
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->

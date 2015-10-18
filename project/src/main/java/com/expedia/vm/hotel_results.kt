@@ -122,7 +122,7 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
     }
 }
 
-public class HotelMapViewModel(val resources: Resources, val currentLocation: Location) {
+public class HotelResultsMapViewModel(val resources: Resources, val currentLocation: Location) {
 
     var hotels: List<Hotel> by Delegates.notNull()
 

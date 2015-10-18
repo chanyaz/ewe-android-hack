@@ -58,8 +58,6 @@ import rx.Observer
 import java.util.ArrayList
 import kotlin.properties.Delegates
 
-//scroll animation duration for select room button
-val ANIMATION_DURATION = 500L
 val DESCRIPTION_ANIMATION = 150L
 val HOTEL_DESC_COLLAPSE_LINES = 2
 
@@ -100,8 +98,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val readMoreView: ImageButton by bindView(R.id.read_more)
     val hotelDescription: TextView by bindView(R.id.body_text)
     val hotelDescriptionContainer: ViewGroup by bindView(R.id.hotel_description_container)
-    val mapView: MapView by bindView(R.id.map_view)
-    val mapClickContainer: FrameLayout by bindView(R.id.map_click_container)
+    val miniMapView: MapView by bindView(R.id.mini_map_view)
+    val transparentViewOverMiniMap: View by bindView(R.id.transparent_view_over_mini_map)
     val gradientHeight = context.getResources().getDimension(R.dimen.hotel_detail_gradient_height)
 
     val hotelMessagingContainer: RelativeLayout by bindView(R.id.promo_messaging_container)
@@ -173,6 +171,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             }
         }
 
+        vm.scrollToRoom.subscribe {
+            scrollToRoom(false)
+        }
+
         vm.noAmenityObservable.subscribe {
             amenityContainer.visibility = View.GONE
             amenityDivider.visibility = View.GONE
@@ -194,6 +196,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             hotelGalleryDescription.setText(galleryDescriptionBar.second)
 
         }
+
+        transparentViewOverMiniMap.subscribeOnClick(vm.mapClickedSubject)
 
         vm.renovationObservable.subscribe { renovationContainer.setVisibility(View.VISIBLE) }
         vm.hotelResortFeeObservable.subscribeText(resortFeeWidget.resortFeeText)
@@ -336,13 +340,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             }
         }
 
-        mapClickContainer.subscribeOnClick(vm.mapClickedSubject)
         etpInfoText.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
         etpInfoTextSmall.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
         galleryContainer.subscribeOnClick(vm.galleryClickedSubject)
 
-        vm.startMapWithIntentObservable.subscribe { intent ->
-            getContext().startActivity(intent)
+        vm.mapClickedSubject.subscribe {
             HotelV2Tracking().trackLinkHotelV2DetailMapClick()
         }
 
@@ -353,7 +355,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 view.setText(info.name, info.content)
                 propertyTextContainer.addView(view)
             }
-
         }
 
         vm.sectionImageObservable.subscribe { isExpanded ->
@@ -379,8 +380,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
 
         //getting the map
-        mapView.onCreate(null)
-        mapView.getMapAsync(this);
+        miniMapView.onCreate(null)
+        miniMapView.getMapAsync(this);
     }
 
     fun resetViews() {
@@ -479,7 +480,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     private fun setViewVisibilities() {
         var yoffset = detailContainer.scrollY
         updateGalleryChildrenHeights()
-        mapView.translationY = yoffset * 0.15f
+        miniMapView.translationY = yoffset * 0.15f
+        transparentViewOverMiniMap.translationY = miniMapView.translationY
         priceContainer.getLocationOnScreen(priceContainerLocation)
         hotelMessagingContainer.getLocationOnScreen(urgencyContainerLocation)
 
@@ -574,14 +576,14 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             etpContainer.setEnabled(true)
     }
 
-    public fun scrollToRoom() {
+    public fun scrollToRoom(animate: Boolean) {
         roomContainer.getLocationOnScreen(roomContainerPosition)
 
         var scrollToAmount = roomContainerPosition[1] - offset + detailContainer.getScrollY()
         if (etpContainer.getVisibility() == View.VISIBLE) scrollToAmount -= etpContainer.getHeight()
         if (commonAmenityText.getVisibility() == View.VISIBLE) scrollToAmount -= (commonAmenityText.getHeight() + getResources().getDimension(R.dimen.hotel_detail_divider_margin))
         val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.getScrollY(), scrollToAmount.toInt())
-        smoothScrollAnimation.setDuration(ANIMATION_DURATION)
+        smoothScrollAnimation.setDuration(if (animate) ANIMATION_DURATION else 0)
         smoothScrollAnimation.setInterpolator(DecelerateInterpolator())
         smoothScrollAnimation.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
             override fun onAnimationUpdate(animation: ValueAnimator) {
@@ -631,8 +633,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         val phoneIconDrawable = getResources().getDrawable(R.drawable.detail_phone).mutate()
         phoneIconDrawable.setColorFilter(getResources().getColor(R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
-        selectRoomButton.setOnClickListener { scrollToRoom() }
-        stickySelectRoomButton.setOnClickListener { scrollToRoom() }
+        selectRoomButton.setOnClickListener { scrollToRoom(true) }
+        stickySelectRoomButton.setOnClickListener { scrollToRoom(true) }
         resortFeeWidget.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         resortViewHeight = resortFeeWidget.measuredHeight
         resortInAnimator = ObjectAnimator.ofFloat(resortFeeWidget, "translationY", resortViewHeight.toFloat(), 0f).setDuration(ANIMATION_DURATION)

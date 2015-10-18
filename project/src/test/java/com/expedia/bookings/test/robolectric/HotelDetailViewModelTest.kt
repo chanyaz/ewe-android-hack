@@ -72,61 +72,6 @@ public class HotelDetailViewModelTest {
         return rooms
     }
 
-    @Test fun mapClicking() {
-        val testSub = TestSubscriber.create<String>()
-        val expected = listOf("hotel1", "hotel2", "hotel1", "hotel2", "hotel2", "hotel2")
-
-        vm.mapClickedWithHotelData
-                .map { hotel -> hotel.hotelName }
-                .take(expected.size())
-                .subscribe(testSub)
-
-        vm.hotelOffersSubject.onNext(offer1)
-        vm.mapClickedSubject.onNext(Unit)
-
-        vm.hotelOffersSubject.onNext(offer2)
-        vm.mapClickedSubject.onNext(Unit)
-
-        vm.hotelOffersSubject.onNext(offer1)
-        vm.mapClickedSubject.onNext(Unit)
-
-        vm.hotelOffersSubject.onNext(offer1)
-        vm.hotelOffersSubject.onNext(offer2)
-        vm.mapClickedSubject.onNext(Unit)
-
-        vm.hotelOffersSubject.onNext(offer1)
-        vm.hotelOffersSubject.onNext(offer2)
-        vm.mapClickedSubject.onNext(Unit)
-        vm.mapClickedSubject.onNext(Unit)
-
-        testSub.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        testSub.assertCompleted()
-        testSub.assertReceivedOnNext(expected)
-    }
-
-    @Test fun mapIntent() {
-        val testSub = TestSubscriber.create<String>()
-        val expected = listOf("geo:1.0,2.0", "geo:100.0,150.0", "geo:1.0,2.0")
-
-        vm.startMapWithIntentObservable
-                .take(expected.size())
-                .map { it.getData().toString() }
-                .subscribe(testSub)
-
-        vm.hotelOffersSubject.onNext(offer1)
-        vm.mapClickedSubject.onNext(Unit)
-
-        vm.hotelOffersSubject.onNext(offer2)
-        vm.mapClickedSubject.onNext(Unit)
-
-        vm.hotelOffersSubject.onNext(offer1)
-        vm.mapClickedSubject.onNext(Unit)
-
-        testSub.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        testSub.assertCompleted()
-        testSub.assertReceivedOnNext(expected)
-    }
-
     @Test fun reviewsClicking() {
         val testSub = TestSubscriber.create<String>()
         val expected = listOf("hotel1", "hotel2", "hotel1", "hotel2", "hotel2", "hotel2")
