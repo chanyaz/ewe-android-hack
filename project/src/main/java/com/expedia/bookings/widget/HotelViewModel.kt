@@ -27,6 +27,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val hotelStrikeThroughPriceVisibilityObservable = Observable.zip(hotelPriceObservable, hotelStrikeThroughPriceObservable, { hotelPrice, hotelStrikeThroughPrice -> hotelPrice.toString() != hotelStrikeThroughPrice.toString() })
     val hasDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountTenPercentOrBetter()  && !hotel.lowRateInfo.airAttached)
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating.toString())
+    val isHotelGuestRatingAvailableObservable = BehaviorSubject.create<Boolean>(hotel.hotelGuestRating > 0)
     val hotelPreviewRatingObservable = BehaviorSubject.create<Float>(hotel.hotelStarRating)
     val pricePerNightObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false))
 

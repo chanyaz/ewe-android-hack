@@ -43,6 +43,10 @@ public fun CompoundButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
     }
 }
 
+public fun View.unsubscribeOnClick() {
+    this.setOnClickListener(null)
+}
+
 public fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
     this.setOnClickListener {
         publishSubject.onNext(Unit)

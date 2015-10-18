@@ -45,6 +45,7 @@ import com.expedia.util.subscribeRating
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnCheckedChange
+import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -98,6 +99,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val stickySelectRoomButton: Button by bindView(R.id.sticky_select_room)
     val stickySelectRoomShadow: View by bindView(R.id.sticky_select_room_shadow)
     val userRating: TextView by bindView(R.id.user_rating)
+    val noGuestRating: TextView by bindView(R.id.no_guest_rating)
+    val userRatingRecommendationText: TextView by bindView(R.id.user_rating_recommendation_text)
     val numberOfReviews: TextView by bindView(R.id.number_of_reviews)
     val readMoreView : ImageButton by bindView(R.id.read_more)
     val hotelDescription: TextView by bindView(R.id.body_text)
@@ -114,8 +117,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val etpRadioGroup: SlidingRadioGroup by bindView(R.id.radius_pay_options)
     val etpAndFreeCancellationMessagingContainer: View by bindView(R.id.etp_and_free_cancellation_messaging_container)
     val etpInfoText: TextView by bindView(R.id.etp_info_text)
+    val etpInfoTextSmall: TextView by bindView(R.id.etp_info_text_small)
     val freeCancellation: TextView by bindView(R.id.free_cancellation)
-    val horizontalDividerBwEtpAndFreeCancellation: View by bindView(R.id.horizontal_divider_bw_etp_and_free_cancellation)
+    val bestPriceGuarantee: TextView by bindView(R.id.best_price_guarantee)
+    val singleMessageContainer: ViewGroup by bindView(R.id.single_message_container)
+    val freeCancellationAndETPMessaging: ViewGroup by bindView(R.id.free_cancellation_etp_messaging)
     val etpContainer: HotelEtpStickyHeaderLayout by bindView(R.id.etp_placeholder)
     val renovationContainer : ViewGroup by bindView(R.id.renovation_container)
     val payByPhoneTextView: TextView by bindView(R.id.book_by_phone_text)
@@ -205,13 +211,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.userRatingObservable.subscribeText(userRating)
         vm.roomPriceToShowCustomer.subscribeText(price)
         vm.onlyShowTotalPrice.subscribeInverseVisibility(perNight)
-        vm.numberOfReviewsObservable.subscribe{ text ->
-            numberOfReviews.text = text
-            ratingContainer.visibility = View.VISIBLE
-        }
-        vm.ratingContainerObservable.subscribe {
-            ratingContainer.visibility = View.GONE
-        }
+        vm.isUserRatingAvailableObservable.subscribeVisibility(userRating)
+        vm.isUserRatingAvailableObservable.subscribeVisibility(userRatingRecommendationText)
+        vm.isUserRatingAvailableObservable.map { !it }.subscribeVisibility(noGuestRating)
+        vm.numberOfReviewsObservable.subscribeText(numberOfReviews)
         vm.hotelLatLngObservable.subscribe {
             values -> hotelLatLng = values
             googleMap?.clear()
@@ -272,28 +275,32 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, { hasETP, hasFreeCancellation -> hasETP && hasFreeCancellation })
                 .subscribe { showETPAndFreeCancellation ->
                     if (showETPAndFreeCancellation) {
-                        horizontalDividerBwEtpAndFreeCancellation.visibility = View.VISIBLE
-                        etpInfoText.setTextAppearance(context, R.style.ETPInfoTextSmall)
-                        freeCancellation.setTextAppearance(context, R.style.HotelDetailsInfoSmall)
+                        freeCancellationAndETPMessaging.visibility = View.VISIBLE
+                        singleMessageContainer.visibility = View.GONE
                     } else {
-                        horizontalDividerBwEtpAndFreeCancellation.visibility = View.GONE
-                        if (etpInfoText.visibility == View.GONE) {
-                            var layp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                            layp.gravity = Gravity.LEFT
-                            freeCancellation.layoutParams = layp
-                            freeCancellation.compoundDrawablePadding = resources.getDimensionPixelSize(R.dimen.hotel_free_cancellation_etp_drawable_padding)
-                        }
-                        else if (freeCancellation.visibility == View.GONE) {
-                            var layp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                            layp.gravity = Gravity.LEFT
-                            etpInfoText.layoutParams = layp
-                            etpInfoText.compoundDrawablePadding = resources.getDimensionPixelSize(R.dimen.hotel_free_cancellation_etp_drawable_padding)
-                        }
+                        freeCancellationAndETPMessaging.visibility = View.GONE
+                        singleMessageContainer.visibility = View.VISIBLE
                     }
                 }
-        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, { hasETP, hasFreeCancellation -> hasETP || hasFreeCancellation })
+        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, { hasETP, hasFreeCancellation, hasBestPriceGuarantee -> hasETP || hasFreeCancellation || hasBestPriceGuarantee })
                 .subscribeVisibility(etpAndFreeCancellationMessagingContainer)
-        
+        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.isUserRatingAvailableObservable, { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hasUserReviews -> !hasETP && !hasFreeCancellation && hasBestPriceGuarantee && !hasUserReviews })
+                .subscribe { showBestPriceGuarantee ->
+                    if (showBestPriceGuarantee) {
+                        bestPriceGuarantee.visibility = View.VISIBLE
+                    }
+                    else {
+                        bestPriceGuarantee.visibility = View.GONE
+                    }
+                }
+
+        vm.hasETPObservable.subscribe { visible ->
+            if (visible) {
+                etpRadioGroup.subscribeOnCheckedChange(etpContainerObserver)
+            }
+            etpContainer.visibility = if (visible) View.VISIBLE else View.GONE
+        }
+
         vm.etpRoomResponseListObservable.subscribe { etpRoomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(etpRoomList.first.size())
 
@@ -310,9 +317,20 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             vm.lastExpandedRowObservable.onNext(0)
         }
 
-        ratingContainer.subscribeOnClick(vm.reviewsClickedSubject)
+        vm.isUserRatingAvailableObservable.subscribe {
+            if (it) {
+                ratingContainer.subscribeOnClick(vm.reviewsClickedSubject)
+                ratingContainer.background = resources.getDrawable(R.drawable.hotel_detail_ripple)
+            }
+            else {
+                ratingContainer.unsubscribeOnClick()
+                ratingContainer.background = null
+            }
+        }
+
         mapClickContainer.subscribeOnClick(vm.mapClickedSubject)
         etpInfoText.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
+        etpInfoTextSmall.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
         galleryContainer.subscribeOnClick(vm.galleryClickedSubject)
 
         vm.startMapWithIntentObservable.subscribe { intent ->
@@ -366,8 +384,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         etpRadioGroup.check(R.id.radius_pay_now)
         etpContainer.setVisibility(View.GONE)
         etpAndFreeCancellationMessagingContainer.setVisibility(View.GONE)
-        etpInfoText.setTextAppearance(context, R.style.ETPInfoText)
-        freeCancellation.setTextAppearance(context, R.style.HotelDetailsInfo)
         toolBarBackground.setAlpha(0f)
         toolBarGradient.setTranslationY(0f)
         priceViewAlpha(1f)
@@ -377,6 +393,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         commonAmenityText.setVisibility(View.GONE)
         commonAmenityDivider.setVisibility(View.GONE)
         hideResortandSelectRoom()
+        freeCancellationAndETPMessaging.visibility = View.GONE
+        singleMessageContainer.visibility = View.GONE
     }
 
     private fun hideResortandSelectRoom() {
@@ -655,6 +673,4 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     public fun getArrowRotationRatio(scrollY: Int): Float {
         return scrollY.toFloat() / (initialScrollTop)
     }
-
 }
-
