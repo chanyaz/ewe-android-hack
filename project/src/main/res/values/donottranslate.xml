@@ -87,6 +87,7 @@
     <string name="preference_force_custom_server_http_only">preference_force_custom_server_http_only</string>
     <string name="preference_enable_picasso_logging">preference_enable_picasso_logging</string>
     <string name="preference_force_passenger_category_error">preference_force_passenger_category_error</string>
+    <string name="preference_app_intro_shown_once">preference_app_intro_shown_once</string>
     <string name="preference_abacus_setting_server">Abacus Server</string>
     <string name="preference_abacus_setting_controlgroup">Control Group</string>
     <string name="preference_abacus_setting_bucketed">Bucketed</string>

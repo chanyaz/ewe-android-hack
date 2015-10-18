@@ -94,7 +94,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
-            android:src="@drawable/expedia"
+            android:src="?attr/skin_phoneCheckoutLoginLogoDrawable"
             android:scaleType="center"/>
 
         <LinearLayout

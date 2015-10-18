@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -148,6 +149,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 			final String url = Images.getCollectionImageUrl(location, width);
 			HeaderBitmapDrawable drawable = Images.makeCollectionBitmapDrawable(parentView.getContext(), (CollectionViewHolder) holder, url, PICASSO_TAG);
+			((CollectionViewHolder) holder).collectionUrl = url;
 			((CollectionViewHolder) holder).backgroundImage.setImageDrawable(drawable);
 
 			((CollectionViewHolder) holder).bindListData(location, fullWidthTile);
@@ -381,7 +383,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 					saleTextView.setBackgroundColor(purple);
 					saleTextView.setCompoundDrawablesWithIntrinsicBounds(mobileOnly, null, null, null);
 					if (fullWidth) {
-						saleTextView.setText(R.string.launch_mobile_exclusive);
+						if (ProductFlavorFeatureConfiguration.getInstance().getHotelDetailsDealImageDrawable() != 0) {
+							saleTextView.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(
+									ProductFlavorFeatureConfiguration.getInstance().getHotelDetailsDealImageDrawable()),
+								null, null, null);
+							saleTextView.setText("");
+						}
+						else {
+							saleTextView.setText(R.string.launch_mobile_exclusive);
+						}
 					}
 					else {
 						saleTextView.setText(context.getString(R.string.percent_off_TEMPLATE,
@@ -468,6 +478,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		@InjectView(R.id.gradient)
 		public View gradient;
 
+		public String collectionUrl;
+
 		public CollectionViewHolder(View view) {
 			super(view);
 			ButterKnife.inject(this, itemView);
@@ -500,7 +512,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		public void onClick(View view) {
 			Bundle animOptions = AnimUtils.createActivityScaleBundle(view);
 			CollectionLocation location = (CollectionLocation) view.getTag();
-			Events.post(new Events.LaunchCollectionItemSelected(location, animOptions));
+			Events.post(new Events.LaunchCollectionItemSelected(location, animOptions, collectionUrl));
 			OmnitureTracking.trackNewLaunchScreenTileClick(true);
 		}
 

@@ -779,7 +779,7 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("m/api/hotel/trip/create", query, responseHandler);
 	}
 
-	public List<BasicNameValuePair> generateCreateTripParams(Rate rate, HotelSearchParams params,
+	private List<BasicNameValuePair> generateCreateTripParams(Rate rate, HotelSearchParams params,
 		boolean qualifyAirAttach) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
@@ -788,7 +788,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("roomInfoFields[0].room", guests));
 
 		query.add(new BasicNameValuePair("qualifyAirAttach", Boolean.toString(qualifyAirAttach)));
-		query.add(new BasicNameValuePair("sourceType", ServicesUtil.generateSourceType()));
+		addCommonParams(query);
 
 		return query;
 	}
@@ -1335,6 +1335,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("provider", "Facebook"));
 		query.add(new BasicNameValuePair("userId", facebookUserId));
 		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
+		addCommonParams(query);
 
 		return doE3Request("api/auth/autologin", query, new FacebookLinkResponseHandler(mContext));
 	}
@@ -1360,7 +1361,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("userId", facebookUserId));
 		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
 		query.add(new BasicNameValuePair("email", facebookEmailAddress));
-
+		addCommonParams(query);
 		return doE3Request("api/auth/linkNewAccount", query, new FacebookLinkResponseHandler(mContext));
 	}
 
@@ -1386,7 +1387,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
 		query.add(new BasicNameValuePair("email", facebookEmailAddress));
 		query.add(new BasicNameValuePair("password", expediaPassword));
-
+		addCommonParams(query);
 		return doE3Request("api/auth/linkExistingAccount", query, new FacebookLinkResponseHandler(mContext));
 	}
 

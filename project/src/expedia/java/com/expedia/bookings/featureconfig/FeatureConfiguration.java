@@ -14,6 +14,7 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
@@ -297,6 +298,37 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return 0;
 	}
 
+	public boolean isAppIntroEnabled() {
+		return false;
+	}
+
+	public void launchAppIntroScreen(Context context) {
+		throw new UnsupportedOperationException("App intro not supported.");
+	}
+
+	public boolean shouldSendSiteIdInRequests() {
+		return false;
+	}
+
+	public String getPhoneCollectionId() {
+		return "PhoneDestinations";
+	}
+
+	public int getSearchResultDealImageDrawable() {
+		//No deal image
+		return 0;
+	}
+
+	public int getHotelDetailsDealImageDrawable() {
+		//No deal image
+		return 0;
+	}
+
+	public int getCollectionCount() {
+		// No need to hard code count
+		return 0;
+	}
+
 	@Override
 	public int updatePOSSpecificActionBarLogo() {
 		//ignore
@@ -306,5 +338,20 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public String getPOSSpecificBrandName(Context context) {
 		return BuildConfig.brand;
+	}
+
+	@Override
+	public HotelFilter.Sort getDefaultSort() {
+		return HotelFilter.Sort.POPULAR;
+	}
+
+	@Override
+	public boolean sortByDistanceForCurrentLocation() {
+		return true;
+	}
+
+	@Override
+	public boolean isAbacusTestEnabled() {
+		return true;
 	}
 }

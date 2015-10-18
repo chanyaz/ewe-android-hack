@@ -39,6 +39,7 @@
         <item name="skin_actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_blue_lm</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_white_lm</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_lm</item>
+        <item name="skin_bookNowButtonDrawable">@drawable/btn_signin_lm</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_lm</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_lm</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_lm</item>
@@ -151,6 +152,7 @@
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_lm</item>
         <item name="skin_launchTabIndicatorColor">@color/actionbar_text_lm</item>
         <item name="skin_launchActionBarBackgroundColor">@color/action_bar_bg_color</item>
+        <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 
     <style name="FlightActionBarlm" parent="FlightActionBar">

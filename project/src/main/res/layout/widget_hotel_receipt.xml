@@ -182,6 +182,7 @@
 
                 <com.expedia.bookings.widget.AutoResizeTextView
                     android:id="@+id/price_text"
+                    style="?attr/skin_hotelPriceTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -190,8 +191,7 @@
                     android:gravity="right"
                     android:maxLines="1"
                     android:textColor="?attr/skin_hotelPriceStandardColor"
-                    android:textSize="22sp"
-                    app:textStyle="bold" />
+                    android:textSize="22sp" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/grand_total_text"

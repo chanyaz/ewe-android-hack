@@ -88,17 +88,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	// instance and thus will not be able to invoke the following methods.
 
 	@Override
-	public void startMarquee() {
-
-	}
-
-	@Override
-	public void cleanUp() {
-
-	}
-
-	@Override
-	public void reset() {
-
+	public boolean onBackPressed() {
+		return false;
 	}
 }

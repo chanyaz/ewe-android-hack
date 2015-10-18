@@ -42,8 +42,8 @@ public class CollectionServices(endpoint: String, okHttpClient: OkHttpClient, re
 
     // On tablet, we want to get only the phone collection and display it.
 
-    fun getPhoneCollection(twoLetterCountryCode: String, localeCode: String, observer: Observer<Collection>): Subscription {
-        return collectionApi.phoneCollection(twoLetterCountryCode, localeCode)
+    fun getPhoneCollection(phoneCollectionId: String, twoLetterCountryCode: String, localeCode: String, observer: Observer<Collection>): Subscription {
+        return collectionApi.phoneCollection(phoneCollectionId, twoLetterCountryCode, localeCode)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)

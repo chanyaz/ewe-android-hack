@@ -31,11 +31,11 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.collections.Collection;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CollectionServices;
@@ -179,8 +179,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 		public void onError(Throwable e) {
 			Log.d(TAG, "Error downloading locale/POS specific Collections. Kicking off default download.");
 			String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
-			downloadSubscription = collectionServices.getPhoneCollection(country, "default",
-				defaultCollectionListener);
+			downloadSubscription = collectionServices
+				.getPhoneCollection(ProductFlavorFeatureConfiguration.getInstance().getPhoneCollectionId(), country,
+					"default", defaultCollectionListener);
 		}
 
 		@Override
@@ -306,23 +307,6 @@ public class PhoneLaunchWidget extends FrameLayout {
 		NavUtils.startActivity(getContext(), intent, null);
 	}
 
-	// Hotel search in collection location
-	@Subscribe
-	public void onCollectionLocationSelected(Events.LaunchCollectionItemSelected event) throws JSONException {
-		Suggestion location = event.collectionLocation.location;
-		HotelSearchParams params = new HotelSearchParams();
-		params.setQuery(location.shortName);
-		params.setSearchType(HotelSearchParams.SearchType.valueOf(location.type));
-		params.setRegionId(location.id);
-		params.setSearchLatLon(location.latLong.lat, location.latLong.lng);
-		LocalDate now = LocalDate.now();
-		params.setCheckInDate(now.plusDays(1));
-		params.setCheckOutDate(now.plusDays(2));
-		params.setNumAdults(2);
-		params.setChildren(null);
-		NavUtils.goToHotels(getContext(), params, event.animOptions, 0);
-	}
-
 	// Hotel Search
 	@Subscribe
 	public void onLocationFound(Events.LaunchLocationFetchComplete event) {
@@ -365,8 +349,9 @@ public class PhoneLaunchWidget extends FrameLayout {
 		launchDataTimeStamp = null;
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
 		String localeCode = getContext().getResources().getConfiguration().locale.toString();
-		downloadSubscription = collectionServices
-			.getPhoneCollection(country, localeCode, collectionDownloadListener);
+		downloadSubscription = collectionServices.getPhoneCollection(
+			ProductFlavorFeatureConfiguration.getInstance().getPhoneCollectionId(), country, localeCode,
+			collectionDownloadListener);
 	}
 
 	@Subscribe

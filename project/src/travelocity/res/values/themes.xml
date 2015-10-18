@@ -16,6 +16,7 @@
         <item name="skin_actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_blue_travelocity</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_blue_travelocity</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
+        <item name="skin_bookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_tvly_logo_small</item>
@@ -109,6 +110,7 @@
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator_tvly</item>
         <item name="skin_launchActionBarBackgroundColor">@color/launch_actionbar_color_tvly</item>
+        <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 
     <style name="LaunchActionBarTabTravelocityStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
