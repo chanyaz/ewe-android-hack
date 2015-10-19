@@ -192,7 +192,7 @@ public class CheckoutViewModel {
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
 		CardInfoScreen.clickSetButton();
-		CardInfoScreen.typeTextPostalCode("666");
+		CardInfoScreen.typeTextPostalCode("66666");
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
 		Common.delay(2);
 	}
