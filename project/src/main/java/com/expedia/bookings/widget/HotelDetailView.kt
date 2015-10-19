@@ -387,7 +387,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         hideResortandSelectRoom()
         freeCancellationAndETPMessaging.visibility = View.GONE
         singleMessageContainer.visibility = View.GONE
-        viewmodel.onGalleryItemScrolled(0)
     }
 
     private fun hideResortandSelectRoom() {
@@ -456,7 +455,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         override fun onTouch(v: View?, event: MotionEvent): Boolean {
             val action = event.action;
             if (action == MotionEvent.ACTION_UP) {
-                detailContainer.post { updateGallery(true) }
+                detailContainer.post { toggleFullScreenGallery() }
             }
             return false
         }
@@ -601,7 +600,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         toolbar.setNavigationOnClickListener { view ->
             if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
-                updateGallery(false)
+                toggleFullScreenGallery()
             } else
                 (getContext() as Activity).onBackPressed()
         }
@@ -668,16 +667,16 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         galleryContainer.scrollTo(0, -counterscroll!!)
     }
 
-    public fun updateGallery(toFullScreen: Boolean) {
-        if (detailContainer.isFlinging) {
-            return
+    public fun toggleFullScreenGallery() {
+        if (!detailContainer.isFlinging) {
+            val from = detailContainer.scrollY
+            val threshold = initialScrollTop / 2
+            if (from == 0 || (from > threshold && from < initialScrollTop)) {
+                detailContainer.animateScrollY(from, initialScrollTop, 500)
+            } else if (from < threshold) {
+                detailContainer.animateScrollY(from, 0, 500)
+            }
         }
-
-        val fromY = detailContainer.scrollY
-        val threshold = initialScrollTop / 2
-        //In case of slow scrolling, if gallery view is expanding mare than halfway then scrollTo full screen else scrollTo initialScroollTop
-        val toY = if (toFullScreen && fromY < threshold) 0 else initialScrollTop
-        detailContainer.animateScrollY(fromY, toY, ANIMATION_DURATION)
     }
 
     public fun getArrowRotationRatio(scrollY: Int): Float {

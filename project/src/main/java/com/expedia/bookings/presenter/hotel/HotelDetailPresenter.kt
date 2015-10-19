@@ -99,7 +99,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
 
     override fun back(): Boolean {
         if (hotelDetailView.navIcon.getParameter().toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
-            hotelDetailView.updateGallery(false)
+            hotelDetailView.toggleFullScreenGallery()
             return true
         }
         return super.back()

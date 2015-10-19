@@ -28,7 +28,7 @@ public abstract class GalleryScrollView extends CustomScrollerScrollView {
 		mAnimator.start();
 	}
 
-	protected void animateScrollY(int from, int to, long duration) {
+	protected void animateScrollY(int from, int to, int duration) {
 		if (mAnimator != null && mAnimator.isRunning()) {
 			return;
 		}
