@@ -113,6 +113,8 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
         vm.viewRoomObservable.subscribe {
             viewRoom.isChecked = true
         }
+        vm.roomInfoVisibiltyObservable.subscribeVisibility(roomInfoContainer)
+        vm.roomInfoVisibiltyObservable.subscribeVisibility(roomInfoDivider)
 
         fun AlphaAnimation.commonSetup() {
             this.interpolator = AccelerateDecelerateInterpolator()

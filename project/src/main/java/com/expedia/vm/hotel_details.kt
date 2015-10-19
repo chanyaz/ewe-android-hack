@@ -438,6 +438,7 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
     val roomHeaderImageObservable = BehaviorSubject.create<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
     val viewRoomObservable = BehaviorSubject.create<Unit>()
     val roomRateInfoTextObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomLongDescription)
+    val roomInfoVisibiltyObservable = roomRateInfoTextObservable.map { it != "" }
 
     val expandRoomObservable = BehaviorSubject.create<Boolean>()
     val collapseRoomObservable = BehaviorSubject.create<Boolean>()
