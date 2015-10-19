@@ -10,6 +10,7 @@ import android.widget.RelativeLayout
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
@@ -54,7 +55,10 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
     init {
         setOrientation(LinearLayout.VERTICAL)
         View.inflate(getContext(), R.layout.hotel_checkout_summary_widget, this)
-        costSummary.setOnClickListener { dialog.show() }
+        costSummary.setOnClickListener {
+            dialog.show()
+            HotelV2Tracking().trackTripSummaryClick()
+        }
 
         viewModel.hotelName.subscribeText(hotelName)
         viewModel.checkInOutDatesFormatted.subscribeText(date)

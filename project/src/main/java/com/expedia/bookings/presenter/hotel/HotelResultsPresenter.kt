@@ -357,6 +357,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         searchThisArea.setOnClickListener({ view ->
             hideSearchThisArea()
             doAreaSearch()
+            HotelV2Tracking().trackHotelsV2SearchAreaClick()
         })
 
         show(ResultsList())

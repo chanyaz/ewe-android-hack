@@ -25,6 +25,10 @@ class HotelV2Tracking {
         FacebookEvents().trackHotelV2Search(searchParams, searchResponse)
     }
 
+    fun trackHotelsV2NoResult() {
+        OmnitureTracking.trackHotelV2NoResult()
+    }
+
     fun trackHotelV2SponsoredListingClick() {
         OmnitureTracking.trackHotelV2SponsoredListingClick()
     }
@@ -35,6 +39,10 @@ class HotelV2Tracking {
 
     fun trackHotelV2SortBy(type: String) {
         OmnitureTracking.trackHotelV2SortBy(type)
+    }
+
+    fun trackHotelV2SortPriceSlider() {
+        OmnitureTracking.trackHotelV2PriceSlider()
     }
 
     fun trackLinkHotelV2RefineRating(rating: String) {
@@ -72,6 +80,10 @@ class HotelV2Tracking {
 
     fun trackHotelV2CarouselClick() {
         OmnitureTracking.trackHotelV2CarouselClick()
+    }
+
+    fun trackHotelsV2SearchAreaClick() {
+        OmnitureTracking.trackHotelV2AreaSearchClick()
     }
 
     fun trackPageLoadHotelV2Infosite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams, isETPEligible: Boolean, isCurrentLocationSearch: Boolean) {
@@ -145,6 +157,14 @@ class HotelV2Tracking {
         FacebookEvents().trackHotelV2Checkout(hotelProductResponse, searchParams)
     }
 
+    fun trackTripSummaryClick() {
+        OmnitureTracking.trackTripSummaryClick()
+    }
+
+    fun trackPriceChange(priceChange: String) {
+        OmnitureTracking.trackPriceChange(priceChange)
+    }
+
     fun trackHotelV2CheckoutTraveler() {
         OmnitureTracking.trackHotelV2CheckoutTraveler()
     }
@@ -157,12 +177,48 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2PaymentEdit()
     }
 
-    fun trackHotelV2SlideToPurchase() {
-        OmnitureTracking.trackHotelV2SlideToPurchase()
+    fun trackHotelV2SlideToPurchase(cardType: String) {
+        OmnitureTracking.trackHotelV2SlideToPurchase(cardType)
     }
 
     fun trackHotelV2CheckoutPaymentCid() {
         OmnitureTracking.trackHotelV2CheckoutPaymentCid()
+    }
+
+    fun trackHotelsV2CardError() {
+        trackHotelsV2CheckoutError("Payment Info Error")
+    }
+
+    fun trackHotelsV2TravelerError() {
+        trackHotelsV2CheckoutError("Traveler Info Error")
+    }
+
+    fun trackHotelsV2ProductExpiredError() {
+        trackHotelsV2CheckoutError("Product Expired")
+    }
+
+    fun trackHotelsV2TripAlreadyBookedError() {
+        trackHotelsV2CheckoutError("Trip Already Booked")
+    }
+
+    fun trackHotelsV2PaymentFailedError() {
+        trackHotelsV2CheckoutError("Payment Failed")
+    }
+
+    fun trackHotelsV2SessionTimeOutError() {
+        trackHotelsV2CheckoutError("Session Timeout")
+    }
+
+    fun trackHotelsV2UnknownError() {
+        trackHotelsV2CheckoutError("Unknown Error")
+    }
+
+    private fun trackHotelsV2CheckoutError(errorType: String) {
+        OmnitureTracking.trackHotelV2CheckoutError(errorType)
+    }
+
+    fun trackHotelsV2CheckoutErrorRetry() {
+        OmnitureTracking.trackHotelV2CheckoutErrorRetry()
     }
 
     fun trackHotelV2PurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse) {
@@ -188,8 +244,8 @@ class HotelV2Tracking {
         trackHotelV2ConfirmationCrossSell("Flights")
     }
 
-    private fun trackHotelV2ConfirmationCrossSell(businesType: String) {
-        OmnitureTracking.trackHotelV2ConfirmationCrossSell(businesType)
+    private fun trackHotelV2ConfirmationCrossSell(businessType: String) {
+        OmnitureTracking.trackHotelV2ConfirmationCrossSell(businessType)
     }
 
     fun trackHotelV2ExpandCoupon() {

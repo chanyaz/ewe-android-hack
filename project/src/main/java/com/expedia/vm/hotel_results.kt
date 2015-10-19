@@ -65,7 +65,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
             } else if (it.hotelList.isEmpty()) {
                 val error = ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS)
                 errorObservable.onNext(error)
-            } else if (titleSubject.value == context.getString(R.string.visible_map_area)){
+            } else if (titleSubject.value == context.getString(R.string.visible_map_area)) {
                 mapResultsObservable.onNext(it)
             } else {
                 hotelResultsObservable.onNext(it)
