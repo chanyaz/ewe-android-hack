@@ -1,12 +1,15 @@
 package com.expedia.bookings.test.happy;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import android.support.test.espresso.DataInteraction;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.TripsScreen;
-import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -47,15 +50,21 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.bed_type_text_view, "1 king bed");
 		hotelRow.onChildView(withText(containsString("Check in"))).perform(scrollTo(), click());
 
+		//TODO - For now, just replicating the "Inject flight DateTimes" from ExpediaDispatcher::dispatchTrip
+		//so any change there will need to be reflected here as well. Ideally we should have a common place where this setup is done
+		//so the setup values can be read by the tests when required. That would avoid the duplication which is being done below.
+		boolean isOutboundFlightDepartureAtStandardOffset = checkOutboundFlightDepartureAtStandardOffset();
+		boolean isOutboundFlightArrivalAtStandardOffset = checkOutboundFlightArrivalAtStandardOffset();
+
 		// Outbound flight assertions
 		DataInteraction outboundFlightRow = TripsScreen.tripsListItem().atPosition(1);
 		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).check(matches(withText("From SFO at 11:32 AM")));
 		outboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 		screenshot("Outbound Flight Itin");
 		assertViewWithTextIsDisplayed(R.id.departure_time, "11:32 AM");
-		assertViewWithTextIsDisplayed(R.id.departure_time_tz, "Depart (PDT)");
+		assertViewWithTextIsDisplayed(R.id.departure_time_tz, isOutboundFlightDepartureAtStandardOffset ? "Depart (PST)" : "Depart (PDT)");
 		assertViewWithTextIsDisplayed(R.id.arrival_time, "9:04 PM");
-		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, "Arrive (EDT)");
+		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, isOutboundFlightArrivalAtStandardOffset ? "Arrive (EST)" : "Arrive (EDT)");
 		onView(withText("1102138068718")).perform(scrollTo());
 		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
 		// TODO - investigate why flight name differs locally to buildbot #4657
@@ -101,6 +110,12 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		final String expectedLxTitle = "Explorer Pass: Choose 4 Museums, Attractions, & Tours: Explorer Pass - Chose 4 Attractions & Tours";
 		assertEquals(expectedLxTitle, lxTitle);
 
+		//TODO - For now, just replicating the "Inject package DateTimes" from ExpediaDispatcher::dispatchTrip
+		//so any change there will need to be reflected here as well. Ideally we should have a common place where this setup is done
+		//so the setup values can be read by the tests when required. That would avoid the duplication which is being done below.
+		boolean isPackageOutboundFlightDepartureAtStandardOffset = checkPackageOutboundFlightDepartureAtStandardOffset();
+		boolean isPackageOutboundFlightArrivalAtStandardOffset = checkPackageOutboundFlightArrivalAtStandardOffset();
+
 		// Pacakage outbound flight assertions
 		DataInteraction pckgOutboundFlightRow = TripsScreen.tripsListItem().atPosition(6);
 		String pckgOutboundFlightAirportTimeStr = getListItemValues(pckgOutboundFlightRow,
@@ -109,9 +124,11 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		pckgOutboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 		screenshot("Package Outbound Flight Itin");
 		assertViewWithTextIsDisplayed(R.id.departure_time, "4:00 AM");
-		assertViewWithTextIsDisplayed(R.id.departure_time_tz, "Depart (PST)");
+		assertViewWithTextIsDisplayed(R.id.departure_time_tz,
+			isPackageOutboundFlightDepartureAtStandardOffset ? "Depart (PST)" : "Depart (PDT)");
 		assertViewWithTextIsDisplayed(R.id.arrival_time, "6:04 AM");
-		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, "Arrive (PST)");
+		assertViewWithTextIsDisplayed(R.id.arrival_time_tz,
+			isPackageOutboundFlightArrivalAtStandardOffset ? "Arrive (PST)" : "Arrive (PDT)");
 		onView(withText("11590764196")).perform(scrollTo());
 		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
 		assertViewWithTextIsDisplayed(R.id.departure_time_text_view, "4:00 AM");
@@ -155,4 +172,27 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertEquals(expectedCruiseTitle, cruiseTitle);
 	}
 
+	private boolean checkOutboundFlightArrivalAtStandardOffset() {
+		DateTime startOfTodayEastern = DateTime.now().withTimeAtStartOfDay().withZone(DateTimeZone.forOffsetHours(-4));
+		DateTime outboundFlightArrival = startOfTodayEastern.plusDays(14).plusHours(18).plusMinutes(4);
+		return DateTimeZone.forOffsetHours(-4).isStandardOffset(outboundFlightArrival.getMillis());
+	}
+
+	private boolean checkOutboundFlightDepartureAtStandardOffset() {
+		DateTime startOfTodayPacific = DateTime.now().withTimeAtStartOfDay().withZone(DateTimeZone.forOffsetHours(-7));
+		DateTime outboundFlightDeparture = startOfTodayPacific.plusDays(14).plusHours(11).plusMinutes(32);
+		return DateTimeZone.forOffsetHours(-7).isStandardOffset(outboundFlightDeparture.getMillis());
+	}
+
+	private boolean checkPackageOutboundFlightArrivalAtStandardOffset() {
+		DateTime startOfTodayEastern = DateTime.now().withTimeAtStartOfDay().withZone(DateTimeZone.forOffsetHours(-4));
+		DateTime outboundFlightArrival = startOfTodayEastern.plusDays(35).plusHours(6).plusMinutes(4);
+		return DateTimeZone.forOffsetHours(-4).isStandardOffset(outboundFlightArrival.getMillis());
+	}
+
+	private boolean checkPackageOutboundFlightDepartureAtStandardOffset() {
+		DateTime startOfTodayPacific = DateTime.now().withTimeAtStartOfDay().withZone(DateTimeZone.forOffsetHours(-7));
+		DateTime outboundFlightDeparture = startOfTodayPacific.plusDays(35).plusHours(4);
+		return DateTimeZone.forOffsetHours(-7).isStandardOffset(outboundFlightDeparture.getMillis());
+	}
 }
