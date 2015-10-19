@@ -36,7 +36,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
     val queryObserver = endlessObserver<String> { query ->
         if (query.isNotBlank() && query.length() >= 3 && !query.equals(currentLocationText)) {
             lastQuery = query
-            suggestionsService.getHotelSuggestionsV4(query, generateSuggestionServiceCallback())
+            suggestionsService.getHotelSuggestionsV4(query, ServicesUtil.generateClientId(context), generateSuggestionServiceCallback())
         } else {
             suggestionsObservable.onNext(suggestionsListWithNearby())
         }
