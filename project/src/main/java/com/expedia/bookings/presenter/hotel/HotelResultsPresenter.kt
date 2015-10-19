@@ -574,7 +574,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             screenHeight = if (ExpediaBookingApp.isAutomation()) { 0 } else { height }
             screenWidth = if (ExpediaBookingApp.isAutomation()) { 0f } else { width.toFloat() }
 
-            halfway =  (height / 4.3).toInt()
+            halfway =  (height / 4.1).toInt()
             threshold = (height / 2.2).toInt()
 
             resetListOffset()
