@@ -63,6 +63,11 @@
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_logo_vsc</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_log_in_vsc</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
+        <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
+        <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen</item>
+        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text</item>
+        <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -168,6 +173,7 @@
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title</item>
         <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
         <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
+        <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
