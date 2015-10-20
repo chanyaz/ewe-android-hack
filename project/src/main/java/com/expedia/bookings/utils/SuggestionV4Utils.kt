@@ -16,6 +16,10 @@ public object SuggestionV4Utils {
         Thread(object : Runnable {
             override fun run() {
                 val suggest = suggestion.copy()
+                if(suggest.type == "RAW_TEXT_SEARCH") {
+                    return // don't store raw (non-ESS) searches
+                }
+
                 if (suggest.regionNames.displayName == context.getString(com.expedia.bookings.R.string.current_location)) {
                     suggest.regionNames.displayName = suggest.regionNames.shortName
                 }

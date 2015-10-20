@@ -49,23 +49,33 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
 
-        geoCodeSearchModel.geoResults.subscribe { results ->
-            val freeformLocations = StrUtils.formatAddresses(results)
-            val builder = AlertDialog.Builder(context)
-            builder.setTitle(R.string.ChooseLocation)
-            builder.setItems(freeformLocations, object: DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    val newHotelSearchParams = hotelSearchParams.copy()
-                    val geoLocation = results.get(which)
-                    newHotelSearchParams.suggestion.coordinates.lat = geoLocation.latitude
-                    newHotelSearchParams.suggestion.coordinates.lng = geoLocation.longitude
-                    newHotelSearchParams.suggestion.type = ""
-                    // trigger search with selected geoLocation
-                    searchObserver.onNext(newHotelSearchParams)
+        geoCodeSearchModel.geoResults.subscribe { geoResults ->
+            fun triggerNewSearch(selectedResultIndex: Int) {
+                val newHotelSearchParams = hotelSearchParams.copy()
+                val geoLocation = geoResults.get(selectedResultIndex)
+                newHotelSearchParams.suggestion.coordinates.lat = geoLocation.latitude
+                newHotelSearchParams.suggestion.coordinates.lng = geoLocation.longitude
+                newHotelSearchParams.suggestion.type = ""
+                // trigger search with selected geoLocation
+                searchObserver.onNext(newHotelSearchParams)
+            }
+
+            if (geoResults.count() == 1) {
+                triggerNewSearch(0) // search with the only lat/long we got back
+            }
+            else if (geoResults.count() > 1) {
+                val freeformLocations = StrUtils.formatAddresses(geoResults)
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle(R.string.ChooseLocation)
+                val dialogItemClickListener = object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        triggerNewSearch(which)
+                    }
                 }
-            })
-            val alertDialog = builder.create()
-            alertDialog.show()
+                builder.setItems(freeformLocations, dialogItemClickListener)
+                val alertDialog = builder.create()
+                alertDialog.show()
+            }
         }
     }
 
