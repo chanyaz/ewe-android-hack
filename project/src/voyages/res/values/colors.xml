@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="action_bar_text_green">#7abb00</color>
-    <color name="hotel_price_text_color_vsc">#0088ce</color>
+    <color name="vsc_primary_color">#7abb00</color>
+    <color name="vsc_secondary_color">#0088CE</color>
+    <color name="action_bar_text_green">@color/vsc_primary_color</color>
+    <color name="hotel_price_text_color_vsc">@color/vsc_secondary_color</color>
     <color name="hotel_price_sale_text_color_vsc">#cb0044</color>
-    <color name="cost_summary_header_text_color_vsc">#7abb00</color>
+    <color name="cost_summary_header_text_color_vsc">@color/vsc_primary_color</color>
     <color name="hotel_list_progress_text_color">#333</color>
     <color name="flight_list_progress_text_color">#333</color>
     <color name="action_bar_text_vsc">#F5A337</color>
     <color name="action_bar_bg_color">#36424F</color>
     <color name="login_text_vsc">#333333</color>
-    <color name="coupon_success_message_color">#7abb00</color>
+    <color name="coupon_success_message_color">@color/vsc_primary_color</color>
     <color name="collection_overlay_color">#56a1d5</color>
     <color name="flight_trip_price">@color/hotel_price_text_color_vsc</color>
     <color name="flight_trip">@color/flight_trip_price</color>
+    <color name="actionbar_menu_text_color">@color/vsc_primary_color</color>
+    <color name="hotel_sale_text_color">@color/vsc_primary_color</color>
 
     <color name="tablet_book_button_text_color">@color/action_bar_bg_color</color>
     <color name="tablet_price_expanded_bucket_text_color">@color/action_bar_bg_color</color>

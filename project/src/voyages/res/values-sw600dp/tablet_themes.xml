@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.AirAsiaGo.Tablet" parent="Theme.VSC">
-        <item name="skin_action_bar_logo_tablet">@drawable/ic_log_in_vsc</item>
+        <item name="skin_action_bar_logo_tablet">@drawable/ic_logo_vsc</item>
         <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
         <item name="skin_collection_overlay_static_color">@color/collection_overlay_color</item>
         <item name="skin_tablet_book_button_text_color">@color/tablet_book_button_text_color</item>
@@ -9,6 +9,7 @@
         <item name="skin_collection_placeholder">@drawable/bg_itin_placeholder</item>
         <item name="skin_tablet_hotel_room_rate_select_button">@drawable/tablet_hotel_room_select_button</item>
         <item name="skin_tablet_addToTrip_button">@drawable/tablet_hotel_room_add_button</item>
+        <item name="android:actionMenuTextColor">@color/actionbar_menu_text_color</item>
 
         <item name="skin_hotelPriceStandardColor">#ffffff</item>
         <item name="skin_hotelPriceSaleColor">#ffffff</item>
@@ -27,7 +28,7 @@
 
         <item name="skin_tablet_search_result_error_button_drawable">@drawable/bg_tablet_search_result_error_action_button</item>
         <item name="skin_tablet_search_result_error_button_text_color">@color/tablet_search_error_text_color</item>
-        <item name="skin_tablet_dates_popup_done_color">@color/tablet_results_search_blue</item>
+        <item name="skin_tablet_dates_popup_done_color">@color/tablet_results_search_done</item>
         <item name="skin_skin_tablet_dates_popup_done_drawable">@drawable/ic_tablet_search_results_popup_done_check</item>
         <item name="skin_tablet_hotel_details_background_drawable">@drawable/ic_hotel_details_background_layer_list</item>
         <item name="skin_tabletHotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails.VSC</item>
@@ -55,7 +56,7 @@
         <item name="skin_bgFlightSummaryRowTablet">@drawable/bg_flight_summary_row_tablet</item>
         <item name="skin_bgSelectedFlightCard">@drawable/bg_selected_flight_card</item>
         <item name="skin_bgFlightSummaryRowReturnLegTabletDrawable">@drawable/bg_flight_summary_row_return_leg_tablet</item>
-        <item name="skin_tabletCalenderResultsSearchBlue">@color/tablet_results_search_blue</item>
+        <item name="skin_tabletCalenderResultsSearchBlue">@color/tablet_results_calendar_dates</item>
         <item name="skin_sectionFlightEditTravelerLinkColor">@color/section_flight_edit_traveler_link_color</item>
         <item name="skin_roomRateRefundableCancellationTextColor">@color/room_rate_refundable_cancellation_text_color</item>
         <item name="skin_icTabletConfirmationCheckmarkDrawable">@drawable/ic_tablet_confirmation_checkmark</item>
@@ -71,7 +72,7 @@
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletWeb</item>
         <item name="android:homeAsUpIndicator" >@drawable/ic_action_bar_back_arrow</item>
         <item name="skin_action_bar_logo_tablet">@drawable/ic_log_in_vsc</item>
-        <item name="android:actionMenuTextColor">@color/actionbarTabletTitleColor</item>
+        <item name="android:actionMenuTextColor">@color/actionbar_menu_text_color</item>
         <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
     </style>
 
