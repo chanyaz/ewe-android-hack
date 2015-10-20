@@ -12,6 +12,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.bookings.widget.PayLaterInfoWidget
 import com.expedia.bookings.widget.SpecialNoticeWidget
+import com.expedia.bookings.widget.VIPAccessInfoWidget
 import com.expedia.util.endlessObserver
 
 
@@ -20,6 +21,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     val hotelDetailView: HotelDetailView by bindView(R.id.hotel_detail)
     val hotelRenovationDesc: SpecialNoticeWidget by bindView(R.id.hotel_detail_desc)
     val hotelPayLaterInfo : PayLaterInfoWidget by bindView(R.id.hotel_pay_later_info)
+    val hotelVIPAccessInfo : VIPAccessInfoWidget by bindView(R.id.hotel_vip_access_info)
     var searchTop = 0
 
     init {
@@ -29,6 +31,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     override fun onFinishInflate() {
         addTransition(detailToDescription)
         addTransition(detailToPayLaterInfo)
+        addTransition(detailToVIPAccessInfo)
         addDefaultTransition(default)
         show(hotelDetailView)
     }
@@ -38,6 +41,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
             super.finalizeTransition(forward)
             hotelRenovationDesc.visibility = View.GONE
             hotelPayLaterInfo.visibility = View.GONE
+            hotelVIPAccessInfo.visibility = View.GONE
             hotelDetailView.visibility = View.VISIBLE
         }
     }
@@ -59,6 +63,18 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         show(hotelRenovationDesc)
     }
 
+    val detailToVIPAccessInfo = object : VisibilityTransition(this, HotelDetailView::class.java, VIPAccessInfoWidget::class.java) {
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            hotelVIPAccessInfo.visibility = if (forward) View.VISIBLE else View.GONE
+            hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
+            if (!forward) {
+                ViewCompat.jumpDrawablesToCurrentState(hotelDetailView.vipAccessMessage)
+            }
+
+        }
+    }
+
     val detailToPayLaterInfo = object : VisibilityTransition(this, HotelDetailView::class.java, PayLaterInfoWidget::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
@@ -74,6 +90,10 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     val hotelPayLaterInfoObserver = endlessObserver<String> { hotelCountryCode ->
         hotelPayLaterInfo.setText(hotelCountryCode)
         show(hotelPayLaterInfo)
+    }
+
+    val hotelVIPAccessInfoObserver = endlessObserver<Unit> {
+        show(hotelVIPAccessInfo)
     }
 
     public fun animationStart(): Float {

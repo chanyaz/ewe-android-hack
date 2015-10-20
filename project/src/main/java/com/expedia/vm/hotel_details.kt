@@ -73,6 +73,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     var renovationObservable = BehaviorSubject.create<Unit>()
     val hotelRenovationObservable = BehaviorSubject.create<Pair<String, String>>()
     val hotelPayLaterInfoObservable = BehaviorSubject.create<String>()
+    val vipAccessInfoObservable = BehaviorSubject.create<Unit>()
 
     var propertyInfoListObservable = BehaviorSubject.create<List<HotelOffersResponse.HotelText>>(emptyList())
 

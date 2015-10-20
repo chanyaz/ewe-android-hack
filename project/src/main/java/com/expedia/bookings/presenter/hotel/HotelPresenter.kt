@@ -143,7 +143,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailPresenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
         detailPresenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(detailPresenter.hotelRenovationObserver)
         detailPresenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe(detailPresenter.hotelPayLaterInfoObserver)
-
+        detailPresenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(detailPresenter.hotelVIPAccessInfoObserver)
         resultsPresenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         resultsPresenter.viewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
 
