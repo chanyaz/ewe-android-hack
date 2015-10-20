@@ -16,7 +16,6 @@ import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CVVEntryWidget
-import com.expedia.bookings.widget.ErrorWidget
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelCreateTripViewModel
