@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.ViewConfiguration;
 import android.widget.OverScroller;
 
 import com.expedia.bookings.R;
@@ -9,6 +10,7 @@ import com.expedia.bookings.R;
 public class NewHotelDetailsScrollView extends GalleryScrollView {
 
 	private int mInitialScrollTop;
+	private int mLastScrollY;
 	public boolean isFlinging;
 
 	public NewHotelDetailsScrollView(Context context, AttributeSet attrs) {
@@ -30,6 +32,7 @@ public class NewHotelDetailsScrollView extends GalleryScrollView {
 
 	@Override
 	protected void onScrollChanged(int x, int y, int oldx, int oldy) {
+		mLastScrollY = y;
 		if (Math.abs(y - oldy) <= 1 || y >= getMeasuredHeight() || y == 0) {
 			isFlinging = false;
 		}
@@ -38,8 +41,14 @@ public class NewHotelDetailsScrollView extends GalleryScrollView {
 
 	@Override
 	public void fling(int velocityY) {
-		isFlinging = true;
-		super.fling(velocityY);
+		float minFling = ViewConfiguration.get(getContext()).getScaledMinimumFlingVelocity();
+		float maxFling = ViewConfiguration.get(getContext()).getScaledMaximumFlingVelocity();
+		float flingFactor = (velocityY < 0 ? 5 : 4);
+		float ourFling = ((maxFling / minFling) / flingFactor) * minFling;
+		if (Math.abs(velocityY) > ourFling && mLastScrollY < mInitialScrollTop || mLastScrollY > mInitialScrollTop) {
+			isFlinging = true;
+			super.fling(velocityY);
+		}
 	}
 
 	@Override
