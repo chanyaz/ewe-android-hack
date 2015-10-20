@@ -262,7 +262,6 @@ class HotelFilterViewModel(val context: Context) {
 //            amenityOptionsObservable.onNext(response.amenityFilterOptions)
 //        }
         isNeighborhoodExpanded = false
-        neighborhoodExpandObserable.onNext(isNeighborhoodExpanded)
         previousSort = Sort.POPULAR
     }
 

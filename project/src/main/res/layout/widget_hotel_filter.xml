@@ -43,7 +43,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="5dp"
+                            android:layout_marginRight="20dp"
                             android:src="@drawable/filter_hotel_icon"
                             android:tint="@color/hotel_filter_hotel_name_icon" />
 
@@ -52,6 +52,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/filter_hotel_name_hint"
+                            android:textColorHint="@color/hotel_filter_text"
                             android:layout_toRightOf="@id/hotel_name"
                             android:singleLine="true"
                             android:textSize="15sp"
@@ -71,25 +72,25 @@
                             android:visibility="gone"/>
                     </RelativeLayout>
 
-                    <TextView
+                    <com.expedia.bookings.widget.TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/lx_sort_filter_padding"
                         android:text="@string/Sort_By"
                         android:textSize="15sp"
-                        android:textColor="@color/hotels_primary_color" />
+                        android:textColor="@color/hotel_filter_text"
+                        app:textStyle="medium"/>
 
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/lx_sort_filter_padding"
+                        android:layout_marginTop="6dp"
                         app:cardCornerRadius="3dp"
                         app:cardElevation="1dp"
                         app:cardUseCompatPadding="true"
                         android:background="?android:attr/selectableItemBackground">
 
                     <Spinner
-                        style="@style/HotelSpinner"
                         android:id="@+id/sort_by_selection_spinner"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -117,13 +118,14 @@
                     android:paddingLeft="@dimen/lx_sort_filter_padding"
                     android:paddingRight="@dimen/lx_sort_filter_padding">
 
-                    <TextView
+                    <com.expedia.bookings.widget.TextView
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/price"
                         android:textSize="15sp"
-                        android:textColor="@color/hotels_primary_color" />
+                        android:textColor="@color/hotel_filter_text"
+                        app:textStyle="medium"/>
 
                     <LinearLayout
                         android:id="@+id/price_range_bar"
@@ -131,19 +133,20 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical" />
 
-                    <TextView
+                    <com.expedia.bookings.widget.TextView
                         android:id="@+id/star_rating_bar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="15dp"
                         android:text="@string/star_rating"
                         android:textSize="15sp"
-                        android:textColor="@color/hotels_primary_color" />
+                        android:textColor="@color/hotel_filter_text"
+                        app:textStyle="medium"/>
 
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="6dp"
                         app:cardCornerRadius="3dp"
                         app:cardElevation="1dp"
                         app:cardUseCompatPadding="true">
@@ -257,16 +260,18 @@
                     </android.support.v7.widget.CardView>
                 </LinearLayout>
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/vip_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="21dp"
                     android:paddingLeft="@dimen/lx_sort_filter_padding"
                     android:paddingRight="@dimen/lx_sort_filter_padding"
+                    android:paddingBottom="5dp"
                     android:text="@string/plus_vip"
                     android:textSize="15sp"
-                    android:textColor="@color/hotels_primary_color"
+                    android:textColor="@color/hotel_filter_text"
+                    app:textStyle="medium"
                     android:visibility="gone"/>
 
                 <RelativeLayout
@@ -300,7 +305,7 @@
                         android:gravity="center_vertical" />
                 </RelativeLayout>
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/amenity_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -308,8 +313,9 @@
                     android:paddingLeft="@dimen/lx_sort_filter_padding"
                     android:paddingRight="@dimen/lx_sort_filter_padding"
                     android:text="@string/amenities"
-                    android:textColor="@color/hotels_primary_color"
+                    android:textColor="@color/hotel_filter_text"
                     android:textSize="15sp"
+                    app:textStyle="medium"
                     android:visibility="gone" />
 
                 <GridLayout
@@ -321,15 +327,17 @@
                     android:columnCount="4">
                 </GridLayout>
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/neighborhood_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/lx_sort_filter_padding"
                     android:paddingRight="@dimen/lx_sort_filter_padding"
+                    android:paddingBottom="5dp"
                     android:text="@string/neighborhoods"
                     android:textSize="15sp"
-                    android:textColor="@color/hotels_primary_color"
+                    android:textColor="@color/hotel_filter_text"
+                    app:textStyle="medium"
                     android:visibility="gone" />
 
                 <LinearLayout
@@ -360,7 +368,7 @@
                         android:clickable="false"
                         android:src="@drawable/read_more" />
 
-                    <TextView
+                    <com.expedia.bookings.widget.TextView
                         android:id="@+id/show_more_less_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
