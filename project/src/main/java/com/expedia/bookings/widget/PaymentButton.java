@@ -15,6 +15,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.section.StoredCreditCardSpinnerAdapter;
+import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 
 import butterknife.ButterKnife;
@@ -92,7 +93,8 @@ public class PaymentButton extends LinearLayout {
 					if (card != null && card.isSelectable()) {
 
 						// Don't allow selection of invalid card types.
-						boolean isValidCard = Db.getTripBucket().getItem(lineOfBusiness).isCardTypeSupported(card.getType());
+						boolean isValidCard = Db.getTripBucket().getItem(lineOfBusiness)
+							.isCardTypeSupported(card.getType());
 
 						if (isValidCard) {
 							Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
@@ -104,6 +106,9 @@ public class PaymentButton extends LinearLayout {
 							Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 							mStoredCardPopup.dismiss();
 							mPaymentButtonListener.onStoredCreditCardChosen(card);
+							if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+								new HotelV2Tracking().trackHotelV2StoredCardSelect();
+							}
 						}
 					}
 				}

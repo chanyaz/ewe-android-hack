@@ -157,6 +157,7 @@ public class PaymentWidget extends ExpandableCardView {
 	@OnClick(R.id.payment_option_google_wallet)
 	public void googleWalletClicked() {
 		openGoogleWallet();
+		new HotelV2Tracking().trackHotelV2GoogleWalletClick();
 	}
 
 	@Override
