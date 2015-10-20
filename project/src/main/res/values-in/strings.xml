@@ -212,6 +212,11 @@
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Pilih Jenis Pembayaran</string>
 
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">Geser untuk memesan</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">Geser untuk membeli</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">Harap sesuaikan waktu pengambilan dan pengembalian Anda.</string>
@@ -221,7 +226,7 @@
     <string name="date_out_of_range">Harap pilih tanggal yang lebih dekat.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Harap tambahkan durasi penyewaan.</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Halo? Anda masih di sana? Waktu Anda sudah habis. Coba lagi pencarian Anda.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Hmm. Sepertinya Anda sudah pernah memesan perjalanan ini. Harap periksa lagi perjalanan atau email Anda.</string>
@@ -835,7 +840,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">Bayar Sekarang</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">Dibayar Sekarang</string>
+    <string name="room_rate_pay_later_due_now">{amount} Dibayar Sekarang</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/malam</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1884,7 +1889,7 @@
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Biaya dibayar di hotel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
-    <string name="due_to_brand_today_TEMPLATE">Akan ditarik oleh {brand}</string>
+    <string name="due_to_brand_today_TEMPLATE">Ditarik oleh {brand}</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">Biaya resor sebesar &lt;b&gt;%1$s&lt;/b&gt; akan ditarik di hotel. Harga total masa inap Anda akan menjadi &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -2569,6 +2574,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Mulai dari %s</string>
     <string name="From_x_per_night_template">Mulai dari %s/malam</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">Cari di kawasan ini</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2675,6 +2682,15 @@
     <string name="AmenityExtendedParking">Tambahan Waktu Parkir</string>
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">Parkir Gratis</string>
+
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">Internet Gratis</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">Sarapan Gratis</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">Antar-Jemput Bandara Gratis</string>
+
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
@@ -2810,7 +2826,8 @@
     <string name="not_included_in_the_price">Belum termasuk dalam harga</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Lihat Kamar</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">Pesan</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Bagikan lewat</string>
     <!-- Renovation Notice -->
@@ -3716,9 +3733,11 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 tahun)</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Kawasan</string>
     <string name="amenities">Fasilitas</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Peringkat Bintang</string>
+    <string name="show_more">BUKA LAINNYA</string>
+    <string name="show_less">TUTUP LAINNYA</string>
 </resources>

@@ -24,7 +24,7 @@
     <!-- Hotels rating service and staff string -->
     <string name="hotel_rating_service_and_staff">Service et personnel</string>
     <!-- Hotels rating hotel condition string -->
-    <string name="hotel_rating_hotel_condition">Conditions de l\&apos;hôtel</string>
+    <string name="hotel_rating_hotel_condition">État de l\&apos;hôtel</string>
 
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
@@ -212,6 +212,11 @@
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Sélectionnez un type de paiement</string>
 
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">Faites glisser pour réserver</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">Faites glisser pour effectuer le paiement</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">Veuillez modifier vos heures de prise en charge ou de restitution.</string>
@@ -221,7 +226,7 @@
     <string name="date_out_of_range">Cette date est trop éloignée dans le temps, veuillez choisir une date plus proche du présent.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Veuillez augmenter la durée de votre réservation.</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Toujours là ? Votre session a expiré. Veuillez effectuer une nouvelle recherche.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Hum… On dirait bien que vous avez déjà réservé ce voyage. Veuillez vérifier vos voyages ou votre boîte e-mail.</string>
@@ -835,7 +840,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">Payer maintenant</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">À régler maintenant</string>
+    <string name="room_rate_pay_later_due_now">{amount} à régler maintenant</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/nuit</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -2569,6 +2574,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">À partir de %s</string>
     <string name="From_x_per_night_template">À partir de %s/nuit</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">Chercher dans ce quartier</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2616,9 +2623,9 @@
 
     <!-- Amenity strings -->
     <!-- Label to show amenities -->
-    <string name="AmenityTitle">Services</string>
+    <string name="AmenityTitle">Équipements et services</string>
     <!-- Text that indicates no amenities at this property -->
-    <string name="AmenityNone">Aucun équipement offert</string>
+    <string name="AmenityNone">Aucun équipement ou service offert</string>
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">Espace affaires</string>
     <!-- Fitness center amenity -->
@@ -2675,6 +2682,15 @@
     <string name="AmenityExtendedParking">Parking longue durée</string>
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">Parking gratuit</string>
+
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">Internet gratuit</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">Petit-déjeuner gratuit</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">Navette aéroport gratuite</string>
+
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
@@ -2810,7 +2826,8 @@
     <string name="not_included_in_the_price">Non inclus dans le prix</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Voir la chambre</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">Réserver</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Partager via</string>
     <!-- Renovation Notice -->
@@ -3716,9 +3733,11 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 ans)</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Quartiers</string>
     <string name="amenities">Services</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Nombre d\&apos;étoiles</string>
+    <string name="show_more">AFFICHER PLUS</string>
+    <string name="show_less">AFFICHER MOINS</string>
 </resources>

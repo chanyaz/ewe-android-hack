@@ -144,7 +144,7 @@
     <!-- Manual transmission filter button-->
     <string name="car_filter_manual">Số sàn (số tay)</string>
     <!-- Any transmission type filter button -->
-    <string name="car_filter_all">Tất cả</string>
+    <string name="car_filter_all">Tất cả</string>
     <!-- Air conditioning option checkbox filter -->
     <string name="car_filter_checkbox_air_conditioning">Máy lạnh</string>
     <!-- Unlimited mileage option checkbox filter -->
@@ -157,8 +157,8 @@
     <string name="clear_filters">Xóa bộ lọc</string>
     <!-- Label to tell the user how many products match thier filter -->
     <plurals name="number_results_template">
-        <item quantity="one">{number} kết quả</item>
-        <item quantity="other">{number} kết quả</item>
+        <item quantity="one">{number} kết quả</item>
+        <item quantity="other">{number} kết quả</item>
     </plurals>
 
     <!-- Checkout -->
@@ -204,13 +204,18 @@
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
     <!-- Text for enter guest details line 1 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line1">Thông tin về khách</string>
+    <string name="checkout_hotelsv2_enter_guest_details_line1">Thông tin khách</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Nhập thông tin của quý vị</string>
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_hotelsv2_enter_payment_details_line1">Chi tiết thanh toán</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Chọn loại thanh toán</string>
+
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">Kéo để đặt</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">Kéo để đặt</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -221,7 +226,7 @@
     <string name="date_out_of_range">Ngày này quá xa trong tương lai, vui lòng chọn ngày gần hơn.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Vui lòng tăng thời gian đặt của quý vị.</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Vẫn đang tìm? Phiên truy cập của quý vị đã hết hạn. Vui lòng tìm lại.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Hmm. Có vẻ quý vị đã đặt chuyến đi này. Vui lòng kiểm tra lại chuyến đi hoặc email.</string>
@@ -289,7 +294,7 @@
     <!-- Activity details description heading -->
     <string name="description_activity_details">Mô tả</string>
     <!-- Activity details location heading -->
-    <string name="location_activity_details">Địa điểm</string>
+    <string name="location_activity_details">Địa điểm</string>
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Bao gồm</string>
     <!-- Activity details exclusions heading -->
@@ -301,7 +306,7 @@
     <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
     <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">Đặt ngay %1$s</string>
+    <string name="offer_book_now_TEMPLATE">Đặt ngay %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">%1$s trở lên</string>
     <!-- Cancellation policy template -->
@@ -610,7 +615,7 @@
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">Chúng tôi không xác định được vị trí của quý vị để tìm hoạt động trong khu vực.</string> 
     <!-- GT current location search error -->
-    <string name="error_gt_current_location_search_message">Chúng tôi không xác định được vị trí của quý vị để tìm hình thức vận chuyển trong khu vực.</string> 
+    <string name="error_gt_current_location_search_message">Chúng tôi không xác định được địa điểm của quý vị để tìm phương tiện đưa đón phù hợp.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Lỗi</string>
     <!-- Text for error toolbar-->
@@ -658,7 +663,7 @@
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">Chúng tôi không tìm được hoạt động giải trí gần địa điểm của quý vị. Vui lòng thử tìm lại với dữ liệu khác.</string>
     <!-- LX No Activities for Current location -->
-    <string name="gt_error_current_location_no_results">Chúng tôi không tìm được hình thức vận chuyển gần địa điểm của quý vị. Vui lòng thử tìm lại với dữ liệu khác.</string>
+    <string name="gt_error_current_location_no_results">Không tìm được phương tiện đưa đón gần quý vị. Vui lòng thử tìm lại với dữ liệu khác.</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$s túi</string>
@@ -760,13 +765,13 @@
     </plurals>
 
     <!-- LX Sort & Filter "Sort By" section header -->
-    <string name="lx_sort_by">Sắp xếp theo</string>
+    <string name="lx_sort_by">Sắp xếp theo</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">Danh mục</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
-    <string name="Sort_By">Sắp xếp theo</string>
+    <string name="Sort_By">Sắp xếp theo</string>
     <!-- "Filters" section header -->
     <string name="Filters">Lọc</string>
     <!-- "Areas"/neighborhoods section header -->
@@ -774,7 +779,7 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Khu vực khác</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">Phổ biến</string>
+    <string name="popular">Phổ biến</string>
     <!-- Short label for "sort by price" button -->
     <string name="price">Giá</string>
     <!-- Short label for "sort by rating" button -->
@@ -835,7 +840,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">Thanh toán ngay</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">Thanh toán ngay</string>
+    <string name="room_rate_pay_later_due_now">{amount} - thanh toán ngay</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/đêm</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -868,7 +873,7 @@
     <!-- Title for the reviews section after we get the property name -->
     <string name="reviews_for_TEMPLATE">Nhận xét về %1$s</string>
     <!-- Information for the review about who submitted it and when -->
-    <string name="submitted_by_on_date_TEMPLATE">%1$s vào %2$s</string>
+    <string name="submitted_by_on_date_TEMPLATE">%1$s vào %2$s</string>
 
     <!-- Tablet flight details -->
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
@@ -912,13 +917,13 @@
     <!-- Attempting to sign you in with facebook credentials -->
     <string name="attempting_to_sign_in_with_facebook">Đang đăng nhập bằng tài khoản Facebook của quý vị…</string>
     <!-- We have encountered an error -->
-    <string name="unspecified_error">Chúng tôi đã gặp lỗi không xác định. Vui lòng thử lại sau.</string>
+    <string name="unspecified_error">Chúng tôi đã gặp lỗi không xác định. Vui lòng thử lại sau.</string>
     <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">Không thể đăng nhập Facebook.</string>
     <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="sign_in_failed_try_again">Không đăng nhập được. Nếu đã nhập đúng địa chỉ email và mật khẩu, vui lòng kiểm tra xác nhận cài đặt quốc gia trên app của quý vị chính xác.</string>
     <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">Mật khẩu {brand}</string>
+    <string name="brand_password_hint_TEMPLATE">Mật khẩu {brand}</string>
     <!-- Link accounts -->
     <string name="link_accounts">Kết nối tài khoản</string>
     <!-- User Denied email permission Heading -->
@@ -933,7 +938,7 @@
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Đăng nhập {brand}</string>
     <!-- or -->
-    <string name="or">hoặc</string>
+    <string name="or">hoặc</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -959,7 +964,7 @@
     <!-- Percent off template, e.g. 50% off -->
     <string name="percent_off_TEMPLATE">-%2.0f%%</string>
     <!-- List loading header -->
-    <string name="loading_header">Đang tải…</string>
+    <string name="loading_header">Đang tải…</string>
     <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">/5 – đánh giá của khách</string>
     <!-- Hotel search list rating text -->
@@ -1167,7 +1172,7 @@
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;Tại %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;Từ %1$s&lt;/b&gt;</string>
+    <string name="from_airport_TEMPLATE">&lt;b&gt;Từ %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
     <string name="from_airport_time_TEMPLATE">&lt;b&gt;Từ %1$s&lt;/b&gt;%2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
@@ -1266,7 +1271,7 @@
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Thêm khách sạn tại điểm đến của quý vị</string>
     <!-- Button label to add a hotel in the air attach case. -->
-    <string name="add_hotel_air_attach">Thêm khách sạn</string>
+    <string name="add_hotel_air_attach">Thêm khách sạn</string>
 
     <!-- Button label to search for an activity in the hotel city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_lx_TEMPLATE">Tìm hoạt động giải trí tại %1$s</string>
@@ -1374,7 +1379,7 @@
     <!-- Itin card details -->
     <string name="itin_card_details_active">Hoạt động</string>
     <string name="itin_card_details_expires">Hết hạn</string>
-    <string name="itin_card_details_guests">Khách</string>
+    <string name="itin_card_details_guests">Khách</string>
     <string name="itin_card_details_details">Thông tin bổ sung</string>
     <string name="itin_card_details_pick_up">Nhận</string>
     <string name="itin_card_details_drop_off">Trả</string>
@@ -1402,12 +1407,12 @@
     <string name="itin_card_details_dropped_off_TEMPLATE">Trả xe %1$s</string>
     <string name="itin_card_details_agency_phone">Số điện thoại đại lý</string>
     <string name="itin_card_details_toll_free_phone">Số điện thoại miễn phí</string>
-    <string name="itin_card_details_check_in">Nhận phòng</string>
-    <string name="itin_card_details_check_out">Trả phòng</string>
-    <string name="itin_card_details_address">Địa chỉ</string>
+    <string name="itin_card_details_check_in">Nhận phòng</string>
+    <string name="itin_card_details_check_out">Trả phòng</string>
+    <string name="itin_card_details_address">Địa chỉ</string>
     <string name="itin_card_details_local_phone">Số điện thoại địa phương</string>
-    <string name="itin_card_details_room_type">Loại phòng</string>
-    <string name="itin_card_details_bed_type">Loại giường</string>
+    <string name="itin_card_details_room_type">Loại phòng</string>
+    <string name="itin_card_details_bed_type">Loại giường</string>
     <string name="toast_copied_to_clipboard">Chép vào clipboard.</string>
     <string name="itin_card_details_reload">Đang tải lại thông tin</string>
     <string name="itin_card_details_reload_activity">Đang tải lại thông tin Hoạt động</string>
@@ -1445,7 +1450,7 @@
     <string name="itin_action_directions">Hướng dẫn đường đi</string>
     <string name="itin_action_call_hotel">Gọi khách sạn</string>
     <string name="itin_action_redeem">Đổi</string>
-    <string name="itin_action_support">Hỗ trợ</string>
+    <string name="itin_action_support">Hỗ trợ</string>
     <string name="itin_action_share">Chia sẻ</string>
     <string name="itin_action_view">Xem lịch trình</string>
 
@@ -1470,7 +1475,7 @@
     <!-- 1: Hotel name, 2: Hotel street address -->
     <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
     <!-- Hotel phone number -->
-    <string name="share_template_long_hotel_4_phone">Điện thoại\n%s</string>
+    <string name="share_template_long_hotel_4_phone">Điện thoại\n%s</string>
     <!-- App download link -->
     <string name="share_long_ad_TEMPLATE">Đặt phòng khách sạn, chuyến bay; xem &amp; chia sẻ lịch trình của quý vị. Tải app di động {brand} miễn phí ngay.\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
@@ -1588,7 +1593,7 @@
     <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
     <string name="error_invalid_departure_arrival_airports">Sân bay khởi hành và đến không hợp lệ.</string>
     <!-- "Details" button label, for seeing details of a flight -->
-    <string name="details">Chi tiết</string>
+    <string name="details">Chi tiết</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Chọn</string>
     <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
@@ -1656,7 +1661,7 @@
     <!-- Message shown when we could not load the AirAsia flight routes -->
     <string name="error_could_not_load_air_asia">Không tải được tuyến bay của AirAsia</string>
     <!-- Header row for airports that were used recently for a search -->
-    <string name="recent">Gần đây</string>
+    <string name="recent">Gần đây</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
     <!-- Prompt for spinner dialog when selecting departure airport -->
@@ -1668,7 +1673,7 @@
     <!-- Nothing is selected -->
     <string name="calendar_instructions_nothing_selected">Chạm để chọn &lt;b&gt;&lt;font color="#3b5998"&gt;ngày đi&lt;/font&gt;&lt;/b&gt;.</string>
     <!-- Start date is selected -->
-    <string name="calendar_instructions_start_selected">Chạm một &lt;b&gt;&lt;font color="#3b5998"&gt;ngày về&lt;/font&gt;&lt;/b&gt;. (Tùy chọn)</string>
+    <string name="calendar_instructions_start_selected">Chạm một &lt;b&gt;&lt;font color="#3b5998"&gt;ngày về&lt;/font&gt;&lt;/b&gt;. (Tùy chọn)</string>
     <!-- Start date and end date selected -->
     <string name="calendar_instructions_range_selected_TEMPLATE">Đã chọn ch.đi %1$d đêm.</string>
     <!-- Start date and end date sameday -->
@@ -1794,7 +1799,7 @@
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">bao gồm thuế và phí</string>
     <!-- Date and trip from _ to _ -->
-    <string name="trip_to_with_date">%1$s: %2$s đến %3$s</string>
+    <string name="trip_to_with_date">%1$s: %2$s đến %3$s</string>
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
@@ -1840,7 +1845,7 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">trượt để đặt chuyến bay</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">Thẻ của quý vị sẽ được tính phí %1$s</string>
+    <string name="your_card_will_be_charged_TEMPLATE">Thẻ của quý vị sẽ được tính phí %1$s</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_TEMPLATE">Thanh toán hôm nay: %1$s</string>
     <!-- Amount to be paid now -->
@@ -1913,13 +1918,13 @@
     <!-- Done menu item -->
     <string name="menu_done">Hoàn tất</string>
     <!-- unable to load traveler details message -->
-    <string name="unable_to_load_traveler_message">Chúng tôi không thể tải chi tiết khách này. Vui lòng kiểm tra kết nối mạng của quý vị và thử lại.</string>
+    <string name="unable_to_load_traveler_message">Chúng tôi không thể tải chi tiết khách này. Vui lòng kiểm tra kết nối mạng của quý vị và thử lại.</string>
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
     <string name="cost_summary">Tóm tắt chi phí</string>
     <!-- Taxes and airline fees -->
-    <string name="taxes_and_airline_fees">Thuế &amp; Phí</string>
+    <string name="taxes_and_airline_fees">Thuế &amp; Phí</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">Phí đặt chỗ của {brand}</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -1946,7 +1951,7 @@
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Đã lưu</string>
     <!-- Edit button for traveler/payment -->
-    <string name="edit_button">Chỉnh sửa</string>
+    <string name="edit_button">Chỉnh sửa</string>
     <!-- Select traveler/contact from checkout saved travelers list -->
     <string name="select_traveler">Chọn khách</string>
     <!-- Add new traveler, checkout saved travelers list -->
@@ -2023,7 +2028,7 @@
     <!-- email hint -->
     <string name="email_address_hint">Địa chỉ email</string>
     <!-- phone number hint -->
-    <string name="phone_number_hint">Số điện thoại</string>
+    <string name="phone_number_hint">Số điện thoại</string>
     <!-- Cardholder -->
     <string name="cardholder">Chủ thẻ</string>
     <!-- email disclaimer -->
@@ -2080,7 +2085,7 @@
     <!-- Save traveler name Template -->
     <string name="save_traveler_message_TEMPLATE">Lưu thông tin {name} vào tài khoản {brand} của quý vị để thanh toán nhanh hơn trong những lần sau?</string>
     <!-- no thanks -->
-    <string name="no_thanks">Không, cảm ơn</string>
+    <string name="no_thanks">Không, cảm ơn</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -2100,7 +2105,7 @@
     <!-- Middle name label -->
     <string name="middle_name">Tên đệm</string>
     <!-- Last name label -->
-    <string name="last_name">Họ</string>
+    <string name="last_name">Họ</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Ngày sinh</string>
     <!-- male -->
@@ -2108,7 +2113,7 @@
     <!-- female -->
     <string name="female">Nữ</string>
     <!-- next page buttn -->
-    <string name="next">Tiếp</string>
+    <string name="next">Tiếp</string>
     <!-- Passport country label -->
     <string name="passport_country">Quốc gia cấp hộ chiếu</string>
     <!-- Passport country / origin heading -->
@@ -2205,7 +2210,7 @@
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Chia sẻ qua email</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
-    <string name="add_to_calendar">Thêm vào Lịch</string>
+    <string name="add_to_calendar">Thêm vào Lịch</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_customer_support_TEMPLATE">Gọi bộ phận Hỗ trợ Khách hàng {brand}</string>
     <!-- Add Insurance label -->
@@ -2221,11 +2226,11 @@
     <!-- Air attach discounted hotel messaging -->
     <string name="air_attach_amount_discounted_TEMPLATE">Quý vị sẽ tiết kiệm %s nếu quý vị đặt phòng khách sạn ngay bây giờ!</string>
     <!-- Air attach offer expiration alert -->
-    <string name="air_attach_expires">Ưu đãi hết hạn vào</string>
+    <string name="air_attach_expires">Ưu đãi hết hạn vào</string>
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Ưu đãi hết hạn hôm nay</string>
     <!-- Air attach add hotel button -->
-    <string name="air_attach_add_hotel">Thêm khách sạn</string>
+    <string name="air_attach_add_hotel">Thêm khách sạn</string>
     <!-- Air attach add hotel button subtitle -->
     <string name="air_attach_with_discounts">có giảm giá</string>
 
@@ -2244,7 +2249,7 @@
 
     <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
-    <string name="calendar_flight_title_TEMPLATE">%1$s đến %2$s</string>
+    <string name="calendar_flight_title_TEMPLATE">%1$s đến %2$s</string>
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
@@ -2270,7 +2275,7 @@
     <!-- Terms of Booking for some POSes (UK, IT) -->
     <string name="Terms_of_Booking">Điều khoản đặt chỗ/phòng</string>
     <!-- Privacy policy -->
-    <string name="privacy_policy">Quyền riêng tư</string>
+    <string name="privacy_policy">Quyền riêng tư</string>
     <!-- Fare information header -->
     <string name="fare_information">THÔNG TIN GIÁ VÉ</string>
 
@@ -2278,7 +2283,7 @@
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">Mã bảo mật không hợp lệ</string>
     <!-- Button label for cancelling on error -->
-    <string name="cancel">Hủy</string>
+    <string name="cancel">Hủy</string>
     <!-- Button label for accepting an error and moving forward -->
     <string name="accept">Chấp nhận</string>
     <!-- Button label for retrying after getting an error -->
@@ -2286,7 +2291,7 @@
     <!-- Button label for adjusting filters after getting no results -->
     <string name="edit_filters">Chỉnh sửa bộ lọc</string>
     <!-- Button label for calling -->
-    <string name="call_support">Hỗ trợ</string>
+    <string name="call_support">Hỗ trợ</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_increased">Dường như hãng hàng không vừa nâng giá vé của quý vị thêm %1$s.  Quý vị có đồng ý thanh toán tổng giá mới %2$s không?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
@@ -2304,7 +2309,7 @@
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
     <string name="error_booking_with_minor">Rất tiếc, hiện tính năng đặt cho trẻ em dưới 18 tuổi chưa được hỗ trợ.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
-    <string name="error_flight_unhandled">Rất tiếc, có vẻ như chúng tôi hiện không tiến hành yêu cầu của quý vị được. Vui lòng thử lại.</string>
+    <string name="error_flight_unhandled">Rất tiếc, có vẻ như chúng tôi hiện không tiến hành yêu cầu của quý vị được. Vui lòng thử lại.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">Rất tiếc, có vẻ như chúng tôi hiện không tiến hành yêu cầu của quý vị được. Vui lòng thử lại hoặc gọi bộ phận Hỗ trợ Khách hàng {brand} và cho biết số lịch trình: {itinerary}</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
@@ -2391,7 +2396,7 @@
 
     <!-- Search Fragment -->
     <!-- Label for picking checkin/checkout dates -->
-    <string name="drag_to_extend_your_stay">&lt;b&gt;Kéo&lt;/b&gt; để kéo dài thời gian lưu trú của quý vị.</string>
+    <string name="drag_to_extend_your_stay">&lt;b&gt;Kéo&lt;/b&gt; để kéo dài thời gian lưu trú của quý vị.</string>
     <!-- Child age dialog button -->
     <string name="button_done">Hoàn tất</string>
     <!-- Done button text in Confirmation screens -->
@@ -2408,12 +2413,12 @@
     <!-- Text for child's age on search refinements and in spinner -->
     <plurals name="child_age">
         <item quantity="one">&lt;b&gt;%d&lt;/b&gt; tuổi</item>
-        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; tuổi</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; tuổi</item>
         <item quantity="many">&lt;b&gt;%d&lt;/b&gt; tuổi</item>
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; tuổi</item>
     </plurals>
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-    <string name="child_age_less_than_one">&lt;b&gt;Dưới 1&lt;/b&gt; tuổi</string>
+    <string name="child_age_less_than_one">&lt;b&gt;Dưới 1&lt;/b&gt; tuổi</string>
 
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
@@ -2432,7 +2437,7 @@
     <!-- Label for "start search" button -->
     <string name="search">Tìm kiếm</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s đến %2$s</string>
+    <string name="date_range_TEMPLATE">%1$s đến %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">Lọc theo tên khách sạn</string>
     <!-- Label indicating that there are no results matching their current filter -->
@@ -2452,17 +2457,17 @@
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Tìm trên bản đồ</string>
     <!-- Button label for toggling to the map -->
-    <string name="map_text">Bản đồ</string>
+    <string name="map_text">Bản đồ</string>
     <!-- Button label for toggling to the hotel list -->
-    <string name="list_text">Danh sách</string>
+    <string name="list_text">Danh sách</string>
     <!-- Label for sort hotels in hotel list -->
-    <string name="sort">Sắp xếp</string>
+    <string name="sort">Sắp xếp</string>
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">Chuyển màn hình hiển thị</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Chỉ dành cho di động</string>
     <!-- Expedia Deal for a given property, tonight only -->
-    <string name="tonight_only">Chỉ tối nay!</string>
+    <string name="tonight_only">Chỉ tối nay!</string>
     <!-- Expedia sponsored listing -->
     <string name="sponsored">Tài trợ</string>
     <!-- Expedia ETP book now/pay later search results -->
@@ -2476,7 +2481,7 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">Còn %d phòng!</item>
+        <item quantity="one">Còn %d phòng!</item>
         <item quantity="two">Còn %d phòng</item>
         <item quantity="many">Còn %d phòng</item>
         <item quantity="other">Còn %d phòng</item>
@@ -2495,7 +2500,7 @@
     <!-- Sort by price label -->
     <string name="sort_description_price">Giá</string>
     <!-- Sort by deals label -->
-    <string name="sort_description_deals">Ưu đãi</string>
+    <string name="sort_description_deals">Ưu đãi</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">Xếp hạng</string>
 
@@ -2504,7 +2509,7 @@
     <string name="stop_description__nonstop">Bay thẳng</string>
 
     <!-- Filter option for "show all" -->
-    <string name="all">Tất cả</string>
+    <string name="all">Tất cả</string>
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
     <string name="filter_price_cheap">$</string>
     <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
@@ -2544,7 +2549,7 @@
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
-    <string name="current_location">Địa điểm hiện tại</string>
+    <string name="current_location">Địa điểm hiện tại</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Vùng hiển thị trên bản đồ</string>
 
@@ -2568,7 +2573,9 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Từ %s</string>
-    <string name="From_x_per_night_template">Từ %s/đêm</string>
+    <string name="From_x_per_night_template">Từ %s/đêm</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">Tìm trong khu vực này</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2582,7 +2589,7 @@
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now">Đặt ngay</string>
+    <string name="book_now">Đặt ngay</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now_ab_test">Chọn phòng</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
@@ -2616,7 +2623,7 @@
 
     <!-- Amenity strings -->
     <!-- Label to show amenities -->
-    <string name="AmenityTitle">Tiện nghi</string>
+    <string name="AmenityTitle">Tiện nghi</string>
     <!-- Text that indicates no amenities at this property -->
     <string name="AmenityNone">Không có tiện nghi, dịch vụ</string>
     <!-- Business center amenity -->
@@ -2658,7 +2665,7 @@
     <!-- Roll-in shower amenity -->
     <string name="AmenityRollInShower">Phòng tắm hỗ trợ xe lăn</string>
     <!-- Handicapped parking amenity -->
-    <string name="AmenityHandicappedParking">Chỗ đậu xe cho người khuyết tật</string>
+    <string name="AmenityHandicappedParking">Chỗ đậu xe cho người khuyết tật</string>
     <!-- In-room accessibility amenity -->
     <string name="AmenityInRoomAccessibility">Phòng có thiết bị hỗ trợ người khuyết tật</string>
     <!-- Accessibility equipment for the deaf amenity -->
@@ -2675,6 +2682,15 @@
     <string name="AmenityExtendedParking">Chỗ đậu xe dài hạn</string>
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">Chỗ đậu xe miễn phí</string>
+
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">Internet miễn phí</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">Bữa sáng miễn phí</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">Đưa đón sân bay miễn phí</string>
+
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
@@ -2700,10 +2716,10 @@
     -->
     <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt;/&lt;b&gt;%2$d&lt;/b&gt; khách giới thiệu khách sạn này.</string>
     <!-- Special case for 0 reviews -->
-    <string name="no_reviews">Không có nhận xét</string>
+    <string name="no_reviews">Không có nhận xét</string>
     <!-- A number of reviews -->
     <plurals name="number_of_reviews">
-        <item quantity="zero">Không có nhận xét</item>
+        <item quantity="zero">Không có nhận xét</item>
         <item quantity="one">%d Nhận xét</item>
         <item quantity="two">%d Nhận xét</item>
         <item quantity="many">%d Nhận xét</item>
@@ -2712,7 +2728,7 @@
 
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
-        <item quantity="zero">Không có nhận xét</item>
+        <item quantity="zero">Không có nhận xét</item>
         <item quantity="one">Xem %d nhận xét</item>
         <item quantity="two">Xem %d nhận xét</item>
         <item quantity="many">Xem %d nhận xét</item>
@@ -2723,7 +2739,7 @@
         1$ is the user name
         2$ is the place they are from
     -->
-    <string name="user_review_name_and_location_signature">%1$s từ %2$s</string>
+    <string name="user_review_name_and_location_signature">%1$s từ %2$s</string>
     <!-- User review no critical reviews -->
     <string name="user_review_no_critical_reviews">Không có nhận xét tiêu cực nào cho khách sạn này.</string>
     <!-- User review no favorable reviews -->
@@ -2791,13 +2807,13 @@
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Không hoàn tiền</string>
     <!-- Label for free nights -->
-    <string name="free">MIỄN PHÍ!</string>
+    <string name="free">MIỄN PHÍ!</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-    <string name="value_add_template">Bao gồm %s</string>
+    <string name="value_add_template">Bao gồm %s</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
-    <string name="common_value_add_template">Tất cả phòng bao gồm %s</string>
+    <string name="common_value_add_template">Tất cả phòng bao gồm %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
-    <string name="select_a_room_instruction">Chọn phòng</string>
+    <string name="select_a_room_instruction">Chọn phòng</string>
     <!-- The text we use when the search date it tonight -->
     <string name="Tonight">Tối nay</string>
     <!-- The text we use when the search date it tonight -->
@@ -2810,7 +2826,8 @@
     <string name="not_included_in_the_price">Không gồm trong giá</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Xem phòng</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">Đặt</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Chia sẻ qua</string>
     <!-- Renovation Notice -->
@@ -2861,7 +2878,7 @@
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
-    <string name="taxes_and_fees">Thuế &amp; Phí</string>
+    <string name="taxes_and_fees">Thuế &amp; Phí</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Bao gồm</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -2915,7 +2932,7 @@
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
-    <string name="coupon_error_unknown">Rất tiếc, đây không phải là mã coupon xác định.</string>
+    <string name="coupon_error_unknown">Rất tiếc, không nhận ra mã coupon này.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">Rất tiếc, mã coupon này không hợp lệ.</string>
     <!-- Error when applying coupon - the coupon has expired -->
@@ -2957,7 +2974,7 @@
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">Không thể áp dụng coupon với phòng Thanh toán Sau, vui lòng chọn phòng Thanh toán Ngay.</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">Rất tiếc, coupon này không còn thời gian áp dụng.</string>
+    <string name="coupon_error_not_active">Rất tiếc, coupon này đã hết hạn sử dụng.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2977,11 +2994,11 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="website_TEMPLATE">Trang web {brand}</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">Hỗ trợ ứng dụng</string>
+    <string name="app_support">Hỗ trợ ứng dụng</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Điều khoản và Điều kiện</string>
     <!-- Label for link to privacy policy -->
-    <string name="info_label_privacy_policy">Quyền riêng tư</string>
+    <string name="info_label_privacy_policy">Quyền riêng tư</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Bản quyền 2012-{year} {brand}, Inc.\nMọi quyền được bảo lưu.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2997,11 +3014,11 @@
     <!-- Action button label to like on facebook -->
     <string name="Like">Thích</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">Ứng dụng này sử dụng thuật toán Stack Blur của Mario Klingemann.</string>
+    <string name="stack_blur_credit">Ứng dụng này sử dụng thuật toán Stack Blur của Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Bản quyền các phần mềm mã nguồn mở</string>
     <!-- String for acrediting the open source libraries we use -->
-    <string name="this_app_makes_use_of_the_following">Ứng dụng này sử dụng các thư viện nguồn mở sau:</string>
+    <string name="this_app_makes_use_of_the_following">Ứng dụng này sử dụng các thư viện nguồn mở sau:</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3017,14 +3034,14 @@
     <!-- Category name for general preferences -->
     <string name="preference_category_general">Tổng quan</string>
     <!-- Title for point of sale setting -->
-    <string name="preference_point_of_sale_title">Quốc gia</string>
+    <string name="preference_point_of_sale_title">Quốc gia</string>
 
     <!-- Strings used a lot of places -->
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
     <string name="app_not_available">Có thể điện thoại của quý vị không có app hỗ trợ tính năng này hoặc bị giới hạn quyền sử dụng.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
-        <item quantity="zero">%d người lớn</item>
+        <item quantity="zero">%d người lớn</item>
         <item quantity="one">%d người lớn</item>
         <item quantity="two">%d người lớn</item>
         <item quantity="many">%d người lớn</item>
@@ -3044,12 +3061,12 @@
         <item quantity="one">%d khách</item>
         <item quantity="two">%d khách</item>
         <item quantity="many">%d khách</item>
-        <item quantity="other">%d khách</item>
+        <item quantity="other">%d khách</item>
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
-        <item quantity="zero">Khách</item>
-        <item quantity="one">Khách</item>
+        <item quantity="zero">Khách</item>
+        <item quantity="one">Khách</item>
         <item quantity="two">Khách</item>
         <item quantity="many">Khách</item>
         <item quantity="other">Khách</item>
@@ -3073,11 +3090,11 @@
 
     <!-- Distance strings -->
     <!-- Abbreviated miles (used in distance_template) -->
-    <string name="unit_miles">dặm</string>
+    <string name="unit_miles">dặm</string>
     <!-- Abbreviated kilometers (used in distance_template) -->
     <string name="unit_kilometers">km</string>
     <!-- Miles (used in distance_template) -->
-    <string name="unit_miles_full">dặm</string>
+    <string name="unit_miles_full">dặm</string>
     <!-- Kilometers (used in distance template) -->
     <string name="unit_kilometers_full">km</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
@@ -3109,13 +3126,13 @@
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
     <string name="e3_error_checkout_invalid_input">Vui lòng sửa thông tin không hợp lệ.</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-    <string name="e3_error_checkout_payment_failed">Rất tiếc, chúng tôi không thể xử lý thanh toán của quý vị. Vui lòng xác nhận quý vị đã nhập thông tin chính xác.</string>
+    <string name="e3_error_checkout_payment_failed">Rất tiếc, chúng tôi không thể xử lý thanh toán của quý vị. Vui lòng xác nhận quý vị đã nhập thông tin chính xác.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
-    <string name="e3_error_checkout_invalid_expiration">Ngày hết hạn của thẻ tín dụng không hợp lệ.</string>
+    <string name="e3_error_checkout_invalid_expiration">Ngày hết hạn của thẻ tín dụng không hợp lệ.</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_hotel_service_failure">Rất tiếc, chúng tôi không thể hoàn thành tìm kiếm của quý vị. Vui lòng thử lại.</string>
+    <string name="e3_error_search_results_hotel_service_failure">Rất tiếc, chúng tôi không thể hoàn thành tìm kiếm của quý vị. Vui lòng thử lại.</string>
     <!-- There were no results matching the input -->
     <string name="e3_error_search_results_invalid_input">Rất tiếc, chúng tôi không tìm được kết quả với từ khóa của quý vị. Vui lòng thử lại.</string>
     <!-- There were no results matching the input -->
@@ -3132,7 +3149,7 @@
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">Rất tiếc! Chương trình khuyến mãi cho phòng này đã kết thúc, nhưng vẫn còn nhiều ưu đãi khác.</string>
     <!-- There are no longer any rooms for the hotel offer -->
-    <string name="e3_error_hotel_offers_unknown_error">Rất tiếc! Chương trình khuyến mãi cho phòng này đã kết thúc, nhưng vẫn còn nhiều ưu đãi khác.</string>
+    <string name="e3_error_hotel_offers_unknown_error">Rất tiếc! Chương trình khuyến mãi cho phòng này đã kết thúc, nhưng vẫn còn nhiều ưu đãi khác.</string>
 
     <!-- HotelProduct API method -->
     <string name="e3_error_hotel_product_unknown_error">Đã xảy ra lỗi không xác định.</string>
@@ -3141,7 +3158,7 @@
     <!-- HotelInformation API method -->
     <string name="e3_error_hotel_information_hotel_service_failure">Đã xảy ra lỗi không xác định.</string>
     <string name="e3_error_hotel_information_unknown_error">Đã xảy ra lỗi không xác định.</string>
-    <string name="e3_error_hotel_information_invalid_input">Đã xảy ra lỗi không xác định.</string>
+    <string name="e3_error_hotel_information_invalid_input">Đã xảy ra lỗi không xác định.</string>
 
     <!-- Country names -->
     <string name="country_af">Afghanistan</string>
@@ -3690,7 +3707,7 @@
     <!-- Dialog message when we detect the user has selected a flight and hotel that do not line up correctly with respect to dates -->
     <string name="tablet_mismatched_products_message">Ngày nhận phòng khách sạn và ngày chuyến bay quý vị chọn khác nhau. Quý vị có muốn xóa lựa chọn khách sạn hiện tại và tìm khách sạn với cùng ngày của chuyến bay không?</string>
     <!-- Dialog positive button message -->
-    <string name="yes">Có</string>
+    <string name="yes">Có</string>
     <!-- Dialog negative button message -->
     <string name="no">Không</string>
 
@@ -3716,9 +3733,11 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 tuổi)</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Khu vực xung quanh</string>
-    <string name="amenities">Tiện nghi</string>
+    <string name="amenities">Tiện nghi</string>
     <string name="plus_vip">+VIP</string>
-    <string name="star_rating">Xếp hạng sao</string>
+    <string name="star_rating">Xếp hạng sao</string>
+    <string name="show_more">HIỂN THỊ THÊM</string>
+    <string name="show_less">HIỂN THỊ ÍT HƠN</string>
 </resources>

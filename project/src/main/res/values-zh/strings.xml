@@ -77,7 +77,7 @@
     <!-- Text for payment details toolbar-->
     <string name="cars_payment_details_text">付款信息</string>
     <!-- Text for payment options toolbar-->
-    <string name="cars_payment_options_text">付款选项</string>
+    <string name="cars_payment_options_text">付款方式</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">输入司机的信息</string>
     <!-- Text for select saved contacts-->
@@ -212,6 +212,11 @@
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">选择付款类型</string>
 
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">滑动屏幕，开始预订</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">滑动屏幕，即可预订</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">请调整您的取车或还车时间。</string>
@@ -221,7 +226,7 @@
     <string name="date_out_of_range">日期距离太远了，请选择一个较近的日期。</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">请延长预订时间。</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">还在吗？您的会话已经过期了。请再次尝试搜索。</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">嗯…好像您已经预订过了。请检查您的行程或电子邮件。</string>
@@ -835,7 +840,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">立即付款</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">现在支付</string>
+    <string name="room_rate_pay_later_due_now">{amount}现在支付</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/晚</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -2569,6 +2574,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">起价 %s</string>
     <string name="From_x_per_night_template">每晚 %s 起</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">搜索此区域</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2675,6 +2682,15 @@
     <string name="AmenityExtendedParking">延长停车时间</string>
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">免费停车</string>
+
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">免费上网</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">免费早餐</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">免费机场接送</string>
+
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
@@ -2810,7 +2826,8 @@
     <string name="not_included_in_the_price">未包含在价格内</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">查看客房</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">预订</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">分享方式</string>
     <!-- Renovation Notice -->
@@ -2967,7 +2984,7 @@
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">预订支持</string>
     <!-- Subject for loyalty email on Itin -->
-    <string name="support_request">支持请求</string>
+    <string name="support_request">申请客服</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">通过以下方式联系 {brand}</string>
     <!-- Contact Expedia via phone -->
@@ -3714,11 +3731,13 @@
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Expedia_account_already_exists">已有一个 Expedia 帐户使用此电子邮件地址</string>
     <!-- Children age label on hotel search -->
-    <string name="children_age_label">(0-17 岁)</string>
+    <string name="children_age_label">（0-17 岁）</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">附近地区</string>
     <string name="amenities">设施</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">星级</string>
+    <string name="show_more">显示更多</string>
+    <string name="show_less">隐藏信息</string>
 </resources>

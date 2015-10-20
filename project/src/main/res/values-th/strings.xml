@@ -212,6 +212,11 @@
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">เลือกประเภทการชำระเงิน</string>
 
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">เลื่อนเพื่อจอง</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">เลื่อนเพื่อซื้อ</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">โปรดปรับเวลารับหรือส่งคืนรถของคุณ</string>
@@ -221,7 +226,7 @@
     <string name="date_out_of_range">วันที่คุณเลือกอยู่ห่างเกินไป โปรดเลือกวันที่ใกล้ขึ้น</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">โปรดเพิ่มระยะเวลาการจองของคุณ</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">คุณยังอยู่ไหม? เซสชั่นของคุณหมดอายุแล้ว โปรดลองค้นหาใหม่อีกครั้ง</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">เดี๋ยวก่อน ดูเหมือนว่าคุณได้จองการเดินทางนี้ไปแล้ว โปรดตรวจสอบการเดินทางหรืออีเมลของคุณ</string>
@@ -837,7 +842,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">จ่ายตอนนี้</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">จ่ายตอนนี้</string>
+    <string name="room_rate_pay_later_due_now">{amount}จ่ายตอนนี้</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/คืน</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -2571,6 +2576,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">เริ่มจาก %s</string>
     <string name="From_x_per_night_template">เริ่มที่ %s/คืน</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">ค้นหาในบริเวณนี้</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2677,6 +2684,15 @@
     <string name="AmenityExtendedParking">ที่จอดรถเพิ่มเติม</string>
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">ที่จอดรถฟรี</string>
+
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">อินเทอร์เน็ตฟรี</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">อาหารเช้าฟรี</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">รถรับส่งสนามบินฟรี</string>
+
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
@@ -2812,7 +2828,8 @@
     <string name="not_included_in_the_price">ยังไม่รวมอยู่ในราคา</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">ดูห้องพัก</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">หนังสือ</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">แชร์ผ่าน</string>
     <!-- Renovation Notice -->
@@ -3718,9 +3735,11 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 ปี)</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">ย่าน</string>
     <string name="amenities">สิ่งอำนวยความสะดวก</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">ระดับดาว</string>
+    <string name="show_more">แสดงเพิ่มเติม</string>
+    <string name="show_less">แสดงน้อยลง</string>
 </resources>

@@ -51,7 +51,7 @@
     <!-- Cars price templates-->
     <string name="cars_total_template">合共 %s</string>
     <!-- Slide to reserve -->
-    <string name="cars_slider_text">滑動以預訂</string>
+    <string name="cars_slider_text">滑動預訂</string>
     <!-- Text for checkout toolbar-->
     <string name="cars_checkout_text">付款</string>
     <!-- Text for error toolbar-->
@@ -212,6 +212,11 @@
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">選擇付款類型</string>
 
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">滑動預訂</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">滑動購買</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">請修改取車或還車時間。</string>
@@ -221,7 +226,7 @@
     <string name="date_out_of_range">此日期太久遠，請選擇一個更近的日期。</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">請增加預訂時限。</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">您還在嗎？您已逾時登出。請重新搜尋。</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">嗯，您似乎已預訂此行程。請查看您的行程或電郵。</string>
@@ -835,7 +840,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">立即付款</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">現在須付</string>
+    <string name="room_rate_pay_later_due_now">現在須付 {amount}</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/1 晚</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -847,7 +852,7 @@
     <!-- Rooms and rates button to select a particular room and view details -->
     <string name="room_rate_button_select_room">選擇客房</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
-    <string name="n_reviews_TEMPLATE">%1$s 則評價</string>
+    <string name="n_reviews_TEMPLATE">%1$s 篇評價</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% 旅客推薦</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
@@ -2569,6 +2574,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">低至 %s</string>
     <string name="From_x_per_night_template">低至 %s 一晚</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">搜尋此地區</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2676,11 +2683,20 @@
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">免費泊車位</string>
 
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">免費上網</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">免費早餐</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">免費機場接駁車</string>
+
+
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
-    <string name="user_review_loading_text">正載入用戶評語…</string>
+    <string name="user_review_loading_text">正載入用戶評價…</string>
     <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">其他語言的評語</string>
+    <string name="user_review_other_languages_title">其他語言的評價</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">近期</string>
     <!-- The text for the sort button, recent -->
@@ -2688,7 +2704,7 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">批評</string>
     <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">正載入更多評語…</string>
+    <string name="user_review_loading_more_reviews">正載入更多評價…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">閱讀更多</string>
     <!-- Read more of the review -->
@@ -2704,19 +2720,19 @@
     <!-- A number of reviews -->
     <plurals name="number_of_reviews">
         <item quantity="zero">沒有評價</item>
-        <item quantity="one">%d 則評價</item>
-        <item quantity="two">%d 則評價</item>
-        <item quantity="many">%d 則評價</item>
-        <item quantity="other">%d 則評價</item>
+        <item quantity="one">%d 篇評價</item>
+        <item quantity="two">%d 篇評價</item>
+        <item quantity="many">%d 篇評價</item>
+        <item quantity="other">%d 篇評價</item>
     </plurals>
 
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">沒有評價</item>
-        <item quantity="one">查看 %d 則評價</item>
-        <item quantity="two">查看 %d 則評價</item>
-        <item quantity="many">查看 %d 則評價</item>
-        <item quantity="other">查看 %d 則評價</item>
+        <item quantity="one">查看 %d 篇評價</item>
+        <item quantity="two">查看 %d 篇評價</item>
+        <item quantity="many">查看 %d 篇評價</item>
+        <item quantity="other">查看 %d 篇評價</item>
     </plurals>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -2810,7 +2826,8 @@
     <string name="not_included_in_the_price">不包括在價格內</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">查看客房</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">預訂</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">分享到</string>
     <!-- Renovation Notice -->
@@ -3582,7 +3599,7 @@
     <!-- Content description for action: Press to display recent reviews -->
     <string name="cd_display_recent_reviews">輕按以顯示最近的評價</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="cd_display_favorable_reviews">輕按以顯示稱讚的評論</string>
+    <string name="cd_display_favorable_reviews">輕按以顯示稱讚的評價</string>
     <!-- Content description for action: Press to display critical reviews -->
     <string name="cd_display_critical_reviews">輕按以顯示批評的評價</string>
     <!-- Flight Search -->
@@ -3716,9 +3733,11 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 歲)</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">附近地區</string>
     <string name="amenities">設施/服務</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">星級</string>
+    <string name="show_more">顯示更多</string>
+    <string name="show_less">隱藏部分內容</string>
 </resources>

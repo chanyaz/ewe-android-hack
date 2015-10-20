@@ -212,6 +212,11 @@
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Seleziona la tipologia di pagamento</string>
 
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">Procedi alla prenotazione</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">Procedi all\&apos;acquisto</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">Modifica l\&apos;orario di ritiro o di riconsegna.</string>
@@ -221,7 +226,7 @@
     <string name="date_out_of_range">Questa data è troppo lontana. Seleziona una data più vicina.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Aumenta la durata della prenotazione.</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Ci sei ancora? La sessione è scaduta. Effettua nuovamente la ricerca.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Mmm. Sembra che tu abbia già prenotato questo viaggio. Verifica i tuoi itinerari o controlla l\&apos;e-mail.</string>
@@ -835,7 +840,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">Paga ora</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">Da pagare ora</string>
+    <string name="room_rate_pay_later_due_now">{amount} da pagare ora</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/notte</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -2569,6 +2574,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Da %s</string>
     <string name="From_x_per_night_template">A partire da %s/notte</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">Effettua una ricerca per questa zona</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2675,6 +2682,15 @@
     <string name="AmenityExtendedParking">Parcheggio prolungato</string>
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">Parcheggio gratuito</string>
+
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">Internet gratuito</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">Colazione gratuita</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">Navetta aeroporto gratuita</string>
+
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
@@ -2810,7 +2826,8 @@
     <string name="not_included_in_the_price">Non inclusi nel prezzo</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Visualizza camera</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">Prenota</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Condividi via</string>
     <!-- Renovation Notice -->
@@ -3716,9 +3733,11 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 anni)</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Quartieri</string>
     <string name="amenities">Servizi</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Numero stelle</string>
+    <string name="show_more">MOSTRA ALTRO</string>
+    <string name="show_less">MOSTRA MENO</string>
 </resources>

@@ -212,6 +212,11 @@
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">결제 유형 선택</string>
 
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">밀어서 예약하기</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">밀어서 구매하기</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">인수 또는 반납 시간을 조정해 주세요.</string>
@@ -221,7 +226,7 @@
     <string name="date_out_of_range">이 날짜는 너무 멉니다. 좀 더 가까운 날짜를 선택해 주세요.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">예약 기간을 늘려주세요.</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">아직 계시나요? 세션이 초과되었습니다. 다시 검색해 주세요.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">잠시만요, 이 여행은 이미 예약하신 것 같네요. 여행 일정 또는 이메일을 확인해 보세요.</string>
@@ -835,7 +840,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">지금 결제</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">지금 결제할 금액</string>
+    <string name="room_rate_pay_later_due_now">지금 결제할 금액: {amount}</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/1박</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -2404,7 +2409,7 @@
         <item quantity="other">각 아동의 나이 선택</item>
     </plurals>
     <!-- Title of "select child age" spinner dialog box -->
-    <string name="prompt_select_child_age">아동의 나이 선택(만 %1$s ~ %2$s세)</string>
+    <string name="prompt_select_child_age">아동의 나이 선택(만 %1$s~%2$s세)</string>
     <!-- Text for child's age on search refinements and in spinner -->
     <plurals name="child_age">
         <item quantity="one">&lt;b&gt;만 %d&lt;/b&gt;세</item>
@@ -2568,7 +2573,9 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">%s~</string>
-    <string name="From_x_per_night_template">1박당 %s ~</string>
+    <string name="From_x_per_night_template">1박당 %s~</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">이 지역 검색</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2676,6 +2683,15 @@
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">무료 주차</string>
 
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">무료 인터넷</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">무료 아침 식사</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">무료 공항 셔틀</string>
+
+
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
     <string name="user_review_loading_text">이용 후기 로드 중…</string>
@@ -2704,10 +2720,10 @@
     <!-- A number of reviews -->
     <plurals name="number_of_reviews">
         <item quantity="zero">이용 후기 없음</item>
-        <item quantity="one">%d개 이용 후기</item>
-        <item quantity="two">%d개 이용 후기</item>
-        <item quantity="many">%d개 이용 후기</item>
-        <item quantity="other">%d개 이용 후기</item>
+        <item quantity="one">%d개의 이용 후기</item>
+        <item quantity="two">%d개의 이용 후기</item>
+        <item quantity="many">%d개의 이용 후기</item>
+        <item quantity="other">%d개의 이용 후기</item>
     </plurals>
 
     <!-- HOtel V2A number of reviews -->
@@ -2810,7 +2826,8 @@
     <string name="not_included_in_the_price">요금에 포함 안 됨</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">객실 보기</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">예약</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">다음을 통해 공유:</string>
     <!-- Renovation Notice -->
@@ -3716,9 +3733,11 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(만 0~17세)</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">주변</string>
     <string name="amenities">편의 시설</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">호텔 등급</string>
+    <string name="show_more">자세히 보기</string>
+    <string name="show_less">간단히 보기</string>
 </resources>

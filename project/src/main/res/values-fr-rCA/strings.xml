@@ -212,6 +212,11 @@
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Sélectionnez le type de paiement</string>
 
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">Glisser pour réserver</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">Glisser pour acheter</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">Veuillez établir vos dates de prise en charge et de remise.</string>
@@ -221,7 +226,7 @@
     <string name="date_out_of_range">Cette date est trop éloignée, veuillez choisir une date plus rapprochée.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Veuillez augmenter la durée de votre réservation.</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Toujours là? Votre session est expirée. Veuillez recommencer votre recherche.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Hum. Il semble que vous avez déjà réservé ce voyage. Veuillez vérifier vos voyages ou vos courriels.</string>
@@ -835,7 +840,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">Payer maintenant</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">$ payable maintenant</string>
+    <string name="room_rate_pay_later_due_now">{amount} payable maintenant</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/nuit</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -2569,6 +2574,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">À partir de %s</string>
     <string name="From_x_per_night_template">À partir de %s/nuit</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">Rechercher dans cette région</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2608,7 +2615,7 @@
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% de clients recommandent cet hôtel.</string>
     <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent_Template">{rating}{percent}</string>
+    <string name="customer_rating_percent_Template">{rating} {percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sur 5 – évaluation de client</string>
     <!-- new material Hotel results cell discount percentage -->
@@ -2675,6 +2682,15 @@
     <string name="AmenityExtendedParking">Stationnement prolongé</string>
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">Stationnement gratuit</string>
+
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">Internet gratuit</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">Déjeuner gratuit</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">Service de navette d\&apos;aéroport</string>
+
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
@@ -2810,7 +2826,8 @@
     <string name="not_included_in_the_price">Non compris dans le prix</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Afficher la chambre</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">Réserver</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Partager sur</string>
     <!-- Renovation Notice -->
@@ -2915,7 +2932,7 @@
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
-    <string name="coupon_error_unknown">Désolé, le code de ce bon de réduction est inconnu</string>
+    <string name="coupon_error_unknown">Désolé, le code de ce bon de réduction est inconnu.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">Désolé! Ce code de bon de réduction n\&apos;est pas valide.</string>
     <!-- Error when applying coupon - the coupon has expired -->
@@ -3716,9 +3733,11 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0 à 17 ans)</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Quartiers</string>
     <string name="amenities">Commodités</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Nombre d\&apos;étoiles</string>
+    <string name="show_more">AFFICHER PLUS</string>
+    <string name="show_less">AFFICHER MOINS</string>
 </resources>

@@ -212,6 +212,11 @@
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Velg betalingstype</string>
 
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">Sveip for å bestille</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">Sveip for å betale</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">Juster hente- eller avleveringstidene.</string>
@@ -221,7 +226,7 @@
     <string name="date_out_of_range">Denne datoen er for langt frem i tid. Velg en annen dato.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Vennligst øk bestillingens varighet.</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Er du fremdeles der? Du har vært inaktiv i for lang tid. Prøv å søke på nytt.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Hm… Det ser ut til at du allerede har bestilt denne reisen. Kontroller reisene dine eller innboksen din.</string>
@@ -835,7 +840,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">Betal nå</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">Belastes nå</string>
+    <string name="room_rate_pay_later_due_now">{amount} belastes nå</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s per natt</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -2569,6 +2574,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Fra %s</string>
     <string name="From_x_per_night_template">Fra %s per natt</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">Søk i dette området</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2675,6 +2682,15 @@
     <string name="AmenityExtendedParking">Forlenget parkering</string>
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">Gratis parkering</string>
+
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">Gratis Internett</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">Gratis frokost</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">Gratis flyplasstransport</string>
+
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
@@ -2810,7 +2826,8 @@
     <string name="not_included_in_the_price">Ikke inkludert i prisen</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Vis rom</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">Bestill</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Del via</string>
     <!-- Renovation Notice -->
@@ -3716,9 +3733,11 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 år)</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Områder</string>
     <string name="amenities">Fasiliteter</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Stjernerangering</string>
+    <string name="show_more">VIS MER</string>
+    <string name="show_less">VIS MINDRE</string>
 </resources>

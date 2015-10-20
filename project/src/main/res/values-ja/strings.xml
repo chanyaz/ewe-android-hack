@@ -212,6 +212,11 @@
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">支払いタイプを選択してください</string>
 
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">スライドして予約</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">スライドして購入</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">借出時間または返却時間を調整してください。</string>
@@ -221,7 +226,7 @@
     <string name="date_out_of_range">指定できる期間を超えています。近い日にちを選択してください。</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">予約期間を入力してください。</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">セッションの期限が切れました。もう一度お試しください。</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">この旅行はすでにご予約済みのようです。旅行または電子メールをご確認ください。</string>
@@ -835,7 +840,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">今すぐお支払い</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">今すぐお支払いの金額</string>
+    <string name="room_rate_pay_later_due_now">今すぐお支払いの金額 : {amount}</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/ 泊</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1348,9 +1353,9 @@
     <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア自動車</string>
-    <string name="car_type_three_door">3 ドア自動車</string>
-    <string name="car_type_four_door">4 ドア自動車</string>
+    <string name="car_type_two_door">2 ドア 自動車</string>
+    <string name="car_type_three_door">3 ドア 自動車</string>
+    <string name="car_type_four_door">4 ドア 自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -2569,6 +2574,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">%s ～</string>
     <string name="From_x_per_night_template">%s / 泊 ～</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">このエリアを検索</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2676,6 +2683,15 @@
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">無料パーキング</string>
 
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">無料インターネット</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">朝食付き</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">無料空港送迎シャトル</string>
+
+
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
     <string name="user_review_loading_text">ユーザー レビューを読み込んでいます…</string>
@@ -2764,7 +2780,7 @@
 
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
     <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
-        <item quantity="zero">何も検索されませんでした</item>
+        <item quantity="zero">検索結果が見つかりませんでした</item>
         <item quantity="one">1 泊平均料金 • 結果 1 件</item>
         <item quantity="many">1 泊平均料金 • 結果 %d 件</item>
         <item quantity="other">1 泊平均料金 • 結果 %d 件</item>
@@ -2772,7 +2788,7 @@
 
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
     <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
-        <item quantity="zero">何も検索されませんでした</item>
+        <item quantity="zero">検索結果が見つかりませんでした</item>
         <item quantity="one">合計宿泊料金 • 結果 1 件</item>
         <item quantity="many">合計宿泊料金 • 結果 %d 件</item>
         <item quantity="other">合計宿泊料金 • 結果 %d 件</item>
@@ -2810,7 +2826,8 @@
     <string name="not_included_in_the_price">料金に含まれない</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">部屋を見る</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">予約</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">シェア方法 :</string>
     <!-- Renovation Notice -->
@@ -3716,9 +3733,11 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0 ～ 17 歳)</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">周辺</string>
     <string name="amenities">設備</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">星評価</string>
+    <string name="show_more">すべて表示</string>
+    <string name="show_less">一部のみ表示</string>
 </resources>
