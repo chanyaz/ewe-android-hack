@@ -10,6 +10,7 @@ import android.widget.RadioGroup
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.ToggleButton
+import com.expedia.bookings.widget.StarRatingBar
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
@@ -84,6 +85,10 @@ public fun Observable<Int>.subscribeBackgroundColor(view: View) {
 
 public fun Observable<Float>.subscribeRating(ratingBar: RatingBar) {
     this.subscribe { ratingBar.rating = it }
+}
+
+public fun Observable<Float>.subscribeRating(ratingBar: StarRatingBar) {
+    this.subscribe { ratingBar.setRating(it)}
 }
 
 public fun Observable<Int>.subscribeBackgroundResource(view: View) {

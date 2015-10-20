@@ -62,7 +62,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
         val hotelStrikeThroughPrice: TextView by bindView(R.id.hotel_strike_through_price)
         val hotelGuestRating: TextView by bindView(R.id.hotel_guest_rating)
         val hotelGuestRecommend: TextView by bindView(R.id.hotel_guest_recommend)
-        val hotelPreviewRating: RatingBar by bindView(R.id.hotel_preview_rating)
+        val hotelPreviewRating: StarRatingBar by bindView(R.id.hotel_preview_rating)
 
         public fun bind(viewModel: HotelViewModel) {
             viewModel.hotelLargeThumbnailUrlObservable.subscribe {
@@ -75,7 +75,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
             viewModel.hotelNameObservable.subscribeText(hotelPreviewText)
 
             viewModel.hotelPreviewRatingObservable.subscribe {
-                hotelPreviewRating.rating = it
+                hotelPreviewRating.setRating(it)
             }
 
             viewModel.hotelStrikeThroughPriceVisibilityObservable.subscribeVisibility(hotelStrikeThroughPrice)

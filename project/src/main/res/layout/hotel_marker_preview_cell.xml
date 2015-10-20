@@ -2,6 +2,7 @@
 <LinearLayout
     android:id="@+id/root"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="90dp"
     android:background="#ffffff"
@@ -44,13 +45,13 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <RatingBar
+                <com.expedia.bookings.widget.StarRatingBar
                     android:id="@+id/hotel_preview_rating"
-                    style="@style/RatingBar.UserReview.Material.Yellow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:stepSize="0.5" />
+                    android:layout_width="200dp"
+                    android:layout_height="14dp"
+                    app:star_spacing="4dp"
+                    app:star_drawable="@drawable/results_map_preview_star"
+                    app:star_color="#F1B906" />
 
                 <LinearLayout
                     android:layout_width="0dp"

@@ -78,7 +78,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle: TextView by bindView(R.id.hotel_name_text)
-    val toolBarRating: RatingBar by bindView(R.id.hotel_star_rating_bar)
+    val toolBarRating: StarRatingBar by bindView(R.id.hotel_star_rating_bar)
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     var navIcon: ArrowXDrawable
 
@@ -592,7 +592,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         toolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent))
         toolBarBackground.getLayoutParams().height += statusBarHeight
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
-        DrawableCompat.setTint(toolBarRating.getProgressDrawable(), getResources().getColor(R.color.hotelsv2_detail_star_color))
         offset = statusBarHeight.toFloat() + toolBarHeight
 
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)

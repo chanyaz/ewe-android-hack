@@ -9,6 +9,6 @@
         android:drawable="@android:color/transparent"/>
     <item
         android:id="@android:id/progress"
-        android:drawable="@drawable/star_details" />
+        android:drawable="@drawable/detail_star" />
 
 </layer-list>
