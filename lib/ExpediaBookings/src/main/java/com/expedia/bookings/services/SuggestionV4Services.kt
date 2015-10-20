@@ -31,10 +31,10 @@ public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, 
         adapter.create<SuggestApi>(SuggestApi::class.java)
     }
 
-    public fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>): Subscription {
+    public fun getHotelSuggestionsV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>): Subscription {
         val type = SuggestionResultType.HOTEL or SuggestionResultType.AIRPORT or SuggestionResultType.CITY or
                 SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.REGION
-        return suggestApi.suggestV4(query, type, "ta_hierarchy")
+        return suggestApi.suggestV4(query, type, "ta_hierarchy", clientId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
