@@ -36,6 +36,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelFilterViewModel.Sort
+import com.mobiata.android.Log
 import rx.Observer
 import java.util.ArrayList
 import kotlin.properties.Delegates
@@ -106,7 +107,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         val hotelPriceRange : RangeSeekBar<Int> = RangeSeekBar(min, max, context)
         hotelPriceRange.setOnRangeSeekBarChangeListener(object: RangeSeekBar.OnRangeSeekBarChangeListener<Int> {
             override fun onRangeSeekBarValuesChanged(bar: RangeSeekBar<*>, minValue: Int, maxValue: Int) {
-                System.out.println("User selected new range values: MIN=" + minValue + ", MAX=" + maxValue)
+                HotelV2Tracking().trackHotelV2SortPriceSlider()
             }
         })
         priceRangeBar.addView(hotelPriceRange);
@@ -225,7 +226,6 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 val sort = Sort.values()[position]
                 vm.userFilterChoices.userSort = sort
-                HotelV2Tracking().trackHotelV2SortBy(Strings.capitalizeFirstLetter(sort.toString()))
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

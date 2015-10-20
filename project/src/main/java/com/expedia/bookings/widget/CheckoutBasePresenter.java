@@ -33,6 +33,7 @@ import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.mobiata.android.Log;
@@ -318,7 +319,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				}
 			});
 			if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
-				new HotelV2Tracking().trackHotelV2SlideToPurchase();
+				new HotelV2Tracking().trackHotelV2SlideToPurchase(Strings.capitalizeFirstLetter(paymentInfoCardView.getCardType().toString()));
 			}
 			else {
 				OmnitureTracking.trackCheckoutSlideToPurchase(getLineOfBusiness(), getContext(),

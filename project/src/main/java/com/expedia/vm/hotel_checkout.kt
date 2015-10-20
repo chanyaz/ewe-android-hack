@@ -17,6 +17,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
@@ -239,6 +240,11 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
             isBestPriceGuarantee.onNext(room.isMerchant)
             newDataObservable.onNext(this)
+
+            if (isPriceChange.value) {
+                val priceChange = (originalRateObserver.value.hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees - room.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees)
+                HotelV2Tracking().trackPriceChange(StrUtils.roundOff(priceChange, 2))
+            }
         }
 
         originalRateObserver.subscribe {
@@ -249,7 +255,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
                 val totalPriceWithMandatoryFees = Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()), currencyCode)
                 priceChange.onNext(context.getString(R.string.price_changed_from_TEMPLATE,
                         totalPriceWithMandatoryFees.formattedMoney))
-
             }
             isPriceChange.onNext(hasPriceChange)
         }

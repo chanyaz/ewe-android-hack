@@ -5,6 +5,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.FilterAmenity
+import com.expedia.bookings.utils.Strings
 import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -14,7 +15,6 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.HashSet
 import java.util.regex.Pattern
-import java.util.HashMap
 
 class HotelFilterViewModel(val context: Context) {
     val doneObservable = PublishSubject.create<Unit>()
@@ -54,6 +54,7 @@ class HotelFilterViewModel(val context: Context) {
             if (userFilterChoices.userSort != previousSort) {
                 previousSort = userFilterChoices.userSort
                 sortObserver.onNext(userFilterChoices.userSort)
+                HotelV2Tracking().trackHotelV2SortBy(Strings.capitalizeFirstLetter(userFilterChoices.userSort.toString()))
             }
             if (!didFilter) {
                 filterObservable.onNext(originalResponse?.hotelList)
