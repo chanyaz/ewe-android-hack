@@ -181,7 +181,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         vm.calendarTooltipTextObservable.subscribe(endlessObserver { p ->
             val (top, bottom) = p
-            calendar.setToolTipText(top, bottom)
+            calendar.setToolTipText(top, bottom, true)
         })
 
         if (vm.externalSearchParamsObservable.getValue()) {
@@ -276,6 +276,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             selectDate.setChecked(false)
             selectTraveler.setChecked(false)
             show(HotelParamsSuggestion(), Presenter.FLAG_CLEAR_TOP)
+            com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
             AnimUtils.doTheHarlemShake(searchLocationEditText)
         }
         vm.errorNoDatesObservable.subscribe {

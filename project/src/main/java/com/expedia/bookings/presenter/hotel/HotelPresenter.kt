@@ -179,7 +179,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun finalizeTransition(forward: Boolean) {
             searchPresenter.setVisibility(View.VISIBLE)
             resultsPresenter.setVisibility(View.GONE)
-            detailPresenter.setVisibility(View.GONE)
+            detailPresenter.setVisibility(View.INVISIBLE)
             loadingOverlay.setVisibility(View.GONE)
         }
     }

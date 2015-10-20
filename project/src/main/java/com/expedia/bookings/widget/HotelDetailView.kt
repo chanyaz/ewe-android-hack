@@ -619,6 +619,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         FontCache.setTypeface(payNowButton, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
+        resetGallery()
     }
 
     public fun doCounterscroll() {
@@ -627,9 +628,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     public fun resetGallery() {
-        getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                getViewTreeObserver().removeOnGlobalLayoutListener(this)
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
                 galleryScroll = null
                 val lp = galleryContainer.layoutParams
                 lp.height = height

@@ -60,7 +60,7 @@ public class HotelErrorPresenter(context: Context, attr: AttributeSet) : Present
 
     override fun back() : Boolean {
         viewmodel.actionObservable.onNext(Unit)
-        return true
+        return false
     }
 
     fun animationUpdate(f: Float, forward: Boolean) {
