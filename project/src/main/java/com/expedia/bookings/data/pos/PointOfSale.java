@@ -171,6 +171,8 @@ public class PointOfSale {
 
 	private static boolean mIsTablet;
 
+	private boolean mRequiresHotelPostalCode;
+
 	private static Map<String, Integer> sCountryCodeMap;
 
 	private static void setUpCountryCodeMap() {
@@ -594,6 +596,9 @@ public class PointOfSale {
 		return mHideMiddleName;
 	}
 
+	public boolean requiresHotelPostalCode() {
+		return mRequiresHotelPostalCode;
+	}
 
 	public boolean supportsGDE() {
 		return mSupportsGDE;
@@ -1107,6 +1112,7 @@ public class PointOfSale {
 		pos.mMarketingOptIn = MarketingOptIn
 			.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
+		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
