@@ -2,8 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_selected="true"
-        android:color="#FFFFFF" />
+        android:color="@color/actionbar_tab_text_selected" />
     <item
         android:state_selected="false"
-        android:color="#8CFFFFFF" />
+        android:color="@color/actionbar_tab_text_unselected" />
 </selector>

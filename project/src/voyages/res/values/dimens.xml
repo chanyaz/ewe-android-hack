@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Height of LOB box shadow height-->
+    <dimen name="shadow_height">3dp</dimen>
+
+</resources>

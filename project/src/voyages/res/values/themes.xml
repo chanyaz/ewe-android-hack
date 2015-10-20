@@ -101,7 +101,9 @@
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
-        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
+        <item name="actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
+        <item name="android:actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
@@ -122,7 +124,7 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
+        <item name="skin_launchTabIndicatorColor">@color/action_bar_selected_tab_underline_color</item>
         <item name="skin_launchActionBarBackgroundColor">@color/launch_actionbar_bg_color</item>
     </style>
 
@@ -133,6 +135,16 @@
 
     <style name="LaunchActionBarTabStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_launch_vsc</item>
+    </style>
+
+    <style name="OverflowMenuButton" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_menu_overflow_image</item>
+    </style>
+
+    <style name="LaunchActionBarTabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="Theme.Phone.WebView">
