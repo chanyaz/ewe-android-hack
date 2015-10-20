@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
@@ -78,7 +77,10 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
         viewModel.tripTotalPrice.subscribeText(totalPriceWithTax)
         viewModel.isBestPriceGuarantee.subscribeVisibility(bestPriceGuarantee)
         viewModel.isPriceChange.subscribeVisibility(priceChangeLayout)
-        viewModel.priceChange.subscribeText(priceChange)
+        viewModel.priceChangeMessage.subscribeText(priceChange)
+        viewModel.priceChangeIconResourceId.subscribe { resourceId ->
+            priceChange.setCompoundDrawablesWithIntrinsicBounds(resourceId, 0, 0, 0)
+        }
         viewModel.isPayLaterOrResortCase.subscribeVisibility(totalWithTaxLabelWithInfoButton.compoundDrawables[2], false)
         viewModel.isPayLaterOrResortCase.subscribeVisibility(amountDueTodayLabel.compoundDrawables[2], true)
         viewModel.newDataObservable.subscribe {

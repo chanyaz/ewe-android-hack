@@ -176,8 +176,8 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
 
 class HotelCheckoutSummaryViewModel(val context: Context) {
     // input
+    val tripResponseObserver = BehaviorSubject.create<HotelCreateTripResponse>()
     val newRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
-    val originalRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
     // output
     val newDataObservable = BehaviorSubject.create<HotelCheckoutSummaryViewModel>()
     val hotelName = BehaviorSubject.create<String>()
@@ -201,8 +201,9 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     val taxStatusType = BehaviorSubject.create<String>()
     val extraGuestFees = BehaviorSubject.create<Money>()
     val isBestPriceGuarantee = BehaviorSubject.create<Boolean>(false)
-    val priceChange = BehaviorSubject.create<String>()
+    val priceChangeMessage = BehaviorSubject.create<String>()
     val isPriceChange = BehaviorSubject.create<Boolean>(false)
+    val priceChangeIconResourceId = BehaviorSubject.create<Int>()
     val isResortCase = BehaviorSubject.create<Boolean>(false)
     val isPayLater = BehaviorSubject.create<Boolean>(false)
     val isPayLaterOrResortCase = BehaviorSubject.create<Boolean>(false)
@@ -210,6 +211,30 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     val showFeesPaidAtHotel = BehaviorSubject.create<Boolean>(false)
 
     init {
+        tripResponseObserver.subscribe { tripResponse ->
+            // detect price change between old and new offers
+            val originalRoomResponse = tripResponse.originalHotelProductResponse.hotelRoomResponse
+            val hasPriceChange = originalRoomResponse != null
+            if (hasPriceChange) { // potential price change
+                val currencyCode = originalRoomResponse.rateInfo.chargeableRateInfo.currencyCode
+                val originalPrice = originalRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
+                val newPrice = tripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
+                val priceChange = (originalPrice - newPrice)
+
+                priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
+                isPriceChange.onNext(hasPriceChange)
+                if (newPrice > originalPrice) {
+                    priceChangeIconResourceId.onNext(R.drawable.price_change_increase)
+                }
+                else if (newPrice < originalPrice) {
+                    priceChangeIconResourceId.onNext(R.drawable.price_change_decrease)
+                }
+
+                HotelV2Tracking().trackPriceChange(priceChange.toString())
+            }
+            newRateObserver.onNext(tripResponse.newHotelProductResponse)
+        }
+
         newRateObserver.subscribe {
             val room = it.hotelRoomResponse
             val rate = room.rateInfo.chargeableRateInfo
@@ -243,23 +268,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
             isBestPriceGuarantee.onNext(room.isMerchant)
             newDataObservable.onNext(this)
-
-            if (isPriceChange.value) {
-                val priceChange = (originalRateObserver.value.hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees - room.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees)
-                HotelV2Tracking().trackPriceChange(StrUtils.roundOff(priceChange, 2))
-            }
-        }
-
-        originalRateObserver.subscribe {
-            val room = it.hotelRoomResponse
-            val hasPriceChange = room != null
-            if (hasPriceChange) {
-                val currencyCode = room.rateInfo.chargeableRateInfo.currencyCode
-                val totalPriceWithMandatoryFees = Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()), currencyCode)
-                priceChange.onNext(context.getString(R.string.price_changed_from_TEMPLATE,
-                        totalPriceWithMandatoryFees.formattedMoney))
-            }
-            isPriceChange.onNext(hasPriceChange)
         }
         guestCountObserver.subscribe {
             numGuests.onNext(StrUtils.formatGuestString(context, it))

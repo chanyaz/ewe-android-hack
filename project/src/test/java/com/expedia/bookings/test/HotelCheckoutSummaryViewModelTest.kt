@@ -1,44 +1,45 @@
 package com.expedia.bookings.test
 
+import android.app.Application
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
+import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Matchers
 import org.mockito.Mockito
+import org.robolectric.RuntimeEnvironment
 import java.math.BigDecimal
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@RunWith(RobolectricRunner::class)
 public class HotelCheckoutSummaryViewModelTest {
 
     public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
     lateinit private var sut: HotelCheckoutSummaryViewModel
+    lateinit private var createTripResponse: HotelCreateTripResponse
     lateinit private var hotelProductResponse: HotelCreateTripResponse.HotelProductResponse
-    lateinit private var context: Context
-    lateinit private var resources: Resources
+    lateinit private var context: Application
 
     @Before
     fun before() {
-        context = Mockito.mock(Context::class.java)
-        resources = Mockito.mock(Resources::class.java)
+        context = RuntimeEnvironment.application
     }
 
     @Test
     fun happy() {
-        val expectedCheckInOutDatesFormatted = "xyz"
-        val expectedCity = "abc"
-        val expectedNumberNights = "123"
-        val expectedNumberGuests = "321"
-        givenResources(expectedCheckInOutDatesFormatted, expectedCity, expectedNumberNights, expectedNumberGuests)
         givenHappyHotelProductResponse()
         setup()
 
@@ -54,12 +55,12 @@ public class HotelCheckoutSummaryViewModelTest {
         assertEquals(expectedRateAdjustments, sut.priceAdjustments.value)
         assertEquals(expectedHotelName, sut.hotelName.value)
         assertEquals(hotelProductResponse.checkInDate, sut.checkInDate.value)
-        assertEquals(expectedCheckInOutDatesFormatted, sut.checkInOutDatesFormatted.value)
+        assertEquals("Mar 22, 2013 - Mar 23, 2013", sut.checkInOutDatesFormatted.value)
         assertEquals(hotelProductResponse.hotelAddress, sut.address.value)
-        assertEquals(expectedCity, sut.city.value)
+        assertEquals("San Francisco, CA", sut.city.value)
         assertEquals(hotelRoomResponse.roomTypeDescription, sut.roomDescriptions.value)
-        assertEquals(expectedNumberNights, sut.numNights.value)
-        assertEquals(expectedNumberGuests, sut.numGuests.value)
+        assertEquals("1 Night", sut.numNights.value)
+        assertEquals("1 Guest", sut.numGuests.value)
         assertEquals(hotelRoomResponse.hasFreeCancellation, sut.hasFreeCancellation.value)
         assertEquals(rate.currencyCode, sut.currencyCode.value)
         assertEquals(rate.nightlyRatesPerRoom, sut.nightlyRatesPerRoom.value)
@@ -77,7 +78,6 @@ public class HotelCheckoutSummaryViewModelTest {
 
     @Test
     fun notPayLaterHoteldueNowIsTotalPrice() {
-        givenResources("", "", "", "")
         givenHappyHotelProductResponse()
         setup()
 
@@ -89,7 +89,6 @@ public class HotelCheckoutSummaryViewModelTest {
 
     @Test
     fun payLaterHotelDueNowIsDepostitAmount() {
-        givenResources("", "", "", "")
         givenPayLaterHotelProductResponse()
         setup()
 
@@ -101,60 +100,47 @@ public class HotelCheckoutSummaryViewModelTest {
 
     @Test
     fun priceChangeUp() {
-        val expectedPriceChangeMsg = "foo"
-        givenResources("", "", "", "")
         givenPriceChangedUpResponse()
-        givenPriceChangeMessage(expectedPriceChangeMsg)
         setup()
 
-        sut.originalRateObserver.onNext(hotelProductResponse)
-        assertEquals(expectedPriceChangeMsg, sut.priceChange.value)
+        sut.tripResponseObserver.onNext(createTripResponse)
+        assertEquals("Price changed from $2,394.88", sut.priceChangeMessage.value)
+        assertEquals(R.drawable.price_change_increase, sut.priceChangeIconResourceId.value)
         assertTrue(sut.isPriceChange.value)
     }
 
     @Test
     fun priceChangeDown() {
-        val expectedPriceChangeMsg = "bar"
-        givenResources("", "", "", "")
         givenPriceChangedDownResponse()
-        givenPriceChangeMessage(expectedPriceChangeMsg)
         setup()
 
-        sut.originalRateObserver.onNext(hotelProductResponse)
-        assertEquals(expectedPriceChangeMsg, sut.priceChange.value)
+        sut.tripResponseObserver.onNext(createTripResponse)
+        assertEquals("Price changed from $2,394.88", sut.priceChangeMessage.value)
+        assertEquals(R.drawable.price_change_decrease, sut.priceChangeIconResourceId.value)
         assertTrue(sut.isPriceChange.value)
     }
 
     private fun givenPriceChangedUpResponse() {
-        hotelProductResponse = mockHotelServiceTestRule.getPriceChangeUpCreateTripResponse().originalHotelProductResponse
+        createTripResponse = mockHotelServiceTestRule.getPriceChangeUpCreateTripResponse()
+        hotelProductResponse = createTripResponse.originalHotelProductResponse
     }
 
     private fun givenPriceChangedDownResponse() {
-        hotelProductResponse = mockHotelServiceTestRule.getPriceChangeDownCreateTripResponse().originalHotelProductResponse
+        createTripResponse = mockHotelServiceTestRule.getPriceChangeDownCreateTripResponse()
+        hotelProductResponse = createTripResponse.originalHotelProductResponse
     }
 
     private fun givenPayLaterHotelProductResponse() {
-        hotelProductResponse = mockHotelServiceTestRule.getPayLaterOfferCreateTripResponse().newHotelProductResponse
+        createTripResponse = mockHotelServiceTestRule.getPayLaterOfferCreateTripResponse()
+        hotelProductResponse = createTripResponse.newHotelProductResponse
     }
 
     private fun givenHappyHotelProductResponse() {
-        hotelProductResponse = mockHotelServiceTestRule.getHappyCreateTripResponse().newHotelProductResponse
-    }
-
-    private fun givenPriceChangeMessage(resultingMessage: String) {
-        val originalPrice = Money(BigDecimal(hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()), "USD").formattedMoney
-        Mockito.`when`(context.getString(Matchers.eq(R.string.price_changed_from_TEMPLATE), Matchers.eq(originalPrice))).thenReturn(resultingMessage)
-    }
-
-    private fun givenResources(checkInOutDatesFormatted: String, city: String, numberNights: String, numberGuests: String) {
-        Mockito.`when`(context.getString(Matchers.eq(R.string.calendar_instructions_date_range_TEMPLATE), Matchers.anyString(), Matchers.anyString())).thenReturn(checkInOutDatesFormatted)
-        Mockito.`when`(resources.getString(Matchers.eq(R.string.single_line_street_address_TEMPLATE), Matchers.anyString(), Matchers.anyString())).thenReturn(city)
-        Mockito.`when`(resources.getQuantityString(Matchers.eq(R.plurals.number_of_nights), Matchers.anyInt(), Matchers.anyInt())).thenReturn(numberNights)
-        Mockito.`when`(resources.getQuantityString(Matchers.eq(R.plurals.number_of_guests), Matchers.anyInt(), Matchers.anyInt())).thenReturn(numberGuests)
+        createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
+        hotelProductResponse = createTripResponse.newHotelProductResponse
     }
 
     private fun setup() {
-        Mockito.`when`(context.resources).thenReturn(resources)
         sut = HotelCheckoutSummaryViewModel(context)
     }
 }

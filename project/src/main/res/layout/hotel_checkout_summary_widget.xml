@@ -213,15 +213,16 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/price_change_text"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="8dp"
             android:textColor="@color/cars_checkout_text_color"
             android:textSize="14sp"
-            app:textStyle="light" />
-
+            app:textStyle="light"
+            android:drawableLeft="@drawable/price_change_decrease"
+            android:drawablePadding="8dp"/>
     </LinearLayout>
 
 </merge>

@@ -150,6 +150,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.hotel_duplicate_trip_text,
 		R.string.hotel_payment_failed_text,
 		R.string.session_timeout,
-		R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE
+		R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE,
+		R.drawable.price_change_decrease,
+		R.drawable.price_change_increase
 	};
 }
